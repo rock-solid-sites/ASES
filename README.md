@@ -29,6 +29,6 @@ ASES/
 - Versions use the format `v1`, `v2`, etc. The project does **not** use the `v0.1` convention; the earliest charter is `v1`.
 - Bundle-internal files (in `handoff-bundle/`) use lowercase-kebab-case filenames, no numeric prefix.
 
-## Open items
+## Notes
 
-- **`specifications/Hospitality Management Suite Specification.md`** is a duplicate of the same file in `projects/HMS/`. The ASES copy is preserved here for now; resolve by deleting one of the two when convenient.
+- **`specifications/Hospitality Management Suite Specification.md`** also lives in `projects/HMS/`. The ASES copy is a reference — it belongs in the EDASES research repo because the Hospitality Management Suite is the operational testbed for EDASES. The `projects/HMS/` copy is the active project document. Both are intentional; do not delete either.
