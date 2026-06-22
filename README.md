@@ -46,6 +46,7 @@ ASES/
 ├── findings/                                 # Conclusions derived from observations
 ├── syntheses/                                # Higher-level integration across findings
 ├── evaluation-corpus/                        # Artifacts for evaluating methodologies and architectures
+├── adversarial-reviews/                      # Critical evaluations and stress tests of the methodology
 ├── charters/                                 # Project charters (5)
 ├── assumption-registers/                     # Standing register of architectural assumptions (4)
 ├── assumption-to-decision-registers/         # Assumptions → decisions → outcomes traceability (1)
