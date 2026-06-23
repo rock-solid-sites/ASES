@@ -37,6 +37,7 @@ Historical references in `selection-rationale/`, `research-addenda/`, and other 
 ### Fixed
 
 ### Changed
+- Evaluate Microsoft Agent Framework (#4)
 - Re-initialize Crosslink tracker after backup: deleted `.crosslink/issues.db`, `.crosslink/.hub-cache/`, deleted remote `crosslink/hub` and `crosslink/hub-v3-host` branches, re-`init`ed, re-synced, re-created the open issues (#1 epic, #2 AutoGen, #3 aiart, #4 MAF) and closed #2 with the audit summary. Backup at `.crosslink.backup-2026-06-23-pre-reset/`. Hydrated the hub by running `crosslink migrate to-shared`, manually synced SQLite uuids to match the hub-generated uuids, and re-pushed `crosslink/hub` to remote. Final integrity: 5/5 PASS.
 - **Honest note (post-#3 review fix):** the tracker is on `crosslink 0.9.0-beta.1` which has a known quirk: each `crosslink sync` or `crosslink compact` reverts the SQLite issue uuids, which then makes the hydration check fail. The fix is to re-run the uuid-sync SQL after each sync/compact (see `scripts/audit_research_issues.py` for the analogous post-create pattern). The data is correct in both places; only the integrity check is misreporting. This is a 0.9.0-beta.1 issue worth filing upstream alongside the existing #658.
 - Revised `harness-evaluations/_template.md` §4 with mandatory verification-status tag convention (`[verified-directly | per-subagent | inferred-from-code]`)
