@@ -22,5 +22,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 ### Changed
+- Re-initialize Crosslink tracker after backup: deleted `.crosslink/issues.db`, `.crosslink/.hub-cache/`, deleted remote `crosslink/hub` and `crosslink/hub-v3-host` branches, re-`init`ed, re-synced, re-created the open issues (#1 epic, #2 AutoGen, #3 aiart, #4 MAF) and closed #2 with the audit summary. Backup at `.crosslink.backup-2026-06-23-pre-reset/`.
 - Revised `harness-evaluations/_template.md` §4 with mandatory verification-status tag convention (`[verified-directly | per-subagent | inferred-from-code]`)
 - Revised `harness-evaluations/Microsoft-AutoGen.md` addressing 10 issues from multi-model adversarial review (3 models: gemini-pro-reviewer, explore, deepseek-flash)
