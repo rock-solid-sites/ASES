@@ -3,6 +3,8 @@
 ### Goal
 Allow projects to declare in `.crosslink/hook-config.json` that specific fields must be present in a `crosslink issue create` description, scoped by template. Issue creation is rejected if required content is missing. This is a backward-compatible extension to the config schema requiring no new event types or hooks.
 
+> **Submitted:** 2026-06-23 to https://github.com/forecast-bio/crosslink/issues/658
+
 ### Motivation
 Issues are sometimes created without recorded rationale; the reasoning is recovered only by reconstructing from indirect evidence, which is costly and lossy. This is a common failure mode in projects relying on issue trackers for organizational memory, particularly when the creator is an agent acting on high-level direction.
 

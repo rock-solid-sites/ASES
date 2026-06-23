@@ -13,8 +13,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Import Crosslink documentation from aiart project (#4)
 - Set up Harness Evaluation templates (#2)
 - Tier 1 structural validator `scripts/validate_evaluation.py` (post-#3 review fix)
-- Crosslink `template.required_fields` upstream feature request draft (Research Addendum 02)
+- Crosslink `template.required_fields` upstream feature request draft (Research Addendum 02) — submitted to https://github.com/forecast-bio/crosslink/issues/658
 - Post-create audit `scripts/audit_research_issues.py` for `research` issues (local mirror of the upstream proposal)
+- `selection-rationale/_template.md` — canonical template for future Live and Reconstructed entries
+- `scripts/session_end_with_audit.sh` — wrapper that runs the audit and appends a summary to `crosslink session end --notes`
 - Selection-rationale backfill documenting the reconstructed rationale for #3 (AutoGen)
 
 ### Fixed
