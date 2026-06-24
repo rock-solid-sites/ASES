@@ -1,4 +1,4 @@
-# Design & Swarm Execution Plan: Automated, Decoupled, and Concurrent-Safe Documentation Refactor (v8 - Final Production)
+# Design & Swarm Execution Plan: Automated, Decoupled, and Concurrent-Safe Documentation Refactor (v9 - Final Audited)
 ## Resolving Git Lifecycles, Global State Isolation, Concurrency Protection, and Transactional Queue States
 
 **Status:** Approved for Swarm (Final Production Version - Audited)  
@@ -15,11 +15,11 @@ Adversarial audits of the ASES record-keeping process identified key failure sur
 2.  **Siloed Worktree State (Critical):** Using `git rev-parse --show-toplevel` inside isolated git worktrees returns local worktree roots, which siloes `.crosslink/` states and bypasses the global concurrency lock.
 3.  **POSIX Double-Lock Deadlock (Critical):** Acquiring a POSIX file lock in the processing script and then invoking `decisions_io.append_and_rotate()` (which internally acquires the same lock) deadlocks non-reentrant locks indefinitely.
 4.  **Queue Crash Vulnerability (Critical):** If a process crashes after moving files to `telemetry/processing/` but before completion, the files remain in `processing/` indefinitely, causing permanent queue orphaning.
-5.  **Silent Data Duplication (Critical):** If a process crashes after appending to `decisions.json` but before queue-deletion, retrying the queue appends duplicate records. The schema lacks a unique commit SHA constraint.
-6.  **VCS Staging Disconnect (High):** Generating matrix updates during `pre-commit` leaves the generated file unstaged, resulting in commits missing the compiled matrix.
+5.  **Queue Stealing Race Condition (Critical):** Moving files to a single, shared `processing/` directory and releasing the lock during slow LLM API calls allows concurrent pre-push hooks to "recover" and steal files currently being processed.
+6.  **VCS Staging Area Leakage (High):** Compiling from the raw working directory inside `pre-commit` leaks unstaged developer changes into the final committed matrix, breaking Git staging integrity.
 7.  **Unpushed Git Notes (High):** Git Notes are not pushed or fetched by default during branch operations, stranding the audit trail locally.
-8.  **Git Notes Push Loop (High):** Calling `git push` inside a `pre-push` hook recursively triggers the hook, causing an infinite loop.
-9.  **Shell Injection in Notes (High):** Passing JSON text directly to `git notes add -m '{JSON}'` is vulnerable to shell syntax escaping.
+8.  **Git Notes Push Loop & Rejection (High):** Calling `git push` inside a `pre-push` hook recursively triggers the hook, causing an infinite loop. Additionally, non-fast-forward note rejections can block the developer's actual code push.
+9.  **Hardcoded Git Remote (High):** Hardcoding `origin` breaks multi-remote (e.g., forks, upstream) workflows.
 
 ---
 
@@ -39,18 +39,18 @@ The refactored documentation pipeline decouples natural-language generation from
         ▼ (runs scripts/process_telemetry_queue.py)
  [4. Transactional Queue Processing]
         ├── 4.1 Acquire FileLock (with 30s timeout) on global decisions.json.lock
-        ├── 4.2 Recovery Check: Move any orphaned files in telemetry/processing/ back to telemetry/pending/
-        ├── 4.3 Move queue files from telemetry/pending/ to telemetry/processing/ atomically, releasing lock
+        ├── 4.2 Recovery Check: Move any orphaned directories in telemetry/processing/*/ (>10m old) back to telemetry/pending/
+        ├── 4.3 Move queue files from pending/ to a process-specific directory: telemetry/processing/{uuid4}/, release lock
         ├── 4.4 Query LLM (WITHOUT holding lock) to generate concise rationale from diff
-        ├── 4.5 Acquire FileLock, run idempotency check, append validated record to decisions.json,
-        │       rotate evicted record (using evicted["timestamp"] for JSONL archive), update index.json
+        ├── 4.5 Invoke decisions_io.append_and_rotate(record) which internally manages FileLock
+        │       (using evicted["timestamp"] for YYYYMM JSONL partition), update index.json
         ├── 4.6 Move processed queue files to telemetry/complete/
         ├── 4.7 Write Git Note via tempfile: git notes add -F <tempfile>
-        └── 4.8 Batch Push: git push --no-verify origin refs/notes/crosslink to sync remote
+        └── 4.8 Batch Push: git push --no-verify $REMOTE refs/notes/crosslink to sync remote (gracefully catches errors)
 ```
 
 ### 2.1 Centralized Global State Path (Cross-Worktree Isolation)
-To ensure that all parallel git worktrees resolve to the exact same shared files and locks, all paths resolve dynamically against the **shared global git directory**:
+To prevent parallel swarm agents in isolated git worktrees from creating local state silos, all state files resolve dynamically against the **shared global git directory**:
 ```python
 import os
 import subprocess
@@ -62,7 +62,7 @@ try:
 except Exception:
     GLOBAL_DIR = os.path.abspath(".crosslink")
 ```
-This forces `.crosslink/decisions.json`, its lock file, and its index to live under `.git/worktrees/<name>/` or the main `.git/crosslink/` directory, achieving absolute, centralized synchronization across all swarm worktrees.
+This forces `.crosslink/decisions.json`, its lock file, and its index to live under the shared `.git/` common space, achieving absolute, centralized synchronization across all swarm worktrees.
 
 ### 2.2 Non-Blocking Offline Telemetry Queue (Git post-commit Hook)
 *   **Trigger:** Executed during `git post-commit`.
@@ -73,17 +73,17 @@ This forces `.crosslink/decisions.json`, its lock file, and its index to live un
 *   **Trigger:** Executed during `git push`.
 *   **Behavior:** Runs `scripts/process_telemetry_queue.py`. To ensure transactionality and prevent duplication, it executes this stateful cycle:
     1.  Acquires `FileLock(timeout=30.0)` on `.crosslink/decisions.json.lock`.
-    2.  **Recovery Check:** Scans `.crosslink/telemetry/processing/`. If any orphaned files exist (from a prior crash), it moves them back to `telemetry/pending/` to re-stage them.
-    3.  Moves all files in `telemetry/pending/` to `telemetry/processing/` atomically, releasing the lock.
-    4.  For each file in `telemetry/processing/`:
+    2.  **Recovery Check:** Scans `.crosslink/telemetry/processing/*/` directories. If any directory's age exceeds 10 minutes, it moves its contents back to `telemetry/pending/` and deletes the empty directory to prevent permanent queue orphaning.
+    3.  Moves all files in `telemetry/pending/` to a process-specific folder `.crosslink/telemetry/processing/{uuid4}/` atomically, and releases the lock.
+    4.  For each file in `.crosslink/telemetry/processing/{uuid4}/`:
         - Queries the LLM API asynchronously (WITHOUT holding any file locks) to generate a concise, single-sentence rationale from the diff.
-        - **Defensive Error Handling:** Wrap the LLM query in a `try/except` block. On network/API failure, print a warning, exit with code 0 to allow the developer's code push to proceed, and leave the file in `telemetry/processing/` for the next run.
-        - Acquires `FileLock`, checks if `record["commit_sha"]` already exists in `decisions.json` or the archives (Idempotency Guard, skipping if present), and invokes `decisions_io.append_and_rotate(record)`.
+        - **Defensive Error Handling:** Wrap the LLM query in a `try/except` block. On network/API failure, print a warning, exit with code 0 to allow the developer's code push to proceed, and leave the file in `telemetry/processing/{uuid4}/` for the next run.
+        - Invokes `decisions_io.append_and_rotate(record)`, which internally manages the `FileLock` and checks if `record["commit_sha"]` already exists in `decisions.json` or the archives (Idempotency Guard, skipping if present).
         - Moves the processed queue file to `telemetry/complete/`.
         - Writes the JSON record directly to the commit SHA using native **Git Notes** via a safe tempfile to prevent shell escaping injection:
           `git notes --ref=crosslink add -f -F {temp_json_file} {COMMIT_SHA}`
-    5.  Explicitly pushes the local Git Notes ref to the remote origin using `--no-verify` to prevent recursive push loops:
-        `git push --no-verify origin refs/notes/crosslink`
+    5.  Dynamically extracts the target remote name from the first argument (`$1`) of the `pre-push` hook, and pushes the notes ref. The push is wrapped in a non-blocking handler using `--no-verify` to prevent recursive push loops, and gracefully swallows non-fast-forward errors:
+        `git push --no-verify $REMOTE refs/notes/crosslink || echo "Notes sync deferred" >&2`
 *   **Git Notes Remote Fetching:** The setup script automatically configures the local repository to fetch notes:
     `git config --add remote.origin.fetch "+refs/notes/crosslink:refs/notes/crosslink"`
 
@@ -91,12 +91,14 @@ This forces `.crosslink/decisions.json`, its lock file, and its index to live un
 *   **Algorithm:** `scripts/audit_research_issues.py` executes in constant time $O(1)$:
     1.  Queries the local SQLite database (`.crosslink/issues.db`) for currently open research issue IDs.
     2.  Reads the static index file `.crosslink/index.json` under `FileLock`.
-    3.  An open issue is instantly deemed compliant if its ID exists in the index array. It terminates without any line-by-line file scans.
+    3.  Deserializes the index array into a Python `set` (`index_set = set(json.load(f))`).
+    4.  An open issue is instantly deemed compliant if its ID exists in the index set. It terminates without any line-by-line file scans.
 
 ### 2.5 Pre-Commit Compilation Gate (WIP Bypass)
 *   `scripts/compile_matrix.py` parses only the strict YAML frontmatter of `harness-evaluations/*.md`.
 *   **Boundary:** Executed during the `pre-commit` hook (not `pre-push`). This ensures that any compiled Markdown updates to the capability matrix are staged and committed in the same push cycle, preventing uncommitted local files:
     `git add capability-mapping/Harness-Capability-Matrix.md`
+*   **Staging Integrity:** The compiler reads target files directly from the Git index using `git show :<file_path>` instead of the raw working directory, preventing unstaged changes from leaking into the matrix.
 *   **Fail-Fast:** If a malformed YAML header is found, the script **exits with code 1 and aborts the commit**.
 *   **WIP Bypass:** Any file containing `draft: true` in its YAML frontmatter is gracefully skipped. This prevents blocking pushes of incomplete, draft evaluations during prototyping.
 
@@ -205,7 +207,7 @@ def append_and_rotate(record: dict) -> None:
 
 ## 4. Swarm Task Decomposition
 
-The refactoring is divided into **four fully decoupled tasks** worked in parallel inside isolated git worktrees:
+The refactoring is divided into **four fully decoupled tasks** worked in parallel by background `deepseek-v4-flash` agents inside isolated git worktrees:
 
 ### Task A: Structured Storage, Shared I/O, & Concurrency
 *   **Deliverables:**
@@ -228,7 +230,7 @@ The refactoring is divided into **four fully decoupled tasks** worked in paralle
 
 ### Task D: Non-Blocking Telemetry Queue & Git pre-push Notes Hook
 *   **Deliverables:**
-    - Write the offline `post-commit` hook that dumps caches as `{epoch_ns}_{uuid4}.json` files.
+    - Write the offline `post-commit` hook that dumps caches as `{epoch_ns}_{uuid4}.json` files to `.crosslink/telemetry/pending/`.
     - Implement `scripts/process_telemetry_queue.py` (triggered by the `pre-push` hook), which queries the API without locks, invokes `decisions_io.append_and_rotate(record)`, and attaches/pushes results using `git notes`.
 *   **Isolation Profile:** Bounded entirely within the git hook and queue processing directories. Only writes to `.crosslink/telemetry/pending/` during commit, executing its `decisions.json` writes strictly in the pre-push boundary.
 
