@@ -47,12 +47,16 @@ ASES/
 ├── syntheses/                                # Higher-level integration across findings
 ├── evaluation-corpus/                        # Artifacts for evaluating methodologies and architectures
 ├── adversarial-reviews/                      # Critical evaluations and stress tests of the methodology
+├── harness-evaluations/                      # Evaluations of external AI coding harnesses (Track B)
+├── methodology-reviews/                      # Reviews of external software engineering methodologies (Track B)
+├── capability-mapping/                       # Mapping of required capabilities to external solutions (Track B)
 ├── charters/                                 # Project charters (5)
 ├── assumption-registers/                     # Standing register of architectural assumptions (4)
 ├── assumption-to-decision-registers/         # Assumptions → decisions → outcomes traceability (1)
 ├── core-system-prompts/                      # Core system prompt iterations for EDASES agents (2)
 ├── knowledge-architecture-research/          # Phase-1 research drafts + reviewer responses (6)
 ├── research-programs/                        # Research program versions + the current operational one (4)
+├── future-research-topics/                   # Log of future research directives and conceptual breakthroughs (1)
 ├── architecture-validation-plans/            # Plans for validating architectural assumptions (1)
 ├── specifications/                           # Specifications for systems used in / by EDASES (1)
 ├── research-addenda/                         # Research addenda (1)
@@ -80,3 +84,4 @@ These directories were added to extend the repository's support for evidence-dri
 ## Notes
 
 - **`specifications/Hospitality Management Suite Specification.md`** also lives in `projects/HMS/`. The ASES copy is a reference — it belongs in the EDASES research repo because the Hospitality Management Suite is the operational testbed for EDASES. The `projects/HMS/` copy is the active project document. Both are intentional; do not delete either.
+\n## Agent Operating Rules\nSee [AGENTS.md](AGENTS.md) for rules governing AI agent behavior, capability assumptions, and 'clean room' session requirements in this repository.
