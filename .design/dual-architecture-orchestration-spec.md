@@ -1,7 +1,7 @@
 # Specification: Dual-Architecture Design Options for ASES Decisional Provenance
 ## Resolving Concurrency, Git Lifecycles, and Distributed Consensus in AI-Assisted Development
 
-**Status:** Ready for Swarm Selection  
+**Status:** In Progress (Adversarial Review Phase - NOT ready for Swarm Selection)  
 **Target File Location:** `.design/dual-architecture-orchestration-spec.md`  
 **Intended Audience:** High-Performance LLM Agents, Swarm Orchestrators, and Systems Architects  
 
