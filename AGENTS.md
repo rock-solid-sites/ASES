@@ -1,42 +1,196 @@
-# Agent Operating Rules
+---
+title: Agent Operational Rules
+program: EDASES
+layer: Research
+document_type: Standard
+status: Active
+authority: Canonical
+canonical_repository: edases
+supersedes: AGENTS.md (previous version)
+---
+# AGENTS
 
-This document outlines the operational rules and behavioral guardrails for AI agents working within the ASES project repository.
+This document defines the operational rules for AI agents contributing to the EDASES ecosystem.
 
-## 1. Zero-Context Agent Requests ("Clean Room" Sessions)
+Its purpose is to ensure that AI contributions remain consistent with the project's research, methodology and implementation goals.
 
-When the user requests that a task be performed by a "fresh" or "new" agent instance (e.g., a background task, an adversarial reviewer, or a swarm subagent), this is typically done to ensure the task is executed with **zero prior context**. 
+This document complements `ORIENTATION.md`.
 
-**Rule:** If a specific agent, model, or subagent tool call fails (e.g., due to an API error, missing model, or platform issue), the active agent **MUST STOP AND ASK THE USER FOR DIRECTION.**
+Agents should read both documents before making significant repository changes.
 
-*   **DO NOT** silently substitute the current agent instance to perform the task.
-*   **DO NOT** fall back to using the current conversational context to answer on behalf of the failed agent.
-*   **DO NOT** assume the user wants you to proceed anyway. 
+---
 
-The integrity of multi-round adversarial reviews and capability mapping relies on clean-room isolation. If a tool like `task` or a subagent like `gemini-pro-reviewer` fails, report the exact error and wait for the user to decide the next step.
+# Core Principles
 
-## 2. Methodology & Evidence Traceability
-Agents must respect the `Source -> Observation -> Finding -> Assumption -> Decision -> Outcome` lineage described in the `README.md`. When generating new documents, agents must explicitly link back to the originating files in the `sources/` or `observations/` directories.
+When working within this repository, agents should recognise the distinction between the three project layers.
 
-## 3. Fallback: Native API Clean Room Execution
+* **EDASES** develops research.
+* **ASES** defines methodology.
+* **The Execution Engine** implements methodology.
 
-If built-in tools for launching subagents or isolated tasks fail (such as the `task` tool encountering database errors), agents should use **Native API Clean Room Execution**.
+Agents should avoid introducing concepts from lower abstraction layers into higher abstraction layers.
 
-This involves writing a standalone Python script (e.g., in `/tmp/opencode/`) that uses `urllib.request` to directly query the target model's API. This guarantees a completely fresh context window and bypasses local tooling bugs.
+---
 
-**Execution Pattern:**
-1. Extract the target model's API key from the environment (e.g., `NVIDIA_API_KEY`, `DEEPSEEK_API_KEY`, `GOOGLE_API_KEY` from `~/.bashrc` or `~/.config/chat-ui/secrets.env`).
-2. Write a lightweight Python script that reads the necessary context files from disk.
-3. Construct the API payload and use `urllib.request.urlopen` to execute the POST request.
-4. Capture the model's response and write it to a Markdown file in the project (e.g., `.design/reviews-6.md`).
+# Canonical Documents
 
-This technique was successfully pioneered in prior sessions (e.g., `/tmp/opencode/nvidia_glm51_review.py`) to conduct adversarial reviews when standard tools failed.
+Canonical documents are the authoritative source of project knowledge.
 
-## 4. Adversarial Consensus vs. Project Authority
+When conflicts arise:
 
-When conducting adversarial reviews, capability mappings, or multi-model evaluations, agents must remember that **an adversarial consensus is a finding, not a mandate.**
+1. Prefer canonical documents.
+2. Prefer higher abstraction layers.
+3. Prefer explicit evidence over inference.
+4. Ask for clarification rather than inventing missing methodology.
 
-If multiple models agree on an architectural flaw or propose a unified solution (even if they unanimously reject the current specification):
-*   **DO NOT** automatically update the repository's core specifications or charters to reflect the adversarial consensus.
-*   **DO NOT** preemptively create new documentation directories or project plans based on adversarial output.
-*   **DO** record the synthesis and findings in the appropriate research directories (e.g., `syntheses/` or `adversarial-reviews/`).
-*   **DO** wait for explicit human direction before treating adversarial findings as definitive changes to the project plan. The human orchestrator retains absolute authority over the project's direction.
+Agents should not redefine canonical concepts without explicit human direction.
+
+---
+
+# Abstraction Boundaries
+
+Before modifying a document, determine its abstraction layer.
+
+Research should not depend upon implementation.
+
+Methodology should derive from research.
+
+Implementation should derive from methodology.
+
+If uncertainty exists, move upward through the abstraction hierarchy rather than introducing implementation assumptions.
+
+---
+
+# Reasoning Before Artefacts
+
+The primary object of interest is engineering reasoning.
+
+Source code, documentation and commits are outputs of reasoning rather than the primary artefacts themselves.
+
+Agents should preserve:
+
+* observations
+* assumptions
+* findings
+* decisions
+* challenges
+* validations
+
+Where practical, reasoning should remain explicit.
+
+---
+
+# Evidence
+
+Agents should distinguish clearly between:
+
+* observations
+* interpretations
+* findings
+* recommendations
+
+Evidence should not be presented as methodology.
+
+Methodology should not be presented as implementation.
+
+---
+
+# Multi-Agent Work
+
+Independent reasoning is preferred where independent judgement is required.
+
+Agents should avoid being influenced by previous conclusions before completing their own analysis unless the task explicitly requires synthesis.
+
+Constructive disagreement is valuable.
+
+Consensus should emerge through evidence rather than repetition.
+
+---
+
+# Zero-Context Sessions
+
+When the user explicitly requests a fresh, isolated or clean-room review, the integrity of that isolation takes precedence.
+
+If an isolated execution cannot be performed:
+
+* report the failure
+* explain why it occurred
+* wait for further instruction
+
+Do not silently substitute the current conversational context.
+
+---
+
+# Tool Independence
+
+Methodology should remain independent of implementation tooling.
+
+Agents should avoid introducing assumptions tied to specific:
+
+* AI providers
+* APIs
+* programming languages
+* databases
+* frameworks
+
+Implementation proposals belong in implementation documents.
+
+---
+
+# Repository Changes
+
+Before introducing new documents:
+
+* determine whether an existing canonical document already covers the concept
+* avoid duplication
+* maintain explicit dependency relationships
+* update documentation where conceptual changes occur
+
+Repository organisation should reflect conceptual organisation.
+
+---
+
+# Adversarial Review
+
+Adversarial findings are research outputs.
+
+They do not become project direction automatically.
+
+Agents should:
+
+* preserve findings accurately
+* distinguish evidence from recommendation
+* avoid treating consensus as authority
+* defer strategic decisions to the human orchestrator
+
+---
+
+# Failure Handling
+
+If required tools fail:
+
+* report the failure accurately
+* preserve intermediate work where possible
+* request further instruction
+
+Do not substitute fundamentally different execution strategies without explicit approval.
+
+---
+
+# Continuous Improvement
+
+If repository work reveals missing concepts, inconsistent terminology or structural gaps:
+
+* identify the issue
+* explain the reasoning
+* propose an improvement
+
+Do not silently redefine project concepts.
+
+---
+
+# Goal
+
+The objective is not to maximise document production.
+
+The objective is to improve the reliability, traceability and correctness of AI-assisted software engineering through disciplined research, methodology and implementation.

@@ -7,6 +7,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Architectural Pivot:** Formalized the project structure into three layers: EDASES (Research), ASES (Methodology), and Execution Engine (Implementation), following the resolution of the Provenance Deadlock.
+- **Epistemic Model:** Formalized the first-class status of reasoning artifacts: Observations, Findings, Assumptions, Decisions, Challenges, and Validations (`Canonical Terminology.md`).
+- **New Repository Structure:** Implemented the layered document organization under `docs/` (`standards/`, `research/`, `methodology/`, `requirements/`, `architecture/`) to ensure traceability and abstraction boundaries.
+- **Foundational Documents:** Filed 22 new/updated canonical documents including `ARCHITECTURE.md`, `ORIENTATION.md`, and the **Research Synthesis** justifying the architectural pivot.
+- **Mechanical Enforcement Requirement:** Integrated methodology enforcement as a core software requirement (`Methodology to Requirements Mapping Specification.md`).
+
+### Changed
+- **Top-Level Documents:** Updated `README.md`, `AGENTS.md`, `ORIENTATION.md`, and `ARCHITECTURE.md` to reflect the new layered conceptual model.
+
+### Added
 - Evaluate Microsoft AutoGen against EDASES layered architecture (#3)
 - Seed Harness Capability Matrix with AutoGen column (#3)
 - Document Heuristic Scouting Methodology (#6)

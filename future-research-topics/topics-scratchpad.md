@@ -7,6 +7,8 @@ openchamber                 https://github.com/openchamber/openchamber
 Zed                         https://github.com/zed-industries/zed
 Herdr                       https://herdr.dev/
 Fabro                       https://github.com/fabro-sh/fabro
+CodeNomad                   https://github.com/NeuralNomadsAI/CodeNomad
+Zoo-Code                    https://github.com/Zoo-Code-Org/Zoo-Code/
 
 
 # Repos

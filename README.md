@@ -1,87 +1,103 @@
-# ASES
+---
+title: Repository Overview
+program: EDASES
+layer: Research
+document_type: Introduction
+status: Active
+authority: Derived
+canonical_repository: edases
+supersedes: README.md (previous version)
+---
+# EDASES
+**Epistemically-Driven Agentic Software Engineering System.**
+EDASES is a research programme investigating how non-programmers can safely and effectively use heterogeneous AI systems to engineer software.
+The project explores how software engineering can move from conversational interaction with individual AI models to structured, evidence-driven collaboration between humans, AI systems and automated tooling.
+The long-term objective is to develop a methodology that is:
+* verifiably safe at every stage
+* evidence-driven rather than opinion-driven
+* independent of any individual AI model or provider
+* mechanically enforceable wherever practical
+* capable of evolving through empirical research
 
-EDASES (Evidence-Driven Agentic Software Engineering System) research, charters, and methodology documentation.
+## Project Structure
 
-A research archive and organizational memory system supporting evidence-driven, agent-assisted project execution.
+The project consists of three closely related layers.
 
-## Knowledge Flow
+### EDASES — Research
 
-The repository is designed to support the following traceability chain:
+EDASES is the research programme.
+Its purpose is to investigate, evaluate and validate improved approaches to AI-assisted software engineering through experimentation and evidence.
+The outputs of EDASES are research findings rather than software.
 
-```text
-Source
-    ↓
-Observation
-    ↓
-Finding
-    ↓
-Assumption
-    ↓
-Decision
-    ↓
-Outcome
-```
+### ASES — Methodology
 
-This chain enables:
-- Evidence lineage from source materials through to decisions and outcomes
-- Reasoning traceability at every stage of the research process
-- Organizational memory that persists across sessions and agents
-- Future research synthesis grounded in documented evidence
-- Agent-assisted retrieval of contextually relevant knowledge
+The Agentic Software Engineering System (ASES) is the methodology produced by the EDASES research programme.
+ASES defines how AI-assisted software engineering should be conducted.
+It is intentionally independent of any particular implementation, AI provider or software platform.
 
-## Repository layout
+### Execution Engine
 
-Each document type lives in its own folder. Folder name = document type.
+The execution engine is a software implementation of the ASES methodology.
+Its purpose is not to replace software engineers, but to execute and enforce the methodology mechanically by:
+* maintaining engineering state
+* preserving reasoning and evidence
+* coordinating heterogeneous AI capabilities
+* reducing predictable human and AI error
+* supporting efficient software engineering workflows
 
-```
-ASES/
-├── README.md
-├── sources/                                  # External materials used during research
-│   ├── papers/                               # Research papers and published studies
-│   ├── repositories/                         # Repository reviews and codebase analyses
-│   ├── methodologies/                        # Methodology analyses and process documents
-│   ├── communities/                          # Community discussions and collaborative inputs
-│   └── historical-projects/                  # References to prior projects and legacy work
-├── observations/                             # Atomic observations extracted from sources
-├── findings/                                 # Conclusions derived from observations
-├── syntheses/                                # Higher-level integration across findings
-├── evaluation-corpus/                        # Artifacts for evaluating methodologies and architectures
-├── adversarial-reviews/                      # Critical evaluations and stress tests of the methodology
-├── harness-evaluations/                      # Evaluations of external AI coding harnesses (Track B)
-├── methodology-reviews/                      # Reviews of external software engineering methodologies (Track B)
-├── capability-mapping/                       # Mapping of required capabilities to external solutions (Track B)
-├── charters/                                 # Project charters (5)
-├── assumption-registers/                     # Standing register of architectural assumptions (4)
-├── assumption-to-decision-registers/         # Assumptions → decisions → outcomes traceability (1)
-├── core-system-prompts/                      # Core system prompt iterations for EDASES agents (2)
-├── knowledge-architecture-research/          # Phase-1 research drafts + reviewer responses (6)
-├── research-programs/                        # Research program versions + the current operational one (4)
-├── future-research-topics/                   # Log of future research directives and conceptual breakthroughs (1)
-├── architecture-validation-plans/            # Plans for validating architectural assumptions (1)
-├── specifications/                           # Specifications for systems used in / by EDASES (1)
-├── research-addenda/                         # Research addenda (1)
-├── research-handoffs/                        # Research-phase handoffs (1)
-├── session-handoffs/                         # Session-level handoffs (1)
-└── handoff-bundle/                           # Session handoff bundle: position, timeline, decisions, notes (5)
-```
+The execution engine is an implementation of ASES, not the methodology itself.
 
-### New Directories (Knowledge Traceability)
+## Research Focus
 
-These directories were added to extend the repository's support for evidence-driven research:
+Current research investigates questions including:
+* How can reasoning remain traceable throughout software engineering?
+* How should epistemic relationships be represented and preserved?
+* How can AI capabilities be evaluated objectively?
+* How should multiple AI systems collaborate effectively?
+* How can software engineering methodology be executed mechanically rather than procedurally?
 
-- **`sources/`** — Catalogs external materials (papers, repositories, methodologies, communities, historical projects) used as evidential foundations
-- **`observations/`** — Stores atomic, evidence-linked observations extracted from sources, avoiding interpretation where possible
-- **`findings/`** — Stores conclusions derived from one or more observations, representing interpreted results
-- **`syntheses/`** — Stores higher-level integration across multiple findings and sources (reviews, comparisons, analyses)
-- **`evaluation-corpus/`** — Stores artifacts used to evaluate candidate methodologies, architectures, and processes (research infrastructure)
+## Repository Organisation
 
-## Filename conventions
+This repository contains research, methodology and implementation planning.
+Canonical documentation is organised by abstraction level rather than implementation status.
 
-- The folder name carries the document type, so filenames inside a folder generally keep only the version, variant, or distinguishing descriptor (e.g. `Charter v1.md`, `Operational Testbed Charter v1.md`).
-- Versions use the format `v1`, `v2`, etc. The project does **not** use the `v0.1` convention; the earliest charter is `v1`.
-- Bundle-internal files (in `handoff-bundle/`) use lowercase-kebab-case filenames, no numeric prefix.
+New contributors should begin with:
+1. `ORIENTATION.md`
+2. `docs/standards/Documentation Standard.md`
+3. The foundational documents referenced from the orientation guide
 
-## Notes
+AI contributors should additionally read:
+* `AGENTS.md`
 
-- **`specifications/Hospitality Management Suite Specification.md`** also lives in `projects/HMS/`. The ASES copy is a reference — it belongs in the EDASES research repo because the Hospitality Management Suite is the operational testbed for EDASES. The `projects/HMS/` copy is the active project document. Both are intentional; do not delete either.
-\n## Agent Operating Rules\nSee [AGENTS.md](AGENTS.md) for rules governing AI agent behavior, capability assumptions, and 'clean room' session requirements in this repository.
+## Current Status
+
+The project is currently transitioning from exploratory research toward the design of a methodology execution engine.
+
+Recent work has established:
+* a separation between research (EDASES), methodology (ASES) and implementation
+* reasoning as the primary object of interest rather than source code history
+* epistemic relationships as the foundation of engineering knowledge
+* levels of abstraction as the organising structure of the project
+* methodology execution as the next stage of research
+
+## Contributing
+
+Contributions should follow the project's documentation standards and methodology.
+
+Please read `ORIENTATION.md` before making architectural, methodological or implementation changes.
+
+AI agents should additionally follow the instructions contained within `AGENTS.md`.
+
+## License
+
+See the accompanying LICENSE file for licensing information.
+
+## Documentation
+
+Project documentation follows a common documentation standard that defines document classification, abstraction layers, dependencies and relationships.
+
+Contributors should begin with:
+1. `ORIENTATION.md`
+2. `docs/standards/Documentation Standard.md`
+
+The orientation guide introduces the project structure, while the documentation standard defines how canonical project knowledge is represented.
