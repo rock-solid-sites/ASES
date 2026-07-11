@@ -48,7 +48,7 @@ crosslink kickoff run "..." --dry-run
 
 | Flag | Purpose | Default |
 |---|---|---|
-| `--model` | LLM model for the agent | `opus` |
+| `--model` | LLM model for the agent (provider/model format, e.g., `google-vertex/gemini-3.1-pro-preview`, `opencode-go/deepseek-v4-flash`) | `opus` |
 | `--timeout` | Max runtime (e.g. `1h`, `30m`) | `1h` |
 | `--verify` | Verification tier: `local`, `ci`, `thorough` | `local` |
 | `--container` | Container runtime: `none`, `docker`, `podman` | `none` |
@@ -56,8 +56,25 @@ crosslink kickoff run "..." --dry-run
 | `--branch` | Branch name | auto-creates feature branch |
 | `--doc` | Path to a design document | none |
 | `--dry-run` | Print prompt without launching | false |
-| `--skip-permissions` | Bypass Claude permission prompts | false |
-| `--permission-mode` | Finer control than `--skip-permissions` | none |
+| `--skip-permissions` | Bypass permission prompts (Claude only) | false |
+| `--permission-mode` | Finer control than `--skip-permissions` (Claude only) | none |
+
+### Agent binary configuration
+
+The agent binary is configurable via `hook-config.json` under the `agent.binary` key (default: `claude`). This allows using any agent CLI that supports the `--model` flag:
+
+```jsonc
+{
+    "agent": {
+        "binary": "opencode"
+    }
+}
+```
+
+When a non-Claude binary is configured, the wrapper automatically:
+- Omits the `CLAUDE_CONFIG_DIR` environment variable
+- Omits the `~/.claude` credential mount in container mode
+- Omits Anthropic-specific environment variables (`CLAUDE_CODE_OAUTH_TOKEN`, `ANTHROPIC_API_KEY`)
 
 ### Lifecycle
 
@@ -280,10 +297,12 @@ External Source (GitHub, CI, internal)
 crosslink sentinel run
 crosslink sentinel run --dry-run           # preview without acting
 crosslink sentinel run --label "agent-todo: fix"   # filter by label
+crosslink sentinel run --model opencode-go/deepseek-v4-flash  # override model
 
 # Persistent daemon
 crosslink sentinel watch                    # default 10min interval
 crosslink sentinel watch --interval 5       # custom interval (minutes)
+crosslink sentinel watch --model google-vertex/gemini-3.1-pro-preview  # override model
 
 # Status and history
 crosslink sentinel status                   # daemon state, in-flight agents
@@ -312,16 +331,28 @@ Sentinel uses a four-layer dedup system to prevent duplicate work:
 
 ### Model escalation
 
-First attempt uses **Sonnet** (fast, cheap). On failure, retry with **Opus** (more capable, more expensive) after a cooldown (default 30 minutes). Maximum 2 attempts per signal.
+First attempt uses the configured default model. On failure, retry with the configured escalation model after a cooldown (default 30 minutes). Maximum 2 attempts per signal.
+
+The model can be overridden at runtime via `--model` flag on `sentinel run`, `sentinel watch`, or `sentinel run-daemon`:
+
+```bash
+# Use a specific model for all dispatched agents
+crosslink sentinel run --model opencode-go/deepseek-v4-flash
+crosslink sentinel watch --model google-vertex/gemini-3.1-pro-preview
+```
+
+When `--model` is provided, it takes precedence over both the self-tuning recommendation and the config defaults for **both** the initial attempt and the escalation attempt.
 
 ```
-Attempt 1: Sonnet, 30min timeout
+Attempt 1: <configured or overridden model>, 30min timeout
   ├── Success → done (outcome: "success")
   └── Failure → cooldown 30min
-                └── Attempt 2: Opus, 45min timeout
+                └── Attempt 2: <configured or overridden model>, 45min timeout
                     ├── Success → done (outcome: "success")
                     └── Failure → exhausted (outcome: "exhausted")
 ```
+
+**Exhaustion → Triage Issue:** If an agent exhausts both retry attempts, a high-priority crosslink issue is automatically created with labels `["agent-exhausted", "sentinel"]` and the agent's findings attached, before the dispatch is marked as exhausted. This ensures human review for signals that couldn't be resolved automatically.
 
 ### Configuration
 
@@ -354,6 +385,34 @@ Sentinel is configured via the `"sentinel"` key in `.crosslink/hook-config.json`
     }
 }
 ```
+
+**Agent binary:** Configure the agent CLI via the top-level `agent.binary` key (default `claude`):
+
+```jsonc
+{
+    "agent": {
+        "binary": "opencode"
+    }
+}
+```
+
+**Provider-agnostic pricing:** Configure token pricing for any model/provider under the `pricing` key:
+
+```jsonc
+{
+    "pricing": {
+        "models": {
+            "opencode-go/deepseek-v4-flash": { "input": 0.10, "output": 0.40 }
+        },
+        "providers": {
+            "google-vertex/": { "input": 0.50, "output": 1.50 }
+        },
+        "default": { "input": 1.0, "output": 2.0 }
+    }
+}
+```
+
+Resolution order: exact model match → longest provider prefix match → Anthropic substring heuristics (opus/sonnet/haiku) → default → none.
 
 ---
 

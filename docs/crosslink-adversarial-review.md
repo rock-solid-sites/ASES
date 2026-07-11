@@ -188,6 +188,31 @@ Empirical results from five rounds of adversarial reviews across the ASES projec
 
 > **Key finding:** No single model caught even 50% of critical vulnerabilities in any review round. Use multiple agents with different models for production-grade coverage.
 
+### Model-agnostic configuration
+
+Crosslink is now fully model-agnostic. Configure any agent CLI and provider-prefixed model:
+
+```jsonc
+{
+    "agent": {
+        "binary": "opencode"
+    },
+    "pricing": {
+        "models": {
+            "opencode-go/deepseek-v4-flash": { "input": 0.10, "output": 0.40 }
+        },
+        "providers": {
+            "opencode-go/": { "input": 0.10, "output": 0.40 }
+        }
+    }
+}
+```
+
+- **`agent.binary`**: Any CLI supporting `--model` flag (default: `claude`)
+- **`pricing.models`**: Exact model → pricing overrides
+- **`pricing.providers`**: Provider prefix (e.g., `opencode-go/`, `google-vertex/`) → pricing (longest prefix wins)
+- **`pricing.default`**: Fallback pricing
+
 ---
 
 ## Common Anti-Patterns

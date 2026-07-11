@@ -1,5 +1,7 @@
 # Sentinel Scope: `--model` flag + Exhaustion→Triage
 
+**Status: ✅ Implemented (2026-07-11)**
+
 Two independent, low-risk changes to `crosslink/src/commands/sentinel/`.
 No schema change, no DB migration, no new types, no new config keys.
 
