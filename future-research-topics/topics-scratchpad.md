@@ -9,6 +9,8 @@ Herdr                       https://herdr.dev/
 Fabro                       https://github.com/fabro-sh/fabro
 CodeNomad                   https://github.com/NeuralNomadsAI/CodeNomad
 Zoo-Code                    https://github.com/Zoo-Code-Org/Zoo-Code/
+T3 Code                     https://t3.codes/
+Lanius                      https://timkellogg.me/blog/2026/07/07/lanius
 
 
 # Repos
@@ -17,8 +19,12 @@ Ivy's VSDD project          https://github.com/magnificentlycursed/guild-portfol
 
 
 # Multi-Agent Systems
-Sakana Fugu         https://sakana.ai/fugu-release/
-And see
+Gentle ai                   https://github.com/Gentleman-Programming/gentle-ai
+Engram                      https://www.engram.org/
+OC Agentic Workflows        https://github.com/ABIvan-Tech/opencode-agentic-workflows
+
+
+
 https://arxiv.org/abs/2606.21228
 https://arxiv.org/abs/2512.04388
 https://arxiv.org/abs/2512.04695
@@ -26,9 +32,30 @@ https://arxiv.org/abs/2512.04695
 
 # Providers
 Umans                       https://app.umans.ai/landing
-
+Sakana Fugu                 https://sakana.ai/fugu-release/
 
 # Discussion
 Early 2026 Workflows        https://substack.com/home/post/p-203481845
 Bsky version v1             https://bsky.app/profile/did:plc:mssgex5rqek4wc66wgvzztbc/post/3mgb5h4ip2k2c
 Bsky version v2             https://bsky.app/profile/norvid-studies.bsky.social/post/3mhllx6h2bc26
+
+# Design
+OpenDesign                  https://github.com/nexu-io/open-design
+Impeccable                  https://impeccable.style/
+
+
+# Tools
+sigmap                      https://github.com/manojmallick/sigmap
+Magic Context               https://github.com/cortexkit/magic-context
+DCP                         https://github.com/Opencode-DCP/opencode-dynamic-context-pruning
+
+
+# Topics
+Operations research         https://bsky.app/profile/eugenevinitsky.bsky.social/post/3mqb3lgkk2223
+Integer Programming         Heard of from same source
+SEMAT Essence               via ChatGPT
+Temporal                    https://temporal.io/
+LangGraph                   https://www.langchain.com/langgraph
+Knowledge Graph Systems
+Management Execution Systems
+Gurobi                      https://en.wikipedia.org/wiki/Gurobi_Optimizer
