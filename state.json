@@ -1,5 +1,5 @@
 {
-  "next_display_id": 26,
+  "next_display_id": 27,
   "next_comment_id": 10,
   "display_id_map": {
     "0ba42c6b-fe2b-4174-8784-c93c80a16b9e": 5,
@@ -8,6 +8,7 @@
     "1998b676-04c9-490c-8ec9-15de90b0be76": 24,
     "1a24fd47-590c-44a4-b9ba-91d91355affe": 19,
     "1b2c2eec-f80d-4ec8-b103-5b9faca8c40a": 25,
+    "1cdcd388-a982-4363-adb0-086452b9f63a": 26,
     "1ce26212-a5f5-4669-82f7-54e13a6629e7": 6,
     "2cfce2c2-0068-4810-9222-e9b899bb568d": 4,
     "2eef1a3f-b82d-4f5b-be49-ac8d5aa4af15": 8,
@@ -140,6 +141,17 @@
         "crosslink-gates",
         "implementation"
       ]
+    },
+    "1cdcd388-a982-4363-adb0-086452b9f63a": {
+      "uuid": "1cdcd388-a982-4363-adb0-086452b9f63a",
+      "display_id": 26,
+      "title": "Crosslink repo prerequisites: driver key, bootstrap, hub-cache signing",
+      "description": "## Crosslink Repo Prerequisites\n\nThree high-priority crosslink repo issues must be resolved before evidence-based gate wiring can begin. These are tracked here for visibility; the actual fixes belong in the crosslink repo.\n\n### #737 — driver key never added to allowed_signers, hub commits fail verification\nDriver key must be functional before crosslink trust driver-init command can work.\n\n### #738 — crosslink init bootstrap leaves no pending key (trust enforcement stuck)\nBootstrap must work correctly before bootstrap.status can gate enforcement.\n\n### #746 — repair stale hub-cache signingkey on kickoff cleanup\nSigning key reliability affects gate assumptions.\n\n## Action\nThese need fixes in the crosslink repo (not ASES). Track progress here and link to crosslink repo issues when available.\n\n## Blocks\n- Issue #22 (enforcement wiring)\n- Issue #23 (event-sig verification)\n- Issue #24 (TDD BYPASS tests may need to account for fixed behaviour)",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-07-14T04:40:19.333662746Z",
+      "updated_at": "2026-07-14T04:40:19.333662746Z"
     },
     "1ce26212-a5f5-4669-82f7-54e13a6629e7": {
       "uuid": "1ce26212-a5f5-4669-82f7-54e13a6629e7",
@@ -517,8 +529,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-14T04:40:10.371121218Z",
+    "timestamp": "2026-07-14T04:40:19.333662746Z",
     "agent_id": "OL2r",
-    "agent_seq": 63
+    "agent_seq": 64
   }
 }
