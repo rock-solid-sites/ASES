@@ -1,10 +1,11 @@
 {
-  "next_display_id": 24,
+  "next_display_id": 25,
   "next_comment_id": 10,
   "display_id_map": {
     "0ba42c6b-fe2b-4174-8784-c93c80a16b9e": 5,
     "0bb2bbd4-2554-414d-ad01-9cf866ed29e6": 10,
     "174fac6e-51ed-4d70-8233-8739a5570b6d": 14,
+    "1998b676-04c9-490c-8ec9-15de90b0be76": 24,
     "1a24fd47-590c-44a4-b9ba-91d91355affe": 19,
     "1ce26212-a5f5-4669-82f7-54e13a6629e7": 6,
     "2cfce2c2-0068-4810-9222-e9b899bb568d": 4,
@@ -81,6 +82,17 @@
         "execution-engine-ui,legal,deferred",
         "research"
       ]
+    },
+    "1998b676-04c9-490c-8ec9-15de90b0be76": {
+      "uuid": "1998b676-04c9-490c-8ec9-15de90b0be76",
+      "display_id": 24,
+      "title": "TDD BYPASS test suite for signing enforcement (Phase 0)",
+      "description": "## Phase 0 — BYPASS Test Suite\n\nWrite ~15 TDD test scenarios asserting current audit-mode behaviour (unsigned commits accepted, no enforcement failure). These tests become the regression baseline for Phase 1 enforcement wiring.\n\n## Test scenarios (from evidence-based-gates.md §5.1)\n\n- BYPASS-01: sync accepts unsigned hub commits in audit mode\n- BYPASS-02: sync accepts unsigned lock commits in audit mode\n- BYPASS-03: kickoff accepts unsigned agent commits in audit mode\n- BYPASS-04: swarm accepts unsigned agent commits in audit mode\n- BYPASS-05: trust approve works without driver key present\n- BYPASS-06: bootstrap.status pending allows unsigned commits\n- BYPASS-07: bootstrap.status complete allows unsigned commits (audit mode)\n- BYPASS-08: signing_enforcement=disabled accepts everything\n- BYPASS-09: dry-run mode reports violations without rejecting\n- BYPASS-10: driver key absence is not an error in audit mode\n- BYPASS-11+: additional edge cases from sync event-replay paths\n\n## Depends on\n- Nothing (this is the first phase)\n\n## Enables\n- Issue #22 (enforcement wiring) — tests must pass before wiring begins\n- Issue #23 (event-sig verification) — tests validate current behaviour\n\n## Source\nto-file/crosslink-gates/gates-issues.md Phase 0\nevidence-based-gates.md §5.1 BYPASS scenarios",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-07-14T04:39:46.217788109Z",
+      "updated_at": "2026-07-14T04:39:46.217788109Z"
     },
     "1a24fd47-590c-44a4-b9ba-91d91355affe": {
       "uuid": "1a24fd47-590c-44a4-b9ba-91d91355affe",
@@ -473,8 +485,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-14T04:39:43.141322735Z",
+    "timestamp": "2026-07-14T04:39:46.217788109Z",
     "agent_id": "OL2r",
-    "agent_seq": 57
+    "agent_seq": 58
   }
 }
