@@ -1,5 +1,5 @@
 {
-  "next_display_id": 22,
+  "next_display_id": 23,
   "next_comment_id": 10,
   "display_id_map": {
     "0ba42c6b-fe2b-4174-8784-c93c80a16b9e": 5,
@@ -22,6 +22,7 @@
     "8e8d2288-1a6a-4b99-9d86-59ccf32a9b3a": 18,
     "ab39afe4-5969-4e1c-b0ed-1abb58e7c862": 16,
     "df535502-78c8-4176-ba0a-e06969187dc4": 17,
+    "f0a6a859-cba0-4308-948d-321479f4139a": 22,
     "fdb2f319-fff7-4ff9-b305-5c20204372f8": 3
   },
   "locks": {
@@ -405,6 +406,17 @@
         "research"
       ]
     },
+    "f0a6a859-cba0-4308-948d-321479f4139a": {
+      "uuid": "f0a6a859-cba0-4308-948d-321479f4139a",
+      "display_id": 22,
+      "title": "Plumb signing_enforcement into local CLI commands",
+      "description": "## Gap #1 — Enforcement Wiring (HIGH)\n\nCrosslink's signing_enforcement config key (disabled|audit|enforced) is read only in the server layer. The local CLI commands — commands/sync.rs, commands/kickoff/run.rs, commands/swarm/* — contain zero references to it.\n\n## What to do\n\n1. Add enforcement gate adapter to each command path\n2. Make SignatureVerification::Invalid (from sync/trust.rs:429) a hard failure in enforced mode\n3. Add dry-run enum variant to signing_enforcement (<10 LOC)\n4. Check bootstrap.status == complete before rejecting (already built in sync/bootstrap.rs)\n5. Emit loud stderr + audit warning when enforcement is active but bootstrap incomplete\n\n## Effort\n~300 LOC. Thin per-command adapter, not a new monolithic VerificationService.\n\n## Source\nto-file/crosslink-gates/gates-issues.md Phase 1, GATE-1.2, GATE-1.4\ngates-verified-facts.md §2 (verified primitives)\n\n## Depends on\n- TDD BYPASS test suite (Phase 0 issue)\n- Crosslink repo prerequisites: #737 (driver key), #738 (bootstrap pending key)",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-07-14T04:39:16.625440832Z",
+      "updated_at": "2026-07-14T04:39:16.625440832Z"
+    },
     "fdb2f319-fff7-4ff9-b305-5c20204372f8": {
       "uuid": "fdb2f319-fff7-4ff9-b305-5c20204372f8",
       "display_id": 3,
@@ -437,8 +449,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-14T03:49:47.811271548Z",
+    "timestamp": "2026-07-14T04:39:16.625440832Z",
     "agent_id": "OL2r",
-    "agent_seq": 50
+    "agent_seq": 51
   }
 }
