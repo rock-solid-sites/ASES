@@ -841,16 +841,34 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
             return;
           }
 
-          // Check for active issue
-          const statusStdout = await runCrosslinkGetStdout(
-            shell,
-            ["session", "status"],
-            crosslinkDir,
-          );
-          const hasActiveIssue =
-            statusStdout !== null &&
-            (statusStdout.includes("Working on: #") ||
-              statusStdout.includes("Working on: L"));
+          // Fast path: check .active-issue sentinel file (matches Section 9 behavior)
+          const sentinelPath = path.join(crosslinkDir, ".active-issue");
+          let hasActiveIssue = false;
+          if (fs.existsSync(sentinelPath)) {
+            try {
+              const sentinelContent = fs.readFileSync(sentinelPath, "utf-8").trim();
+              if (sentinelContent) {
+                log("ALLOW: gated git, active issue sentinel present:", sentinelContent);
+                // Sentinel is valid — short-circuit the subprocess call
+                hasActiveIssue = true;
+              }
+            } catch {
+              // Fall through to subprocess
+            }
+          }
+
+          // Check for active issue (only if sentinel didn't already confirm one)
+          if (!hasActiveIssue) {
+            const statusStdout = await runCrosslinkGetStdout(
+              shell,
+              ["session", "status"],
+              crosslinkDir,
+            );
+            hasActiveIssue =
+              statusStdout !== null &&
+              (statusStdout.includes("Working on: #") ||
+                statusStdout.includes("Working on: L"));
+          }
 
           if (!hasActiveIssue) {
             log("BLOCK: gated git without active issue:", command);
