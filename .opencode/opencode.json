@@ -1,3 +1,27 @@
 {
-  "$schema": "https://opencode.ai/config.json"
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "github": {
+      "enabled": false
+    },
+    "playwright": {
+      "enabled": false
+    },
+    "fetch": {
+      "type": "local",
+      "command": ["uvx", "mcp-server-fetch"],
+      "enabled": true
+    },
+    "sqlite": {
+      "enabled": false
+    },
+    "filesystem": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "/home/claude-code/projects/ASES"],
+      "enabled": true
+    },
+    "cloudflare": {
+      "enabled": false
+    }
+  }
 }

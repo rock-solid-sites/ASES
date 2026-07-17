@@ -132,6 +132,9 @@ const DEFAULT_ALLOWED_BASH: string[] = [
  * string so 'git -C /x push' normalises to 'git push'.
  */
 function normalizeGitCommand(command: string): string {
+  // Repeatedly strip leading "rtk " prefixes so "rtk rtk git push" collapses
+  // to "git push" and is caught by the blocklist (Issue 5).
+  while (command.startsWith("rtk ")) command = command.slice(4);
   // Use a simple shell-aware split (not full shlex, but good enough for git)
   const parts = shellSplit(command);
   if (parts.length === 0 || parts[0] !== "git") return command;
@@ -451,8 +454,12 @@ function matchesCommandList(command: string, cmdList: string[]): boolean {
  * Check if a single sub-command (non-chained) matches any allowed prefix.
  */
 function isSingleCommandAllowed(command: string, allowedList: string[]): boolean {
+  // Strip leading "rtk " prefixes so "rtk git status" matches the "git status"
+  // allowlist entry instead of falling through to strict-mode block (Issue 1).
+  let cmd = command;
+  while (cmd.startsWith("rtk ")) cmd = cmd.slice(4);
   for (const prefix of allowedList) {
-    if (command.startsWith(prefix)) return true;
+    if (cmd.startsWith(prefix)) return true;
   }
   return false;
 }

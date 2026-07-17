@@ -189,6 +189,27 @@ Do not silently redefine project concepts.
 
 ---
 
+# Research Programme
+
+The execution-engine UI research programme has completed its first cycle.
+
+The synthesis is at `research/execution-engine-ui/synthesis/execution-engine-ui-synthesis.md`.
+
+Key findings for agents working on the execution engine:
+
+* Property graph databases naturally represent artefacts, versions, evidence, provenance, and supersession (High confidence).
+* XState v5 can model independent artefact lifecycles with full hierarchy, persistence, and inspection (High confidence).
+* Existing graph UI libraries can render engineering artefacts with low-to-moderate customization (Medium-High confidence).
+* Explicit provenance is the novel contribution — no existing methodology provides it (Medium-High confidence).
+* The central architectural tension is lifecycle-ownership: execution engines claim state that EDASES reserves for statecharts.
+* The reversed composition (statechart owns lifecycle, engine only schedules) is unevidenced.
+
+Open items are tracked as Crosslink issues #14–#21.
+
+Agents should read the synthesis before making implementation decisions that affect the execution engine.
+
+---
+
 # Goal
 
 The objective is not to maximise document production.

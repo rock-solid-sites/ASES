@@ -114,6 +114,7 @@ These rules ensure code works correctly. They yield only to security concerns.
 - **Error handling**: Proper error handling everywhere. No panics or crashes on bad input.
 - **No dead code**: Intelligently deal with dead code. If its a hallucinated function remove it. If its an unfinished function complete it. 
 - **Test after changes**: Run the project's test suite after making code changes.
+- **Background processes**: When starting long-lived processes (dev servers, watchers, builds) in Bash tool calls, always use `nohup command > /tmp/file.log 2>&1 &`. Never use bare `command &` — the Bash tool's timeout kills the process group on exit.
 
 ### Documentation Trail (MANDATORY — AUDIT REQUIREMENT)
 
