@@ -236,9 +236,10 @@ opencode export <session-id> --sanitize > /tmp/session-exports/<session-id>.json
 
 ## Execution Rules
 
-1. **One subagent at a time.** Never launch concurrent audit subagents.
+1. **Two concurrent subagents max.** Light audit work (SQLite queries, git log) is safe at concurrency 2. No more.
 2. **Metadata first.** Never load full message/event data until Stage 5.
 3. **Commit after each stage.** Audit findings must persist across crashes.
 4. **Monitor memory.** Check `free -m` before and after each subagent.
 5. **3-day windows.** Date range queries should never span more than 3 days.
 6. **No VACUUM with sessions active.** Close all opencode instances before Stage 6.
+7. **Single subagent for heavy stages.** Stages 5 (export) and 6 (delete/VACUUM) run one at a time.
