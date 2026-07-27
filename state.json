@@ -1,6 +1,6 @@
 {
   "next_display_id": 73,
-  "next_comment_id": 28,
+  "next_comment_id": 29,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "0ba42c6b-fe2b-4174-8784-c93c80a16b9e": 5,
@@ -1363,10 +1363,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-07-27T16:24:30.618204480Z",
-      "updated_at": "2026-07-27T16:24:33.995992345Z",
+      "updated_at": "2026-07-27T16:25:53.262896441Z",
       "labels": [
         "feature"
-      ]
+      ],
+      "comments": {
+        "4eb67664-4aaa-48c0-9d7b-284f6dee2c84": {
+          "display_id": 28,
+          "author": "pp3g-jM9N-ac-1-builder-creates-file-with-correct-content-c4d0",
+          "content": "Plan: This is an Acceptance Criterion (AC-1) test for the builder agent role. Based on the established pattern across related test issues (#51, #53, #65, #71), the standard validation is to create a file at a globally accessible path with the expected content. I will:\n\n1. Create /tmp/test-builder.txt containing the text 'builder ok'\n2. Verify the file content matches exactly\n3. Use /tmp/ path (globally accessible) per cross-worktree best practices identified in audit #68, rather than a worktree-local path\n\nThe file /tmp/test-builder.txt serves as a test artifact that downstream processes (reviewer agents, pipeline verification) can access regardless of worktree isolation.",
+          "created_at": "2026-07-27T16:25:53.255503326Z",
+          "kind": "plan",
+          "signed_by": "SHA256:/+5FSCQofR1KCpRAE/NjuNw4PUUwWzXRPbHaIFHDT4E",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4TIkaKZeGCJRT7Z89mt83/cVWfFs8XUpL0BpkXwA4TMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/AMkwZxMQq8Y1vuj/tFosVwwc0a/myRlNpPjVZ8Qh9H3pYlcxwNjgBiC3NSxK6O1ZSSYb0SqDc0jq42ITmD1Aw=="
+        }
+      }
     },
     "fdb2f319-fff7-4ff9-b305-5c20204372f8": {
       "uuid": "fdb2f319-fff7-4ff9-b305-5c20204372f8",
@@ -1400,8 +1411,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-27T16:25:31.407814953Z",
+    "timestamp": "2026-07-27T16:25:53.262896441Z",
     "agent_id": "pp3g-jM9N-ac-1-builder-creates-file-with-correct-content-c4d0",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
