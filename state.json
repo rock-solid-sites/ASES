@@ -1,6 +1,6 @@
 {
   "next_display_id": 103,
-  "next_comment_id": 50,
+  "next_comment_id": 51,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -584,10 +584,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-30T22:06:01.484766330Z",
-      "updated_at": "2026-07-30T22:06:05.242667391Z",
+      "updated_at": "2026-07-30T22:34:19.156648312Z",
       "labels": [
         "bug"
-      ]
+      ],
+      "comments": {
+        "ba992df0-a93b-403a-8f6a-fe036e9ce005": {
+          "display_id": 50,
+          "author": "OL2r",
+          "content": "Plan: The --agent flag is correctly constructed in launch.rs and passed to the claude wrapper. The wrapper correctly parses --agent and passes it to opencode run. But the agent inside tmux/systemd-run shows Build (default) not builder (our custom). Need to debug whether the agent definition file is found inside the systemd scope environment.",
+          "created_at": "2026-07-30T22:34:19.148794717Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7+qL72KW1J1IDMYN1bmS/xAzDaMUB/UTk/oeYBEl0+ivCh1fMuEAI1Hnwkz+GzJYClVfZd9pS3GzsfLhE5VkAw=="
+        }
+      }
     },
     "3d541fb9-e5fa-4549-8d88-e533fca17162": {
       "uuid": "3d541fb9-e5fa-4549-8d88-e533fca17162",
@@ -2054,8 +2065,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-30T22:06:33.150304919Z",
+    "timestamp": "2026-07-30T22:34:19.156648312Z",
     "agent_id": "OL2r",
-    "agent_seq": 252
+    "agent_seq": 253
   }
 }
