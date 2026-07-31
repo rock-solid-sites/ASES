@@ -1,6 +1,6 @@
 {
   "next_display_id": 109,
-  "next_comment_id": 73,
+  "next_comment_id": 74,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -880,7 +880,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-30T12:32:00.766834730Z",
-      "updated_at": "2026-07-31T22:49:51.182321263Z",
+      "updated_at": "2026-07-31T23:27:07.245331602Z",
       "labels": [
         "test"
       ],
@@ -902,6 +902,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAuXRILdtA/yHohgmXjlqWxA9a5egCzjDz3JnOrXuB3zJvpxqTEMZ6BoUSyBZ73Kqbo5sNmdxr2FQAeBvrlcMrBw=="
+        },
+        "e0861bf7-6a93-416f-ac82-4322e09cb4ea": {
+          "display_id": 73,
+          "author": "OL2r",
+          "content": "RESULT — End-to-end swarm pipeline test (3 free Zen models).\n\nSWARM: re-initialized from /tmp/test-swarm.md using explicit '### Phase N:' H3 groups (required format) -> Phase 1/2/3 mapped to agent.phase_types. Removed greenfield Phase 0 scaffold.\n\nAC-1 PASS (builder + opencode/ling-3.0-flash-free): test-output.txt created containing 'swarm-works', verified by readback. tmux confirmed --agent 'builder' --model 'opencode/ling-3.0-flash-free'.\n\nAC-2 PASS (reviewer + opencode/nemotron-3-ultra-free): read KICKOFF.md, verified Blocked Actions section present, posted PASS review + findings as crosslink comments. tmux confirmed --agent 'reviewer' --model 'opencode/nemotron-3-ultra-free'.\n\nAC-4 PASS: all three phases launched with correct per-phase agent type (builder/reviewer/auditor) AND the configured per-phase free Zen model — validates read_phase_agent_type + read_agent_model end-to-end.\n\nAC-3 NOT COMPLETED (auditor + opencode/north-mini-code-free): launched correctly (--agent 'auditor' --model 'opencode/north-mini-code-free') but North Mini free struggled badly in the kickoff sandbox — repeatedly attempted disallowed bash (ls ... | head, find, grep, pwd), slow to pivot to filesystem tools, looped ~31min without completing. Stopped manually. Model-capability finding (sandbox tool discipline), NOT a pipeline defect.\n\nPIPELINE VERDICT: swarm 3-phase pipeline works end-to-end with per-phase agent types + per-model config. Ling + Nemotron free performed well; North Mini free needs a less-restrictive sandbox or more permissive allowed-tools.",
+          "created_at": "2026-07-31T23:27:07.240092735Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABA2z4St+SPxdcigVINEE4/xzWyG+Rv+mwWt2dwPuA0nOJslry/fvwuXncv14JuhcdpegARCFk6bWcmbIeuLVAg=="
         }
       }
     },
@@ -2390,8 +2399,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-31T23:18:30.916546958Z",
-    "agent_id": "pp3g-JdYv-ac-3-auditor-assesses-the-overall-test-pipeline-0f4f",
-    "agent_seq": 4
+    "timestamp": "2026-07-31T23:27:07.245331602Z",
+    "agent_id": "OL2r",
+    "agent_seq": 306
   }
 }
