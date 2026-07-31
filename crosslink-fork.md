@@ -1,11 +1,12 @@
 ---
 title: "Crosslink Fork"
 tags: ["crosslink", "tooling", "workflow"]
-sources: ["https://github.com/dollspace-gay/crosslink/pull/44"]
+sources: []
 contributors: ["OL2r"]
 created: 2026-07-31
 updated: 2026-07-31
 ---
+
 
 # Crosslink Fork
 
