@@ -1,11 +1,21 @@
 ---
 title: "Model Discipline"
 tags: ["models", "opencode", "tooling"]
-sources: []
+sources:
+  - url: "https://opencode.ai/docs/go/"
+    title: ""
+    accessed_at: "2026-07-31"
+  - url: "https://opencode.ai/docs/zen/"
+    title: ""
+    accessed_at: "2026-07-31"
+  - url: "https://opencode.ai/docs/providers/"
+    title: ""
+    accessed_at: "2026-07-31"
 contributors: ["OL2r"]
 created: 2026-07-31
 updated: 2026-07-31
 ---
+
 
 
 # Model Discipline
