@@ -1,6 +1,6 @@
 {
   "next_display_id": 104,
-  "next_comment_id": 52,
+  "next_comment_id": 53,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -189,10 +189,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-31T17:00:46.557155957Z",
-      "updated_at": "2026-07-31T17:00:49.810028838Z",
+      "updated_at": "2026-07-31T17:00:57.564720434Z",
       "labels": [
         "bug"
-      ]
+      ],
+      "comments": {
+        "73369e3e-c1dd-44ed-b4ef-1db4f485e52e": {
+          "display_id": 52,
+          "author": "OL2r",
+          "content": "The 7 free Zen models (opencode/big-pickle, opencode/deepseek-v4-flash-free, opencode/laguna-s-2.1-free, opencode/ling-3.0-flash-free, opencode/mimo-v2.5-free, opencode/nemotron-3-ultra-free, opencode/north-mini-code-free) are absent from the /models picker.\n\nRoot cause: the custom plugin ~/.config/opencode/plugins/dynamic-models.ts (and duplicate plugin.ts) adds 'opencode' to disabled_providers AND wipes provider.opencode.models = {} via the hideProviders loop. This removes the entire Zen provider from /models.\n\nEvidence:\n- `opencode models opencode` -> Error: Provider not found: opencode\n- `opencode --pure models opencode` (plugins bypassed) -> lists all 7 free models\n- Resolved config shows opencode in disabled_providers and provider.opencode.models = {}\n- Live API call with the Go key to https://opencode.ai/zen/v1/chat/completions using deepseek-v4-flash-free returns 200 OK (the Go key DOES authenticate to Zen free models)\n\nOnly the free models are wanted; paid Zen models would fail since no Zen API credits are used.",
+          "created_at": "2026-07-31T17:00:57.556727596Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAL0KTvU3aNpfhlR2NqkAxlqX5a4eB+DnfbJd3ki+ZUy/yE3VuMi65FSQ8FtsGyFH92oKd8Y5R8qXDMk9oa5i8Dw=="
+        }
+      }
     },
     "0bb2bbd4-2554-414d-ad01-9cf866ed29e6": {
       "uuid": "0bb2bbd4-2554-414d-ad01-9cf866ed29e6",
@@ -2090,8 +2101,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-31T17:00:49.810028838Z",
+    "timestamp": "2026-07-31T17:00:57.564720434Z",
     "agent_id": "OL2r",
-    "agent_seq": 268
+    "agent_seq": 269
   }
 }
