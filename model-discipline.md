@@ -1,11 +1,12 @@
 ---
-title: "model discipline"
-tags: []
+title: "Model Discipline"
+tags: ["models", "opencode", "tooling"]
 sources: []
 contributors: ["OL2r"]
 created: 2026-07-31
 updated: 2026-07-31
 ---
+
 
 # Model Discipline
 

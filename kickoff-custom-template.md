@@ -1,6 +1,6 @@
 ---
-title: "kickoff custom template"
-tags: []
+title: "Kickoff Custom Template"
+tags: ["crosslink", "kickoff", "tooling"]
 sources: []
 contributors: ["OL2r"]
 created: 2026-07-31
