@@ -7,6 +7,7 @@ created: 2026-07-31
 updated: 2026-07-31
 ---
 
+
 # Kickoff Custom Template
 
 This project uses a custom kickoff prompt template instead of the 92-line default built into crosslink.
