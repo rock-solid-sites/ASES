@@ -1,6 +1,6 @@
 {
   "next_display_id": 106,
-  "next_comment_id": 61,
+  "next_comment_id": 62,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2055,10 +2055,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-30T22:06:18.114196426Z",
-      "updated_at": "2026-07-30T22:06:21.379453119Z",
+      "updated_at": "2026-07-31T22:35:05.543923405Z",
       "labels": [
         "bug"
-      ]
+      ],
+      "comments": {
+        "98a229e2-fe6d-4da7-b576-5e59da9c0daa": {
+          "display_id": 61,
+          "author": "OL2r",
+          "content": "Root cause fixed: read_phase_agent_type() now returns per-phase type from agent.phase_types, with global agent.type -> builder fallback. The 'default build agent' issue was the missing per-phase lookup; now verified by reviewer. Landed on fork-local/agents (32617279).",
+          "created_at": "2026-07-31T22:35:05.538480487Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAXBQXX2Zrx1aBzu9RRpKEoV55u3htVzHQB981Z/7kFFGw8CIlLXpsGiHOVjcEv7Cz+hV6SAHASR66jgtucqpnAA=="
+        }
+      }
     },
     "ec7808cb-b7f9-4248-9dc9-dbb36255ab24": {
       "uuid": "ec7808cb-b7f9-4248-9dc9-dbb36255ab24",
@@ -2218,7 +2229,7 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-31T22:35:02.244086309Z",
+    "timestamp": "2026-07-31T22:35:05.543923405Z",
     "agent_id": "OL2r",
     "agent_seq": 293
   }
