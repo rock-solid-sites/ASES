@@ -1,6 +1,6 @@
 {
   "next_display_id": 104,
-  "next_comment_id": 53,
+  "next_comment_id": 54,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -193,7 +193,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-31T17:00:46.557155957Z",
-      "updated_at": "2026-07-31T17:00:57.564720434Z",
+      "updated_at": "2026-07-31T17:05:42.861518237Z",
       "labels": [
         "bug"
       ],
@@ -206,6 +206,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAL0KTvU3aNpfhlR2NqkAxlqX5a4eB+DnfbJd3ki+ZUy/yE3VuMi65FSQ8FtsGyFH92oKd8Y5R8qXDMk9oa5i8Dw=="
+        },
+        "be0c1bdc-1037-4028-a692-6b353d475c60": {
+          "display_id": 53,
+          "author": "OL2r",
+          "content": "Approach: option 2 — whitelist only the 7 free Zen models. Modified ~/.config/opencode/plugins/plugin.ts and dynamic-models.ts: removed 'opencode' from defaultDisabled and hideProviders; added cfg.provider['opencode'].whitelist = [big-pickle, deepseek-v4-flash-free, laguna-s-2.1-free, ling-3.0-flash-free, mimo-v2.5-free, nemotron-3-ultra-free, north-mini-code-free].\n\nVerification:\n- opencode models opencode now lists exactly the 7 free models (was 'Provider not found')\n- opencode models full list: 0 paid Zen models exposed (whitelist effective)\n- end-to-end run with --model opencode/deepseek-v4-flash-free returned ZEN-FREE-OK\n- free Zen API calls work even without an API key (200 OK unauthenticated) — Go key also works",
+          "created_at": "2026-07-31T17:05:42.854741706Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEwU5QDfdeZPv5rewVWZDGvj2zmwcuyyTSw8UV0wJ0O6D6nO8zAuIQ24YjBzQ8iBinAc6OvJsKGxV87koVW5LBg=="
         }
       }
     },
@@ -2105,8 +2114,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-07-31T17:01:04.688968177Z",
+    "timestamp": "2026-07-31T17:05:42.861518237Z",
     "agent_id": "OL2r",
-    "agent_seq": 270
+    "agent_seq": 271
   }
 }
