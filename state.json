@@ -1,6 +1,6 @@
 {
   "next_display_id": 119,
-  "next_comment_id": 81,
+  "next_comment_id": 82,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -918,7 +918,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-30T12:32:00.766834730Z",
-      "updated_at": "2026-08-01T00:42:51.402649375Z",
+      "updated_at": "2026-08-01T00:43:07.001048753Z",
       "labels": [
         "test"
       ],
@@ -981,6 +981,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAuXRILdtA/yHohgmXjlqWxA9a5egCzjDz3JnOrXuB3zJvpxqTEMZ6BoUSyBZ73Kqbo5sNmdxr2FQAeBvrlcMrBw=="
+        },
+        "c025f8ca-9830-468f-b30c-65cc06cba594": {
+          "display_id": 81,
+          "author": "pp3g-2jFS-adversarially-review-the-wave-based-execution-plan",
+          "content": "## REVIEW (3/3): Gaps + Wave 3 design — the final gate is right in principle, under-specified in practice\n\n### Q3: Gaps — missing fixes, risks, steps that belong in the plan\n\n1. MUST FIX — Artifact handoff mechanism is UNDEFINED (the biggest Wave 3 gap). KICKOFF.md states 'Cross-worktree filesystem access is blocked'. AC-1's test-output.txt lives in the builder worktree; reviewer/auditor worktrees cannot reach it. The re-run must specify the mechanism: (a) shared /tmp path (builder frontmatter allows /tmp; prior cycles used /tmp artifacts successfully), or (b) git-based handoff (commit artifact + git fetch . branch + git show) — but note git fetch is NOT in any allowed list today, so option (b) requires the #109 fix to cover it. Then the re-run must prove DOWNSTREAM CONSUMPTION: the reviewer must assert on the artifact content, not a self-contained check (the exact sidestep #118's audit flagged).\n\n2. MUST FIX — Wave 3 PASS criteria are undefined. Closing #78 needs explicit criteria: original AC-1..AC-4 PLUS (i) artifact handoff demonstrated with downstream consumption; (ii) dependency edges present (#111) AND launch-time behavior verified — I found NO evidence that kickoff/swarm enforces blocked_by at launch (the crosslink-guide skill documents 'ready' as advisory; #106-#108 all currently list as ready). If enforcement is process-only, the plan must say so and verify the edges instead of claiming machine enforcement; (iii) all 3 phases post plan+result comments per #117; (iv) auditor completes.\n\n3. MUST FIX — Model selection + timeout for Wave 3 unspecified. North Mini free looped 31 min without completing; big-pickle completed the audit in ~8 min. Pin models for the re-run (e.g., ling/nemotron for builder/reviewer, big-pickle for auditor) or define an explicit max-runtime and failure criterion, else the gate can stall on model lottery.\n\n4. SHOULD CONSIDER — Use FRESH phase issues for the re-run, not #106-#108: they carry prior comments/history, and reusing them invites the duplicate-plan confusion #115 is meant to fix. New issues should bake in the artifact path, dependency edges, and parent #78 link at creation.\n\n5. SHOULD CONSIDER — 'Hooks not deployed' (audit finding #6) has no home in the plan. It contributes to stale-lock misdetection (no heartbeat) and zero git-mutation enforcement. Fold it into #112 or #109.\n\n6. SHOULD CONSIDER — #116 scope misses the invalid 'crosslink comment' form: KICKOFF.md step 4 ('crosslink comment 78 ...' — confirmed: unrecognized subcommand), .crosslink/rules/global.md l.130/l.196, .crosslink/rules/tracking-normal.md l.60. Fix along with the 'crosslink intervene' references.\n\n7. SHOULD CONSIDER — Findings persistence (#114) interacts with Wave 3: if the auditor posts observations but findings docs still don't exist, the documented two-stage consolidation cannot run. Either include a consolidation step in Wave 3 or explicitly scope it out. And #73/#74 must be merged (or their docs cherry-picked) BEFORE #113 closes them.\n\n8. NIT — #118's description names only #109+#111 as preconditions; it should also require the Wave 2 template fixes (#115/#116/#117), since the re-run agents will follow KICKOFF.md.\n\n### Q4: Is Wave 3 (artifact handoff + dependency enforcement) the right final gate?\n\nVERDICT: Right gate, wrong execution unit. Keeping #78 open until a real 3-phase run completes is correct and directly addresses the premature-PASS lesson. But as scoped, #118 inherits the exact failure mode it was created to prevent: without a defined handoff mechanism, defined PASS criteria, pinned models, and a decision on whether 'dependency enforcement' is machine or process, the re-run can again validate three independent agents and be declared PASS. The gate is only honest once items 1-3 above are specified in the plan.\n\n### NOTABLE POSITIVES\n- The plan correctly puts the sandbox defect first — it poisoned diagnosis (3 AC-3 failures misattributed to models) and blocks every read-only phase.\n- Sub-issue decomposition maps 1:1 to the audit's recommendations; every file:line target in #114/#116 that I checked is accurate.\n- #113's --no-changelog discipline and #112's lock cleanup are the right housekeeping, and the wave ordering 0→1→2→3 is sound on the critical path.\n- The plan honestly surfaces its own open decision (align vs deny bash) rather than hiding it.\n\nBottom line: approve the direction; rework #109 to include enforcement deployment + the align/deny decision point, add the handoff mechanism + PASS criteria + model pinning to #118, and re-sequence #113 after #112 with explicit exclusions. Then the re-run is a credible gate.",
+          "created_at": "2026-08-01T00:43:06.994956603Z",
+          "kind": "observation",
+          "signed_by": "SHA256:Gi1NETEhXFIBL4GtTZRThUsMrSDXxKbs3BxJwTdcMtc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgv8dUcKPG4MDQ4aGd595Nw1cDFZDGHt3ijkENij13zrwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAB80IPQDjXN3nbkb8mGe299DctTGnAy2Mu8KEf9QSnjlgivk7MrqUYrReMcq5NEGDkFQnlTeTAlprezcj09gyBg=="
         },
         "e0861bf7-6a93-416f-ac82-4322e09cb4ea": {
           "display_id": 73,
@@ -2613,8 +2622,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T00:42:51.402649375Z",
+    "timestamp": "2026-08-01T00:43:07.001048753Z",
     "agent_id": "pp3g-2jFS-adversarially-review-the-wave-based-execution-plan",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
