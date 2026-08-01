@@ -1,6 +1,6 @@
 {
   "next_display_id": 120,
-  "next_comment_id": 91,
+  "next_comment_id": 92,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1865,7 +1865,18 @@
       "parent_uuid": "55c73bbe-48d1-4e77-810f-0247f3ad4bda",
       "created_by": "OL2r",
       "created_at": "2026-08-01T01:18:08.725853124Z",
-      "updated_at": "2026-08-01T01:18:18.367905393Z"
+      "updated_at": "2026-08-01T01:18:21.508094060Z",
+      "comments": {
+        "b6eb4f48-2bbc-4881-936a-1a6d8a263aa8": {
+          "display_id": 91,
+          "author": "OL2r",
+          "content": "Evidence for the defect: (1) 'crosslink swarm reset' triggered sync.fetch() which rehydrated DB from stale hub -> dropped issues #5-#105 (recovered via compact); (2) repeated during this session — #78, #113, and #108 'not found' errors mid-wave, each requiring crosslink compact recovery; (3) Big Pickle Wave 0 review confirmed lock staleness misdetection is tied to the same heartbeat/hook deployment gap. Likely fix domain: sync.fetch() should reduce from own-ref events + checkpoint, not hydrate from a stale fetched hub; or the rehydration should refuse when local state is ahead. Investigate with #109.",
+          "created_at": "2026-08-01T01:18:21.502596301Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABYa9rX+6CHuntTcYk7GhqPcyInPu+E1j6ThPGUbx4itV1vQP4s9CKpGhBvDtkLzVkihxGbpZdHNOhIXlyafrBA=="
+        }
+      }
     },
     "9fc17f77-580b-4e44-b9df-a31176444642": {
       "uuid": "9fc17f77-580b-4e44-b9df-a31176444642",
@@ -2770,8 +2781,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T01:18:18.367905393Z",
+    "timestamp": "2026-08-01T01:18:21.508094060Z",
     "agent_id": "OL2r",
-    "agent_seq": 421
+    "agent_seq": 422
   }
 }
