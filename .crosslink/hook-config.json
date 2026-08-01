@@ -1,20 +1,43 @@
 {
+  "agent": {
+    "phase_types": {
+      "Phase 1": "builder",
+      "Phase 2": "reviewer",
+      "Phase 3": "auditor"
+    },
+    "type": "reviewer"
+  },
   "agent_overrides": {
     "agent_lint_commands": [
       "shellcheck **/*.sh"
     ],
     "agent_test_commands": [],
     "blocked_git_commands": [
+      "git push",
       "git push --force",
       "git push -f",
+      "git merge",
+      "git rebase",
+      "git cherry-pick",
+      "git reset",
       "git reset --hard",
+      "git clean",
       "git clean -f",
       "git clean -fd",
       "git clean -fdx",
       "git checkout .",
-      "git restore ."
+      "git restore .",
+      "git stash",
+      "git tag",
+      "git am",
+      "git apply",
+      "git branch -d",
+      "git branch -D",
+      "git branch -m"
     ],
-    "gated_git_commands": [],
+    "gated_git_commands": [
+      "git commit"
+    ],
     "tracking_mode": "relaxed"
   },
   "allowed_bash_prefixes": [
@@ -73,7 +96,7 @@
   "reminder_drift_threshold": 3,
   "sentinel": {
     "default_agent": {
-      "model": "claude-sonnet-4-6",
+      "model": "opencode/big-pickle",
       "timeout_minutes": 30,
       "verify": "local"
     },
@@ -97,6 +120,7 @@
       }
     }
   },
+  "sentinel.default_agent.model": "opencode/ling-3.0-flash-free",
   "signing_enforcement": "audit",
   "tracker_remote": "origin",
   "tracking_mode": "strict"
