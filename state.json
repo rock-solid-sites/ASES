@@ -1,6 +1,6 @@
 {
   "next_display_id": 119,
-  "next_comment_id": 79,
+  "next_comment_id": 80,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -918,7 +918,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-30T12:32:00.766834730Z",
-      "updated_at": "2026-08-01T00:34:41.035681918Z",
+      "updated_at": "2026-08-01T00:42:37.884748794Z",
       "labels": [
         "test"
       ],
@@ -936,6 +936,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4WA+hbumjg3lVhCcb/EX/RZ/4sD+elB2zj+YUckrLckEMBV+77Ep45nF0SC2fJRYBFcoSABuDybVkkN0bTsZBA=="
+        },
+        "179b486c-3d5e-4d25-96be-c91737d97fdd": {
+          "display_id": 79,
+          "author": "pp3g-2jFS-adversarially-review-the-wave-based-execution-plan",
+          "content": "## REVIEW (1/3): Verdict + Wave ordering — CHANGES REQUESTED\n\nIndependent adversarial review of the PLAN comment (2026-08-01 00:34). I read all 10 sub-issues #109-#118, verified claims against the live repo and CLI, and reproduced the #109 defect in this very session. The plan is directionally sound and honestly sequenced, but it has 3 blocking gaps and several hidden dependencies.\n\n### Q1: Is the wave ordering correct?\n\nVERDICT: Mostly correct (0→1→2→3 matches the critical path), but with hidden dependencies and one security-relevant omission.\n\n1. MUST FIX — #113 (bulk-close) has a hidden dependency on #112 (locks). 8 of the stale test issues (#33, #34, #35, #64, #66, #71, #92, #93) are currently locked by OL2r (crosslink locks list). If close refuses on locked issues, #113 stalls. Sequence #112 before #113, or verify close-on-locked behavior first.\n\n2. MUST FIX — #113's selection needs explicit exclusions. Do NOT bulk-close #73/#74 (they are completed but their findings/ deliverables are unmerged — #114 must merge them first, else the tracker loses the only copies of that work), and exclude #106-#108 (the active test cycle) plus #109-#118 (this plan) and #14-#21/#22-#27 (real work). close-all has no status filter in its help; verify it only touches open issues and pass a precise filter.\n\n3. MUST FIX — #109 has an unresolved fork (align enforcement vs deny bash) that determines what Wave 2's docs must say. #114/#115/#116/#117 all touch KICKOFF.md and/or agent templates; #116 and #109 both touch .opencode/plugins/crosslink-guard.ts. Decide the #109 direction BEFORE Wave 2 or Wave 2 will need rework. If #109 picks deny-bash, KICKOFF.md's 'Always allowed' section and 'Reviewing Previous Phase Output' (git fetch/diff/show) must be rewritten — a much bigger doc change than #116 currently scopes.\n\n4. SHOULD CONSIDER — Wave ordering is not encoded in the tracker: #109-#118 ALL appear in 'crosslink issue ready' today. Add blocked_by edges so #118 cannot be launched before #109/#111/#117; otherwise a future agent following 'ready' can start Wave 3 early (the exact premature-PASS risk the plan exists to prevent).\n\n5. SHOULD CONSIDER — #112 enabling auto_steal_stale_locks=true is risky as scoped. My own lock on #78 (claimed minutes ago) already displays [STALE] in 'crosslink locks list', and heartbeat hooks are not deployed (workflow diff: all 6 .claude/hooks/*.py missing), so staleness detection cannot distinguish an active agent from an abandoned one. Auto-steal could steal an active agent's lock mid-run — including during Wave 3. Verify the staleness heuristic against active sessions before enabling auto_steal.\n\n6. NIT — Priorities: #109/#110/#111/#112/#118 say 'High.' in their descriptions but are all priority=medium. If the tracker is the triage source (the premise of #113), priorities should match reality.",
+          "created_at": "2026-08-01T00:42:37.878927026Z",
+          "kind": "observation",
+          "signed_by": "SHA256:Gi1NETEhXFIBL4GtTZRThUsMrSDXxKbs3BxJwTdcMtc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgv8dUcKPG4MDQ4aGd595Nw1cDFZDGHt3ijkENij13zrwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABt5cDNY6LF3n7LbbBQtsnsNO0IfoENLN0cWS3jRa4/BNIwd1b804/5M0NoQsKVsak9e1lAedc8tYPgvasOs+Dg=="
         },
         "84d67b48-5363-4613-9735-f069054e9ab4": {
           "display_id": 77,
@@ -2595,8 +2604,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T00:35:21.675376352Z",
+    "timestamp": "2026-08-01T00:42:37.884748794Z",
     "agent_id": "pp3g-2jFS-adversarially-review-the-wave-based-execution-plan",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
