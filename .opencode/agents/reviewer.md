@@ -12,6 +12,7 @@ permission:
     "cat *": allow
     "cargo *": allow
     "npm *": allow
+    "rtk *": allow
   task: deny
   question: deny
   webfetch: allow

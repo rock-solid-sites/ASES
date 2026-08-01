@@ -10,6 +10,7 @@ permission:
     "git *": allow
     "ls *": allow
     "cat *": allow
+    "rtk *": allow
   task: deny
   question: deny
   webfetch: allow
