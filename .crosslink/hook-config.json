@@ -38,6 +38,62 @@
     "gated_git_commands": [
       "git commit"
     ],
+    "by_type": {
+      "reviewer": {
+        "blocked_git_commands": [
+          "git push",
+          "git push --force",
+          "git push -f",
+          "git merge",
+          "git rebase",
+          "git cherry-pick",
+          "git reset",
+          "git reset --hard",
+          "git clean",
+          "git clean -f",
+          "git clean -fd",
+          "git clean -fdx",
+          "git checkout .",
+          "git restore .",
+          "git stash",
+          "git tag",
+          "git am",
+          "git apply",
+          "git branch -d",
+          "git branch -D",
+          "git branch -m",
+          "git commit"
+        ],
+        "gated_git_commands": []
+      },
+      "auditor": {
+        "blocked_git_commands": [
+          "git push",
+          "git push --force",
+          "git push -f",
+          "git merge",
+          "git rebase",
+          "git cherry-pick",
+          "git reset",
+          "git reset --hard",
+          "git clean",
+          "git clean -f",
+          "git clean -fd",
+          "git clean -fdx",
+          "git checkout .",
+          "git restore .",
+          "git stash",
+          "git tag",
+          "git am",
+          "git apply",
+          "git branch -d",
+          "git branch -D",
+          "git branch -m",
+          "git commit"
+        ],
+        "gated_git_commands": []
+      }
+    },
     "tracking_mode": "relaxed"
   },
   "allowed_bash_prefixes": [

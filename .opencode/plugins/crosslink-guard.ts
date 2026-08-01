@@ -417,9 +417,50 @@ function loadConfig(crosslinkDir: string | null): LoadedConfig {
         }
       }
     }
+
+    // Per-agent-type refinement: agent_overrides.by_type.<type> replaces the
+    // shared blocked/gated lists for that specific agent role (e.g. reviewer/
+    // auditor block git commit while builder keeps it gated). The type comes
+    // from hook-config agent.type (the fork's read_agent_type equivalent).
+    const byTypeMap = o.by_type as
+      | Record<string, { blocked_git_commands?: string[]; gated_git_commands?: string[]; allowed_bash_prefixes?: string[] }>
+      | undefined;
+    const byType = byTypeMap?.[resolveAgentType(crosslinkDir)];
+    if (byType) {
+      if (byType.blocked_git_commands) {
+        result.blocked_git = [...byType.blocked_git_commands];
+      }
+      if (byType.gated_git_commands) {
+        result.gated_git = [...byType.gated_git_commands];
+      }
+      if (byType.allowed_bash_prefixes) {
+        result.allowed_bash = [...byType.allowed_bash_prefixes];
+      }
+    }
   }
 
   return result;
+}
+
+/**
+ * Resolve the configured agent type from hook-config.json `agent.type`.
+ *
+ * Mirrors the fork's `read_agent_type()`: reads `agent.type` (default
+ * "builder") so per-agent-type overrides in `agent_overrides.by_type`
+ * can be applied. Returns "builder" when absent or unparseable.
+ */
+function resolveAgentType(crosslinkDir: string | null): string {
+  if (!crosslinkDir) return "builder";
+  const configPath = path.join(crosslinkDir, "hook-config.json");
+  try {
+    const raw = fs.readFileSync(configPath, "utf-8");
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    const agent = parsed.agent as Record<string, unknown> | undefined;
+    const type = agent?.type as string | undefined;
+    return type && type.trim().length > 0 ? type.trim() : "builder";
+  } catch {
+    return "builder";
+  }
 }
 
 // ---------------------------------------------------------------------------
