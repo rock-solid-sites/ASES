@@ -1,5 +1,5 @@
 {
-  "next_display_id": 115,
+  "next_display_id": 116,
   "next_comment_id": 78,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -21,6 +21,7 @@
     "1cdcd388-a982-4363-adb0-086452b9f63a": 26,
     "1ce26212-a5f5-4669-82f7-54e13a6629e7": 6,
     "21f9e31f-c8f8-480c-9eeb-fdfab1cfc48e": 48,
+    "2268a26c-c310-4aca-8226-ec105a40ce16": 115,
     "233b3ad2-eabe-4323-a0da-e11e876f93ff": 56,
     "286d35ca-9c9b-46f8-8a88-1ca6d09e5754": 98,
     "29f67bbb-bb7a-438e-bb99-4e7de1b47abc": 45,
@@ -519,6 +520,18 @@
       "labels": [
         "feature"
       ]
+    },
+    "2268a26c-c310-4aca-8226-ec105a40ce16": {
+      "uuid": "2268a26c-c310-4aca-8226-ec105a40ce16",
+      "display_id": 115,
+      "title": "Standardize retry handoff on failed issues",
+      "description": "Medium. #108 had 3 identical plan comments (23:01/23:14/23:18) from failed attempts with no failure record on the issue itself (failures documented only on #78). A retried issue should carry its own failure history so the next agent has context. Fix: on relaunch, post a plan comment noting prior attempts and failure cause.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "55c73bbe-48d1-4e77-810f-0247f3ad4bda",
+      "created_by": "OL2r",
+      "created_at": "2026-08-01T00:28:22.147727058Z",
+      "updated_at": "2026-08-01T00:28:22.147727058Z"
     },
     "233b3ad2-eabe-4323-a0da-e11e876f93ff": {
       "uuid": "233b3ad2-eabe-4323-a0da-e11e876f93ff",
@@ -2512,8 +2525,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T00:28:14.512348074Z",
+    "timestamp": "2026-08-01T00:28:22.147727058Z",
     "agent_id": "OL2r",
-    "agent_seq": 313
+    "agent_seq": 314
   }
 }
