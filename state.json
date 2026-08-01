@@ -2022,12 +2022,13 @@
       "display_id": 119,
       "title": "Fix DB rehydration wipe during sync-fetch",
       "description": "Operational defect observed repeatedly this session: sync.fetch() rehydrates the SQLite DB from a stale hub state, dropping local-only issues/comments. Hit during swarm reset, kickoff stop, and multiple comment posts (#78/#113 'not found' needing crosslink compact recovery each time). Cost: added ~minutes of wall-clock to Wave 0 execution and loses in-flight records. Root cause family overlaps #109 (hub/remote state consistency). Address in Wave 1 alongside #109.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "parent_uuid": "55c73bbe-48d1-4e77-810f-0247f3ad4bda",
       "created_by": "OL2r",
       "created_at": "2026-08-01T01:18:08.725853124Z",
-      "updated_at": "2026-08-01T17:56:08.813120245Z",
+      "updated_at": "2026-08-01T17:56:12.241146524Z",
+      "closed_at": "2026-08-01T17:56:12.241137394Z",
       "comments": {
         "7ed494e3-8584-4448-85b1-6593a0f5c494": {
           "display_id": 110,
@@ -2961,8 +2962,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T17:56:08.813120245Z",
+    "timestamp": "2026-08-01T17:56:12.241146524Z",
     "agent_id": "OL2r",
-    "agent_seq": 435
+    "agent_seq": 436
   }
 }
