@@ -137,6 +137,19 @@ Implementation proposals belong in implementation documents.
 
 ---
 
+# Model Discipline
+
+Model names must be verified before use. Never assume a model ID.
+
+* Run `opencode models <provider>` before using any model in a command or configuration.
+* Copy model IDs exactly — do not guess, shorten, or modify them.
+* Ask the operator which provider to use. Do not choose on your own.
+* Do not use free-tier (Zen) models for kickoff or swarm agents — rate limits will cause failures.
+* The `opencode-go/` prefix indicates paid models. Free models have different, provider-specific prefixes.
+* The mandatory model list for this project is documented at `.crosslink/knowledge/model-discipline.md`.
+
+---
+
 # Repository Changes
 
 Before introducing new documents:

@@ -51,3 +51,17 @@ When you discover important facts about the project's own codebase, architecture
 ```bash
 crosslink knowledge add <slug> --title '<topic>' --tag codebase --content '<what you learned>'
 ```
+
+### Workflow Gotchas
+
+- **Git commits in the knowledge worktree require an active crosslink issue.** Start a session and work an issue before committing (`crosslink session start && crosslink session work <id>`).
+- **Direct `git push` is hook-blocked.** Use the `crosslink knowledge` commands (`add`, `edit`, `import`), which handle commit + push internally.
+- **Commit pending worktree changes before syncing.** A dirty worktree makes `crosslink knowledge sync` skip its reset, leaving the cache in a mixed state. If the worktree has uncommitted changes, commit them first.
+
+### Related Gotchas
+
+Server- and tooling-level gotchas (memory/OOM defense, provider prefixes, agent config, broken cache refresh) are documented in the Tools catalog, not here:
+
+- **Server tooling catalog:** `/home/claude-code/projects/Tools/TOOLING.md` — see the gotchas blocks under §8 (agents) and elsewhere
+- **Agent configuration:** `/home/claude-code/projects/Tools/opencode-agent-configuration.md` — "## Gotchas" section
+- **Memory/OOM defense:** `server-memory-management.md` in the synced knowledge base (`crosslink knowledge show server-memory-management`)

@@ -56,8 +56,8 @@ crosslink kickoff run "..." --dry-run
 | `--branch` | Branch name | auto-creates feature branch |
 | `--doc` | Path to a design document | none |
 | `--dry-run` | Print prompt without launching | false |
-| `--skip-permissions` | Bypass permission prompts (Claude only) | false |
-| `--permission-mode` | Finer control than `--skip-permissions` (Claude only) | none |
+| `--skip-permissions` | **Claude Code only. Does not work with OpenCode. Ignored by the wrapper.** | N/A |
+| `--permission-mode` | **Claude Code only. Does not work with OpenCode. Ignored by the wrapper.** | N/A |
 
 ### Agent binary configuration
 
