@@ -1,6 +1,6 @@
 {
   "next_display_id": 120,
-  "next_comment_id": 94,
+  "next_comment_id": 95,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1084,7 +1084,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-07-31T22:58:41.388649462Z",
-      "updated_at": "2026-08-01T01:23:21.711860645Z",
+      "updated_at": "2026-08-01T01:49:31.358308808Z",
       "labels": [
         "feature"
       ],
@@ -1113,6 +1113,15 @@
           "kind": "plan",
           "signed_by": "SHA256:bJhuwlbqEIOslWkVoxjHby92pKBWDnFOtIhYsD+O14k",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnfvDoemXp2u724vOEYZ7Fht3qllVxTlIFRFjpXJDPDgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAjUgYRdAWZ4+DmJg2YWzIN8v5utDYNvfdnd2j3z4GlcmTc10VRBP9ZGLzdMK20OUGCL3TEZ13b+eL0UlaRPUIAw=="
+        },
+        "47032c60-072c-4df2-b3b0-5437ec646d38": {
+          "display_id": 94,
+          "author": "pp3g-9E4g-verification-test-for-109-sandbox-fix-config-now-0f0c",
+          "content": "VERIFICATION TEST RESULT — #109 sandbox fix (crosslink-guard plugin) — agent pp3g-9E4g-verification-test-for-109-sandbox-fix-config-now-0f0c\n\nVerdict: FAIL. The 6-command verification matrix is fully re-established; commands 1–4 (expected SUCCESS) are all BLOCKED, commands 5–6 (expected BLOCKED) are blocked but by the opencode permission layer, NOT by the crosslink-guard plugin. The #109 fix is not intercepting this session.\n\nMatrix (re-run this session):\n1. git status — BLOCKED (denied by opencode permission layer; identical command succeeded earlier in the same session — enforcement is non-deterministic)\n2. git log --oneline -3 — BLOCKED\n3. ls — BLOCKED\n4. cat AGENTS.md — BLOCKED\n5. git push — BLOCKED (expected block; wrong mechanism)\n6. git commit --allow-empty -m test — BLOCKED (expected block; wrong mechanism)\n\nEvery denial carries the identical rule block: [{\"permission\":\"*\",\"action\":\"allow\",\"pattern\":\"*\"},{\"permission\":\"bash\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"bash\",\"pattern\":\"crosslink *\",\"action\":\"allow\"},{\"permission\":\"bash\",\"pattern\":\"git *\",\"action\":\"allow\"},{\"permission\":\"bash\",\"pattern\":\"ls *\",\"action\":\"allow\"},{\"permission\":\"bash\",\"pattern\":\"cat *\",\"action\":\"allow\"},{\"permission\":\"bash\",\"pattern\":\"cargo *\",\"action\":\"allow\"},{\"permission\":\"bash\",\"pattern\":\"npm *\",\"action\":\"allow\"}]\n\nRoot-cause findings:\n- The 8 rules in the denial message exactly match the committed agent config .opencode/agents/reviewer.md frontmatter permission.bash (\"*\": deny + allows for crosslink/git/ls/cat/cargo/npm). The agent file declares these ALLOW rules, yet the permission layer denies every git/ls/cat invocation — the declared allows are never honored.\n- Selectivity observed: crosslink sync, git --version, cargo --version, npm --version pass; git status/log/diff/branch/show, ls, cat, wc are denied. Denied set == rtk-guard.ts rewrite allowlist. .opencode/plugins/rtk-guard.ts hooks tool.execute.before and prepends 'rtk' to allowlisted commands; the permission layer appears to evaluate the MUTATED command ('rtk git status'...), which matches no allow pattern and falls through to bash deny. Non-rewritten commands pass.\n- /tmp/rtk-guard.log and /tmp/crosslink-guard.log show entries only dated 2026-07-20 in all readable chunks (today is 2026-08-01); true log tails unreadable via read (50KB truncation; wc/tail/grep denied). crosslink-guard.log gives no evidence the guard plugin intercepted this session's tool calls.\n- Same failure hit the prior cycle (intervention 2026-08-01 00:04 tool_blocked; prior observation ended 'Audit Verdict: CONDITIONAL PASS').\n\nRecommendation for #109: verify plugin load order and permission evaluation order in opencode; the rtk-guard mutation must be applied after permission checks (or the permission block must match post-mutation commands); confirm crosslink-guard plugin actually loads in agent sessions (no init entry in logs for this session).",
+          "created_at": "2026-08-01T01:49:31.352110721Z",
+          "kind": "observation",
+          "signed_by": "SHA256:KGizH+RrPVHcehpGtyCwsbLLxvyDbcsV7QreY4uNahs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgzeLFugg5fn/QNgcO6x5r11fSkYKASOeTwmACikMIQw4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABy9Flx5Hngc6hhp/2w1AIpvX0S89G54PNr+d8LDvoTK0m3PhBZ8uJrnrFpSnhL/bLYveHBgpZTvS2LPJ0p9jBg=="
         },
         "7c003bd1-df06-49d5-a0b7-44c024d86611": {
           "display_id": 93,
@@ -2806,8 +2815,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T01:49:05.725504358Z",
+    "timestamp": "2026-08-01T01:49:31.358308808Z",
     "agent_id": "pp3g-9E4g-verification-test-for-109-sandbox-fix-config-now-0f0c",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
