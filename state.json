@@ -1,5 +1,5 @@
 {
-  "next_display_id": 119,
+  "next_display_id": 120,
   "next_comment_id": 91,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -78,6 +78,7 @@
     "8ac5bbab-9af4-45bb-ad22-0ade03101617": 85,
     "8e8d2288-1a6a-4b99-9d86-59ccf32a9b3a": 18,
     "9152ab11-6d09-4131-858a-e2ab14b91141": 75,
+    "9dc62041-4dc2-4042-ac5d-724e6a2af5b4": 119,
     "9fc17f77-580b-4e44-b9df-a31176444642": 63,
     "a20f7e2d-bcbb-4e89-b37b-f655c9d3032e": 64,
     "a2f7403f-b326-42fe-8f61-5ce2d48e5d2f": 112,
@@ -1854,6 +1855,18 @@
         }
       }
     },
+    "9dc62041-4dc2-4042-ac5d-724e6a2af5b4": {
+      "uuid": "9dc62041-4dc2-4042-ac5d-724e6a2af5b4",
+      "display_id": 119,
+      "title": "Fix DB rehydration wipe during sync-fetch",
+      "description": "Operational defect observed repeatedly this session: sync.fetch() rehydrates the SQLite DB from a stale hub state, dropping local-only issues/comments. Hit during swarm reset, kickoff stop, and multiple comment posts (#78/#113 'not found' needing crosslink compact recovery each time). Cost: added ~minutes of wall-clock to Wave 0 execution and loses in-flight records. Root cause family overlaps #109 (hub/remote state consistency). Address in Wave 1 alongside #109.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "55c73bbe-48d1-4e77-810f-0247f3ad4bda",
+      "created_by": "OL2r",
+      "created_at": "2026-08-01T01:18:08.725853124Z",
+      "updated_at": "2026-08-01T01:18:08.725853124Z"
+    },
     "9fc17f77-580b-4e44-b9df-a31176444642": {
       "uuid": "9fc17f77-580b-4e44-b9df-a31176444642",
       "display_id": 63,
@@ -2757,8 +2770,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T01:10:40.424597292Z",
+    "timestamp": "2026-08-01T01:18:08.725853124Z",
     "agent_id": "OL2r",
-    "agent_seq": 419
+    "agent_seq": 420
   }
 }
