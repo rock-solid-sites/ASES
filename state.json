@@ -1,5 +1,5 @@
 {
-  "next_display_id": 118,
+  "next_display_id": 119,
   "next_comment_id": 78,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -83,6 +83,7 @@
     "a2f7403f-b326-42fe-8f61-5ce2d48e5d2f": 112,
     "a3a1ba6a-d821-4cbe-a8bf-ca8e01a81b47": 27,
     "a415d4e3-a8d3-471c-a357-1a973117e9e4": 111,
+    "a59484b8-0d4e-4579-ae32-979c9b7d098e": 118,
     "a6d94575-247d-460d-b1a5-fbd800836daa": 97,
     "a9e4ebb2-b3b3-4ade-90cd-c09bb5057a58": 57,
     "aa9ae5e1-d089-491b-8487-2a8970ecb319": 95,
@@ -1842,6 +1843,18 @@
       "created_at": "2026-08-01T00:27:59.702605282Z",
       "updated_at": "2026-08-01T00:27:59.702605282Z"
     },
+    "a59484b8-0d4e-4579-ae32-979c9b7d098e": {
+      "uuid": "a59484b8-0d4e-4579-ae32-979c9b7d098e",
+      "display_id": 118,
+      "title": "Re-run full 3-phase pipeline after sandbox fix before declaring PASS",
+      "description": "High. The premature end-to-end PASS claim on #78 gives false confidence. Big Pickle's audit: the pipeline validated three independent agents, not a 3-phase flow with artifact handoff (AC-1's test-output.txt in builder worktree is not consumed downstream). After fixing #109 (sandbox enforcement), re-run the full 3-phase pipeline including artifact handoff and dependency enforcement (#111), and verify before declaring PASS.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "55c73bbe-48d1-4e77-810f-0247f3ad4bda",
+      "created_by": "OL2r",
+      "created_at": "2026-08-01T00:28:35.606357596Z",
+      "updated_at": "2026-08-01T00:28:35.606357596Z"
+    },
     "a6d94575-247d-460d-b1a5-fbd800836daa": {
       "uuid": "a6d94575-247d-460d-b1a5-fbd800836daa",
       "display_id": 97,
@@ -2551,8 +2564,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T00:28:32.414863103Z",
+    "timestamp": "2026-08-01T00:28:35.606357596Z",
     "agent_id": "OL2r",
-    "agent_seq": 316
+    "agent_seq": 317
   }
 }
