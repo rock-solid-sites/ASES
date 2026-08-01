@@ -1754,11 +1754,11 @@
       "title": "Fix read-only sandbox permission enforcement",
       "description": "High. Read-only agent sandbox denies git status/log/diff/branch, ls, cat, echo, pwd despite .opencode/agents/*.md (l.10-12), hook-config allowed_bash_prefixes, and KICKOFF.md all declaring them allowed; only 'crosslink *' executes. Deterministic denials caused 3 failed AC-3 attempts and were misattributed to models. Fix: align enforcement with configs OR intentionally deny bash and update configs so agents use filesystem tools.",
       "status": "open",
-      "priority": "medium",
+      "priority": "high",
       "parent_uuid": "55c73bbe-48d1-4e77-810f-0247f3ad4bda",
       "created_by": "OL2r",
       "created_at": "2026-08-01T00:27:49.333626296Z",
-      "updated_at": "2026-08-01T00:27:49.333626296Z"
+      "updated_at": "2026-08-01T00:45:05.925526772Z"
     },
     "8ac5bbab-9af4-45bb-ad22-0ade03101617": {
       "uuid": "8ac5bbab-9af4-45bb-ad22-0ade03101617",
@@ -2636,8 +2636,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T00:44:58.062902140Z",
+    "timestamp": "2026-08-01T00:45:05.925526772Z",
     "agent_id": "OL2r",
-    "agent_seq": 324
+    "agent_seq": 325
   }
 }
