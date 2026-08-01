@@ -1,6 +1,6 @@
 {
   "next_display_id": 120,
-  "next_comment_id": 97,
+  "next_comment_id": 98,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1088,7 +1088,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-07-31T22:58:41.388649462Z",
-      "updated_at": "2026-08-01T01:58:36.162129547Z",
+      "updated_at": "2026-08-01T01:59:21.264594493Z",
       "labels": [
         "feature"
       ],
@@ -1177,6 +1177,15 @@
           "kind": "plan",
           "signed_by": "SHA256:bJhuwlbqEIOslWkVoxjHby92pKBWDnFOtIhYsD+O14k",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnfvDoemXp2u724vOEYZ7Fht3qllVxTlIFRFjpXJDPDgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAjUgYRdAWZ4+DmJg2YWzIN8v5utDYNvfdnd2j3z4GlcmTc10VRBP9ZGLzdMK20OUGCL3TEZ13b+eL0UlaRPUIAw=="
+        },
+        "e19fb1e4-4498-4c04-8c82-d4652db91569": {
+          "display_id": 97,
+          "author": "pp3g-7TYB-verification-retest-for-109-2nd-round-crosslink-guard",
+          "content": "VERIFICATION TEST RESULT — #109 sandbox fix (crosslink-guard plugin) — 2nd round — agent pp3g-7TYB-verification-retest-for-109-2nd-round-crosslink-guard\n\nVerdict: PARTIAL — 4/6 as expected, 2/6 FAIL. Commands 1-4 SUCCEED as specified (the #109 fix restored read-only command access). Commands 5-6 are NOT blocked — both EXECUTED. The git-write blocker that read-only agents depend on is not enforced in agent context.\n\nMatrix (run this session, exact commands):\n1. git status — SUCCEED (expected SUCCEED) — rtk-rewritten to 'rtk git status', allowed.\n2. git log --oneline -3 — SUCCEED (expected SUCCEED).\n3. ls — SUCCEED (expected SUCCEED).\n4. cat AGENTS.md — SUCCEED (expected SUCCEED) — rewritten to 'rtk read AGENTS.md'; passed via relaxed-mode fallthrough (note: 'rtk read' is NOT in the guard's allowed_bash list, so under strict tracking this would block — currently succeeds only because tracking_mode=relaxed).\n5. git push — FAIL (expected BLOCKED): EXECUTED a real git push. Output: 'fatal: The current branch feature/pp3g-7TYB-verification-retest-for-109-2nd-round-crosslink-guard has no upstream branch.' Remote origin (github.com/rock-solid-sites/ASES.git) IS configured; with an upstream set this would have pushed to GitHub.\n6. git commit --allow-empty -m test — FAIL (expected BLOCKED): EXECUTED and created commit 3857416 'test' on the branch (see git log). NOTE: this test commit must be removed by the human orchestrator (git reset/rebase is blocked for agents).\n\nLog evidence (/tmp/crosslink-guard.log):\n- Plugin IS now loaded and intercepting this session: 'Plugin initialised' 01:54:01 (worktree cwd), 'State resolved — crosslinkDir ... tracking_mode: relaxed is_agent: true' (line 16234).\n- Every bash call in this session is intercepted and logged.\n- The push and commit calls were logged as 'ALLOW: relaxed tracking mode' — NO 'BLOCK: blocked git command' and NO 'BLOCK: gated git without active issue' entries exist for this session (grep BLOCK over 01:54-01:58 finds none from this worktree). The guard saw the commands and deliberately allowed them.\n- /tmp/rtk-guard.log: plugin initialised + 'binary gate PASSED — rtk at /home/claude-code/.cargo/bin/rtk' 01:53:59/01:54:11. Rewrites verified: 'git push' -> 'rtk git push'; 'git commit --allow-empty -m test' -> 'rtk git commit --allow-empty -m test'; 'cat AGENTS.md' -> 'rtk read AGENTS.md'.\n\nConfig evidence:\n- .opencode/opencode.json: 'plugin' array present [./plugins/crosslink-guard.ts, ./plugins/rtk-guard.ts] + agent defs (commit 4ea37be). Round-1 root cause (no plugin array) IS fixed.\n- reviewer.md/auditor.md frontmatter: 'rtk *': allow added (commit 37c5fb1) alongside 'git *': allow — the opencode permission layer therefore allows ALL git commands including push/commit.\n- .crosslink/hook-config.json agent_overrides: blocked_git_commands = [push --force, push -f, reset --hard, clean -f/-fd/-fdx, checkout ., restore .] — plain 'git push' MISSING; gated_git_commands = [] — git commit NOT gated; tracking_mode = relaxed.\n\nRoot cause of 5-6 not blocked (REGRESSION vs round-1 intent):\n- crosslink-guard.ts loadConfig() lines 393-420: when isAgentContext()==true AND hook-config.json contains agent_overrides, blocked_git and gated_git are REPLACED by the agent_overrides values. The override lists are narrower than the root-level lists (which do contain 'git push' and gated 'git commit').\n- Consequence: in agent context the guard never matches plain 'git push' (only --force variants) and never gates 'git commit'; combined with frontmatter 'git *': allow at the permission layer, NO layer blocks git writes for read-only agents. Pre-fix, the blanket deny coincidentally blocked them (wrong mechanism but blocked); post-fix they are unblocked entirely.\n- The round-1 #109 premise ('with the guard loaded, its blocked-git list push/rebase/reset/clean + gated-commit logic restores the git-write blocker') is FALSE for agent contexts because agent_overrides replaces those lists.\n\nRecommendations:\n1. HIGH — Add the full blocked list (git push, git merge, git rebase, git cherry-pick, git reset, git stash, git tag, git am, git apply, git branch -d/-D/-m, checkout . etc.) to agent_overrides.blocked_git_commands, and 'git commit' to agent_overrides.gated_git_commands — OR change loadConfig to union/append agent overrides onto root defaults instead of replacing them.\n2. HIGH — Remove test commit 3857416 ('test') created as a side effect of the mandatory test matrix (human: git reset --hard HEAD~1 or rebase).\n3. MEDIUM — Re-run the full matrix after the config fix; also re-verify command 4 (cat) under strict tracking, since 'rtk read' is not in allowed_bash.\n4. LOW — Permission-layer matcher quirks remain: 'crosslink --help' and any chained command containing 'echo' are denied despite declared allows (observed this session); matcher is not a plain prefix glob.\n\nPositives:\n- Core #109 fix works: 1-4 SUCCEED — read-only git/ls/cat access restored for the reviewer agent (round 1 had all 6 blocked). Plugin loading root cause is genuinely fixed (log-proven).\n- crosslink-guard now intercepts every bash call in agent sessions; rtk prefix is normalized correctly by the guard for the cases it matches.\n- rtk-guard active and rewriting (binary gate PASSED).",
+          "created_at": "2026-08-01T01:59:21.257758994Z",
+          "kind": "observation",
+          "signed_by": "SHA256:8cw+Nml+CblJkVLoogEitoIMtPmPalIXxlVNHjuFlSI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgE7exnKXrqHzrh98dttnPNveqydWPN5bM6xDP7ZB+gr0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAgUBF+UyS6vl/XIMgOxOsc+lXv2+ywsRQ8smZm4MH/+FQqwojfM4wxxuOfmUuTFHscv6Q6XFIzwvV/Lup7R0PBg=="
         },
         "f49cbf5f-6034-47d7-8ab5-59ee4982e648": {
           "display_id": 76,
@@ -2840,8 +2849,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T01:58:36.162129547Z",
+    "timestamp": "2026-08-01T01:59:21.264594493Z",
     "agent_id": "pp3g-7TYB-verification-retest-for-109-2nd-round-crosslink-guard",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
