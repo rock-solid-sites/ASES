@@ -5,7 +5,7 @@
       "Phase 2": "reviewer",
       "Phase 3": "auditor"
     },
-    "type": "reviewer"
+    "type": "builder"
   },
   "agent_overrides": {
     "agent_lint_commands": [
@@ -66,7 +66,8 @@
     "ls",
     "dir",
     "pwd",
-    "echo"
+    "echo",
+    "rtk read"
   ],
   "auto_steal_stale_locks": false,
   "blocked_git_commands": [
@@ -96,7 +97,7 @@
   "reminder_drift_threshold": 3,
   "sentinel": {
     "default_agent": {
-      "model": "opencode/big-pickle",
+      "model": "opencode-go/deepseek-v4-pro",
       "timeout_minutes": 30,
       "verify": "local"
     },
