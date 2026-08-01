@@ -823,6 +823,33 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
     return { crosslinkDir: resolvedCrosslinkDir, config: resolvedConfig };
   }
 
+  // Apply the per-agent-type override for the runtime agent once the actual
+  // agent name is known (opencode passes it as `input.agent`, reflecting the
+  // `--agent <type>` launch flag). This is re-applied on every call so a
+  // type change mid-session is honoured, but resolution is cheap.
+  function applyAgentTypeOverride(
+    crosslinkDir: string | null,
+    config: LoadedConfig,
+  ): LoadedConfig {
+    // Authoritative source: CROSSLINK_AGENT_TYPE exported by the claude
+    // wrapper at launch (reflects `--agent <type>`). Fall back to the
+    // worktree hook-config agent.type.
+    const runtimeAgent = process.env.CROSSLINK_AGENT_TYPE || resolveAgentType(crosslinkDir);
+    if (!runtimeAgent || !crosslinkDir) return config;
+    const merged = loadConfigMerged(crosslinkDir);
+    const byTypeMap = merged.agent_overrides?.by_type as
+      | Record<string, { blocked_git_commands?: string[]; gated_git_commands?: string[]; allowed_bash_prefixes?: string[] }>
+      | undefined;
+    const byType = byTypeMap?.[runtimeAgent];
+    if (!byType) return config;
+    const next: LoadedConfig = { ...config };
+    if (byType.blocked_git_commands) next.blocked_git = [...byType.blocked_git_commands];
+    if (byType.gated_git_commands) next.gated_git = [...byType.gated_git_commands];
+    if (byType.allowed_bash_prefixes) next.allowed_bash = [...byType.allowed_bash_prefixes];
+    log("by_type override applied for agent:", runtimeAgent);
+    return next;
+  }
+
   return {
     "tool.execute.before": async (input, output) => {
       const toolName = input.tool as string;
@@ -856,9 +883,10 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
       }
 
       // ------------------------------------------------------------------
-      // Resolve state (config, crosslink dir)
+      // Resolve state (config, crosslink dir) + per-agent-type override
       // ------------------------------------------------------------------
-      const { crosslinkDir, config } = ensureState();
+      const { crosslinkDir, config: baseConfig } = ensureState();
+      const config = applyAgentTypeOverride(crosslinkDir, baseConfig);
 
       // ------------------------------------------------------------------
       // 3. Permanently blocked git commands
