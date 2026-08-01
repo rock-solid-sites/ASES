@@ -1,6 +1,6 @@
 {
   "next_display_id": 119,
-  "next_comment_id": 78,
+  "next_comment_id": 79,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -914,7 +914,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-30T12:32:00.766834730Z",
-      "updated_at": "2026-08-01T00:28:53.750753058Z",
+      "updated_at": "2026-08-01T00:34:41.035681918Z",
       "labels": [
         "test"
       ],
@@ -941,6 +941,15 @@
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA1wGUB6nfMFgDfiYr+ZGxkK8sT+H7gRCOtEPQTeNxKACCwAqBgZStmtscXQrck4cRu38wHNKv9D4QXbDwMWB0Ag=="
+        },
+        "a1adb347-0001-4e33-bc99-8325d35ed515": {
+          "display_id": 78,
+          "author": "OL2r",
+          "content": "PLAN — work through the 9 sub-issues (#109-#118). Deps ordered.\n\nWAVE 0 (no deps, housekeeping):\n- #110 formalize corrected root-cause record as resolution\n- #113 bulk-close stale test issues (--no-changelog)\n- #112 release 8 stale OL2r locks + enable auto_steal_stale_locks\n- #111 add blocked_by edges #106->#107->#108\n\nWAVE 1 (root cause / critical path):\n- #109 sandbox permission enforcement: trace denial origin (build_allowed_tools vs opencode permission matcher / crosslink-guard.ts plugin); align configs; verify one read-only agent can run git status / ls\n\nWAVE 2 (doc/template consistency):\n- #116 crosslink intervene -> crosslink issue intervene (KICKOFF.md, rules/global.md, builder.md, crosslink-guard.ts)\n- #115 retry handoff: KICKOFF.md instructs noting prior attempts + failure cause\n- #117 KICKOFF.md final steps require result comment\n- #114 resolve findings/ dangling links (merge #73/#74 docs or trim refs)\n\nWAVE 3 (validation):\n- #118 re-run full 3-phase after #109+#111, exercising artifact handoff + dependency enforcement; only then close #78.\n\nRATIONALE: Wave 0 clears noise so real failures surface; Wave 1 fixes the thing blocking all agents; Wave 2 stops docs re-triggering confusion; Wave 3 is the honest gate.",
+          "created_at": "2026-08-01T00:34:41.029614509Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5Yh6NED1VumaTCySOJdwMGphtYyvayCJRi/OwnSE0jO81GkYE/H6EcB0dppzT4nkQYOHAefokfHODte2nF0MBw=="
         },
         "a2234d6e-8d2f-4eb7-b473-04028cbe0a5a": {
           "display_id": 64,
@@ -2582,8 +2591,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T00:29:01.037593096Z",
+    "timestamp": "2026-08-01T00:34:41.035681918Z",
     "agent_id": "OL2r",
-    "agent_seq": 322
+    "agent_seq": 323
   }
 }
