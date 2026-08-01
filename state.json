@@ -1,6 +1,6 @@
 {
   "next_display_id": 119,
-  "next_comment_id": 80,
+  "next_comment_id": 81,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -918,7 +918,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-30T12:32:00.766834730Z",
-      "updated_at": "2026-08-01T00:42:37.884748794Z",
+      "updated_at": "2026-08-01T00:42:51.402649375Z",
       "labels": [
         "test"
       ],
@@ -945,6 +945,15 @@
           "kind": "observation",
           "signed_by": "SHA256:Gi1NETEhXFIBL4GtTZRThUsMrSDXxKbs3BxJwTdcMtc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgv8dUcKPG4MDQ4aGd595Nw1cDFZDGHt3ijkENij13zrwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABt5cDNY6LF3n7LbbBQtsnsNO0IfoENLN0cWS3jRa4/BNIwd1b804/5M0NoQsKVsak9e1lAedc8tYPgvasOs+Dg=="
+        },
+        "43c2233a-c1de-42df-b854-778006393b25": {
+          "display_id": 80,
+          "author": "pp3g-2jFS-adversarially-review-the-wave-based-execution-plan",
+          "content": "## REVIEW (2/3): Root cause assessment — #109 CONFIRMED, but the investigation plan is incomplete\n\n### Q2: Is #109 correctly identified as the root cause? Is the approach sound?\n\nVERDICT: The defect is REAL and I reproduced it live in this session. But the denial-origin trace as scoped is missing a critical branch, and fixing #109 in isolation would open a security hole.\n\nLIVE REPRODUCTION: This session runs under .opencode/agents/reviewer.md (frontmatter l.7-14: bash map declaring crosslink/git/ls/cat/cargo/npm allow). The effective permission rules shown to me declare 'git *' and 'ls *' and 'cat *' as ALLOWED — yet every git/ls/cat call is denied; only 'crosslink *' executes. KICKOFF.md's 'Always allowed: git status, git diff...' list is false in practice. This matches #109 exactly.\n\nDENIAL-ORIGIN MAP (new evidence — the plan must account for all four layers):\n1. .opencode/plugins/crosslink-guard.ts is NOT LOADED. Neither the repo .opencode/opencode.json nor the global ~/.config/opencode/opencode.json reference it (global plugin array = ./plugins/plugin.ts + ./plugins/interrupt.ts; the global plugin.ts only configures providers). So the plugin's blocked-git and allowed-bash logic is dead code in the current environment.\n2. .claude/hooks/*.py are NOT deployed (crosslink workflow diff lists all 6 missing). .claude/settings.json invokes them with 'if [ -f HOOK ]; then ... else exit 0' — silent fail-open. So NO git-mutation enforcement, NO heartbeat.\n3. The actual denials come from opencode's built-in permission matcher over the frontmatter-derived rules — and the matcher contradicts its own displayed rules (allows listed, deny applied). This is either an opencode matcher bug/version issue (possibly OUTSIDE repo control) or a frontmatter syntax problem (the 'deny' + specific-allow map form may not be interpreted the way it reads).\n4. crosslink kickoff also constructs --allowedTools at launch (config kickoff.allowed_tools is unset); the launcher's construction may override frontmatter. This is the 'build_allowed_tools' lead in #109 — keep it, but it is not the only suspect.\n\nMUST FIX — Security-relevant sequencing hole: today the ONLY thing blocking git push/merge/reset/clean for read-only agents is the blanket bash deny. The frontmatter declares 'git *' allow, which INCLUDES git push. If #109 simply makes the permission layer honor 'git *', read-only agents become git-write-capable with no enforcement layer left (plugin unloaded, hooks missing). #109 must pair the permission fix with deploying an enforcement layer (load crosslink-guard.ts and/or deploy the hooks) — or choose deny-bash-and-rewrite-docs. The plan must add this, and the verification criterion must include 'git push remains blocked for reviewer/auditor'.\n\nSOUNDNESS of the proposed investigation: the trace direction is right, but drop the crosslink-guard.ts hypothesis early (it is not loaded — unless the plan intends to load it, which is itself a scope decision). First cheap discriminator: test whether the deny persists with a minimal frontmatter (bash: allow like builder.md, which reportedly worked in prior AC-1 runs) vs the map form — if the map form is the trigger, the fix is config syntax, not the matcher.\n\nALSO NOTE: #109's claim that hook-config declares cat/grep/find allowed is inaccurate — hook-config.json allowed_bash_prefixes omits cat/grep/find (they exist only in the plugin's DEFAULT_ALLOWED_BASH, which hook-config REPLACES). The 'declared allowed' sources are mutually inconsistent: hook-config allows ls/dir/pwd/echo/git-status..., frontmatter allows git/ls/cat/cargo/npm..., KICKOFF.md promises git read-only. Reconciling all three is part of the fix.",
+          "created_at": "2026-08-01T00:42:51.397008664Z",
+          "kind": "observation",
+          "signed_by": "SHA256:Gi1NETEhXFIBL4GtTZRThUsMrSDXxKbs3BxJwTdcMtc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgv8dUcKPG4MDQ4aGd595Nw1cDFZDGHt3ijkENij13zrwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAByWNtLpfKHs6/0OR5LKqPHZiTj/FNaFYgCtff3H6fWwbnzAExQ22JMyEBdYkcTEE7zrQRMebFOgFDrtGNqS0BA=="
         },
         "84d67b48-5363-4613-9735-f069054e9ab4": {
           "display_id": 77,
@@ -2604,8 +2613,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T00:42:37.884748794Z",
+    "timestamp": "2026-08-01T00:42:51.402649375Z",
     "agent_id": "pp3g-2jFS-adversarially-review-the-wave-based-execution-plan",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
