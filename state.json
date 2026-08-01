@@ -1,6 +1,6 @@
 {
   "next_display_id": 120,
-  "next_comment_id": 100,
+  "next_comment_id": 101,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1088,7 +1088,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-07-31T22:58:41.388649462Z",
-      "updated_at": "2026-08-01T02:06:28.300265006Z",
+      "updated_at": "2026-08-01T02:08:07.733915312Z",
       "labels": [
         "feature"
       ],
@@ -1177,6 +1177,15 @@
           "kind": "plan",
           "signed_by": "SHA256:d0m4nvEkliAAhhC+euJwnFKIkNrtrjXNpP2IbwktGX8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgqyrtqQPup8pO9QYJjUPCA3QyLPa5eXdbsQ6AOwBkkoUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAjWdgCVEHL2qe+E7V8/qilZt38KdGmoC3AbpzRFtJCg7yUpCSQ88j2l9/lWXavMp17wN92FxrkCjtLS5gjCQ7BQ=="
+        },
+        "a49a8dcb-bd0c-44b3-bcf9-ce3b09707aeb": {
+          "display_id": 100,
+          "author": "pp3g-yCjj-verification-retest-for-109-3rd-round-agent-overrides",
+          "content": "VERIFICATION TEST RESULT — #109 3rd round (agent_overrides full blocked list + gated git commit) — agent pp3g-yCjj-verification-retest-for-109-3rd-round-agent-overrides\n\nVerdict: PARTIAL — 5/6 as expected, 1/6 deviates. The round-2 regression on plain 'git push' is FIXED (now BLOCKED in agent context). The 'git commit' gate is correctly configured and its logic works as designed — but it PERMITS commits when an active issue exists, which the verification harness itself creates (session work 108). Command 6 therefore EXECUTED despite the matrix expecting BLOCKED.\n\nMatrix (run this session, exact commands):\n1. git status — SUCCEED (expected SUCCEED). Guard log: ALLOW: allowed bash command (line 16438).\n2. git log --oneline -3 — SUCCEED (expected SUCCEED). Guard log: ALLOW (line 16440).\n3. ls — SUCCEED (expected SUCCEED). Guard log: ALLOW (line 16442).\n4. cat AGENTS.md — SUCCEED (expected SUCCEED). Guard log: ALLOW: relaxed tracking mode (line 16444) — 'rtk read' is not in allowed_bash, passes only via relaxed-mode fallthrough.\n5. git push — BLOCKED (expected BLOCKED) ✓ FIXED vs round 2. Guard log line 16450: 'BLOCK: blocked git command: git push'. Exact error = the guard's BLOCKED_GIT_MESSAGE (MANDATORY COMPLIANCE ... PERMANENTLY FORBIDDEN), i.e. crosslink-guard.ts:671-687. Block produced by the crosslink-guard plugin, NOT the permission layer.\n6. git commit --allow-empty -m test2 — EXECUTED (expected BLOCKED) ✗. Guard log lines 16452-16453: 'ALLOW: gated git, active issue sentinel present: 108' then 'ALLOW: gated git with active issue: git commit --allow-empty -m test2'. Created commit 1f5dad7 'test2' on this branch (see git log).\n\nLog evidence (session window 02:02:24Z-02:07:13Z, worktree pp3g-yCjj):\n- Plugin IS loaded and intercepting: 'Plugin initialised, projectDir: .../pp3g-yCjj-verification-retest-for-109-3rd-round-agent-overrides' (line 16394), 'State resolved — crosslinkDir: <worktree>/.crosslink tracking_mode: relaxed is_agent: true' (line 16399).\n- Exactly ONE 'BLOCK:' entry in this session's window: 'BLOCK: blocked git command: git push' (line 16450). The guard saw git commit and deliberately allowed it (gated path, sentinel 108).\n- Attribution note: entries with callID prefix 'call_00_ET_' and 'sentinel present: 109' (lines 16385-16397, 16425-16426, 16433-16434) belong to a CONCURRENT session (builder/main-repo, tracking strict, sentinel 109), not this one. Shared /tmp/crosslink-guard.log makes session attribution non-trivial — must match callIDs + cwd.\n\nRoot-cause analysis of command 6 (why the gate allows):\n- Config is now correct: .crosslink/hook-config.json:15-37 agent_overrides.blocked_git_commands contains the full KICKOFF list incl plain 'git push'; :38-40 gated_git_commands = ['git commit']. The round-2 root cause (agent_overrides replacing narrower lists) is fixed at the CONFIG level.\n- The gate is DESIGNED to allow when an active issue exists: crosslink-guard.ts:846-858 sentinel fast-path reads <crosslinkDir>/.active-issue (= '108' this session), :873-876 blocks only with NO active issue; :879-898 plan-comment discipline is skipped because agent-context comment_discipline defaults to 'off' (:403 o.comment_discipline ?? 'off').\n- The verification harness itself sets the active issue (kickoff step: 'crosslink session work 108'), so the gate's requirement is satisfied and the commit is permitted by design.\n- KICKOFF.md documented policy matches this: 'Gated (require active issue): git commit' — gated means allowed-with-issue, NOT blocked. The matrix expectation '5-6 BLOCKED' for command 6 is inconsistent with the documented gating contract.\n\nSecondary findings:\n1. Cleanup required: test commit 1f5dad7 'test2' now sits on this feature branch (like round 2's 3857416). git reset/rebase is agent-blocked — human must remove (git reset --hard HEAD~1 on this branch after review).\n2. Read-only roles can still create commits: with edit:deny but bash 'git *': allow (reviewer.md:10), a reviewer can git commit whenever an active issue exists. If the intent is that reviewers/auditors must NEVER commit, 'git commit' should be in agent_overrides.blocked_git_commands (or per-agent-type overrides added) — but note builders DO need commit (0af5240 was committed at 02:01:55 via the same gate, sentinel 109), and the guard's loadConfig applies agent_overrides uniformly to ALL agent contexts (isAgentContext is a boolean, crosslink-guard.ts:238-257), with no per-type distinction.\n3. 'rtk read' remains absent from allowed_bash (hook-config.json:43-70) — cat AGENTS.md only passes via relaxed fallthrough; strict tracking would block it (confirmed again, matches round-2 note).\n4. Block message instructs 'crosslink intervene' (crosslink-guard.ts:686) which is not a real command — correct form is 'crosslink issue intervene' (known doc drift, unchanged).\n\nRecommendations:\n1. Decide the intended contract for command 6: if 'gated' = allowed-with-active-issue (documented policy), update the verification matrix expectation; if reviewers must never commit, add 'git commit' to agent_overrides.blocked_git_commands — but this would also block builders, so a per-agent-type override mechanism (reviewer/auditor block, builder gate) is the cleaner fix.\n2. Remove test commit 1f5dad7 (human: git reset --hard HEAD~1 or rebase on this branch).\n3. Consider namespacing the guard log per worktree (or including agent_id/cwd in every entry) to make session attribution robust; the 'call_00_ET_*' interleave from the concurrent session made window analysis error-prone.\n4. Re-verify under strict tracking: cat AGENTS.md currently succeeds only via relaxed fallthrough; if strict is intended for some roles, add 'rtk read' to allowed_bash_prefixes.\n\nPositives:\n- Round-2 regression FIXED at the config level: plain 'git push' is now in agent_overrides.blocked_git_commands (hook-config.json:16) and the guard BLOCKED it with the proper MANDATORY-COMPLIANCE message (log line 16450). Commands 1-4 all SUCCEED as specified.\n- The gated-commit path now demonstrably WORKS: guard intercepts, checks sentinel, logs decision — and it blocked the builder's push-free commit flow correctly at 02:01:55 (sentinel 109) while permitting here with sentinel 108. Gate logic behaves exactly as written.\n- Plugin loading is stable across rounds 2-3 (log-proven init + State resolved).",
+          "created_at": "2026-08-01T02:08:07.728234432Z",
+          "kind": "observation",
+          "signed_by": "SHA256:d0m4nvEkliAAhhC+euJwnFKIkNrtrjXNpP2IbwktGX8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgqyrtqQPup8pO9QYJjUPCA3QyLPa5eXdbsQ6AOwBkkoUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxjHBqWkF6LoLna7Dbcd50v7vsEdLwEfeR5CBqa87ohdvPA5zh4lbq0kFpaMSYbkQZmEy1U4VuMVS6xXbTPy3DA=="
         },
         "a8a39b86-bd4d-4b8b-8761-6d72fba49eb8": {
           "display_id": 72,
@@ -2867,8 +2876,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-01T02:06:28.300265006Z",
+    "timestamp": "2026-08-01T02:08:07.733915312Z",
     "agent_id": "pp3g-yCjj-verification-retest-for-109-3rd-round-agent-overrides",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
