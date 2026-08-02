@@ -1,6 +1,6 @@
 {
   "next_display_id": 121,
-  "next_comment_id": 117,
+  "next_comment_id": 118,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -339,7 +339,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-02T23:46:47.330807103Z",
-      "updated_at": "2026-08-02T23:47:17.983115791Z",
+      "updated_at": "2026-08-02T23:48:48.446654692Z",
       "labels": [
         "permission"
       ],
@@ -352,6 +352,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsgNRhKvMOyL11R5Otna9sLONteAgtvHfYMc55RZa2+lih4jrdycXqpE0bi1S/y47mdQKNXxFNd0LN9Co/8IWAQ=="
+        },
+        "c20ea0d2-cd48-42e8-89a4-2860f07126bc": {
+          "display_id": 117,
+          "author": "pp3g-sLqK-fix-bash-permission-for-opencode-models-1-verify-c0db",
+          "content": "Plan: Verified-first — the fix is NOT already applied. Searched git history (git log -S 'opencode *' and 'opencode ') across all branches; no commit adds it. main and this branch are identical for the 4 repo files; DEFAULT_ALLOWED_BASH in crosslink-guard.ts, allowed_bash_prefixes in hook-config.json, and the permission.bash maps in auditor.md/reviewer.md all lack 'opencode'. Global ~/.config/opencode has no bash permission maps (only providers/plugins/MCP), so no change there.\n\nApproach: add 'opencode *' to the permission.bash maps in .opencode/agents/auditor.md and .opencode/agents/reviewer.md (so opencode's own tool-permission layer allows 'opencode models <provider>'), and add 'opencode ' to DEFAULT_ALLOWED_BASH in .opencode/plugins/crosslink-guard.ts and to allowed_bash_prefixes in .crosslink/hook-config.json (so the crosslink-guard hook doesn't block it). Commit with issue ref #120.",
+          "created_at": "2026-08-02T23:48:48.439447923Z",
+          "kind": "plan",
+          "signed_by": "SHA256:M3oQg6Ygd00iD/EsqeTGSQAlNoqyzqJQnH+D2mflqGU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3VamLbhR4tZuuvL+AMwo6EQoH3G+mkK2wVngjNFm5cwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAb2yfhAstsJ7mTdiBGEluyTG6RRzMyDa1PUU52oZ83xZYR4PxJU1CKUKPCCC/E2M4VaxJCj8N/hcasLG526GFAQ=="
         }
       }
     },
@@ -3053,8 +3062,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-02T23:47:52.833141468Z",
+    "timestamp": "2026-08-02T23:48:48.446654692Z",
     "agent_id": "pp3g-sLqK-fix-bash-permission-for-opencode-models-1-verify-c0db",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
