@@ -7,6 +7,7 @@ permission:
   bash:
     "*": deny
     "crosslink *": allow
+    "opencode *": allow
     "git *": allow
     "ls *": allow
     "cat *": allow

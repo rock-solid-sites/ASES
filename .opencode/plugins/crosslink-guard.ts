@@ -73,6 +73,7 @@ const DEFAULT_GATED_GIT: string[] = ["git commit"];
 
 const DEFAULT_ALLOWED_BASH: string[] = [
   "crosslink ",
+  "opencode ",
   "git status",
   "git diff",
   "git log",
