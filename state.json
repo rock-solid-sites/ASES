@@ -1,6 +1,6 @@
 {
   "next_display_id": 121,
-  "next_comment_id": 119,
+  "next_comment_id": 120,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -339,7 +339,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-02T23:46:47.330807103Z",
-      "updated_at": "2026-08-02T23:49:19.948843567Z",
+      "updated_at": "2026-08-02T23:49:33.744087408Z",
       "labels": [
         "permission"
       ],
@@ -352,6 +352,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsgNRhKvMOyL11R5Otna9sLONteAgtvHfYMc55RZa2+lih4jrdycXqpE0bi1S/y47mdQKNXxFNd0LN9Co/8IWAQ=="
+        },
+        "30cd517c-83d8-4cc9-852c-cba0c67c3e8b": {
+          "display_id": 119,
+          "author": "pp3g-sLqK-fix-bash-permission-for-opencode-models-1-verify-c0db",
+          "content": "Result: Fix applied (was genuinely missing — verified first). Commit 0654de8 'fix(permission): allow opencode * bash for read-only agents + hook-config (gh#120)'.\n\nVerification findings:\n- git log -S 'opencode *' / 'opencode ' across all branches: NO prior commit applied this fix; main and this branch were identical for all 4 files.\n- .opencode/agents/auditor.md: added 'opencode *': allow to permission.bash map\n- .opencode/agents/reviewer.md: added 'opencode *': allow to permission.bash map\n- .opencode/plugins/crosslink-guard.ts DEFAULT_ALLOWED_BASH: added 'opencode '\n- .crosslink/hook-config.json allowed_bash_prefixes: added 'opencode '\n- rtk-guard.ts: no change needed — passes unvalidated commands through (skip:unvalidated)\n- Global ~/.config/opencode/opencode.json + plugins (plugin.ts, dynamic-models.ts, interrupt.ts): no bash permission maps exist there, so no change needed.\n\nRESTART REQUIRED: A session restart is required for the fix to take effect — opencode loads agent permission maps (from .opencode/agents/*.md) and plugin code (crosslink-guard.ts) at process startup. Already-running agent sessions keep the old permission map until restarted.",
+          "created_at": "2026-08-02T23:49:33.735684221Z",
+          "kind": "result",
+          "signed_by": "SHA256:M3oQg6Ygd00iD/EsqeTGSQAlNoqyzqJQnH+D2mflqGU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3VamLbhR4tZuuvL+AMwo6EQoH3G+mkK2wVngjNFm5cwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAfmL6RtmSsWLhzPbFB1VqZbvCpEt3k5CAU265IlPfNa0N1E8+NqS/cSObVztLehcVrLCAyLnwMQBfqUH32BL6Dw=="
         },
         "7eede9c3-8dc1-42fc-819b-a2f7451cbb63": {
           "display_id": 118,
@@ -3071,8 +3080,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-02T23:49:19.948843567Z",
+    "timestamp": "2026-08-02T23:49:33.744087408Z",
     "agent_id": "pp3g-sLqK-fix-bash-permission-for-opencode-models-1-verify-c0db",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
