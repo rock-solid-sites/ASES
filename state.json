@@ -1,5 +1,5 @@
 {
-  "next_display_id": 163,
+  "next_display_id": 164,
   "next_comment_id": 288,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -120,6 +120,7 @@
     "abd66fee-3c91-4c40-bbfb-478cdce6edf6": 34,
     "ae626387-2d74-45ed-b6fa-91d1f44a9b70": 142,
     "af65cd2d-89a9-4b3e-b153-820f107b0af5": 82,
+    "af6c8a8a-dc4a-434a-9924-a8889389d400": 163,
     "b0c04e1a-7efb-4f8c-890f-8cb33f6ed176": 29,
     "b1cfb0dd-a42b-4702-9500-73c36ffa31e9": 28,
     "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9": 68,
@@ -4105,6 +4106,16 @@
         "feature"
       ]
     },
+    "af6c8a8a-dc4a-434a-9924-a8889389d400": {
+      "uuid": "af6c8a8a-dc4a-434a-9924-a8889389d400",
+      "display_id": 163,
+      "title": "AUDIT: Tools repo migration readiness — establish the source-of-truth toolkit and the drift between the three copies. CONTEXT: /home/claude-code/projects/Tools is the shared tooling archive (agent defs, plugins, skills, scripts, hooks, MCP servers, crosslink rules; canonical catalog TOOLING.md published as crosslink knowledge). /home/claude-code/projects/Tools-backup is an older snapshot. Today's session hand-copied tooling between ASES/, Tools/, and tripn-astro/ (orchestrator role port, allowlist patches, docs) — the duplication centralization should eliminate. GOAL: (1) inventory what Tools/ holds (top-level + each category); (2) diff Tools/ vs Tools-backup/ (what changed, what's stale); (3) compare against what ASES/ and tripn-astro/ actually USE (agent defs, plugins, skills, rules — which are in-sync copies vs diverged); (4) identify today's new reliability tooling (watcher script, opencode timeout config, orchestration rules, review playbook) that should be ADDED to the catalog; (5) assess the consumption-model-C path: a LEAN CORE (agents, session-start, crosslink+plugins) + per-project overlay — what belongs in core vs overlay? Deliverable: a catalog delta report + core/overlay split recommendation + list of files to migrate/update. Read-only audit. Flash model per routing rule.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T22:55:49.251409688Z",
+      "updated_at": "2026-08-03T22:55:49.251409688Z"
+    },
     "b0c04e1a-7efb-4f8c-890f-8cb33f6ed176": {
       "uuid": "b0c04e1a-7efb-4f8c-890f-8cb33f6ed176",
       "display_id": 29,
@@ -5448,8 +5459,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T22:53:23.819642612Z",
+    "timestamp": "2026-08-03T22:55:49.251409688Z",
     "agent_id": "OL2r",
-    "agent_seq": 643
+    "agent_seq": 644
   }
 }
