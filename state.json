@@ -1,6 +1,6 @@
 {
   "next_display_id": 138,
-  "next_comment_id": 196,
+  "next_comment_id": 197,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1178,10 +1178,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-03T01:13:52.902764907Z",
+      "updated_at": "2026-08-03T04:42:20.363623727Z",
       "labels": [
         "bug"
-      ]
+      ],
+      "comments": {
+        "4d6e75ae-d2b8-434d-9ae4-a92267450588": {
+          "display_id": 196,
+          "author": "OL2r",
+          "content": "CROSS-REFERENCE (2026-08-03): the tripn-astro crosslink-db-rollback-incident (2026-08-02, knowledge-cache doc) is the SAME failure family as this issue — sync.fetch() rehydrating SQLite from a stale hub checkpoint, dropping local-only issues (#338/#342/#370-376/#378 'not found' after a casual mid-session sync; hub checkpoint was June 9, watermark 2026-06-09, display_id_map empty). ASES observed the identical pattern all session (#123 not found, #124 not found, #137 not found on concurrent launches). Two extra lessons from the tripn-astro record worth folding into this issue's catalog: (1) the checkpoint state.json evidence pattern (next_display_id/watermark/display_id_map as the diagnostic), and (2) 'status flags are lies — check the comment trail before declaring stalled' (which matches our #127/#129 silent-hang evidence). Reference: /home/claude-code/projects/tripn-astro/.crosslink/.knowledge-cache/crosslink-db-rollback-incident.md. Consider consolidating into #126's doc catalog.",
+          "created_at": "2026-08-03T04:42:20.357149398Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAGHixw5GOVv2r4tVKZ0LEhmymkfawcVGr2K/8mmxsbVH+t9KLFEbaSHhIo1Wba46IWzRpJt0T0tD3KRke81TAA=="
+        }
+      }
     },
     "3d541fb9-e5fa-4549-8d88-e533fca17162": {
       "uuid": "3d541fb9-e5fa-4549-8d88-e533fca17162",
@@ -4097,8 +4108,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T04:42:08.117120410Z",
+    "timestamp": "2026-08-03T04:42:20.363623727Z",
     "agent_id": "OL2r",
-    "agent_seq": 515
+    "agent_seq": 516
   }
 }
