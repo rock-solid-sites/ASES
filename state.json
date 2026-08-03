@@ -1,6 +1,6 @@
 {
   "next_display_id": 138,
-  "next_comment_id": 204,
+  "next_comment_id": 205,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2834,7 +2834,7 @@
       "parent_uuid": "246c7e5b-4bb4-404f-bfd3-d9eee60e0e3f",
       "created_by": "OL2r",
       "created_at": "2026-08-03T04:38:25.795018629Z",
-      "updated_at": "2026-08-03T04:47:16.168329973Z",
+      "updated_at": "2026-08-03T04:47:45.408379651Z",
       "labels": [
         "review"
       ],
@@ -2874,6 +2874,15 @@
           "kind": "result",
           "signed_by": "SHA256:JRwxokEUeKPtJrC2z3PyixJ6AJU5S6Hvc9jslQp4W0Q",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJfwSG2am+Fg3k1Aj3sFSOt1nVE4gWVKSZS2lcafpOa8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAir7Pr/DQa68b58+rYbtL93b5h4eY9rC3/dqFEXRBB37Sxnik9MbRrHufPVC4/tmg64hEWE0pqr3ikFNn8rCpAg=="
+        },
+        "9349e986-91f0-4284-95a2-91ccb31965a2": {
+          "display_id": 204,
+          "author": "pp3g-yKAt-adversarial-review-of-the-135-unified-agent-lifecycle",
+          "content": "Completed: Adversarial review of #135 watcher plan posted as ONE verdict comment on #137 (--kind result). Covered all 5 evaluation points with live-system evidence: (1) nudge-first sound as ordering but tmux keystroke cannot unstick a hung stream — crosslink's built-in watchdog already implements the nudge and is inert (launch.rs:88-89 exit-condition bug); (2) Tier 1 feasible via opencode provider timeout/headerTimeout/chunkTimeout config (all agents run opencode via claude wrapper); (3) 2x-interval rule adequate for investigation not destruction — heartbeat file is the missing primary signal, false-positive risk on slow-but-working agents is real, commit-ground-truth completion edge; (4) risks: systemic masking (needs correlation+cooldown+model variation), token burn, index.lock/cleanup/signing-key races, sync/identity/lock issues; (5) missing: reuse/fix existing watchdog, heartbeat signal, concrete Tier 1 config + retry-behavior experiment, CI_FAILED policy, two-repo sync, libnotify prerequisite. No files modified, nothing closed.",
+          "created_at": "2026-08-03T04:47:45.401257707Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:JRwxokEUeKPtJrC2z3PyixJ6AJU5S6Hvc9jslQp4W0Q",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJfwSG2am+Fg3k1Aj3sFSOt1nVE4gWVKSZS2lcafpOa8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZFV5xZy63AIP6rO43yjF/h0bh7XxmGsAK3vRtJG69XBlNBL9osK04JUsKHqevSFJUDb+xQTKmFDBnRWJO5IvDw=="
         },
         "aa3f52f3-2e0d-49c6-85bc-68888a675faa": {
           "display_id": 198,
@@ -4169,8 +4178,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T04:47:41.505791870Z",
+    "timestamp": "2026-08-03T04:47:45.408379651Z",
     "agent_id": "pp3g-yKAt-adversarial-review-of-the-135-unified-agent-lifecycle",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
