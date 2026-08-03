@@ -1,5 +1,5 @@
 {
-  "next_display_id": 155,
+  "next_display_id": 156,
   "next_comment_id": 274,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -33,6 +33,7 @@
     "29f67bbb-bb7a-438e-bb99-4e7de1b47abc": 45,
     "2ccb5763-6072-4a50-b949-8343c776c580": 148,
     "2cfce2c2-0068-4810-9222-e9b899bb568d": 4,
+    "2d237d66-4428-4d53-a565-b790def3cfa7": 155,
     "2eef1a3f-b82d-4f5b-be49-ac8d5aa4af15": 8,
     "3053674d-3335-4d1e-b829-23242837d7e9": 96,
     "30fdaa60-778d-4e12-8e6f-20bf8f76caa2": 79,
@@ -1209,6 +1210,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+WdYf7HpvWzEhAgSrV54iytur2JVBhCkBK/dbhdLwJto+vxnyoelY7GN1uS9UV+6NhA7bliPnmP7zXih6Aj7BQ=="
         }
       }
+    },
+    "2d237d66-4428-4d53-a565-b790def3cfa7": {
+      "uuid": "2d237d66-4428-4d53-a565-b790def3cfa7",
+      "display_id": 155,
+      "title": "RESEARCH: tool to expose a CACHE-HIT PERCENTAGE counter for the conversation + subagent dispatches, so token consumption is monitored accurately. MOTIVATION: we currently cannot see prompt-cache hit rate during a session or across subagent dispatches — important for cost tracking (cache hits are much cheaper than misses) and for validating cache-related changes (e.g. the #143 time-context caching plugin idea). REFERENCE: CodeWhale has this feature (cache hit percentage display) — research how they surface it. Also note: this harness-evaluation tooling will itself be part of the HARNESS RESEARCH PROJECT at a future date (tracked elsewhere). DELIVERABLE: survey available options (opencode built-in? provider API usage telemetry? models.dev/opencode-go API cache headers? CodeWhale approach; a plugin that logs cache-hit headers per request), recommend the cheapest reliable counter, implementation sketch. Research task — flash model per routing rule. Low priority (deferred until after the reliability frontier).",
+      "status": "open",
+      "priority": "low",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T21:35:45.834834444Z",
+      "updated_at": "2026-08-03T21:35:45.834834444Z"
     },
     "2eef1a3f-b82d-4f5b-be49-ac8d5aa4af15": {
       "uuid": "2eef1a3f-b82d-4f5b-be49-ac8d5aa4af15",
@@ -5120,8 +5131,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T21:35:31.056412057Z",
+    "timestamp": "2026-08-03T21:35:45.834834444Z",
     "agent_id": "OL2r",
-    "agent_seq": 600
+    "agent_seq": 601
   }
 }
