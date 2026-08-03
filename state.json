@@ -524,11 +524,12 @@
       "display_id": 123,
       "title": "Update docs with timeout guidance + agent progress-feedback mechanism. Evidence: #120's 4-file fix took ~3 min real work on a 40m timeout; review/doc/port tasks all <=30m. 45m/40m/1h defaults overcommit and starve the operator of feedback. Deliverable: (1) timeout guidance in agent-orchestration-playbook.md + kickoff skill + SESSION-START (per-task-type guidance e.g. trivial <=10m, doc/simple 15-20m, port/multi-file 30m, review 15-20m; timeouts should be task-matched not fixed 1h); (2) a defined progress-feedback mechanism so agents report intermediate progress (e.g. mandatory checkpoint comments via crosslink issue comment --kind observation at milestones, periodic crosslink session action breadcrumbs, or a heartbeat/checkin step in KICKOFF.md template), so the operator never waits blind until timeout; (3) document in the same place the two-repo sync requirement: ASES and tripn-astro orchestrator roles must be updated together as one process.",
       "description": "Update docs with timeout guidance + agent progress-feedback mechanism. Evidence: #120's 4-file fix took ~3 min real work on a 40m timeout; review/doc/port tasks all <=30m. 45m/40m/1h defaults overcommit and starve the operator of feedback. Deliverable: (1) timeout guidance in agent-orchestration-playbook.md + kickoff skill + SESSION-START (per-task-type guidance e.g. trivial <=10m, doc/simple 15-20m, port/multi-file 30m, review 15-20m; timeouts should be task-matched not fixed 1h); (2) a defined progress-feedback mechanism so agents report intermediate progress (e.g. mandatory checkpoint comments via crosslink issue comment --kind observation at milestones, periodic crosslink session action breadcrumbs, or a heartbeat/checkin step in KICKOFF.md template), so the operator never waits blind until timeout; (3) document in the same place the two-repo sync requirement: ASES and tripn-astro orchestrator roles must be updated together as one process; (4) REVIEWER-INDEPENDENCE RULE (added 2026-08-03 after a contamination incident): when dispatching MULTIPLE reviewers on the same question, each reviewer MUST post its verdict to its OWN isolated sub-issue (per-reviewer channels) so no reviewer can read another's verdict before completing its own; the orchestrator synthesizes after all verdicts land. Never dispatch multiple reviewers onto the same issue thread. Document this rule in the playbook so it cannot recur.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T00:44:26.621338088Z",
-      "updated_at": "2026-08-03T01:26:07.642995007Z",
+      "updated_at": "2026-08-03T01:43:18.775520287Z",
+      "closed_at": "2026-08-03T01:43:18.775513032Z",
       "labels": [
         "docs"
       ],
@@ -3385,8 +3386,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T01:43:14.605977149Z",
+    "timestamp": "2026-08-03T01:43:18.775520287Z",
     "agent_id": "OL2r",
-    "agent_seq": 474
+    "agent_seq": 475
   }
 }
