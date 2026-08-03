@@ -1,6 +1,6 @@
 {
   "next_display_id": 132,
-  "next_comment_id": 156,
+  "next_comment_id": 157,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2265,11 +2265,20 @@
       "parent_uuid": "4b44cd8c-cd37-49fb-a645-0469be2fc61f",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:56:58.442946013Z",
-      "updated_at": "2026-08-03T02:02:21.959205146Z",
+      "updated_at": "2026-08-03T02:02:44.543632660Z",
       "labels": [
         "permission"
       ],
       "comments": {
+        "02f76b8b-4cf2-41d2-9de9-5512ddee760c": {
+          "display_id": 156,
+          "author": "pp3g-Tvqk-independent-review-recommend-which-read-only-bash-e1a5",
+          "content": "VERDICT: Add 11 read-only tools (3 scoped), reject 4 outright, and add 2 read-only git forms the current allowlist is missing. Rationale grounded in the existing playbook/skill commands the Orchestrator is already mandated to run but currently cannot.\n\n## TIER 1 — Monitoring (stalled-vs-working; the core mandate)\n\n1. **ps** — MUST ADD, highest priority. The playbook already prescribes it as THE discriminator: agent-orchestration-playbook.md §5.4/§6.1 ('ps -o pid,etime,time,stat -p <pid> — TIME climbing = computing; frozen = stalled') and §7.1 crash recovery ('ps aux | grep -E \\'claude|crosslink\\''). Today the Orchestrator cannot run any of these. ps has no mutating mode. Frontmatter: \"ps *\"; hook-config: 'ps'.\n2. **tmux (read-only subcommands ONLY)** — ADD as scoped prefixes: 'tmux list-sessions -F #{session_name} #{session_path}', 'tmux display-message -t <s> -p #{session_path}', 'tmux capture-pane -t <s> -p -S -80' (check skill lines 21-23, 63-73). These classify Working/Idle/Waiting/Done for tmux-backed agents. Do NOT add \"tmux *\": send-keys injects input into a live agent (mutation), attach steals the pane / hangs headless, new-session/kill-session mutate. Scoping is mandatory, not optional.\n3. **grep** — ADD. Required inside pipelines the playbook/check skill already prescribe: 'ps aux | grep', 'git worktree list --porcelain | grep \\'^worktree \\'', 'tmux list-sessions ... | grep \\'^feat-\\''. Two reasons it is not redundant with the built-in Grep tool: (a) Grep tool searches files, not command output; (b) crosslink-guard.ts isAllowedBash (line 513) requires EVERY pipe segment to match an allowed prefix, so pipelines fail without grep in the hook-config list. Read-only.\n4. **tail** — ADD. check skill uses 'docker logs --tail 80'; verification needs recent output of agent logs (nohup ... > /tmp/file.log 2>&1). Read-only.\n\n## TIER 2 — Verification + cross-repo coordination\n\n5. **git worktree list** — ADD, scoped exactly. check skill (line 14) and playbook §9 enumerate worktrees ('git worktree list --porcelain') to map sessions/containers to repo paths and locate .kickoff-status. Allow 'git worktree list', NOT 'git worktree *' (add/remove/move/prune mutate).\n6. **git -C *** — ADD. §5.5 two-repo sync treats ASES + tripn-astro as ONE process; read-only 'git -C <other-repo> status/log/diff/show' is how the Orchestrator verifies sync state and monitors workers in the sibling repo. Safe: crosslink-guard normalizeGitCommand (line 135) strips -C before blocked/gated checks, so 'git -C /x push' still normalizes to blocked 'git push'. Add 'git -C ' to hook-config too (isSingleCommandAllowed line 498 does NOT normalize, so the guard layer needs the explicit prefix).\n7. **wc** — ADD. §6.2 'Verify output is non-empty': wc -c/-l on output/log files is the deterministic non-emptiness check. Read-only.\n8. **stat** — ADD. Staleness evidence for the 2x-checkpoint-interval rule: mtime of .kickoff-status/log files distinguishes a fresh heartbeat from a dead agent without tailing everything. Read-only.\n9. **diff** — ADD. Deterministic §5.5 sync verification: 'diff -u <ases-file> <tripn-astro-file>' proves the five shared files are identical across repos. Read-only.\n\n## TIER 3 — System health\n\n10. **free** — ADD. OOM is a documented failure mode (crosslink-fork.md: lld linker SIGTERM/OOM, 'free memory by killing stale tmux sessions'). free -h is the canonical check. Read-only.\n11. **df** — ADD (lower priority). Disk exhaustion on worktrees/hub-cache/logs. Read-only.\n12. **which** — ADD. kickoff skill line 50 mandates prerequisite validation ('Check that tmux and claude are available'). Read-only.\n13. Optional, zero-risk completeness: **date** (timestamps, elapsed-interval math against the 2x rule), **uptime** (load average distinguishes 'machine thrashing -> agent slow' from 'agent stalled'). Add if desired.\n\n## DO NOT ADD\n\n- **find** — mutating flags (-delete, -exec rm ...); prefix matching cannot express 'find but never -delete'. Built-in glob + ls + git worktree list cover discovery.\n- **env** — dumps API/signing keys into the audit trail for zero Orchestrator need.\n- **curl** — contradicts the deliberate webfetch:deny/websearch:deny policy; can POST/upload (remote mutation); no need that crosslink/git does not cover.\n- **sqlite3** — crosslink owns the DB; bare sqlite3 permits arbitrary writes (UPDATE/DROP) that prefix matching cannot exclude. Use the crosslink CLI.\n\n## Implementation notes (critical)\n\n1. Update BOTH layers or the tool is dead on arrival: .opencode/agents/orchestrator.md frontmatter bash map (the OpenCode matcher gate) AND .crosslink/hook-config.json allowed_bash_prefixes (the guard's isAllowedBash gate for pipeline segments).\n2. Subcommand-scope tmux and git-worktree prefixes as listed; blanket 'tmux *' / 'git worktree *' would admit mutations.\n3. Refresh .opencode/permissions.md (snapshot, not a live gate) and restart OpenCode for changes to take effect (permissions.md note 5).\n4. Residual risk to note: the prefix model cannot block shell redirection (cat x > y is already possible today), and no guard blocks file-mutating bash (rm). Role discipline remains the backstop — which is precisely why the rejected tools stay out of the allowlist.",
+          "created_at": "2026-08-03T02:02:44.536449769Z",
+          "kind": "observation",
+          "signed_by": "SHA256:qRiuIxTBUMNS3i97nx245xLyzvnMct19n9jM7O9yLbU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgQi0zmkz60OgmYcDYs77vNDvUkuY9fxd55ehqb4ZhxLkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAmVj8K/iSJsy9ym62DrwA5gLt8Wpvc9GbKIjslPkxPB0q17X40/EEZ21i/gslmmg18V7dxnib0CojF5OSVRieCQ=="
+        },
         "295279fd-2df5-4c49-9771-df6952d63920": {
           "display_id": 155,
           "author": "pp3g-Tvqk-independent-review-recommend-which-read-only-bash-e1a5",
@@ -3601,8 +3610,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T02:02:21.959205146Z",
+    "timestamp": "2026-08-03T02:02:44.543632660Z",
     "agent_id": "pp3g-Tvqk-independent-review-recommend-which-read-only-bash-e1a5",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
