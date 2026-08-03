@@ -3423,11 +3423,12 @@
       "uuid": "96e2152d-85c5-465e-b90f-2d593b463473",
       "display_id": 147,
       "title": "RESEARCH BEFORE FILING UPSTREAM: search for existing opencode issues/discussions about the wrapSSE content-type guard bypassing timeouts, and the silent-hang-on-non-SSE-response failure. Context: #144 verdict found packages/opencode/src/provider/provider.ts wrapSSE returns response UNWRAPPED when content-type lacks text/event-stream, so chunkTimeout is bypassed; non-SSE responses hang forever with zero errors and the agent looks RUNNING. Before we file a new upstream issue for #145 (patch wrapSSE), check: (1) existing opencode GitHub issues/PRs about chunkTimeout, wrapSSE, provider timeout not working, hangs on streaming responses; (2) discussions elsewhere (reddit r/opencode, opencode discord/talk, Hacker News, blog posts) about agents hanging on provider responses / timeouts not firing / silent retry loops; (3) any known workarounds or related fixes already proposed. DELIVERABLE: post ONE verdict on this issue listing found issues/discussions with URLs + brief relevance assessment, and whether our #145 finding appears novel or duplicates something already reported. Web research only — no code changes. Time-box ~25m.",
-      "status": "open",
+      "status": "closed",
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-03T18:19:06.681117919Z",
-      "updated_at": "2026-08-03T18:23:42.819449506Z",
+      "updated_at": "2026-08-03T21:34:54.845834887Z",
+      "closed_at": "2026-08-03T21:34:54.845825482Z",
       "labels": [
         "research"
       ],
@@ -5114,8 +5115,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T21:34:48.364475556Z",
+    "timestamp": "2026-08-03T21:34:54.845834887Z",
     "agent_id": "OL2r",
-    "agent_seq": 596
+    "agent_seq": 597
   }
 }
