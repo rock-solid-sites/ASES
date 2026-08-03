@@ -1749,11 +1749,12 @@
       "uuid": "52f44369-b47d-40e1-91c5-4a95fe9f7d30",
       "display_id": 138,
       "title": "FORK BUG: kickoff watchdog nudge never fires — exit-condition bug in launch.rs. Evidence: launch.rs:646-649 writes .kickoff-status (LAUNCHING) BEFORE spawning the watchdog (launch.rs:667-671); watchdog script's first check is 'if [ -f {worktree}/.kickoff-status ]; then exit 0; fi' (launch.rs:100). Since the status file ALWAYS exists by watchdog start, the watchdog exits immediately at first check — the heartbeat-staleness nudge logic is dead code. Nothing ever deletes the status file (RUNNING written at launch.rs:665), so the exit condition stays permanently true. FIX: change exit condition to check for a TERMINAL sentinel (DONE/FAILED/CI_FAILED content) rather than mere file existence, or check for an explicit 'watchdog-disarm' marker on completion. This is fork-side code (/home/claude-code/projects/crosslink) — fix + rebuild per crosslink-fork.md build instructions. PREREQUISITE for #135 Phase 2. Evidence originally from big-pickle review #137.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T05:19:48.989656670Z",
-      "updated_at": "2026-08-03T17:34:16.553917429Z",
+      "updated_at": "2026-08-03T21:34:38.890470839Z",
+      "closed_at": "2026-08-03T21:34:38.890467108Z",
       "labels": [
         "bug"
       ],
@@ -5112,8 +5113,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T21:34:32.130953717Z",
+    "timestamp": "2026-08-03T21:34:38.890470839Z",
     "agent_id": "OL2r",
-    "agent_seq": 594
+    "agent_seq": 595
   }
 }
