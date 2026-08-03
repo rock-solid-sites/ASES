@@ -1,6 +1,6 @@
 {
   "next_display_id": 149,
-  "next_comment_id": 249,
+  "next_comment_id": 250,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2749,10 +2749,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T18:14:00.693876735Z",
-      "updated_at": "2026-08-03T18:14:06.108185105Z",
+      "updated_at": "2026-08-03T18:32:07.581489241Z",
       "labels": [
         "bug"
-      ]
+      ],
+      "comments": {
+        "a39d9009-8ede-402b-98e9-7bd3dc41c0f1": {
+          "display_id": 249,
+          "author": "OL2r",
+          "content": "DECISION + UPSTREAM REFS (2026-08-03): #145 is a DUPLICATE at root-cause level per #147 research — NOT novel. Reference these upstream reports when filing/commenting: (1) PR #39516 (draft, Jul 29) — chunkTimeout only wraps text/event-stream; proposes wrapping every streamed response body; linked issue #31122 (LLM stream deadlock); (2) issue #26487 (May 9) — same wrapSSE guard; Bedrock application/vnd.amazon.eventstream bypasses chunkTimeout; proposes removing/expanding the guard; (3) PR #35743 (open) — eventstream matching + per-provider content-type allowlisting; (4) issue #39968 — chunkTimeout only watches raw bytes, misses parsed-stream stalls (9.5h half-open stream); (5) issues #37580, #36739, #40205 (v1.18.11 opencode-go freeze — our version), #40065. OUR ADDED VALUE: controlled reproduction (fake hanging server, application/json content-type) proving any non-SSE response hangs indefinitely with zero-error RUNNING symptom — file as a comment/variant on #39516/#26487 per repo submission guidelines. DECISION (operator): PATCH LOCALLY — upstream PRs are open/draft with unknown fix timeline; we cannot wait. Local patch = remove/relax the wrapSSE content-type guard in our installed opencode (source change), verify with the controlled hang test, and document the divergence from upstream (same pattern as crosslink fork). Do NOT file a new duplicate issue; contribute our reproduction to the existing reports instead.",
+          "created_at": "2026-08-03T18:32:07.566814139Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlD3dWesPw50DYf9d4nM1+iVJ1OSjBaMQr9FdKb1QNqoSo7gvaA7/BNKUNYMrVw9wzAyv2ODEVfmPbX9GxmLkAw=="
+        }
+      }
     },
     "8051aafb-e610-47a0-b0bd-029fc92590d6": {
       "uuid": "8051aafb-e610-47a0-b0bd-029fc92590d6",
@@ -4779,8 +4790,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T18:28:44.506436106Z",
+    "timestamp": "2026-08-03T18:32:07.581489241Z",
     "agent_id": "OL2r",
-    "agent_seq": 573
+    "agent_seq": 574
   }
 }
