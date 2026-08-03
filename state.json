@@ -1,5 +1,5 @@
 {
-  "next_display_id": 123,
+  "next_display_id": 124,
   "next_comment_id": 124,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -17,6 +17,7 @@
     "18718c26-b6de-4811-9a9f-7fa89fbff7b6": 106,
     "1998b676-04c9-490c-8ec9-15de90b0be76": 24,
     "1a24fd47-590c-44a4-b9ba-91d91355affe": 19,
+    "1acb2141-10eb-41ff-9005-5e15c6ae7525": 123,
     "1af4c4f2-765e-4470-bb7e-2dc4a5f9922d": 32,
     "1b2c2eec-f80d-4ec8-b103-5b9faca8c40a": 25,
     "1cdcd388-a982-4363-adb0-086452b9f63a": 26,
@@ -514,6 +515,16 @@
         "execution-engine-ui,rq6,experiment,deferred",
         "research"
       ]
+    },
+    "1acb2141-10eb-41ff-9005-5e15c6ae7525": {
+      "uuid": "1acb2141-10eb-41ff-9005-5e15c6ae7525",
+      "display_id": 123,
+      "title": "Update docs with timeout guidance + agent progress-feedback mechanism. Evidence: #120's 4-file fix took ~3 min real work on a 40m timeout; review/doc/port tasks all <=30m. 45m/40m/1h defaults overcommit and starve the operator of feedback. Deliverable: (1) timeout guidance in agent-orchestration-playbook.md + kickoff skill + SESSION-START (per-task-type guidance e.g. trivial <=10m, doc/simple 15-20m, port/multi-file 30m, review 15-20m; timeouts should be task-matched not fixed 1h); (2) a defined progress-feedback mechanism so agents report intermediate progress (e.g. mandatory checkpoint comments via crosslink issue comment --kind observation at milestones, periodic crosslink session action breadcrumbs, or a heartbeat/checkin step in KICKOFF.md template), so the operator never waits blind until timeout; (3) document in the same place the two-repo sync requirement: ASES and tripn-astro orchestrator roles must be updated together as one process.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T00:44:26.621338088Z",
+      "updated_at": "2026-08-03T00:44:26.621338088Z"
     },
     "1af4c4f2-765e-4470-bb7e-2dc4a5f9922d": {
       "uuid": "1af4c4f2-765e-4470-bb7e-2dc4a5f9922d",
@@ -3153,8 +3164,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T00:44:17.430049250Z",
+    "timestamp": "2026-08-03T00:44:26.621338088Z",
     "agent_id": "OL2r",
-    "agent_seq": 458
+    "agent_seq": 459
   }
 }
