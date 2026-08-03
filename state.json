@@ -1,6 +1,6 @@
 {
   "next_display_id": 143,
-  "next_comment_id": 229,
+  "next_comment_id": 230,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1658,10 +1658,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T05:19:48.989656670Z",
-      "updated_at": "2026-08-03T05:19:52.403175564Z",
+      "updated_at": "2026-08-03T06:08:45.865571519Z",
       "labels": [
         "bug"
-      ]
+      ],
+      "comments": {
+        "020611f8-0a09-4780-a9ac-39938f347a29": {
+          "display_id": 229,
+          "author": "pp3g-K6yV-fix-fork-bug-138-gh-138-the-kickoff-watchdog-nudge",
+          "content": "Plan: Fix watchdog exit-condition bug in fork launch.rs build_watchdog_script (line 100). The current check 'if [ -f {worktree}/.kickoff-status ]; then exit 0; fi' disarms the watchdog as soon as the status file exists — and launch.rs writes LAUNCHING (line 648) BEFORE spawn_watchdog (line 670), so the watchdog always exits on its first check and the heartbeat-staleness nudge logic is dead code.\n\nApproach (option 1 from the issue): change the exit condition from file EXISTENCE to TERMINAL CONTENT. The script will read .kickoff-status and exit 0 only when its content starts with a terminal marker (DONE / FAILED / CI_FAILED / TIMEOUT — matching the existing conventions in sentinel/collect.rs classify_status and pipeline.rs probe_run_worktree). Non-terminal content (LAUNCHING / RUNNING / empty) continues to the heartbeat staleness + tmux send-keys nudge path, preserving existing behavior.\n\nScope: fork repo /home/claude-code/projects/crosslink, file crosslink/src/commands/kickoff/launch.rs + regression tests in crosslink/src/commands/kickoff/tests.rs. No hydration/hub files touched (#142 isolation). Add functional regression tests that execute the generated script: (a) terminal status DONE/FAILED/CI_FAILED => exit 0 with no nudge sent; (b) RUNNING status + stale heartbeat => nudge fires (proves script no longer exits on mere file existence). Rebuild per crosslink-fork.md (cargo install --path ... --force with lld).",
+          "created_at": "2026-08-03T06:08:45.858739676Z",
+          "kind": "plan",
+          "signed_by": "SHA256:rE+GrVnqh+IoVsQwJMwdA+DS7NIrHY7FhIH24QLJVsk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgeSEJE8sI5sUYGJZymw6DFbN2EhRcRhWaLcpS+yy8m5UAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAorVFRSmOSMtCWWPp8rf79/D6q7qYDFW7R+TL+rMHTkMUi0Lng/81PkLVFzjsI/wLESvStLemoyyzH82MAeVCBQ=="
+        }
+      }
     },
     "54bdc408-5a1c-4f5a-a5a0-eadcc54113a2": {
       "uuid": "54bdc408-5a1c-4f5a-a5a0-eadcc54113a2",
@@ -4485,8 +4496,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T06:08:26.359438055Z",
+    "timestamp": "2026-08-03T06:08:45.865571519Z",
     "agent_id": "pp3g-K6yV-fix-fork-bug-138-gh-138-the-kickoff-watchdog-nudge",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
