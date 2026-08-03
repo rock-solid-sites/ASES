@@ -1,5 +1,5 @@
 {
-  "next_display_id": 125,
+  "next_display_id": 126,
   "next_comment_id": 134,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -38,6 +38,7 @@
     "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79": 38,
     "34039581-0656-4c92-94b6-9554f28e19c6": 116,
     "340ee84a-b4cb-4d2c-9f06-707c30eb6e5c": 99,
+    "3b8274f4-d06e-415a-b1a8-aaab3bdf6237": 125,
     "3d541fb9-e5fa-4549-8d88-e533fca17162": 80,
     "3dc64611-2f7a-4f60-a28f-6ff3e885cb17": 100,
     "3f132a04-b3d7-4217-bc9d-399c5bde3b67": 92,
@@ -941,6 +942,17 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAPN2jps9omvf/p8IixERACAahu1dMugqGlksZQSYsicFiqBC0Fu07YDcVq039TIh+nFcG3LbmsPG8Sh39bfHUDQ=="
         }
       }
+    },
+    "3b8274f4-d06e-415a-b1a8-aaab3bdf6237": {
+      "uuid": "3b8274f4-d06e-415a-b1a8-aaab3bdf6237",
+      "display_id": 125,
+      "title": "Crosslink hydration/sync state-integrity: multiple interrelated defects causing dropped or inconsistent issue state",
+      "description": "The hydration problem is broader than #119 alone. It is a family of interrelated state-integrity defects around sync/hydration/compaction, evidenced repeatedly this session and in prior work. Moving parts: (1) sync.fetch() rehydrates SQLite from stale hub state, dropping local-only issues/comments (#119 fixed the created_by filter, but the mid-session '#123 not found' + 'Issue not found' errors during concurrent kickoff launches show the residual race); (2) 0.9.0-beta.1 uuid-sync quirk: every sync/compact reverts issue UUIDs, breaking the hydration integrity check (see research-addenda/Research Addendum 03 - Crosslink 0.9.0-beta.1 uuid-sync bug.md); (3) worktree comments do not reach the hub until an explicit sync — observed with #120, #121, #123 reviewers (comments posted locally, invisible to the main DB until crosslink sync); (4) tracker_remote=fork vs origin hub-state consistency (#109 family); (5) no guard against concurrent kickoff launches each triggering their own hydration (the #123-not-found race). Recovery path has repeatedly been 'crosslink compact'. Open items: catalog all observed failure modes, reproduce each, and produce a consolidated fix or upstream report. Subissue: research-addenda document on the uuid-sync bug.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T01:13:49.632863877Z",
+      "updated_at": "2026-08-03T01:13:49.632863877Z"
     },
     "3d541fb9-e5fa-4549-8d88-e533fca17162": {
       "uuid": "3d541fb9-e5fa-4549-8d88-e533fca17162",
@@ -3284,8 +3296,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T01:07:59.047746347Z",
-    "agent_id": "pp3g-UGdY-adversarial-review-of-the-three-candidate-progress",
-    "agent_seq": 4
+    "timestamp": "2026-08-03T01:13:49.632863877Z",
+    "agent_id": "OL2r",
+    "agent_seq": 468
   }
 }
