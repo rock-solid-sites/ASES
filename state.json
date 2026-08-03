@@ -1,6 +1,6 @@
 {
   "next_display_id": 143,
-  "next_comment_id": 234,
+  "next_comment_id": 235,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -481,7 +481,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T05:20:09.615589661Z",
-      "updated_at": "2026-08-03T06:06:42.827620617Z",
+      "updated_at": "2026-08-03T06:30:38.980806255Z",
       "labels": [
         "bug"
       ],
@@ -494,6 +494,15 @@
           "kind": "plan",
           "signed_by": "SHA256:r53U0X1ZC+c38CdNZzWjU8syz62M1cZB7PKC/mP39lI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJhbp94DNSobONYqB7GRTk7wr/TKxIG1UImq3rozBjtcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8SE+0rgRbV7wyNXY2kxdTMYkVKzLvI/tsCOgolFxxE7iD+f+v/3SohPZnEqS42+7Ae5xGDiX/FlMrRPH+OktDw=="
+        },
+        "4482cd02-72f8-46c1-b4cc-2e4002cdc14a": {
+          "display_id": 234,
+          "author": "pp3g-PxW0-fix-infra-gap-139-gh-139-the-kickoff-cli-hardcodes",
+          "content": "Result: Implemented --agent-type CLI flag for 'crosslink kickoff run' (commit 3cf36551 on fork-local/agents). Changes: (1) main.rs KickoffCommands::Run gains 'agent_type: Option<String>' with help text; (2) mod.rs dispatch Run arm now destructures agent_type and passes agent_type.as_deref() into KickoffOpts instead of hardcoding None (was line 95); run.rs:219-222 already resolves opts.agent_type with read_agent_type() fallback, so the flag now takes effect. Verified: --help shows --agent-type <TYPE>; cargo build + clippy clean (fixed one doc_markdown in the new help text); new unit test test_build_agent_command_with_non_builder_agent_type proves reviewer/auditor/orchestrator flow into the claude --agent flag (all 187 kickoff tests pass). Scope notes: strictly 'kickoff run' per the issue FIX; the Launch/wizard paths (mod.rs lines ~286/~371) still hardcode None as they are separate entry points. Concurrent agent (#138) was editing launch.rs/import.rs/tests.rs in the same checkout — only my hunks were committed; their work is untouched in the working tree. Test pollution cleaned up: removed 2 dry-run test worktrees and deleted test issues #796/#797 from the fork's local DB, reverted CHANGELOG.md. No hydration/hub-path files touched. Not pushed; issue left open.",
+          "created_at": "2026-08-03T06:30:38.962067113Z",
+          "kind": "result",
+          "signed_by": "SHA256:r53U0X1ZC+c38CdNZzWjU8syz62M1cZB7PKC/mP39lI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJhbp94DNSobONYqB7GRTk7wr/TKxIG1UImq3rozBjtcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMJ7qLYAs88BqeK+PXURurhbPQKEHWBgGXaDPwavSIhlra606InWG6n7j6x037gOj8qYqqGCUuPVY+Tfe3Ts9DQ=="
         },
         "634c76dd-5c0a-48f3-b053-e0e83dee00f9": {
           "display_id": 228,
@@ -4534,8 +4543,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T06:22:31.347469991Z",
-    "agent_id": "OL2r",
-    "agent_seq": 550
+    "timestamp": "2026-08-03T06:30:38.980806255Z",
+    "agent_id": "pp3g-PxW0-fix-infra-gap-139-gh-139-the-kickoff-cli-hardcodes",
+    "agent_seq": 6
   }
 }
