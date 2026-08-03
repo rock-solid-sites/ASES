@@ -1,6 +1,6 @@
 {
   "next_display_id": 138,
-  "next_comment_id": 214,
+  "next_comment_id": 215,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1233,11 +1233,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-03T04:42:20.363623727Z",
+      "updated_at": "2026-08-03T05:08:55.285385542Z",
       "labels": [
         "bug"
       ],
       "comments": {
+        "212d3ed8-6afe-4e4d-8eaa-253e9ea9e8c7": {
+          "display_id": 214,
+          "author": "OL2r",
+          "content": "OPERATIONAL RULE (2026-08-03, confirmed via live tripn-astro incident): HUB AGENT REFS ARE GROUND TRUTH for agent output, NOT the local main-repo SQLite DB. Agent events.log on refs/heads/crosslink/agents/<id> contains CommentAdded events (reviews, results) — readable via git show/log WITHOUT any sync. NEVER run 'crosslink sync' in the main repo to 'refresh' visibility: that is the exact command that caused the June rollback (#338/#342/#370-376) and the repeated 'not found' drops this session. Rules: (1) to verify agent output, read the hub agent refs; (2) to recover visibility, re-hydrate safely (or compact) — never blind sync; (3) liveness and data-visibility are separate failures (see #135 Phase 1.5). This must be codified into agent-orchestration-playbook.md verification guidance (§6.2) and crosslink-guide knowledge.",
+          "created_at": "2026-08-03T05:08:55.278942610Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/FXEuEf7n5w0+KQDETt5lP7Lw6M4BbbJb/VFFFrzcwgCvEIUJpc5ASIOnetLHrtqlq88l8sKzSZCqZetul0dAA=="
+        },
         "4d6e75ae-d2b8-434d-9ae4-a92267450588": {
           "display_id": 196,
           "author": "OL2r",
@@ -4259,8 +4268,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T05:08:30.180478569Z",
-    "agent_id": "pp3g-cfir-implement-phase-1-of-the-135-unified-agent-lifecycle",
-    "agent_seq": 6
+    "timestamp": "2026-08-03T05:08:55.285385542Z",
+    "agent_id": "OL2r",
+    "agent_seq": 525
   }
 }
