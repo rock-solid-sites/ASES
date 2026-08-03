@@ -1,6 +1,6 @@
 {
   "next_display_id": 148,
-  "next_comment_id": 247,
+  "next_comment_id": 248,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -3277,7 +3277,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-03T18:19:06.681117919Z",
-      "updated_at": "2026-08-03T18:23:06.299401342Z",
+      "updated_at": "2026-08-03T18:23:20.472945512Z",
       "labels": [
         "research"
       ],
@@ -3319,6 +3319,15 @@
           "driver_key_fingerprint": "SHA256:zGzmtgnoZhXU4eO6KSQsgBUaiDEkB/tJTAYgLkcxm+w",
           "signed_by": "SHA256:n8URn1lTQac8RA1TDZi0xDrRKBTeEpi1MlWckqppfdQ",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoYFGC2LAgR+K+aZ/NudHdCZBHdzR9vkQBa9Iaav7uswAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAArH7cqV1cBsx05MFny020z/pQT+L5y3vCkjP/E72AWwuXN1s/oUpcBgnSqaX6Aj9V9RtwZ732TngGMFMQBUiAQ=="
+        },
+        "aae87853-bc97-4cea-9ca7-7329671bb87c": {
+          "display_id": 247,
+          "author": "pp3g-91s9-web-research-task-issue-147-before-filing-an-upstream",
+          "content": "Verdict (web research, 2026-08-03): #145 is a DUPLICATE at the root-cause/behavior level, not novel. The closest exact upstream report is https://github.com/anomalyco/opencode/pull/39516 (draft, Jul 29): explicitly says chunkTimeout wrapped only text/event-stream and proposes wrapping every streamed response body; linked issue #31122 (https://github.com/anomalyco/opencode/issues/31122) reports the resulting LLM stream deadlock. Earlier direct report https://github.com/anomalyco/opencode/issues/26487 (May 9) documents the same guard in wrapSSE returning raw non-SSE responses, with Bedrock application/vnd.amazon.eventstream bypassing chunkTimeout; proposed remove the content-type guard or expand matching. Related proposed fix https://github.com/anomalyco/opencode/pull/35743 (Jul 7) adds eventstream matching and per-provider content-type allowlisting, but is still open. These are the reports to reference when filing, especially #39516 and #26487; #145's stronger finding (any non-text/event-stream response can hang indefinitely with no error while RUNNING) is a new reproduction/impact framing, not a new underlying bug. Other relevant reports: https://github.com/anomalyco/opencode/issues/39968 (Jul 31) says chunkTimeout only watches raw bytes, misses parsed-stream stalls, and a half-open stream lasted 9.5h; https://github.com/anomalyco/opencode/issues/37580 reports silently dropped SSE streams hanging sessions/subagents; https://github.com/anomalyco/opencode/issues/36739 reports opencode serve wedging on a hanging upstream SSE endpoint; https://github.com/anomalyco/opencode/issues/40205 (Aug 3, v1.18.11) reports opencode-go streaming freezes with no error/log recovery; https://github.com/anomalyco/opencode/issues/40065 reports opencode-go empty response/hang in v1.18.11. Search of Reddit r/LocalLLaMA was blocked (403), and HN search was JS-only; no independently verifiable Reddit/HN/Discord/blog URL was found in this quick pass. Workarounds evidenced by upstream material: use a finite overall provider timeout (the #26487 report notes it is the only remaining protection), prefer a provider/content type that emits SSE, or apply/test the approach in draft #39516 (wrap all response bodies) / #35743 (include eventstream). External watchdog/manual abort remains necessary when timeout is disabled or the stream stalls above the raw-byte layer. Recommendation: file upstream as a follow-up/variant referencing #39516, #26487, and #35743, clearly distinguishing the arbitrary non-SSE response case and zero-error RUNNING symptom.",
+          "created_at": "2026-08-03T18:23:20.465508293Z",
+          "kind": "result",
+          "signed_by": "SHA256:n8URn1lTQac8RA1TDZi0xDrRKBTeEpi1MlWckqppfdQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoYFGC2LAgR+K+aZ/NudHdCZBHdzR9vkQBa9Iaav7uswAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8d9KTKkSBj0vabBqfjWOHO1mKS+6huu6zl3G8dQ9ZOSocY6NrKN5I7vslA5NztZiu3SF6guJzjaeiJIWs62CDw=="
         }
       }
     },
@@ -4743,8 +4752,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T18:23:06.299401342Z",
+    "timestamp": "2026-08-03T18:23:20.472945512Z",
     "agent_id": "pp3g-91s9-web-research-task-issue-147-before-filing-an-upstream",
-    "agent_seq": 9
+    "agent_seq": 10
   }
 }
