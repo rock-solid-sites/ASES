@@ -1,6 +1,6 @@
 {
   "next_display_id": 162,
-  "next_comment_id": 279,
+  "next_comment_id": 280,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2721,7 +2721,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T22:11:48.644839615Z",
-      "updated_at": "2026-08-03T22:18:20.453045517Z",
+      "updated_at": "2026-08-03T22:18:36.695902630Z",
       "labels": [
         "research"
       ],
@@ -2734,6 +2734,15 @@
           "kind": "observation",
           "signed_by": "SHA256:BwL2hKhaTeQaqWjUa/rfm5oYfAH8VwlW4Zb4V2dP4Gk",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3Adpwkat6/1SZ1jO3LNnYqzEtqWokOE+CVi2cascENMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAYMpYOPLlH63Qa39VCe+vzUl9JrQDy3eePs/7iPLRFKEvbChmWhkoFrYOLIl27sq1uc+Br2df80Iv4ilYgU6BDA=="
+        },
+        "616c1ca6-acaa-43fe-afb6-4072a1398b08": {
+          "display_id": 279,
+          "author": "pp3g-VjIj-check-upstream-pr-status-issue-161-pr-44-on-dollspace",
+          "content": "VERDICT (read-only check, gh CLI as rock-solid-sites, plus local fork git inspection at /home/claude-code/projects/crosslink):\n\n## 1. PR #44 state: MERGED\n- dollspace-gay/crosslink#44 'feat(kickoff): add configurable prompt template via hook-config.json (gh#43)' — state **MERGED** (mergedAt 2026-08-01T04:14:13Z), merge_commit_sha **26ee1885af277528834e1498b362b12aeae79317**, base main, head feat/43-configurable-kickoff-template, author rock-solid-sites (CONTRIBUTOR), 18 files +646/-83, 3 commits, no reviews (reviewDecision empty), body 'Fixes #43'.\n- Timeline: dollspace-gay asked to resolve conflicts (Jul 28) -> rock-solid-sites rebased onto current main (Jul 31) -> merged Aug 1. So the PR WAS accepted as the operator reported.\n- Branch protection on upstream main: **404 (none)** — lint is NOT a required check; that is why the merge went through.\n\n## 2. Linter error: Lint check FAILED — 'cargo fmt --all -- --check' exit code 1\n- Check run: Lint, conclusion FAILURE, 12s (run 30660386513, job 91325030742), head_sha 3db234dcc32c (= PR head). Clippy never ran (fmt failed first).\n- Exact rustfmt diffs (from job log) in 3 files, all in the PR's changed-file set:\n  1) crosslink/src/server/handlers/orchestrator.rs:67 — 'let plan = decompose::decompose_document(...)' chain: rustfmt wants line-wrap to 'let plan =\\n decompose::decompose_document(...)\\n .await\\n .map_err(...)?;'\n  2) crosslink/src/token_usage.rs:408 — test call 'estimate_cost_cfg(\"claude-sonnet-4-20250514\", 1_000_000, 1_000_000, None, None, &cfg)' wants multi-line arg layout.\n  3) crosslink/src/commands/kickoff/launch.rs:229 — non-Claude format!(...) wants single-line.\n- It is a PURE FORMATTING issue (cargo fmt), no logic/compile errors: Build Release (macos/ubuntu/windows) and Publish Dry Run all PASS; Fuzz/Property/Security/Test jobs were SKIPPED (path-filtered) on that run. The commit message claims 2817 tests pass.\n- The failure landed essentially AT merge time: check started 04:14:12Z, merge at 04:14:13Z, failure reported 04:14:24Z — the 'NEW message about a linter error' is this post-merge failing Lint check. No separate comment/issue about lint exists upstream.\n\n## 3. Do WE need to act?\n- The unformatted code is in the PR's own diff AND it is now live in upstream main (dollspace/main still shows the unformatted orchestrator.rs:67 / token_usage.rs:408). It also exists in BOTH fork branches (fork main 8875ffbb and fork-local/agents 8a207fff both contain the same unformatted lines), so the fork would fail 'cargo fmt --check' locally too.\n- A follow-up commit to the PR branch is NOT possible/meaningful — PR #44 is already merged; the fix would be a NEW small formatting-only PR (cargo fmt --all) to dollspace-gay/crosslink.\n- Does it block merge? NO — it is already merged and lint is not a required check on main.\n- Verdict: **no urgent action needed**. The merge is complete and functional. Optionally, a cosmetic follow-up PR running cargo fmt would make upstream CI green; the same fmt pass should then be applied to the fork's branches (main + fork-local/agents) to keep them consistent. This is a housekeeping item, not a blocker.\n\n## 4. Relationship to the fork divergence (#160 hypothesis) — CONFIRMED\n- PR #44's head commit 3db234dc CONTAINS 8a207fff ('feat: make Crosslink model- and provider-agnostic'), and the merged upstream dollspace/main contains 8a207fff + 51c88188 + 3db234dc.\n- **patch-id match**: 8875ffbb (fork main's model-agnostic) and 8a207fff (fork-local/agents / PR #44) have the SAME patch-id (6d76bad177af...) → identical change, history rewrite (as #160 hypothesized).\n- **Lineage**: 3db234dc IS an ancestor of fork-local/agents; it is NOT an ancestor of fork main; fork main does NOT contain 8a207fff.\n- => The upstream merge landed the **fork-local/agents** version of the model-agnostic work. The merged upstream content MATCHES fork-local/agents, NOT fork main. Fork main's 8875ffbb is a rewritten duplicate that never went upstream. The knowledge-doc claim 'not yet merged upstream (PR #44)' is now STALE — PR #44 merged 2026-08-01; doc should be updated.\n- Net for #160: waiting on PR #44 is over; upstream now contains the fork-local/agents lineage. The remaining divergence is fork main's duplicate-history rewrite (8875ffbb vs 8a207fff), which a merge into main must reconcile carefully (same patch-id => content-identical; only hashes differ).\n\n— pp3g (flash, builder)",
+          "created_at": "2026-08-03T22:18:36.688114435Z",
+          "kind": "result",
+          "signed_by": "SHA256:BwL2hKhaTeQaqWjUa/rfm5oYfAH8VwlW4Zb4V2dP4Gk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3Adpwkat6/1SZ1jO3LNnYqzEtqWokOE+CVi2cascENMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAA7p2lDXh6HYbORYcFfDI3GrcKPqBqkw2qsZiuaxjljcMC+ItYb2kTvRd/imwUf4jC8fKhjWBWytcioFEuS1hCw=="
         },
         "6711af7f-949d-42a4-a8b0-d23fe05be3a5": {
           "display_id": 277,
@@ -5343,8 +5352,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T22:18:20.453045517Z",
+    "timestamp": "2026-08-03T22:18:36.695902630Z",
     "agent_id": "pp3g-VjIj-check-upstream-pr-status-issue-161-pr-44-on-dollspace",
-    "agent_seq": 13
+    "agent_seq": 14
   }
 }
