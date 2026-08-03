@@ -1,5 +1,5 @@
 {
-  "next_display_id": 139,
+  "next_display_id": 140,
   "next_comment_id": 217,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -14,6 +14,7 @@
     "16818d5b-477a-4f3f-ad95-aed56a91502c": 120,
     "16f8c668-dde6-41de-b4ed-15ca97f7d946": 44,
     "174fac6e-51ed-4d70-8233-8739a5570b6d": 14,
+    "179c7fab-c572-4486-9e51-7f8290d4dd37": 139,
     "18718c26-b6de-4811-9a9f-7fa89fbff7b6": 106,
     "18a59234-8a12-4fb8-b351-29529fded612": 131,
     "1998b676-04c9-490c-8ec9-15de90b0be76": 24,
@@ -460,6 +461,16 @@
         "execution-engine-ui,legal,deferred",
         "research"
       ]
+    },
+    "179c7fab-c572-4486-9e51-7f8290d4dd37": {
+      "uuid": "179c7fab-c572-4486-9e51-7f8290d4dd37",
+      "display_id": 139,
+      "title": "INFRA GAP: kickoff CLI hardcodes agent_type=None (no --agent flag) — all kickoff agents launch under default builder type regardless of role. Evidence: crosslink kickoff run --help has no --agent/--agent-type; src/commands/kickoff/mod.rs lines 95/285/370 all set 'agent_type: None'; run.rs:219-222 falls back to read_agent_type() from hook-config agent.type (default 'builder'). IMPACT: reviewer/auditor agents dispatched via kickoff run under the builder permission surface — role enforcement (by_type.reviewer/auditor git-write blocking) is NOT applied to kickoff-dispatched reviewers. Only swarm (phase_types) and the launch wrapper (--agent flag) can set role type. FIX: add an --agent-type CLI flag to kickoff run (types.rs already has agent_type field; wire it through mod.rs), or derive from issue labels. Note: this is the mechanism gap behind reviewer-independence concerns (#123 5.6) — reviewers are prompt-enforced read-only, not permission-enforced.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T05:20:09.615589661Z",
+      "updated_at": "2026-08-03T05:20:09.615589661Z"
     },
     "18718c26-b6de-4811-9a9f-7fa89fbff7b6": {
       "uuid": "18718c26-b6de-4811-9a9f-7fa89fbff7b6",
@@ -4300,8 +4311,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T05:19:57.194287591Z",
+    "timestamp": "2026-08-03T05:20:09.615589661Z",
     "agent_id": "OL2r",
-    "agent_seq": 528
+    "agent_seq": 529
   }
 }
