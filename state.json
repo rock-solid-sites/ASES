@@ -1,6 +1,6 @@
 {
   "next_display_id": 138,
-  "next_comment_id": 193,
+  "next_comment_id": 194,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1281,7 +1281,7 @@
       "parent_uuid": "246c7e5b-4bb4-404f-bfd3-d9eee60e0e3f",
       "created_by": "OL2r",
       "created_at": "2026-08-03T04:38:19.017696062Z",
-      "updated_at": "2026-08-03T04:41:07.573989516Z",
+      "updated_at": "2026-08-03T04:41:31.991492080Z",
       "labels": [
         "review"
       ],
@@ -1294,6 +1294,15 @@
           "kind": "observation",
           "signed_by": "SHA256:5ZCoOw8KltFBSSMJh1Kt79ZZ11Hbm+WJ0lDYQUn74HA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgWyypBxlLiXC3R/2hgrR+fWiAWAjGVhtUlNCdj/NLdEIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAwNueWLgRk/M9kMe9T2cew12tBaPjm4hNPb8xA2S7ilmFOs4C0ZNF0OqcjOjEBZIrXlGxTul3mT7XMYvEpkvJAA=="
+        },
+        "980dadaf-45ef-4253-899d-1992efc16571": {
+          "display_id": 193,
+          "author": "pp3g-eCjs-adversarial-review-of-the-135-unified-agent-lifecycle",
+          "content": "VERDICT — CONDITIONAL: adopt the watcher for observation/notification, but do not enable autonomous recovery until the controls below are specified and fault-tested. (1) Nudge-first is directionally safer than immediate kill+relaunch because it preserves context and avoids needless token burn, but tmux send-keys is not a reliable recovery primitive: it can target the wrong pane, arrive while input is not accepted, duplicate a still-running request, or corrupt a prompt. Require a unique run/session identity, cooldown, an auditable nudge, and a fresh independent activity signal before escalation. Preserve+kill+relaunch is a reasonable last resort only after quiescing/locking the worktree and proving the prior run is dead; automated commit of uncommitted changes is itself race-prone and must not run concurrently with agent writes. (2) Request-level timeout is the correct root-cause tier if the hang is an unbounded provider stream. It is feasible only if implemented at the actual provider/stream boundary with cancellation propagation, bounded connect/idle/total deadlines, and explicit retry classification. Verify the OpenCode/provider client path rather than assuming AI_RetryError covers this case. Test partial streams, tool calls, non-idempotent operations, cancellation, and duplicate retry behavior; otherwise Tier 1 can create duplicate work or merely move the hang. (3) The >2x expected-interval rule is a useful alert heuristic, not a reliable state transition by itself. ‘Expected interval’ is underspecified and fixed thresholds will false-positive during long compiles/tools, approvals, provider slowness, timer jitter, and sync delays. Use monotonic timestamps, an independent heartbeat/activity contract, phase-specific/adaptive deadlines, and grace periods; require status nonterminal plus stale heartbeat/activity, and record why a run is exempt. File mtimes/commits/comments alone are weak signals because a hung request may have no writes and a slow valid operation may also have none. (4) Main risks are real: relaunch can mask provider/systemic incidents and burn tokens; duplicate agents can race for the same issue/worktree; preserve/commit can capture partial or conflicting state; tmux/process identity can be stale; hydration/sync can observe stale status or race with launch/cleanup; and notifications can be lost. Max-two relaunches limits loops but does not prevent two watchers/runs from acting on the same agent, nor does it define whether the counter is per issue, run, or incident. (5) Missing gates: atomic status schema with run ID and timestamps; single-writer/lease ownership and idempotency keys; recovery ledger recording detection, nudge, kill, relaunch, and operator notification outcomes; launch/kill confirmation and duplicate-run prevention; backoff/jitter and a global concurrency/token budget; explicit handling for human intervention, CI_FAILED, removed worktrees, sync outages, and watcher restart; secure/validated tmux target and command quoting; notification failure escalation; dry-run/manual-approval mode; fault-injection tests for hung streams and slow-but-working agents; and a documented, explicitly approved exception to HALT-on-failure. Recommendation: ship monitor + notify + request-timeout instrumentation first; make nudge/relaunch opt-in or manual until these invariants are demonstrated.",
+          "created_at": "2026-08-03T04:41:31.974791872Z",
+          "kind": "result",
+          "signed_by": "SHA256:5ZCoOw8KltFBSSMJh1Kt79ZZ11Hbm+WJ0lDYQUn74HA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgWyypBxlLiXC3R/2hgrR+fWiAWAjGVhtUlNCdj/NLdEIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA013MNQWTRtlhYUx+iCrHl8Ql9mi6tOR/0VC2QtyeukHujkB65lEkRxwQszKcyUU7GdmTXyvDBRatWcSx63xOAg=="
         },
         "b8b83de0-aeab-4898-8ae2-da6fe0d3cea0": {
           "display_id": 189,
@@ -4074,8 +4083,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T04:41:07.573989516Z",
+    "timestamp": "2026-08-03T04:41:31.991492080Z",
     "agent_id": "pp3g-eCjs-adversarial-review-of-the-135-unified-agent-lifecycle",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
