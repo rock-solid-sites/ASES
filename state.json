@@ -1,5 +1,5 @@
 {
-  "next_display_id": 143,
+  "next_display_id": 144,
   "next_comment_id": 236,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -122,6 +122,7 @@
     "cc46bd89-87b3-4e0c-b53d-618f8a23e0c5": 113,
     "cf3662f7-8a64-407c-aa3d-896805330e3e": 84,
     "d45969a2-1afe-4fa0-b1b9-d61c3398c115": 50,
+    "d4822b37-51ef-4159-a754-5c78bb90dbdd": 143,
     "d60ba942-8aff-40d4-b09b-c9224a8530e8": 126,
     "d61f6d3d-2145-4b68-8086-2db6683dbf96": 62,
     "d77ea716-9a44-4d7b-b1e9-7246ceff384c": 129,
@@ -3813,6 +3814,16 @@
         "feature"
       ]
     },
+    "d4822b37-51ef-4159-a754-5c78bb90dbdd": {
+      "uuid": "d4822b37-51ef-4159-a754-5c78bb90dbdd",
+      "display_id": 143,
+      "title": "LATER: evaluate opencode time-context caching plugin (proposal from opencode community). Removes 'Today's date' from the system prompt (via experimental.chat.system.transform) and injects a timestamp <system-reminder> on the last user message (experimental.chat.messages.transform), improving prompt-cache hits by making the system prompt static. NOT related to current work (hang/stall recovery); deliberately deferred. Concerns to evaluate when revisited: (1) experimental.chat.* API is version-fragile (we're on opencode 1.18.11); (2) reminder timestamp is itself dynamic, may partially self-defeat cache reuse; (3) mutates conversation content (part.text +=); (4) it does NOT address request-timeout/stall issues — those are handled by chunkTimeout + watcher (#135). Also tracked separately: the ESC/interrupt failure (could not interrupt an agent through the tmux/systemd-run/wrapper stack) — diagnose that as its own item.",
+      "status": "open",
+      "priority": "low",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T06:32:41.341384877Z",
+      "updated_at": "2026-08-03T06:32:41.341384877Z"
+    },
     "d60ba942-8aff-40d4-b09b-c9224a8530e8": {
       "uuid": "d60ba942-8aff-40d4-b09b-c9224a8530e8",
       "display_id": 126,
@@ -4548,8 +4559,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T06:31:40.011529032Z",
-    "agent_id": "pp3g-PxW0-fix-infra-gap-139-gh-139-the-kickoff-cli-hardcodes",
-    "agent_seq": 8
+    "timestamp": "2026-08-03T06:32:41.341384877Z",
+    "agent_id": "OL2r",
+    "agent_seq": 551
   }
 }
