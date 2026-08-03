@@ -1,5 +1,5 @@
 {
-  "next_display_id": 141,
+  "next_display_id": 142,
   "next_comment_id": 218,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -68,6 +68,7 @@
     "65cc6b2e-ea4a-4e99-86da-0fee9c048f74": 107,
     "661fd967-2a52-4fc5-b28a-eb67bd5194de": 9,
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": 71,
+    "6de93a06-d6a0-48c4-902d-6c23bdda5f98": 141,
     "6e3bc7f9-a469-48ea-bb12-05b6cb3e6f2d": 83,
     "6ee747b1-6d9a-4290-bd0b-2b5326418847": 67,
     "717e6a0a-abbd-4273-bd07-a61a0cc3989f": 132,
@@ -2231,6 +2232,16 @@
         }
       }
     },
+    "6de93a06-d6a0-48c4-902d-6c23bdda5f98": {
+      "uuid": "6de93a06-d6a0-48c4-902d-6c23bdda5f98",
+      "display_id": 141,
+      "title": "MIGRATION: rebuild the #135 watcher in Rust inside the crosslink fork (Python version is temporary). DECISION (2026-08-03, operator): keep tools/kickoff-notify.py now for immediate monitoring value, but it is EXPLICITLY TEMPORARY — the durable home is crosslink (Rust), per #134 Path A. SCOPE: add a sentinel local source (sources/local.rs) to /home/claude-code/projects/crosslink that observes .worktrees/*/ — .kickoff-status, .kickoff-metadata.json, .crosslink/.cache/last-heartbeat — tracks LAUNCHING/RUNNING/DONE/FAILED/CI_FAILED + STALLED, emits Signal events into the existing sentinel poll loop (engine.rs poll_all_sources), and reuses the existing notify pipeline (notify.rs: notify_dispatch_completed / webhook). Mirror #135 Phase 1 watcher behavior: heartbeat-primary detection, 2-consecutive debounce, LAUNCHING grace, per-model floors, state persisted (sentinel state or a state file), idempotent. WHEN: after Phase 1 proven (Tier-1 experiment done) — do NOT build while Python watcher still unproven. SUCCESS: python tools/kickoff-notify.py can be deleted; crosslink 'sentinel watch' (or a new 'crosslink watch' command) provides monitor/notify natively. References #134 (Path A estimate ~150-300 LOC), #135 (watcher design), #138 (watchdog bug fix prerequisite for the nudge tier).",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T05:26:52.105310222Z",
+      "updated_at": "2026-08-03T05:26:52.105310222Z"
+    },
     "6e3bc7f9-a469-48ea-bb12-05b6cb3e6f2d": {
       "uuid": "6e3bc7f9-a469-48ea-bb12-05b6cb3e6f2d",
       "display_id": 83,
@@ -4345,8 +4356,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T05:20:55.358331997Z",
+    "timestamp": "2026-08-03T05:26:52.105310222Z",
     "agent_id": "OL2r",
-    "agent_seq": 535
+    "agent_seq": 536
   }
 }
