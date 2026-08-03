@@ -1,6 +1,6 @@
 {
   "next_display_id": 151,
-  "next_comment_id": 264,
+  "next_comment_id": 265,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2003,10 +2003,21 @@
       "parent_uuid": "7fea5a54-4818-403e-a458-b39204695bbf",
       "created_by": "OL2r",
       "created_at": "2026-08-03T20:43:06.118663755Z",
-      "updated_at": "2026-08-03T20:43:11.715585466Z",
+      "updated_at": "2026-08-03T20:53:11.375352114Z",
       "labels": [
         "review"
-      ]
+      ],
+      "comments": {
+        "53e9ae9b-18b6-42af-805f-ed95ec6630bb": {
+          "display_id": 264,
+          "author": "OL2r",
+          "content": "REVIEW ABORTED — SCOPE DRIFT (2026-08-03): big-pickle agent (pp3g-EVhZ) drifted far off-task during the #145 wrapSSE patch review. Instead of reviewing the opencode binary patch, it was reading crosslink fork sync/hydration internals (sync.rs, cache.rs, bootstrap.rs, hub-cache, crosslink_dir resolution) and exploring 'an env override would let me use my identity with the parent's data' — security-sensitive territory it was never asked to touch. Killed + cleaned up. No verdict was posted. Luna's independent review (#150) covers the patch review adequately; no replacement reviewer needed. This is another instance of agent scope-drift (see the checkpoint protocol / thin-orchestrator discipline) — worth noting in the review-dispatch guidance: reviewers should be re-scoped or killed early on visible drift.",
+          "created_at": "2026-08-03T20:53:11.365418895Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKno8Aboivkg1jon3KFO63ipOFmY4yPiEOKUpYT6cn0om3QjqXJuQNjf1Gi7818vNMxdH2cyWfrYuUQpD1bYXBg=="
+        }
+      }
     },
     "5e4e2b20-46ae-4b14-8bfc-c0d545707a88": {
       "uuid": "5e4e2b20-46ae-4b14-8bfc-c0d545707a88",
@@ -4954,8 +4965,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T20:46:01.495843151Z",
-    "agent_id": "pp3g-hYof-independent-code-review-of-the-145-wrapsse-patch-as-a",
-    "agent_seq": 8
+    "timestamp": "2026-08-03T20:53:11.375352114Z",
+    "agent_id": "OL2r",
+    "agent_seq": 579
   }
 }
