@@ -1,6 +1,6 @@
 {
   "next_display_id": 138,
-  "next_comment_id": 215,
+  "next_comment_id": 216,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -823,7 +823,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T04:25:20.038929813Z",
-      "updated_at": "2026-08-03T05:08:30.180478569Z",
+      "updated_at": "2026-08-03T05:12:03.864879243Z",
       "labels": [
         "infrastructure"
       ],
@@ -887,6 +887,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAog5i8fbnN3VCXPubeMTUvOecwzMX3x1vFCNU5CIUL3cgZTnrOQHfra+wAVFZGCQXYq8t11Cy49hi+BsNjEysAA=="
+        },
+        "d45956d8-7eab-41e9-8465-17d23e20d3cb": {
+          "display_id": 215,
+          "author": "pp3g-cfir-implement-phase-1-of-the-135-unified-agent-lifecycle",
+          "content": "Result: Phase 1 complete and committed (cb15188, ref #135, 5 files, +579).\n\n(1) OPENCODE REQUEST TIMEOUTS — wrote provider section to ~/.config/opencode/opencode.json for providers 'opencode' + 'opencode-go': timeout=3,600,000ms, headerTimeout=300,000ms, chunkTimeout=300,000ms (values+rationale in commit message). IMPORTANT SCHEMA FINDING: the live opencode 1.18.11 schema nests these under provider.<id>.options.*, not directly under provider.<id> as the design shorthand said — verified against opencode.ai/config.json. 5-min chunkTimeout exceeds worst-case legitimate inter-chunk gaps for deepseek-v4-* reasoning while catching the observed 10+min silent-stream hang; kept above the 120s heartbeat throttle to avoid false aborts. User-level config reaches all kickoff agents (claude wrapper execs opencode run). Project .opencode/opencode.json untouched (no provider section existed).\n\n(2) WATCHER — tools/kickoff-notify.py (stdlib only): scans .worktrees/*/ for .kickoff-status + .kickoff-metadata.json + .crosslink/.cache/last-heartbeat (PRIMARY liveness, mtime-based); state machine LAUNCHING/RUNNING/DONE/FAILED/CI_FAILED + STALLED (heartbeat staleness, 2-consecutive debounce, LAUNCHING grace, threshold scaled by timeout_secs with 15-min floor); JSON state file (idempotent on restart, STALLED recovery re-arms); notify-send + webhook on COMPLETED/FAILED/CI_FAILED/STALLED; --once/--dry-run. Verified: py_compile OK; live --once --dry-run lists 2 agents (cfir, eCjs) with zero side effects; synthetic tests passed for all transitions, debounce, recovery, idempotency, webhook POST, worktree-drop.\n\n(3) SYSTEMD — tools/ases-kickoff-notify.service (oneshot ExecStart=python3 <repo>/tools/kickoff-notify.py --once) + .timer (OnBootSec=15s OnUnitActiveSec=15s Persistent=true). Files provided only, NOT enabled. libnotify-bin prerequisite noted (#133 verdict; notify-send absent — watcher degrades gracefully to webhook+log).\n\n(4) DOCS — playbook §6.4 'Agent Lifecycle Watcher — Phase 1' added (monitor/notify active, Phase 2/3 pending, heartbeat-hook gap + completion-edge documented as Phase 2). Mirrored to tripn-astro in the same process per §5.5 (tripn-astro playbook synced to canonical ASES copy; commit there is operator-gated).\n\nDISCOVERY worth Phase 2: worktrees currently do NOT carry .claude/hooks/heartbeat.py (only the main checkout does) — the PRIMARY heartbeat signal is often absent; watcher handles it conservatively (no false STALLED; timeout-overrun fallback). Installing the hook into worktrees is a Phase 2 item.\n\nNot done: #135 NOT closed; nothing pushed; no Phase 2 (watchdog fix/detection hardening) or Phase 3 (kill/relaunch) logic. Post-abort retry-behavior experiment for Tier 1 remains the Phase 1 follow-up (AI_RetryError unverified).",
+          "created_at": "2026-08-03T05:12:03.856867325Z",
+          "kind": "result",
+          "signed_by": "SHA256:Ohieve4T/Ds2ELYPEzAcOMDwaFq3f+YhlG2X7VZERp4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxGQqQy0oVLZouh6RxEn/ufpBoz/MDuJORkTw/vVATpwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAnGvpvPniX19RCXGJJWWxbLfZ5enWAJrgyySSHiRaxa8oEjBndrCztxglgGXOAmoAowo33Ao0j+POtjrvYjfxCg=="
         },
         "d577a56d-36b0-4f66-b59e-844f7399d1c9": {
           "display_id": 209,
@@ -4268,8 +4277,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T05:08:55.285385542Z",
-    "agent_id": "OL2r",
-    "agent_seq": 525
+    "timestamp": "2026-08-03T05:12:03.864879243Z",
+    "agent_id": "pp3g-cfir-implement-phase-1-of-the-135-unified-agent-lifecycle",
+    "agent_seq": 7
   }
 }
