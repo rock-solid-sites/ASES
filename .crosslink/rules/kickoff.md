@@ -22,11 +22,46 @@ Git commands blocked by project policy — ask the user to run these manually:
 1. Run `crosslink agent status` then `crosslink sync`
 2. Start session: `crosslink session start && crosslink session work {issue_id}`
 3. Read AGENTS.md and explore relevant code before making changes
-4. Document your plan: `crosslink comment {issue_id} "Plan: <approach>" --kind plan`
+4. Document your plan: `crosslink issue comment {issue_id} "Plan: <approach>" --kind plan`
 5. Implement fully — no stubs or placeholders
 6. Document decisions and discoveries as you work
-7. Sync periodically: `crosslink sync`
-8. Log interventions if blocked: `crosslink intervene {issue_id} "..." --trigger <type>`
+7. Sync periodically: `crosslink sync` — and always sync after posting a checkpoint comment (see below)
+8. Log interventions if blocked: `crosslink issue intervene {issue_id} "..." --trigger <type>`
+
+## Progress Check-Ins
+
+The operator watches your progress through **checkpoint comments** on this
+issue — never wait blind until timeout. You MUST post milestone checkpoints
+and **sync after each one**. Session-action breadcrumbs
+(`crosslink session action "..."`) are supplementary telemetry only; they do
+not reach the hub and are not a substitute.
+
+Post at most ~4 checkpoint comments per session, at these milestones:
+
+1. **POST-PLAN** — immediately after your plan comment (step 4):
+   `crosslink issue comment {issue_id} "[PROGRESS] state=working completed=<plan posted> next=<first step> blocker=none" --kind observation`
+   then `crosslink sync`.
+2. **MIDPOINT** — after the first meaningful unit of work completes
+   (required for tasks estimated >15m; optional for <=10m trivial tasks):
+   `crosslink issue comment {issue_id} "[PROGRESS] state=working completed=<one line> next=<what's next> blocker=none" --kind observation`
+   then `crosslink sync`.
+3. **BLOCKER-OR-VERIFY** — if blocked, post immediately:
+   `crosslink issue comment {issue_id} "[BLOCKED] state=blocked completed=<one line> next=<what's next> blocker=<detail>" --kind observation`
+   then `crosslink sync`. If verification is in progress, post
+   `[VERIFY] state=verifying completed=... next=... blocker=none` instead.
+4. **FINAL** — your `--kind result` comment before session end (see Final
+   Steps), then `crosslink sync`.
+
+Required fields in every checkpoint: `state` (working/blocked/verifying),
+`completed` (one line), `next` (what's next, or 'done'), `blocker` (detail or
+none). Milestone-based, never per-action — ~4 max keeps the timeline
+scannable.
+
+**Missed check-in escalation:** if you realize a checkpoint was missed, post
+it immediately and continue — never batch checkpoints at the end. A silent
+agent is indistinguishable from a dead one; checkpoints are how the operator
+distinguishes working from stalled (timeout exceeded = likely stalled; no
+checkpoint for >2x the expected interval = likely stalled).
 
 ## Code Quality
 

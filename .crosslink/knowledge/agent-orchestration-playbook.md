@@ -4,7 +4,7 @@ tags: ["orchestration", "kickoff", "swarm", "workflow"]
 sources: []
 contributors: ["ASES"]
 created: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-03
 ---
 
 # Agent Orchestration Playbook
@@ -48,7 +48,7 @@ Pick the tier **before** dispatching. The boundary is feature size and shape:
 
 | Situation | Tier |
 |-----------|------|
-| One well-defined ticket, fits a single session (≤ ~1h) | **Kickoff** (`crosslink kickoff run`) |
+| One well-defined ticket that fits a single session (task-matched timeout, see §5.3) | **Kickoff** (`crosslink kickoff run`) |
 | A multi-phase feature that decomposes into parallel or sequential work | **Swarm** (`crosslink swarm init` → `launch` → `gate` → `checkpoint`) |
 | Long-running autonomous maintenance | **Sentinel** (separate; see `crosslink-subagent-orchestration.md`) |
 
@@ -129,13 +129,15 @@ crosslink kickoff run "<feature description>" \
   --model <provider/model-name> \
   --issue <id> \
   --verify local \
-  --timeout 1h
+  --timeout <task-matched timeout — see §5.3, never a blanket 1h>
 ```
 
 After dispatch:
 1. Print the tmux attach command for the operator.
 2. Record the dispatch breadcrumb: `crosslink session action "Dispatched <agent-id> for issue #<N>"`.
 3. Do NOT poll obsessively — check status at reasonable intervals (every 5-10 minutes).
+4. Watch for checkpoint comments on the issue (see §5.4) — a missing expected
+   checkpoint is a stalled-agent signal, not something to wait out to timeout.
 
 ### 5.2 Multi-Agent Swarm
 
@@ -154,6 +156,120 @@ Swarm rules:
   reflects real ordering (edges are documentation, not machine-gated at
   launch — verify them as a process gate).
 
+### 5.3 Task-Matched Timeout Guidance
+
+**Timeout length is the PRIMARY problem, not merely a feedback problem.**
+Evidence: #120 completed a four-file fix in ~3 minutes of real work on a 40m
+timeout; review/doc/port tasks all landed in <=30m. The old 45m/40m/1h
+defaults overcommit and starve the operator of feedback — a 40m timeout on a
+3-minute task means the operator cannot distinguish *working slowly* from
+*dead agent* for 37 minutes.
+
+**Timeouts MUST be task-matched. Never use a blanket 1h default.**
+
+| Task type | Realistic ceiling | Rationale |
+|-----------|-------------------|-----------|
+| Trivial (1-2 files, small change) | **<= 10m** | #120: 4-file fix took ~3 min actual |
+| Documentation / simple change | **15-20m** | doc/port tasks observed <=30m, leave headroom |
+| Review / audit (read-only) | **15-20m** | setup + verdict fits easily |
+| Port / multi-file change | **30m** | 9-file port took ~11 min actual |
+| Complex / multi-phase feature | **45m+ — use swarm, not kickoff** | genuinely larger work belongs in swarm with gates and budget windows |
+
+Setup and verification headroom is included in these ceilings. If the task is
+estimated to need more than ~45m of sequential single-agent work, that is a
+signal to decompose into a swarm rather than to raise the timeout.
+
+**Two-signal stalled detection (checkpoints are the SECONDARY signal):**
+1. **Timeout exceeded = likely stalled.** A shorter timeout bounds blind
+   waiting; exceeding it is actionable.
+2. **No checkpoint for >2x the expected interval = likely stalled.** The
+   expected interval is the task ceiling (from the table above) divided by
+   the number of milestone checkpoints (~4, see §5.4). A silent agent past
+   that window warrants investigation via `ps` and session status — do not
+   wait for the timeout.
+
+**Checkpoints do NOT justify retaining a long timeout.** They are a
+complement to task-matched ceilings, not a replacement for them.
+
+### 5.4 Progress-Feedback Contract — Mandatory Checkpoint Comments
+
+Every delegated agent MUST report progress to the operator through **milestone
+checkpoint comments** on its issue. This is the durable, operator-facing
+channel — the operator never waits blind until timeout.
+
+**Checkpoint rules (enforced by the KICKOFF template — see
+`kickoff-custom-template.md` and the `Progress Check-Ins` section of the
+template):**
+
+- **Post `--kind observation` checkpoint comments at milestones, max ~4 per
+  session**: (a) POST-PLAN — immediately after the plan comment; (b) MIDPOINT
+  — after the first meaningful completion unit; (c) BLOCKER-OR-VERIFY — a
+  blocker report, or verification results; (d) FINAL — the `--kind result`
+  comment before session end.
+- **Use a scannable prefix and structured fields**: `[PROGRESS] state=working
+  completed=<one-line> next=<one-line> blocker=none`, or `[BLOCKED]` /
+  `[VERIFY]` / `[DONE]` as appropriate. Required fields: `state`
+  (working/blocked/verifying), `completed`, `next`, `blocker`.
+- **Sync after posting.** `crosslink issue comment <id> "..." --kind
+  observation` followed by `crosslink sync`. Worktree-local comments do NOT
+  reach the hub until sync — without it a checkpoint is invisible to the
+  operator and cannot distinguish silent work from a dead agent.
+- **Missed check-in escalation:** if an expected checkpoint has not arrived by
+  the expected interval (see §5.3), investigate: `ps -o pid,etime,time,stat
+  -p <pid>` (TIME climbing = working; frozen = stalled), check session status,
+  then report to the operator. Do not wait silently for the timeout.
+- **Task-awareness:** a <=10m trivial task posts the mandatory start and final
+  checkpoints; the midpoint is optional. A >30m task must not post more than
+  ~4 comments — milestone-based, never per-action.
+
+**Session-action breadcrumbs are SUPPLEMENTARY telemetry only.** Use
+`crosslink session action "..."` for high-frequency internal breadcrumbs
+(agent identity, timestamps, process continuity). They are NOT a substitute
+for checkpoint comments: session actions are local session metadata, not hub
+issue records, and have zero failure-detection value for the operator without
+explicit polling of the agent's session state.
+
+### 5.5 Two-Repo Sync Requirement
+
+The ASES and tripn-astro orchestrator roles are **one process** — the
+orchestration contract is shared between the two repos and MUST be updated
+together. The following are kept identical across both repos:
+
+- `.crosslink/knowledge/agent-orchestration-playbook.md` (canonical copy:
+  ASES wins on conflict; tripn-astro mirrors it)
+- `.claude/skills/kickoff/SKILL.md`
+- `SESSION-START.md`
+- The KICKOFF template (`~/.crosslink/rules/kickoff.md` global + project
+  copies) including the `Progress Check-Ins` section
+- Orchestrator role definitions (ASES: `docs/ORCHESTRATOR.md`, tripn-astro:
+  `.opencode/agents/orchestrator.md`)
+
+**Rule:** any change to these files in one repo MUST be applied to the other
+in the same process — never in a follow-up issue. Document the change in the
+same place as the timeout guidance so it cannot be missed.
+
+### 5.6 Reviewer Independence — Isolated Sub-Issues
+
+When dispatching MULTIPLE reviewers on the same question, each reviewer MUST
+post its verdict to its **OWN isolated sub-issue**. Never dispatch multiple
+reviewers onto the same issue thread.
+
+- Create one sub-issue per reviewer (e.g. `#123-r1`, `#123-r2`), each with
+  only that reviewer's access/assignment.
+- Each reviewer reads only its own sub-issue and posts its verdict there.
+- The orchestrator synthesizes after ALL verdicts land, and posts the
+  synthesis to the parent issue.
+- **Rationale (contamination incident, 2026-08-03):** the second of two
+  reviewers on issue #123 read the first reviewer's posted verdict via
+  `crosslink issue show 123` before writing its own — its verdict was NOT
+  fully independent. Shared-thread dispatch makes later reviewers inherit
+  earlier conclusions. This rule makes contamination impossible by
+  construction.
+
+This rule applies to every multi-reviewer dispatch: adversarial review
+swarms, design reviews, verification reviews — anywhere the same question is
+asked of more than one independent reviewer.
+
 ---
 
 ## 6. Monitoring and Verification
@@ -165,6 +281,10 @@ Swarm rules:
   before writing the flag.
 - **The commit is ground truth.** Monitor by tracking expected commits
   (`[#N]` references), not `.kickoff-status` flags.
+- **Checkpoint comments are the progress signal.** A synced `--kind
+  observation` checkpoint (see §5.4) proves the agent is alive and working. A
+  missing checkpoint past the expected interval is a stalled-agent signal —
+  investigate before the timeout.
 - **Distinguish STALLED from WORKING:** Read `ps -o pid,etime,time,stat -p
   <pid>`. TIME climbing = computing; frozen + old heartbeat = stalled.
 
@@ -278,7 +398,11 @@ Before trusting such work:
 
 - **End every session** with `crosslink session end --notes "..."` including:
   what was done, what's pending, any agent crashes, state of branches.
-- **Record breadcrumbs** during work: `crosslink session action "..."`.
+- **Post milestone checkpoint comments** during work (see §5.4): `crosslink
+  issue comment <id> "[PROGRESS] state=... completed=... next=... blocker=..."`
+  `--kind observation`, then `crosslink sync`. Max ~4 per session.
+- **Record breadcrumbs** as supplementary telemetry: `crosslink session action
+  "..."`. They are not a substitute for checkpoint comments.
 - **Reference issues in commits:** `feat: description [#N]`.
 - **Never edit STATUS.md directly** — it's auto-generated by hooks.
 - **Design prompts so a fresh orchestrator can rebuild fully** from the hub
@@ -291,11 +415,15 @@ Before trusting such work:
 | Anti-Pattern | Why It's Dangerous | Correct Behavior |
 |-------------|-------------------|------------------|
 | Omitting `--model` on kickoff | Silently uses wrong/unavailable model | Always pin explicitly |
+| Blanket `--timeout 1h` on every kickoff | Overcommits, starves operator of feedback, hides dead agents | Task-match the timeout (§5.3) |
 | Using `claude-mode` CLI wrappers | Deprecated, inconsistent with Crosslink | Use `crosslink kickoff run` / `crosslink swarm launch` |
 | Accepting empty review output | Crash disguised as pass | Halt immediately, report to operator |
 | Orchestrator implementing directly | Role breach, rubber-stamp review risk | Delegate to Builder agent |
 | Parallelizing unproven patterns | Six agents invent six wrong approaches | Prove serially on one case, then fan out |
 | Trusting `.kickoff-status` flags | Flags persist on dead processes | Verify against actual git commits |
+| Waiting silently until timeout for progress | Wastes operator time, hides stalls | Watch checkpoint comments; escalate on missed check-ins (§5.4) |
+| Relying on session actions for operator visibility | Local metadata, invisible at hub | Use synced checkpoint comments; actions are supplementary |
+| Dispatching multiple reviewers on one thread | Later reviewers inherit earlier verdicts | Per-reviewer isolated sub-issues (§5.6) |
 | Merging to master from worktree | Unreviewed code reaches production | Operator reviews and merges |
 | Retrying a failed delegation | Masks systemic issues, wastes resources | Halt, report, await human direction |
 | LLM-based sampling for safety gates | Misses edge cases, not reproducible | Use deterministic verification scripts |
@@ -313,7 +441,9 @@ Before trusting such work:
 #   autonomous  -> sentinel (see crosslink-subagent-orchestration.md)
 
 # Single agent dispatch
-crosslink kickoff run "feature description" --model <model> --issue <id>
+#   --timeout: task-matched per §5.3 (trivial <=10m, doc/simple/review 15-20m,
+#              port/multi-file 30m, complex multi-phase 45m+ -> swarm)
+crosslink kickoff run "feature description" --model <model> --issue <id> --timeout 20m
 
 # Swarm setup and launch
 crosslink swarm init --doc <design-doc.md>
@@ -330,7 +460,9 @@ crosslink kickoff cleanup --force
 # Session lifecycle
 crosslink session start
 crosslink session work <id>
-crosslink session action "breadcrumb"
+crosslink session action "breadcrumb"          # supplementary telemetry only
+crosslink issue comment <id> "[PROGRESS] state=working completed=... next=... blocker=none" --kind observation
+crosslink sync                                  # ALWAYS sync after posting a checkpoint
 crosslink session end --notes "handoff notes"
 
 # Model verification (you can run this yourself)
