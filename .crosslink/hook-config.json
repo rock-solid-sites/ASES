@@ -39,6 +39,34 @@
       "git commit"
     ],
     "by_type": {
+      "orchestrator": {
+        "blocked_git_commands": [
+          "git push",
+          "git push --force",
+          "git push -f",
+          "git rebase",
+          "git cherry-pick",
+          "git reset",
+          "git reset --hard",
+          "git clean",
+          "git clean -f",
+          "git clean -fd",
+          "git clean -fdx",
+          "git checkout .",
+          "git restore .",
+          "git stash",
+          "git tag",
+          "git am",
+          "git apply",
+          "git branch -d",
+          "git branch -D",
+          "git branch -m"
+        ],
+        "gated_git_commands": [
+          "git commit",
+          "git merge"
+        ]
+      },
       "reviewer": {
         "blocked_git_commands": [
           "git push",

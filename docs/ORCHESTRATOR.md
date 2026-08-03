@@ -26,9 +26,16 @@ It does not replace them.
 
 ## Current Deployment
 
+The four specialist roles are defined as OpenCode agents in `.opencode/agents/*.md`
+and registered in `.opencode/opencode.json`. Models are **resolved at runtime** —
+there are no static model pins in the agent definitions. Each launch passes an
+explicit, verified model ID (`--model` on kickoff/swarm, or
+`sentinel.default_agent.model` in `.crosslink/hook-config.json`). Verify any model
+ID against the live catalog with `opencode models <provider>` before launching.
+
 ### Orchestrator
 
-**Model:** Nemotron 3 Ultra
+Model: runtime-resolved — verify with `opencode models <provider>`.
 
 Responsibilities:
 
@@ -48,7 +55,7 @@ The Orchestrator never performs specialist work itself.
 
 ### Builder
 
-**Model:** Hy3
+Model: runtime-resolved — verify with `opencode models <provider>`.
 
 Responsibilities:
 
@@ -64,7 +71,7 @@ The Builder does not review its own work.
 
 ### Code Reviewer
 
-**Model:** North Mini Code
+Model: runtime-resolved — verify with `opencode models <provider>`.
 
 Responsibilities:
 
@@ -80,7 +87,7 @@ The Reviewer never modifies project files.
 
 ### Auditor
 
-**Model:** Gemini 3.1 Pro
+Model: runtime-resolved — verify with `opencode models <provider>`.
 
 Responsibilities:
 
@@ -91,6 +98,40 @@ Responsibilities:
 - Recommend improvements.
 
 The Auditor is independent of implementation and review.
+
+---
+
+# Permission Matrix
+
+The four-role permission model is enforced by two layers:
+`.opencode/agents/*.md` frontmatter (OpenCode permission matcher) and
+`.crosslink/hook-config.json` (`agent_overrides.by_type.*`, enforced by the
+`crosslink-guard` plugin). The authoritative snapshot lives in
+`.opencode/permissions.md`.
+
+| Role | Edit | Bash | Task (subagents) | Git write |
+|------|------|------|------------------|-----------|
+| **Orchestrator** (primary) | `deny` | allowlist: `crosslink *`, `opencode models *`, read-only git (`status`/`diff`/`log`/`show`/`branch`), the two gated git commands (`commit`, `merge`), `ls`/`cat`/`rtk` | `builder`, `reviewer`, `auditor` only | **Gated**: `git commit` + `git merge` (require active issue). **Blocked**: `push`, `rebase`, `cherry-pick`, `reset`, `clean`, `checkout .`, `restore .`, `stash`, `tag`, `am`, `apply`, `branch -d/-D/-m` |
+| **Builder** (subagent) | `allow` | full | `deny` | **Gated**: `git commit` (require active issue). Blocked: the shared blocked list (push/merge/rebase/reset/clean/checkout ./restore ./stash/tag/am/apply/branch -d/-D/-m) |
+| **Reviewer** (subagent) | `deny` | read-only only | `deny` | **Blocked**: all git writes including `git commit` |
+| **Auditor** (subagent) | `deny` | read-only only | `deny` | **Blocked**: all git writes including `git commit` |
+
+Rules of thumb:
+
+- **Orchestrator**: coordination only — commit and merge are allowed when an active
+  Crosslink issue exists; pushing is always the operator's job.
+- **Builder**: the only role that writes project files.
+- **Reviewer / Auditor**: read-only; they can never write files or git history.
+
+The `orchestrator-guard.ts` plugin additionally blocks all write-path tools
+(`write`, `edit`, `apply_patch`, `filesystem_write_file`, `filesystem_edit_file`)
+for every non-Builder agent, closing the OpenCode `edit: deny` gap (#33677).
+
+Note: the Orchestrator's `bash` allowlist includes `git commit *` and `git merge *`
+not because those are read-only, but because the OpenCode matcher runs before the
+plugin's active-issue gate — without those patterns the gate would be unreachable
+and merge would be silently impossible. The gate itself is enforced by
+`by_type.orchestrator.gated_git_commands` in `.crosslink/hook-config.json`.
 
 ---
 

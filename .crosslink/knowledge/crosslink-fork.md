@@ -32,11 +32,13 @@ Key mechanics:
 - **rtk rewrite**: `git status` → `rtk git status`, `cat x` → `rtk read x`. The opencode
   built-in matcher evaluates the *mutated* command, so frontmatter `permission.bash`
   must allow both the plain and `rtk *` forms (the `"rtk *": allow` entries).
-- **Per-agent-type overrides**: `agent_overrides.by_type.<type>` (reviewer/auditor)
-  replaces the shared blocked/gated lists for that role — e.g. reviewer/auditor block
-  `git commit` outright while builder keeps it gated. The active type is resolved at
-  runtime from the `CROSSLINK_AGENT_TYPE` env var, which the `claude` wrapper exports
-  from the `--agent <type>` launch flag.
+- **Per-agent-type overrides**: `agent_overrides.by_type.<type>` replaces the
+  shared blocked/gated lists for that role — e.g. reviewer/auditor block
+  `git commit` outright while builder keeps it gated, and orchestrator gates
+  `git commit` **and** `git merge` while keeping push/rebase/reset/clean/etc.
+  blocked (ASES gh#121). The active type is resolved at
+  runtime from the `CROSSLINK_AGENT_TYPE` env var, which the `claude` wrapper
+  exports from the `--agent <type>` launch flag.
 - **Blocked vs gated**: `blocked_git_commands` are hard-blocked (MANDATORY COMPLIANCE
   message); `gated_git_commands` (`git commit`) are allowed-with-active-issue.
 

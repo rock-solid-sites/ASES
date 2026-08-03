@@ -15,7 +15,28 @@ resolve, see §5 — the doc is stale, not you.
   inference, model discipline). Read fully.
 - `ARCHITECTURE.md` + `README.md` — repo layout and project overview.
 - `docs/ORCHESTRATOR.md` — orchestrator contract (plan/delegate/gate; never
-  implement). Read if you are in the orchestrator role.
+  implement) plus the four-role permission matrix. Read if you are in the
+  orchestrator role.
+- `.opencode/permissions.md` — snapshot of the four-role permission maps
+  (Orchestrator / Builder / Reviewer / Auditor) and the git-write rules.
+
+## 1b. Role routing — four-role permission model
+
+This repo runs four specialist agent roles. Which one YOU are depends on how the
+session was launched (`--agent <type>`, exported as `CROSSLINK_AGENT_TYPE`):
+
+| Role | File | Mode | Writes files? | Git write |
+|------|------|------|---------------|-----------|
+| **Orchestrator** | `.opencode/agents/orchestrator.md` | primary | **No** (edit deny) | `git commit` + `git merge` **gated** on an active issue; `git push`/`rebase`/`reset`/`clean`/`checkout .`/`restore .`/`stash`/`tag`/`am`/`apply`/`branch -d/-D/-m` **blocked** |
+| **Builder** | `.opencode/agents/builder.md` | subagent | Yes | `git commit` gated on an active issue; destructive/push/merge blocked |
+| **Reviewer** | `.opencode/agents/reviewer.md` | subagent | **No** | all git writes blocked (read-only) |
+| **Auditor** | `.opencode/agents/auditor.md` | subagent | **No** | all git writes blocked (read-only) |
+
+The git rules are enforced by `agent_overrides.by_type.<role>` in
+`.crosslink/hook-config.json` via the `crosslink-guard` plugin
+(`blocked_git_commands` = hard block, `gated_git_commands` = allowed with an
+active Crosslink issue). The `orchestrator-guard` plugin blocks write-path tools
+for every non-Builder agent. See `.opencode/permissions.md` for the full snapshot.
 
 ## 1a. Models — hard rules (read before ANY launch)
 

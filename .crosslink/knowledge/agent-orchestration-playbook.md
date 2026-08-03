@@ -17,6 +17,15 @@ project repos may carry a duplicate, but the ASES copy wins on conflict.
 This playbook covers **both** tiers of delegation. Read it once — it tells you
 which tier applies, the shared rules, and the tier-specific procedures.
 
+**ASES permission note (gh#121):** the mechanical git rules for the four ASES
+agent roles are enforced by `.crosslink/hook-config.json`
+(`agent_overrides.by_type.*`) via the `crosslink-guard` plugin and snapshotted in
+`.opencode/permissions.md`. The Orchestrator's `git commit` and `git merge` are
+**gated** on an active Crosslink issue; `git push` is blocked for every role.
+Where this playbook says "the orchestrator does NOT merge", read that as process
+discipline ("nothing merges unreviewed") — the mechanical gate is
+active-issue-gated, not a hard block. Pushing remains operator-only everywhere.
+
 ---
 
 ## 1. Division of Labor — Non-Negotiable
@@ -229,7 +238,8 @@ user.signingkey`.
 - Workers commit to **feature branches only**. Never merge to master or push
   from a worker.
 - **Push is operator-gated.** The orchestrator commits and stops; the operator
-  pushes.
+  pushes. In ASES the orchestrator may also `git merge` (gated on an active
+  issue — see `.opencode/permissions.md`), but push stays operator-only.
 - **Worktree overlap → merge order:** When workers touch shared files, merge
   the branch that ESTABLISHES a shared file before the one that consumes it.
 - **One scope per session.** Never mix unrelated scope in a single worker.
@@ -239,7 +249,10 @@ user.signingkey`.
 ## 10. Gate Discipline for Unmonitored Waves
 
 When the operator can't watch:
-- Workers commit to feature branches; the orchestrator does NOT merge or push.
+- Workers commit to feature branches; the orchestrator does NOT push. In ASES the
+  orchestrator's `git merge` is gated on an active issue, so a merge is only
+  possible while an issue is in flight — never treat a gated merge as a licence
+  to merge unreviewed work.
 - Operator reviews branches on return.
 - **The one rule that protects master:** nothing merges unreviewed.
 - Skeletons/structure can run unattended (no fidelity judgment);

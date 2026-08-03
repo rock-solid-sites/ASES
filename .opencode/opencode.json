@@ -2,10 +2,15 @@
   "$schema": "https://opencode.ai/config.json",
   "instructions": ["SESSION-START.md"],
   "plugin": [
+    "./plugins/orchestrator-guard.ts",
     "./plugins/crosslink-guard.ts",
     "./plugins/rtk-guard.ts"
   ],
   "agent": {
+    "orchestrator": {
+      "path": ".opencode/agents/orchestrator.md",
+      "mode": "primary"
+    },
     "builder": {
       "path": ".opencode/agents/builder.md",
       "mode": "subagent"
