@@ -1,6 +1,6 @@
 {
   "next_display_id": 151,
-  "next_comment_id": 261,
+  "next_comment_id": 262,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4067,7 +4067,7 @@
       "parent_uuid": "7fea5a54-4818-403e-a458-b39204695bbf",
       "created_by": "OL2r",
       "created_at": "2026-08-03T20:43:16.505159891Z",
-      "updated_at": "2026-08-03T20:45:08.702106593Z",
+      "updated_at": "2026-08-03T20:45:31.722301865Z",
       "labels": [
         "review"
       ],
@@ -4098,6 +4098,15 @@
           "kind": "observation",
           "signed_by": "SHA256:DQICMy+1aPbxMZ8IC1yWbar8bJC20tdXzwI+Tntf81g",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3rTYX9P4uL2rXFnq3psXT7TdHHHJ27PFD6aI+x0uhQYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEzq0e4VrnEMOyx45LdDqN/ejIRpwm1cxj3UJKzqplCCxlAqSqb8Y7DAv7IQuw+c50hQtn0F5u7ShoMBVC0a+DQ=="
+        },
+        "9870b94c-081f-4603-bbb2-6c2de7d1bd9d": {
+          "display_id": 261,
+          "author": "pp3g-hYof-independent-code-review-of-the-145-wrapsse-patch-as-a",
+          "content": "## Verdict: SHOULD NOT ship as the durable fix without hardening\n\nThe emergency behavior change is directionally correct: a fast, complete non-SSE body (including ) should not false-abort merely because it is wrapped—the reader can finish and close before the idle timer fires. Missing content-type, , and complete JSON therefore appear safe in the healthy-response case. The risk is slow/stalled bodies, not the media type itself.\n\n### Findings\n\n- **MUST FIX — the binary patch is not a sound maintainable deployment mechanism.** Same-length replacement at two absolute offsets is valid only for this exact binary layout. It is vulnerable to any opencode rebuild, Bun/bundler layout change, byte drift, one bundle changing without the other, or patching the wrong occurrence. The  plus comment padding is opaque and leaves no source-level provenance in the executable. Atomic  is good for new launches, but does not update already-running processes; the  backup is also not durable. At minimum, use a source rebuild/fork. If an emergency binary patch remains necessary, require a pinned version and whole-file hash, assert the exact original 74 bytes at both offsets, patch exactly two matches, verify the resulting hash and both snippets, and fail closed on mismatch.\n\n- **MUST FIX — this broadens #144's silent infinite retry behavior.** A hanging JSON/plain/eventstream body that previously hung with no further requests now times out and enters the same retry path demonstrated for SSE. That bounds an individual read, but does not terminate the operation: retries can continue forever with zero ERROR output, consume provider quota, and potentially duplicate a non-idempotent request. The patch does not create the retry loop, but makes more response classes eligible for it and therefore makes the loop more likely in practice. Add a retry budget/deadline and surface the terminal timeout to the supervisor; do not treat this patch alone as recovery.\n\n- **SHOULD CONSIDER — valid slow non-SSE responses can now be aborted.**  complete responses that arrive promptly should pass, but a legitimate JSON mode or Bedrock/eventstream response with an inter-read gap greater than  will be treated as stalled. This is the intended protection against a body that never closes, but the timeout must be sized/tested per provider and response mode. Bedrock eventstream is a positive reason not to key protection solely to ; OpenAI-compatible JSON mode is a regression test, not evidence that all slow JSON is invalid.\n\n- **SHOULD CONSIDER — content-type is not a safe discriminator for correctness.** Keeping the guard for  and wrapping only missing/ambiguous types would still leave the observed  hang unfixed. Conversely, wrapping all bodies is broader but semantically honest if the contract is an idle body-read deadline. Header absence is already covered by ; the body phase needs its own generic wrapper.\n\n- **NIT — duplicate bundle copies need an explicit invariant.** Patching provider and AISDK copies is reasonable for v1.18.11, but the release process should document why both execute, assert they remain byte-identical in behavior, and test each path independently. Otherwise a future source/bundle split can silently restore the bypass in one path.\n\n### Safer fix recommendation\n\nPrefer a source-level  (or equivalent) that applies to every non-null response body, with a clearly documented per-read idle timeout and, if required, a separate total body deadline. Preserve , bound retries, and return a visible terminal error after the retry budget. A source rebuild at the pinned version is safer than offset surgery. Conditional wrapping only for missing/ambiguous content-type is not sufficient because the reproduced failure is explicitly .",
+          "created_at": "2026-08-03T20:45:31.715545706Z",
+          "kind": "result",
+          "signed_by": "SHA256:DQICMy+1aPbxMZ8IC1yWbar8bJC20tdXzwI+Tntf81g",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3rTYX9P4uL2rXFnq3psXT7TdHHHJ27PFD6aI+x0uhQYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyuZ78dN0s8LjZgUyezm1210JNe8nj/0MndPptYtZLEIOgRsMWATD+iZxNMsKHQ+rHs1RWl2kmlWcXpUbdvJ8Aw=="
         }
       }
     },
@@ -4931,8 +4940,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T20:45:08.702106593Z",
+    "timestamp": "2026-08-03T20:45:31.722301865Z",
     "agent_id": "pp3g-hYof-independent-code-review-of-the-145-wrapsse-patch-as-a",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
