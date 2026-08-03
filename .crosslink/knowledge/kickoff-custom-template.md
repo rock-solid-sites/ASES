@@ -35,11 +35,20 @@ To skip the prompt entirely (rely on OpenCode's `instructions` config):
 
 ## Template File
 
-The custom template is at `~/.crosslink/rules/kickoff.md` (global) or `.crosslink/rules/kickoff.md` (project-specific). It's ~40 lines covering:
+The custom template is at `~/.crosslink/rules/kickoff.md` (global) or `.crosslink/rules/kickoff.md` (project-specific). It covers:
 - Blocked/gated git commands
 - Essential instructions (agent setup, session, plan, implement, sync)
+- **Progress Check-Ins** — mandatory milestone checkpoint comments (POST-PLAN /
+  MIDPOINT / BLOCKER-OR-VERIFY / FINAL, max ~4 per session), exact `crosslink
+  issue comment ... --kind observation` commands, required `state` /
+  `completed` / `next` / `blocker` fields, `crosslink sync` after posting, and
+  missed check-in escalation (see `agent-orchestration-playbook.md` §5.4)
 - Code quality rules
 - Final steps
+
+The `Progress Check-Ins` section is the enforcement mechanism for the
+progress-feedback contract — it turns the playbook's checkpoint rules into a
+per-agent prompt mandate.
 
 ## Placeholders
 

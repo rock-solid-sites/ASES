@@ -64,11 +64,28 @@ are hard invariants, not suggestions:
 
 | If your task is... | Read |
 |---|---|
-| Launching or orchestrating agents (kickoff OR swarm) | **`agent-orchestration-playbook.md`** (knowledge) — the shared playbook covering both tiers + when each applies |
+| Launching or orchestrating agents (kickoff OR swarm) | **`agent-orchestration-playbook.md`** (knowledge) — the shared playbook covering both tiers + when each applies. Contains task-matched timeout guidance (§5.3), the mandatory checkpoint-comment progress contract (§5.4), the two-repo sync rule (§5.5), and reviewer-independence via isolated sub-issues (§5.6) |
 | Multi-agent / swarm specifically | `crosslink-subagent-orchestration.md` (knowledge, CLI reference) + `docs/ORCHESTRATOR.md` |
 | Adversarial review | `crosslink-adversarial-review.md` (knowledge) + `docs/crosslink-adversarial-review.md` |
 | Launching a background agent | the in-repo `kickoff` skill (`.claude/skills/kickoff/SKILL.md`) |
 | Long-running processes / OOM risk | `server-memory-management.md` (knowledge) |
+
+## 4a. Timeouts and progress feedback (read before ANY launch)
+
+- **Timeout is task-matched, never a blanket 1h.** Ceilings: trivial `<=10m`,
+  doc/simple/review `15-20m`, port/multi-file `30m`, complex multi-phase
+  `45m+` (use swarm, not kickoff). Rationale and evidence: §5.3 of
+  `agent-orchestration-playbook.md` (#120's 4-file fix took ~3 min on a 40m
+  timeout; timeout length is the primary problem).
+- **Agents MUST post milestone checkpoint comments** (`crosslink issue comment
+  <id> "[PROGRESS] state=... completed=... next=... blocker=..." --kind
+  observation`, max ~4 per session) and **sync after posting** — that is the
+  durable operator-facing progress channel. Session-action breadcrumbs are
+  supplementary telemetry only. See §5.4 of the playbook and the KICKOFF
+  template's `Progress Check-Ins` section.
+- **Stalled-agent signals:** timeout exceeded = likely stalled; no checkpoint
+  for >2x the expected interval = likely stalled. Do not wait blind until
+  timeout.
 
 ## 5. The invariant (overrides everything)
 

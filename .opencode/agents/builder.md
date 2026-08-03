@@ -47,7 +47,7 @@ permission:
 
 - `crosslink session action "..."` — record breadcrumbs during work
 - `crosslink issue comment #N "..."` — report progress/blockers on issue
-- `crosslink intervene #N "..." --trigger <type> --context "..."` — log interventions
+- `crosslink issue intervene #N "..." --trigger <type> --context "..."` — log interventions
 - `crosslink sync` — push state to hub
 - `crosslink session end --notes "..."` — end session with handoff
 - Write `DONE` to `.kickoff-status` when completely finished
