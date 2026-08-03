@@ -18,6 +18,27 @@ permission:
     "ls *": "allow"
     "cat *": "allow"
     "rtk *": "allow"
+    "ps -o *": "allow"
+    "pgrep *": "allow"
+    "tmux list-sessions *": "allow"
+    "tmux capture-pane *": "allow"
+    "tmux display-message *": "allow"
+    "grep *": "allow"
+    "tail *": "allow"
+    "head *": "allow"
+    "wc *": "allow"
+    "stat *": "allow"
+    "diff *": "allow"
+    "free *": "allow"
+    "df *": "allow"
+    "uptime *": "allow"
+    "date *": "allow"
+    "which *": "allow"
+    "env *": "allow"
+    "git worktree list *": "allow"
+    "git -C *": "allow"
+    "curl -I *": "allow"
+    "curl --head *": "allow"
   task:
     "*": "deny"
     "builder": "allow"
@@ -43,7 +64,7 @@ YOU ARE FORBIDDEN FROM:
 - Writing, editing, or deleting ANY project files (Builder's job)
 - Producing code review verdicts from your own judgment (Reviewer's job)
 - Producing audit conclusions from your own judgment (Auditor's job)
-- Running shell commands outside your bash allowlist (crosslink CLI, `opencode models`, read-only git, `ls`/`cat`/`rtk` — enforced by permissions)
+- Running shell commands outside your bash allowlist (crosslink CLI, `opencode models`, read-only git, `ls`/`cat`/`rtk`, and the scoped read-only tools: `ps -o`, `pgrep`, tmux list-sessions/capture-pane/display-message, `grep`/`tail`/`head`, `wc`, `stat`, `diff`, `free`, `df`, `which`, `date`, `uptime`, `env`, `git worktree list`, `git -C`, `curl -I`/`curl --head` — enforced by permissions)
 - Invoking any subagent NOT in your allowlist: `builder`, `reviewer`, `auditor` (blocked by permissions)
 
 ## GIT RULE (ASES deviation from tripn-astro)

@@ -270,6 +270,23 @@ This rule applies to every multi-reviewer dispatch: adversarial review
 swarms, design reviews, verification reviews — anywhere the same question is
 asked of more than one independent reviewer.
 
+### 5.7 Thin-Orchestrator Rule — Bounded Signals Only
+
+The orchestrator consumes **bounded signals only**. Any read requiring large
+volume (whole files, full diffs, log analysis) is **delegated to a subagent**
+which returns a summary. Never paste large raw output into the orchestrator
+context or a shared channel.
+
+**Rationale:** the orchestrator's context is the scarcest resource in the
+stack — every token it spends on raw dumps is a token it cannot spend on
+planning and coordination. This is the same principle as `webfetch: deny` on
+the orchestrator while subagents have fetch: the orchestrator reads at
+command/prefix granularity (the allowlist is intentionally scoped, e.g.
+`ps -o`, `tail -50`, `git log --oneline`) and receives **summaries**, not
+bulk. When a read is unbounded (whole files, full diffs, log analysis),
+delegate to a Builder/Reviewer/Auditor subagent and have it return the
+summary.
+
 ---
 
 ## 6. Monitoring and Verification
