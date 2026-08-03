@@ -1,5 +1,5 @@
 {
-  "next_display_id": 140,
+  "next_display_id": 141,
   "next_comment_id": 217,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -135,6 +135,7 @@
     "e61ae03e-be9e-480b-86f7-0d5557716c8c": 36,
     "e6fe025c-f82f-4bb2-8c00-42ec54e384d8": 101,
     "ec7808cb-b7f9-4248-9dc9-dbb36255ab24": 51,
+    "f07207cd-d69f-4856-93e4-7db9b3d7a922": 140,
     "f0a6a859-cba0-4308-948d-321479f4139a": 22,
     "f257261a-e750-4e5f-bb48-301c61263054": 110,
     "f7aa3d48-c0d2-49c9-b27d-045d5e9de7a2": 93,
@@ -4149,6 +4150,16 @@
         "feature"
       ]
     },
+    "f07207cd-d69f-4856-93e4-7db9b3d7a922": {
+      "uuid": "f07207cd-d69f-4856-93e4-7db9b3d7a922",
+      "display_id": 140,
+      "title": "DOC UPDATE: free-model failures are NOT always rate limits — check the opencode log for the 429/error signature before assuming. Evidence (2026-08-03, #129 laguna incident): the 'stalled' laguna reviewer had ZERO level=ERROR entries in its session log (ses_03aa886c0ffeXKFRLMhDrbTNyd) — last event was an outgoing 'message=stream' request at 02:01:30 that never completed, no error. Compare: historical laguna rate-limit incidents (July 23-26) all logged 'Provider rate limit exceeded'. Ling + big-pickle + nemotron completed fine in the same window. CONCLUSION: laguna's freeze was a silent provider-side hang, NOT a rate limit. UPDATE .crosslink/knowledge/model-discipline.md: add the failure-discrimination rule — on a stalled free/paid agent, check ~/.local/share/opencode/log/opencode.log for the error signature; rate limit = 'Provider rate limit exceeded' / 429; hang = outgoing stream with no response and no error. Do not assume rate limits hit all free models at once.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T05:20:33.467446328Z",
+      "updated_at": "2026-08-03T05:20:33.467446328Z"
+    },
     "f0a6a859-cba0-4308-948d-321479f4139a": {
       "uuid": "f0a6a859-cba0-4308-948d-321479f4139a",
       "display_id": 22,
@@ -4318,8 +4329,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T05:20:18.028880069Z",
+    "timestamp": "2026-08-03T05:20:33.467446328Z",
     "agent_id": "OL2r",
-    "agent_seq": 531
+    "agent_seq": 532
   }
 }
