@@ -1,5 +1,5 @@
 {
-  "next_display_id": 138,
+  "next_display_id": 139,
   "next_comment_id": 217,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -52,6 +52,7 @@
     "4b44cd8c-cd37-49fb-a645-0469be2fc61f": 127,
     "4d2ae734-1b40-41a5-899e-baacb300cd22": 42,
     "52ea68a3-1536-4e75-b68f-89c0ba01b8d1": 90,
+    "52f44369-b47d-40e1-91c5-4a95fe9f7d30": 138,
     "54bdc408-5a1c-4f5a-a5a0-eadcc54113a2": 86,
     "559938cb-c063-42ae-9843-5e13be2942b4": 60,
     "55c73bbe-48d1-4e77-810f-0247f3ad4bda": 78,
@@ -1587,6 +1588,16 @@
       "labels": [
         "feature"
       ]
+    },
+    "52f44369-b47d-40e1-91c5-4a95fe9f7d30": {
+      "uuid": "52f44369-b47d-40e1-91c5-4a95fe9f7d30",
+      "display_id": 138,
+      "title": "FORK BUG: kickoff watchdog nudge never fires — exit-condition bug in launch.rs. Evidence: launch.rs:646-649 writes .kickoff-status (LAUNCHING) BEFORE spawning the watchdog (launch.rs:667-671); watchdog script's first check is 'if [ -f {worktree}/.kickoff-status ]; then exit 0; fi' (launch.rs:100). Since the status file ALWAYS exists by watchdog start, the watchdog exits immediately at first check — the heartbeat-staleness nudge logic is dead code. Nothing ever deletes the status file (RUNNING written at launch.rs:665), so the exit condition stays permanently true. FIX: change exit condition to check for a TERMINAL sentinel (DONE/FAILED/CI_FAILED content) rather than mere file existence, or check for an explicit 'watchdog-disarm' marker on completion. This is fork-side code (/home/claude-code/projects/crosslink) — fix + rebuild per crosslink-fork.md build instructions. PREREQUISITE for #135 Phase 2. Evidence originally from big-pickle review #137.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T05:19:48.989656670Z",
+      "updated_at": "2026-08-03T05:19:48.989656670Z"
     },
     "54bdc408-5a1c-4f5a-a5a0-eadcc54113a2": {
       "uuid": "54bdc408-5a1c-4f5a-a5a0-eadcc54113a2",
@@ -4282,8 +4293,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T05:12:17.604062031Z",
-    "agent_id": "pp3g-cfir-implement-phase-1-of-the-135-unified-agent-lifecycle",
-    "agent_seq": 9
+    "timestamp": "2026-08-03T05:19:48.989656670Z",
+    "agent_id": "OL2r",
+    "agent_seq": 526
   }
 }
