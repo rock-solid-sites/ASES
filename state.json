@@ -1,6 +1,6 @@
 {
   "next_display_id": 162,
-  "next_comment_id": 283,
+  "next_comment_id": 284,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -5256,7 +5256,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T22:09:04.801144186Z",
-      "updated_at": "2026-08-03T22:20:56.279910394Z",
+      "updated_at": "2026-08-03T22:21:26.825316887Z",
       "labels": [
         "research"
       ],
@@ -5269,6 +5269,15 @@
           "kind": "observation",
           "signed_by": "SHA256:XO13XH4RS5owtARkOPsgwNa/euSxd8K7FlM20SJnUZk",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgr6zpQUPsaz7bmopijQ/K2Di3DnwtF5JMJiYYBFmuUK8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKFQhG2GkMUpBlwk9f6y9nH3VdO0Q58KLLX3qmH18jQXrzSIYWrg1vlTtJhPc1k5sPCkuZBZod7WhN2rpfuzuAQ=="
+        },
+        "50337bf7-e7a3-4770-87e5-e17d94b84ed9": {
+          "display_id": 283,
+          "author": "pp3g-fzcK-fork-history-audit-issue-160-reconstruct-the-a350",
+          "content": "# AUDIT VERDICT — crosslink fork history (read-only)\n\n## (1) Common ancestor & split point\n\n**merge-base(main, fork-local/agents) = 85691369** (\"chore(readme): remove banner image (#786)\"). main is 3 commits ahead (3 non-merge); fork-local/agents is 38 ahead (25 non-merge + 13 merges).\n\nReflog evidence of the split:\n- **main was REBASED** onto origin/main @85691369 on 2026-07-15 11:39 → produced 8875ffbb (model-agnostic), b3ecde12 (docs), 31a3e2e8 (V3 lock gaps).\n- **fork-local was CHERRY-PICKED** from pr44-clean: created from origin/main @15992374 on 2026-07-31 19:46, cherry-picking 8a207fff (model-agnostic), 51c88188 (docs), 3db234dc (template gh#43); then 32617279/dfeee2c6 (gh#792), then commits db9ebd9f (gh#794), 186b12ea (#119), 3cf36551 (#139).\n- The ORIGINAL commits exist unreferenced in the object DB: b48bda8b (parent = 7854152b = v0.9.0-beta.1 tag), 9873bfa8 (child, only .crosslink/.active-issue differs), 0b84ce8d (docs), 254789a2 (V3 lock).\n- Split cause: same work was rebased onto the then-current origin/main for the \"clean\" PR line, and separately cherry-picked onto a NEWER origin/main (15992374 carries 30 extra dollspace-gay commits: v3-hub fixes gh#4/8/11/12/31, dependabot, lint) to carry the ASES agent-infra work.\n\n## (2) The two \"model-agnostic\" commits — IDENTICAL, rewritten\n\nPatches (diff vs each commit's parent): 8875ffbb = 1443 lines; 8a207fff = 1443 lines. Same 17-file set. Only differences: blob index hashes (parents differ) and hunk offsets (+2 lines in main.rs). Same author, same author-date (2026-07-11 06:38:35). **Same change, rebase vs cherry-pick — pure history rewrite, not divergent work.**\n\n## (3) Canonical branch for agent-infrastructure work\n\n**fork-local/agents is canonical.** It contains ALL of: #43 (3db234dc), #792 (32617279, dfeee2c6), #794 (db9ebd9f), #119 (186b12ea), #139 (3cf36551); #138 (799ce67d) sits on its tip (parent = 3cf36551). main contains **none** of these. main's only unique content is 31a3e2e8 (V3 lock protocol gaps, Closes #790) — not on fork-local.\n\n## (4) Merge of fork-local/agents into main: CONFLICTED + wrong direction\n\n3-way merge simulation (git merge-file on temp blobs; base 85691369, ours main, theirs fork-local/agents):\n- **10 files CONFLICT** (45 markers): kickoff/launch.rs(6), kickoff/mod.rs(3), kickoff/plan.rs(1), kickoff/run.rs(2), kickoff/tests.rs(28), kickoff/types.rs(1), sentinel/engine.rs(1), swarm/lifecycle.rs(1), shared_writer/locks.rs(1), utils.rs(1).\n- 2 files merge clean: main.rs, shared_writer/core.rs.\n- 8 files identical both sides (no conflict): kickoff.md, sentinel/collect.rs, dispatch.rs, mod.rs, watch.rs, orchestrator/decompose.rs, server/handlers/orchestrator.rs, token_usage.rs.\nExample conflict: plan.rs — main adds `&opts.agent_binary` to build_agent_command; fork adds `&opts.agent_binary, &agent_type` + read_agent_type() (fork is a superset). locks.rs — main deletes clear_stale_lock_state/refactors force_release; fork adds GH#8 lazy refresh at the same is_v3() block.\nDirection problem: merging fork-local into main would drag in the 30-commit dollspace-gay fork history AND all ASES-only patches into the clean PR line. Wrong-branch.\n\n## (5) pre-consolidation tag\n\n**Not in the crosslink repo.** Lives in the ASES repo: 8201d6f \"chore: pre-consolidation snapshot (uncommitted changes)\", 2026-07-17, refs #28 (EDASES monorepo migration); parent 84ed45d4 (docs), grandparent 3e7eac9b (model-agnostic) — but those ASES copies change DIFFERENT files (skills/docs, not crosslink source). It marks the ASES repo state before the Tools/EDASES monorepo consolidation; it is not a crosslink branch marker.\n\n## (6) RECOMMENDATION: DON'T merge fork-local/agents into main. Keep fork-local/agents as the canonical agent-infra line. main is the clean upstream (PR #44) line. If anything: cherry-pick main's 31a3e2e8 (V3 lock fix, #790) onto fork-local/agents so it isn't lost, and rebase future ASES work onto a fresh main rather than merging.\n\nEvidence files/hashes: 85691369 (merge-base), 8875ffbb vs 8a207fff (identical patches, 1443 lines), b48bda8b/9873bfa8 (originals), 3cf36551 (fork tip), 31a3e2e8 (main-only V3 fix), 799ce67d parent=3cf36551 (#138 base), 8201d6f (pre-consolidation, ASES repo).",
+          "created_at": "2026-08-03T22:21:26.818590125Z",
+          "kind": "result",
+          "signed_by": "SHA256:XO13XH4RS5owtARkOPsgwNa/euSxd8K7FlM20SJnUZk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgr6zpQUPsaz7bmopijQ/K2Di3DnwtF5JMJiYYBFmuUK8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAfp7i0cijbPUz9NDSMBD6I51TLTtmQI28OvWuH9JpZN6TQ9/Fyp5E98tk71NfAp353BjHNntLTfdSyUcCfuMsCw=="
         },
         "8a8213a2-c1c1-4a7e-b17f-700c9f86915f": {
           "display_id": 280,
@@ -5381,8 +5390,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T22:20:56.279910394Z",
+    "timestamp": "2026-08-03T22:21:26.825316887Z",
     "agent_id": "pp3g-fzcK-fork-history-audit-issue-160-reconstruct-the-a350",
-    "agent_seq": 15
+    "agent_seq": 16
   }
 }
