@@ -1,5 +1,5 @@
 {
-  "next_display_id": 135,
+  "next_display_id": 136,
   "next_comment_id": 187,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -26,6 +26,7 @@
     "21f9e31f-c8f8-480c-9eeb-fdfab1cfc48e": 48,
     "2268a26c-c310-4aca-8226-ec105a40ce16": 115,
     "233b3ad2-eabe-4323-a0da-e11e876f93ff": 56,
+    "246c7e5b-4bb4-404f-bfd3-d9eee60e0e3f": 135,
     "26ea9ea1-949f-4ee2-8514-a9cd07356ed9": 124,
     "286d35ca-9c9b-46f8-8a88-1ca6d09e5754": 98,
     "29f67bbb-bb7a-438e-bb99-4e7de1b47abc": 45,
@@ -805,6 +806,16 @@
       "labels": [
         "feature"
       ]
+    },
+    "246c7e5b-4bb4-404f-bfd3-d9eee60e0e3f": {
+      "uuid": "246c7e5b-4bb4-404f-bfd3-d9eee60e0e3f",
+      "display_id": 135,
+      "title": "Unified agent lifecycle watcher: monitoring + notification + automated stall recovery (one design incorporating #133/#134 research). PROBLEM: we have no proactive channel (operator must poll) AND a recurring failure mode (3x this session: laguna #129, YYRu #127, + historical) where a model request hangs silently — outgoing 'stream' never returns, no error, agent goes quiet. OBSERVABLE FINGERPRINT (per #123 two-signal rule): .kickoff-status not terminal + no activity (file mtimes / commits / comments) for >2x expected interval = STALLED. DESIGN — ONE background watcher (systemd timer + Python, zero-Rust per #133 verdict; sentinel extension as durable upgrade per #134 Path A) polling .worktrees/*/ every 15-60s, tracking per-agent state machine (LAUNCHING/RUNNING/DONE/FAILED/CI_FAILED + STALLED), and on state transition taking ACTIONS: (a) COMPLETED -> notify operator (desktop/webhook); (b) STALLED -> notify + PRESERVE WORK (commit uncommitted worktree changes to feature branch with [#N] ref) + kill tmux + RELAUNCH fresh agent on same issue with retry-handoff note (#115: prior attempt stalled at X, resume from committed state) + record recovery on issue (--kind observation); (c) FAILED -> notify + record. ESCALATION GUARD: max 2 auto-relaunches per issue, then STOP and notify operator (playbook HALT backstop; don't loop burning tokens). This DELIBERATELY DEVIATES from playbook 'HALT on failure, never auto-retry' — operator-approved policy direction, codify explicitly. RECONCILES with #133 (notification) + #134 (repurposing feasibility) + #115 (retry handoff) + #123 (two-signal rule). Deliverable: implementation sketch + policy doc; then build.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T04:25:20.038929813Z",
+      "updated_at": "2026-08-03T04:25:20.038929813Z"
     },
     "26ea9ea1-949f-4ee2-8514-a9cd07356ed9": {
       "uuid": "26ea9ea1-949f-4ee2-8514-a9cd07356ed9",
@@ -3940,8 +3951,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T04:10:41.030510407Z",
+    "timestamp": "2026-08-03T04:25:20.038929813Z",
     "agent_id": "OL2r",
-    "agent_seq": 502
+    "agent_seq": 503
   }
 }
