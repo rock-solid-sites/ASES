@@ -1,6 +1,13 @@
 # Crosslink Fork
 
-The project uses a custom fork of crosslink at `/home/claude-code/projects/crosslink` with changes that aren't yet merged upstream (PR #44 on dollspace-gay/crosslink).
+The project uses a custom fork of crosslink at `/home/claude-code/projects/crosslink`. The upstream feature branch (PR #44 on dollspace-gay/crosslink, head `feat/43-configurable-kickoff-template`) was **merged upstream on 2026-08-01** (merge commit `26ee1885`, 18 files +646/-83). The upstream lint check failed on `cargo fmt` formatting-only diffs (`orchestrator.rs:67`, `token_usage.rs:408`, `launch.rs:229`) but the merge proceeded — cosmetic, not blocking.
+
+## Fork Branches
+
+- `fork-local/agents` is the **canonical agent-infrastructure branch** — it contains the local agent work (#43/#792/#794/#119/#138/#139).
+- `main` is the clean upstream line.
+- Do **not** merge `fork-local/agents` into `main`: the #160 audit found 10 conflicted files / 45 markers — the wrong direction.
+- The V3 lock fix (`31a3e2e8`) is **not** yet on `fork-local`; the manual import is deferred and tracked as #166.
 
 ## Building
 
