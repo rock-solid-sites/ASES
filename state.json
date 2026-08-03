@@ -1,6 +1,6 @@
 {
   "next_display_id": 138,
-  "next_comment_id": 207,
+  "next_comment_id": 208,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -823,7 +823,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T04:25:20.038929813Z",
-      "updated_at": "2026-08-03T04:38:40.512771735Z",
+      "updated_at": "2026-08-03T04:54:24.465992424Z",
       "labels": [
         "infrastructure"
       ],
@@ -851,6 +851,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABArlH5ZBps09Pu8LY1RHyuyMXVlSBs8td6W83dijf+DVUTC0DBpu2dlUf0KeLELtiS4bZVqg+HmUv2nL7WpR2SBg=="
+        },
+        "cf898fbe-fee5-4161-9580-c845d739ad60": {
+          "display_id": 207,
+          "author": "OL2r",
+          "content": "REVISED DESIGN v2 (2026-08-03) — synthesized from two independent reviews: luna #136 (CONDITIONAL) + big-pickle #137 (directionally sound, structurally incomplete). Both independently converge on the same ship order and the same critical corrections.\n\nCONVERGENCE (strong signal):\n1. Tier 1 (request-level timeout) is the CORRECT root fix and the ONLY tier that actually fixes the observed hang. Implement via opencode provider config — the claude wrapper execs 'opencode run' so ALL kickoff agents are opencode; opencode 1.18.11 provider schema has timeout/headerTimeout/chunkTimeout (chunkTimeout aborts a hung SSE stream). NOTHING is configured today (verified). SUB-ITEM REQUIRED: experiment to verify post-abort behavior (does the agent loop get a retryable error and continue, or does the session die?) BEFORE building anything on it; measure typical chunk cadence to pick chunkTimeout values.\n2. Nudge-first is NOT recovery for a hung stream: tmux send-keys buffers while the client blocks (luna) and crosslink's built-in watchdog ALREADY implements the nudge and is INERT due to an exit-condition bug (big-pickle: launch.rs:88-89 exits when status file exists, but launch writes it before spawning watchdog). FIX the existing watchdog bug; nudge = cheap probe for idle-but-responsive agents, not hang recovery.\n3. Detection must use the HEARTBEAT file (.crosslink/.cache/last-heartbeat, 120s, already powers the watchdog) as PRIMARY signal — .kickoff-status mtime is static mid-run. Add debounce (2 consecutive detections), per-model silence floor from .kickoff-metadata.json timeout_secs, LAUNCHING grace, phase-adaptive deadlines. The 2x-expected-interval rule is an investigation trigger, NOT a destruction trigger.\n4. Completion edge (MUST FIX): finished-but-flagless agents (commit/result comment present, .kickoff-status missing DONE) = COMPLETED, not STALLED — else duplicate work on done issues (playbook 6.1: commit is ground truth).\n5. Systemic masking: >=2 stalls in a window = SYSTEMIC signal -> HALT, do NOT relaunch. Add cooldown/backoff, model/provider variation, per-issue token budget.\n6. Operational races: index.lock handling, coordination with kickoff cleanup, signing-key re-assertion (worktree may hold driver key), stale-lock handling for session work, watcher identity + mandatory sync-after-comment, persisted state machine (idempotent transitions on watcher restart).\n7. CI_FAILED policy: notify, do NOT auto-relaunch (code failure != hang).\n\nSHIP ORDER (both reviewers): PHASE 1 = monitor + notify + Tier 1 request-timeout config + retry-behavior experiment (non-destructive); PHASE 2 = fix existing watchdog bug + harden detection (heartbeat, debounce, floors); PHASE 3 = autonomous preserve+kill+relaunch with all gates, fault-injected, opt-in. Do NOT ship destructive tier until Phase 1 proven.\n\nDELIVERABLE UPDATE: implementation proceeds in phases; Phase 1 first (opencode config + watcher monitor/notify + experiment). Policy doc must codify the explicit HALT deviation + two-repo sync mirror to tripn-astro.",
+          "created_at": "2026-08-03T04:54:24.457275674Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAog5i8fbnN3VCXPubeMTUvOecwzMX3x1vFCNU5CIUL3cgZTnrOQHfra+wAVFZGCQXYq8t11Cy49hi+BsNjEysAA=="
         }
       }
     },
@@ -4192,8 +4201,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T04:48:01.358439928Z",
-    "agent_id": "pp3g-zpqU-copy-an-incident-report-into-the-ases-repo-as-a-362e",
-    "agent_seq": 8
+    "timestamp": "2026-08-03T04:54:24.465992424Z",
+    "agent_id": "OL2r",
+    "agent_seq": 517
   }
 }
