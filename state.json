@@ -1,6 +1,6 @@
 {
   "next_display_id": 149,
-  "next_comment_id": 254,
+  "next_comment_id": 255,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2758,7 +2758,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T18:14:00.693876735Z",
-      "updated_at": "2026-08-03T18:45:26.183399351Z",
+      "updated_at": "2026-08-03T20:13:21.090908443Z",
       "labels": [
         "bug"
       ],
@@ -2780,6 +2780,15 @@
           "kind": "observation",
           "signed_by": "SHA256:4yI3M6+jm5ufbZfTvufu0lYbHkW7KU/YVgQOo2MwKU8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUuUuwrhvwovLx3QLYrtVBQBa+WZtas/EAyBuwi0G0kwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKrN9zi2EP6i+KOurbamkVIxs8yoH7os+w53qvGi5SiM37HDoi//onyL2kt7MzzP+RFPlW+fumnbLCp3/xp58Cg=="
+        },
+        "7cc3f942-a0cd-4300-bbb4-15690083c29f": {
+          "display_id": 254,
+          "author": "pp3g-7brH-implement-the-145-local-patch-to-opencode-remove-aaca",
+          "content": "Plan: (1) LOCATE — installed opencode is a COMPILED Bun standalone binary (ELF 179MB) at /home/claude-code/.nvm/versions/node/v22.22.3/lib/node_modules/opencode-ai/bin/opencode.exe (chain: ~/.local/bin/opencode bash wrapper -> nvm bin symlink -> opencode.exe). wrapSSE guard 'if(!$.headers.get(\"content-type\")?.includes(\"text/event-stream\"))return $' found embedded as PLAINTEXT minified JS in TWO copies: offset 97992444 (function dy, provider.ts bundle, called from resolveSDK fetch wrapper at 98021730) and offset 99193204 (function or, AISDK bundle). (2) PATCH — apply same-length in-place byte patch to both guards (change guard condition to always-false so chunkTimeout wraps ALL bodies; keep !body and !chunkTimeout checks + headerTimeout intact). Produce the source-level diff for provider.ts as the canonical fork patch. (3) VERIFY — reuse /tmp/opencode-hang-test harness (fake server, application/json content-type + hang, chunkTimeout=3000): patched binary must abort within ~3s instead of hanging forever; compare against unpatched. (4) REBUILD — document exact rebuild: bun install + clone anomalyco/opencode@v1.18.11, patch packages/opencode/src/provider/provider.ts, bun build, replace opencode.exe (bun NOT currently installed — state steps for operator). (5) Post plan (this) + result with diff + verification + rebuild instructions. #145 stays OPEN.",
+          "created_at": "2026-08-03T20:13:21.081374075Z",
+          "kind": "plan",
+          "signed_by": "SHA256:bg2OOHea3dOqrFubYLs+v/VEJ6It/axDMl8kdTC3FKw",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgQx/V1AO8xnaM+K/jpMoIK0c0cpFIgBtCFBZKKw+CZ88AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA649P6P8VSW+LXiQdoOz6NXbqHd+/Akw3sgSETQ5/iNvxgNa5Ucf677C/C99/XmZ3PlUCVxqwvNOR5Sl3RXI5BA=="
         },
         "a39d9009-8ede-402b-98e9-7bd3dc41c0f1": {
           "display_id": 249,
@@ -4826,8 +4835,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T20:05:33.078454186Z",
+    "timestamp": "2026-08-03T20:13:21.090908443Z",
     "agent_id": "pp3g-7brH-implement-the-145-local-patch-to-opencode-remove-aaca",
-    "agent_seq": 8
+    "agent_seq": 9
   }
 }
