@@ -1,6 +1,6 @@
 {
   "next_display_id": 138,
-  "next_comment_id": 212,
+  "next_comment_id": 213,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -823,7 +823,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T04:25:20.038929813Z",
-      "updated_at": "2026-08-03T04:59:19.725005701Z",
+      "updated_at": "2026-08-03T05:05:19.532488249Z",
       "labels": [
         "infrastructure"
       ],
@@ -860,6 +860,15 @@
           "kind": "plan",
           "signed_by": "SHA256:Ohieve4T/Ds2ELYPEzAcOMDwaFq3f+YhlG2X7VZERp4",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxGQqQy0oVLZouh6RxEn/ufpBoz/MDuJORkTw/vVATpwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALQWNOcyXFaIRfDjlgBRn5L4N3V+mb4V2YrCXX19HFkMd6ICARKwH969jx6v0sVpJL0WAbgsEMMI4NfdDEIK9AQ=="
+        },
+        "49adcef3-d259-47d5-a919-141df61b7548": {
+          "display_id": 212,
+          "author": "OL2r",
+          "content": "PHASE 1.5 ADDITION (2026-08-03) — from a live tripn-astro incident: reviewer completed (build PASS + full CHANGES REQUESTED review on #379) but the main-repo SQLite never re-hydrated from the hub, so 'issue show 379' showed empty output and the operator misdiagnosed failure. The dangerous 'fix' (main-repo crosslink sync) is the exact command that caused the June rollback (#338/#342/#370-376). LESSON: liveness (Phase 1 watcher) and data-visibility (hydration) are DIFFERENT failures; the watcher detects completion via .kickoff-status + heartbeat independent of the DB, but must NOT attempt to fix hydration divergence. PHASE 1.5: add OPTIONAL hydration-divergence reporting to the watcher status output — compare worktree/hub state vs main-repo DB and surface 'agent DONE but main DB stale — verify via hub' as a status line, WITHOUT auto-sync (too dangerous). The safe verification path (no sync): inspect refs/heads/crosslink/agents/<agent-id>/events.log on the hub ref for CommentAdded events. This incident reinforces #125 (hydration family) as the separate open item.",
+          "created_at": "2026-08-03T05:05:19.524945943Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyLtw6IQtl7swy08KcANRWFVf58qZXmkSAwelLuVgWsp4IvlpKBILJD1cPKL5yYZAIKDapDnCZbcX0pV/GyX+CQ=="
         },
         "70691f81-ab3b-483f-8090-18995f380528": {
           "display_id": 188,
@@ -4241,8 +4250,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T04:59:19.725005701Z",
-    "agent_id": "pp3g-cfir-implement-phase-1-of-the-135-unified-agent-lifecycle",
-    "agent_seq": 5
+    "timestamp": "2026-08-03T05:05:19.532488249Z",
+    "agent_id": "OL2r",
+    "agent_seq": 524
   }
 }
