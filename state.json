@@ -1,6 +1,6 @@
 {
   "next_display_id": 134,
-  "next_comment_id": 175,
+  "next_comment_id": 176,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -3473,7 +3473,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-03T03:43:35.227603022Z",
-      "updated_at": "2026-08-03T03:46:01.404063902Z",
+      "updated_at": "2026-08-03T03:46:23.957858479Z",
       "labels": [
         "research"
       ],
@@ -3495,6 +3495,15 @@
           "kind": "observation",
           "signed_by": "SHA256:bXk3q5wQqFr+NjuZvakfJH0YrD4Qv3fzYaZY5FdaMpc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgKvuCNQQEvKFknLQBzfzPYsppWPbKl+Z24AbD5zhV2KsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAPnDbzQFdrYhJXx9qr2dobwWrZC9FtIGQzwd5dMF/sAdPVHviNFL1+rpK8pacYaJHCaBoUA2VGoQUMABXkJ/jBg=="
+        },
+        "3bd6e95b-0f35-4fa0-b049-a8ce969fcd59": {
+          "display_id": 175,
+          "author": "pp3g-5YO2-research-task-issue-133-find-a-background-completion",
+          "content": "VERDICT — Recommendation: add a small user-level systemd timer watcher for kickoff status files, not sentinel or an OpenCode plugin, as the cheapest mechanism that covers the actual blind spot. Evidence: (1) local crosslink sentinel is disabled here;  is one-shot and  is a persistent poller (default 10m), but its configured  source only discovers  labels. It dispatches/collects sentinel-owned rows, and its existing  sends completion POSTs (Slack or generic JSON) only from  for those rows; it does not watch arbitrary  files. (2) kickoff itself writes LAUNCHING/RUNNING and agents write terminal DONE/FAILED/CI_FAILED to ; this is the authoritative completion signal and is independent of which agent binary is used. (3) OpenCode's official plugin API does expose , , , and a documented notification example; community plugins , , and  provide desktop/bell/subagent notifications. They only observe OpenCode session events, however; they cannot see a Claude/tmux kickoff unless every dispatched agent is OpenCode, so they are not a complete solution. (4) freedesktop notifications are a standard asynchronous desktop channel; this host currently lacks , so libnotify is an explicit prerequisite. Implementation sketch: add  (stdlib only) that scans  every 15–30s, records  in , and emits once per terminal transition via ; optionally POST the same JSON to a configured webhook with curl for remote/headless operators. Add  (oneshot, , ExecStart=python3 tools/kickoff-notify.py) and  (, , ), then run  (or distro equivalent), , . Filter only DONE/FAILED/CI_FAILED and retain state so repeated scans are silent; include a cleanup/expiry policy for removed worktrees. This avoids changing kickoff or sentinel semantics, catches all kickoff agents, survives the operator switching windows, and remains inspectable with -- No entries --. Alternatives: enable sentinel + configure its existing webhook only if all dispatches are sentinel-owned; install an OpenCode notifier only as an optional secondary signal.",
+          "created_at": "2026-08-03T03:46:23.950948781Z",
+          "kind": "result",
+          "signed_by": "SHA256:bXk3q5wQqFr+NjuZvakfJH0YrD4Qv3fzYaZY5FdaMpc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgKvuCNQQEvKFknLQBzfzPYsppWPbKl+Z24AbD5zhV2KsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAbfgg6Q0OXY5aD5FAcRbya7QRHuSEpgrZ11gfpsbNIDViL8JWFlfssI3vKyAHlLTsIpBDQAQhrpWSSliVBIUCA=="
         },
         "834cbc1c-0444-4aea-81a1-99bcf17518ca": {
           "display_id": 171,
@@ -3818,8 +3827,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T03:46:01.404063902Z",
+    "timestamp": "2026-08-03T03:46:23.957858479Z",
     "agent_id": "pp3g-5YO2-research-task-issue-133-find-a-background-completion",
-    "agent_seq": 8
+    "agent_seq": 9
   }
 }
