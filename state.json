@@ -1,6 +1,6 @@
 {
   "next_display_id": 145,
-  "next_comment_id": 242,
+  "next_comment_id": 243,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -3185,7 +3185,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T17:34:40.896006564Z",
-      "updated_at": "2026-08-03T18:09:07.138464210Z",
+      "updated_at": "2026-08-03T18:11:07.127862130Z",
       "labels": [
         "research"
       ],
@@ -3198,6 +3198,15 @@
           "kind": "observation",
           "signed_by": "SHA256:fmLzQ5FXIztSEmsIH9qJZbpnPkgYSIkTl4JepA/OauE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgt+/Xfi/pqw4EWd/WlHR/LiU5R4t7k+H5zYx8tl1YnFwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA77PMrSvQMORnYswrtpOdERBs1jzNsPo5LDnPvj0BJAzdMB54YqP5mwX0iJAN593Hs50Bv3MNGPH/D70Oi3a3DQ=="
+        },
+        "d092b794-70d7-4780-8a54-22331d8a1d3b": {
+          "display_id": 242,
+          "author": "pp3g-3bc4-investigate-issue-144-tier-1-experiment-verify-fafe",
+          "content": "## VERDICT: The current chunkTimeout config does NOT protect against the silent-hang failure\n\n**Answer: NO — the config as written (timeout=3600000, headerTimeout=300000, chunkTimeout=300000) does NOT protect. The chunkTimeout is silently bypassed for non-SSE responses, and even when it fires it produces an infinite silent retry loop. The #135 watcher nudge is the only mechanism that can recover the agent.**\n\n---\n\n### (1) CONFIG PROPAGATION — CONFIRMED working (not the problem)\n\n- Both hung sessions loaded `~/.config/opencode/opencode.json` at launch:\n  - K6yV (#138): `run=6ca2dfaa` loaded it at `06:01:17.541Z`\n  - OZWZ (#142): `run=aa5f8503` loaded it at `05:57:20.069Z`\n  - Config mtime = `04:59:53` → the chunkTimeout keys were present at both launches.\n- Launch chain works: crosslink kickoff → tmux → `claude` wrapper (`~/.local/bin/claude` bash) → `exec systemd-run --scope --user ... opencode run` → opencode 1.18.11 reads `Global.Path.config` = `OPENCODE_CONFIG_DIR ?? XDG_CONFIG_HOME/opencode ?? ~/.config/opencode` (config.ts `globalConfigFile()`: config.json → opencode.json → opencode.jsonc). The wrapper only sets `XDG_RUNTIME_DIR`; HOME/XDG_CONFIG_HOME survive tmux+systemd-run. `CLAUDE_CONFIG_DIR` is irrelevant to opencode — **0 occurrences in the opencode binary** (verified via strings), and the wrapper never sets it for opencode anyway.\n\n### (2) HONORING — chunkTimeout IS implemented, but with a critical content-type guard\n\nSource: `packages/opencode/src/provider/provider.ts` (v1.18.11 confirmed identical in the installed binary):\n\n- `wrapSSE(res, ms, ctl)` — per-chunk SSE read timeout. **Guard at top:**\n  ```ts\n  if (!res.headers.get(\"content-type\")?.includes(\"text/event-stream\")) return res\n  ```\n  If the response content-type does not contain `text/event-stream`, the response is returned UNWRAPPED and **chunkTimeout is completely disabled**.\n- `resolveSDK` (line ~1738): `chunkTimeout`/`headerTimeout` are extracted from provider options and wired into a custom `fetch` wrapper; overall `timeout` is added as `AbortSignal.timeout` to the request signal.\n- `opencode-go` (models.dev: `npm:\"@ai-sdk/openai-compatible\", api:\"https://opencode.ai/zen/go/v1\"`) goes through the same wrapper — so the mechanism is per-provider honored, **when the content-type matches**.\n\n### (3) REPRODUCTION — controlled minimal test (fake hanging SSE server, chunkTimeout=3000)\n\nThree server modes against `opencode run --model hangtest/hang-model`:\n\n| Server behavior | chunkTimeout=3000 behavior | ERROR entries | Result |\n|---|---|---|---|\n| headers + `text/event-stream`, then hang | **fires** (abort ~3s) → AI SDK retries w/ exp backoff (gaps 3.5/5/7/11/19/33s) | **0** | silent infinite retry loop, process alive → killed only by outer `timeout` (EXIT=124) |\n| headers + `application/json`, then hang | **never fires** (wrapSSE guard bypass) — 2 POSTs then total silence | **0** | infinite hang, zero retries |\n| no headers at all | headerTimeout fires (2000ms) | **4** (ProviderHeaderTimeoutError) | retries + visible errors — this case IS protected |\n\nThe **application/json row exactly reproduces the real OZWZ signature**: last stream 06:01:26, then **zero retry streams and zero errors for 10.9h**. If chunkTimeout had fired at 300s in reality, the log would show retry streams every ~5min+backoff. It shows none → **chunkTimeout never fired in the real hang**.\n\n### (4) WHY — and what would actually protect\n\n**Root cause**: the real upstream response (or an intermediate) arrives with a content-type that does NOT include `text/event-stream`, so `wrapSSE` returns the response unwrapped and chunkTimeout is a no-op. The overall `timeout` (`AbortSignal.timeout` on the request) also fails to abort the already-resolved response body read in this path — the body reader hangs forever with no deadline. Result: last 'stream' never returns, zero ERROR, process alive, pane frozen, flags RUNNING — the exact reported signature.\n\n**What protects**:\n1. **#135 watcher nudge is the only currently-effective recovery** — but note the watchdog only sends `tmux send-keys \"continue working\"` and gives up after `max_nudges=5` (launch.rs `build_watchdog_script`), which will NOT unblock a hung stream promise. It needs to become a **kill/restart** (`tmux kill-session` + relaunch) once staleness exceeds a threshold.\n2. **Client-side**: apply the per-read deadline to ALL response bodies, not just `text/event-stream` — i.e. remove/relax the content-type guard in `wrapSSE` so a hanging body aborts regardless of header type. This is an opencode source change (not config).\n3. **Config-side (limited)**: `headerTimeout` already protects the no-headers case (proven). `chunkTimeout` only helps when the upstream genuinely returns SSE. No config value fixes the content-type bypass.\n4. **Operational**: the kickoff outer `timeout` (e.g. 30m/45m) eventually kills the process — but that's hours-long and the flag lies as RUNNING meanwhile.\n\n**Exact recommendation**: (a) patch opencode `wrapSSE` to drop the `text/event-stream` content-type guard (or add a general body-read deadline) so chunkTimeout covers all responses; (b) upgrade the #135 watcher from nudge to kill-and-restart after N stale checks; (c) keep headerTimeout as-is. Config alone cannot protect this failure mode.",
+          "created_at": "2026-08-03T18:11:07.120939434Z",
+          "kind": "result",
+          "signed_by": "SHA256:fmLzQ5FXIztSEmsIH9qJZbpnPkgYSIkTl4JepA/OauE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgt+/Xfi/pqw4EWd/WlHR/LiU5R4t7k+H5zYx8tl1YnFwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAleWjDDagLO7nbtJHyNhfJ7q/yq9RD7/lCVMkRIBFtu+b4HkTswLBXPDDY+QLmkGaqFY6PGFK6u7F9ZUSs8yKAw=="
         },
         "db73f813-8804-4a76-a9b6-dda5b98158a2": {
           "display_id": 238,
@@ -4640,8 +4649,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T18:09:07.138464210Z",
+    "timestamp": "2026-08-03T18:11:07.127862130Z",
     "agent_id": "pp3g-3bc4-investigate-issue-144-tier-1-experiment-verify-fafe",
-    "agent_seq": 10
+    "agent_seq": 11
   }
 }
