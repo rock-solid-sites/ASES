@@ -1,6 +1,6 @@
 {
   "next_display_id": 138,
-  "next_comment_id": 188,
+  "next_comment_id": 189,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -827,7 +827,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T04:25:20.038929813Z",
-      "updated_at": "2026-08-03T04:25:57.729556213Z",
+      "updated_at": "2026-08-03T04:38:40.512771735Z",
       "labels": [
         "infrastructure"
       ],
@@ -846,6 +846,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWLijeea/H7G6qoftIehCDW6f/8ZbmSZzAuhhwrGKpP3GQDOW6i3xjCiMm/RubJLXtprDwRKJB6XDdhCIj1CTAw=="
+        },
+        "70691f81-ab3b-483f-8090-18995f380528": {
+          "display_id": 188,
+          "author": "OL2r",
+          "content": "TWO-TIER RECOVERY DESIGN (2026-08-03, operator + orchestrator): refine the STALLED action. Instead of kill+relaunch as the first response to a hung request, use a nudge-first approach because the hang is in the upstream request, not the agent's reasoning — the agent's context is intact, it just can't get a response. TIER 1 (preferred): request-level timeout on the opencode/provider client so a hung stream aborts and returns a retryable error to the agent loop (agent self-recovers; opencode already has AI_RetryError machinery — the gap is these requests apparently have no timeout configured). SUB-ITEM: research whether opencode supports configuring per-request timeouts, and how. TIER 2 (fallback): the watcher detects STALLED and first NUDGES the agent via tmux injection (e.g. 'tmux send-keys ... \"your last request timed out — continue\"'), waits one interval; only if no activity escalates to preserve-work + kill + relaunch (original STALLED action). Kill+relaunch becomes the LAST resort, not the first. The #133/#134 reviewers' options map to tiers: request-timeout = in-client; watcher-nudge = systemd-timer-with-injection; preserve+relaunch = escalation. UPDATE THIS ISSUE's deliverable: implementation sketch + policy doc covering both tiers.",
+          "created_at": "2026-08-03T04:38:40.504781418Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABArlH5ZBps09Pu8LY1RHyuyMXVlSBs8td6W83dijf+DVUTC0DBpu2dlUf0KeLELtiS4bZVqg+HmUv2nL7WpR2SBg=="
         }
       }
     },
@@ -4019,8 +4028,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T04:38:29.070035573Z",
+    "timestamp": "2026-08-03T04:38:40.512771735Z",
     "agent_id": "OL2r",
-    "agent_seq": 513
+    "agent_seq": 514
   }
 }
