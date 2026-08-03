@@ -1,6 +1,6 @@
 {
   "next_display_id": 133,
-  "next_comment_id": 166,
+  "next_comment_id": 167,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1273,7 +1273,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:56:34.279008546Z",
-      "updated_at": "2026-08-03T02:03:56.561714051Z",
+      "updated_at": "2026-08-03T02:54:33.300318793Z",
       "labels": [
         "permission"
       ],
@@ -1286,6 +1286,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAzldgpHY9ppvqIZJ+h0s3moi1VlgDukhr215KYIp+EfLug/e7v1abJXSmo81ujcUgIinY+0TFhoA/KV0b3wOVCA=="
+        },
+        "8991b791-c551-42be-8356-70faaa8bb344": {
+          "display_id": 166,
+          "author": "OL2r",
+          "content": "FINAL ALLOWLIST SPEC (2026-08-03) — synthesized from 3 independent reviewer verdicts (ling #128, big-pickle #130, nemotron #132; laguna #129 failed — silent provider hang) + operator decisions + thin-orchestrator token-budget principle.\n\nACCEPT (scoped): ps (targeted 'ps -o pid,etime,time,stat -p <pid>' form), pgrep, tmux (list-sessions / capture-pane with small scrollback -S -20 / display-message), grep (discipline: always pipe to head/tail), tail (bounded forms e.g. tail -50), head (bounded forms e.g. head -50), wc, stat, diff, free, df, which, date, uptime, env (discipline: selective 'env | grep FOO' only; NEVER paste raw output to shared channels), git worktree list (scoped), git -C (scoped read-only compact: status / log --oneline / diff --stat / show --stat), curl -I / curl --head only (headers, no body, no POST).\n\nACCEPTED WITH DELEGATION RULE: git log --oneline, git diff --stat, git show --stat (compact forms only; deep diff review = Reviewer's job).\n\nREJECT: find (mutation flags -delete/-exec), awk/sed (sed -i edits files), less (redundant with head/tail), blanket git log/diff/show (unbounded output), curl body/POST, any git write.\n\nNEW PLAYBOOK RULE (thin orchestrator): The orchestrator consumes bounded signals only. Any read requiring large volume (whole files, full diffs, log analysis) is DELEGATED to a subagent which returns a summary. Never paste large raw output into the orchestrator context or a shared channel. Rationale: orchestrator context is the scarcest resource; same principle as webfetch:deny on orchestrator while subagents have fetch.\n\nAPPLY TO BOTH REPOS (ASES + tripn-astro) per two-repo sync rule (playbook 5.5): .opencode/agents/orchestrator.md frontmatter bash map AND .crosslink/hook-config.json allowed_bash_prefixes, plus the new playbook rule in agent-orchestration-playbook.md.",
+          "created_at": "2026-08-03T02:54:33.288837498Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvTZ39rxGDSJsuMAFJS/7bOFE7NzKFsfDJ4Kr27a2JxmFlk3FBvq9uMC/ImQiQKMNyEr0iXfwzl4XC6HXDeXmBQ=="
         }
       }
     },
@@ -3707,8 +3716,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T02:34:47.802766725Z",
+    "timestamp": "2026-08-03T02:54:33.300318793Z",
     "agent_id": "OL2r",
-    "agent_seq": 488
+    "agent_seq": 489
   }
 }
