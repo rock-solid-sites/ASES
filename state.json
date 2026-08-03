@@ -1,6 +1,6 @@
 {
   "next_display_id": 162,
-  "next_comment_id": 286,
+  "next_comment_id": 287,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1671,11 +1671,22 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-07-14T03:48:39.476601870Z",
-      "updated_at": "2026-07-14T03:48:44.870947975Z",
+      "updated_at": "2026-08-03T22:52:48.353262225Z",
       "labels": [
         "execution-engine-ui,rq3,architecture,uncertainty",
         "research"
-      ]
+      ],
+      "comments": {
+        "e8838d02-1c4c-4a4a-a2a2-f9d26505b599": {
+          "display_id": 286,
+          "author": "OL2r",
+          "content": "RESEARCH LINK (2026-08-03): today's reliability work is a live instance of the lifecycle-ownership question this issue tracks. The silent-hang failure family (#144/#145/#154/#146) exposed that AGENT LIFECYCLE STATE (who owns it, who recovers it, what observes it) is a real operational problem at the tooling layer — mirroring the statechart-vs-engine tension the execution-engine-ui synthesis flagged (statechart owns lifecycle; engine only schedules). Observations transferable: (a) nudge cannot unblock a hung stream — recovery requires kill/restart (ownership of the recovery action); (b) status flags lie — an independent observer (watcher/heartbeat) is needed for ground truth; (c) lifecycle recovery must preserve work + retry-handoff, not restart blind. These are evidence for how the Execution Engine's lifecycle-management role must behave. See #135 (watcher), #154 (durable fix), #146 (kill/restart), #125 (hydration state integrity).",
+          "created_at": "2026-08-03T22:52:48.346281935Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHvb5XRyUgeyxmtEre3d22j33VtM6zVLeoDMChvusZ47g32KreP/mNQg8NAMQuk2xU5C9nB/zCL9mVYc+jQCSBQ=="
+        }
+      }
     },
     "47d06227-00cd-4477-b882-e8cb1a0d0b48": {
       "uuid": "47d06227-00cd-4477-b882-e8cb1a0d0b48",
@@ -5408,8 +5419,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T22:51:53.672863499Z",
-    "agent_id": "pp3g-yVpi-fork-maintenance-per-the-160-audit-verdict-gh-160-b88c",
-    "agent_seq": 19
+    "timestamp": "2026-08-03T22:52:48.353262225Z",
+    "agent_id": "OL2r",
+    "agent_seq": 639
   }
 }
