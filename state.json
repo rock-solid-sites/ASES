@@ -1,6 +1,6 @@
 {
   "next_display_id": 135,
-  "next_comment_id": 185,
+  "next_comment_id": 186,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -3470,7 +3470,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-03T03:43:35.227603022Z",
-      "updated_at": "2026-08-03T03:50:54.969845103Z",
+      "updated_at": "2026-08-03T04:10:31.462469456Z",
       "labels": [
         "research"
       ],
@@ -3510,6 +3510,15 @@
           "kind": "result",
           "signed_by": "SHA256:bXk3q5wQqFr+NjuZvakfJH0YrD4Qv3fzYaZY5FdaMpc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgKvuCNQQEvKFknLQBzfzPYsppWPbKl+Z24AbD5zhV2KsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAbfgg6Q0OXY5aD5FAcRbya7QRHuSEpgrZ11gfpsbNIDViL8JWFlfssI3vKyAHlLTsIpBDQAQhrpWSSliVBIUCA=="
+        },
+        "3be014cf-ce79-4285-b6f6-d06b68869356": {
+          "display_id": 185,
+          "author": "OL2r",
+          "content": "REQUIREMENT CORRECTION (2026-08-03, operator): the monitoring goal is WORKING-vs-STALLED detection, not just completion notification. This reframes the recommendation: Path B (hook-notify, #134) and the completion-only options are INSUFFICIENT — a hung agent fires no hook and no notification. Required capability: continuous observation of .worktrees/*/.kickoff-status (state transitions LAUNCHING/RUNNING/DONE/FAILED + mtime staleness). Best-fit mechanisms: (a) systemd timer + Python watcher (#133 verdict) — 15-30s scan of status files + mtimes, emits on transition AND on staleness; (b) Path A sentinel local observer (#134) — poll-based, reuses notify pipeline, but sentinel disabled + 10-min latency. Both observe status files continuously. Recommend (a) as primary with staleness alerts; keep #134's Path A as the durable Rust option.",
+          "created_at": "2026-08-03T04:10:31.454999937Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABATRznQTDr2RbXSFXvGQwU/rMGmRlMZwsDJSYO0grqW6ftfJcOAYJknLJSblyJqS3D0SJ3+GJXrxrdJHxHbxPFAA=="
         },
         "6f7badca-4a0b-4a99-9b31-61607c6c47b1": {
           "display_id": 178,
@@ -3922,8 +3931,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T03:56:55.540389520Z",
-    "agent_id": "pp3g-w1bb-code-analysis-task-issue-134-subissue-of-133-assess",
-    "agent_seq": 7
+    "timestamp": "2026-08-03T04:10:31.462469456Z",
+    "agent_id": "OL2r",
+    "agent_seq": 501
   }
 }
