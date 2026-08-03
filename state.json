@@ -3373,11 +3373,12 @@
       "uuid": "951b3b57-44f1-4503-9404-6cb182065dd1",
       "display_id": 144,
       "title": "URGENT Tier-1 experiment (from #135 Phase 1 follow-up): verify whether the opencode provider request-timeout config actually catches the silent-hang failure. EVIDENCE: two NEW hangs today (pp3g-K6yV #138, pp3g-OZWZ #142) occurred AFTER the chunkTimeout config was merged + restart (~05:3x). Both showed the identical signature: last outgoing 'stream' never returns, zero ERROR entries, process stays alive, pane freezes. If chunkTimeout was active in those launches, it did NOT prevent the hang — OR the config wasn't actually applied to kickoff-launched agents. EXPERIMENT: (1) confirm the config is present and active for kickoff agent launches (check ~/.config/opencode/opencode.json is read by the launched opencode process — verify env/config propagation through the claude wrapper + tmux/systemd-run); (2) deliberately reproduce a hang or observe whether a hung stream aborts within chunkTimeout (300s) and what the agent loop does afterward (retryable error vs session death); (3) check whether the opencode-go provider even honors chunkTimeout (provider-side semantics). Deliverable: definitive answer — does the current config protect against this failure, and if not, what does (client-side abort, provider knob, or watcher nudge). Read-only investigation + possibly a controlled minimal test. Feeds #135 Phase 1 completion.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T17:34:40.896006564Z",
-      "updated_at": "2026-08-03T18:11:07.127862130Z",
+      "updated_at": "2026-08-03T21:34:23.055500451Z",
+      "closed_at": "2026-08-03T21:34:23.055469831Z",
       "labels": [
         "research"
       ],
@@ -5114,8 +5115,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T21:28:29.295275463Z",
+    "timestamp": "2026-08-03T21:34:23.055500451Z",
     "agent_id": "OL2r",
-    "agent_seq": 591
+    "agent_seq": 592
   }
 }
