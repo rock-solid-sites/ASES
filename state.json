@@ -1,6 +1,6 @@
 {
   "next_display_id": 160,
-  "next_comment_id": 275,
+  "next_comment_id": 276,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1230,7 +1230,7 @@
       "priority": "low",
       "created_by": "OL2r",
       "created_at": "2026-08-03T21:35:45.834834444Z",
-      "updated_at": "2026-08-03T21:43:43.675457143Z",
+      "updated_at": "2026-08-03T21:46:35.773639560Z",
       "labels": [
         "research"
       ],
@@ -1238,6 +1238,15 @@
         "97952c91-bb14-4a15-95d8-65af45753451"
       ],
       "comments": {
+        "0f857054-c736-4b47-97f3-af09ec51d549": {
+          "display_id": 275,
+          "author": "OL2r",
+          "content": "SESSION HANDOFF (2026-08-03, ~51h session). WHAT HAPPENED: The session pivoted from Wave 2/3 docs-work to the silent-hang reliability frontier after 3+ agents hung 10+ hours (laguna #129, K6yV #138, OZWZ #142). ROOT CAUSE SOLVED (#144): opencode wrapSSE content-type guard bypasses chunkTimeout on non-SSE responses -> silent infinite hangs (zero errors, flags lie RUNNING). FIX LIVE (#145): emergency same-length binary patch on installed opencode 1.18.11 (if(false)return at 2 offsets); verified via controlled hang-test reproduction; upstream notified (#26487 full repro + #39516 pointer). DURABLE FIX (#154, high): source rebuild + distinct non-SSE deadline + error-surfacing/retry budget + ctl verify. INFRA LANDED: #138 watchdog exit-bug fix (preserved 799ce67, binary rebuilt), #139 --agent-type flag (3cf36551), #140 docs, #127 orchestrator allowlist + thin-orchestrator rule, #121/#124 orchestrator role both repos, #123 timeouts/checkpoints, #120 permissions. PROCESS CODIFIED: two-repo sync (5.5), reviewer independence (5.6), hub-refs ground truth (6.5), standing workflow (6.6), model routing (flash=research, luna=high-value). EPICS CREATED: #156 Reliability (154->146->135), #157 Hydration (126->142->125), #158 Orchestration UX (148/143/155), #159 Pipeline Validation (78->118, blocked by 156). OPEN: #154 durable fix design review is the recommended NEXT SESSION; #142 hydration mechanism needs re-dispatch on flash; #146 watcher kill/restart; #141 Rust watcher migration; #155 cache-hit counter research; #118 pipeline re-run after reliability confidence. HYDRATION FAMILY (#125/#126): 5+ failure modes cataloged, compact validated as recovery, lock-steal inconsistency added, mechanism answer still missing. KEY LESSONS: status flags lie (verify via tmux pane/hub refs); nudge cannot unblock hung stream (needs kill/restart); agent scope-drift needs tight prompts + early kill; task-matched timeouts not blanket; hub refs are ground truth never blind sync. OPERATOR: pushes/merges are your step; several feature branches ready to merge (138/139/140 in fork+repos).",
+          "created_at": "2026-08-03T21:46:35.767813287Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGEwBIKPHOabjxDSLukY65AFHUAnrsNonIzylEqvhaG4eNVEfvPSe91KYzWC385jHHzdS0nEFx3lzqzdysq6kDg=="
+        },
         "270ea60c-1906-41ae-bb6a-0948f6eb9649": {
           "display_id": 274,
           "author": "OL2r",
@@ -5269,8 +5278,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T21:46:31.957835951Z",
+    "timestamp": "2026-08-03T21:46:35.773639560Z",
     "agent_id": "OL2r",
-    "agent_seq": 630
+    "agent_seq": 631
   }
 }
