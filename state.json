@@ -1,6 +1,6 @@
 {
   "next_display_id": 143,
-  "next_comment_id": 232,
+  "next_comment_id": 233,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -3434,10 +3434,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T05:56:46.396381909Z",
-      "updated_at": "2026-08-03T05:56:49.804073246Z",
+      "updated_at": "2026-08-03T06:17:25.091107698Z",
       "labels": [
         "research"
-      ]
+      ],
+      "comments": {
+        "b8d9c359-45b5-400d-859e-9954c28d2a9c": {
+          "display_id": 232,
+          "author": "OL2r",
+          "content": "ORCHESTRATOR NOTE (2026-08-03): I initially misread the opencode log (grep for session stream/loop/process events found none) and flagged this agent as a possible 'never-started' stall. GROUND TRUTH check via tmux capture-pane showed it actively working — deep in migrate_hub_v3.rs, sync/trust.rs, and the hub-cache worktree refs (found -hub-cache/ HEAD = refs/heads/crosslink/hub, confirming the stale-ref issue). Lesson reinforced (per hub-refs ground-truth rule, playbook §6.5): verify stalls via the tmux pane / artifact trail, not status flags or log greps alone. Also confirms: arbitrary 15-min cap was too aggressive for this code-reading task — agent is healthy and productive, no cap kill needed.",
+          "created_at": "2026-08-03T06:17:25.079870146Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGOdfnRBCzHrfVxQzd06VcuYWyM3Hih42L/57f00+xxD6J91yceG+d2D2u4oS23wRUJrSmtJr9Z+IlTr3JPonAA=="
+        }
+      }
     },
     "af65cd2d-89a9-4b3e-b153-820f107b0af5": {
       "uuid": "af65cd2d-89a9-4b3e-b153-820f107b0af5",
@@ -4514,8 +4525,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T06:09:33.115648676Z",
+    "timestamp": "2026-08-03T06:17:25.091107698Z",
     "agent_id": "OL2r",
-    "agent_seq": 548
+    "agent_seq": 549
   }
 }
