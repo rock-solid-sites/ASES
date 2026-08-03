@@ -1,6 +1,6 @@
 {
   "next_display_id": 134,
-  "next_comment_id": 176,
+  "next_comment_id": 177,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -3473,7 +3473,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-03T03:43:35.227603022Z",
-      "updated_at": "2026-08-03T03:46:23.957858479Z",
+      "updated_at": "2026-08-03T03:46:37.582135543Z",
       "labels": [
         "research"
       ],
@@ -3504,6 +3504,15 @@
           "kind": "result",
           "signed_by": "SHA256:bXk3q5wQqFr+NjuZvakfJH0YrD4Qv3fzYaZY5FdaMpc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgKvuCNQQEvKFknLQBzfzPYsppWPbKl+Z24AbD5zhV2KsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAbfgg6Q0OXY5aD5FAcRbya7QRHuSEpgrZ11gfpsbNIDViL8JWFlfssI3vKyAHlLTsIpBDQAQhrpWSSliVBIUCA=="
+        },
+        "81a2257f-2bd9-4ede-b5ef-2ee451863c08": {
+          "display_id": 176,
+          "author": "pp3g-5YO2-research-task-issue-133-find-a-background-completion",
+          "content": "VERDICT (corrected structured summary): RECOMMEND a user-level systemd timer plus a stdlib Python watcher for worktree kickoff status files. Why: crosslink sentinel is a maintenance dispatcher, not a general completion watcher. Local CLI confirms run is one-shot and watch is a persistent poller (default 10 minutes). Configured github_labels only discovers agent-todo labels. Sentinel has outbound Slack or generic JSON completion webhooks, but collect_completed calls them only for sentinel-owned dispatch database rows. It does not watch arbitrary kickoff worktrees. Kickoff writes LAUNCHING and RUNNING, then terminal DONE, FAILED, or CI_FAILED in each worktree status file; this is the authoritative signal and covers any agent binary. OpenCode plugins officially receive session.idle, session.error, tool.execute.after, and can invoke OS notifications. Community packages include @mohak34/opencode-notifier, opencode-notificator, and opencode-notify. They observe OpenCode sessions only, so they do not close this gap when kickoff runs Claude or another tmux agent. Implementation sketch: add tools/kickoff-notify.py, using only Python standard library, scanning REPO/.worktrees/*/.kickoff-status every 15 to 30 seconds; persist path plus status plus mtime in a state file; notify once for DONE, FAILED, and CI_FAILED transitions using notify-send, with optional curl POST to a configured webhook for headless or remote operation. Add user units ases-kickoff-notify.service (oneshot, WorkingDirectory=REPO, ExecStart=python3 REPO/tools/kickoff-notify.py) and ases-kickoff-notify.timer (OnBootSec=15s, OnUnitActiveSec=15s, Persistent=true). Install libnotify-bin or the distro equivalent, then run systemctl --user daemon-reload and systemctl --user enable --now ases-kickoff-notify.timer. Retain state and expire entries for deleted worktrees; inspect with journalctl --user -u ases-kickoff-notify. This is independent of sentinel and catches all kickoff agents. Enable sentinel notifications only as a secondary option when every dispatch is sentinel-owned; install an OpenCode notifier only as a secondary signal.",
+          "created_at": "2026-08-03T03:46:37.575991078Z",
+          "kind": "result",
+          "signed_by": "SHA256:bXk3q5wQqFr+NjuZvakfJH0YrD4Qv3fzYaZY5FdaMpc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgKvuCNQQEvKFknLQBzfzPYsppWPbKl+Z24AbD5zhV2KsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAukhSeZgcr4nnaO+BI6HzvlfMVf9C1jRBxLPpcwh1/QzG/SgmHznrHXKj+DKo9LqHtGP2y+3qweIk8yV2YOp3Cg=="
         },
         "834cbc1c-0444-4aea-81a1-99bcf17518ca": {
           "display_id": 171,
@@ -3827,8 +3836,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T03:46:23.957858479Z",
+    "timestamp": "2026-08-03T03:46:37.582135543Z",
     "agent_id": "pp3g-5YO2-research-task-issue-133-find-a-background-completion",
-    "agent_seq": 9
+    "agent_seq": 10
   }
 }
