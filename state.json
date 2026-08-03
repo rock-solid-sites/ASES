@@ -1,6 +1,6 @@
 {
   "next_display_id": 141,
-  "next_comment_id": 217,
+  "next_comment_id": 218,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -847,7 +847,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T04:25:20.038929813Z",
-      "updated_at": "2026-08-03T05:12:17.604062031Z",
+      "updated_at": "2026-08-03T05:20:55.358331997Z",
       "labels": [
         "infrastructure"
       ],
@@ -911,6 +911,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABArlH5ZBps09Pu8LY1RHyuyMXVlSBs8td6W83dijf+DVUTC0DBpu2dlUf0KeLELtiS4bZVqg+HmUv2nL7WpR2SBg=="
+        },
+        "aef2b042-6b65-459f-b979-c6514a0e9b81": {
+          "display_id": 217,
+          "author": "OL2r",
+          "content": "ADD TO PHASE 1 DOCS DELIVERABLE (2026-08-03) — two session-learned operational rules to codify in agent-orchestration-playbook.md alongside the Phase 1 watcher section: (1) HUB-REFS GROUND-TRUTH RULE: hub agent refs (refs/heads/crosslink/agents/<id>/events.log) are ground truth for agent output, NOT the local main-repo SQLite DB; never run 'crosslink sync' in the main repo to refresh visibility (it caused the June rollback). See #125 OPERATIONAL RULE comment. (2) STANDING WORKFLOW RULES: (a) while any kickoff/swarm agent runs, EVERY orchestrator turn ends with a brief Agent Status note (state, time-in, last signal) even if nothing changed; (b) run crosslink kickoff cleanup after each dispatch wave (assess STALE with --dry-run --force, preserve work before removing). Codify both in the playbook verification/monitoring section (§6.2) and the workflow/status section. Mirror to tripn-astro per §5.5 two-repo sync.",
+          "created_at": "2026-08-03T05:20:55.352400750Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOlQzPApgvi5VIR0VXj5CW+3h3smgTO0gV2/jeJiz5ndp/Lib6zbg/PS7wuqOi3ftvL+RVPRkndl3uBxjoA9sBQ=="
         },
         "cf898fbe-fee5-4161-9580-c845d739ad60": {
           "display_id": 207,
@@ -4336,8 +4345,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T05:20:43.611767503Z",
+    "timestamp": "2026-08-03T05:20:55.358331997Z",
     "agent_id": "OL2r",
-    "agent_seq": 534
+    "agent_seq": 535
   }
 }
