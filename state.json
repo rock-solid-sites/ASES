@@ -1,5 +1,5 @@
 {
-  "next_display_id": 167,
+  "next_display_id": 168,
   "next_comment_id": 302,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -10,6 +10,7 @@
     "0bb2bbd4-2554-414d-ad01-9cf866ed29e6": 10,
     "0c805b13-2abb-4dfc-94b8-54a986241314": 55,
     "0de23d7b-cdd6-4fc1-8a53-2c9c87ee7809": 70,
+    "0f511f63-230d-4593-a201-9b3a7c87b0c6": 167,
     "105271fa-8773-40c7-9aa1-3d35e063a1e6": 65,
     "16818d5b-477a-4f3f-ad95-aed56a91502c": 120,
     "16f8c668-dde6-41de-b4ed-15ca97f7d946": 44,
@@ -396,6 +397,18 @@
       "labels": [
         "feature"
       ]
+    },
+    "0f511f63-230d-4593-a201-9b3a7c87b0c6": {
+      "uuid": "0f511f63-230d-4593-a201-9b3a7c87b0c6",
+      "display_id": 167,
+      "title": "FIX: wire the crosslink lock table into the crosslink-guard plugin so locks actually block",
+      "description": "CODE FINDING (#125, 2026-08-03): crosslink-guard.ts (the plugin that gates agent tool calls) never consults the lock table — its active-issue gate reads .active-issue sentinel + session status only. Result: agent tool calls proceed on issues the lock table says are held by another identity (e.g. OL2r); locks only 'warn' and are bypassable via staleness-steal. A lock's purpose is to BLOCK; it is not fulfilling that purpose at the plugin layer. FIX: wire the lock table into crosslink-guard.ts so the tool gate respects held locks (block writes/bash on an issue whose lock is held by another live identity). PREREQUISITE (order matters): make staleness detection reliable FIRST — deploy heartbeat hooks into worktrees (#135 Phase 2) — otherwise hard-blocking on 'held' locks will false-block live agents when staleness is misdetected (the very reason the code currently defaults to warn). Deliverable: plugin reads lock state (via crosslink locks list or direct DB), blocks when lock held-and-fresh, allows when stale/absent; verify no false blocks on live agents; test the steal path. Related: #125 (finding), #135 (heartbeat prerequisite), #146 (kill/restart), #160 (lock staleness observed).",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "3b8274f4-d06e-415a-b1a8-aaab3bdf6237",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T23:44:49.624678213Z",
+      "updated_at": "2026-08-03T23:44:49.624678213Z"
     },
     "105271fa-8773-40c7-9aa1-3d35e063a1e6": {
       "uuid": "105271fa-8773-40c7-9aa1-3d35e063a1e6",
@@ -5663,8 +5676,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T23:44:36.407754507Z",
+    "timestamp": "2026-08-03T23:44:49.624678213Z",
     "agent_id": "OL2r",
-    "agent_seq": 659
+    "agent_seq": 660
   }
 }
