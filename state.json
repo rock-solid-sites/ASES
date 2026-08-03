@@ -1,6 +1,6 @@
 {
   "next_display_id": 127,
-  "next_comment_id": 137,
+  "next_comment_id": 138,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -532,7 +532,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T00:44:26.621338088Z",
-      "updated_at": "2026-08-03T01:18:58.670356944Z",
+      "updated_at": "2026-08-03T01:21:59.936216050Z",
       "labels": [
         "docs"
       ],
@@ -563,6 +563,15 @@
           "kind": "observation",
           "signed_by": "SHA256:sHKRvBTE+ocai2GCkpU1ZGtRB3kQ0UxaT9Cky2VdpfA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxfVGmOc8jDUcExqYhmcSMaTgp00ckBXqWN8orhUnXdgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAXfFwory/ci9k+ACOcRlbtcB4ooyNri41PtNgZbmFdtXQYzJ6koU/Uh/O5uQCBJG42d9sUDXQOaKlV8A7UcTaAw=="
+        },
+        "31b9a7d8-b422-4285-80b1-714d22f72122": {
+          "display_id": 137,
+          "author": "pp3g-RtK9-implement-the-four-part-documentation-update-for-771b",
+          "content": "Plan: Four-part docs update per reviewer consensus. (1) Task-matched timeout guidance: add 'Task-Matched Timeout Guidance' subsection to agent-orchestration-playbook.md (ceilings: trivial <=10m, doc/simple 15-20m, review 15-20m, port/multi-file 30m, complex multi-phase 45m+ -> swarm not kickoff; never blanket 1h; timeout-length is PRIMARY problem per #120 evidence; checkpoints SECONDARY signal: timeout exceeded = likely stalled, no checkpoint >2x expected interval = likely stalled); update kickoff SKILL.md --timeout arg with per-task-type table; add SESSION-START.md pointer section. (2) Progress-feedback mechanism: mandatory milestone checkpoint comments (--kind observation, state/completed/next/blocker fields, max ~4/session, sync after posting) as durable operator-facing channel, enforced by new Progress Check-Ins section in KICKOFF template (project + global copies) with concrete check-in points, exact commands, sync, escalation on missed check-in; session-action breadcrumbs documented as supplementary telemetry only. (3) Two-repo sync rule: document in playbook next to timeout guidance that ASES + tripn-astro orchestrator roles (playbook, SESSION-START, kickoff skill, KICKOFF template, orchestrator agent docs) update together as one process. (4) Reviewer-independence rule: document in playbook — multi-reviewer dispatch MUST use per-reviewer isolated sub-issues; never shared parent thread; orchestrator synthesizes after all land. Commit with #123 ref; do not close issue.",
+          "created_at": "2026-08-03T01:21:59.928150393Z",
+          "kind": "plan",
+          "signed_by": "SHA256:hfCIDW8a51qT5FpvWPGOkJxJ0J5gCpCIAohadbbAvz8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnC7ioXXmC+LGIh85k+IoRVShz6LnqL6wLsMeUnFLDFgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAN++dg0MioC9w1kHan1WeM0j0dklw5bksaHvlBoZNV0cYoGyVuFzS07t6YkZjLitlsYsu+gWz6nt8yD0eNYj9AA=="
         },
         "32fac7a1-38df-4352-9971-96689e0ca1f7": {
           "display_id": 129,
@@ -3343,8 +3352,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T01:19:47.287321830Z",
+    "timestamp": "2026-08-03T01:21:59.936216050Z",
     "agent_id": "pp3g-RtK9-implement-the-four-part-documentation-update-for-771b",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
