@@ -1,5 +1,5 @@
 {
-  "next_display_id": 146,
+  "next_display_id": 147,
   "next_comment_id": 243,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -73,6 +73,7 @@
     "6ee747b1-6d9a-4290-bd0b-2b5326418847": 67,
     "717e6a0a-abbd-4273-bd07-a61a0cc3989f": 132,
     "720d46f0-c13b-45e9-9575-35d52ce3bf8d": 81,
+    "72d9de98-a7f4-443d-ac77-46a2ad6eb355": 146,
     "766ec246-f454-4f7e-9073-a499315e30f8": 88,
     "7685f56d-0404-4fb5-b0e7-867cfd3b0d8e": 59,
     "76b1c9c1-f08b-457b-8ffc-487b3c1c760a": 11,
@@ -2484,6 +2485,16 @@
         "feature"
       ]
     },
+    "72d9de98-a7f4-443d-ac77-46a2ad6eb355": {
+      "uuid": "72d9de98-a7f4-443d-ac77-46a2ad6eb355",
+      "display_id": 146,
+      "title": "UPGRADE #135 watcher Phase 3: change recovery from NUDGE to KILL-AND-RESTART after N stale checks. Evidence (#144 verdict + #138/#142 hang): the current watchdog (launch.rs build_watchdog_script) sends tmux send-keys 'continue working' up to max_nudges=5 — but a hung stream promise cannot be unblocked by keystrokes; the agent only reads them after the stream returns (which never happens). Nudge is useless for this failure mode. FIX: after heartbeat staleness exceeds a threshold, KILL the tmux session + relaunch a fresh agent on the same issue with retry-handoff note (#115), preserving work first (commit uncommitted changes). This is the #135 Phase 3 destructive tier — gate it per the reviewers' criteria (luna #136, big-pickle #137): heartbeat-primary detection with debounce, commit-ground-truth completion edge, systemic-correlation HALT (>=2 stalls in window), cooldown/backoff, model variation, token budget. ALSO note: with the #145 wrapSSE patch, hangs should become rare, making kill/restart a last-resort safety net rather than the primary path. PREREQUISITE: #138 (watchdog fix) landed (preserved commit 799ce67); #145 (wrapSSE) reduces hang frequency. Related: #135, #144, #138, #115.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T18:14:25.726030581Z",
+      "updated_at": "2026-08-03T18:14:25.726030581Z"
+    },
     "766ec246-f454-4f7e-9073-a499315e30f8": {
       "uuid": "766ec246-f454-4f7e-9073-a499315e30f8",
       "display_id": 88,
@@ -4667,8 +4678,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T18:14:12.181995323Z",
+    "timestamp": "2026-08-03T18:14:25.726030581Z",
     "agent_id": "OL2r",
-    "agent_seq": 563
+    "agent_seq": 564
   }
 }
