@@ -1,6 +1,6 @@
 {
   "next_display_id": 133,
-  "next_comment_id": 163,
+  "next_comment_id": 164,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1976,11 +1976,20 @@
       "parent_uuid": "4b44cd8c-cd37-49fb-a645-0469be2fc61f",
       "created_by": "OL2r",
       "created_at": "2026-08-03T02:18:24.201818249Z",
-      "updated_at": "2026-08-03T02:20:55.090756911Z",
+      "updated_at": "2026-08-03T02:21:41.693120776Z",
       "labels": [
         "permission"
       ],
       "comments": {
+        "b52f63fd-d491-4ff4-b33c-ce7d69651c37": {
+          "display_id": 163,
+          "author": "pp3g-mRve-independent-review-recommend-which-read-only-bash-9335",
+          "content": "Verdict: Add these read-only tools to the Orchestrator allowlist (in hook-config.json allowed_bash_prefixes and agent frontmatter):\n\n**Process Monitoring (critical for stalled-agent detection per §6.1):**\n- `ps ` — `ps -o pid,etime,time,stat -p <pid>` distinguishes WORKING (TIME climbing) from STALLED (frozen TIME + old heartbeat)\n- `pgrep ` — find PIDs by name pattern (e.g., `pgrep -f 'claude|crosslink'`) without full ps output\n\n**Tmux Session Inspection (kickoff agents run in tmux):**\n- `tmux list-sessions` — enumerate active sessions\n- `tmux list-panes ` — inspect panes within a session\n- `tmux display-message ` — read session metadata (read-only flags only)\n\n**Log/Output Inspection:**\n- `tail ` — follow agent logs, `.kickoff-status` files, crosslink event logs\n- `head ` — peek at file headers\n- `less ` — pager for long outputs (read-only, no edit mode)\n\n**Content Search/Filtering:**\n- `grep ` — filter logs, search checkpoint comments, find patterns in outputs\n- `find ` — locate worktrees, status files, lock files (read-only traversal)\n- `awk ` / `sed ` — extract fields from structured output (ps, df, git log)\n\n**System Health (pre-flight + runtime):**\n- `free ` — memory pressure detection (OOM risk per server-memory-management.md)\n- `df ` — disk space (worktree proliferation, log growth)\n- `uptime ` — load average, system stability\n- `date ` — timeout calculations, checkpoint interval math\n\n**File Metadata:**\n- `stat ` — file size, mtime (checkpoint freshness, log rotation)\n- `wc ` — line/word/byte counts (output verification, log volume)\n- `diff ` — compare expected vs actual outputs, verify commits\n\n**Environment/Command Discovery:**\n- `which ` — verify command availability before dispatch\n- `env ` — inspect environment (PATH, CROSSLINK_*, model config)\n\n**Network/API Health (read-only):**\n- `curl -I ` / `curl --head ` — health-check endpoints, GitHub API rate limits, CI status (HEAD only, no body download)\n\n**Rationale:** The playbook (§6.1, §7.1) explicitly requires `ps -o pid,etime,time,stat -p <pid>` for stalled detection and `ps aux | grep` for crash recovery. Tmux inspection is needed because kickoff agents run in tmux. System health tools prevent OOM/disk failures during long swarms. Search/filter tools enable verification of checkpoint comments and log analysis. All recommended tools are read-only — no kill, write, or state-mutation capabilities.",
+          "created_at": "2026-08-03T02:21:41.686585558Z",
+          "kind": "observation",
+          "signed_by": "SHA256:8Y3AlDZVmtWab9zkoIEJvwq+BMUT2j1dCtTNlBiHlHc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgYRn48c9NRRvy4iuIqxjJ39UPSthS7LBqKBusGz8Z8zsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAUKuu37AQOBqEFvms446UWHXRlzLkQbNlzqUl5bUXdRJZ8klL63YROModloDE0dQEDAhshW9Q1i36XjzW3as1Dw=="
+        },
         "c35038ad-80ff-43ff-84fa-f28f633e4274": {
           "display_id": 161,
           "author": "pp3g-mRve-independent-review-recommend-which-read-only-bash-9335",
@@ -3684,8 +3693,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T02:20:55.090756911Z",
+    "timestamp": "2026-08-03T02:21:41.693120776Z",
     "agent_id": "pp3g-mRve-independent-review-recommend-which-read-only-bash-9335",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
