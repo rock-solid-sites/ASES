@@ -1,0 +1,50 @@
+# ASES kickoff agent lifecycle watcher — Phase 1 (monitor + notify only)
+#
+# Oneshot unit: each timer activation runs one scan pass of the watcher
+# script (which itself performs exactly one observation + notification cycle
+# via --once). State is persisted between runs in
+# ~/.local/state/ases-kickoff-notify/state.json, so transitions are
+# idempotent across timer firings and watcher restarts.
+#
+# Phase 1 is NON-DESTRUCTIVE: the watcher never kills, relaunches, or
+# otherwise mutates kickoff agents. Phase 2 (detection hardening) and
+# Phase 3 (preserve + kill + relaunch) are gated and not wired here.
+#
+# PREREQUISITES:
+#   * libnotify-bin (provides notify-send) for desktop notifications.
+#     notify-send is currently ABSENT on this host (#133 verdict) — the
+#     watcher degrades gracefully to webhook + logs, and the timer still
+#     runs. Install with: sudo apt install libnotify-bin
+#   * (optional) a webhook URL for notification POSTs when desktop
+#     notifications are unavailable or the operator is remote. Set it by
+#     creating the EnvironmentFile:
+#         echo 'KICKOFF_NOTIFY_WEBHOOK=https://hooks.example/xyz' \
+#           > ~/.config/ases-kickoff-notify/webhook.conf
+#     The `-` prefix means the missing file is NOT an error (webhook off).
+#
+# Install:
+#   mkdir -p ~/.config/systemd/user ~/.config/ases-kickoff-notify
+#   cp tools/ases-kickoff-notify.service ~/.config/systemd/user/
+#   cp tools/ases-kickoff-notify.timer   ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now ases-kickoff-notify.timer
+#
+# NOTE: unit files are provided here; enablement is operator-gated.
+
+[Unit]
+Description=ASES kickoff agent lifecycle watcher (Phase 1: monitor + notify)
+Documentation=file:///home/claude-code/projects/ASES/.crosslink/knowledge/agent-orchestration-playbook.md
+
+[Service]
+Type=oneshot
+# --once: one scan pass per timer firing. Python stdlib only — no other
+# runtime dependencies.
+ExecStart=/usr/bin/env python3 /home/claude-code/projects/ASES/tools/kickoff-notify.py --once
+# Optional webhook config; missing file is ignored (webhook notifications
+# simply stay off). This file also carries any future Phase 2/3 knobs.
+EnvironmentFile=-%h/.config/ases-kickoff-notify/webhook.conf
+Nice=10
+IOSchedulingClass=idle
+
+[Install]
+WantedBy=timers.target

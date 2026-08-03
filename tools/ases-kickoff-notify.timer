@@ -1,0 +1,27 @@
+# ASES kickoff agent lifecycle watcher — Phase 1 (monitor + notify only)
+#
+# Fires the oneshot watcher service shortly after boot and then every 15s.
+# Persistent=true ensures a missed activation (machine asleep/off) is
+# caught up on the next boot — the watcher is idempotent and cheap (one
+# filesystem scan per firing; ~ms when no agents are running).
+#
+# 15s cadence is at the low end of the 15-30s design window so STALLED
+# detection latency stays tight while remaining well below the 120s
+# heartbeat throttle of the agent hook.
+#
+# Install: see ases-kickoff-notify.service.
+# Enablement is operator-gated:
+#   systemctl --user enable --now ases-kickoff-notify.timer
+
+[Unit]
+Description=ASES kickoff agent lifecycle watcher timer (Phase 1: monitor + notify)
+Documentation=file:///home/claude-code/projects/ASES/.crosslink/knowledge/agent-orchestration-playbook.md
+
+[Timer]
+OnBootSec=15s
+OnUnitActiveSec=15s
+Persistent=true
+Unit=ases-kickoff-notify.service
+
+[Install]
+WantedBy=timers.target

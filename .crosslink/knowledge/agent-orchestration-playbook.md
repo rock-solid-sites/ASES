@@ -326,6 +326,48 @@ agent moves on:
 4. FAIL or any finding → agent fixes and re-reviews.
 5. Empty/silent review → CRASH protocol (halt, report, await human).
 
+### 6.4 Agent Lifecycle Watcher — Phase 1 (monitor + notify)
+
+A systemd user timer (`ases-kickoff-notify.timer` → `ases-kickoff-notify.service`)
+runs `tools/kickoff-notify.py` every 15s against `~/.worktrees/*/` (all repos
+using this playbook). Phase 1 is strictly **monitor + notify**: it observes
+kickoff agents and alerts the operator on lifecycle transitions. It performs
+**no** destructive action (no kill, no relaunch, no commit).
+
+**Signals read per agent:**
+- `.kickoff-status` — LAUNCHING / RUNNING / DONE / FAILED / CI_FAILED.
+- `.kickoff-metadata.json` — `started_at` + `timeout_secs` (per-model stall
+  scaling).
+- `.crosslink/.cache/last-heartbeat` — **PRIMARY liveness signal** (mtime;
+  written by the PostToolUse heartbeat hook, throttled 120s).
+
+**State machine:** LAUNCHING → RUNNING → DONE | FAILED | CI_FAILED, plus a
+derived STALLED state (heartbeat stale past threshold, on **2 consecutive
+detections**, outside the LAUNCHING grace period). STALLED → notify only.
+
+**Notifications:** COMPLETED / FAILED / CI_FAILED / STALLED → `notify-send`
+(desktop) + optional webhook POST (`KICKOFF_NOTIFY_WEBHOOK`). `notify-send`
+is absent on this host (libnotify-bin missing — #133 verdict); the watcher
+degrades gracefully to webhook + logs. Install with
+`sudo apt install libnotify-bin`.
+
+**Known Phase 1 limitations (Phase 2/3 pending):**
+- **Heartbeat hook gap:** worktrees currently do NOT carry
+  `.claude/hooks/heartbeat.py` (only the main checkout does), so the heartbeat
+  file is often absent. The watcher handles absence conservatively (no
+  false-positive STALLED from a missing file; falls back to timeout-overrun
+  detection). Installing the hook into worktrees is a Phase 2 item.
+- **No completion-edge detection yet:** a finished-but-flagless agent (commit
+  present, DONE missing — §6.1) is not yet classified as COMPLETED; that is
+  Phase 2 hardening.
+- **No watchdog fix / no kill / no relaunch:** the inert crosslink watchdog
+  (launch.rs exit-condition bug) and all destructive recovery are Phase 2/3.
+
+**Two-repo sync (§5.5):** this section is mirrored to tripn-astro's
+`.crosslink/knowledge/agent-orchestration-playbook.md` in the same process,
+and the `tools/kickoff-notify.py` + systemd units belong in both repos'
+landing points per §5.5.
+
 ---
 
 ## 7. Failure Protocol — MANDATORY HALT
