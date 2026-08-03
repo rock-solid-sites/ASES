@@ -1,6 +1,6 @@
 {
   "next_display_id": 167,
-  "next_comment_id": 301,
+  "next_comment_id": 302,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1493,7 +1493,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-03T21:43:15.353321675Z",
+      "updated_at": "2026-08-03T23:44:36.407754507Z",
       "labels": [
         "bug"
       ],
@@ -1521,6 +1521,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/FXEuEf7n5w0+KQDETt5lP7Lw6M4BbbJb/VFFFrzcwgCvEIUJpc5ASIOnetLHrtqlq88l8sKzSZCqZetul0dAA=="
+        },
+        "27980834-49cb-45ce-943c-f01b6ef92132": {
+          "display_id": 301,
+          "author": "OL2r",
+          "content": "LOCK DESIGN FINDING (2026-08-03, code-verified): locks are NOT fulfilling their blocking purpose due to two gaps. (1) The crosslink-guard plugin (crosslink-guard.ts) NEVER consults the lock table — its active-issue gate reads .active-issue sentinel + session status only; zero references to the lock table. So agent tool calls proceed on issues the lock table says are held by another identity (e.g. OL2r). (2) session work DOES enforce locks (src/commands/session.rs:246-259: enforce_lock + try_claim_lock; bails with 'Lock on #N was claimed by X' if another agent holds it) — but the STALE-detection path makes it bypassable (steal succeeds, or warn-and-proceed when holder looks stale). Root reason staleness can't be trusted: heartbeat hooks not deployed in worktrees (#135 Phase 2 item), so the code defaults to warn-not-block rather than risk blocking a live agent. CONCEPTUAL ISSUE (operator): a lock should BLOCK — currently it warns instead, so it isn't fulfilling its purpose. FIX ORDER: (1) make staleness reliable (deploy heartbeat into worktrees, #135 Ph2) so locks can confidently block/auto-steal; (2) wire the lock table into the crosslink-guard plugin (separate subissue) so the tool gate also respects held locks. Also noted: 18 stale OL2r locks currently — driver-identity locks never released, a cleanup gap. Related: #135, #160, #146.",
+          "created_at": "2026-08-03T23:44:36.398350308Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAir3F0VQN04J9Q/O5mX/GXKp27ZjQA/s6z/aimb5+P7uVr5ovx22wna+7KZN1H+obQOuukYainvwlM4zk4gSfCA=="
         },
         "4d6e75ae-d2b8-434d-9ae4-a92267450588": {
           "display_id": 196,
@@ -5654,8 +5663,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T23:31:23.411898365Z",
-    "agent_id": "pp3g-ta33-tight-scope-doc-fix-issue-160-deliverable-2-update",
-    "agent_seq": 24
+    "timestamp": "2026-08-03T23:44:36.407754507Z",
+    "agent_id": "OL2r",
+    "agent_seq": 659
   }
 }
