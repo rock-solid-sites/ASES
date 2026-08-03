@@ -21,6 +21,30 @@ OpenCode has two distinct provider categories with different cost and reliabilit
 
 4. **Use the full verified model ID.** Copy it exactly from `opencode models`. Do not guess, shorten, or modify.
 
+## Failure Discrimination — Rate Limit vs Silent Hang
+
+**Free-model failures are NOT always rate limits.** Do not assume a stalled
+free/paid agent is rate-limited. On a stalled agent, check
+`~/.local/share/opencode/log/opencode.log` for the error signature before
+declaring the cause:
+
+- **Rate limit = `Provider rate limit exceeded` / `429`** entries in the log.
+- **Hang = an outgoing stream request with no response and no error** — the
+  last log line for the session is an outgoing `message=stream` (or similar
+  request) that never completes, with zero `level=ERROR` entries after it.
+
+Do not assume a rate limit hits all free models at once — other free models in
+the same window may complete normally.
+
+**Example (laguna #129, 2026-08-03):** the 'stalled' laguna reviewer
+(`laguna-s-2.1-free`, session `ses_03aa886c0ffeXKFRLMhDrbTNyd`) had ZERO
+`level=ERROR` entries in its session log — the last event was an outgoing
+`message=stream` request at 02:01:30 that never completed, with no error.
+Historical laguna rate-limit incidents (July 23-26) all logged `Provider rate
+limit exceeded`, which was absent here. Ling + big-pickle + nemotron completed
+the same review in the same window on the same free tier. Conclusion: the
+laguna freeze was a silent provider-side hang, NOT a rate limit.
+
 ## Provider Links
 
 - OpenCode Go plan (paid): https://opencode.ai/docs/go/
@@ -87,3 +111,60 @@ crosslink kickoff run "description" --model opencode-go/deepseek-v4-flash
 ```
 
 The `claude` wrapper enforces STRICT MODEL ENFORCEMENT — launches with invalid or implicit models are blocked.
+
+## Request Timeout Configuration
+
+Opencode per-API-request timeouts are configured in
+`~/.config/opencode/opencode.json` — a **USER-LEVEL GLOBAL** file, NOT an
+in-repo file. This is deliberate: the `claude` wrapper execs `opencode run`,
+and user-level config reaches every kickoff/swarm agent, while a project-level
+`.opencode/opencode.json` would only affect sessions started inside that repo.
+Do not look for this configuration in the repository.
+
+**Schema:** timeouts nest under `provider.<id>.options.*` — NOT directly
+under `provider.<id>` (verified against the live opencode 1.18.11 schema):
+
+```json
+{
+  "provider": {
+    "opencode": {
+      "options": {
+        "timeout": 3600000,
+        "headerTimeout": 300000,
+        "chunkTimeout": 300000
+      }
+    },
+    "opencode-go": {
+      "options": {
+        "timeout": 3600000,
+        "headerTimeout": 300000,
+        "chunkTimeout": 300000
+      }
+    }
+  }
+}
+```
+
+**Current values (same for providers `opencode` and `opencode-go`):**
+
+| Key | Value | Meaning |
+|-----|-------|---------|
+| `timeout` | `3600000` ms (60 min) | Full-request backstop; generous, never aborts legitimate work |
+| `headerTimeout` | `300000` ms (5 min) | Connect/header window; absorbs provider cold-start / queueing |
+| `chunkTimeout` | `300000` ms (5 min) | Hung-stream cure: aborts if no SSE chunk within 5 min |
+
+**Rationale for a 5-min `chunkTimeout`:** deepseek-v4-* reasoning models
+legitimately emit sparse chunks during long chains of thought; 5 minutes
+exceeds the worst-case legitimate inter-chunk gap while still catching the
+observed hang fingerprint (a silent stream with no chunk for 10+ minutes).
+It is kept well above the 120s heartbeat throttle so normal cadence never
+triggers a false abort.
+
+**Do not confuse this with the playbook §5.3 task-matched timeout.** The
+§5.3 timeout is the agent's runtime ceiling (`--timeout` on `crosslink
+kickoff run` / `crosslink swarm launch`) — how long the whole agent session
+may run. The request timeout configuration here is the **per-API-request**
+timeout inside opencode — how long a single provider call (including each
+SSE chunk gap) may take before opencode aborts it. Both are needed: the
+request timeouts stop individual hung provider calls, the §5.3 runtime
+timeout bounds the overall agent session.
