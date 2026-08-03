@@ -1,5 +1,5 @@
 {
-  "next_display_id": 142,
+  "next_display_id": 143,
   "next_comment_id": 227,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -106,6 +106,7 @@
     "aa9ae5e1-d089-491b-8487-2a8970ecb319": 95,
     "ab39afe4-5969-4e1c-b0ed-1abb58e7c862": 16,
     "abd66fee-3c91-4c40-bbfb-478cdce6edf6": 34,
+    "ae626387-2d74-45ed-b6fa-91d1f44a9b70": 142,
     "af65cd2d-89a9-4b3e-b153-820f107b0af5": 82,
     "b0c04e1a-7efb-4f8c-890f-8cb33f6ed176": 29,
     "b1cfb0dd-a42b-4702-9500-73c36ffa31e9": 28,
@@ -3376,6 +3377,16 @@
         "chore"
       ]
     },
+    "ae626387-2d74-45ed-b6fa-91d1f44a9b70": {
+      "uuid": "ae626387-2d74-45ed-b6fa-91d1f44a9b70",
+      "display_id": 142,
+      "title": "MECHANISM VERIFICATION: which ref does crosslink hydration actually read (hub vs checkpoint vs config-controlled), and why does the hub-cache end up on the wrong ref? Context: tripn-astro incident — hub healthy, but main-repo hub-cache is on stale crosslink/hub (next_display_id=1) instead of current crosslink/checkpoint; main DB re-hydrated from stale cache -> June-era display set. Before any surgical repair or sync/compact, verify the exact hydration code path in /home/claude-code/projects/crosslink: (1) what ref/refs does RefHubSource/hydration read (hub, checkpoint, or config-controlled — e.g. tracker_remote, repo-alias, checkpoint setting)? (2) what config knobs control the hydration source? (3) why would the hub-cache worktree be checked out on the wrong ref — is that a sync/init defect or operator state? (4) does crosslink integrity hydration --repair read the same source? Deliverable: definitive answer + recommended safe repair path (config knob vs surgical git vs sync), with file:function citations. Read-only; no file changes, no crosslink commands that mutate. Feeds #125/#126 (hydration family) and the tripn-astro repair. 15-min cap.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-03T05:56:46.396381909Z",
+      "updated_at": "2026-08-03T05:56:46.396381909Z"
+    },
     "af65cd2d-89a9-4b3e-b153-820f107b0af5": {
       "uuid": "af65cd2d-89a9-4b3e-b153-820f107b0af5",
       "display_id": 82,
@@ -4451,8 +4462,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T05:46:10.307634473Z",
-    "agent_id": "pp3g-Pvfl-documentation-update-for-issue-140-wave-a3-of-the-e5a5",
-    "agent_seq": 11
+    "timestamp": "2026-08-03T05:56:46.396381909Z",
+    "agent_id": "OL2r",
+    "agent_seq": 545
   }
 }
