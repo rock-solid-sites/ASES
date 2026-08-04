@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 335,
+  "next_comment_id": 336,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4887,7 +4887,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-04T01:46:25.500820068Z",
-      "updated_at": "2026-08-04T04:13:15.437167650Z",
+      "updated_at": "2026-08-04T04:21:21.276462124Z",
       "labels": [
         "bug"
       ],
@@ -4897,6 +4897,15 @@
         "8d4d5b12-2ea3-452b-8708-5a5bf89714c0"
       ],
       "comments": {
+        "00237626-6eec-4a45-be9c-9d307d450d81": {
+          "display_id": 335,
+          "author": "OL2r",
+          "content": "[PLAN] Fresh-session verification of #173 (session #12). Scope: verify merge fix + launch-chain gap + lock-fix status; no hydration/lock-internals work. Steps: (1) CONFIRM CROSSLINK_AGENT_TYPE unset in interactive session (grep /proc/self/environ — already DONE, empty). (2) Confirm hook-config root no longer blocks git merge (DONE — root list has push/rebase/cherry-pick/reset/checkout ./restore ./clean/stash/tag/am/apply/branch -d/-D/-m only; agent_overrides line 19 still has git merge so builder worktree agents stay blocked). (3) Confirm guard plugin fail-closed path (DONE — applyAgentTypeOverride logs FAIL-CLOSED when env unset). (4) DEFINITIVE MERGE PROOF: scratch branch + scratch commit, then git merge --ff-only, verify /tmp/crosslink-guard.log shows interception (ALLOW or BLOCK with FAIL-CLOSED lines) — a merge with NO guard-log entry is a bypass. (5) Hooks status: ls .claude/hooks/ (DONE — 7 .py files present; work-check.py has no by_type; TS plugin is the live guard). (6) Post result + write .kickoff-status.",
+          "created_at": "2026-08-04T04:21:21.267625920Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAH5UWXOpci85wUU8GgEEEVWfz00w8MYVbTyoEt0TpP1bZbpRqr1uSaiv+50D+EhzaGYWPerpESsdLaB3IJ7NiCg=="
+        },
         "37f0c503-8212-4f45-818f-b8c30c6adbe8": {
           "display_id": 330,
           "author": "OL2r",
@@ -6072,8 +6081,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T04:19:20.875756743Z",
+    "timestamp": "2026-08-04T04:21:21.276462124Z",
     "agent_id": "OL2r",
-    "agent_seq": 731
+    "agent_seq": 732
   }
 }
