@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 347,
+  "next_comment_id": 348,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -368,7 +368,7 @@
       "parent_uuid": "3b8274f4-d06e-415a-b1a8-aaab3bdf6237",
       "created_by": "OL2r",
       "created_at": "2026-08-03T23:44:49.624678213Z",
-      "updated_at": "2026-08-04T01:49:47.205334170Z",
+      "updated_at": "2026-08-04T05:36:02.989148986Z",
       "labels": [
         "bug"
       ],
@@ -377,7 +377,18 @@
       ],
       "related": [
         "cae9ce6e-e13e-493b-8fb1-528ff2aa5af2"
-      ]
+      ],
+      "comments": {
+        "e2dd86b9-b8ae-4df6-8fa4-63c782e0e5ae": {
+          "display_id": 347,
+          "author": "OL2r",
+          "content": "PREREQUISITE PROGRESS (2026-08-04): #166 (V3 lock-protocol fix) is DONE and verified — lock mutations now persist (steal transfers ownership, release clears, table empty). This was the prerequisite making the lock table RELIABLE. #167's OTHER prerequisite (#135 Phase 2 heartbeat hooks into worktrees) is still open — that's the remaining gate for trustworthy staleness detection before the plugin hard-blocks on 'held' locks. STATUS: half the prerequisite chain is now clear; this issue becomes actionable once #135 Ph2 lands. The conceptual goal stands: a lock should BLOCK, fulfilled at the plugin layer.",
+          "created_at": "2026-08-04T05:36:02.982585507Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABACwVzub0oscsD/vjBmWLczEUl41nssVlyEwMMU6TnI/OWtOvjKZngSPkeJtkZTjGJTDfc3mVWVxTSnufQgMO0DA=="
+        }
+      }
     },
     "105271fa-8773-40c7-9aa1-3d35e063a1e6": {
       "uuid": "105271fa-8773-40c7-9aa1-3d35e063a1e6",
@@ -6148,8 +6159,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T05:35:49.316336112Z",
+    "timestamp": "2026-08-04T05:36:02.989148986Z",
     "agent_id": "OL2r",
-    "agent_seq": 760
+    "agent_seq": 761
   }
 }
