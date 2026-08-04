@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 325,
+  "next_comment_id": 326,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4878,7 +4878,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-04T01:46:25.500820068Z",
-      "updated_at": "2026-08-04T01:49:50.905104938Z",
+      "updated_at": "2026-08-04T03:40:05.669412137Z",
       "labels": [
         "bug"
       ],
@@ -4886,7 +4886,18 @@
         "0f511f63-230d-4593-a201-9b3a7c87b0c6",
         "3b8274f4-d06e-415a-b1a8-aaab3bdf6237",
         "8d4d5b12-2ea3-452b-8708-5a5bf89714c0"
-      ]
+      ],
+      "comments": {
+        "f43d8862-fb65-4837-b496-adfb7698d201": {
+          "display_id": 325,
+          "author": "OL2r",
+          "content": "[PLAN] Implement fix options (1)+(2) from the issue.\n\n(1) hook-config.json: remove \"git merge\" from the ROOT-level blocked_git_commands array (line 181). Merge stays gated per-role: reviewer/auditor keep blocking it via their by_type blocked lists (untouched); the shared agent_overrides list (line 19) stays intact so builder worktree agents remain blocked. Push/rebase/reset/clean/etc. stay in the root list.\n\n(2) crosslink-guard.ts: make applyAgentTypeOverride fail-closed for visibility — when CROSSLINK_AGENT_TYPE is unset and resolution falls back to hook-config agent.type (or no by_type entry exists), log a LOUD warning to /tmp/crosslink-guard.log instead of silently applying the base config. No gating logic change.\n\nVerify: python3 JSON validation; orchestrator-role git merge --ff-only scratch-branch test must succeed without the 'human performs all git write operations' block; reviewer/auditor by_type merge blocks confirmed intact.\n\nCommit: fix(permission): gate git merge via by_type, remove root merge block + fail-closed agent-type resolve (gh#173). No push.",
+          "created_at": "2026-08-04T03:40:05.660369763Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAchAQ6FkXzwq4yg7p2GRX4tW9nP4wMLPPLktTYAEsnbMdF+TEiJMLHrnYH/LktsEe2HS9AsjalI0XYZ8fi1p9Dg=="
+        }
+      }
     },
     "cb7ff3a0-f27e-490a-b377-c532059ac294": {
       "uuid": "cb7ff3a0-f27e-490a-b377-c532059ac294",
@@ -5980,8 +5991,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T02:32:04.797553286Z",
-    "agent_id": "pp3g-h7lj-tight-scope-repo-agnostic-session-docs-update-issue",
-    "agent_seq": 5
+    "timestamp": "2026-08-04T03:40:05.669412137Z",
+    "agent_id": "OL2r",
+    "agent_seq": 720
   }
 }
