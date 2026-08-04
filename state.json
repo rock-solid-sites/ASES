@@ -3010,11 +3010,12 @@
       "uuid": "7fea5a54-4818-403e-a458-b39204695bbf",
       "display_id": 145,
       "title": "FORK/UPSTREAM FIX: patch opencode wrapSSE to remove the text/event-stream content-type guard so chunkTimeout covers ALL response bodies. Evidence (#144 verdict): wrapSSE in packages/opencode/src/provider/provider.ts (v1.18.11) returns the response UNWRAPPED when content-type lacks text/event-stream — chunkTimeout is a no-op, and the overall timeout (AbortSignal.timeout) fails to abort the already-resolved body read. Result: non-SSE responses hang forever, zero ERROR, flags lie as RUNNING — the exact signature of today's 3 hangs (laguna #129, K6yV #138, OZWZ #142). FIX: remove/relax the content-type guard, or add a general body-read deadline, so chunkTimeout applies to all response bodies regardless of content-type. This is an opencode SOURCE change (config alone cannot fix it — proven by #144's controlled reproduction). If upstream opencode won't accept, it's a fork patch. VERIFY: controlled hang test with application/json content-type must now abort within chunkTimeout. PREREQUISITE STATUS: none — independent of #135 watcher work. Blocked-by/related: #144 (verdict), #135 (watcher).",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T18:14:00.693876735Z",
-      "updated_at": "2026-08-03T21:27:40.783636576Z",
+      "updated_at": "2026-08-04T00:15:53.678549980Z",
+      "closed_at": "2026-08-04T00:15:53.678542186Z",
       "labels": [
         "bug"
       ],
@@ -5649,8 +5650,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T00:15:49.654808259Z",
+    "timestamp": "2026-08-04T00:15:53.678549980Z",
     "agent_id": "OL2r",
-    "agent_seq": 689
+    "agent_seq": 690
   }
 }
