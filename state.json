@@ -1,6 +1,6 @@
 {
   "next_display_id": 179,
-  "next_comment_id": 365,
+  "next_comment_id": 366,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4654,7 +4654,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-04T06:01:32.630746726Z",
-      "updated_at": "2026-08-04T06:36:49.085493176Z",
+      "updated_at": "2026-08-04T06:37:37.865342124Z",
       "labels": [
         "review"
       ],
@@ -4670,6 +4670,15 @@
           "kind": "plan",
           "signed_by": "SHA256:G9OPVjLYNLZcWhuZ315OC1uhSEais6HPxxlMm9P8xkc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgOJOtiiPMpV5f5Wgoks8UpkuqqAKBAtN1yZxXvMlL0yEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtAoo9SGJKjbVnffkLhlLVN56FVD5NqWz9FmOnHYMpG1uSMc41H5m8GlvRke1W5ZOug4LLFcZCZG7ra/+2XPeDg=="
+        },
+        "2ff3bdb6-70f6-488a-a593-b7fdf519925c": {
+          "display_id": 365,
+          "author": "pp3g-GDab-review-the-154-durable-opencode-silent-hang-fix-8354",
+          "content": "Verdict: CONDITIONAL\\n\\nIndependent review of #175 result design, with baseline cross-check against #144/#145 and canonical anomalyco/opencode v1.18.12 provider.ts/retry.ts.\\n\\nWhat passes:\\n- Fork identity/pin is sound: sst/opencode -> anomalyco/opencode redirect is reconciled, v1.18.12 is coherent with the installed package, and wrapper indirection plus autoupdate:false is the right upgrade-survival shape. Keep the pinned tag and committed patch divergence.\\n- The dispatcher is directionally correct. SSE keeps per-read/chunk timeout; non-SSE gets a separate total-completion deadline. wrapBody's one timer is compatible with slow-but-progressing bodies and kills a body that never closes. Per-fetch AbortControllers support the requested isolation.\\n- The retry root cause and terminal path are correctly identified in v1.18.12: policy is unbounded, ResponseStreamError is retryable, and halt() publishes the error/idle status once the schedule terminates.\\n- The proposed matrix covers the important JSON/SSE hangs, slow legitimate JSON, and isolation cases.\\n\\nRequired fixes before PASS:\\n1. Make the retry cap an exact implementation, not only pseudocode. Define the attempt convention (initial plus two retries = three POSTs), place the cap so every retryable timeout reaches Cause.done deterministically, and add an automated assertion for <=3 POSTs, a visible Session.Event.Error/assistant error, idle status, and non-zero/error completion. Do not introduce an undocumented provider option/env override unless its config contract is specified; a global cap changes all retryable failures and needs an explicit compatibility decision.\\n2. Fix replacement/rollback atomicity. The documented  of the new binary directly to the live destination is not atomic and can leave a missing/partial executable after interruption. Stage the binary in the same directory, fsync if operationally required, then atomic rename; retain the prior executable and make rollback use the same atomic swap. Include wrapper/config backups and a post-swap smoke check.\\n3. Strengthen the wrapper test: verify the actual launch wrapper resolves the fork binary after an npm upgrade simulation, and verify autoupdate:false is effective. A manually edited REAL path alone does not prove future wrapper/package updates preserve it.\\n4. Strengthen the ctl.abort test with a direct custom-fetch/provider-level test or deterministic concurrent requests, asserting the aborted request's signal/reason and that the healthy request completes. The harness-level scenario is useful but does not by itself prove controller ownership.\\n5. Add malformed/absent content-type coverage (not just application/json) and ensure bodyTimeout is removed from SDK options as shown. Also test consumer cancellation/early response cancellation so wrapBody's reader is not left running.\\n\\nAssessment by requested area: (1) PASS directionally; (2) CONDITIONAL pending implementation tests and lifecycle cleanup; (3) PASS design choice over relaxing the guard; (4) CONDITIONAL pending exact cap/error assertions; (5) CONDITIONAL due non-atomic commands; (6) CONDITIONAL until the stronger isolation/exit/absent-content-type checks land. The design should proceed, but it is not yet an implementation-ready PASS.",
+          "created_at": "2026-08-04T06:37:37.857799348Z",
+          "kind": "result",
+          "signed_by": "SHA256:G9OPVjLYNLZcWhuZ315OC1uhSEais6HPxxlMm9P8xkc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgOJOtiiPMpV5f5Wgoks8UpkuqqAKBAtN1yZxXvMlL0yEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAh9opl1JSRb0QMfOKtE8thj33Y8cMiyRNDQdYQxqdPxfWEiNPmF/5ZLDLUch+BeY37K+gw1hq4z0D5Cq+inDFBw=="
         },
         "47c42317-2d37-4fd7-804d-6450c7d931a2": {
           "display_id": 364,
@@ -6407,8 +6416,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T06:36:49.085493176Z",
+    "timestamp": "2026-08-04T06:37:37.865342124Z",
     "agent_id": "pp3g-GDab-review-the-154-durable-opencode-silent-hang-fix-8354",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
