@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 334,
+  "next_comment_id": 335,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4883,7 +4883,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-04T01:46:25.500820068Z",
-      "updated_at": "2026-08-04T03:56:47.574030809Z",
+      "updated_at": "2026-08-04T04:13:15.437167650Z",
       "labels": [
         "bug"
       ],
@@ -4910,6 +4910,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMRZ6e3XjYM62iNlBsCDdBNJDKY2FJ9xU8KtAWiZkvJWiUlHzyJO3oUtOLqkKRQeaxYIKOcZBWSiwJNPnnh50CQ=="
+        },
+        "7b8e2a28-ee7f-4898-92c1-fbc96e145748": {
+          "display_id": 334,
+          "author": "OL2r",
+          "content": "SESSION HANDOFF (2026-08-04, session #11). FOCUS: lock-fix set. KEY RESULT: #173 config fix committed (17a1960 — removed 'git merge' from root blocked_git_commands + fail-closed applyAgentTypeOverride), #166 surfaced for operator (cherry-pick commands), scope discipline held. CRITICAL NEW ROOT-CAUSE FINDING: CROSSLINK_AGENT_TYPE is NOT set in interactive opencode sessions even when the opencode agent type is 'orchestrator'. The guard resolves agent type via process.env.CROSSLINK_AGENT_TYPE OR hook-config agent.type fallback; the wrapper only exports the env var through the kickoff/wrapper --agent path. CONSEQUENCE: the by_type.orchestrator override (gated merge) never applies in interactive sessions — the frontmatter allows merge but the guard falls back to builder/root blocked list -> merge hard-blocked. This is the TRUE root cause of #173 and means the config fix alone is NOT sufficient; the launch chain must set CROSSLINK_AGENT_TYPE=orchestrator. VERIFICATION GAP: #173's merge test was inconclusive (plugin cached pre-fix config; CROSSLINK_AGENT_TYPE unset; reflog merge bypassed guard entirely). NEXT SESSION: new session with a plan to (1) verify #173 config loads, (2) investigate/fix the CROSSLINK_AGENT_TYPE launch gap, (3) produce a genuine merge proof. ALSO: check whether .claude/hooks/*.py are actually deployed (work-check.py lacks by_type but may be inactive — earlier evidence said hooks missing). See #173, #166, #125, #174. Operator: #166 cherry-pick + rebuild pending.",
+          "created_at": "2026-08-04T04:13:15.430081475Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABARAXbRcVsXAiaz5UeS6XNmIMJhN/3NPo8iknXt6EYj20CIf6oMcDlbqVjrMzThKmaV5FWbR92DVoIaiFFS/ROCg=="
         },
         "9bdcf9ce-1041-4d8d-aa2b-302971cf1b2f": {
           "display_id": 326,
@@ -6059,8 +6068,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T04:13:10.505313307Z",
+    "timestamp": "2026-08-04T04:13:15.437167650Z",
     "agent_id": "OL2r",
-    "agent_seq": 729
+    "agent_seq": 730
   }
 }
