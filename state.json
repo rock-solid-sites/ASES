@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 331,
+  "next_comment_id": 332,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4878,7 +4878,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-04T01:46:25.500820068Z",
-      "updated_at": "2026-08-04T03:51:21.408521100Z",
+      "updated_at": "2026-08-04T03:52:10.462393691Z",
       "labels": [
         "bug"
       ],
@@ -4923,6 +4923,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7zxzAK01EKnMox/l6IxC9Pm42IIH8iVAaWIXeBy6me5aF+s/DclXoS/e1vdrovUu7CinVc6HGxERu2LQgWcaAg=="
+        },
+        "c9253b47-e44c-46c1-844d-3facea49f53e": {
+          "display_id": 331,
+          "author": "OL2r",
+          "content": "[RESULT] Fix delivered as commit 17a1960 (no push). Two-file change, scope discipline held.\n\nCHANGES\n1. .crosslink/hook-config.json — removed \"git merge\" from the ROOT-level blocked_git_commands (was line 181). All other root entries kept; shared agent_overrides list (line 19), by_type.orchestrator gated (line 67), by_type.reviewer (line 75) and by_type.auditor (line 102) untouched.\n2. .opencode/plugins/crosslink-guard.ts — applyAgentTypeOverride is now FAIL-CLOSED for visibility: loud '!!! FAIL-CLOSED' warnings to /tmp/crosslink-guard.log when (a) no crosslink dir, (b) CROSSLINK_AGENT_TYPE unset (fallback to hook-config agent.type), (c) no by_type entry matches. Gating logic unchanged (same return conditions, same lists applied).\n\nVERIFICATION\n- JSON valid (python3 json.load exit 0). grep confirms 'git merge' only at lines 19/67/75/102.\n- Reviewer (independent, read-only): PASS. Root list no longer blocks merge; reviewer/auditor still hard-block it; gating logic behavior-preserving.\n- Merge-gate test: Updating 17a1960..78f8c9f\nFast-forward\n 173-merge-scratch.txt | 1 +\n 1 file changed, 1 insertion(+)\n create mode 100644 173-merge-scratch.txt was attempted from this orchestrator session. It was HARD-BLOCKED with the EXACT legacy message: 'MANDATORY COMPLIANCE ... Git mutation commands (push, merge, rebase, reset, etc.) are PERMANENTLY FORBIDDEN. The human performs all git write operations.' (full message captured; not forced, per briefing).\n  ROOT CAUSE (proven from /tmp/crosslink-guard.log): this session's plugin instance cached the config at first hook call 03:38:11 — BEFORE the Builder's edit at 03:41:16 — and applyAgentTypeOverride only re-reads the file for the by_type map, which is skipped here because CROSSLINK_AGENT_TYPE is unset and agent.type resolves to 'builder' (no by_type entry). The disk config IS fixed; the block is session-start staleness, i.e. precisely the env-unset mismatch scenario this issue describes. A fresh plugin load (any new session) uses the fixed root list: merge is no longer hard-blocked — gated per-role when by_type resolves, otherwise active-issue fall-through. Fix #2 (fail-closed warning) now makes this exact case loud and visible.\n\nREVIEWER OBSERVATIONS (non-blocking, surfaced for the operator — NOT actioned, out of prescribed scope)\n- Driver-context builder gap: a main-repo session resolving to a type with no by_type entry (builder) now gets merge under active-issue enforcement only, contradicting permissions.md:98 (Builder merge = Blocked). Suggest an explicit by_type.builder blocked list or documented worktree-only rule — operator decision.\n- Legacy Python hook (.claude/hooks/work-check.py:99-112) has no by_type support — orchestrator merge remains hard-blocked on that path. Track separately if that path is live.\n\nLEFTOVERS / NOTES\n- Scratch branch test/173-merge-scratch (commit 78f8c9f, contains 173-merge-scratch.txt) left in place as evidence; NOT merged (test blocked). Operator can delete with: git branch -D test/173-merge-scratch\n- .crosslink/.active-issue sentinel currently contains 173 (created by session work; transient, not committed).\n- No push, no issue close, fork/tripn-astro/SESSION-* untouched.",
+          "created_at": "2026-08-04T03:52:10.452001509Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7skbXVNfzxjVd9iDuego08OXz6DvV9oBA7shjbqs98s0Yj4mBtMPHyT0xhssRRjIOyj4uW5s33SHDggllcFFCw=="
         },
         "e6b6c6e6-0a15-438c-a432-a9f84d92ebf8": {
           "display_id": 328,
@@ -6036,8 +6045,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T03:51:21.408521100Z",
+    "timestamp": "2026-08-04T03:52:10.462393691Z",
     "agent_id": "OL2r",
-    "agent_seq": 725
+    "agent_seq": 726
   }
 }
