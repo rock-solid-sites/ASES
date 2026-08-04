@@ -1,5 +1,5 @@
 {
-  "next_display_id": 172,
+  "next_display_id": 173,
   "next_comment_id": 305,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -107,6 +107,7 @@
     "8e8d2288-1a6a-4b99-9d86-59ccf32a9b3a": 18,
     "9152ab11-6d09-4131-858a-e2ab14b91141": 75,
     "92a47d4f-4b7d-4dbc-975a-25991ca1746b": 137,
+    "938b926a-c400-4088-837f-9bc1322dd8d7": 172,
     "951b3b57-44f1-4503-9404-6cb182065dd1": 144,
     "96e2152d-85c5-465e-b90f-2d593b463473": 147,
     "97952c91-bb14-4a15-95d8-65af45753451": 158,
@@ -3655,6 +3656,16 @@
         }
       }
     },
+    "938b926a-c400-4088-837f-9bc1322dd8d7": {
+      "uuid": "938b926a-c400-4088-837f-9bc1322dd8d7",
+      "display_id": 172,
+      "title": "DESIGN: orchestrator markdown notes via crosslink, no filesystem write needed. MOTIVATION (operator): the orchestrator is often the best-placed agent for retrospectives, handoff notes, and housekeeping markdown — but it has NO filesystem write (edit denied, orchestrator-guard blocks write tools for non-Builder). KEY INSIGHT: crosslink ALREADY provides a markdown-write path the orchestrator can use — 'crosslink knowledge add/edit' (knowledge pages, in the orchestrator allowlist), 'crosslink issue comment' (markdown comments), 'crosslink session end --notes' (handoff notes). DESIGN QUESTION: standardize on crosslink-managed markdown (knowledge pages + issue comments + session notes) as the orchestrator's note surface, rather than granting scoped filesystem write — keeps the write path narrow, auditable, sync-aware, and permission-compatible. OPTIONS: (A) use existing crosslink knowledge/comment/notes as-is (zero code); (B) add a narrow 'crosslink note' command that writes a dated note file via crosslink itself (crosslink does the file write on the orchestrator's behalf, tool surface unchanged); (C) grant scoped *.md-only filesystem write to orchestrator (guard carve-out — riskier, NOT recommended). Recommend evaluating A first (likely sufficient), B if repo-file notes are truly needed. Deliverable: design assessment + recommendation. Research/design task — flash model. Related: #162 (tooling/methodology boundary), #168 (retrospective intake), #164 (Tools migration).",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-04T00:47:58.478185664Z",
+      "updated_at": "2026-08-04T00:47:58.478185664Z"
+    },
     "951b3b57-44f1-4503-9404-6cb182065dd1": {
       "uuid": "951b3b57-44f1-4503-9404-6cb182065dd1",
       "display_id": 144,
@@ -5730,8 +5741,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T00:47:45.128557079Z",
+    "timestamp": "2026-08-04T00:47:58.478185664Z",
     "agent_id": "OL2r",
-    "agent_seq": 703
+    "agent_seq": 704
   }
 }
