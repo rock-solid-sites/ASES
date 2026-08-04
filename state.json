@@ -1,6 +1,6 @@
 {
   "next_display_id": 179,
-  "next_comment_id": 372,
+  "next_comment_id": 373,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1546,7 +1546,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-04T05:35:49.316336112Z",
+      "updated_at": "2026-08-04T06:46:00.137692128Z",
       "labels": [
         "bug"
       ],
@@ -1611,6 +1611,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABArVkK+SFJqKmdqMKU5wPCm9U/AyO52VRXHuM6eXlOEVx0BkUQrjLDe9lTXWFr3wZnHAi+iKA7DSmTu52IuO4jDw=="
+        },
+        "6646dbc6-6244-4653-a097-c7123cd9e493": {
+          "display_id": 372,
+          "author": "OL2r",
+          "content": "RECURRING PATTERN (3rd occurrence, 2026-08-04 session #13): concurrent kickoff launches transiently clobber the main-repo local issues.db view. Symptom: after a kickoff launch, 'crosslink issue list' shows only 3-4 legacy issues; all hub issues (e.g. #154/#175-#178) resolve as 'not found'; launching additional kickoff agents against the clobbered DB fails with 'Issue #N not found'. The LAUNCH SUCCEEDS (worktree + hub intact); only the main-repo DB view collapses. Recovery: 'crosslink sync' re-hydrates (181 issues), all resolvable. Trigger confirmed: each kickoff launch sequence runs a hydration that rewrites the main DB (mtime == launch time). Mitigation used: launch agents SEQUENTIALLY with a sync between; do NOT race concurrent launches. Evidence: 06:23:25 clobber after r1 launch (r2/r3 failed); 06:35:52 clobber after r2 launch; 06:45 clobber after r3 launch. Related: #123/#124/#137, session-#11 episode.",
+          "created_at": "2026-08-04T06:46:00.131924084Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAB4JVvoL9M0EX/dNCr1n+6etQ2klBi3rMMqqR23xNzsGXay6yygPyV8jCS9q3zoK6IFQXQuXtHlXi0fvn6SM8BA=="
         },
         "92ee214c-d937-494e-8006-600dfe5b04c7": {
           "display_id": 305,
@@ -6462,8 +6471,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T06:45:45.089027264Z",
+    "timestamp": "2026-08-04T06:46:00.137692128Z",
     "agent_id": "OL2r",
-    "agent_seq": 787
+    "agent_seq": 788
   }
 }
