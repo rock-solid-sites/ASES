@@ -4,6 +4,8 @@ This is the routing entry point. Its only job is to point you at the right
 information. Read it once, then follow the pointers. If a pointer doesn't
 resolve, see §5 — the doc is stale, not you.
 
+**Ending a session?** See `docs/SESSION-END.md` for handoff conventions.
+
 ---
 
 ## 1. What this repo is
