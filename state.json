@@ -1,6 +1,6 @@
 {
   "next_display_id": 179,
-  "next_comment_id": 360,
+  "next_comment_id": 361,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2288,13 +2288,24 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-04T06:01:13.560412310Z",
-      "updated_at": "2026-08-04T06:01:55.884705516Z",
+      "updated_at": "2026-08-04T06:31:12.695454868Z",
       "labels": [
         "review"
       ],
       "related": [
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
-      ]
+      ],
+      "comments": {
+        "a0a8cf77-e170-4af8-84f9-dd756f8971a5": {
+          "display_id": 360,
+          "author": "pp3g-n9vG-review-the-154-durable-opencode-silent-hang-fix-f670",
+          "content": "Plan: INDEPENDENT review of the #175 design against live evidence, not just prose. Method: (1) re-verify the design's factual claims directly in the installed 1.18.12 binary (embedded plaintext JS) — guard presence/count, SessionRetry.policy schedule shape, MessageV2.fromError mapping, halt() logError path, per-request AbortController; (2) audit the proposed wrapBody/dispatcher patch for stream-semantics correctness (backpressure, timer lifecycle, controller state, header copying); (3) stress-test the Option A vs Option B framing for a missing third option; (4) assess retry-cap blast radius against the rate-limit/retry-after code paths; (5) check rebuild/replace/rollback commands for atomicity + prerequisites (bun, network, disk) and upgrade-survival against the actual launch chain (claude wrapper -> ~/.local/bin/opencode -> REAL); (6) grade the verification matrix for coverage gaps. Verdict PASS/CONDITIONAL/FAIL with required fixes.",
+          "created_at": "2026-08-04T06:31:12.688858055Z",
+          "kind": "plan",
+          "signed_by": "SHA256:HSE7SGijpZijCJVSfcgbiifYOl9LfT6cnGsBQz/2eIA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgINhBbmb8rdoOOUU0A6fKQ2bIlMPSORkyrJnuMJfZNugAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAUTnfnjVNuPu513MOugkuFpiprJSXRkmYiQIegjMx8Yxcl55E7V431ZbVMkNTcq20IxHTkKMcc4Pxe60ZSe4YCA=="
+        }
+      }
     },
     "5738d160-d23f-4dd2-856d-ed5ea78df3a5": {
       "uuid": "5738d160-d23f-4dd2-856d-ed5ea78df3a5",
@@ -6354,8 +6365,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T06:29:32.293384394Z",
-    "agent_id": "OL2r",
-    "agent_seq": 786
+    "timestamp": "2026-08-04T06:31:12.695454868Z",
+    "agent_id": "pp3g-n9vG-review-the-154-durable-opencode-silent-hang-fix-f670",
+    "agent_seq": 2
   }
 }
