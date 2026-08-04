@@ -1,6 +1,6 @@
 {
   "next_display_id": 179,
-  "next_comment_id": 370,
+  "next_comment_id": 371,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2284,7 +2284,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-04T06:01:13.560412310Z",
-      "updated_at": "2026-08-04T06:40:39.056554515Z",
+      "updated_at": "2026-08-04T06:41:31.949329739Z",
       "labels": [
         "review"
       ],
@@ -2292,6 +2292,15 @@
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
       ],
       "comments": {
+        "2a129f7d-a6b8-4ca3-9069-ddfe56a480ed": {
+          "display_id": 370,
+          "author": "pp3g-n9vG-review-the-154-durable-opencode-silent-hang-fix-f670",
+          "content": "Completed: INDEPENDENT reviewer verdict r1 on #176 for the #154 durable opencode silent-hang fix design (#175). VERDICT: CONDITIONAL. Method: re-derived every checkable claim from the live 1.18.12 binary and upstream source downloaded at tags v1.18.11/v1.18.12 (no reliance on the design's prose; no other reviewer sub-issue read). VERIFIED CORRECT: sst->anomalyco 301 rename; provider.ts byte-identical across both tags (2011 lines); the 1.18.12 upgrade wiped the #145 patch (guard back x2, if(false) gone); patch hunk context matches upstream verbatim (L35/37/40, L1738-1767); SessionRetry.policy unbounded; ResponseStreamError->APIError{isRetryable:true}; halt() logError+Session.Event.Error wiring; autoupdate:false short-circuit; wrapper indirection reaches kickoff agents; hy3 F4 already proven by source at provider.ts:1746. BLOCKERS: (B1) a SECOND independent guard copy exists in packages/core/src/aisdk.ts (v2 SessionRunner path, no headerTimeout, plain Error) which #145 patched but the design's source patch does not - coverage regression; (B2) Option B picks the wrong deadline shape - the omitted Option A' (distinct longer per-chunk IDLE deadline) protects hy3 F2 equally while detecting hangs in minutes not 30min x 3 attempts, and a total-completion deadline falsely aborts legitimately long non-SSE-labelled STREAMS since content-type is not a streaming-ness proxy; (B3) blanket RETRY_MAX_ATTEMPTS=3 regresses deliberate rate-limit waiting - retry-after is honoured up to RETRY_MAX_DELAY=2147483647 and upstream tests it explicitly. HIGH: (F4) the existing Effect.logError 'stream error' in session/llm.ts:283 and the per-attempt retry status should already have been visible - the unexplained 'zero ERROR' means the cap may produce a SILENT session death instead; recommend per-attempt retry logging which fixes blindness with zero policy risk; (F5) a 1h AbortSignal.timeout that #145 proved fires cannot explain a 10.9h zero-retry hang - the stall may be above the raw-body layer (parsed fullStream at session/llm.ts:373 has no deadline, upstream #39968), so the harness could go green while production still hangs. MEDIUM: wrapBody loses backpressure (eager start() loop vs wrapSSE's pull()); unsound timer/controller lifecycle (close-after-error TypeError swallowed, no clearTimeout in cancel); bodyTimeout defaults ON for all providers incl. compressed and non-chat traffic; attempt/POST off-by-one plus a second AI-SDK retry layer (maxRetries: input.retries ?? 0); the 'atomic' install is a plain cp over the live target; build steps omit the web-UI embed and workspace-root bun install and the bun@1.3.14 pin; no fork-identity marker or drift detection; no interim mitigation (autoupdate is ABSENT from the live config today). Harness needs: stalled-but-not-dead stream, gzip body, real-provider capture, fork unit tests (retry.test.ts already exists), grep-asserted ERROR line. No repo files modified (review-only).",
+          "created_at": "2026-08-04T06:41:31.942484922Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:HSE7SGijpZijCJVSfcgbiifYOl9LfT6cnGsBQz/2eIA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgINhBbmb8rdoOOUU0A6fKQ2bIlMPSORkyrJnuMJfZNugAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAfKsJj4nwqypAE/Rh+tG9JZbtEM8ZK+5Q3sfol7VoOLAJeindO1VfmURBubjcDguyaOhrbaq2Ufjl6wlUtcTIDA=="
+        },
         "455c5238-6917-4cc3-b31e-5979bd79b5e2": {
           "display_id": 368,
           "author": "pp3g-n9vG-review-the-154-durable-opencode-silent-hang-fix-f670",
@@ -6444,8 +6453,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T06:41:27.783027400Z",
+    "timestamp": "2026-08-04T06:41:31.949329739Z",
     "agent_id": "pp3g-n9vG-review-the-154-durable-opencode-silent-hang-fix-f670",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
