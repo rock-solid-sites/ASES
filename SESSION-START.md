@@ -6,6 +6,16 @@ resolve, see §5 — the doc is stale, not you.
 
 **Ending a session?** See `docs/SESSION-END.md` for handoff conventions.
 
+## START-SEQUENCE
+
+- **Run `crosslink session last-handoff` on session start** — read the
+  previous session's handoff notes BEFORE proceeding. Any non-durable session
+  information (state, decisions, gotchas) is captured in the handoff notes,
+  not in permanent docs.
+- **Lock warnings are KNOWN NON-BLOCKING NOISE** — if `crosslink session work`
+  reports a stale lock, do **NOT** investigate it: proceed with the task. See
+  the repo's knowledge pages for details.
+
 ---
 
 ## 1. What this repo is
