@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 332,
+  "next_comment_id": 333,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -3022,7 +3022,7 @@
       "priority": "low",
       "created_by": "OL2r",
       "created_at": "2026-08-03T23:21:12.690256074Z",
-      "updated_at": "2026-08-04T00:03:45.135402220Z",
+      "updated_at": "2026-08-04T03:52:27.391575239Z",
       "labels": [
         "bug"
       ],
@@ -3035,6 +3035,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAp0U4v67S8yx3XXqiPYjvFzk4Peum3BfeNMvZpNf+W/pCk+NeV+dq2dqMyhA2wT62CMJLC0pC7eXJRPDJSQvhAA=="
+        },
+        "c57dd74e-fcdf-48cf-a80e-35136f57daa6": {
+          "display_id": 332,
+          "author": "OL2r",
+          "content": "[OPERATOR ACTION REQUIRED] This is a manual git operation blocked for all agents — do not attempt from an agent session. Execute these exact commands:\n\n1. git -C /home/claude-code/projects/crosslink checkout fork-local/agents\n2. git -C /home/claude-code/projects/crosslink cherry-pick 31a3e2e8\n   - EXPECTED: a conflict in crosslink/src/shared_writer/locks.rs (known combine-both-intents case: main's V3 force_release/steal fixes + fork's GH#8 lazy refresh at the same is_v3() block). If conflict: resolve by keeping BOTH intents, then git cherry-pick --continue.\n3. After merge: git -C /home/claude-code/projects/crosslink log --oneline -2  (to confirm)\n\nAlso required after: rebuild the crosslink binary so lock mutations persist — per fork build instructions in .crosslink/knowledge/crosslink-fork.md:\n  CARGO_BUILD_JOBS=1 RUSTFLAGS=\"-C link-arg=-fuse-ld=lld\" cargo install --path ... --force\n\nContext from this session: surfaced per session goal Task B (do NOT attempt in-session). Related: #160, #167, #125.",
+          "created_at": "2026-08-04T03:52:27.384438520Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2c2urL9awqCOyKwpU6w3LVsm94UIa9bIAbLQJ8pIlaLJi3Uu2/OaU7xL0GYIFv1WjAscpK6VWlUkHdXYsMXLBA=="
         }
       }
     },
@@ -6045,8 +6054,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T03:52:10.462393691Z",
+    "timestamp": "2026-08-04T03:52:27.391575239Z",
     "agent_id": "OL2r",
-    "agent_seq": 726
+    "agent_seq": 727
   }
 }
