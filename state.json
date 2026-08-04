@@ -5425,11 +5425,12 @@
       "uuid": "f8d68cdb-7f95-4bb6-8760-49119d65d32b",
       "display_id": 160,
       "title": "AUDIT: crosslink fork history — reconstruct why main and fork-local/agents diverged, which branch is canonical, and whether the merge of #138/#139/#119/#794 work into main is safe. CONTEXT: fork at /home/claude-code/projects/crosslink has two divergent lines: main (at 31a3e2e8, 3 commits ahead of common ancestor: model-agnostic, docs, V3 lock fixes) and fork-local/agents (at 3cf36551, 24 commits ahead including #794/#119/#139 + base of #138). Both branches contain 'make model- and provider-agnostic' commits with the SAME message but DIFFERENT hashes (main 8875ffbb vs fork-local 8a207fff) — evidence of history rewrite. There is a 'pre-consolidation' tag. QUESTION: (1) what is the common ancestor of main and fork-local/agents, and what happened at the split? (2) are the two 'model-agnostic' commits the same change (cherry-pick/rebase) or different? (3) which branch is the canonical integration line for the agent-infrastructure work? (4) is a merge of the #138/#139/#119/#794 work into main clean, conflicted, or wrong-branch? (5) what does 'pre-consolidation' tag represent? Read-only investigation — reflog, tags, commit ancestry, file diffs. Deliverable: a clear recommendation (merge now / merge to fork-local only / audit more / don't merge) with evidence. Flash model per routing rule.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T22:09:04.801144186Z",
-      "updated_at": "2026-08-03T23:31:23.411898365Z",
+      "updated_at": "2026-08-04T00:15:45.517513607Z",
+      "closed_at": "2026-08-04T00:15:45.517509902Z",
       "labels": [
         "research"
       ],
@@ -5647,8 +5648,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T00:15:41.437328011Z",
+    "timestamp": "2026-08-04T00:15:45.517513607Z",
     "agent_id": "OL2r",
-    "agent_seq": 687
+    "agent_seq": 688
   }
 }
