@@ -1,6 +1,6 @@
 {
   "next_display_id": 179,
-  "next_comment_id": 373,
+  "next_comment_id": 374,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1258,7 +1258,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-04T06:09:16.424976149Z",
-      "updated_at": "2026-08-04T06:09:54.782328548Z",
+      "updated_at": "2026-08-04T06:46:24.356274713Z",
       "labels": [
         "review"
       ],
@@ -1266,6 +1266,15 @@
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
       ],
       "comments": {
+        "88cc28e5-02a7-4587-a891-9f26a7c3791f": {
+          "display_id": 373,
+          "author": "pp3g-hHkP-review-the-154-durable-opencode-silent-hang-fix-9733",
+          "content": "Plan: INDEPENDENT review of #175 design. I will NOT read r1/r2 sub-issues (#176/#177). Steps: (1) verify fork/pin claims against live upstream (anomalyco/opencode redirect, tags v1.18.11/v1.18.12, provider.ts byte-identical, build script --single); (2) verify provider.ts patch against actual canonical source — check wrapSSE/wrapBody/AbortController wiring, signal composition, timeout:false interplay; (3) evaluate Option B vs relaxing guard for hy3 F2 preservation; (4) verify retry root-cause claims in source (retry.ts Schedule.fromStepWithMetadata unbounded, message-v2.ts fromError mapping, halt() path, RETRY_MAX_ATTEMPTS mechanism via Cause.done); (5) assess rebuild/replace/rollback safety (atomic mv, backup, autoupdate:false, wrapper REAL); (6) assess verification matrix sufficiency incl. slow-legit non-SSE and ctl.abort per-request. Verdict: PASS/CONDITIONAL/FAIL with findings. Post --kind result to #178.",
+          "created_at": "2026-08-04T06:46:24.349189729Z",
+          "kind": "plan",
+          "signed_by": "SHA256:DgzOYENynaMsZ7pCVxBifFWSjmnyiC8Jcxj9sNFn7oc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg0M4PxVoqjRN4Bb49LHWXhUMhFU3+sphEKDd9lwlE9xwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKizavn3kosl9g2wjzYqvdZxOt4/OHl9IwmLH/+HS4dZ1lMwvG3gQTpCVGN5EvtTAqcHnG2Ai2qCo+BhitiqSCQ=="
+        },
         "c8820550-69eb-451d-af69-0aac06354b26": {
           "display_id": 353,
           "author": "OL2r",
@@ -6475,8 +6484,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T06:46:03.936098273Z",
+    "timestamp": "2026-08-04T06:46:24.356274713Z",
     "agent_id": "pp3g-hHkP-review-the-154-durable-opencode-silent-hang-fix-9733",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
