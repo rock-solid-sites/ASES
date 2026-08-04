@@ -790,6 +790,17 @@ const NORMAL_MODE_MESSAGE =
   "  crosslink session work <id>";
 
 // ---------------------------------------------------------------------------
+// Runtime agent tracking
+// ---------------------------------------------------------------------------
+
+// Captured from opencode's `chat.params` hook (`input.agent`), which reflects
+// the `--agent <type>` launch flag and is available in interactive sessions
+// where CROSSLINK_AGENT_TYPE is not exported by the claude wrapper. Starts
+// null (chat.params may fire before or after the first tool.execute.before);
+// null falls through to the env / hook-config resolution below.
+let runtimeAgentFromChat: string | null = null;
+
+// ---------------------------------------------------------------------------
 // Plugin factory
 // ---------------------------------------------------------------------------
 
@@ -832,11 +843,24 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
     crosslinkDir: string | null,
     config: LoadedConfig,
   ): LoadedConfig {
-    // Authoritative source: CROSSLINK_AGENT_TYPE exported by the claude
-    // wrapper at launch (reflects `--agent <type>`). Fall back to the
-    // worktree hook-config agent.type.
+    // Runtime agent resolution precedence:
+    //   1. Agent captured from opencode's `chat.params` hook (`input.agent`).
+    //      This is the authoritative source in interactive sessions where the
+    //      claude wrapper does not export CROSSLINK_AGENT_TYPE.
+    //   2. CROSSLINK_AGENT_TYPE exported by the claude wrapper at launch
+    //      (reflects `--agent <type>`).
+    //   3. Worktree hook-config agent.type (default "builder").
+    // `runtimeAgentFromChat` starts null and stays null if no chat.params
+    // event has fired yet, so the env/hook-config fallbacks apply exactly as
+    // before in that case.
     const runtimeEnv = process.env.CROSSLINK_AGENT_TYPE;
-    const runtimeAgent = runtimeEnv || resolveAgentType(crosslinkDir);
+    const runtimeAgent =
+      runtimeAgentFromChat || runtimeEnv || resolveAgentType(crosslinkDir);
+    const source = runtimeAgentFromChat
+      ? "chat.params"
+      : runtimeEnv
+        ? "CROSSLINK_AGENT_TYPE env"
+        : "hook-config agent.type";
     if (!crosslinkDir) {
       log(
         "!!! FAIL-CLOSED — no crosslink dir found: the by_type override " +
@@ -844,10 +868,10 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
       );
       return config;
     }
-    if (!runtimeEnv) {
+    if (!runtimeAgentFromChat && !runtimeEnv) {
       log(
-        "!!! FAIL-CLOSED — CROSSLINK_AGENT_TYPE env is not set; resolution " +
-          "fell back to hook-config agent.type = '" +
+        "!!! FAIL-CLOSED — no chat.params agent and CROSSLINK_AGENT_TYPE " +
+          "env is not set; resolution fell back to hook-config agent.type = '" +
           runtimeAgent +
           "'. If the actual runtime role differs, per-role by_type " +
           "overrides are NOT applied (e.g. orchestrator merge gating may " +
@@ -863,7 +887,9 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
       log(
         "!!! FAIL-CLOSED — no by_type entry for resolved agent type '" +
           runtimeAgent +
-          "': the base config applies without per-role override.",
+          "' (source: " +
+          source +
+          "): the base config applies without per-role override.",
       );
       return config;
     }
@@ -871,11 +897,21 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
     if (byType.blocked_git_commands) next.blocked_git = [...byType.blocked_git_commands];
     if (byType.gated_git_commands) next.gated_git = [...byType.gated_git_commands];
     if (byType.allowed_bash_prefixes) next.allowed_bash = [...byType.allowed_bash_prefixes];
-    log("by_type override applied for agent:", runtimeAgent);
+    log("by_type override applied for agent:", runtimeAgent, "(source:", source + ")");
     return next;
   }
 
   return {
+    // Capture the runtime agent from opencode's chat.params hook so the
+    // by_type override can be applied in interactive sessions where
+    // CROSSLINK_AGENT_TYPE is not exported by the claude wrapper. Mirrors
+    // the orchestrator-guard pattern (module-level variable updated here,
+    // consumed in applyAgentTypeOverride).
+    "chat.params": async (input, _output) => {
+      runtimeAgentFromChat = input.agent;
+      log("chat.params agent:", runtimeAgentFromChat);
+    },
+
     "tool.execute.before": async (input, output) => {
       const toolName = input.tool as string;
       const toolLower = toolName.toLowerCase();
