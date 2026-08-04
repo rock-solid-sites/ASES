@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 336,
+  "next_comment_id": 337,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4887,7 +4887,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-04T01:46:25.500820068Z",
-      "updated_at": "2026-08-04T04:21:21.276462124Z",
+      "updated_at": "2026-08-04T04:29:45.031082901Z",
       "labels": [
         "bug"
       ],
@@ -4932,6 +4932,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABARAXbRcVsXAiaz5UeS6XNmIMJhN/3NPo8iknXt6EYj20CIf6oMcDlbqVjrMzThKmaV5FWbR92DVoIaiFFS/ROCg=="
+        },
+        "969fd030-4f97-4822-b95b-76ec3d120258": {
+          "display_id": 336,
+          "author": "OL2r",
+          "content": "[RESULT] Fresh-session verification complete (session #12). FOUR findings + recommendation:\n\n(a) CROSSLINK_AGENT_TYPE FINDING — CONFIRMED. grep /proc/self/environ in this interactive orchestrator session: NO crosslink env vars. The wrapper (~/.local/bin/claude) exports CROSSLINK_AGENT_TYPE ONLY when launched with --agent (both tmux + non-tmux paths); an interactive TUI launch without --agent never sets it. opencode AgentConfig schema (live https://opencode.ai/config.json) has NO env field — per-agent env in opencode.json is NOT possible. HOWEVER: the sibling orchestrator-guard.ts proves the runtime agent IS knowable — it logs 'chat.params agent: orchestrator' for this very session. crosslink-guard.ts's own comment (line 828) says opencode passes it as input.agent, but applyAgentTypeOverride NEVER reads input.agent — it only reads process.env.CROSSLINK_AGENT_TYPE OR hook-config agent.type (=builder). THAT is the clean-fix locus.\n\n(b) RECOMMENDED LAUNCH-CHAIN FIX: modify crosslink-guard.ts applyAgentTypeOverride to take the runtime agent from opencode's chat.params/input.agent (exact pattern already proven by orchestrator-guard.ts in this repo), with precedence: input.agent > CROSSLINK_AGENT_TYPE env > hook-config agent.type. Zero launch-chain changes needed; works interactively AND via kickoff (env still honored). No wrapper hack, no schema workaround. Implementation is Builder's job — not done in this session.\n\n(c) MERGE PROOF — GENUINE INTERCEPTION, BUT STALE PLUGIN: ran git merge --ff-only test/173-merge-proof-topic (scratch commit 3cb522e) at 04:22:43 → guard log 28634: 'BLOCK: blocked git command: rtk git merge --ff-only test/173-merge-proof-topic'. INTERCEPTION VERIFIED (guard-log entry exists — not a bypass). BUT the running plugin is PRE-FIX: opencode PID 486222 started 03:15:43, plugin init 03:15:45, State resolved 03:18:40 (strict, is_agent:false) — all BEFORE 17a1960 committed at 03:42:54. ZERO FAIL-CLOSED lines ever logged ⇒ the loaded module is the old code with old cached root-blocked list (merge still blocked). CONCLUSION: the config fix is correct ON DISK but CANNOT take effect until the opencode process is restarted (fresh plugin load). This session was NOT a fresh plugin load — it reused the 03:15 process. A definitive post-fix merge proof REQUIRES an operator restart of the TUI/process, then re-test (expected: FAIL-CLOSED logs + merge GATED not blocked).\n\n(d) HOOKS STATUS: .claude/hooks/ HAS all 7 .py files (crosslink_config 363L, heartbeat 82L, post-edit-check 502L, pre-web-check 154L, prompt-guard 786L, session-start 332L, work-check 522L — 2741L total). work-check.py has 0 by_type matches; crosslink_config.py 0 by_type/agent.type matches. BUT these Python hooks are legacy — the LIVE guard is the native TS plugin (crosslink-guard.ts). The by_type gap in the Python hooks is MOOT for enforcement (TS plugin is authoritative).\n\nOPERATOR ACTION REQUIRED: (1) restart the opencode TUI process (fresh plugin load) then re-run the merge test to get the post-fix proof; (2) delegate the (b) plugin fix to Builder; (3) #166 cherry-pick commands are on #166's 03:52 comment (confirmed present). Scratch branches test/173-merge-proof-base + -topic left on local (branch delete blocked for orchestrator; mirrors prior test/173-merge-scratch). No push, no closes.",
+          "created_at": "2026-08-04T04:29:45.022647537Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEIPFa5Eaug99Fo6cKyTWeQCfxafvrqMJ5+EQurh0vE2TxvomntS2SzAImPA4+gBvVdDApqAFqL2vppRoFZ0KAg=="
         },
         "9bdcf9ce-1041-4d8d-aa2b-302971cf1b2f": {
           "display_id": 326,
@@ -6081,8 +6090,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T04:21:21.276462124Z",
+    "timestamp": "2026-08-04T04:29:45.031082901Z",
     "agent_id": "OL2r",
-    "agent_seq": 732
+    "agent_seq": 733
   }
 }
