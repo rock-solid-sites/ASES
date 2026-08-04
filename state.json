@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 340,
+  "next_comment_id": 341,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4887,7 +4887,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-04T01:46:25.500820068Z",
-      "updated_at": "2026-08-04T04:46:51.862263767Z",
+      "updated_at": "2026-08-04T04:47:11.212286787Z",
       "labels": [
         "bug"
       ],
@@ -4923,6 +4923,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABATYot7dubnj/aCVBbU1q6AisugH0MlFKxr6j/Iq2pqAb3/tuRy5sS2W3AuAr2Bj7O2Kb1r2lOXIWZdnGZwTMrAQ=="
+        },
+        "2e2cebfb-e670-42bf-ae2a-8a087ff0d027": {
+          "display_id": 340,
+          "author": "OL2r",
+          "content": "Result: crosslink-guard.ts now resolves the runtime agent from opencode chat.params before env fallback. Committed as a73d12f (1 file, .opencode/plugins/crosslink-guard.ts, +45/-9).\n\nWHAT CHANGED:\n1. Module-level `let runtimeAgentFromChat: string | null = null;` (line 801), mirroring orchestrator-guard.ts.\n2. New `\"chat.params\"` hook in the returned hooks object (lines 910-913) sets `runtimeAgentFromChat = input.agent` and logs `chat.params agent: <agent>`.\n3. `applyAgentTypeOverride` (lines 842-902) now resolves with precedence: chat.params agent (1st) > CROSSLINK_AGENT_TYPE env (2nd) > hook-config agent.type (3rd). The module variable starts null, so if chat.params has not fired at interception time it falls through to env then hook-config exactly as before — no ordering assumption.\n\nUNCHANGED: blocked/gated git lists, sentinel logic, comment discipline, allowed-bash, strict-mode messaging. FAIL-CLOSED behavior kept; messages now name the resolution source; the env-unset warning fires only when the hook-config fallback is actually used. No by_type match still logs FAIL-CLOSED and returns base config.\n\nVERIFICATION: `tsc -p .opencode/tsconfig.json` (7.0.2): ZERO errors in crosslink-guard.ts; only pre-existing rtk-guard.ts TS2868 Bun-type noise (untouched file). rtk grep confirms chat.params/runtimeAgentFromChat/applyAgentTypeOverride all present. Runtime path reasoning: interactive orchestrator session -> chat.params fires with agent='orchestrator' -> byTypeMap['orchestrator'] found -> gated_git includes 'git merge' -> merge becomes GATED on active issue (not hard-blocked, not generic-allow).\n\nHANDOFF: the running opencode process loads plugins once per process and will NOT pick up this change until the operator restarts it. Runtime verification (log line 'chat.params agent: orchestrator' then 'by_type override applied for agent: orchestrator (source: chat.params)') must happen after restart. No push performed.",
+          "created_at": "2026-08-04T04:47:11.191665943Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7lLS/K41OaqtNQZSiYywnXreV/VVgpjolhwQZfREIH3g8XM/KHSq8ewOjBvBrYPcpIDaCPi5BYQ+FrmjomrcCQ=="
         },
         "37f0c503-8212-4f45-818f-b8c30c6adbe8": {
           "display_id": 330,
@@ -6117,8 +6126,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T04:46:51.862263767Z",
+    "timestamp": "2026-08-04T04:47:11.212286787Z",
     "agent_id": "OL2r",
-    "agent_seq": 736
+    "agent_seq": 737
   }
 }
