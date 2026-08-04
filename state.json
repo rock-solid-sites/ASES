@@ -1,6 +1,6 @@
 {
   "next_display_id": 168,
-  "next_comment_id": 302,
+  "next_comment_id": 303,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2910,10 +2910,21 @@
       "priority": "low",
       "created_by": "OL2r",
       "created_at": "2026-08-03T23:21:12.690256074Z",
-      "updated_at": "2026-08-03T23:21:16.522128231Z",
+      "updated_at": "2026-08-04T00:03:45.135402220Z",
       "labels": [
         "bug"
-      ]
+      ],
+      "comments": {
+        "7af11642-c178-41ef-9a13-d30ef65b5df5": {
+          "display_id": 302,
+          "author": "OL2r",
+          "content": "LIVE REPRODUCTION (2026-08-03): the V3 lock bug is reproducible RIGHT NOW. 14 OL2r driver locks released cleanly via 'crosslink locks release', but 4 agent-held stale locks (#127/#129/#131/#149 — killed reviewer agents) are UNREMOVABLE: 'locks steal' reports 'Stole lock on issue #N' but 'locks list' still shows the original holder; 'locks release' then reports 'Issue #N was not locked' while list persists. Exact signature of the #160 diagnosis: installed crosslink binary is pre-31a3e2e8, so lock mutations don't persist to the hub. IMPACT: harmless operationally (locks are stale, from killed agents; guard doesn't consult lock table per #167) but the table stays dirty until the V3 fix lands in the binary. This is concrete evidence that #166 (manually import 31a3e2e8) unblocks real cleanup. Related: #125 (finding), #167 (plugin wiring), #160 (diagnosis).",
+          "created_at": "2026-08-04T00:03:45.125712990Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAp0U4v67S8yx3XXqiPYjvFzk4Peum3BfeNMvZpNf+W/pCk+NeV+dq2dqMyhA2wT62CMJLC0pC7eXJRPDJSQvhAA=="
+        }
+      }
     },
     "7f13165e-74e7-47b8-b968-713467dfbe7f": {
       "uuid": "7f13165e-74e7-47b8-b968-713467dfbe7f",
@@ -5626,8 +5637,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-03T23:48:28.237090239Z",
+    "timestamp": "2026-08-04T00:03:45.135402220Z",
     "agent_id": "OL2r",
-    "agent_seq": 684
+    "agent_seq": 685
   }
 }
