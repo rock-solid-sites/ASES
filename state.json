@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 333,
+  "next_comment_id": 334,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4887,7 +4887,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-04T01:46:25.500820068Z",
-      "updated_at": "2026-08-04T03:52:10.462393691Z",
+      "updated_at": "2026-08-04T03:56:47.574030809Z",
       "labels": [
         "bug"
       ],
@@ -4950,6 +4950,15 @@
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALKsyauO0m+XaoaHoGSiCIUevZj6dyO9+rg2J7PVlz4ddOReJnCRHirZjn7Il5wKBr7tE8Z/RoNitt09YScWuCA=="
+        },
+        "f112e429-16f8-401c-996a-fb417f93e75d": {
+          "display_id": 333,
+          "author": "OL2r",
+          "content": "[ADDENDUM — state change + cleanup] Post-result observation (2026-08-04 03:52-03:57): main's HEAD moved WITHOUT this session executing a merge.\n\nEVIDENCE: reflog shows 'merge test/173-merge-scratch: Fast-forward' at 03:52:10 (main 17a1960 -> 78f8c9f). The crosslink-guard log contains NO interception of that merge command — this session's guarded attempt at 03:44:41 was blocked (logged 'BLOCK: blocked git command'), and no other guarded call ran a merge. Conclusion: the merge was executed by a process NOT loading the ASES crosslink-guard plugin (other session/shell on this machine). The merge itself SUCCEEDED (clean fast-forward), but it does NOT constitute a guard verification — it bypassed the guard entirely.\n\nRESPONSE: delegated cleanup to Builder — commit 94634bb 'chore: remove #173 merge-gate scratch artifact' removed 173-merge-scratch.txt from main. Final main history: 94634bb -> 78f8c9f (scratch) -> 17a1960 (fix). Working tree clean except pre-existing .crosslink/.last-hydrated-ref churn.\n\nNET STATE: fix verified on disk (root blocked list no longer contains git merge; reviewer/auditor by_type still block it; fail-closed warnings in place). In-session merge-gate proof remains inconclusive due to (a) stale in-session plugin cache and (b) the unguarded merge; a fresh orchestrator session with CROSSLINK_AGENT_TYPE exported is the definitive test. Scratch branch test/173-merge-scratch is now merged and deletable: git branch -d test/173-merge-scratch",
+          "created_at": "2026-08-04T03:56:47.567773342Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHzIMN+1E4Z8p9LNc9bQogujOKiE5zxU1YRBJB1GFraJMtsJh2/8K+oMngbaN5UPc7fNWMC1b9NQ2sT7IXx1qDg=="
         },
         "f43d8862-fb65-4837-b496-adfb7698d201": {
           "display_id": 325,
@@ -6054,8 +6063,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T03:52:27.391575239Z",
+    "timestamp": "2026-08-04T03:56:47.574030809Z",
     "agent_id": "OL2r",
-    "agent_seq": 727
+    "agent_seq": 728
   }
 }
