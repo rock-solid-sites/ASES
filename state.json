@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 338,
+  "next_comment_id": 339,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -4887,7 +4887,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-04T01:46:25.500820068Z",
-      "updated_at": "2026-08-04T04:42:24.543017381Z",
+      "updated_at": "2026-08-04T04:45:57.682794285Z",
       "labels": [
         "bug"
       ],
@@ -4905,6 +4905,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAH5UWXOpci85wUU8GgEEEVWfz00w8MYVbTyoEt0TpP1bZbpRqr1uSaiv+50D+EhzaGYWPerpESsdLaB3IJ7NiCg=="
+        },
+        "213d666a-3c50-4e4b-bf68-46e769602c74": {
+          "display_id": 338,
+          "author": "OL2r",
+          "content": "Plan: mirror orchestrator-guard's chat.params agent tracking inside crosslink-guard.ts (exactly one file). (1) Add module-level 'let runtimeAgentFromChat: string | null = null;'. (2) Add a 'chat.params' hook to the returned hooks object setting runtimeAgentFromChat = input.agent (mirrors orchestrator-guard.ts:57-60). (3) Rework applyAgentTypeOverride precedence: chat.params agent (1st) > CROSSLINK_AGENT_TYPE env (2nd) > hook-config agent.type (3rd); null chat.params falls through to env/hook-config exactly as today; no by_type match keeps FAIL-CLOSED + base-config return; success log keeps 'by_type override applied for agent: <agent>'. No changes to blocked/gated lists, sentinel logic, comment discipline, allowed-bash, or strict-mode messaging. Verify with tsc (zero NEW errors; TS2591 pre-existing noise acceptable) + rtk grep. Commit on main: fix(permission): resolve runtime agent from opencode chat.params before env fallback (gh#173). No push.",
+          "created_at": "2026-08-04T04:45:57.676979144Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABATYot7dubnj/aCVBbU1q6AisugH0MlFKxr6j/Iq2pqAb3/tuRy5sS2W3AuAr2Bj7O2Kb1r2lOXIWZdnGZwTMrAQ=="
         },
         "37f0c503-8212-4f45-818f-b8c30c6adbe8": {
           "display_id": 330,
@@ -6099,8 +6108,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T04:42:24.543017381Z",
+    "timestamp": "2026-08-04T04:45:57.682794285Z",
     "agent_id": "OL2r",
-    "agent_seq": 734
+    "agent_seq": 735
   }
 }
