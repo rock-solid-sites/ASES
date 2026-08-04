@@ -1,6 +1,6 @@
 {
   "next_display_id": 173,
-  "next_comment_id": 305,
+  "next_comment_id": 306,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1495,7 +1495,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-04T00:03:56.371663601Z",
+      "updated_at": "2026-08-04T00:55:48.651203265Z",
       "labels": [
         "bug"
       ],
@@ -1550,6 +1550,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABArVkK+SFJqKmdqMKU5wPCm9U/AyO52VRXHuM6eXlOEVx0BkUQrjLDe9lTXWFr3wZnHAi+iKA7DSmTu52IuO4jDw=="
+        },
+        "92ee214c-d937-494e-8006-600dfe5b04c7": {
+          "display_id": 305,
+          "author": "OL2r",
+          "content": "SYSTEMIC DRIFT FINDING (2026-08-04): multiple agents today have DRIFTED into the V3-lock/hydration internals instead of their assigned tasks — big-pickle (#149 review), #160 fork agent, #163 audit agent, #168 intake agent. Root cause hypothesis: every 'crosslink session work' emits a stale-lock warning (OL2r holds, steal doesn't persist due to pre-31a3e2e8 binary), and agents keep deciding to INVESTIGATE the lock mechanics rather than push past the warning. This wastes their time budget and produces scope drift. MITIGATION (already being applied): tightly-scoped prompts + 'ignore the lock warning, proceed with the deliverable' instruction; early kill on drift. LONG-TERM: the lock bug (#166 V3 fix + #167 plugin wiring) removes the recurring warning that triggers the drift. Worth a playbook note: agents must treat stale-lock warnings as non-blocking noise and proceed with the task.",
+          "created_at": "2026-08-04T00:55:48.643363371Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALtVRycQAXMOfa2S2TrKMun0KlBrb9GGpwbTOFdfo0b/xUhy10S0k+hHBM6SXFFMbdGJ2fouYhumy8DkauJBjBw=="
         },
         "b98e733b-7a1f-4842-815b-51e3801b021f": {
           "display_id": 239,
@@ -5748,8 +5757,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T00:48:19.556196425Z",
-    "agent_id": "pp3g-qvYV-tight-scope-intake-copy-issue-168-copy-the-live-02b7",
-    "agent_seq": 16
+    "timestamp": "2026-08-04T00:55:48.651203265Z",
+    "agent_id": "OL2r",
+    "agent_seq": 707
   }
 }
