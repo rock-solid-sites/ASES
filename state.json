@@ -1,6 +1,6 @@
 {
   "next_display_id": 175,
-  "next_comment_id": 346,
+  "next_comment_id": 347,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1499,7 +1499,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-04T01:49:50.905104938Z",
+      "updated_at": "2026-08-04T05:35:49.316336112Z",
       "labels": [
         "bug"
       ],
@@ -1528,6 +1528,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/FXEuEf7n5w0+KQDETt5lP7Lw6M4BbbJb/VFFFrzcwgCvEIUJpc5ASIOnetLHrtqlq88l8sKzSZCqZetul0dAA=="
+        },
+        "21811a41-4a48-4817-9f07-83cab6bd8a3b": {
+          "display_id": 346,
+          "author": "OL2r",
+          "content": "MILESTONE (2026-08-04): the lock-persistence root cause is FIXED and verified. #166 (V3 lock-protocol fix, 31a3e2e8) imported to fork-local/agents (commit 00e71b38) + binary rebuilt. Verification: lock mutations now persist — steal actually transfers ownership, release clears locks, 'crosslink locks list' shows NO active locks (was 7 stale stuck locks before). This resolves the lock half of the hydration-family symptom: stale locks no longer accumulate unremovable. IMPACT: removes the agent-drift trigger (#125 systemic-drift finding — stale-lock warnings caused agents to investigate lock internals); unblocks #167 (plugin wiring, which needs a reliable lock table). Remaining hydration-family items unchanged: concurrent-launch 'not found' races, display-id collisions, worktree-comment visibility — still open (see #126 catalog).",
+          "created_at": "2026-08-04T05:35:49.308242456Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQ24ndAe9FcTe0e0innSu25onqhfGHs/kfVyoSijHI1B+lt9nEiHr7PkOBlS8jks9V+QEwmI0iVviI5nhQOQQDA=="
         },
         "27980834-49cb-45ce-943c-f01b6ef92132": {
           "display_id": 301,
@@ -6139,8 +6148,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T05:28:22.324370780Z",
+    "timestamp": "2026-08-04T05:35:49.316336112Z",
     "agent_id": "OL2r",
-    "agent_seq": 759
+    "agent_seq": 760
   }
 }
