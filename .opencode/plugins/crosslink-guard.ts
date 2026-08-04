@@ -835,14 +835,38 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
     // Authoritative source: CROSSLINK_AGENT_TYPE exported by the claude
     // wrapper at launch (reflects `--agent <type>`). Fall back to the
     // worktree hook-config agent.type.
-    const runtimeAgent = process.env.CROSSLINK_AGENT_TYPE || resolveAgentType(crosslinkDir);
-    if (!runtimeAgent || !crosslinkDir) return config;
+    const runtimeEnv = process.env.CROSSLINK_AGENT_TYPE;
+    const runtimeAgent = runtimeEnv || resolveAgentType(crosslinkDir);
+    if (!crosslinkDir) {
+      log(
+        "!!! FAIL-CLOSED — no crosslink dir found: the by_type override " +
+          "cannot be applied and the base config is in effect.",
+      );
+      return config;
+    }
+    if (!runtimeEnv) {
+      log(
+        "!!! FAIL-CLOSED — CROSSLINK_AGENT_TYPE env is not set; resolution " +
+          "fell back to hook-config agent.type = '" +
+          runtimeAgent +
+          "'. If the actual runtime role differs, per-role by_type " +
+          "overrides are NOT applied (e.g. orchestrator merge gating may " +
+          "be wrong).",
+      );
+    }
     const merged = loadConfigMerged(crosslinkDir);
     const byTypeMap = merged.agent_overrides?.by_type as
       | Record<string, { blocked_git_commands?: string[]; gated_git_commands?: string[]; allowed_bash_prefixes?: string[] }>
       | undefined;
     const byType = byTypeMap?.[runtimeAgent];
-    if (!byType) return config;
+    if (!byType) {
+      log(
+        "!!! FAIL-CLOSED — no by_type entry for resolved agent type '" +
+          runtimeAgent +
+          "': the base config applies without per-role override.",
+      );
+      return config;
+    }
     const next: LoadedConfig = { ...config };
     if (byType.blocked_git_commands) next.blocked_git = [...byType.blocked_git_commands];
     if (byType.gated_git_commands) next.gated_git = [...byType.gated_git_commands];
