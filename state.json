@@ -2985,11 +2985,12 @@
       "uuid": "7d99a664-8ced-4785-b581-1eb199bc929b",
       "display_id": 166,
       "title": "DEFERRED: manually import the V3 lock-protocol fix (main commit 31a3e2e8, Closes #790) into fork-local/agents. CONTEXT: cherry-pick of 31a3e2e8 from main onto fork-local/agents CONFLICTED in crosslink/src/shared_writer/locks.rs (predicted by #160 audit: main deletes clear_stale_lock_state/refactors force_release; fork adds GH#8 lazy refresh at the same is_v3() block). Conflict is a combine-both-intents case, not pick-one. DECISION: defer manual import — do NOT rush a risky manual resolve now. WHEN PICKED UP: (1) diff main's locks.rs/shared_writer changes vs fork-local's; (2) merge both intents (preserve the V3 force_release/steal fixes AND the GH#8 lazy refresh); (3) also check compaction.rs (was staged in the aborted cherry-pick); (4) run the lock test suite (crosslink locks release/steal); (5) verify with the #790 test scenario. Related: #160 (fork audit), #790 (upstream). Flash model. Low urgency — fork-local/agents works without it.",
-      "status": "open",
+      "status": "closed",
       "priority": "low",
       "created_by": "OL2r",
       "created_at": "2026-08-03T23:21:12.690256074Z",
-      "updated_at": "2026-08-04T05:28:11.239156433Z",
+      "updated_at": "2026-08-04T05:28:22.324370780Z",
+      "closed_at": "2026-08-04T05:28:22.324346467Z",
       "labels": [
         "bug"
       ],
@@ -6138,8 +6139,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-04T05:28:11.239156433Z",
+    "timestamp": "2026-08-04T05:28:22.324370780Z",
     "agent_id": "OL2r",
-    "agent_seq": 758
+    "agent_seq": 759
   }
 }
