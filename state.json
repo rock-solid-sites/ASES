@@ -1,6 +1,6 @@
 {
   "next_display_id": 186,
-  "next_comment_id": 410,
+  "next_comment_id": 411,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -5455,7 +5455,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T21:28:20.358100922Z",
-      "updated_at": "2026-08-05T23:04:06.458528759Z",
+      "updated_at": "2026-08-05T23:30:44.472863432Z",
       "labels": [
         "infrastructure"
       ],
@@ -5472,6 +5472,15 @@
         "b0660f9c-1c43-421f-9306-a2bb6f6bfec8"
       ],
       "comments": {
+        "56881653-fbda-471f-b3f9-b48e57cbf998": {
+          "display_id": 410,
+          "author": "OL2r",
+          "content": "ROUND-2 RE-REVIEW SYNTHESIS (session #13/#14): revised design #180 re-reviewed by 3 models. r2 (mimo-v2.5-free #183) = PASS. r3 (big-pickle #184) = CONDITIONAL (2 impl-level: Stream.timeoutFail missing in effect 4.0.0-beta.83 -> use Stream.timeoutOrElse; test 9b underspecified). r1 (hy3 #182) = CONDITIONAL — 5 NEW blocking conditions V1-V5 (all impl-level, architecture accepted): V1 (B1) aisdk.ts hunk 4 references undeclared bodyIdleAbortCtl + positional signals.find mis-binds controllers -> Patch B does not compile; V2 (R2) §7.1 bodyIdleTimeout=30000 set behind timeout=15000 -> new deadline can NEVER fire, test 6's 25s slow body guaranteed false-abort at 15s, test 9 unrunnable; V3 (F7) bodyAbsoluteTimeout callback lacks stream controller (cannot close/error stream) + never clears absoluteId on idle path; V4 (B2) numeric chain compares chain-total to per-request timeout and FAILS the project's own 15-20m operator-timeout ladder (SESSION-START §4a) -> re-derive against 15-20m not 1h; V5 (B3/F4) terminal WARN reports meta.attempt+1 = 4 POSTs (contradicts 3-POST invariant) + sits on non-Effect Cause.done return. Plus 9 non-blocking (ZlibError in unbounded class, header passthrough undecided, no config-schema entry -> bodyIdleTimeout typos silently accepted, wrong F11 citation, F5 guard left optional, OPENCODE_CHANNEL/IS_PREVIEW interaction, drift-check spawn cost, TUI message mapping lost, no v2-patch matrix row). NET: design architecture ACCEPTED by all 3; remaining blockers are patch-code correctness (compile errors, parameter contradictions, timer lifecycle) — a final implementation-ready pass, not another architecture round. INCIDENT: r1's worktree crosslink DB was not hydrated (4 local rows only), so it ran all crosslink issue commands against the main checkout, and its final 'crosslink session end' ended ORCHESTRATOR session #13. No data lost; session #14 resumed, #156 re-claimed. HARNESS GAP (worth fixing): kickoff sub-agents asked to comment on hub issues have no safe way to do so from their own worktree if the worktree DB isn't hydrated.",
+          "created_at": "2026-08-05T23:30:44.463114110Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMq8B3KuqudseyVqAjCUlKkM6C7LJz9mkwV6RLFjpDnRukW9R+iY3FBc9XRcmRup+qZz02+fJru/f7auezGO3DQ=="
+        },
         "88a4d730-b030-4a43-988d-46359c67b7af": {
           "display_id": 377,
           "author": "OL2r",
@@ -6939,8 +6948,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T23:30:07.622581251Z",
+    "timestamp": "2026-08-05T23:30:44.472863432Z",
     "agent_id": "OL2r",
-    "agent_seq": 833
+    "agent_seq": 834
   }
 }
