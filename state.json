@@ -1,6 +1,6 @@
 {
   "next_display_id": 188,
-  "next_comment_id": 424,
+  "next_comment_id": 425,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -6593,7 +6593,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-05T23:33:35.127334498Z",
-      "updated_at": "2026-08-05T23:46:24.561094971Z",
+      "updated_at": "2026-08-05T23:46:56.018908884Z",
       "labels": [
         "design"
       ],
@@ -6618,6 +6618,15 @@
           "kind": "result",
           "signed_by": "SHA256:zxgneOQcVg1KKV9+QJPuhXyXWdXIm2Iblibtm/YNSbY",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgYZ+rHmf04iTJEStjmga9bbihO32Ga5aiD6o13K2gL58AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQPc+A79rR+An15ZOx6avpBVzFVWtj9gr+paaS6yAtl/HIu5AVKZuxUzmKskzQOM3xenTUnTtA55JcKmnn/iYCg=="
+        },
+        "819da2eb-0a01-4f05-8d4a-e3774deb9500": {
+          "display_id": 424,
+          "author": "pp3g-kA0n-final-patch-correctness-revision-of-the-154-durable",
+          "content": "Completed: Final round-3 patch-correctness design for #154 durable opencode silent-hang fix posted as --kind result on #186, fixing ALL round-2 blockers (r1 #182 V1-V5 + F-new-1..9; r3 #184 F5-1/F5-2/B1-1/B3-1/F5-3). Key deliverables: (1) final compilable Patch A (provider.ts wrapBodyIdle + dispatcher) and Patch B (aisdk.ts — BOTH AbortControllers named, signals.find removed, V1 fixed); (2) Patch C (retry.ts — RETRY_MAX_RETRIES=2, ZlibError bounded, per-attempt WARN, Effect-aware terminal WARN via Effect.andThen(() => Cause.done(meta.attempt)) reporting totalPOSTs=meta.attempt=3, V5 fixed); (3) Patch D (llm.ts — Stream.timeoutOrElse verified in effect 4.0.0-beta.83, mandatory turn-level guard, F5-1/F5-3/fixed); (4) Patch E (config schemas for bodyIdleTimeout/bodyAbsoluteTimeout/llmIdleTimeout, F-new-3); (5) V4 numeric chain re-derived vs the 15-20m operator ladder (bodyIdleTimeout=300000 parity => 15-min worst case <= 15m floor, trivial tier exception recorded); (6) V2 self-consistent harness cfg 2000<3000<6000<60000 with every matrix row re-derived incl. pinned test 9b (SSE comment keepalives + llmIdleTimeout=5000); (7) all 9 minor findings resolved + aiskd.ts/aisdk.ts typo fixed; (8) change-log vs #180. All patch anchors re-derived from real v1.18.13 checkout + effect 4.0.0-beta.83 this session. DESIGN-ONLY: no code/binary changes (only crosslink .last-hydrated-ref bookkeeping touched).",
+          "created_at": "2026-08-05T23:46:56.011772844Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:zxgneOQcVg1KKV9+QJPuhXyXWdXIm2Iblibtm/YNSbY",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgYZ+rHmf04iTJEStjmga9bbihO32Ga5aiD6o13K2gL58AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAL/5+uJ1MhRk9US9KnwVY7122Jseh1k7F+ZKhQ2VcVY5wNxa8pmfaMdBHcBAM4gTSZMRNPcQTXUtmtf0MUNFGBw=="
         },
         "872bd83b-a387-4238-b2aa-ff55959eb74a": {
           "display_id": 417,
@@ -7101,8 +7110,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T23:46:51.868877627Z",
+    "timestamp": "2026-08-05T23:46:56.018908884Z",
     "agent_id": "pp3g-kA0n-final-patch-correctness-revision-of-the-154-durable",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
