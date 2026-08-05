@@ -1,6 +1,6 @@
 {
   "next_display_id": 185,
-  "next_comment_id": 394,
+  "next_comment_id": 395,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -4577,13 +4577,24 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-05T23:03:33.675899327Z",
-      "updated_at": "2026-08-05T23:04:06.458528759Z",
+      "updated_at": "2026-08-05T23:07:04.945481216Z",
       "labels": [
         "review"
       ],
       "related": [
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
-      ]
+      ],
+      "comments": {
+        "6df2f13d-def8-4b68-a746-fca7356448f8": {
+          "display_id": 394,
+          "author": "pp3g-99G6-re-review-the-revised-154-durable-opencode-silent-de19",
+          "content": "Plan: Independent re-review of the #180 revised design. I will NOT read round-1 verdict sub-issues (#176/#177/#178) — findings B1-B3/F4-F13/R1-R3 are taken only from the #184 brief + the #180 change-log, and I will re-derive each from upstream source where checkable. Steps: (1) fetch upstream opencode source at the pinned tag (v1.18.12 base, v1.18.13 if the installed pin moved) and verify every source claim: provider.ts wrapSSE guard + resolveSDK wrapper, aiskd.ts second guard copy + prepareOptions, retry.ts policy/attempt semantics/retry-after, message-v2.ts fromError codes, processor.ts halt, llm.ts fullStream + maxRetries, build.ts version markers, root package.json bun pin/postinstall, retry.test.ts; (2) check the design's wrapBodyIdle pull() lifecycle against the actual wrapSSE shape; (3) validate the numeric chain and off-by-one against the actual code semantics; (4) assess the verification matrix against every finding; (5) post PASS/CONDITIONAL/FAIL verdict with specific findings. No code changes (review task).",
+          "created_at": "2026-08-05T23:07:04.939189730Z",
+          "kind": "plan",
+          "signed_by": "SHA256:kbIWg5NsLQ9H3SqKELHfd64h5u1LjJBiSdK8t6qDW6s",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgVozFY5IgL+ZqH7vhdBcOfrW4Xb3KS1Q5VtNxDQuUtnAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbE67+6d0PiLBJbVknPUIySj3Zr9ugPcF+NX6LewpUlApqHGkq3kxTCFFRQIea4/D5EmlawQpc/gmbHCs1eEYCQ=="
+        }
+      }
     },
     "a18609af-a463-4254-bdde-1c908ac4b608": {
       "uuid": "a18609af-a463-4254-bdde-1c908ac4b608",
@@ -6782,8 +6793,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T23:06:54.767017052Z",
-    "agent_id": "pp3g-5jfH-re-review-the-revised-154-durable-opencode-silent-205b",
-    "agent_seq": 3
+    "timestamp": "2026-08-05T23:07:04.945481216Z",
+    "agent_id": "pp3g-99G6-re-review-the-revised-154-durable-opencode-silent-de19",
+    "agent_seq": 2
   }
 }
