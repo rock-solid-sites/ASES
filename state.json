@@ -1,5 +1,5 @@
 {
-  "next_display_id": 181,
+  "next_display_id": 182,
   "next_comment_id": 383,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -117,6 +117,7 @@
     "951b3b57-44f1-4503-9404-6cb182065dd1": 144,
     "96e2152d-85c5-465e-b90f-2d593b463473": 147,
     "97952c91-bb14-4a15-95d8-65af45753451": 158,
+    "9d3e3af4-2363-4f2c-8990-674b86333212": 181,
     "9dc62041-4dc2-4042-ac5d-724e6a2af5b4": 119,
     "9fc17f77-580b-4e44-b9df-a31176444642": 63,
     "a18609af-a463-4254-bdde-1c908ac4b608": 153,
@@ -4361,6 +4362,16 @@
         "d4822b37-51ef-4159-a754-5c78bb90dbdd"
       ]
     },
+    "9d3e3af4-2363-4f2c-8990-674b86333212": {
+      "uuid": "9d3e3af4-2363-4f2c-8990-674b86333212",
+      "display_id": 181,
+      "title": "MODEL FEEDBACK (registry update): capture the 2026-08-04 #154 design-review wave as evidence in the AI Capability Registry. SCOPE (when dispatched): create docs/model-feedback-gpt-5.6-luna.md and docs/model-feedback-big-pickle.md (new, per docs/model-feedback-template.md), and APPEND an adversarial-review section + this session's evidence to the existing docs/model-feedback-hy3.md (currently implementation-focused, dated 2026-07-11). EVIDENCE (all on hub): reviewer verdicts on #176 (r1 hy3), #177 (r2 luna), #178 (r3 big-pickle); design on #175; synthesis on #154. OBSERVED (orchestrator assessment, session #13): r1 hy3 = deepest independent re-derivation (re-derived every claim from live binary + source), unique catches B1 (2nd guard copy in packages/core/src/aisdk.ts), B3 (rate-limit retry regression), F5 (causal gap 1h timeout vs 10.9h hang), F10-F13; r2 luna = correct + concise, moderate depth, posted a self-correction, largely implementation-level findings; r3 big-pickle = strong mechanical verification but confirmatory (missed B1/B3, PASSED Option B that hy3 B2-challenged). KEY INSIGHT for registry: triple-agreement off-by-one = high-confidence; B1 was 1-of-3 catch (2-of-3 consensus would have agreed on the wrong answer) -> validates 3-reviewer minimum over 2; same-model-family blind spot risk (luna + big-pickle both missed B1) -> reviewer-model selection should include a hy3-class deep re-derivation reviewer + a different family. Task categories: adversarial review, code review, verification, synthesis. Evidence quality: independent reviewer agreement + repeated project observation. NOTE: hy3 record's Identification says 'opencode/hy3-free' but today's r1 ran opencode-go/hy3 (paid) — reconcile provider naming in the update.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-05T22:52:35.787751251Z",
+      "updated_at": "2026-08-05T22:52:35.787751251Z"
+    },
     "9dc62041-4dc2-4042-ac5d-724e6a2af5b4": {
       "uuid": "9dc62041-4dc2-4042-ac5d-724e6a2af5b4",
       "display_id": 119,
@@ -6611,8 +6622,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T22:49:52.178235506Z",
-    "agent_id": "pp3g-dK8V-revise-the-154-durable-opencode-silent-hang-fix-230b",
-    "agent_seq": 3
+    "timestamp": "2026-08-05T22:52:35.787751251Z",
+    "agent_id": "OL2r",
+    "agent_seq": 801
   }
 }
