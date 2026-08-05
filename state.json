@@ -1,5 +1,5 @@
 {
-  "next_display_id": 185,
+  "next_display_id": 186,
   "next_comment_id": 406,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -64,6 +64,7 @@
     "4b44cd8c-cd37-49fb-a645-0469be2fc61f": 127,
     "4d2ae734-1b40-41a5-899e-baacb300cd22": 42,
     "4f679348-c35f-4ba0-ab80-900788e81b19": 175,
+    "51942b54-b189-47ee-a0ad-be20dd4840f0": 185,
     "52ea68a3-1536-4e75-b68f-89c0ba01b8d1": 90,
     "52f44369-b47d-40e1-91c5-4a95fe9f7d30": 138,
     "54bdc408-5a1c-4f5a-a5a0-eadcc54113a2": 86,
@@ -2289,6 +2290,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg22VA8Vi6EEevLSrJx0oOCtIzgRpaGvIfOtg+AR9m394AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoi5uB+QzPFlMpxuaRcT4/5eoMf18F80pXPjS4DWYAm/KTE+LKNsyWI8B5XxGDIGRw7AaPRvXLYMlBcWPl78pDw=="
         }
       }
+    },
+    "51942b54-b189-47ee-a0ad-be20dd4840f0": {
+      "uuid": "51942b54-b189-47ee-a0ad-be20dd4840f0",
+      "display_id": 185,
+      "title": "LATER/DEFERRED (separate session): surface agent-completion updates IN the opencode orchestrator chat. OPERATOR REQUEST (2026-08-05, session #13): when a kickoff/swarm agent completes, the operator wants the update to appear in the opencode chat as a second orchestrator message — WITHOUT polling ('status?') and WITHOUT desktop/webhook notifications. RESEARCH FINDING (verified against @opencode-ai/plugin + SDK types): (1) plugin 'event' hook receives ALL SDK events incl. 'session.idle' (fires when the model finishes a turn — the trigger point); (2) /session/{id}/prompt_async lets a plugin inject a prompt into a session asynchronously — the injected prompt appears as a new user turn ('update acting as prompt from the operator'); (3) EventTuiToastShow exists for TUI toasts. PROPOSED DESIGN: small plugin in the orchestrator session (alongside crosslink-guard) hooks session.idle -> checks crosslink / .worktrees/*/.kickoff-status for transitions -> on completion injects via prompt_async 'Agent X completed - report status'; orchestrator reads hub and sends the operator a second message. PRECEDENT: #133/#134 surveyed community plugins (@mohak34/opencode-notifier, opencode-notificator, opencode-notify) — all observe OpenCode session events only, none watch crosslink/tmux kickoff agents nor inject prompts back; none fit. #135 Phase 1 watcher (kickoff-notify.py) covers desktop/webhook only. FILE NO DISPATCH — prototype in a separate session, prove against the live orchestrator session.",
+      "status": "open",
+      "priority": "low",
+      "created_by": "OL2r",
+      "created_at": "2026-08-05T23:21:42.999953084Z",
+      "updated_at": "2026-08-05T23:21:42.999953084Z"
     },
     "52ea68a3-1536-4e75-b68f-89c0ba01b8d1": {
       "uuid": "52ea68a3-1536-4e75-b68f-89c0ba01b8d1",
@@ -6886,8 +6897,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T23:21:33.348321333Z",
+    "timestamp": "2026-08-05T23:21:42.999953084Z",
     "agent_id": "OL2r",
-    "agent_seq": 824
+    "agent_seq": 825
   }
 }
