@@ -1,6 +1,6 @@
 {
   "next_display_id": 182,
-  "next_comment_id": 386,
+  "next_comment_id": 387,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -2707,7 +2707,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-05T22:43:33.344149887Z",
-      "updated_at": "2026-08-05T22:52:58.147120552Z",
+      "updated_at": "2026-08-05T22:53:20.749616687Z",
       "labels": [
         "design"
       ],
@@ -2723,6 +2723,15 @@
           "kind": "observation",
           "signed_by": "SHA256:yCnB3Tge2Cf5fii5l09gwZzIGgjawvUvgOlEO8nFj0Y",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJQfYmJw/yj35gN7WfEJDtoGIQNsjZ/81zm51A0IlrnsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABARssQRTN+rzO56V8oVMm3EfpkNQ3s+e/gMyD+T4YciTiUzsRjXUzVpkwVGfGncbuRprg5CmLZTAyt1bEiOJjhCQ=="
+        },
+        "52c812df-e7db-423c-adfc-f4c5fcc04cfb": {
+          "display_id": 386,
+          "author": "pp3g-dK8V-revise-the-154-durable-opencode-silent-hang-fix-230b",
+          "content": "Completed: Revised design for #154 durable opencode silent-hang fix posted as --kind result on #180, addressing ALL reviewer findings (r1 #176 B1-B3/F4-F13, r2 #177, r3 #178 R1-R3) with a change-log vs #175. Key decisions: patch BOTH guard copies (provider.ts + aiskd.ts) with reachability evidence; Option A' idle-progress deadline (bodyIdleTimeout=600000, opt-in absolute cap) replacing Option B; error-class-scoped retry budget (RETRY_MAX_RETRIES=2, retry-after preserved, off-by-one fixed); per-attempt retry logging; turn-level parsed-stream guard (llm.ts fullStream) + instrumentation; pull()-shape wrapBodyIdle with hardened lifecycle; opt-in bodyIdleTimeout; atomic stage+mv install; workspace-root bun install + bun@1.3.14 pin + --skip-embed-web-ui decision; fork-identity marker + drift detection; expanded verification matrix (stalled-but-not-dead, gzip, non-chat, fork unit tests, grep-assert ERROR, POST counts, real-provider capture; test-6 gaps fixed; test-7 per-request mode). Fresh current-state finding: live binary now 1.18.13 with #179 stopgap applied (both copies byte-patched, autoupdate:false set). DESIGN-ONLY: no code/binary changes.",
+          "created_at": "2026-08-05T22:53:20.728169145Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:yCnB3Tge2Cf5fii5l09gwZzIGgjawvUvgOlEO8nFj0Y",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJQfYmJw/yj35gN7WfEJDtoGIQNsjZ/81zm51A0IlrnsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7iQgxcQmuYG4mUZ2bI9mG2zaO/QwNZJ16yVv1da+3Zqbxttt3+PrN/z2ihNF/qeM6LiQG25DnLT/wWsTQToLBg=="
         },
         "9608d061-1b73-49f2-8dc1-acbc32576568": {
           "display_id": 384,
@@ -6650,8 +6659,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T22:53:16.005126543Z",
+    "timestamp": "2026-08-05T22:53:20.749616687Z",
     "agent_id": "pp3g-dK8V-revise-the-154-durable-opencode-silent-hang-fix-230b",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
