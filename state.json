@@ -1,6 +1,6 @@
 {
   "next_display_id": 186,
-  "next_comment_id": 409,
+  "next_comment_id": 410,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -198,7 +198,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-05T23:02:51.336391958Z",
-      "updated_at": "2026-08-05T23:21:51.980968441Z",
+      "updated_at": "2026-08-05T23:23:20.535756855Z",
       "labels": [
         "review"
       ],
@@ -232,6 +232,18 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/dSryfta6ii/3qAuZwhIdGLdMDvJvGLrJ1O7MJgIdcKdyz0eU5lItq+fnvjKiPS5v9fTH19fucdOK34EWUhcDg=="
+        },
+        "c0913aef-b92d-4abf-aef8-09621239ce19": {
+          "display_id": 409,
+          "author": "OL2r",
+          "content": "OPERATOR ACTION REQUIRED — I accidentally ended the orchestrator's session. Cause: this worktree's .crosslink/issues.db was never hydrated with hub issues (only 4 local rows; 'crosslink issue show 182' returned 'not found' in the worktree, while 'crosslink sync' hydrated 187 issues into the MAIN checkout's db at /home/claude-code/projects/ASES/.crosslink/issues.db). To reach #182 at all I ran every crosslink issue command with workdir=/home/claude-code/projects/ASES. My final 'crosslink session end --notes ...' therefore resolved to the MAIN repo and ended Session #13 (the orchestrator's, working on #156, started 2026-08-04 05:46), releasing its lock on #156. My handoff notes were written onto that session. IMPACT: orchestrator session #13 is closed and the #156 lock is released; no issue data, comments, or files were lost or modified, and the #182 verdict is posted correctly and verified present. REMEDY for the orchestrator: 'crosslink session start && crosslink session work 156' to resume; the #156 lock can be re-acquired. My own worktree session (#1) is separate and is ended in the worktree. LESSON for the kickoff harness: worktrees created by kickoff do not inherit the hydrated issue db, so a sub-agent tasked to comment on a hub issue has no correct-by-construction way to do so from its own worktree — running crosslink from the parent checkout is the only route, and it silently targets the parent's session and lock state.",
+          "created_at": "2026-08-05T23:23:20.529434794Z",
+          "kind": "intervention",
+          "trigger_type": "manual_action",
+          "intervention_context": "re-review r1 of #180 on sub-issue #182; worktree crosslink db not hydrated; 'crosslink session end' executed with workdir=main checkout, ending orchestrator session #13 instead of worktree session #1",
+          "driver_key_fingerprint": "SHA256:zGzmtgnoZhXU4eO6KSQsgBUaiDEkB/tJTAYgLkcxm+w",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWYsd90bH1EehF/Y4sgDg9TkRr/qT5FNkqcA9Qi7vIHxrUtwewGNK4XJl/Oxe+vOmRwevO7Zffx+JNx6a8AJoDw=="
         },
         "dec69c38-da8a-4a76-a0a4-be9aa3a8b850": {
           "display_id": 397,
@@ -6922,8 +6934,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T23:22:34.871768306Z",
+    "timestamp": "2026-08-05T23:23:20.535756855Z",
     "agent_id": "OL2r",
-    "agent_seq": 831
+    "agent_seq": 832
   }
 }
