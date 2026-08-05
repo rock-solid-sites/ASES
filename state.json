@@ -1,7 +1,8 @@
 {
-  "next_display_id": 182,
+  "next_display_id": 183,
   "next_comment_id": 391,
   "display_id_map": {
+    "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
     "09c5f286-570e-4499-96e5-be9ca0a77fa5": 102,
@@ -191,6 +192,16 @@
     }
   },
   "issues": {
+    "036319c2-0184-46ff-9ab1-7eeb54c44e65": {
+      "uuid": "036319c2-0184-46ff-9ab1-7eeb54c44e65",
+      "display_id": 182,
+      "title": "RE-REVIEW VERDICT r1 (#154 design ROUND 2, INDEPENDENT — do NOT read any other reviewer sub-issue): review the REVISED durable opencode silent-hang fix design on #180 (result comment). Verify the revision actually closes every blocker/finding from round 1 (B1-B3, F4-F13, R1-R3) by INDEPENDENTLY re-deriving from source where checkable — do not trust the change-log. Focus: (1) B1 — BOTH guard copies patched (provider.ts + aiskd.ts) with reachability evidence; (2) B2 — Option A' idle-progress deadline adopted, numeric chain (30min < 60min < operator); (3) B3 — error-class-scoped retry budget (RETRY_MAX_RETRIES=2 for timeout/stream class, retry-after preserved for 429/usage-limit), off-by-one fixed (<=3 POSTs); (4) F4 per-attempt retry WARN + grep-asserted ERROR; (5) F5 turn-level parsed-stream guard + instrumentation + real-provider capture; (6) F6-F12 wrapBodyIdle pull() shape/lifecycle/opt-in, atomic mv, workspace-root bun install + pin, fork-identity marker + drift detection; (7) R2/R3 test-6 gaps>chunkTimeout, PER_REQUEST mode; (8) verification matrix sufficiency (stalled-but-not-dead, parsed-stream stall, gzip, non-chat, unit tests, POST counts). Verdict: PASS / CONDITIONAL / FAIL with specific findings. POST to THIS sub-issue (#180-r1). Read #180 (revised design), #175 (baseline if needed), #144, #145.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-05T23:02:51.336391958Z",
+      "updated_at": "2026-08-05T23:02:51.336391958Z"
+    },
     "05414e46-befb-4780-88a2-900c5acfecbf": {
       "uuid": "05414e46-befb-4780-88a2-900c5acfecbf",
       "display_id": 41,
@@ -6691,8 +6702,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T22:57:54.176250125Z",
-    "agent_id": "pp3g-R3hP-re-apply-the-emergency-silent-hang-protection-today",
-    "agent_seq": 8
+    "timestamp": "2026-08-05T23:02:51.336391958Z",
+    "agent_id": "OL2r",
+    "agent_seq": 806
   }
 }
