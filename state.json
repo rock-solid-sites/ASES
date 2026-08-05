@@ -1,6 +1,6 @@
 {
   "next_display_id": 186,
-  "next_comment_id": 408,
+  "next_comment_id": 409,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -4083,7 +4083,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T21:40:51.784419076Z",
-      "updated_at": "2026-08-05T23:22:26.445467196Z",
+      "updated_at": "2026-08-05T23:22:34.871768306Z",
       "labels": [
         "epic"
       ],
@@ -4138,6 +4138,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyks+RQnqmtNhILHziet9/cG9Fg27XFvGDqUPVCfrMIEiO5wIXtCI0QXddZXcfNkObczMoBtDH4EOQ7FekAfxBA=="
+        },
+        "8c37ee44-4c76-4bad-8edc-2e4334d6af28": {
+          "display_id": 408,
+          "author": "OL2r",
+          "content": "Completed: INDEPENDENT round-2 re-review of the revised #154 durable opencode silent-hang fix design (#180). Verdict CONDITIONAL, posted as --kind result to #182. Isolation preserved: did NOT read #176/#177/#178 or any other re-review sub-issue. Method: re-derived ~20 source citations from a real upstream v1.18.13 checkout (/tmp/opencode/opencode-upstream-r3) plus the live binary and config rather than trusting the change-log; all substance verified accurate, §0 byte-exact. CLOSED: F6, F9, F10, F12, F13, R1, R3, F8 (opt-in), F11 (substance), F5 (substantially). NOT CLOSED: 5 blocking conditions - V1 (B1: aisdk.ts hunk 4 references undeclared bodyIdleAbortCtl and leaves positional signals.find controller selection, so Patch B does not compile and mis-binds); V2 (R2: §7.1 sets bodyIdleTimeout=30000 behind timeout=15000 so the new deadline can never fire; test 6's 25s slow body is guaranteed to false-abort at 15s; test 9 unrunnable); V3 (F7: bodyAbsoluteTimeout callback has no stream controller so it can neither close nor error the stream, and never clears absoluteId on the idle path); V4 (B2: numeric chain compares chain-total to per-request timeout and fails the project's own 15-20m operator-timeout ladder); V5 (B3/F4: terminal WARN reports meta.attempt+1 = 4 POSTs contradicting the 3-POST invariant, and sits on a non-Effect Cause.done return). Plus 9 non-blocking findings (ZlibError unbounded, header passthrough undecided, no config-schema entry so bodyIdleTimeout typos are silently accepted, wrong F11 citation, F5 guard left optional, OPENCODE_CHANNEL/IS_PREVIEW interaction, drift-check spawn cost, TUI message mapping lost, matrix has no v2-patch row). NOTE: worktree crosslink db was not hydrated with hub issues (4 local rows only), so all crosslink issue commands were run against the main checkout at /home/claude-code/projects/ASES. REVIEW-ONLY: no project files modified.",
+          "created_at": "2026-08-05T23:22:34.865617332Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsk3quNiYrFhEt363STSb6Wfb+q5iGX4i+VZ0tDZH5ttABLdU6+J6an4jzwEGAAmQG9y4yA1MHBlNH5kkDlERCA=="
         },
         "cf4e0a0f-3e8f-44b8-aeef-5fec48a35d79": {
           "display_id": 371,
@@ -6913,8 +6922,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T23:22:30.673665786Z",
+    "timestamp": "2026-08-05T23:22:34.871768306Z",
     "agent_id": "OL2r",
-    "agent_seq": 830
+    "agent_seq": 831
   }
 }
