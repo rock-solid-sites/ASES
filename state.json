@@ -1,6 +1,6 @@
 {
   "next_display_id": 182,
-  "next_comment_id": 390,
+  "next_comment_id": 391,
   "display_id_map": {
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -1752,7 +1752,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-05T22:42:27.308602969Z",
-      "updated_at": "2026-08-05T22:57:46.317406076Z",
+      "updated_at": "2026-08-05T22:57:54.176250125Z",
       "labels": [
         "bug"
       ],
@@ -1804,6 +1804,15 @@
           "kind": "result",
           "signed_by": "SHA256:7L8xtcrdQK6aWOr06jHiIyZ2PyK1hMqPHzFRMD+0wZ8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgdgg55s+nf8RbJhZh53tiEZ0YyrOvU+UrW9jWCXQsVpYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAThjallPk9OGI6DlaH+2QQtwoeAmh/nA/5AavwbyCd9G4UiQ3putynbBq8daNfQLH7eYb3oWj7Km+9/t2xZYAAw=="
+        },
+        "d8c51ac3-12b9-4ed4-88be-230cb0d1d988": {
+          "display_id": 390,
+          "author": "pp3g-R3hP-re-apply-the-emergency-silent-hang-protection-today",
+          "content": "Completed: stopgap silent-hang protection re-applied. CRITICAL: installed binary was 1.18.13 (not 1.18.12 as kickoff assumed) — autoupdate had let another upgrade wipe the fix; guards found at 97992552/99193312. Actions: (1) autoupdate:false added to ~/.config/opencode/opencode.json (validated). (2) Backup /tmp/opencode-145-patch/opencode.exe.ORIGINAL-1.18.13; same-length 74-byte patch at BOTH actual offsets; atomic mv install; opencode --version=1.18.13 OK. (3) Hang harness ALL PASS: application/json+hang aborts ~3s (retry gaps 3.6/5/7/11s), healthy JSON EXIT 0, healthy SSE EXIT 0 'Hello world'. (4) if(false)return confirmed at both 97992552+99193312 in live binary; guards 0 occurrences. Result posted to #179. Caveat: silent retry loop remains (known; durable fork fix #154/#180 pending).",
+          "created_at": "2026-08-05T22:57:54.164635047Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:7L8xtcrdQK6aWOr06jHiIyZ2PyK1hMqPHzFRMD+0wZ8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgdgg55s+nf8RbJhZh53tiEZ0YyrOvU+UrW9jWCXQsVpYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHYqMFnt2evVl4obNV6HHT6bA+SDVR47QvgSJ6pNx+dwiuivq8RpqzTPSMnw4Dp+veWO9E+KriNGB1aaFjI4fBw=="
         }
       }
     },
@@ -6682,8 +6691,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-05T22:57:50.109175063Z",
+    "timestamp": "2026-08-05T22:57:54.176250125Z",
     "agent_id": "pp3g-R3hP-re-apply-the-emergency-silent-hang-protection-today",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
