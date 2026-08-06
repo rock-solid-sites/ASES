@@ -1,6 +1,6 @@
 {
   "next_display_id": 210,
-  "next_comment_id": 536,
+  "next_comment_id": 537,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7003,11 +7003,20 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T03:51:36.793370107Z",
-      "updated_at": "2026-08-06T04:10:18.114501633Z",
+      "updated_at": "2026-08-06T04:18:54.527380584Z",
       "labels": [
         "review"
       ],
       "comments": {
+        "207a26a9-9c33-4f15-a80e-f560dc9992bf": {
+          "display_id": 536,
+          "author": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+          "content": "Plan: independent re-review of #196 revision b40c980 (report.md + logs/initialize-capture.json) per #199 MUST FIX 1-5. (1) Verify initialize-capture.json is a genuine raw handshake and that its response matches what proxy.py's Server construction emits through the installed mcp 2.0.0 SDK (read proxy.py + venv SDK source incl. server.py get_capabilities, mcp_types wire models, session.py, stdio.py). (2) Re-derive the three cold first-call samples (tests1-3/test4/test5 harness logs) against report.md's n=3 range and observed-max framing in §5/§6/§7. (3) Re-derive all four init_ms values against the report's split/union presentation. (4) Re-derive the Test 2 decomposition and the ~15 ms residual. (5) Verify pins toolregistry[mcp]==0.15.0 + mcp==2.0.0 against installed venv dist-info METADATA. (6) Scan for over-claims. Live re-run not possible (reviewer role denies python); verification is by re-derivation + source inspection. Read-only.",
+          "created_at": "2026-08-06T04:18:54.518578863Z",
+          "kind": "plan",
+          "signed_by": "SHA256:dqJJxDfhYp2s0PbFtktYlMdwFUCtHuPimgtdoZJSG+g",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgi3Y7k6zLHSnYcebt0U8E4gaHZmVqfalyr69g11qwxm8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAiKk88HGqEgv1Eqd6oJSQJAozefwObVlqYdnTw1xiDhxPWFK4Ah0WGKemmdz/jsF9tgpHLqQs2IctxFM44GnfBw=="
+        },
         "39efe439-f39b-40be-942b-a8c151dc5d7b": {
           "display_id": 526,
           "author": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
@@ -8499,8 +8508,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T04:16:09.784447336Z",
-    "agent_id": "pp3g-jKV3-tight-scope-doc-update-issue-206-document-the-989b",
-    "agent_seq": 10
+    "timestamp": "2026-08-06T04:18:54.527380584Z",
+    "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+    "agent_seq": 39
   }
 }
