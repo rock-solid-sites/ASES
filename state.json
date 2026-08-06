@@ -1,6 +1,6 @@
 {
   "next_display_id": 236,
-  "next_comment_id": 723,
+  "next_comment_id": 724,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -4568,13 +4568,24 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T16:15:12.685531428Z",
-      "updated_at": "2026-08-06T16:15:47.980871418Z",
+      "updated_at": "2026-08-06T16:24:04.929091002Z",
       "labels": [
         "infrastructure"
       ],
       "related": [
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
-      ]
+      ],
+      "comments": {
+        "87f3a576-0c92-47c9-be07-d91233363e3a": {
+          "display_id": 723,
+          "author": "pp3g-pdzT-re-run-the-16-row-matrix-with-fixed-harness-92d5",
+          "content": "Plan: Fix the 6 harness-bug classes from #232 §4 in /tmp/opencode/matrix-run/: (1) totalPOSTs grep -> JSON 'totalPOSTs=N' format (row1, row14 x6); (2) row4/row10a content-present -> assert SDK event-part delivery (loop step=1) instead of plain stdout 'Hello world'; (3) row6b -> accept idle marker OR bounded total-timeout ERROR ('The operation timed out.'); (4) server.js GZIP -> remove content-length:0 in sendHeaders (breaks hang premise) + fix ERR_HTTP_HEADERS_SENT double-writeHead crash in healthy GZIP path (confirmed in server-row10a.log); (5) row9b keepalive already patched (res-close) — verify Turn stalled; (6) row16c -> per-file grep -c sum instead of multi-file grep -c. Then re-run full 16-row matrix vs fixed binary (sha256 6e0e282b) with generous timeouts, report new table + any REAL remaining failures with evidence. Do NOT install.",
+          "created_at": "2026-08-06T16:24:04.921362678Z",
+          "kind": "plan",
+          "signed_by": "SHA256:8Hecgsh+iJnuxNkX8uQLrqVhpnZDML5wc/FSwgkq+SM",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg0Hs2ZjnsZ37VgrU1/kA97rskoAzFMvC27G4FaaublTkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABApruiaW/XbeFwnb7n6D9xje3WjlrpM1s+0daqY1kLBQqjVsqwdPFM05EyoGBhrYdmBOh5TwUNDp2L4VrlVepjDw=="
+        }
+      }
     },
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": {
       "uuid": "68941ee1-bcaf-4bc4-9c1f-0db903630fe6",
@@ -10649,8 +10660,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T16:17:14.285447147Z",
+    "timestamp": "2026-08-06T16:24:04.929091002Z",
     "agent_id": "pp3g-pdzT-re-run-the-16-row-matrix-with-fixed-harness-92d5",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
