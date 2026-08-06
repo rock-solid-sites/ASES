@@ -1,6 +1,6 @@
 {
   "next_display_id": 233,
-  "next_comment_id": 705,
+  "next_comment_id": 706,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7652,7 +7652,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T11:58:35.091029686Z",
-      "updated_at": "2026-08-06T12:06:42.102219737Z",
+      "updated_at": "2026-08-06T12:56:24.903573591Z",
       "labels": [
         "infrastructure"
       ],
@@ -7660,6 +7660,15 @@
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
       ],
       "comments": {
+        "406b919f-8c86-4d2a-8bd7-8daf10339366": {
+          "display_id": 705,
+          "author": "pp3g-TL2B-investigate-the-compiled-binary-error-propagation-17a1",
+          "content": "[PROGRESS] state=working completed=<ROOT CAUSE FOUND + FIX VERIFIED. Root cause: NOT a compiled-binary divergence — the compiled wrapBodyIdle/dispatcher are byte-faithful minifications (all error elements survive). The SOURCE opencode run ALSO hangs (E3 parity test: source bun run hangs exit 124 identically). The real bug: effect Stream.fromAsyncIterable adds a scope finalizer that AWAITS iter.return(); after a stream error, the ai@6 fullStream return() rejects/hangs (verified: fake-iterable return()=reject AND return()=hang both hang runDrain; return()=clean passes). Isolated reproduction: exact llm.ts pipeline with real fullStream HANGS; fake fullStream FAILS. FIX: safeIterable wrapper in llm.ts making return() fire-and-forget. Source verified: 'Body read timed out' + EXIT=1 + bounded 3-POST retry budget (2s/4s backoff, budget-exhausted WARN totalPOSTs=3). Rebuilt binary with fix: FULL GATE PASS — level=WARN retry attempt=1/2, budget exhausted attempt=3 totalPOSTs=3, level=ERROR process error='Body read timed out', exit 1, 3 POSTs> next=<full 16-row matrix vs fixed binary running; then report + commit> blocker=none",
+          "created_at": "2026-08-06T12:56:24.814576539Z",
+          "kind": "observation",
+          "signed_by": "SHA256:ZsvJm4Mknth4Xz2E3TUBH0NfqX2TSKvNQ7cTis787Mk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPMP9bidzGKtFZCm6l5saRnoqADqDimA0r/oI1adk4QAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAUJrGRGXJQkbaVoNiBP1NX3JAwzgXl4mOHRHuRTIH7V1/5IWKqG9c7DrdAf7uMB4yBMqXdyhcF6WGorHfT+7qDQ=="
+        },
         "6cac6ca1-6528-4399-bc9c-c67d5c8d8941": {
           "display_id": 694,
           "author": "pp3g-TL2B-investigate-the-compiled-binary-error-propagation-17a1",
@@ -10437,8 +10446,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T12:53:36.955262897Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1054
+    "timestamp": "2026-08-06T12:56:24.903573591Z",
+    "agent_id": "pp3g-TL2B-investigate-the-compiled-binary-error-propagation-17a1",
+    "agent_seq": 4
   }
 }
