@@ -793,12 +793,23 @@ const NORMAL_MODE_MESSAGE =
 // Runtime agent tracking
 // ---------------------------------------------------------------------------
 
-// Captured from opencode's `chat.params` hook (`input.agent`), which reflects
-// the `--agent <type>` launch flag and is available in interactive sessions
-// where CROSSLINK_AGENT_TYPE is not exported by the claude wrapper. Starts
-// null (chat.params may fire before or after the first tool.execute.before);
-// null falls through to the env / hook-config resolution below.
-let runtimeAgentFromChat: string | null = null;
+// Captured from opencode's `chat.params` / `chat.message` hooks (`input.agent`),
+// which reflect the `--agent <type>` launch flag and are available in
+// interactive sessions where CROSSLINK_AGENT_TYPE is not exported by the
+// claude wrapper.
+//
+// Keyed by sessionID, NOT a single shared value: one opencode process hosts
+// multiple sessions (the interactive session plus reviewer/builder subagents
+// launched via the Task tool), and every session's chat.params fires in that
+// same process. A module-level scalar is clobbered by the most recent
+// subagent event, so the parent session's tool calls resolve to the
+// subagent's type (proven: orchestrator merge hard-blocked at 03:24:15
+// because a reviewer subagent's chat.params overwrote the shared variable).
+// Keying by sessionID keeps each session's agent independent.
+const runtimeAgentBySession = new Map<
+  string,
+  { agent: string; source: "chat.params" | "chat.message" }
+>();
 
 // ---------------------------------------------------------------------------
 // Plugin factory
@@ -836,28 +847,38 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
   }
 
   // Apply the per-agent-type override for the runtime agent once the actual
-  // agent name is known (opencode passes it as `input.agent`, reflecting the
-  // `--agent <type>` launch flag). This is re-applied on every call so a
-  // type change mid-session is honoured, but resolution is cheap.
+  // agent name is known (opencode passes it as `input.agent` in chat.params /
+  // chat.message, reflecting the `--agent <type>` launch flag). This is
+  // re-applied on every call so a type change mid-session is honoured, but
+  // resolution is cheap.
+  //
+  // The agent is resolved per sessionID because one opencode process hosts
+  // multiple sessions (interactive + Task-tool subagents). Using a shared
+  // module-level value would let a subagent's chat.params event clobber the
+  // parent session's agent (the #204 regression).
   function applyAgentTypeOverride(
     crosslinkDir: string | null,
     config: LoadedConfig,
+    sessionID?: string,
   ): LoadedConfig {
     // Runtime agent resolution precedence:
-    //   1. Agent captured from opencode's `chat.params` hook (`input.agent`).
-    //      This is the authoritative source in interactive sessions where the
-    //      claude wrapper does not export CROSSLINK_AGENT_TYPE.
+    //   1. Agent captured for THIS session from opencode's chat.params /
+    //      chat.message hooks (`input.agent`). Authoritative in interactive
+    //      sessions where the claude wrapper does not export
+    //      CROSSLINK_AGENT_TYPE.
     //   2. CROSSLINK_AGENT_TYPE exported by the claude wrapper at launch
     //      (reflects `--agent <type>`).
     //   3. Worktree hook-config agent.type (default "builder").
-    // `runtimeAgentFromChat` starts null and stays null if no chat.params
-    // event has fired yet, so the env/hook-config fallbacks apply exactly as
-    // before in that case.
+    // The per-session map starts empty, so if no chat hook has fired yet the
+    // env/hook-config fallbacks apply exactly as before in that case.
+    const sessionAgent = sessionID
+      ? runtimeAgentBySession.get(sessionID)
+      : undefined;
     const runtimeEnv = process.env.CROSSLINK_AGENT_TYPE;
     const runtimeAgent =
-      runtimeAgentFromChat || runtimeEnv || resolveAgentType(crosslinkDir);
-    const source = runtimeAgentFromChat
-      ? "chat.params"
+      sessionAgent?.agent || runtimeEnv || resolveAgentType(crosslinkDir);
+    const source = sessionAgent
+      ? sessionAgent.source
       : runtimeEnv
         ? "CROSSLINK_AGENT_TYPE env"
         : "hook-config agent.type";
@@ -868,10 +889,12 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
       );
       return config;
     }
-    if (!runtimeAgentFromChat && !runtimeEnv) {
+    if (!sessionAgent && !runtimeEnv) {
       log(
-        "!!! FAIL-CLOSED — no chat.params agent and CROSSLINK_AGENT_TYPE " +
-          "env is not set; resolution fell back to hook-config agent.type = '" +
+        "!!! FAIL-CLOSED — no chat.params/chat.message agent for session '" +
+          (sessionID ?? "unknown") +
+          "' and CROSSLINK_AGENT_TYPE env is not set; resolution fell back " +
+          "to hook-config agent.type = '" +
           runtimeAgent +
           "'. If the actual runtime role differs, per-role by_type " +
           "overrides are NOT applied (e.g. orchestrator merge gating may " +
@@ -904,12 +927,41 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
   return {
     // Capture the runtime agent from opencode's chat.params hook so the
     // by_type override can be applied in interactive sessions where
-    // CROSSLINK_AGENT_TYPE is not exported by the claude wrapper. Mirrors
-    // the orchestrator-guard pattern (module-level variable updated here,
-    // consumed in applyAgentTypeOverride).
+    // CROSSLINK_AGENT_TYPE is not exported by the claude wrapper. Keyed by
+    // sessionID so subagent sessions in the same process cannot clobber the
+    // parent session's agent (the #204 regression).
     "chat.params": async (input, _output) => {
-      runtimeAgentFromChat = input.agent;
-      log("chat.params agent:", runtimeAgentFromChat);
+      if (input.sessionID && input.agent) {
+        runtimeAgentBySession.set(input.sessionID, {
+          agent: input.agent,
+          source: "chat.params",
+        });
+      }
+      log(
+        "chat.params agent:",
+        input.agent,
+        "session:",
+        input.sessionID,
+      );
+    },
+
+    // Redundant capture from chat.message: some session variants may not
+    // fire chat.params (e.g. resume/compact paths), so capture the agent
+    // here too. chat.message input.agent is optional in the plugin API, so
+    // only set when present; chat.params remains the preferred source.
+    "chat.message": async (input, _output) => {
+      if (input.sessionID && input.agent) {
+        runtimeAgentBySession.set(input.sessionID, {
+          agent: input.agent,
+          source: "chat.message",
+        });
+      }
+      log(
+        "chat.message agent:",
+        input.agent ?? "(none)",
+        "session:",
+        input.sessionID,
+      );
     },
 
     "tool.execute.before": async (input, output) => {
@@ -947,7 +999,7 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
       // Resolve state (config, crosslink dir) + per-agent-type override
       // ------------------------------------------------------------------
       const { crosslinkDir, config: baseConfig } = ensureState();
-      const config = applyAgentTypeOverride(crosslinkDir, baseConfig);
+      const config = applyAgentTypeOverride(crosslinkDir, baseConfig, input.sessionID);
 
       // ------------------------------------------------------------------
       // 3. Permanently blocked git commands
