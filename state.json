@@ -1,6 +1,6 @@
 {
   "next_display_id": 216,
-  "next_comment_id": 582,
+  "next_comment_id": 583,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -6749,7 +6749,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T05:56:46.396381909Z",
-      "updated_at": "2026-08-03T21:43:11.516194527Z",
+      "updated_at": "2026-08-06T05:32:38.062107301Z",
       "labels": [
         "research"
       ],
@@ -6777,6 +6777,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGOdfnRBCzHrfVxQzd06VcuYWyM3Hih42L/57f00+xxD6J91yceG+d2D2u4oS23wRUJrSmtJr9Z+IlTr3JPonAA=="
+        },
+        "e1d14f78-28ab-4e98-a7d6-f4daab861849": {
+          "display_id": 582,
+          "author": "pp3g-H4RK-read-only-mechanism-verification-no-file-changes-no",
+          "content": "Plan: read-only mechanism verification in /home/claude-code/projects/crosslink (Rust source). Steps: (1) trace RefHubSource in hub_source.rs — which git refs it reads (hub vs checkpoint vs config); (2) trace hub-cache worktree creation/checkout in sync/cache.rs to explain wrong-ref state; (3) enumerate config knobs (tracker_remote, repo alias, checkpoint settings) that steer the hydration source; (4) trace 'crosslink integrity hydration --repair' in integrity_cmd.rs to confirm whether it reads the same source. Deliverable: verdict comment on #142 with file:function citations + recommended safe repair path. No file edits, no commits, no mutating crosslink commands.",
+          "created_at": "2026-08-06T05:32:38.055013559Z",
+          "kind": "plan",
+          "signed_by": "SHA256:1+ojUpN/l2A/OQ2qE+3qjzFKHPIB7X6Z0gGIrE1ryMU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg46kUx2n/iKXFTA2LAjlpaWMncRtHBl22/+W7gnHpDvwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAuoeUnzWrzHJ9nJXlgkQlWm5Y3lKlM/ghs24l85NdJbfkF5aqbQrvxiCD0XhdtCh7Mc4nkS6SHZ/xFL2ssBu5Cw=="
         }
       }
     },
@@ -9048,8 +9057,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:31:55.356531977Z",
+    "timestamp": "2026-08-06T05:32:38.062107301Z",
     "agent_id": "pp3g-H4RK-read-only-mechanism-verification-no-file-changes-no",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
