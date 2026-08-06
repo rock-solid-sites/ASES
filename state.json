@@ -301,11 +301,12 @@
       "uuid": "066754eb-b51d-480b-a498-4619e1407b75",
       "display_id": 193,
       "title": "DOC + CONVENTION: operator NEVER wants to interact with interactive editors (vim/nano) on git commands. Practical rule: every operator-gated git command that would open an editor MUST include --no-edit (e.g. 'git merge --no-ff <branch> --no-edit', 'git commit --no-edit' / 'git cherry-pick --continue --no-edit'). Document in agent-orchestration-playbook.md (operator-git-commands section — repo-agnostic, applies to any repo the operator runs) + SESSION-END doc (so the convention survives). Also recommend the operator set 'git config --global core.editor true' (or GIT_EDITOR=true) so no git command ever opens an editor as a safety net. Deliverable: doc note + the standing convention that orchestrator-surfaced git commands always include --no-edit. Flash model.",
-      "status": "open",
+      "status": "closed",
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T00:51:17.050062598Z",
-      "updated_at": "2026-08-06T00:54:09.366629002Z",
+      "updated_at": "2026-08-06T01:04:15.263261768Z",
+      "closed_at": "2026-08-06T01:04:15.263248315Z",
       "labels": [
         "docs"
       ],
@@ -7584,8 +7585,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T00:54:09.366629002Z",
-    "agent_id": "pp3g-fmkx-tight-scope-doc-update-issue-193-operator-never-wants",
-    "agent_seq": 8
+    "timestamp": "2026-08-06T01:04:15.263261768Z",
+    "agent_id": "OL2r",
+    "agent_seq": 877
   }
 }
