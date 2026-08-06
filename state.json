@@ -1,6 +1,6 @@
 {
   "next_display_id": 210,
-  "next_comment_id": 538,
+  "next_comment_id": 539,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7003,7 +7003,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T03:51:36.793370107Z",
-      "updated_at": "2026-08-06T04:20:06.122769435Z",
+      "updated_at": "2026-08-06T04:20:29.024342405Z",
       "labels": [
         "review"
       ],
@@ -7025,6 +7025,15 @@
           "kind": "plan",
           "signed_by": "SHA256:dqJJxDfhYp2s0PbFtktYlMdwFUCtHuPimgtdoZJSG+g",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgi3Y7k6zLHSnYcebt0U8E4gaHZmVqfalyr69g11qwxm8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAiKk88HGqEgv1Eqd6oJSQJAozefwObVlqYdnTw1xiDhxPWFK4Ah0WGKemmdz/jsF9tgpHLqQs2IctxFM44GnfBw=="
+        },
+        "2552c420-48ae-4a6f-a3c5-2c91fb536de8": {
+          "display_id": 538,
+          "author": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+          "content": "## Review Summary: PASS (with non-blocking observations)\n\nScope: re-review of #196 deliverable revision at commit b40c980 (`research/toolregistry-lazy-mcp/report.md` + new `logs/initialize-capture.json`), per #205. Live re-run is not possible in the reviewer role (bash map denies python; no bypass attempted). Verification was by artifact re-derivation from the committed logs + read-only inspection of the installed venv sources (/tmp/toolregistry-venv). All six verification items pass.\n\n### MUST FIX (blocking)\nNone.\n\n### SHOULD CONSIDER (non-blocking)\n- `research/toolregistry-lazy-mcp/proxy.py:16-17` — Stale docstring from #199 MUST FIX 4, not applied by b40c980: it still says the proxy `does NOT advertise tools/list_changed`, while the corrected report (report.md:201, 273-286) now accurately says the SDK serializes an explicit `listChanged: false` (advertises non-support, not omission). The diff touched only report.md + initialize-capture.json. The report claim is correct and artifact-backed; the probe docstring is now inconsistent with it. Suggest rewording to `advertises listChanged:false (no change-notification support)`.\n- `research/toolregistry-lazy-mcp/logs/initialize-capture.json` (artifact) — No generator script is committed and the reproduce block (report.md:89-93) does not regenerate this capture, yet §6 item 1a (report.md:278-284) presents it as the load-bearing evidence for the corrected listChanged claim. The artifact itself is genuine and internally consistent (verified), but it is not reproducible from the repo alone. Suggest committing the capture script (parallel to #199's own note about test5-source-read.log).\n\n### NITS\n- `research/toolregistry-lazy-mcp/report.md:283-284` — `contains \"capabilities\":{\"tools\":{\"listChanged\":false}} exactly` is loose: the literal substring is not contiguous in recv_raw (initialize-capture.json:40) because `\"experimental\":{}` intervenes; the `\"tools\":{\"listChanged\":false}` verbatim claim at report.md:201 is exact. Substance is correct.\n- `research/toolregistry-lazy-mcp/report.md:158-160` — `15.5 ms residual ... (13 ms ... + 2 ms ...)` — 13+2=15; the 0.5 ms is the rounding difference between the epoch-derived backend interval (1256) and proxy-internal init_ms (1255.5). The exact-sum decomposition 1342+16+1256+10+15=2639 is correct.\n- `research/toolregistry-lazy-mcp/logs/tests1-3-harness.log:3` — TEST1_BEGIN epoch 1785983152747 is ~3 s out of chronological sequence with surrounding lines and its code position (phase123.py:60); the rest of the file is coherent. No report figure depends on this stamp (TEST1_REGISTER delta_ms=2807 is independently corroborated by proxy anchors). Pre-existing (ebe07b3), not introduced by the revision.\n- `research/toolregistry-lazy-mcp/report.md:50` — `Re-confirmed live at revision time ... pip show / importlib.metadata` has no committed artifact of that re-confirmation; it is consistent with the installed venv (mcp-2.0.0.dist-info/METADATA, toolregistry-0.15.0.dist-info/METADATA).\n\n### NOTABLE POSITIVES\n- The corrected listChanged claim is accurate AND artifact-backed AND SDK-source-backed: mcp/server/lowlevel/server.py get_capabilities constructs ToolsCapability(list_changed=False) when a tools/list handler is registered with default NotificationOptions; ToolsCapability.list_changed=False survives serialization (exclude_none keeps False; exclude_unset keeps it because it is explicitly set).\n- recv_raw (initialize-capture.json:40) is byte-consistent with the SDK wire model: v2025-11-25 InitializeResult field order (meta, capabilities, instructions, protocol_version, server_info) and ServerCapabilities (completions, experimental, logging, prompts, resources, tasks, tools), including serverInfo `lazy-proxy`/1.0.0 matching proxy.py:250-251.\n- The `what ToolRegistry sends` part of the claim verified end-to-end: mcp/client/session.py:619 sends protocol_version=LATEST_HANDSHAKE_VERSION (2025-11-25); toolregistry/integrations/mcp/client.py:94 constructs ClientSession(r,w) with no override.\n- All three cold samples re-derived exactly (2639/2155/2761; medians 1342 and 1255.5 correct); report's observed-max framing (n=3, single host, indicative-not-benchmark) is honest.\n- All four init_ms values (1083.0, 1255.5, 1345.0, 1573.6) are presented with a correct split (cold n=3) / union (all n=4) rationale; §5 table is fully reconciled with on-file logs.\n- Residual investigation is thorough: post-call tools/list request is on file (tests1-3-proxy.log:14) and the exact-sum decomposition closes to 2639 ms.\n- Deps: pins toolregistry[mcp]==0.15.0 + mcp==2.0.0 verified against installed METADATA (Requires-Dist: mcp<3,>=1.24.0 on extra `mcp`).\n- Test 1 manifest row correctly downgraded to substring-only automated check + manual comparison; stdio-only scope and the cutting of the untested longer-lived-transport recommendation are honest revisions.\n\nVerdict: revision fully addresses #199 MUST FIX 1-5 substance; no blocking defects. Non-blocking items above are optional follow-ups.",
+          "created_at": "2026-08-06T04:20:29.016316841Z",
+          "kind": "result",
+          "signed_by": "SHA256:dqJJxDfhYp2s0PbFtktYlMdwFUCtHuPimgtdoZJSG+g",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgi3Y7k6zLHSnYcebt0U8E4gaHZmVqfalyr69g11qwxm8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA55hnynuTEuNH0tr4m/ahTK9/Gx+Hm7csPkFTSsbspyd6+bwM4LaRyncKmKYjHTYaHgbSl7Dcvg2kaxX/uDjIBA=="
         },
         "39efe439-f39b-40be-942b-a8c151dc5d7b": {
           "display_id": 526,
@@ -8517,8 +8526,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T04:20:06.122769435Z",
+    "timestamp": "2026-08-06T04:20:29.024342405Z",
     "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
-    "agent_seq": 40
+    "agent_seq": 41
   }
 }
