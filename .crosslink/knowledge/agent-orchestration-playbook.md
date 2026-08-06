@@ -368,6 +368,28 @@ degrades gracefully to webhook + logs. Install with
 and the `tools/kickoff-notify.py` + systemd units belong in both repos'
 landing points per §5.5.
 
+### 6.5 Hydration Recovery — Main-Repo DB Rolled Back
+
+**HYDRATION RECOVERY:** if the main-repo DB re-hydrates to a stale baseline
+and local-only issues appear lost, the SAFE recovery is:
+
+1. Run `crosslink compact` — reduces local events + checkpoint into fresh
+   state and re-hydrates the DB (this restores the read path).
+2. Run `crosslink sync`.
+3. Verify with `crosslink issue list`.
+
+**Do NOT blind-sync repeatedly** — that operation can cause the rollback.
+
+If compact does NOT restore the issues, re-create the active issues from the
+hub agent refs, not from scratch:
+
+```
+git show refs/heads/crosslink/agents/<id>/events.log
+```
+
+`IssueCreated` events contain the full issue content. **Hub refs are ground
+truth** — the local DB is a hydrated cache and may be stale or rolled back.
+
 ---
 
 ## 7. Failure Protocol — MANDATORY HALT
