@@ -47,7 +47,7 @@ Behavior varies by version, so the exact installed versions are recorded.
 | Component | Version | Notes |
 |---|---|---|
 | `toolregistry` | **0.15.0** | `pip install toolregistry[mcp]`; MCP extra is named `mcp` (`mcp<3,>=1.24.0`, `httpx>=0.28.1`) |
-| `mcp` (Python SDK) | **2.0.0** | Direct dependency of the `[mcp]` extra |
+| `mcp` (Python SDK) | **2.0.0** | Direct dependency of the `[mcp]` extra. Re-confirmed live at revision time (2026-08-06) via `/tmp/toolregistry-venv/bin/pip show mcp` and `importlib.metadata.version("mcp")` — both report 2.0.0. |
 | `pydantic` | 2.13.4 | transitive |
 | Python | 3.10.12 | venv at `/tmp/toolregistry-venv` (NOT committed) |
 | Platform | Linux | single host, all processes local |
@@ -78,12 +78,17 @@ Under `research/toolregistry-lazy-mcp/`:
 | `tests/phase5.py` | Test 5 (notification dependency, runtime half). |
 | `tests/baseline_always_on.py` | Extra baseline: register directly against the backend (no proxy) for the Test 3 latency comparison. |
 | `logs/` | One proxy log + one harness log per phase; the harness logs also contain inherited proxy/backend stderr, so the full per-session stream is captured. |
+| `logs/initialize-capture.json` | Supplementary artifact (added at revision): the raw request/response payloads of one stdio `initialize` handshake against `proxy.py`, with timestamps — see §6 item 1a. |
 
-Reproduce:
+Reproduce (versions pinned to the exact installed set at revision time —
+`toolregistry` **0.15.0** and `mcp` **2.0.0**, both re-confirmed live in the
+venv on 2026-08-06; the proxy and harness use mcp 2.0-era APIs such as
+`mcp_types`, `Server(on_list_tools=..., on_call_tool=...)` and
+`add_notification_handler`, so an unpinned resolution below 2.0 would not run):
 
 ```bash
 python3 -m virtualenv /tmp/toolregistry-venv          # system python3-venv lacked ensurepip; virtualenv used
-/tmp/toolregistry-venv/bin/pip install 'toolregistry[mcp]'
+/tmp/toolregistry-venv/bin/pip install 'toolregistry[mcp]==0.15.0' 'mcp==2.0.0'
 /tmp/toolregistry-venv/bin/python capture_manifest.py  # (re)capture manifest.json
 /tmp/toolregistry-venv/bin/python tests/run_tests.py
 ```
@@ -116,8 +121,8 @@ separate extra run.
 | Observation | Result | Evidence |
 |---|---|---|
 | Does registration succeed? | **Yes.** `register_from_mcp(<dict stdio transport>)` returned without error in **2807 ms**. | `logs/tests1-3-harness.log` line `TEST1_REGISTER result=ok delta_ms=2807` |
-| Does the proxy log show ANY attempt to reach the backend during registration? | **No.** Registration proxy (pid 1497377) served exactly: `proxy_started` → `server_ready` → received `notifications/initialized` → one `request tools/list backend_connected=False` → `connection_closed exiting`. **Zero** `backend_spawn_start`, zero `backend_up`, zero backend pid-file writes. | `logs/tests1-3-proxy.log` lines 1–5 |
-| `print(registry)` and manifest match? | **Yes.** `registry.list_tools()` = `['add']`; the JSON schema dump shows `add` with `a`/`b` `number` properties, identical to `manifest.json`. | `logs/tests1-3-harness.log` lines `TEST1_REGISTRY`, `REGISTRY|...` block; `manifest.json` |
+| Does the proxy log show ANY attempt to reach the backend during registration? | **No.** Registration proxy (pid 1497377) served exactly: `proxy_started` → `server_ready` → received `notifications/initialized` → one `request tools/list backend_connected=False` → `connection_closed exiting`. **Zero** `backend_spawn_start`, zero `backend_up`, zero backend pid-file writes. The initialize-handshake + cached `tools/list` behaviour is independently reproduced by the on-file capture at `logs/initialize-capture.json`. | `logs/tests1-3-proxy.log` lines 1–5; `logs/initialize-capture.json` |
+| `print(registry)` and manifest match? | **Yes.** `registry.list_tools()` = `['add']`; the JSON schema dump shows `add` with `a`/`b` `number` properties. Caveat: the *automated* harness check is substring-only — it tests that the literal `"add"` appears in both the dump and `manifest.json` (`tests/phase123.py:100-104`); it does not compare structure. The structural equality is a *manual* comparison of the logged `REGISTRY|` block against `manifest.json`: `a`/`b` properties both `type: number` with identical descriptions, `required: [a, b]`, `type: object` — they match. | `logs/tests1-3-harness.log` lines `TEST1_REGISTRY`, `REGISTRY|...` block; `manifest.json`; `tests/phase123.py:97-113` |
 
 Notes:
 - Registration spawns a **short-lived proxy process** for discovery (ToolRegistry
@@ -135,10 +140,26 @@ Notes:
 
 End-to-end call latency (harness wall clock): **2639 ms**. Decomposition
 (observation → finding):
-- Proxy process spawn (harness call start → persistent `proxy_started`): ~1342 ms.
-- Client handshake to first `tools/call` arrival: ~16 ms.
-- Backend spawn + `initialize` handshake: **1255.5 ms** (`init_ms` in proxy log).
-- Forward + response: **10 ms**.
+- Proxy process spawn (harness call start `1785983153227` → persistent
+  `proxy_started` `1785983154569`): **1342 ms**.
+- Client handshake to first `tools/call` arrival (`1785983154569` →
+  `1785983154585`): **16 ms**.
+- Backend spawn + `initialize` handshake: **1255.5 ms** (`init_ms` in proxy
+  log; epoch-derived interval `1785983154585` → `1785983155841` is 1256 ms).
+- Forward + response (`1785983155841` → `1785983155851`): **10 ms**.
+- Post-response tail: the SDK's post-call `tools/list` refresh (see §6
+  item 2) arrives at the proxy at `1785983155864` (**13 ms** after the
+  `tools/call` response) and is answered from the cached manifest; the harness
+  records the call return at `1785983155866` (**2 ms** later, covering the
+  cached `tools/list` reply, the SDK's `call_tool` return, and harness
+  logging). **15 ms** total.
+
+The columns sum exactly when epoch-derived intervals are used:
+1342 + 16 + 1256 + 10 + 15 = **2639 ms**. Using the proxy-internal
+`init_ms=1255.5` instead of the epoch-derived 1256 leaves a 15.5 ms residual
+that is the same post-response tail (13 ms post-call `tools/list` request +
+2 ms return path); it is investigated, not assumed — the `tools/list` request
+after the response is on file at `logs/tests1-3-proxy.log:14`.
 
 ### Test 3 — Steady state; same session/registry — **PASS**
 
@@ -150,8 +171,9 @@ End-to-end call latency (harness wall clock): **2639 ms**. Decomposition
 
 Baseline (extra, not one of the five tests): direct registration against
 `backend.py` succeeded; first call (cold) **1453 ms**, steady-state 3–9 ms.
-Proxy cold first call **2639 ms** vs baseline cold **1453 ms** ⇒ the lazy proxy
-adds ≈ **1.2 s** on the cold path, dominated by its own process startup
+Proxy cold first call **2155–2761 ms** (n=3 across Tests 2/4/5; observed max
+2761 ms) vs baseline cold **1453 ms** ⇒ the lazy proxy adds roughly
+**0.7–1.3 s** on the cold path, dominated by its own process startup
 (see §6 item 5).
 
 ### Test 4 — Respawn resilience; fresh session — **PASS**
@@ -176,7 +198,7 @@ call raises `Connection closed` rather than hanging). A defensive
 | Observation | Result | Evidence |
 |---|---|---|
 | Runtime: registry keeps functioning with **no** notifications sent by the proxy | **Yes.** Fresh register (2665 ms) with zero backend spawns; `list_tools()=['add']` before and after; one invocation returned `'5.0'`. | `logs/test5-harness.log` `TEST5_AFTER_REGISTER`, `TEST5_AFTER_CALL`, `CALL|add`; `logs/test5-proxy.log` |
-| Did the proxy send any notification at any point? | **No.** The proxy has zero notification-send code paths (server capabilities omit `tools/list_changed`; `create_initialization_options()` called with default `notification_options=None`). Its only notification-related log lines are the startup marker `notifications=never` and the *received* `notifications/initialized` (client→server handshake). | `logs/test5-harness.log` `TEST5_PROXY_LOG notification_related_lines=...`; `proxy.py` |
+| Did the proxy send any notification at any point? | **No.** The proxy has zero notification-send code paths. Its server capabilities **explicitly declare `tools.listChanged` = `false`** (the SDK constructs `ToolsCapability(list_changed=...)` whenever a `tools/list` handler is registered, and with default `notification_options` that flag is `False` — so the field is serialized as `"listChanged": false`, *not* omitted). The raw `initialize` response is captured on file: `logs/initialize-capture.json` shows `"tools":{"listChanged":false}` verbatim. Its only notification-related log lines are the startup marker `notifications=never` and the *received* `notifications/initialized` (client→server handshake). | `logs/initialize-capture.json` (initialize request + response, `listChanged` serialization); `logs/test5-harness.log` `TEST5_PROXY_LOG notification_related_lines=...`; `proxy.py` |
 | Source read: does ToolRegistry listen for `notifications/tools/list_changed`? | **Not required.** See below. | §4 Test 5 Part B |
 
 ### Test 5 Part B — source read (determinative, not inference alone)
@@ -210,19 +232,31 @@ All times in milliseconds, measured on the same host, epoch-derived from log
 | Event | Lazy proxy | Direct backend (baseline) |
 |---|---|---|
 | Registration (cold, incl. mcp SDK import + proxy spawn + list) | 2807 | 2786 |
-| First call, end-to-end (harness) | **2639** | 1453 |
-| — proxy process spawn (call start → `proxy_started`) | 1342 | — |
+| First call, end-to-end (harness), **n=3** | **2155–2761** (median 2639; **observed max 2761**) | 1453 |
+| — proxy process spawn (call start → `proxy_started`), n=3 | **1028–1390** (median 1342) | — |
 | — client handshake + `tools/call` arrival | 16 | — |
-| — backend spawn+initialize | 1255.5 | (inside 1453) |
+| — backend spawn+initialize, cold, n=3 | **1083.0–1345.0** (median 1255.5) | (inside 1453) |
+| — backend spawn+initialize, Test 4 respawn, n=1 | **1573.6** | — |
 | — forward+response | 10 | — |
 | Steady-state calls | 14 / 17 / 7 | 5 / 9 / 3 / 5 |
 | Test 4 recovery (dead backend, end-to-end) | 1587 | — |
 
+The full observed backend-init range across all four logged `init_ms` values
+(cold ×3 + respawn ×1) is **1083.0–1573.6 ms**. The respawn sample is shown on
+its own row rather than folded into the cold band: it measures a different
+code path (proxy-side respawn of a severed session, not the cold
+registration→first-call path — see Test 4), so mixing it into the cold band
+would conflate two paths. Neither sample is silently excluded: both bands are
+reported and the union range is stated.
+
 **Finding:** cold-start latency for the lazy-proxy architecture is dominated by
-two Python subprocess startups (proxy ≈ 1.3 s, backend ≈ 1.1–1.3 s), totalling
-≈ 2.6 s end-to-end for the first call. Steady-state overhead of the proxy hop
-is small (≈ 5–10 ms). These are single-run measurements on one host — treated
-as indicative, not benchmark-grade.
+two Python subprocess startups: proxy spawn measured 1028–1390 ms (n=3) and
+backend cold init measured 1083.0–1345.0 ms (n=3; the Test 4 respawn init was
+1573.6 ms). The three cold first-call measurements span **2155–2761 ms** with
+observed maximum **2761 ms** — that observed maximum, not any single sample or
+average, is the value that feeds the cold-start latency ceiling. Steady-state
+overhead of the proxy hop is small (≈ 5–10 ms). These are measurements on one
+host — treated as indicative, not benchmark-grade.
 
 ## 6. Behaviour NOT anticipated by the brief
 
@@ -236,6 +270,20 @@ as indicative, not benchmark-grade.
    `tools/list` from cache for every fresh connection. It cannot rely on
    state carried between processes. (Observation: `logs/tests1-3-proxy.log`
    shows two `proxy_started` lines, pids 1497377 and 1497407.)
+1a. **The proxy explicitly declares `tools.listChanged` = `false` in its
+   `initialize` response** — it advertises non-support rather than omitting
+   the field. The mcp SDK constructs `ToolsCapability(list_changed=...)`
+   whenever a `tools/list` handler is registered, and with default
+   `notification_options` that flag is `False`; the field therefore appears
+   verbatim in the serialized response. This is on file, not inferred: the
+   supplementary capture at `logs/initialize-capture.json` records one stdio
+   `initialize` handshake against `proxy.py` (request payload, raw response
+   payload, and timestamps; protocol version 2025-11-25, which is what mcp
+   2.0.0's `ClientSession` — the client ToolRegistry uses — offers by
+   default). The captured response contains
+   `"capabilities":{"tools":{"listChanged":false}}` exactly.
+   (Observation: `logs/initialize-capture.json`; `mcp/server/lowlevel/
+   server.py` `get_capabilities` → `ToolsCapability(list_changed=...)`.)
 2. **The SDK re-lists tools after the first call on a session.** mcp 2.0.0's
    `ClientSession.call_tool` calls `validate_tool_result`, which issues a
    `tools/list` when the tool's output-schema cache misses
@@ -261,11 +309,13 @@ as indicative, not benchmark-grade.
    identifier-first proposal should assume is present.
 5. **Cold-start cost is process-startup-dominated.** Registration (~2.8 s) is
    mostly mcp SDK import + AsyncRuntime bootstrap + proxy spawn; the first call
-   adds a second process (proxy ≈ 1.3 s) plus the backend (≈ 1.1–1.3 s). If the
+   adds a second process (proxy spawn 1028–1390 ms, n=3) plus the backend (cold
+   init 1083.0–1345.0 ms, n=3; the Test 4 respawn init was 1573.6 ms — the
+   union of all four logged `init_ms` values is 1083.0–1573.6 ms). The three
+   cold first-call measurements span 2155–2761 ms, observed max 2761 ms. If the
    cold-start latency ceiling matters, keeping the proxy process alive across
    the registration→first-call gap would require changes on the ToolRegistry
-   side (the lazy connection defeats it today) or a longer-lived transport
-   than stdio.
+   side (the lazy connection defeats it today).
 6. **Backend failure detection is fast and clean.** A call on a dead session
    raises `MCPError(-32000, 'Connection closed')` in the same millisecond —
    no hang, no retry storm on the proxy side (one respawn, one retry).
@@ -292,14 +342,20 @@ killed out from under the proxy (Test 4, PASS), and full functionality with no
 MCP notifications of any kind — confirmed both at runtime and by source read
 that ToolRegistry does not listen for `notifications/tools/list_changed`
 (Test 5, PASS). No richer proxy simulating additional protocol behaviour is
-required for this surface. Two caveats belong in the broader project's
+required for this surface. Three caveats belong in the broader project's
 assumptions: (a) ToolRegistry 0.15.0 treats the MCP connection as lazy and
 short-lived-at-registration, so the proxy is spawned once for discovery and
 again for the first call, and must be stateless across processes and serve the
-cached manifest to every fresh connection; and (b) cold-start latency for the
-first call is ≈ 2.6 s on this host, dominated by two Python subprocess
-startups (proxy ≈ 1.3 s + backend ≈ 1.2 s), while steady-state overhead of the
-proxy hop is only ≈ 5–10 ms per call.
+cached manifest to every fresh connection; (b) cold-start latency for the
+first call on this host spans **2155–2761 ms across the three samples in this
+corpus** (observed maximum **2761 ms** — the value a latency ceiling should
+use), dominated by two Python subprocess startups (proxy spawn 1028–1390 ms;
+backend cold init 1083.0–1345.0 ms, Test 4 respawn init 1573.6 ms), while
+steady-state overhead of the proxy hop is only ≈ 5–10 ms per call; and
+(c) **transport scope: every finding in this report is for stdio transport
+only** — stdio for both the ToolRegistry→proxy hop and the proxy→backend hop.
+Streamable HTTP, SSE, and websocket transports were **not** tested, and the
+conclusion must not be read as covering them.
 
 ## 8. Log index
 
@@ -311,6 +367,7 @@ All logs under `research/toolregistry-lazy-mcp/logs/`:
 | Test 4 | [`test4-proxy.log`](logs/test4-proxy.log) | [`test4-harness.log`](logs/test4-harness.log) |
 | Test 5 | [`test5-proxy.log`](logs/test5-proxy.log) | [`test5-harness.log`](logs/test5-harness.log) |
 | Baseline (always-on) | — | [`baseline-always-on-harness.log`](logs/baseline-always-on-harness.log) |
+| Supplementary capture (revision) | — | [`initialize-capture.json`](logs/initialize-capture.json) — raw stdio `initialize` handshake request/response payloads with timestamps (see §6 item 1a) |
 
 The harness logs contain the full interleaved stream (`HARNESS|`, `PROXY|`,
 `BACKEND|`, `REGISTRY|` prefixed lines). Proxy-only logs are written directly
