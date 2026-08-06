@@ -1,6 +1,6 @@
 {
   "next_display_id": 218,
-  "next_comment_id": 596,
+  "next_comment_id": 597,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7943,7 +7943,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T05:25:37.021712061Z",
-      "updated_at": "2026-08-06T05:43:55.380254005Z",
+      "updated_at": "2026-08-06T05:44:23.088869843Z",
       "labels": [
         "infrastructure"
       ],
@@ -7977,6 +7977,15 @@
           "kind": "observation",
           "signed_by": "SHA256:wSvyd4V7/riJNxfBbw93cLuINYBu/RT9lrcMDFI+5VQ",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgO490cE2pfgAsiN6Ixl/hApF12wP4Z95BVz6GkYxdMRUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxc1szoPfjNgU7AfbKkKA0Zi4Du7CCBFaT6QiboEb8rEIgXFZSrPyhP7oiCsnZJiWZ2q2gKUanjFSJ5m0ZKZgBQ=="
+        },
+        "7a67d299-da44-465a-9ee4-3cb44c9ba2e3": {
+          "display_id": 596,
+          "author": "pp3g-kbb0-implement-135-phase-2-wire-heartbeat-into-opencode-s",
+          "content": "Completed: IMPLEMENT #135 Phase 2 (#215) — heartbeat wired into opencode hook system. New .opencode/plugins/heartbeat-guard.ts (tool.execute.after, throttled 120s, fail-open) writes .crosslink/.cache/last-heartbeat under 'opencode run'; registered in .opencode/opencode.json so kickoff worktrees carry it via the branch. LIVE-VERIFIED: local opencode run created stamp + mtime advanced after throttle; live kickoff agent (yUNV-tmCJ on #216, worktree pp3g-hbVf) produced stamp that appeared + advanced during activity; kickoff-notify.py reports heartbeat=39s/21s old. Docs: playbook §6.4 + kickoff-notify.py docstring updated. Coordination with #146: this is the detection tier its kill/restart gates depend on. Commits c4bf8ff + bd3b7b6 ([#135]). No crosslink fork source modified. Verification worktree pp3g-hbVf-verify-heartbeat-guard-215 kept as evidence.",
+          "created_at": "2026-08-06T05:44:23.079432341Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:wSvyd4V7/riJNxfBbw93cLuINYBu/RT9lrcMDFI+5VQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgO490cE2pfgAsiN6Ixl/hApF12wP4Z95BVz6GkYxdMRUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABArMtMeDqpYJNz9Ha+WomJQyNhJ1eiiVOVvzgIPzCaGimFcMj+ft01EuI7LL9b4cSanJKSoWTtsRu+2sTXaawXAQ=="
         },
         "b62d2a56-4a21-44af-8574-4dfe63151c69": {
           "display_id": 586,
@@ -9205,8 +9214,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:44:16.565098579Z",
+    "timestamp": "2026-08-06T05:44:23.088869843Z",
     "agent_id": "pp3g-kbb0-implement-135-phase-2-wire-heartbeat-into-opencode-s",
-    "agent_seq": 10
+    "agent_seq": 11
   }
 }
