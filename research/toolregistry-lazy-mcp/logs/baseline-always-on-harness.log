@@ -1,0 +1,23 @@
+HARNESS|2026-08-06T02:26:16.452Z|epoch_ms=1785983176452|phase_start phase=baseline-always-on versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-06T02:26:16.454Z|epoch_ms=1785983176454|BASELINE_REGISTER_BEGIN
+BACKEND|2026-08-06T02:26:18.828Z|epoch_ms=1785983178828|backend_started pid=1497843 python=/tmp/toolregistry-venv/bin/python
+BACKEND|2026-08-06T02:26:18.845Z|epoch_ms=1785983178845|backend_stdin_closed_exiting
+HARNESS|2026-08-06T02:26:19.240Z|epoch_ms=1785983179240|BASELINE_REGISTER result=ok
+BACKEND|2026-08-06T02:26:20.658Z|epoch_ms=1785983180658|backend_started pid=1497871 python=/tmp/toolregistry-venv/bin/python
+BACKEND|2026-08-06T02:26:20.678Z|epoch_ms=1785983180678|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T02:26:20.678Z|epoch_ms=1785983180678|tool_call_result name=add result=5.0
+HARNESS|2026-08-06T02:26:20.693Z|epoch_ms=1785983180693|CALL|add|start_ms=1785983179240|end_ms=1785983180693|delta_ms=1453|result='5.0'|result_type=str|expected='5.0'|pass=True
+BACKEND|2026-08-06T02:26:20.695Z|epoch_ms=1785983180695|tool_call name=add arguments={'a': 4, 'b': 5}
+BACKEND|2026-08-06T02:26:20.695Z|epoch_ms=1785983180695|tool_call_result name=add result=9.0
+HARNESS|2026-08-06T02:26:20.698Z|epoch_ms=1785983180698|CALL|add|start_ms=1785983180693|end_ms=1785983180698|delta_ms=5|result='9.0'|result_type=str|expected='9.0'|pass=True
+BACKEND|2026-08-06T02:26:20.704Z|epoch_ms=1785983180704|tool_call name=add arguments={'a': 10, 'b': 20}
+BACKEND|2026-08-06T02:26:20.704Z|epoch_ms=1785983180704|tool_call_result name=add result=30.0
+HARNESS|2026-08-06T02:26:20.708Z|epoch_ms=1785983180708|CALL|add|start_ms=1785983180699|end_ms=1785983180708|delta_ms=9|result='30.0'|result_type=str|expected='30.0'|pass=True
+BACKEND|2026-08-06T02:26:20.711Z|epoch_ms=1785983180711|tool_call name=add arguments={'a': 0, 'b': 0}
+BACKEND|2026-08-06T02:26:20.711Z|epoch_ms=1785983180711|tool_call_result name=add result=0.0
+HARNESS|2026-08-06T02:26:20.712Z|epoch_ms=1785983180712|CALL|add|start_ms=1785983180709|end_ms=1785983180712|delta_ms=3|result='0.0'|result_type=str|expected='0.0'|pass=True
+BACKEND|2026-08-06T02:26:20.714Z|epoch_ms=1785983180714|tool_call name=add arguments={'a': 1, 'b': 1}
+BACKEND|2026-08-06T02:26:20.714Z|epoch_ms=1785983180714|tool_call_result name=add result=2.0
+HARNESS|2026-08-06T02:26:20.717Z|epoch_ms=1785983180717|CALL|add|start_ms=1785983180712|end_ms=1785983180717|delta_ms=5|result='2.0'|result_type=str|expected='2.0'|pass=True
+BACKEND|2026-08-06T02:26:20.718Z|epoch_ms=1785983180718|backend_stdin_closed_exiting
+HARNESS|2026-08-06T02:26:21.094Z|epoch_ms=1785983181094|phase_done phase=baseline-always-on

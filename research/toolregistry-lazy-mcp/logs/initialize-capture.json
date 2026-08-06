@@ -1,0 +1,171 @@
+{
+  "capture": [
+    {
+      "kind": "capture_start",
+      "timestamp_iso": "2026-08-06T03:31:19.358Z",
+      "epoch_ms": 1785987079358,
+      "payload": {
+        "purpose": "supplementary initialize handshake capture for report MUST FIX 4",
+        "proxy": "/home/claude-code/projects/ASES/.worktrees/pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship/research/toolregistry-lazy-mcp/proxy.py",
+        "venv_python": "/tmp/toolregistry-venv/bin/python",
+        "spawn_command": [
+          "/tmp/toolregistry-venv/bin/python",
+          "/home/claude-code/projects/ASES/.worktrees/pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship/research/toolregistry-lazy-mcp/proxy.py"
+        ],
+        "transport": "stdio (newline-delimited JSON-RPC)"
+      }
+    },
+    {
+      "kind": "send",
+      "timestamp_iso": "2026-08-06T03:31:19.359Z",
+      "epoch_ms": 1785987079359,
+      "payload": {
+        "jsonrpc": "2.0",
+        "method": "initialize",
+        "id": 1,
+        "params": {
+          "protocolVersion": "2025-11-25",
+          "capabilities": {},
+          "clientInfo": {
+            "name": "initialize-capture",
+            "version": "1.0"
+          }
+        }
+      }
+    },
+    {
+      "kind": "recv_raw",
+      "timestamp_iso": "2026-08-06T03:31:20.277Z",
+      "epoch_ms": 1785987080277,
+      "payload": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"capabilities\":{\"experimental\":{},\"tools\":{\"listChanged\":false}},\"protocolVersion\":\"2025-11-25\",\"serverInfo\":{\"name\":\"lazy-proxy\",\"version\":\"1.0.0\"}}}"
+    },
+    {
+      "kind": "recv_parsed",
+      "timestamp_iso": "2026-08-06T03:31:20.277Z",
+      "epoch_ms": 1785987080277,
+      "payload": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+          "capabilities": {
+            "experimental": {},
+            "tools": {
+              "listChanged": false
+            }
+          },
+          "protocolVersion": "2025-11-25",
+          "serverInfo": {
+            "name": "lazy-proxy",
+            "version": "1.0.0"
+          }
+        }
+      }
+    },
+    {
+      "kind": "listChanged_serialization_note",
+      "timestamp_iso": "2026-08-06T03:31:20.277Z",
+      "epoch_ms": 1785987080277,
+      "payload": {
+        "tools_capability_object": {
+          "listChanged": false
+        },
+        "listChanged_present": true,
+        "listChanged_value": false
+      }
+    },
+    {
+      "kind": "send",
+      "timestamp_iso": "2026-08-06T03:31:20.277Z",
+      "epoch_ms": 1785987080277,
+      "payload": {
+        "jsonrpc": "2.0",
+        "method": "notifications/initialized"
+      }
+    },
+    {
+      "kind": "send",
+      "timestamp_iso": "2026-08-06T03:31:20.477Z",
+      "epoch_ms": 1785987080477,
+      "payload": {
+        "jsonrpc": "2.0",
+        "method": "tools/list",
+        "id": 2,
+        "params": {}
+      }
+    },
+    {
+      "kind": "recv_raw",
+      "timestamp_iso": "2026-08-06T03:31:20.480Z",
+      "epoch_ms": 1785987080480,
+      "payload": "{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":{\"tools\":[{\"description\":\"Add two numbers and return the sum.\",\"inputSchema\":{\"properties\":{\"a\":{\"type\":\"number\",\"description\":\"First addend\"},\"b\":{\"type\":\"number\",\"description\":\"Second addend\"}},\"required\":[\"a\",\"b\"],\"type\":\"object\"},\"name\":\"add\"}]}}"
+    },
+    {
+      "kind": "recv_parsed",
+      "timestamp_iso": "2026-08-06T03:31:20.480Z",
+      "epoch_ms": 1785987080480,
+      "payload": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "result": {
+          "tools": [
+            {
+              "description": "Add two numbers and return the sum.",
+              "inputSchema": {
+                "properties": {
+                  "a": {
+                    "type": "number",
+                    "description": "First addend"
+                  },
+                  "b": {
+                    "type": "number",
+                    "description": "Second addend"
+                  }
+                },
+                "required": [
+                  "a",
+                  "b"
+                ],
+                "type": "object"
+              },
+              "name": "add"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "closing_stdin",
+      "timestamp_iso": "2026-08-06T03:31:20.480Z",
+      "epoch_ms": 1785987080480,
+      "payload": null
+    },
+    {
+      "kind": "proxy_exit",
+      "timestamp_iso": "2026-08-06T03:31:20.695Z",
+      "epoch_ms": 1785987080695,
+      "payload": {
+        "returncode": 0
+      }
+    },
+    {
+      "kind": "proxy_stderr_lines",
+      "timestamp_iso": "2026-08-06T03:31:20.695Z",
+      "epoch_ms": 1785987080695,
+      "payload": [
+        "PROXY|2026-08-06T03:31:20.266Z|epoch_ms=1785987080266|rel_ms=       1|proxy_started pid=1716347 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never",
+        "PROXY|2026-08-06T03:31:20.268Z|epoch_ms=1785987080268|rel_ms=       3|server_ready waiting_for_client",
+        "PROXY|2026-08-06T03:31:20.277Z|epoch_ms=1785987080277|rel_ms=      12|notification received notifications/initialized (client handshake done)",
+        "PROXY|2026-08-06T03:31:20.478Z|epoch_ms=1785987080478|rel_ms=     213|request tools/list backend_connected=False",
+        "PROXY|2026-08-06T03:31:20.481Z|epoch_ms=1785987080481|rel_ms=     216|connection_closed exiting"
+      ]
+    },
+    {
+      "kind": "capture_end",
+      "timestamp_iso": "2026-08-06T03:31:20.695Z",
+      "epoch_ms": 1785987080695,
+      "payload": {
+        "artifact": "/home/claude-code/projects/ASES/.worktrees/pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship/research/toolregistry-lazy-mcp/logs/initialize-capture.json"
+      }
+    }
+  ]
+}

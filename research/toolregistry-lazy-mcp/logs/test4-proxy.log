@@ -1,0 +1,26 @@
+PROXY|2026-08-06T02:26:01.034Z|epoch_ms=1785983161034|rel_ms=       0|proxy_started pid=1497524 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never
+PROXY|2026-08-06T02:26:01.035Z|epoch_ms=1785983161035|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T02:26:01.044Z|epoch_ms=1785983161044|rel_ms=      10|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T02:26:01.045Z|epoch_ms=1785983161045|rel_ms=      11|request tools/list backend_connected=False
+PROXY|2026-08-06T02:26:01.048Z|epoch_ms=1785983161048|rel_ms=      14|connection_closed exiting
+PROXY|2026-08-06T02:26:02.334Z|epoch_ms=1785983162334|rel_ms=       1|proxy_started pid=1497547 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never
+PROXY|2026-08-06T02:26:02.335Z|epoch_ms=1785983162335|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T02:26:02.354Z|epoch_ms=1785983162354|rel_ms=      21|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T02:26:02.355Z|epoch_ms=1785983162355|rel_ms=      22|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T02:26:02.355Z|epoch_ms=1785983162355|rel_ms=      22|backend_spawn_start instance_id=be-1-1497547-62355 spawn_count=1
+PROXY|2026-08-06T02:26:03.438Z|epoch_ms=1785983163438|rel_ms=    1105|backend_up instance_id=be-1-1497547-62355 spawn_count=1 init_ms=1083.0
+PROXY|2026-08-06T02:26:03.438Z|epoch_ms=1785983163438|rel_ms=    1105|forward tools/call name=add to backend instance=be-1-1497547-62355
+PROXY|2026-08-06T02:26:03.454Z|epoch_ms=1785983163454|rel_ms=    1121|response tools/call name=add ok=True
+PROXY|2026-08-06T02:26:03.458Z|epoch_ms=1785983163458|rel_ms=    1125|request tools/list backend_connected=True
+PROXY|2026-08-06T02:26:03.485Z|epoch_ms=1785983163485|rel_ms=    1152|request tools/call name=add arguments={'a': 4, 'b': 5} backend_connected=True
+PROXY|2026-08-06T02:26:03.485Z|epoch_ms=1785983163485|rel_ms=    1152|forward tools/call name=add to backend instance=be-1-1497547-62355
+PROXY|2026-08-06T02:26:03.485Z|epoch_ms=1785983163485|rel_ms=    1152|backend_call_failed type=MCPError msg=MCPError(-32000, 'Connection closed', None) attempt=1 respawning
+PROXY|2026-08-06T02:26:03.485Z|epoch_ms=1785983163485|rel_ms=    1152|backend_client_closed instance_id=be-1-1497547-62355
+PROXY|2026-08-06T02:26:03.486Z|epoch_ms=1785983163486|rel_ms=    1153|backend_spawn_start instance_id=be-2-1497547-63486 spawn_count=2
+PROXY|2026-08-06T02:26:05.059Z|epoch_ms=1785983165059|rel_ms=    2726|backend_up instance_id=be-2-1497547-63486 spawn_count=2 init_ms=1573.6
+PROXY|2026-08-06T02:26:05.064Z|epoch_ms=1785983165064|rel_ms=    2731|backend_call_retry_succeeded
+PROXY|2026-08-06T02:26:05.065Z|epoch_ms=1785983165065|rel_ms=    2732|response tools/call name=add ok=True
+PROXY|2026-08-06T02:26:05.073Z|epoch_ms=1785983165073|rel_ms=    2740|request tools/call name=add arguments={'a': 10, 'b': 20} backend_connected=True
+PROXY|2026-08-06T02:26:05.073Z|epoch_ms=1785983165073|rel_ms=    2740|forward tools/call name=add to backend instance=be-2-1497547-63486
+PROXY|2026-08-06T02:26:05.078Z|epoch_ms=1785983165078|rel_ms=    2745|response tools/call name=add ok=True
+PROXY|2026-08-06T02:26:05.083Z|epoch_ms=1785983165083|rel_ms=    2750|connection_closed exiting
