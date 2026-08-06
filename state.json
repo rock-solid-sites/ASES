@@ -1,6 +1,6 @@
 {
   "next_display_id": 210,
-  "next_comment_id": 529,
+  "next_comment_id": 530,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -6611,7 +6611,7 @@
       "priority": "high",
       "created_by": "pp3g-nHSI-resume-phase-2-154-durable-fork-build-task-on-issue",
       "created_at": "2026-08-06T04:12:03.108314653Z",
-      "updated_at": "2026-08-06T04:14:20.214601170Z",
+      "updated_at": "2026-08-06T04:14:53.921059656Z",
       "labels": [
         "infrastructure"
       ],
@@ -6627,6 +6627,15 @@
           "kind": "observation",
           "signed_by": "SHA256:YW0O7oDtCfWZkX2PUfS/Kh97A8usNiFF8NtvBSp48Zo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgMo6wOTs7Y6gzDQgbrh34x6iXwSBwYr9gS6eFysJqrRUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0bdxSTTWhL9CvRIMNEi2ds8ec93Ors0OU54ROTWuM/wEMFG2SXS/Q7w/QjMZWLHFPHsBnHkcHuUF7zprKz/JCw=="
+        },
+        "e1ac3a48-5581-4c93-894e-9f875381716c": {
+          "display_id": 529,
+          "author": "pp3g-nHSI-resume-phase-2-154-durable-fork-build-task-on-issue",
+          "content": "Plan: (1) EXPORT — commit the preserved fork changes to a branch in /tmp/opencode/fork-build (detached @ v1.18.13), then copy durable artifacts into THIS worktree: fork/harness/ (server.js, gen-cfg.mjs, run-matrix.sh from Nu9v worktree), fork/patches/ (full git diff as applyable patch), fork/tests/ (body-idle-timeout.test.ts + modified retry.test.ts) — so nothing depends on volatile /tmp; (2) RUN the full 16-row matrix via run-matrix.sh against the preserved binary with generous per-row timeouts (hang rows use 90s outer; verify markers surface; the 60s-kill bug is avoided); assert <=3 POSTs + ERROR/WARN markers; (3) re-run unit tests (retry.test.ts + body-idle-timeout.test.ts) with bun 1.3.14 independently; (4) write .crosslink/knowledge/opencode-fork.md (upstream identity, pinned v1.18.13, both-copy patch, build/replace/rollback, markers + drift detection, upgrade-survival); (5) INSTALL PREP ONLY — document atomic mv + backup + wrapper REAL flip; verify #179 stopgap in place (live binary shows 2x if(false)return — VERIFIED); do NOT replace live binary; (6) commit [#154] + post full matrix to this issue. Generous timeouts throughout; stopgap preserved.",
+          "created_at": "2026-08-06T04:14:53.867400272Z",
+          "kind": "plan",
+          "signed_by": "SHA256:YW0O7oDtCfWZkX2PUfS/Kh97A8usNiFF8NtvBSp48Zo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgMo6wOTs7Y6gzDQgbrh34x6iXwSBwYr9gS6eFysJqrRUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAhQeZwPcs6qQ6Di3XlQOQhjQ/7qUVtw72s0CtHxChCrvIu5o7DIVcvufUW609PMB8QPWKwVSmhQbAoMQK/u2nBA=="
         }
       }
     },
@@ -8436,8 +8445,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T04:14:20.214601170Z",
+    "timestamp": "2026-08-06T04:14:53.921059656Z",
     "agent_id": "pp3g-nHSI-resume-phase-2-154-durable-fork-build-task-on-issue",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
