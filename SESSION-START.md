@@ -16,7 +16,8 @@ Model routing: before dispatching agents, consult the Model Routing Matrix (know
   not in permanent docs.
 - **Lock warnings are KNOWN NON-BLOCKING NOISE** — if `crosslink session work`
   reports a stale lock, do **NOT** investigate it: proceed with the task. See
-  the repo's knowledge pages for details.
+  the repo's knowledge pages for details. The lock system fix is tracked
+  separately (#166/#173).
 
 ---
 
