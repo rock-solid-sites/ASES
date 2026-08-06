@@ -1,6 +1,6 @@
 {
   "next_display_id": 219,
-  "next_comment_id": 621,
+  "next_comment_id": 622,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -435,13 +435,24 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T06:09:31.659283526Z",
-      "updated_at": "2026-08-06T06:10:19.917288213Z",
+      "updated_at": "2026-08-06T06:25:53.660712367Z",
       "labels": [
         "infrastructure"
       ],
       "related": [
         "72d9de98-a7f4-443d-ac77-46a2ad6eb355"
-      ]
+      ],
+      "comments": {
+        "6d3e1871-5a3a-4f14-b304-2bf2052294e7": {
+          "display_id": 621,
+          "author": "pp3g-JKN0-implement-146-phase-3-watcher-kill-restart-recovery",
+          "content": "Plan: upgrade tools/kickoff-notify.py from Phase 1 (monitor+notify) to Phase 3 (KILL-AND-RESTART) behind an opt-in flag, per the #136/#137 gate criteria.\n\n(1) CONFIG — KICKOFF_RECOVERY_ENABLED (default OFF; when OFF the watcher is exactly Phase 1). Additional knobs (env, same EnvironmentFile as the webhook): KICKOFF_RECOVERY_MAX_RELAUNCHES=2 (escalation guard), KICKOFF_RECOVERY_COOLDOWN=600s + KICKOFF_RECOVERY_BACKOFF=2.0 (cooldown/backoff per issue), KICKOFF_RECOVERY_MODELS (verified paid model pool; default opencode-go/deepseek-v4-pro,opencode-go/gpt-5.6-luna — model/provider variation), KICKOFF_RECOVERY_TOKEN_BUDGET + KICKOFF_RECOVERY_TOKENS_PER_RELAUNCH (per-issue token budget), KICKOFF_RECOVERY_SYSTEMIC_WINDOW + KICKOFF_RECOVERY_SYSTEMIC_STALLS=2 (systemic-correlation HALT).\n\n(2) DETECTION — keep Phase 1 heartbeat-primary + 2-consecutive debounce + LAUNCHING grace. ADD completion-edge (commit-ground-truth, playbook §6.1): non-terminal status + stale heartbeat + git branch has a [#N] commit + tmux session dead => COMPLETED, NOT STALLED (no recovery). Read .kickoff-session for the tmux name; read issue N from .crosslink/.active-issue or KICKOFF.md.\n\n(3) STALLED ACTION CHAIN (only when enabled AND all gates pass) — notify operator (Phase 1 behavior preserved) -> PRESERVE WORK (git add with kickoff-file exclusions + commit 'wip: preserve work before stall recovery [#N]'; skip clean trees; respect index.lock) -> kill tmux (tmux kill-session) -> steal stale lock best-effort (crosslink locks steal N) -> RELAUNCH fresh agent on same issue (crosslink kickoff run from repo root --issue N --model <varied> --timeout <orig> with retry-handoff description pointing to preserved branch) -> record recovery (crosslink issue comment N --kind observation) + crosslink sync. Per-issue counters (relaunch_count, last_relaunch_at, last_model, tokens_spent) live in a global 'issues' state map because each relaunch creates a NEW worktree slug; stall ledger (ts, slug, issue) powers systemic HALT. Idempotent: mark recovery_attempted_at before the chain; increment per-issue count only on successful relaunch.\n\n(4) GATES ORDER — debounce -> completion-edge -> systemic HALT (>=2 stalls in window => do NOT relaunch) -> escalation guard (>= max relaunches => STOP+notify) -> cooldown/backoff -> model variation (pool <2 => misconfig, no relaunch) -> token budget. Any gate failure: notify + record observation, no relaunch.\n\n(5) NON-STALL — COMPLETED/FAILED/CI_FAILED remain notify-only (never auto-relaunch; CI_FAILED is a code failure not a hang).\n\n(6) FAULT-INJECTION TESTS — tools/test-kickoff-notify-phase3.py: hermetic fake-bin stubs (tmux/git/crosslink log invocations to FAKE_LOG) + temp worktrees (stalled/healthy/completed/grace agents) + temp state; scenarios: recovery disabled = Phase 1 only; enabled = full chain (preserve/kill/relaunch/comment/sync invoked, model varied); escalation guard; systemic HALT; cooldown; token budget; completion edge. Run the real script with PATH prefix, assert stub logs.\n\n(7) DOCS — playbook §6.4 gains a 'Phase 3' subsection (opt-in destructive tier, gates, action chain, config knobs, two-repo sync note). systemd unit/timer comments updated. Do NOT modify crosslink fork source. Commit [#146].",
+          "created_at": "2026-08-06T06:25:53.631799139Z",
+          "kind": "plan",
+          "signed_by": "SHA256:W/FmB59qxxBOz+okYolAWohBwYZOvbCqD3QglEJZKDI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY+26XBpdHSWIgw/22DR9Axtyh3tn15oNCDm0T8F+xREAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABATgY2Jo34fmjcB25oksypKkRU9ZSusV6/TTkK080HByfwG35ReYQSQiHSWp9RGJl4oX7pttz9jPLAZaaF6ywDDA=="
+        }
+      }
     },
     "066754eb-b51d-480b-a498-4619e1407b75": {
       "uuid": "066754eb-b51d-480b-a498-4619e1407b75",
@@ -9452,8 +9463,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T06:22:19.633673095Z",
-    "agent_id": "pp3g-fs00-read-only-plan-review-do-not-modify-files-do-not-3983",
-    "agent_seq": 1
+    "timestamp": "2026-08-06T06:25:53.660712367Z",
+    "agent_id": "pp3g-JKN0-implement-146-phase-3-watcher-kill-restart-recovery",
+    "agent_seq": 2
   }
 }
