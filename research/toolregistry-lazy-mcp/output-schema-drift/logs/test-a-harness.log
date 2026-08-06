@@ -1,0 +1,31 @@
+HARNESS|2026-08-06T05:27:10.269Z|epoch_ms=1785994030269|phase_start phase=test-a versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-06T05:27:10.269Z|epoch_ms=1785994030269|manifest=manifest-null.json backend_schema_mode=none backend_response_mode=diverging
+HARNESS|2026-08-06T05:27:10.277Z|epoch_ms=1785994030277|TESTA_BEGIN register
+PROXY|2026-08-06T05:27:15.897Z|epoch_ms=1785994035897|rel_ms=       1|proxy_started pid=2080470 python=/tmp/toolregistry-venv/bin/python manifest=manifest-null.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:15.898Z|epoch_ms=1785994035898|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:15.920Z|epoch_ms=1785994035920|rel_ms=      24|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:15.921Z|epoch_ms=1785994035921|rel_ms=      25|request tools/list backend_connected=False
+PROXY|2026-08-06T05:27:15.929Z|epoch_ms=1785994035929|rel_ms=      33|connection_closed exiting
+HARNESS|2026-08-06T05:27:16.262Z|epoch_ms=1785994036262|TESTA_REGISTER result=ok delta_ms=5985 error=None
+HARNESS|2026-08-06T05:27:16.764Z|epoch_ms=1785994036764|MANIFEST_TOOL name=add input_schema={"properties": {"a": {"type": "number", "description": "First addend"}, "b": {"type": "number", "description": "Second addend"}}, "required": ["a", "b"], "type": "object"} output_schema=null
+HARNESS|2026-08-06T05:27:16.764Z|epoch_ms=1785994036764|MANIFEST_TOOL name=multiply input_schema={"properties": {"a": {"type": "number", "description": "First factor"}, "b": {"type": "number", "description": "Second factor"}}, "required": ["a", "b"], "type": "object"} output_schema=null
+HARNESS|2026-08-06T05:27:16.764Z|epoch_ms=1785994036764|TESTA_BEGIN call
+PROXY|2026-08-06T05:27:18.094Z|epoch_ms=1785994038094|rel_ms=       1|proxy_started pid=2080647 python=/tmp/toolregistry-venv/bin/python manifest=manifest-null.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:18.097Z|epoch_ms=1785994038097|rel_ms=       4|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:18.134Z|epoch_ms=1785994038134|rel_ms=      41|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:18.135Z|epoch_ms=1785994038135|rel_ms=      42|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T05:27:18.136Z|epoch_ms=1785994038136|rel_ms=      43|backend_spawn_start instance_id=be-1-2080647-38136 spawn_count=1
+BACKEND|2026-08-06T05:27:19.215Z|epoch_ms=1785994039215|configured schema_mode=none response_mode=diverging
+BACKEND|2026-08-06T05:27:19.215Z|epoch_ms=1785994039215|backend_started pid=2080780 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:27:19.223Z|epoch_ms=1785994039223|rel_ms=    1130|backend_up instance_id=be-1-2080647-38136 spawn_count=1 init_ms=1086.9
+PROXY|2026-08-06T05:27:19.224Z|epoch_ms=1785994039224|rel_ms=    1131|forward tools/call name=add to backend instance=be-1-2080647-38136
+BACKEND|2026-08-06T05:27:19.226Z|epoch_ms=1785994039226|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:27:19.226Z|epoch_ms=1785994039226|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-06T05:27:19.229Z|epoch_ms=1785994039229|rel_ms=    1136|response tools/call name=add ok=True
+PROXY|2026-08-06T05:27:19.235Z|epoch_ms=1785994039235|rel_ms=    1142|request tools/list backend_connected=True
+HARNESS|2026-08-06T05:27:19.239Z|epoch_ms=1785994039239|INVOKE|add(2,3)|start_ms=1785994036764|end_ms=1785994039239|delta_ms=2475|ok=True|result='5.0'|result_type=str
+HARNESS|2026-08-06T05:27:19.239Z|epoch_ms=1785994039239|TESTA_PROXY backend_spawn_count=1 backend_up_count=1 response_count=1 proxy_processes=2
+HARNESS|2026-08-06T05:27:19.239Z|epoch_ms=1785994039239|TESTA_RESULT pass=True
+PROXY|2026-08-06T05:27:19.243Z|epoch_ms=1785994039243|rel_ms=    1150|connection_closed exiting
+BACKEND|2026-08-06T05:27:21.252Z|epoch_ms=1785994041252|backend_stdin_closed_exiting
+HARNESS|2026-08-06T05:27:21.256Z|epoch_ms=1785994041256|phase_done phase=test-a test_a_pass=True

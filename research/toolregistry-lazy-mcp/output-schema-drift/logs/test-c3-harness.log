@@ -1,0 +1,157 @@
+HARNESS|2026-08-06T05:28:20.424Z|epoch_ms=1785994100424|phase_start phase=test-c3 versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-06T05:28:20.425Z|epoch_ms=1785994100425|manifest=manifest.json backend_schema_mode=none backend_response_mode=bare
+HARNESS|2026-08-06T05:28:20.426Z|epoch_ms=1785994100426|TESTC3_BEGIN register
+PROXY|2026-08-06T05:28:23.031Z|epoch_ms=1785994103031|rel_ms=       1|proxy_started pid=2087607 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:28:23.032Z|epoch_ms=1785994103032|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T05:28:23.044Z|epoch_ms=1785994103044|rel_ms=      14|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:28:23.046Z|epoch_ms=1785994103046|rel_ms=      16|request tools/list backend_connected=False
+PROXY|2026-08-06T05:28:23.053Z|epoch_ms=1785994103053|rel_ms=      23|connection_closed exiting
+HARNESS|2026-08-06T05:28:23.343Z|epoch_ms=1785994103343|TESTC3_REGISTER result=ok delta_ms=2917 error=None
+HARNESS|2026-08-06T05:28:23.844Z|epoch_ms=1785994103844|MANIFEST_TOOL name=add input_schema={"properties": {"a": {"type": "number", "description": "First addend"}, "b": {"type": "number", "description": "Second addend"}}, "required": ["a", "b"], "type": "object"} output_schema={"properties": {"sum": {"type": "number", "description": "The sum of a and b"}}, "required": ["sum"], "type": "object"}
+HARNESS|2026-08-06T05:28:23.844Z|epoch_ms=1785994103844|MANIFEST_TOOL name=multiply input_schema={"properties": {"a": {"type": "number", "description": "First factor"}, "b": {"type": "number", "description": "Second factor"}}, "required": ["a", "b"], "type": "object"} output_schema=null
+HARNESS|2026-08-06T05:28:23.844Z|epoch_ms=1785994103844|TESTC3_BEGIN call
+PROXY|2026-08-06T05:28:25.863Z|epoch_ms=1785994105863|rel_ms=       0|proxy_started pid=2087900 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:28:25.867Z|epoch_ms=1785994105867|rel_ms=       4|server_ready waiting_for_client
+PROXY|2026-08-06T05:28:25.883Z|epoch_ms=1785994105883|rel_ms=      20|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:28:25.884Z|epoch_ms=1785994105884|rel_ms=      21|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T05:28:25.885Z|epoch_ms=1785994105885|rel_ms=      22|backend_spawn_start instance_id=be-1-2087900-5884 spawn_count=1
+BACKEND|2026-08-06T05:28:26.843Z|epoch_ms=1785994106843|configured schema_mode=none response_mode=bare
+BACKEND|2026-08-06T05:28:26.844Z|epoch_ms=1785994106844|backend_started pid=2088400 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:28:26.851Z|epoch_ms=1785994106851|rel_ms=     988|backend_up instance_id=be-1-2087900-5884 spawn_count=1 init_ms=966.7
+PROXY|2026-08-06T05:28:26.852Z|epoch_ms=1785994106852|rel_ms=     989|forward tools/call name=add to backend instance=be-1-2087900-5884
+BACKEND|2026-08-06T05:28:26.854Z|epoch_ms=1785994106854|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:28:26.854Z|epoch_ms=1785994106854|tool_call_result name=add result=5.0 response_mode=bare structured=5.0
+handler for 'tools/call' returned an invalid result
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 381, in _serialize
+    dumped = _methods.serialize_server_result(method, version, dumped)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp_types/methods.py", line 654, in serialize_server_result
+    adapter.validate_python(data, by_name=False), by_alias=True, mode="json", exclude_none=True
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/pydantic/type_adapter.py", line 441, in validate_python
+    return self.validator.validate_python(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CallToolResult
+structuredContent
+  Input should be a valid dictionary [type=dict_type, input_value=5.0, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.13/v/dict_type
+PROXY|2026-08-06T05:28:26.857Z|epoch_ms=1785994106857|rel_ms=     994|backend_call_failed type=MCPError msg=MCPError(-32603, 'Handler returned an invalid result', None) attempt=1 respawning
+BACKEND|2026-08-06T05:28:26.859Z|epoch_ms=1785994106859|backend_stdin_closed_exiting
+PROXY|2026-08-06T05:28:27.132Z|epoch_ms=1785994107132|rel_ms=    1269|backend_client_closed instance_id=be-1-2087900-5884
+PROXY|2026-08-06T05:28:27.132Z|epoch_ms=1785994107132|rel_ms=    1269|backend_spawn_start instance_id=be-2-2087900-7132 spawn_count=2
+BACKEND|2026-08-06T05:28:27.974Z|epoch_ms=1785994107974|configured schema_mode=none response_mode=bare
+BACKEND|2026-08-06T05:28:27.975Z|epoch_ms=1785994107975|backend_started pid=2088534 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:28:27.994Z|epoch_ms=1785994107994|rel_ms=    2131|backend_up instance_id=be-2-2087900-7132 spawn_count=2 init_ms=861.2
+BACKEND|2026-08-06T05:28:27.996Z|epoch_ms=1785994107996|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:28:27.996Z|epoch_ms=1785994107996|tool_call_result name=add result=5.0 response_mode=bare structured=5.0
+handler for 'tools/call' returned an invalid result
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 381, in _serialize
+    dumped = _methods.serialize_server_result(method, version, dumped)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp_types/methods.py", line 654, in serialize_server_result
+    adapter.validate_python(data, by_name=False), by_alias=True, mode="json", exclude_none=True
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/pydantic/type_adapter.py", line 441, in validate_python
+    return self.validator.validate_python(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CallToolResult
+structuredContent
+  Input should be a valid dictionary [type=dict_type, input_value=5.0, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.13/v/dict_type
+PROXY|2026-08-06T05:28:27.999Z|epoch_ms=1785994107999|rel_ms=    2136|backend_call_failed type=MCPError msg=MCPError(-32603, 'Handler returned an invalid result', None) attempt=2 giving_up
+PROXY|2026-08-06T05:28:27.999Z|epoch_ms=1785994107999|rel_ms=    2136|call_tool_handler_error type=MCPError msg=MCPError(-32603, 'Handler returned an invalid result', None)
+BACKEND|2026-08-06T05:28:28.001Z|epoch_ms=1785994108001|backend_stdin_closed_exiting
+PROXY|2026-08-06T05:28:28.216Z|epoch_ms=1785994108216|rel_ms=    2353|backend_client_closed instance_id=be-2-2087900-7132
+2026-08-06 05:28:28.217 | WARNING  | MCP call to 'add' failed, reconnecting and retrying
+PROXY|2026-08-06T05:28:28.219Z|epoch_ms=1785994108219|rel_ms=    2356|connection_closed exiting
+PROXY|2026-08-06T05:28:29.465Z|epoch_ms=1785994109465|rel_ms=       1|proxy_started pid=2088635 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:28:29.465Z|epoch_ms=1785994109465|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T05:28:29.486Z|epoch_ms=1785994109486|rel_ms=      22|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:28:29.487Z|epoch_ms=1785994109487|rel_ms=      23|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T05:28:29.487Z|epoch_ms=1785994109487|rel_ms=      23|backend_spawn_start instance_id=be-1-2088635-9487 spawn_count=1
+BACKEND|2026-08-06T05:28:30.572Z|epoch_ms=1785994110572|configured schema_mode=none response_mode=bare
+BACKEND|2026-08-06T05:28:30.572Z|epoch_ms=1785994110572|backend_started pid=2089031 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:28:30.586Z|epoch_ms=1785994110586|rel_ms=    1122|backend_up instance_id=be-1-2088635-9487 spawn_count=1 init_ms=1099.3
+PROXY|2026-08-06T05:28:30.587Z|epoch_ms=1785994110587|rel_ms=    1123|forward tools/call name=add to backend instance=be-1-2088635-9487
+BACKEND|2026-08-06T05:28:30.592Z|epoch_ms=1785994110592|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:28:30.592Z|epoch_ms=1785994110592|tool_call_result name=add result=5.0 response_mode=bare structured=5.0
+handler for 'tools/call' returned an invalid result
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 381, in _serialize
+    dumped = _methods.serialize_server_result(method, version, dumped)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp_types/methods.py", line 654, in serialize_server_result
+    adapter.validate_python(data, by_name=False), by_alias=True, mode="json", exclude_none=True
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/pydantic/type_adapter.py", line 441, in validate_python
+    return self.validator.validate_python(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CallToolResult
+structuredContent
+  Input should be a valid dictionary [type=dict_type, input_value=5.0, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.13/v/dict_type
+PROXY|2026-08-06T05:28:30.596Z|epoch_ms=1785994110596|rel_ms=    1132|backend_call_failed type=MCPError msg=MCPError(-32603, 'Handler returned an invalid result', None) attempt=1 respawning
+BACKEND|2026-08-06T05:28:30.601Z|epoch_ms=1785994110601|backend_stdin_closed_exiting
+PROXY|2026-08-06T05:28:30.817Z|epoch_ms=1785994110817|rel_ms=    1353|backend_client_closed instance_id=be-1-2088635-9487
+PROXY|2026-08-06T05:28:30.818Z|epoch_ms=1785994110818|rel_ms=    1354|backend_spawn_start instance_id=be-2-2088635-10818 spawn_count=2
+BACKEND|2026-08-06T05:28:31.737Z|epoch_ms=1785994111737|configured schema_mode=none response_mode=bare
+BACKEND|2026-08-06T05:28:31.738Z|epoch_ms=1785994111738|backend_started pid=2089672 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:28:31.748Z|epoch_ms=1785994111748|rel_ms=    2284|backend_up instance_id=be-2-2088635-10818 spawn_count=2 init_ms=930.0
+BACKEND|2026-08-06T05:28:31.750Z|epoch_ms=1785994111750|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:28:31.750Z|epoch_ms=1785994111750|tool_call_result name=add result=5.0 response_mode=bare structured=5.0
+handler for 'tools/call' returned an invalid result
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 381, in _serialize
+    dumped = _methods.serialize_server_result(method, version, dumped)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp_types/methods.py", line 654, in serialize_server_result
+    adapter.validate_python(data, by_name=False), by_alias=True, mode="json", exclude_none=True
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/pydantic/type_adapter.py", line 441, in validate_python
+    return self.validator.validate_python(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CallToolResult
+structuredContent
+  Input should be a valid dictionary [type=dict_type, input_value=5.0, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.13/v/dict_type
+PROXY|2026-08-06T05:28:31.752Z|epoch_ms=1785994111752|rel_ms=    2288|backend_call_failed type=MCPError msg=MCPError(-32603, 'Handler returned an invalid result', None) attempt=2 giving_up
+PROXY|2026-08-06T05:28:31.752Z|epoch_ms=1785994111752|rel_ms=    2288|call_tool_handler_error type=MCPError msg=MCPError(-32603, 'Handler returned an invalid result', None)
+BACKEND|2026-08-06T05:28:31.753Z|epoch_ms=1785994111753|backend_stdin_closed_exiting
+PROXY|2026-08-06T05:28:31.956Z|epoch_ms=1785994111956|rel_ms=    2492|backend_client_closed instance_id=be-2-2088635-10818
+2026-08-06 05:28:31.960 | ERROR    | Original Exception happens at add:
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 105, in _call_persistent
+    return await self._client.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/client.py", line 133, in call_tool
+    return await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1048, in call_tool
+    result = await self.send_request(
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 553, in send_request
+    raw = await self._dispatcher.send_raw_request(method, data.get("params"), opts)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/shared/jsonrpc_dispatcher.py", line 444, in send_raw_request
+    raise MCPError(code=outcome.code, message=outcome.message, data=outcome.data)
+mcp.shared.exceptions.MCPError: Handler returned an invalid result
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/integration.py", line 92, in call_sync
+    result = self._connection.call_tool_sync(self.name, validated_params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 135, in call_tool_sync
+    return AsyncRuntime.run_sync(self.call_tool(name, arguments))
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/_async_runtime.py", line 87, in run_sync
+    return asyncio.run_coroutine_threadsafe(coro, loop).result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 71, in call_tool
+    return await self._call_persistent(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 111, in _call_persistent
+    return await self._client.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/client.py", line 133, in call_tool
+    return await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1048, in call_tool
+    result = await self.send_request(
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 553, in send_request
+    raw = await self._dispatcher.send_raw_request(method, data.get("params"), opts)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/shared/jsonrpc_dispatcher.py", line 444, in send_raw_request
+    raise MCPError(code=outcome.code, message=outcome.message, data=outcome.data)
+mcp.shared.exceptions.MCPError: Handler returned an invalid result
+
+HARNESS|2026-08-06T05:28:31.962Z|epoch_ms=1785994111962|INVOKE|add(2,3)|start_ms=1785994103844|end_ms=1785994111961|delta_ms=8117|ok=False|outcome_type=ErrorResult|message_verbatim='MCPError: Error executing add: Handler returned an invalid result'
+HARNESS|2026-08-06T05:28:31.962Z|epoch_ms=1785994111962|TESTC3_SPAWN backend_spawn_count=4 proxy_processes=3
+HARNESS|2026-08-06T05:28:31.962Z|epoch_ms=1785994111962|TESTC3_ERROR_RESULT message_verbatim='MCPError: Error executing add: Handler returned an invalid result'
+HARNESS|2026-08-06T05:28:31.962Z|epoch_ms=1785994111962|TESTC3_RESULT pass=True
+PROXY|2026-08-06T05:28:31.964Z|epoch_ms=1785994111964|rel_ms=    2500|connection_closed exiting
+HARNESS|2026-08-06T05:28:32.180Z|epoch_ms=1785994112180|phase_done phase=test-c3 test_c3_pass=True

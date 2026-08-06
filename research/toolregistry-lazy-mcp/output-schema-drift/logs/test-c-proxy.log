@@ -1,0 +1,35 @@
+PROXY|2026-08-06T05:27:34.468Z|epoch_ms=1785994054468|rel_ms=       1|proxy_started pid=2081699 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:34.469Z|epoch_ms=1785994054469|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:34.495Z|epoch_ms=1785994054495|rel_ms=      28|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:34.496Z|epoch_ms=1785994054496|rel_ms=      29|request tools/list backend_connected=False
+PROXY|2026-08-06T05:27:34.501Z|epoch_ms=1785994054501|rel_ms=      34|connection_closed exiting
+PROXY|2026-08-06T05:27:37.805Z|epoch_ms=1785994057805|rel_ms=       0|proxy_started pid=2082215 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:37.808Z|epoch_ms=1785994057808|rel_ms=       3|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:37.818Z|epoch_ms=1785994057818|rel_ms=      13|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:37.819Z|epoch_ms=1785994057819|rel_ms=      14|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T05:27:37.819Z|epoch_ms=1785994057819|rel_ms=      14|backend_spawn_start instance_id=be-1-2082215-57819 spawn_count=1
+PROXY|2026-08-06T05:27:41.025Z|epoch_ms=1785994061025|rel_ms=    3220|backend_up instance_id=be-1-2082215-57819 spawn_count=1 init_ms=3205.2
+PROXY|2026-08-06T05:27:41.027Z|epoch_ms=1785994061027|rel_ms=    3222|forward tools/call name=add to backend instance=be-1-2082215-57819
+PROXY|2026-08-06T05:27:41.182Z|epoch_ms=1785994061182|rel_ms=    3377|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=1 respawning
+PROXY|2026-08-06T05:27:42.224Z|epoch_ms=1785994062224|rel_ms=    4419|backend_client_closed instance_id=be-1-2082215-57819
+PROXY|2026-08-06T05:27:42.225Z|epoch_ms=1785994062225|rel_ms=    4420|backend_spawn_start instance_id=be-2-2082215-62224 spawn_count=2
+PROXY|2026-08-06T05:27:46.369Z|epoch_ms=1785994066369|rel_ms=    8564|backend_up instance_id=be-2-2082215-62224 spawn_count=2 init_ms=4144.3
+PROXY|2026-08-06T05:27:46.384Z|epoch_ms=1785994066384|rel_ms=    8579|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=2 giving_up
+PROXY|2026-08-06T05:27:46.384Z|epoch_ms=1785994066384|rel_ms=    8579|call_tool_handler_error type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}")
+PROXY|2026-08-06T05:27:46.761Z|epoch_ms=1785994066761|rel_ms=    8956|backend_client_closed instance_id=be-2-2082215-62224
+PROXY|2026-08-06T05:27:46.771Z|epoch_ms=1785994066771|rel_ms=    8966|connection_closed exiting
+PROXY|2026-08-06T05:27:50.069Z|epoch_ms=1785994070069|rel_ms=       2|proxy_started pid=2083433 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:50.071Z|epoch_ms=1785994070071|rel_ms=       4|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:50.119Z|epoch_ms=1785994070119|rel_ms=      52|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:50.120Z|epoch_ms=1785994070120|rel_ms=      53|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T05:27:50.121Z|epoch_ms=1785994070121|rel_ms=      54|backend_spawn_start instance_id=be-1-2083433-70121 spawn_count=1
+PROXY|2026-08-06T05:27:53.534Z|epoch_ms=1785994073534|rel_ms=    3467|backend_up instance_id=be-1-2083433-70121 spawn_count=1 init_ms=3413.1
+PROXY|2026-08-06T05:27:53.534Z|epoch_ms=1785994073534|rel_ms=    3467|forward tools/call name=add to backend instance=be-1-2083433-70121
+PROXY|2026-08-06T05:27:53.766Z|epoch_ms=1785994073766|rel_ms=    3699|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=1 respawning
+PROXY|2026-08-06T05:27:54.452Z|epoch_ms=1785994074452|rel_ms=    4385|backend_client_closed instance_id=be-1-2083433-70121
+PROXY|2026-08-06T05:27:54.452Z|epoch_ms=1785994074452|rel_ms=    4385|backend_spawn_start instance_id=be-2-2083433-74452 spawn_count=2
+PROXY|2026-08-06T05:27:58.604Z|epoch_ms=1785994078604|rel_ms=    8537|backend_up instance_id=be-2-2083433-74452 spawn_count=2 init_ms=4151.9
+PROXY|2026-08-06T05:27:58.620Z|epoch_ms=1785994078620|rel_ms=    8553|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=2 giving_up
+PROXY|2026-08-06T05:27:58.620Z|epoch_ms=1785994078620|rel_ms=    8553|call_tool_handler_error type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}")
+PROXY|2026-08-06T05:27:59.053Z|epoch_ms=1785994079053|rel_ms=    8986|backend_client_closed instance_id=be-2-2083433-74452
+PROXY|2026-08-06T05:27:59.074Z|epoch_ms=1785994079074|rel_ms=    9007|connection_closed exiting

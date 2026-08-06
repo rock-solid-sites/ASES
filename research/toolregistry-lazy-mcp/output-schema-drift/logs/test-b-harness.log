@@ -1,0 +1,31 @@
+HARNESS|2026-08-06T05:27:21.874Z|epoch_ms=1785994041874|phase_start phase=test-b versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-06T05:27:21.874Z|epoch_ms=1785994041874|manifest=manifest.json backend_schema_mode=conforming backend_response_mode=conforming
+HARNESS|2026-08-06T05:27:21.876Z|epoch_ms=1785994041876|TESTB_BEGIN register
+PROXY|2026-08-06T05:27:24.612Z|epoch_ms=1785994044612|rel_ms=      21|proxy_started pid=2081018 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:24.612Z|epoch_ms=1785994044612|rel_ms=      21|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:24.626Z|epoch_ms=1785994044626|rel_ms=      35|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:24.627Z|epoch_ms=1785994044627|rel_ms=      36|request tools/list backend_connected=False
+PROXY|2026-08-06T05:27:24.644Z|epoch_ms=1785994044644|rel_ms=      53|connection_closed exiting
+HARNESS|2026-08-06T05:27:25.161Z|epoch_ms=1785994045161|TESTB_REGISTER result=ok delta_ms=3285 error=None
+HARNESS|2026-08-06T05:27:25.662Z|epoch_ms=1785994045662|MANIFEST_TOOL name=add input_schema={"properties": {"a": {"type": "number", "description": "First addend"}, "b": {"type": "number", "description": "Second addend"}}, "required": ["a", "b"], "type": "object"} output_schema={"properties": {"sum": {"type": "number", "description": "The sum of a and b"}}, "required": ["sum"], "type": "object"}
+HARNESS|2026-08-06T05:27:25.662Z|epoch_ms=1785994045662|MANIFEST_TOOL name=multiply input_schema={"properties": {"a": {"type": "number", "description": "First factor"}, "b": {"type": "number", "description": "Second factor"}}, "required": ["a", "b"], "type": "object"} output_schema=null
+HARNESS|2026-08-06T05:27:25.662Z|epoch_ms=1785994045662|TESTB_BEGIN call
+PROXY|2026-08-06T05:27:27.126Z|epoch_ms=1785994047126|rel_ms=       0|proxy_started pid=2081162 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:27.128Z|epoch_ms=1785994047128|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:27.155Z|epoch_ms=1785994047155|rel_ms=      29|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:27.156Z|epoch_ms=1785994047156|rel_ms=      30|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T05:27:27.156Z|epoch_ms=1785994047156|rel_ms=      30|backend_spawn_start instance_id=be-1-2081162-47156 spawn_count=1
+BACKEND|2026-08-06T05:27:28.406Z|epoch_ms=1785994048406|configured schema_mode=conforming response_mode=conforming
+BACKEND|2026-08-06T05:27:28.407Z|epoch_ms=1785994048407|backend_started pid=2081237 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:27:28.416Z|epoch_ms=1785994048416|rel_ms=    1290|backend_up instance_id=be-1-2081162-47156 spawn_count=1 init_ms=1260.4
+PROXY|2026-08-06T05:27:28.417Z|epoch_ms=1785994048417|rel_ms=    1291|forward tools/call name=add to backend instance=be-1-2081162-47156
+BACKEND|2026-08-06T05:27:28.420Z|epoch_ms=1785994048420|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:27:28.420Z|epoch_ms=1785994048420|tool_call_result name=add result=5.0 response_mode=conforming structured={'sum': 5.0}
+PROXY|2026-08-06T05:27:28.591Z|epoch_ms=1785994048591|rel_ms=    1465|response tools/call name=add ok=True
+PROXY|2026-08-06T05:27:28.597Z|epoch_ms=1785994048597|rel_ms=    1471|request tools/list backend_connected=True
+HARNESS|2026-08-06T05:27:28.657Z|epoch_ms=1785994048657|INVOKE|add(2,3)|start_ms=1785994045662|end_ms=1785994048657|delta_ms=2995|ok=True|result='5.0'|result_type=str
+HARNESS|2026-08-06T05:27:28.657Z|epoch_ms=1785994048657|TESTB_PROXY backend_spawn_count=1 backend_up_count=1 forward_count=1 response_count=1 proxy_processes=2
+HARNESS|2026-08-06T05:27:28.657Z|epoch_ms=1785994048657|TESTB_RESULT pass=True
+PROXY|2026-08-06T05:27:28.659Z|epoch_ms=1785994048659|rel_ms=    1533|connection_closed exiting
+BACKEND|2026-08-06T05:27:30.674Z|epoch_ms=1785994050674|backend_stdin_closed_exiting
+HARNESS|2026-08-06T05:27:30.677Z|epoch_ms=1785994050677|phase_done phase=test-b test_b_pass=True
