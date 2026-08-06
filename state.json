@@ -1,5 +1,5 @@
 {
-  "next_display_id": 235,
+  "next_display_id": 236,
   "next_comment_id": 722,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -103,6 +103,7 @@
     "65cc6b2e-ea4a-4e99-86da-0fee9c048f74": 107,
     "661fd967-2a52-4fc5-b28a-eb67bd5194de": 9,
     "66373193-b72d-4a26-97b9-af590a31c7be": 203,
+    "671334e9-8cd0-4db6-8659-7aa68760b6a7": 235,
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": 71,
     "6a3fd79f-4383-414b-a3b2-07e51086f985": 224,
     "6d33d99f-5c4a-40a1-9d33-7676ed401647": 157,
@@ -4554,6 +4555,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg1Mto0ofWSOR20UZz7VZRHU3eTRzlZZyxP9NJ06ssZ+YAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtkPKa0HqdxK2Qz7l/qU8EA42HXBbvqF/mc1G4tdojtvmOiLa+LlxeKbqim6dvEjLApkD8XfKoc4ac7jHcrK1Bw=="
         }
       }
+    },
+    "671334e9-8cd0-4db6-8659-7aa68760b6a7": {
+      "uuid": "671334e9-8cd0-4db6-8659-7aa68760b6a7",
+      "display_id": 235,
+      "title": "RE-RUN the 16-row matrix with FIXED harness assertions to convert the 53/67 into a clean high-pass (verify the 'all 14 failures are harness bugs' claim from #232 before install). CONTEXT: #232 fixed the llm.ts consumption deadlock (safeIterable, commit 98dfe4a) — gate PASSES (row1: Body read timed out + level=ERROR + exit 1 not 124 + 3-POST budget) but the full matrix shows 53 pass / 14 fail, ALL classified as harness bugs / stale checks (see INVESTIGATION-232.md §4). HARNESS FIXES NEEDED (per #232 analysis): (1) grep 'totalPOSTs: 3' -> JSON 'totalPOSTs=3' format mismatch (row1, row14 x6); (2) row4/row10a content-present expectation — SDK delivers via event parts not plain stdout; (3) row6b wrong idle expectation — 2s gaps < bodyIdleTimeout=6000 correctly does NOT fire idle; 60s total timeout fires (bounded+visible) — expectation should accept either the idle marker OR the bounded total-timeout ERROR; (4) row10b content-length:0 breaks the hang premise — fix server GZIP mode to not set content-length:0; (5) row9b Turn stalled — server keepalive cleared on req close; PATCHED server.js exists (/tmp/opencode/matrix-run/server.js, clear on res close) — verify row9b now fires Turn stalled; (6) row16c multi-file grep -c harness bug — use per-file grep or accept guard count = 2. TASK: fix run-matrix.sh assertions + server.js modes per the above, re-run the full 16-row matrix against the FIXED binary (/tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode, sha256 6e0e282b, 1.18.13-pp3g-fork), report the NEW pass/fail table. EXPECTATION: >=65/67 (ideally 67/67); any remaining failure must be a REAL product issue with evidence, not a harness artifact. Do NOT install. Do NOT use crosslink kickoff cleanup --force (kills live agents — #227). GENEROUS timeouts.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-06T16:15:12.685531428Z",
+      "updated_at": "2026-08-06T16:15:12.685531428Z"
     },
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": {
       "uuid": "68941ee1-bcaf-4bc4-9c1f-0db903630fe6",
@@ -10618,8 +10629,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T14:04:21.310460625Z",
-    "agent_id": "pp3g-w20v-task-rebuild-the-hub-reduced-issues-projection-in-the",
-    "agent_seq": 10
+    "timestamp": "2026-08-06T16:15:12.685531428Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1062
   }
 }
