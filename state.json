@@ -1,5 +1,5 @@
 {
-  "next_display_id": 217,
+  "next_display_id": 218,
   "next_comment_id": 589,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -166,6 +166,7 @@
     "b0660f9c-1c43-421f-9306-a2bb6f6bfec8": 177,
     "b0c04e1a-7efb-4f8c-890f-8cb33f6ed176": 29,
     "b1cfb0dd-a42b-4702-9500-73c36ffa31e9": 28,
+    "b22a89ff-e016-4eab-9282-4e69d8ca729f": 217,
     "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9": 68,
     "b5320c43-7f7c-4d63-9e4c-503c7bde417d": 117,
     "b5fb9123-caba-43fb-b827-e7009cd785b9": 209,
@@ -7011,6 +7012,18 @@
         "chore"
       ]
     },
+    "b22a89ff-e016-4eab-9282-4e69d8ca729f": {
+      "uuid": "b22a89ff-e016-4eab-9282-4e69d8ca729f",
+      "display_id": 217,
+      "title": "VALIDATE (retry-classification): can tagging schema-validation failure as a terminal application error remove the 4x spawn multiplier (Test C of output-schema drift) — control vs classified-proxy before/after, plus real-connection-failure control",
+      "description": "Follow-on from #213 (output-schema drift). The drift test found a 4x spawn multiplier (4 backend spawns, 2 persistent proxies, per failed call) from TWO uncoordinated retry layers stacking: proxy-internal retry respawns the backend, then ToolRegistry's reconnect-retry (connection.py:106) treats the schema-validation failure as a connection problem and respawns the whole proxy. Test whether classification alone fixes it: the proxy returns a normal MCP tool-error response (clearly a schema/application failure, NOT a connection-close signature) and stops its own reflexive respawn for this failure class, so connection.py:106 has nothing to interpret as connection loss. Measure whether cost drops from ~4x to ~single-spawn. 3 tests: (1) reconfirm Test C 4x control; (2) modified proxy same drift scenario — spawn/proxy count, does reconnect-retry fire, latency vs control + #213 success baseline (1810-3124ms), error still clear; (3) real connection failure (kill proxy mid-call) still retries. Out of scope: building revalidation/fallback-fetch; re-testing bare-value diagnostics degradation. Evidence-only test scaffolding; do not modify ToolRegistry source.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
+      "created_by": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
+      "created_at": "2026-08-06T05:40:36.288418060Z",
+      "updated_at": "2026-08-06T05:40:36.288418060Z"
+    },
     "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9": {
       "uuid": "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9",
       "display_id": 68,
@@ -9129,8 +9142,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:40:29.746717629Z",
-    "agent_id": "yUNV-tmCJ-verify-heartbeat-guard-plugin-ases-215-write-c192",
-    "agent_seq": 2
+    "timestamp": "2026-08-06T05:40:36.288418060Z",
+    "agent_id": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
+    "agent_seq": 9
   }
 }
