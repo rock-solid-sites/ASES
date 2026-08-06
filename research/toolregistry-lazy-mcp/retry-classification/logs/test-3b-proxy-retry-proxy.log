@@ -1,0 +1,20 @@
+PROXY|2026-08-06T06:12:59.148Z|epoch_ms=1785996779148|rel_ms=       0|proxy_started pid=2235904 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T06:12:59.149Z|epoch_ms=1785996779149|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T06:12:59.198Z|epoch_ms=1785996779198|rel_ms=      50|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T06:12:59.200Z|epoch_ms=1785996779200|rel_ms=      52|request tools/list backend_connected=False
+PROXY|2026-08-06T06:12:59.220Z|epoch_ms=1785996779220|rel_ms=      72|connection_closed exiting
+PROXY|2026-08-06T06:13:02.365Z|epoch_ms=1785996782365|rel_ms=       0|proxy_started pid=2236586 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T06:13:02.366Z|epoch_ms=1785996782366|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T06:13:02.389Z|epoch_ms=1785996782389|rel_ms=      24|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T06:13:02.394Z|epoch_ms=1785996782394|rel_ms=      29|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T06:13:02.394Z|epoch_ms=1785996782394|rel_ms=      29|backend_spawn_start instance_id=be-1-2236586-82394 spawn_count=1
+PROXY|2026-08-06T06:13:03.820Z|epoch_ms=1785996783820|rel_ms=    1455|backend_up instance_id=be-1-2236586-82394 spawn_count=1 init_ms=1425.5
+PROXY|2026-08-06T06:13:03.820Z|epoch_ms=1785996783820|rel_ms=    1455|forward tools/call name=add to backend instance=be-1-2236586-82394
+PROXY|2026-08-06T06:13:03.842Z|epoch_ms=1785996783842|rel_ms=    1477|backend_call_failed type=MCPError msg=MCPError(-32000, 'Connection closed', None) attempt=1 respawning
+PROXY|2026-08-06T06:13:03.844Z|epoch_ms=1785996783844|rel_ms=    1479|backend_client_closed instance_id=be-1-2236586-82394
+PROXY|2026-08-06T06:13:03.844Z|epoch_ms=1785996783844|rel_ms=    1479|backend_spawn_start instance_id=be-2-2236586-83844 spawn_count=2
+PROXY|2026-08-06T06:13:05.653Z|epoch_ms=1785996785653|rel_ms=    3288|backend_up instance_id=be-2-2236586-83844 spawn_count=2 init_ms=1808.9
+PROXY|2026-08-06T06:13:05.709Z|epoch_ms=1785996785709|rel_ms=    3344|backend_call_retry_succeeded
+PROXY|2026-08-06T06:13:05.709Z|epoch_ms=1785996785709|rel_ms=    3344|response tools/call name=add ok=True
+PROXY|2026-08-06T06:13:05.714Z|epoch_ms=1785996785714|rel_ms=    3349|request tools/list backend_connected=True
+PROXY|2026-08-06T06:13:05.837Z|epoch_ms=1785996785837|rel_ms=    3472|connection_closed exiting

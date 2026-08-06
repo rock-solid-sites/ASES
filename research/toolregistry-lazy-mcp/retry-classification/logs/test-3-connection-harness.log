@@ -1,0 +1,48 @@
+HARNESS|2026-08-06T06:12:33.619Z|epoch_ms=1785996753620|phase_start phase=test-3-connection versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-06T06:12:33.634Z|epoch_ms=1785996753634|proxy=MODIFIED(proxy_classified.py) manifest=manifest.json backend_schema_mode=conforming backend_response_mode=conforming action=kill_persistent_proxy_mid_call
+HARNESS|2026-08-06T06:12:33.636Z|epoch_ms=1785996753636|TEST3_BEGIN register
+PROXY|2026-08-06T06:12:40.772Z|epoch_ms=1785996760772|rel_ms=      22|pid_file_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test/research/toolregistry-lazy-mcp/retry-classification/logs/test-3-connection-proxy.pid pid=2233701
+PROXY|2026-08-06T06:12:40.775Z|epoch_ms=1785996760775|rel_ms=      25|proxy_started pid=2233701 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T06:12:40.775Z|epoch_ms=1785996760775|rel_ms=      25|server_ready waiting_for_client
+PROXY|2026-08-06T06:12:40.838Z|epoch_ms=1785996760838|rel_ms=      88|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T06:12:40.840Z|epoch_ms=1785996760840|rel_ms=      90|request tools/list backend_connected=False
+PROXY|2026-08-06T06:12:40.852Z|epoch_ms=1785996760852|rel_ms=     102|connection_closed exiting
+HARNESS|2026-08-06T06:12:41.669Z|epoch_ms=1785996761669|TEST3_REGISTER result=ok delta_ms=8025 error=None
+HARNESS|2026-08-06T06:12:42.169Z|epoch_ms=1785996762169|TEST3_BEGIN call (thread)
+PROXY|2026-08-06T06:12:44.845Z|epoch_ms=1785996764845|rel_ms=       1|pid_file_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test/research/toolregistry-lazy-mcp/retry-classification/logs/test-3-connection-proxy.pid pid=2234210
+PROXY|2026-08-06T06:12:44.846Z|epoch_ms=1785996764846|rel_ms=       2|proxy_started pid=2234210 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T06:12:44.846Z|epoch_ms=1785996764846|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T06:12:44.872Z|epoch_ms=1785996764872|rel_ms=      28|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T06:12:44.873Z|epoch_ms=1785996764873|rel_ms=      29|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T06:12:44.874Z|epoch_ms=1785996764874|rel_ms=      30|backend_spawn_start instance_id=be-1-2234210-64874 spawn_count=1
+HARNESS|2026-08-06T06:12:44.882Z|epoch_ms=1785996764882|KILL_MID_CALL killing_persistent_proxy pid=2234210
+2026-08-06 06:12:44.920 | WARNING  | MCP call to 'add' failed, reconnecting and retrying
+BACKEND|2026-08-06T06:12:47.697Z|epoch_ms=1785996767697|configured schema_mode=conforming response_mode=conforming
+BACKEND|2026-08-06T06:12:47.697Z|epoch_ms=1785996767697|backend_started pid=2234677 python=/tmp/toolregistry-venv/bin/python
+BACKEND|2026-08-06T06:12:47.750Z|epoch_ms=1785996767750|backend_stdin_closed_exiting
+PROXY|2026-08-06T06:12:48.431Z|epoch_ms=1785996768431|rel_ms=       1|pid_file_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test/research/toolregistry-lazy-mcp/retry-classification/logs/test-3-connection-proxy.pid pid=2234683
+PROXY|2026-08-06T06:12:48.432Z|epoch_ms=1785996768432|rel_ms=       2|proxy_started pid=2234683 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T06:12:48.432Z|epoch_ms=1785996768432|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T06:12:48.473Z|epoch_ms=1785996768473|rel_ms=      43|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T06:12:48.474Z|epoch_ms=1785996768474|rel_ms=      44|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T06:12:48.475Z|epoch_ms=1785996768475|rel_ms=      45|backend_spawn_start instance_id=be-1-2234683-68475 spawn_count=1
+BACKEND|2026-08-06T06:12:50.588Z|epoch_ms=1785996770588|configured schema_mode=conforming response_mode=conforming
+BACKEND|2026-08-06T06:12:50.588Z|epoch_ms=1785996770588|backend_started pid=2234977 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T06:12:50.604Z|epoch_ms=1785996770604|rel_ms=    2174|backend_up instance_id=be-1-2234683-68475 spawn_count=1 init_ms=2128.6
+PROXY|2026-08-06T06:12:50.604Z|epoch_ms=1785996770604|rel_ms=    2174|forward tools/call name=add to backend instance=be-1-2234683-68475
+BACKEND|2026-08-06T06:12:50.608Z|epoch_ms=1785996770608|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T06:12:50.609Z|epoch_ms=1785996770609|tool_call_result name=add result=5.0 response_mode=conforming structured={'sum': 5.0}
+PROXY|2026-08-06T06:12:50.737Z|epoch_ms=1785996770737|rel_ms=    2307|response tools/call name=add ok=True
+PROXY|2026-08-06T06:12:50.745Z|epoch_ms=1785996770745|rel_ms=    2315|request tools/list backend_connected=True
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_INVOKE_THREAD_DONE delta_ms=8613
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_OUTCOME result='5.0'
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_SPAWN_COUNTS backend_spawn_count=2 backend_up_count=1 backend_schema_validation_failed_count=0 classified_response_count=0 proxy_processes=3 persistent_proxies=2 reconnect_fired=True killed_pid=2234210 proxy_pids=[2233701, 2234210, 2234683]
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_SPAWN_EVENT epoch=1785996764874 msg=backend_spawn_start instance_id=be-1-2234210-64874 spawn_count=1
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_SPAWN_EVENT epoch=1785996768475 msg=backend_spawn_start instance_id=be-1-2234683-68475 spawn_count=1
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_PROXY_STARTED epoch=1785996760775 msg=proxy_started pid=2233701 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_PROXY_STARTED epoch=1785996764846 msg=proxy_started pid=2234210 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_PROXY_STARTED epoch=1785996768432 msg=proxy_started pid=2234683 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-06T06:12:50.818Z|epoch_ms=1785996770818|TEST3_RESULT pass=True (expected: reconnect_fired=YES, final outcome success 5.0, proxy killed; observed: reconnect=True success=True killed=True)
+PROXY|2026-08-06T06:12:50.826Z|epoch_ms=1785996770826|rel_ms=    2396|connection_closed exiting
+BACKEND|2026-08-06T06:12:52.837Z|epoch_ms=1785996772837|backend_stdin_closed_exiting
+HARNESS|2026-08-06T06:12:52.854Z|epoch_ms=1785996772854|phase_done phase=test-3-connection test3_connection_pass=True

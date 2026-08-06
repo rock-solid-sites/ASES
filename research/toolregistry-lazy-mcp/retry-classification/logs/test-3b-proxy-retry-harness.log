@@ -1,0 +1,42 @@
+HARNESS|2026-08-06T06:12:54.276Z|epoch_ms=1785996774276|phase_start phase=test-3b-proxy-retry versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-06T06:12:54.276Z|epoch_ms=1785996774276|proxy=MODIFIED(proxy_classified.py) manifest=manifest.json backend_schema_mode=conforming backend_response_mode=conforming action=kill_backend_mid_call
+HARNESS|2026-08-06T06:12:54.277Z|epoch_ms=1785996774277|TEST3B_BEGIN register
+PROXY|2026-08-06T06:12:59.148Z|epoch_ms=1785996779148|rel_ms=       0|proxy_started pid=2235904 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T06:12:59.149Z|epoch_ms=1785996779149|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T06:12:59.198Z|epoch_ms=1785996779198|rel_ms=      50|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T06:12:59.200Z|epoch_ms=1785996779200|rel_ms=      52|request tools/list backend_connected=False
+PROXY|2026-08-06T06:12:59.220Z|epoch_ms=1785996779220|rel_ms=      72|connection_closed exiting
+HARNESS|2026-08-06T06:12:59.737Z|epoch_ms=1785996779737|TEST3B_REGISTER result=ok delta_ms=5460 error=None
+HARNESS|2026-08-06T06:13:00.239Z|epoch_ms=1785996780239|TEST3B_BEGIN call (thread)
+PROXY|2026-08-06T06:13:02.365Z|epoch_ms=1785996782365|rel_ms=       0|proxy_started pid=2236586 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T06:13:02.366Z|epoch_ms=1785996782366|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T06:13:02.389Z|epoch_ms=1785996782389|rel_ms=      24|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T06:13:02.394Z|epoch_ms=1785996782394|rel_ms=      29|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T06:13:02.394Z|epoch_ms=1785996782394|rel_ms=      29|backend_spawn_start instance_id=be-1-2236586-82394 spawn_count=1
+BACKEND|2026-08-06T06:13:03.798Z|epoch_ms=1785996783798|configured schema_mode=conforming response_mode=conforming
+BACKEND|2026-08-06T06:13:03.799Z|epoch_ms=1785996783799|pid_file_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test/research/toolregistry-lazy-mcp/retry-classification/logs/test-3b-proxy-retry-backend.pid pid=2236976
+BACKEND|2026-08-06T06:13:03.799Z|epoch_ms=1785996783799|backend_started pid=2236976 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T06:13:03.820Z|epoch_ms=1785996783820|rel_ms=    1455|backend_up instance_id=be-1-2236586-82394 spawn_count=1 init_ms=1425.5
+PROXY|2026-08-06T06:13:03.820Z|epoch_ms=1785996783820|rel_ms=    1455|forward tools/call name=add to backend instance=be-1-2236586-82394
+HARNESS|2026-08-06T06:13:03.835Z|epoch_ms=1785996783835|KILL_BACKEND killing_backend pid=2236976
+PROXY|2026-08-06T06:13:03.842Z|epoch_ms=1785996783842|rel_ms=    1477|backend_call_failed type=MCPError msg=MCPError(-32000, 'Connection closed', None) attempt=1 respawning
+PROXY|2026-08-06T06:13:03.844Z|epoch_ms=1785996783844|rel_ms=    1479|backend_client_closed instance_id=be-1-2236586-82394
+PROXY|2026-08-06T06:13:03.844Z|epoch_ms=1785996783844|rel_ms=    1479|backend_spawn_start instance_id=be-2-2236586-83844 spawn_count=2
+BACKEND|2026-08-06T06:13:05.601Z|epoch_ms=1785996785601|configured schema_mode=conforming response_mode=conforming
+BACKEND|2026-08-06T06:13:05.602Z|epoch_ms=1785996785602|pid_file_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test/research/toolregistry-lazy-mcp/retry-classification/logs/test-3b-proxy-retry-backend.pid pid=2237297
+BACKEND|2026-08-06T06:13:05.602Z|epoch_ms=1785996785602|backend_started pid=2237297 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T06:13:05.653Z|epoch_ms=1785996785653|rel_ms=    3288|backend_up instance_id=be-2-2236586-83844 spawn_count=2 init_ms=1808.9
+BACKEND|2026-08-06T06:13:05.655Z|epoch_ms=1785996785655|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T06:13:05.656Z|epoch_ms=1785996785656|tool_call_result name=add result=5.0 response_mode=conforming structured={'sum': 5.0}
+PROXY|2026-08-06T06:13:05.709Z|epoch_ms=1785996785709|rel_ms=    3344|backend_call_retry_succeeded
+PROXY|2026-08-06T06:13:05.709Z|epoch_ms=1785996785709|rel_ms=    3344|response tools/call name=add ok=True
+PROXY|2026-08-06T06:13:05.714Z|epoch_ms=1785996785714|rel_ms=    3349|request tools/list backend_connected=True
+HARNESS|2026-08-06T06:13:05.833Z|epoch_ms=1785996785833|TEST3B_INVOKE_THREAD_DONE delta_ms=5583
+HARNESS|2026-08-06T06:13:05.833Z|epoch_ms=1785996785833|TEST3B_OUTCOME result='5.0'
+HARNESS|2026-08-06T06:13:05.833Z|epoch_ms=1785996785833|TEST3B_SPAWN_COUNTS backend_spawn_count=2 backend_call_failed_count=1 retry_succeeded_count=1 backend_schema_validation_failed_count=0 proxy_processes=2 persistent_proxies=1 reconnect_fired=False killed_backend_pid=2236976 proxy_pids=[2235904, 2236586]
+HARNESS|2026-08-06T06:13:05.833Z|epoch_ms=1785996785833|TEST3B_FAILURE_EVENT epoch=1785996783842 msg=backend_call_failed type=MCPError msg=MCPError(-32000, 'Connection closed', None) attempt=1 respawning
+HARNESS|2026-08-06T06:13:05.833Z|epoch_ms=1785996785833|TEST3B_RETRY_OK_EVENT epoch=1785996785709 msg=backend_call_retry_succeeded
+HARNESS|2026-08-06T06:13:05.833Z|epoch_ms=1785996785833|TEST3B_RESULT pass=True (expected: proxy-internal retry fired + success 5.0, no reconnect, no misclassification; observed: proxy_retried=True success=True reconnect=False schema_misclassified=False)
+PROXY|2026-08-06T06:13:05.837Z|epoch_ms=1785996785837|rel_ms=    3472|connection_closed exiting
+BACKEND|2026-08-06T06:13:07.850Z|epoch_ms=1785996787850|backend_stdin_closed_exiting
+HARNESS|2026-08-06T06:13:07.854Z|epoch_ms=1785996787854|phase_done phase=test-3b-proxy-retry test3b_proxy_retry_pass=True
