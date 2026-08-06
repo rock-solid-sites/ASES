@@ -1,6 +1,6 @@
 {
   "next_display_id": 240,
-  "next_comment_id": 739,
+  "next_comment_id": 740,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -6634,7 +6634,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T21:40:51.784419076Z",
-      "updated_at": "2026-08-06T18:43:50.889781269Z",
+      "updated_at": "2026-08-06T18:44:21.138664322Z",
       "labels": [
         "epic"
       ],
@@ -6788,6 +6788,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAazhQV2+v7c4q8sLTfrSxzIkjppMKlfTjjZmT7Y5Tp/WQzCoS4KxjJ+m9G4uZo7ZQskpvTyyd4qVfFC51eH3xAA=="
+        },
+        "457ce104-a0a6-4f34-911b-cc7880c9d989": {
+          "display_id": 739,
+          "author": "OL2r",
+          "content": "REGRESSION SUSPECT (operator-flagged, 2026-08-06): pdzT (#235) showed 'Terminated' at ~60m (guide timeout_secs=3600), but the #192 fix makes the GNU wrapper backstop = max(timeout*24, 24h) = 86400s for a 1h guide. Code verified correct (launch.rs:236-251: 'timeout 86400s'); no timeout_backstop_secs override in config; tmux session SURVIVES (so not the #227 cleanup sweep). TWO HYPOTHESES: (a) REGRESSION — installed binary (built 11:47, pre-hydration-fix) applies raw timeout not backstop for this launch path; (b) NOT A REGRESSION — 'Terminated' = the opencode process itself died (the hang/deadlock class), not the wrapper. INVESTIGATION NEEDED: confirm the actual wrapper command used at pdzT's launch (timeout 86400s vs timeout 3600s), and whether the opencode process exited or was killed. Do NOT conclude until the launch wrapper + process exit are verified.",
+          "created_at": "2026-08-06T18:44:21.129408275Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA6UlYb1+ljrctKErVszJUx5ghcAvR0RnWZJjh9WjdScekbFy5sfAUUaIEAUXpAl1fE9/jddd2/CArpWgjVP4qAg=="
         },
         "4d578e94-fd2c-4a27-9124-3d54cdfe47dd": {
           "display_id": 651,
@@ -10881,8 +10890,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T18:43:50.889781269Z",
+    "timestamp": "2026-08-06T18:44:21.138664322Z",
     "agent_id": "OL2r",
-    "agent_seq": 1092
+    "agent_seq": 1093
   }
 }
