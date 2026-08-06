@@ -423,6 +423,15 @@ user.signingkey`.
   the branch that ESTABLISHES a shared file before the one that consumes it.
 - **One scope per session.** Never mix unrelated scope in a single worker.
 
+### 9.1 Operator Git Convention — No Interactive Editors (repo-agnostic)
+
+**OPERATOR GIT CONVENTION:** the operator does not want to interact with
+interactive editors (vim/nano). Every operator-gated git command that would
+open an editor MUST include `--no-edit` (e.g. `git merge --no-ff <branch>
+--no-edit`, `git commit --no-edit`, `git cherry-pick --continue --no-edit`).
+As a safety net the operator may set: `git config --global core.editor true`
+(or `export GIT_EDITOR=true`) so no git command ever opens an editor.
+
 ---
 
 ## 10. Gate Discipline for Unmonitored Waves

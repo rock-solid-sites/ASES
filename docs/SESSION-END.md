@@ -58,6 +58,10 @@ The orchestrator has NO filesystem write (edit denied; orchestrator-guard blocks
 5. Model evidence: if models were used this session, record their performance (strengths, weaknesses, failure modes, token cost) into the Model Capability Registry (knowledge page: model-routing-matrix / capability-mapping/Model-Routing-Matrix.md + docs/model-feedback-*.md). This is how the registry stays current.
 6. Run 'crosslink kickoff cleanup' after each dispatch wave (assess STALE with --dry-run --force, preserve work before removing).
 
+## Conventions
+
+Operator git commands must use `--no-edit` so no interactive editor opens.
+
 ## Evolution
 
 Sections are a living list, updated as we learn what a fresh session actually trips on. First real test: next session — does the handoff let a fresh orchestrator pick up the Reliability Epic (#156) without this conversation?
