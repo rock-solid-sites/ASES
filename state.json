@@ -1,6 +1,6 @@
 {
   "next_display_id": 208,
-  "next_comment_id": 522,
+  "next_comment_id": 523,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2158,7 +2158,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-06T03:54:05.043374750Z",
+      "updated_at": "2026-08-06T04:01:54.000311129Z",
       "labels": [
         "bug"
       ],
@@ -2259,6 +2259,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEt3DtLQNstQeNlw7p6jYe3SAdu8x3DhyuVxfWH00+MZXhxxJ5mYkx2aKE/UIz2Hxi56lvtEJgEAyUgzGSSfbDg=="
+        },
+        "b9a780d9-7471-4bb5-b004-eedaebc58b8e": {
+          "display_id": 522,
+          "author": "OL2r",
+          "content": "VERDICT (kickoff #207 investigation — crosslink event push to hub failing with gh auth errors). NOTE: issue #207 does NOT exist in the tracker (main DB max id 205; sqlite_sequence=207 shows ids 206/207 were allocated then rolled back — direct evidence of this bug's impact: locally-created issues lost on re-hydration because the hub baseline has only the 4 June-era issues). Posting verdict here on #125, the operator's tracking issue for this exact investigation (SSH test comment 519).\n\nROOT CAUSE (verified, not hypothesis): PRIMARY failure is a real auth failure — gh has NO stored credential. gh auth status = 'not logged into any GitHub hosts'; ~/.config/gh/hosts.yml is EMPTY (0 bytes). Credential chain: global ~/.gitconfig has credential.https://github.com.helper = (empty) + !/usr/bin/gh auth git-credential (the gh auth setup-git layout). No ~/.git-credentials, no ~/.netrc, no GH_TOKEN/GITHUB_TOKEN env. gh auth git-credential get returns NOTHING; git credential fill (gh helper only) = 'could not read Username'. So HTTPS push sends no credentials → GitHub 401 'Invalid username or token. Password authentication is not supported'.\n\nThe 'erase operation not supported' in the error is SECONDARY NOISE, not the cause: after the 401, git calls credential erase on the helper chain; the gh helper rejects erase (reproduced exactly: printf ... | gh auth git-credential erase -> 'gh auth git-credential: erase operation not supported', exit 1). Even if erase worked, the push would STILL fail — there is no valid credential. Option (c) (stop erase) fixes nothing.\n\nREPRODUCTION: git push --dry-run blocked by policy; git ls-remote origin HEAD succeeds because the repo is PUBLIC (anonymous read). Read works cred-less; push needs auth and fails. crosslink's push_agent_ref (hub_v3.rs:450) is a plain 'git push' subprocess inheriting the same broken chain.\n\nTHE FIX — ALREADY APPLIED AND VERIFIED: at 03:52 the shared .git/config remote.origin.url was switched HTTPS -> git@github.com:rock-solid-sites/ASES.git (operator's comment seq 929 confirms; I observed the change mid-session, did not make it). SSH auth WORKS: ssh -T git@github.com -> 'Hi rock-solid-sites!' (existing ~/.ssh/id_ed25519, repo owner). The operator's test comment (seq 929) PUSHED to origin/crosslink/agents/OL2r — remote now has seq 929. RECOMMENDATION: option (d) switch ASES remote to SSH — cleanest (no token lifecycle, no gh dependency, works headless). Backup: (b) gh auth login --with-token (stores token in hosts.yml; erase noise persists but harmless) or (a) export GH_TOKEN for crosslink env. REJECT (c).\n\nEXACT COMMANDS (operator, main repo — shared config covers all worktrees + hub-cache):\n  # verify ssh auth once\n  ssh -T git@github.com\n  # already applied; if needed on another machine:\n  git -C /home/claude-code/projects/ASES remote set-url origin git@github.com:rock-solid-sites/ASES.git\n  git -C /home/claude-code/projects/ASES/.crosslink/.hub-cache remote set-url origin git@github.com:rock-solid-sites/ASES.git\n  # verify + flush locally-saved events to hub\n  git ls-remote origin HEAD\n  crosslink sync\nConfirmed: hub-cache worktree reads the SSH url from the shared config, and crosslink sync pushes now succeed (origin/crosslink/agents/OL2r advanced 927->928->929 after the switch).",
+          "created_at": "2026-08-06T04:01:53.815057692Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAwp8OM6LXFvSJCDiuM/+QzRpXcO0k6/XNgeD91StNPxsjaHgVCtj6ZlcijuQod75jL/XqdqXMisZlUSBL7GXABw=="
         },
         "cbd2de38-8720-47ab-8eba-08a96cb91c9a": {
           "display_id": 519,
@@ -8326,8 +8335,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T03:55:06.191240295Z",
-    "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
-    "agent_seq": 33
+    "timestamp": "2026-08-06T04:01:54.000311129Z",
+    "agent_id": "OL2r",
+    "agent_seq": 930
   }
 }
