@@ -1,0 +1,29 @@
+HARNESS|2026-08-06T02:26:07.933Z|epoch_ms=1785983167933|phase_start phase=test5 versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-06T02:26:07.936Z|epoch_ms=1785983167936|TEST5_REGISTER_BEGIN
+PROXY|2026-08-06T02:26:10.219Z|epoch_ms=1785983170219|rel_ms=       1|proxy_started pid=1497654 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never
+PROXY|2026-08-06T02:26:10.225Z|epoch_ms=1785983170225|rel_ms=       7|server_ready waiting_for_client
+PROXY|2026-08-06T02:26:10.240Z|epoch_ms=1785983170240|rel_ms=      22|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T02:26:10.241Z|epoch_ms=1785983170241|rel_ms=      23|request tools/list backend_connected=False
+PROXY|2026-08-06T02:26:10.245Z|epoch_ms=1785983170245|rel_ms=      27|connection_closed exiting
+HARNESS|2026-08-06T02:26:10.601Z|epoch_ms=1785983170601|TEST5_REGISTER result=ok
+HARNESS|2026-08-06T02:26:11.102Z|epoch_ms=1785983171102|TEST5_AFTER_REGISTER list_tools=['add'] backend_spawn_count=0 backend_pid_file_exists=False
+PROXY|2026-08-06T02:26:12.492Z|epoch_ms=1785983172492|rel_ms=       1|proxy_started pid=1497714 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never
+PROXY|2026-08-06T02:26:12.492Z|epoch_ms=1785983172492|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T02:26:12.504Z|epoch_ms=1785983172504|rel_ms=      13|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T02:26:12.505Z|epoch_ms=1785983172505|rel_ms=      14|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T02:26:12.505Z|epoch_ms=1785983172505|rel_ms=      14|backend_spawn_start instance_id=be-1-1497714-72505 spawn_count=1
+BACKEND|2026-08-06T02:26:13.839Z|epoch_ms=1785983173839|pid_file_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship/research/toolregistry-lazy-mcp/logs/test5-backend.pid pid=1497753
+BACKEND|2026-08-06T02:26:13.839Z|epoch_ms=1785983173839|backend_started pid=1497753 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T02:26:13.850Z|epoch_ms=1785983173850|rel_ms=    1359|backend_up instance_id=be-1-1497714-72505 spawn_count=1 init_ms=1345.0
+PROXY|2026-08-06T02:26:13.851Z|epoch_ms=1785983173851|rel_ms=    1360|forward tools/call name=add to backend instance=be-1-1497714-72505
+BACKEND|2026-08-06T02:26:13.853Z|epoch_ms=1785983173853|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T02:26:13.853Z|epoch_ms=1785983173853|tool_call_result name=add result=5.0
+PROXY|2026-08-06T02:26:13.857Z|epoch_ms=1785983173857|rel_ms=    1366|response tools/call name=add ok=True
+PROXY|2026-08-06T02:26:13.860Z|epoch_ms=1785983173860|rel_ms=    1369|request tools/list backend_connected=True
+HARNESS|2026-08-06T02:26:13.863Z|epoch_ms=1785983173863|CALL|add|start_ms=1785983171102|end_ms=1785983173863|delta_ms=2761|result='5.0'|result_type=str|expected='5.0'|pass=True
+HARNESS|2026-08-06T02:26:13.864Z|epoch_ms=1785983173864|TEST5_PROXY_LOG notification_related_lines=[(1785983170219, "proxy_started pid=1497654 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never"), (1785983170240, 'notification received notifications/initialized (client handshake done)'), (1785983172492, "proxy_started pid=1497714 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never"), (1785983172504, 'notification received notifications/initialized (client handshake done)')]
+HARNESS|2026-08-06T02:26:13.864Z|epoch_ms=1785983173864|TEST5_AFTER_CALL list_tools=['add']
+HARNESS|2026-08-06T02:26:13.864Z|epoch_ms=1785983173864|TEST5_RESULT pass=True
+PROXY|2026-08-06T02:26:13.865Z|epoch_ms=1785983173865|rel_ms=    1374|connection_closed exiting
+BACKEND|2026-08-06T02:26:15.872Z|epoch_ms=1785983175872|backend_stdin_closed_exiting
+HARNESS|2026-08-06T02:26:15.878Z|epoch_ms=1785983175878|phase_done phase=test5 test5_pass=True
