@@ -1,5 +1,5 @@
 {
-  "next_display_id": 213,
+  "next_display_id": 214,
   "next_comment_id": 561,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -75,6 +75,7 @@
     "4b44cd8c-cd37-49fb-a645-0469be2fc61f": 127,
     "4d2ae734-1b40-41a5-899e-baacb300cd22": 42,
     "4f679348-c35f-4ba0-ab80-900788e81b19": 175,
+    "513f0126-abff-4948-8d6b-65e8927ba3a1": 213,
     "51942b54-b189-47ee-a0ad-be20dd4840f0": 185,
     "51e6faeb-184d-4b1e-9b24-ba208d33f29b": 197,
     "52ea68a3-1536-4e75-b68f-89c0ba01b8d1": 90,
@@ -3018,6 +3019,18 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg22VA8Vi6EEevLSrJx0oOCtIzgRpaGvIfOtg+AR9m394AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoi5uB+QzPFlMpxuaRcT4/5eoMf18F80pXPjS4DWYAm/KTE+LKNsyWI8B5XxGDIGRw7AaPRvXLYMlBcWPl78pDw=="
         }
       }
+    },
+    "513f0126-abff-4948-8d6b-65e8927ba3a1": {
+      "uuid": "513f0126-abff-4948-8d6b-65e8927ba3a1",
+      "display_id": 213,
+      "title": "RESEARCH (output-schema drift): cached-manifest output_schema vs live-backend content mismatch as a hard-failure mode for identifier-first tool-calling",
+      "description": "Follow-on from #196 (ToolRegistry lazy-MCP validation). Flagged by BOTH re-reviewers (hy3 #199 SHOULD-CONSIDER; big-pickle #205) as the most consequential open question for the identifier-first proposal.\n\nTHE PROBLEM: mcp/client/session.py:1096-1100 — when a listed tool DOES declare an output_schema, call_tool raises RuntimeError if the result carries no conforming structured content. In a lazy-proxy design the schema comes from the CACHED MANIFEST while the content comes from the LIVE BACKEND — so manifest-to-backend schema drift is a hard-failure mode intrinsic to the identifier-first architecture. It was NEVER exercised: manifest.json:30 sets output_schema: null, so the current evidence does not cover this path.\n\nSCOPE (when dispatched — the operator will provide the full draft brief to the agent): investigate whether a cached-manifest proxy can survive tools that declare output schemas, what drift does at runtime, and whether it requires a richer proxy (schema-aware forwarding) or a ToolRegistry-side change. Evidence-only task, consistent with #196. Do NOT re-run the #196 tests wholesale; this is a new focused investigation.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
+      "created_by": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+      "created_at": "2026-08-06T05:00:07.079335928Z",
+      "updated_at": "2026-08-06T05:00:07.079335928Z"
     },
     "51942b54-b189-47ee-a0ad-be20dd4840f0": {
       "uuid": "51942b54-b189-47ee-a0ad-be20dd4840f0",
@@ -8774,8 +8787,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T04:59:53.591849979Z",
+    "timestamp": "2026-08-06T05:00:07.079335928Z",
     "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
-    "agent_seq": 53
+    "agent_seq": 54
   }
 }
