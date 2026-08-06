@@ -16,7 +16,9 @@
 > fail-closed), so a stale hub projection can no longer wipe agent-authored
 > rows. Prior fixes: #119 (code-level trap), #166 (lock persistence), #207/#125
 > (SSH event push). Remaining: the hub's reduced `issues/` projection rebuild
-> (2.9), tracked by #125 (open), epic #157, and this catalog's sub-issue #126.
+> (2.9) — investigated 2026-08-06 (#233): **no safe fork mechanism exists**;
+> exact manual procedure documented in §2.9. Tracked by #125 (open), #233
+> (open), epic #157, and this catalog's sub-issue #126.
 
 ---
 
@@ -227,12 +229,78 @@ Statuses referenced: **#119** closed, **#125** open, **#142** open,
 - **Status:** **wipe trigger RESOLVED 2026-08-06** — the unguarded
   auto-hydration that re-imported this stale projection is fixed by the
   fail-closed gate (fork commit `ade6146b`, binary live); the 4 June-era
-  files are now inert for hydration. The projection **rebuild itself remains
-  open** — #125 (remaining item), #157 (epic), #142 (mechanism verification).
+  files are now inert for hydration. **Rebuild investigated and closed as
+  "no safe mechanism" 2026-08-06 (#233)** — see "Rebuild verdict" below.
 - **Recovery path:** interim — the compact recovery (playbook §6.5) is the
   standing safety net. Definitive fix requires rebuilding the hub's reduced
   projection from the full event history so re-hydration imports the modern
   issue set (tracked by #125/#157; do not attempt ad-hoc in this repo).
+
+**Rebuild verdict (2026-08-06, #233, source-verified in the crosslink fork):**
+there is **NO safe crosslink mechanism** that regenerates the v2 worktree
+`issues/` projection from the v3 refs — the v3 architecture deliberately does
+not maintain it:
+
+- The only worktree-file writer is `materialize()` (compaction.rs:1006),
+  reachable only through the v2 compaction path (`compaction::compact`,
+  compaction.rs:375, `WorktreeSource`) — which is **refused on a v3 hub**
+  (`crosslink compact` routes to `compact_v3`, compact.rs:36/54;
+  `compact_v3` is "pure object-store plumbing, no worktree writes",
+  hub_v3.rs:1510-1520).
+- `crosslink sync` / `integrity hydration --repair` hydrate the SQLite DB
+  from the reduced v3 state (`RefHubSource` + `compaction::reduce` +
+  `hydrate_from_state`; locks_cmd.rs:263-265, integrity_cmd.rs:124-134,
+  335-336) — neither writes worktree `issues/` files.
+- `crosslink migrate hub-v3` is the wrong direction (v2 → v3; builds genesis
+  FROM the worktree files, migrate_hub_v3.rs:747) and `--finalize` refuses on
+  ASES (#142 verdict). `crosslink migrate to-shared` on v3 routes to
+  `to_shared_v3` (event-log promotion, migrate.rs:213-330) — no worktree
+  writes. `crosslink prune` is git-history only.
+- Even the v3 checkpoint's own browse tree (`issues/<uuid>.json` on
+  `refs/heads/crosslink/checkpoint`) is stale (4 files from 2026-06-23 vs
+  232 issues in `state.json`): `compact_v3`'s idempotency guard
+  (hub_v3.rs:1594-1614) + incremental-only browse ops (hub_v3.rs:1616,
+  `full = !browse_present`) prevent a full rebuild once `README.md` exists.
+
+**Live state at verdict (2026-08-06):** `.hub-cache/issues/` = 4 June-era
+files + empty `comments.db`; `meta/counters.json` `next_display_id=5`
+(stale). `refs/heads/crosslink/checkpoint:state.json` = 232 issues,
+`next_display_id=235`, `display_id_map` 234, no collisions, no negative ids
+(this **is** the modern v3 reduced projection). `crosslink issue list -s all`
+= 232; sync hydrates 232 with no display-id collision warning.
+
+**Exact manual procedure (documented per #233; no fork mechanism exists):**
+
+- Option A — #142-validated immediate repair (recommended; makes the stale
+  v2 path inert):
+  ```
+  rm -rf /home/claude-code/projects/ASES/.crosslink/.hub-cache/issues
+  # reversible: git -C /home/claude-code/projects/ASES/.crosslink/.hub-cache checkout -- issues
+  # Effect: read_all_issue_files returns empty for a missing dir (issue_file.rs:225-230)
+  #         -> hydrate_to_sqlite early-returns (hydration.rs:126-128)
+  #         -> maybe_auto_hydrate degrades to a harmless marker refresh
+  # FOOTGUN: restore the dir BEFORE any 'crosslink migrate hub-v3 --remigrate-from-v2'
+  #          (build_genesis_from_files reads those files, migrate_hub_v3.rs:747)
+  ```
+- Option B — full v2-format rebuild from v3 state (manual, git-level; NOT a
+  crosslink command):
+  1. Extract reduced state:
+     `git -C /home/claude-code/projects/ASES/.crosslink/.hub-cache show refs/heads/crosslink/checkpoint:state.json > /tmp/state.json`
+     (232 issues).
+  2. Render each issue to `issues/<uuid>.json` in the v2 `IssueFile` layout
+     (the layout `hydrate_to_sqlite` reads) — replicating
+     `compact_to_issue_file` / `IssueFile::from(&CompactIssue)`
+     (compaction.rs:1085). No CLI exposes this conversion.
+  3. Write `meta/counters.json` with `next_display_id` from `state.json`.
+  4. `git add` + commit in the hub-cache worktree (checked out on
+     `crosslink/hub`).
+  Note: v3 never does this by design; the v2 dir is inert to the v3 gate
+  either way.
+- Option C — v3-native: the modern reduced projection already exists as the
+  checkpoint `state.json` (+ the checkpoint browse tree). A full browse-tree
+  rebuild requires git surgery to make `browse_present` false (remove
+  `README.md` from the tree) then `crosslink compact` — NOT recommended; it
+  touches hub state every agent reads.
 
 ### 2.10 Validated compact recovery path
 
@@ -261,6 +329,7 @@ Statuses referenced: **#119** closed, **#125** open, **#142** open,
 | #166 | V3 lock-protocol fix | **resolved** | Lock persistence fixed; imported + binary rebuilt 2026-08-04. |
 | #167 | Wire lock table into crosslink-guard plugin | **open** | Makes locks actually block; needs #166's reliable lock table. |
 | #208 | Document validated hydration recovery | **done** | Playbook §6.5 merged to main (7056cc7). |
+| #233 | Rebuild hub reduced issues/ projection | **open** | Rebuild investigated — no safe mechanism exists; exact manual procedure documented in §2.9 + on #233. |
 
 ---
 
