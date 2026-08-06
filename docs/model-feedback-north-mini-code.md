@@ -1,4 +1,4 @@
-# Model Feedback: north-mini-code (Review)
+# Model Feedback: cohere/north-mini-code-1-0 — MERGED (existing doc + corroborating evidence)
 
 ## Identification
 - Model: North Mini Code (cohere/north-mini-code-1-0)
@@ -6,6 +6,7 @@
 - Release Date: 2026
 - Access Method: opencode run --model cohere/north-mini-code-1-0
 - Configuration: temperature 0.2, subagent mode, read-only
+- Session evidence: existing doc (2026-07-11, 17-file review) + docs/project-completion-report-crosslink-model-agnostic.md (corroboration)
 
 ## Task Categories Evaluated
 - [x] Code Review
@@ -16,13 +17,13 @@
 
 | Dimension | Score | Evidence |
 |---|---|---|
-| Correctness | 5 | Identified 0 issues in 17 modified files |
+| Correctness | 5 | Identified 0 issues in 17 modified files; zero false positives (existing doc + project-completion-report §8 adversarial consensus) |
 | Completeness | 5 | Verified all 5 check categories |
 | Consistency | 5 | Applied same rigor across all 4 fixes |
-| Robustness | 5 | Checked gating logic, test updates, call sites |
+| Robustness | 5 | Checked gating logic, test updates, call sites; no failures observed |
 | Explainability | 5 | Extremely concise, zero fluff |
 | Efficiency | 5 | Review completed in ~30 seconds |
-| Collaboration | 5 | Clear PASS/FAIL format |
+| Collaboration | 5 | Clear PASS/FAIL format; performed correctly when orchestration failed (project-completion-report §9) |
 
 ## Observed Strengths
 - Extremely concise - reports only findings, no fluff
@@ -30,15 +31,17 @@
 - Applied same rigor across all 4 fixes consistently
 - Checked gating logic, test updates, and call sites
 - Completed review in ~30 seconds
+- Corroborated by project-completion-report §8: adversarial-consensus partner to the Gemini deep audit, 0 issues
 
 ## Observed Weaknesses
 - Extremely terse - may miss nuance in complex architectural issues
 - No design-level critique (only implementation verification)
 - No suggestions for improvement (only pass/fail)
-- Note: The orchestration failures (direct coding instead of subagent delegation, ignoring NVIDIA NIM requirement, etc.) were ORCHESTRATOR failures, not north-mini-code behavior. north-mini-code performed correctly when dispatched.
+- Not suited as sole reviewer for architectural decisions (project-completion-report §8: role was verification, paired with Gemini audit)
+- Note: The orchestration failures (direct coding instead of subagent delegation, ignoring NVIDIA NIM requirement, etc.) were ORCHESTRATOR failures, not north-mini-code behavior. north-mini-code performed correctly when dispatched (project-completion-report §9).
 
 ## Failure Modes Observed
-- None observed - zero false positives, zero false negatives
+- None observed - zero false positives, zero false negatives (existing doc + project-completion-report)
 
 ## Context Behavior
 - Large context performance: Good - handled 17-file diff
@@ -83,6 +86,7 @@
 - Pattern compliance checking
 - Fast triage reviews
 - CI gate reviews
+- Adversarial-consensus partner to deep audit (project-completion-report §8)
 
 ## Unsuitable Tasks (evidence-backed)
 - Architectural design critique (no evidence)
@@ -91,7 +95,7 @@
 - Complex system reasoning (no evidence)
 
 ## Dependencies
-- Works well with: git diff, rg for context, cargo check for verification
+- Works well with: git diff, rg for context, cargo check for verification; Gemini 3.1 Pro as the deep-audit counterpart
 
 ## Supporting Evidence
 | Evidence Type | Reference | Quality |
@@ -102,13 +106,13 @@
 
 ## Confidence Assessment
 - Level: High
-- Reviewer: Self-assessment
-- Date: 2026-07-11
-- Evidence considered: 17 modified files reviewed, 0 findings, cross-validated by Gemini audit
-- Significant changes from prior assessment: N/A (first assessment)
+- Reviewer: Self-assessment (existing doc); evidence-gathering draft (#190) — updated
+- Date: 2026-08-06 (updated from 2026-07-11)
+- Evidence considered: 17 modified files reviewed, 0 findings, cross-validated by Gemini audit + project-completion-report (2 independent records)
+- Significant changes from prior assessment: No substantive changes; corroborated by project-completion-report adversarial consensus
 
 ## Last Review
-- Date: 2026-07-11
-- Reviewer: Self-assessment
-- Evidence considered: 17 files reviewed, 0 findings, cross-validated by Gemini
-- Significant changes: N/A
+- Date: 2026-08-06
+- Reviewer: evidence-gathering draft (#190)
+- Evidence considered: existing doc + project-completion-report-crosslink-model-agnostic.md
+- Significant changes: Corroboration added; adversarial-consensus role documented
