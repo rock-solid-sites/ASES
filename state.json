@@ -1,6 +1,6 @@
 {
   "next_display_id": 219,
-  "next_comment_id": 611,
+  "next_comment_id": 612,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7139,7 +7139,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
       "created_at": "2026-08-06T05:40:36.288418060Z",
-      "updated_at": "2026-08-06T06:16:54.884229958Z",
+      "updated_at": "2026-08-06T06:17:04.255024756Z",
       "labels": [
         "research",
         "toolregistry"
@@ -7162,6 +7162,15 @@
           "kind": "result",
           "signed_by": "SHA256:FZhKCZXb2m48Kkv4hiOg7SGI5tHHFv5+sYldGFVanHU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg++yESydc6rh4C1AeKGWti3YO+o09CRHO3M+PRxshLasAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOQkP56PJlcIp07B/goJyA8fGyQp/1w4k/4E0KcyC9QdYQjqouTRGUn+vZH5XSly2uLgZg6/8mwnSakJKfuwcDQ=="
+        },
+        "9f312c1e-016f-4e3b-bc9f-f36719c672f6": {
+          "display_id": 611,
+          "author": "OL2r",
+          "content": "Result: retry-classification validation complete — classification alone ELIMINATES the compounding (4x -> 1x spawns), with two residual gaps. Committed ff25820, report at research/toolregistry-lazy-mcp/retry-classification/report.md.\n\nBEFORE/AFTER (matched runs, loaded host):\n- Test 1 control (original #213 proxy): 4 backend spawns / 2 persistent proxies / reconnect=YES / 12176-42518ms.\n- Test 2 classified (proxy_classified.py): 1 backend spawn / 1 persistent proxy / reconnect=NO / 4224-14471ms. Matched-run latency ratio 0.25-0.43 (classification removes 75% of spawns, 57-75% of latency).\n- Test 3 (proxy killed mid-call): reconnect STILL fires, recovers to success 5.0 — did not overcorrect at ToolRegistry layer.\n- Test 3B (backend killed mid-call): proxy's own respawn-retry STILL fires, recovers — did not overcorrect at proxy layer. Classifier keyed on RuntimeError('Invalid structured content...') does not swallow MCPError(-32000) connection failures (empirically verified, Probe 2).\n\nCENTRAL CLAIM: YES — classification eliminates the compounding. Residual single-failure cost = 1 spawn + forward + classify, ~1.35-2.2x the #213 success baseline (dominated by unavoidable single backend init).\n\nREMAINING GAPS (state the size):\n1. Error SHAPE degraded: ToolRegistry 0.15.0 builds ErrorResult only from a raised exception, and the raise is what fires connection.py:106 reconnect. So proxy-only classification cannot deliver BOTH no-reconnect AND ErrorResult — caller gets ToolCallResult whose result is a pydantic repr wrapping the full verbatim schema error (is_error=True present). Clean ErrorResult requires a ToolRegistry integration-layer change (out of scope).\n2. C2 variant unreachable: consistently-drifted backend (declaration+behaviour both diverged) is invisible to proxy-side classification — the RuntimeError fires inside ToolRegistry's client and connection.py:106 still fires (2 spawns/2 proxies). Classification alone cannot reach C2.\n\nCONCLUSION: classification alone suffices IF the requirement is bounded single-spawn cost. The heavier mitigation (periodic revalidation / fallback live-schema fetch) still has only the single-spawn residual (~0.8-1.6s normal load) + error-shape fix + C2 reach left to save. Pins: toolregistry 0.15.0, mcp 2.0.0, python 3.10. stdio-only scope.",
+          "created_at": "2026-08-06T06:17:04.224906008Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAF625UUlQgeLfIXsih57fZDJ9zA9PYHiZ5HQMUm19eyBCXxKuExfvMHnj7vG8EUjZZET1ZEpjibk0V2TBQNeRDQ=="
         },
         "a4c54440-0469-4aa2-bb01-08e9266266bd": {
           "display_id": 599,
@@ -9366,8 +9375,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T06:16:54.884229958Z",
-    "agent_id": "pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test",
-    "agent_seq": 6
+    "timestamp": "2026-08-06T06:17:04.255024756Z",
+    "agent_id": "OL2r",
+    "agent_seq": 983
   }
 }
