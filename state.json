@@ -1,5 +1,5 @@
 {
-  "next_display_id": 212,
+  "next_display_id": 213,
   "next_comment_id": 561,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -65,6 +65,7 @@
     "406c5789-2470-4c80-9861-e8cd0bae2229": 179,
     "41191989-7657-4343-9a60-fbc505e087b2": 39,
     "42fcac76-2487-4473-ab5a-575fd4a360b5": 35,
+    "44a2f894-85dc-4396-a3c6-66dbc327ec3b": 212,
     "44e4892f-8404-4468-9d22-730e0d685138": 171,
     "45211db7-6d41-4630-a96a-c9ca201123ae": 136,
     "4634e7fb-e5bc-47ea-8c85-d3190501cc15": 15,
@@ -2595,6 +2596,17 @@
       "labels": [
         "chore"
       ]
+    },
+    "44a2f894-85dc-4396-a3c6-66dbc327ec3b": {
+      "uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
+      "display_id": 212,
+      "title": "ToolRegistry lazy-MCP proxy — identifier-first / lifecycle-aware tool-calling evidence (tool work stream)",
+      "description": "Parent epic for the ToolRegistry MCP integration work stream: validating that a lazy MCP proxy (cached tools/list, spawn-on-first-call) can serve as the identifier-first / lifecycle-aware tool-calling substrate for the execution-engine proposal, with zero changes to ToolRegistry itself.\n\nCOMPLETED (2026-08-06): #196 validation — register_from_mcp() WORKS against a lazy stdio proxy; all 5 tests PASS (toolregistry 0.15.0, mcp 2.0.0). Evidence chain: builder ebe07b3 -> hy3 review #199 (5 MUST FIX) -> revision b40c980 -> re-reviews #204 (mimo PASS) + #205 (big-pickle PASS) -> follow-up #211 (88f9022). Deliverable: research/toolregistry-lazy-mcp/ (report.md, proxy.py, backend.py, manifest.json, capture scripts, tests/, logs/).\n\nOPEN: output-schema drift (child issue) — flagged by both reviewers as the consequential open question.\n\nKEY EVIDENCE for the proposal: cold-start ceiling 2155-2761ms (n=3, observed max 2761ms), dominated by two Python subprocess startups; steady-state overhead ~5-10ms/call; ToolRegistry 0.15.0 connection is lazy + short-lived at registration (proxy spawned once for discovery, again for first call) — proxy must be stateless across processes.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+      "created_at": "2026-08-06T04:59:41.949299474Z",
+      "updated_at": "2026-08-06T04:59:41.949299474Z"
     },
     "44e4892f-8404-4468-9d22-730e0d685138": {
       "uuid": "44e4892f-8404-4468-9d22-730e0d685138",
@@ -8758,8 +8770,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T04:51:13.019539714Z",
-    "agent_id": "OL2r",
-    "agent_seq": 950
+    "timestamp": "2026-08-06T04:59:41.949299474Z",
+    "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+    "agent_seq": 51
   }
 }
