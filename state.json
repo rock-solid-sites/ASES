@@ -1,6 +1,6 @@
 {
   "next_display_id": 215,
-  "next_comment_id": 564,
+  "next_comment_id": 565,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5447,7 +5447,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T21:40:51.784419076Z",
-      "updated_at": "2026-08-06T05:04:15.767476777Z",
+      "updated_at": "2026-08-06T05:11:23.616765477Z",
       "labels": [
         "epic"
       ],
@@ -5583,6 +5583,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsk3quNiYrFhEt363STSb6Wfb+q5iGX4i+VZ0tDZH5ttABLdU6+J6an4jzwEGAAmQG9y4yA1MHBlNH5kkDlERCA=="
+        },
+        "a9ab9adf-fa96-4893-af6b-d48b66e966f1": {
+          "display_id": 564,
+          "author": "OL2r",
+          "content": "IMPLICATION from #192 (COMPLETE, verified live 2026-08-06): the timer-kill family is FIXED in the crosslink fork (0.9.0-beta.1+4efd9ae6, merged feature/ases-192-timeout-backstop, verified via issue #210 live kickoff). No-kill invariant confirmed: --timeout is now a 24h backstop, not a kill; watchdog terminal-sentinel exit fixed; checkpoint evidence stream verified. CRITICAL NEW FINDING for #135 Phase 2: heartbeat mtime does NOT flow under opencode runtime — kickoff agents run 'opencode run', and .claude/settings.json PostToolUse hooks are Claude Code-only, so heartbeat.py never fires (no .crosslink/.cache/last-heartbeat ever written; main-repo heartbeat stale since 07-09). The #192 fold-in (hook files installed in worktrees) is necessary but NOT sufficient. REMAINING #135 Phase 2 ITEM: wire heartbeat into opencode's own hook system (opencode.json hooks or a plugin) so the PRIMARY liveness signal actually flows — prerequisite for #146 kill/restart gates (heartbeat-primary detection). Also noted: #192 tracked in fork-local DB (#798), gh-auth hub push failing (events local-only).",
+          "created_at": "2026-08-06T05:11:23.608114709Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/P82eeYCVwhuvUvqJKHVJ0EwX3H5FpvRtRwCDxtjhwNI3VugckINfo4cf7ugKIvfTGLFIR5+iABdv2tR+b4fDw=="
         },
         "aa2530b8-7200-4eef-8cf3-e8636055cfc7": {
           "display_id": 507,
@@ -8848,8 +8857,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:09:40.028908014Z",
-    "agent_id": "pp3g-oIft-matrix-run-for-the-154-durable-fork-task-on-issue-214",
-    "agent_seq": 3
+    "timestamp": "2026-08-06T05:11:23.616765477Z",
+    "agent_id": "OL2r",
+    "agent_seq": 956
   }
 }
