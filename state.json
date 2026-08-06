@@ -1,5 +1,5 @@
 {
-  "next_display_id": 238,
+  "next_display_id": 239,
   "next_comment_id": 732,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -132,6 +132,7 @@
     "7ef840e7-d516-4301-b94d-f02d6d30bb55": 228,
     "7efd07df-fbdf-492d-a2cc-7754eb5448b4": 204,
     "7f13165e-74e7-47b8-b968-713467dfbe7f": 1,
+    "7f5429e1-0c5e-4e4f-948c-c299661d0bdb": 238,
     "7fea5a54-4818-403e-a458-b39204695bbf": 145,
     "8051aafb-e610-47a0-b0bd-029fc92590d6": 74,
     "80a6d4eb-c693-4f61-832e-227395974892": 130,
@@ -5807,6 +5808,16 @@
         }
       }
     },
+    "7f5429e1-0c5e-4e4f-948c-c299661d0bdb": {
+      "uuid": "7f5429e1-0c5e-4e4f-948c-c299661d0bdb",
+      "display_id": 238,
+      "title": "REVIEW r3 (big-pickle, live-system verification): #154 durable-fork implementation review — VERIFY THE ACTUAL BINARY BEHAVIOR. Review the #154 durable opencode silent-hang fix by verifying the COMPILED BINARY actually works (not just the source). Focus: (1) run/verify the fixed binary (/tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode, sha256 6e0e282b, 1.18.13-pp3g-fork) against the hang-test harness — non-SSE hang must abort with visible 'Body read timed out' + level=ERROR + exit 1 (not 124) + 3-POST budget; (2) verify the turn-level guard fires (Turn stalled) and headerTimeout behavior; (3) check the matrix results (from #235 — the re-run table) for consistency with the binary's actual behavior; (4) probe edge cases live: gzip, non-chat, healthy JSON/SSE controls, slow-but-legit body. Breadth + live-system evidence (like #137, where big-pickle found the #138 bug). Verdict: PASS / CONDITIONAL / FAIL with specific findings. POST to THIS sub-issue. Do NOT read other reviewer sub-issues. Context: #154, #186 (design), #226/#231/#232 (rebuild+verification), #235 (matrix re-run), /tmp/opencode/fork-build, /tmp/opencode/matrix-run (harness).",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-06T17:01:39.979727225Z",
+      "updated_at": "2026-08-06T17:01:39.979727225Z"
+    },
     "7fea5a54-4818-403e-a458-b39204695bbf": {
       "uuid": "7fea5a54-4818-403e-a458-b39204695bbf",
       "display_id": 145,
@@ -10776,8 +10787,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T17:01:17.429935605Z",
+    "timestamp": "2026-08-06T17:01:39.979727225Z",
     "agent_id": "OL2r",
-    "agent_seq": 1078
+    "agent_seq": 1079
   }
 }
