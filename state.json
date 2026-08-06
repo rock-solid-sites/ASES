@@ -1,6 +1,6 @@
 {
   "next_display_id": 241,
-  "next_comment_id": 750,
+  "next_comment_id": 751,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -10675,10 +10675,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T18:55:18.941248525Z",
-      "updated_at": "2026-08-06T18:55:26.028871462Z",
+      "updated_at": "2026-08-06T18:58:45.672609097Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "375a68aa-1685-459d-bd3e-da6125a25518": {
+          "display_id": 750,
+          "author": "pp3g-Warc-probe-the-192-timeout-backstop-behavior-task-on-issue",
+          "content": "Plan: PROBE experiment for #192 backstop. (1) OBSERVED WRAPPER (done): pstree chain systemd->tmux->bash->timeout(3198641)->opencode(3198642). /proc/3198641/cmdline = 'timeout 86400s env -u CLAUDECODE claude --model opencode-go/deepseek-v4-flash --agent builder ...'. N = 86400s = 24h, NOT 300 (raw) and NOT 7200. This exactly matches launch.rs timeout_backstop_secs(300): max(300*24, 86400) = 86400 (24h floor). So the wrapper-level backstop IS applied (hypothesis b supported at wrapper layer). (2) NEXT: verify no hook-config override, post 4m checkpoint at ~19:00:55, 6m checkpoint at ~19:02:55, final result ~7m. Experiment continues regardless of the observed wrapper value (the data is survival past 19:01:55).",
+          "created_at": "2026-08-06T18:58:45.666387491Z",
+          "kind": "plan",
+          "signed_by": "SHA256:Tn+EqM+BhERXaZl5RBznW13cRAiSl5wUIzgiSZbp8mc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgyPpVFy/8QQrAIotAquhmI5UUQM4eCyuvog4s6ZgckV4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANZd4vkZPUQGLOVqzOoPRKkB4zRRiCQQMusE+qkk3yJUH4iDAkw7+VlcBoCRUsqyvxmVhvyJAuyuaxOAaJ6MIDA=="
+        }
+      }
     },
     "f7aa3d48-c0d2-49c9-b27d-045d5e9de7a2": {
       "uuid": "f7aa3d48-c0d2-49c9-b27d-045d5e9de7a2",
@@ -10994,8 +11005,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T18:58:38.825538631Z",
-    "agent_id": "pp3g-tm63-read-only-live-system-verification-review-do-not-6b08",
-    "agent_seq": 7
+    "timestamp": "2026-08-06T18:58:45.672609097Z",
+    "agent_id": "pp3g-Warc-probe-the-192-timeout-backstop-behavior-task-on-issue",
+    "agent_seq": 2
   }
 }
