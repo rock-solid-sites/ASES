@@ -1,6 +1,6 @@
 {
   "next_display_id": 232,
-  "next_comment_id": 679,
+  "next_comment_id": 680,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -693,10 +693,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T10:12:06.949587072Z",
-      "updated_at": "2026-08-06T10:12:13.308676156Z",
+      "updated_at": "2026-08-06T10:16:37.971406693Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "d679a4b2-fe69-4c37-ba89-31b74403baf8": {
+          "display_id": 679,
+          "author": "pp3g-6lNV-complete-the-154-fork-verification-on-the-rebuilt-d5ec",
+          "content": "Plan: (1) STATE CLEANUP + DIAGNOSIS — verified no lingering opencode server processes (ports 8777/8799/4096 free; only 2 live agent sessions present which are protected). Root-cause hypothesis for GlOB's 'later runs never reach server': OLD-binary hang rows ran 240s each leaving in-process-server processes behind (9 seen) → OOM-killed node servers → subsequent rows failed to bind PORT (old log row8 shows 'Killed' on line 58). NEW binary terminates hang rows itself in ~18-24s (bodyIdleTimeout=6000 x 3 POSTs), so accumulation should not recur; will verify with post-run process sweep. (2) FUNCTIONAL GATE: isolated SDK-level real-code BODY-IDLE test against the rebuilt binary — server.js HANG_MODE=1 ct=application/json + gen-cfg bodyIdleTimeout, assert wrapper fires ('Body read timed out' marker in client out, exit!=0 and !=124, <=3 POSTs, ERROR line). (3) MATRIX: run /tmp/opencode/matrix-run/run-matrix.sh (16 rows, generous 90-240s timeouts, FORK_BIN already defaults to the rebuilt binary) — capture full log. (4) COMMIT: export fork source + harness + rebuilt binary path + results into this worktree fork/ on the feature branch with [#154] refs. (5) INSTALL PREP ONLY: document atomic mv + backup + wrapper REAL flip in fork/INSTALL-PREP.md; do NOT install. (6) Report full matrix table + gate evidence on #231.",
+          "created_at": "2026-08-06T10:16:37.962630908Z",
+          "kind": "plan",
+          "signed_by": "SHA256:IHCsNzj2WkU5HtIPAXnE3SASz1uP9BFFAmmevimRY9k",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgh54zVX8wKETtIj/VIVEGzu2KIDAum33eCCUOFZi0KoMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAqqC2qD8VuFGJcfYAOZNQgcFdDyK6hjMlD3AfFll2LIOIF5fxgdbz3/75d5kdy7snPciXvseuXgqJRDSofyseDQ=="
+        }
+      }
     },
     "09c5f286-570e-4499-96e5-be9ca0a77fa5": {
       "uuid": "09c5f286-570e-4499-96e5-be9ca0a77fa5",
@@ -10183,8 +10194,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T10:13:45.381787504Z",
+    "timestamp": "2026-08-06T10:16:37.971406693Z",
     "agent_id": "pp3g-6lNV-complete-the-154-fork-verification-on-the-rebuilt-d5ec",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
