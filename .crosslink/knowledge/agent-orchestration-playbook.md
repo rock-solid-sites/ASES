@@ -350,6 +350,10 @@ After every agent completes:
    safety-critical gates.
 3. **Build from the main checkout** — worktree artifacts may look committed
    but were never rendered (path resolution issues).
+4. **Verify against the hub agent refs, not the local DB** — see §6.5.
+   Agent output (reviews, results, checkpoints) lives in
+   `refs/heads/crosslink/agents/<id>/events.log` and is readable via git
+   without any sync.
 
 ### 6.3 The Micro-Gate (Per-Issue)
 
@@ -404,27 +408,53 @@ degrades gracefully to webhook + logs. Install with
 and the `tools/kickoff-notify.py` + systemd units belong in both repos'
 landing points per §5.5.
 
-### 6.5 Hydration Recovery — Main-Repo DB Rolled Back
+### 6.5 Hub Refs Are Ground Truth — Agent Output
 
-**HYDRATION RECOVERY:** if the main-repo DB re-hydrates to a stale baseline
-and local-only issues appear lost, the SAFE recovery is:
+**Hub agent refs are the ground truth for agent output — NOT the local
+main-repo SQLite DB.** Each kickoff/swarm agent's output (reviews, results,
+checkpoint comments) is recorded as `CommentAdded` events on its hub agent
+ref: `refs/heads/crosslink/agents/<id>/events.log`. The local SQLite DB is a
+hydrated cache and can lag, be stale, or (worst case) roll back to an older
+hub checkpoint.
 
-1. Run `crosslink compact` — reduces local events + checkpoint into fresh
-   state and re-hydrates the DB (this restores the read path).
-2. Run `crosslink sync`.
-3. Verify with `crosslink issue list`.
+Operational rules:
 
-**Do NOT blind-sync repeatedly** — that operation can cause the rollback.
+1. **To verify agent output, read the hub agent refs** — NOT the local DB:
+   ```
+   git show refs/heads/crosslink/agents/<id>/events.log
+   git log --oneline refs/heads/crosslink/agents/<id>
+   ```
+   This works WITHOUT any sync and is the safe way to confirm what an agent
+   actually produced.
+2. **NEVER run `crosslink sync` in the main repo to 'refresh' visibility.**
+   `sync.fetch()` rehydrates the local SQLite from hub state — when the hub
+   checkpoint is stale, this DROPS local-only issues and comments. This is
+   the exact command that caused the June rollback (tripn-astro
+   #338/#342/#370-376) and the repeated '#N not found' drops this session
+   (ASES #123/#124/#137). To recover visibility, re-hydrate safely or run
+   `crosslink compact` — never blind-sync.
+3. **Liveness and data-visibility are separate failures** — a dead agent and
+   an un-synced comment trail are different problems with different
+   remedies (see #125, and §6.4 for the watcher).
 
-If compact does NOT restore the issues, re-create the active issues from the
-hub agent refs, not from scratch:
+### 6.6 Standing Workflow — Agent Status Notes + Wave Cleanup
 
-```
-git show refs/heads/crosslink/agents/<id>/events.log
-```
+While any kickoff/swarm agent is running, the orchestrator follows a
+standing workflow every turn:
 
-`IssueCreated` events contain the full issue content. **Hub refs are ground
-truth** — the local DB is a hydrated cache and may be stale or rolled back.
+1. **Every orchestrator turn ends with a brief Agent Status note** — state,
+   time-in, last signal — even if unchanged. This is a standing turn-ending
+   discipline, not an occasional update. A silent turn is indistinguishable
+   from a dead session; the note keeps the operator able to distinguish
+   *working slowly* from *stalled* without polling.
+2. **Run `crosslink kickoff cleanup` after each dispatch wave.** Assess STALE
+   agents with `--dry-run --force` first; preserve work before removing —
+   never destroy an agent's commits or worktree without confirming the work
+   is captured elsewhere.
+3. **The Phase 1 lifecycle watcher (§6.4) is a supplement, not a
+   substitute** for the standing Agent Status note. The watcher monitors
+   heartbeat/lifecycle automatically (monitor + notify only); the turn-ending
+   note is the orchestrator's own liveness contract with the operator.
 
 ---
 
@@ -556,6 +586,10 @@ Before trusting such work:
 | LLM-based sampling for safety gates | Misses edge cases, not reproducible | Use deterministic verification scripts |
 | Pushing from orchestrator | Triggers deploys without operator review | Surface push command for operator |
 | Trusting a static permission/model doc | Goes stale; names dead models | Verify against live `opencode models` |
+| Reading agent output from the local SQLite DB | DB is a hydrated cache; can be stale or rolled back | Read hub agent refs (`git show refs/heads/crosslink/agents/<id>/events.log`, §6.5) |
+| Running `crosslink sync` in the main repo to 'refresh' visibility | Rehydrates from stale hub state; drops local-only issues (June rollback) | Re-hydrate safely or `crosslink compact`; never blind-sync (§6.5) |
+| Ending orchestrator turns silently while agents run | Silent turns are indistinguishable from dead sessions | End every turn with a brief Agent Status note (§6.6) |
+| Skipping `crosslink kickoff cleanup` between waves | Orphaned STALE agents and locks accumulate | Assess STALE with `--dry-run --force`, preserve work, then remove (§6.6) |
 
 ---
 
