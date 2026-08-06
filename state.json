@@ -1,6 +1,6 @@
 {
   "next_display_id": 197,
-  "next_comment_id": 476,
+  "next_comment_id": 477,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -3534,7 +3534,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T01:47:02.345801183Z",
-      "updated_at": "2026-08-06T02:04:08.306986809Z",
+      "updated_at": "2026-08-06T02:06:59.306109116Z",
       "labels": [
         "research"
       ],
@@ -3556,6 +3556,15 @@
           "kind": "observation",
           "signed_by": "SHA256:SYpX+xChptVfLBnAZNAhjNxNDjDnGsAIZvJOEaO2toA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgx7IvO4jKPpDneC+/MdlBTdVEU26EmXXgdoSkYoAWIHMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2FNjiQ8Jfce1alGxZmbGssb+4cJyZpPpJqNpUYD3MmHilmC5QcOLmKyDNr68oplsbHu36b7gvJloI7r1JCdxCA=="
+        },
+        "83066236-a2e2-456e-918d-af243a7a109f": {
+          "display_id": 476,
+          "author": "pp3g-MIgb-measure-webfetch-built-in-vs-fetch-mcp-token-6874",
+          "content": "## Result: webfetch (built-in) vs fetch MCP — token efficiency + content completeness on the SAME 6 URLs\n\n### Method (verified harness)\n- **webfetch**: exact replica of packages/opencode/src/tool/webfetch.ts (turndown 7.2.0, same Chrome-143 UA + Accept headers, 5MB cap, no truncation) — **cross-validated byte-identical** against this session's live webfetch tool on example.com and opencode.ai/docs (only diffs = live page content drift, e.g. 'capabilities'→'features', plus apostrophe normalization).\n- **fetch MCP**: direct MCP stdio handshake with pinned `['uvx','--with','mcp<2.0','mcp-server-fetch==2026.7.10']` (#187 method) — **cross-validated against the live fetch_fetch tool** (identical readability-extracted markdown + truncation marker).\n- **Tokens**: tiktoken o200k_base (uv run --with tiktoken).\n- Modes per URL: webfetch markdown (default), webfetch format=text, fetch MCP default (max_length=5000), fetch MCP uncapped (max_length=100000).\n\n### Table: tokens (o200k_base), same URL per row\n| URL | webfetch md tokens | webfetch text tokens | fetch MCP default tokens | ratio md/default | fetch MCP uncapped tokens | ratio md/uncapped | content-completeness diff (default fetch vs webfetch md) |\n|---|---|---|---|---|---|---|---|\n| opencode.ai/docs (small docs) | 2,951 | 1,745 | 1,323 | **2.23x** | 1,750 | 1.69x | fetch-def: 8/14 headings, CUTS OFF mid-Build-feature (missing Make changes/Undo/Share/Customize); webfetch: all sections + nav |\n| opencode.ai/docs/cli/ (large docs) | 5,609 | 3,532 | 1,385 | **4.05x** | 4,759 | 1.18x | fetch-def: 20/63 headings, env-var table truncated; webfetch: full + sidebar |\n| sst/opencode README.md (raw) | 1,461 | 1,461 | 1,445 | **1.01x** | 1,499 | 0.97x | no practical diff (loses only tail ~40 chars); text/plain passthrough both sides |\n| simonwillison.net blog post | 3,830 | 2,288 | 1,232 | **3.11x** | 2,898 | 1.32x | fetch-def: only 1/5 content sections (What-it-looks-like); webfetch: full post + sidebar |\n| theguardian.com/uk (news) | 28,212 | 4,745 | 1,648 | **17.12x** | 15,686 | 1.80x | fetch-def: 0/13 article links (ends mid image-alts); webfetch: 13 article URLs + nav |\n| en.wikipedia.org/wiki/Web_crawler | 27,416 | 12,362 | 1,203 | **22.79x** | 19,387 | 1.41x | fetch-def: 0/26 headings, intro only; webfetch: full article + TOC |\n\n### Key findings\n1. **The default fetch MCP DOES truncate at ~5,000 chars and appends a 25-token error marker** (`<error>Content truncated. Call the fetch tool with a start_index of 5000...`). #187's 17,825-char fetch figure for docs/cli must have used a non-default max_length — the default returns 5,141-5,169 bytes regardless of page size.\n2. **The impressive 2-22x token ratios are bought entirely with content loss.** fetch-def returns the same ~5k chars on every page; on large pages it delivers <30% of headings and often none of the key sections.\n3. **With the cap lifted (max_length=100000), fetch MCP's real advantage over webfetch is only 1.18-1.80x** — that is the readability-extraction benefit (removes nav/sidebar/TOC/footer via readabilipy) that webfetch's turndown keeps. This is the true 'fetch vs webfetch' efficiency gap, NOT 9-24x.\n4. **#187's 9-24x does not transfer to webfetch** — it compared fetch vs raw curl HTML. webfetch already returns markdown, so the ceiling against it is ~1.8x, and only on nav-heavy pages.\n5. **webfetch format=text is the sleeper winner**: full content, no truncation, and up to 5.95x fewer tokens than webfetch-md on nav-heavy pages (news: 28,212→4,745; wikipedia: 27,416→12,362; blog: 3,830→2,288). It drops links/formatting but preserves all text; zero truncation risk.\n6. **Reliability asymmetry**: fetch MCP enforces robots.txt (protego, 19 references in server.py) and can hard-fail on disallowed sites; webfetch.ts has zero robots.txt logic — never blocked. fetch MCP also adds ~9-token 'Contents of <url>:' prefix per call.\n7. **Multi-call chaining erodes fetch's savings**: on docs-intro, getting the full page via 2 fetch calls (start_index=5000) yields only 1.65x vs webfetch's single-call 2,951 tokens — and that assumes the agent actually chains, which the default 5k cap silently tempts it not to.\n\n### VERDICT: webfetch is the right default. Do NOT route agents to fetch MCP's default.\n- **webfetch stays the default**: single call, full markdown, no cap, no robots.txt failures. Its token cost is the price of completeness, and it is the same order of magnitude as fetch once fetch is actually complete.\n- **fetch MCP default (max_length=5000) should not be used for content tasks**: the token 'savings' are precisely the missing content. An agent answering from the 5k slice will cite sections that were never delivered.\n- **If routing to fetch MCP at all, mandate an explicit large max_length** (e.g. 100000) — only then does it deliver a genuine 1.2-1.8x readability benefit on nav-heavy pages, at the cost of robots.txt failure risk.\n- **Cheapest safe lever for huge pages: webfetch format=text** — up to ~6x token reduction with full content and no truncation. This is the overlooked option this measurement surfaced; agents should prefer it over fetch MCP when token budget matters.\n- Recommendation: keep webfetch as the default; consider a prompt-level hint to use format=text on large/nav-heavy pages; treat fetch MCP's 5k default as a content-truncation trap.",
+          "created_at": "2026-08-06T02:06:59.211706937Z",
+          "kind": "result",
+          "signed_by": "SHA256:SYpX+xChptVfLBnAZNAhjNxNDjDnGsAIZvJOEaO2toA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgx7IvO4jKPpDneC+/MdlBTdVEU26EmXXgdoSkYoAWIHMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdclXzYG7CGne2S0fTwN/7LVqzUqA2mx7fG5STLZl5LAkiccRZrMMwi3Mmsx40W1EmYNBOXt1Dw+Sq1g1zcTiAA=="
         },
         "995a42f2-fe3e-4c01-95aa-05b82d1947af": {
           "display_id": 474,
@@ -7747,8 +7756,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T02:04:08.306986809Z",
+    "timestamp": "2026-08-06T02:06:59.306109116Z",
     "agent_id": "pp3g-MIgb-measure-webfetch-built-in-vs-fetch-mcp-token-6874",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
