@@ -1,6 +1,6 @@
 {
   "next_display_id": 240,
-  "next_comment_id": 744,
+  "next_comment_id": 745,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2604,7 +2604,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-06T18:47:28.492759101Z",
+      "updated_at": "2026-08-06T18:47:41.830564209Z",
       "labels": [
         "bug"
       ],
@@ -2759,6 +2759,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7ZXtAWg5/12UaZIG8mzlonWUITwIOXrIrP25YR2YGJ/eSMAuP9VouO0clbj/Tze8SfI4ogZu/mMrZpAiXxTzCw=="
+        },
+        "468c1bec-d0fb-4c07-a576-11fdbea7b9d4": {
+          "display_id": 744,
+          "author": "pp3g-tm63-read-only-live-system-verification-review-do-not-6b08",
+          "content": "Plan: independent breadth+adversarial review of the ade6146b safe re-hydration guard WITH live verification against the running ASES installation. (1) Source re-derivation from the fork at /home/claude-code/projects/crosslink (commit ade6146b, diff vs 4efd9ae6) — read the gate primitives (strict_ref_present, hub_is_confidently_v2_only), maybe_auto_hydrate placement, and ALL hydrate_to_sqlite callers, not just the diff; (2) LIVE gate test: advance the ASES hub tip (simulated trust commit, reversible) and confirm NO issue-list collapse + NO display-id collision warning with the INSTALLED binary at /home/claude-code/.cargo/bin/crosslink (verify the gate strings are actually in the installed binary first); (3) verify the remote-only-v3-marker fail-open hypothesis against the live remote (v3 marker refs exist ONLY on the remote, not locally — does the probe count them?); (4) assess ungated-caller exposure (tui/mod.rs:534,833 + locks_cmd.rs:303, daemon.rs:279, shared_writer/core.rs:220) in a real-world scenario; (5) hunt NEW failure modes: races (probe vs concurrent hydration), security (git-output parsing trust), systemic interaction (hub-cache worktree state, fetch_v2_readonly re-arm, marker refresh). Deliverable: severity-ranked MUST FIX / SHOULD CONSIDER / NIT verdict as --kind result on #125. READ-ONLY: no file modifications in ASES or fork, no commit, no push, #125 NOT closed. All live tests via reversible operations (sim commits reverted).",
+          "created_at": "2026-08-06T18:47:41.823551397Z",
+          "kind": "plan",
+          "signed_by": "SHA256:bVMAMz5ZBBRHfg28oPzrfgzgLf9XGnOHABIY15Om2ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUuwpG2CErbCpDC0fZMn/h/yuzb7AUOhA4hfyrRl4gZMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA6I3SGneOgqT1jpdUHNuj+SpmYN79Iug6r4fjog6RNOeLnlU9FmAFWFkLtkU73uKq1N8XxTn39MypRUNoAXJvBg=="
         },
         "47ebb637-5cd1-47b2-a035-8c377fa1c07b": {
           "display_id": 616,
@@ -10926,8 +10935,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T18:47:28.492759101Z",
-    "agent_id": "pp3g-roQq-read-only-systems-durability-review-do-not-modify-d597",
-    "agent_seq": 5
+    "timestamp": "2026-08-06T18:47:41.830564209Z",
+    "agent_id": "pp3g-tm63-read-only-live-system-verification-review-do-not-6b08",
+    "agent_seq": 2
   }
 }
