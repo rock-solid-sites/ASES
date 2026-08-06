@@ -1,6 +1,6 @@
 {
   "next_display_id": 212,
-  "next_comment_id": 552,
+  "next_comment_id": 553,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7930,10 +7930,21 @@
       "priority": "low",
       "created_by": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
       "created_at": "2026-08-06T04:42:49.694438847Z",
-      "updated_at": "2026-08-06T04:42:55.410354041Z",
+      "updated_at": "2026-08-06T04:46:02.005306334Z",
       "labels": [
         "fix"
-      ]
+      ],
+      "comments": {
+        "c997034b-7e78-4a6f-b389-94964ba4479e": {
+          "display_id": 552,
+          "author": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+          "content": "Plan: (1) proxy.py docstring lines 16-18 — reword from 'does NOT advertise tools/list_changed' to 'advertises tools.listChanged: false (no change-notification support)', keeping the 'never sends any notification' clause; no behavior change. (2) Original generator script discovered at /tmp/opencode/capture_initialize.py (mtime 2026-08-06T03:31, matching capture_start timestamp 03:31:19Z; spawn_command matches). Commit it as research/toolregistry-lazy-mcp/capture_initialize.py with ONE necessary adaptation: HERE becomes Path(__file__).resolve().parent instead of the hardcoded worktree path (otherwise the script is not reproducible from the repo alone). Add a capture_initialize.py line to report.md reproduce block. Verify: run script with /tmp/toolregistry-venv/bin/python, diff generated structure (capture_start metadata, send initialize, recv_raw+recv_parsed, listChanged_serialization_note, timestamps) against committed initialize-capture.json, then restore the original artifact so the evidence file stays byte-identical; note timestamps/PID will differ.",
+          "created_at": "2026-08-06T04:46:01.994953477Z",
+          "kind": "plan",
+          "signed_by": "SHA256:dqJJxDfhYp2s0PbFtktYlMdwFUCtHuPimgtdoZJSG+g",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgi3Y7k6zLHSnYcebt0U8E4gaHZmVqfalyr69g11qwxm8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0YvslJ6OAIZMWXe6Cg1Tj4OKIZufswmmRPbqXVE5pCsOxcUcxwhx6DY6Y8FJXd1Kmziy6uNWmy3Vv4wotBc+Bg=="
+        }
+      }
     },
     "e4893281-311b-4929-8b82-de73fa9667c1": {
       "uuid": "e4893281-311b-4929-8b82-de73fa9667c1",
@@ -8686,8 +8697,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T04:44:53.272888333Z",
-    "agent_id": "OL2r",
-    "agent_seq": 942
+    "timestamp": "2026-08-06T04:46:02.005306334Z",
+    "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+    "agent_seq": 46
   }
 }
