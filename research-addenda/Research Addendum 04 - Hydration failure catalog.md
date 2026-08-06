@@ -9,7 +9,14 @@
 >
 > Sources folded in: Research Addendum 03 (uuid-sync bug), `.crosslink/knowledge/crosslink-fork.md` Known Issues, issue #125 consolidated state-of-knowledge comment (2026-08-03 17:52) and subsequent findings (2026-08-03 through 2026-08-06), issue #208 result, `session-handoffs/Session Handoff 3.md`, `CHANGELOG.md` honest note, and the tripn-astro crosslink-db-rollback incident record.
 >
-> **Status of the family:** unresolved. #119 fixed one code-level trap; #166 fixed lock persistence; #207/#125 (SSH) fixed event push. The hub's reduced `issues/` projection still carries only the 4 June-era files, so re-hydration can still re-import a stale baseline. Tracked by #125 (open), epic #157, and this catalog's sub-issue #126.
+> **Status of the family:** **root cause RESOLVED 2026-08-06** — the safe
+> re-hydration guard landed in the crosslink fork (commit `ade6146b`, binary
+> rebuilt and live-verified): `maybe_auto_hydrate` gates the destructive v2
+> file path on confident v3-ref presence (`hub_is_confidently_v2_only`,
+> fail-closed), so a stale hub projection can no longer wipe agent-authored
+> rows. Prior fixes: #119 (code-level trap), #166 (lock persistence), #207/#125
+> (SSH event push). Remaining: the hub's reduced `issues/` projection rebuild
+> (2.9), tracked by #125 (open), epic #157, and this catalog's sub-issue #126.
 
 ---
 
@@ -31,6 +38,17 @@ Two independent root causes feed the family:
    protection** — concurrent kickoff launches each trigger their own
    hydration, racing the main-repo DB; a casual `sync` at the wrong moment
    rolls the projection back.
+
+> **STATUS 2026-08-06:** the unguarded auto-hydration root cause is
+> **RESOLVED** — the safe re-hydration guard landed in the crosslink fork
+> (commit `ade6146b`, binary rebuilt, gate live): `maybe_auto_hydrate` runs
+> the destructive v2 `hydrate_to_sqlite` path only when
+> `hub_is_confidently_v2_only` (meta + checkpoint refs absent AND v2 branch
+> present); any doubt — including a concurrent-launch git race — fails closed
+> to a skip, so the stale `issues/` projection can no longer wipe
+> agent-authored rows. The historical failure modes below remain accurate for
+> pre-`ade6146b` binaries; `crosslink compact` (playbook §6.5) remains the
+> interim recovery for them.
 
 Recovery (validated in two independent incidents): **`crosslink compact`** —
 see playbook §6.5 (Hydration Recovery). This catalog does not duplicate the
@@ -54,9 +72,14 @@ Statuses referenced: **#119** closed, **#125** open, **#142** open,
   identically in tripn-astro (2026-08-02, #338/#342/#370-376/#378) and ASES
   (2026-08-06, #206/#208 mid-session rollback to the June-23 4-issue set).
   Underlying enabler: the hub could not advance past its baseline (see 2.8).
-- **Status:** #125 open (parent), #142 open (mechanism verification — which
-  ref hydration reads, and why hub-cache lands on the wrong ref), #208 done
-  (recovery documented).
+- **Status:** **RESOLVED 2026-08-06** for the unguarded auto-hydration root
+  cause — fail-closed gate on v3-ref presence, fork commit `ade6146b`, binary
+  rebuilt + live-verified; the June-baseline wipe path is now inert (stale
+  files no longer trigger hydration). Historical occurrences (tripn-astro
+  2026-08-02, ASES 2026-08-06 #206/#208) predate the gate; pre-fix binaries
+  remain vulnerable and should use the compact recovery. #125 open (family),
+  #142 open (mechanism verification — which ref hydration reads, and why
+  hub-cache lands on the wrong ref), #208 done (recovery documented).
 - **Recovery path:** `crosslink compact` → `crosslink sync` → verify
   (playbook §6.5). If compact does not restore, re-create active issues from
   hub agent refs (`git show refs/heads/crosslink/agents/<id>/events.log` —
@@ -75,7 +98,12 @@ Statuses referenced: **#119** closed, **#125** open, **#142** open,
   race; the loser's DB view is clobbered. First observed with #123/#124/#137
   (2026-08-03), recurring a third time 2026-08-04 (session #13: three clobbers
   at 06:23, 06:35, 06:45, each after a launch).
-- **Status:** #125 open. No fix landed; mitigation is operational.
+- **Status:** **RESOLVED 2026-08-06** for the destructive auto-hydration
+  trigger — the fail-closed gate (fork commit `ade6146b`, binary live) skips
+  the v2 wipe path on any doubt, including the concurrent-launch git race
+  (catalog 2.2), so a racing launch can no longer clobber the main-repo DB
+  view. #125 open (family). Sequential-launch mitigation (sync between
+  launches) remains best practice.
 - **Recovery path:** `crosslink sync` re-hydrates (181+ issues restored, all
   resolvable). Mitigation: launch agents **sequentially** with a sync between;
   do NOT race concurrent launches (see `agent-orchestration-playbook.md`).
@@ -196,8 +224,11 @@ Statuses referenced: **#119** closed, **#125** open, **#142** open,
 - **Root-cause area:** the reduce/checkpoint projection was never rebuilt —
   distinct from the push-auth failure (2.8) which is fixed. The projection is
   the remaining #125 root-cause item feeding #157 (Hydration epic).
-- **Status:** #125 open (remaining item), #157 open (epic), #142 open
-  (mechanism verification).
+- **Status:** **wipe trigger RESOLVED 2026-08-06** — the unguarded
+  auto-hydration that re-imported this stale projection is fixed by the
+  fail-closed gate (fork commit `ade6146b`, binary live); the 4 June-era
+  files are now inert for hydration. The projection **rebuild itself remains
+  open** — #125 (remaining item), #157 (epic), #142 (mechanism verification).
 - **Recovery path:** interim — the compact recovery (playbook §6.5) is the
   standing safety net. Definitive fix requires rebuilding the hub's reduced
   projection from the full event history so re-hydration imports the modern

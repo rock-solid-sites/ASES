@@ -437,6 +437,11 @@ Operational rules:
    an un-synced comment trail are different problems with different
    remedies (see #125, and §6.4 for the watcher).
 
+**Durable root-cause fix (2026-08-06):** the unguarded `maybe_auto_hydrate`
+v2 wipe path is fixed in the crosslink fork (commit `ade6146b` — fail-closed
+gate on v3-ref presence, binary rebuilt and live); `crosslink compact` remains
+the interim recovery for older binaries.
+
 ### 6.6 Standing Workflow — Agent Status Notes + Wave Cleanup
 
 While any kickoff/swarm agent is running, the orchestrator follows a

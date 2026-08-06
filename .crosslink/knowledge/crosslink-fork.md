@@ -57,7 +57,7 @@ applied for agent: reviewer`.
 
 - Symlink/copy code in run.rs for .opencode/ propagation is unreliable (worked around by committing agent files)
 - `--dangerously-skip-permissions` and `--permission-mode` are Claude Code only; ignored by wrapper
-- DB rehydration: a `sync.fetch()` can rehydrate the SQLite DB from a stale hub state, dropping local-only issues/comments (tracked ASES #119; recovered via `crosslink compact`)
+- DB rehydration: a `sync.fetch()` can rehydrate the SQLite DB from a stale hub state, dropping local-only issues/comments (tracked ASES #119; recovered via `crosslink compact`). **Root cause fixed 2026-08-06** — gate `maybe_auto_hydrate` v2 path on v3-ref presence (`hub_is_confidently_v2_only`, fail-closed), commit `ade6146b`, binary rebuilt + live-verified; `crosslink compact` remains the interim recovery for older binaries.
 
 ## Zen free models (resolved #103)
 
