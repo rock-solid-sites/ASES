@@ -1,6 +1,6 @@
 {
   "next_display_id": 202,
-  "next_comment_id": 498,
+  "next_comment_id": 499,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -318,10 +318,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T02:38:43.765384091Z",
-      "updated_at": "2026-08-06T02:38:54.742379499Z",
+      "updated_at": "2026-08-06T02:43:20.546840781Z",
       "labels": [
         "review"
-      ]
+      ],
+      "comments": {
+        "4f55dea9-2392-41d5-ad9b-867e589b5ec5": {
+          "display_id": 498,
+          "author": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+          "content": "Plan: Independent adversarial review + live re-verification of #196 deliverable (research/toolregistry-lazy-mcp). Steps: (1) read report.md, proxy.py, backend.py, manifest.json, capture_manifest.py, tests/*, logs/* in full; (2) inspect installed ToolRegistry source in /tmp/toolregistry-venv for list_changed/notification refs (Test 5); (3) attempt independent live re-run of the harness from the existing venv — re-measure Test 1 cold registration, Test 2 first-call spawn timing breakdown, Test 3 session reuse, Test 4 kill/respawn; (4) cross-check report's claimed timings against raw log timestamps and recompute; (5) verdict: do the report's PASS/FAIL and conclusion follow from observed evidence; (6) post --kind result findings (observation vs findings separation). Read-only: no file edits, no ToolRegistry changes.",
+          "created_at": "2026-08-06T02:43:20.536790471Z",
+          "kind": "plan",
+          "signed_by": "SHA256:dqJJxDfhYp2s0PbFtktYlMdwFUCtHuPimgtdoZJSG+g",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgi3Y7k6zLHSnYcebt0U8E4gaHZmVqfalyr69g11qwxm8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABATLt50wGOgyNjs/NjGh5EqyXz5/q/6cuQMH+qoKch+V7FqsjlAfXdCduiHqUx+BJ2UVOM30TrS9EhFWZ2dFjEBA=="
+        }
+      }
     },
     "05414e46-befb-4780-88a2-900c5acfecbf": {
       "uuid": "05414e46-befb-4780-88a2-900c5acfecbf",
@@ -8033,8 +8044,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T02:43:15.404631692Z",
+    "timestamp": "2026-08-06T02:43:20.546840781Z",
     "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
-    "agent_seq": 16
+    "agent_seq": 17
   }
 }
