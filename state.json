@@ -1,6 +1,6 @@
 {
   "next_display_id": 241,
-  "next_comment_id": 749,
+  "next_comment_id": 750,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2605,7 +2605,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-06T18:58:07.469124575Z",
+      "updated_at": "2026-08-06T18:58:38.825538631Z",
       "labels": [
         "bug"
       ],
@@ -2724,6 +2724,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdhthjGtJsQU+kbNyIcXVMeixn8gORFXOWqMJBZrOY34+Dyuhq4/vRNDYihU3Iij2RHmns0avmV68bgwIWjtQCQ=="
+        },
+        "3239ad81-87a4-4c61-9dd0-3545d4ffccc4": {
+          "display_id": 749,
+          "author": "pp3g-tm63-read-only-live-system-verification-review-do-not-6b08",
+          "content": "Completed: READ-ONLY breadth+adversarial live-system verification review of #125 safe re-hydration guard (fork ade6146b). LIVE VERIFIED: (1) gate holds for current ASES state — trigger condition live (my session trust commits advanced v2 tip past stale marker), DB stayed 241/241, marker not refreshed, no display-id warning; (2) remote-only-v3-marker fail-open CONFIRMED vs live remote (v3 remote retains pushed v2 branch; fresh clone + init_v2_worktree state => Ok(true) => v2 path runs) + NEW: permanent-V2 lock-in chain (SyncManager caches local-only HubMode at construction, init_cache v2-first branch never joins v3, fetch_v2_readonly never adopts markers) so the original bug continues deterministically in fresh environments; (3) ungated TUI wipe quantified: crosslink tui is live, startup+30s periodic sync call hydrate_to_sqlite unconditionally, DB 241/241 agent-authored => 241->4 wipe; (4) NEW: docs overstate RESOLVED, probe-vs-fetch TOCTOU, marker-never-refreshed probe overhead, binary-vs-commit timing discrepancy. Verdict CHANGES REQUESTED posted as --kind result on #125: MUST FIX (ungated callers incl TUI, fresh-env fail-open, docs overstatement), SHOULD CONSIDER (test b/c non-discriminating, TOCTOU, marker refresh). #125 NOT closed. No ASES/fork modifications, no commit, no push.",
+          "created_at": "2026-08-06T18:58:38.816503824Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:bVMAMz5ZBBRHfg28oPzrfgzgLf9XGnOHABIY15Om2ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUuwpG2CErbCpDC0fZMn/h/yuzb7AUOhA4hfyrRl4gZMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0GImrlQHDPkx/RN10Y7Qind6XvsIpm9CG3jBTQTRcZD//tTp423TLaP6pWImL2/wcqEbqd6lALSuelFJGjwNDg=="
         },
         "366d7a23-1ccb-4c60-b097-3db440b35bbe": {
           "display_id": 617,
@@ -10985,8 +10994,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T18:58:32.153456285Z",
+    "timestamp": "2026-08-06T18:58:38.825538631Z",
     "agent_id": "pp3g-tm63-read-only-live-system-verification-review-do-not-6b08",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
