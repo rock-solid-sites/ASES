@@ -90,6 +90,7 @@ venv on 2026-08-06; the proxy and harness use mcp 2.0-era APIs such as
 python3 -m virtualenv /tmp/toolregistry-venv          # system python3-venv lacked ensurepip; virtualenv used
 /tmp/toolregistry-venv/bin/pip install 'toolregistry[mcp]==0.15.0' 'mcp==2.0.0'
 /tmp/toolregistry-venv/bin/python capture_manifest.py  # (re)capture manifest.json
+/tmp/toolregistry-venv/bin/python capture_initialize.py  # (re)capture logs/initialize-capture.json (supplementary, see §6 item 1a)
 /tmp/toolregistry-venv/bin/python tests/run_tests.py
 ```
 

@@ -14,8 +14,8 @@ Behaviour
 1. ``initialize`` handshake is answered by the ``mcp`` SDK server runner
    without touching the real backend.  Capabilities are derived from the
    registered handlers; ``notification_options`` is left at the default so
-   the proxy does NOT advertise ``tools/list_changed`` (and never sends any
-   notification to its client).
+   the proxy advertises ``tools.listChanged: false`` (no change-notification
+   support) and never sends any notification to its client.
 2. Every ``tools/list`` is answered from the static cached ``manifest.json``.
 3. On the first ``tools/call`` the backend subprocess is spawned, a client
    session is established, the call is forwarded and the result returned
