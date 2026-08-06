@@ -5,10 +5,11 @@ sources:
   - url: "https://github.com/edases/ASES/issues/190"
     title: ""
     accessed_at: "2026-08-06"
-contributors: ["pp3g-H4ni-write-the-comprehensive-model-capability-registry-6974"]
+contributors: ["pp3g-H4ni-write-the-comprehensive-model-capability-registry-6974", "OL2r"]
 created: 2026-08-06
 updated: 2026-08-06
 ---
+
 
 # Model Routing Matrix — DIMENSIONED
 
@@ -155,3 +156,5 @@ updated: 2026-08-06
 4. **Backup discipline**: always dispatch a backup reviewer for free-tier primary (#129 -> #132 pattern).
 5. **Scope discipline**: big-pickle needs tight scope + checkpoints (#149 scope-drift lesson); re-scope or kill early on visible drift.
 6. **Two-tier pipelines**: fast verifier (north-mini-code/ling) for triage + deep reviewer (gemini/luna/hy3) for audit — the proven adversarial-consensus pattern (project-completion-report §8).
+
+## Session evidence 2026-08-06 (#192 fork fix verification)\n- Agent pp3g-AJtB ran on opencode-go/deepseek-v4-flash for the #192 live-kickoff verification (issue #210): completed cleanly, no hang, correct report, checkpoint comments posted. Positive data point against the documented SILENT-HANG failure mode for this model (no hang in this short 2m-guide session).\n
