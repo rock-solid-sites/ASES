@@ -50,13 +50,32 @@ const BLOCK_MESSAGE =
 
 let currentAgent: string | null = null;
 
+// Per-session agent map. One opencode process hosts multiple sessions (the
+// interactive session plus Task-tool subagents), and every session's
+// chat.params fires in that same process. A single shared variable would be
+// clobbered by the most recent subagent event, so the parent session's tool
+// calls would resolve to the subagent's type (same defect fixed in
+// crosslink-guard for the #204 git-merge regression). Keying by sessionID
+// keeps each session's agent independent.
+const agentBySession = new Map<string, string>();
+
 const orchestratorGuardPlugin: Plugin = async () => {
   log("Plugin initialised");
 
   return {
     "chat.params": async (input, _output) => {
       currentAgent = input.agent;
-      log("chat.params agent:", currentAgent);
+      if (input.sessionID && input.agent) {
+        agentBySession.set(input.sessionID, input.agent);
+      }
+      log("chat.params agent:", currentAgent, "session:", input.sessionID);
+    },
+
+    "chat.message": async (input, _output) => {
+      if (input.sessionID && input.agent) {
+        agentBySession.set(input.sessionID, input.agent);
+      }
+      log("chat.message agent:", input.agent ?? "(none)", "session:", input.sessionID);
     },
 
     "tool.execute.before": async (input, _output) => {
@@ -66,12 +85,21 @@ const orchestratorGuardPlugin: Plugin = async () => {
         return;
       }
 
-      if (ALLOWED_AGENTS.has(currentAgent ?? "")) {
-        log("ALLOW write tool:", toolName, "agent:", currentAgent);
+      // Resolve the agent for THIS session first. Fall back to the most
+      // recent chat.params event ONLY when no sessionID is available (the
+      // plugin API always provides sessionID, so this is a defensive path);
+      // never fall back across sessions, which would let a builder subagent's
+      // event authorize a write from the orchestrator session.
+      const sessionAgent = input.sessionID
+        ? agentBySession.get(input.sessionID) ?? null
+        : currentAgent;
+
+      if (ALLOWED_AGENTS.has(sessionAgent ?? "")) {
+        log("ALLOW write tool:", toolName, "agent:", sessionAgent, "session:", input.sessionID);
         return;
       }
 
-      log("BLOCK write tool:", toolName, "agent:", currentAgent, "session:", input.sessionID);
+      log("BLOCK write tool:", toolName, "agent:", sessionAgent, "session:", input.sessionID);
       throw new Error(BLOCK_MESSAGE.replace("%s", toolName));
     },
   };
