@@ -1,5 +1,5 @@
 {
-  "next_display_id": 215,
+  "next_display_id": 216,
   "next_comment_id": 574,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -186,6 +186,7 @@
     "cf3662f7-8a64-407c-aa3d-896805330e3e": 84,
     "d45969a2-1afe-4fa0-b1b9-d61c3398c115": 50,
     "d4822b37-51ef-4159-a754-5c78bb90dbdd": 143,
+    "d549549c-e14f-4d9e-97b2-3c0888ddf035": 215,
     "d60ba942-8aff-40d4-b09b-c9224a8530e8": 126,
     "d61f6d3d-2145-4b68-8086-2db6683dbf96": 62,
     "d77ea716-9a44-4d7b-b1e9-7246ceff384c": 129,
@@ -7788,6 +7789,16 @@
         }
       }
     },
+    "d549549c-e14f-4d9e-97b2-3c0888ddf035": {
+      "uuid": "d549549c-e14f-4d9e-97b2-3c0888ddf035",
+      "display_id": 215,
+      "title": "IMPLEMENT #135 Phase 2: wire heartbeat into OPENCODE's hook system so the PRIMARY liveness signal actually flows. EVIDENCE (#192 verification, issue #210): worktree hooks installed (.claude/hooks/heartbeat.py) but heartbeat mtime does NOT flow — kickoff agents run 'opencode run', and .claude/settings.json PostToolUse hooks are Claude Code-only, so heartbeat.py never executes (no .crosslink/.cache/last-heartbeat in worktrees; main-repo heartbeat stale since 07-09). CONSUMER ALREADY EXISTS: tools/kickoff-notify.py (Phase 1 watcher) reads .crosslink/.cache/last-heartbeat as PRIMARY liveness. TASK: (1) implement heartbeat via opencode's native plugin mechanism — e.g. a small plugin (alongside crosslink-guard.ts/rtk-guard.ts) with a 'tool.execute.after' hook that writes .crosslink/.cache/last-heartbeat (mtime touch, throttled ~120s like the current heartbeat.py); verify opencode's plugin API surface for the right hook (tool.execute.after fires per tool call; session.idle exists too — pick the one that fires during active agent work); (2) register the plugin in the worktree/kickoff chain so agents launched via 'opencode run' get it (check how crosslink-guard/rtk-guard load in kickoff worktrees); (3) VERIFY with a live kickoff: heartbeat file must appear + mtime update during agent activity; confirm kickoff-notify.py sees it; (4) update docs (.crosslink/knowledge + playbook §6.4) that heartbeat now flows under opencode; (5) coordinate with #146 (this is the detection tier its kill/restart gates depend on). DEPENDENCY: #192 done (hooks installed). Do NOT modify crosslink fork source. Commit with [#135] ref.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-06T05:25:37.021712061Z",
+      "updated_at": "2026-08-06T05:25:37.021712061Z"
+    },
     "d60ba942-8aff-40d4-b09b-c9224a8530e8": {
       "uuid": "d60ba942-8aff-40d4-b09b-c9224a8530e8",
       "display_id": 126,
@@ -8948,8 +8959,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:25:27.002318610Z",
-    "agent_id": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
-    "agent_seq": 5
+    "timestamp": "2026-08-06T05:25:37.021712061Z",
+    "agent_id": "OL2r",
+    "agent_seq": 963
   }
 }
