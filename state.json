@@ -1,5 +1,5 @@
 {
-  "next_display_id": 214,
+  "next_display_id": 215,
   "next_comment_id": 561,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -117,6 +117,7 @@
     "7c4df3f2-1c6e-43be-bc73-b9165282ac67": 66,
     "7d1022e5-b06f-4df3-b4b7-d5e150a9ea78": 206,
     "7d99a664-8ced-4785-b581-1eb199bc929b": 166,
+    "7de3fe65-8fd4-464f-a34c-7817db325b23": 214,
     "7efd07df-fbdf-492d-a2cc-7754eb5448b4": 204,
     "7f13165e-74e7-47b8-b968-713467dfbe7f": 1,
     "7fea5a54-4818-403e-a458-b39204695bbf": 145,
@@ -4540,6 +4541,16 @@
         }
       }
     },
+    "7de3fe65-8fd4-464f-a34c-7817db325b23": {
+      "uuid": "7de3fe65-8fd4-464f-a34c-7817db325b23",
+      "display_id": 214,
+      "title": "MATRIX RUN (parallel to #209 SDK verification): execute the FULL 16-row verification matrix for the #154 durable fork build, separate from the SDK-level verification agent (nHSI #209). CONTEXT: fork binary verified functional at the harness level (headerTimeout fires, ERROR surfaces, bounded posts — see #209 nHSI panes); run-matrix.sh exists in the nHSI worktree at fork/harness/run-matrix.sh (16 rows: 1,2,3,4,5,6,6b,7,8,9,9b,10a,10b,11,13/14,16) with server.js (all modes HANG/STALLED/PARSE_STALL/PER_REQUEST/GZIP/SLOW_CHUNK/HEALTHY_JSON) + gen-cfg.mjs; binary at /tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode (148MB, mtime 01:46, --version=1.18.13-pp3g-fork). TASK: (1) locate run-matrix.sh (nHSI worktree fork/harness/ or /tmp) and READ it first; (2) RUN all 16 rows against the PRESERVED binary with GENEROUS per-row timeouts — CRITICAL: per-row outer timeout MUST exceed bodyIdleTimeout + retry budget (the 60s kill that hid markers is the bug to avoid; hang rows need ~90s+ or no outer kill, capture output); (3) assert deterministically per row: <=3 POSTs (server-side counter), grep ERROR/WARN markers in client output, expected exit semantics; (4) record a results table (row | scenario | expected | actual | pass/fail); (5) POST the full table + any failures to THIS sub-issue. Do NOT modify source or install anything. Do NOT touch the SDK-level verification work (nHSI #209 owns that). GENEROUS timeouts throughout.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-06T05:02:54.914992705Z",
+      "updated_at": "2026-08-06T05:02:54.914992705Z"
+    },
     "7efd07df-fbdf-492d-a2cc-7754eb5448b4": {
       "uuid": "7efd07df-fbdf-492d-a2cc-7754eb5448b4",
       "display_id": 204,
@@ -8797,8 +8808,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:01:03.003090325Z",
-    "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
-    "agent_seq": 62
+    "timestamp": "2026-08-06T05:02:54.914992705Z",
+    "agent_id": "OL2r",
+    "agent_seq": 951
   }
 }
