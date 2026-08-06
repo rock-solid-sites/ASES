@@ -1,9 +1,10 @@
 {
-  "next_display_id": 193,
+  "next_display_id": 194,
   "next_comment_id": 461,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
+    "066754eb-b51d-480b-a498-4619e1407b75": 193,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
     "07aca5b3-3aa3-44cd-b60b-8f16fdaa8efd": 192,
     "088f23b5-1253-4c12-9899-9aada520c74e": 188,
@@ -295,6 +296,16 @@
       "labels": [
         "feature"
       ]
+    },
+    "066754eb-b51d-480b-a498-4619e1407b75": {
+      "uuid": "066754eb-b51d-480b-a498-4619e1407b75",
+      "display_id": 193,
+      "title": "DOC + CONVENTION: operator NEVER wants to interact with interactive editors (vim/nano) on git commands. Practical rule: every operator-gated git command that would open an editor MUST include --no-edit (e.g. 'git merge --no-ff <branch> --no-edit', 'git commit --no-edit' / 'git cherry-pick --continue --no-edit'). Document in agent-orchestration-playbook.md (operator-git-commands section — repo-agnostic, applies to any repo the operator runs) + SESSION-END doc (so the convention survives). Also recommend the operator set 'git config --global core.editor true' (or GIT_EDITOR=true) so no git command ever opens an editor as a safety net. Deliverable: doc note + the standing convention that orchestrator-surfaced git commands always include --no-edit. Flash model.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-06T00:51:17.050062598Z",
+      "updated_at": "2026-08-06T00:51:17.050062598Z"
     },
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": {
       "uuid": "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2",
@@ -7532,8 +7543,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T00:39:10.763956535Z",
+    "timestamp": "2026-08-06T00:51:17.050062598Z",
     "agent_id": "OL2r",
-    "agent_seq": 873
+    "agent_seq": 874
   }
 }
