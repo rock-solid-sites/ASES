@@ -1,5 +1,5 @@
 {
-  "next_display_id": 197,
+  "next_display_id": 198,
   "next_comment_id": 479,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -72,6 +72,7 @@
     "4d2ae734-1b40-41a5-899e-baacb300cd22": 42,
     "4f679348-c35f-4ba0-ab80-900788e81b19": 175,
     "51942b54-b189-47ee-a0ad-be20dd4840f0": 185,
+    "51e6faeb-184d-4b1e-9b24-ba208d33f29b": 197,
     "52ea68a3-1536-4e75-b68f-89c0ba01b8d1": 90,
     "52f44369-b47d-40e1-91c5-4a95fe9f7d30": 138,
     "54bdc408-5a1c-4f5a-a5a0-eadcc54113a2": 86,
@@ -2721,6 +2722,16 @@
       "labels": [
         "later"
       ]
+    },
+    "51e6faeb-184d-4b1e-9b24-ba208d33f29b": {
+      "uuid": "51e6faeb-184d-4b1e-9b24-ba208d33f29b",
+      "display_id": 197,
+      "title": "MEMORY CLEANUP + KILL STALE LOOP (system hygiene): (1) KILL the stale 5-day-old bash loop PID 2726666 (cmd: 'while ps aux | rg \"cargo test --test cli_integration test_kickoff_dry_run\"; do sleep 10; done; tail -12 /tmp/test_fix.log') — it's waiting on a long-gone command; verify dead with ps -p. (2) PROFILE memory: list top RSS consumers (ps -eo pid,rss,etime,stat,comm --sort=-rss | head -20) and report. (3) FREE MEMORY safely: the box has 7.7Gi total, 5.9Gi used, 1.5Gi available, 2.4Gi in swap (heavy cargo/clippy compile of the crosslink fork is running in ANOTHER session — DO NOT kill cargo/clippy/rustc PIDs 1464309/1467115/1474707 or any opencode process; they are live work). Safe cleanup targets: stale tmux sessions (check 'tmux list-sessions' — kill any dead non-active ones except ASES/astro/combined-verify and the current kickoff agents), stale worktrees under ~/projects/*/.worktrees (crosslink kickoff cleanup --dry-run to find DONE ones), /tmp debris (opencode tmp dirs older than today), browser/cache processes (playwright/chromium zombies from earlier measurements). (4) Report before/after free -h. SYSTEM-LEVEL task like #179. Do NOT touch ~/.config/opencode or the crosslink repo source. POST result to THIS sub-issue.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-06T02:20:41.950955660Z",
+      "updated_at": "2026-08-06T02:20:41.950955660Z"
     },
     "52ea68a3-1536-4e75-b68f-89c0ba01b8d1": {
       "uuid": "52ea68a3-1536-4e75-b68f-89c0ba01b8d1",
@@ -7776,8 +7787,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T02:08:50.797532682Z",
-    "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
-    "agent_seq": 3
+    "timestamp": "2026-08-06T02:20:41.950955660Z",
+    "agent_id": "OL2r",
+    "agent_seq": 900
   }
 }
