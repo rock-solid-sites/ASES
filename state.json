@@ -1,6 +1,6 @@
 {
   "next_display_id": 235,
-  "next_comment_id": 716,
+  "next_comment_id": 717,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1544,10 +1544,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T13:38:46.691242490Z",
-      "updated_at": "2026-08-06T13:39:03.055286317Z",
+      "updated_at": "2026-08-06T13:58:54.264386102Z",
       "labels": [
         "hydration"
-      ]
+      ],
+      "comments": {
+        "335107db-e8eb-4024-a729-16260ccac07e": {
+          "display_id": 716,
+          "author": "pp3g-w20v-task-rebuild-the-hub-reduced-issues-projection-in-the",
+          "content": "Plan: investigation complete — mapping fork mechanisms (read-only) to determine if a safe v3→projection rebuild exists. FINDINGS SO FAR: (1) v3 checkpoint ref carries the full modern reduced state (state.json = 232 issues, next_display_id=235, no collisions); (2) the v2 worktree projection .hub-cache/issues/ (4 June-era files) is NEVER written by v3 — materialize() (compaction.rs:1006) is only called from the v2 compaction path (compaction.rs:375) which is refused on v3 hubs (compact.rs:54 bail); (3) migrate hub-v3 is v2→v3 direction (build_genesis_from_files migrate_hub_v3.rs:747), not v3→projection, and --finalize refuses on ASES per #142; (4) migrate to-shared on v3 routes to to_shared_v3 (event-log promotion, migrate.rs:213) — no worktree writes; (5) integrity hydration --repair on v3 re-hydrates SQLite from reduced state (integrity_cmd.rs:335) — no worktree writes; (6) the v3 checkpoint's OWN browse tree is also stale (4 files from 2026-06-23) because compact_v3's idempotency guard (hub_v3.rs:1594-1614) + incremental-only browse ops (hub_v3.rs:1616, full=!browse_present) prevent a full rebuild once README.md exists. CONCLUSION: likely NO safe crosslink mechanism regenerates the reduced issues/ projection from v3 refs; per task step 4 I will document the exact manual procedure on #233 instead of forcing anything. Next: verify binary gate (ade6146b) behavior, then write the procedure doc (Research Addendum 04 §2.9) + verdict.",
+          "created_at": "2026-08-06T13:58:54.256544643Z",
+          "kind": "plan",
+          "signed_by": "SHA256:mnzZUiZYbWbkCmYT841sUfzxk6ejYNtO+bzcEp7B4VQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvRL8I3BHtktxO9lIcKE52i2txj1OSra0a9QlMFbYEjwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+Mpeedp3h0uYRQIhK/7fW8DQTFVLIGEo/L7lCTXP9i6R4b/2wRXd4zsM+SivwKtc1RK8pNK5EPdfDTqrSHHCCQ=="
+        }
+      }
     },
     "21f9e31f-c8f8-480c-9eeb-fdfab1cfc48e": {
       "uuid": "21f9e31f-c8f8-480c-9eeb-fdfab1cfc48e",
@@ -10566,8 +10577,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T13:46:03.294770089Z",
-    "agent_id": "pp3g-k8mY-task-finalize-the-upstream-bug-report-for-the-6b0b",
-    "agent_seq": 10
+    "timestamp": "2026-08-06T13:58:54.264386102Z",
+    "agent_id": "pp3g-w20v-task-rebuild-the-hub-reduced-issues-projection-in-the",
+    "agent_seq": 4
   }
 }
