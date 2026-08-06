@@ -1,6 +1,6 @@
 {
   "next_display_id": 204,
-  "next_comment_id": 512,
+  "next_comment_id": 513,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -3667,10 +3667,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T02:50:21.407166344Z",
-      "updated_at": "2026-08-06T02:51:01.515588752Z",
+      "updated_at": "2026-08-06T03:02:09.924879819Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "db781062-d9c1-4c22-a8f9-fbdd8284f20c": {
+          "display_id": 512,
+          "author": "pp3g-9OAD-remove-the-fetch-mcp-server-entirely-task-on-issue",
+          "content": "Plan: Remove the 'fetch' MCP block from two files, leaving all other MCP servers (github/playwright/sqlite/filesystem/cloudflare) and all other config keys untouched. (1) ~/.config/opencode/opencode.json (user-level; carries pinned command ['uvx','--with','mcp<2.0','mcp-server-fetch==2026.7.10'] from #187/#189); (2) .opencode/opencode.json (repo-level; block added in 02ae358 — this removal is the follow-up commit with [#195] ref). Verify JSON parses after each edit (jq/node JSON.parse; sanity-check opencode mcp list). Note removal takes effect at next opencode launch. Post exact diff + verification as result.",
+          "created_at": "2026-08-06T03:02:09.918530842Z",
+          "kind": "plan",
+          "signed_by": "SHA256:7k3uDD0YAzGdp+VQ7uAPBlFdwE5wwgw19pBlq4czWe4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg1Mto0ofWSOR20UZz7VZRHU3eTRzlZZyxP9NJ06ssZ+YAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAx7SnzDJVNRj14U6O9SC9wlvXHvdr53yeWRg47mAToZupfa08DPqdVyr3QLHJont1GruS/yuy4AXUhU6qDs0CBQ=="
+        }
+      }
     },
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": {
       "uuid": "68941ee1-bcaf-4bc4-9c1f-0db903630fe6",
@@ -8183,8 +8194,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T03:01:54.909228805Z",
-    "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
-    "agent_seq": 28
+    "timestamp": "2026-08-06T03:02:09.924879819Z",
+    "agent_id": "pp3g-9OAD-remove-the-fetch-mcp-server-entirely-task-on-issue",
+    "agent_seq": 2
   }
 }
