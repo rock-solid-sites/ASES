@@ -1,0 +1,235 @@
+HARNESS|2026-08-06T05:27:31.462Z|epoch_ms=1785994051462|phase_start phase=test-c versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-06T05:27:31.466Z|epoch_ms=1785994051466|manifest=manifest.json backend_schema_mode=conforming backend_response_mode=diverging
+HARNESS|2026-08-06T05:27:31.470Z|epoch_ms=1785994051470|TESTC_BEGIN register
+PROXY|2026-08-06T05:27:34.468Z|epoch_ms=1785994054468|rel_ms=       1|proxy_started pid=2081699 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:34.469Z|epoch_ms=1785994054469|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:34.495Z|epoch_ms=1785994054495|rel_ms=      28|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:34.496Z|epoch_ms=1785994054496|rel_ms=      29|request tools/list backend_connected=False
+PROXY|2026-08-06T05:27:34.501Z|epoch_ms=1785994054501|rel_ms=      34|connection_closed exiting
+HARNESS|2026-08-06T05:27:34.834Z|epoch_ms=1785994054834|TESTC_REGISTER result=ok delta_ms=3363 error=None
+HARNESS|2026-08-06T05:27:35.335Z|epoch_ms=1785994055335|MANIFEST_TOOL name=add input_schema={"properties": {"a": {"type": "number", "description": "First addend"}, "b": {"type": "number", "description": "Second addend"}}, "required": ["a", "b"], "type": "object"} output_schema={"properties": {"sum": {"type": "number", "description": "The sum of a and b"}}, "required": ["sum"], "type": "object"}
+HARNESS|2026-08-06T05:27:35.335Z|epoch_ms=1785994055335|MANIFEST_TOOL name=multiply input_schema={"properties": {"a": {"type": "number", "description": "First factor"}, "b": {"type": "number", "description": "Second factor"}}, "required": ["a", "b"], "type": "object"} output_schema=null
+HARNESS|2026-08-06T05:27:35.335Z|epoch_ms=1785994055335|TESTC_BEGIN call
+PROXY|2026-08-06T05:27:37.805Z|epoch_ms=1785994057805|rel_ms=       0|proxy_started pid=2082215 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:37.808Z|epoch_ms=1785994057808|rel_ms=       3|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:37.818Z|epoch_ms=1785994057818|rel_ms=      13|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:37.819Z|epoch_ms=1785994057819|rel_ms=      14|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T05:27:37.819Z|epoch_ms=1785994057819|rel_ms=      14|backend_spawn_start instance_id=be-1-2082215-57819 spawn_count=1
+BACKEND|2026-08-06T05:27:40.964Z|epoch_ms=1785994060964|configured schema_mode=conforming response_mode=diverging
+BACKEND|2026-08-06T05:27:40.964Z|epoch_ms=1785994060964|backend_started pid=2082665 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:27:41.025Z|epoch_ms=1785994061025|rel_ms=    3220|backend_up instance_id=be-1-2082215-57819 spawn_count=1 init_ms=3205.2
+PROXY|2026-08-06T05:27:41.027Z|epoch_ms=1785994061027|rel_ms=    3222|forward tools/call name=add to backend instance=be-1-2082215-57819
+BACKEND|2026-08-06T05:27:41.031Z|epoch_ms=1785994061031|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:27:41.031Z|epoch_ms=1785994061031|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-06T05:27:41.182Z|epoch_ms=1785994061182|rel_ms=    3377|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=1 respawning
+BACKEND|2026-08-06T05:27:41.184Z|epoch_ms=1785994061184|backend_stdin_closed_exiting
+PROXY|2026-08-06T05:27:42.224Z|epoch_ms=1785994062224|rel_ms=    4419|backend_client_closed instance_id=be-1-2082215-57819
+PROXY|2026-08-06T05:27:42.225Z|epoch_ms=1785994062225|rel_ms=    4420|backend_spawn_start instance_id=be-2-2082215-62224 spawn_count=2
+BACKEND|2026-08-06T05:27:46.324Z|epoch_ms=1785994066324|configured schema_mode=conforming response_mode=diverging
+BACKEND|2026-08-06T05:27:46.324Z|epoch_ms=1785994066324|backend_started pid=2083181 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:27:46.369Z|epoch_ms=1785994066369|rel_ms=    8564|backend_up instance_id=be-2-2082215-62224 spawn_count=2 init_ms=4144.3
+BACKEND|2026-08-06T05:27:46.371Z|epoch_ms=1785994066371|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:27:46.371Z|epoch_ms=1785994066371|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-06T05:27:46.384Z|epoch_ms=1785994066384|rel_ms=    8579|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=2 giving_up
+PROXY|2026-08-06T05:27:46.384Z|epoch_ms=1785994066384|rel_ms=    8579|call_tool_handler_error type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}")
+BACKEND|2026-08-06T05:27:46.386Z|epoch_ms=1785994066386|backend_stdin_closed_exiting
+PROXY|2026-08-06T05:27:46.761Z|epoch_ms=1785994066761|rel_ms=    8956|backend_client_closed instance_id=be-2-2082215-62224
+handler for 'tools/call' raised
+jsonschema.exceptions.ValidationError: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/shared/jsonrpc_dispatcher.py", line 720, in _handle_request
+    result = await on_request(dctx, req.method, req.params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 747, in on_request
+    return await runner.on_request(dctx, method, params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 230, in _on_request
+    result = _dump_result(await call(ctx))
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/_otel.py", line 44, in __call__
+    result = await call_next(ctx)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 217, in _inner
+    result = await entry.handler(ctx, typed_params)
+  File "/home/claude-code/projects/ASES/.worktrees/pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881/research/toolregistry-lazy-mcp/output-schema-drift/proxy.py", line 225, in on_call_tool
+    result = await asyncio.wait_for(
+  File "/usr/lib/python3.10/asyncio/tasks.py", line 445, in wait_for
+    return fut.result()
+  File "/home/claude-code/projects/ASES/.worktrees/pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881/research/toolregistry-lazy-mcp/output-schema-drift/proxy.py", line 177, in call
+    result = await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1064, in call_tool
+    await self.validate_tool_result(name, result)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1110, in validate_tool_result
+    raise RuntimeError(f"Invalid structured content returned by tool {name}: {error}") from error
+RuntimeError: Invalid structured content returned by tool add: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+2026-08-06 05:27:46.768 | WARNING  | MCP call to 'add' failed, reconnecting and retrying
+PROXY|2026-08-06T05:27:46.771Z|epoch_ms=1785994066771|rel_ms=    8966|connection_closed exiting
+PROXY|2026-08-06T05:27:50.069Z|epoch_ms=1785994070069|rel_ms=       2|proxy_started pid=2083433 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T05:27:50.071Z|epoch_ms=1785994070071|rel_ms=       4|server_ready waiting_for_client
+PROXY|2026-08-06T05:27:50.119Z|epoch_ms=1785994070119|rel_ms=      52|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T05:27:50.120Z|epoch_ms=1785994070120|rel_ms=      53|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T05:27:50.121Z|epoch_ms=1785994070121|rel_ms=      54|backend_spawn_start instance_id=be-1-2083433-70121 spawn_count=1
+BACKEND|2026-08-06T05:27:53.500Z|epoch_ms=1785994073500|configured schema_mode=conforming response_mode=diverging
+BACKEND|2026-08-06T05:27:53.500Z|epoch_ms=1785994073500|backend_started pid=2083593 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:27:53.534Z|epoch_ms=1785994073534|rel_ms=    3467|backend_up instance_id=be-1-2083433-70121 spawn_count=1 init_ms=3413.1
+PROXY|2026-08-06T05:27:53.534Z|epoch_ms=1785994073534|rel_ms=    3467|forward tools/call name=add to backend instance=be-1-2083433-70121
+BACKEND|2026-08-06T05:27:53.538Z|epoch_ms=1785994073538|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:27:53.538Z|epoch_ms=1785994073538|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-06T05:27:53.766Z|epoch_ms=1785994073766|rel_ms=    3699|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=1 respawning
+BACKEND|2026-08-06T05:27:53.772Z|epoch_ms=1785994073772|backend_stdin_closed_exiting
+PROXY|2026-08-06T05:27:54.452Z|epoch_ms=1785994074452|rel_ms=    4385|backend_client_closed instance_id=be-1-2083433-70121
+PROXY|2026-08-06T05:27:54.452Z|epoch_ms=1785994074452|rel_ms=    4385|backend_spawn_start instance_id=be-2-2083433-74452 spawn_count=2
+BACKEND|2026-08-06T05:27:58.528Z|epoch_ms=1785994078528|configured schema_mode=conforming response_mode=diverging
+BACKEND|2026-08-06T05:27:58.528Z|epoch_ms=1785994078528|backend_started pid=2084079 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-06T05:27:58.604Z|epoch_ms=1785994078604|rel_ms=    8537|backend_up instance_id=be-2-2083433-74452 spawn_count=2 init_ms=4151.9
+BACKEND|2026-08-06T05:27:58.606Z|epoch_ms=1785994078606|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-06T05:27:58.607Z|epoch_ms=1785994078607|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-06T05:27:58.620Z|epoch_ms=1785994078620|rel_ms=    8553|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=2 giving_up
+PROXY|2026-08-06T05:27:58.620Z|epoch_ms=1785994078620|rel_ms=    8553|call_tool_handler_error type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}")
+BACKEND|2026-08-06T05:27:58.621Z|epoch_ms=1785994078621|backend_stdin_closed_exiting
+PROXY|2026-08-06T05:27:59.053Z|epoch_ms=1785994079053|rel_ms=    8986|backend_client_closed instance_id=be-2-2083433-74452
+handler for 'tools/call' raised
+jsonschema.exceptions.ValidationError: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/shared/jsonrpc_dispatcher.py", line 720, in _handle_request
+    result = await on_request(dctx, req.method, req.params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 747, in on_request
+    return await runner.on_request(dctx, method, params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 230, in _on_request
+    result = _dump_result(await call(ctx))
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/_otel.py", line 44, in __call__
+    result = await call_next(ctx)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/server/runner.py", line 217, in _inner
+    result = await entry.handler(ctx, typed_params)
+  File "/home/claude-code/projects/ASES/.worktrees/pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881/research/toolregistry-lazy-mcp/output-schema-drift/proxy.py", line 225, in on_call_tool
+    result = await asyncio.wait_for(
+  File "/usr/lib/python3.10/asyncio/tasks.py", line 445, in wait_for
+    return fut.result()
+  File "/home/claude-code/projects/ASES/.worktrees/pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881/research/toolregistry-lazy-mcp/output-schema-drift/proxy.py", line 177, in call
+    result = await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1064, in call_tool
+    await self.validate_tool_result(name, result)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1110, in validate_tool_result
+    raise RuntimeError(f"Invalid structured content returned by tool {name}: {error}") from error
+RuntimeError: Invalid structured content returned by tool add: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+2026-08-06 05:27:59.066 | ERROR    | Original Exception happens at add:
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 105, in _call_persistent
+    return await self._client.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/client.py", line 133, in call_tool
+    return await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1048, in call_tool
+    result = await self.send_request(
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 553, in send_request
+    raw = await self._dispatcher.send_raw_request(method, data.get("params"), opts)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/shared/jsonrpc_dispatcher.py", line 444, in send_raw_request
+    raise MCPError(code=outcome.code, message=outcome.message, data=outcome.data)
+mcp.shared.exceptions.MCPError: Invalid structured content returned by tool add: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/integration.py", line 92, in call_sync
+    result = self._connection.call_tool_sync(self.name, validated_params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 135, in call_tool_sync
+    return AsyncRuntime.run_sync(self.call_tool(name, arguments))
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/_async_runtime.py", line 87, in run_sync
+    return asyncio.run_coroutine_threadsafe(coro, loop).result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 71, in call_tool
+    return await self._call_persistent(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 111, in _call_persistent
+    return await self._client.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/client.py", line 133, in call_tool
+    return await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1048, in call_tool
+    result = await self.send_request(
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 553, in send_request
+    raw = await self._dispatcher.send_raw_request(method, data.get("params"), opts)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/shared/jsonrpc_dispatcher.py", line 444, in send_raw_request
+    raise MCPError(code=outcome.code, message=outcome.message, data=outcome.data)
+mcp.shared.exceptions.MCPError: Invalid structured content returned by tool add: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|INVOKE|add(2,3)|start_ms=1785994055335|end_ms=1785994079072|delta_ms=23737|ok=False|outcome_type=ErrorResult|message_verbatim="MCPError: Error executing add: Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}"
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_SPAWN_COUNTS backend_spawn_count=4 backend_up_count=4 backend_call_failed_count=4 retry_succeeded_count=0 proxy_processes=3 proxy_pids=[2081699, 2082215, 2083433]
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_SPAWN_EVENT epoch=1785994057819 msg=backend_spawn_start instance_id=be-1-2082215-57819 spawn_count=1
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_SPAWN_EVENT epoch=1785994062225 msg=backend_spawn_start instance_id=be-2-2082215-62224 spawn_count=2
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_SPAWN_EVENT epoch=1785994070121 msg=backend_spawn_start instance_id=be-1-2083433-70121 spawn_count=1
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_SPAWN_EVENT epoch=1785994074452 msg=backend_spawn_start instance_id=be-2-2083433-74452 spawn_count=2
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_UP_EVENT epoch=1785994061025 msg=backend_up instance_id=be-1-2082215-57819 spawn_count=1 init_ms=3205.2
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_UP_EVENT epoch=1785994066369 msg=backend_up instance_id=be-2-2082215-62224 spawn_count=2 init_ms=4144.3
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_UP_EVENT epoch=1785994073534 msg=backend_up instance_id=be-1-2083433-70121 spawn_count=1 init_ms=3413.1
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_UP_EVENT epoch=1785994078604 msg=backend_up instance_id=be-2-2083433-74452 spawn_count=2 init_ms=4151.9
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_FAILURE_EVENT epoch=1785994061182 msg=backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=1 respawning
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_FAILURE_EVENT epoch=1785994066384 msg=backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=2 giving_up
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_FAILURE_EVENT epoch=1785994073766 msg=backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=1 respawning
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_FAILURE_EVENT epoch=1785994078620 msg=backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}") attempt=2 giving_up
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_HANDLER_ERROR_EVENT epoch=1785994066384 msg=call_tool_handler_error type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}")
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_HANDLER_ERROR_EVENT epoch=1785994078620 msg=call_tool_handler_error type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}")
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_PROXY_STARTED epoch=1785994054468 msg=proxy_started pid=2081699 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_PROXY_STARTED epoch=1785994057805 msg=proxy_started pid=2082215 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_PROXY_STARTED epoch=1785994070069 msg=proxy_started pid=2083433 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_WAS_SPAWNED_BEFORE_FAILURE backend_first_spawn_epoch=1785994057819 call_start_epoch=1785994055335 -> backend spawned 2484 ms after call invocation
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_ERROR_RESULT message_verbatim="MCPError: Error executing add: Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}"
+HARNESS|2026-08-06T05:27:59.072Z|epoch_ms=1785994079072|TESTC_RESULT pass=True (expected: failure; observed: ErrorResult)
+PROXY|2026-08-06T05:27:59.074Z|epoch_ms=1785994079074|rel_ms=    9007|connection_closed exiting
+HARNESS|2026-08-06T05:27:59.846Z|epoch_ms=1785994079846|phase_done phase=test-c test_c_pass=True
