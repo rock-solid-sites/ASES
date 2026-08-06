@@ -1,5 +1,5 @@
 {
-  "next_display_id": 195,
+  "next_display_id": 196,
   "next_comment_id": 472,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -91,6 +91,7 @@
     "661fd967-2a52-4fc5-b28a-eb67bd5194de": 9,
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": 71,
     "6d33d99f-5c4a-40a1-9d33-7676ed401647": 157,
+    "6d758d74-81d2-4621-8005-64e83425d269": 195,
     "6de93a06-d6a0-48c4-902d-6c23bdda5f98": 141,
     "6e3bc7f9-a469-48ea-bb12-05b6cb3e6f2d": 83,
     "6ee747b1-6d9a-4290-bd0b-2b5326418847": 67,
@@ -3502,6 +3503,16 @@
         "ae626387-2d74-45ed-b6fa-91d1f44a9b70",
         "d60ba942-8aff-40d4-b09b-c9224a8530e8"
       ]
+    },
+    "6d758d74-81d2-4621-8005-64e83425d269": {
+      "uuid": "6d758d74-81d2-4621-8005-64e83425d269",
+      "display_id": 195,
+      "title": "MEASURE: webfetch (built-in) vs fetch MCP — token efficiency + content completeness on the SAME URLs. MOTIVATION: the fetch-vs-curl comparison (#187) showed 9-24x savings, but agents don't use curl for web content — they use the built-in webfetch tool, which ALREADY returns markdown (TurndownService, source verified: packages/opencode/src/tool/webfetch.ts — format default=markdown, strips script/style/meta/link, 5MB cap, no default truncation). fetch MCP (mcp-server-fetch) returns markdown too but with a DEFAULT 5000-char cap. So the real question is: does fetch MCP's cap beat webfetch's full-length markdown on tokens, and at what content cost? TASK: (1) on 3-5 real URLs (a small docs page, a large docs page, a blog post, a news page — e.g. opencode.ai/docs, opencode.ai/docs/cli/, a README, a Wikipedia article), fetch the same URL via (a) webfetch tool output (markdown) and (b) fetch MCP output; (2) measure input tokens (tiktoken o200k_base) for each; (3) measure content completeness (total chars, whether key sections present, truncation evidence); (4) report a table: URL | webfetch tokens | fetch-MCP tokens | ratio | content-completeness diff; (5) VERDICT: does fetch MCP save enough tokens vs webfetch to justify routing agents to it, or is webfetch the right default? Note the tradeoff: fetch's 5k cap bounds tokens but loses content; webfetch returns full markdown (possibly 40k+ tokens on huge pages) with no cap. Also test webfetch with an explicit format=text option if relevant. Read /tmp/opencode/opencode-upstream-r3/packages/opencode/src/tool/webfetch.ts for the webfetch semantics. POST result to THIS sub-issue.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-06T01:47:02.345801183Z",
+      "updated_at": "2026-08-06T01:47:02.345801183Z"
     },
     "6de93a06-d6a0-48c4-902d-6c23bdda5f98": {
       "uuid": "6de93a06-d6a0-48c4-902d-6c23bdda5f98",
@@ -7673,8 +7684,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T01:32:15.499752866Z",
-    "agent_id": "pp3g-Nu9v-implement-the-154-durable-opencode-fork-phase-2-task",
-    "agent_seq": 4
+    "timestamp": "2026-08-06T01:47:02.345801183Z",
+    "agent_id": "OL2r",
+    "agent_seq": 892
   }
 }
