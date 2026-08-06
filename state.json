@@ -1,6 +1,6 @@
 {
   "next_display_id": 219,
-  "next_comment_id": 610,
+  "next_comment_id": 611,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7139,7 +7139,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
       "created_at": "2026-08-06T05:40:36.288418060Z",
-      "updated_at": "2026-08-06T06:07:07.239385440Z",
+      "updated_at": "2026-08-06T06:16:54.884229958Z",
       "labels": [
         "research",
         "toolregistry"
@@ -7153,6 +7153,15 @@
           "kind": "plan",
           "signed_by": "SHA256:FZhKCZXb2m48Kkv4hiOg7SGI5tHHFv5+sYldGFVanHU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg++yESydc6rh4C1AeKGWti3YO+o09CRHO3M+PRxshLasAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlNQBvFz7PkCAQO55QxwhVolzoq8n2sfq7ffaFhhR255u7nzLaOWiE0BnhTfhMnyvDjEGzC/4Xrwik3fVlmwiDA=="
+        },
+        "8a1024b2-caa5-4103-b3ec-8eebf4987867": {
+          "display_id": 610,
+          "author": "pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test",
+          "content": "Result: retry-classification validation complete — classification alone ELIMINATES the compounding (4x -> 1x spawns), with one residual gap (caller-visible error shape + C2 variant).\n\nCommit ff25820 (18 files, research/toolregistry-lazy-mcp/retry-classification/): proxy_classified.py (single-variable delta on #213 drift proxy), backend.py + manifest.json (byte-identical copies, md5-verified), tests/ (phase_1_control, phase_2_classified, phase_3_connection, phase_3b_proxy_retry, common_retry, run_retry), logs/ per test, report.md.\n\nKEY NUMBERS (toolregistry==0.15.0, mcp==2.0.0, py3.10.12; host load avg ~15/4 cores inflated absolutes, per-run init_ms logged):\n- Test 1 CONTROL (unmodified drift proxy): 4 backend spawns, 2 persistent proxies (+1 registration), reconnect_fired=True, 12176-42518 ms (n=4) — 4x multiplier still reproduces exactly.\n- Test 2 CLASSIFIED: 1 backend spawn, 1 persistent proxy, reconnect_fired=False (NO fresh proxy_started after failure), 4224-14471 ms (n=5); matched-run ratio T2/T1 = 0.25-0.43. Error text preserved VERBATIM (full jsonschema detail inside the caller-visible result).\n- Test 3 (kill proxy mid-call): reconnect STILL fires (3 proxies), retried call succeeds 5.0.\n- Test 3B (kill backend mid-call, supplementary): proxy's OWN respawn-retry STILL fires (MCPError(-32000 Connection closed) -> respawn -> retry_succeeded), no misclassification.\n\nVERDICT: YES — classification alone removes the compounding: spawns 4->1 (75% reduction), proxies 2->1, latency 57-75% lower (matched-run ratio). Residual single-failure cost = one spawn + forward + classify (~4.2-14.5 s here, dominated by the single backend init; ~1.35-2.2x the #213 success baseline). Residual gap: (1) caller-visible shape degrades from ErrorResult to ToolCallResult-with-repr (ToolRegistry 0.15.0 only builds ErrorResult from a raised exception — the exact path that fires connection.py:106 — so proxy-only classification cannot have both no-reconnect AND ErrorResult); (2) the consistently-drifted C2 variant (backend declaration+behaviour both diverged) is invisible to proxy-side classification (2 spawns/2 proxies remain). Heavier mitigation would need to save only the single-spawn residual + fix the error shape + reach C2. Report: research/toolregistry-lazy-mcp/retry-classification/report.md",
+          "created_at": "2026-08-06T06:16:54.869681845Z",
+          "kind": "result",
+          "signed_by": "SHA256:FZhKCZXb2m48Kkv4hiOg7SGI5tHHFv5+sYldGFVanHU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg++yESydc6rh4C1AeKGWti3YO+o09CRHO3M+PRxshLasAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOQkP56PJlcIp07B/goJyA8fGyQp/1w4k/4E0KcyC9QdYQjqouTRGUn+vZH5XSly2uLgZg6/8mwnSakJKfuwcDQ=="
         },
         "a4c54440-0469-4aa2-bb01-08e9266266bd": {
           "display_id": 599,
@@ -9357,8 +9366,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T06:16:12.404282305Z",
-    "agent_id": "pp3g-nHSI-resume-phase-2-154-durable-fork-build-task-on-issue",
-    "agent_seq": 9
+    "timestamp": "2026-08-06T06:16:54.884229958Z",
+    "agent_id": "pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test",
+    "agent_seq": 6
   }
 }
