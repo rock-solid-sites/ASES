@@ -1,6 +1,6 @@
 {
   "next_display_id": 211,
-  "next_comment_id": 550,
+  "next_comment_id": 551,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -487,7 +487,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T00:38:37.400272219Z",
-      "updated_at": "2026-08-06T01:13:59.370310830Z",
+      "updated_at": "2026-08-06T04:26:50.144795012Z",
       "labels": [
         "infrastructure"
       ],
@@ -500,6 +500,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQCduXYsQhomBoyt44ooQ4Oh69BR1DOjfgHkqtqzP1ECtc3j8RIVnKO4ZFtB6sWVpYG0QV9Mw0YelM8aQUfCrDg=="
+        },
+        "413c1bc3-8167-499e-bc84-2fe7de2cc5f6": {
+          "display_id": 550,
+          "author": "OL2r",
+          "content": "[result] LIVE KICKOFF VERIFICATION COMPLETE (issue #210, agent pp3g-AJtB, deepseek-v4-flash, guide 2m). PASS: (1) no-kill invariant — process tree showed 'timeout 86400s' wrapper (24h backstop) for a 2m guide; agent survived the 04:23:52Z guide mark and completed DONE normally; pre-fix code would have hard-killed at 2m (the gr9C failure). (2) watchdog terminal-sentinel exit verified live — watchdog process exited on DONE content (#138 fix functional). (3) worktree hooks installed — .claude/hooks/heartbeat.py + crosslink_config.py both present. (4) checkpoint-comment evidence stream flowed (plan + progress + result on #210). FINDING (pre-existing gap, #135 Phase 2 scope): heartbeat mtime did NOT flow — no .crosslink/.cache/last-heartbeat ever written in the worktree, and main-repo heartbeat stale since 2026-07-09. Cause: kickoff agents run under opencode ('opencode run' in process tree); .claude/settings.json PostToolUse hooks are a Claude Code mechanism opencode does not execute, so heartbeat.py never fires. The #192 fold-in (installing hook files) is necessary but not sufficient; wiring heartbeat into opencode's own hook system (opencode.json hooks or plugin) is the remaining #135 Phase 2 work. CORE #192 FIX (timeout non-destructive + evidence watchdog + monitor surfacing) VERIFIED.",
+          "created_at": "2026-08-06T04:26:50.137773850Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEr54ozwaSsrFPD1G4JAXyEW2Ji3CCvU6yFrgXtzvRZyruq12pZo4JUOwj4lJh1p/beMVFFdHln0moyBw3W2+Bg=="
         },
         "5a20bdb7-8129-4918-88b2-9c4ceb6ddb80": {
           "display_id": 470,
@@ -8646,8 +8655,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T04:26:15.170862474Z",
+    "timestamp": "2026-08-06T04:26:50.144795012Z",
     "agent_id": "OL2r",
-    "agent_seq": 939
+    "agent_seq": 940
   }
 }
