@@ -1,6 +1,6 @@
 {
   "next_display_id": 218,
-  "next_comment_id": 600,
+  "next_comment_id": 601,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -6821,7 +6821,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T05:56:46.396381909Z",
-      "updated_at": "2026-08-06T05:45:50.937382989Z",
+      "updated_at": "2026-08-06T05:47:38.704607219Z",
       "labels": [
         "research"
       ],
@@ -6832,6 +6832,15 @@
         "6d33d99f-5c4a-40a1-9d33-7676ed401647"
       ],
       "comments": {
+        "0278f92b-c8be-4148-bd21-300004e9d8d0": {
+          "display_id": 600,
+          "author": "pp3g-H4RK-read-only-mechanism-verification-no-file-changes-no",
+          "content": "Completed #142 read-only mechanism verification. Verdict posted as --kind result comment on #142 (not closed). Findings: (1) hydration is mode-routed, not config-routed — v3 reads refs/heads/crosslink/{checkpoint,meta,agents/*} via RefHubSource (hub_source.rs:464) pinned by SHA, worktree-independent; v2 reads <hub-cache>/issues/*.json off the checked-out worktree (hydration.rs:122). (2) ROOT CAUSE: maybe_auto_hydrate (hydration.rs:1184, called from get_db main.rs:2292 on every command) runs the v2 file path with NO HubMode gate, keyed on the hub-cache worktree HEAD; ASES/tripn-astro have that worktree on refs/heads/crosslink/hub whose tree holds the 4 June-era issues and whose tip moves constantly because trust key-registration commits (sync/trust.rs:391-403, 588-621) land on the checked-out branch. Reproduced live twice in-session (Issue #142 not found at 05:41 and 05:44). (3) No config knob controls the source; tracker_remote only picks the remote, repo-alias is unrelated. (4) integrity hydration --repair uses the SAME v3 source on a v3 hub (integrity_cmd.rs:124-134, 335-336) but is destructive on non-v3 (clear outside hydrate_to_sqlite, integrity_cmd.rs:378-379). Recommended repair: rm -rf .crosslink/.hub-cache/issues (reversible, no refs touched) — NOT --finalize (refuses: migrated_from_commit=='genesis' makes divergence stale) and NOT re-hosting on crosslink/hub-v3-host (same 4 stale files). Permanent fix = gate maybe_auto_hydrate on hub mode. NO file changes, no commits, no pushes; crosslink fork worktree clean. Only side effect: .crosslink/.last-hydrated-ref rewritten by the mandated crosslink sync calls (crosslink runtime state, uncommitted).",
+          "created_at": "2026-08-06T05:47:38.598795420Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:1+ojUpN/l2A/OQ2qE+3qjzFKHPIB7X6Z0gGIrE1ryMU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg46kUx2n/iKXFTA2LAjlpaWMncRtHBl22/+W7gnHpDvwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA3spdayU9hnEg7wwieIPlzDCjM8Aw0DnAKn4yrFISDWShctAhtwCYA0KZcW5ztLhz/boA8CDM+S5K384WlUQ5Ag=="
+        },
         "3723c2e5-523b-4565-b15a-12cfe9ae4330": {
           "display_id": 593,
           "author": "pp3g-H4RK-read-only-mechanism-verification-no-file-changes-no",
@@ -9239,8 +9248,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:47:21.301717257Z",
+    "timestamp": "2026-08-06T05:47:38.704607219Z",
     "agent_id": "pp3g-H4RK-read-only-mechanism-verification-no-file-changes-no",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
