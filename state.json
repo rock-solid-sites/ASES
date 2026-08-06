@@ -1,6 +1,6 @@
 {
   "next_display_id": 202,
-  "next_comment_id": 496,
+  "next_comment_id": 497,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5206,10 +5206,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T02:38:38.896720130Z",
-      "updated_at": "2026-08-06T02:38:49.240944276Z",
+      "updated_at": "2026-08-06T02:43:03.207546265Z",
       "labels": [
         "review"
-      ]
+      ],
+      "comments": {
+        "f701a8c9-ddf6-402d-abc7-c51012a84755": {
+          "display_id": 496,
+          "author": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+          "content": "Plan: Adversarial evidence-verification review of research/toolregistry-lazy-mcp (the #196 deliverable). Approach - re-derive every claim from primary artifacts, never from report prose. Steps: (1) read all 7 log files line-by-line and extract raw epoch_ms timestamps; (2) independently recompute every ms figure in the report - Tests 2/3 timings are load-bearing for the project cold-start ceiling - and check the arithmetic/interval derivations hold; (3) read proxy.py and backend.py in full to verify the 5 claimed proxy behaviours (spawn-on-first-call, cached tools/list, single reused backend session, zero notifications, ms-stamped stderr) against code not prose; (4) check methodology fidelity vs the brief, especially Test4-vs-Test1 conflation and whether Test 5 performed a real SOURCE INSPECTION of the installed ToolRegistry for list_changed rather than inference; (5) independently verify the installed toolregistry/mcp source claims if the venv is still present; (6) assess the conclusion for over/under-claim and check the unanticipated-behaviour section against the logs; (7) repo-standard conformance (Documentation Standard YAML metadata, exact versions, observation-vs-finding separation). Read-only: findings filed as comments only, no file edits.",
+          "created_at": "2026-08-06T02:43:03.201819232Z",
+          "kind": "plan",
+          "signed_by": "SHA256:dqJJxDfhYp2s0PbFtktYlMdwFUCtHuPimgtdoZJSG+g",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgi3Y7k6zLHSnYcebt0U8E4gaHZmVqfalyr69g11qwxm8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWbtHQeviH3RSJMqAsjBji7UBAEh1hpAGNZdsI5xRj5bdMqAeov/fUZL6B09uwZHgQ141AuIrqMCS4AW/9V3PCA=="
+        }
+      }
     },
     "938b926a-c400-4088-837f-9bc1322dd8d7": {
       "uuid": "938b926a-c400-4088-837f-9bc1322dd8d7",
@@ -8013,8 +8024,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T02:42:33.492174150Z",
-    "agent_id": "pp3g-uQTp-inspect-phase-2-artifacts-to-decide-resume-vs-redo",
-    "agent_seq": 2
+    "timestamp": "2026-08-06T02:43:03.207546265Z",
+    "agent_id": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
+    "agent_seq": 15
   }
 }
