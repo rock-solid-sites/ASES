@@ -4,7 +4,7 @@ tags: ["orchestration", "kickoff", "swarm", "workflow"]
 sources: []
 contributors: ["ASES"]
 created: 2026-08-01
-updated: 2026-08-03
+updated: 2026-08-06
 ---
 
 # Agent Orchestration Playbook
@@ -60,6 +60,42 @@ Pick the tier **before** dispatching. The boundary is feature size and shape:
 - **Prove serially, then fan out.** The first instance of a pattern must be
   completed end-to-end before parallelizing. Six agents fanning out on an
   unproven pattern each invent a different (often wrong) approach.
+
+### 2.1 The Task Tool Is Not a Tier — In-Session Read/Research Only
+
+The opencode **Task tool** (and `@explore` / `@general` subagents) is **NOT**
+an orchestration tier. It is an in-session, synchronous subagent call. It must
+never be used where kickoff/swarm/sentinel apply. The full decision matrix:
+
+| Need | Tool | Execution model | Locking |
+|------|------|-----------------|---------|
+| In-session read / research / quick-answer — small file reads, summarization, bounded analysis | **opencode Task tool** (or `@explore` / `@general`) | In-session subagent call | **Synchronous, BLOCKING** — the calling session locks until the subagent returns |
+| Single implementation ticket | **Kickoff** (`crosslink kickoff run`) | Background tmux/container + own worktree + feature branch + crosslink issue + checkpoint contract | **Non-blocking** — session stays live |
+| Multi-phase parallel feature | **Swarm** (`crosslink swarm init` → `launch` → `gate` → `checkpoint`) | Multiple worktrees, hub-branch coordination, budget windows, phase gates | Non-blocking — session stays live |
+| Long-running autonomous maintenance | **Sentinel** (separate; see `crosslink-subagent-orchestration.md`) | Persistent daemon, poll-triage-dispatch loop | Non-blocking — session stays live |
+
+**Locking mechanism, stated explicitly:** the Task tool runs **in-session and
+synchronously** — the calling orchestrator session is **blocked until the
+subagent returns**. While it runs the orchestrator cannot converse with the
+operator and cannot dispatch other agents. Kickoff/swarm/sentinel run
+**out-of-session** (own tmux/container, own worktree, own crosslink issue and
+identity, hub sync, checkpoint contract) — the orchestrator session stays
+live and responsive.
+
+**Task-tool constraints (hard):**
+- **NEVER use the Task tool for implementation.** It has no worktree
+  isolation, no crosslink issue/identity/tracking, no durable commit trail,
+  and no checkpoint contract — it cannot produce tracked, verifiable work.
+- **NEVER use the Task tool to record review verdicts for the record.**
+  Verdicts belong on a crosslink issue via a tracked reviewer session.
+- **NEVER use the Task tool for anything requiring a durable
+  worktree/commit/tracking trail.**
+
+**Failure evidence (2026-08-06):** agents repeatedly used the Task tool for
+actual implementation, which LOCKED the orchestrator session while the
+subagent ran — a blocking failure mode kickoff does not have. Any
+implementation request routes to kickoff (single ticket), swarm (multi-phase
+parallel), or sentinel (autonomous), never to the Task tool.
 
 ---
 
@@ -504,6 +540,7 @@ Before trusting such work:
 
 | Anti-Pattern | Why It's Dangerous | Correct Behavior |
 |-------------|-------------------|------------------|
+| Using the opencode Task tool for implementation | Synchronous in-session subagent BLOCKS the calling session; no worktree, no crosslink issue/tracking, no commit trail (repeated incidents, 2026-08-06) | Task tool = in-session read/research/quick-answer ONLY; implementation → kickoff/swarm/sentinel (§2.1) |
 | Omitting `--model` on kickoff | Silently uses wrong/unavailable model | Always pin explicitly |
 | Blanket `--timeout 1h` on every kickoff | Overcommits, starves operator of feedback, hides dead agents | Task-match the timeout (§5.3) |
 | Using `claude-mode` CLI wrappers | Deprecated, inconsistent with Crosslink | Use `crosslink kickoff run` / `crosslink swarm launch` |
@@ -526,6 +563,7 @@ Before trusting such work:
 
 ```bash
 # Choose tier
+#   in-session read/research/quick-answer -> opencode Task tool (BLOCKS session — NEVER implementation)
 #   one ticket  -> kickoff
 #   multi-phase -> swarm
 #   autonomous  -> sentinel (see crosslink-subagent-orchestration.md)

@@ -10,11 +10,33 @@ Crosslink provides three tiers of subagent orchestration, each suited to a diffe
 
 | Tier | Name | When to use | Max agents | Execution model |
 |---|---|---|---|---|
+| **0 (excluded)** | opencode Task tool | In-session read/research/quick-answer only — NEVER implementation | 1 (in-session) | Synchronous in-session subagent call — BLOCKS the calling session until it returns; no worktree isolation, no crosslink issue/tracking, no commit trail |
 | **1** | Kickoff | Single, well-defined task | 1 | Isolated worktree, tmux or container |
 | **2** | Swarm | Multi-phase feature with parallel agents | Unlimited (phased) | Multiple worktrees, hub branch coordination, budget-aware |
 | **3** | Sentinel | Autonomous maintenance (poll-and-dispatch) | Configurable (default 3) | Persistent daemon, poll-triage-dispatch loop |
 
 Choose kickoff when the task fits in one agent session (typically ≤1 hour). Choose swarm when the work decomposes into phases with parallel components. Choose sentinel when you want long-running autonomous responses to external signals (GitHub labels, CI failures, stale issues).
+
+**The opencode Task tool is NOT an orchestration tier.** It is an in-session, synchronous subagent call for read/research/quick-answer only — never implementation. See [Why not the Task tool](#why-not-the-task-tool).
+
+---
+
+## Why not the Task tool
+
+The opencode Task tool (and `@explore` / `@general` subagents) runs **in-session and synchronously**: the calling orchestrator session is **blocked until the subagent returns** — it cannot converse with the operator and cannot dispatch other agents while the Task call is in flight. The subagent gets:
+
+- **No worktree isolation** — it operates in the live session tree.
+- **No crosslink issue/identity/tracking** — no ticket, no signing key, no checkpoint contract, no hub record.
+- **No durable commit trail** — its work is not committed on a feature branch with an issue reference.
+
+Kickoff/swarm/sentinel run **out-of-session** (own tmux/container, own worktree, own feature branch, own crosslink issue and identity, hub sync, checkpoint contract) — the orchestrator session stays live and responsive.
+
+**Hard constraints:**
+- **NEVER use the Task tool for implementation.**
+- **NEVER use the Task tool to record review verdicts for the record.**
+- **NEVER use the Task tool for anything requiring a durable worktree/commit/tracking trail.**
+
+**Failure evidence (2026-08-06):** agents repeatedly used the Task tool for actual implementation, which LOCKED the orchestrator session while the subagent ran — a blocking failure mode kickoff does not have. Implementation routes to kickoff (single ticket), swarm (multi-phase parallel), or sentinel (autonomous) — never the Task tool.
 
 ---
 
