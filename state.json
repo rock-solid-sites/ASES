@@ -1,6 +1,6 @@
 {
   "next_display_id": 218,
-  "next_comment_id": 597,
+  "next_comment_id": 598,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7063,11 +7063,22 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
       "created_at": "2026-08-06T05:40:36.288418060Z",
-      "updated_at": "2026-08-06T05:40:57.468954684Z",
+      "updated_at": "2026-08-06T05:45:44.711204011Z",
       "labels": [
         "research",
         "toolregistry"
-      ]
+      ],
+      "comments": {
+        "84b29245-2251-4699-8b2b-26d503d20e85": {
+          "display_id": 597,
+          "author": "pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test",
+          "content": "Plan: (1) Post plan + start session. (2) Empirically probe what response shape avoids ToolRegistry's connection.py:106 reconnect — build a minimal isError=True CallToolResult server, register via ToolRegistry 0.15.0, invoke, record outcome type/message and whether reconnect fires. (3) Build proxy_classified.py as a copy of the drift proxy with exactly two deltas: (a) on schema-validation failure (RuntimeError from proxy's own mcp client, signature 'Invalid structured content returned by tool'), return a normal MCP tool-error CallToolResult(isError=True) instead of raising — so the stdio dispatcher never emits a JSON-RPC error and _call_persistent has nothing to catch; (b) skip the proxy's own respawn-retry for that failure class only. All other behavior unchanged. (4) Tests: T1 control rerun (unmodified drift proxy, Test C scenario) to reconfirm 4x; T2 same scenario vs proxy_classified measuring spawn/proxy counts, reconnect-fire YES/NO, latency vs control + #213 success baseline, verbatim caller error; T3 real connection failure (kill proxy mid-call) still retries. (5) report.md in research/toolregistry-lazy-mcp/retry-classification/ with Documentation Standard YAML, before/after table, YES/NO verdict, Test 3 evidence, gap sizing, observation/finding separation, pinned versions (toolregistry==0.15.0, mcp==2.0.0, py3.10.12). (6) Commit via /commit workflow.",
+          "created_at": "2026-08-06T05:45:44.705310980Z",
+          "kind": "plan",
+          "signed_by": "SHA256:FZhKCZXb2m48Kkv4hiOg7SGI5tHHFv5+sYldGFVanHU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg++yESydc6rh4C1AeKGWti3YO+o09CRHO3M+PRxshLasAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlNQBvFz7PkCAQO55QxwhVolzoq8n2sfq7ffaFhhR255u7nzLaOWiE0BnhTfhMnyvDjEGzC/4Xrwik3fVlmwiDA=="
+        }
+      }
     },
     "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9": {
       "uuid": "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9",
@@ -9214,8 +9225,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:44:23.088869843Z",
-    "agent_id": "pp3g-kbb0-implement-135-phase-2-wire-heartbeat-into-opencode-s",
-    "agent_seq": 11
+    "timestamp": "2026-08-06T05:45:44.711204011Z",
+    "agent_id": "pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test",
+    "agent_seq": 2
   }
 }
