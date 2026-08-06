@@ -1,6 +1,6 @@
 {
   "next_display_id": 228,
-  "next_comment_id": 649,
+  "next_comment_id": 650,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -4600,13 +4600,24 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T07:17:11.002027378Z",
-      "updated_at": "2026-08-06T07:17:44.226630946Z",
+      "updated_at": "2026-08-06T07:22:38.451258103Z",
       "labels": [
         "infrastructure"
       ],
       "related": [
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
-      ]
+      ],
+      "comments": {
+        "4dbfc0a1-a336-490c-858f-3987b30b4445": {
+          "display_id": 649,
+          "author": "pp3g-GlOB-rebuild-the-154-durable-fork-binary-from-preserved",
+          "content": "Plan: (1) Verify preserved source at /tmp/opencode/fork-build (committed a7a80ef on pp3g-fork-v1.18.13, tracked files clean; untracked = nHSI diagnostic tests only); (2) preserve a backup copy of the 01:46 binary BEFORE rebuild (build.ts rm -rf dist); (3) workspace-root bun install (bun@1.3.14 already active); (4) build: OPENCODE_VERSION=1.18.13-pp3g-fork OPENCODE_CHANNEL=fork-pp3g bun run build --single --skip-embed-web-ui (F11); (5) verify new binary --version + grep 'Body read timed out'/'Turn stalled' markers; (6) CRITICAL GATE: run the SDK-level real-code scenario (binary + hanging non-SSE server with bodyIdleTimeout config — the same test that fired BODY IDLE in source) against the NEW binary; require 'Body read timed out' marker in client output + exit != 124, plus turn-level 'Turn stalled' check; do NOT proceed to matrix/install unless gate passes; (7) run full 16-row matrix via /tmp/opencode/matrix-run/run-matrix.sh against the NEW binary; (8) report binary path + markers + matrix table to #226; no live install.",
+          "created_at": "2026-08-06T07:22:38.442008258Z",
+          "kind": "plan",
+          "signed_by": "SHA256:AB5u5kOrhxAHrVRRXzahnB3lFcbGvr8NBsxVrUADJEc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4uhrgIuu+JO7OpG1evHFB83gYSo9Vec97MkAE/Bc81EAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA9cRWpXklrCMQtyNDE2CEgHUrZLevPgoYB4n0W0mybFcFW5XRF+R17FaD8gn5Bphe55wFj2v4ZEc6fYmKtUPJAw=="
+        }
+      }
     },
     "720d46f0-c13b-45e9-9575-35d52ce3bf8d": {
       "uuid": "720d46f0-c13b-45e9-9575-35d52ce3bf8d",
@@ -9838,8 +9849,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T07:20:36.060298976Z",
-    "agent_id": "pp3g-hDWQ-resolve-a-merge-conflict-complete-approved-branch-1e31",
-    "agent_seq": 10
+    "timestamp": "2026-08-06T07:22:38.451258103Z",
+    "agent_id": "pp3g-GlOB-rebuild-the-154-durable-fork-binary-from-preserved",
+    "agent_seq": 2
   }
 }
