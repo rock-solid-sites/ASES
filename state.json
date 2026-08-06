@@ -1,6 +1,6 @@
 {
   "next_display_id": 198,
-  "next_comment_id": 480,
+  "next_comment_id": 481,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
@@ -2735,10 +2735,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T02:20:41.950955660Z",
-      "updated_at": "2026-08-06T02:20:48.273813737Z",
+      "updated_at": "2026-08-06T02:22:59.395840232Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "87e67d6c-0a94-456f-8a66-84926388850c": {
+          "display_id": 480,
+          "author": "pp3g-JwRj-memory-cleanup-kill-stale-loop-task-on-issue-197-1",
+          "content": "Plan: (1) kill stale bash loop PID 2726666, verify dead via ps -p. (2) profile top RSS consumers (done: clippy-driver 1.1G live, opencode procs live, MainThread x4 ~160M suspicious, node/npm python/uv group ~300M to inspect). (3) free memory safely: inspect tmux sessions (ASES/astro/combined-verify/current keep; check MIgb/Nu9v/jlse sessions for liveness), inspect MainThread + node/npm/python/uv PIDs (playwright/zombie?), crosslink kickoff cleanup --dry-run for DONE worktrees, /tmp opencode dirs older than today. Protect cargo/clippy/rustc 1464309/1467115/1474707 + all opencode. (4) report before/after free -h.",
+          "created_at": "2026-08-06T02:22:59.389269193Z",
+          "kind": "plan",
+          "signed_by": "SHA256:Mht6zwe4xiCOUamLyTRwZkgqvbjcjqHcWhECAUZu1qA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg+lxMIIxCQdKxbuMpfULWIQ/GokfAGJRt4l5vFCzAbFwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAIThPLR0hb0AFljGEazR9oLWgdrz/z/0FMTClsSDZ17ys026qz7YBSUSF1oodnuODtimcuFdQFkcsk4rl4k19AQ=="
+        }
+      }
     },
     "52ea68a3-1536-4e75-b68f-89c0ba01b8d1": {
       "uuid": "52ea68a3-1536-4e75-b68f-89c0ba01b8d1",
@@ -7803,8 +7814,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T02:22:30.976960278Z",
+    "timestamp": "2026-08-06T02:22:59.395840232Z",
     "agent_id": "pp3g-JwRj-memory-cleanup-kill-stale-loop-task-on-issue-197-1",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
