@@ -1,6 +1,6 @@
 ---
 title: "Model Routing Matrix"
-tags: ["models", "routing", "opencode", "capability"]
+tags: ["models", "routing", "opencode", "capability", "session-evidence"]
 sources:
   - url: "https://github.com/edases/ASES/issues/190"
     title: ""
@@ -9,6 +9,7 @@ contributors: ["pp3g-H4ni-write-the-comprehensive-model-capability-registry-6974
 created: 2026-08-06
 updated: 2026-08-06
 ---
+
 
 
 # Model Routing Matrix — DIMENSIONED
@@ -158,3 +159,15 @@ updated: 2026-08-06
 6. **Two-tier pipelines**: fast verifier (north-mini-code/ling) for triage + deep reviewer (gemini/luna/hy3) for audit — the proven adversarial-consensus pattern (project-completion-report §8).
 
 ## Session evidence 2026-08-06 (#192 fork fix verification)\n- Agent pp3g-AJtB ran on opencode-go/deepseek-v4-flash for the #192 live-kickoff verification (issue #210): completed cleanly, no hang, correct report, checkpoint comments posted. Positive data point against the documented SILENT-HANG failure mode for this model (no hang in this short 2m-guide session).\n
+
+
+
+## Session evidence addendum — 2026-08-06 (#196 ToolRegistry lazy-MCP validation)
+
+**Models exercised (all in their matrix-designated roles):**
+- `opencode-go/deepseek-v4-flash` (builder, 3 dispatches #196/#204/#211): built the full 5-test evidence package, applied the 5 MUST FIX + 2 Also-Fix revision exactly, and executed the docstring+capture-script follow-up. Zero scope drift, all commits verified by independent re-review. Strengthens the evidence-first-implementation profile (#144/#145). Evidence: ebe07b3, b40c980, 88f9022.
+- `opencode-go/hy3` (reviewer #199): 5 MUST FIX, all correct and each independently re-derived; reviewer noted "citation discipline of this quality is rare". Confirms the source-re-derivation lens (#153/#176/#182).
+- `opencode/big-pickle` (reviewer #200 + re-review #205): original review PASS with 2 non-blocking SHOULD-CONSIDERs that were both later fixed; re-review PASS after confirming the new initialize-capture artifact byte-consistent with SDK wire model. Live re-run blocked by reviewer bash allowlist (see note below). Confirms breadth+live-system lens (#130/#137).
+- `opencode-go/mimo-v2.5-pro` (reviewer #204 re-review): structural findings-by-findings re-review, PASS with every item re-derived from raw artifacts. Strong showing for a re-review gate; consistent with the #183 pattern (structured verification tables). New paid-variant observation: verification depth here was on par with hy3 on this doc-type task (differed from the #182-vs-#183 depth gap, which was a design/code-review context).
+
+**Infrastructure finding worth propagating:** the reviewer-role bash allowlist (`.opencode/agents/reviewer.md`) denies `python ` even though hook-config allowed_bash_prefixes permits it — live re-verification by reviewers is therefore blocked by a config gap, not a deliverable defect (big-pickle #200/#205 logged interventions). If independent live re-runs are wanted from reviewers, grant `Bash(python *)` to the reviewer map or route live re-runs to builder-role agents.
