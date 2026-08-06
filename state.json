@@ -1,6 +1,6 @@
 {
   "next_display_id": 241,
-  "next_comment_id": 754,
+  "next_comment_id": 755,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -10675,7 +10675,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T18:55:18.941248525Z",
-      "updated_at": "2026-08-06T19:04:10.549985738Z",
+      "updated_at": "2026-08-06T19:04:33.436836077Z",
       "labels": [
         "infrastructure"
       ],
@@ -10697,6 +10697,15 @@
           "kind": "plan",
           "signed_by": "SHA256:Tn+EqM+BhERXaZl5RBznW13cRAiSl5wUIzgiSZbp8mc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgyPpVFy/8QQrAIotAquhmI5UUQM4eCyuvog4s6ZgckV4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANZd4vkZPUQGLOVqzOoPRKkB4zRRiCQQMusE+qkk3yJUH4iDAkw7+VlcBoCRUsqyvxmVhvyJAuyuaxOAaJ6MIDA=="
+        },
+        "9f606b17-576e-4e2b-8418-2763ff7a7aac": {
+          "display_id": 754,
+          "author": "pp3g-Warc-probe-the-192-timeout-backstop-behavior-task-on-issue",
+          "content": "Result: PROBE COMPLETE — VERDICT: backstop WORKS (hypothesis b confirmed at wrapper layer). OBSERVATIONS: (1) Parent chain: systemd->tmux->bash(3198431)->timeout(3198641)->opencode(3198642)->agent-bash. (2) Exact wrapper: 'timeout 86400s env -u CLAUDECODE claude --model opencode-go/deepseek-v4-flash --agent builder ...' (from /proc/3198641/cmdline). N = 86400 (24h), NOT 300 (raw) and NOT 7200. (3) Source match: launch.rs timeout_backstop_secs(300) = max(300*24, 86400) = 86400; unit test asserts timeout_backstop_secs(600)=86400 (tests.rs:2838). The kickoff prompt's '= 2h' was arithmetic error — the 24h floor dominates for any guide <=1h. (4) .kickoff-metadata.json records timeout_secs=300 (guide only); hook-config.json has NO timeout_backstop_secs override. (5) TIMELINE: wrapper started 18:56:55; raw 5m kill would fire 19:01:55; agent alive + posted checkpoint at 19:02:00 (5s past mark) and 19:04:04 (elapsed 7m08s); kill -0 confirms wrapper PID still running. CONCLUSION: the installed crosslink binary applies the #192 backstop, not the raw --timeout kill. INTERPRETATION (not observation): for pdzT's #235 case (~60m guide), backstop = max(3600*24, 86400) = 86400s too, so a termination at ~60m cannot come from this wrapper — supporting the process-crash (hang class) hypothesis (issue hypothesis b). Full evidence also on session notes.",
+          "created_at": "2026-08-06T19:04:33.430195105Z",
+          "kind": "result",
+          "signed_by": "SHA256:Tn+EqM+BhERXaZl5RBznW13cRAiSl5wUIzgiSZbp8mc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgyPpVFy/8QQrAIotAquhmI5UUQM4eCyuvog4s6ZgckV4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8qqYqYjSrEIEKWCqcrvZOgwshefg1JuNQg4lAtR7bwJG7NvQlkQjVfJ7w/emOhkIIXjQAEi7JuSRt71hGl7XCw=="
         },
         "9f6adf7f-d724-4f96-895c-6202f1663276": {
           "display_id": 751,
@@ -11032,8 +11041,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T19:04:10.549985738Z",
+    "timestamp": "2026-08-06T19:04:33.436836077Z",
     "agent_id": "pp3g-Warc-probe-the-192-timeout-backstop-behavior-task-on-issue",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
