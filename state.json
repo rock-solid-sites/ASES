@@ -1,6 +1,6 @@
 {
   "next_display_id": 240,
-  "next_comment_id": 743,
+  "next_comment_id": 744,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2604,7 +2604,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-06T18:46:56.420875094Z",
+      "updated_at": "2026-08-06T18:47:28.492759101Z",
       "labels": [
         "bug"
       ],
@@ -2885,6 +2885,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/ECgaOsXbOEJJf1lhZsV6rQPDffU/XnYsBURCY+T4gJMKT4U7PqAaIfzVSiUGq80Dj/QMEAMmAqLvapGYNBKAw=="
+        },
+        "8f2588d2-7b2b-47fc-96ec-1cc73e535015": {
+          "display_id": 743,
+          "author": "pp3g-roQq-read-only-systems-durability-review-do-not-modify-d597",
+          "content": "RESULT — READ-ONLY SYSTEMS/DURABILITY REVIEW of ade6146b (diff vs 4efd9ae6). No files modified, no commit/push; #125 remains open. Targeted gate tests: 3 passed, but coverage is insufficient per findings below.\n\nVERDICT: CONDITIONAL / CHANGES REQUIRED. The new local strict probe is directionally correct and fail-closed for the cases it actually observes (spawn failure, broken ref diagnostics, unexpected exit, partial local marker presence). It is not yet a ship-ready system-wide durability gate.\n\nMUST FIX\n1. HIGH — remote-only v3 marker fail-open (hub_v3.rs:732-744; hydration.rs:1219-1244). The gate probes exact local refs in the cache repo. If meta/checkpoint exist only as remote-tracking refs (or remote has advanced but fetch/adoption has not occurred), local probes can report both v3 markers absent while local crosslink/hub exists; Ok(true) then runs destructive hydrate_to_sqlite against stale files. This directly violates fail-closed under remote-only-marker doubt. PRECONDITION: gate must consult authoritative remote state, or prove fetch/adoption occurred and treat any remote/local uncertainty as skip; add a regression fixture for remote-only v3 markers.\n2. HIGH — bypass callers remain destructive and ungated (tui/mod.rs:534,833). TUI sync completion and startup call hydrate_to_sqlite directly. On a v3 hub they can still import the stale v2 projection and drop agent-authored rows, regardless of maybe_auto_hydrate. Route them through v3 hydrate_from_state / existing mode-gated hydration, or a single fail-closed dispatcher.\n3. HIGH — other HubMode gates retain the known fail-open downgrade (hub_v3.rs:780-791; locks_cmd.rs:303; daemon.rs:276-280; shared_writer/core.rs:220-228). Detection error becomes HubMode::V2, which still selects hydrate_to_sqlite. The new helper protects only maybe_auto_hydrate, not these lifecycle paths. Ship requires one fail-closed policy for every v2 hydration entry point, not just the hot path.\n4. MEDIUM-HIGH — regression tests do not prove the new primitive. Test (b) is positive by construction: removing the gate still hydrates and passes. Test (c) passes under the old lenient probe as well; it does not discriminate strict_ref_present. Add mutation/discriminating tests: broken marker + checkpoint absent + v2 present must skip under strict and hydrate under the old behavior; make the v2 test fail when gate is removed; include spawn failure/non-git and remote-only cases.\n\nSHOULD CONSIDER\n5. MEDIUM — TOCTOU/race: marker comparison, ref probes, and reading issues/ are separate operations (hydration.rs:1199-1247). Two processes can both observe a stale marker; concurrent fetch/worktree reset can change refs/files between probe and hydrate. Serialize probe+hydrate with the hub lock or hydrate an immutable ref/tree snapshot. The marker remains keyed to cache-worktree HEAD, not v3 checkpoint/data refs; this is acceptable only with the explicit reading-(a) contract that v3 auto-hydrate is a no-op and all v3 freshness comes from sync/writer paths.\n6. MEDIUM — gate failure policy is silent debug + Ok(false) (hydration.rs:1228-1234). This protects data but can leave stale SQLite indefinitely. Emit observable warning/metric and ensure an explicit recovery path; document that fail-closed means availability degradation.\n7. MEDIUM — blast radius/preconditions: if any caller or future caller bypasses the helper, hydrate_to_sqlite's created_by filter can erase agent-authored rows and then advance .last-hydrated-ref (hydration.rs:1244-1247), masking the incident. Enforce a single hydration API and add an inventory test/check for direct destructive callers. Residual v2 writer tip churn (agent.rs:665-680; swarm/lifecycle.rs:93-205; trust.rs:389-620) is harmless only if every destructive entry point is covered.\n\nNIT\n8. LOW — helper documentation says “hub mode” but implements a local-ref predicate; name/docs should explicitly state local-vs-remote authority and migration/partial-marker semantics.\n9. LOW — comments in agent/swarm/trust document accepted churn but do not make the invariant mechanically enforceable; prefer a central invariant/test over comments.\n\nCONDITIONAL SHIP PRECONDITIONS: (a) eliminate/guard TUI and all HubMode-downgrade v2 hydration paths; (b) close remote-only-marker uncertainty fail-closed; (c) add discriminating mutation tests, including remote-only and spawn/non-repo failures; (d) define locking/snapshot semantics for probe+hydrate and marker freshness; (e) run the full project verification after fixes. Until then: CHANGES REQUESTED, not APPROVE. The gate reduces the original maybe_auto_hydrate exposure but does not establish a system-wide fail-closed durability boundary.",
+          "created_at": "2026-08-06T18:47:28.485170226Z",
+          "kind": "result",
+          "signed_by": "SHA256:zb81zBG/+jO4EOCL5ctvwzTrRCeiVo9FnYqCWcroUEw",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgC7SrbIH4QMZc/zxaq0GweWYah7UcQjmeunZBscjK6DkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA6YbYU3IHIHE1dmbeLL/DVvAucGG5XQ9hJv+9QZKoTr2GX/4LiCOGTSywDUzO49SFIW4gaTpAzlNo1tfquaFdCQ=="
         },
         "92ee214c-d937-494e-8006-600dfe5b04c7": {
           "display_id": 305,
@@ -10917,8 +10926,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T18:47:16.834291084Z",
-    "agent_id": "pp3g-tm63-read-only-live-system-verification-review-do-not-6b08",
-    "agent_seq": 1
+    "timestamp": "2026-08-06T18:47:28.492759101Z",
+    "agent_id": "pp3g-roQq-read-only-systems-durability-review-do-not-modify-d597",
+    "agent_seq": 5
   }
 }
