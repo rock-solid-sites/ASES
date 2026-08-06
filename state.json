@@ -1,6 +1,6 @@
 {
   "next_display_id": 233,
-  "next_comment_id": 702,
+  "next_comment_id": 703,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2507,7 +2507,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-06T12:44:36.515120460Z",
+      "updated_at": "2026-08-06T12:53:03.671991384Z",
       "labels": [
         "bug"
       ],
@@ -2563,6 +2563,15 @@
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQ24ndAe9FcTe0e0innSu25onqhfGHs/kfVyoSijHI1B+lt9nEiHr7PkOBlS8jks9V+QEwmI0iVviI5nhQOQQDA=="
+        },
+        "22024937-6501-421c-97c7-87fb746a898a": {
+          "display_id": 702,
+          "author": "OL2r",
+          "content": "FINAL (2026-08-06): #125 root-cause fix COMPLETE + documented. Fork fix ade6146b (fail-closed gate on v3-ref presence: strict_ref_present + hub_is_confidently_v2_only in hub_v3.rs; maybe_auto_hydrate hydration.rs:1184 runs v2 path only on Ok(true); reading-(a) semantics; init_cache untouched; 3 writers documented; 3 regression tests proven; 1657 tests pass). Binary rebuilt + gate strings confirmed live (11:47). LIVE verified: simulated hub-tip advance -> no issue-list collapse, no display-id collision warning. Docs updated + merged (d128560): Addendum 04 status RESOLVED, crosslink-fork.md Known Issues appended, playbook §6.5 annotated. Surgical rm skipped as redundant. Remaining family items (documented, not blocking): catalog 2.3 worktree-comment visibility, 2.4 uuid-sync, residual 2.2 race; hub reduced issues/ projection still 4 June-era files (cosmetic now). Issue left open for family follow-ups; recommend close-worthy for the core guard.",
+          "created_at": "2026-08-06T12:53:03.662092466Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlsdcouh+IcYIPhRb7f2hzqzou2NEWLlU1lrj+MXnn/kZnd868m3mM23GLI4vlZCVmpH1F91zIw0pXLKFyDI5Dg=="
         },
         "27980834-49cb-45ce-943c-f01b6ef92132": {
           "display_id": 301,
@@ -10410,8 +10419,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T12:44:36.515120460Z",
-    "agent_id": "pp3g-gUvy-doc-update-record-the-125-safe-re-hydration-guard-fix",
-    "agent_seq": 8
+    "timestamp": "2026-08-06T12:53:03.671991384Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1052
   }
 }
