@@ -1,6 +1,6 @@
 {
   "next_display_id": 215,
-  "next_comment_id": 566,
+  "next_comment_id": 567,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -3050,11 +3050,22 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
       "created_at": "2026-08-06T05:00:07.079335928Z",
-      "updated_at": "2026-08-06T05:00:19.473363414Z",
+      "updated_at": "2026-08-06T05:11:51.105647705Z",
       "labels": [
         "research",
         "toolregistry"
-      ]
+      ],
+      "comments": {
+        "98aecaca-de5d-4188-a5c9-baf3f93f75da": {
+          "display_id": 566,
+          "author": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
+          "content": "Plan: characterize output-schema drift between cached manifest and live backend in the lazy-MCP proxy.\n\nApproach:\n1. New sibling dir research/toolregistry-lazy-mcp/output-schema-drift/ with its own backend.py (extended: add(a,b) with configurable declared output_schema via BACKEND_SCHEMA_MODE [none|conforming|diverging] and configurable response shape via BACKEND_RESPONSE_MODE [text|conforming|diverging|bare], plus a second tool multiply(a,b) with NO output_schema for Test F blast radius), a copy of the #196 proxy.py with two small deltas (BACKEND_* env passthrough, PROXY_MANIFEST env), capture_manifest.py, and tests/ phases A-F + one supplementary phase C2.\n2. Manifests: manifest.json captured with conforming output_schema {\"sum\": number} (Tests B-F), manifest-null.json with output_schema null (Test A baseline, reproducing #196).\n3. Each test = fresh proxy process + fresh registry. Test C also counts proxy_started occurrences (ToolRegistry reconnect-retry at connection.py:106 respawns the proxy) and backend_spawn_start occurrences (proxy-internal retry at proxy BackendClient.call also respawns the backend) to quantify wasted spawn cost; exact exception type/message read verbatim from the ErrorResult invoke() returns.\n4. Test E checks determinism + does a source read for any refresh/invalidation mechanism (ToolRegistry re-list on output-schema cache-miss re-absorbs the SAME cached manifest; proxy serves static manifest; no Lexicon-CID mechanism exists in repo — confirmed by grep).\n5. Timing table: Test C fail-after-spawn vs Test B success latency vs #196 cold-start (2155-2761ms n=3, max 2761ms).\n6. Deliverable report.md per Documentation Standard with logs/ for every phase.\n\nKey prediction from source read: in the brief's operationalization (backend still DECLARES the conforming schema but returns a diverging shape), the proxy's own SDK client validates the backend response against the LIVE backend schema first (mcp session.py validate_tool_result), so the RuntimeError is raised inside the proxy, converted to a JSON-RPC error, and the caller sees MCPError after TWO retry layers (proxy respawn+retry, then ToolRegistry reconnect+retry) — a much higher spawn cost than the single-wasted-spawn hypothesis. Supplementary C2 tests the pure cached-manifest drift (backend declaration also changed) where the RuntimeError surfaces directly at ToolRegistry level per the #196 grounding. Will verify empirically.",
+          "created_at": "2026-08-06T05:11:51.097858587Z",
+          "kind": "plan",
+          "signed_by": "SHA256:PlJT+wlGJYlxgeZi2KczTX67l4yPIDGrZNHZ/YmcPEQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgVBbikeyA6X6HvbknLEFjjYqPuKnsdYRkhuwz6N/F35UAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoFeppaEIz0HZEQKKkTWOgdzgFWzlVjfVc6NKiH1E0k+50J9TZsMirI83ntJ9n0vJo9iIysbQAt4se319+GzdBA=="
+        }
+      }
     },
     "51942b54-b189-47ee-a0ad-be20dd4840f0": {
       "uuid": "51942b54-b189-47ee-a0ad-be20dd4840f0",
@@ -8866,8 +8877,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T05:11:38.859164481Z",
-    "agent_id": "OL2r",
-    "agent_seq": 957
+    "timestamp": "2026-08-06T05:11:51.105647705Z",
+    "agent_id": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
+    "agent_seq": 2
   }
 }
