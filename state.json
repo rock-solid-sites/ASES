@@ -1,6 +1,6 @@
 {
   "next_display_id": 218,
-  "next_comment_id": 606,
+  "next_comment_id": 607,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2343,7 +2343,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-06T04:25:07.473700180Z",
+      "updated_at": "2026-08-06T06:07:56.904855552Z",
       "labels": [
         "bug"
       ],
@@ -2435,6 +2435,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMo4kZokRhHKOXUKRfRA9uK5tqxod9ItgJy+eYZeY26CLHVct9rJe+7932KgtcbAnOJJOdDcEaQuJJBNHct/CBQ=="
+        },
+        "8e3524b2-a751-4203-8c10-fad810d98f8b": {
+          "display_id": 606,
+          "author": "OL2r",
+          "content": "PLAN (P3, for review): Safe re-hydration guard — derived from #142 verdict (pp3g-H4RK). DEFECT CHAIN: maybe_auto_hydrate (hydration.rs:1184) runs on EVERY command via get_db() (main.rs:2292) and executes the v2 file path hydrate_to_sqlite (hydration.rs:122) with NO HubMode gate, reading <hub-cache>/issues/*.json off whatever branch the cache worktree has checked out. init_cache (sync/cache.rs:166-185) picks the host branch v2-first and early-returns forever (ASES hub bootstrapped fresh, migrated_from_commit=genesis), so the v2 projection stays frozen at the 4 June-era files. Trust key-registration commits (sync/trust.rs:391-403, 588-621) land on that checked-out v2 branch, advancing its tip -> invalidates .last-hydrated-ref -> triggers the wipe. IMPLEMENTATION (3 parts): (1) GATE maybe_auto_hydrate on hub mode (v3-only) — when checkpoint refs exist, never run the v2 file path; hydrate only via hydrate_from_state from v3 refs. This is the critical guard. (2) FIX init_cache v2-first contradiction — respect classify_hub_version v3-wins so the cache worktree checks out the correct branch. (3) STOP trust commits landing on the checked-out v2 branch (or gate them off it) so the tip no longer moves with every key registration. IMMEDIATE SURGICAL MITIGATION (validated, reversible): rm -rf .crosslink/.hub-cache/issues. VERIFICATION: rebuild binary (CARGO_BUILD_JOBS=1 RUSTFLAGS=-C link-arg=-fuse-ld=lld cargo install --path /home/claude-code/projects/crosslink/crosslink --force); then advance a hub tip (simulate trust commit) and confirm NO 'Issue #N not found' collapse, issue list stays stable, no display-id collision warning; run cargo test in fork. ACCEPTANCE: hub-tip advance no longer wipes agent-authored rows; v3 hydration path unregressed; tests green. REVIEWERS: big-pickle, north-mini-code, mimo-v2.5 — comments welcome.",
+          "created_at": "2026-08-06T06:07:56.898963037Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/ECgaOsXbOEJJf1lhZsV6rQPDffU/XnYsBURCY+T4gJMKT4U7PqAaIfzVSiUGq80Dj/QMEAMmAqLvapGYNBKAw=="
         },
         "92ee214c-d937-494e-8006-600dfe5b04c7": {
           "display_id": 305,
@@ -9295,8 +9304,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T06:07:07.239385440Z",
-    "agent_id": "pp3g-XX0J-validation-evidence-only-task-no-system-to-ship-test",
-    "agent_seq": 5
+    "timestamp": "2026-08-06T06:07:56.904855552Z",
+    "agent_id": "OL2r",
+    "agent_seq": 975
   }
 }
