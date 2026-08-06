@@ -1,10 +1,11 @@
 {
-  "next_display_id": 192,
+  "next_display_id": 193,
   "next_comment_id": 459,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
+    "07aca5b3-3aa3-44cd-b60b-8f16fdaa8efd": 192,
     "088f23b5-1253-4c12-9899-9aada520c74e": 188,
     "09c5f286-570e-4499-96e5-be9ca0a77fa5": 102,
     "0b19aeb2-16ae-4502-a9a8-61e31d2c0c33": 103,
@@ -319,6 +320,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAz2Hxg6n+VFyneKZXDq4EJX8+8/5qQGLdsU1FoX9SadG1maIxSt1xnjDrQEnZp+JeWtxkonnKiMlnqrBgtEMTAg=="
         }
       }
+    },
+    "07aca5b3-3aa3-44cd-b60b-8f16fdaa8efd": {
+      "uuid": "07aca5b3-3aa3-44cd-b60b-8f16fdaa8efd",
+      "display_id": 192,
+      "title": "FIX (crosslink fork, launch.rs): kickoff --timeout must NOT kill the process — timer is a guide, not a destroyer. EVIDENCE (2026-08-06 session #14): reviewer pp3g-gr9C (#188) was hard-killed at its 20m deadline while HEALTHY — it had posted [VERIFY] at 00:10, started the verdict stream 00:10:58, and the GNU timeout wrapper (launch.rs:235/239 'timeout {timeout_secs}s {claude_cmd}') killed it at 00:11:41 (43s into the stream, chunkTimeout never implicated). OPERATOR DIRECTION: 'I don't want the timer to kill the process, it's a guide to see how things are moving. The actual idea is milestones the orchestrator can check in on — a stream of evidence of work if things are happening, or silence for x amount of time leaves the agent presumed stalled and calls for a check.' CURRENT MECHANISMS (verified in fork source): (1) timeout wrapper = HARD KILL (wrong); (2) heartbeat watchdog (WatchdogConfig, launch.rs:87-139, default enabled, staleness 300s, max 5 nudges, check 120s, grace 300s) = inert (per #138 exit-condition bug) and only nudges via tmux send-keys, never reports. REQUIRED CHANGE: (a) timeout becomes non-destructive — remove the kill wrapper or make it a very generous backstop far above any task ceiling so it never fires in normal operation; (b) liveness = evidence stream: milestone checkpoints (already §5.4 mandatory) + .crosslink/.cache/last-heartbeat mtime + file/commit activity; (c) silence > 2x expected interval AND stale heartbeat = PRESUMED STALLED -> orchestrator investigates (ps, pane tail) -> only then #146-gated kill/relaunch. Never the timer doing it. DEPENDENCY: heartbeat hook must be installed in worktrees (#135 Phase 2 — currently worktrees do NOT carry .claude/hooks/heartbeat.py). COORDINATES with: #135 (watcher phases), #146 (Phase 3 kill/restart gates), #123 (timeout guidance). Implement in the crosslink fork at /home/claude-code/projects/crosslink (launch.rs + types.rs WatchdogConfig), verify with a live kickoff.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-06T00:38:37.400272219Z",
+      "updated_at": "2026-08-06T00:38:37.400272219Z"
     },
     "088f23b5-1253-4c12-9899-9aada520c74e": {
       "uuid": "088f23b5-1253-4c12-9899-9aada520c74e",
@@ -7498,8 +7509,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-06T00:34:07.791497126Z",
-    "agent_id": "pp3g-H4ni-write-the-comprehensive-model-capability-registry-6974",
-    "agent_seq": 6
+    "timestamp": "2026-08-06T00:38:37.400272219Z",
+    "agent_id": "OL2r",
+    "agent_seq": 870
   }
 }
