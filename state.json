@@ -1,6 +1,6 @@
 {
   "next_display_id": 242,
-  "next_comment_id": 770,
+  "next_comment_id": 771,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -4603,7 +4603,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-07T22:07:54.499329738Z",
-      "updated_at": "2026-08-07T22:16:59.756837825Z",
+      "updated_at": "2026-08-07T22:19:04.600621528Z",
       "labels": [
         "research"
       ],
@@ -4620,6 +4620,15 @@
           "kind": "observation",
           "signed_by": "SHA256:ILxw17xiDakgjnVxeOaiapOupeUhS/12BnaCtvvNIoU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgK2JTWimKXG/+1Ktq7aJhx5UCiWQnbof5YV5gEkVMjD0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAuZ9LpFAE9N5toN4QCqMRAfORfw5JoRhIXeCNm2qGaI3RjigU4beCLNHdaltuXZmH8s93a/ESZ7OurHsK8B6eBg=="
+        },
+        "7f1c926d-7638-4a08-a4ee-f8c1f0ac6984": {
+          "display_id": 770,
+          "author": "pp3g-GNXU-model-agreement-addition-to-the-quality-index-task-on",
+          "content": "## RESULT: DRAFT MODEL-AGREEMENT DIMENSION — schema + collection process + back-filled agreement table\n\nCommitted 5c92e9d (gh#241). Three artifacts, all marked **DRAFT** (status: Draft, authority: Experimental) — presented to operator for approval before any is treated as canonical.\n\n### 1. SCHEMA — docs/research/registry/Model Agreement Schema.md\n\nPer-wave record: wave header (artifact, parent, type, reviewers, closeout, collection, confidence) + verdict-level agreement block + **finding-level agreement table** (the core artifact) + divergence notes.\n\n- **Fixed claim-class taxonomy (C1-C10)**: C1 core-mechanism soundness, C2 root-cause exactness, C3 coverage completeness, C4 regression risk, C5 durability/maintainability, C6 verification sufficiency, C7 operational safety, C8 error-handling/retry semantics, C9 evidence integrity, C10 process compliance. Fixed so rows compare across waves.\n- **Verdict vocabulary**: PASS / CONDITIONAL / FAIL with normalization rules (e.g. 'SHOULD NOT ship without hardening' → CONDITIONAL).\n- **Per-claim values**: found / not-found / disagreed (disagreed is the highest-signal cell — a model that saw the claim and rejected it, distinct from one that simply missed it).\n- **Agreement labels**: verdict-level consensus/lean/split; finding-level multi-model catch / 1-of-N catch / consensus miss / disagreement.\n- **Confidence**: live (recorded at closeout) vs reconstructed (back-filled, lower-confidence).\n- **Open questions for operator**: taxonomy granularity, verdict normalization, back-fill scope, storage form, knowledge-page mirror.\n\n### 2. COLLECTION PROCESS — schema §6\n\nAgreement table is recorded **inside the existing orchestrator closeout synthesis comment** on the wave parent — the orchestrator already reads all verdicts there; recording is structuring existing work, NOT new review work. **Non-gating**: recorded after verdicts exist; never delays dispatch/re-review/synthesis; missing verdicts are marked, not waited on. Failure cases handled: lost verdict text (#151 ling), timer-killed reviewer (#188→#191), divergent verdicts (#199 vs #200).\n\n### 3. BACK-FILL — docs/research/registry/Model Agreement Backfill.md (7 reconstructed waves, lower-confidence)\n\n| Wave | Reviewers | Verdict label | 1-of-N catches | Disagreements |\n|---|---|---|---|---|\n| #135 watcher (W-2026-01) | luna, big-pickle | consensus CONDITIONAL | 1 (big-pickle C3) | 0 |\n| #145 patch (W-2026-02) | luna, ling, laguna, hy3 | consensus CONDITIONAL | 1 (hy3 F4 C7) | 1 (C8 retry-loop impact) |\n| #154 R1 (W-2026-03) | hy3, luna, big-pickle | consensus CONDITIONAL (**masked**) | 4 (hy3 B1/B3/F5; big-pickle R2/R3) | 1 (**B2 deadline shape — hy3 vs 2**) |\n| #154 R2 (W-2026-04) | hy3, mimo, big-pickle | split (1 PASS, 2 CONDITIONAL) | 2 (hy3 V1-V5; big-pickle F5-1/2) | 1 (PASS vs CONDITIONAL — mimo vs hy3) |\n| #154 R3 (W-2026-05) | hy3 | n/a (n=1) | n/a | n/a |\n| #196 validation (W-2026-06) | hy3, big-pickle | split (1 PASS, 1 CONDITIONAL) | 2 (hy3 C9 cluster, C5) | 1 (evidence-accuracy scope) |\n| Pre-session audit (W-2026-00) | gemini-3.1-pro, north-mini-code | consensus PASS | 0 | 0 |\n\nKey reconstructed findings: (a) the load-bearing example — #154 R1: all three CONDITIONAL, yet hy3 **disagreed** with luna+big-pickle on B2 (deadline shape); verdict-level consensus masked a core 1-vs-2 disagreement, resolved toward hy3 (Option A') by operator adjudication. (b) B1 was a 1-of-3 catch — a 2-of-3 consensus would have agreed on the wrong answer (patch one guard copy). (c) W-04/W-06: PASS verdicts masked real defects (mimo PASS vs V1-V5 compile blockers; big-pickle PASS vs the C9 evidence cluster). (d) hy3 has the highest 1-of-N catch rate in the dataset.\n\n### 4. INTEGRATION — capability-mapping/Model-Routing-Matrix.md\n\nAdded MODEL-AGREEMENT dimension (DRAFT): agreement statistics table + 4 routing implications + 3 new routing-table rows (include hy3-class deep re-derivation reviewer on multi-reviewer waves; add hy3-class evidence auditor on evidence-heavy validation; cross-check PASS with a source-verifying reviewer before accepting).\n\n### Deliberately NOT done (per DRAFT status)\n- Canonical AI Capability Registry Specification left untouched — will only link/absorb the schema after operator approval.\n- No crosslink knowledge page published for the schema yet (open question §9.5).\n- docs/ORCHESTRATOR.md closeout flow untouched — collection is documented in the schema §6 pending approval.\n\n### For operator decision\nApprove/amend the DRAFT schema (esp. taxonomy C1-C10 + verdict normalization), then it becomes canonical and the collection step can be wired into the closeout synthesis workflow.",
+          "created_at": "2026-08-07T22:19:04.591897838Z",
+          "kind": "result",
+          "signed_by": "SHA256:ILxw17xiDakgjnVxeOaiapOupeUhS/12BnaCtvvNIoU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgK2JTWimKXG/+1Ktq7aJhx5UCiWQnbof5YV5gEkVMjD0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHxYiaZ2M07aRcHlhFSkQ3+Ly3X4XlL4rklnVqSIRMPYgeVHXMu4O5A8VcJlmd9VXxknKOwmb/u/jeBDBkGBkBw=="
         },
         "c3657e45-5d31-4a5a-988b-bcc2ebe0189d": {
           "display_id": 762,
@@ -11202,8 +11211,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:16:59.756837825Z",
+    "timestamp": "2026-08-07T22:19:04.600621528Z",
     "agent_id": "pp3g-GNXU-model-agreement-addition-to-the-quality-index-task-on",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
