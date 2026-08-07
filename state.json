@@ -6816,11 +6816,12 @@
       "display_id": 208,
       "title": "DOCUMENT VALIDATED HYDRATION RECOVERY: 'crosslink compact' is the safe recovery when the main-repo DB re-hydrates to a stale baseline (June-9) and local-only issues appear 'lost'",
       "description": "VALIDATED in TWO independent incidents (tripn-astro 2026-08-03, another repo 2026-08-06). PROCEDURE: (1) crosslink compact (reduces local events + checkpoint into fresh state, re-hydrates DB — this restores the read path); (2) crosslink sync; (3) crosslink issue list to verify. DO NOT blind-sync repeatedly or re-hydrate blindly (that caused the rollback). If compact does NOT restore: re-create active issues from hub agent refs (git show refs/heads/crosslink/agents/<id>/events.log — IssueCreated events have full content), not from scratch. DOCUMENT WHERE: agent-orchestration-playbook.md hydration-recovery section + #126 catalog (the hydration doc). Keep the playbook note REPO-AGNOSTIC (no internal issue refs); keep issue-number detail on #125/#126. Until the root cause (#125) is fixed, this is the standing recovery. Flash model.",
-      "status": "open",
+      "status": "closed",
       "priority": "medium",
       "created_by": "pp3g-jKV3-tight-scope-doc-update-issue-206-document-the-989b",
       "created_at": "2026-08-06T04:05:16.010887909Z",
-      "updated_at": "2026-08-06T05:24:43.516336435Z",
+      "updated_at": "2026-08-07T22:34:23.699208460Z",
+      "closed_at": "2026-08-07T22:34:23.699204742Z",
       "labels": [
         "documentation"
       ],
@@ -11445,8 +11446,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:34:12.987566804Z",
-    "agent_id": "pp3g-9xyD-review-the-workflow-topology-proposal-breadth-2d16",
-    "agent_seq": 1
+    "timestamp": "2026-08-07T22:34:23.699208460Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1131
   }
 }
