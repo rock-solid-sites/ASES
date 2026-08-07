@@ -1,5 +1,5 @@
 {
-  "next_display_id": 245,
+  "next_display_id": 246,
   "next_comment_id": 773,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -170,6 +170,7 @@
     "a3a1ba6a-d821-4cbe-a8bf-ca8e01a81b47": 27,
     "a415d4e3-a8d3-471c-a357-1a973117e9e4": 111,
     "a59484b8-0d4e-4579-ae32-979c9b7d098e": 118,
+    "a6aa399a-7e42-409c-bd0b-d4574239b93c": 245,
     "a6d94575-247d-460d-b1a5-fbd800836daa": 97,
     "a9e4ebb2-b3b3-4ade-90cd-c09bb5057a58": 57,
     "aa65c2ad-70c2-4de3-b177-faac38e39d39": 232,
@@ -8217,6 +8218,16 @@
         "e6ad1334-206b-479d-9116-9ca6fbbd34fe"
       ]
     },
+    "a6aa399a-7e42-409c-bd0b-d4574239b93c": {
+      "uuid": "a6aa399a-7e42-409c-bd0b-d4574239b93c",
+      "display_id": 245,
+      "title": "REVIEW r4 (Gemini 3.5, architectural-audit lens) — WORKFLOW-TOPOLOGY PROPOSAL review. Review the proposal for adding review/evidence stops to the agent workflow. THE PROPOSAL (concise statement to review): (1) TWO PRINCIPLES: (a) reasoning certainty — claims crossing a role boundary must state WHY, WHAT they're based on, and HOW CERTAIN (guess/evidence-based/proven), including what was NOT tested; (b) cheapest-test-first — assumptions that gate decisions must be tested with the quickest cheapest discriminating test. (2) TOPOLOGY FINDING: in role-separated agent systems, decision-gating claims crossing an information-asymmetry boundary (producer can verify cheaply, thin consumer cannot) are the dominant unguarded failure point; the corrective is producer-side calibration + cheapest-test obligation. (3) WORKFLOW STOPS: STOP A (post-plan testability audit, L1 cheap), STOP B (pre-consumption result audit — the load-bearing gate at the producer-consumer edge), STOP C (targeted L2 re-verification, only for high-stakes decisions like install/merge). (4) MODEL-AGREEMENT COLLECTION: agreement data recorded as a zero-cost byproduct of the standing multi-model review workflow (#241). ASSESS from the ARCHITECTURAL/AUDIT lens: is the proposal internally consistent as a methodology? Does it respect the EDASES research / ASES methodology / execution-engine implementation layering? Is the thin-operator + thin-orchestrator design preserved? Are the principles (certainty labeling, cheapest-test) the right abstraction level for the registry/orchestration separation? What is the risk of the proposal becoming bureaucracy or cargo-cult verification? Verdict: PASS / CONDITIONAL / FAIL with specific findings. POST to THIS sub-issue. Do NOT read other reviewer sub-issues.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-07T22:28:07.694713444Z",
+      "updated_at": "2026-08-07T22:28:07.694713444Z"
+    },
     "a6d94575-247d-460d-b1a5-fbd800836daa": {
       "uuid": "a6d94575-247d-460d-b1a5-fbd800836daa",
       "display_id": 97,
@@ -11281,7 +11292,7 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:28:01.212395368Z",
+    "timestamp": "2026-08-07T22:28:07.694713444Z",
     "agent_id": "OL2r",
     "agent_seq": 1119
   }
