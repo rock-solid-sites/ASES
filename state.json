@@ -1,6 +1,6 @@
 {
   "next_display_id": 246,
-  "next_comment_id": 776,
+  "next_comment_id": 777,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2619,7 +2619,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-07T22:30:06.984835107Z",
+      "updated_at": "2026-08-07T22:30:23.516471809Z",
       "labels": [
         "bug"
       ],
@@ -2648,6 +2648,15 @@
           "kind": "observation",
           "signed_by": "SHA256:GbVjLP6dqOLcI+JT5sf0GqCRM5UyrRjfhJ+aVmaZCaA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgzTyuU+azuwwghELWMx/TR67mg6M4Bk3HwlylGZ8IyjYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtNLQ2/vUB5ostlE4WniN8azUkmsb/tjXESXlZUcea4cTlxpqxhikke88OmDfOR8iRp1qc9PkXfl/0pIr6BveAQ=="
+        },
+        "09c8e01c-984f-4a27-88de-4aecebe66067": {
+          "display_id": 776,
+          "author": "pp3g-0l6G-tiny-task-interim-tui-wipe-control-approved-by-ade3",
+          "content": "Result: G6 interim TUI-wipe control applied — surgical rm executed and verified. EXACTLY ONE action performed: rm -rf /home/claude-code/projects/ASES/.crosslink/.hub-cache/issues (exit 0). VERIFICATION: (1) ls .crosslink/.hub-cache/ shows NO issues/ dir — remaining entries are .git, .hub-write-lock, *.db, checkpoint/, issues.db, meta/, swarm/, trust/ (all untouched); (2) crosslink issue list --status all shows 243 issues (108 open) — full DB intact, no 241->4 collapse; default open list 108 lines unchanged. Nothing else touched: no fork code, no sync/compact, no commits, no pushes. Reversibility pre-verified: the 4 stale JSONs (55991f4c/56547c9d/c8097b1a/f4919301) are tracked in the hub-cache git repo (restorable via git -C .crosslink/.hub-cache checkout -- issues); comments.db was untracked and empty (0 bytes). Effect: hydrate_to_sqlite now early-returns on the missing dir (hydration.rs:126-128), neutralizing the live TUI wipe route (tui/mod.rs:534,833) in the v3 main repo. #125 NOT closed. NOT pushed.",
+          "created_at": "2026-08-07T22:30:23.509729345Z",
+          "kind": "result",
+          "signed_by": "SHA256:V3HFA128cM+BC0iu7j0F4gmMMVt4jK/QSui9ubwCIA8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgp7Jbo3Rlj9N06hDngqwB6tvgq5U7xISjXo3B77S4G2AAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0eUfNWm87mN9b+l6BADsGJ8EmcrfA6spPBkyzZ+MIG6wtJbEDaRI0swwVRDvJ4YgheA8n4kJo5zK0CXt3+HVCA=="
         },
         "1a9b0d8c-0e69-455b-a405-be519035785d": {
           "display_id": 774,
@@ -11330,8 +11339,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:30:06.984835107Z",
+    "timestamp": "2026-08-07T22:30:23.516471809Z",
     "agent_id": "pp3g-0l6G-tiny-task-interim-tui-wipe-control-approved-by-ade3",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
