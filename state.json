@@ -1,6 +1,6 @@
 {
   "next_display_id": 249,
-  "next_comment_id": 822,
+  "next_comment_id": 823,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2514,7 +2514,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-07T23:14:12.017491010Z",
-      "updated_at": "2026-08-07T23:20:39.848697440Z",
+      "updated_at": "2026-08-07T23:21:18.346630703Z",
       "labels": [
         "review"
       ],
@@ -2545,6 +2545,15 @@
           "kind": "result",
           "signed_by": "SHA256:eY/brbXhEq7ai6H7oZOD+kB9yAWv+gXPpL4E1iMe0ZA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIcnsvrSqCctqGKfM7z9KDRMoMxSAXlfLD6+rFag/5H0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAn451MlBBvGpBkKdkWIDisf4CXOunWTGvpQ4V+zjDLomflSgNviERNLqWWmU1x/uGaDmtX+nIcTcPDdekZ0DQAg=="
+        },
+        "4e82871f-5b0c-49af-85e7-7e97ca2c4964": {
+          "display_id": 822,
+          "author": "pp3g-bGeK-complete-the-hy3-review-of-the-workflow-topology-ba69",
+          "content": "VERDICT PART 4/4 (hy3) -- AXIS 4: MODEL-AGREEMENT COLLECTION, plus CONDITIONS and VERDICT.\n\nF10 [LOW-MEDIUM] 'ZERO-COST BYPRODUCT' IS TRUE AT VERDICT LEVEL ONLY. The orchestrator does already see all verdicts at synthesis, so recording verdict-level agreement genuinely is structuring existing work. But #241 itself states that FINDING-level agreement is the load-bearing part (the B2 divergence was masked at verdict level -- both CONDITIONAL, disagreed on the core issue). Finding-level agreement requires normalising each reviewer's findings into a shared claim-class taxonomy, i.e. the synthesiser making a semantic judgement that reviewer A's finding 3 IS reviewer B's finding 5. That is real, non-zero, judgement-heavy cost. Understating it is how collection gets silently skipped under load.\n\nF11 [MEDIUM-HIGH] SELF-REFERENCE / CONFORMITY LOOP -- the deepest design risk in Axis 4. Agreement data is collected BY the same orchestrator-plus-model population it measures, and is then fed into the Model-Routing-Matrix to route future work. Models that agree with the synthesiser score as reliable, get routed more, and agreement rises. The instrument then measures CONFORMITY, not correctness. Inter-model agreement is not a truth proxy: #182/#183 is an existing instance of confident agreement that was wrong. The schema needs an EXTERNAL CORRECTNESS ANCHOR -- did the finding later hold up -- recorded separately from agreement.\n\nF12 [MEDIUM] SURVIVORSHIP BIAS -- and this review is the demonstration. My verdict was lost to a 504 twice. Under the schema as drafted, a review whose verdict never lands produces no row, so the dataset silently over-represents reviews that completed and under-represents long, complex, high-finding-count ones. NON-DELIVERY (verdict lost / agent died / timed out) must be a first-class recorded outcome, distinct from 'no findings'. The 5c92e9d DRAFT artifacts are otherwise sound, and marking back-filled rows as lower-confidence reconstruction is correct and consistent with principle (a).\n\nVERDICT: CONDITIONAL PASS.\nThe two principles are right, the topology finding is real and useful, and STOP B is correctly placed. It fails to be an unconditional PASS because it is specified against an idealised stack.\n\nBLOCKING CONDITIONS:\nC1. Restore 'falsifying' (the source word) in principle (b). [F1]\nC2. Add the untestable-claim carve-out: declare untestable + state residual risk, non-penalised. [F8]\nC3. Drop the unqualified 'dominant'; explicitly scope out no-claim failures and brief-borne upstream errors; add a hop guard for multi-hop laundering. [F3]\nC4. Reconcile the three permission layers (hook-config / .opencode/agents/*.md / permissions.md) and cost STOP B and C against EFFECTIVE capability. [F4]\nC5. Stop calling STOP C 'L2' until an executable substrate exists here, or install one. [F5]\nC6. Add a certainty carrier -- kind extension or a mandated fixed prose header -- since the comment vocabulary has none. [F2]\nC7. Amend the kickoff.md template; bound the STOP B retry at n=1 then escalate. [F9, F7]\nC8. Record non-delivery as a distinct outcome and add an external correctness anchor. [F11, F12]\n\nNON-BLOCKING: state finding-level normalisation cost honestly rather than 'zero-cost' [F10]; declare STOP B static-and-correlated in this repo so its independence is not overclaimed [F6].\n\nNOT TESTED (per principle (a)): I did not measure STOP throughput cost empirically, did not validate the topology's 'dominant' claim against a full enumeration of hub failures (I sampled the known record), and did not read #243/#244/#245 by instruction, so this verdict is independent of the other reviewers and carries no cross-reviewer corroboration.",
+          "created_at": "2026-08-07T23:21:18.340328723Z",
+          "kind": "result",
+          "signed_by": "SHA256:eY/brbXhEq7ai6H7oZOD+kB9yAWv+gXPpL4E1iMe0ZA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIcnsvrSqCctqGKfM7z9KDRMoMxSAXlfLD6+rFag/5H0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAVMiyOSkz2kaShREpjvcPJKIJvvU8CeCq5pCmMGqYFDcSeyeGgignd18qDWsXfWu2ou1tvD5dlWxJ/ZJn8CjzCg=="
         },
         "7a1a5748-5e97-41a6-8f42-0727d5f89191": {
           "display_id": 819,
@@ -11805,8 +11814,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T23:20:39.848697440Z",
+    "timestamp": "2026-08-07T23:21:18.346630703Z",
     "agent_id": "pp3g-bGeK-complete-the-hy3-review-of-the-workflow-topology-ba69",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
