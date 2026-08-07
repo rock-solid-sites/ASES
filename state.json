@@ -1,6 +1,6 @@
 {
   "next_display_id": 246,
-  "next_comment_id": 773,
+  "next_comment_id": 774,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2631,7 +2631,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-07T22:16:29.713264208Z",
+      "updated_at": "2026-08-07T22:29:08.834994046Z",
       "labels": [
         "bug"
       ],
@@ -3182,6 +3182,15 @@
           "kind": "result",
           "signed_by": "SHA256:bVMAMz5ZBBRHfg28oPzrfgzgLf9XGnOHABIY15Om2ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUuwpG2CErbCpDC0fZMn/h/yuzb7AUOhA4hfyrRl4gZMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5SsyqGCdXlCfGJwEx5dTerhYMQhYeAdpbQbzRP1A4vHoWnLSM4/gWN/iZB6q3DJq1n7FJG8I611HG51ve8R6BA=="
+        },
+        "f551326a-eb5e-4a92-b8b9-1cfab26dfcdc": {
+          "display_id": 773,
+          "author": "pp3g-0l6G-tiny-task-interim-tui-wipe-control-approved-by-ade3",
+          "content": "Plan: G6 interim TUI control (operator-approved tiny task). Execute EXACTLY ONE surgical command: rm -rf /home/claude-code/projects/ASES/.crosslink/.hub-cache/issues — the dir holds the 4 stale June-era JSON files (55991f4c/56547c9d/c8097b1a/f4919301) + empty comments.db (verified present, 4 files tracked in hub-cache git so reversible via git checkout -- issues; comments.db untracked, 0 bytes). Removing the dir makes hydrate_to_sqlite early-return (hydration.rs:126-128), neutralizing the live TUI wipe route (tui/mod.rs:534,833) in the v3 main repo (v3 fetch never resets the worktree). THIS IS THE ONLY ACTION: no other files, no fork code, no sync/compact, no commits, no pushes, #125 NOT closed. VERIFY: (1) ls .crosslink/.hub-cache shows NO issues/ dir; (2) crosslink issue list still shows 230+ issues.",
+          "created_at": "2026-08-07T22:29:08.827654047Z",
+          "kind": "plan",
+          "signed_by": "SHA256:V3HFA128cM+BC0iu7j0F4gmMMVt4jK/QSui9ubwCIA8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgp7Jbo3Rlj9N06hDngqwB6tvgq5U7xISjXo3B77S4G2AAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAiySagI9EYsklo3A7543mU/8+1kZJYTLhC/I5Tnvgq7osNUbjr/PQ7+yLGRIAyQkvLYJOpxVC5lP3yTyvD2c6Cg=="
         },
         "fad78cd9-a0ec-4dda-8b30-5d3db60bb34e": {
           "display_id": 737,
@@ -11307,8 +11316,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:29:02.120623053Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1123
+    "timestamp": "2026-08-07T22:29:08.834994046Z",
+    "agent_id": "pp3g-0l6G-tiny-task-interim-tui-wipe-control-approved-by-ade3",
+    "agent_seq": 2
   }
 }
