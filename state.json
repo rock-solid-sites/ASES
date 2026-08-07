@@ -8556,11 +8556,12 @@
       "uuid": "ae626387-2d74-45ed-b6fa-91d1f44a9b70",
       "display_id": 142,
       "title": "MECHANISM VERIFICATION: which ref does crosslink hydration actually read (hub vs checkpoint vs config-controlled), and why does the hub-cache end up on the wrong ref? Context: tripn-astro incident — hub healthy, but main-repo hub-cache is on stale crosslink/hub (next_display_id=1) instead of current crosslink/checkpoint; main DB re-hydrated from stale cache -> June-era display set. Before any surgical repair or sync/compact, verify the exact hydration code path in /home/claude-code/projects/crosslink: (1) what ref/refs does RefHubSource/hydration read (hub, checkpoint, or config-controlled — e.g. tracker_remote, repo-alias, checkpoint setting)? (2) what config knobs control the hydration source? (3) why would the hub-cache worktree be checked out on the wrong ref — is that a sync/init defect or operator state? (4) does crosslink integrity hydration --repair read the same source? Deliverable: definitive answer + recommended safe repair path (config knob vs surgical git vs sync), with file:function citations. Read-only; no file changes, no crosslink commands that mutate. Feeds #125/#126 (hydration family) and the tripn-astro repair. 15-min cap.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T05:56:46.396381909Z",
-      "updated_at": "2026-08-06T05:47:38.704607219Z",
+      "updated_at": "2026-08-07T22:34:00.036570349Z",
+      "closed_at": "2026-08-07T22:34:00.036566991Z",
       "labels": [
         "research"
       ],
@@ -11431,8 +11432,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:33:53.084038880Z",
-    "agent_id": "pp3g-87Fl-review-the-workflow-topology-proposal-durability-a80a",
-    "agent_seq": 4
+    "timestamp": "2026-08-07T22:34:00.036570349Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1130
   }
 }
