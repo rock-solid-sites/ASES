@@ -1,6 +1,6 @@
 {
   "next_display_id": 249,
-  "next_comment_id": 820,
+  "next_comment_id": 821,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2514,7 +2514,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-07T23:14:12.017491010Z",
-      "updated_at": "2026-08-07T23:19:36.109348849Z",
+      "updated_at": "2026-08-07T23:20:06.764651773Z",
       "labels": [
         "review"
       ],
@@ -2536,6 +2536,15 @@
           "kind": "observation",
           "signed_by": "SHA256:eY/brbXhEq7ai6H7oZOD+kB9yAWv+gXPpL4E1iMe0ZA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIcnsvrSqCctqGKfM7z9KDRMoMxSAXlfLD6+rFag/5H0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAeBI+aIuxTtmS7zzdlBJzq4nkFJgHtvW6LzkW2D65XUdK7Kb8cVpPkS3inD8nOOwB8017bGvBd2Pk/PVRGKfAw=="
+        },
+        "303f5e2d-1c43-4ff6-8ceb-6aba8bd1626b": {
+          "display_id": 820,
+          "author": "pp3g-bGeK-complete-the-hy3-review-of-the-workflow-topology-ba69",
+          "content": "VERDICT PART 2/4 (hy3) -- AXIS 2: THE TOPOLOGY FINDING.\n\nF3 [MEDIUM-HIGH] DIRECTIONALLY CORRECT, BUT 'DOMINANT' IS AN UNSUPPORTED QUANTIFIER offered with no denominator. The hub record supports 'a major, recurring class' -- #226 -> #231 false assurance, #182 vs #183 confident-and-wrong PASS, #235/#232 claim laundering, #240 brief-borne error. It does not support dominance as a measured claim. Worse, the same record contains three failure classes the topology does NOT cover:\n\n(a) NO-CLAIM FAILURES -- the silent hangs (#138/#142). Nothing crosses the boundary at all. A producer-side calibration duty cannot fire when there is no claim, and STOP B is by construction PRE-CONSUMPTION, so it never runs. The proposed corrective is null on precisely the failure mode that emits zero signal. This is the sharpest edge case in the proposal, and it is structural, not incidental.\n\n(b) BRIEF-BORNE ERRORS UPSTREAM OF THE PRODUCER (#240 arithmetic). The asymmetry INVERTS: the orchestrator authored the error and the producer inherits it as a given premise. Producer-side calibration cannot falsify what it was handed as an axiom. The proposal guards the producer->consumer edge but leaves the operator/orchestrator->producer edge unguarded.\n\n(c) MULTI-HOP LAUNDERING (#235/#232). STOP B guards ONE edge. A claim that clears hop 1 is re-emitted at hop 2 with the audit already marked 'done', and certainty is monotonically upgraded as provenance is progressively dropped. A single-edge gate cannot bound a multi-hop chain.\n\nAXIS 3 -- STOPS A/B/C, FEASIBILITY IN THIS STACK. This axis is where the CONDITIONAL originates. The stops presuppose verification capability the stack does not currently grant.\n\nF4 [HIGH] TWO-LAYER PERMISSION DIVERGENCE (confirmed live this session). .crosslink/hook-config.json top-level allowed_bash_prefixes DOES include 'python ', and the reviewer by_type override sets ONLY blocked_git_commands and gated_git_commands -- it does not restrict bash prefixes at all. So the crosslink hook layer PERMITS python to reviewers while .opencode/agents/reviewer.md (crosslink/opencode/git/ls/cat/cargo/npm/rtk, default deny) FORBIDS it. Effective capability is the undocumented INTERSECTION of two independently-drifting layers, and the drift runs both directions -- reviewer.md allows 'cat *' which the hook-config prefix list omits entirely, while .opencode/permissions.md has drifted from both. Consequence for the proposal: STOP B and STOP C cannot be costed, because no single file states the effective capability. Anyone costing STOP C from hook-config alone will over-estimate what a reviewer can actually run.",
+          "created_at": "2026-08-07T23:20:06.756952549Z",
+          "kind": "result",
+          "signed_by": "SHA256:eY/brbXhEq7ai6H7oZOD+kB9yAWv+gXPpL4E1iMe0ZA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIcnsvrSqCctqGKfM7z9KDRMoMxSAXlfLD6+rFag/5H0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAn451MlBBvGpBkKdkWIDisf4CXOunWTGvpQ4V+zjDLomflSgNviERNLqWWmU1x/uGaDmtX+nIcTcPDdekZ0DQAg=="
         },
         "7a1a5748-5e97-41a6-8f42-0727d5f89191": {
           "display_id": 819,
@@ -11787,8 +11796,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T23:19:36.109348849Z",
+    "timestamp": "2026-08-07T23:20:06.764651773Z",
     "agent_id": "pp3g-bGeK-complete-the-hy3-review-of-the-workflow-topology-ba69",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
