@@ -716,11 +716,12 @@
       "uuid": "09ae9b89-45de-4c22-9eb0-99c7f031709b",
       "display_id": 231,
       "title": "COMPLETE the #154 fork verification on the REBUILT binary (GlOB #226 was killed mid-debug but the rebuild SUCCEEDED). REBUILT BINARY (verified): /tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode — 148,408,448 bytes, mtime 07:24:37, markers CONFIRMED: '1.18.13-pp3g-fork' x2, 'Body read timed out' x2, 'Turn stalled' x1 (the old 01:46 binary lacked these — nHSI finding resolved). GlOB's pane showed a WORKING gate-test (first run reached the server) then it was debugging a later-runs-never-reach-server state/lock issue when killed. TASK: (1) FUNCTIONAL GATE: run the SDK-level real-code test (the one that fires BODY IDLE) against the rebuilt binary — wrapper MUST fire (Body read timed out / Turn stalled markers); also diagnose the 'later runs never reach the server' state/lock issue GlOB found (check leftover opencode server processes: 9 were lingering per its pane); (2) MATRIX: run the 16-row matrix (/tmp/opencode/matrix-run/run-matrix.sh, harness fixed) against the rebuilt binary with generous timeouts; (3) COMMIT the fork source + rebuilt binary path + verification results to a feature branch [#154]; (4) INSTALL PREP ONLY: document the atomic mv + backup + wrapper REAL flip; do NOT install (operator approves separately). GENEROUS timeouts. Do NOT use crosslink kickoff cleanup --force (it kills live agents — see #227).",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T10:12:06.949587072Z",
-      "updated_at": "2026-08-06T11:54:18.325689464Z",
+      "updated_at": "2026-08-07T22:35:44.501395497Z",
+      "closed_at": "2026-08-07T22:35:44.501377754Z",
       "labels": [
         "infrastructure"
       ],
@@ -11481,8 +11482,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:35:33.431891730Z",
-    "agent_id": "pp3g-87Fl-review-the-workflow-topology-proposal-durability-a80a",
-    "agent_seq": 7
+    "timestamp": "2026-08-07T22:35:44.501395497Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1137
   }
 }
