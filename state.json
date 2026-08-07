@@ -1,6 +1,6 @@
 {
   "next_display_id": 246,
-  "next_comment_id": 784,
+  "next_comment_id": 785,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -9794,13 +9794,24 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-07T22:26:17.813364638Z",
-      "updated_at": "2026-08-07T22:28:47.522224250Z",
+      "updated_at": "2026-08-07T22:33:41.641355293Z",
       "labels": [
         "review"
       ],
       "related": [
         "6101c872-7999-4b0b-99db-ad696270a619"
-      ]
+      ],
+      "comments": {
+        "ea59eaa4-4662-4ed8-8fb1-f6083e5ceeab": {
+          "display_id": 784,
+          "author": "pp3g-qiSj-review-the-workflow-topology-proposal-edge-case-835c",
+          "content": "Plan: Independent edge-case/source-lens review of the WORKFLOW-TOPOLOGY PROPOSAL (four parts: two principles, topology finding, STOPS A/B/C, model-agreement collection). Method: (1) RE-DERIVE the principles from their in-repo sources rather than accepting the statement — located 'Rule #2: Cheapest Falsifying Test First' in syntheses/2026-06-23-beds24-booking-system-evolution.md and the certainty/uncertainty-surfacing rules in core-system-prompts/Core System Prompt v1+v2, AGENTS.md (evidence vs interpretation vs finding vs recommendation), docs/standards; check whether the proposal's restatement is faithful or drifts. (2) TEST the topology finding against the hub's actual failure record (#154 R1 B1/B2, #145, #196/#199-#200, #138/#142 silent hangs, #240 probe, #226/#231 rebuild chain, #233 hub projection) — classify each historical failure by whether it crossed a producer/thin-consumer information-asymmetry boundary, to check 'dominant' as a quantitative claim, and to look for failure classes the topology does NOT cover. (3) STOPS A/B/C: enumerate claim types that are NOT cheaply testable (negative/absence claims, non-recurrence, latent/timing failures, judgement claims, cross-session claims), cost accounting per stop, whether STOP B is a serialization bottleneck / bounce-back loop, whether it violates the thin-orchestrator contract in docs/ORCHESTRATOR.md + .opencode/permissions.md (orchestrator is edit-deny and cannot run verification that requires writes), and feasibility against the live crosslink surface (comment kinds, swarm/kickoff flow, guard plugins). (4) MODEL-AGREEMENT: audit the committed DRAFT artifacts (5c92e9d: Model Agreement Schema.md, Model Agreement Backfill.md, Model-Routing-Matrix.md) against the 'zero-cost byproduct' claim and self-reference/circularity risks. Verdict PASS/CONDITIONAL/FAIL with numbered findings + severity, posted as --kind result on #242. No files modified (review-only).",
+          "created_at": "2026-08-07T22:33:41.634744848Z",
+          "kind": "plan",
+          "signed_by": "SHA256:WSgf87m6HHj5hwsEQg8uYavW/jUZqhFX+feRPyr++Q4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgdCp6ns8f/zQIadQcMPPjLQMjRJurKg3+yWuwgMkJB2sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkfrpCtkYolG3meovSKGClbsOIidoaUz+lnqdOWAuktSOIak3/rFaFHGDW36KPGsnf73kr899YOPWE1cqPKOfBQ=="
+        }
+      }
     },
     "cf3662f7-8a64-407c-aa3d-896805330e3e": {
       "uuid": "cf3662f7-8a64-407c-aa3d-896805330e3e",
@@ -11411,8 +11422,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:33:34.476507224Z",
-    "agent_id": "pp3g-nQbx-review-the-workflow-topology-proposal-architectural",
-    "agent_seq": 4
+    "timestamp": "2026-08-07T22:33:41.641355293Z",
+    "agent_id": "pp3g-qiSj-review-the-workflow-topology-proposal-edge-case-835c",
+    "agent_seq": 2
   }
 }
