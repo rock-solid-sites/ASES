@@ -8417,11 +8417,12 @@
       "uuid": "aa65c2ad-70c2-4de3-b177-faac38e39d39",
       "display_id": 232,
       "title": "INVESTIGATE the compiled-binary error-propagation divergence in the #154 fork (from #231: rebuilt binary's wrapBodyIdle ENGAGES — bodyAbsoluteTimeout=5000 kills a healthy slow body — but its error is NEVER delivered to the SDK consumer: hang rows = exit 124, 0 ERROR/0 WARN/0 'Body read timed out'; headerTimeout DOES fire (3 POSTs) proving patched fetch wrapper + Patch C + Patch E live; turn-level guard fires (row 9b 'Turn stalled'); source unit tests 7/7 pass + source SDK test fires timer). HYPOTHESIS (#226 step-4): bun-compiled binary loses the error propagation that exists in source — likely bundling/optimization (tree-shaken error constructor? ctrl.error() call dropped? stream-error mapping lost in compiled wrapBodyIdle?). TASK: (1) extract the COMPILED wrapBodyIdle + its error path from the rebuilt binary (/tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode, markers confirmed present) — find the 'Body read timed out' string site + the abort/error code around it; (2) compare against the SOURCE (packages/opencode/src/provider/provider.ts wrapBodyIdle) — identify exactly what differs in the compiled form (is the ProviderError.ResponseStreamError constructor reachable? is ctl.abort(err) called? is ctrl.error() invoked? does the stream error propagate?); (3) test build variants to find the fix: e.g. different bundling flags, no-optimize, or restructuring wrapBodyIdle to avoid whatever the compiler drops (e.g. use the exact wrapSSE pull() pattern which DOES propagate); (4) VERIFY: after a candidate fix build, the SDK-level BODY-IDLE test must show 'Body read timed out' + ERROR entry + exit != 124; (5) report the divergence root cause + the working build recipe to THIS sub-issue. Do NOT install live. GENEROUS timeouts. Do NOT use crosslink kickoff cleanup --force (kills live agents — #227).",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T11:58:35.091029686Z",
-      "updated_at": "2026-08-06T13:39:20.080846749Z",
+      "updated_at": "2026-08-07T22:36:05.613431713Z",
+      "closed_at": "2026-08-07T22:36:05.613428483Z",
       "labels": [
         "infrastructure"
       ],
@@ -11487,8 +11488,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-07T22:35:56.961231708Z",
-    "agent_id": "pp3g-nQbx-review-the-workflow-topology-proposal-architectural",
-    "agent_seq": 8
+    "timestamp": "2026-08-07T22:36:05.613431713Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1138
   }
 }
