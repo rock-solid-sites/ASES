@@ -1,6 +1,6 @@
 {
   "next_display_id": 284,
-  "next_comment_id": 1115,
+  "next_comment_id": 1116,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13110,7 +13110,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:39:11.228373760Z",
-      "updated_at": "2026-08-08T06:29:23.540232562Z",
+      "updated_at": "2026-08-08T07:08:57.066556746Z",
       "labels": [
         "infrastructure"
       ],
@@ -13132,6 +13132,15 @@
           "kind": "observation",
           "signed_by": "SHA256:0DLqvAOpHBfw3Ib4CrYpL1Xf9wu85Rs0Z/Isi0z72qs",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgV1fLZnQkVZkMYWuaON8aRFaRemxQ7iKHaTZeqesOwzcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAs8OLbu0zYVJkAYCPly9ZjWgFkImu3NdJlHBtmXyHoPtNI4Guyt6pmERMDTM53mTF4UQrx56d96v6HEqvQUFJAw=="
+        },
+        "2b3ad3c3-b3e1-444c-ac98-ea2885703886": {
+          "display_id": 1115,
+          "author": "pp3g-ik2P-atomic-task-1-3-issue-270-part-a-commit-all-preserved",
+          "content": "Plan: Commit ALL preserved fork artifacts into fork/ on this branch per the #271 hard rule. Layout: fork/opencode-src/ = patched fork-build working tree at fc9ea79 minus node_modules (2415 dirs) and .git (commits preserved via patch + README provenance); binary stays at its natural path packages/opencode/dist/opencode-linux-x64/bin/opencode (148,449,408 B, sha256 3872f6ef…, --version 1.18.13-pp3g-fork, verified live); fork/patches/opencode-fork-v1.18.13-pp3g.patch (40KB, matches git diff a105350..fc9ea79 for all 9 source files; safeIterable fix confirmed present in tree but NOT in standalone patch — evidence JSONs preserved separately); fork/harness/ = /tmp/opencode/harness-run/ (pre-#235-fix, committed as-is per task, identical to fork-build/fork/harness); fork/tests/ = retry.test.ts + body-idle-timeout.test.ts (identical to in-tree); fork/results/ = verification logs (unit-tests-full.log 45/45, gate-client.out totalPOSTs=3+Body read timed out, gate-server.log, build.log, bun-install.log, matrix-baseline log, INVESTIGATION-232.md, safeIterable recovery evidence JSONs, gate-cfg/opencode.json); fork/INSTALL-PREP.md; fork/README.md manifest (layout, provenance a105350+cd24f03+fc9ea79, rebuild recipe from INVESTIGATION-232, binary sha256). Git: force-add binary (fork-build .gitignore ignores dist), commit with [#270] ref. NOT doing: matrix (task 2), install (task 3), kickoff cleanup --force (#227).",
+          "created_at": "2026-08-08T07:08:57.059202494Z",
+          "kind": "plan",
+          "signed_by": "SHA256:iPaUK7S6vmz/ptN//e08nwBwHjhgfGn3P6pZMg45Vk4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgt/9yOxzCrSToXb6mFylbhqYHxXz90I63wbx35aUFYhUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGVVgSbgdEQL5AEfUaWwzZCxwTHd7Xq2yn7cwwd40AypJCkofNd4y3QXt3QLyT1A9brXcjJ/JIfolHdvUgX9+BQ=="
         },
         "7fda9768-4280-473c-bb15-b86cdc47f282": {
           "display_id": 1042,
@@ -15099,8 +15108,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:08:36.013616867Z",
-    "agent_id": "pp3g-lPgz-verification-task-baseline-confirmation-for-a-re-df62",
-    "agent_seq": 1
+    "timestamp": "2026-08-08T07:08:57.066556746Z",
+    "agent_id": "pp3g-ik2P-atomic-task-1-3-issue-270-part-a-commit-all-preserved",
+    "agent_seq": 4
   }
 }
