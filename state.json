@@ -1,6 +1,6 @@
 {
   "next_display_id": 300,
-  "next_comment_id": 1212,
+  "next_comment_id": 1213,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2910,11 +2910,22 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-08T18:02:26.310813685Z",
-      "updated_at": "2026-08-08T18:02:47.619561404Z",
+      "updated_at": "2026-08-08T18:15:00.532018912Z",
       "labels": [
         "research",
         "toolregistry"
-      ]
+      ],
+      "comments": {
+        "f3113b69-03dc-47f6-8f87-936c814a5abf": {
+          "display_id": 1212,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "Plan: Phase-5 validation of the session-boundary cost assumption (catalog N decoupled from residency K) on toolregistry==0.15.0 / mcp==2.0.0, stdio only, reusing the committed lazy proxy scaffolding (copied read-only into research/toolregistry-lazy-mcp/catalog-scale/ — parent #213/#228/#277 corpora untouched).\n\nApproach: build catalog-scale/ with proxy.py+backend.py+manifest.json copies and a common measurement library that classifies processes by /proc cmdline (proxies vs backends SEPARATE), samples peak during acquisition, waits a recorded grace period (2.5s), then measures resident-after + summed VmRSS; per-connector PROXY_LOG_FILE gives start/round-trip/disconnect timing from epoch_ms. ToolRegistry refresh is operationalized as each connection manager's list_tools() (temp MCPClient — the same discovery path registration uses; verified in installed source connection.py:73). Teardown-on = explicit connection close after the refresh returns. Sync calling mode (register_from_mcp) for sequential runs; async (register_from_mcp_async + gather) for concurrent runs; AsyncRuntime daemon-thread count recorded per addendum B.\n\nExpected findings (source-verified pre-test): registration/refresh uses a TEMP MCPClient whose async-with exits close the proxy (round-1 already observed exit) so resident-after at K=0 should be ~0 for all N under both teardown conditions — i.e., ToolRegistry 0.15.0's discovery path is already disconnect-after-list. Test 5a: ClientSession parses notifications/tools/list_changed (core table since 2024-11-05, methods.py:192) but ToolRegistry sets no message_handler and has zero list_changed code (grep-verified) — expect the gap. Tests run to completion; a pre-positioned auditor is expected and non-blocking.\n\nDeliverable: catalog-scale/report.md (Research Finding, Documentation Standard YAML), scripts/, logs/, pinned versions + calling mode + persistence config (persistent=True default, verified registration.py:94) per run.",
+          "created_at": "2026-08-08T18:15:00.519402024Z",
+          "kind": "plan",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvS+Zw/eRhlE3QoQ9tRgaThQjGH4iectgvdPb3GDZPlQqf0wAD2TvoXbZThS18x7J56NKV+ms5lMdVtZtGxTNDg=="
+        }
+      }
     },
     "2bcb7a02-f2b9-46d1-98d3-9b8dc2c757aa": {
       "uuid": "2bcb7a02-f2b9-46d1-98d3-9b8dc2c757aa",
@@ -16268,8 +16279,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T18:14:50.897989897Z",
-    "agent_id": "pp3g-Rye6-config-task-issue-298-tiny-add-sleep-to-the-fbfb",
-    "agent_seq": 8
+    "timestamp": "2026-08-08T18:15:00.532018912Z",
+    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+    "agent_seq": 2
   }
 }
