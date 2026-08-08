@@ -1,6 +1,6 @@
 {
   "next_display_id": 266,
-  "next_comment_id": 991,
+  "next_comment_id": 992,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7648,13 +7648,24 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T16:59:58.243100935Z",
-      "updated_at": "2026-08-06T17:03:06.177751814Z",
+      "updated_at": "2026-08-08T04:29:53.885251055Z",
       "labels": [
         "review"
       ],
       "related": [
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
-      ]
+      ],
+      "comments": {
+        "a79d7285-49a7-4b7d-9be4-8a4bf8af4caf": {
+          "display_id": 991,
+          "author": "pp3g-3r5F-review-r1-hy3-primary-154-durable-fork-implementation",
+          "content": "Plan (r1 hy3, primary — SOURCE FIX + COMPILE-READINESS):\n1. Re-derive the safeIterable() fix from primary source at /tmp/opencode/fork-build (commit 98dfe4a) — read llm.ts in full, not the change-log; check the effect Stream.fromAsyncIterable finalizer contract for the deadlock claim.\n2. Re-derive Patches A-E from the actual fork diff (git show / git diff vs v1.18.13) — verify what shipped matches the #186 approved design, and flag any drift.\n3. Compile-readiness: verify the fix is present in the COMPILED binary (string/marker extraction), and reconcile the source path with the #226/#231/#232 binary evidence (the earlier binary-vs-source divergence).\n4. Retry budget: re-derive retry.ts semantics — RETRY_MAX_RETRIES=2 scoping, bounded-code set, per-attempt WARN, terminal totalPOSTs arithmetic and its Effect placement.\n5. Matrix discrepancy: classify the 65/67 row-1 4-POST-vs-3 finding from #235 evidence.\n6. Edge cases: other stream-consumption paths (same Stream.fromAsyncIterable pattern elsewhere), parsed-stream stalls, gzip, non-chat.\n7. Verdict PASS/CONDITIONAL/FAIL, posted CHUNKED (2-4 comments, 1-2KB each) with WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED per AGENTS.md.\nREAD-ONLY throughout; will not read #237/#238/#239.",
+          "created_at": "2026-08-08T04:29:53.874417230Z",
+          "kind": "plan",
+          "signed_by": "SHA256:u+CzjVN9n6MHxPP1nLoHo3qcXoa+oE1Ban3vP7ZsKyQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUvaEnC1gnIt58jg/BhHhlo5Ibd/5N2YKU/fcFE3nw+kAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA1tDR61aCsZOly7CfnjLMWqhUPAS0DJLSwwkCigaUOAyTa3RDPdNRYyIY8hoeKYmEm0unzWYldvRhVpj+jYaJDw=="
+        }
+      }
     },
     "83dee241-d847-4cda-948d-8e7bc79d3bb0": {
       "uuid": "83dee241-d847-4cda-948d-8e7bc79d3bb0",
@@ -13659,8 +13670,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T04:29:46.520881553Z",
-    "agent_id": "pp3g-5WqO-review-r3-big-pickle-live-system-verification-154-3d21",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T04:29:53.885251055Z",
+    "agent_id": "pp3g-3r5F-review-r1-hy3-primary-154-durable-fork-implementation",
+    "agent_seq": 2
   }
 }
