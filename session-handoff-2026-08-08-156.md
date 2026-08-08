@@ -8,6 +8,7 @@ updated: 2026-08-08
 ---
 
 
+
 # Session Handoff 2026-08-08 — session #19 (#156)
 
 Thin handoff per SESSION-END.md. Durable detail lives on the referenced issues/epics; this page only points.
@@ -39,3 +40,7 @@ Thin handoff per SESSION-END.md. Durable detail lives on the referenced issues/e
 ## Post-closeout addition (2026-08-08)
 
 - **#280 opened** — DOC: reconcile playbook §5.4/§6.1 orchestrator-direct-watch with §5.8 auditor-mediated monitoring + document the systemd watcher layer. Relayed by operator from a reliability-epic agent conversation (agent's corrected mental model: auditor = liveness canary + divergence verifier; orchestrator polls auditor, does not peer into builder pane as routine). Related to #156 and #266. Operator direction: fix within the #156 playbook-reconciliation pass AND document the full three-layer monitoring model (systemd watcher = process liveness / AUDITOR = claim-vs-evidence divergence / orchestrator = bounded action set) so the orchestrator has complete info for itself and to pass to subagents. Nuance: auditor flags to the ORCHESTRATOR, not the operator directly.
+
+## Correction (2026-08-08, later same day)
+
+- The playbook-reconciliation tracking issue was re-homed as a proper sub-issue under #156: **#281** (created with --parent 156; shows as a child in the issue tree). The earlier standalone duplicate **#280 is closed** (resolution comment points to #281) so the epic NOTE comment resolves without dangling. CHANGELOG.md was left uncommitted for the concurrent session (#21) closeout — it contains both the #280 close entry and a #267 entry written by the concurrent session; do not commit it separately.
