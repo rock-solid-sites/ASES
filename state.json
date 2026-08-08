@@ -1,5 +1,5 @@
 {
-  "next_display_id": 287,
+  "next_display_id": 288,
   "next_comment_id": 1136,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -26,6 +26,7 @@
     "0f511f63-230d-4593-a201-9b3a7c87b0c6": 167,
     "105271fa-8773-40c7-9aa1-3d35e063a1e6": 65,
     "105d0d1e-7172-4f25-be90-a29878ee2451": 196,
+    "14c5bf9c-c3d4-4bfd-b1e3-02b0e3e15d17": 287,
     "159b5a1f-7e30-46ad-bfa0-c231d190fbd9": 274,
     "16818d5b-477a-4f3f-ad95-aed56a91502c": 120,
     "16f8c668-dde6-41de-b4ed-15ca97f7d946": 44,
@@ -1488,6 +1489,18 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgi3Y7k6zLHSnYcebt0U8E4gaHZmVqfalyr69g11qwxm8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlTcHEhrXUSZhRzytlzmxO2aqaOzlJqLF8CyN5lZXiqkv70eMYGxri1SDVtOmhy1he2+jmum2MT1AGg7MSS4HCw=="
         }
       }
+    },
+    "14c5bf9c-c3d4-4bfd-b1e3-02b0e3e15d17": {
+      "uuid": "14c5bf9c-c3d4-4bfd-b1e3-02b0e3e15d17",
+      "display_id": 287,
+      "title": "SETTLE: #279 criterion 2 (backoff mis-specification) and criterion 5 (testimonial-only evidence) — verify auditor claims, correct the trigger text, re-run criterion 5 with committed run-scoped logs",
+      "description": "Follow-up from Phase-1 auditor #284 (PASS verdict, 3 non-blocking concerns). Two to settle here: (1) criterion 2 in the #279 trigger text says _call_persistent body has 'backoff/lock/telemetry/retry count' but grep shows NO backoff (sole match is the logger.warning telemetry line; retry is immediate/unconditional) — the trigger mis-specifies a non-existent element and must be corrected to quote the actual body; (2) criterion 5's fresh baseline run is testimonial-only (harness writes to tracked log paths, restored byte-identical, so the 2026-08-08 run survives only as prose in the #279 result) — re-run with run-scoped log output (e.g. logs/revalidation-DATE/) and COMMIT the logs so the criterion is re-derivable. Full mandate in dispatch prompt.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T07:25:26.721233193Z",
+      "updated_at": "2026-08-08T07:25:26.721233193Z"
     },
     "159b5a1f-7e30-46ad-bfa0-c231d190fbd9": {
       "uuid": "159b5a1f-7e30-46ad-bfa0-c231d190fbd9",
@@ -15339,8 +15352,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:22:56.112441413Z",
+    "timestamp": "2026-08-08T07:25:26.721233193Z",
     "agent_id": "OL2r",
-    "agent_seq": 1395
+    "agent_seq": 1396
   }
 }
