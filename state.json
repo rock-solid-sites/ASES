@@ -11808,12 +11808,13 @@
       "display_id": 217,
       "title": "VALIDATE (retry-classification): can tagging schema-validation failure as a terminal application error remove the 4x spawn multiplier (Test C of output-schema drift) — control vs classified-proxy before/after, plus real-connection-failure control",
       "description": "Follow-on from #213 (output-schema drift). The drift test found a 4x spawn multiplier (4 backend spawns, 2 persistent proxies, per failed call) from TWO uncoordinated retry layers stacking: proxy-internal retry respawns the backend, then ToolRegistry's reconnect-retry (connection.py:106) treats the schema-validation failure as a connection problem and respawns the whole proxy. Test whether classification alone fixes it: the proxy returns a normal MCP tool-error response (clearly a schema/application failure, NOT a connection-close signature) and stops its own reflexive respawn for this failure class, so connection.py:106 has nothing to interpret as connection loss. Measure whether cost drops from ~4x to ~single-spawn. 3 tests: (1) reconfirm Test C 4x control; (2) modified proxy same drift scenario — spawn/proxy count, does reconnect-retry fire, latency vs control + #213 success baseline (1810-3124ms), error still clear; (3) real connection failure (kill proxy mid-call) still retries. Out of scope: building revalidation/fallback-fetch; re-testing bare-value diagnostics degradation. Evidence-only test scaffolding; do not modify ToolRegistry source.",
-      "status": "open",
+      "status": "closed",
       "priority": "medium",
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-do7k-research-evidence-only-task-no-system-to-ship-no-5881",
       "created_at": "2026-08-06T05:40:36.288418060Z",
-      "updated_at": "2026-08-06T06:17:33.440330820Z",
+      "updated_at": "2026-08-08T07:56:04.452625827Z",
+      "closed_at": "2026-08-08T07:56:04.452622984Z",
       "labels": [
         "research",
         "toolregistry"
@@ -15798,8 +15799,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:55:56.465479019Z",
+    "timestamp": "2026-08-08T07:56:04.452625827Z",
     "agent_id": "OL2r",
-    "agent_seq": 1432
+    "agent_seq": 1433
   }
 }
