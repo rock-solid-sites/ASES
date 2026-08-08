@@ -1,5 +1,5 @@
 {
-  "next_display_id": 260,
+  "next_display_id": 261,
   "next_comment_id": 895,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -100,6 +100,7 @@
     "5b48f3d0-d66a-49d4-961c-d3a273ea0032": 207,
     "5b78afde-b940-4957-a097-80c057342d66": 89,
     "5cae5ee0-900b-400b-a436-d9fb5bba809f": 149,
+    "5e0bbcfe-bcdd-46c2-865d-c60e658fe905": 260,
     "5e4e2b20-46ae-4b14-8bfc-c0d545707a88": 108,
     "5e5970fc-f7ae-46fd-bd36-44501b5d5c35": 180,
     "5f129e02-5556-4fd4-9d56-0e49bb8b1e7d": 104,
@@ -4895,6 +4896,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKno8Aboivkg1jon3KFO63ipOFmY4yPiEOKUpYT6cn0om3QjqXJuQNjf1Gi7818vNMxdH2cyWfrYuUQpD1bYXBg=="
         }
       }
+    },
+    "5e0bbcfe-bcdd-46c2-865d-c60e658fe905": {
+      "uuid": "5e0bbcfe-bcdd-46c2-865d-c60e658fe905",
+      "display_id": 260,
+      "title": "APPLY the #259 correction to the tripn-astro staging (mirror of #258 operationalization). CONTEXT: the tripn-astro repo has staged changes (.crosslink/knowledge/agent-orchestration-playbook.md, AGENTS.md, SESSION-START.md) from the #258 operationalization — but they carry the OLD reactive wording ('trigger-invoked' auditor dispatch). The ASES copy was corrected in c13c381f ('pre-positioned, not trigger-summoned; launched alongside the Builder'). The tripn-astro staging must match the corrected ASES state BEFORE the operator commits — committing the reactive wording would wire the wrong model into the live tripn-astro session. TASK: (1) compare the ASES corrected files (docs/ORCHESTRATOR.md, .crosslink/knowledge/agent-orchestration-playbook.md, AGENTS.md, SESSION-START.md on main @ c13c381f) against the tripn-astro staged versions; (2) apply the #259 auditor-dispatch correction (pre-positioned, not trigger-summoned; Phase 1 present from dispatch alongside Builder) to the tripn-astro staged files — note tripn-astro also has .opencode/agents/orchestrator.md (check if it carries the same ambiguity and needs the same fix); (3) keep the staged state STAGED (do NOT commit — the tripn-astro commit is operator-gated); (4) report exactly what changed + confirm the staged diff now matches the corrected semantics. Commit your work on an ASES feature branch only (the tripn-astro staging is left in place for the operator). Post result to THIS sub-issue.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T01:42:02.359289770Z",
+      "updated_at": "2026-08-08T01:42:02.359289770Z"
     },
     "5e4e2b20-46ae-4b14-8bfc-c0d545707a88": {
       "uuid": "5e4e2b20-46ae-4b14-8bfc-c0d545707a88",
@@ -12660,8 +12671,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T01:37:27.707992741Z",
+    "timestamp": "2026-08-08T01:42:02.359289770Z",
     "agent_id": "OL2r",
-    "agent_seq": 1234
+    "agent_seq": 1235
   }
 }
