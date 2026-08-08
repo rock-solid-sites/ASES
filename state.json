@@ -1,6 +1,6 @@
 {
   "next_display_id": 258,
-  "next_comment_id": 858,
+  "next_comment_id": 859,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2825,7 +2825,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-08T00:37:26.326403205Z",
+      "updated_at": "2026-08-08T00:49:14.048154402Z",
       "labels": [
         "bug"
       ],
@@ -3241,6 +3241,15 @@
           "kind": "plan",
           "signed_by": "SHA256:o2ZHZygbpqf69JBFCuKwi6IQyyRUSHFhb4ZO3GkPZic",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPwVoIs2YWDgZ8GZSclKf3eAuRsdOFXj8ydnkf3E3gfYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQ38NsxzlYIpbZVGu22rM2OO2aGFA0Y0IvadcZloJVMrTqOFWSzBL9t4DNG1YprcWFuytVN8b9O79VhDaIqMqCA=="
+        },
+        "859e6f89-8af7-4702-8657-4f68f59ec8b0": {
+          "display_id": 858,
+          "author": "OL2r",
+          "content": "FOLLOW-UP PLAN (P3-r3) — built from AUDITOR EVIDENCE ONLY (big-pickle cGky audit verdict 00:36, APPROVE with 3 recommended follow-ups). Each item cites the audit finding. (1) REMOTE-ENUMERATION HARDENING (audit SHOULD-CONSIDER #1): v2_file_path_decision fail-opens when hook-config tracker_remote names a NONEXISTENT remote while other remotes exist — remote_configured=false => Allowed without consulting the real remote. FIX (~10 lines, list_git_remotes exists): when the named remote is absent, enumerate remotes; FAIL CLOSED if ANY remote exists; Allowed only on zero remotes. Acceptance: unit test — tracker_remote=ghost + origin exists => Forbidden; tracker_remote=ghost + zero remotes => Allowed; existing remote-v3/remote-v2 tests still pass. (2) REGRESSION TESTS for 7c5b3e88 warn-and-continue (audit NIT #3): daemon tick must NOT abort on dispatcher Err — add test asserting the tick loop continues + warns. (3) REGRESSION TEST for G3 marker-write-on-skip (audit NIT #3): assert .last-hydrated-ref is written when the v2 path is skipped (auditor confirmed live organically; needs a unit test). (4) INTEGRITY-REPAIR CLEAR-ORDER (audit NIT #4, 'consider'): integrity_cmd repair clears the DB BEFORE the dispatcher's locked re-check; a concurrent v3 join in that window leaves an empty-but-recoverable DB. Change: perform the locked re-check BEFORE clearing; if Forbidden, refuse without clearing. Acceptance: concurrency-window test or ordering assertion. SCOPE: fork code (crosslink/src) + tests only; do NOT touch ASES docs (already corrected in r2) or the git remotes config. VERIFICATION: cargo test lib/bin/integration green incl. new tests; rebuild binary; binary sha == commit sha. COMMIT: 'fix(hydration): remote-enumeration hardening + follow-up regressions (gh#125 r3)'. Do NOT close #125. Do NOT push. REVIEWER: fresh big-pickle review of this plan requested.",
+          "created_at": "2026-08-08T00:49:14.041589862Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAJcVsTkhkvqR2YD1ZWk7+SousJrncVbpds/AYSAybtfFlVuuHgvwATBRLp3UrvoqQpGsg2oVqwS0SjHCUnHd3Bw=="
         },
         "8a40a981-0868-4cc9-aa3b-6d14328a78c5": {
           "display_id": 518,
@@ -12293,8 +12302,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T00:47:23.554873944Z",
+    "timestamp": "2026-08-08T00:49:14.048154402Z",
     "agent_id": "OL2r",
-    "agent_seq": 1207
+    "agent_seq": 1208
   }
 }
