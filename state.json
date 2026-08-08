@@ -1,6 +1,6 @@
 {
   "next_display_id": 266,
-  "next_comment_id": 984,
+  "next_comment_id": 985,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5936,7 +5936,7 @@
       "parent_uuid": "7ef840e7-d516-4301-b94d-f02d6d30bb55",
       "created_by": "OL2r",
       "created_at": "2026-08-08T04:12:13.057460624Z",
-      "updated_at": "2026-08-08T04:26:19.272272954Z",
+      "updated_at": "2026-08-08T04:27:04.395783453Z",
       "labels": [
         "audit"
       ],
@@ -5958,6 +5958,15 @@
           "kind": "observation",
           "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8/4t7ZfsueqSSAB5e5rRQk9B+AJHutvDII8qDT7XX1TUMreS1VX/c40vAE2uY2+s4g/OO5NU0NjK5Ix5Fyj1AQ=="
+        },
+        "8ab3dbcf-dd8e-49d9-b1a1-2762498fae40": {
+          "display_id": 984,
+          "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+          "content": "Completed: Phase-2 post-hoc audit of the C2-gap investigation #228 (read-only, independent — did not read #264/#265 verdicts). VERDICT: CONDITIONAL PASS, posted as --kind result on #263. Independently re-derived every checkable claim from the committed corpus: all 11 rows of report section-7 timing/spawn table reproduce exactly; traceback origin mcp/client/session.py:1110 verified against live venv + corroborated in 3 logs; connection.py:106 confirmed as literal bare except Exception; interception proven in call path by stack-frame substitution at phase-b2-poc-harness.log:51; corpus md5s byte-identical to #213; all 7 preserved-initial-run logs md5-identical to 7dd054be originals; zero deletions in the diff (no #213/#217 corpus modification); cross-document #213 baselines match; versions machine-emitted per phase. Process, Documentation Standard YAML, observation/finding separation, layer discipline, stdio scope all OK; evidence-preservation flagged as commendable. Three HIGH concerns gate a clean PASS: C1 Option B fresh-or-pre-absorbed uniformity inferred but stated as tested (no B2b phase, and it is the A-vs-B deciding axis); C2 recommended option's upgrade fragility never assessed despite private-method override + copy-duplicated body; C3 PoC-size deliverable non-reproducible (99 claimed vs 64 actual) and internally inconsistent (addends sum 57 not 48), already propagated 2 hops. Plus C4 n=1 latencies, C5 asymmetric test depth, C6 single-heal flapping basis + N never varied, C7 one citation nit. 6 systemic risks (agent-computed vs harness-emitted metric reliability; decision-ready outrunning coverage; recommended options escaping fragility scrutiny; statistical rigour drift across the line; two reusable constraints trapped in a phase report; no version-expiry marker) and 8 prioritised recommendations. No files written, no fixes, no dispatch.",
+          "created_at": "2026-08-08T04:27:04.388986861Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAp71ssAhJ+kMGF7YhOdYLINUfvbyI4SoVtCMXJdZYsiHWten/yylTa7FZJwzjxzyMd7nlyhgYeyzcwqo3fVhVCA=="
         },
         "8fea7b6a-5969-442f-9a4d-dcb880f5b039": {
           "display_id": 977,
@@ -13578,8 +13587,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T04:26:56.923969166Z",
+    "timestamp": "2026-08-08T04:27:04.395783453Z",
     "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 25
+    "agent_seq": 26
   }
 }
