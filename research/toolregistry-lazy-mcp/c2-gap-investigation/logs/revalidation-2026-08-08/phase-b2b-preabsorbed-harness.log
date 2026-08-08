@@ -1,0 +1,144 @@
+HARNESS|2026-08-08T07:31:58.025Z|epoch_ms=1786174318025|phase_start phase=phase-b2b-preabsorbed versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-08T07:31:58.025Z|epoch_ms=1786174318025|proxy=CONTROL(proxy.py) manifest=manifest.json backend_schema_mode=diverging backend_response_mode=diverging interception=SchemaAwareConnectionManager(register_with_connection) call_order=multiply-first-then-add (pre-absorb stale schema)
+HARNESS|2026-08-08T07:31:58.026Z|epoch_ms=1786174318026|B2B_BEGIN register
+PROXY|2026-08-08T07:31:58.844Z|epoch_ms=1786174318844|rel_ms=       0|proxy_started pid=1807855 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T07:31:58.844Z|epoch_ms=1786174318844|rel_ms=       0|server_ready waiting_for_client
+PROXY|2026-08-08T07:31:58.852Z|epoch_ms=1786174318852|rel_ms=       8|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T07:31:58.853Z|epoch_ms=1786174318853|rel_ms=       9|request tools/list backend_connected=False
+PROXY|2026-08-08T07:31:58.855Z|epoch_ms=1786174318855|rel_ms=      11|connection_closed exiting
+HARNESS|2026-08-08T07:31:58.990Z|epoch_ms=1786174318990|B2B_REGISTER result=ok delta_ms=964 error=None
+HARNESS|2026-08-08T07:31:59.490Z|epoch_ms=1786174319490|B2B_BEGIN pre-absorb call multiply
+PROXY|2026-08-08T07:32:00.374Z|epoch_ms=1786174320374|rel_ms=       0|proxy_started pid=1808703 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T07:32:00.375Z|epoch_ms=1786174320375|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-08T07:32:00.383Z|epoch_ms=1786174320383|rel_ms=       9|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T07:32:00.384Z|epoch_ms=1786174320384|rel_ms=      10|request tools/call name=multiply arguments={'a': 4, 'b': 5} backend_connected=False
+PROXY|2026-08-08T07:32:00.384Z|epoch_ms=1786174320384|rel_ms=      10|backend_spawn_start instance_id=be-1-1808703-20384 spawn_count=1
+BACKEND|2026-08-08T07:32:01.185Z|epoch_ms=1786174321185|configured schema_mode=diverging response_mode=diverging
+BACKEND|2026-08-08T07:32:01.185Z|epoch_ms=1786174321185|backend_started pid=1808707 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-08T07:32:01.192Z|epoch_ms=1786174321192|rel_ms=     818|backend_up instance_id=be-1-1808703-20384 spawn_count=1 init_ms=807.6
+PROXY|2026-08-08T07:32:01.192Z|epoch_ms=1786174321192|rel_ms=     818|forward tools/call name=multiply to backend instance=be-1-1808703-20384
+BACKEND|2026-08-08T07:32:01.194Z|epoch_ms=1786174321194|tool_call name=multiply arguments={'a': 4, 'b': 5}
+BACKEND|2026-08-08T07:32:01.194Z|epoch_ms=1786174321194|tool_call_result name=multiply result=20.0 structured=product
+PROXY|2026-08-08T07:32:01.197Z|epoch_ms=1786174321197|rel_ms=     823|response tools/call name=multiply ok=True
+PROXY|2026-08-08T07:32:01.199Z|epoch_ms=1786174321199|rel_ms=     825|request tools/list backend_connected=True
+HARNESS|2026-08-08T07:32:01.201Z|epoch_ms=1786174321201|INVOKE|multiply(4,5)|start_ms=1786174319490|end_ms=1786174321201|delta_ms=1711|ok=True|result='20.0'|result_type=str
+HARNESS|2026-08-08T07:32:01.201Z|epoch_ms=1786174321201|B2B_BEGIN drift call add (schema already absorbed)
+PROXY|2026-08-08T07:32:01.202Z|epoch_ms=1786174321202|rel_ms=     828|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=True
+PROXY|2026-08-08T07:32:01.202Z|epoch_ms=1786174321202|rel_ms=     828|forward tools/call name=add to backend instance=be-1-1808703-20384
+BACKEND|2026-08-08T07:32:01.204Z|epoch_ms=1786174321204|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-08T07:32:01.204Z|epoch_ms=1786174321204|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-08T07:32:01.239Z|epoch_ms=1786174321239|rel_ms=     865|response tools/call name=add ok=True
+2026-08-08 07:32:01.280 | ERROR    | Original Exception happens at add:
+jsonschema.exceptions.ValidationError: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/integration.py", line 92, in call_sync
+    result = self._connection.call_tool_sync(self.name, validated_params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 135, in call_tool_sync
+    return AsyncRuntime.run_sync(self.call_tool(name, arguments))
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/_async_runtime.py", line 87, in run_sync
+    return asyncio.run_coroutine_threadsafe(coro, loop).result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 71, in call_tool
+    return await self._call_persistent(name, arguments)
+  File "/home/claude-code/projects/ASES/.worktrees/pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279/research/toolregistry-lazy-mcp/c2-gap-investigation/intercept_poc.py", line 90, in _call_persistent
+    return await self._client.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/client.py", line 133, in call_tool
+    return await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1064, in call_tool
+    await self.validate_tool_result(name, result)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1110, in validate_tool_result
+    raise RuntimeError(f"Invalid structured content returned by tool {name}: {error}") from error
+RuntimeError: Invalid structured content returned by tool add: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+
+HARNESS|2026-08-08T07:32:01.281Z|epoch_ms=1786174321281|INVOKE|add(2,3)|start_ms=1786174321201|end_ms=1786174321281|delta_ms=80|ok=False|outcome_type=ErrorResult|message_verbatim="RuntimeError: Error executing add: Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}"
+HARNESS|2026-08-08T07:32:01.281Z|epoch_ms=1786174321281|B2B_BEGIN warm repeat add (intercepted session)
+PROXY|2026-08-08T07:32:01.283Z|epoch_ms=1786174321283|rel_ms=     909|request tools/call name=add arguments={'a': 1, 'b': 1} backend_connected=True
+PROXY|2026-08-08T07:32:01.283Z|epoch_ms=1786174321283|rel_ms=     909|forward tools/call name=add to backend instance=be-1-1808703-20384
+BACKEND|2026-08-08T07:32:01.285Z|epoch_ms=1786174321285|tool_call name=add arguments={'a': 1, 'b': 1}
+BACKEND|2026-08-08T07:32:01.285Z|epoch_ms=1786174321285|tool_call_result name=add result=2.0 response_mode=diverging structured={'result': 2.0}
+PROXY|2026-08-08T07:32:01.286Z|epoch_ms=1786174321286|rel_ms=     912|response tools/call name=add ok=True
+2026-08-08 07:32:01.288 | ERROR    | Original Exception happens at add:
+jsonschema.exceptions.ValidationError: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 2.0}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/integration.py", line 92, in call_sync
+    result = self._connection.call_tool_sync(self.name, validated_params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 135, in call_tool_sync
+    return AsyncRuntime.run_sync(self.call_tool(name, arguments))
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/_async_runtime.py", line 87, in run_sync
+    return asyncio.run_coroutine_threadsafe(coro, loop).result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 71, in call_tool
+    return await self._call_persistent(name, arguments)
+  File "/home/claude-code/projects/ASES/.worktrees/pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279/research/toolregistry-lazy-mcp/c2-gap-investigation/intercept_poc.py", line 90, in _call_persistent
+    return await self._client.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/client.py", line 133, in call_tool
+    return await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1064, in call_tool
+    await self.validate_tool_result(name, result)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1110, in validate_tool_result
+    raise RuntimeError(f"Invalid structured content returned by tool {name}: {error}") from error
+RuntimeError: Invalid structured content returned by tool add: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 2.0}
+
+HARNESS|2026-08-08T07:32:01.289Z|epoch_ms=1786174321289|INVOKE|add(1,1)|start_ms=1786174321281|end_ms=1786174321289|delta_ms=8|ok=False|outcome_type=ErrorResult|message_verbatim="RuntimeError: Error executing add: Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 2.0}"
+HARNESS|2026-08-08T07:32:01.289Z|epoch_ms=1786174321289|B2B_BEGIN other-tool multiply after failure
+PROXY|2026-08-08T07:32:01.290Z|epoch_ms=1786174321290|rel_ms=     916|request tools/call name=multiply arguments={'a': 6, 'b': 7} backend_connected=True
+PROXY|2026-08-08T07:32:01.290Z|epoch_ms=1786174321290|rel_ms=     916|forward tools/call name=multiply to backend instance=be-1-1808703-20384
+BACKEND|2026-08-08T07:32:01.292Z|epoch_ms=1786174321292|tool_call name=multiply arguments={'a': 6, 'b': 7}
+BACKEND|2026-08-08T07:32:01.292Z|epoch_ms=1786174321292|tool_call_result name=multiply result=42.0 structured=product
+PROXY|2026-08-08T07:32:01.293Z|epoch_ms=1786174321293|rel_ms=     919|response tools/call name=multiply ok=True
+HARNESS|2026-08-08T07:32:01.295Z|epoch_ms=1786174321295|INVOKE|multiply(6,7)|start_ms=1786174321289|end_ms=1786174321295|delta_ms=6|ok=True|result='42.0'|result_type=str
+HARNESS|2026-08-08T07:32:01.296Z|epoch_ms=1786174321296|B2B_SPAWN_COUNTS backend_spawn_count=1 proxy_processes=2 persistent_proxies=1 reconnect_fired=False schema_validation_failures=2 proxy_pids=[1807855, 1808703]
+HARNESS|2026-08-08T07:32:01.296Z|epoch_ms=1786174321296|B2B_PROXY_STARTED epoch=1786174318844 msg=proxy_started pid=1807855 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-08T07:32:01.296Z|epoch_ms=1786174321296|B2B_PROXY_STARTED epoch=1786174320374 msg=proxy_started pid=1808703 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-08T07:32:01.296Z|epoch_ms=1786174321296|B2B_RESULT pass=True preabsorb_interception_fired=True add1_error_preserved=True warm_add_error_preserved=True other_tool_success=True spawns=1 proxies=2 reconnect=False schema_validation_failures=2
+PROXY|2026-08-08T07:32:01.297Z|epoch_ms=1786174321297|rel_ms=     923|connection_closed exiting
+BACKEND|2026-08-08T07:32:03.304Z|epoch_ms=1786174323304|backend_stdin_closed_exiting
+HARNESS|2026-08-08T07:32:03.308Z|epoch_ms=1786174323308|phase_done phase=phase-b2b-preabsorbed interception_preabsorbed_pass=True
