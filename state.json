@@ -1,5 +1,5 @@
 {
-  "next_display_id": 295,
+  "next_display_id": 296,
   "next_comment_id": 1200,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -56,6 +56,7 @@
     "286d35ca-9c9b-46f8-8a88-1ca6d09e5754": 98,
     "299f287a-4ade-4071-80a9-c9e7df83605d": 191,
     "29f67bbb-bb7a-438e-bb99-4e7de1b47abc": 45,
+    "2a795a46-f144-4ebd-9cc4-1b22fd436eed": 295,
     "2bcb7a02-f2b9-46d1-98d3-9b8dc2c757aa": 178,
     "2ccb5763-6072-4a50-b949-8343c776c580": 148,
     "2cfce2c2-0068-4810-9222-e9b899bb568d": 4,
@@ -2886,6 +2887,18 @@
       "labels": [
         "feature"
       ]
+    },
+    "2a795a46-f144-4ebd-9cc4-1b22fd436eed": {
+      "uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
+      "display_id": 295,
+      "title": "VALIDATE (catalog scale vs connector residency): does a runtime know N tools while keeping physical connector-process residency proportional to K (used), not N (configured/refreshed) — 6 tests + addendum (stdio only, reuse lazy proxy + pinned venv)",
+      "description": "Phase-5 completion for the identifier-first line. Validates the session-boundary confirmation model's cost assumption: catalog knowledge N decoupled from physical connector residency O(K), K<=N. 6 tests: (1) catalog acquisition stays backend-lazy (scope guard, stop-and-investigate if violated); (2) refresh residency single-N with teardown off/on (proxy vs backend reported SEPARATELY, never collapsed); (3) N-sweep 1/5/10/20/50 x sequential/concurrent x teardown off/on, resident-after is the decisive measure; (4) sparse-use N=20 K=3, headline row = 17 refreshed-but-never-called tools' proxies, plus connector identity/reuse tracking across acquire->call1->call2; (5) catalog invalidation via notifications/tools/list_changed (long-standing MCP capability since 2024-11-05, already declared false in the Round-1 initialize artifact; characterizes current behavior, does NOT design a fix) + no-signal stale-catalog baseline; (6) immediate teardown as diagnostic boundary (NOT the full idle-timeout feature). Addendum A-E applied: Test 5 split into invalidation-test + stale-baseline; record sync/async calling mode + daemon-thread count per connector + persistence config state (verify actual parameter name in installed toolregistry==0.15.0 source) + pinned versions per run; strong-pass criterion reframed as 'resident resources bounded by workload/policy, not proportional to N' (not literal count==K); connector identity tracking. Residency rules: resident = still running holding resources; briefly-defunct within 2s grace OK; beyond grace = lifecycle finding. Out of scope: full configurable idle-timeout feature, invalidation-strategy design, unreachable-connector failure design, non-stdio, re-testing output-schema drift. Deliverable: report with Test 1-6 results, required data tables, one-sentence scaling conclusion (scales with N or K?), architectural conclusion per Strong/Conditional/Fail criteria.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T18:02:26.310813685Z",
+      "updated_at": "2026-08-08T18:02:26.310813685Z"
     },
     "2bcb7a02-f2b9-46d1-98d3-9b8dc2c757aa": {
       "uuid": "2bcb7a02-f2b9-46d1-98d3-9b8dc2c757aa",
@@ -16074,8 +16087,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T18:01:49.935058707Z",
+    "timestamp": "2026-08-08T18:02:26.310813685Z",
     "agent_id": "OL2r",
-    "agent_seq": 1455
+    "agent_seq": 1456
   }
 }
