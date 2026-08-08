@@ -1,5 +1,5 @@
 {
-  "next_display_id": 271,
+  "next_display_id": 272,
   "next_comment_id": 1031,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -267,6 +267,7 @@
     "f512218f-64c6-43fb-a89b-9e1a67c07301": 240,
     "f734b060-f9f3-4fdb-a808-aa19bb13e99e": 246,
     "f7aa3d48-c0d2-49c9-b27d-045d5e9de7a2": 93,
+    "f8b231ce-ae2a-440c-9b41-f5ef624a6ac7": 271,
     "f8d68cdb-7f95-4bb6-8760-49119d65d32b": 160,
     "faa0cc98-3240-405a-9a5c-949d7faa3ba9": 46,
     "fbd70c07-aa31-4974-8f85-5d1129d40e0d": 168,
@@ -13815,6 +13816,16 @@
         }
       }
     },
+    "f8b231ce-ae2a-440c-9b41-f5ef624a6ac7": {
+      "uuid": "f8b231ce-ae2a-440c-9b41-f5ef624a6ac7",
+      "display_id": 271,
+      "title": "PROCESS FIX: enforce the 'commit volatile build artifacts before cleanup' obligation. ROOT CAUSE (2026-08-08 incident): the #154 durable-fork verified binary (sha 6e0e282b) + safeIterable-patched source tree lived ONLY in /tmp/opencode/fork-build. Issue #209 step 1 explicitly required 'EXPORT/COMMIT first — copy the patched fork source + unit tests + harness + patch files into THIS worktree (or commit the /tmp/fork-build as a branch), so nothing depends on volatile /tmp' — this was ONLY PARTIALLY executed: fork/ (patch + harness + tests) was committed, but the APPLIED SOURCE TREE, the safeIterable commit (98dfe4a), and the BUILT BINARY never were. A disk cleanup wiped /tmp/opencode (11G), destroying the only copies of the verified artifact + root-cause fix. The fix was recovered only because the opencode session DB (opencode.db) embedded the tool calls that applied it. FIXES: (1) codify a hard rule: any build artifact (compiled binary, patched source tree, generated output) that is decision-gating MUST be committed to a git branch before the session/agent that created it ends — never leave artifacts only in /tmp; (2) audit current in-flight workstreams for /tmp-only decision-gating artifacts and export them (e.g. #154 rebuild #270 must commit the rebuilt fork source + binary); (3) add a closeout checklist item in SESSION-END.md / handoff template: 'verified all decision-gating artifacts are in git, not /tmp'; (4) consider a cheap staleness/cleanup guard so 'crosslink kickoff cleanup' or disk-clearing never silently destroys uncommitted build state (link #227). Related: #154, #209, #270, #227, #125.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T05:39:46.638735125Z",
+      "updated_at": "2026-08-08T05:39:46.638735125Z"
+    },
     "f8d68cdb-7f95-4bb6-8760-49119d65d32b": {
       "uuid": "f8d68cdb-7f95-4bb6-8760-49119d65d32b",
       "display_id": 160,
@@ -14094,8 +14105,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T05:39:28.101176668Z",
+    "timestamp": "2026-08-08T05:39:46.638735125Z",
     "agent_id": "OL2r",
-    "agent_seq": 1332
+    "agent_seq": 1333
   }
 }
