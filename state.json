@@ -1,6 +1,6 @@
 {
   "next_display_id": 279,
-  "next_comment_id": 1083,
+  "next_comment_id": 1084,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1842,7 +1842,7 @@
       "parent_uuid": "07cb8b62-2ba1-446c-977b-940024864c56",
       "created_by": "OL2r",
       "created_at": "2026-08-08T06:06:23.047037630Z",
-      "updated_at": "2026-08-08T06:19:28.019423580Z",
+      "updated_at": "2026-08-08T06:22:12.157317518Z",
       "labels": [
         "audit"
       ],
@@ -1882,6 +1882,15 @@
           "kind": "observation",
           "signed_by": "SHA256:r42jHLivIqFivlpphViTW4L053Xbz0nq6fiXn1XvDPo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoskw9NwhArIvXSH3HVmKS0rwQLPUwvw6K43C6FvEYRYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAi49CJDcPjQL4+S/M+jJQZc5Wjur6KHIVX8HMrDwNOvVzDjQlLz11y8OyTXWEaLsHhxSgW7Ng237lmD1ay//OBQ=="
+        },
+        "882a4844-9e46-4b10-ad02-fc935eb9a1d3": {
+          "display_id": 1083,
+          "author": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[VERIFY] state=verifying completed=G5 artifacts confirmed + a substantive interpretation risk flagged; earlier clobber finding RESOLVED by builder next=poll G3/G7/G8/G10 + final commit blocker=none\n\n== EARLIER FINDING RESOLVED — evidence integrity restored ==\nThe four clobbered baseline files and the deleted phase-a3-a3a-heal-state.json are ALL back to committed state; git status now shows only report.md and tests/phase_a3_intermittent.py modified. The originals (03:47-03:49 run) are intact, logs/preserved-initial-run/ (2026-08-06) is untouched, and every re-run is namespaced under logs/n3/. My divergence report is closed as remediated — no action needed from the orchestrator. Worth noting the mid-run deletion I saw was transient harness state (heal-state cleared at run start), which is why I held it for re-check rather than escalating it.\n\n== G5 JOIN: artifacts CONFIRMED ==\n- logs/n3/phase-a3-n2-harness.log — phase_start ... heal_threshold=2 (06:18:31)\n- logs/n3/phase-a3-n3-harness.log — phase_start ... heal_threshold=3 (06:19:02)\nN is recorded in phase_start AND in every proxy_started line, so the plan's 'the result row records the N used' is satisfied at artifact level. The parameterisation itself is clean: A3_HEAL_THRESHOLD env, default '1', so the committed N=1 run still reproduces byte-for-byte when unset — backward-compatible, which is why the N=1 baseline survived.\n\n== [CONCERN — MEDIUM, interpretation; flag NOW because the G5 section is not yet written] ==\n'No flapping at N=2 and N=3' is TRUE but VACUOUS, and must not be reported as a clean confirmation.\n\nFull sweep, a3a (the only sub-scenario that changes):\n- N=1 (committed baseline): spawns=2, persistent_proxies=2, reconnect_fired=True, heal_events=1\n- N=2: spawns=4, persistent_proxies=4, reconnect_fired=True, heal_events=0\n- N=3: spawns=4, persistent_proxies=4, reconnect_fired=True, heal_events=0\n(a3b and a3c are identical across all three N: a3b spawns=1/proxies=1/classified=2; a3c spawns=4/proxies=1.)\n\nAt N>=2 the heal NEVER FIRES — heal_events=0. So flapping is absent not because higher thresholds are stable, but because the intermittent scenario never accumulates N consecutive failures to trigger a heal at all. Absence of flapping is therefore entailed by absence of healing; it is not independent evidence that raising N is safe. Writing 'N=2 and N=3 confirm no flapping' without stating heal_events=0 would be precisely the tested-vs-inferred drift (big-pickle SR2 / the addendum's 'tested = directly measured only' convention) this dispatch committed to eliminating — a vacuous pass presented as a positive result.\n\n== The sweep's REAL result is more valuable than the one G5 asked for ==\nThere is a genuine trade-off in this data, and it is worth stating explicitly in the report: raising the heal threshold does not merely fail to help, it COSTS. Going N=1 to N=2 in a3a doubles the amplification — spawns 2 to 4 and persistent proxies 2 to 4 — because the heal that previously converged the session no longer runs. So N=1 is the only threshold at which Option A's self-heal actually engages in the intermittent scenario, and the flapping question is moot above it.\nTwo consequences the report should carry: (a) Option A's tuning envelope is narrow — it works at N=1 and degrades to worse-than-baseline at N>=2, which bounds its operational robustness; (b) this strengthens rather than weakens the Option B recommendation, since B's 1-spawn/1-proxy result is threshold-independent. Suggested honest phrasing for G5: 'N=2 and N=3 produced no heal events, so no flapping was possible; the sweep instead shows the heal disengages above N=1, at a cost of 4 spawns / 4 persistent proxies versus 2/2 at N=1.'\n\n== Triggers ==\nTrigger 2 fired once (clobber) and is now remediated. Trigger 1 (staleness): builder's last durable position is STILL id=1065 at 06:09:42 ('next=G1'), now ~24 min old against a 15-20 min cadence — the 2x threshold (~06:40) is close. Liveness is NOT in question (artifacts written 06:19:34), so this is a position-reporting lag, not a stall. Per the mandate I will call staleness at 06:40 if no new position appears, while stating plainly that artifacts contradict any inference of a stall.",
+          "created_at": "2026-08-08T06:22:12.150516518Z",
+          "kind": "observation",
+          "signed_by": "SHA256:r42jHLivIqFivlpphViTW4L053Xbz0nq6fiXn1XvDPo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoskw9NwhArIvXSH3HVmKS0rwQLPUwvw6K43C6FvEYRYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA47bZHrN30ykWrVdpP9rRAUFLFAmSkTsWE7erA4561XznDSFja7cFN3OhMOC9fNMspqko1s0hPti/v6ThkDIyCw=="
         },
         "927bdbfd-669c-41e1-b582-eb347007d62e": {
           "display_id": 1063,
@@ -14713,8 +14722,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:20:45.665204492Z",
-    "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 44
+    "timestamp": "2026-08-08T06:22:12.157317518Z",
+    "agent_id": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 9
   }
 }
