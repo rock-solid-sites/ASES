@@ -1,5 +1,5 @@
 {
-  "next_display_id": 281,
+  "next_display_id": 282,
   "next_comment_id": 1098,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -121,6 +121,7 @@
     "661fd967-2a52-4fc5-b28a-eb67bd5194de": 9,
     "66373193-b72d-4a26-97b9-af590a31c7be": 203,
     "671334e9-8cd0-4db6-8659-7aa68760b6a7": 235,
+    "67e6376f-f4b6-4502-af12-bab2f6de887a": 281,
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": 71,
     "69b767bd-5895-4839-9bf9-16924d1773d2": 263,
     "6a3fd79f-4383-414b-a3b2-07e51086f985": 224,
@@ -6529,6 +6530,18 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg0Hs2ZjnsZ37VgrU1/kA97rskoAzFMvC27G4FaaublTkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAw7eUhgRGuYNGILT8SALA0EAXxADBHPuNG/6HxvWusN4/pTb49SOiXiE8zUcDMmX1Lga+naIC+b6MTrhM7SPuDg=="
         }
       }
+    },
+    "67e6376f-f4b6-4502-af12-bab2f6de887a": {
+      "uuid": "67e6376f-f4b6-4502-af12-bab2f6de887a",
+      "display_id": 281,
+      "title": "DOC: reconcile playbook §5.4/§6.1 orchestrator-direct-watch with §5.8 auditor-mediated monitoring + document systemd watcher layer",
+      "description": "EVIDENCE (2026-08-08, reliability-epic agent conversation, relayed by operator): an agent working the reliability epic corrected its mental model to 'auditor = liveness canary + divergence verifier; orchestrator polls the auditor for updates, does not peer into the builder's pane as routine'. It then flagged a doc/intent drift: playbook §5.4 (Missed check-in escalation: 'investigate: ps -o pid,etime,time,stat -p <pid>, check session status') and §6.1 ('a missing checkpoint past the expected interval is a stalled-agent signal — investigate before the timeout') read as orchestrator-side direct checkpoint/staleness watching, contradicting §5.8 ('staleness causes the pre-positioned AUDITOR to act; it flags to the orchestrator; the orchestrator owns the bounded action set'). ROOT CAUSE: §5.4/§6.1 predate the workflow-topology formalization and were never reconciled after §5.8 landed. FIX SCOPE (operator-directed): (a) reconcile §5.4/§6.1 with §5.8 auditor-mediated monitoring — the orchestrator's routine monitoring is auditor-mediated; orchestrator-side ps/investigate is the fallback when no auditor is present or on auditor flag; (b) document the FULL three-layer monitoring model so the orchestrator has complete information both for itself and to pass to subagents: systemd watcher (ases-kickoff-notify.timer/service, §6.4) = mechanical process liveness; pre-positioned AUDITOR = claim-vs-evidence divergence verification; orchestrator = bounded action set (investigate/nudge/stop-resume) + single integration point. NUANCE: auditor flags to the ORCHESTRATOR (never the operator directly); the orchestrator surfaces only decisions to the operator. Doc-only task; fix lands within reliability epic #156 playbook reconciliation, separate from the #266 pipe-chain gotcha (already committed c055db78).",
+      "status": "open",
+      "priority": "low",
+      "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T06:34:20.271159060Z",
+      "updated_at": "2026-08-08T06:34:20.271159060Z"
     },
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": {
       "uuid": "68941ee1-bcaf-4bc4-9c1f-0db903630fe6",
@@ -14882,8 +14895,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:32:31.549571129Z",
-    "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 56
+    "timestamp": "2026-08-08T06:34:20.271159060Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1371
   }
 }
