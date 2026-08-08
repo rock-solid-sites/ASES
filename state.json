@@ -1,6 +1,6 @@
 {
   "next_display_id": 295,
-  "next_comment_id": 1198,
+  "next_comment_id": 1199,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13353,7 +13353,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-08T17:47:25.873392523Z",
-      "updated_at": "2026-08-08T17:52:51.343131444Z",
+      "updated_at": "2026-08-08T17:53:44.631899240Z",
       "labels": [
         "infrastructure"
       ],
@@ -13375,6 +13375,15 @@
           "kind": "plan",
           "signed_by": "SHA256:dsXFTiLxvVRyYfMS0xlrfc+SX/y94lOqIk0PrG2nejw",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5chBftXyyuv9RZhm/KrorZtSV6Qsy4+U00ZSP5divmQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAU03efiMHHVcGV2nAfJS5214FKw2BHJpSG2JkGq6kJzbSJOHh1sV3SXw0dyG36vLlIVgewrHkT1J0m0HwgkMJCQ=="
+        },
+        "a9ec8356-05fe-4921-946a-d7f476bc5b8b": {
+          "display_id": 1198,
+          "author": "pp3g-vRPR-prune-old-kickoff-swarm-subagent-sessions-from-the",
+          "content": "DRY-RUN COMPLETE (ROLLBACK tx, exact DELETE set). Numbers:\n\n**Target set**: 145 sessions (post-exclusion) matching issue count.\n\n| Metric | Before | After (in-tx) | Delta |\n|---|---|---|---|\n| page_count | 498,103 | 498,103 | 0 (WAL-mode: freed pages land in WAL until checkpoint) |\n| freelist_count | 0 | 21,918 | +21,918 (pages freed in tx, rolled back) |\n| parts deleted | — | — | 31,261 |\n| messages deleted | — | — | 6,994 |\n| todos deleted | — | — | 227 |\n| session_message deleted | — | — | 0 |\n| session_input deleted | — | — | 0 |\n| session_share deleted | — | — | 0 |\n| session_context_epoch deleted | — | — | 0 |\n| sessions deleted | — | — | 145 |\n\nROLLBACK verified: sessions=823, parts=164,084 after rollback (parts grew from live Mpl9/WzWe writers during the dry-run — live session data intact).\n\nNote: page_count unchanged in-tx is expected in WAL mode; space reclamation (21,918 freed pages ≈ 85.6MB @4KB/page) happens at checkpoint+VACUUM. Proceeding to EXECUTE.",
+          "created_at": "2026-08-08T17:53:44.623886427Z",
+          "kind": "observation",
+          "signed_by": "SHA256:dsXFTiLxvVRyYfMS0xlrfc+SX/y94lOqIk0PrG2nejw",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5chBftXyyuv9RZhm/KrorZtSV6Qsy4+U00ZSP5divmQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4fS970W4P1cvCkrkgN9+xQHXu+TQFfWonL9OljYwA/x9UHDUCIPpjnAmUhX0MN1bHt6rMq4+k8ZyH75rhyRYCw=="
         },
         "e7624dfc-ee02-4555-a62e-654c559196c9": {
           "display_id": 1195,
@@ -16052,8 +16061,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T17:52:51.343131444Z",
+    "timestamp": "2026-08-08T17:53:44.631899240Z",
     "agent_id": "pp3g-vRPR-prune-old-kickoff-swarm-subagent-sessions-from-the",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
