@@ -1,5 +1,5 @@
 {
-  "next_display_id": 293,
+  "next_display_id": 294,
   "next_comment_id": 1185,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -223,6 +223,7 @@
     "bf05f2c0-c357-4bd1-844e-f313c75877b9": 151,
     "bfbdca98-404f-43c0-8ed1-0ce816fc1422": 61,
     "bff799f6-9339-459b-98e7-1a26cd5d29b1": 255,
+    "c0e85197-4daf-4f2e-baee-ee7d11314c92": 293,
     "c1dd8493-501b-4913-8257-e4da32d05913": 237,
     "c1f776eb-8025-4e12-81cd-4f5e84d04053": 31,
     "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83": 154,
@@ -12540,6 +12541,16 @@
         }
       }
     },
+    "c0e85197-4daf-4f2e-baee-ee7d11314c92": {
+      "uuid": "c0e85197-4daf-4f2e-baee-ee7d11314c92",
+      "display_id": 293,
+      "title": "AUDIT (phase-1 pre-positioned in-flight, mimo-v2.5): monitor the #270 task 2/3 matrix run (Builder pp3g-Mpl9, 45m). READ-ONLY auditor role. SUBJECT: #270 — running the 16-row matrix against the rebuilt fork binary with the #235-fixed harness; the matrix run is a long unattended verification phase (45m). JOB per Workflow Topology §5.3: pre-positioned; join #270 position stream against artifact evidence (worktree .worktrees/pp3g-Mpl9-atomic-task-2-3-issue-270-part-b-run-the-16-row-295a/, /tmp/opencode harness + matrix logs, hub events). TRIGGERS: (1) position staleness >2x expected interval (~10 min cadence for 45m task → >20 min gap); (2) position-vs-artifact mismatch (claim without evidence / evidence contradicting claim — e.g. 'matrix done 67/67' but no matrix log, or a claimed pass that contradicts the log); (3) silent-hang signature (no advancing position + no heartbeat, .kickoff-status RUNNING); (4) unverifiable decision-gating claims. METHOD: check every ~10-15 min; post divergence findings to THIS sub-issue (--kind observation) as the escalation channel; do NOT act directly. INDEPENDENCE: do NOT read other auditor sub-issues. END: final verdict (--kind result): no divergence observed OR divergence found (list with evidence + WHAT-NOT-TESTED). Ref #270/#156.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T17:23:05.470798942Z",
+      "updated_at": "2026-08-08T17:23:05.470798942Z"
+    },
     "c1dd8493-501b-4913-8257-e4da32d05913": {
       "uuid": "c1dd8493-501b-4913-8257-e4da32d05913",
       "display_id": 237,
@@ -15903,8 +15914,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T17:22:27.161580023Z",
+    "timestamp": "2026-08-08T17:23:05.470798942Z",
     "agent_id": "OL2r",
-    "agent_seq": 1445
+    "agent_seq": 1446
   }
 }
