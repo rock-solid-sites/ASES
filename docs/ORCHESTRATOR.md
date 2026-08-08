@@ -182,6 +182,12 @@ plugin's active-issue gate — without those patterns the gate would be unreacha
 and merge would be silently impossible. The gate itself is enforced by
 `by_type.orchestrator.gated_git_commands` in `.crosslink/hook-config.json`.
 
+Note: the bash allowlist is **prefix-matched** — chained or piped commands
+(e.g. `rtk git show ... | grep ... | wc -l`) are denied even when each segment
+is individually allowed; this is by design, not a bug. Use one command per
+tool invocation (or the Read tool for files); see the orchestration playbook
+§5.7 for guidance.
+
 ---
 
 # Workflow Topology — Operational Procedure
