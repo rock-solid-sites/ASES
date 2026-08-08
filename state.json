@@ -12514,11 +12514,12 @@
       "display_id": 280,
       "title": "DOC: reconcile playbook §5.4/§6.1 orchestrator-direct-watch with §5.8 auditor-mediated monitoring + document systemd watcher layer",
       "description": "EVIDENCE (2026-08-08, reliability-epic agent conversation, relayed by operator): an agent working the reliability epic corrected its mental model to 'auditor = liveness canary + divergence verifier; orchestrator polls the auditor for updates, does not peer into the builder's pane as routine'. It then flagged a doc/intent drift: playbook §5.4 (Missed check-in escalation: 'investigate: ps -o pid,etime,time,stat -p <pid>, check session status') and §6.1 ('a missing checkpoint past the expected interval is a stalled-agent signal — investigate before the timeout') read as orchestrator-side direct checkpoint/staleness watching, contradicting §5.8 ('staleness causes the pre-positioned AUDITOR to act; it flags to the orchestrator; the orchestrator owns the bounded action set'). ROOT CAUSE: §5.4/§6.1 predate the workflow-topology formalization and were never reconciled after §5.8 landed. FIX SCOPE (operator-directed): (a) reconcile §5.4/§6.1 with §5.8 auditor-mediated monitoring — the orchestrator's routine monitoring is auditor-mediated; orchestrator-side ps/investigate is the fallback when no auditor is present or on auditor flag; (b) document the FULL three-layer monitoring model so the orchestrator has complete information both for itself and to pass to subagents: systemd watcher (ases-kickoff-notify.timer/service, §6.4) = mechanical process liveness; pre-positioned AUDITOR = claim-vs-evidence divergence verification; orchestrator = bounded action set (investigate/nudge/stop-resume) + single integration point. NUANCE: auditor flags to the ORCHESTRATOR (never the operator directly); the orchestrator surfaces only decisions to the operator. Doc-only task; fix lands within reliability epic #156 playbook reconciliation, separate from the #266 pipe-chain gotcha (already committed c055db78).",
-      "status": "open",
+      "status": "closed",
       "priority": "low",
       "created_by": "OL2r",
       "created_at": "2026-08-08T06:27:21.623769626Z",
-      "updated_at": "2026-08-08T06:34:56.157517711Z",
+      "updated_at": "2026-08-08T06:35:06.922892945Z",
+      "closed_at": "2026-08-08T06:35:06.922877563Z",
       "labels": [
         "docs"
       ],
@@ -14913,8 +14914,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:34:56.157517711Z",
+    "timestamp": "2026-08-08T06:35:06.922892945Z",
     "agent_id": "OL2r",
-    "agent_seq": 1374
+    "agent_seq": 1375
   }
 }
