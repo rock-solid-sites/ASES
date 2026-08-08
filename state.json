@@ -1520,12 +1520,13 @@
       "display_id": 287,
       "title": "SETTLE: #279 criterion 2 (backoff mis-specification) and criterion 5 (testimonial-only evidence) — verify auditor claims, correct the trigger text, re-run criterion 5 with committed run-scoped logs",
       "description": "Follow-up from Phase-1 auditor #284 (PASS verdict, 3 non-blocking concerns). Two to settle here: (1) criterion 2 in the #279 trigger text says _call_persistent body has 'backoff/lock/telemetry/retry count' but grep shows NO backoff (sole match is the logger.warning telemetry line; retry is immediate/unconditional) — the trigger mis-specifies a non-existent element and must be corrected to quote the actual body; (2) criterion 5's fresh baseline run is testimonial-only (harness writes to tracked log paths, restored byte-identical, so the 2026-08-08 run survives only as prose in the #279 result) — re-run with run-scoped log output (e.g. logs/revalidation-DATE/) and COMMIT the logs so the criterion is re-derivable. Full mandate in dispatch prompt.",
-      "status": "open",
+      "status": "closed",
       "priority": "medium",
       "parent_uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:25:26.721233193Z",
-      "updated_at": "2026-08-08T07:50:05.009460479Z",
+      "updated_at": "2026-08-08T07:50:19.276454216Z",
+      "closed_at": "2026-08-08T07:50:19.276451261Z",
       "labels": [
         "research",
         "toolregistry"
@@ -15756,7 +15757,7 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:50:11.983716120Z",
+    "timestamp": "2026-08-08T07:50:19.276454216Z",
     "agent_id": "OL2r",
     "agent_seq": 1416
   }
