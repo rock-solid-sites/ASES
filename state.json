@@ -1,6 +1,6 @@
 {
   "next_display_id": 294,
-  "next_comment_id": 1190,
+  "next_comment_id": 1191,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13742,7 +13742,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:39:11.228373760Z",
-      "updated_at": "2026-08-08T17:27:59.239536153Z",
+      "updated_at": "2026-08-08T17:32:42.151254148Z",
       "labels": [
         "infrastructure"
       ],
@@ -13773,6 +13773,15 @@
           "kind": "plan",
           "signed_by": "SHA256:iPaUK7S6vmz/ptN//e08nwBwHjhgfGn3P6pZMg45Vk4",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgt/9yOxzCrSToXb6mFylbhqYHxXz90I63wbx35aUFYhUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGVVgSbgdEQL5AEfUaWwzZCxwTHd7Xq2yn7cwwd40AypJCkofNd4y3QXt3QLyT1A9brXcjJ/JIfolHdvUgX9+BQ=="
+        },
+        "3e7e6730-d8b2-4f44-a9f5-71bd2ff53c50": {
+          "display_id": 1190,
+          "author": "pp3g-Mpl9-atomic-task-2-3-issue-270-part-b-run-the-16-row-295a",
+          "content": "Plan: Reconstruct the #235-fixed harness and run the full 16-row matrix vs the rebuilt binary (/tmp/opencode/fork-build/.../opencode, sha 3872f6ef, 1.18.13-pp3g-fork). EVIDENCE GATHERED: (1) preserved harness at /tmp/opencode/harness-run/ == committed eac29469 fork/harness (pre-#235-fix); (2) CRITICAL NEW FINDING — preserved run_row has a bash bug: '${envs[@]//CFG=*/}' leaves an EMPTY env arg -> 'env \"\"' fails exit 127, so the fork binary NEVER RAN in the baseline (client outputs are 39 bytes = env error); (3) #235 fixes to reconstruct (from #235 plan + INVESTIGATION-232 §4): totalPOSTs grep ':'->'=', row4/row10a content via loop step=1, row6b accept idle OR bounded total-timeout, server.js GZIP content-length:0 + ERR_HTTP_HEADERS_SENT double-writeHead, server.js keepalive clear on res close not req close, row16c per-file grep; (4) binary verified: markers 'Body read timed out' x2, 'Turn stalled' x1, 'The operation timed out' x1. STEPS: (a) write fixed harness to /tmp/opencode/matrix-run-fixed/ (run_row fix + 6 documented fixes); (b) sanity smoke-test 1-2 rows; (c) full 16-row matrix with generous timeout; (d) post pass/fail table + evidence to #270; (e) commit fixed harness + results to this feature branch (git, not /tmp — #271). EXPECT: >=65/67 with only row-1 4-POST-vs-3 title-gen artifact failures acceptable.",
+          "created_at": "2026-08-08T17:32:42.144030294Z",
+          "kind": "plan",
+          "signed_by": "SHA256:X/HrXgVdQJ/Owz0oRvX+JglVs9zsMhoPUTAj+uO6nhg",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgGsgpLJ/5z0H4leRT2krTTt7zkf1FGSZsKk6ADxKOXOYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABApY+7L9Mnf5A8GBExOekexvrCghjILvLopuRmUsDu0Y1J2GmMJoyrgjeCD/J4yNm2PxuAtl13alzk+tSnKU7NDA=="
         },
         "6d1a895f-ff07-4e00-8361-a43a1d7d5773": {
           "display_id": 1187,
@@ -15964,8 +15973,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T17:31:40.218588833Z",
-    "agent_id": "pp3g-WzWe-auditor-phase-1-in-flight-divergence-verifier-issue",
-    "agent_seq": 7
+    "timestamp": "2026-08-08T17:32:42.151254148Z",
+    "agent_id": "pp3g-Mpl9-atomic-task-2-3-issue-270-part-b-run-the-16-row-295a",
+    "agent_seq": 4
   }
 }
