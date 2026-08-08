@@ -1,6 +1,6 @@
 {
   "next_display_id": 259,
-  "next_comment_id": 874,
+  "next_comment_id": 875,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7338,10 +7338,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T01:10:58.950546687Z",
-      "updated_at": "2026-08-08T01:11:05.553950803Z",
+      "updated_at": "2026-08-08T01:16:16.207069924Z",
       "labels": [
         "docs"
-      ]
+      ],
+      "comments": {
+        "00cbdb1f-dced-4e9b-a2d8-e82a8d8730bf": {
+          "display_id": 874,
+          "author": "pp3g-jyoJ-operationalize-the-workflow-topology-design-into-the",
+          "content": "Plan: Operationalize the workflow-topology design (docs/research/Workflow Topology Design and Reasoning Record.md, 40f7d210) into the live workflow docs. 1) AGENTS.md: add two PRINCIPLE sections after # Evidence — Reasoning Certainty (WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED for claims crossing role boundaries) and Cheapest-Test-First (discriminating/falsifying obligation sits with producer) + pointer to design doc. 2) docs/ORCHESTRATOR.md: rewrite Auditor role as ONE role TWO PHASES in-flight divergence verifier (Phase 1 in-flight monitor vs Phase 2 post-hoc audit, model variation across phases, no duplicate Verifier); rewrite Code Reviewer as pre-consumption readiness audit; add '# Workflow Topology — Operational Procedure' section (position-emitting agents + durable store + task-adaptive cadence, cheap staleness trigger set, orchestrator as single integration point, operator supervises orchestrator). 3) SESSION-START.md: add POINTER bullet in §1 + situational-read row in §4. 4) playbook: add §5.8 WORKFLOW-TOPOLOGY section after §5.7 (position-store format, staleness trigger, trigger-invoked auditor role, review-before-consume) + cross-ref from §5.4. 5) MIRROR to tripn-astro per §5.5: AGENTS.md (principle adapted), SESSION-START.md (pointer), playbook (copy updated ASES canonical copy — also repairs existing drift, missing durable root-cause fix paragraph); stage there, operator commits. Do NOT touch the design doc. Commit [#258] in ASES. Verify: git diff review, confirm design doc untouched.",
+          "created_at": "2026-08-08T01:16:16.193694529Z",
+          "kind": "plan",
+          "signed_by": "SHA256:vcv9AqYYkDJe8yoB3ueJMZf5VTMGwco7QQ/JTyfe4IA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCLbxL7T78PNMddBC1kYsWaW7qrzw33mqPdfyTQmMgGkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAudyTrC+BGpX0laM6JcrXyy8pm60zxh6zG/GSVArXly9utJadKCCPJJwxfRD4KzBBxsXvhLv1SE/qhLA2pXIGAw=="
+        }
+      }
     },
     "8bf6662b-afe9-49ba-ab5a-17394445d17d": {
       "uuid": "8bf6662b-afe9-49ba-ab5a-17394445d17d",
@@ -12461,8 +12472,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T01:12:38.826021913Z",
+    "timestamp": "2026-08-08T01:16:16.207069924Z",
     "agent_id": "pp3g-jyoJ-operationalize-the-workflow-topology-design-into-the",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
