@@ -8155,12 +8155,13 @@
       "display_id": 228,
       "title": "INVESTIGATE (C2 gap): self-healing vs ToolRegistry client interception vs patch — decision-ready comparison of three candidate approaches to close the consistently-drifted-backend gap (Option A proxy self-heal, Option B interception point, Option C patch assessment)",
       "description": "Investigation, NOT a build. Follow-on to #217 (retry-classification). C2 (consistently drifted backend) still costs 2 spawns/2 proxies because the triggering exception fires inside ToolRegistry's own client, past proxy visibility. Test three options: A) proxy-side self-healing (failure counter, N=1 immediate heal, capture live shape, update served manifest, verify no flapping on intermittent drift); B) ToolRegistry client interception point (full tracebacks, identify SDK vs ToolRegistry origin, check installed-source extension points, smallest PoC wrapper if viable, stop if no clean point); C) patch assessment (only if B fails — minimal connection.py change, diff size + upgrade fragility, PoC only). Deliverable: comparison report with A's before/after cost numbers + flapping check, B's yes/no + traceback + PoC size, C's diff/fragility if reached, one-paragraph recommendation. Proof-of-concept quality only; no upstream PR; stdio only. Evidence from output-schema-drift (merged) + retry-classification (merged).",
-      "status": "open",
+      "status": "closed",
       "priority": "medium",
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-06T07:22:44.855827634Z",
-      "updated_at": "2026-08-08T06:24:09.708099796Z",
+      "updated_at": "2026-08-08T07:54:22.221321921Z",
+      "closed_at": "2026-08-08T07:54:22.221318549Z",
       "labels": [
         "research",
         "toolregistry"
@@ -15788,8 +15789,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:54:14.216746965Z",
+    "timestamp": "2026-08-08T07:54:22.221321921Z",
     "agent_id": "OL2r",
-    "agent_seq": 1422
+    "agent_seq": 1423
   }
 }
