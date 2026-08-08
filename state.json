@@ -795,11 +795,12 @@
       "uuid": "091c8f31-8ddc-41f6-929f-ea5bd99e571f",
       "display_id": 267,
       "title": "DOC: codify the validated position-cadence defaults + two-phase-auditor dispatch refinements from session #20 (hydration epic closeout) into agent-orchestration-playbook.md §5.8. STATUS: these defaults are NOT fully codified elsewhere and are marked TENTATIVE — they showed good results in one lifecycle (session #20: 3 silent-hangs caught by the pre-positioned auditor with zero artifact loss) but have limited evidence (n=1 lifecycle). Adjustments are within scope IF failure modes are encountered. CONTENT to add (as a short subsection under §5.8, after the position-store block): (1) VALIDATED CADENCE DEFAULTS (tentative): first position within ~2 min of session start; position at every state transition AND at least every ~10 min even during silent exploration (post step=exploring, completed=<files read>, evidence=<file refs>); 'completed' claims MUST carry an artifact/commit/test-log link (a claim without evidence IS a divergence flag). (2) PHASE-1 AUDITOR DISPATCH (tentative): launch the in-flight auditor ALONGSIDE the builder at dispatch (pre-positioned, per the existing §5.8 rule); give it the trigger set + the builder's expected cadence explicitly in the prompt; it reports divergence to the orchestrator only, never acts. (3) PHASE-2 AUDITOR (tentative): post-hoc, model-varied from Phase 1; verifies outcome (architectural consistency) + process (tracking/commit hygiene/claim discipline) + systemic issues; CONDITIONAL verdicts with named preconditions are the expected output shape. (4) VERIFICATION-TAIL PATTERN (tentative): when a builder silent-hangs post-commit (committed but no final verification), dispatch a verification-only builder to complete the tail (tests re-run, binary rebuild, sha==commit check, live sanity, per-item evidence result). Mark all of it clearly: 'TENTATIVE — n=1 lifecycle (session #20); adjust within scope on encountered failure modes.' Do NOT rewrite existing §5.8 content; append the subsection.",
-      "status": "open",
+      "status": "closed",
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:03:15.241420431Z",
-      "updated_at": "2026-08-08T05:25:55.620286465Z",
+      "updated_at": "2026-08-08T05:26:08.957180494Z",
+      "closed_at": "2026-08-08T05:26:08.957171348Z",
       "labels": [
         "docs"
       ],
@@ -14038,8 +14039,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T05:25:55.620286465Z",
+    "timestamp": "2026-08-08T05:26:08.957180494Z",
     "agent_id": "OL2r",
-    "agent_seq": 1327
+    "agent_seq": 1328
   }
 }
