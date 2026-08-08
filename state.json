@@ -1,6 +1,6 @@
 {
   "next_display_id": 300,
-  "next_comment_id": 1220,
+  "next_comment_id": 1221,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5479,7 +5479,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T18:09:43.832889484Z",
-      "updated_at": "2026-08-08T18:18:45.828936842Z",
+      "updated_at": "2026-08-08T18:22:26.773132101Z",
       "labels": [
         "audit"
       ],
@@ -5492,6 +5492,15 @@
           "kind": "plan",
           "signed_by": "SHA256:Rj4INtResnauuPj2uF3Yb3Z0661Knv1vbBrWaPMatDU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4L5CDjt8SSTPKvvjoQQ039afFI95818UdxhBdzj3R91IH488XxZnjZi9w79UmtFbfBHEliArbzb2YbaMEnltBw=="
+        },
+        "270bdb5c-40ff-437f-a17e-65f9f0472b5b": {
+          "display_id": 1220,
+          "author": "pp3g-Ij1J-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[VERIFY] state=verifying completed=re-derived all Builder plan claims against installed source; 4/4 citations confirmed, 5 concerns pre-registered next=continue polling trigger set against the pre-registered predictions blocker=none\n\nTRIGGER STATE: no divergence trigger fired. Liveness POSITIVE (lock on #295 held by pp3g-VAPd; plan 18:15:00Z + checkpoint 18:15:14Z; ~7min since last position at time of check — inside the 20-30min staleness bound). No staleness call (WZSE).\n\n== CLAIM-VS-SOURCE RE-DERIVATION (I opened the installed source myself; I did not take the Builder's word) ==\n[OK] 'refresh = temp MCPClient, connection.py:73' — CONFIRMED EXACT. connection.py:73 is 'async def list_tools(self)', docstring 'List available tools using a temporary connection', L79 'async with MCPClient(self._transport, self._headers) as client'. The async-with exit does close it. Operationalizing refresh as list_tools() is defensible: it is the same discovery path registration uses.\n[OK] 'persistent=True default, registration.py:94' — CONFIRMED EXACT at toolregistry/_mixins/registration.py:94 'persistent: bool = True,' in register_from_mcp. (I first looked for a top-level registration.py, found none, and re-checked _mixins/ before concluding — per the PVi7 false-absence lesson. It is there.)\n[OK] 'ClientSession parses list_changed, methods.py:192, core since 2024-11-05' — CONFIRMED EXACT at mcp_types/methods.py:192: ('notifications/tools/list_changed', '2024-11-05'): v2025.ToolListChangedNotification. The 2024-11-05 date is literal in the source. Trivial nit: the file is in the mcp_types package, not mcp — worth qualifying in the report.\n[OK] 'ToolRegistry has zero list_changed code and sets no message_handler (grep-verified)' — INDEPENDENTLY CONFIRMED: grep for list_changed|listChanged|message_handler across the whole installed toolregistry package returns ZERO matches. Test 5a's gap premise is sound and is correctly framed as characterize-only.\n[OK] Pinned versions present and correct: toolregistry-0.15.0.dist-info and mcp-2.0.0.dist-info in /tmp/toolregistry-venv (python3.10).\nASSESSMENT: citation discipline is high — three line-precise references all landed. This raises my confidence in the Builder's source-reading; it does NOT yet speak to the measurement, which is where the risk actually lives.\n\n== CONCERNS PRE-REGISTERED AGAINST THE PLAN (flagging only; not blocking) ==\n[CONCERN-1 / methodological, highest value] SYNC-VS-ASYNC IS CONFOUNDED WITH SEQUENTIAL-VS-CONCURRENT. The plan pairs 'sync (register_from_mcp) for sequential' with 'async (register_from_mcp_async + gather) for concurrent'. Those two factors are then perfectly correlated, so no row difference can be attributed to concurrency rather than to calling mode. This is concretely consequential for the addendum's daemon-thread column: AsyncRuntime daemon threads are created by the SYNC path (AsyncRuntime.run_sync, connection.py:135/146) and not by the async path, so sequential rows will show daemon threads and concurrent rows will not — a difference caused by the API used, NOT by concurrency. If reported without disclosure this reads as a concurrency finding and would be wrong. Mitigation: either add an async+sequential cell to break the confound, or state the confound explicitly in the table caption.\n[CONCERN-2 / spec deviation, minor] Plan uses a 2.5s grace; #295 specifies a 2s grace with 'beyond grace = lifecycle finding'. 2.5s is MORE permissive, so a process still defunct at 2.3s would be scored OK when the spec would call it a finding. Small, but it must be recorded and justified rather than silently substituted.\n[CONCERN-3 / validity, high] HARNESS TOPOLOGY IS STILL UNSTATED. 'per-connector PROXY_LOG_FILE' and 'each connection manager' imply N separate proxy connectors (the honest topology B from my pre-registration), which is good — but the plan never says it outright. The report must state whether N tools = N connectors 1:1, and must caveat that 1:1 is the WORST case: a real deployment with N tools across M<<N servers has materially different residency. Without that, the N-axis is ambiguous.\n[CONCERN-4 / coverage] The plan never mentions Test 1 or its backend_spawn_count==0 stop-and-investigate gate. Test 1 is the scope guard; its absence from the plan is a coverage gap I will watch for in the artifacts.\n[CONCERN-5 / interpretation, high] THE STRONG PASS MAY BE TRIVIALLY SATISFIED, AND MUST NOT BE OVERCLAIMED. The Builder's own pre-test expectation is resident-after ~0 for all N under BOTH teardown settings, because list_tools() always closes its temp connection. If that holds, the teardown off/on factor is DEGENERATE for the acquisition/refresh tests — there is nothing left to tear down — so Tests 2/3 will emit identical off/on rows. Identical rows would then be the CORRECT result, not a harness bug, and the report must say so explicitly instead of quietly printing duplicates. More importantly the resulting 'strong pass' would be a property of ToolRegistry 0.15.0's disconnect-after-list discovery path, NOT a general validation of the lazy-proxy/identifier-first architecture. The architectural conclusion must be scoped to that mechanism or it overclaims.",
+          "created_at": "2026-08-08T18:22:26.760061888Z",
+          "kind": "observation",
+          "signed_by": "SHA256:Rj4INtResnauuPj2uF3Yb3Z0661Knv1vbBrWaPMatDU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAijQrX/VNS3Iuu04DtBJzJ5WpUgFk9mKc/xVYAvoNX2gJLZA2TNpGCGhf2UL0GCodtnOZ8ZDm5XUCDoDjtpdSAw=="
         },
         "6cfc54e2-65d6-415c-b29a-55c1ae41722f": {
           "display_id": 1215,
@@ -16344,8 +16353,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T18:19:12.950226524Z",
-    "agent_id": "pp3g-DAX6-config-task-issue-298-redispatch-prior-builder-pp3g",
-    "agent_seq": 6
+    "timestamp": "2026-08-08T18:22:26.773132101Z",
+    "agent_id": "pp3g-Ij1J-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 5
   }
 }
