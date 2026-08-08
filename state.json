@@ -1,5 +1,5 @@
 {
-  "next_display_id": 298,
+  "next_display_id": 299,
   "next_comment_id": 1202,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -126,6 +126,7 @@
     "65cc6b2e-ea4a-4e99-86da-0fee9c048f74": 107,
     "661fd967-2a52-4fc5-b28a-eb67bd5194de": 9,
     "66373193-b72d-4a26-97b9-af590a31c7be": 203,
+    "66a72bd3-2ae5-4226-8f7f-aaa144d03763": 298,
     "671334e9-8cd0-4db6-8659-7aa68760b6a7": 235,
     "67e6376f-f4b6-4502-af12-bab2f6de887a": 281,
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": 71,
@@ -6992,6 +6993,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg1Mto0ofWSOR20UZz7VZRHU3eTRzlZZyxP9NJ06ssZ+YAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtkPKa0HqdxK2Qz7l/qU8EA42HXBbvqF/mc1G4tdojtvmOiLa+LlxeKbqim6dvEjLApkD8XfKoc4ac7jHcrK1Bw=="
         }
       }
+    },
+    "66a72bd3-2ae5-4226-8f7f-aaa144d03763": {
+      "uuid": "66a72bd3-2ae5-4226-8f7f-aaa144d03763",
+      "display_id": 298,
+      "title": "CONFIG: add 'sleep *' to the orchestrator bash allowlist. FILE: .opencode/agents/orchestrator.md — the permission.bash block (~line 7-44). Currently the allowlist ends with 'curl --head *': 'allow'. ADD one line: '    \"sleep *\": \"allow\"' (alphabetical position after 'rtk *' or at a sensible spot — match the existing style with 4-space indent + quotes). PURPOSE (operator-directed, 2026-08-08): the orchestrator needs to run sleep-based polling loops ('sleep N' then check auditor issue) for the #270 matrix-finish loop and future unattended monitoring; sleep is currently blocked (prefix allowlist). This is a PURE config addition — no logic change, no permission removal. COMMIT with [#156] ref. Do NOT modify any other permission. Verify: the line is present in the committed file + valid YAML/TOML frontmatter (the file uses YAML frontmatter between --- markers). Ref #156 (reliability epic — unattended monitoring).",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T18:08:35.335749165Z",
+      "updated_at": "2026-08-08T18:08:35.335749165Z"
     },
     "671334e9-8cd0-4db6-8659-7aa68760b6a7": {
       "uuid": "671334e9-8cd0-4db6-8659-7aa68760b6a7",
@@ -16142,7 +16153,7 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T18:08:25.237942850Z",
+    "timestamp": "2026-08-08T18:08:35.335749165Z",
     "agent_id": "OL2r",
     "agent_seq": 1461
   }
