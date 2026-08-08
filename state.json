@@ -1,6 +1,6 @@
 {
   "next_display_id": 263,
-  "next_comment_id": 962,
+  "next_comment_id": 963,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -10690,7 +10690,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T21:28:20.358100922Z",
-      "updated_at": "2026-08-06T17:03:44.300224091Z",
+      "updated_at": "2026-08-08T03:52:30.418200236Z",
       "labels": [
         "infrastructure"
       ],
@@ -10717,6 +10717,15 @@
         "ed2be289-b151-45eb-9b85-03749f34d822"
       ],
       "comments": {
+        "3f607621-b596-4392-bb74-659191b783a6": {
+          "display_id": 962,
+          "author": "OL2r",
+          "content": "WORKFLOW-RELIABILITY EVIDENCE (2026-08-08, from #125 r3 lifecycle, Phase-2 post-hoc audit): THREE silent-hang/stall events in one task lifecycle — T1jj died after posting plan (01:01), neHg died with zero positions (01:22, killed), R99p silent-hung post-commit before final verification (02:48). All three caught by the structured-position contract + pre-positioned in-flight divergence verifier (staleness triggers), enabling re-dispatch with zero artifact loss — but the recurrence confirms this is a SYSTEMIC reliability issue, not one-off. The #125 divergence-verifier model (positions + ~10min heartbeat cadence + independent verification of long builds) is validated as the operational mitigation until this durable fix lands. Recommendation: retain mandatory ~10-minute heartbeat positions + pre-positioned independent verification for long builds; repeated silent hangs are a workflow reliability issue even when recovery succeeds. Related: #146 (watcher Phase 3 kill/restart), #135 (watcher), #192 (timeout backstop).",
+          "created_at": "2026-08-08T03:52:30.401024222Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtViKU2iLEg0US8qF/jW9i1MELSoiMnflm4Kr89qY3xtRtVpySC1TSZi3JEV8RIc41Bn1cjuWan7XTNpbtp11BQ=="
+        },
         "56881653-fbda-471f-b3f9-b48e57cbf998": {
           "display_id": 410,
           "author": "OL2r",
@@ -13321,8 +13330,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T03:50:24.650917278Z",
-    "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 12
+    "timestamp": "2026-08-08T03:52:30.418200236Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1289
   }
 }
