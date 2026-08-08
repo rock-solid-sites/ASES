@@ -1,6 +1,6 @@
 {
   "next_display_id": 305,
-  "next_comment_id": 1247,
+  "next_comment_id": 1248,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7119,7 +7119,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:30:45.627447733Z",
-      "updated_at": "2026-08-08T23:34:52.161144555Z",
+      "updated_at": "2026-08-08T23:36:28.210679280Z",
       "labels": [
         "audit"
       ],
@@ -7132,6 +7132,15 @@
           "kind": "observation",
           "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANEPAyNxiLj9ReELH6X4KK0o1GAXOgicP+bsXKQkHnyBhQT+y2/SjNyzNgaaw2OVRPH1A6BtVR68N4+lIu9gxDg=="
+        },
+        "4a55ace3-f8c3-4095-ad5b-0cc839c276e4": {
+          "display_id": 1247,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "## Audit Verdict: CONDITIONAL PASS\n\n### Architectural Assessment\n- [OK] — Research-layer metadata and separation of catalog, proxy, and backend residency are explicit (report.md:1-7,47-59). Commit 00eda4b3 is scoped to #295.\n- [OK] — Test 1 independently checks out: N=50 has 100 proxy sessions, backend_spawn_count=0, resident-after 0/0 (logs/test1/n50/test1-n50.json; report.md:159-185).\n- [OK] — Test 3 contains all 20 requested rows with peak and resident-after separated for proxies/backends; every resident-after is 0/0, while concurrent peaks correctly grow transiently (report.md:209-245; logs/test3/*.json).\n- [OK] — Test 4 has the required three categories: called backends=3, called proxies=3, refreshed-never-called proxies=0, and same proxy/backend PIDs across call1/call2 (logs/test4/test4-teardown-{off,on}.json; report.md:247-280).\n- [OK] — Tests 5a/5b and 6 match the committed JSON: list_changed emitted but not consumed; stale catalog yields application error/no surprise respawn; teardown reclaims called resources to 0/0 (logs/test5/*, logs/test6/test6.json; report.md:282-345).\n- [CONCERN] — Strong Pass is valid only for stdio, ToolRegistry 0.15.0, and its temporary discovery path. The report discloses these limits (report.md:382-388), so no hidden generalization is present.\n\n### Process Assessment\n- [OK] — Documentation Standard YAML is present and correct (report.md:1-7); observations/findings are separated (report.md:43-45); all six tests, tables, scaling sentence, architectural conclusion, versions, calling modes, grace, and scope are covered.\n- [OK] — #295 history records plan, source-read checkpoint, Test 1/2 checkpoints, result, and handoff; commit 00eda4b3 references #295.\n- [CONCERN] — The report claims every result JSON records versions and persistence config (report.md:447-452), but the artifacts do not fully support that claim. Test 1 n50 JSON has calling_mode/threads but no versions; Test 1 and Test 2 JSON have no persistence field (logs/test1/n50/test1-n50.json; logs/test2/test2-condA.json). Scripts construct results without one (scripts/run_test1.py:84-108; scripts/acquire.py:153-177). Source verification and prose establish persistent=True was used, but not per-run as required.\n- [CONCERN] — Orphan behavior is clearly reported (report.md:407-415), and pre-existing processes are cleaned with TERM/KILL fallback (scripts/common.py:250-287). However, no dedicated committed owner-death log records the claimed three observations and final kill status; this is weaker than the rest of the evidence trail.\n- [OK] — Peak/resident-after and proxy/backend counts are not collapsed; Test 2 explicitly explains transient peak=2 and the 2.5s grace (report.md:186-207).\n\n### Systemic Risks Identified\n- Missing per-run persistence field — exact reconstruction can silently drift — add a machine-readable field and schema assertion.\n- Owner death can orphan stdio connectors in ep_poll — resource leaks and cross-test contamination — make explicit close/owner-death cleanup a reusable lifecycle requirement.\n- ToolRegistry does not consume tools/list_changed — catalog drift remains invisible until first use — retain as a known gap for #212/umbrella synthesis, not a defect to fix here.\n- Sync has one process-wide async-runtime daemon thread; async-only has zero (report.md:122-137,399-405) — retain this distinction in future cost models.\n\n### Recommendations\n- [HIGH] — Record the exact persistence parameter/value in every per-run JSON, including Test 1 and threadcheck, and fail schema validation when absent.\n- [MEDIUM] — Commit a dedicated owner-death lifecycle log with parent exit, surviving PIDs, observation interval, kill signal, and final zero snapshot.\n- [MEDIUM] — Preserve the stdio/0.15.0/temp-client boundary in all downstream synthesis; do not generalize to other transports or future persistent discovery.\n\nMeasured outcome passes the central question: K=0 remains 0/0 through N=50 and N=20/K=3 leaves exactly three called pairs resident before teardown. Conditional status is for evidence completeness, not a contradiction of the outcome.",
+          "created_at": "2026-08-08T23:36:28.202641189Z",
+          "kind": "result",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAy46O0etscv0NmC00GG7JCBbzDQERtqz+wbrGdyHSpizsov2/Y0sJ/SClgxi7sFEk1XJBzeORdirp0CINqPCgCA=="
         },
         "7967100d-c437-4a62-bda3-76a36afe5374": {
           "display_id": 1239,
@@ -16681,8 +16690,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T23:36:18.799418930Z",
-    "agent_id": "pp3g-GKhk-atomic-install-3a-3c-issue-270-task-3-3-part-a-backup",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T23:36:28.210679280Z",
+    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+    "agent_seq": 17
   }
 }
