@@ -1,6 +1,6 @@
 {
   "next_display_id": 275,
-  "next_comment_id": 1032,
+  "next_comment_id": 1033,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -12409,10 +12409,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:39:11.228373760Z",
-      "updated_at": "2026-08-08T05:39:17.501356070Z",
+      "updated_at": "2026-08-08T05:45:28.159735412Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "bc90d94e-5ce8-4352-aebb-0a5528ded192": {
+          "display_id": 1032,
+          "author": "pp3g-PP6b-rebuild-the-154-durable-opencode-fork-from-recovered",
+          "content": "Plan: REBUILD the #154 durable opencode fork from recovered artifacts. (1) CONFIRM recovered pieces: committed patch (9 files) from feature/pp3g-nHSI branch, safeIterable fix recovered VERBATIM from opencode session DB (llm.ts function + call-site edit with diffs — both parts extracted), build recipe in INVESTIGATION-232.md, harness+tests on nHSI branch, INSTALL-PREP.md on eac29469, knowledge doc opencode-fork.md. (2) Clone upstream anomalyco/opencode @ v1.18.13 (a105350) into /tmp/opencode/fork-build. (3) Apply committed patch (patch --dry-run first). (4) Apply safeIterable fix (function after OUTPUT_TOKEN_MAX + call-site wrap). (5) Build: bun@1.3.14, workspace-root install, OPENCODE_VERSION=1.18.13-pp3g-fork OPENCODE_CHANNEL=fork-pp3g bun run build --single --skip-embed-web-ui --skip-install. (6) VERIFY: fork unit tests (retry 38 + body-idle 7), SDK-level BODY-IDLE gate (Body read timed out + level=ERROR + exit 1 not 124 + 3-POST budget), 16-row matrix, grep binary markers. (7) COMMIT ALL artifacts (fork source tree + patch + binary + verification logs) to a fork branch — CRITICAL: never leave artifacts only in /tmp (#271 lesson). (8) INSTALL per INSTALL-PREP only after verification + operator approval. Do NOT use kickoff cleanup --force.",
+          "created_at": "2026-08-08T05:45:28.152552133Z",
+          "kind": "plan",
+          "signed_by": "SHA256:0DLqvAOpHBfw3Ib4CrYpL1Xf9wu85Rs0Z/Isi0z72qs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgV1fLZnQkVZkMYWuaON8aRFaRemxQ7iKHaTZeqesOwzcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbWCfQFXVa4YjbfgLvdmdp00e0dJoKQn0nbkrEFh6wmEi9aLVeknR/tESBEzYlj1ywE+F4h7rg/Ybt0qrFE8IAg=="
+        }
+      }
     },
     "dc1e02ef-9bd8-47b3-a73f-cae00a3bbcce": {
       "uuid": "dc1e02ef-9bd8-47b3-a73f-cae00a3bbcce",
@@ -14169,8 +14180,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T05:45:15.307376523Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1344
+    "timestamp": "2026-08-08T05:45:28.159735412Z",
+    "agent_id": "pp3g-PP6b-rebuild-the-154-durable-opencode-fork-from-recovered",
+    "agent_seq": 4
   }
 }
