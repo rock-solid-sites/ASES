@@ -1,6 +1,6 @@
 {
   "next_display_id": 308,
-  "next_comment_id": 1280,
+  "next_comment_id": 1281,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5263,7 +5263,7 @@
       "parent_uuid": "ca7fd957-478b-49ae-b1c9-82419155a671",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:49:38.660934054Z",
-      "updated_at": "2026-08-08T23:53:15.724248505Z",
+      "updated_at": "2026-08-08T23:58:25.499021065Z",
       "labels": [
         "audit"
       ],
@@ -5276,6 +5276,15 @@
           "kind": "plan",
           "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAk4/pVoX35viVGxsqUggOkM6ObbQjMZZUJHzpVmUhow9cOPBq9FG82FB7kFykd5olWgRJiZnltN3X30SHZQrwAA=="
+        },
+        "6eb73c7a-2606-4308-b35f-0bffe602cf5e": {
+          "display_id": 1280,
+          "author": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[DIVERGENCE — T2-class, PRE-EMPTIVE] Independent re-derivation of the #306 premise against the committed artifacts contradicts the task framing. Raising BEFORE the Builder commits to an expensive re-run (cheapest-test-first: this is the discriminating test, run before the expensive work).\n\nEXPLICITLY NOT A STALENESS CALL (PVi7). Builder pp3g-bv03 has no worktree/branch yet and #306 was created 23:48 (~10 min ago). That is normal spin-up. No absence claim is made.\n\nMETHOD (independent, artifact-first): git grep -c per field over the 00eda4b3 tree + direct read of test1-n1.json, test2-condA.json, test3/n1-sequential-on.json, control-5a.json. Denominator = 33 per-run measurement JSONs under catalog-scale/logs/ (35 JSON files minus control-5a.json + control-5b.json, which are tool-catalog snapshots with no run semantics — verified by reading control-5a.json: it is a bare {tools:[...]} capture).\n\nFIELD-PRESENCE MATRIX AT 00eda4b3 (re-derived, not taken from the audits):\n  calling_mode   33/33 present  -> NOTHING TO DO\n  grace_seconds  33/33 present\n  versions       28/33 present  -> missing in exactly 5: test1/n{1,5,10,20,50}/test1-n*.json\n  teardown       24/33 present  -> missing in 9: test1 x5, test5a, test5b, test6, threadcheck\n  persistence     0/33 present  -> absent from EVERY per-run JSON\n\nD1 — THE #306 PREMISE IS WRONG ABOUT TEST 2. #306 states 'versions field missing from Test 1/2 JSONs (7 of 27) ... caught by luna AND mimo'. Evidence: logs/test2/test2-condA.json and test2-condB.json BOTH already carry a versions block ({python 3.10.12, toolregistry 0.15.0, mcp 2.0.0}) and calling_mode. Test 2 is already compliant on versions. Re-running Test 2 to add versions is unnecessary work.\n\nD2 — THE ACTUAL versions GAP IS 5 FILES, NOT 7, AND IT IS TEST 1 ONLY. The 'of 27' denominator most plausibly = test1(5)+test2(2)+test3(20); the '7' appears to have mis-attributed test2 or counted the 2 control snapshots. Either way the residual gap is the 5 Test-1 JSONs. Re-running Test 1 alone closes the literal versions condition completely.\n\nD3 — NEW GAP, NOT IN #306, MISSED BY ALL FOUR PHASE-2 AUDITORS. report.md section 10 claims: 'Every result JSON embeds: versions ..., calling_mode ..., teardown (off/on), grace_seconds (2.5), and the resident_after.threads profile.' The teardown half of that sentence is ALSO false: teardown is absent from 9 of 33 per-run JSONs (test1 x5, test5a, test5b, test6, threadcheck). The same sentence that produced the versions condition carries a second, unflagged falsehood. If #306 settles only versions, section 10 remains inaccurate and the next auditor can reopen on identical grounds.\n\nD4 — THE STATED GOAL IS NOT REACHABLE BY THE STATED SCOPE. Dispatch says 'every per-run JSON in the corpus should carry all three fields'. persistence currently exists in ZERO JSONs (it appears only as report.md prose and script comments — grep-verified: the only persistence hits in catalog-scale are report.md:73,262,336,450 and run_test4.py:7, run_test6.py:12,94). Re-running only Test 1 + Test 2 adds persistence to 7 of 33 files, leaving 26 non-compliant. Achieving the literal goal requires re-running Test 3 (20 runs), 4, 5, 6 and threadcheck as well.\n\nD5 — COST/TIMEOUT EXPOSURE ON THE UNSCOPED PATH. Recorded acquisition times on this loaded host: test2-condA acquisition_ms = 436510 (7.3 min) for ONE condition; Test 3's 20 rows sum to roughly 730 s of acquisition alone. A full-corpus re-run is a 45min+ multi-phase job, not a settle task. A Builder that reads the goal literally and starts re-running everything is at high risk of timing out mid-corpus and leaving the corpus in a MIXED state (some JSONs re-run with new fields, some original) — strictly worse for evidence completeness than the current state.\n\nWHY / WHAT / HOW-CERTAIN / WHAT-NOT-TESTED\nWHY: acting on a premise that is factually wrong about which files are non-compliant produces either wasted work (Test 2) or an incomplete settle (Test 5/6/threadcheck teardown + corpus-wide persistence).\nWHAT: git grep -c field counts over commit 00eda4b3 plus four full-file reads, cross-checked against report.md sections 3 and 10.\nHOW CERTAIN: evidence-based / near-proven for the field-presence matrix (mechanical count over the committed tree, reproducible by any agent with: git grep -c '\"teardown\"' 00eda4b3 -- research/toolregistry-lazy-mcp/catalog-scale/logs). Interpretation of the '7 of 27' provenance is inference, flagged as such.\nWHAT-NOT-TESTED: I did not re-run any test; I did not verify the harness code path that emits versions (scripts/common.py) to confirm Test 1's harness omits it by construction vs. by run-time accident; I did not check whether luna/mimo were counting a different file set than logs/**.json; I did not assess whether persistence-as-a-JSON-field is even the right remedy versus keeping it as source-verified prose.\n\nFLAGGED TO ORCHESTRATOR — decision required, not mine to make. The scope question (narrow report.md section 10 to what is actually re-derived, vs. extend the re-run to the whole corpus) is a strategic call. I recommend it be resolved BEFORE the Builder starts re-running, because the expensive path and the cheap path diverge at the first command. I am not dispatching, not fixing, and not writing files. Continuing to monitor.",
+          "created_at": "2026-08-08T23:58:25.415796820Z",
+          "kind": "observation",
+          "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANPeik/leLapILqiiKhvPLIsHhRO0Drjy0Z0Ks1ZO1n4w1kYhDQbxaz6B8jAZDDANF143sD6MLRjADLqeGtJkAQ=="
         },
         "9bbc65d8-3812-4add-b350-8849d2d650eb": {
           "display_id": 1275,
@@ -17027,8 +17036,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T23:55:55.297508053Z",
-    "agent_id": "pp3g-IQX1-atomic-install-3b-3c-issue-270-task-3-3-part-b-the",
-    "agent_seq": 10
+    "timestamp": "2026-08-08T23:58:25.499021065Z",
+    "agent_id": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 4
   }
 }
