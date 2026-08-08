@@ -1,0 +1,24 @@
+PROXY|2026-08-08T07:31:58.844Z|epoch_ms=1786174318844|rel_ms=       0|proxy_started pid=1807855 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T07:31:58.844Z|epoch_ms=1786174318844|rel_ms=       0|server_ready waiting_for_client
+PROXY|2026-08-08T07:31:58.852Z|epoch_ms=1786174318852|rel_ms=       8|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T07:31:58.853Z|epoch_ms=1786174318853|rel_ms=       9|request tools/list backend_connected=False
+PROXY|2026-08-08T07:31:58.855Z|epoch_ms=1786174318855|rel_ms=      11|connection_closed exiting
+PROXY|2026-08-08T07:32:00.374Z|epoch_ms=1786174320374|rel_ms=       0|proxy_started pid=1808703 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T07:32:00.375Z|epoch_ms=1786174320375|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-08T07:32:00.383Z|epoch_ms=1786174320383|rel_ms=       9|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T07:32:00.384Z|epoch_ms=1786174320384|rel_ms=      10|request tools/call name=multiply arguments={'a': 4, 'b': 5} backend_connected=False
+PROXY|2026-08-08T07:32:00.384Z|epoch_ms=1786174320384|rel_ms=      10|backend_spawn_start instance_id=be-1-1808703-20384 spawn_count=1
+PROXY|2026-08-08T07:32:01.192Z|epoch_ms=1786174321192|rel_ms=     818|backend_up instance_id=be-1-1808703-20384 spawn_count=1 init_ms=807.6
+PROXY|2026-08-08T07:32:01.192Z|epoch_ms=1786174321192|rel_ms=     818|forward tools/call name=multiply to backend instance=be-1-1808703-20384
+PROXY|2026-08-08T07:32:01.197Z|epoch_ms=1786174321197|rel_ms=     823|response tools/call name=multiply ok=True
+PROXY|2026-08-08T07:32:01.199Z|epoch_ms=1786174321199|rel_ms=     825|request tools/list backend_connected=True
+PROXY|2026-08-08T07:32:01.202Z|epoch_ms=1786174321202|rel_ms=     828|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=True
+PROXY|2026-08-08T07:32:01.202Z|epoch_ms=1786174321202|rel_ms=     828|forward tools/call name=add to backend instance=be-1-1808703-20384
+PROXY|2026-08-08T07:32:01.239Z|epoch_ms=1786174321239|rel_ms=     865|response tools/call name=add ok=True
+PROXY|2026-08-08T07:32:01.283Z|epoch_ms=1786174321283|rel_ms=     909|request tools/call name=add arguments={'a': 1, 'b': 1} backend_connected=True
+PROXY|2026-08-08T07:32:01.283Z|epoch_ms=1786174321283|rel_ms=     909|forward tools/call name=add to backend instance=be-1-1808703-20384
+PROXY|2026-08-08T07:32:01.286Z|epoch_ms=1786174321286|rel_ms=     912|response tools/call name=add ok=True
+PROXY|2026-08-08T07:32:01.290Z|epoch_ms=1786174321290|rel_ms=     916|request tools/call name=multiply arguments={'a': 6, 'b': 7} backend_connected=True
+PROXY|2026-08-08T07:32:01.290Z|epoch_ms=1786174321290|rel_ms=     916|forward tools/call name=multiply to backend instance=be-1-1808703-20384
+PROXY|2026-08-08T07:32:01.293Z|epoch_ms=1786174321293|rel_ms=     919|response tools/call name=multiply ok=True
+PROXY|2026-08-08T07:32:01.297Z|epoch_ms=1786174321297|rel_ms=     923|connection_closed exiting
