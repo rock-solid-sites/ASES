@@ -1,5 +1,5 @@
 {
-  "next_display_id": 292,
+  "next_display_id": 293,
   "next_comment_id": 1178,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -274,6 +274,7 @@
     "e94bd364-b6f9-4505-ae53-13f1912f1966": 252,
     "ec7808cb-b7f9-4248-9dc9-dbb36255ab24": 51,
     "ed2be289-b151-45eb-9b85-03749f34d822": 239,
+    "ed712201-d67b-4ead-bea1-5d2fdae309f8": 292,
     "ee6ebb73-5486-4745-8942-ceaa0e60e1dc": 230,
     "eed17209-95db-4e75-a193-97d954a94714": 259,
     "eff1003b-d392-4f5b-8acd-c39822f66b30": 261,
@@ -14773,6 +14774,16 @@
         }
       }
     },
+    "ed712201-d67b-4ead-bea1-5d2fdae309f8": {
+      "uuid": "ed712201-d67b-4ead-bea1-5d2fdae309f8",
+      "display_id": 292,
+      "title": "REVIEW (independent, adversarial): verify the two load-bearing claims of the C2-gap investigation (#228) synthesis before it is folded into the umbrella doc as final. Prompter direction (2026-08-08): 'every round that got an independent second look turned up real precision issues even when the underlying result held — get an independent pass specifically checking the stack-frame evidence for the interception claim and the pre-absorbed B2b result.' SUBJECT: research/toolregistry-lazy-mcp/c2-gap-investigation/report.md on main (post #277 merge 5bc6c993, G1-G10 closed). INDEPENDENT — do NOT trust the #277 claim-verification pass (same builder re-derived its own work). Re-derive from primary artifacts: (1) STACK-FRAME EVIDENCE for the Option B interception claim — the traceback proving the C2 RuntimeError originates in mcp/client/session.py:1110 validate_tool_result, passes through toolregistry client.py:133 call_tool (pure pass-through), and that the SchemaAwareConnectionManager._call_persistent override (intercept_poc.py) intercepts before connection.py:106's reconnect; verify the actual committed logs (logs/phase-b1-traceback-*.log, phase-b2-poc-*.log) + the installed source (venv /tmp/toolregistry-venv, toolregistry 0.15.0 / mcp 2.0.0) reproduce the claimed frames; (2) PRE-ABSORBED B2b RESULT — tests/phase_b2b_preabsorbed.py + logs/phase-b2b-preabsorbed-*.log: verify the claim of 1 spawn / 1 persistent proxy / no reconnect / verbatim ErrorResult when the stale schema is pre-absorbed before the drifted call; check the harness actually pre-absorbs (absorb-then-invoke pattern) and the logs support the spawn/proxy/reconnect counts. Verdict: PASS / CONDITIONAL / FAIL with findings. POST to THIS sub-issue. Do NOT read other reviewer sub-issues. Evidence discipline per AGENTS.md (WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED). Ref #228/#212.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T08:03:17.797572909Z",
+      "updated_at": "2026-08-08T08:03:17.797572909Z"
+    },
     "ee6ebb73-5486-4745-8942-ceaa0e60e1dc": {
       "uuid": "ee6ebb73-5486-4745-8942-ceaa0e60e1dc",
       "display_id": 230,
@@ -15828,8 +15839,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T08:02:56.305832076Z",
+    "timestamp": "2026-08-08T08:03:17.797572909Z",
     "agent_id": "OL2r",
-    "agent_seq": 1439
+    "agent_seq": 1440
   }
 }
