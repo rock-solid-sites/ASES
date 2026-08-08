@@ -793,3 +793,9 @@ not silently resolve them:
   contract and permission matrix
 - capability-mapping/Model-Routing-Matrix.md — routing matrix (MODEL-AGREEMENT
   dimension added as DRAFT in commit 5c92e9d)
+- research-addenda/Research Addendum 05 - Workflow Topology Design Conversation.md
+  — VERBATIM white-text transcript of the operator+orchestrator design
+  conversation (extracted from opencode.db, session `ses_034b0cd86ffe0ZLY1VtJVnhiYQ`,
+  crosslink sessions #17–#18, 2026-08-07 01:07 → 2026-08-08 00:35 UTC; cutoff at the
+  operator's "Let's write it now" message; reasoning traces/tool calls excluded per
+  operator direction)
