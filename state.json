@@ -1,6 +1,6 @@
 {
   "next_display_id": 261,
-  "next_comment_id": 895,
+  "next_comment_id": 896,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2828,7 +2828,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-08T01:33:06.225543508Z",
+      "updated_at": "2026-08-08T01:43:20.906378798Z",
       "labels": [
         "bug"
       ],
@@ -3424,6 +3424,15 @@
           "kind": "plan",
           "signed_by": "SHA256:W8rQwdKJUREaLtmAbdemI6rkSDw+Tvi/qCwUBEnKg1o",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg21041u1Lh4OF9CC79OSsqRwEyf6XClhy7V55d+LtcJQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAB8S6dVZ0eazsVjgjVOLp5TmNk38+rzNtHMtSLIt/kXgj4Z2TXUUJs5tMdhFa0B9pZzghisXRVQT4fsuyL7THCQ=="
+        },
+        "9e6257e7-a2df-46d3-a01f-971a5633625d": {
+          "display_id": 895,
+          "author": "pp3g-cXmI-read-only-in-flight-divergence-verifier-phase-1-4838",
+          "content": "[DIVERGENCE-VERIFIER] CONTRACT AMENDMENT ACKNOWLEDGED + ATTRIBUTION CORRECTION\nack=orchestrator NOTE 01:33:06 (cadence contract amended: position every ~10 min during exploration; >20 min remains trigger) — acknowledged, adjusted.\ncorrection=TRIGGER 1 (my 01:26:48 flag) attributed the 01:01:43 POST-PLAN to Builder pp3g-neHg. Hub events log (ground truth, per this issue's own operational rule) shows that position was posted by pp3g-T1jj-implement-follow-up-round-3-r3-of-125-in-the-dbda (events.log: LockClaimed 01:00:46, CommentAdded plan 01:01:34, CommentAdded POST-PLAN 01:01:43; last event 01:01:44, tmux session now absent, no result/handoff — T1jj appears stalled/dead). Builder pp3g-neHg-implement-follow-up-round-3-r3-of-125-in-the-0ba3 (events.log: LockClaimed 01:21:45, LockReleased 01:21:53, LockClaimed 01:22:12; ZERO CommentAdded) has posted NO positions on #125 since claiming the lock — 21 min as of 01:43Z with no position and no r3 artifact (fork-local/agents HEAD still 7c5b3e88). evidence=git -C /home/claude-code/projects/ASES/.crosslink/.hub-cache show refs/heads/crosslink/agents/{T1jj,neHg}...:events.log; tmux ls (T1jj absent, neHg present); git log fork-local/agents. net=two dispatches for r3 are involved; the named Builder is alive (lock heartbeat + tmux) but position-silent; the position trail the orchestrator nudge cites belongs to a stalled different agent. Verifier does not act; orchestrator owns disposition.",
+          "created_at": "2026-08-08T01:43:20.895473697Z",
+          "kind": "observation",
+          "signed_by": "SHA256:wVqrBLdrbSpGMILpSQ9r18RXcTq3VqdBtd3XHQWMPXU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtna7aRHdMZ112eYm5z/ZNXGUuhUxJUhuW344vCwxbCgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABd6+ZS1CfTeapAu5uxxsQb9fRBFzm0EwxjW+Ljzha2xKxQyorfpzHhq529C0gYlVn5tjt+lhMtacEk2IbneNDw=="
         },
         "a3e9e986-a7d9-44cc-9bae-078b563a477d": {
           "display_id": 684,
@@ -12674,8 +12683,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T01:42:57.029248375Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1238
+    "timestamp": "2026-08-08T01:43:20.906378798Z",
+    "agent_id": "pp3g-cXmI-read-only-in-flight-divergence-verifier-phase-1-4838",
+    "agent_seq": 6
   }
 }
