@@ -328,6 +328,20 @@ bulk. When a read is unbounded (whole files, full diffs, log analysis),
 delegate to a Builder/Reviewer/Auditor subagent and have it return the
 summary.
 
+**Pipe-chain gotcha (2026-08-08).** The OpenCode bash allowlist matches the
+**command string prefix**, not the full command line — a pipe (`|`) or other
+shell-metacharacter chain breaks the prefix match, so a chained command like
+`rtk git show ... | grep ... | wc -l` is **denied as a whole** even when every
+component is individually allowed (`rtk *`, `git *`, `grep *`). This is by
+design (prefix-scoped allowlist), not a bug. Guidance: use **one command per
+tool invocation**; prefer the **Read tool** for reading files; use rtk/git
+with flags rather than pipes; if a read genuinely needs piping, **delegate to
+a subagent** (which has a fuller bash allowlist) rather than chaining in the
+orchestrator/reviewer/auditor. Evidence: 2026-08-08, Phase-2 auditor laguna on
+#264 — `rtk git show af350f49:.../intercept_poc.py | grep -v '^\s*$' | ... |
+wc -l` was denied with "The user has specified a rule which prevents you from
+using this specific tool call" despite rtk/git being allowed.
+
 ### 5.8 Workflow Topology — Position Store, Staleness, Auditor, Review-Before-Consume
 
 The workflow-topology design (canonical record:
