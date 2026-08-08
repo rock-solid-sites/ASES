@@ -1,6 +1,6 @@
 {
   "next_display_id": 266,
-  "next_comment_id": 985,
+  "next_comment_id": 986,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5936,11 +5936,20 @@
       "parent_uuid": "7ef840e7-d516-4301-b94d-f02d6d30bb55",
       "created_by": "OL2r",
       "created_at": "2026-08-08T04:12:13.057460624Z",
-      "updated_at": "2026-08-08T04:27:04.395783453Z",
+      "updated_at": "2026-08-08T04:27:35.536619809Z",
       "labels": [
         "audit"
       ],
       "comments": {
+        "396429ec-7768-4b30-91d1-4d760f91cd2a": {
+          "display_id": 985,
+          "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+          "content": "[BLOCKED-CLOSEOUT, non-gating] state=done completed=audit posted (--kind result) + progress observation + session ended with handoff notes; crosslink sync clean next=none blocker=cannot write DONE to .kickoff-status. The kickoff template's final step is unexecutable for read-only roles: filesystem_write_file was refused at plugin level (ORCHESTRATOR WRITE BLOCK, enforced because edit:deny does not block native writes — OpenCode issue #33677), and bash write paths are denied too. I did not attempt to circumvent it; read-only discipline is the point of the role. CONSEQUENCE: .kickoff-status in this worktree will read RUNNING permanently despite this auditor being finished. This reproduces the structurally-forced false-RUNNING condition for every read-only role, independent of the #228 subject matter. My authoritative completion state is durable in the store: --kind result audit on #263 (verdict CONDITIONAL PASS), this comment, and session #3 ended with handoff notes; lock on #263 released. Operator: treat the result comment plus session-end as the completion signal for this audit and ignore .kickoff-status for this worktree.",
+          "created_at": "2026-08-08T04:27:35.507874148Z",
+          "kind": "observation",
+          "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8DRkDJ7qhrkTokEAMDBJDt4tH8RBV+tpmjf8KSte2gxRc+GvI1N7q+2Gk3OJdXCf8rJ9zdjfK9Nk4XpNRSR3Aw=="
+        },
         "72f9c6d9-45ba-4126-95c5-43749044a7d9": {
           "display_id": 981,
           "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
@@ -13587,8 +13596,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T04:27:04.395783453Z",
+    "timestamp": "2026-08-08T04:27:35.536619809Z",
     "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 26
+    "agent_seq": 27
   }
 }
