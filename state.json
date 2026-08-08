@@ -1,6 +1,6 @@
 {
   "next_display_id": 263,
-  "next_comment_id": 947,
+  "next_comment_id": 948,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2825,7 +2825,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-08T03:33:49.147036745Z",
+      "updated_at": "2026-08-08T03:39:57.785325071Z",
       "labels": [
         "bug"
       ],
@@ -3520,6 +3520,15 @@
           "kind": "observation",
           "signed_by": "SHA256:wVqrBLdrbSpGMILpSQ9r18RXcTq3VqdBtd3XHQWMPXU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtna7aRHdMZ112eYm5z/ZNXGUuhUxJUhuW344vCwxbCgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABd6+ZS1CfTeapAu5uxxsQb9fRBFzm0EwxjW+Ljzha2xKxQyorfpzHhq529C0gYlVn5tjt+lhMtacEk2IbneNDw=="
+        },
+        "a27114a8-e5c3-4507-b1c8-78e21427bfc1": {
+          "display_id": 947,
+          "author": "pp3g-cXmI-read-only-in-flight-divergence-verifier-phase-1-4838",
+          "content": "FINAL PHASE-1 SUMMARY (divergence verifier pp3g-cXmI, read-only) — r3 of #125 now COMPLETE + VERIFIED.\n\nMONITORED: 01:23Z -> 03:33Z (builder dispatch -> verification tail DONE).\n\nBUILDERS OBSERVED (positions/artifacts):\n- T1jj (worktree dbda): LockClaimed 01:00:46; 2 positions (plan+POST-PLAN 01:01); then silent, tmux gone = died. NO commit.\n- neHg (worktree 0ba3): LockClaimed 01:22:12; ZERO positions; process gone + tmux frozen. NO commit. Orchestrator killed --force, DIVERGENCE RESOLVED 01:58:57, re-dispatched R99p.\n- R99p (worktree bd9c): LockClaimed 02:00:26; positions 02:00:46 start / 02:04:06 plan / 02:04:13 / 02:10:35 all-4-items-implemented / 02:41:32 state=verifying (COMMIT a87bd513 + suite green). Then SILENT-HUNG after rebuilding binary (02:48) — never posted final result; left -dirty binary. NO final RESULT.\n- SzyI (verifier-tail, dispatched by orchestrator): LockClaimed 02:59:35; positions 03:00:49 plan / 03:01:02 / 03:02:59 commit-verified / 03:10:13 lib-done / 03:16:39 testing-done / 03:33:03 result. COMPLETE, no divergence, DONE.\n\nTRIGGERS FIRED (4):\n1. 01:26:48 TRIGGER 1 STALENESS (later attribution-corrected T1jj vs neHg).\n2. 01:43:20 ATTRIBUTION CORRECTION + contract-ack (T1jj posted then died; neHg zero positions).\n3. 01:54:13 TRIGGER RE-AFFIRMED (neHg persists, 30+ min) -> orchestrator resolved 01:58:57.\n4. 02:33:28 CADENCE BREACH (R99p 22+ min during cargo test) — classified then as breach-during-long-verification (liveness confirmed), correctly NOT escalated; R99p DID resume at 02:41:32 but then hung after commit.\n\nDIVERGENCE VERDICT:\n- PROCESS divergence: 3 builder stalls (T1jj died, neHg died, R99p silent-hang after commit). The structured-position contract + auditor model caught all three via staleness triggers, enabling orchestrator re-dispatch. R99p's post-commit hang meant the verification tail (sha check, live sanity, RESULT) went unposted — the -dirty binary would have failed the final check.\n- ARTIFACT divergence: NONE in the committed a87bd513. Independently verified (SzyI + verifier): fork clean @ a87bd513; all 4 items present (R1 list_git_remotes_result + enumeration fail-closed; R2 tick_hydrate/TickHydrateOutcome; item3 marker-write-on-skip; R3 hydrate_v2_safely_locked single-lock); 13 new tests (NOT 11 as R99p's mid-position claimed — commit contains 13, all pass); full suite green lib 1813 / bin 2892 / integration 194+159+1 (4 ignored); binary rebuilt = 0.9.0-beta.1+a87bd513 NO -dirty; live issue list stable 260, no display-id collision.\n- NET: r3 implementation COMPLETE and VERIFIED; final state matches the amended plan + audit verdicts.\n\nPHASE-2 NOTE: separate dispatch; model TBD by operator. The committed a87bd513 is ready for any downstream review (adversarial/QA/merge).\n\nEvidence: my comments above + SzyI result 03:33:03 + git a87bd513 + test-run.log/install2.log refs.",
+          "created_at": "2026-08-08T03:39:57.762476040Z",
+          "kind": "result",
+          "signed_by": "SHA256:wVqrBLdrbSpGMILpSQ9r18RXcTq3VqdBtd3XHQWMPXU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtna7aRHdMZ112eYm5z/ZNXGUuhUxJUhuW344vCwxbCgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7+CfteDAddtnBXAu9VAGM304KBV9XhM3TrE0ljUtr+0XCyJCKqw42R6uAfhFaGokWK/g4uj5xsjMm9hd+l9HDg=="
         },
         "a3e9e986-a7d9-44cc-9bae-078b563a477d": {
           "display_id": 684,
@@ -13186,8 +13195,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T03:34:02.502743618Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1286
+    "timestamp": "2026-08-08T03:39:57.785325071Z",
+    "agent_id": "pp3g-cXmI-read-only-in-flight-divergence-verifier-phase-1-4838",
+    "agent_seq": 9
   }
 }
