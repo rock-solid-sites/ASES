@@ -1,6 +1,6 @@
 {
   "next_display_id": 283,
-  "next_comment_id": 1109,
+  "next_comment_id": 1110,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -11603,7 +11603,7 @@
       "parent_uuid": "7ef840e7-d516-4301-b94d-f02d6d30bb55",
       "created_by": "OL2r",
       "created_at": "2026-08-08T06:53:29.978316045Z",
-      "updated_at": "2026-08-08T07:01:32.187997012Z",
+      "updated_at": "2026-08-08T07:02:43.136792819Z",
       "labels": [
         "fix",
         "toolregistry"
@@ -11626,6 +11626,15 @@
           "kind": "plan",
           "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAv7GLRsBDF2l427/Q4KOTfX4Ha80N1ChMcWKRN4UZoB5O8YFPHcXH7JiMBCU8zoMDwNKmlFWIBsV+wT5MExkDg=="
+        },
+        "fa8354e2-2077-42c1-a199-f9d2ca4ca4f4": {
+          "display_id": 1109,
+          "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+          "content": "Result: No edit required — the miscitation described in this issue is ALREADY FIXED at HEAD (93df179a). Verification evidence: (1) Current §13 line 647 reads: `| A3 threshold sweep | logs/n3/phase-a3-n2-harness.log / logs/n3/phase-a3-n3-harness.log | — (full interleaved PROXY| stream carried in each harness log) | N=2 / N=3 flapping check |` — the sweep row's proxy citation already points at the n2/n3 harness logs with a note that the proxy evidence is interleaved there, exactly the fix this issue requests. (2) Artifacts confirm the citation: logs/n3/phase-a3-n2-harness.log phase_start heal_threshold=2 (06:18:31) and phase-a3-n3-harness.log heal_threshold=3 (06:19:02), each carrying 132 interleaved PROXY| lines, with A3_METRICS verdict lines at the cited positions (102/152/235). (3) The top-level logs/phase-a3-a3{a,b,c}-proxy.log files are N=1 baseline (heal_threshold=1, 03:48 timestamps) and are correctly used only in the N=1 'A3 intermittent' row (641), not the sweep row. (4) Working tree is byte-identical to HEAD (md5 806045e7... matches git show 93df179a); git status shows no report.md modification. Timeline explains the mismatch: auditor #278 flagged this at 06:26 against the uncommitted working tree; the builder's final commit 93df179a (06:31:45) already carried the corrected citation; this issue was filed at 06:53 from the audit handoff list without re-checking the committed state. No commit was made because there is nothing to change — report.md at HEAD already satisfies the claim-verification requirement (a cited artifact that carries the evidence). Recommend closing #282 as already-resolved.",
+          "created_at": "2026-08-08T07:02:43.126079328Z",
+          "kind": "result",
+          "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMpQhcCCHaw5KYZpm6xZMQJGWDYyi2D/ycAz9k9A7Zu+fTBIkCsSEWoER2XClt8/b33XC+dr5ZPhe2YlzZH57BQ=="
         }
       }
     },
@@ -15029,8 +15038,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:01:32.187997012Z",
+    "timestamp": "2026-08-08T07:02:43.136792819Z",
     "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 59
+    "agent_seq": 60
   }
 }
