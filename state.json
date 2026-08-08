@@ -1,5 +1,5 @@
 {
-  "next_display_id": 275,
+  "next_display_id": 276,
   "next_comment_id": 1034,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -204,6 +204,7 @@
     "b5320c43-7f7c-4d63-9e4c-503c7bde417d": 117,
     "b5fb9123-caba-43fb-b827-e7009cd785b9": 209,
     "b680ab23-cfe8-497f-949d-6b10e0d5205e": 244,
+    "b85f8e63-e788-4edb-bc65-0a1b476eb203": 275,
     "b921ee80-ae93-4475-b22e-cf40a9735194": 262,
     "ba2d352b-53b2-4471-abc7-12c68481d622": 58,
     "bdfe9151-dfb2-417c-a17c-8bee25fbb665": 121,
@@ -11076,6 +11077,16 @@
         }
       }
     },
+    "b85f8e63-e788-4edb-bc65-0a1b476eb203": {
+      "uuid": "b85f8e63-e788-4edb-bc65-0a1b476eb203",
+      "display_id": 275,
+      "title": "HARDENING follow-up 3/3 (from reviewer wave #236-#239): installer atomicity + rollback safety. FINDING: r2 (luna, #237) — the documented installer (fork/INSTALL-PREP.md) uses direct mv/cp over target, no staged same-filesystem rename, backup is prose-only, no marker/hash verification after replace. TASK: (1) codify the atomic install as an executable script (backup → stage → same-fs mv → verify marker/hash → wrapper flip → rollback-on-failure) rather than prose; (2) include sha256 verification of the installed binary against the fork artifact; (3) test the rollback path end-to-end. BLOCKED-BY: #270 rebuild (the actual install happens there) — work AFTER #270 lands. Ref [#154].",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T05:45:59.615507503Z",
+      "updated_at": "2026-08-08T05:45:59.615507503Z"
+    },
     "b921ee80-ae93-4475-b22e-cf40a9735194": {
       "uuid": "b921ee80-ae93-4475-b22e-cf40a9735194",
       "display_id": 262,
@@ -14197,8 +14208,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T05:45:52.988905586Z",
-    "agent_id": "pp3g-tyy6-disk-cleanup-issue-272-operator-directed-target-70g",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T05:45:59.615507503Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1346
   }
 }
