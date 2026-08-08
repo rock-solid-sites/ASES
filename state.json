@@ -12323,11 +12323,12 @@
       "uuid": "eed17209-95db-4e75-a193-97d954a94714",
       "display_id": 259,
       "title": "FIX the auditor-dispatch semantics in docs/ORCHESTRATOR.md (operationalization #258 follow-up). ISSUE: the committed procedure says 'Phase 1 is trigger-invoked' (lines ~105/112/117/128) — which reads as REACTIVE dispatch (auditor summoned when a trigger fires). The CORRECTED model (operator-directed, validated live in the hydration epic 2026-08-08): the Auditor is PRE-POSITIONED — launched ALONGSIDE the Builder from the start as a continuous in-flight monitor, REPORTING to the orchestrator when a trigger fires. The trigger does not summon the auditor; it causes the already-present auditor to act. REWRITE the auditor section so this is unambiguous: Phase 1 = pre-positioned continuous in-flight divergence monitor (present from dispatch, model-varied from the Builder), reporting divergence on trigger; Phase 2 = post-hoc project audit. Ensure NO remaining 'trigger-invoked' wording implies reactive summoning. Also check the playbook (§~268/333) and SESSION-START pointer for the same ambiguity and fix if present. Commit. Reference the hydration-epic incident as the motivation.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T01:27:05.508857952Z",
-      "updated_at": "2026-08-08T01:37:27.707992741Z",
+      "updated_at": "2026-08-08T03:05:10.565235285Z",
+      "closed_at": "2026-08-08T03:05:10.565232201Z",
       "labels": [
         "docs"
       ],
@@ -13016,8 +13017,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T03:05:04.022299757Z",
-    "agent_id": "pp3g-u15d-extract-the-verbatim-workflow-topology-design-ef66",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T03:05:10.565235285Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1260
   }
 }
