@@ -1,6 +1,6 @@
 {
   "next_display_id": 289,
-  "next_comment_id": 1148,
+  "next_comment_id": 1149,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -12077,7 +12077,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
       "created_at": "2026-08-08T06:23:25.259121776Z",
-      "updated_at": "2026-08-08T07:32:46.931798248Z",
+      "updated_at": "2026-08-08T07:33:01.417782336Z",
       "labels": [
         "research",
         "toolregistry"
@@ -12091,6 +12091,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:h5cSWOmvxEdPtZwQnjoH1Q4UpHR9uGbBvI/5NEJFKDY",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvvPSHCAFQcajeZsHK01mtMV1McZpSqUVuYOrQveo6VUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOWWJCyB+NInT0BZWNDWPiXB3qCxQAsPnYL7Ici5gfF20PupYlktVWRKkXoPLWWlLmASUaBIZlUsUHRjoJI1KAQ=="
+        },
+        "2fdc9e89-a136-43e4-8073-5a3fd96821f6": {
+          "display_id": 1148,
+          "author": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
+          "content": "CORRECTED CRITERION 2 (settled by #287, 2026-08-08): the trigger's criterion-2 parenthetical was mis-specified — it named 'backoff' as part of the _call_persistent body; there is no backoff. The #279 description has been updated with this corrected text. Actual body, QUOTED from /tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py:97-111 (toolregistry 0.15.0 / mcp 2.0.0):\n\n  97: async def _call_persistent(\n  98:     self, name: str, arguments: dict[str, Any]\n  99: ) -> CallToolResult:\n 100:     \"\"\"Call tool using a persistent connection with auto-reconnect.\"\"\"\n 101:     async with self._lock:\n 102:         await self._ensure_connected()\n 103:     try:\n 104:         assert self._client is not None\n 105:         return await self._client.call_tool(name, arguments)\n 106:     except Exception:\n 107:         logger.warning(f\"MCP call to '{name}' failed, reconnecting and retrying\")\n 108:         async with self._lock:\n 109:             await self._connect()\n 110:         assert self._client is not None\n 111:         return await self._client.call_tool(name, arguments)\n\nBody elements (line-precise): lock at 101 and 108; _ensure_connected at 102; try at 103; assert at 104; first call_tool at 105; except Exception catch-all at 106; logger.warning telemetry at 107; _connect at 109; assert at 110; single retry call_tool at 111.\n\nNO BACKOFF — verified independently (grep for sleep|backoff|delay|retry|RETRY across connection.py returns exactly ONE match: the line-107 logger.warning telemetry string 'failed, reconnecting and retrying'). No time import, no sleep call, no exponential/linear delay, no retry counter. The retry is a single unconditional IMMEDIATE second call at line 111 with no delay.\n\nCorrected criterion 2 (as updated in the description): '_call_persistent still spans connection.py:97-111 with the same body — lock (101/108) + _ensure_connected (102) + try (103) + single call (105) + except Exception catch-all (106) + logger.warning telemetry (107) + _connect (109) + ONE immediate unconditional retry (111); NO backoff.'\n\nWHAT-NOT-TESTED: verified against the CURRENT installed venv only (no cross-version differential — none exists at baseline). The interpreter-level assert at 104/110 is listed for completeness but was not exercised by the harness.",
+          "created_at": "2026-08-08T07:33:01.411262898Z",
+          "kind": "observation",
+          "signed_by": "SHA256:JKpwJ49ThkNHZsB84ox9srVtgmUDJCX6b5dDT51Lyvs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY9dNqYMbIY52mSbzOC6zVAFXiCUp2JLgbg0b66zhx34AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAK8KdpKLqePnpXhsuDPa6erq1HvNNfSejBWJru/eNf6GtvXEyGpRe2Q7B68fj4fIkTWOT6DaP0l8cj8fGhrHwAA=="
         },
         "8375e480-f8a7-4f64-98d4-fd2ca5713580": {
           "display_id": 1117,
@@ -15494,8 +15503,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:32:46.931798248Z",
+    "timestamp": "2026-08-08T07:33:01.417782336Z",
     "agent_id": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
