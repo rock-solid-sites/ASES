@@ -1,6 +1,6 @@
 {
   "next_display_id": 279,
-  "next_comment_id": 1074,
+  "next_comment_id": 1075,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1837,7 +1837,7 @@
       "parent_uuid": "07cb8b62-2ba1-446c-977b-940024864c56",
       "created_by": "OL2r",
       "created_at": "2026-08-08T06:06:23.047037630Z",
-      "updated_at": "2026-08-08T06:11:57.290026647Z",
+      "updated_at": "2026-08-08T06:13:49.725733483Z",
       "labels": [
         "audit"
       ],
@@ -1850,6 +1850,15 @@
           "kind": "observation",
           "signed_by": "SHA256:r42jHLivIqFivlpphViTW4L053Xbz0nq6fiXn1XvDPo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoskw9NwhArIvXSH3HVmKS0rwQLPUwvw6K43C6FvEYRYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAc4bQjNDmhFY1wcV36vwnnilIYZKyTLu67RMiH7IBQ+bcdHrFP06VMa+xTfMjtDgS814YPLjRTVxrTwR3wRHlAA=="
+        },
+        "75d4326f-9b31-4182-85d8-19ba495743f8": {
+          "display_id": 1074,
+          "author": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[VERIFY] state=verifying completed=G1 claim-vs-artifact join — CONFIRMED on substance, one forward-looking presentational risk flagged next=continue polling G2-G10 blocker=none\n\n== G1 JOIN: claim CONFIRMED ==\nBuilder claim (position id=1065, 06:09:42): 'next=G1: write+run tests/measure_poc_size.py, rewrite report.md 5.3'.\nArtifact evidence found (git -C on the execution worktree pp3g-qfOy, working tree):\n- ?? research/toolregistry-lazy-mcp/c2-gap-investigation/tests/measure_poc_size.py — EXISTS (was ABSENT at baseline af350f49)\n- ?? research/toolregistry-lazy-mcp/c2-gap-investigation/logs/measure-poc-size.log — EXISTS (was ABSENT at baseline)\nBoth are new, both are inside the repo (not /tmp), so the #271/playbook-5.9 artifact rule is satisfied so far. Not yet committed — expected at this stage.\n\nContent join against the plan's required G1 figures: log emits total=147, strict_code=64, mechanism_proper=57 — an EXACT match to the numbers both Phase-2 audits independently re-derived. The script derives these via tokenize (independent derivation), then hard-asserts them and exits 1 on mismatch — this implements hy3 S1's exact mitigation (committed counter script, no agent-computed metric) rather than restating it.\n\n== [CONCERN — LOW/MED, presentational, flagged NOW because 5.3 is not yet written] ==\nlogs/measure-poc-size.log lists FIVE flat component lines:\n  _is_schema_validation_error=5, SchemaAwareConnectionManager_class_body=20, _call_persistent_override=16, _register_async=22, register_with_connection=10\nA reader summing those five gets 73, while the next line asserts sum_components=57. Nothing in the log marks WHY.\n\nI verified the arithmetic is CORRECT, not wrong: in measure_poc_size.py, class_body=code_range(65,103) and override=code_range(79,103), and intercept_poc.py (af350f49) confirms _call_persistent is a METHOD INSIDE SchemaAwareConnectionManager. The override's 16 lines are therefore already counted within class_body's 20, and sum_components deliberately excludes it (5+20+22+10=57) to avoid double-counting. The script is right.\n\nThe risk is that the LOG DOES NOT SAY SO. If report.md 5.3's rewritten table reproduces this flat five-row list, the published table will not visibly reconcile to its own headline — which is precisely the defect G1 exists to eliminate (the original 5+20+22+10=57 vs headline 48 non-reconciliation, hy3 C3 / big-pickle R1). Re-deriving auditors would land on 73 vs 57 and re-open the finding.\nCheap fix available to the builder while 5.3 is still unwritten: mark the override row as nested (e.g. 'of which _call_persistent override: 16') or emit an explicit 'excluded_from_sum=_call_persistent_override(nested)' field. Flag only — I do not fix.\n\n== [OBSERVATION — minor, durability] ==\nmeasure_poc_size.py pins component boundaries as hardcoded physical line ranges (44-51, 55, 58-62, 65-103, 79-103, 106-133, 136-147) AND hardcodes the expected totals in its pass gate. Correct and self-checking for the current intercept_poc.py revision, but it silently mis-slices if that file ever changes. Appropriate for a one-shot reconciliation artifact; worth one sentence in 5.3 stating the script is revision-pinned to intercept_poc.py at af350f49.\n\nTriggers 1 (staleness) and 3/4: NOT fired. Builder on-plan and on-cadence.",
+          "created_at": "2026-08-08T06:13:49.720035141Z",
+          "kind": "observation",
+          "signed_by": "SHA256:r42jHLivIqFivlpphViTW4L053Xbz0nq6fiXn1XvDPo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoskw9NwhArIvXSH3HVmKS0rwQLPUwvw6K43C6FvEYRYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAi49CJDcPjQL4+S/M+jJQZc5Wjur6KHIVX8HMrDwNOvVzDjQlLz11y8OyTXWEaLsHhxSgW7Ng237lmD1ay//OBQ=="
         },
         "927bdbfd-669c-41e1-b582-eb347007d62e": {
           "display_id": 1063,
@@ -14636,8 +14645,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:13:37.671905078Z",
-    "agent_id": "pp3g-VaQu-disk-cleanup-follow-up-operator-approved-selective",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T06:13:49.725733483Z",
+    "agent_id": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 5
   }
 }
