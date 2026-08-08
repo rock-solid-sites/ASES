@@ -1,6 +1,6 @@
 {
   "next_display_id": 300,
-  "next_comment_id": 1222,
+  "next_comment_id": 1223,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5488,7 +5488,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T18:09:43.832889484Z",
-      "updated_at": "2026-08-08T18:22:26.773132101Z",
+      "updated_at": "2026-08-08T18:31:10.300690316Z",
       "labels": [
         "audit"
       ],
@@ -5519,6 +5519,15 @@
           "kind": "observation",
           "signed_by": "SHA256:Rj4INtResnauuPj2uF3Yb3Z0661Knv1vbBrWaPMatDU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7kH+9yLbzy10li5bH72d0oJP8dsvt3nFwqN6fXylgMZYR8D2xY/qhfDYGn4y6GjCTuh6yMl98ykiKHsw/oGvCQ=="
+        },
+        "7b029d47-f84e-47ea-8cad-8c70e8284cbd": {
+          "display_id": 1222,
+          "author": "pp3g-Ij1J-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[VERIFY] state=verifying completed=Builder Test-1 checkpoint (18:26:52Z) independently re-derived — claim CONFIRMED, 1 completeness gap + 1 high-value interpretive risk raised next=verify Tests 2+3 rows when posted blocker=none\n\nTRIGGER STATE: NO DIVERGENCE. Builder position advanced 18:15:14 -> 18:26:52 (~11.6min, inside the 20-30min bound). Liveness positive (#295 lock held). Claim-vs-evidence: CONSISTENT so far.\n\nBUILDER CLAIM (#295 c1221): 'Test 1 PASS (scope guard): N=1/5/10/20/50, backend_spawn_count=0 all N; proxy_starts=2N (registration discovery + refresh temp client); resident-after 0 proxies/0 backends every N; peak backends 0; sync mode = 1 shared async-runtime daemon thread (not per-connector)'.\n\n== RE-DERIVATION AGAINST MY PRE-REGISTERED PREDICTIONS (posted BEFORE this checkpoint) ==\n[OK] backend_spawn_count=0 for all N — matches pre-registration (1). Consistent with the static call graph: ensure_ready() is unreachable from on_list_tools. Caveat retained: this is confirmation of a BY-CONSTRUCTION property, so it validates the harness, not the architecture. The value added here is that it now holds across all five N.\n[OK] proxy_starts=2N RESOLVES MY CONCERN-3 (topology) FAVOURABLY. 2N starts over N connectors is only possible if each of the N tools has its OWN proxy connector — i.e. the honest topology (B), not the vacuous single-proxy-with-N-manifest-entries topology (A) I warned about. The N-axis is therefore real and the sweep is meaningful. Concern-3 is CLEARED, though the report must still state the 1:1 tool:connector mapping and note it is the WORST case (N tools across M<<N servers would differ).\n[OK] resident-after = 0 proxies / 0 backends at every N — matches pre-registration (3) and the Builder's own source-derived expectation (list_tools() temp MCPClient closes on async-with exit, connection.py:73/79).\n[OK] 'sync mode = 1 shared async-runtime daemon thread (NOT per-connector)' — I VERIFIED THIS INDEPENDENTLY IN THE INSTALLED SOURCE AND IT IS EXACTLY RIGHT. toolregistry/_async_runtime.py holds _loop and _thread as CLASS attributes (L38-39); get_loop() creates a single daemon thread named 'async-runtime' (L65) under a double-checked lock (L54-57); the module docstring states it is 'a single persistent event loop on a daemon thread, shared across all synchronous entry points' (L1-7, L27-31). So thread residency is O(1) in N, full stop. CREDIT WHERE DUE: Addendum B asked for 'daemon-thread count PER CONNECTOR', which presupposes per-connector threads. There are none in the sync path. The Builder reported the mechanism as it actually is instead of forcing the addendum's framing — that is the correct call. Suggest the report evidence it by enumerating threads by the literal name 'async-runtime' rather than asserting the count.\n[OK] Runtime plausibility — NO fast-completion red flag. Test 1 implies ~2*(1+5+10+20+50) = 172 proxy spawns; at the previously measured 1028-1390ms/spawn that is ~3-4min of pure subprocess cost, and ~11.6min elapsed also covered building the harness. Credible. My 18:35-18:50Z floor for FULL 6-test completion stands.\n\n== GAP RAISED (completeness, must fix before the report is final) ==\n[CONCERN-6] PEAK PROXIES IS MISSING. The checkpoint reports proxy_starts (cumulative), resident-after (0), and 'peak backends 0' — but never peak PROXIES. Those are three different quantities and the middle one is absent for the process class that actually scales. #295 makes resident-after the DECISIVE measure, which presupposes peak is also recorded alongside it. This matters because the answer is likely favourable and is being left on the table: under sync/sequential acquisition the peak is presumably 1 concurrent proxy even at N=50, which is a STRONGER result than the O(N) peak I predicted — it would show acquisition costs O(1) concurrent processes, not merely O(1) resident. Every sweep row needs an explicit peak-proxy column next to peak-backend.\n\n== HIGH-VALUE INTERPRETIVE RISK (raised now so the conclusion is not blurred later) ==\n[CONCERN-7] RESIDENCY AND COST SCALE DIFFERENTLY, AND THE ONE-SENTENCE CONCLUSION MUST NOT CONFLATE THEM. 'proxy_starts=2N' is itself an O(N) finding: every catalog acquisition AND every refresh pays one proxy process spawn PER CONNECTOR. At the measured 1028-1390ms/spawn, refreshing a 50-tool catalog costs roughly 60s of subprocess churn even though nothing stays resident. So the honest result is two-sided: RESIDENT RESOURCES are bounded by workload/policy (O(K), strong-pass shaped), while ACQUISITION/REFRESH COST is strictly proportional to N (O(N) spawns and O(N) latency). A one-sentence conclusion saying only 'scales with K, not N' would be TRUE OF RESIDENCY AND FALSE OF COST, and #295's own framing ('knows N tools while keeping physical connector-process residency proportional to K') invites exactly that elision. The conclusion must name the axis it is quantifying. I will check this specifically when report.md lands.",
+          "created_at": "2026-08-08T18:31:10.005077455Z",
+          "kind": "observation",
+          "signed_by": "SHA256:Rj4INtResnauuPj2uF3Yb3Z0661Knv1vbBrWaPMatDU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA6NvQBTpglN2s/bSr8niuSKMwMUGAO+gNnl6xojiv2grAD6FJjFfWF+j6kRHYZUe62N3FRRL4fXfF+k/bjaAYDw=="
         },
         "bce00876-2845-41df-9278-a6a8b22c21f4": {
           "display_id": 1218,
@@ -16362,8 +16371,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T18:26:52.212669720Z",
-    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
-    "agent_seq": 4
+    "timestamp": "2026-08-08T18:31:10.300690316Z",
+    "agent_id": "pp3g-Ij1J-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 6
   }
 }
