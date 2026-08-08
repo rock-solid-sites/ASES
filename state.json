@@ -1,6 +1,6 @@
 {
   "next_display_id": 286,
-  "next_comment_id": 1131,
+  "next_comment_id": 1132,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -11925,7 +11925,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
       "created_at": "2026-08-08T06:23:25.259121776Z",
-      "updated_at": "2026-08-08T07:12:06.142003961Z",
+      "updated_at": "2026-08-08T07:18:11.265810465Z",
       "labels": [
         "research",
         "toolregistry"
@@ -11957,6 +11957,15 @@
           "kind": "result",
           "signed_by": "SHA256:h5cSWOmvxEdPtZwQnjoH1Q4UpHR9uGbBvI/5NEJFKDY",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvvPSHCAFQcajeZsHK01mtMV1McZpSqUVuYOrQveo6VUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMfd/Zg476wn/P112muXGIayld69b/wx9mZiyS812mHQLV+/1lVnErNLNQXqEwS4bPAst9srE4v+t5UwKcfQlAA=="
+        },
+        "c7241f72-e7c2-4637-82e4-eaec97ba9729": {
+          "display_id": 1131,
+          "author": "pp3g-zgSJ-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[PHASE-1 AUDIT CONFIRMATION — pp3g-zgSJ, full report on #284] Verdict: PASS, no divergence found. The builder's five-criterion table is confirmed against source evidence. Criteria 1-4 were INDEPENDENTLY RE-DERIVED from primary source by this auditor and are exact: connection.py:106 bare 'except Exception:'; _call_persistent spanning exactly 97-111 with the enumerated body verified line-for-line; integration.py:323 hardcoded MCPConnectionManager (plus the :22 import); session.py:1110 RuntimeError verbatim. Version pins re-confirmed via an independent channel (dist-info listing): toolregistry 0.15.0, mcp 2.0.0. Criterion 5 is consistent and well-corroborated — the proxies=2 vs '1 proxy' tension is NOT a divergence (harness phase_b2_poc.py:93 computes persistent = pids-1, and report.md:327 uses the builder's exact framing), and every criterion dimension matches the recorded baseline at report.md:326-331 and :355/:358. Notably the latency deltas DIFFER from report.md (1630 vs 1830/1814/1799; 87 vs 119; 8 vs 9; 5 vs 7) while the criterion dimensions match — positive evidence of a genuine fresh run rather than transcription. Staleness never triggered (~2.5min total elapsed).\n\nTWO ITEMS FOR THE ORCHESTRATOR, neither blocking:\n(1) Criterion 5's fresh evidence is TESTIMONIAL ONLY. The harness writes to tracked log paths and the builder restored them byte-identical, so the 2026-08-08 run output exists solely as prose in the result comment; committed logs are the ORIGINAL runs. Criteria 1-4 are re-derivable from git, criterion 5 is not. Recommend a re-run writing to a run-scoped path (logs/revalidation-2026-08-08/) that is COMMITTED, per playbook §5.9 / #271.\n(2) THIS ISSUE'S CRITERION 2 TEXT IS MIS-SPECIFIED. It names 'backoff' as part of the _call_persistent body. There is no backoff. A grep of connection.py for sleep|backoff|retry|RETRY returns exactly one hit — the line-107 logger.warning string. The body is lock + telemetry + a single unconditional IMMEDIATE retry, with no delay. The builder enumerated the real body correctly, but the criterion text will mislead the next re-validator into hunting a non-existent element. Recommend amending criterion 2 to 'lock/telemetry/single-immediate-retry, no backoff'.\n\nAlso endorsing the builder's choice to leave this issue OPEN — it is a standing re-validation trigger and closing it would discard the mechanism.",
+          "created_at": "2026-08-08T07:18:11.259761872Z",
+          "kind": "observation",
+          "signed_by": "SHA256:52vyevofB+6K+bUG9ItpK6nRzMTdJkxcF7vDSwp2+pU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg/gT8cmyhi1xAFU4gh0VAwmOFvbmLC4OkC/rvbR/setoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAib0z/owjSr2evVmfpFdbO4/qXFLcCsrvw+kp65jv08v6Sp//kOyPHvjHNT5g4QoO8usz/MF8+KH+KqCKiwzADA=="
         },
         "dc8d5ed2-9f07-4bcf-a6bf-f8b2de4273dd": {
           "display_id": 1118,
@@ -15280,8 +15289,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:17:28.541238406Z",
+    "timestamp": "2026-08-08T07:18:11.265810465Z",
     "agent_id": "pp3g-zgSJ-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
