@@ -1,5 +1,5 @@
 {
-  "next_display_id": 269,
+  "next_display_id": 270,
   "next_comment_id": 1020,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -259,6 +259,7 @@
     "eed17209-95db-4e75-a193-97d954a94714": 259,
     "eff1003b-d392-4f5b-8acd-c39822f66b30": 261,
     "f07207cd-d69f-4856-93e4-7db9b3d7a922": 140,
+    "f077579a-2e98-4c88-84e9-d2f25e89eea6": 269,
     "f0a6a859-cba0-4308-948d-321479f4139a": 22,
     "f257261a-e750-4e5f-bb48-301c61263054": 110,
     "f4a5cbb0-6bea-4b14-8d00-1ba9e59e36f5": 264,
@@ -13462,6 +13463,16 @@
         }
       }
     },
+    "f077579a-2e98-4c88-84e9-d2f25e89eea6": {
+      "uuid": "f077579a-2e98-4c88-84e9-d2f25e89eea6",
+      "display_id": 269,
+      "title": "EXECUTE #154 durable-fork install: replace live opencode with verified fork binary (sha 6e0e282b, 1.18.13-pp3g-fork), operator-approved (session #21). Steps: (1) backup live binary+wrapper+package.json to ~/.local/share/opencode/fork-backups/<ts>; (2) stage fork binary from /tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode (markers 'Body read timed out' x2 + 'Turn stalled' x1 + fork marker verified); (3) atomic same-filesystem mv replace of /home/claude-code/.nvm/versions/node/v22.22.3/lib/node_modules/opencode-ai/bin/opencode.exe; (4) flip wrapper ~/.local/bin/opencode REAL= to node-module binary path (bypass npm shim); (5) verify: opencode --version = 1.18.13-pp3g-fork + markers grep + healthy model call regression + hang gate (row1 non-SSE hang aborts with 'Body read timed out' + exit 1 not 124); (6) rollback documented path if any check fails. Then file hardening follow-ups: maxRetries=0 pin (title-gen path), upgrade-survival enforcement (wrapper fail-closed drift gate), installer atomicity. Do NOT use kickoff cleanup --force (#227). GENEROUS timeouts. Ref [#154]. Stopgap #179 superseded after verified install.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T05:15:08.454499809Z",
+      "updated_at": "2026-08-08T05:15:08.454499809Z"
+    },
     "f0a6a859-cba0-4308-948d-321479f4139a": {
       "uuid": "f0a6a859-cba0-4308-948d-321479f4139a",
       "display_id": 22,
@@ -13964,8 +13975,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T05:14:58.298521521Z",
+    "timestamp": "2026-08-08T05:15:08.454499809Z",
     "agent_id": "OL2r",
-    "agent_seq": 1321
+    "agent_seq": 1322
   }
 }
