@@ -1,6 +1,6 @@
 {
   "next_display_id": 305,
-  "next_comment_id": 1245,
+  "next_comment_id": 1246,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -14339,7 +14339,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:39:11.228373760Z",
-      "updated_at": "2026-08-08T19:00:27.432075210Z",
+      "updated_at": "2026-08-08T23:35:53.705859532Z",
       "labels": [
         "infrastructure"
       ],
@@ -14523,6 +14523,15 @@
           "kind": "observation",
           "signed_by": "SHA256:uQUcSif6X+HLVTcWy0vbb1sr0SZ4utuo7Zd9WKMeJAI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgVutyl5/UkCTiLVdNi4qBgsnUu20Xd8LXAONjBG7lPqwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASrMEB2O+iRdfDIgOjzaioRkTSAEQZnhGGfM52r6VTNIUtgLHm7ZP87NtWWJOt30wsaPZYHx4MT/IpjpEztonCQ=="
+        },
+        "e9d16196-7c04-4446-b6df-dbac2d9562c2": {
+          "display_id": 1245,
+          "author": "pp3g-GKhk-atomic-install-3a-3c-issue-270-task-3-3-part-a-backup",
+          "content": "Plan: TASK 3/3 PART A — BACKUP + STAGE only (no live-binary replace, no wrapper flip, no matrix). Procedure per fork/INSTALL-PREP.md §2-3 (fetched from feature/pp3g-6lNV-... branch; kickoff adapted). SOURCES VERIFIED: fork binary /tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode sha256 3872f6ef... version 1.18.13-pp3g-fork; wrapper ~/.local/bin/opencode (1498B); stock binary opencode.exe (180,381,824B); stock package.json present. (1) BACKUP: BK=~/.local/share/opencode/fork-backups/20260808-233133 (TS subdir per INSTALL-PREP §2, supports §7 rollback glob); mkdir -p; cp -a wrapper -> opencode-wrapper, opencode.exe -> opencode.exe.stock-1.18.13, package.json -> package.json.stock-1.18.13; sha256sum $BK/* > SHA256SUMS; verify sha256sum -c. (2) STAGE: STAGE=~/.local/share/opencode/fork-install/opencode.exe.fork-pp3g; mkdir -p; cp -a fork binary; chmod +x. (3) VERIFY STAGED: --version == 1.18.13-pp3g-fork; grep -c 'Body read timed out' >= 2; grep -c 'Turn stalled' >= 1. (4) POST --kind result with backup path + SHA256SUMS verified + staged path + version + marker counts; commit evidence to this branch (#271). NOT doing: live replace (3B), wrapper flip (3B), matrix (done 67/67), kickoff cleanup --force (#227).",
+          "created_at": "2026-08-08T23:35:53.694297425Z",
+          "kind": "plan",
+          "signed_by": "SHA256:MuwhxsqlC/4Rj8KaE5oflr6imJLX0CD7ULqadb2oTVU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIcqJG3e9GQVHniEhDHiEj+g4xf9jbIdKS5EMuNydbT4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKQ3VLn3Q8v0UR1US1RDyfjbe3y2n+juMa6ub0vHS4bX0uJ4CU0XSaQQwzEMlpKqZcpwRoH+OcNN7fW3t75KiAw=="
         }
       }
     },
@@ -16663,8 +16672,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T23:35:39.691809598Z",
-    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
-    "agent_seq": 16
+    "timestamp": "2026-08-08T23:35:53.705859532Z",
+    "agent_id": "pp3g-GKhk-atomic-install-3a-3c-issue-270-task-3-3-part-a-backup",
+    "agent_seq": 2
   }
 }
