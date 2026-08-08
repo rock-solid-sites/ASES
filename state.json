@@ -1,6 +1,6 @@
 {
   "next_display_id": 295,
-  "next_comment_id": 1195,
+  "next_comment_id": 1196,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13353,10 +13353,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-08T17:47:25.873392523Z",
-      "updated_at": "2026-08-08T17:47:32.676292806Z",
+      "updated_at": "2026-08-08T17:48:27.175896984Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "e7624dfc-ee02-4555-a62e-654c559196c9": {
+          "display_id": 1195,
+          "author": "OL2r",
+          "content": "[action] Deep cleanup wave (operator decisions): (1) session-prune dry-run done — 145 old subagent sessions / 32,455 parts / ~72MB raw; estimate ~100-200MB reclaim; operator said PRUNE ANYWAY; #294 dispatched pp3g-vRPR (30m) with backup-first + dry-run-numbers-before-execute + mandatory exclusions (safeIterable ses_0290e3d8, ALL today's incl. live Mpl9/WzWe, non-pp3g sessions) + VACUUM-deferral on lock; (2) crosslink target 12G cargo clean + opencode.db WAL 108MB checkpoint still queued as the big wins — NOT yet dispatched (hold until prune lands to avoid DB contention); (3) dead tmux cleanup done earlier (48 panes killed).",
+          "created_at": "2026-08-08T17:48:27.162508451Z",
+          "kind": "note",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsHVMgbwohN3gL/VK+bTDc5BexjtlJ7IfytvL74HSiK+Z1uFxz0DE6zk1ByuUloxEg8B0ucwVVdlG67YnUqLdBw=="
+        }
+      }
     },
     "d0e0f7ba-1352-43ca-95c1-17d68d618fa2": {
       "uuid": "d0e0f7ba-1352-43ca-95c1-17d68d618fa2",
@@ -16023,8 +16034,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T17:47:43.590688764Z",
+    "timestamp": "2026-08-08T17:48:27.175896984Z",
     "agent_id": "OL2r",
-    "agent_seq": 1453
+    "agent_seq": 1454
   }
 }
