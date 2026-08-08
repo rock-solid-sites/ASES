@@ -1,6 +1,6 @@
 {
   "next_display_id": 289,
-  "next_comment_id": 1141,
+  "next_comment_id": 1142,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -15281,10 +15281,21 @@
       "parent_uuid": "14c5bf9c-c3d4-4bfd-b1e3-02b0e3e15d17",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:26:19.642253363Z",
-      "updated_at": "2026-08-08T07:26:26.932012476Z",
+      "updated_at": "2026-08-08T07:28:58.783513637Z",
       "labels": [
         "audit"
-      ]
+      ],
+      "comments": {
+        "eedf01bd-696c-414d-a89b-21a256f1883b": {
+          "display_id": 1141,
+          "author": "pp3g-jZgf-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "Plan: Phase-1 pre-positioned in-flight divergence verification of the #287 settle task (builder pp3g-6l7c). I am NOT the post-hoc final auditor; I monitor claim-vs-evidence divergence while the builder works and flag to the Orchestrator. Read-only, flag-only, no fixes, no dispatch.\n\nTRIGGER SET armed: (1) position/heartbeat staleness (>~2x the 10-15min cadence, or no heartbeat while .kickoff-status=RUNNING); (2) position-vs-artifact mismatch (claim of done unsupported by artifact/commit/log); (3) reviewer disagreement; (4) Orchestrator-explicit request.\n\nINDEPENDENT RE-DERIVATION (the fast-completion lesson: a wrong-but-fast builder is caught only by re-derivation, not by watching):\n(A) Concern A — no-backoff. I will myself read /tmp/toolregistry-venv/.../toolregistry/integrations/mcp/connection.py lines 97-111 and grep for sleep|backoff|delay|retry|time\\. to independently establish whether the no-backoff claim is TRUE, before the builder posts. Then check the builder's corrected criterion-2 text on #279 actually QUOTES the real body elements (lock / _ensure_connected / single call / except Exception / logger.warning / reconnect / one immediate retry) and explicitly states 'no backoff'.\n(B) Concern B — testimonial-only. I will establish the pre-state (which logs are tracked, their content/hashes) so I can later verify: (i) new logs committed under logs/revalidation-2026-08-08/ (git log + file presence in the tree, not just on disk); (ii) fresh-run evidence inside them (spawns=1 / proxies=2 / persistent=1 / reconnect=False / verbatim ErrorResult); (iii) tracked baseline logs NOT modified.\n\nLESSONS APPLIED: PVi7 — no absence call without first confirming liveness via lock/positions/artifacts (builder lock on #287 already confirmed held by pp3g-6l7c). WZSE — artifacts lead positions by minutes; I will not raise staleness while artifacts advance. Bounded checks ~5-10min each.\n\nPhase 2 (final confirmation of the settled work) is a separate later dispatch, not mine; if the builder posts a --kind result I will confirm both concerns are settled with durable evidence and post a Phase-1 confirmation.",
+          "created_at": "2026-08-08T07:28:58.775474098Z",
+          "kind": "plan",
+          "signed_by": "SHA256:b3KRHaxjMBgzmPSLb8i7JZT1NwAjO8EYe7uTx+G8GZs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtBYsdivVI4hMkttr5fBjGXiFSDqvoUDZKyp3UgzwVg8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAVBjXlM7omCSdJ2lQJO9MNKc0H7yuxxXifWaFaezh8k0oZsn4HPh1S1oKg4JADJ8QoZ6iVe1VxVYPzx0YqS3eAg=="
+        }
+      }
     },
     "faa0cc98-3240-405a-9a5c-949d7faa3ba9": {
       "uuid": "faa0cc98-3240-405a-9a5c-949d7faa3ba9",
@@ -15429,8 +15440,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:28:39.932272352Z",
-    "agent_id": "pp3g-95p2-doc-amendment-issue-286-docs-only-small-add-time-7060",
-    "agent_seq": 6
+    "timestamp": "2026-08-08T07:28:58.783513637Z",
+    "agent_id": "pp3g-jZgf-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 2
   }
 }
