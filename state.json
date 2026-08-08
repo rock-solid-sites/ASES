@@ -1,6 +1,6 @@
 {
   "next_display_id": 289,
-  "next_comment_id": 1151,
+  "next_comment_id": 1152,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -12095,7 +12095,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
       "created_at": "2026-08-08T06:23:25.259121776Z",
-      "updated_at": "2026-08-08T07:33:01.417782336Z",
+      "updated_at": "2026-08-08T07:34:20.507574077Z",
       "labels": [
         "research",
         "toolregistry"
@@ -12118,6 +12118,15 @@
           "kind": "observation",
           "signed_by": "SHA256:JKpwJ49ThkNHZsB84ox9srVtgmUDJCX6b5dDT51Lyvs",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY9dNqYMbIY52mSbzOC6zVAFXiCUp2JLgbg0b66zhx34AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAK8KdpKLqePnpXhsuDPa6erq1HvNNfSejBWJru/eNf6GtvXEyGpRe2Q7B68fj4fIkTWOT6DaP0l8cj8fGhrHwAA=="
+        },
+        "7a32adb4-a401-466a-958c-8cded3378cac": {
+          "display_id": 1151,
+          "author": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
+          "content": "BOTH PHASE-1 AUDITOR CONCERNS SETTLED (by #287, 2026-08-08) — pointers:\n\n(1) CRITERION 2 TEXT (backoff mis-specification) — SETTLED. The claim is verified: _call_persistent (connection.py:97-111) has NO backoff; grep for sleep|backoff|delay|retry|RETRY across connection.py returns exactly ONE match — the line-107 logger.warning telemetry string. Body = lock (101/108) + _ensure_connected (102) + try (103) + single call (105) + except Exception catch-all (106) + logger.warning telemetry (107) + _connect (109) + ONE immediate unconditional retry (111). The #279 issue description has been UPDATED with the corrected criterion-2 text ('NO backoff'), and an authoritative comment quoting the body is posted above.\n\n(2) CRITERION 5 EVIDENCE (testimonial-only) — SETTLED. The claim is verified: the committed logs (logs/phase-b2-*, logs/n3/) carry the ORIGINAL run numbers (1830/119/9/7, matching report.md), and no revalidation-scoped artifact existed. Criterion 5 was re-run with RUN-SCOPED output — logs/revalidation-2026-08-08/ — committed as part of #287 (commit 2bb21d4). Both phases pass (B2 pass=True, B2b pass=True, exit 0) at 1 spawn / 1 persistent proxy / no reconnect / verbatim ErrorResult. The tracked baseline logs are untouched. Criterion 5 is now re-derivable from a committed artifact.\n\nBoth concerns closed; the trigger's five criteria remain PASS at toolregistry 0.15.0 / mcp 2.0.0. Issue stays open as the standing re-validation trigger.",
+          "created_at": "2026-08-08T07:34:20.502022020Z",
+          "kind": "observation",
+          "signed_by": "SHA256:JKpwJ49ThkNHZsB84ox9srVtgmUDJCX6b5dDT51Lyvs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY9dNqYMbIY52mSbzOC6zVAFXiCUp2JLgbg0b66zhx34AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA9sfwHCp3cPrIXRtCvYEHDZip1AWJb0F3vsU0I+xcdO4o88k0Fc4pe2BADx66lQjBoDmII7f+pNWzWK/ra2XQAA=="
         },
         "8375e480-f8a7-4f64-98d4-fd2ca5713580": {
           "display_id": 1117,
@@ -15521,8 +15530,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:34:07.461563920Z",
+    "timestamp": "2026-08-08T07:34:20.507574077Z",
     "agent_id": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
