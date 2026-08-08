@@ -1,5 +1,5 @@
 {
-  "next_display_id": 305,
+  "next_display_id": 306,
   "next_comment_id": 1270,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -78,6 +78,7 @@
     "3a00b638-2df2-448e-aa8a-36a0de33b9f3": 289,
     "3a7e8d4a-fb0b-4659-978b-4ee0ec1258c1": 187,
     "3b8274f4-d06e-415a-b1a8-aaab3bdf6237": 125,
+    "3c0d44fe-9e99-4b0f-944b-de738de7c7ea": 305,
     "3d541fb9-e5fa-4549-8d88-e533fca17162": 80,
     "3dc64611-2f7a-4f60-a28f-6ff3e885cb17": 100,
     "3f132a04-b3d7-4217-bc9d-399c5bde3b67": 92,
@@ -4941,6 +4942,18 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAXMP3BOKYPG0eszPR9foGXtxZx7CCL1yec2NzVn9igfZCpwD/UUKeP5LO/NALnXXN9M+Ba2GNbXhF/KXwVxvXAA=="
         }
       }
+    },
+    "3c0d44fe-9e99-4b0f-944b-de738de7c7ea": {
+      "uuid": "3c0d44fe-9e99-4b0f-944b-de738de7c7ea",
+      "display_id": 305,
+      "title": "SETTLE: #295 audit conditions (luna #302 CONDITIONAL, mimo #301 + luna independently caught versions-field gap) — add versions field to Test 1/2 JSONs, commit dedicated owner-death lifecycle log, capture systemic findings in umbrella doc / #212",
+      "description": "Four Phase-2 auditors on #295 (catalog-scale validation): deepseek-pro PASS, mimo PASS, qwen PASS, luna CONDITIONAL PASS (evidence completeness, not outcome). Two conditions to close for a clean pass: (1) versions field missing from Test 1 and Test 2 per-run JSONs (7 of 27) despite report claiming 'every per-run JSON' — independently caught by luna #302 AND mimo #301; (2) no dedicated committed owner-death lifecycle log (the orphan-on-owner-death finding is documented in prose but has no committed log artifact). Also capture the three systemic findings into the umbrella doc / epic #212: orphan-on-owner-death lifecycle constraint, list_changed consumption gap, 1-shared-thread sync model. Full mandate in dispatch prompt.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T23:48:13.060726566Z",
+      "updated_at": "2026-08-08T23:48:13.060726566Z"
     },
     "3d541fb9-e5fa-4549-8d88-e533fca17162": {
       "uuid": "3d541fb9-e5fa-4549-8d88-e533fca17162",
@@ -16882,8 +16895,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T23:48:11.564483033Z",
-    "agent_id": "pp3g-IQX1-atomic-install-3b-3c-issue-270-task-3-3-part-b-the",
-    "agent_seq": 1
+    "timestamp": "2026-08-08T23:48:13.060726566Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1485
   }
 }
