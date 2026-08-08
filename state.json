@@ -1,5 +1,5 @@
 {
-  "next_display_id": 262,
+  "next_display_id": 263,
   "next_comment_id": 934,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -197,6 +197,7 @@
     "b5320c43-7f7c-4d63-9e4c-503c7bde417d": 117,
     "b5fb9123-caba-43fb-b827-e7009cd785b9": 209,
     "b680ab23-cfe8-497f-949d-6b10e0d5205e": 244,
+    "b921ee80-ae93-4475-b22e-cf40a9735194": 262,
     "ba2d352b-53b2-4471-abc7-12c68481d622": 58,
     "bdfe9151-dfb2-417c-a17c-8bee25fbb665": 121,
     "bf05f2c0-c357-4bd1-844e-f313c75877b9": 151,
@@ -10214,6 +10215,16 @@
         }
       }
     },
+    "b921ee80-ae93-4475-b22e-cf40a9735194": {
+      "uuid": "b921ee80-ae93-4475-b22e-cf40a9735194",
+      "display_id": 262,
+      "title": "SELECTIVE worktree cleanup — THIS session's stale agents only (reliability-epic/topology work). Remove the following 4 stale agents' worktrees + tmux sessions: pp3g-qiSj-review-the-workflow-topology-proposal-edge-case-835c (#242 hy3 review — verdict landed via #248, safe), pp3g-GlOB-rebuild-the-154-durable-fork-binary-from-preserved (#226 rebuild — killed mid-debug, binary verified in /tmp, safe), pp3g-pdzT-re-run-the-16-row-matrix-with-fixed-harness-92d5 (#235 matrix — 504'd, no result, work captured in /tmp/opencode/matrix-run), pp3g-fvkJ-complete-the-hy3-review-of-the-workflow-topology-5423 (#247 hy3 re-dispatch — verdict landed via #248, safe). DO NOT TOUCH: the tripn-astro/hydration agents (pp3g-R99p, pp3g-cXmI, pp3g-T1jj, pp3g-neHg, pp3g-qfOy, pp3g-abSw — LIVE operator-session work), any 9Lg8-* sessions, or the persistent ASES/astro/hydro sessions. Use: kill the specific tmux sessions + git worktree remove for exactly those 4. Verify each is DONE/stale with no live process first (ps check). Report what was removed. Do NOT use crosslink kickoff cleanup --force (broad sweep — kills live agents, #227).",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T03:07:58.435952281Z",
+      "updated_at": "2026-08-08T03:07:58.435952281Z"
+    },
     "ba2d352b-53b2-4471-abc7-12c68481d622": {
       "uuid": "ba2d352b-53b2-4471-abc7-12c68481d622",
       "display_id": 58,
@@ -13061,8 +13072,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T03:07:36.801396873Z",
+    "timestamp": "2026-08-08T03:07:58.435952281Z",
     "agent_id": "OL2r",
-    "agent_seq": 1272
+    "agent_seq": 1273
   }
 }
