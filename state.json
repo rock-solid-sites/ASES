@@ -1,5 +1,5 @@
 {
-  "next_display_id": 286,
+  "next_display_id": 287,
   "next_comment_id": 1133,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -199,6 +199,7 @@
     "aa9ae5e1-d089-491b-8487-2a8970ecb319": 95,
     "ab39afe4-5969-4e1c-b0ed-1abb58e7c862": 16,
     "abd66fee-3c91-4c40-bbfb-478cdce6edf6": 34,
+    "ac8ea82a-64d6-4339-895d-b13bd7cbf522": 286,
     "ac8f1405-9026-44d9-8716-cda73e0ed55c": 201,
     "ae626387-2d74-45ed-b6fa-91d1f44a9b70": 142,
     "af65cd2d-89a9-4b3e-b153-820f107b0af5": 82,
@@ -11177,6 +11178,16 @@
         "chore"
       ]
     },
+    "ac8ea82a-64d6-4339-895d-b13bd7cbf522": {
+      "uuid": "ac8ea82a-64d6-4339-895d-b13bd7cbf522",
+      "display_id": 286,
+      "title": "DOC amendment (operator decision, 2026-08-08): time-based commit cadence for UNAVOIDABLY LONG TASKS ONLY. CONTEXT: work-loss synthesis — atomic-split (commit-sized tasks, commit-at-landing) solves the general case; the residual gap is the irreducible long phase (a 40-min build, a 30-min matrix, a long verification run) that cannot be atomized further, where an agent death loses all work since the last milestone commit. OPERATOR DECISION: add a NARROW time-based commit rule that applies ONLY to unavoidably long phases — NOT a general cadence rule (atomicity covers everything else). RULE (to codify in agent-orchestration-playbook.md, adjacent to §5.9): for a single phase estimated >~30-45 min that cannot be split, the agent MUST commit progress at time intervals (~every 15 min): evidence logs, intermediate outputs, WIP notes, partial results — anything durable that would otherwise be lost on death. Purpose: (a) work preservation — a death loses at most one interval of work, not the whole phase; (b) liveness evidence — commits are ground-truth artifacts the pre-positioned AUDITOR can join against (stronger than checkpoint comments alone). DO NOT apply to normal commit-sized tasks (atomic-split already guarantees commit points). Keep it brief — a short subsection under §5.9 or a §5.9 extension; docs-only. Ref #271 (parent rule), #156.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T07:19:06.708401564Z",
+      "updated_at": "2026-08-08T07:19:06.708401564Z"
+    },
     "ac8f1405-9026-44d9-8716-cda73e0ed55c": {
       "uuid": "ac8f1405-9026-44d9-8716-cda73e0ed55c",
       "display_id": 201,
@@ -15298,8 +15309,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:18:52.524077819Z",
-    "agent_id": "pp3g-zgSJ-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 7
+    "timestamp": "2026-08-08T07:19:06.708401564Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1392
   }
 }
