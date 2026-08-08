@@ -1,6 +1,6 @@
 {
   "next_display_id": 279,
-  "next_comment_id": 1076,
+  "next_comment_id": 1077,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -12898,7 +12898,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:43:03.515348662Z",
-      "updated_at": "2026-08-08T06:14:47.810431176Z",
+      "updated_at": "2026-08-08T06:15:06.620701641Z",
       "labels": [
         "infrastructure"
       ],
@@ -12992,6 +12992,15 @@
           "kind": "observation",
           "signed_by": "SHA256:4iD1VJFqbwJl8zhUfKGJfCOhZce8/aGVYEgUUIdu+Hg",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgpqrOAz3uxRBEb8LhAPGxw/MIAFq1fXBWCr0bIWRpzf8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA15A5YUs5PpOj9FmTvKbofSRlOJonaR+/Vdn8lJAjRzrmJN+t3/TebaZ608dper3FcNrgoNDceC7Zb72wuYGRBw=="
+        },
+        "ec91f00c-9f5a-470f-b2ca-fa8c8dd5aa36": {
+          "display_id": 1076,
+          "author": "pp3g-VaQu-disk-cleanup-follow-up-operator-approved-selective",
+          "content": "Result: SELECTIVE CARGO PRUNE COMPLETE. df: 86G used/27G avail -> 73G used/41G avail (freed ~13G net; target dir 23G -> 8.7G = ~14.3G gross freed).\n\nPER-ITEM TABLE (measure -> remove -> verify):\n| Item | Before | After | Freed |\n|---|---|---|---|\n| cargo clean --release (workspace ~/projects/crosslink/crosslink only) | 3.3G (release profile: deps 3.1G, build 159M, binary 26M, incremental 4K) | 0 | 3.3G (8605 files) |\n| stale debug/incremental subdirs (33 entries older than last build 2026-08-08 03:15; Jul 15 / Aug 6-7 builds) | 12G | 769M (4 current entries from last build kept) | ~11.2G |\n| doc/ package/ artifacts | none present | - | 0 (verified absent in both profiles) |\n| TOTAL | | | ~14.3G gross / ~13G net df |\n\nVERIFY: crosslink --version -> 'crosslink 0.9.0-beta.1+a87bd513' OK; crosslink issue list -> OK (running binary is installed ~/.cargo/bin/crosslink, untouched). No cargo/rustc procs were running; lsof on target clean before removal.\n\nSCOPE RESPECTED: only ~/projects/crosslink/crosslink/target touched. Kept: target dir, debug/deps (7.3G), debug/build (417M), debug/crosslink binary (234M), 4 current incremental entries, all src + Cargo.lock. Did NOT: full cargo clean, touch other target dirs (ASES repo untouched), delete source, use kickoff cleanup --force (#227). Denylist intact (rebuild pp3g-PP6b /tmp/opencode, active worktrees, DBs, ~/.config, ~/.local/bin, ASES, tripn-astro).\n\nCumulative #272: 101G -> 73G used (freed ~28G gross total incl. earlier cache cleanups).",
+          "created_at": "2026-08-08T06:15:06.614086998Z",
+          "kind": "result",
+          "signed_by": "SHA256:4iD1VJFqbwJl8zhUfKGJfCOhZce8/aGVYEgUUIdu+Hg",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgpqrOAz3uxRBEb8LhAPGxw/MIAFq1fXBWCr0bIWRpzf8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAUx52DmUDl+BhyfZIfJzHqRZdqFN+ywtf+2nV6+1WL4Hb9jekW7Ipjj5cySRnLTf3plXbw+xHsRqwfA4Fj4LQAA=="
         }
       }
     },
@@ -14654,8 +14663,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:14:47.810431176Z",
+    "timestamp": "2026-08-08T06:15:06.620701641Z",
     "agent_id": "pp3g-VaQu-disk-cleanup-follow-up-operator-approved-selective",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
