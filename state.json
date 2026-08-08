@@ -1,5 +1,5 @@
 {
-  "next_display_id": 289,
+  "next_display_id": 290,
   "next_comment_id": 1155,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -73,6 +73,7 @@
     "3505a26c-d4ea-4b9c-a71d-d43d6a64bb46": 284,
     "35c2be3c-b5f4-4d9a-9272-a3bb703d6600": 248,
     "389f1aeb-9dc5-40ac-89c4-d853c472cdb9": 210,
+    "3a00b638-2df2-448e-aa8a-36a0de33b9f3": 289,
     "3a7e8d4a-fb0b-4659-978b-4ee0ec1258c1": 187,
     "3b8274f4-d06e-415a-b1a8-aaab3bdf6237": 125,
     "3d541fb9-e5fa-4549-8d88-e533fca17162": 80,
@@ -3365,6 +3366,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgmytagIMfzObrFKNL7RpWZyl3SWN55kt8krSYx/ZxYOkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA9i587nyoNbrGeOEpiRAEBys4XwH/6jxfUs80zIDpvUANKOehHF/RkGWcY/zE5sWWhDrEbuaflJATIiymi+MxCQ=="
         }
       }
+    },
+    "3a00b638-2df2-448e-aa8a-36a0de33b9f3": {
+      "uuid": "3a00b638-2df2-448e-aa8a-36a0de33b9f3",
+      "display_id": 289,
+      "title": "AUDIT (phase-1 pre-positioned in-flight, mimo-v2.5): monitor the #283 crosslink kickoff --base implementation (Builder pp3g-0GM6, 45m, crosslink repo /home/claude-code/projects/crosslink/crosslink). READ-ONLY auditor role. SUBJECT: #283 — crosslink --base <branch> CLI feature; builder works in the crosslink repo (NOT the ASES worktree). JOB per Workflow Topology §5.3: pre-positioned alongside the Builder; join #283 position stream ('[PROGRESS] state=... completed=... next=... blocker=...') against artifact evidence in the crosslink repo (git log for commits, src files for CLI/base changes, cargo build/test logs). TRIGGERS: (1) position staleness >2x expected interval (~10 min cadence for 45m task → >20 min gap); (2) position-vs-artifact mismatch (claim without evidence / evidence contradicting claim — e.g. '--base wired' but no main.rs/types.rs change, 'tests pass' with no cargo test log); (3) silent-hang signature (no advancing position + no heartbeat, .kickoff-status RUNNING); (4) unverifiable decision-gating claims. METHOD: check every ~10-15 min; post divergence findings to THIS sub-issue (--kind observation) as the escalation channel; do NOT act directly. INDEPENDENCE: do NOT read other auditor sub-issues (#284/#288/#276/#263/264/265). END: final verdict (--kind result): no divergence observed OR divergence found (list with evidence). Evidence discipline per AGENTS.md (WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED). Ref #283.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T07:35:22.882080458Z",
+      "updated_at": "2026-08-08T07:35:22.882080458Z"
     },
     "3a7e8d4a-fb0b-4659-978b-4ee0ec1258c1": {
       "uuid": "3a7e8d4a-fb0b-4659-978b-4ee0ec1258c1",
@@ -15553,8 +15564,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:35:15.934372726Z",
-    "agent_id": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
-    "agent_seq": 12
+    "timestamp": "2026-08-08T07:35:22.882080458Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1402
   }
 }
