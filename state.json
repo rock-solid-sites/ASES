@@ -1,5 +1,5 @@
 {
-  "next_display_id": 256,
+  "next_display_id": 257,
   "next_comment_id": 857,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -44,6 +44,7 @@
     "246c7e5b-4bb4-404f-bfd3-d9eee60e0e3f": 135,
     "260db4c3-3076-405d-a005-17fdc13255ae": 174,
     "26ea9ea1-949f-4ee2-8514-a9cd07356ed9": 124,
+    "274ee9b8-8086-4a78-a88c-e82a11deaafa": 256,
     "286d35ca-9c9b-46f8-8a88-1ca6d09e5754": 98,
     "299f287a-4ade-4071-80a9-c9e7df83605d": 191,
     "29f67bbb-bb7a-438e-bb99-4e7de1b47abc": 45,
@@ -2157,6 +2158,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAmVTGflYpGrF8eOHp0xwWRlqy2Jx5vK6/SxmnY4crc8On7t9Q0iMrRwoKCrjnJnXIYf5YxndWlTDOcznr70gTDg=="
         }
       }
+    },
+    "274ee9b8-8086-4a78-a88c-e82a11deaafa": {
+      "uuid": "274ee9b8-8086-4a78-a88c-e82a11deaafa",
+      "display_id": 256,
+      "title": "COLLECT model-agreement data from COMPLETED tripn-astro review waves (read-only; no re-running). PURPOSE: capture free evidence from review waves that already ran. CONTEXT: multi-model review waves completed with isolated reviewer sub-issues; the verdicts are posted; we only need to EXTRACT and FILE the agreement data. TASK FOR A BUILDER: (1) identify completed review waves (multi-model reviews with isolated sub-issues) in tripn-astro; (2) for each wave produce ONE agreement row: Wave | Models (per sub-issue) | Per-model verdict | FINDING-LEVEL agreement (which findings found by which models; divergences flagged) | Non-delivery (reviewers whose verdict 504'd/hung/died — record as first-class outcome) | Correctness anchor (test/artifact/commit that can confirm each finding, where available) | Confidence (RECONSTRUCTED — post-hoc extraction, not live collection). (3) RULES: record finding-level not just verdict-level agreement (verdict-level masked divergences historically); record non-delivery as data, not silence; mark all rows RECONSTRUCTED. (4) FILE: post rows to the tripn-astro registry/capability-mapping, AND mirror to ASES #241 (model-agreement index) — the registry is shared knowledge. (5) Do NOT re-run any review; do NOT modify reviewer sub-issues. Template reference: ASES #255 (EDASES Model Data Collection epic) + #241 (model-agreement schema).",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T00:45:28.896921390Z",
+      "updated_at": "2026-08-08T00:45:28.896921390Z"
     },
     "286d35ca-9c9b-46f8-8a88-1ca6d09e5754": {
       "uuid": "286d35ca-9c9b-46f8-8a88-1ca6d09e5754",
@@ -12248,8 +12259,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T00:45:09.810626880Z",
-    "agent_id": "pp3g-qN6T-write-the-consolidated-workflow-topology-design-0521",
-    "agent_seq": 7
+    "timestamp": "2026-08-08T00:45:28.896921390Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1198
   }
 }
