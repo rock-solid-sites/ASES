@@ -1,6 +1,6 @@
 {
   "next_display_id": 305,
-  "next_comment_id": 1256,
+  "next_comment_id": 1257,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1697,11 +1697,20 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:30:17.644484362Z",
-      "updated_at": "2026-08-08T23:38:22.033646837Z",
+      "updated_at": "2026-08-08T23:38:43.024711683Z",
       "labels": [
         "audit"
       ],
       "comments": {
+        "9f72771a-024a-4fec-bdbc-692e73870cb8": {
+          "display_id": 1256,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "### Process Assessment\n\n[OK] Commit 00eda4b3 references #295 in the message (Phase-5 completion (gh#295)). The commit message names all six tests, Addendum B, and the STRONG PASS conclusion.\n\n[OK] Exact versions recorded per run and verified against installed source -- not assumed. Every per-run JSON embeds python=3.10.12, toolregistry=0.15.0, mcp=2.0.0. Persistence config (persistent=True, default) verified against installed source at registration.py:94,167 and connection.py:37. See report.md:60-79.\n\n[OK] Calling mode (sync/async) recorded per run in every JSON as calling_mode. Sequential runs use sync, concurrent runs use async -- consistent across all 20 Test 3 rows and all other tests. See report.md:122-137.\n\n[OK] Deliverable complete against brief: all 6 tests + Tests 5a/5b + Addenda A-D + scaling conclusion + architectural conclusion per Strong/Conditional/Fail criteria + log index. stdio-only respected. Catalog invalidation (5a) correctly characterized as 'not consumed' rather than 'broken'. See report.md:148-445.\n\n[OK] Observations and findings explicitly separated throughout: section 1 states the distinction; section 6 labels each test with Observations and Finding; log-structured events and JSON snapshots are observations; interpretive language is labeled as findings. See report.md:43-45.\n\n[CONCERN] The report is 453 lines of dense engineering prose. A 1-page executive summary would improve auditability. Not a failure -- the report is rigorous -- but a reader-experience concern.\n\n### Systemic Risks Identified\n\n1. Orphaned connectors on owner-process death -- Impact: HIGH. When ToolRegistry process exits without explicit close_sync() on persistent MCPConnection managers, proxy and backend subprocesses persist indefinitely (observed 15+ min post-death, blocked in ep_poll on stdin EOF). mcp 2.0.0 stdio server does not terminate on bare EOF. Any runtime using persistent connections MUST implement explicit close-on-shutdown. Recommend: document as lifecycle constraint in identifier-first umbrella doc, capture in epic #212. See report.md:407-414 and common.py:clean_orphans() lines 231-258.\n\n2. No catalog-drift detection baseline -- Impact: MEDIUM (expected behavior). Test 5a confirms notifications/tools/list_changed is emitted but NOT consumed by ToolRegistry 0.15.0 (source-verified: zero list_changed code). Test 5b confirms consequence: stale catalog yields application error, no reconnect or respawn. Umbrella doc should record this gap explicitly. See report.md:282-325.\n\n3. Shared async-runtime thread is process-wide -- Impact: LOW. Single async-runtime daemon thread verified across all N (always 1). ToolRegistry sync API serializes concurrent operations through one event loop, limiting true parallelism for sync callers. Not a problem for catalog-scale claim. See report.md:399-407.",
+          "created_at": "2026-08-08T23:38:43.016292445Z",
+          "kind": "result",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoE8MdMhzSOCHJdOVXW3HHuwCKEjDs2sA76XOUKFo88PK0upgeSEjjFS8KOcX0i8RZtPj+3GMscJJ9275Iu84Dg=="
+        },
         "b5091f4a-20b6-4f95-851c-7d87ac4ddd7f": {
           "display_id": 1254,
           "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
@@ -16758,8 +16767,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T23:38:32.303348475Z",
-    "agent_id": "pp3g-xTx1-auditor-phase-1-in-flight-divergence-verifier-issue",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T23:38:43.024711683Z",
+    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+    "agent_seq": 23
   }
 }
