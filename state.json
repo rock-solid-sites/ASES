@@ -1,6 +1,6 @@
 {
   "next_display_id": 300,
-  "next_comment_id": 1204,
+  "next_comment_id": 1205,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13937,7 +13937,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:39:11.228373760Z",
-      "updated_at": "2026-08-08T17:39:18.929709957Z",
+      "updated_at": "2026-08-08T18:10:25.626144915Z",
       "labels": [
         "infrastructure"
       ],
@@ -14022,6 +14022,15 @@
           "kind": "observation",
           "signed_by": "SHA256:iPaUK7S6vmz/ptN//e08nwBwHjhgfGn3P6pZMg45Vk4",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgt/9yOxzCrSToXb6mFylbhqYHxXz90I63wbx35aUFYhUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKCFTc1pR9ENncF5/CZ4sKt4+b+6s0JCPqHbc8ZcxT6aqxECfKw1Tun8ONra/BX29z04ay21KNhAmtPtc6aSUBw=="
+        },
+        "88561c99-1d2c-48c5-8117-427859be186b": {
+          "display_id": 1204,
+          "author": "pp3g-gFmp-atomic-task-2-3-continuation-issue-270-part-b-2-6a44",
+          "content": "Plan: DIAGNOSED the 2 row2/row3 FAILs — root cause is a HARNESS ORCHESTRATION bug, NOT assertion text mismatch, NOT product bug. Evidence: (a) the smoke test /tmp/opencode-smoke.SJBfHE/ (17:36) left node server.js (PID 2182321, HANG_MODE=1 CONTENT_TYPE=application/json) ALIVE holding port 8777 — start_server's subshell kill orphans the node child; (b) ALL row server logs in the partial run (row1-4) show 'listen EADDRINUSE', so rows 1-4 all talked to the stale app/json-hang server: row1 PASSED only by config coincidence, row2 (SSE expected) got non-SSE -> 'Body read timed out' instead of 'SSE read timed out', row3 (no-headers expected) got headers+hang -> bodyIdleTimeout instead of headerTimeout. The marker strings the binary emits are exactly what run-matrix.sh greps ('SSE read timed out' provider.ts:47/aisdk.ts:36; 'Provider response headers timed out after ..ms' error.ts:11 matches 'response headers timed out'). FIX: (1) kill stale server; (2) harden run-matrix.sh start_server/stop_server: exec env ... node server.js so SRV IS the node PID + fuser -k on the port in start (defensive) + stop; (3) re-run FULL 16-row matrix with fixed harness (rows 1-4 were contaminated, so all rows need a clean run; this falls under 're-run to confirm a fix'); (4) post full pass/fail table to #270 --kind result.",
+          "created_at": "2026-08-08T18:10:25.599944363Z",
+          "kind": "plan",
+          "signed_by": "SHA256:Rkj4ynYtuQUkd+HOj30aL0bnZ93cYaMeMQJ4IYlzApQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgiHcKgzr2wSCrLRoJCeNizFiX+3q7nob1qf4kuR1nIdQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA1CYwYdEAfY53+k4rrOHGPFSldLg0D5ptL9fcjT3k0NFjxvuQYWsaBTkaPHXoJuI2La6WposagRfScDRUo8ulCQ=="
         },
         "9d2a1038-7ba8-4396-b9b3-6d32e39cd059": {
           "display_id": 1093,
@@ -16198,8 +16207,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T18:10:14.006182268Z",
-    "agent_id": "pp3g-JhCG-auditor-phase-1-in-flight-divergence-verifier-issue",
-    "agent_seq": 6
+    "timestamp": "2026-08-08T18:10:25.626144915Z",
+    "agent_id": "pp3g-gFmp-atomic-task-2-3-continuation-issue-270-part-b-2-6a44",
+    "agent_seq": 5
   }
 }
