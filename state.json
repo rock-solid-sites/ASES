@@ -1,5 +1,5 @@
 {
-  "next_display_id": 282,
+  "next_display_id": 283,
   "next_comment_id": 1106,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -208,6 +208,7 @@
     "b5320c43-7f7c-4d63-9e4c-503c7bde417d": 117,
     "b5fb9123-caba-43fb-b827-e7009cd785b9": 209,
     "b680ab23-cfe8-497f-949d-6b10e0d5205e": 244,
+    "b68b52bc-c277-446a-984f-853538c69dde": 282,
     "b85f8e63-e788-4edb-bc65-0a1b476eb203": 275,
     "b921ee80-ae93-4475-b22e-cf40a9735194": 262,
     "ba2d352b-53b2-4471-abc7-12c68481d622": 58,
@@ -11579,6 +11580,18 @@
         }
       }
     },
+    "b68b52bc-c277-446a-984f-853538c69dde": {
+      "uuid": "b68b52bc-c277-446a-984f-853538c69dde",
+      "display_id": 282,
+      "title": "FIX (LOW, Phase-1 auditor handoff): §13 log-index miscitation in the C2 investigation report — N=2/N=3 proxy-log rows point at files restored to N=1 baseline content",
+      "description": "From Phase-1 auditor #278 handoff: report.md line ~632 points N=2/N=3 sub-scenario proxy logs at 'logs/phase-a3-*-proxy.log'. Those top-level files were restored to the N=1 baseline, so they contain N=1 data, not sweep data. The sweep's proxy evidence exists interleaved as PROXY| lines inside the n2/n3 harness logs. Fix: repoint the §13 rows to the correct n2/n3 harness logs (or state the proxy evidence is interleaved there). One-line doc fix; the claim-verification pass forbids a claim whose cited artifact does not carry it.",
+      "status": "open",
+      "priority": "low",
+      "parent_uuid": "7ef840e7-d516-4301-b94d-f02d6d30bb55",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T06:53:29.978316045Z",
+      "updated_at": "2026-08-08T06:53:29.978316045Z"
+    },
     "b85f8e63-e788-4edb-bc65-0a1b476eb203": {
       "uuid": "b85f8e63-e788-4edb-bc65-0a1b476eb203",
       "display_id": 275,
@@ -14979,8 +14992,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:52:38.391832022Z",
-    "agent_id": "pp3g-9aeQ-doc-task-issue-281-docs-only-reconcile-playbook-c79f",
-    "agent_seq": 8
+    "timestamp": "2026-08-08T06:53:29.978316045Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1377
   }
 }
