@@ -1,6 +1,6 @@
 {
   "next_display_id": 305,
-  "next_comment_id": 1254,
+  "next_comment_id": 1255,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1697,11 +1697,20 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:30:17.644484362Z",
-      "updated_at": "2026-08-08T23:37:21.285325097Z",
+      "updated_at": "2026-08-08T23:38:22.033646837Z",
       "labels": [
         "audit"
       ],
       "comments": {
+        "b5091f4a-20b6-4f95-851c-7d87ac4ddd7f": {
+          "display_id": 1254,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "## Audit Verdict: PASS\n\n### Architectural Assessment\n\n[OK] The core decoupling claim (knowing N tools without running N connector processes) is soundly supported. Test 3 shows resident-after flat at 0 proxies/0 backends across all 20 sweep runs from N=1 to N=50 -- cross-verified at logs/test3/n50-concurrent-off.json (resident_after.proxy_count=0, backend_count=0). Peak (up to N for concurrent) is correctly distinguished from resident-after (always 0). The mechanism -- ToolRegistry 0.15.0 temp-client refresh path -- is source-verified (connection.py:73, integration.py:331). See report.md:6-7,148-245.\n\n[OK] Proxy and backend residency are ALWAYS reported as separate numbers -- never collapsed. Measurement code at common.py:68-83 classifies processes by cmdline into distinct proxy/backend buckets. snapshot() always emits proxy_count and backend_count separately. Confirmed in test1-n50.json: resident_after.proxy_count=0, backend_count=0. See report.md:57-58.\n\n[OK] Documentation Standard YAML: program=EDASES, layer=Research, document_type=Research Finding, status=Validated, authority=Experimental, with complete dependency chain. Places deliverable correctly in EDASES research layer. See report.md:1-25.\n\n[OK] STRONG PASS conclusion follows from data and correctly distinguishes the reframed criterion (bounded by workload, not literal count==K) in Addendum C: 'the claim is NON-SCALING with N, not a literal resident-count==K identity.' See report.md:371-373.\n\n[OK] The strength of pass for catalog-knowledge is justified: ToolRegistry 0.15.0 temp-client refresh already achieves zero residency at K=0 without teardown; Test 6 immediate teardown is a boundary confirmation, not the mechanism. See report.md:339-345,360-388.\n\n[CONCERN] Report section 9 item 2 states Async-only runs hold zero async-runtime threads, but ALL concurrent (async) Test 3 runs also show async_runtime_threads=1 -- cross-verified at n1-concurrent-on.json and n50-concurrent-off.json. Threadcheck pure async-only fresh process correctly shows 0, but Test 3 concurrent runs show 1. Core claim (count never grows with N) is fully correct; this is a wording precision issue. See report.md:399-407.",
+          "created_at": "2026-08-08T23:38:22.024488036Z",
+          "kind": "result",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAaE7u/fCDdV2GzNlBjerdu/Yc5hGWNByddKME7Ndpuo2POiSxt61c3HLs+D3Ob8KInVnqXpU0ImLoXXulbmVVCA=="
+        },
         "b64afbc8-e6c1-487a-8888-70ab571e58c5": {
           "display_id": 1243,
           "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
@@ -16740,8 +16749,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T23:37:52.972654105Z",
+    "timestamp": "2026-08-08T23:38:22.033646837Z",
     "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
-    "agent_seq": 21
+    "agent_seq": 22
   }
 }
