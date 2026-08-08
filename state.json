@@ -1,6 +1,6 @@
 {
   "next_display_id": 289,
-  "next_comment_id": 1138,
+  "next_comment_id": 1139,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1505,11 +1505,22 @@
       "parent_uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:25:26.721233193Z",
-      "updated_at": "2026-08-08T07:25:39.776972632Z",
+      "updated_at": "2026-08-08T07:27:24.204299362Z",
       "labels": [
         "research",
         "toolregistry"
-      ]
+      ],
+      "comments": {
+        "06f3f323-2c5f-40c8-ba54-639a93a34f60": {
+          "display_id": 1138,
+          "author": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
+          "content": "Plan: settle both auditor concerns from #284 with durable evidence. (A) Independently verify the no-backoff claim: read /tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py lines 97-111, grep for backoff/sleep/delay/retry; record actual body elements precisely; post corrected criterion-2 text on #279 quoting the body and explicitly stating 'no backoff'. (B) Verify the testimonial-only claim: inspect committed logs under research/toolregistry-lazy-mcp/c2-gap-investigation/logs/ (mtimes/content vs baseline result's fresh numbers, confirm no revalidation-scoped artifact); re-run tests/phase_b2_poc.py and tests/phase_b2b_preabsorbed.py with /tmp/toolregistry-venv/bin/python writing to a NEW run-scoped dir logs/revalidation-2026-08-08/ (do not touch tracked baselines); commit the run-scoped logs; post fresh-run evidence on #287 and a settle-note on #279. No source modifications.",
+          "created_at": "2026-08-08T07:27:24.198538055Z",
+          "kind": "plan",
+          "signed_by": "SHA256:JKpwJ49ThkNHZsB84ox9srVtgmUDJCX6b5dDT51Lyvs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY9dNqYMbIY52mSbzOC6zVAFXiCUp2JLgbg0b66zhx34AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkHD3HJ35RZO7Zgf7HSHUoPrXJEvixiSX3VqKS9Nyx0bTHD5J4edkOpTfSjiPs5tbCf9Rhhv7MpD4nr4WFpCsBg=="
+        }
+      }
     },
     "159b5a1f-7e30-46ad-bfa0-c231d190fbd9": {
       "uuid": "159b5a1f-7e30-46ad-bfa0-c231d190fbd9",
@@ -15396,8 +15407,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:27:01.898245326Z",
+    "timestamp": "2026-08-08T07:27:24.204299362Z",
     "agent_id": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
