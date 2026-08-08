@@ -1,6 +1,6 @@
 {
   "next_display_id": 277,
-  "next_comment_id": 1038,
+  "next_comment_id": 1039,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13945,7 +13945,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:39:46.638735125Z",
-      "updated_at": "2026-08-08T05:52:18.721338777Z",
+      "updated_at": "2026-08-08T05:52:50.794598392Z",
       "labels": [
         "infrastructure"
       ],
@@ -13967,6 +13967,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABATy37gKck7cXzhfeydeOEm4hwpQstmpZ3NNNunfqJ0cCPt9egWLhQhypvNhMTovtBgO7Dlp2OMatuKxRywEwlCQ=="
+        },
+        "a496f0cf-1e8d-464b-b501-4361d1189e71": {
+          "display_id": 1038,
+          "author": "pp3g-3CPe-process-fix-issue-271-docs-only-codify-the-commit-426a",
+          "content": "AUDIT ITEM RECORDED (deliverable 4 of #271): in-flight workstreams with decision-gating build artifacts — each MUST commit artifacts before session end (new §5.9 hard rule). (1) #270 REBUILD (pp3g-PP6b): brief ALREADY mandates 'commit ALL artifacts (fork source tree + patch + built binary + verification logs) to a fork branch — CRITICAL LESSON: never leave build artifacts only in /tmp (see #271)' — verified in brief; enforcement now via §5.9 + closeout checklist. (2) #226 rebuild: binary at /tmp/opencode/fork-build — session must export/commit before end. (3) #235 matrix re-run: results/harness vs binary sha 6e0e282b — commit. (4) #209 resume: partial export history (fork/ committed, applied tree + 98dfe4a + binary never) — the exact #271 root cause; any resumed work must commit fully. (5) #269 install: staging source vanished (evidence of the failure mode). (6) #272 disk cleanup (operator-directed): must not wipe uncommitted /tmp state without export (ties to §5.9 step 4 + #227). Audit item filed here as the durable record; no separate issue needed since each workstream brief/lock already carries the obligation or the §5.9 rule now binds it.",
+          "created_at": "2026-08-08T05:52:50.786966166Z",
+          "kind": "observation",
+          "signed_by": "SHA256:pGY8GbjJgZ6rjdgANhcgnTCwSG8eDQw8uNR4GMfTe80",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgv4MoRxQr6Frl45twy4risE0svtbzfhtbULZR4UkMmOwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA674fhNKUD2lRCGirMt93i4qTfRe3apItPMs0D2RiwinUypn4JvvL2BoPOza/dsCpy1nJeHHHLVTaP2YE3QSmCQ=="
         },
         "f5664dda-6d06-44d2-bd7b-492da3b9dcc3": {
           "display_id": 1037,
@@ -14267,8 +14276,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T05:52:37.330905820Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1351
+    "timestamp": "2026-08-08T05:52:50.794598392Z",
+    "agent_id": "pp3g-3CPe-process-fix-issue-271-docs-only-codify-the-commit-426a",
+    "agent_seq": 7
   }
 }
