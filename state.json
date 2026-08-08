@@ -1,5 +1,5 @@
 {
-  "next_display_id": 274,
+  "next_display_id": 275,
   "next_comment_id": 1032,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -24,6 +24,7 @@
     "0f511f63-230d-4593-a201-9b3a7c87b0c6": 167,
     "105271fa-8773-40c7-9aa1-3d35e063a1e6": 65,
     "105d0d1e-7172-4f25-be90-a29878ee2451": 196,
+    "159b5a1f-7e30-46ad-bfa0-c231d190fbd9": 274,
     "16818d5b-477a-4f3f-ad95-aed56a91502c": 120,
     "16f8c668-dde6-41de-b4ed-15ca97f7d946": 44,
     "174fac6e-51ed-4d70-8233-8739a5570b6d": 14,
@@ -1294,6 +1295,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgi3Y7k6zLHSnYcebt0U8E4gaHZmVqfalyr69g11qwxm8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlTcHEhrXUSZhRzytlzmxO2aqaOzlJqLF8CyN5lZXiqkv70eMYGxri1SDVtOmhy1he2+jmum2MT1AGg7MSS4HCw=="
         }
       }
+    },
+    "159b5a1f-7e30-46ad-bfa0-c231d190fbd9": {
+      "uuid": "159b5a1f-7e30-46ad-bfa0-c231d190fbd9",
+      "display_id": 274,
+      "title": "HARDENING follow-up 2/3 (from reviewer wave #236-#239): enforce upgrade-survival. FINDING: r2 (luna, #237) — autoupdate:false is only a config short-circuit; the wrapper (~/.local/bin/opencode) does NOT fail-closed on fork drift; an upgrade or config loss can silently remove the fix. TASK: (1) add a marker/drift check to the wrapper: before exec, verify the resolved binary reports the fork marker (--version contains fork / grep 'Body read timed out' on the binary) and fail loudly (or refuse) if the fork identity is missing; (2) document the upgrade-survival invariant in .crosslink/knowledge/opencode-fork.md; (3) verify a simulated upgrade path (replacing the binary with stock) trips the guard. BLOCKED-BY: #270 rebuild (the fork install + wrapper flip happen there) — work AFTER #270 lands. Ref [#154].",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T05:44:59.774903959Z",
+      "updated_at": "2026-08-08T05:44:59.774903959Z"
     },
     "16818d5b-477a-4f3f-ad95-aed56a91502c": {
       "uuid": "16818d5b-477a-4f3f-ad95-aed56a91502c",
@@ -14159,8 +14170,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T05:44:50.491586303Z",
-    "agent_id": "pp3g-tyy6-disk-cleanup-issue-272-operator-directed-target-70g",
-    "agent_seq": 1
+    "timestamp": "2026-08-08T05:44:59.774903959Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1343
   }
 }
