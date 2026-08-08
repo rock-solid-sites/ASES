@@ -1,6 +1,6 @@
 {
   "next_display_id": 263,
-  "next_comment_id": 966,
+  "next_comment_id": 967,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -6847,7 +6847,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-06T07:22:44.855827634Z",
-      "updated_at": "2026-08-08T03:54:55.972555427Z",
+      "updated_at": "2026-08-08T03:58:16.037675212Z",
       "labels": [
         "research",
         "toolregistry"
@@ -6915,6 +6915,15 @@
           "kind": "result",
           "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAcBN82npjw7B8St/Urb+W965BA50JcNHNzWkIJJv5x5KPCUs1StLkJWHWITndwbi70SFjJY+i5Peuy+thajzGCQ=="
+        },
+        "9975f849-0f53-44b5-9091-fe6a71defe77": {
+          "display_id": 966,
+          "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+          "content": "Result: C2-gap investigation COMPLETE, report committed at af350f49. Verified preserved Option A evidence and re-ran all phases with full harness logs. Option A: fully effective fresh-session (first call SUCCEEDS at 1 spawn/1 proxy/no reconnect, 1849ms; warm 8/5ms; other tools untouched), partial pre-absorbed (first drifted call 2/2+reconnect, retry succeeds via persisted heal, then warm), NO heal-flapping; classification delta required for intermittent drift (A3b 1 spawn vs A3c 4 spawns). Option B: YES — traceback proves SDK-origin at mcp/client/session.py:1110 (ToolRegistry MCPClient.call_tool is pure pass-through), clean public seam = MCPConnectionManager._call_persistent subclass + public registration assembly (intercept_poc.py 147 lines / 48 code lines); PoC closes gap at 1 spawn/1 proxy/no reconnect with verbatim ErrorResult preserved (2373ms vs 5680ms control). Option C: not reached. Recommendation: Option B primary, A's heal complementary. Files: 25 changed, 1792 insertions, 168 deletions.",
+          "created_at": "2026-08-08T03:58:16.020032173Z",
+          "kind": "result",
+          "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbWj+6fDvDM/RRUkxk7KBgaYIY6t4bJUmde/iIsCVY80bxaYcssmkTUWFJM3H+jCZ4GFVv34uND6lLpAMpgCeBA=="
         },
         "ac24e836-d7f8-48f8-adbf-9e99b39cc836": {
           "display_id": 958,
@@ -13363,8 +13372,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T03:57:50.199464592Z",
+    "timestamp": "2026-08-08T03:58:16.037675212Z",
     "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 14
+    "agent_seq": 15
   }
 }
