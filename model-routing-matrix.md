@@ -14,6 +14,7 @@ updated: 2026-08-08
 
 
 
+
 # Model Routing Matrix — DIMENSIONED
 
 **Date:** 2026-08-06
@@ -192,3 +193,49 @@ updated: 2026-08-08
 - `opencode-go/hy3` (adversarial reviewer, #125 r1, pp3g-KHMD): mutation-matrix review caught the r1 gate's non-discriminating tests (test b positive-by-construction, test c lenient-passing) — the finding that triggered the r2 revision. Confirms the source-re-derivation lens (#153/#176/#182); final-verdict post stalled but findings were preserved in VERIFY checkpoints (chunking lesson from #248 applies).
 
 **Workflow-topology validation (not model-specific but routing-relevant):** the two-phase Auditor model (Phase 1 in-flight big-pickle + Phase 2 post-hoc luna) worked end-to-end on #125 r3: 3 stalls caught with zero artifact loss, orchestrator attribution error corrected, process-reliability evidence fed to #154/#146. Recommendation: keep positions + ~10min heartbeat cadence + pre-positioned verification for long unattended builds until #154 durable-fork lands.
+
+## Session Evidence — 2026-08-08 (tripn-astro: CI 3-model review + PSI epic + in-flight auditing)
+
+### opencode-go/deepseek-v4-pro (NEW row)
+| Dimension | Value |
+|---|---|
+| Review Style / Lens | PROCESS+ARCHITECTURAL AUDITOR: catches systemic/process issues and incidental production bugs; structured verdicts with evidence tables (#410, #429) |
+| Strengths by task-type | Post-hoc Phase-2 audits (STRONG verdict on PSI epic), pipeline design review (NOT-SUFFICIENT with exact minimum lists: node-version-file, npm ci, concurrency, notifications — #410), cross-repo review |
+| Blind spots | Reads code cold — flagged an INTENTIONAL operator decision (OG insta mirror, data-property=landing) as a HIGH bug and proposed an invalid slug ('original' vs 'og'); needs decision-context before acting |
+| Failure modes | None observed (2 sessions, 0 failures) |
+| Token cost profile | Moderate-High (paid) |
+| Confidence + evidence | Emerging-Moderate; 2 sessions. Evidence: #410/#429 (tripn-astro) |
+
+### opencode-go/mimo-v2.5-pro (NEW row — PRO variant of mimo-v2.5)
+| Dimension | Value |
+|---|---|
+| Review Style / Lens | STRUCTURED EVIDENCE-VERIFIER: independently re-verifies every claimed artifact (diff stat exact match, greps, dist checks) before passing (#425); balanced verdicts |
+| Strengths by task-type | Pre-consumption review gates (APPROVE-WITH-NITS, claims-not-inferred evidence tables — #425), Phase-2 audits (ship-ready verdict, caught OG/PB missing preloads — #430), CI design review (NOT-SUFFICIENT, precise minimums — #408) |
+| Blind spots | None material observed; occasionally flags LOWs a maintainer might skip |
+| Failure modes | None observed (3 sessions, 0 failures) |
+| Token cost profile | Moderate (paid) |
+| Confidence + evidence | Emerging-Moderate; 3 sessions. Evidence: #408/#425/#430 (tripn-astro) |
+
+### google-vertex/gemini-3.5-flash (NEW row — current flash line; see 3.1-pro row above)
+| Dimension | Value |
+|---|---|
+| Review Style / Lens | ADVERSARIAL BREADTH: enumerates findings incl. config/cleanup items others miss (#409: obsolete workflows) |
+| Strengths by task-type | CI/pipeline design review (NOT-SUFFICIENT with 4 minimum changes — #409), breadth passes |
+| Blind spots | Context-sensitivity: recommended a root 'sharp' install that contradicted the recorded design decision (declined) — misread intentional architecture as a gap |
+| Failure modes | None observed (1 session) |
+| Token cost profile | Moderate (paid Vertex) |
+| Confidence + evidence | Emerging; 1 session. Evidence: #409 (tripn-astro) |
+
+### opencode/big-pickle — session update
+Pre-positioned Phase-1 in-flight divergence auditor (x2): caught the orchestrator-guard write-block divergence mid-flight and verified every builder position against artifacts; the pre-positioned model (launched alongside the builder, acts on trigger, model-varied from builder) proved high value. Evidence: #421/#427 (tripn-astro). Blind spot noted: can over-flag (secondary 'collateral-reversion' watch needed verification).
+
+### opencode-go/deepseek-v4-flash — session update
+Reliable implementation agent through chaos (all in-session + kickoff edits this session); NOTE: slow session startup (~6 min) and one empty Task-tool return (API flakiness, environment not cognition). Evidence: tripn-astro session 2026-08-08.
+
+### ROUTING additions
+| Task / Review Need | Recommended Model | Rationale |
+|---|---|---|
+| CI/pipeline design review (multi-model) | trio: deepseek-v4-pro + mimo-v2.5-pro + gemini-3.5-flash | 3-model adversarial review (2026-08-08) produced convergent NOT-SUFFICIENT verdicts + complementary findings |
+| Pre-consumption review gate | opencode-go/mimo-v2.5-pro | Independent claims-not-inferred verification (#425) |
+| Phase-2 post-hoc audit | opencode-go/deepseek-v4-pro or opencode-go/mimo-v2.5-pro | Process+architectural lens (STRONG / ship-ready verdicts — #429/#430) |
+| In-flight divergence monitor (Phase 1) | opencode/big-pickle (different model than builder) | Pre-positioned auditor caught real divergence (#421/#427)
