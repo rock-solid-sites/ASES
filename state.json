@@ -1,6 +1,6 @@
 {
   "next_display_id": 285,
-  "next_comment_id": 1123,
+  "next_comment_id": 1124,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -11845,12 +11845,21 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
       "created_at": "2026-08-08T06:23:25.259121776Z",
-      "updated_at": "2026-08-08T07:11:36.613274193Z",
+      "updated_at": "2026-08-08T07:12:06.142003961Z",
       "labels": [
         "research",
         "toolregistry"
       ],
       "comments": {
+        "27006190-eb00-434f-9a22-06dfc705b867": {
+          "display_id": 1123,
+          "author": "pp3g-lPgz-verification-task-baseline-confirmation-for-a-re-df62",
+          "content": "Completed: baseline confirmation for re-validation trigger #279. Verified all five criteria PASS at installed versions (toolregistry 0.15.0, mcp 2.0.0, python 3.10.12). Criteria 1-4 source-read from installed site-packages with file:line citations (connection.py:106 bare except, _call_persistent 97-111, integration.py:323 hardcode, session.py:1110 verbatim RuntimeError). Criterion 5: ran phase_b2_poc.py and phase_b2b_preabsorbed.py against /tmp/toolregistry-venv — both pass at 1 spawn/1 persistent proxy/no reconnect/verbatim ErrorResult (B2_RESULT pass=True, B2B_RESULT pass=True). Tracked proxy logs restored byte-identical; no repo files modified. Plan + result comments posted on #279; issue left open for Orchestrator closure decision.",
+          "created_at": "2026-08-08T07:12:06.136039140Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:h5cSWOmvxEdPtZwQnjoH1Q4UpHR9uGbBvI/5NEJFKDY",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvvPSHCAFQcajeZsHK01mtMV1McZpSqUVuYOrQveo6VUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOWWJCyB+NInT0BZWNDWPiXB3qCxQAsPnYL7Ici5gfF20PupYlktVWRKkXoPLWWlLmASUaBIZlUsUHRjoJI1KAQ=="
+        },
         "8375e480-f8a7-4f64-98d4-fd2ca5713580": {
           "display_id": 1117,
           "author": "pp3g-lPgz-verification-task-baseline-confirmation-for-a-re-df62",
@@ -15191,8 +15200,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:11:59.502833333Z",
+    "timestamp": "2026-08-08T07:12:06.142003961Z",
     "agent_id": "pp3g-lPgz-verification-task-baseline-confirmation-for-a-re-df62",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
