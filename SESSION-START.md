@@ -34,6 +34,14 @@ Model routing: before dispatching agents, consult the Model Routing Matrix (know
   orchestrator role.
 - `.opencode/permissions.md` — snapshot of the four-role permission maps
   (Orchestrator / Builder / Reviewer / Auditor) and the git-write rules.
+- `docs/research/Workflow Topology Design and Reasoning Record.md` — the
+  workflow-topology design and reasoning record (two claim-testing principles;
+  position-emitting agents + durable store; cheap staleness trigger; AUDITOR as
+  one-role/two-phase in-flight divergence verifier; reviewer as pre-consumption
+  readiness audit). Operationalized in `AGENTS.md` (principles),
+  `docs/ORCHESTRATOR.md` (procedure), and
+  `.crosslink/knowledge/agent-orchestration-playbook.md` (§5.8,
+  dispatch-level mechanics).
 
 ## 1b. Role routing — four-role permission model
 
@@ -100,7 +108,8 @@ are hard invariants, not suggestions:
 
 | If your task is... | Read |
 |---|---|
-| Launching or orchestrating agents (kickoff OR swarm) | **`agent-orchestration-playbook.md`** (knowledge) — the shared playbook covering both tiers + when each applies. Contains task-matched timeout guidance (§5.3), the mandatory checkpoint-comment progress contract (§5.4), the two-repo sync rule (§5.5), and reviewer-independence via isolated sub-issues (§5.6) |
+| Launching or orchestrating agents (kickoff OR swarm) | **`agent-orchestration-playbook.md`** (knowledge) — the shared playbook covering both tiers + when each applies. Contains task-matched timeout guidance (§5.3), the mandatory checkpoint-comment progress contract (§5.4), the two-repo sync rule (§5.5), and reviewer-independence via isolated sub-issues (§5.6). Workflow-topology dispatch mechanics (position store, staleness trigger, trigger-invoked AUDITOR, review-before-consume) are in §5.8 |
+| Understanding the workflow-topology design (principles + reasoning record) | `docs/research/Workflow Topology Design and Reasoning Record.md` — the canonical design record; operationalized in `AGENTS.md` (principles) and `docs/ORCHESTRATOR.md` (procedure) |
 | Multi-agent / swarm specifically | `crosslink-subagent-orchestration.md` (knowledge, CLI reference) + `docs/ORCHESTRATOR.md` |
 | Adversarial review | `crosslink-adversarial-review.md` (knowledge) + `docs/crosslink-adversarial-review.md` |
 | Launching a background agent | the in-repo `kickoff` skill (`.claude/skills/kickoff/SKILL.md`) |

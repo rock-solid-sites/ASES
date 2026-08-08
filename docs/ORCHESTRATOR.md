@@ -73,6 +73,19 @@ The Builder does not review its own work.
 
 Model: runtime-resolved — verify with `opencode models <provider>`.
 
+The Reviewer is the **pre-consumption readiness audit** — the artifact gate at
+the producer-consumer edge. It verifies the artifact is *ready to be consumed*,
+not that it is "the truth" (a thin consumer cannot verify truth cheaply):
+
+- testability;
+- acceptance criteria;
+- evidence presence;
+- certainty labels present (WHY / WHAT / HOW-CERTAIN / WHAT-NOT-TESTED);
+- cheapest-test evidence present.
+
+Claims that admit no discriminating test are declared untestable with stated
+residual risk — a first-class, non-penalized outcome.
+
 Responsibilities:
 
 - Review Builder output.
@@ -89,9 +102,32 @@ The Reviewer never modifies project files.
 
 Model: runtime-resolved — verify with `opencode models <provider>`.
 
+The Auditor is the **in-flight divergence verifier** — trigger-invoked,
+read-only, joining position claims against artifact evidence, and flagging
+divergence to the Orchestrator (never acting directly). This is **one role
+with two phases**, not two roles:
+
+| Phase | Goal | Question |
+|---|---|---|
+| **Phase 1 — in-flight monitor** | divergence verification during work | "Is work on track **as claimed**?" |
+| **Phase 2 — post-hoc audit** | final project-level audit | "Did outcome **and process** hold up?" |
+
+- **Model variation across phases:** the two phases have different goals, cost
+  profiles, and verification depths; they are *not required* to use the same
+  model. Phase 1 is trigger-invoked and bounded (cheap structural
+  claim-vs-evidence join); Phase 2 is the heavier, rarer final gate. The model
+  for each phase is chosen at dispatch per the routing matrix.
+- **No duplicate Verifier role:** the Auditor already occupies the read-only
+  verification point; a separate Verifier would duplicate
+  capability/authority without guarding a distinct failure class.
+- **Read-only + flag-only:** the Auditor cannot write project files, cannot
+  dispatch, cannot act. It flags to the Orchestrator, which owns the action.
+
 Responsibilities:
 
-- Evaluate completed work from a project perspective.
+- Phase 1 (trigger-invoked): verify, per the trigger set, that work in flight
+  is on track as claimed.
+- Phase 2: evaluate completed work and process from a project perspective.
 - Assess architectural quality.
 - Assess process quality.
 - Identify systemic issues.
@@ -132,6 +168,88 @@ not because those are read-only, but because the OpenCode matcher runs before th
 plugin's active-issue gate — without those patterns the gate would be unreachable
 and merge would be silently impossible. The gate itself is enforced by
 `by_type.orchestrator.gated_git_commands` in `.crosslink/hook-config.json`.
+
+---
+
+# Workflow Topology — Operational Procedure
+
+The design and reasoning record for the workflow topology is
+`docs/research/Workflow Topology Design and Reasoning Record.md` (do not modify
+the design record; this section is its operationalization).
+
+## Position-Emitting Agents + Durable Store + Task-Adaptive Cadence
+
+Every agent working on a task emits **structured position updates** to a
+**durable store**:
+
+```
+step=<current step>
+completed=<what just completed, one line>
+next=<what's next>
+blocker=<detail or none>
+evidence=<link to artifact/evidence>
+```
+
+- **Durable store:** the Crosslink hub *is* the store — positions are posted as
+  structured comments on the working issue and survive agent restarts, so the
+  AUDITOR can check them after the producer is gone.
+- **Task-adaptive cadence:** not a fixed interval — the dispatch spec carries
+  the cadence (or the default: every state transition + every Nth idle minute +
+  at any blocker). This is the checkpoint contract already in the orchestration
+  playbook (§5.4), formalized as a durable, structured, queryable stream.
+- **What it fixes:** no-claim failures (a silent hang produces no advancing
+  position — detectable); temporal drift (a stale "tests pass" is visible as an
+  old position).
+
+## The Cheap Staleness Trigger
+
+A position/heartbeat that is **stale >2x its expected interval** triggers
+investigation. The trigger is cheap (a clock comparison against the durable
+store) and is the *primary* trigger for the AUDITOR. Logical trigger set:
+
+1. position/heartbeat staleness (>2x expected interval);
+2. position-vs-artifact claim mismatch (text claims "tests pass" but no test
+   run in the evidence);
+3. reviewer disagreement (split verdicts);
+4. evidence-accuracy flags from the REVIEWER;
+5. Orchestrator-explicit request.
+
+## Orchestrator as Single Integration Point
+
+The Orchestrator is the **single integration point** — the sole agent the
+operator deals with. All agent surfaces (positions, AUDITOR flags, reviewer
+verdicts) flow through the Orchestrator; the Orchestrator owns the action set
+(investigate / nudge / stop-resume) and **surfaces only decisions** to the
+operator. The operator supervises the **Orchestrator**, not the swarm.
+
+- **Thin-orchestrator preserved:** bounded flags + queue-based closeout; the
+  Orchestrator never re-reviews full evidence inline — it reads structured
+  positions and verdicts, and delegates heavy verification to the AUDITOR.
+- **Meta-supervision:** the Orchestrator itself emits a position/heartbeat
+  (staleness applies to it too); a sibling agent or the operator can audit
+  flag-triage decisions on a sample basis.
+- **SPOF recovery:** Orchestrator state is durable (it owns the issue tracker),
+  so a fresh Orchestrator can resume from the last known state.
+
+## AUDITOR as Divergence Verifier — ONE Role, TWO Phases
+
+The AUDITOR is the **in-flight divergence verifier** (see the Auditor role
+definition above): trigger-invoked, read-only, flag-only. The one-role/two-phase
+structure means **no duplicate Verifier role** — a separate Verifier would
+duplicate the Auditor's read-only verification point without guarding a
+distinct failure class. Model variation across phases is permitted: Phase 1
+(in-flight monitor) is bounded and cheap; Phase 2 (post-hoc audit) is the
+heavier, rarer final gate.
+
+## Reviewer = Pre-Consumption Readiness Audit
+
+The REVIEWER is the **pre-consumption readiness audit** (see the Code Reviewer
+role definition above): verify the artifact is *ready to be consumed* —
+testability, acceptance criteria, evidence presence, certainty labels present,
+cheapest-test evidence present. It is **not** "verify the truth"; it is "verify
+the artifact admits verification and carries the required calibration."
+Untestable claims are declared untestable with stated residual risk — a
+first-class, non-penalized outcome.
 
 ---
 

@@ -95,6 +95,48 @@ Methodology should not be presented as implementation.
 
 ---
 
+# Reasoning Certainty
+
+Claims that cross a role boundary — a producer emitting a claim that a
+consumer will act on — must state:
+
+* **WHY** — the reasoning behind the claim;
+* **WHAT** — the claim's basis (what it is based on);
+* **HOW CERTAIN** — the certainty level (guess / evidence-based / proven);
+* **WHAT-NOT-TESTED** — what was explicitly not tested.
+
+The WHAT-NOT-TESTED clause is the sharpest element: negative-space disclosure
+targets the cheapest class of false-confidence failure. A claim that states
+its untested assumptions is checkable by a thin consumer; a claim that hides
+them is not.
+
+---
+
+# Cheapest-Test-First
+
+Assumptions that gate decisions must be tested with the quickest cheapest
+**discriminating** test — the test that can falsify the core premise, run
+before the expensive work is committed. The obligation sits with the
+producer (the side that can verify cheaply); the consumer-side check is a
+presence/structure audit, not a re-run.
+
+---
+
+# Workflow Topology
+
+The full workflow-topology design — the two principles above, the
+information-asymmetry boundary finding, position-emitting agents, the
+durable store, the cheap staleness trigger, the AUDITOR as a one-role /
+two-phase in-flight divergence verifier, and the reviewer as a
+pre-consumption readiness audit — is recorded at
+`docs/research/Workflow Topology Design and Reasoning Record.md`.
+
+The operational procedure derived from that design is in
+`docs/ORCHESTRATOR.md`; the dispatch-level mechanics are in
+`.crosslink/knowledge/agent-orchestration-playbook.md` (§5.8).
+
+---
+
 # Multi-Agent Work
 
 Independent reasoning is preferred where independent judgement is required.

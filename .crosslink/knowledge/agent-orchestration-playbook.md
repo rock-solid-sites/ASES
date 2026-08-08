@@ -4,7 +4,7 @@ tags: ["orchestration", "kickoff", "swarm", "workflow"]
 sources: []
 contributors: ["ASES"]
 created: 2026-08-01
-updated: 2026-08-06
+updated: 2026-08-08
 ---
 
 # Agent Orchestration Playbook
@@ -265,6 +265,11 @@ for checkpoint comments: session actions are local session metadata, not hub
 issue records, and have zero failure-detection value for the operator without
 explicit polling of the agent's session state.
 
+**Workflow-topology formalization.** The checkpoint contract above is the
+position-emitting agent mechanism of the workflow-topology design; the
+durable-store semantics, staleness trigger, trigger-invoked AUDITOR, and
+review-before-consume gate are in §5.8.
+
 ### 5.5 Two-Repo Sync Requirement
 
 The ASES and tripn-astro orchestrator roles are **one process** — the
@@ -322,6 +327,69 @@ command/prefix granularity (the allowlist is intentionally scoped, e.g.
 bulk. When a read is unbounded (whole files, full diffs, log analysis),
 delegate to a Builder/Reviewer/Auditor subagent and have it return the
 summary.
+
+### 5.8 Workflow Topology — Position Store, Staleness, Auditor, Review-Before-Consume
+
+The workflow-topology design (canonical record:
+`docs/research/Workflow Topology Design and Reasoning Record.md`, ASES repo;
+do not modify the design record) operationalizes how claims, positions,
+verification, and consumption interact across role boundaries. Its
+dispatch-level mechanics are:
+
+**Position store.** Every delegated agent emits **structured position
+updates** to a **durable store** — the Crosslink hub, posted as structured
+comments on the working issue, surviving agent restarts:
+
+```
+step=<current step>
+completed=<what just completed, one line>
+next=<what's next>
+blocker=<detail or none>
+evidence=<link to artifact/evidence>
+```
+
+This is §5.4's checkpoint contract formalized as a durable, structured,
+queryable stream. Cadence is **task-adaptive** (from the dispatch spec, or the
+default: every state transition + every Nth idle minute + at any blocker) — a
+5-minute task does not emit 5 checkpoints. Claims inside positions that cross a
+role boundary carry the certainty disclosure (WHY / WHAT / HOW-CERTAIN /
+WHAT-NOT-TESTED) per AGENTS.md.
+
+**The stops.** Two gates control the producer-consumer edges:
+
+1. **Review-before-consume** — the REVIEWER is the **pre-consumption readiness
+   audit**: verify the artifact is *ready to be consumed* (testability,
+   acceptance criteria, evidence presence, certainty labels present,
+   cheapest-test evidence present). It is **not** "verify the truth"; it is
+   "verify the artifact admits verification and carries the required
+   calibration." Untestable claims are declared untestable with stated residual
+   risk — a first-class, non-penalized outcome.
+2. **Trigger-invoked AUDITOR** — the AUDITOR is the **in-flight divergence
+   verifier**, **one role with two phases** (Phase 1 in-flight monitor: "Is
+   work on track as claimed?"; Phase 2 post-hoc audit: "Did outcome and process
+   hold up?"), trigger-invoked, read-only, flag-only. **No duplicate Verifier
+   role** — a separate Verifier would duplicate the AUDITOR's read-only
+   verification point without guarding a distinct failure class. Models may
+   vary across phases (Phase 1 cheap/bounded; Phase 2 heavier/rarer). It flags
+   to the orchestrator, which owns the bounded action set
+   (investigate/nudge/stop-resume).
+
+**Cheap staleness trigger.** A position/heartbeat **stale >2x its expected
+interval** triggers investigation — a cheap clock comparison against the
+durable store, and the *primary* trigger for the AUDITOR. Logical trigger set:
+
+1. position/heartbeat staleness (>2x expected interval);
+2. position-vs-artifact claim mismatch (text claims "tests pass" but no test
+   run in the evidence);
+3. reviewer disagreement (split verdicts);
+4. evidence-accuracy flags from the REVIEWER;
+5. orchestrator-explicit request.
+
+**Orchestrator as single integration point.** All agent surfaces (positions,
+AUDITOR flags, reviewer verdicts) flow through the orchestrator; the
+orchestrator owns the action set and **surfaces only decisions** to the
+operator. The operator supervises the **orchestrator**, not the swarm. The
+orchestrator itself emits a position/heartbeat (staleness applies to it too).
 
 ---
 
