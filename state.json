@@ -1,6 +1,6 @@
 {
   "next_display_id": 279,
-  "next_comment_id": 1068,
+  "next_comment_id": 1069,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -4398,7 +4398,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:52:30.010503687Z",
-      "updated_at": "2026-08-08T06:09:50.803344497Z",
+      "updated_at": "2026-08-08T06:10:41.445482493Z",
       "labels": [
         "audit"
       ],
@@ -4447,6 +4447,15 @@
           "kind": "observation",
           "signed_by": "SHA256:QmV+kyNfWgTH63+RPemUHUn8G+fcyOrBA3gUxHZ/qQk",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgc9cMZojwGZym92qa+/VFEOgmnBPrZKXZwL0EYmTHRaYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAe+rLIki4br9caRRKjtafoCQkzO4NJADeAw9KLE1E/KUv1aGVkVPje9sD1XkElWZa6WJakSE0hsgTvGfe+DfUDA=="
+        },
+        "a6343cf2-973a-4a32-bc2d-21ddff9cb512": {
+          "display_id": 1068,
+          "author": "pp3g-fc8F-auditor-phase-1-in-flight-divergence-verifier-issue",
+          "content": "## FINAL VERDICT — PHASE-1 IN-FLIGHT DIVERGENCE VERIFICATION\n\n**Audit period:** 2026-08-08 05:53 to ~06:12 UTC (~19 min)\n**Builder:** pp3g-PP6b on #270 (rebuild #154 durable fork from recovered artifacts)\n**Model:** flash\n\n---\n\n### VERDICT: NO DIVERGENCE OBSERVED\n\nAll builder claims verified against artifact evidence. The task is progressing correctly through the planned steps.\n\n---\n\n### Evidence Summary\n\n**1. Source Reconstruction — VERIFIED**\n- Commit cd24f03 in /tmp/opencode/fork-build: 9 files changed, 793 insertions\n- safeIterable fix present in llm.ts (line 43 function def, line 51 fire-and-forget iter.return, line 414 call-site)\n- wrapBodyIdle dispatcher in BOTH guard copies (provider.ts line 89, aisdk.ts line 77)\n- Retry budget correct (retry.ts line 30: RETRY_MAX_RETRIES=2, line 213 bounded-class check, line 219 terminal WARN)\n- Turn-level guard present (llm.ts line 411: llmIdleTimeout=300_000, line 428: Stream.timeoutOrElse, 'Turn stalled' marker)\n- Config schema entries verified (bodyIdleTimeout, bodyAbsoluteTimeout, llmIdleTimeout)\n\n**2. Unit Tests — VERIFIED**\n- unit-tests-full.log: 45/45 pass with --timeout 60000\n- 45 tests across 2 files (retry.test.ts 38, body-idle-timeout.test.ts 7)\n- Note: first run without timeout had 4 failures (bounded-budget tests need >5s for real backoff); correctly re-run with --timeout 60000\n\n**3. Build — VERIFIED**\n- build.log: smoke test passed (1.18.13-pp3g-fork)\n- Binary at /tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode: EXISTS\n- bun-install.log: 4715 packages installed\n\n**4. SDK-level BODY-IDLE Gate — VERIFIED (CRITICAL)**\n- gate-client.out (run=10a32585, 06:06-06:07):\n  - level=ERROR with error='Body read timed out' — MARKER PRESENT\n  - totalPOSTs=3 — 3-POST BUDGET MET\n  - 'retry budget exhausted' at attempt=3 — BUDGET ENFORCED\n  - ProviderResponseStreamError — bodyIdleTimeout fires correctly (~6s intervals)\n  - All 4 gate criteria PASS\n\n---\n\n### Process Observations (not triggers)\n\n1. **Position cadence gap:** Builder's last hub position at 05:54 (~18 min ago). Expected cadence ~10 min. The gap covers build + SDK-level test + (likely) matrix run. Artifact evidence confirms active work (gate-client.out 06:07, .kickoff-status=RUNNING). This is a process quality observation (position stream should advance after major milestones) but NOT a divergence trigger because evidence confirms the work is progressing.\n\n2. **Artifacts still in /tmp:** No commits to the worktree yet. The #271 lesson requires committing ALL artifacts to a fork branch. The builder may be running the matrix before committing. This is expected per the task plan (step 5: commit after verification).\n\n---\n\n### Trigger Status\n\n| Trigger | Status |\n|---------|--------|\n| Position staleness >20 min | NOT FIRED (18 min, builder active) |\n| Position-vs-artifact mismatch | NOT FIRED (all claims verified) |\n| Silent-hang signature | NOT FIRED (.kickoff-status=RUNNING, gate-client active at 06:07) |\n| Unverifiable decision-gating claims | NOT FIRED (SDK-level gate criteria verified against evidence) |\n\n---\n\n**Evidence basis:** Filesystem inspection (/tmp/opencode/), git show/log for fork-build repo, gate-client.out/gate-server.log/build.log, unit-tests-full.log, crosslink issue show 270 for position stream. HOW-CERTAIN: evidence-based. WHAT-NOT-TESTED: 16-row matrix results (not yet available); binary marker grep ('Body read timed out' x2 + 'Turn stalled' x1); worktree artifact commits (not yet made); exit code of the gate test (log shows dispose but not explicit exit code).",
+          "created_at": "2026-08-08T06:10:41.439232328Z",
+          "kind": "result",
+          "signed_by": "SHA256:QmV+kyNfWgTH63+RPemUHUn8G+fcyOrBA3gUxHZ/qQk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgc9cMZojwGZym92qa+/VFEOgmnBPrZKXZwL0EYmTHRaYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAm5HkIpKFtLrmDlzFEKqgbTeewJS/cgrOnYoR+14hoDnR7SlJd5E3UVSpPBVkm/g8vRv9pedyxhbqFATepmv0DA=="
         },
         "b0c16393-2ad7-4e91-b8cc-12fce4dad5be": {
           "display_id": 1046,
@@ -14582,8 +14591,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:09:58.404951910Z",
-    "agent_id": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T06:10:41.445482493Z",
+    "agent_id": "pp3g-fc8F-auditor-phase-1-in-flight-divergence-verifier-issue",
+    "agent_seq": 11
   }
 }
