@@ -1,6 +1,6 @@
 {
   "next_display_id": 253,
-  "next_comment_id": 832,
+  "next_comment_id": 833,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -10521,7 +10521,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-07T23:50:50.910131212Z",
-      "updated_at": "2026-08-08T00:00:20.999690671Z",
+      "updated_at": "2026-08-08T00:01:21.299133859Z",
       "labels": [
         "review"
       ],
@@ -10529,6 +10529,15 @@
         "6101c872-7999-4b0b-99db-ad696270a619"
       ],
       "comments": {
+        "2bf6367a-d7a3-42de-ae3e-6703367a3578": {
+          "display_id": 832,
+          "author": "pp3g-Itf2-delta-re-review-of-the-finalized-workflow-topology",
+          "content": "## VERDICT: AGREE\n\nIndependent delta re-review of the FINALIZED workflow-topology design (#241 finalized synthesis, 2026-08-07 23:43). First-wave reviews read (#242/#247/#248 hy3 CONDITIONAL PASS, #243 luna CONDITIONAL, #244 GLM CONDITIONAL, #245 Gemini PASS). No other delta re-review sub-issues read (#251/#252). No files modified. Review-only.\n\n**I AGREE with all five deltas.** Each correctly addresses the first-wave findings it targets. Residual concerns are refinements, not disagreements.\n\n---\n\n### DELTA (a): AUDITOR as divergence verifier — trigger-invoked, read-only, flags to orchestrator\n\n**AGREE.** The design correctly resolves the self-audit paradox (GLM F1) by making the auditor a separate, read-only role. Trigger-invocation avoids continuous cost. Read-only preserves orchestrator authority. The design addresses hy3 F6 (STOP B correlated check) by providing an independent lens, and luna F1 (STOP B contract underspecified) via trigger-invoked state machine.\n\n**Residual concern (refinement, not flaw):** Trigger conditions are not precisely specified. Staleness (>2x expected) is mentioned for positions, but what triggers divergence verification? The orchestrator needs divergence-detection capability to invoke the auditor. This is implementable but should be explicit.\n\n---\n\n### DELTA (b): Position-emitting agents — structured updates to a durable store, task-adaptive cadence\n\n**AGREE.** The design correctly addresses hy3 F3 (no-claim failures / silent hangs) by making agents emit positions continuously — no-claim failures become detectable. Addresses GLM F4 (long-running-agent temporal drift) via task-adaptive cadence + staleness trigger. Addresses luna F4 (unguarded edges) via durable position store providing state visibility.\n\nThe structured format (step/completed/next/blocker + evidence link) is essentially the checkpoint contract already in the playbook (§5.4); the delta formalizes it as a durable store. The crosslink hub IS the durable store; position updates are already posted as comments. The delta makes this explicit and structured.\n\n**Residual concern (refinement, not flaw):** Who sets the cadence? If the agent sets its own cadence, it could under-report. If the orchestrator sets it, the orchestrator needs task-duration estimates upfront. The playbook §5.3 has timeout guidance; the delta should specify cadence-setting authority.\n\n---\n\n### DELTA (c): ORCHESTRATOR as the single integration point (sole agent the operator deals with)\n\n**AGREE with one specific concern.** The design correctly makes the orchestrator the single integration point, simplifying the operator's interface and preserving the thin-orchestrator contract. The orchestrator's action set (investigate/nudge/stop-resume per #146) is clear. Addresses GLM F4 (orchestrator-as-consumer) and luna F4 (operator→orchestrator edge) by making the orchestrator the explicit sole interface.\n\n**Specific concern (not a flaw, but a residual gap):** The orchestrator→operator edge remains unguarded. The orchestrator surfaces 'only decisions' to the operator, but the operator is the thinnest consumer of all and cannot cheaply verify the orchestrator's summary. This is the largest information-asymmetry boundary in the system. The design addresses agent→orchestrator and orchestrator→agent edges but not orchestrator→operator. This is acceptable — the operator is human and can apply judgement — but the design should acknowledge this edge explicitly. The operator's decision to trust the orchestrator's summary is itself a decision-gating claim crossing a boundary, and the design has no corrective for it. This is not a design failure; it is a boundary condition the design should state.\n\n---\n\n### DELTA (d): Model-agreement with external correctness anchor + non-delivery as first-class outcome\n\n**AGREE.** The external correctness anchor directly and correctly addresses hy3 F11 (conformity loop — agreement measures conformity, not correctness). Non-delivery recording directly and correctly addresses hy3 F12 (survivorship bias — lost verdicts produce no rows). These are precise responses to the findings.\n\nThe design also addresses luna F5 (model-agreement lifecycle incomplete) by providing a more complete lifecycle with explicit provenance and drift controls.\n\n**Residual concern (refinement, not flaw):** The external correctness anchor itself requires verification — 'did the finding later hold up?' is a claim crossing a boundary. Who verifies the verification? This is the certainty-vocabulary regress (GLM C2) applied to the anchor. The design should specify who/what provides the anchor and with what certainty. For example: the anchor could be 'the finding was later confirmed by a different model in a different wave' (inter-model corroboration) or 'the finding was later falsified by implementation failure' (empirical outcome). The anchor's own certainty should be stated.\n\n---\n\n### DELTA (e): Reviewer = pre-consumption testability audit\n\n**AGREE.** The shift from 'verify truth' to 'verify testability' is the correct level for a thin consumer. Addresses GLM F3 (L1/L2/L3 undefined) by using the existing local/ci/thorough vocabulary. Addresses GLM F6 (principle 1a no enforcement point) by making the reviewer explicitly enforce 'what was NOT tested.' Addresses luna F2 (STOP A shouldn't gate every plan) by re-naming 'testability audit' not 'L1 cheap,' avoiding the cost misrepresentation.\n\nA testability audit doesn't verify the result is correct, only that it's verifiable. This is a weaker guarantee than 'verify truth,' but it's the right level for a thin consumer. The design is sound.\n\n---\n\n## SUMMARY\n\n**Verdict: AGREE.** All five deltas correctly address the first-wave findings. The finalized design is a sound evolution of the original proposal.\n\n**Residual concerns (all refinements, not disagreements):**\n1. Auditor trigger conditions should be explicit (what invokes divergence verification?).\n2. Position-emission cadence-setting authority should be specified (agent or orchestrator?).\n3. Orchestrator→operator edge should be acknowledged as an unguarded boundary condition.\n4. External correctness anchor's own certainty should be stated (who verifies the verification?).\n\nThese are implementable refinements. The design is correct and ready for implementation.\n\n**NOT TESTED (per principle (a)):** I did not measure the throughput cost of position-emission or auditor invocation under concurrent load. I did not validate the trigger conditions against the hub failure record. I did not read #251/#252 by instruction, so this verdict is reviewer-independent.",
+          "created_at": "2026-08-08T00:01:21.290144763Z",
+          "kind": "result",
+          "signed_by": "SHA256:kpxKAP0on1aZxYLhmzxZ4FlLI2EWCwrJQFlGw6d2tfM",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgTPd9bchincIO74500f8TPXnHDOhx6bIo7VfrdIUl0PAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAru6SyEZjVyfz4MXNfjw3bYMAQHGAllysmF+rTvVmpsZ7zZBsIaCSLqT/Pbsie94F+wBT3NbCQBYI0jqX29R7Cg=="
+        },
         "b8a03836-4326-4ff5-b462-735e180825c3": {
           "display_id": 828,
           "author": "pp3g-Itf2-delta-re-review-of-the-finalized-workflow-topology",
@@ -11979,8 +11988,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T00:00:38.535656992Z",
-    "agent_id": "pp3g-N94x-delta-re-review-of-the-finalized-workflow-topology",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T00:01:21.299133859Z",
+    "agent_id": "pp3g-Itf2-delta-re-review-of-the-finalized-workflow-topology",
+    "agent_seq": 4
   }
 }
