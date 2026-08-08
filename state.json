@@ -1,6 +1,6 @@
 {
   "next_display_id": 259,
-  "next_comment_id": 877,
+  "next_comment_id": 878,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7338,7 +7338,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T01:10:58.950546687Z",
-      "updated_at": "2026-08-08T01:19:28.954793922Z",
+      "updated_at": "2026-08-08T01:20:03.737599702Z",
       "labels": [
         "docs"
       ],
@@ -7369,6 +7369,15 @@
           "kind": "observation",
           "signed_by": "SHA256:vcv9AqYYkDJe8yoB3ueJMZf5VTMGwco7QQ/JTyfe4IA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCLbxL7T78PNMddBC1kYsWaW7qrzw33mqPdfyTQmMgGkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAT5lOHC2lceyRrK24HqcW4TRJcySwve9JYBDJxCgjPFH+MMTOuaoMqbTJD4Qd/bfgzgTdz6O1jVon0L/+oiJ7AA=="
+        },
+        "cae0f0f9-56b5-4f41-a838-881c5e328c70": {
+          "display_id": 877,
+          "author": "pp3g-jyoJ-operationalize-the-workflow-topology-design-into-the",
+          "content": "Result: Operationalized the workflow-topology design into all four live workflow docs, committed as 4ef472e5 [258], and mirrored per 5.5 to tripn-astro (staged — operator-gated commit there). (1) AGENTS.md: added PRINCIPLE sections — Reasoning Certainty (claims crossing role boundaries state WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED) + Cheapest-Test-First (quickest discriminating/falsifying test, obligation on producer) + Workflow Topology pointer to the design record. (2) docs/ORCHESTRATOR.md: added 'Workflow Topology — Operational Procedure' (position-emitting agents + durable store + task-adaptive cadence; cheap staleness trigger with the 5-condition logical trigger set; orchestrator as single integration point, operator supervises orchestrator; AUDITOR as ONE role TWO PHASES — in-flight monitor vs post-hoc audit, model variation across phases, NO duplicate Verifier role; reviewer = pre-consumption readiness audit with untestable-claim carve-out). Rewrote the Auditor and Code Reviewer role definitions to match. (3) SESSION-START.md: added the POINTER (design doc bullet in section 1 + situational-read row in section 4 + playbook 5.8 reference). (4) agent-orchestration-playbook.md: added 5.8 WORKFLOW-TOPOLOGY (position store format, the two stops — review-before-consume and trigger-invoked AUDITOR — cheap staleness trigger, single integration point) + cross-ref from 5.4 checkpoint contract + updated frontmatter date. MIRROR: tripn-astro AGENTS.md (principle adapted, pointer to ASES design record), SESSION-START.md (pointer), playbook (copied updated ASES canonical copy — also repaired pre-existing drift: tripn-astro was missing the durable root-cause fix paragraph in 6.5); staged there, not committed (operator-gated per instructions). Design doc untouched (byte-identical to HEAD). Verification: git diff review + design-doc md5 check + section-numbering cross-check; no stub patterns in new content.",
+          "created_at": "2026-08-08T01:20:03.721193016Z",
+          "kind": "result",
+          "signed_by": "SHA256:vcv9AqYYkDJe8yoB3ueJMZf5VTMGwco7QQ/JTyfe4IA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCLbxL7T78PNMddBC1kYsWaW7qrzw33mqPdfyTQmMgGkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvzS4Dx+OfnIFzUpBHs8dmx5I8wUv+udThuMTsstmFuIOqujKhgpOVAj+hnR1yJadRHMY4CpDWDeUONGATbeFDw=="
         }
       }
     },
@@ -12490,8 +12499,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T01:19:28.954793922Z",
+    "timestamp": "2026-08-08T01:20:03.737599702Z",
     "agent_id": "pp3g-jyoJ-operationalize-the-workflow-topology-design-into-the",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
