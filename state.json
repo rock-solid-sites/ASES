@@ -1,5 +1,5 @@
 {
-  "next_display_id": 279,
+  "next_display_id": 280,
   "next_comment_id": 1084,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -210,6 +210,7 @@
     "b85f8e63-e788-4edb-bc65-0a1b476eb203": 275,
     "b921ee80-ae93-4475-b22e-cf40a9735194": 262,
     "ba2d352b-53b2-4471-abc7-12c68481d622": 58,
+    "bdf95444-8d7f-4468-aaf7-e58a7e10f84b": 279,
     "bdfe9151-dfb2-417c-a17c-8bee25fbb665": 121,
     "bf05f2c0-c357-4bd1-844e-f313c75877b9": 151,
     "bfbdca98-404f-43c0-8ed1-0ce816fc1422": 61,
@@ -11477,6 +11478,18 @@
         "feature"
       ]
     },
+    "bdf95444-8d7f-4468-aaf7-e58a7e10f84b": {
+      "uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
+      "display_id": 279,
+      "title": "REVALIDATE: C2-gap conclusions (Option B interception) on toolregistry/mcp upgrade — version-bound to toolregistry 0.15.0 / mcp 2.0.0",
+      "description": "Re-validation trigger filed from #277 (C2-gap gap-closing execution), per G8 of the #277 plan.\n\nSCOPE: The C2-gap investigation conclusions (research/toolregistry-lazy-mcp/c2-gap-investigation/report.md, #228) are valid for toolregistry 0.15.0 / mcp 2.0.0 ONLY. Option B (ToolRegistry client interception via MCPConnectionManager._call_persistent subclass) couples to a PRIVATE, version-bound internal (connection.py:97-111) with no compatibility guarantee, and the PoC duplicates its body (intercept_poc.py:86-103, incl. dropped logger.warning at connection.py:107).\n\nTRIGGER: any toolregistry or mcp (Python SDK) upgrade — patch, minor, or major — after which the following must be re-verified:\n1. connection.py:106 still catches bare Exception (no failure-class distinction added);\n2. _call_persistent still spans connection.py:97-111 with the same body (backoff/lock/telemetry/retry count);\n3. register_from_mcp still hardcodes MCPConnectionManager at integration.py:323;\n4. mcp/client/session.py:1110 still raises the schema-validation RuntimeError verbatim;\n5. B2/B2b phase scripts still pass at 1 spawn/1 proxy/no reconnect with verbatim ErrorResult.\n\nARTIFACTS: research/toolregistry-lazy-mcp/c2-gap-investigation/ (report.md §5.5, §8, §11; tests/phase_b2_poc.py, tests/phase_b2b_preabsorbed.py, tests/measure_poc_size.py; venv /tmp/toolregistry-venv).\n\nRATIONALE: private-internal coupling means the report reads as current while potentially being void after upgrade; this issue gives the re-run a durable trigger (hy3 S6/R7).",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
+      "created_by": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+      "created_at": "2026-08-08T06:23:25.259121776Z",
+      "updated_at": "2026-08-08T06:23:25.259121776Z"
+    },
     "bdfe9151-dfb2-417c-a17c-8bee25fbb665": {
       "uuid": "bdfe9151-dfb2-417c-a17c-8bee25fbb665",
       "display_id": 121,
@@ -14722,8 +14735,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:23:16.439251916Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1365
+    "timestamp": "2026-08-08T06:23:25.259121776Z",
+    "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+    "agent_seq": 45
   }
 }
