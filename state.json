@@ -1,6 +1,6 @@
 {
   "next_display_id": 289,
-  "next_comment_id": 1152,
+  "next_comment_id": 1153,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1509,7 +1509,7 @@
       "parent_uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:25:26.721233193Z",
-      "updated_at": "2026-08-08T07:34:07.461563920Z",
+      "updated_at": "2026-08-08T07:34:34.890251933Z",
       "labels": [
         "research",
         "toolregistry"
@@ -1523,6 +1523,15 @@
           "kind": "plan",
           "signed_by": "SHA256:JKpwJ49ThkNHZsB84ox9srVtgmUDJCX6b5dDT51Lyvs",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY9dNqYMbIY52mSbzOC6zVAFXiCUp2JLgbg0b66zhx34AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkHD3HJ35RZO7Zgf7HSHUoPrXJEvixiSX3VqKS9Nyx0bTHD5J4edkOpTfSjiPs5tbCf9Rhhv7MpD4nr4WFpCsBg=="
+        },
+        "0c5b3456-20b3-4cb7-8f24-244cb4c060f8": {
+          "display_id": 1152,
+          "author": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
+          "content": "Result: SETTLE COMPLETE — both Phase-1 auditor (#284) concerns verified and settled with durable evidence (commit 2bb21d4 on feature/pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279).\n\n## Concern A — criterion 2 mis-specification: VERIFIED, CORRECTED\n- Independent verification: read connection.py:97-111 (toolregistry 0.15.0 / mcp 2.0.0); grep for sleep|backoff|delay|retry|RETRY across the file returns exactly ONE match — the line-107 logger.warning telemetry string 'failed, reconnecting and retrying'. No time import, no delay, no retry counter.\n- Actual body recorded precisely: lock 101/108, _ensure_connected 102, try 103, assert 104, first call 105, except Exception catch-all 106, logger.warning telemetry 107, _connect 109, assert 110, ONE immediate unconditional retry 111.\n- Corrected: #279 description UPDATED (criterion 2 now quotes the body + states 'NO backoff'), and an authoritative corrected-criterion comment posted on #279. Source NOT modified.\n\n## Concern B — criterion 5 evidence testimonial-only: VERIFIED, MADE DURABLE\n- Verification: committed logs carry ORIGINAL numbers (phase-b2-poc 2373, n3 run1 1830; phase-b2b add=119/warm=9/multiply=7 — matching report.md:330-331/:353-357), NOT the fresh run's 1630/87/8/5. No logs/revalidation-* artifact existed. Auditor claim confirmed.\n- Re-run: phase_b2_poc.py + phase_b2b_preabsorbed.py executed via run-scoped invocation copies (revalidation-2026-08-08/, common_c2 LOGS_DIR patched to logs/revalidation-2026-08-08/) with /tmp/toolregistry-venv/bin/python — B2 pass=True, B2b pass=True, both exit 0.\n- Fresh-run evidence: 1 backend spawn / 1 persistent proxy (proxies=2 = reg temp + persistent) / reconnect_fired=False / schema_validation_failures 1 and 2 / verbatim ErrorResult ('Invalid structured content returned by tool add' — session.py:1110 text, full quote in committed harness logs). Latency deltas 2504/1711/80/8/6 are fresh values distinct from both the #279 run and report.md — genuine re-execution, not transcription.\n- Committed: logs/revalidation-2026-08-08/ (4 files) + the run-scoped invocation recipe (3 files) in commit 2bb21d4. Tracked baseline logs untouched (git diff empty).\n- Criterion 5 is now re-derivable from a committed artifact, per playbook §5.9 / #271.\n\nSettle-note posted on #279. Both concerns closed; all five #279 criteria remain PASS at toolregistry 0.15.0 / mcp 2.0.0.\n\nWHAT-NOT-TESTED: single-version point re-run only (no cross-version differential — none exists at baseline); asserts at connection.py:104/110 listed for completeness but not exercised by the harness.",
+          "created_at": "2026-08-08T07:34:34.884185607Z",
+          "kind": "result",
+          "signed_by": "SHA256:JKpwJ49ThkNHZsB84ox9srVtgmUDJCX6b5dDT51Lyvs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY9dNqYMbIY52mSbzOC6zVAFXiCUp2JLgbg0b66zhx34AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAd16f+mdmC6T6Lfp7qa5FZosscnZV8d8zSHCTWx4WnZeTHcBssYmc75a5hAl+4JHvoYlFU/1SPqJ87NlV2RVrDQ=="
         },
         "458ecd35-a9ed-4503-be36-3548a4f8a1e7": {
           "display_id": 1139,
@@ -15530,8 +15539,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:34:20.507574077Z",
+    "timestamp": "2026-08-08T07:34:34.890251933Z",
     "agent_id": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
-    "agent_seq": 8
+    "agent_seq": 9
   }
 }
