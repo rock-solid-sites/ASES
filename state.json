@@ -1,6 +1,6 @@
 {
   "next_display_id": 266,
-  "next_comment_id": 989,
+  "next_comment_id": 990,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7305,13 +7305,24 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T17:01:39.979727225Z",
-      "updated_at": "2026-08-06T17:03:35.192637564Z",
+      "updated_at": "2026-08-08T04:29:25.682735887Z",
       "labels": [
         "review"
       ],
       "related": [
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
-      ]
+      ],
+      "comments": {
+        "50fa1a7f-9b36-4f41-9de4-5acb7dbab247": {
+          "display_id": 989,
+          "author": "pp3g-5WqO-review-r3-big-pickle-live-system-verification-154-3d21",
+          "content": "Plan: live-system verification of the compiled fork binary (sha 6e0e282b, 1.18.13-pp3g-fork). (1) Independently run the critical gate: app/json hang -> assert 'Body read timed out' + level=ERROR + exit 1 (not 124) + POST budget; count POSTs at the server vs client totalPOSTs to investigate the #235 row-1 4-POST-vs-3 discrepancy and classify (fork budget vs AI-SDK second retry layer vs harness artifact). (2) Verify turn-level guard (PARSE_STALL -> 'Turn stalled') + headerTimeout (no-response -> ProviderHeaderTimeoutError, 3 POSTs). (3) Cross-check the #235 65/67 matrix against my own live runs. (4) Edge probes: gzip (healthy + hang), non-chat request, healthy JSON + SSE controls, slow-but-legit non-SSE body (must NOT false-abort), per-request isolation. No source-diving, no install, no identity/security territory. Evidence per AGENTS.md (WHAT/HOW-CERTAIN/WHAT-NOT-TESTED).",
+          "created_at": "2026-08-08T04:29:25.676846247Z",
+          "kind": "plan",
+          "signed_by": "SHA256:MsapjYVWz84JLdmDwtLdRfCTiGIRxuAX0zVYQJYG9U8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg8TQCXWB922mhHqpOY+eTVkSoagnoAAUHyi8tNs6etHwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAuHtddshO1f07WYjJjdBn+gu4jNY/ueY8lCE/5yvTt0+P+ighq/K6ZuXFeRDhxgRfkvoXQvo2o+eXGyosEF+MCg=="
+        }
+      }
     },
     "7fea5a54-4818-403e-a458-b39204695bbf": {
       "uuid": "7fea5a54-4818-403e-a458-b39204695bbf",
@@ -13635,8 +13646,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T04:29:18.792040608Z",
-    "agent_id": "pp3g-CCZy-review-r2-luna-durability-154-durable-fork-d2a2",
-    "agent_seq": 3
+    "timestamp": "2026-08-08T04:29:25.682735887Z",
+    "agent_id": "pp3g-5WqO-review-r3-big-pickle-live-system-verification-154-3d21",
+    "agent_seq": 2
   }
 }
