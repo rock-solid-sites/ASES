@@ -1,6 +1,6 @@
 {
   "next_display_id": 281,
-  "next_comment_id": 1096,
+  "next_comment_id": 1097,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -779,7 +779,7 @@
       "parent_uuid": "7ef840e7-d516-4301-b94d-f02d6d30bb55",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:55:11.602482539Z",
-      "updated_at": "2026-08-08T06:31:03.438901190Z",
+      "updated_at": "2026-08-08T06:32:00.100459654Z",
       "labels": [
         "research",
         "toolregistry"
@@ -865,6 +865,15 @@
           "kind": "observation",
           "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAf1fBA1GYzV1MqhBqtzhBnuC4C0fcdIjgKgvi/N5busoNTZocV/hvwz5Ey5pySsilPFkmOfbnXJsOwZiSCJ8kBQ=="
+        },
+        "d17e5283-4645-4803-a4e9-48359d749324": {
+          "display_id": 1096,
+          "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+          "content": "Result: G1-G10 + claim-verification pass complete, committed 93df179 on feature branch (gh#277). All Phase-2 audit gaps closed per the plan + addendum.\n\nG1 — measure_poc_size.py committed (tokenize-based; non-blank/non-comment/non-docstring post-shebang), emits logs/measure-poc-size.log: total 147 / strict code 64 / mechanism proper 57 (6 imports + 1 constant excluded); per-component 5/20/16/22/10 sum to 57 == mechanism total; §5.3 table == script output; propagated 48/~23-line figures fixed in §5.4/§10.4/§11; corrected figures annotated on #228 result comment.\n\nG2+G6 — phase_b2b_preabsorbed.py (A2b absorb-then-invoke pattern + Option B registration) PASS: 1 spawn / 1 persistent proxy / no reconnect with verbatim ErrorResult pre-absorbed; warm repeat 9 ms; other-tool multiply SUCCESS 7 ms. §8 claim now tested, not inferred, for both session states.\n\nG3 — §5.5 upgrade-fragility paragraph cites concrete coupling (intercept_poc.py:86-103 duplicating connection.py:101-111 incl. dropped logger.warning at connection.py:107; no backoff/lock/telemetry divergence detection); §11 qualified dependency-free but NOT patch-free.\n\nG4 — A1/A2/B2 re-run to n=3 under normal load (logs/n3/, 20 files); §7 states n per row (3 or 1) and reports ranges where variance is high; cross-document #213 baselines carry source n.\n\nG5 — A3 N-sweep at N=2/N=3 (A3_HEAL_THRESHOLD env knob): no flapping at any N; heal stays quiescent at N>=2 on alternating drift; §4.4 records result with N per row.\n\nG7 — both reusable constraints promoted into umbrella doc (docs/research/Identifier-First Tool Calling.md) under connector-lifecycle section with toolregistry 0.15.0 / mcp 2.0.0 version tags; focused insertion only.\n\nG8 — version-validity lines added to §8/§11; re-validation trigger issue #279 filed under epic #212.\n\nG9 — #228 placeholder plan comment annotated; #228 result comment 147/48 conflation corrected with G1 figures; §5.2 _call_per_request citation fixed (113-121) -> (113-118) (verified against source).\n\nG10 — §14 Limitations block enumerates what was NOT tested pre-close (no B2b until G2, no B warm until G6, n=1 until G4, N=1 until G5, single host, stdio only) and the conventions (tested = directly-measured-only; R5 note filed on #212).\n\nCLAIM-VERIFICATION PASS — PASS. Re-derived every claim from committed artifacts: md5 corpus identity (backend.py 279c75202f9c2e1c2142323b020dfa6f / manifest.json f8977f8a138a4a4f0861e6a0ed056f91, byte-identical to #213 corpus); all source citations verified live (mcp/client/session.py:1110, 1064, 1086, 1247, 1276; client.py:133; connection.py:97-111, 106, 107, 113-118; integration.py:223, 323); traceback-origin triple-corroborated (3 independent logs); interception proven in call path (intercept_poc.py:90 replacing connection.py:111); verbatim ErrorResult A1==B2==B2b (warm differs only in instance value); all timing/spawn rows reproduce from committed logs; n=3 and N-sweep logs verified; committed corpus restored byte-identical after verification runs. Every claim cites the committed artifact.\n\nOut of scope respected: no merge to main (orchestrator/operator), kickoff template untouched, prior reports not retrofitted, corpora untouched, stdio only, PoC quality.",
+          "created_at": "2026-08-08T06:32:00.094617354Z",
+          "kind": "result",
+          "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALOy6oZujZiva0jbB9hnPiEmwQP1bvhNNSOGo8UNrQMhoHb6LVN8JwAyV70M6RqsLDKXaaBH6IO+MTAQMflzSCA=="
         },
         "dc52cae0-85ce-422a-87db-7a97dbbe2ede": {
           "display_id": 1044,
@@ -14868,8 +14877,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:31:03.438901190Z",
+    "timestamp": "2026-08-08T06:32:00.100459654Z",
     "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 53
+    "agent_seq": 54
   }
 }
