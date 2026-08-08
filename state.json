@@ -1,6 +1,6 @@
 {
   "next_display_id": 266,
-  "next_comment_id": 1011,
+  "next_comment_id": 1012,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7672,7 +7672,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-06T16:59:58.243100935Z",
-      "updated_at": "2026-08-08T04:55:17.375954504Z",
+      "updated_at": "2026-08-08T04:55:32.250149348Z",
       "labels": [
         "review"
       ],
@@ -7724,6 +7724,15 @@
           "kind": "observation",
           "signed_by": "SHA256:FXJFKYYquT8mBMevltVEZAczkbT+oJL1T6Eb6+jrkBc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgNg9sGUmemDW6785J5gaGvvwtZXC/+RrOYzJDMGDp4JkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAjXmW9uGdryBqtmb4HR7wG7AW4EMuttKs2RxCIbSqzfzGnRMQbjUQUswo4SfbE4onLYySRelj4Mm2zFmFyOu+AQ=="
+        },
+        "deaffb18-1387-4e30-972b-b5814e85596f": {
+          "display_id": 1011,
+          "author": "pp3g-jHj4-review-r1-hy3-primary-154-durable-fork-implementation",
+          "content": "=== RESULT PART 3/3 — EDGE CASES + FINDINGS + VERDICT ===\n--- (4) Edge cases ---\nMUST FIX: none.\nSHOULD CONSIDER:\n- Native runtime path NOT wrapped by safeIterable. llm.ts:395 returns result.stream directly for flags.experimentalNativeLlm; llm/native-runtime.ts:103-104 builds its stream via Stream.scoped(Stream.unwrap(...)) without safeIterable. If the native iterator return() can also hang on error, the #154 deadlock class recurs there. Native is opt-in/experimental (lower risk) but the same defensive wrapper should be applied for symmetry. (llm.ts:395, llm/native-runtime.ts:103)\n- Title-generation stream uses retries:2 -> maxRetries:2 (prompt.ts:234). Under a body-idle fault it is not retried by the AI SDK (mid-stream error), so it adds 1 POST — but if a future AI-SDK version retries mid-stream errors, title-gen could emit up to 3 POSTs, inflating matrix counts. Document/isolate in harness assertions. (prompt.ts:234)\n- stream.transport.ts:1128 also calls Stream.fromAsyncIterable(events.stream) on a different (event) stream — out of #154 scope, but the same return()-hang class could apply; flag for separate review.\n\nNITS: none blocking.\n\n--- NOTABLE POSITIVES ---\n- Fix is minimal + surgical: safeIterable ~17-line pure wrapper; retry budget small, well-commented. Low blast radius.\n- Comments document effect finalizer semantics, the 1-based attempt assumption, and the #191 config-scope note — good reasoning preservation per AGENTS.md.\n- Error surfacing (ERROR + exit 1) + turn-level timeoutOrElse ('Turn stalled') together bound BOTH raw-body and parsed-stream stall classes — a complete fix, not just the interim binary patch from #145.\n\n--- WHAT-NOT-TESTED / RESIDUAL UNCERTAINTY ---\n- Did not read the #235 matrix-run log (matrix-run/ artifacts outside sandbox filesystem allow-list); the 4th-POST source is inferred from source tracing + the client WARN sequence, not the server log directly. Certainty: evidence-based (high) but not 100% — exact 4th-POST identity (title-gen vs other internal call) is inferred.\n- Did not compile/run the binary; compile-readiness rests on source + the #235 gate result (65/67, row1 gate PASS).\n\n=== FINAL VERDICT: PASS ===\nThe #154 durable source fix is correct and compile-ready. safeIterable removes the silent-hang root cause; the 3-POST retry budget is durable + correctly error-class-scoped; compile-readiness markers ('Body read timed out', 'Turn stalled', ERROR, exit 1) are present in source. The row-1 4-POST-vs-3 discrepancy is a harness/test-isolation artifact (4th POST = separate title-generation request; main-chat maxRetries=0 disables any AI-SDK second retry layer), NOT a product defect. One non-blocking SHOULD-CONSIDER: extend safeIterable to the native-runtime path for symmetry.",
+          "created_at": "2026-08-08T04:55:32.243981894Z",
+          "kind": "result",
+          "signed_by": "SHA256:FXJFKYYquT8mBMevltVEZAczkbT+oJL1T6Eb6+jrkBc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgNg9sGUmemDW6785J5gaGvvwtZXC/+RrOYzJDMGDp4JkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8SIZyVLo6/+j1DUDpSJNlMbyMHGmCwS8hW37KMGehwq3wC2f9AejJ4h7NfUQs0lT6PVe8Qh/Ab55De6ai68zBw=="
         },
         "ed46383f-e01a-4241-a465-edf099e6bd30": {
           "display_id": 993,
@@ -13831,8 +13840,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T04:55:17.375954504Z",
+    "timestamp": "2026-08-08T04:55:32.250149348Z",
     "agent_id": "pp3g-jHj4-review-r1-hy3-primary-154-durable-fork-implementation",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
