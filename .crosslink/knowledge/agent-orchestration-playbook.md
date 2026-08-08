@@ -355,6 +355,31 @@ default: every state transition + every Nth idle minute + at any blocker) — a
 role boundary carry the certainty disclosure (WHY / WHAT / HOW-CERTAIN /
 WHAT-NOT-TESTED) per AGENTS.md.
 
+### 5.8.1 Validated cadence + two-phase-auditor dispatch defaults (TENTATIVE)
+
+**TENTATIVE — n=1 lifecycle (session #20, hydration epic closeout,
+2026-08-08); 3 silent-hangs caught with zero artifact loss; limited evidence —
+adjustments within scope IF failure modes are encountered.**
+
+1. **Validated cadence defaults.** First position within ~2 min of session
+   start; position at every state transition AND at least every ~10 min even
+   during silent exploration (post `step=exploring`, `completed=<files read>`,
+   `evidence=<file refs>`). `completed` claims MUST carry an
+   artifact/commit/test-log link — a claim without evidence IS a divergence
+   flag.
+2. **Phase-1 auditor dispatch.** Launch the in-flight auditor ALONGSIDE the
+   builder at dispatch (pre-positioned, per the existing §5.8 rule); give it
+   the trigger set + the builder's expected cadence explicitly in the prompt.
+   It reports divergence to the orchestrator only, never acts.
+3. **Phase-2 auditor.** Post-hoc, model-varied from Phase 1; verifies outcome
+   (architectural consistency) + process (tracking/commit hygiene/claim
+   discipline) + systemic issues. CONDITIONAL verdicts with named
+   preconditions are the expected output shape.
+4. **Verification-tail pattern.** When a builder silent-hangs post-commit
+   (committed but no final verification), dispatch a verification-only builder
+   to complete the tail: tests re-run, binary rebuild, sha==commit check, live
+   sanity, per-item evidence result.
+
 **The stops.** Two gates control the producer-consumer edges:
 
 1. **Review-before-consume** — the REVIEWER is the **pre-consumption readiness
