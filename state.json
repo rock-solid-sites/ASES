@@ -1,6 +1,6 @@
 {
   "next_display_id": 266,
-  "next_comment_id": 983,
+  "next_comment_id": 984,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5849,7 +5849,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T16:15:12.685531428Z",
-      "updated_at": "2026-08-06T16:26:23.785724151Z",
+      "updated_at": "2026-08-08T04:26:26.917178824Z",
       "labels": [
         "infrastructure"
       ],
@@ -5857,6 +5857,15 @@
         "c212e3bd-e79a-41b0-bd0b-679d4b8c3b83"
       ],
       "comments": {
+        "51372bed-0e6e-4c8e-b7b9-61df1e955798": {
+          "display_id": 983,
+          "author": "OL2r",
+          "content": "FACTUAL RECORD (orchestrator, session #21): the fixed-harness matrix run COMPLETED 2026-08-06 16:38 — pdzT (builder) died on a 504 before posting; artifacts preserved. Result: 65/67 checks passed, 2 failed. Log: /tmp/opencode/matrix-run/matrix-fixed-harness-235.log; artifacts: /tmp/opencode-matrix.QB3Ubr.\n\nBoth failures share ONE root cause (row 1 / row 14 row-1): the server observed FOUR POSTs while the fork's terminal WARN reports totalPOSTs=3.\nEvidence: server-row1.log POST#1 16:32:57 / #2 16:33:05 / #3 16:33:12 / #4 16:33:15 (all mode=1 ct=application/json). Client WARNs: retry attempt=1 16:33:03 (nextDelay=2000), attempt=2 16:33:11 (nextDelay=4000), 'retry budget exhausted' attempt=3 totalPOSTs=3 16:33:21. The 4th wire POST lands between attempt=2 and budget-exhausted — candidate signature of the AI-SDK second retry layer (maxRetries) adding a POST above the fork's own 3-attempt budget. CLASSIFICATION IS NOT ADJUDICATED HERE — it is the explicit remit of reviewer r2 (luna, #237: 'is the 3-POST bound durable across the AI-SDK second retry layer?') and r4 (mimo, #239: 'are remaining failures credible product issues or harness artifacts?').\n\nFixed binary verified at gate level: markers present in rebuilt binary ('Body read timed out' x2, 'Turn stalled' x1), sha 6e0e282b per earlier verification. No matrix run currently active (matrix.pid PIDs dead).\n\nACTION: dispatching reviewer wave #236-#239 with this evidence.",
+          "created_at": "2026-08-08T04:26:26.910836069Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAnB8KQ7iEcEQoK6wOWsbE83bwGyRa3zLtbnsSza9ETRs7hVYvDRHZ2Z4N6pnd/slGDcRGI+GqRLj3TBW/PC1OBg=="
+        },
         "87f3a576-0c92-47c9-be07-d91233363e3a": {
           "display_id": 723,
           "author": "pp3g-pdzT-re-run-the-16-row-matrix-with-fixed-harness-92d5",
@@ -13573,8 +13582,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T04:26:19.272272954Z",
-    "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 24
+    "timestamp": "2026-08-08T04:26:26.917178824Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1309
   }
 }
