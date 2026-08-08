@@ -1,6 +1,6 @@
 {
   "next_display_id": 282,
-  "next_comment_id": 1104,
+  "next_comment_id": 1105,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -6555,7 +6555,7 @@
       "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
       "created_by": "OL2r",
       "created_at": "2026-08-08T06:34:20.271159060Z",
-      "updated_at": "2026-08-08T06:51:50.164350281Z",
+      "updated_at": "2026-08-08T06:52:14.064594444Z",
       "labels": [
         "docs"
       ],
@@ -6598,6 +6598,15 @@
           "kind": "observation",
           "signed_by": "SHA256:clDufTCfpvxq7NqxXxGA9Bms53nSv6Tn+nkuA3zXQno",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg+q8jBAKtq1Z6yMaW0z3fMbwnIaciu7s2XihiAEo0P+IAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxpu7RIFjI8/CrUrkHxShVRWl3j2oRRoVatNQ5K6/tY1sy39htwNA/mF2czt0MOBT53PnePqeK8A7xzH+olH2Bg=="
+        },
+        "d7fad0ab-4888-4bff-86ff-4aa7219f4875": {
+          "display_id": 1104,
+          "author": "pp3g-9aeQ-doc-task-issue-281-docs-only-reconcile-playbook-c79f",
+          "content": "Result: #281 implemented, commit 160c94f (3 files, +108/-18). WHAT: (a) reconciled playbook §5.3/§5.4 + §6.1 with §5.8 auditor-mediated monitoring — routine monitoring is auditor-mediated (pre-positioned Phase-1 AUDITOR per §5.8 + design record §5.2/§5.3); orchestrator-side ps/investigate reframed as FALLBACK when no auditor is present or on auditor flag; added §5.5 two-repo sync notes in §5.4 and §6.1. (b) documented the FULL three-layer monitoring model as new §6.1: Layer 1 systemd watcher (§6.4, tools/kickoff-notify.py) = mechanical liveness (heartbeat mtime, .kickoff-status transitions); Layer 2 pre-positioned AUDITOR = claim-vs-evidence divergence verification (staleness >2x, claim-vs-artifact mismatch, silent-hang signature); Layer 3 orchestrator = bounded action set (investigate/nudge/stop-resume) + single integration point. NUANCE explicit: auditor flags to ORCHESTRATOR only, never operator directly; orchestrator surfaces only decisions. §6.4 re-titled to Layer 1 with cross-ref; §6.6 Phase-1 reference updated. (c) KICKOFF template escalation wording aligned in BOTH copies: project .crosslink/rules/kickoff.md (committed) + global ~/.crosslink/rules/kickoff.md (machine-global, applied but outside git) + kickoff SKILL.md (mirror file). HOW-CERTAIN: evidence-based — all claims cross-checked against §5.8 text and design record §5.2/§5.3 (read-only, NOT modified). WHAT-NOT-TESTED: no markdown linter exists in repo (verified); visual markdown rendering not verified. NOT IN SCOPE (flagged, not fixed): ASES playbook lacks §5.9 (decision-gating artifacts) that tripn-astro+global template reference — pre-existing #271 mirror drift; tripn-astro playbook mirror of THIS change is required per §5.5 same-process rule (tripn-astro currently has staged uncommitted mirror content from a separate process — operator should apply this change there in the same process; ASES canonical wins on conflict).",
+          "created_at": "2026-08-08T06:52:14.042217717Z",
+          "kind": "result",
+          "signed_by": "SHA256:clDufTCfpvxq7NqxXxGA9Bms53nSv6Tn+nkuA3zXQno",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg+q8jBAKtq1Z6yMaW0z3fMbwnIaciu7s2XihiAEo0P+IAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkUta13OVtIWC4Jy/RbgVJph8TweYb3PhaJe0HAYlvZBbhmkBlWfhxE1REH052++IxdInt69MWNcWcrtse+GnBg=="
         }
       }
     },
@@ -14965,8 +14974,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:51:50.164350281Z",
+    "timestamp": "2026-08-08T06:52:14.064594444Z",
     "agent_id": "pp3g-9aeQ-doc-task-issue-281-docs-only-reconcile-playbook-c79f",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
