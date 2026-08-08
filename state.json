@@ -1,6 +1,6 @@
 {
   "next_display_id": 253,
-  "next_comment_id": 842,
+  "next_comment_id": 843,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2744,7 +2744,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-07T23:31:43.726858012Z",
+      "updated_at": "2026-08-08T00:08:43.573310465Z",
       "labels": [
         "bug"
       ],
@@ -2935,6 +2935,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQqjoCcullqyEnw9zwpOD8f+MyO5I+aQpBKT69yqLffeai8cNZ8x6ypccO1D4E9Q5N8D0a8JgxoOKokq2UwhgAw=="
+        },
+        "382a2b6d-0d88-44ec-a0a1-b500df33d2a0": {
+          "display_id": 842,
+          "author": "pp3g-xFCx-implement-revision-round-2-r2-of-the-125-safe-re-34cb",
+          "content": "Result: REVISION PLAN (P3-r2) + all 7 gaps IMPLEMENTED and verified in the crosslink fork (branch fork-local/agents). COMMITS: 5ada263a 'fix(hydration): system-wide fail-closed v2 hydration boundary (gh#125 r2)' (12 files, +1154/-85) + 7c5b3e88 daemon warn-and-continue fix; ASES docs commit 2d93ee24 (separate). IMPLEMENTED: (1) TUI paths (tui/mod.rs:534,833) routed through the fail-closed dispatcher hydrate_v2_safely; hydrate_to_sqlite made module-private + hydrate_to_sqlite_exempt wrapper for the 2 documented exemptions (migrate.rs v2-only import, integrity_drift.rs temp-DB). (2) REMOTE-ONLY FAIL-OPEN closed: new v2_file_path_decision (hub_v3.rs) probes local refs STRICTLY then consults authoritative remote via detect_remote_hub_version (now live); remote/local uncertainty or remote v3 markers => Forbidden. G1: init_cache v3-join — when the remote advertises v3 markers, join v3 even with a retained v2 branch + re-resolve hub_mode to V3 (fresh-clone permanent-V2-lock-in closed). (3) HubMode-DOWNGRADE paths fixed: locks_cmd sync_cmd refuses v2 route unless decision Allowed; daemon + shared_writer route through dispatcher. G2: integrity_cmd.rs:379 REFUSES (CheckStatus::Fail) rather than clear_shared_data+hydrate when the decision is not confidently-v2-only; exemptions classified + enforced. (4) DISCRIMINATING TESTS (all mutation-verified to FAIL without each fix): hy3 fixture (broken meta + checkpoint ABSENT + v2 present — strict skips/lenient runs, replaces non-discriminating test c), spawn/non-repo, remote-only (local v2 + remote v3 => skip; remote v2-only => runs), dispatcher/TUI path, G1 fresh-clone join, 8 v2_file_path_decision unit tests. (5) TOCTOU: probe+hydrate serialized under acquire_hub_lock; G3 marker written on skip path (live-verified); G4 observable tracing::warn + 'run crosslink sync' recovery (live-verified); G5 inventory test asserts no direct hydrate_to_sqlite( callers outside hydration.rs and exempt callers == exactly migrate.rs + integrity_drift.rs. (6) DOCS: RESOLVED claims downgraded to revision-round status in Addendum 04, crosslink-fork.md, playbook §6.5 (separate ASES commit). G7: binary rebuilt from committed tree reports 0.9.0-beta.1+7c5b3e88 (no -dirty), matches git rev-parse HEAD. VERIFICATION: cargo test lib 1800 / bin 2879 / integration 159, 0 failures; LIVE hub-tip test PASSED twice with final binary (tip advance -> no issue-list collapse, no display-id warning, marker refreshed on skip); fresh-clone remote-only test PASSED (cache joins v3 on hub-v3-host, 246 issues hydrated via v3, no lock-in). #125 NOT closed. NOT pushed.",
+          "created_at": "2026-08-08T00:08:43.566722176Z",
+          "kind": "result",
+          "signed_by": "SHA256:IXhKiO3pnLq233TIQQSu6gAvvkpo7h1CfT0FBblIybI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgSX57Ld6x3T/iRVbPSMrPfTzYOXkLaOnfJsUJ5reBNDQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOktohg0wf6joFv+KmAbMABkrZ5jB0uK19l3+rWwUWulB+c9+SgLJ1aTeUr4/jO+wP6tKAAChNgZ5P6qWWVy4AQ=="
         },
         "3982c68b-be82-472f-bfd9-3e24a176112a": {
           "display_id": 746,
@@ -12059,8 +12068,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T00:03:58.667489482Z",
-    "agent_id": "pp3g-8ppZ-delta-re-review-of-the-finalized-workflow-topology",
+    "timestamp": "2026-08-08T00:08:43.573310465Z",
+    "agent_id": "pp3g-xFCx-implement-revision-round-2-r2-of-the-125-safe-re-34cb",
     "agent_seq": 7
   }
 }
