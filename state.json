@@ -1,6 +1,6 @@
 {
   "next_display_id": 284,
-  "next_comment_id": 1114,
+  "next_comment_id": 1115,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -920,10 +920,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:07:00.223189453Z",
-      "updated_at": "2026-08-08T07:07:06.752451559Z",
+      "updated_at": "2026-08-08T07:08:01.606090821Z",
       "labels": [
         "feature"
-      ]
+      ],
+      "comments": {
+        "b2a19c9f-a403-46f4-8637-c9c8429e25a4": {
+          "display_id": 1114,
+          "author": "OL2r",
+          "content": "CONTEXT: #426 incident chain — kickoff creates the worktree from main, a builder whose task depends on unmerged parent (Pass-1) work cannot git merge (policy-blocked), falls back to a checkout-content workaround, duplicating base content and producing conflicts. The config change (gate merge for builders) is a WORKAROUND that keeps the duplicate-base failure possible; the ROOT-CAUSE fix is to branch the worktree from the correct base in the first place.\n\nVERIFIED PLUMBING (source-read, crosslink @ main):\n- `create_worktree(repo_root, slug, base_branch: Option<&str>)` already accepts a base ref (launch.rs:449-454, 484) and passes it to `git worktree add -b <branch> <path> <base>`; default is `HEAD` (main for a fresh checkout).\n- NOTHING wires a base today: run.rs:94 + 97 and plan.rs:176 all call `create_worktree(&root, <slug>, None)`.\n- No `--base` flag exists anywhere in the CLI: main.rs KickoffCommands::Run (line ~1652) has `--branch` but no `--base`; KickoffOpts (types.rs:81-106) has no `base` field.\n- The existing-branch path (launch.rs:486-545) already handles merged-branch cleanup and active-worktree conflicts; `--base` only affects the new-branch creation path.\n\nSCOPE:\n(1) CLI: add `#[arg(long)] base: Option<String>` to KickoffCommands::Run in main.rs (~line 1652, next to `--branch`); add `base: Option<&'a str>` to KickoffOpts (types.rs); pass through in mod.rs:80 KickoffOpts construction.\n(2) Wire into run(): `create_worktree(&root, wt_slug, opts.base)` (run.rs:94) and the fresh-branch path (run.rs:97); mirror in plan.rs:176 (create_worktree(&root, &slug, opts.base)).\n(3) Validation: verify the base ref exists BEFORE creating the worktree (git rev-parse --verify <base>); on failure, bail with the existing-branch-style error naming the valid refs. Reject `--base` equal to the auto-generated feature branch (self-base).\n(4) Prompt: when `--base` is set, the KICKOFF.md brief (build_prompt, prompt.rs) must state the base branch so the agent knows its branch point and that parent work is already present — no merge needed.\n(5) Dry-run: print the resolved base ref in the dry-run summary (run.rs:118-124).\n(6) Tests: extend kickoff tests (tests.rs — the existing merge/prompt assertions at ~line 939) with: `--base <existing-feature-branch>` creates a worktree whose branch point == that ref (git merge-base --is-ancestor check), `--base <nonexistent>` fails cleanly, dry-run prints base. The existing-branch path (`--branch`) must be unchanged.\n(7) Docs: add `--base` to kickoff command reference + a playbook note (agent-orchestration-playbook.md §9) that phase-on-phase kickoffs should use `--base <parent-branch>` instead of instructing builders to merge.\n\nRATIONALE: eliminates the merge-need at launch (builders never require the blocked merge); the config change (builder merge gated) becomes a smaller safety net rather than the primary mechanism. Phased/dependent work (#154/#228/#426 style chains) starts from the real parent instead of main.\n\nNOT IN SCOPE: the builder git-merge gating change (separate issue); swarm phase base (different subsystem); CI changes.\n\nVerify with: cargo build + cargo test (kickoff tests) in crosslink repo; manual `crosslink kickoff run --dry-run --base <branch> ...` printing the correct ref.",
+          "created_at": "2026-08-08T07:08:01.599968152Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABATbKPxFeFvufP9QQIsv2m+StuOqsL3JhlyWPVwUylMnGciT/bg78A6GUf+YtAjb2BJnu+iB14y/FwQcRuBrzAAw=="
+        }
+      }
     },
     "088f23b5-1253-4c12-9899-9aada520c74e": {
       "uuid": "088f23b5-1253-4c12-9899-9aada520c74e",
@@ -15084,8 +15095,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:07:06.752451559Z",
+    "timestamp": "2026-08-08T07:08:01.606090821Z",
     "agent_id": "OL2r",
-    "agent_seq": 1385
+    "agent_seq": 1386
   }
 }
