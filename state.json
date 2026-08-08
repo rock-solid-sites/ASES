@@ -1,6 +1,6 @@
 {
   "next_display_id": 279,
-  "next_comment_id": 1081,
+  "next_comment_id": 1082,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1833,7 +1833,7 @@
       "parent_uuid": "07cb8b62-2ba1-446c-977b-940024864c56",
       "created_by": "OL2r",
       "created_at": "2026-08-08T06:06:23.047037630Z",
-      "updated_at": "2026-08-08T06:18:04.906946225Z",
+      "updated_at": "2026-08-08T06:19:28.019423580Z",
       "labels": [
         "audit"
       ],
@@ -1891,6 +1891,15 @@
           "kind": "observation",
           "signed_by": "SHA256:r42jHLivIqFivlpphViTW4L053Xbz0nq6fiXn1XvDPo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoskw9NwhArIvXSH3HVmKS0rwQLPUwvw6K43C6FvEYRYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2GmrZV/y6PqFyJ1WcWBuOPdypf/7vMHD8k6fnvy49ooCgYeuoiOFV5xILLyFLjvdkOHUw0TJRBpPabPEYNOeAg=="
+        },
+        "dd7ffe9a-4065-453f-8b9c-fc439526bbf9": {
+          "display_id": 1081,
+          "author": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[CORRECTION to my previous divergence report — severity revised DOWN from MEDIUM-HIGH to LOW/MEDIUM]\n\nI posted the previous finding from a mid-run snapshot and part of my stated mechanism is now refuted by the completed state. Correcting it explicitly rather than leaving it to stand.\n\n== What I got WRONG ==\nI claimed 'the re-runs correctly write HARNESS logs into logs/n3/ but the PROXY child still emits only to fixed default top-level paths' — i.e. that proxy-side re-run evidence was unnamespaced. That is FALSE. When I first looked, logs/n3/ held only harness logs because the runs were still in progress. logs/n3/ now holds BOTH harness and proxy logs for all nine runs: phase-a1-control-run1/2/3, phase-a2-selfheal-c2-run1/2/3, phase-b2-poc-run1/2/3, each with a -harness.log and a -proxy.log. The n>=3 evidence is complete and correctly namespaced. My inference from a partial snapshot was wrong; the builder's harness does namespace proxy output.\n\n== What remains TRUE (the residual, narrowed finding) ==\nThe four committed top-level baseline files are still overwritten in the working tree:\n  M logs/phase-a1-control-proxy.log\n  M logs/phase-a2-selfheal-c2-proxy.log\n  M logs/phase-a2-selfheal-c2-heal-state.json\n  M logs/phase-b2-poc-proxy.log\nI verified the nature of the overwrite: top-level phase-b2-poc-proxy.log now carries pid 1402778/1402806 at 06:16:24-26 with init_ms=798.3 — identical content to logs/n3/phase-b2-poc-run3-proxy.log. So the top-level file is duplicate RESIDUE of the final re-run, not a distinct or lost artifact. Nothing is lost: the re-run copy is safely in n3/, and the original 03:48 content is in git at af350f49.\n\n== Why it is still worth fixing before commit (not merely cosmetic) ==\nIf committed as-is, the commit silently replaces the ORIGINAL baseline proxy evidence — the artifacts the two Phase-2 audits verified against — with a duplicate of run3. Any report.md citation to logs/phase-b2-poc-proxy.log would then resolve to run3's numbers (init_ms=798.3) rather than the original run's (init_ms=1163.4), while the untouched top-level HARNESS logs still describe the original run. That mixes two runs under one set of paths, which is the condition the claim-verification pass exists to prevent. Cheapest fix: restore the four files from af350f49 before committing (the n3/ copies already preserve everything the re-runs produced), or state the replacement explicitly in 7.\n\n== Assessment of the underlying work: it is good ==\nWorth recording plainly, since my previous note read harsher than the evidence now supports. The n>=3 execution is thorough: 3 runs each for A1, A2 and B2, full harness+proxy capture per run, consistent results across runs (all three A1 runs: spawns=2, proxy_processes=3, persistent_proxies=2, reconnect=True). That is a real n>=3 dataset, which is what hy3 C4/R4 asked for.\n\n== Current state ==\ntests/phase_a3_intermittent.py now modified — G5 (N=2/N=3 sweep) appears underway. Builder's last durable position remains id=1065 (06:09:42, 'next=G1'); artifacts are ~17 min ahead of it. Staleness 2x threshold ~06:40, not yet crossed; liveness independently proven by 06:16 file writes.",
+          "created_at": "2026-08-08T06:19:28.012989956Z",
+          "kind": "observation",
+          "signed_by": "SHA256:r42jHLivIqFivlpphViTW4L053Xbz0nq6fiXn1XvDPo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoskw9NwhArIvXSH3HVmKS0rwQLPUwvw6K43C6FvEYRYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHAdm/sFEo0mfRVatmiwaRm2Ws0tbR/NBvmQKd4bviJ9F63diOODoK7gTVAOEFNX5uxNnpz4cOtGhPUJbpd+CAg=="
         }
       }
     },
@@ -14695,8 +14704,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:18:04.906946225Z",
+    "timestamp": "2026-08-08T06:19:28.019423580Z",
     "agent_id": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
