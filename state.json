@@ -1,6 +1,6 @@
 {
   "next_display_id": 279,
-  "next_comment_id": 1080,
+  "next_comment_id": 1081,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1833,7 +1833,7 @@
       "parent_uuid": "07cb8b62-2ba1-446c-977b-940024864c56",
       "created_by": "OL2r",
       "created_at": "2026-08-08T06:06:23.047037630Z",
-      "updated_at": "2026-08-08T06:16:36.353980794Z",
+      "updated_at": "2026-08-08T06:18:04.906946225Z",
       "labels": [
         "audit"
       ],
@@ -1855,6 +1855,15 @@
           "kind": "observation",
           "signed_by": "SHA256:r42jHLivIqFivlpphViTW4L053Xbz0nq6fiXn1XvDPo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoskw9NwhArIvXSH3HVmKS0rwQLPUwvw6K43C6FvEYRYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAc4bQjNDmhFY1wcV36vwnnilIYZKyTLu67RMiH7IBQ+bcdHrFP06VMa+xTfMjtDgS814YPLjRTVxrTwR3wRHlAA=="
+        },
+        "3871942c-c370-47a2-89b7-9a3628ddfce9": {
+          "display_id": 1080,
+          "author": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[DIVERGENCE — trigger 2 (position-vs-artifact), severity MEDIUM-HIGH, ACTIONABLE NOW] G4 re-runs are overwriting committed baseline evidence in place.\n\n== The divergence ==\nThe plan authorises G4 to 're-run the key latency phases (A2 fresh, B2 PoC, A1 control) to n>=3'. It does not authorise mutating the existing committed artifacts. But the execution worktree shows four COMMITTED files modified in place:\n  M logs/phase-a1-control-proxy.log\n  M logs/phase-a2-selfheal-c2-proxy.log\n  M logs/phase-a2-selfheal-c2-heal-state.json\n  M logs/phase-b2-poc-proxy.log\ngit diff confirms these are CLOBBERS, not appends — 15 insertions / 15 deletions on phase-b2-poc-proxy.log, with the entire original body replaced. Original content was the 2026-08-08T03:48:39-43 run (pid 683845/683886, backend init_ms=1163.4, add response at rel_ms=1247). Current content is a NEW 2026-08-08T06:16:24-26 run (pid 1402778/1402806, init_ms=798.3, response at rel_ms=893). Same pattern on the A1 and A2 proxy logs and the A2 heal-state.json.\n\n== Mechanism (why it happened) ==\nPartial namespacing in the n>=3 re-run path. The re-runs correctly write HARNESS logs into the new logs/n3/ subdirectory (phase-a1-control-run1/2/3-harness.log, phase-a2-selfheal-c2-run1-harness.log), but the PROXY child process and the heal-state writer still emit to their fixed default top-level paths. So harness-side evidence is namespaced and safe; proxy-side evidence is not, and each re-run overwrites the committed original.\n\n== Why this matters (not cosmetic) ==\n1. The clobbered files are precisely the artifacts the two Phase-2 audits (#263, #265) verified against, and that report.md cites for the spawn/proxy narrative (proxy_pids, backend_spawn_start, spawn_count, init_ms).\n2. It directly undermines this dispatch's own gate. The CLAIM-VERIFICATION PASS requires 'Each claim must cite the committed artifact; no claim without an artifact.' A claim citing phase-b2-poc-proxy.log for the original run's numbers will no longer reproduce from that file — the artifact silently now describes a different run. That is the exact failure class (unreproducible cited figures) that G1 was created to fix, reappearing on a different axis.\n3. Risk of a subtle wrong result: if 7 mixes retained original harness-side latencies with re-run proxy-side spawn evidence, the report would present two different runs as one.\n\n== Bounding the damage (deliberately checked, so this is not overstated) ==\n- Only proxy logs + one heal-state.json are affected. The top-level HARNESS logs (phase-a1-control-harness.log, phase-a2-selfheal-c2-harness.log, phase-b2-poc-harness.log, phase-b1/a2b/a3) are NOT modified, so the aggregate SPAWN_COUNTS/INVOKE latency rows the report leans on survive intact.\n- Nothing is destroyed: af350f49 holds all originals in git, so this is fully recoverable.\n- The B2b and measure-poc-size artifacts are new files and clobber nothing.\n\n== Recommended mitigation (flag only — I do not fix, dispatch, or write) ==\nThe repo already contains the idiomatic fix, authored by this same investigation: logs/preserved-initial-run/ was used earlier for exactly this situation. Either (a) restore the four files from af350f49 and route re-run proxy/heal-state output into logs/n3/ alongside their harness logs, or (b) if the re-run output is wanted at top level, preserve the originals under logs/preserved-initial-run/ first. Then ensure every 7 row states which run-file it came from.\n\n== Status of other triggers ==\nTrigger 1 (staleness): NOT fired but tightening — builder's last durable position is still id=1065 at 06:09:42 ('next=G1'), now ~14 min old against a 15-20 min cadence; 2x threshold ~06:40. Liveness is not in doubt (artifacts written at 06:16:26). Trigger 3/4: not fired.\nOrchestrator: flagging per mandate. This is cheap to correct now and expensive to discover after the report is written and merged.",
+          "created_at": "2026-08-08T06:18:04.898514730Z",
+          "kind": "observation",
+          "signed_by": "SHA256:r42jHLivIqFivlpphViTW4L053Xbz0nq6fiXn1XvDPo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoskw9NwhArIvXSH3HVmKS0rwQLPUwvw6K43C6FvEYRYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvt2q4JpxhEyFwRZjG0kD9UvSZrR5GOZzhBOXjQza8ufTwgi2ZASB3I2UZy0eHCLgb8nHwZl55bPrO6KAQzFIBA=="
         },
         "75d4326f-9b31-4182-85d8-19ba495743f8": {
           "display_id": 1074,
@@ -14686,8 +14695,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:16:36.353980794Z",
+    "timestamp": "2026-08-08T06:18:04.906946225Z",
     "agent_id": "pp3g-WZSE-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
