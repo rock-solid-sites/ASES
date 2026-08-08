@@ -1,6 +1,6 @@
 {
   "next_display_id": 305,
-  "next_comment_id": 1260,
+  "next_comment_id": 1261,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1697,7 +1697,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:30:17.644484362Z",
-      "updated_at": "2026-08-08T23:38:43.024711683Z",
+      "updated_at": "2026-08-08T23:39:19.837307055Z",
       "labels": [
         "audit"
       ],
@@ -1728,6 +1728,15 @@
           "kind": "observation",
           "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHqmwjrs2mf4RgG7vzEwxjWTxJYUNId7+qT1umW6bElbdU8++r9dzoh4Rlr5YWh1JXY6DNxIEL0FJXmheqDTxBw=="
+        },
+        "bf97b54a-bda0-48de-a542-7ec3025c8ec6": {
+          "display_id": 1260,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "### Recommendations\n\n1. Add a 1-page executive summary -- Rationale: The 453-line report requires effort to navigate. A compact summary with the three key numbers (backend_spawn_count=0, resident-after=0/0 across 20 sweep rows, 17-never-called=0 resident) plus the one-sentence conclusion would improve auditability. Priority: LOW.\n\n2. Document the orphan-on-death finding in the umbrella doc -- Rationale: Lifecycle constraint of mcp 2.0.0 stdio server that any execution engine using persistent connectors must handle. Should be elevated to first-class architectural constraint visible in the project knowledge graph. Priority: MEDIUM.\n\n3. Record the list_changed consumption gap as explicit architectural gap -- Rationale: Test 5a characterizes the widely-documented gap. Umbrella doc should list this so future execution-engine work can plan around it (fix or accept session-boundary workaround). Priority: MEDIUM.\n\n4. Clarify async-thread description in report section 9 -- Rationale: Current wording could mislead about async-mode thread count. Should read: a fresh process with zero ToolRegistry use shows 0 async-runtime threads; after any sync OR async ToolRegistry use, exactly one process-wide async-runtime daemon thread exists, and the count never grows with N. Priority: LOW.\n\n5. Capture the 1-connection-per-tool (1:1) mapping constraint -- Rationale: Addendum C correctly notes each connector maps 1:1 to a proxy+backend pair. Umbrella doc should capture this as property of current ToolRegistry architecture. Priority: LOW.\n\n### Evidence Cross-References Verified\n\n- Test 1 backend_spawn_count=0: logs/test1/n50/test1-n50.json backend_spawn_count=0 -- confirmed\n- Test 3 resident-after flat 0/0: logs/test3/n50-concurrent-off.json resident_after.proxy_count=0,backend_count=0 -- confirmed\n- Test 3 20/20 rows: logs/test3/n1-sequential-off.json through n50-concurrent-on.json -- all resident_after=0 -- confirmed\n- Test 4 headline 17 refreshed-never-called=0: logs/test4/test4-teardown-off.json categories.refreshed_never_called_proxies_resident=0 -- confirmed\n- Test 4 teardown-on same result + identity reuse: logs/test4/test4-teardown-on.json categories.refreshed_never_called_proxies_resident=0, identity PIDs consistent across call1/call2 -- confirmed\n- Test 5a list_changed emitted, not consumed: logs/test5/5a/test5a.json catalog_changed=false, proxy_log_events.sent_notifications=1 -- confirmed\n- Test 5b stale catalog baseline: logs/test5/5b/test5b.json first_use result=error, is_error=True -- confirmed\n- Test 6 immediate teardown reclaimable: logs/test6/test6.json resident_after_call_teardown.proxy_count=0,backend_count=0 -- confirmed\n- Thread profiles: logs/threadcheck/threadcheck.json async_only.async_runtime_threads=0 -- confirmed\n- Thread count constant: all Test 3-6 JSONs show async_runtime_threads=1 -- confirmed\n- Versions pinned per run: all JSONs embed versions.toolregistry=0.15.0, versions.mcp=2.0.0 -- confirmed\n- Calling mode recorded per run: calling_mode field present in all JSONs, sync/async consistent with order -- confirmed\n\nAUDIT CONCLUSION: The deliverable at 00eda4b3 (research/toolregistry-lazy-mcp/catalog-scale/) is a sound, evidence-backed validation. All six tests pass at claimed levels. The STRONG PASS conclusion follows from measured data. No material data discrepancies found. Two minor report-precision concerns noted (async-thread wording, no executive summary). Three systemic findings recommended for capture in umbrella doc and epic #212. None undermine the core claims.",
+          "created_at": "2026-08-08T23:39:19.831497225Z",
+          "kind": "result",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkOIYAi+va5uFgmHDLNUQIp7TSKFPFaC65XVtWwY3utKF6E8RL4qawjGp//3M+peuAFSkE+I3Xrk8i6fF8ul6Cw=="
         },
         "d534ed7b-3813-49b6-b787-46b69e7053ec": {
           "display_id": 1241,
@@ -16796,8 +16805,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T23:39:12.174815407Z",
-    "agent_id": "pp3g-xTx1-auditor-phase-1-in-flight-divergence-verifier-issue",
-    "agent_seq": 4
+    "timestamp": "2026-08-08T23:39:19.837307055Z",
+    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+    "agent_seq": 24
   }
 }
