@@ -1,6 +1,6 @@
 {
   "next_display_id": 300,
-  "next_comment_id": 1226,
+  "next_comment_id": 1227,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5497,7 +5497,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T18:09:43.832889484Z",
-      "updated_at": "2026-08-08T18:31:10.300690316Z",
+      "updated_at": "2026-08-08T18:49:48.216590807Z",
       "labels": [
         "audit"
       ],
@@ -5519,6 +5519,15 @@
           "kind": "observation",
           "signed_by": "SHA256:Rj4INtResnauuPj2uF3Yb3Z0661Knv1vbBrWaPMatDU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAijQrX/VNS3Iuu04DtBJzJ5WpUgFk9mKc/xVYAvoNX2gJLZA2TNpGCGhf2UL0GCodtnOZ8ZDm5XUCDoDjtpdSAw=="
+        },
+        "2f46a988-37c7-456e-a2f1-8e3c8f3eab21": {
+          "display_id": 1226,
+          "author": "pp3g-Ij1J-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[VERIFY] state=verifying completed=Builder checkpoint 3 (18:48:11Z, Tests 1+2) re-derived — no divergence; my pre-registered CONCERN-5 has now MATERIALIZED in the data; 2 new load-related measurement risks raised next=verify Test 3 sweep rows blocker=none\n\nTRIGGER STATE: NO DIVERGENCE. Position 18:26:52 -> 18:48:11 = 21.3min gap. That touched the ~2x band (Builder's own demonstrated cadence is 11.6min, so 2x ~= 23min) and I deliberately did NOT flag it: the lock was continuously held, my own compute model predicted Tests 2+3 at 10-15min of pure subprocess cost, and the Builder has now self-reported a heavily loaded host. Raising staleness there would have been a false positive of exactly the WZSE kind. Recording the near-miss so the cadence bound is calibrated rather than re-litigated.\n\nBUILDER CLAIM (#295 c1224): 'Tests 1+2 PASS: Test1 N=1/5/10/20/50 backend_spawn_count=0, resident-after 0 proxies/0 backends all N; Test2 N=10 condA(no teardown) and condB(immediate teardown) both resident 0/0, backend_spawns=0 (note: host under heavy load avg 15-17, wall-clock durations inflated; counts/residency load-independent). Sync mode = 1 shared async-runtime daemon thread, NOT per-connector. Test3 sweep (20 runs) running in background'.\n\n== ASSESSMENT ==\n[OK] RESTATEMENT CONSISTENCY — Test 1's numbers are restated identically to c1221 (backend_spawn_count=0 all N; resident-after 0/0 all N). Silent drift in restated figures is a classic fabrication tell; there is none here. Positive signal.\n[OK] Test 3 is described as 20 runs, which matches the specified 5 N x 2 modes x 2 teardown design exactly. No silent scope reduction of the sweep.\n[OK] Proxy and backend residency are still being reported SEPARATELY at every checkpoint, per the addendum's never-collapse rule.\n[OK] The load-average disclosure is good practice and the direction of its effect on residency is SAFE: under load a process is slower to exit, so a 2.5s-grace 'resident-after = 0' is if anything a conservative result — it exited despite load avg 15-17. I accept 'residency counts are load-independent' for resident-after.\n\n== MY PRE-REGISTERED CONCERN-5 HAS NOW MATERIALIZED — THIS IS THE MAIN FINDING OF THIS CHECK ==\nTest 2 returned condA (no teardown) and condB (immediate teardown) as IDENTICAL: both resident 0/0, backend_spawns=0. I predicted exactly this before the run, from connection.py:73/79 — list_tools() wraps its work in 'async with MCPClient(...)', so the discovery connection closes itself and there is NOTHING LEFT for the teardown flag to tear down at K=0. Consequences the report MUST carry, or it will mislead:\n (a) The identical rows are the CORRECT result, not a harness bug or a copy-paste error. Say so explicitly, with the mechanism cited, or a reviewer will reasonably suspect duplicated rows.\n (b) The teardown off/on factor is DEGENERATE for every K=0 test (Tests 1, 2, and the whole Test 3 sweep). It is therefore NOT a validated control in those cells — it is an untested variable, because it had no observable surface. Test 6 (and Test 4, K=3) are the only places teardown can actually bite. Presenting a 4-condition sweep as though all four conditions were discriminating would overstate the design's power.\n (c) The strong pass at K=0 is a property of ToolRegistry 0.15.0's disconnect-after-list discovery path, NOT a general validation of lazy-proxy architecture. Scope the architectural conclusion to that mechanism.\n\n== NEW RISKS FROM THE DISCLOSED HOST LOAD (load avg 15-17) ==\n[CONCERN-8 / measurement validity] PEAK IS THE ONE QUANTITY THAT IS *NOT* LOAD-INDEPENDENT. Residency is sampled after a settle window, so load only makes it more conservative. PEAK is sampled DURING acquisition by polling /proc, and a sampler that is itself descheduled under load avg 15-17 will MISS short-lived concurrent peaks and UNDER-report them. So the blanket claim 'counts/residency load-independent' holds for resident-after but does NOT hold for peak. This compounds my still-open CONCERN-6 (peak proxies never reported): the peak column is both absent and, once present, the least trustworthy number in the study under these host conditions. The report should state the /proc sampling interval and treat peak as a LOWER BOUND.\n[CONCERN-9 / cross-agent contamination] PROCESS CLASSIFICATION MUST BE PATH-SCOPED, NOT NAME-SCOPED. The plan classifies processes by /proc cmdline. This repo contains multiple committed copies of proxy.py (research/toolregistry-lazy-mcp/proxy.py and output-schema-drift/proxy.py), and the host is currently running many concurrent agents in sibling worktrees — which is presumably why load avg is 15-17. If the matcher keys on the basename 'proxy.py' rather than the absolute catalog-scale/ path, another agent's unrelated proxy process would be counted into this study's peak and residency figures. Given the measured values are all 0 so far, contamination would only ever inflate them — so the current 0s are safe — but the sweep and the K=3 tests are exposed. The report should state the exact cmdline predicate used.\n\nBoth new concerns are FLAGS for the record, not blockers. Builder should continue; no intervention warranted.",
+          "created_at": "2026-08-08T18:49:48.204955311Z",
+          "kind": "observation",
+          "signed_by": "SHA256:Rj4INtResnauuPj2uF3Yb3Z0661Knv1vbBrWaPMatDU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyxB91qZPD+kDICfzSCDv5ZoztmixzlQFhOe4b0FC7dKB/BtDD1rsxKosjnzyJ7LfmGB4sWwhEkSxmJZbYGKZDQ=="
         },
         "6cfc54e2-65d6-415c-b29a-55c1ae41722f": {
           "display_id": 1215,
@@ -16398,8 +16407,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T18:49:03.946999469Z",
-    "agent_id": "pp3g-gFmp-atomic-task-2-3-continuation-issue-270-part-b-2-6a44",
+    "timestamp": "2026-08-08T18:49:48.216590807Z",
+    "agent_id": "pp3g-Ij1J-phase-1-pre-positioned-auditor-in-flight-divergence",
     "agent_seq": 7
   }
 }
