@@ -1,0 +1,36 @@
+{
+  "captured_with": {
+    "python": "/tmp/toolregistry-venv/bin/python",
+    "purpose": "Test 5a/5b catalog invalidation characterization",
+    "toolcount": 2
+  },
+  "tools": [
+    {
+      "name": "add",
+      "title": null,
+      "description": "Add two numbers and return the sum.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "a": {"type": "number", "description": "First addend"},
+          "b": {"type": "number", "description": "Second addend"}
+        },
+        "required": ["a", "b"]
+      },
+      "output_schema": null,
+      "annotations": null
+    },
+    {
+      "name": "_emit_list_changed",
+      "title": null,
+      "description": "Control tool: instruct the proxy to emit notifications/tools/list_changed to the client. Test-only characterization instrument.",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "output_schema": null,
+      "annotations": null
+    }
+  ]
+}

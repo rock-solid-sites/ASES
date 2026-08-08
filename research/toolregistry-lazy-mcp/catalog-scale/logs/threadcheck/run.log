@@ -1,0 +1,32 @@
+HARNESS|THREADCHECK begin versions={'python': '3.10.12', 'toolregistry': '0.15.0', 'mcp': '2.0.0'}
+PROXY|2026-08-08T19:25:27.277Z|epoch_ms=1786217127277|rel_ms=       1|proxy_started pid=2574715 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never
+PROXY|2026-08-08T19:25:27.277Z|epoch_ms=1786217127277|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-08T19:25:27.286Z|epoch_ms=1786217127286|rel_ms=      10|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T19:25:27.287Z|epoch_ms=1786217127287|rel_ms=      11|request tools/list backend_connected=False
+PROXY|2026-08-08T19:25:27.287Z|epoch_ms=1786217127287|rel_ms=      11|response tools/list backend_connected=False tool_count=1
+PROXY|2026-08-08T19:25:27.291Z|epoch_ms=1786217127291|rel_ms=      15|connection_closed exiting
+PROXY|2026-08-08T19:25:28.234Z|epoch_ms=1786217128234|rel_ms=       1|proxy_started pid=2574719 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never
+PROXY|2026-08-08T19:25:28.234Z|epoch_ms=1786217128234|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-08T19:25:28.243Z|epoch_ms=1786217128243|rel_ms=      10|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T19:25:28.244Z|epoch_ms=1786217128244|rel_ms=      11|request tools/list backend_connected=False
+PROXY|2026-08-08T19:25:28.245Z|epoch_ms=1786217128245|rel_ms=      12|response tools/list backend_connected=False tool_count=1
+PROXY|2026-08-08T19:25:28.248Z|epoch_ms=1786217128248|rel_ms=      15|connection_closed exiting
+HARNESS|THREADCHECK async_only threads={'thread_count': 1, 'thread_names': ['MainThread'], 'async_runtime_threads': 0} proxies=0 backends=0
+PROXY|2026-08-08T19:25:31.783Z|epoch_ms=1786217131783|rel_ms=       0|proxy_started pid=2574733 python=/tmp/toolregistry-venv/bin/python manifest_tools=['add'] backend=not_started notifications=never
+PROXY|2026-08-08T19:25:31.784Z|epoch_ms=1786217131784|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-08T19:25:31.794Z|epoch_ms=1786217131794|rel_ms=      11|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T19:25:31.795Z|epoch_ms=1786217131795|rel_ms=      12|request tools/call name=add arguments={'a': 1, 'b': 2} backend_connected=False
+PROXY|2026-08-08T19:25:31.795Z|epoch_ms=1786217131795|rel_ms=      12|backend_spawn_start instance_id=be-1-2574733-31795 spawn_count=1
+BACKEND|2026-08-08T19:25:32.635Z|epoch_ms=1786217132635|pid_file_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948/research/toolregistry-lazy-mcp/catalog-scale/logs/threadcheck/run/ta-backend.pid pid=2574737
+BACKEND|2026-08-08T19:25:32.635Z|epoch_ms=1786217132635|backend_started pid=2574737 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-08T19:25:32.643Z|epoch_ms=1786217132643|rel_ms=     860|backend_up instance_id=be-1-2574733-31795 spawn_count=1 init_ms=848.3
+PROXY|2026-08-08T19:25:32.644Z|epoch_ms=1786217132644|rel_ms=     861|forward tools/call name=add to backend instance=be-1-2574733-31795
+BACKEND|2026-08-08T19:25:32.646Z|epoch_ms=1786217132646|tool_call name=add arguments={'a': 1, 'b': 2}
+BACKEND|2026-08-08T19:25:32.647Z|epoch_ms=1786217132647|tool_call_result name=add result=3.0
+PROXY|2026-08-08T19:25:32.650Z|epoch_ms=1786217132650|rel_ms=     867|response tools/call name=add ok=True
+PROXY|2026-08-08T19:25:32.653Z|epoch_ms=1786217132653|rel_ms=     870|request tools/list backend_connected=True
+PROXY|2026-08-08T19:25:32.653Z|epoch_ms=1786217132653|rel_ms=     870|response tools/list backend_connected=True tool_count=1
+HARNESS|THREADCHECK sync_call result=3.0
+HARNESS|THREADCHECK after_sync_call threads={'thread_count': 4, 'thread_names': ['MainThread', 'ThreadPoolExecutor-0_0', 'async-runtime', 'waitpid-2'], 'async_runtime_threads': 1} proxies=1 backends=1
+HARNESS|THREADCHECK done
+PROXY|2026-08-08T19:25:33.852Z|epoch_ms=1786217133852|rel_ms=    2069|connection_closed exiting

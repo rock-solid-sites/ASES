@@ -1,0 +1,128 @@
+{
+  "label": "test4-teardown-on",
+  "n": 20,
+  "k": 3,
+  "called": [
+    "c0",
+    "c7",
+    "c15"
+  ],
+  "teardown": "on",
+  "calling_mode": "sync",
+  "catalog_tools": [
+    "c0-add",
+    "c1-add",
+    "c10-add",
+    "c11-add",
+    "c12-add",
+    "c13-add",
+    "c14-add",
+    "c15-add",
+    "c16-add",
+    "c17-add",
+    "c18-add",
+    "c19-add",
+    "c2-add",
+    "c3-add",
+    "c4-add",
+    "c5-add",
+    "c6-add",
+    "c7-add",
+    "c8-add",
+    "c9-add"
+  ],
+  "refreshed_ok": 20,
+  "identity": {
+    "c0": {
+      "acquisition_proxy_pid": null,
+      "call1_proxy_pid": 2572586,
+      "call2_proxy_pid": 2572586,
+      "call1_backend_pid": 2572590,
+      "call2_backend_pid": 2572590
+    },
+    "c7": {
+      "acquisition_proxy_pid": null,
+      "call1_proxy_pid": 2572600,
+      "call2_proxy_pid": 2572600,
+      "call1_backend_pid": 2572604,
+      "call2_backend_pid": 2572604
+    },
+    "c15": {
+      "acquisition_proxy_pid": null,
+      "call1_proxy_pid": 2572608,
+      "call2_proxy_pid": 2572608,
+      "call1_backend_pid": 2572612,
+      "call2_backend_pid": 2572612
+    }
+  },
+  "resident_after_calls": {
+    "proxy_count": 3,
+    "proxy_pids": [
+      2572586,
+      2572600,
+      2572608
+    ],
+    "proxy_rss_kb": 190480,
+    "backend_count": 3,
+    "backend_pids": [
+      2572590,
+      2572604,
+      2572612
+    ],
+    "backend_rss_kb": 188948,
+    "threads": {
+      "thread_count": 7,
+      "thread_names": [
+        "MainThread",
+        "ThreadPoolExecutor-0_0",
+        "ThreadPoolExecutor-1_0",
+        "async-runtime",
+        "waitpid-83",
+        "waitpid-84",
+        "waitpid-85"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "resident_after_teardown": {
+    "proxy_count": 0,
+    "proxy_pids": [],
+    "proxy_rss_kb": 0,
+    "backend_count": 0,
+    "backend_pids": [],
+    "backend_rss_kb": 0,
+    "threads": {
+      "thread_count": 4,
+      "thread_names": [
+        "MainThread",
+        "ThreadPoolExecutor-0_0",
+        "ThreadPoolExecutor-1_0",
+        "async-runtime"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "categories": {
+    "called_backends_resident": 3,
+    "called_backend_pids": [
+      2572590,
+      2572604,
+      2572612
+    ],
+    "called_proxies_resident": 3,
+    "called_proxy_pids": [
+      2572586,
+      2572600,
+      2572608
+    ],
+    "refreshed_never_called_proxies_resident": 0,
+    "refreshed_never_called_proxy_pids": [],
+    "other_proxy_pids_unclassified": []
+  },
+  "versions": {
+    "python": "3.10.12",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0"
+  },
+  "grace_seconds": 2.5
+}

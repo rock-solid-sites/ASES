@@ -1,0 +1,67 @@
+{
+  "test": "5b",
+  "catalog_initial": [
+    "b-_emit_list_changed",
+    "b-add"
+  ],
+  "first_use_result": "meta=None content=[TextContent(type='text', text=\"error: unknown tool 'add'\", annotations=None, meta=None)] structured_content=None is_error=True result_type='complete'",
+  "first_use_is_error": null,
+  "invoke_new_tool_absent_from_catalog_result": "KeyError: \"Tool 'b-sub' is not registered\"",
+  "refresh_tools_after_change": [
+    "_emit_list_changed",
+    "add"
+  ],
+  "resident_before_first_use": {
+    "proxy_count": 0,
+    "proxy_pids": [],
+    "proxy_rss_kb": 0,
+    "backend_count": 0,
+    "backend_pids": [],
+    "backend_rss_kb": 0,
+    "threads": {
+      "thread_count": 3,
+      "thread_names": [
+        "MainThread",
+        "ThreadPoolExecutor-0_0",
+        "async-runtime"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "resident_after_first_use": {
+    "proxy_count": 1,
+    "proxy_pids": [
+      2572806
+    ],
+    "proxy_rss_kb": 63544,
+    "backend_count": 1,
+    "backend_pids": [
+      2572810
+    ],
+    "backend_rss_kb": 63348,
+    "threads": {
+      "thread_count": 5,
+      "thread_names": [
+        "MainThread",
+        "ThreadPoolExecutor-0_0",
+        "ThreadPoolExecutor-1_0",
+        "async-runtime",
+        "waitpid-6"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "proxy_log_events": {
+    "proxy_5a_started": 4,
+    "backend_spawn_start": 1,
+    "backend_up": 1,
+    "sent notifications/tools/list_changed": 0
+  },
+  "calling_mode": "sync",
+  "versions": {
+    "python": "3.10.12",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0"
+  },
+  "grace_seconds": 2.5
+}

@@ -1,0 +1,110 @@
+{
+  "label": "test4-teardown-off",
+  "n": 20,
+  "k": 3,
+  "called": [
+    "c0",
+    "c7",
+    "c15"
+  ],
+  "teardown": "off",
+  "calling_mode": "sync",
+  "catalog_tools": [
+    "c0-add",
+    "c1-add",
+    "c10-add",
+    "c11-add",
+    "c12-add",
+    "c13-add",
+    "c14-add",
+    "c15-add",
+    "c16-add",
+    "c17-add",
+    "c18-add",
+    "c19-add",
+    "c2-add",
+    "c3-add",
+    "c4-add",
+    "c5-add",
+    "c6-add",
+    "c7-add",
+    "c8-add",
+    "c9-add"
+  ],
+  "refreshed_ok": 20,
+  "identity": {
+    "c0": {
+      "acquisition_proxy_pid": null,
+      "call1_proxy_pid": 2572274,
+      "call2_proxy_pid": 2572274,
+      "call1_backend_pid": 2572278,
+      "call2_backend_pid": 2572278
+    },
+    "c7": {
+      "acquisition_proxy_pid": null,
+      "call1_proxy_pid": 2572282,
+      "call2_proxy_pid": 2572282,
+      "call1_backend_pid": 2572286,
+      "call2_backend_pid": 2572286
+    },
+    "c15": {
+      "acquisition_proxy_pid": null,
+      "call1_proxy_pid": 2572296,
+      "call2_proxy_pid": 2572296,
+      "call1_backend_pid": 2572300,
+      "call2_backend_pid": 2572300
+    }
+  },
+  "resident_after_calls": {
+    "proxy_count": 3,
+    "proxy_pids": [
+      2572274,
+      2572282,
+      2572296
+    ],
+    "proxy_rss_kb": 190660,
+    "backend_count": 3,
+    "backend_pids": [
+      2572278,
+      2572286,
+      2572300
+    ],
+    "backend_rss_kb": 188880,
+    "threads": {
+      "thread_count": 6,
+      "thread_names": [
+        "MainThread",
+        "ThreadPoolExecutor-0_0",
+        "async-runtime",
+        "waitpid-40",
+        "waitpid-41",
+        "waitpid-42"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "resident_after_teardown": null,
+  "categories": {
+    "called_backends_resident": 3,
+    "called_backend_pids": [
+      2572278,
+      2572286,
+      2572300
+    ],
+    "called_proxies_resident": 3,
+    "called_proxy_pids": [
+      2572274,
+      2572282,
+      2572296
+    ],
+    "refreshed_never_called_proxies_resident": 0,
+    "refreshed_never_called_proxy_pids": [],
+    "other_proxy_pids_unclassified": []
+  },
+  "versions": {
+    "python": "3.10.12",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0"
+  },
+  "grace_seconds": 2.5
+}

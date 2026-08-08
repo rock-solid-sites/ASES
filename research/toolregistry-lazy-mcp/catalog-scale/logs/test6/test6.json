@@ -1,0 +1,85 @@
+{
+  "test": "6",
+  "n": 10,
+  "k": 1,
+  "calling_mode": "sync",
+  "teardown_meaning": "immediate disconnect-after-list (crude boundary; NOT the idle-timeout feature)",
+  "resident_catalog_no_teardown": {
+    "proxy_count": 0,
+    "proxy_pids": [],
+    "proxy_rss_kb": 0,
+    "backend_count": 0,
+    "backend_pids": [],
+    "backend_rss_kb": 0,
+    "threads": {
+      "thread_count": 2,
+      "thread_names": [
+        "MainThread",
+        "async-runtime"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "resident_catalog_after_teardown": {
+    "proxy_count": 0,
+    "proxy_pids": [],
+    "proxy_rss_kb": 0,
+    "backend_count": 0,
+    "backend_pids": [],
+    "backend_rss_kb": 0,
+    "threads": {
+      "thread_count": 2,
+      "thread_names": [
+        "MainThread",
+        "async-runtime"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "resident_after_call": {
+    "proxy_count": 1,
+    "proxy_pids": [
+      2572977
+    ],
+    "proxy_rss_kb": 63536,
+    "backend_count": 1,
+    "backend_pids": [
+      2572981
+    ],
+    "backend_rss_kb": 62680,
+    "threads": {
+      "thread_count": 4,
+      "thread_names": [
+        "MainThread",
+        "ThreadPoolExecutor-0_0",
+        "async-runtime",
+        "waitpid-20"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "resident_after_call_teardown": {
+    "proxy_count": 0,
+    "proxy_pids": [],
+    "proxy_rss_kb": 0,
+    "backend_count": 0,
+    "backend_pids": [],
+    "backend_rss_kb": 0,
+    "threads": {
+      "thread_count": 3,
+      "thread_names": [
+        "MainThread",
+        "ThreadPoolExecutor-0_0",
+        "async-runtime"
+      ],
+      "async_runtime_threads": 1
+    }
+  },
+  "call_result": "3.0",
+  "versions": {
+    "python": "3.10.12",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0"
+  },
+  "grace_seconds": 2.5
+}
