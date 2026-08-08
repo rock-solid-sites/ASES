@@ -1,6 +1,6 @@
 {
   "next_display_id": 278,
-  "next_comment_id": 1058,
+  "next_comment_id": 1059,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -12746,7 +12746,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:43:03.515348662Z",
-      "updated_at": "2026-08-08T06:02:41.568853334Z",
+      "updated_at": "2026-08-08T06:03:00.179308605Z",
       "labels": [
         "infrastructure"
       ],
@@ -12768,6 +12768,15 @@
           "kind": "plan",
           "signed_by": "SHA256:nEFsCzz0ME/egSvPq4101gdvcGlRrb9ctGQotxJs44U",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgWBNl8dl/co4O+m0A7YUWHGOJcg4OwBFYgCsiU7eKjq8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2LXMm8e17a1jdTH69zGZrQKJyJOLx8yTXetio9aa3gUID7Tcyh0weEzpv3qnA6HlVi1ivS3I5BbQhoiIfpwsAw=="
+        },
+        "9e631df0-7e0a-472c-a8fb-7371afe41a35": {
+          "display_id": 1058,
+          "author": "OL2r",
+          "content": "OPERATOR DIRECTION (2026-08-08, orchestrator): on the 23G cargo cache at projects/crosslink/crosslink/target — PRUNE SELECTIVELY, do not full-clear. Approved actions: (1) run 'cargo clean --release' IN THAT WORKSPACE ONLY (removes release-profile incremental artifacts, keeps the target dir + deps + incremental for debug/dev); measure before/after; (2) if release was the bulk, also consider removing stale 'incremental/' subdirs older than the last build and any 'doc/'/'package/' artifacts; (3) DO NOT run a workspace-wide cargo clean or touch the ASES repo's target dirs (the ASES repo has no cargo, but crosslink is the fork repo — keep its src + Cargo.lock + any running-binary deps); (4) verify the crosslink binary still runs (crosslink --version or a quick command) after pruning; (5) report freed bytes + final df. This is the operator-approved selective action — do not exceed it (no full clean, no deleting the crosslink source tree).",
+          "created_at": "2026-08-08T06:03:00.169130118Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWQWSO5JV7Xt3B7LmDY+QO8qgH2y/exc0CNvhRvTd0CxONhPRXmbmygm+zyN/CaS/j+AnDtrn6Tdu8zkQ5vw5Cw=="
         },
         "c15ddda5-056c-4764-bd5f-edfbb741390c": {
           "display_id": 1048,
@@ -14466,8 +14475,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:02:41.568853334Z",
-    "agent_id": "pp3g-tyy6-disk-cleanup-issue-272-operator-directed-target-70g",
-    "agent_seq": 10
+    "timestamp": "2026-08-08T06:03:00.179308605Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1358
   }
 }
