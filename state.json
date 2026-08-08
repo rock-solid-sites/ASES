@@ -1,6 +1,6 @@
 {
   "next_display_id": 285,
-  "next_comment_id": 1121,
+  "next_comment_id": 1122,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -11840,7 +11840,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
       "created_at": "2026-08-08T06:23:25.259121776Z",
-      "updated_at": "2026-08-08T07:10:07.000096967Z",
+      "updated_at": "2026-08-08T07:11:36.613274193Z",
       "labels": [
         "research",
         "toolregistry"
@@ -11854,6 +11854,15 @@
           "kind": "plan",
           "signed_by": "SHA256:h5cSWOmvxEdPtZwQnjoH1Q4UpHR9uGbBvI/5NEJFKDY",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvvPSHCAFQcajeZsHK01mtMV1McZpSqUVuYOrQveo6VUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQaTWgoNQIug8nxvnNi4GSVw3V6Ji8p/J0zMRPUpRgyh/cn5ux/PLPWRWsCbcumsLne3hbnl9/48F0ISEbni2CQ=="
+        },
+        "bb534a22-43c6-4819-a5c7-6d01684efbb2": {
+          "display_id": 1121,
+          "author": "pp3g-lPgz-verification-task-baseline-confirmation-for-a-re-df62",
+          "content": "Result: BASELINE CONFIRMED — all five criteria PASS at the CURRENT installed versions (toolregistry 0.15.0, mcp 2.0.0, python 3.10.12). Re-validation trigger satisfied; issue stands discharged until an upgrade.\n\n## Version check (importlib.metadata, /tmp/toolregistry-venv/bin/python)\n- toolregistry: 0.15.0\n- mcp: 2.0.0\n- python: 3.10.12 (main, Mar  3 2026) [GCC 11.4.0]\n\n## Per-criterion PASS/FAIL table\n| # | Criterion | Verdict | Evidence (file:line) |\n|---|---|---|---|\n| 1 | connection.py:106 still catches bare Exception (no failure-class distinction) | **PASS** | /tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py:106 = 'except Exception:' — bare catch-all, no failure-class branch; telemetry line 107 logger.warning intact |\n| 2 | _call_persistent still spans connection.py:97-111 with same body (backoff/lock/telemetry/retry count) | **PASS** | connection.py:97 def _call_persistent ... :111 final retry return; body identical to report §5.2/§5.5: lock at 101/108, _ensure_connected at 102, try at 103, first call at 105, except at 106, logger.warning (telemetry) at 107, _connect at 109, single retry at 111 — spans exactly 97-111 |\n| 3 | register_from_mcp still hardcodes MCPConnectionManager at integration.py:323 | **PASS** | /tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/integration.py:323 = 'connection = MCPConnectionManager(' — hardcoded constructor, no injection point/factory/hook; import at :22 |\n| 4 | mcp/client/session.py:1110 still raises schema-validation RuntimeError verbatim | **PASS** | /tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py:1110 = 'raise RuntimeError(f\"Invalid structured content returned by tool {name}: {error}\") from error' — verbatim, unchanged |\n| 5 | B2/B2b phase scripts still pass at 1 spawn / 1 proxy / no reconnect with verbatim ErrorResult | **PASS** | Both scripts re-run with venv python against committed harness (tests/phase_b2_poc.py, tests/phase_b2b_preabsorbed.py). See results below |\n\n## Criterion 5 run evidence (fresh runs, 2026-08-08)\n**phase_b2_poc.py** (B2, fresh session): B2_RESULT pass=True spawns=1 proxies=2 reconnect=False error_preserved=True interception_effective=True schema_validation_failures=1 — backend_spawn_count=1, persistent_proxies=1 (proxies=2 = registration temp + 1 persistent), reconnect_fired=False; INVOKE add(2,3) delta_ms=1630 ok=False outcome_type=ErrorResult with verbatim 'Invalid structured content returned by tool add' message.\n**phase_b2b_preabsorbed.py** (B2b, pre-absorbed): B2B_RESULT pass=True preabsorb_interception_fired=True add1_error_preserved=True warm_add_error_preserved=True other_tool_success=True spawns=1 proxies=2 reconnect=False schema_validation_failures=2 — multiply(4,5) ok, add(2,3) ErrorResult verbatim delta_ms=87, warm add(1,1) ErrorResult verbatim delta_ms=8, multiply(6,7) ok delta_ms=5.\nBoth exit code 0 (pass). Tracked proxy log files were restored byte-identical after the runs (verified sha256 match); no repo files modified.\n\n## Conclusion\nAll five criteria hold at toolregistry 0.15.0 / mcp 2.0.0 — the report.md Option B conclusions (research/toolregistry-lazy-mcp/c2-gap-investigation/report.md §5.5, §8, §11) are valid at the current installed versions. Baseline established; this trigger re-fires on any toolregistry or mcp Python SDK upgrade. Issue left open (Orchestrator decides closure).",
+          "created_at": "2026-08-08T07:11:36.605215024Z",
+          "kind": "result",
+          "signed_by": "SHA256:h5cSWOmvxEdPtZwQnjoH1Q4UpHR9uGbBvI/5NEJFKDY",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvvPSHCAFQcajeZsHK01mtMV1McZpSqUVuYOrQveo6VUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMfd/Zg476wn/P112muXGIayld69b/wx9mZiyS812mHQLV+/1lVnErNLNQXqEwS4bPAst9srE4v+t5UwKcfQlAA=="
         },
         "dc8d5ed2-9f07-4bcf-a6bf-f8b2de4273dd": {
           "display_id": 1118,
@@ -15177,8 +15186,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:11:27.548878179Z",
-    "agent_id": "pp3g-zgSJ-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 2
+    "timestamp": "2026-08-08T07:11:36.613274193Z",
+    "agent_id": "pp3g-lPgz-verification-task-baseline-confirmation-for-a-re-df62",
+    "agent_seq": 4
   }
 }
