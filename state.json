@@ -1,5 +1,5 @@
 {
-  "next_display_id": 276,
+  "next_display_id": 277,
   "next_comment_id": 1038,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -74,6 +74,7 @@
     "3dc64611-2f7a-4f60-a28f-6ff3e885cb17": 100,
     "3f132a04-b3d7-4217-bc9d-399c5bde3b67": 92,
     "406c5789-2470-4c80-9861-e8cd0bae2229": 179,
+    "408d8fb2-94d2-40a3-9f41-5db162f17787": 276,
     "41191989-7657-4343-9a60-fbc505e087b2": 39,
     "42fcac76-2487-4473-ab5a-575fd4a360b5": 35,
     "44a2f894-85dc-4396-a3c6-66dbc327ec3b": 212,
@@ -4266,6 +4267,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgdgg55s+nf8RbJhZh53tiEZ0YyrOvU+UrW9jWCXQsVpYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHYqMFnt2evVl4obNV6HHT6bA+SDVR47QvgSJ6pNx+dwiuivq8RpqzTPSMnw4Dp+veWO9E+KriNGB1aaFjI4fBw=="
         }
       }
+    },
+    "408d8fb2-94d2-40a3-9f41-5db162f17787": {
+      "uuid": "408d8fb2-94d2-40a3-9f41-5db162f17787",
+      "display_id": 276,
+      "title": "AUDITOR (phase-1 in-flight divergence verifier): monitor Builder pp3g-PP6b on the #270 durable-fork rebuild. READ-ONLY — you are dispatched with the auditor permission surface; do NOT modify files, do NOT dispatch, do NOT act — you FLAG divergence to the orchestrator only. SUBJECT: issue #270 (rebuild the #154 durable fork from recovered artifacts; Builder pp3g-PP6b, ~90m task, model flash). Your job per Workflow Topology Design §5.3: pre-positioned alongside the Builder, join the position stream on #270 (structured '[PROGRESS] state=... completed=... next=... blocker=...' comments) against artifact evidence on the hub/worktree. TRIGGERS (from the design's logical trigger set): (1) position/heartbeat staleness >2x expected interval (expected cadence ~10 min for a 90m task — a gap >20 min is a trigger); (2) position-vs-artifact mismatch (claims without evidence, or evidence contradicting claims — e.g. 'build done' with no binary/log artifact, 'tests pass' with no test output); (3) silent-hang signature (no advancing position + no heartbeat while .kickoff-status reads RUNNING); (4) anything that looks like the fork's decision-gating claims are unverifiable. METHOD: periodically read #270 comments (via crosslink issue show 270 or the hub events refs/heads/crosslink/agents/pp3g-PP6b-rebuild-the-154-durable-opencode-fork-from-recovered:events.log), verify claims against artifacts (worktree .worktrees/pp3g-PP6b-rebuild-the-154-durable-opencode-fork-from-recovered/, /tmp rebuild state), post divergence findings to THIS sub-issue with --kind observation; escalate to orchestrator only when a trigger fires (a report comment on this sub-issue IS the escalation — the orchestrator polls it). Do NOT read other auditor sub-issues (#263/#264/#265 etc). Verdict only at the end: no divergence observed / divergence found (list). Ref #270.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T05:52:30.010503687Z",
+      "updated_at": "2026-08-08T05:52:30.010503687Z"
     },
     "41191989-7657-4343-9a60-fbc505e087b2": {
       "uuid": "41191989-7657-4343-9a60-fbc505e087b2",
@@ -14253,8 +14264,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T05:52:18.721338777Z",
-    "agent_id": "pp3g-3CPe-process-fix-issue-271-docs-only-codify-the-commit-426a",
-    "agent_seq": 6
+    "timestamp": "2026-08-08T05:52:30.010503687Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1350
   }
 }
