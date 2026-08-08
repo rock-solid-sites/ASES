@@ -1,6 +1,6 @@
 {
   "next_display_id": 285,
-  "next_comment_id": 1119,
+  "next_comment_id": 1120,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -929,11 +929,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:07:00.223189453Z",
-      "updated_at": "2026-08-08T07:08:01.606090821Z",
+      "updated_at": "2026-08-08T07:11:17.001100719Z",
       "labels": [
         "feature"
       ],
       "comments": {
+        "a473d551-176a-48f9-86ad-000e7d62a886": {
+          "display_id": 1119,
+          "author": "OL2r",
+          "content": "OPEN VERIFICATION ITEMS (for the implementing builder — design-agnostic source checks, no design change expected):\n(1) build_prompt / build_plan_prompt signatures + the prompt.rs template block — confirm where a base-branch line ('You are branched from <base>; parent work is present — no merge needed') would be inserted, and whether build_prompt currently receives branch/ref info.\n(2) KickoffCommands::Run enum destructure in mod.rs:54-79 — adding a 'base' field forces updating every match arm that constructs KickoffOpts (3 sites: mod.rs:80, 270, 355). Confirm exhaustive coverage.\n(3) PlanOpts struct + whether 'crosslink kickoff plan' needs --base too (plan.rs:176 calls create_worktree(..., None) but PlanOpts fields unconfirmed).\n(4) Test harness style in tests.rs (~line 939 asserts prompt contains 'git merge') — the new --base tests need the existing temp-worktree fixture pattern.\nThese are reads against the crosslink source, not design blockers.",
+          "created_at": "2026-08-08T07:11:16.989553342Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA9PXnH4AbIz6PcN5FGZCy7PJJRCPPgSxiVCSgOUojUuRUGIKWYNfC80KtzMzBC/hZbTldoRDUaVxx+KT7ZhC6CA=="
+        },
         "b2a19c9f-a403-46f4-8637-c9c8429e25a4": {
           "display_id": 1114,
           "author": "OL2r",
@@ -15157,8 +15166,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:10:22.161761970Z",
-    "agent_id": "pp3g-zgSJ-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 1
+    "timestamp": "2026-08-08T07:11:17.001100719Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1389
   }
 }
