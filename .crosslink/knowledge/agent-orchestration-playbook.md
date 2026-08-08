@@ -267,7 +267,7 @@ explicit polling of the agent's session state.
 
 **Workflow-topology formalization.** The checkpoint contract above is the
 position-emitting agent mechanism of the workflow-topology design; the
-durable-store semantics, staleness trigger, trigger-invoked AUDITOR, and
+durable-store semantics, staleness trigger, pre-positioned AUDITOR, and
 review-before-consume gate are in §5.8.
 
 ### 5.5 Two-Repo Sync Requirement
@@ -364,19 +364,22 @@ WHAT-NOT-TESTED) per AGENTS.md.
    "verify the artifact admits verification and carries the required
    calibration." Untestable claims are declared untestable with stated residual
    risk — a first-class, non-penalized outcome.
-2. **Trigger-invoked AUDITOR** — the AUDITOR is the **in-flight divergence
+2. **Pre-positioned AUDITOR** — the AUDITOR is the **in-flight divergence
    verifier**, **one role with two phases** (Phase 1 in-flight monitor: "Is
    work on track as claimed?"; Phase 2 post-hoc audit: "Did outcome and process
-   hold up?"), trigger-invoked, read-only, flag-only. **No duplicate Verifier
-   role** — a separate Verifier would duplicate the AUDITOR's read-only
-   verification point without guarding a distinct failure class. Models may
-   vary across phases (Phase 1 cheap/bounded; Phase 2 heavier/rarer). It flags
-   to the orchestrator, which owns the bounded action set
-   (investigate/nudge/stop-resume).
+   hold up?"), **pre-positioned** (launched alongside the Builder at dispatch
+   as a continuous in-flight monitor — the trigger set does NOT summon it; a
+   trigger causes the already-present AUDITOR to act), read-only, flag-only.
+   **No duplicate Verifier role** — a separate Verifier would duplicate the
+   AUDITOR's read-only verification point without guarding a distinct failure
+   class. Models may vary across phases (Phase 1 cheap/bounded, model-varied
+   from the Builder; Phase 2 heavier/rarer). It flags to the orchestrator,
+   which owns the bounded action set (investigate/nudge/stop-resume).
 
 **Cheap staleness trigger.** A position/heartbeat **stale >2x its expected
 interval** triggers investigation — a cheap clock comparison against the
-durable store, and the *primary* trigger for the AUDITOR. Logical trigger set:
+durable store, and the *primary* trigger that causes the pre-positioned
+AUDITOR to act. Logical trigger set:
 
 1. position/heartbeat staleness (>2x expected interval);
 2. position-vs-artifact claim mismatch (text claims "tests pass" but no test

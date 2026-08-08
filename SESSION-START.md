@@ -108,7 +108,7 @@ are hard invariants, not suggestions:
 
 | If your task is... | Read |
 |---|---|
-| Launching or orchestrating agents (kickoff OR swarm) | **`agent-orchestration-playbook.md`** (knowledge) — the shared playbook covering both tiers + when each applies. Contains task-matched timeout guidance (§5.3), the mandatory checkpoint-comment progress contract (§5.4), the two-repo sync rule (§5.5), and reviewer-independence via isolated sub-issues (§5.6). Workflow-topology dispatch mechanics (position store, staleness trigger, trigger-invoked AUDITOR, review-before-consume) are in §5.8 |
+| Launching or orchestrating agents (kickoff OR swarm) | **`agent-orchestration-playbook.md`** (knowledge) — the shared playbook covering both tiers + when each applies. Contains task-matched timeout guidance (§5.3), the mandatory checkpoint-comment progress contract (§5.4), the two-repo sync rule (§5.5), and reviewer-independence via isolated sub-issues (§5.6). Workflow-topology dispatch mechanics (position store, staleness trigger, pre-positioned AUDITOR, review-before-consume) are in §5.8 |
 | Understanding the workflow-topology design (principles + reasoning record) | `docs/research/Workflow Topology Design and Reasoning Record.md` — the canonical design record; operationalized in `AGENTS.md` (principles) and `docs/ORCHESTRATOR.md` (procedure) |
 | Multi-agent / swarm specifically | `crosslink-subagent-orchestration.md` (knowledge, CLI reference) + `docs/ORCHESTRATOR.md` |
 | Adversarial review | `crosslink-adversarial-review.md` (knowledge) + `docs/crosslink-adversarial-review.md` |

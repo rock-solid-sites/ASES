@@ -102,7 +102,7 @@ The Reviewer never modifies project files.
 
 Model: runtime-resolved — verify with `opencode models <provider>`.
 
-The Auditor is the **in-flight divergence verifier** — trigger-invoked,
+The Auditor is the **in-flight divergence verifier** — **pre-positioned**,
 read-only, joining position claims against artifact evidence, and flagging
 divergence to the Orchestrator (never acting directly). This is **one role
 with two phases**, not two roles:
@@ -112,9 +112,21 @@ with two phases**, not two roles:
 | **Phase 1 — in-flight monitor** | divergence verification during work | "Is work on track **as claimed**?" |
 | **Phase 2 — post-hoc audit** | final project-level audit | "Did outcome **and process** hold up?" |
 
+**Dispatch semantics — pre-positioned, not trigger-summoned.** The Auditor is
+launched **alongside the Builder** at the start of a task, as a continuous
+in-flight divergence monitor. It does **not** wait to be summoned: the trigger
+set does not dispatch the Auditor — a trigger causes the **already-present**
+Auditor to act, checking the durable position store against artifact evidence
+and reporting divergence to the Orchestrator. This is the operator-directed
+model validated live in the hydration epic (2026-08-08): a reactive
+summon-on-trigger reading left divergence undiscovered until a trigger fired
+and then required a cold dispatch; pre-positioning means the Auditor is present
+from dispatch and acts on trigger, model-varied from the Builder.
+
 - **Model variation across phases:** the two phases have different goals, cost
   profiles, and verification depths; they are *not required* to use the same
-  model. Phase 1 is trigger-invoked and bounded (cheap structural
+  model. Phase 1 (the pre-positioned in-flight monitor) is present from
+  dispatch, model-varied from the Builder, and bounded (cheap structural
   claim-vs-evidence join); Phase 2 is the heavier, rarer final gate. The model
   for each phase is chosen at dispatch per the routing matrix.
 - **No duplicate Verifier role:** the Auditor already occupies the read-only
@@ -125,8 +137,9 @@ with two phases**, not two roles:
 
 Responsibilities:
 
-- Phase 1 (trigger-invoked): verify, per the trigger set, that work in flight
-  is on track as claimed.
+- Phase 1 (pre-positioned in-flight monitor): continuously verify, per the
+  trigger set, that work in flight is on track as claimed — reporting
+  divergence on trigger, never summoned by it.
 - Phase 2: evaluate completed work and process from a project perspective.
 - Assess architectural quality.
 - Assess process quality.
@@ -205,7 +218,8 @@ evidence=<link to artifact/evidence>
 
 A position/heartbeat that is **stale >2x its expected interval** triggers
 investigation. The trigger is cheap (a clock comparison against the durable
-store) and is the *primary* trigger for the AUDITOR. Logical trigger set:
+store) and is the *primary* trigger that causes the pre-positioned AUDITOR to
+act. Logical trigger set:
 
 1. position/heartbeat staleness (>2x expected interval);
 2. position-vs-artifact claim mismatch (text claims "tests pass" but no test
@@ -234,12 +248,15 @@ operator. The operator supervises the **Orchestrator**, not the swarm.
 ## AUDITOR as Divergence Verifier — ONE Role, TWO Phases
 
 The AUDITOR is the **in-flight divergence verifier** (see the Auditor role
-definition above): trigger-invoked, read-only, flag-only. The one-role/two-phase
+definition above): **pre-positioned** — launched alongside the Builder at
+dispatch as a continuous in-flight monitor, not summoned by triggers — and
+read-only, flag-only. The trigger set does not dispatch the AUDITOR; a trigger
+causes the **already-present** AUDITOR to act. The one-role/two-phase
 structure means **no duplicate Verifier role** — a separate Verifier would
 duplicate the Auditor's read-only verification point without guarding a
 distinct failure class. Model variation across phases is permitted: Phase 1
-(in-flight monitor) is bounded and cheap; Phase 2 (post-hoc audit) is the
-heavier, rarer final gate.
+(pre-positioned in-flight monitor) is bounded and cheap and model-varied from
+the Builder; Phase 2 (post-hoc audit) is the heavier, rarer final gate.
 
 ## Reviewer = Pre-Consumption Readiness Audit
 
