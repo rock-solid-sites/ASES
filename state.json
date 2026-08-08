@@ -1,6 +1,6 @@
 {
   "next_display_id": 293,
-  "next_comment_id": 1179,
+  "next_comment_id": 1180,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -14791,10 +14791,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-08T08:03:17.797572909Z",
-      "updated_at": "2026-08-08T08:03:31.692304097Z",
+      "updated_at": "2026-08-08T08:06:18.525576854Z",
       "labels": [
         "review"
-      ]
+      ],
+      "comments": {
+        "cc110972-a6eb-41cb-9498-617130c70115": {
+          "display_id": 1179,
+          "author": "pp3g-Dghg-independent-review-issue-292-read-only-reviewer-bfd2",
+          "content": "Plan: Independent re-derivation of the two load-bearing claims, from primary artifacts only (report.md read last, after forming my own reading of logs/tests/venv source, to limit anchoring). Steps: (1) read tests/phase_b1_traceback.py + intercept_poc.py + tests/phase_b2_poc.py; (2) read committed logs/phase-b1-traceback-*.log and phase-b2-poc-*.log and extract the ACTUAL frame list; (3) check the installed venv source at /tmp/toolregistry-venv for mcp/client/session.py:1110, toolregistry/client.py:133, toolregistry/.../connection.py:106 -- confirm the line numbers and that call_tool is a pure pass-through; (4) read tests/phase_b2b_preabsorbed.py to confirm the absorb-then-invoke pattern is real (stale schema absorbed BEFORE the drifted call, not a relabelled fresh call); (5) read logs/phase-b2b-preabsorbed-*.log and count spawns / persistent-proxy instances / reconnects and check the ErrorResult is verbatim; (6) only then diff my findings against report.md's claims. Verdict PASS/CONDITIONAL/FAIL with WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED, posted chunked (2-4 comments).",
+          "created_at": "2026-08-08T08:06:18.518668646Z",
+          "kind": "plan",
+          "signed_by": "SHA256:X5NSxYDAEbPaKQUSZQLpeZLg4MBSfKNEOEKr61gpqBg",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgj66VyzMYywPM+/3lFMU6gfawU9JfLC9LtYF+no+qdzgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdXdnQ9cX1nE+J1gS8K6chxkxn+bJQFmmjMgFHSTVffy9QgabF8oJ+aOKv5T7Bq4kvJJUk0CK+g8wGto9t4H2CQ=="
+        }
+      }
     },
     "ee6ebb73-5486-4745-8942-ceaa0e60e1dc": {
       "uuid": "ee6ebb73-5486-4745-8942-ceaa0e60e1dc",
@@ -15851,8 +15862,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T08:05:34.553028515Z",
+    "timestamp": "2026-08-08T08:06:18.525576854Z",
     "agent_id": "pp3g-Dghg-independent-review-issue-292-read-only-reviewer-bfd2",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
