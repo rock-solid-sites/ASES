@@ -1,0 +1,43 @@
+PROXY|2026-08-06T08:04:00.003Z|epoch_ms=1786003440003|rel_ms=       1|proxy_started pid=2588879 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json heal_threshold=1 heal_state=on manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T08:04:00.003Z|epoch_ms=1786003440003|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T08:04:00.102Z|epoch_ms=1786003440102|rel_ms=     100|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T08:04:00.104Z|epoch_ms=1786003440104|rel_ms=     102|request tools/list backend_connected=False served={'add': {'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'}, 'multiply': None}
+PROXY|2026-08-06T08:04:00.110Z|epoch_ms=1786003440110|rel_ms=     108|connection_closed exiting
+PROXY|2026-08-06T08:04:08.498Z|epoch_ms=1786003448498|rel_ms=       1|proxy_started pid=2589012 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json heal_threshold=1 heal_state=on manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T08:04:08.499Z|epoch_ms=1786003448499|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-06T08:04:08.597Z|epoch_ms=1786003448597|rel_ms=     100|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T08:04:08.597Z|epoch_ms=1786003448597|rel_ms=     100|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-06T08:04:08.598Z|epoch_ms=1786003448598|rel_ms=     101|backend_spawn_start instance_id=be-1-2589012-48598 spawn_count=1
+PROXY|2026-08-06T08:04:16.708Z|epoch_ms=1786003456708|rel_ms=    8211|backend_up instance_id=be-1-2589012-48598 spawn_count=1 init_ms=8110.1
+PROXY|2026-08-06T08:04:16.708Z|epoch_ms=1786003456708|rel_ms=    8211|forward tools/call name=add to backend instance=be-1-2589012-48598
+PROXY|2026-08-06T08:04:17.111Z|epoch_ms=1786003457111|rel_ms=    8614|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-06T08:04:17.112Z|epoch_ms=1786003457112|rel_ms=    8615|response tools/call name=add ok=True
+PROXY|2026-08-06T08:04:17.116Z|epoch_ms=1786003457116|rel_ms=    8619|request tools/list backend_connected=True served={'add': {'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'}, 'multiply': None}
+PROXY|2026-08-06T08:04:17.604Z|epoch_ms=1786003457604|rel_ms=    9107|request tools/call name=add arguments={'a': 4, 'b': 5} backend_connected=True
+PROXY|2026-08-06T08:04:17.605Z|epoch_ms=1786003457605|rel_ms=    9108|forward tools/call name=add to backend instance=be-1-2589012-48598
+PROXY|2026-08-06T08:04:17.609Z|epoch_ms=1786003457609|rel_ms=    9112|self_check_failed name=add consecutive=1 threshold=1 mismatch="'sum' is a required property" served_schema={'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'}
+PROXY|2026-08-06T08:04:17.616Z|epoch_ms=1786003457616|rel_ms=    9119|live_tools_listed instance_id=be-1-2589012-48598 tools=['add', 'multiply'] schemas=[None, None]
+PROXY|2026-08-06T08:04:17.616Z|epoch_ms=1786003457616|rel_ms=    9119|heal_state_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-qfOy-investigation-task-decision-ready-comparison-not-a/research/toolregistry-lazy-mcp/c2-gap-investigation/logs/phase-a3-a3a-heal-state.json tools=['add', 'multiply']
+PROXY|2026-08-06T08:04:17.616Z|epoch_ms=1786003457616|rel_ms=    9119|self_heal name=add trigger_call=add({'a': 4, 'b': 5}) before_schema={'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'} after_schema=None live_schema=None served_after={'add': None, 'multiply': None}
+PROXY|2026-08-06T08:04:17.617Z|epoch_ms=1786003457617|rel_ms=    9120|response tools/call name=add ok=True
+PROXY|2026-08-06T08:04:17.699Z|epoch_ms=1786003457699|rel_ms=    9202|connection_closed exiting
+PROXY|2026-08-06T08:04:27.102Z|epoch_ms=1786003467102|rel_ms=       1|heal_state_loaded path=phase-a3-a3a-heal-state.json tools=['add', 'multiply'] schemas=[None, None]
+PROXY|2026-08-06T08:04:27.102Z|epoch_ms=1786003467102|rel_ms=       1|proxy_started pid=2589190 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json heal_threshold=1 heal_state=on manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-06T08:04:27.102Z|epoch_ms=1786003467102|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-06T08:04:27.133Z|epoch_ms=1786003467133|rel_ms=      32|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-06T08:04:27.134Z|epoch_ms=1786003467134|rel_ms=      33|request tools/call name=add arguments={'a': 4, 'b': 5} backend_connected=False
+PROXY|2026-08-06T08:04:27.134Z|epoch_ms=1786003467134|rel_ms=      33|backend_spawn_start instance_id=be-1-2589190-67134 spawn_count=1
+PROXY|2026-08-06T08:04:34.812Z|epoch_ms=1786003474812|rel_ms=    7711|backend_up instance_id=be-1-2589190-67134 spawn_count=1 init_ms=7677.7
+PROXY|2026-08-06T08:04:34.812Z|epoch_ms=1786003474812|rel_ms=    7711|forward tools/call name=add to backend instance=be-1-2589190-67134
+PROXY|2026-08-06T08:04:34.901Z|epoch_ms=1786003474901|rel_ms=    7800|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-06T08:04:34.902Z|epoch_ms=1786003474902|rel_ms=    7801|response tools/call name=add ok=True
+PROXY|2026-08-06T08:04:34.905Z|epoch_ms=1786003474905|rel_ms=    7804|request tools/list backend_connected=True served={'add': None, 'multiply': None}
+PROXY|2026-08-06T08:04:34.909Z|epoch_ms=1786003474909|rel_ms=    7808|request tools/call name=add arguments={'a': 6, 'b': 7} backend_connected=True
+PROXY|2026-08-06T08:04:34.909Z|epoch_ms=1786003474909|rel_ms=    7808|forward tools/call name=add to backend instance=be-1-2589190-67134
+PROXY|2026-08-06T08:04:34.913Z|epoch_ms=1786003474913|rel_ms=    7812|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-06T08:04:34.913Z|epoch_ms=1786003474913|rel_ms=    7812|response tools/call name=add ok=True
+PROXY|2026-08-06T08:04:35.006Z|epoch_ms=1786003475006|rel_ms=    7905|request tools/call name=add arguments={'a': 8, 'b': 9} backend_connected=True
+PROXY|2026-08-06T08:04:35.007Z|epoch_ms=1786003475007|rel_ms=    7906|forward tools/call name=add to backend instance=be-1-2589190-67134
+PROXY|2026-08-06T08:04:35.010Z|epoch_ms=1786003475010|rel_ms=    7909|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-06T08:04:35.010Z|epoch_ms=1786003475010|rel_ms=    7909|response tools/call name=add ok=True
+PROXY|2026-08-06T08:04:35.014Z|epoch_ms=1786003475014|rel_ms=    7913|connection_closed exiting
