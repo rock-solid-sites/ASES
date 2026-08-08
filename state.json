@@ -1,6 +1,6 @@
 {
   "next_display_id": 294,
-  "next_comment_id": 1187,
+  "next_comment_id": 1188,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13724,7 +13724,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:39:11.228373760Z",
-      "updated_at": "2026-08-08T07:22:56.112441413Z",
+      "updated_at": "2026-08-08T17:27:59.239536153Z",
       "labels": [
         "infrastructure"
       ],
@@ -13755,6 +13755,15 @@
           "kind": "plan",
           "signed_by": "SHA256:iPaUK7S6vmz/ptN//e08nwBwHjhgfGn3P6pZMg45Vk4",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgt/9yOxzCrSToXb6mFylbhqYHxXz90I63wbx35aUFYhUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGVVgSbgdEQL5AEfUaWwzZCxwTHd7Xq2yn7cwwd40AypJCkofNd4y3QXt3QLyT1A9brXcjJ/JIfolHdvUgX9+BQ=="
+        },
+        "6d1a895f-ff07-4e00-8361-a43a1d7d5773": {
+          "display_id": 1187,
+          "author": "OL2r",
+          "content": "ATOMIC-MATRIX DIRECTION (orchestrator, operator-requested): make the matrix resumable at row granularity so an agent death loses at most one row, not the whole run. ADOPT THIS IN THE RUNNING TASK (or a continuation): (1) the matrix is 16 independent rows (each spawns own server+client); (2) after EACH row completes, append 'rowN: PASS/FAIL <brief evidence>' to a results ledger (e.g. fork/results/matrix-ledger.log) and git-commit it (per #286 §5.9.1 per-phase commits — here applied per-row); (3) if the process dies at row 8, the ledger has rows 1-7 committed; a continuation agent reads the ledger, skips completed rows, resumes from the first incomplete row; (4) per-row artifacts already exist (client-rowN.out, server-rowN.log) — the ledger just records which rows PASSED and where to resume. This is a script-level change to the run loop (commit after each row), not a redesign. NOTE: the commit c7d6e24 is source-only (all 6395 files under fork/opencode-src/ — the binary, harness, tests, INSTALL-PREP were NOT committed because the task-1 agent died before copying them; they survive in /tmp/opencode/ + the fork-build repo). The #271 commit-all is only PARTIALLY satisfied — after the matrix, task 3 must re-commit the binary + harness + results. If you are mid-run without the ledger, add it now for the remaining rows.",
+          "created_at": "2026-08-08T17:27:59.230760016Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABArXiI/qk9HEAgsNiicJ/lodsHSlN9sKvwadivW7D17KkMvsnC3+7avhPVIDFoGmlhsNABhX366GyFeqHDR/KTBQ=="
         },
         "7fda9768-4280-473c-bb15-b86cdc47f282": {
           "display_id": 1042,
@@ -15937,8 +15946,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T17:26:44.090135618Z",
-    "agent_id": "pp3g-WzWe-auditor-phase-1-in-flight-divergence-verifier-issue",
-    "agent_seq": 5
+    "timestamp": "2026-08-08T17:27:59.239536153Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1450
   }
 }
