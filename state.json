@@ -1,6 +1,6 @@
 {
   "next_display_id": 263,
-  "next_comment_id": 961,
+  "next_comment_id": 962,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -6823,7 +6823,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-06T07:22:44.855827634Z",
-      "updated_at": "2026-08-08T03:49:31.736787169Z",
+      "updated_at": "2026-08-08T03:50:24.650917278Z",
       "labels": [
         "research",
         "toolregistry"
@@ -6846,6 +6846,15 @@
           "kind": "plan",
           "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4bvhvfJIdqty05aHuXaO12/nb4pwW/1pSp4aSaoWDHYXMuyZdiv5bsynSwS494/qVTC9daDZmeckRwm1WIeXAg=="
+        },
+        "512df36e-3fb0-42c2-b742-3296f4f750ab": {
+          "display_id": 961,
+          "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+          "content": "ADDENDUM [F7] — the auditor closeout protocol is self-contradictory, and it manufactures false RUNNING signals.\n\nOBSERVED: my dispatch instructs me to write DONE to .kickoff-status when finished. I attempted it. The write was refused at plugin level: ORCHESTRATOR WRITE BLOCK on filesystem_write_file, enforced because edit:deny does not block native writes (OpenCode issue #33677). I did not attempt to circumvent it — read-only discipline is the point of the role, and bash write paths are denied too.\n\nCONSEQUENCE: .kickoff-status in this worktree still reads RUNNING and will read RUNNING permanently, even though this auditor has finished, ended its session, released the lock, and has nothing further to do.\n\nWHY THIS MATTERS BEYOND MY OWN CLEANUP: F3 of my report flagged .kickoff-status=RUNNING with no heartbeat as the stall signature that let the original pp3g-qfOy failure go unnoticed for 44 hours. F7 shows that signature is not always a stall — for EVERY read-only role (auditor, reviewer), a permanently-RUNNING flag is the guaranteed, structurally-forced outcome, because the role that is told to clear the flag is the role forbidden from writing it. Any operator or tooling that treats .kickoff-status=RUNNING as evidence of liveness will therefore accumulate permanent false positives from every review and audit agent dispatched, and those false positives are indistinguishable from real stalls like the one being remediated here.\n\nThis is a defect in the kickoff template, not in the permission model. The permission model behaved correctly.\n\nRECOMMENDED (orchestrator, low effort, high signal-value):\n  1. Remove the write-DONE-to-.kickoff-status step from read-only role templates (auditor/reviewer) — it can never succeed.\n  2. Have completion for read-only roles be signalled by the --kind result comment plus session end, both of which I DID complete and both of which are durable in the store.\n  3. If a filesystem completion flag is genuinely needed for harness polling, have the launching harness clear it on process exit rather than asking the sandboxed agent to write it.\n  4. Treat worktree-present + first-checkpoint-posted as the liveness gate instead of .kickoff-status (see the systemic risk note in my result comment).\n\nMy actual completion state, authoritatively: Phase-1 monitoring CLOSED. Result comment posted, session #1 ended with handoff notes, stale #228 lock RELEASED (stale-lock count went 12 to 11, #228 no longer listed — #228 is now claimable by a re-dispatched Builder). Ignore .kickoff-status for this worktree.",
+          "created_at": "2026-08-08T03:50:24.643887573Z",
+          "kind": "observation",
+          "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxzIqLl8MuTbjZEiYCpXAJ1tBQ030yA6NFaB4jd5J1C9I2sZUtBW5bJ+Yf23UdRgQjRxPW49KAnetKcFIN0RGBw=="
         },
         "70a3ac39-ae9a-4f9b-982a-5e8ebbd00438": {
           "display_id": 956,
@@ -13312,8 +13321,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T03:49:31.736787169Z",
+    "timestamp": "2026-08-08T03:50:24.650917278Z",
     "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 11
+    "agent_seq": 12
   }
 }
