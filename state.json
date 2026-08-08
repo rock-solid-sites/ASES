@@ -1,6 +1,6 @@
 {
   "next_display_id": 282,
-  "next_comment_id": 1100,
+  "next_comment_id": 1101,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -6555,13 +6555,24 @@
       "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
       "created_by": "OL2r",
       "created_at": "2026-08-08T06:34:20.271159060Z",
-      "updated_at": "2026-08-08T06:34:49.209345376Z",
+      "updated_at": "2026-08-08T06:46:17.533784114Z",
       "labels": [
         "docs"
       ],
       "related": [
         "4b7e8889-cb57-44de-ae8b-0ce0c26b0a26"
-      ]
+      ],
+      "comments": {
+        "186e174f-282a-40cf-84eb-6555fe15283d": {
+          "display_id": 1100,
+          "author": "pp3g-9aeQ-doc-task-issue-281-docs-only-reconcile-playbook-c79f",
+          "content": "Plan: reconcile playbook monitoring-model drift (#281). Read: #281, playbook §5.3/§5.4/§5.5/§5.8/§6.1/§6.4 (full file), canonical design record §5.2/§5.3 (READ ONLY, will not modify), ORCHESTRATOR.md workflow-topology section, both KICKOFF template copies, tripn-astro mirror state. Changes (docs-only, all in .crosslink/knowledge/agent-orchestration-playbook.md + KICKOFF templates): (1) §5.4 Missed-check-in escalation → auditor-mediated routine (pre-positioned Phase-1 AUDITOR per §5.8 + design record §5.2/§5.3); orchestrator ps/investigate = FALLBACK when no auditor or on auditor flag; add §5.5 two-repo sync note. (2) §6.1 Status Checks → rename/rework into 'The Three-Layer Monitoring Model': Layer 1 systemd watcher (§6.4, tools/kickoff-notify.py) = mechanical liveness; Layer 2 pre-positioned AUDITOR = claim-vs-evidence divergence (staleness >2x, claim-vs-artifact mismatch, silent-hang signature); Layer 3 orchestrator = bounded action set (investigate/nudge/stop-resume) + single integration point. NUANCE explicit: auditor flags to ORCHESTRATOR only, orchestrator surfaces only decisions to operator. Keep status-check rules as Layer-3 practice; no section renumbering (avoids cascading refs). (3) §5.3 two-signal line 'warrants investigation via ps' → aligned to auditor-mediated + fallback (same drift family, prevents half-fixed doc). (4) §6.4 add one-line cross-ref 'Layer 1 of three-layer model (§6.1)'. (5) KICKOFF template escalation wording (both ~/.crosslink/rules/kickoff.md global + .crosslink/rules/kickoff.md project) → align with three-layer model (agent posts checkpoints; layered detection; agent never investigates itself). No renumbering of §6.2-§6.6. Evidence discipline per AGENTS.md; commit with [#281].",
+          "created_at": "2026-08-08T06:46:17.527460071Z",
+          "kind": "plan",
+          "signed_by": "SHA256:clDufTCfpvxq7NqxXxGA9Bms53nSv6Tn+nkuA3zXQno",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg+q8jBAKtq1Z6yMaW0z3fMbwnIaciu7s2XihiAEo0P+IAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxjJk4SoZPm6nGl0WBvl1LBXnH/+jIvN+BPSzTby+2T8XhlOQI8LmHbt89eLlUsKnIGZepgiPUCYB/HzCog6BDQ=="
+        }
+      }
     },
     "68941ee1-bcaf-4bc4-9c1f-0db903630fe6": {
       "uuid": "68941ee1-bcaf-4bc4-9c1f-0db903630fe6",
@@ -14927,8 +14938,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T06:39:54.306156558Z",
+    "timestamp": "2026-08-08T06:46:17.533784114Z",
     "agent_id": "pp3g-9aeQ-doc-task-issue-281-docs-only-reconcile-playbook-c79f",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
