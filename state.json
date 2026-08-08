@@ -1,6 +1,6 @@
 {
   "next_display_id": 289,
-  "next_comment_id": 1147,
+  "next_comment_id": 1148,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -15313,7 +15313,7 @@
       "parent_uuid": "14c5bf9c-c3d4-4bfd-b1e3-02b0e3e15d17",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:26:19.642253363Z",
-      "updated_at": "2026-08-08T07:29:14.059181475Z",
+      "updated_at": "2026-08-08T07:31:37.626667886Z",
       "labels": [
         "audit"
       ],
@@ -15326,6 +15326,15 @@
           "kind": "observation",
           "signed_by": "SHA256:b3KRHaxjMBgzmPSLb8i7JZT1NwAjO8EYe7uTx+G8GZs",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtBYsdivVI4hMkttr5fBjGXiFSDqvoUDZKyp3UgzwVg8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAfyU+3W6GNZ/yGmZpFobsyvsxcNnx3irCbLEd+7Uvvxhy7OtisRKTaNBLjc5Ixrz95mYoPjS5Vim73KbRlqbmCQ=="
+        },
+        "c387dfdc-72e8-4665-8d7b-110740ee5090": {
+          "display_id": 1147,
+          "author": "pp3g-jZgf-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[PROGRESS] state=working completed=INDEPENDENT RE-DERIVATION of concern A complete (no-backoff claim verified TRUE from primary source, ahead of the builder) + pre-state captured for concern B next=monitor builder for corrected criterion-2 text and committed revalidation logs blocker=none\n\n## A. No-backoff claim — INDEPENDENTLY CONFIRMED TRUE (re-derived, not taken on trust)\n\nPrimary source: /tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py\n\n_call_persistent spans EXACTLY 97-111 (def at :97, final return at :111, next def _call_per_request at :113). Verbatim body:\n- :101 `async with self._lock:`            (lock)\n- :102 `await self._ensure_connected()`\n- :103 `try:`\n- :104 `assert self._client is not None`\n- :105 `return await self._client.call_tool(name, arguments)`   (single call)\n- :106 `except Exception:`                  (bare catch-all)\n- :107 `logger.warning(f\"MCP call to '{name}' failed, reconnecting and retrying\")`  (telemetry)\n- :108 `async with self._lock:`            (lock, second acquisition)\n- :109 `await self._connect()`              (reconnect)\n- :110 `assert self._client is not None`\n- :111 `return await self._client.call_tool(name, arguments)`   (ONE immediate retry)\n\nGrep `sleep|backoff|delay|retry|attempt|max_retr|for |while |range\\(` over the whole file returns ONE substantive hit: line 107's logger.warning string. No sleep, no backoff, no delay, no loop, no counter, no max-retries. Transitive check done too: _ensure_connected (:82-85) and _connect (:87-95) contain no delay either (_connect has only a best-effort `except Exception: pass` teardown before reconstructing MCPClient). VERDICT: the no-backoff premise of #287 is TRUE. Retry is immediate and unconditional.\n\n## A-EXTRA — a SECOND mis-specification in criterion 2 that the #284 auditor did NOT name\n\nCriterion 2's text is 'backoff/lock/telemetry/retry count'. My re-derivation finds **TWO** non-existent elements, not one:\n1. 'backoff' — absent (as #284 reported);\n2. **'retry count' — ALSO absent.** There is no counter variable, no loop, no max-retries, no attempt tracking. The retry is a single hardcoded unconditional statement at :111.\n\nFLAG TO ORCHESTRATOR (non-blocking, pre-emptive): if the builder corrects only 'backoff' and leaves 'retry count' standing, the correction is INCOMPLETE and criterion 2 will still mislead the next re-validator. Accurate body descriptor is: lock / _ensure_connected / single call / bare-except / telemetry / reconnect / one immediate retry — no backoff, no retry count.\n\n## B. Pre-state captured (so non-modification is provable later)\n\nStructural confirmation of the testimonial-only concern: common_c2.py:40 `LOGS_DIR = HERE / \"logs\"` is HARDCODED with NO env-var override, and phase_b2_poc.py:58-59 `if PROXY_LOG.exists(): PROXY_LOG.unlink()` DELETES the tracked baseline before writing. So a plain re-run necessarily destroys and rewrites tracked baselines — the #284 concern is structurally sound, and run-scoped output is not reachable by configuration alone. The builder must copy-out to logs/revalidation-2026-08-08/ and restore the baselines (or equivalent); I will judge the outcome, not the method.\n\nBaseline blob hashes at HEAD (git ls-files -s) for later non-modification proof:\n- phase-b2-poc-harness.log      48869ec292b9558b0f92a8008e6182e9b07b6ca0\n- phase-b2-poc-proxy.log        13c04139e15037de5bf306f305714ad6f394e9f9\n- phase-b2b-preabsorbed-harness.log  78f132933f26a6a1ff3d6efb93b1c6846dde2a20\n- phase-b2b-preabsorbed-proxy.log    6371dd22260491a98eb6d31d60a95afc7146b772\n\nWorking tree currently clean of any revalidation-2026-08-08 artifact (git status: only .crosslink/.last-hydrated-ref + .kickoff-session).\n\n## Trigger status\nNo trigger fired. Builder liveness positively confirmed (active lock on #287 held by pp3g-6l7c; last position 07:27 POST-PLAN, within cadence). Per PVi7 I make no absence call; per WZSE I will not raise staleness while artifacts advance.",
+          "created_at": "2026-08-08T07:31:37.611962971Z",
+          "kind": "observation",
+          "signed_by": "SHA256:b3KRHaxjMBgzmPSLb8i7JZT1NwAjO8EYe7uTx+G8GZs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtBYsdivVI4hMkttr5fBjGXiFSDqvoUDZKyp3UgzwVg8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQnIIsBEnTJV4bXMNKVXo4Sn9dQuk1URv9Ew2RWRie0RNLC4ile0wj7aZL1PHqculvL1ui4lF1Sb7RgGXsIuwDA=="
         },
         "eedf01bd-696c-414d-a89b-21a256f1883b": {
           "display_id": 1141,
@@ -15481,8 +15490,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:31:18.009893578Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1401
+    "timestamp": "2026-08-08T07:31:37.626667886Z",
+    "agent_id": "pp3g-jZgf-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 4
   }
 }
