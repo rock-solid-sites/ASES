@@ -1,6 +1,6 @@
 {
   "next_display_id": 266,
-  "next_comment_id": 982,
+  "next_comment_id": 983,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5931,7 +5931,7 @@
       "parent_uuid": "7ef840e7-d516-4301-b94d-f02d6d30bb55",
       "created_by": "OL2r",
       "created_at": "2026-08-08T04:12:13.057460624Z",
-      "updated_at": "2026-08-08T04:25:55.036906002Z",
+      "updated_at": "2026-08-08T04:26:19.272272954Z",
       "labels": [
         "audit"
       ],
@@ -5944,6 +5944,15 @@
           "kind": "result",
           "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAl8mw8p3Yo3ku+0KOIwOVDVUDaezA5Cno8MK5Snp+XNNFLJrNifuzI5l9+zrhJOYwM231+N0dmqsqBVbH/i2dAA=="
+        },
+        "76c4a1f0-1381-4bbe-855c-519d6512a591": {
+          "display_id": 982,
+          "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
+          "content": "[PROGRESS] state=done completed=Phase-2 post-hoc audit of the C2-gap investigation (#228) posted as --kind result. VERDICT: CONDITIONAL PASS. Independent re-derivation: all 11 rows of the section-7 timing/spawn table reproduce exactly from committed logs; traceback origin at mcp/client/session.py:1110 verified against the live venv and corroborated in 3 independent logs; connection.py:106 confirmed as the literal bare 'except Exception:'; interception proven in the call path via stack-frame substitution (intercept_poc.py:90 replacing connection.py:111 in phase-b2-poc-harness.log:51); corpus md5s (279c7520/f8977f8a) byte-identical to the #213 corpus; all 7 preserved-initial-run logs md5-identical to their 7dd054be originals; zero deletions across the whole diff so #213/#217 corpora untouched; cross-document #213 baselines match report.md:127/307/350/353; versions machine-emitted in every phase_start line. 3 HIGH concerns gate the clean PASS: (C1) Option B's fresh-or-pre-absorbed uniformity is inferred but stated as tested — no B2b phase exists and it sits on the axis that decides A vs B; (C2) the recommended option's upgrade fragility was never assessed despite overriding and copy-duplicating a private method; (C3) the PoC-size deliverable is non-reproducible (99 code lines vs actual 64) and internally inconsistent (stated addends 5+20+22+10 sum to 57, not 48), and has already propagated 2 hops into the result comment and dispatch briefs. 6 systemic risks and 8 prioritised recommendations included. next=done blocker=none",
+          "created_at": "2026-08-08T04:26:19.265286326Z",
+          "kind": "observation",
+          "signed_by": "SHA256:QnesEmvvqpIlj5hRSf8Xgt2fnafYnIlPGS2VybcvWMc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3GZ1ioft4osqukNxK8O3e9w3xIKe6PwYDD2kPknQ0QMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8/4t7ZfsueqSSAB5e5rRQk9B+AJHutvDII8qDT7XX1TUMreS1VX/c40vAE2uY2+s4g/OO5NU0NjK5Ix5Fyj1AQ=="
         },
         "8fea7b6a-5969-442f-9a4d-dcb880f5b039": {
           "display_id": 977,
@@ -13564,8 +13573,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T04:25:55.036906002Z",
+    "timestamp": "2026-08-08T04:26:19.272272954Z",
     "agent_id": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
-    "agent_seq": 23
+    "agent_seq": 24
   }
 }
