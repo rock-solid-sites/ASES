@@ -13,16 +13,18 @@ depends_on:
   - research/toolregistry-lazy-mcp/report.md
   - research/toolregistry-lazy-mcp/output-schema-drift/report.md
   - research/toolregistry-lazy-mcp/retry-classification/report.md
+  - research/toolregistry-lazy-mcp/c2-gap-investigation/report.md
 
 related_documents:
   - research/toolregistry-lazy-mcp/report.md
   - research/toolregistry-lazy-mcp/output-schema-drift/report.md
   - research/toolregistry-lazy-mcp/retry-classification/report.md
+  - research/toolregistry-lazy-mcp/c2-gap-investigation/report.md
 
 consumed_by:
   - identifier-first research programme
 
-last_updated: 2026-08-06
+last_updated: 2026-08-08
 ---
 
 # Project: Identifier-First Tool Calling for Token- and Resource-Efficient AI Agents
@@ -136,6 +138,13 @@ Three rounds of testing (each independently reviewed) against a working stdio pr
 **3. Retry-classification fix (mitigation, partially effective).** Tagging a schema-validation failure as a terminal application error, distinguishable from a connection failure, eliminates the compounding: spawns drop from 4 to 1 and latency drops 57-75% (residual ≈1.35-2.2x a successful call, dominated by the single unavoidable backend init). Confirmed not to overcorrect — genuine connection failures still retry and recover correctly. Two gaps remain unresolved by proxy-only classification, both because they require changes inside ToolRegistry's client rather than the proxy: (a) the caller-visible error is a `ToolCallResult` wrapping the schema error rather than a clean typed error, because ToolRegistry only builds `ErrorResult` from a raised exception, and that same raise is what previously triggered the reconnect; (b) a backend that has been consistently upgraded (its schema now permanently differs from the cached manifest, rather than failing intermittently) is invisible to proxy-side classification, since the triggering exception fires inside ToolRegistry's own client past the proxy's visibility — this variant still pays 2 spawns/2 proxies.
 
 **Implication for scope:** the "no modification to ToolRegistry required" premise holds for the core lazy-activation and input-validation claims, but does **not** fully hold for output-schema-drift handling — closing the two remaining gaps requires deciding whether to extend into ToolRegistry's client internals, which is a materially larger commitment than the proxy-only work done so far. This decision is tracked as an open item below rather than assumed.
+
+### Connector-lifecycle constraints observed (version-bound: toolregistry 0.15.0 / mcp 2.0.0)
+
+Two reusable constraints from the C2-gap investigation (`research/toolregistry-lazy-mcp/c2-gap-investigation/report.md`, #228), valid for **toolregistry 0.15.0 / mcp 2.0.0**; verify on upgrade (re-validation trigger filed under epic #212):
+
+- **The C2 schema-validation exception is SDK-origin, and ToolRegistry 0.15.0 has NO failure-class distinction.** The `RuntimeError("Invalid structured content returned by tool ...")` is raised by the mcp SDK itself at `mcp/client/session.py:1110` (`validate_tool_result`, called from `session.py:1064`), passes through ToolRegistry's `MCPClient.call_tool` (`toolregistry/integrations/mcp/client.py:133`) as a pure pass-through, and trips the catch-all reconnect at `toolregistry/integrations/mcp/connection.py:106` — a bare `except Exception:` that cannot tell a schema-validation failure from a connection loss. Any client-side classification must therefore inspect the exception message, not a failure class.
+- **`register_from_mcp` hardcodes `MCPConnectionManager` at `integration.py:323`.** ToolRegistry's registration API constructs the connection manager internally with no injection point / factory / hook / callback, so any connection-layer customisation (subclass, alternate manager, interception) requires manual registration assembly via public API (`MCPTool.from_tool_json` + `registry.register`) instead of `register_from_mcp`. This is the concrete registration-assembly cost for every future connection-layer option in this line.
 
 ---
 

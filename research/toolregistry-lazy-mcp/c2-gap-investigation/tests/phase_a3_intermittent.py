@@ -23,6 +23,7 @@ Three sub-scenarios, each a fresh registry + proxy session, all against
 
 from __future__ import annotations
 
+import os
 import sys
 import time
 from pathlib import Path
@@ -46,6 +47,9 @@ from common_c2 import (  # noqa: E402
 from toolregistry import ToolRegistry  # noqa: E402
 
 MANIFEST = HERE / "manifest.json"
+# Heal threshold for the flapping-check sweep (G5): the committed N=1 run is
+# reproduced when A3_HEAL_THRESHOLD is unset; higher N runs the sweep.
+HEAL_THRESHOLD = os.environ.get("A3_HEAL_THRESHOLD", "1")
 CALLS = [
     ("add", {"a": 2, "b": 3}, "add(2,3)"),
     ("add", {"a": 4, "b": 5}, "add(4,5)"),
@@ -78,7 +82,7 @@ def run_sub_scenario(
         backend_response_mode="alternating",
         backend_script=INTERMITTENT_BACKEND,
         heal_state=str(heal_state),
-        heal_threshold="1",
+        heal_threshold=HEAL_THRESHOLD,
         classify_schema=classify,
     )
     try:
@@ -126,7 +130,7 @@ def run_sub_scenario(
 
 
 def main() -> None:
-    hlog(f"phase_start phase=phase-a3-intermittent {versions_line()}")
+    hlog(f"phase_start phase=phase-a3-intermittent {versions_line()} heal_threshold={HEAL_THRESHOLD}")
     results = {}
     results["a3a"] = run_sub_scenario("a3a", schema_mode="none", classify=False)
     results["a3b"] = run_sub_scenario("a3b", schema_mode="conforming", classify=True)

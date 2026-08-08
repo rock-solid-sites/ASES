@@ -77,7 +77,12 @@ call.
 the fresh verification run (2026-08-08) ran under light load (`init_ms`
 ~800–940 ms). Both runs produce the same event sequences, spawn counts, and
 outcome classes; absolute latencies differ. All numbers quoted below are from
-the fresh committed run unless explicitly labelled "preserved".
+the fresh committed run unless explicitly labelled "preserved". The key
+latency phases (A1, A2, B2) were additionally re-measured to n=3 under
+normal load on 2026-08-08 (`logs/n3/`, §7): the committed single-run values
+fall inside the n=3 ranges, except B2's committed 2373 ms which was
+load-affected (that run's backend `init_ms` was 1163 ms vs ~790–845 ms in
+the n=3 runs).
 
 ## 3. What was built / verified
 
@@ -104,7 +109,16 @@ Reproduce (versions pinned to the exact installed set):
 cd research/toolregistry-lazy-mcp/c2-gap-investigation
 /tmp/toolregistry-venv/bin/python tests/run_c2.py          # A1, A2, A3, B1, B2
 /tmp/toolregistry-venv/bin/python tests/phase_a2b_preabsorbed.py   # A2b boundary
+/tmp/toolregistry-venv/bin/python tests/phase_b2b_preabsorbed.py   # B2b pre-absorbed (Option B)
+/tmp/toolregistry-venv/bin/python tests/measure_poc_size.py        # PoC-size counts
+A3_HEAL_THRESHOLD=2 /tmp/toolregistry-venv/bin/python tests/phase_a3_intermittent.py  # flapping sweep N=2
+A3_HEAL_THRESHOLD=3 /tmp/toolregistry-venv/bin/python tests/phase_a3_intermittent.py  # flapping sweep N=3
 ```
+
+The n=3 latency runs in `logs/n3/` are produced by re-running
+`tests/phase_a1_control.py`, `tests/phase_a2_selfheal_c2.py`, and
+`tests/phase_b2_poc.py` three times each, redirecting stdout to
+`logs/n3/<phase>-run<N>-harness.log`.
 
 ## 4. Option A — proxy-side self-healing
 
@@ -196,6 +210,37 @@ schema is pre-absorbed** (A2b/A3a), and — for the Test-C-signature
 intermittent case — the proxy-respawn cost when classification is OFF (A3c,
 fixed by DELTA C = A3b).
 
+**Threshold sweep (N=2 and N=3).** The flapping check was repeated with the
+heal threshold raised to N=2 and N=3 (`A3_HEAL_THRESHOLD` env knob on
+`tests/phase_a3_intermittent.py`; fresh runs 2026-08-08 in
+`logs/n3/phase-a3-n2-harness.log` and `logs/n3/phase-a3-n3-harness.log`):
+
+| N | Sub-scenario | Spawns | Persistent proxies | Reconnect | Heal events | Flapping? |
+|---|---|---|---|---|---|---|
+| 2 | a3a (`schema_mode=none`) | **4** | **4** | **YES** | **0** | **NO** — no heal fires, no heal-back |
+| 2 | a3b (`schema_mode=conforming`, classification ON) | **1** | **1** | **NO** | 0 | **NO** — classified terminal, as N=1 |
+| 2 | a3c (`schema_mode=conforming`, classification OFF) | **4** | **1** | **NO** | 0 | **NO** — proxy-respawn, as N=1 |
+| 3 | a3a (`schema_mode=none`) | **4** | **4** | **YES** | **0** | **NO** — no heal fires, no heal-back |
+| 3 | a3b (`schema_mode=conforming`, classification ON) | **1** | **1** | **NO** | 0 | **NO** — classified terminal, as N=1 |
+| 3 | a3c (`schema_mode=conforming`, classification OFF) | **4** | **1** | **NO** | 0 | **NO** — proxy-respawn, as N=1 |
+
+Evidence: N=2 `A3_METRICS tag=a3a spawns=4 persistent_proxies=4
+reconnect_fired=True heal_events=0`, `tag=a3b spawns=1 ... heal_events=0
+schema_failure_classified=2`, `tag=a3c spawns=4 persistent_proxies=1 ...
+heal_events=0`; N=3 identical (`phase-a3-n2-harness.log:102,152,235` and
+`phase-a3-n3-harness.log:102,152,235`).
+
+**Threshold-sweep finding:** no heal-back or thrashing at any tested N —
+A3a's heal never fires at N≥2 because the alternating backend resets the
+per-tool consecutive-failure counter before it reaches the threshold (each
+diverging response is followed by a conforming one), so the mechanism stays
+quiescent rather than flapping. The cost consequence is important: at N≥2
+the heal does **not** engage, so A3a reverts to the un-healed pre-absorbed
+pattern — 4 spawns / 4 persistent proxies / reconnect for 4 calls (vs
+2/2/1-heal at N=1). N=1 remains the correct threshold for the
+alternating-drift signature this check targets; higher N buys nothing here
+and loses the mid-call heal.
+
 ### 4.5 Option A verdict
 
 **FULLY effective for the fresh-session C2 case** (first call succeeds at 1
@@ -247,7 +292,7 @@ failure-class distinction in ToolRegistry code (verified by source read).
 * `MCPConnectionManager` (`connection.py:16`) — **public class** with public
   `call_tool`, `list_tools`, `call_tool_sync`, `close`, `close_sync`; the
   reconnect logic is the **private** `_call_persistent` (lines 97-111) and
-  `_call_per_request` (113-121).
+  `_call_per_request` (113-118).
 * `MCPClient` (`client.py`) — **public class**; `call_tool` is a pass-through
   to the SDK session (line 133).
 * `MCPIntegration.register_mcp_tools_async` (`integration.py:296-352`) —
@@ -282,8 +327,8 @@ schema-validation `RuntimeError` as **terminal** — re-raise without reconnect.
 | Proxy processes | **2** = registration temp + **1 persistent** | `B2_SPAWN_COUNTS proxy_processes=2 persistent_proxies=1 reconnect_fired=False` |
 | Reconnect-retry fired | **NO** | `B2_RESULT reconnect=False interception_effective=True` |
 | Interception counter | `schema_validation_failures=1` | `B2_SPAWN_COUNTS schema_validation_failures=1` |
-| Caller-visible outcome | **`ErrorResult` with the SAME verbatim RuntimeError text as the control (§9)** — no shape degradation | `B2_RESULT error_preserved=True`; `INVOKE delta_ms=2373 ok=False outcome_type=ErrorResult` |
-| Failure latency | **2373 ms** (vs control 5680 ms in the same run) | `INVOKE delta_ms=2373` |
+| Caller-visible outcome | **`ErrorResult` with the SAME verbatim RuntimeError text as the control (§9)** — no shape degradation | `B2_RESULT error_preserved=True`; `INVOKE delta_ms=1830 ok=False outcome_type=ErrorResult` (run 1, `logs/n3/phase-b2-poc-run1-harness.log:70`) |
+| Failure latency | **1799–1830 ms** n=3 (vs control 5612–6132 ms n=3 in adjacent runs) | `INVOKE delta_ms=1830/1814/1799` (`logs/n3/phase-b2-poc-run{1,2,3}-harness.log:70`) |
 
 **Gap closed:** the C2 failure now costs **1 backend spawn / 1 persistent
 proxy / no reconnect** — the same single-spawn residual #217 achieved for the
@@ -291,22 +336,58 @@ Test-C variant — reached from the ToolRegistry side **without touching the
 proxy or the SDK**, and with the caller-visible error **shape preserved**
 (clean `ErrorResult`, unlike #217's `ToolCallResult`-with-repr degradation).
 
+### 5.3b B2b — PoC PRE-ABSORBED: schema already absorbed before the drift call — **PASS**
+
+The same interception, tested in the pre-absorbed session state that the
+fresh-session B2 does not cover: the harness calls `multiply` first (no
+output schema, succeeds), which triggers a full `tools/list` re-absorb of
+the STALE manifest — so when `add` is called, the stale `{"sum": ...}`
+schema is already in `_tool_output_schemas` and there is no cache-miss
+re-list. This directly answers the "in every tested session state (fresh or
+pre-absorbed)" claim of §8 under the tested = directly-measured-only
+convention (see §Limitations): the interception fires pre-absorbed, at the
+same 1 spawn / 1 persistent proxy / no reconnect cost.
+
+| Observation | Value | Evidence |
+|---|---|---|
+| `multiply(4,5)` (pre-absorb) | SUCCESS `'20.0'`, 1695 ms | `INVOKE|multiply(4,5) delta_ms=1695 ok=True` (`phase-b2b-preabsorbed-harness.log:24`) |
+| `add(2,3)` (first drifted call, pre-absorbed) | **`ErrorResult` verbatim — intercepted, no reconnect** | `INVOKE|add(2,3) delta_ms=119 ok=False outcome_type=ErrorResult` (`:77`) |
+| Cost of the first drifted call | **1 spawn / 1 persistent proxy / no reconnect** | `B2B_SPAWN_COUNTS backend_spawn_count=1 proxy_processes=2 persistent_proxies=1 reconnect_fired=False schema_validation_failures=2` (`:138`) |
+| Warm repeat `add(1,1)` (intercepted session) | `ErrorResult` verbatim, **9 ms** | `INVOKE|add(1,1) delta_ms=9 ok=False` (`:130`) |
+| Other tool `multiply(6,7)` after the failures | **SUCCESS `'42.0'`, 7 ms** | `INVOKE|multiply(6,7) delta_ms=7 ok=True` (`:137`) |
+| Interception fired pre-absorbed | **YES** (`schema_validation_failures=2`, 1 spawn, no reconnect) | `B2B_RESULT pass=True preabsorb_interception_fired=True add1_error_preserved=True warm_add_error_preserved=True other_tool_success=True` (`:141`) |
+
+**Pre-absorbed result:** the interception fires **regardless of absorption
+state** — the first drifted `add` returns the verbatim `ErrorResult` at
+**1 spawn / 1 persistent proxy / no reconnect**, exactly as in the fresh B2
+run, at 119 ms (the persistent connection is already up from the pre-absorb
+call). Warm repeats on the intercepted session fail identically at 9 ms with
+**no new spawns**, and the other tool (`multiply`) is untouched after the
+failures. The `"works in every tested session state (fresh or pre-absorbed)"`
+claim is therefore **tested, not merely inferred**, for both session states.
+
 **PoC code size:**
+
+Counts emitted by the committed counter script `tests/measure_poc_size.py`
+(tokenize-based; rule = non-blank / non-comment / non-docstring, post-shebang;
+output in `logs/measure-poc-size.log`):
 
 | Unit | Lines |
 |---|---|
 | `intercept_poc.py` total | **147** |
-| Code lines (non-blank/non-comment/non-docstring) | **99** |
+| Code lines (non-blank/non-comment/non-docstring, post-shebang) | **64** |
+| Mechanism proper (code − 6 imports − 1 constant) | **57** |
 | `_is_schema_validation_error` (classifier helper) | **5** |
 | `SchemaAwareConnectionManager` class body (the interception) | **20** |
 | `_call_persistent` override (the classification decision) | **16** |
 | `_register_async` (registration assembly, async loop) | **22** |
 | `register_with_connection` (sync entry point) | **10** |
 
-The whole interception mechanism is **48 code lines** (5 classifier + 20
+The whole interception mechanism is **57 code lines** (5 classifier + 20
 class body incl. the 16-line override + 22 registration loop + 10 sync
-entry) over plain public-API usage — the smallest clean wrapper the
-installed source permits.
+entry — components sum to 57, matching the mechanism-proper figure) over
+plain public-API usage — the smallest clean wrapper the installed source
+permits.
 
 ### 5.4 Option B verdict
 
@@ -315,9 +396,37 @@ Full traceback proves the origin is the mcp SDK (`session.py:1110`), the
 public `MCPConnectionManager` subclass seam is clean and dependency-free, the
 PoC removes the reconnect amplification (2→1 spawns, 2→1 persistent proxies,
 reconnect NO), preserves the caller-visible `ErrorResult` verbatim, and is
-48 code lines of interception + registration assembly. The only cost: callers
+57 code lines of interception + registration assembly. The only cost: callers
 must use `register_with_connection` instead of `register_from_mcp` because
 the latter hardcodes the connection manager.
+
+### 5.5 Upgrade fragility of the recommended option
+
+Option B's mechanism overrides a **private** method and **re-implements its
+body by copy**: `intercept_poc.py:86-103` duplicates
+`connection.py:101-111` (the try/except/retry body of `_call_persistent`),
+differing only by the classification branch and the **dropped
+`logger.warning`** that the original emits at `connection.py:107` before
+reconnecting. The override therefore carries genuine upgrade fragility:
+
+* it couples to a **private, version-bound internal** of toolregistry 0.15.0
+  / mcp 2.0.0 — no compatibility guarantee on upgrade;
+* if upstream alters `_call_persistent` (backoff, lock discipline,
+  telemetry, retry count), the subclass **diverges silently** while still
+  importing and passing — no test detects the drift because no backoff /
+  lock / telemetry divergence detection exists in the PoC;
+* the copy drops the `logger.warning` at `connection.py:107`, so a
+  telemetry-observant deployment loses the reconnect-warning line for every
+  non-schema failure the subclass handles.
+
+This is the same fragility dimension Option C would have been assessed on,
+and it is now assessed for the *recommended* option (audit gap C2/S3). The
+brief scoped the fragility assessment to Option C only; this paragraph
+closes the resulting blind spot. Consequence for the recommendation: Option
+B is **dependency-free but NOT patch-free** — it is a non-invasive
+*dependency-coupling* that must be re-validated on every toolregistry / mcp
+upgrade (see the re-validation trigger in §11 and issue #279, filed under
+epic #212).
 
 ## 6. Option C — patch assessment
 
@@ -327,29 +436,56 @@ assessment) was **not** exercised. No fragile patch was evaluated or applied.
 
 ## 7. Timing comparison — the quantified before/after
 
-All times in milliseconds from the fresh committed run (2026-08-08, light
-load, `init_ms` ~800–940 ms). "Persistent proxies" counts the persistent
-proxy process(es) in addition to the registration-temp proxy.
+All times in milliseconds. Rows marked **n=3** were re-measured on 2026-08-08
+under normal load (three fresh runs each, logs in `logs/n3/`); rows marked
+**n=1** are single measurements from the committed fresh run (2026-08-08,
+light load, `init_ms` ~800–940 ms). Where variance is high the range is
+reported, not a point. "Persistent proxies" counts the persistent proxy
+process(es) in addition to the registration-temp proxy.
 
-| Phase | Scenario | Caller outcome | Delta (ms) | Backend spawns | Persistent proxies | Reconnect |
-|---|---|---|---|---|---|---|
-| A1 | C2 control (ORIGINAL proxy) | `ErrorResult` | 5680 | **2** | **2** | **YES** |
-| A2 | C2 self-heal N=1, call 1 (fresh) | **SUCCESS `'5.0'`** | 1849 | **1** | **1** | **NO** |
-| A2 | C2 self-heal N=1, call 2 (warm) | SUCCESS | 8 | 0 | 1 | NO |
-| A2 | C2 self-heal N=1, call 3 (multiply) | SUCCESS | 5 | 0 | 1 | NO |
-| A2b | C2 self-heal N=1, pre-absorbed, first `add` | SUCCESS (after retry) | 4070 | **2** | **2** | **YES** |
-| A2b | C2 self-heal N=1, pre-absorbed, repeat `add` | SUCCESS | 9 | 0 | 1 | NO |
-| A3a | intermittent `schema_mode=none` (N=1) | SUCCESS (retry on call 2) | 1724 / 3730 / 7 / 7 | **2** | **2** | YES (once) |
-| A3b | intermittent `schema_mode=conforming` + classification | success / classified `isError` | 1847 / 7 / 9 / 9 | **1** | **1** | **NO** |
-| A3c | intermittent `schema_mode=conforming`, no classification | SUCCESS (proxy respawns) | 1687 / 1111 / 1012 / 1020 | **4** | **1** | NO |
-| B1 | C2 traceback (ORIGINAL proxy) | `ErrorResult` | 5561 | **2** | **2** | **YES** |
-| B2 | C2 interception PoC | `ErrorResult` (verbatim) | 2373 | **1** | **1** | **NO** |
+| Phase | Scenario | Caller outcome | Delta (ms) | n | Backend spawns | Persistent proxies | Reconnect |
+|---|---|---|---|---|---|---|---|
+| A1 | C2 control (ORIGINAL proxy) | `ErrorResult` | 5612–6132 | **3** | **2** | **2** | **YES** |
+| A2 | C2 self-heal N=1, call 1 (fresh) | **SUCCESS `'5.0'`** | 1812–2020 | **3** | **1** | **1** | **NO** |
+| A2 | C2 self-heal N=1, call 2 (warm) | SUCCESS | 9–10 | **3** | 0 | 1 | NO |
+| A2 | C2 self-heal N=1, call 3 (multiply) | SUCCESS | 7–8 | **3** | 0 | 1 | NO |
+| A2b | C2 self-heal N=1, pre-absorbed, first `add` | SUCCESS (after retry) | 4070 | 1 | **2** | **2** | **YES** |
+| A2b | C2 self-heal N=1, pre-absorbed, repeat `add` | SUCCESS | 9 | 1 | 0 | 1 | NO |
+| A3a | intermittent `schema_mode=none` (N=1) | SUCCESS (retry on call 2) | 1724 / 3730 / 7 / 7 | 1 | **2** | **2** | YES (once) |
+| A3b | intermittent `schema_mode=conforming` + classification | success / classified `isError` | 1847 / 7 / 9 / 9 | 1 | **1** | **1** | **NO** |
+| A3c | intermittent `schema_mode=conforming`, no classification | SUCCESS (proxy respawns) | 1687 / 1111 / 1012 / 1020 | 1 | **4** | **1** | NO |
+| B1 | C2 traceback (ORIGINAL proxy) | `ErrorResult` | 5561 | 1 | **2** | **2** | **YES** |
+| B2 | C2 interception PoC | `ErrorResult` (verbatim) | 1799–1830 | **3** | **1** | **1** | **NO** |
+| B2b | C2 interception PoC, pre-absorbed, first `add` | `ErrorResult` (verbatim) | 119 | 1 | **1** | **1** | **NO** |
+| B2b | C2 interception PoC, pre-absorbed, warm `add` | `ErrorResult` (verbatim) | 9 | 1 | 0 | 1 | NO |
+| B2b | C2 interception PoC, pre-absorbed, other tool `multiply` | SUCCESS | 7 | 1 | 0 | 1 | NO |
 
-Reference baselines: #213 Test B success (conforming schema, conforming
-shape) 1810–3124 ms under normal load; #213 C2 failure 5871–5913 ms normal
-load / 9008 ms load-affected (2 spawns / 2 proxies). The fresh C2 control
-(A1/B1) re-measured at 5561–5680 ms under the fresh run's load — same 2/2
-pattern.
+Notes on variance and sources:
+
+* **A1 n=3** (5612–6132 ms): `logs/n3/phase-a1-control-run{1,2,3}-harness.log`
+  INVOKE lines (5851 / 6132 / 5612). The committed single run (5680 ms,
+  `phase-a1-control-harness.log:88`) falls inside this range.
+* **A2 n=3** (call 1 1812–2020 ms, warm 9–10 ms, multiply 7–8 ms):
+  `logs/n3/phase-a2-selfheal-c2-run{1,2,3}-harness.log` INVOKE lines
+  (2020/2001/1812; 9/10/9; 7/8/8). The committed single run (1849 / 8 / 5 ms,
+  `phase-a2-selfheal-c2-harness.log:30,39,48`) is inside/near these ranges;
+  the multiply warm delta (5 ms committed vs 7–8 ms n=3) is sub-10-ms noise.
+* **B2 n=3** (1799–1830 ms): `logs/n3/phase-b2-poc-run{1,2,3}-harness.log`
+  INVOKE lines (1830 / 1814 / 1799). The committed single run (2373 ms,
+  `phase-b2-poc-harness.log:70`) is **higher** — that run's backend
+  `init_ms` was 1163 ms vs ~790–845 ms in the n=3 runs (the committed run
+  coincided with heavier host load), so the 2373 ms figure is load-affected
+  rather than mechanism-affected. The spawn/proxy/reconnect verdict is
+  identical across all four runs.
+* **A2b, A3a/b/c, B1, B2b** are n=1 single measurements from the committed
+  run (B2b was newly added on 2026-08-08, `logs/phase-b2b-preabsorbed-*`).
+
+Reference baselines (cross-document rows carry their source n): #213 Test B
+success (conforming schema, conforming shape) 1810–3124 ms under normal
+load, n=3 (`output-schema-drift/report.md:350`); #213 C2 failure 5871–5913
+ms normal load / 9008 ms load-affected (2 spawns / 2 proxies), n=2
+(`output-schema-drift/report.md:353`). The fresh C2 control (A1/B1)
+re-measured at 5561–6132 ms under the fresh run's load — same 2/2 pattern.
 
 ## 8. The central claim — explicit YES/NO per option
 
@@ -364,10 +500,16 @@ pattern.
 * **Option B (ToolRegistry client interception):** **YES** — clean public
   subclass seam (`MCPConnectionManager._call_persistent`) + public
   registration assembly; the PoC closes the gap at 1 spawn / 1 proxy / no
-  reconnect / verbatim `ErrorResult`, in every tested session state
-  (fresh or pre-absorbed — the interception fires regardless of what the
-  client has absorbed).
+  reconnect / verbatim `ErrorResult`, in every tested session state —
+  **fresh (B2) and pre-absorbed (B2b) are both directly measured**; the
+  interception fires regardless of what the client has absorbed.
 * **Option C (patch):** not reached; B made it unnecessary.
+
+**Version validity.** The Option B conclusions above are valid for
+**toolregistry 0.15.0 / mcp 2.0.0** only and depend on a private internal
+(`MCPConnectionManager._call_persistent`) with no compatibility guarantee.
+**Verify on upgrade** — a re-validation trigger is filed under epic #212
+(see §11).
 
 ## 9. Verbatim error text
 
@@ -429,12 +571,15 @@ meta=None content=[TextContent(type='text', text="Invalid structured content ret
    DELTA C (classification ON) restores 1 spawn / no reconnect (A3b). A
    self-heal proxy should therefore ship with classification enabled.
 4. **Option B is the smallest, most uniform close.** The interception fires
-   at the reconnect trigger itself, independent of session state (fresh or
-   pre-absorbed), preserves the clean `ErrorResult` shape (unlike #217's
-   classified `ToolCallResult`-with-repr), and requires only public-API
-   usage — at the cost of replacing `register_from_mcp` with a ~23-line
-   registration assembly because the connection manager is hardcoded
-   (integration.py:323).
+    at the reconnect trigger itself, independent of session state — fresh
+    (B2) and pre-absorbed (B2b) are both directly measured — preserves the
+    clean `ErrorResult` shape (unlike #217's
+    classified `ToolCallResult`-with-repr), and requires only public-API
+    usage — at the cost of replacing `register_from_mcp` with a 32-line
+    registration assembly (22-line `_register_async` loop + 10-line
+    `register_with_connection` sync entry; counts from
+    `tests/measure_poc_size.py`) because the connection manager is hardcoded
+    (integration.py:323).
 5. **The two options are complementary rather than competing.** Option A
    additionally *recovers* the mismatch (heals the manifest so the backend's
    real schema is served), which Option B does not do — B only removes the
@@ -448,13 +593,17 @@ meta=None content=[TextContent(type='text', text="Invalid structured content ret
 **Option B is the better path to close the C2 gap, with Option A's heal kept
 as an optional complementary improvement rather than the primary mechanism.**
 B removes the 2-spawn/2-proxy/reconnect amplification at the exact trigger
-(`_call_persistent`), is dependency-free and patch-free (public
-`MCPConnectionManager` subclass + public `MCPTool.from_tool_json` /
-`registry.register`), preserves the caller-visible `ErrorResult` verbatim
-(the one thing #217's classification degraded), and works uniformly whether
-or not the stale schema is pre-absorbed — with a 48-code-line PoC that closed
-the gap at 1 spawn / 1 proxy / no reconnect (2373 ms vs 5680 ms control in
-the same run). Option A is fully effective only in a fresh session (first call
+(`_call_persistent`). It is **dependency-free but NOT patch-free**: it is a
+public `MCPConnectionManager` subclass + public `MCPTool.from_tool_json` /
+`registry.register` usage, but the subclass override duplicates a **private,
+version-bound internal** of toolregistry 0.15.0 / mcp 2.0.0 and must be
+re-validated on every upgrade (see §5.5 and the re-validation trigger
+below). It preserves the caller-visible `ErrorResult` verbatim (the one
+thing #217's classification degraded), and works uniformly whether or not
+the stale schema is pre-absorbed — fresh (B2) and pre-absorbed (B2b) are
+both directly tested — with a 57-code-line PoC that closed the gap at 1
+spawn / 1 proxy / no reconnect (1799–1830 ms n=3 vs 5612–6132 ms n=3 control
+in adjacent runs). Option A is fully effective only in a fresh session (first call
 succeeds at 1/1 thanks to the SDK's cache-miss re-absorb), degrades to a
 reconnect cycle when the stale schema is pre-absorbed (A2b/A3a, though the
 persisted heal then makes the retry succeed), and needs the #217
@@ -464,6 +613,12 @@ of that delta-dependency. If manifest convergence (serving the backend's real
 schema, not just failing cleanly) is desired, adding Option A's heal on top
 of B is worthwhile; as a standalone close of the C2 gap, B is the smaller,
 more uniform, error-shape-preserving choice.
+
+**Version validity.** This recommendation is valid for **toolregistry 0.15.0
+/ mcp 2.0.0** only. Because Option B couples to a private internal
+(`MCPConnectionManager._call_persistent`), the conclusion must be
+re-validated on every toolregistry / mcp upgrade. A re-validation trigger
+issue is filed under epic #212 (see §8).
 
 ## 12. Transport scope
 
@@ -486,6 +641,10 @@ load-affected run is preserved untouched in `logs/preserved-initial-run/`.
 | A3 intermittent | `phase-a3-intermittent-harness.log` | `phase-a3-a3a-proxy.log` / `phase-a3-a3b-proxy.log` / `phase-a3-a3c-proxy.log` | `phase-a3-a3a-heal-state.json` |
 | B1 traceback | `phase-b1-traceback-harness.log` | `phase-b1-traceback-proxy.log` | |
 | B2 PoC | `phase-b2-poc-harness.log` | `phase-b2-poc-proxy.log` | |
+| B2b PoC pre-absorbed | `phase-b2b-preabsorbed-harness.log` | `phase-b2b-preabsorbed-proxy.log` | |
+| PoC size | `logs/measure-poc-size.log` | — | emitted by `tests/measure_poc_size.py` |
+| n=3 re-measurements | `logs/n3/phase-{a1-control,a2-selfheal-c2,b2-poc}-run{1,2,3}-harness.log` | `logs/n3/phase-...-run{1,2,3}-proxy.log` | A1/A2/B2 latency ranges |
+| A3 threshold sweep | `logs/n3/phase-a3-n2-harness.log` / `logs/n3/phase-a3-n3-harness.log` | — (full interleaved `PROXY|` stream carried in each harness log) | N=2 / N=3 flapping check |
 
 The harness logs contain the full interleaved stream (`HARNESS|`, `PROXY|`,
 `BACKEND|` prefixed lines), including the `INVOKE ... delta_ms` measurement
@@ -493,3 +652,43 @@ lines and the per-phase `*_RESULT` / `*_SPAWN_COUNTS` verdict lines. Proxy-only
 logs are written by each proxy process via `PROXY_LOG_FILE`; multiple
 `proxy_started` blocks in one log (different pids) are the reconnect
 evidence.
+
+## 14. Limitations and conventions
+
+**What was NOT tested before this report closed** (declared scope, per the
+Phase-2 audit gaps G2/G4/G5/G6/G10):
+
+* **Option B pre-absorbed (B2b):** not run before this revision — the §8
+  "fresh or pre-absorbed" uniformity claim was inferred, not tested. Now
+  directly measured (§5.3b): PASS. (G2)
+* **Option B warm call / other-tool-untouched:** not measured before this
+  revision — B had one traceback + a one-call PoC. Now recorded in B2b
+  (warm repeat 9 ms, other tool `multiply` SUCCESS 7 ms). (G6)
+* **Latency n:** A1/A2/B2 were n=1 single measurements; now re-measured to
+  n=3 under normal load with ranges (§7). A2b/A3a-c/B1/B2b remain n=1.
+  (G4)
+* **Flapping threshold sweep:** only N=1 was tested before this revision;
+  N=2 and N=3 are now run (no flapping at any N; heal stays quiescent at
+  N≥2 on alternating drift). (G5)
+* **Single host, all processes local** — no cross-host or containerised
+  measurements.
+* **stdio transport only** — streamable HTTP / SSE / websocket untested
+  (§12).
+
+**Conventions adopted** (per the Phase-2 audit recommendations and the
+plan addendum):
+
+* **"tested" = directly measured only.** Throughout this report, "tested"
+  appears only for session states that were actually run (fresh B2,
+  pre-absorbed B2b). Anything argued from mechanism is labelled as such.
+  (big-pickle R5 / SR2 convention half.)
+* **Agent-computed metrics are script-emitted.** PoC line counts come from
+  the committed `tests/measure_poc_size.py` (S1 mitigation), not from
+  hand-computed figures.
+* **Version-bound findings carry an expiry marker** — §8/§11 state their
+  validity for toolregistry 0.15.0 / mcp 2.0.0 and a re-validation trigger
+  is filed under epic #212 (G8).
+* The line-wide tested-vs-inferred label convention across
+  #196/#213/#217/#228 is filed as a follow-up note on epic #212 (deferred
+  with rationale: retrofitting prior reports is out of scope for this
+  execution).
