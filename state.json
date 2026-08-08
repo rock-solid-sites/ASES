@@ -1,6 +1,6 @@
 {
   "next_display_id": 263,
-  "next_comment_id": 952,
+  "next_comment_id": 953,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2829,7 +2829,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-08T03:42:42.684240899Z",
+      "updated_at": "2026-08-08T03:43:30.934449923Z",
       "labels": [
         "bug"
       ],
@@ -3416,6 +3416,15 @@
           "kind": "plan",
           "signed_by": "SHA256:o2ZHZygbpqf69JBFCuKwi6IQyyRUSHFhb4ZO3GkPZic",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPwVoIs2YWDgZ8GZSclKf3eAuRsdOFXj8ydnkf3E3gfYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQ38NsxzlYIpbZVGu22rM2OO2aGFA0Y0IvadcZloJVMrTqOFWSzBL9t4DNG1YprcWFuytVN8b9O79VhDaIqMqCA=="
+        },
+        "7fbeb8b7-fc7c-483f-b612-360e590db8de": {
+          "display_id": 952,
+          "author": "pp3g-ndGC-read-only-post-hoc-audit-phase-2-per-workflow-ea46",
+          "content": "## PHASE-2 POST-HOC AUDIT VERDICT — CONDITIONAL (2026-08-08)\n\nScope: read-only audit of committed fork-local/agents@a87bd513 against r2 boundary 7c5b3e88 (prior r2 parent 5ada263a), plus #125 process trail. No source files, code, commits, pushes, or issue closure performed.\n\n### Outcome: APPROVE\nIndependent source re-derivation finds the four r3 items integrate cleanly and preserve the r2 fail-closed boundary:\n- **R1 / HIGH confidence:**  now distinguishes absent named remote from confirmed zero remotes;  from  is Forbidden, non-empty enumeration is Forbidden, only confirmed empty is Allowed. Result helper and tests: , ; decision tests: . This closes the prior ghost-remote fail-open without weakening existing v2/v3 decisions.\n- **R2 / HIGH:**  consumes v2/v3 hydration errors into  and warns;  delegates and has no propagating error arm. The extraction preserves warn-and-continue and keeps successful hydration marker/reporting in the Hydrated arm.\n- **Item 3 / HIGH:**  pins marker write, agent-row preservation, stale-row exclusion, and second-call short-circuit on forbidden skip.\n- **R3 / HIGH mechanism, MEDIUM-HIGH end-to-end:**  performs re-emit -> one lock acquisition -> locked decision -> clear -> locked hydrate;  delegates to , avoiding the non-reentrant 30-second second-acquire hazard ().\nCommit hygiene: message is ;  clean; fork tree equals commit tree. The independently recorded verification tail reports full suites green (1813 lib / 2892 bin / 194 CLI integration / 159 smoke / 1 AC10), 13 r3 tests passing, binary  matching commit SHA, and stable 260-issue live sanity with no collision warning.\n\n### Findings (severity-ranked)\n1. **MEDIUM — systemic process reliability:** three builder stalls/silent-hangs occurred on this single r3 lifecycle: T1jj stalled after plan, neHg was position/artifact-silent and was killed, and R99p went silent after commit before final verification. The in-flight auditor cXmI caught the first two; the cadence breach during R99p verification was correctly classified as liveness-backed rather than a stall; SzyI completed the verification tail. This means the artifact outcome held, but the original builder process did not. Evidence: #125 trail 01:26–01:58, 02:33, 02:41, 03:00–03:33; Phase-1 summary 03:39. Recommendation: retain mandatory ~10-minute position heartbeats and pre-position independent verification for long builds; treat repeated silent-hang recurrence as a workflow reliability issue, not builder success.\n2. **LOW — position/claim discipline:** final SzyI result explicitly states WHY/WHAT/CERTAINTY/WHAT-NOT-TESTED per item, satisfying the claim contract (). Earlier builder positions did not consistently include all four fields, and the mid-position said 11 tests while the commit contains 13; the verifier corrected this with artifact evidence. No resulting artifact divergence, but the contract should apply at every load-bearing position, not only final result.\n3. **LOW — clean-tree qualification:** tracked fork state is clean, but the recorded tree retained untracked ; it was treated as allowed and temporarily moved for clean version embedding. This is operationally understood, but “clean tree” should be reported as “clean tracked tree; known untracked backup” or the backup should be ignored outside the audited fork.\n4. **LOW — warning assertion depth:**  () asserts the  outcome, while warning emission is only source-structurally verified at ; it does not capture a tracing record. This is adequate for the agreed no-new-infra scope and not a fail-open, but leaves logging itself unpinned.\n\n### Process compliance disposition\nPlans, checkpoints, results, issue ownership, fork commit, independent verification, and non-closure of #125 were tracked. The two-phase auditor flow worked: cXmI identified real stalls and orchestrator dispositions; SzyI independently joined commit, tests, binary, and live-sanity artifacts. Attribution of one early position was corrected in the trail rather than silently retained. Process therefore **partially held up**, with the systemic reliability finding above.\n\n### WHAT-NOT-TESTED\nNo live concurrent-kickoff race, live v2-mode integrity repair, or live daemon tick with a real dispatcher failure was run; ignored smoke tests were unchanged; no ASES-side documentation changes were audited as part of r3. Unit/source evidence supports the verdict, but those live cases remain outside demonstrated coverage.\n\n### Bottom line\n**CONDITIONAL approval:** r3 outcome is approved and has no identified architectural regression or new fail-open. Conditionality is on workflow/process reliability: address the repeated silent-hang/heartbeat pattern and tighten position claim fields before treating this task class as process-complete. #125 remains open.",
+          "created_at": "2026-08-08T03:43:30.898248228Z",
+          "kind": "result",
+          "signed_by": "SHA256:hZbOEgFpZnQufd+aX844eDvHM8nhEr0QfcpOLxrNBFY",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgAC3wrZ9coeUSXA/qjR9v30Mr5arIsgNuuQfyQeqZvssAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAPaVAG1mtiJ9JKRi3P+hOxaaW9w795vfbaGRBlgoL4QeKtJUMbaTswYF7elO6tCgMfqKhsAiYcT2t2LXKi3AmCQ=="
         },
         "814be028-c183-4bc1-bee1-bbe99571de2a": {
           "display_id": 868,
@@ -13235,8 +13244,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T03:42:42.684240899Z",
+    "timestamp": "2026-08-08T03:43:30.934449923Z",
     "agent_id": "pp3g-ndGC-read-only-post-hoc-audit-phase-2-per-workflow-ea46",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
