@@ -1,6 +1,6 @@
 {
   "next_display_id": 262,
-  "next_comment_id": 924,
+  "next_comment_id": 925,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2837,7 +2837,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-08T02:41:32.171264493Z",
+      "updated_at": "2026-08-08T03:00:49.039729831Z",
       "labels": [
         "bug"
       ],
@@ -3724,6 +3724,15 @@
           "kind": "observation",
           "signed_by": "SHA256:owBupwvHVU5cvlUtBTnPbkM1evcDDJGISSahuyV0GDE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtaftjltp7QtOxLNzGLwueSLf/485GrnwDct3ARy3v5sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAfFfnTNP7li88PWRGjDlpFan77d4zMcweDkt9E9RHb2TcrhrrdOQB1QaFDrFl0/r3ub3zUfsppJRKJJ2qBUOyBw=="
+        },
+        "eeb665e6-664d-429a-ac85-c0c355725207": {
+          "display_id": 924,
+          "author": "pp3g-SzyI-verification-only-task-no-implementation-complete-the",
+          "content": "Plan: VERIFICATION-ONLY completion of the #125 r3 verification tail (R99p committed a87bd513 then hung before final verification). Per kickoff: do NOT modify code, do NOT commit, do NOT close #125, do NOT push. Steps: (1) confirm fork clean at a87bd513 (git status: only untracked .crosslink/issues.db.backup allowed); (2) verify commit content: 4 items (R1 remote-enumeration hardening, R2 tick_hydrate extraction, item3 marker-write-on-skip test, R3 integrity single-lock) + the 11 new tests R99p claimed, via git show + test-name grep; (3) run full suite CARGO_BUILD_JOBS=1 cargo test lib/bin/integration (OOM guard; slow machine expected); (4) rebuild binary: CARGO_BUILD_JOBS=1 RUSTFLAGS=-C link-arg=-fuse-ld=lld cargo install --path /home/claude-code/projects/crosslink/crosslink --force; (5) verify binary sha == commit sha: crosslink --version must show 0.9.0-beta.1+a87bd513 with NO -dirty, matching git rev-parse --short HEAD; (6) live sanity: crosslink issue list stable 250+, no display-id collision warning on sync; (7) post final r3 RESULT on #125 with per-item evidence (what changed, what verified, what NOT tested, certainty). Structured positions at every state transition + ~10min cadence. Blockers: none (stale R99p lock stolen; session work 125 OK).",
+          "created_at": "2026-08-08T03:00:49.033379714Z",
+          "kind": "plan",
+          "signed_by": "SHA256:ELVfJCP+bZoB7lD4LoCanAVaxP15R/G9MzcnmHKlV3o",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgz37Do8I8qN8AkBPYmNjKhfTZe07EsHBwwHmFzBLMrz4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlDqiB8p+8gVs4JJuYfrwH2qfiN1VA+vjsH5m8bXTU2M1T+7yqvw/22CHz/QfnUtYRVWBJ8PDyVv0qlP5QTuJDg=="
         },
         "ef54d627-4799-41a6-9362-0e353f7d7273": {
           "display_id": 911,
@@ -12961,8 +12970,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T02:59:57.010193663Z",
+    "timestamp": "2026-08-08T03:00:49.039729831Z",
     "agent_id": "pp3g-SzyI-verification-only-task-no-implementation-complete-the",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
