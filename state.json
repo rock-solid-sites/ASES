@@ -1,6 +1,6 @@
 {
   "next_display_id": 261,
-  "next_comment_id": 907,
+  "next_comment_id": 908,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2828,7 +2828,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-08T01:54:13.294348950Z",
+      "updated_at": "2026-08-08T01:58:57.901806637Z",
       "labels": [
         "bug"
       ],
@@ -2947,6 +2947,15 @@
           "kind": "observation",
           "signed_by": "SHA256:o2ZHZygbpqf69JBFCuKwi6IQyyRUSHFhb4ZO3GkPZic",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPwVoIs2YWDgZ8GZSclKf3eAuRsdOFXj8ydnkf3E3gfYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoVJbUVFVll1Ykw77fqU7Qou+ccZx2cc2er2mzUcWLv7lNndkKIq5M9CL1FhfNcPxMbAI2qKmvHBjpwsResmzBw=="
+        },
+        "21a9f9bd-793c-40be-a1d8-08a8a850a965": {
+          "display_id": 907,
+          "author": "OL2r",
+          "content": "DIVERGENCE RESOLVED (orchestrator, 2026-08-08): in-flight Auditor pp3g-cXmI flagged staleness + artifact-silence for Builder pp3g-neHg (TRIGGER 1 01:26, re-affirmed 01:54). Orchestrator investigation CONFIRMED the stall: neHg's opencode/claude process is GONE (only heartbeat watchdog remains), tmux pane frozen, zero positions since lock claim 01:22, zero r3 artifacts (fork HEAD 7c5b3e88 unchanged, no tracked edits). This is the documented silent-hang signature (cf. #138/#142/#129). Killed neHg (--force). This is the SECOND silent-hang on this exact r3 task (T1jj stalled after posting plan, now neHg stalled pre-commit); fork untouched both times, nothing lost. Two-phase Auditor model VALIDATED: the divergence verifier caught a real stall the status flags masked. RE-DISPATCHING fresh Builder. NOTE: position contract amended to require ~10 min cadence even during exploration — will be enforced in the re-dispatch prompt.",
+          "created_at": "2026-08-08T01:58:57.892549998Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAStsUqtKzQk47WnT+SkYL8bx7l6eJlmtdzm6Vow4B5dTphVPT60uoQ1hblr+NOukqd1RSWbM6E5jXCW149e1YDA=="
         },
         "22024937-6501-421c-97c7-87fb746a898a": {
           "display_id": 702,
@@ -12784,8 +12793,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T01:58:14.623961277Z",
+    "timestamp": "2026-08-08T01:58:57.901806637Z",
     "agent_id": "OL2r",
-    "agent_seq": 1243
+    "agent_seq": 1244
   }
 }
