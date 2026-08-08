@@ -1,6 +1,6 @@
 {
   "next_display_id": 305,
-  "next_comment_id": 1258,
+  "next_comment_id": 1259,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -8348,10 +8348,21 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:30:59.429487751Z",
-      "updated_at": "2026-08-08T23:31:06.134736620Z",
+      "updated_at": "2026-08-08T23:39:03.917358954Z",
       "labels": [
         "audit"
-      ]
+      ],
+      "comments": {
+        "550e1b0d-87d2-40bf-b8cd-7793b3ec2209": {
+          "display_id": 1258,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "## Audit Verdict: PASS\n\n### Architectural Assessment\n\n- [OK] Core claim validated by evidence. Catalog/backend decoupling (knowing N without N-process residency) supported by committed logs. Test 3: 20-run sweep resident-after flat 0/0 across N=1..50 (verified logs/test3/n50-concurrent-off.json resident_after.proxy_count=0 backend_count=0). Test 4 headline: 17 refreshed-never-called proxies=0 resident (verified logs/test4/test4-teardown-off.json categories.refreshed_never_called_proxies_resident=0, other_proxy_pids_unclassified=[]).\n\n- [OK] Proxy/backend separation maintained. Every JSON records proxy_count/proxy_pids/proxy_rss_kb and backend_count/backend_pids/backend_rss_kb separately (common.py:scan_procs classifies by /proc cmdline). Report tables preserve separation.\n\n- [OK] Identity/reuse tracking (Addendum D) confirms 3 reused connectors. Test 4 identity: acquisition_proxy_pid=null (temp client), call1==call2 PIDs for all 3 called (c0 proxy 2572274/2572274 backend 2572278/2572278; c7 proxy 2572282/2572282 backend 2572286/2572286; c15 proxy 2572296/2572296 backend 2572300/2572300).\n\n- [OK] STRONG PASS criterion correctly applied. Brief reframed as bounded by workload/policy not proportional to N. Report Addendum C states NON-SCALING with N not literal count==K. Data: K=0 resident=0 all N; N=20/K=3 resident=3 (called). Bounded by K not N.\n\n- [OK] Orphan-process finding handled correctly. Documented Section 9 item 3 as lifecycle finding, NOT counted as resident. clean_orphans() kills before measurement (test4-teardown-off.json other_proxy_pids_unclassified=[]).\n\n- [OK] Test 5a/5b evidence-only. 5a: proxy emits list_changed=1 but catalog_changed=false (ToolRegistry does not consume). 5b: first_use error unknown-tool is_error=True. Both characterized as gaps not fixed.\n\n- [OK] Test 6 correctly scoped. Immediate teardown is crude boundary (NOT idle-timeout feature). Catalog-refresh already 0/0 without teardown (temp-client disconnects after tools/list). Called-connector residency reclaimable to 0/0.\n\n### Process Assessment\n\n- [OK] Workflow followed. Plan + 4 checkpoints + result + handoff on #295. Commit 00eda4b3 references gh#295.\n\n- [OK] Documentation Standard YAML: program=EDASES layer=Research document_type=Research Finding status=Validated authority=Experimental canonical_repository=edases.\n\n- [OK] Observations vs findings separated (explicit labels throughout).\n\n- [OK] Versions + calling_mode + persistence config per run (every JSON has versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12; calling_mode sync/async; persistent=True verified source registration.py:94 connection.py:37).\n\n- [OK] Deliverable complete: all 6 tests + tables + one-sentence conclusion (Section 7) + architectural conclusion STRONG PASS (Section 8) + stdio-only scope (Section 4.5).\n\n- [OK] Host-load caveat disclosed (Section 5: load avg 11-17, timings inflated, counts load-independent).\n\n### Systemic Risks\n\n- Risk: Orphan-process lifecycle finding needs methodology-layer documentation. Impact: implementers may assume process death suffices for reclamation. Mitigation: report Section 9 item 3 is research finding; methodology should reference. Priority: medium.\n\n- Risk: STRONG PASS contingent on ToolRegistry 0.15.0 temp-client implementation. Impact: version-specific. Mitigation: Section 8 caveat explicit. Priority: low.\n\n- Risk: list_changed gap characterized not fixed. Impact: stale catalogs without detection. Mitigation: Section 9 item 5 documents; methodology should note if assuming freshness. Priority: medium.\n\n- Risk: 1-shared-thread sync model could be misread as per-connector leak. Impact: threading overhead misunderstood. Mitigation: Section 9 item 2 explicit. Priority: low.\n\n### Recommendations\n\n- Test 3 table could be compacted (20 rows verbose; summary + log reference suffices). Priority: low.\n- Test 4 table backend_count dash needs footnote (backends only spawned on call). Priority: low.\n- Commit message could be concise (currently 453 lines = full report body). Priority: low.\n\n### Summary\n\nValidation is sound, evidence-backed, correctly concludes STRONG PASS. Core claim validated. Process correct. Architectural fit appropriate. Systemic risks documented with explicit caveats. No critical issues.",
+          "created_at": "2026-08-08T23:39:03.908947675Z",
+          "kind": "result",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0IUbEMBxA/stI1jjHfWbzirTSzFpgXL/FFOLv0eeFxbC5ybAP3XI8cF9cUx0Yd9FzXYpJuQTl2SY7xLgNjqVBQ=="
+        }
+      }
     },
     "766ec246-f454-4f7e-9073-a499315e30f8": {
       "uuid": "766ec246-f454-4f7e-9073-a499315e30f8",
@@ -16776,8 +16787,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T23:38:54.719985369Z",
-    "agent_id": "pp3g-GKhk-atomic-install-3a-3c-issue-270-task-3-3-part-a-backup",
-    "agent_seq": 5
+    "timestamp": "2026-08-08T23:39:03.917358954Z",
+    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+    "agent_seq": 24
   }
 }
