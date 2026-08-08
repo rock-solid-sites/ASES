@@ -1,6 +1,6 @@
 {
   "next_display_id": 289,
-  "next_comment_id": 1154,
+  "next_comment_id": 1155,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1505,7 +1505,7 @@
       "parent_uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:25:26.721233193Z",
-      "updated_at": "2026-08-08T07:34:44.666704055Z",
+      "updated_at": "2026-08-08T07:35:15.934372726Z",
       "labels": [
         "research",
         "toolregistry"
@@ -1564,6 +1564,15 @@
           "kind": "observation",
           "signed_by": "SHA256:JKpwJ49ThkNHZsB84ox9srVtgmUDJCX6b5dDT51Lyvs",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY9dNqYMbIY52mSbzOC6zVAFXiCUp2JLgbg0b66zhx34AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABADVfAidJTOHuiGi5+nI/moF1ADi/9Z5WamXZbRMHp0gmFhpCQFZ2vPBylkl54QlhleaXZHajBqCU2K/A7KeKjCw=="
+        },
+        "b1fef363-09bb-400b-abac-75078bb4a1bc": {
+          "display_id": 1154,
+          "author": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
+          "content": "Completed: Settled both Phase-1 auditor (#284) concerns for #279. Concern A: independently verified no-backoff claim (connection.py:97-111 read; grep sleep|backoff|delay|retry|RETRY → sole match line-107 telemetry string), corrected #279 criterion-2 text in issue description + authoritative quoting comment. Concern B: verified committed logs carried original numbers (1830/119/9/7 per report.md), re-ran phase_b2_poc + phase_b2b_preabsorbed via run-scoped invocation copies (revalidation-2026-08-08/ with patched LOGS_DIR) writing to logs/revalidation-2026-08-08/ — both pass (exit 0, 1 spawn/1 persistent proxy/no reconnect/verbatim ErrorResult); committed logs + recipe in 2bb21d4. Tracked baseline logs untouched. Result + settle-note posted on #287/#279.",
+          "created_at": "2026-08-08T07:35:15.917778537Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:JKpwJ49ThkNHZsB84ox9srVtgmUDJCX6b5dDT51Lyvs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgY9dNqYMbIY52mSbzOC6zVAFXiCUp2JLgbg0b66zhx34AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAG34CdQfN6LNXPQXfpTvQs/T63ViQUSataDIZtTFizGRABf/+safh85T2dz7XV2zXAJ/wHoCWhRMVgs+uOWbRAA=="
         }
       }
     },
@@ -15544,8 +15553,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:35:08.321258810Z",
+    "timestamp": "2026-08-08T07:35:15.934372726Z",
     "agent_id": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
-    "agent_seq": 11
+    "agent_seq": 12
   }
 }
