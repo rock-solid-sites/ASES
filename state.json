@@ -12071,13 +12071,13 @@
       "uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
       "display_id": 279,
       "title": "REVALIDATE: C2-gap conclusions (Option B interception) on toolregistry/mcp upgrade — version-bound to toolregistry 0.15.0 / mcp 2.0.0",
-      "description": "Re-validation trigger filed from #277 (C2-gap gap-closing execution), per G8 of the #277 plan.\n\nSCOPE: The C2-gap investigation conclusions (research/toolregistry-lazy-mcp/c2-gap-investigation/report.md, #228) are valid for toolregistry 0.15.0 / mcp 2.0.0 ONLY. Option B (ToolRegistry client interception via MCPConnectionManager._call_persistent subclass) couples to a PRIVATE, version-bound internal (connection.py:97-111) with no compatibility guarantee, and the PoC duplicates its body (intercept_poc.py:86-103, incl. dropped logger.warning at connection.py:107).\n\nTRIGGER: any toolregistry or mcp (Python SDK) upgrade — patch, minor, or major — after which the following must be re-verified:\n1. connection.py:106 still catches bare Exception (no failure-class distinction added);\n2. _call_persistent still spans connection.py:97-111 with the same body (backoff/lock/telemetry/retry count);\n3. register_from_mcp still hardcodes MCPConnectionManager at integration.py:323;\n4. mcp/client/session.py:1110 still raises the schema-validation RuntimeError verbatim;\n5. B2/B2b phase scripts still pass at 1 spawn/1 proxy/no reconnect with verbatim ErrorResult.\n\nARTIFACTS: research/toolregistry-lazy-mcp/c2-gap-investigation/ (report.md §5.5, §8, §11; tests/phase_b2_poc.py, tests/phase_b2b_preabsorbed.py, tests/measure_poc_size.py; venv /tmp/toolregistry-venv).\n\nRATIONALE: private-internal coupling means the report reads as current while potentially being void after upgrade; this issue gives the re-run a durable trigger (hy3 S6/R7).",
+      "description": "Re-validation trigger filed from #277 (C2-gap gap-closing execution), per G8 of the #277 plan.\n\nSCOPE: The C2-gap investigation conclusions (research/toolregistry-lazy-mcp/c2-gap-investigation/report.md, #228) are valid for toolregistry 0.15.0 / mcp 2.0.0 ONLY. Option B (ToolRegistry client interception via MCPConnectionManager._call_persistent subclass) couples to a PRIVATE, version-bound internal (connection.py:97-111) with no compatibility guarantee, and the PoC duplicates its body (intercept_poc.py:86-103, incl. dropped logger.warning at connection.py:107).\n\nTRIGGER: any toolregistry or mcp (Python SDK) upgrade — patch, minor, or major — after which the following must be re-verified:\n1. connection.py:106 still catches bare Exception (no failure-class distinction added);\n2. _call_persistent still spans connection.py:97-111 with the same body — lock (101/108) + _ensure_connected (102) + try (103) + single call (105) + except Exception catch-all (106) + logger.warning telemetry (107) + _connect (109) + ONE immediate unconditional retry (111); NO backoff (verified 2026-08-08, #287: grep for sleep|backoff|delay|retry in connection.py matches only the line-107 telemetry string);\n3. register_from_mcp still hardcodes MCPConnectionManager at integration.py:323;\n4. mcp/client/session.py:1110 still raises the schema-validation RuntimeError verbatim;\n5. B2/B2b phase scripts still pass at 1 spawn/1 proxy/no reconnect with verbatim ErrorResult.\n\nARTIFACTS: research/toolregistry-lazy-mcp/c2-gap-investigation/ (report.md §5.5, §8, §11; tests/phase_b2_poc.py, tests/phase_b2b_preabsorbed.py, tests/measure_poc_size.py; venv /tmp/toolregistry-venv). Re-validation runs: research/toolregistry-lazy-mcp/c2-gap-investigation/logs/revalidation-2026-08-08/ (committed by #287).\n\nRATIONALE: private-internal coupling means the report reads as current while potentially being void after upgrade; this issue gives the re-run a durable trigger (hy3 S6/R7).\n\nAMENDED 2026-08-08 (#287): criterion 2 corrected to quote the actual _call_persistent body and explicitly state 'no backoff' (auditor #284 concern).",
       "status": "open",
       "priority": "medium",
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
       "created_at": "2026-08-08T06:23:25.259121776Z",
-      "updated_at": "2026-08-08T07:18:11.265810465Z",
+      "updated_at": "2026-08-08T07:32:46.931798248Z",
       "labels": [
         "research",
         "toolregistry"
@@ -15494,8 +15494,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:31:46.761873734Z",
-    "agent_id": "pp3g-0GM6-implement-crosslink-kickoff-base-branch-issue-283-7c05",
-    "agent_seq": 1
+    "timestamp": "2026-08-08T07:32:46.931798248Z",
+    "agent_id": "pp3g-6l7c-examine-settle-task-working-issue-287-child-of-279",
+    "agent_seq": 4
   }
 }
