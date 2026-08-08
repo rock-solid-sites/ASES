@@ -1,0 +1,57 @@
+HARNESS|2026-08-08T06:15:59.175Z|epoch_ms=1786169759175|phase_start phase=phase-a2-selfheal-c2 versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-08T06:15:59.175Z|epoch_ms=1786169759175|proxy=SELF_HEAL(proxy_self_heal.py) manifest=manifest.json heal_threshold=1 heal_state=phase-a2-selfheal-c2-heal-state.json backend_schema_mode=diverging backend_response_mode=diverging
+HARNESS|2026-08-08T06:15:59.177Z|epoch_ms=1786169759177|A2_BEGIN register
+PROXY|2026-08-08T06:16:00.675Z|epoch_ms=1786169760675|rel_ms=       1|proxy_started pid=1402227 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json heal_threshold=1 heal_state=on manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T06:16:00.676Z|epoch_ms=1786169760676|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-08T06:16:00.684Z|epoch_ms=1786169760684|rel_ms=      10|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T06:16:00.685Z|epoch_ms=1786169760685|rel_ms=      11|request tools/list backend_connected=False served={'add': {'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'}, 'multiply': None}
+PROXY|2026-08-08T06:16:00.692Z|epoch_ms=1786169760692|rel_ms=      18|connection_closed exiting
+HARNESS|2026-08-08T06:16:00.874Z|epoch_ms=1786169760874|A2_REGISTER result=ok delta_ms=1697 error=None
+HARNESS|2026-08-08T06:16:01.375Z|epoch_ms=1786169761375|MANIFEST_TOOL name=add input_schema={"properties": {"a": {"type": "number", "description": "First addend"}, "b": {"type": "number", "description": "Second addend"}}, "required": ["a", "b"], "type": "object"} output_schema={"properties": {"sum": {"type": "number", "description": "The sum of a and b"}}, "required": ["sum"], "type": "object"}
+HARNESS|2026-08-08T06:16:01.375Z|epoch_ms=1786169761375|MANIFEST_TOOL name=multiply input_schema={"properties": {"a": {"type": "number", "description": "First factor"}, "b": {"type": "number", "description": "Second factor"}}, "required": ["a", "b"], "type": "object"} output_schema=null
+HARNESS|2026-08-08T06:16:01.375Z|epoch_ms=1786169761375|A2_BEGIN call add(2,3)
+PROXY|2026-08-08T06:16:02.244Z|epoch_ms=1786169762244|rel_ms=       1|proxy_started pid=1402243 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json heal_threshold=1 heal_state=on manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T06:16:02.245Z|epoch_ms=1786169762245|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-08T06:16:02.258Z|epoch_ms=1786169762258|rel_ms=      15|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T06:16:02.258Z|epoch_ms=1786169762258|rel_ms=      15|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-08T06:16:02.259Z|epoch_ms=1786169762259|rel_ms=      16|backend_spawn_start instance_id=be-1-1402243-62259 spawn_count=1
+BACKEND|2026-08-08T06:16:03.082Z|epoch_ms=1786169763082|configured schema_mode=diverging response_mode=diverging
+BACKEND|2026-08-08T06:16:03.082Z|epoch_ms=1786169763082|backend_started pid=1402349 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-08T06:16:03.089Z|epoch_ms=1786169763089|rel_ms=     846|backend_up instance_id=be-1-1402243-62259 spawn_count=1 init_ms=830.5
+PROXY|2026-08-08T06:16:03.090Z|epoch_ms=1786169763090|rel_ms=     847|forward tools/call name=add to backend instance=be-1-1402243-62259
+BACKEND|2026-08-08T06:16:03.092Z|epoch_ms=1786169763092|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-08T06:16:03.093Z|epoch_ms=1786169763093|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-08T06:16:03.135Z|epoch_ms=1786169763135|rel_ms=     892|self_check_failed name=add consecutive=1 threshold=1 mismatch="'sum' is a required property" served_schema={'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'}
+PROXY|2026-08-08T06:16:03.138Z|epoch_ms=1786169763138|rel_ms=     895|live_tools_listed instance_id=be-1-1402243-62259 tools=['add', 'multiply'] schemas=[{'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'}, None]
+PROXY|2026-08-08T06:16:03.139Z|epoch_ms=1786169763139|rel_ms=     896|heal_state_written path=/home/claude-code/projects/ASES/.worktrees/pp3g-qfOy-investigation-task-decision-ready-comparison-not-a/research/toolregistry-lazy-mcp/c2-gap-investigation/logs/phase-a2-selfheal-c2-heal-state.json tools=['add', 'multiply']
+PROXY|2026-08-08T06:16:03.140Z|epoch_ms=1786169763140|rel_ms=     897|self_heal name=add trigger_call=add({'a': 2, 'b': 3}) before_schema={'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'} after_schema={'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'} live_schema={'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'} served_after={'add': {'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'}, 'multiply': None}
+PROXY|2026-08-08T06:16:03.140Z|epoch_ms=1786169763140|rel_ms=     897|response tools/call name=add ok=True
+PROXY|2026-08-08T06:16:03.142Z|epoch_ms=1786169763142|rel_ms=     899|request tools/list backend_connected=True served={'add': {'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'}, 'multiply': None}
+HARNESS|2026-08-08T06:16:03.187Z|epoch_ms=1786169763187|INVOKE|add(2,3)|start_ms=1786169761375|end_ms=1786169763187|delta_ms=1812|ok=True|result='5.0'|result_type=str
+HARNESS|2026-08-08T06:16:03.187Z|epoch_ms=1786169763187|A2_CALL_METRICS label=add(2,3) spawn_increment=1 cumulative_spawns=1 persistent_proxies=1 proxy_processes=2 reconnect_fired=False heal_increment=1 cumulative_heals=1
+HARNESS|2026-08-08T06:16:03.187Z|epoch_ms=1786169763187|A2_BEGIN call add(1,1)
+PROXY|2026-08-08T06:16:03.189Z|epoch_ms=1786169763189|rel_ms=     946|request tools/call name=add arguments={'a': 1, 'b': 1} backend_connected=True
+PROXY|2026-08-08T06:16:03.190Z|epoch_ms=1786169763190|rel_ms=     947|forward tools/call name=add to backend instance=be-1-1402243-62259
+BACKEND|2026-08-08T06:16:03.191Z|epoch_ms=1786169763191|tool_call name=add arguments={'a': 1, 'b': 1}
+BACKEND|2026-08-08T06:16:03.192Z|epoch_ms=1786169763192|tool_call_result name=add result=2.0 response_mode=diverging structured={'result': 2.0}
+PROXY|2026-08-08T06:16:03.194Z|epoch_ms=1786169763194|rel_ms=     951|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-08T06:16:03.194Z|epoch_ms=1786169763194|rel_ms=     951|response tools/call name=add ok=True
+HARNESS|2026-08-08T06:16:03.196Z|epoch_ms=1786169763196|INVOKE|add(1,1)|start_ms=1786169763187|end_ms=1786169763196|delta_ms=9|ok=True|result='2.0'|result_type=str
+HARNESS|2026-08-08T06:16:03.197Z|epoch_ms=1786169763197|A2_CALL_METRICS label=add(1,1) spawn_increment=0 cumulative_spawns=1 persistent_proxies=1 proxy_processes=2 reconnect_fired=False heal_increment=0 cumulative_heals=1
+HARNESS|2026-08-08T06:16:03.197Z|epoch_ms=1786169763197|A2_BEGIN call multiply(4,5)
+PROXY|2026-08-08T06:16:03.200Z|epoch_ms=1786169763200|rel_ms=     957|request tools/call name=multiply arguments={'a': 4, 'b': 5} backend_connected=True
+PROXY|2026-08-08T06:16:03.200Z|epoch_ms=1786169763200|rel_ms=     957|forward tools/call name=multiply to backend instance=be-1-1402243-62259
+BACKEND|2026-08-08T06:16:03.202Z|epoch_ms=1786169763202|tool_call name=multiply arguments={'a': 4, 'b': 5}
+BACKEND|2026-08-08T06:16:03.202Z|epoch_ms=1786169763202|tool_call_result name=multiply result=20.0 structured=product
+PROXY|2026-08-08T06:16:03.203Z|epoch_ms=1786169763203|rel_ms=     960|self_check ok name=multiply failure_counts={'add': 0, 'multiply': 0}
+PROXY|2026-08-08T06:16:03.203Z|epoch_ms=1786169763203|rel_ms=     960|response tools/call name=multiply ok=True
+HARNESS|2026-08-08T06:16:03.205Z|epoch_ms=1786169763205|INVOKE|multiply(4,5)|start_ms=1786169763197|end_ms=1786169763205|delta_ms=8|ok=True|result='20.0'|result_type=str
+HARNESS|2026-08-08T06:16:03.205Z|epoch_ms=1786169763205|A2_CALL_METRICS label=multiply(4,5) spawn_increment=0 cumulative_spawns=1 persistent_proxies=1 proxy_processes=2 reconnect_fired=False heal_increment=0 cumulative_heals=1
+HARNESS|2026-08-08T06:16:03.205Z|epoch_ms=1786169763205|A2_HEAL_EVENT epoch=1786169763140 msg=self_heal name=add trigger_call=add({'a': 2, 'b': 3}) before_schema={'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'} after_schema={'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'} live_schema={'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'} served_after={'add': {'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'}, 'multiply': None}
+HARNESS|2026-08-08T06:16:03.205Z|epoch_ms=1786169763205|A2_SERVED_SNAPSHOTS count=2
+HARNESS|2026-08-08T06:16:03.205Z|epoch_ms=1786169763205|A2_SERVED request tools/list backend_connected=False served={'add': {'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'}, 'multiply': None}
+HARNESS|2026-08-08T06:16:03.205Z|epoch_ms=1786169763205|A2_SERVED request tools/list backend_connected=True served={'add': {'properties': {'result': {'type': 'number', 'description': 'The result'}}, 'required': ['result'], 'type': 'object'}, 'multiply': None}
+HARNESS|2026-08-08T06:16:03.205Z|epoch_ms=1786169763205|A2_RESULT pass=True first_call_success=True other_tool_success=True heal_occurred=True total_spawns=1 proxy_processes=2
+PROXY|2026-08-08T06:16:03.207Z|epoch_ms=1786169763207|rel_ms=     964|connection_closed exiting
+BACKEND|2026-08-08T06:16:05.214Z|epoch_ms=1786169765214|backend_stdin_closed_exiting
+HARNESS|2026-08-08T06:16:05.220Z|epoch_ms=1786169765220|phase_done phase=phase-a2-selfheal-c2 selfheal_c2_pass=True

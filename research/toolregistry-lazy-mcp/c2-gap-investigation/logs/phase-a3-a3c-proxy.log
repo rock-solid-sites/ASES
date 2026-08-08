@@ -1,0 +1,43 @@
+PROXY|2026-08-08T03:48:20.437Z|epoch_ms=1786160900437|rel_ms=       0|proxy_started pid=683563 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json heal_threshold=1 heal_state=on manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T03:48:20.438Z|epoch_ms=1786160900438|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-08T03:48:20.445Z|epoch_ms=1786160900445|rel_ms=       8|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T03:48:20.446Z|epoch_ms=1786160900446|rel_ms=       9|request tools/list backend_connected=False served={'add': {'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'}, 'multiply': None}
+PROXY|2026-08-08T03:48:20.448Z|epoch_ms=1786160900448|rel_ms=      11|connection_closed exiting
+PROXY|2026-08-08T03:48:21.686Z|epoch_ms=1786160901686|rel_ms=       1|proxy_started pid=683568 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json heal_threshold=1 heal_state=on manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T03:48:21.686Z|epoch_ms=1786160901686|rel_ms=       1|server_ready waiting_for_client
+PROXY|2026-08-08T03:48:21.694Z|epoch_ms=1786160901694|rel_ms=       9|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T03:48:21.695Z|epoch_ms=1786160901695|rel_ms=      10|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-08T03:48:21.696Z|epoch_ms=1786160901696|rel_ms=      11|backend_spawn_start instance_id=be-1-683568-1696 spawn_count=1
+PROXY|2026-08-08T03:48:22.529Z|epoch_ms=1786160902529|rel_ms=     844|backend_up instance_id=be-1-683568-1696 spawn_count=1 init_ms=832.8
+PROXY|2026-08-08T03:48:22.529Z|epoch_ms=1786160902529|rel_ms=     844|forward tools/call name=add to backend instance=be-1-683568-1696
+PROXY|2026-08-08T03:48:22.587Z|epoch_ms=1786160902587|rel_ms=     902|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-08T03:48:22.587Z|epoch_ms=1786160902587|rel_ms=     902|response tools/call name=add ok=True
+PROXY|2026-08-08T03:48:22.589Z|epoch_ms=1786160902589|rel_ms=     904|request tools/list backend_connected=True served={'add': {'properties': {'sum': {'type': 'number', 'description': 'The sum of a and b'}}, 'required': ['sum'], 'type': 'object'}, 'multiply': None}
+PROXY|2026-08-08T03:48:22.594Z|epoch_ms=1786160902594|rel_ms=     909|request tools/call name=add arguments={'a': 4, 'b': 5} backend_connected=True
+PROXY|2026-08-08T03:48:22.594Z|epoch_ms=1786160902594|rel_ms=     909|forward tools/call name=add to backend instance=be-1-683568-1696
+PROXY|2026-08-08T03:48:22.597Z|epoch_ms=1786160902597|rel_ms=     912|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 9.0}") attempt=1 respawning
+PROXY|2026-08-08T03:48:22.752Z|epoch_ms=1786160902752|rel_ms=    1067|backend_client_closed instance_id=be-1-683568-1696
+PROXY|2026-08-08T03:48:22.753Z|epoch_ms=1786160902753|rel_ms=    1068|backend_spawn_start instance_id=be-2-683568-2752 spawn_count=2
+PROXY|2026-08-08T03:48:23.689Z|epoch_ms=1786160903689|rel_ms=    2004|backend_up instance_id=be-2-683568-2752 spawn_count=2 init_ms=936.6
+PROXY|2026-08-08T03:48:23.698Z|epoch_ms=1786160903698|rel_ms=    2013|backend_call_retry_succeeded
+PROXY|2026-08-08T03:48:23.700Z|epoch_ms=1786160903700|rel_ms=    2015|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-08T03:48:23.700Z|epoch_ms=1786160903700|rel_ms=    2015|response tools/call name=add ok=True
+PROXY|2026-08-08T03:48:23.705Z|epoch_ms=1786160903705|rel_ms=    2020|request tools/call name=add arguments={'a': 6, 'b': 7} backend_connected=True
+PROXY|2026-08-08T03:48:23.705Z|epoch_ms=1786160903705|rel_ms=    2020|forward tools/call name=add to backend instance=be-2-683568-2752
+PROXY|2026-08-08T03:48:23.709Z|epoch_ms=1786160903709|rel_ms=    2024|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 13.0}") attempt=1 respawning
+PROXY|2026-08-08T03:48:23.896Z|epoch_ms=1786160903896|rel_ms=    2211|backend_client_closed instance_id=be-2-683568-2752
+PROXY|2026-08-08T03:48:23.897Z|epoch_ms=1786160903897|rel_ms=    2212|backend_spawn_start instance_id=be-3-683568-3897 spawn_count=3
+PROXY|2026-08-08T03:48:24.706Z|epoch_ms=1786160904706|rel_ms=    3021|backend_up instance_id=be-3-683568-3897 spawn_count=3 init_ms=808.7
+PROXY|2026-08-08T03:48:24.712Z|epoch_ms=1786160904712|rel_ms=    3027|backend_call_retry_succeeded
+PROXY|2026-08-08T03:48:24.713Z|epoch_ms=1786160904713|rel_ms=    3028|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-08T03:48:24.713Z|epoch_ms=1786160904713|rel_ms=    3028|response tools/call name=add ok=True
+PROXY|2026-08-08T03:48:24.717Z|epoch_ms=1786160904717|rel_ms=    3032|request tools/call name=add arguments={'a': 8, 'b': 9} backend_connected=True
+PROXY|2026-08-08T03:48:24.717Z|epoch_ms=1786160904717|rel_ms=    3032|forward tools/call name=add to backend instance=be-3-683568-3897
+PROXY|2026-08-08T03:48:24.721Z|epoch_ms=1786160904721|rel_ms=    3036|backend_call_failed type=RuntimeError msg=RuntimeError("Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 17.0}") attempt=1 respawning
+PROXY|2026-08-08T03:48:24.908Z|epoch_ms=1786160904908|rel_ms=    3223|backend_client_closed instance_id=be-3-683568-3897
+PROXY|2026-08-08T03:48:24.908Z|epoch_ms=1786160904908|rel_ms=    3223|backend_spawn_start instance_id=be-4-683568-4908 spawn_count=4
+PROXY|2026-08-08T03:48:25.721Z|epoch_ms=1786160905721|rel_ms=    4036|backend_up instance_id=be-4-683568-4908 spawn_count=4 init_ms=813.6
+PROXY|2026-08-08T03:48:25.728Z|epoch_ms=1786160905728|rel_ms=    4043|backend_call_retry_succeeded
+PROXY|2026-08-08T03:48:25.732Z|epoch_ms=1786160905732|rel_ms=    4047|self_check ok name=add failure_counts={'add': 0}
+PROXY|2026-08-08T03:48:25.733Z|epoch_ms=1786160905733|rel_ms=    4048|response tools/call name=add ok=True
+PROXY|2026-08-08T03:48:25.737Z|epoch_ms=1786160905737|rel_ms=    4052|connection_closed exiting

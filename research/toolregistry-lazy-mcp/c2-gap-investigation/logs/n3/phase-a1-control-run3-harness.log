@@ -1,0 +1,96 @@
+HARNESS|2026-08-08T06:15:30.192Z|epoch_ms=1786169730192|phase_start phase=phase-a1-control versions toolregistry=0.15.0 mcp=2.0.0 python=3.10.12 platform=linux
+HARNESS|2026-08-08T06:15:30.192Z|epoch_ms=1786169730192|proxy=CONTROL(proxy.py) manifest=manifest.json backend_schema_mode=diverging backend_response_mode=diverging
+HARNESS|2026-08-08T06:15:30.193Z|epoch_ms=1786169730193|A1_BEGIN register
+PROXY|2026-08-08T06:15:31.650Z|epoch_ms=1786169731650|rel_ms=       1|proxy_started pid=1399354 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T06:15:31.651Z|epoch_ms=1786169731651|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-08T06:15:31.661Z|epoch_ms=1786169731661|rel_ms=      12|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T06:15:31.661Z|epoch_ms=1786169731661|rel_ms=      12|request tools/list backend_connected=False
+PROXY|2026-08-08T06:15:31.667Z|epoch_ms=1786169731667|rel_ms=      18|connection_closed exiting
+HARNESS|2026-08-08T06:15:31.854Z|epoch_ms=1786169731854|A1_REGISTER result=ok delta_ms=1661 error=None
+HARNESS|2026-08-08T06:15:32.355Z|epoch_ms=1786169732355|MANIFEST_TOOL name=add input_schema={"properties": {"a": {"type": "number", "description": "First addend"}, "b": {"type": "number", "description": "Second addend"}}, "required": ["a", "b"], "type": "object"} output_schema={"properties": {"sum": {"type": "number", "description": "The sum of a and b"}}, "required": ["sum"], "type": "object"}
+HARNESS|2026-08-08T06:15:32.355Z|epoch_ms=1786169732355|MANIFEST_TOOL name=multiply input_schema={"properties": {"a": {"type": "number", "description": "First factor"}, "b": {"type": "number", "description": "Second factor"}}, "required": ["a", "b"], "type": "object"} output_schema=null
+HARNESS|2026-08-08T06:15:32.355Z|epoch_ms=1786169732355|A1_BEGIN call
+PROXY|2026-08-08T06:15:33.261Z|epoch_ms=1786169733261|rel_ms=       1|proxy_started pid=1399371 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T06:15:33.262Z|epoch_ms=1786169733262|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-08T06:15:33.272Z|epoch_ms=1786169733272|rel_ms=      12|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T06:15:33.274Z|epoch_ms=1786169733274|rel_ms=      14|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-08T06:15:33.275Z|epoch_ms=1786169733275|rel_ms=      15|backend_spawn_start instance_id=be-1-1399371-33275 spawn_count=1
+BACKEND|2026-08-08T06:15:34.129Z|epoch_ms=1786169734129|configured schema_mode=diverging response_mode=diverging
+BACKEND|2026-08-08T06:15:34.130Z|epoch_ms=1786169734130|backend_started pid=1399542 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-08T06:15:34.144Z|epoch_ms=1786169734144|rel_ms=     884|backend_up instance_id=be-1-1399371-33275 spawn_count=1 init_ms=869.1
+PROXY|2026-08-08T06:15:34.144Z|epoch_ms=1786169734144|rel_ms=     884|forward tools/call name=add to backend instance=be-1-1399371-33275
+BACKEND|2026-08-08T06:15:34.146Z|epoch_ms=1786169734146|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-08T06:15:34.146Z|epoch_ms=1786169734146|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-08T06:15:34.188Z|epoch_ms=1786169734188|rel_ms=     928|response tools/call name=add ok=True
+PROXY|2026-08-08T06:15:34.191Z|epoch_ms=1786169734191|rel_ms=     931|request tools/list backend_connected=True
+2026-08-08 06:15:34.231 | WARNING  | MCP call to 'add' failed, reconnecting and retrying
+PROXY|2026-08-08T06:15:34.233Z|epoch_ms=1786169734233|rel_ms=     973|connection_closed exiting
+BACKEND|2026-08-08T06:15:36.245Z|epoch_ms=1786169736245|backend_stdin_closed_exiting
+PROXY|2026-08-08T06:15:37.102Z|epoch_ms=1786169737102|rel_ms=       1|proxy_started pid=1400085 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+PROXY|2026-08-08T06:15:37.103Z|epoch_ms=1786169737103|rel_ms=       2|server_ready waiting_for_client
+PROXY|2026-08-08T06:15:37.111Z|epoch_ms=1786169737111|rel_ms=      10|notification received notifications/initialized (client handshake done)
+PROXY|2026-08-08T06:15:37.112Z|epoch_ms=1786169737112|rel_ms=      11|request tools/call name=add arguments={'a': 2, 'b': 3} backend_connected=False
+PROXY|2026-08-08T06:15:37.113Z|epoch_ms=1786169737113|rel_ms=      12|backend_spawn_start instance_id=be-1-1400085-37112 spawn_count=1
+BACKEND|2026-08-08T06:15:37.886Z|epoch_ms=1786169737886|configured schema_mode=diverging response_mode=diverging
+BACKEND|2026-08-08T06:15:37.886Z|epoch_ms=1786169737886|backend_started pid=1400232 python=/tmp/toolregistry-venv/bin/python
+PROXY|2026-08-08T06:15:37.893Z|epoch_ms=1786169737893|rel_ms=     792|backend_up instance_id=be-1-1400085-37112 spawn_count=1 init_ms=780.2
+PROXY|2026-08-08T06:15:37.893Z|epoch_ms=1786169737893|rel_ms=     792|forward tools/call name=add to backend instance=be-1-1400085-37112
+BACKEND|2026-08-08T06:15:37.896Z|epoch_ms=1786169737896|tool_call name=add arguments={'a': 2, 'b': 3}
+BACKEND|2026-08-08T06:15:37.896Z|epoch_ms=1786169737896|tool_call_result name=add result=5.0 response_mode=diverging structured={'result': 5.0}
+PROXY|2026-08-08T06:15:37.956Z|epoch_ms=1786169737956|rel_ms=     855|response tools/call name=add ok=True
+PROXY|2026-08-08T06:15:37.961Z|epoch_ms=1786169737961|rel_ms=     860|request tools/list backend_connected=True
+2026-08-08 06:15:37.965 | ERROR    | Original Exception happens at add:
+jsonschema.exceptions.ValidationError: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/integration.py", line 92, in call_sync
+    result = self._connection.call_tool_sync(self.name, validated_params)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 135, in call_tool_sync
+    return AsyncRuntime.run_sync(self.call_tool(name, arguments))
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/_async_runtime.py", line 87, in run_sync
+    return asyncio.run_coroutine_threadsafe(coro, loop).result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 71, in call_tool
+    return await self._call_persistent(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/connection.py", line 111, in _call_persistent
+    return await self._client.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/toolregistry/integrations/mcp/client.py", line 133, in call_tool
+    return await self._session.call_tool(name, arguments)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1064, in call_tool
+    await self.validate_tool_result(name, result)
+  File "/tmp/toolregistry-venv/lib/python3.10/site-packages/mcp/client/session.py", line 1110, in validate_tool_result
+    raise RuntimeError(f"Invalid structured content returned by tool {name}: {error}") from error
+RuntimeError: Invalid structured content returned by tool add: 'sum' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'sum': {'type': 'number',
+                            'description': 'The sum of a and b'}},
+     'required': ['sum'],
+     'type': 'object'}
+
+On instance:
+    {'result': 5.0}
+
+HARNESS|2026-08-08T06:15:37.967Z|epoch_ms=1786169737967|INVOKE|add(2,3)|start_ms=1786169732355|end_ms=1786169737967|delta_ms=5612|ok=False|outcome_type=ErrorResult|message_verbatim="RuntimeError: Error executing add: Invalid structured content returned by tool add: 'sum' is a required property\n\nFailed validating 'required' in schema:\n    {'properties': {'sum': {'type': 'number',\n                            'description': 'The sum of a and b'}},\n     'required': ['sum'],\n     'type': 'object'}\n\nOn instance:\n    {'result': 5.0}"
+HARNESS|2026-08-08T06:15:37.967Z|epoch_ms=1786169737967|A1_SPAWN_COUNTS backend_spawn_count=2 backend_up_count=2 backend_call_failed_count=0 proxy_processes=3 persistent_proxies=2 reconnect_fired=True proxy_pids=[1399354, 1399371, 1400085]
+HARNESS|2026-08-08T06:15:37.968Z|epoch_ms=1786169737968|A1_PROXY_STARTED epoch=1786169731650 msg=proxy_started pid=1399354 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-08T06:15:37.968Z|epoch_ms=1786169737968|A1_PROXY_STARTED epoch=1786169733261 msg=proxy_started pid=1399371 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-08T06:15:37.968Z|epoch_ms=1786169737968|A1_PROXY_STARTED epoch=1786169737102 msg=proxy_started pid=1400085 python=/tmp/toolregistry-venv/bin/python manifest=manifest.json manifest_tools=['add', 'multiply'] backend=not_started notifications=never
+HARNESS|2026-08-08T06:15:37.968Z|epoch_ms=1786169737968|A1_RESULT pass=True spawns=2 proxies=3 reconnect=True error_marker_present=True
+PROXY|2026-08-08T06:15:37.969Z|epoch_ms=1786169737969|rel_ms=     868|connection_closed exiting
+BACKEND|2026-08-08T06:15:39.981Z|epoch_ms=1786169739981|backend_stdin_closed_exiting
+HARNESS|2026-08-08T06:15:39.999Z|epoch_ms=1786169739999|phase_done phase=phase-a1-control control_c2_pass=True
