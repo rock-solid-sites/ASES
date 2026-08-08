@@ -5628,12 +5628,13 @@
       "display_id": 213,
       "title": "RESEARCH (output-schema drift): cached-manifest output_schema vs live-backend content mismatch as a hard-failure mode for identifier-first tool-calling",
       "description": "Follow-on from #196 (ToolRegistry lazy-MCP validation). Flagged by BOTH re-reviewers (hy3 #199 SHOULD-CONSIDER; big-pickle #205) as the most consequential open question for the identifier-first proposal.\n\nTHE PROBLEM: mcp/client/session.py:1096-1100 — when a listed tool DOES declare an output_schema, call_tool raises RuntimeError if the result carries no conforming structured content. In a lazy-proxy design the schema comes from the CACHED MANIFEST while the content comes from the LIVE BACKEND — so manifest-to-backend schema drift is a hard-failure mode intrinsic to the identifier-first architecture. It was NEVER exercised: manifest.json:30 sets output_schema: null, so the current evidence does not cover this path.\n\nSCOPE (when dispatched — the operator will provide the full draft brief to the agent): investigate whether a cached-manifest proxy can survive tools that declare output schemas, what drift does at runtime, and whether it requires a richer proxy (schema-aware forwarding) or a ToolRegistry-side change. Evidence-only task, consistent with #196. Do NOT re-run the #196 tests wholesale; this is a new focused investigation.",
-      "status": "open",
+      "status": "closed",
       "priority": "medium",
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
       "created_at": "2026-08-06T05:00:07.079335928Z",
-      "updated_at": "2026-08-06T05:33:18.650734703Z",
+      "updated_at": "2026-08-08T07:55:56.465479019Z",
+      "closed_at": "2026-08-08T07:55:56.465476406Z",
       "labels": [
         "research",
         "toolregistry"
@@ -15797,8 +15798,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:55:48.476349069Z",
+    "timestamp": "2026-08-08T07:55:56.465479019Z",
     "agent_id": "OL2r",
-    "agent_seq": 1431
+    "agent_seq": 1432
   }
 }
