@@ -1,6 +1,6 @@
 {
   "next_display_id": 300,
-  "next_comment_id": 1236,
+  "next_comment_id": 1237,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2902,7 +2902,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-08T18:02:26.310813685Z",
-      "updated_at": "2026-08-08T18:48:11.305573987Z",
+      "updated_at": "2026-08-08T19:30:05.843684306Z",
       "labels": [
         "research",
         "toolregistry"
@@ -2943,6 +2943,15 @@
           "kind": "plan",
           "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvS+Zw/eRhlE3QoQ9tRgaThQjGH4iectgvdPb3GDZPlQqf0wAD2TvoXbZThS18x7J56NKV+ms5lMdVtZtGxTNDg=="
+        },
+        "fe9badd7-684f-49fd-b957-91e5c6a0cbdf": {
+          "display_id": 1236,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "Result: VALIDATION COMPLETE — STRONG PASS. Catalog-scale vs connector-residency validated on toolregistry==0.15.0/mcp==2.0.0 (stdio only): resident connector-process count scales with K (used), not N (configured/refreshed).\n\n- Test 1 PASS: backend_spawn_count=0 at N=1/5/10/20/50 (100 acquisition proxy sessions, zero backend spawns).\n- Test 2 PASS: N=10 refresh residency 0 proxies/0 backends under BOTH no-teardown and immediate-teardown.\n- Test 3 PASS: 20-run sweep (N=1..50 x sequential/concurrent x teardown off/on) — resident-after flat 0/0 in every row; peak=N only in concurrent mode (transient, expected).\n- Test 4 PASS (headline): N=20/K=3 — 17 refreshed-but-never-called tools' proxies = 0 resident; 3 called connectors resident (persistence expected) and identity-reused across call1/call2 (same proxy+backend pids, addendum D).\n- Test 5a: notification emitted by proxy (listChanged:true) but ToolRegistry does NOT consume it — catalog unchanged, no unnecessary backend start, refresh path returns stale static manifest (documented implementation gap, characterized not fixed).\n- Test 5b: no-signal baseline — catalog retained as-is; first-use of changed tool returns application-level unknown-tool error (no respawn); backend-added tool refused by registry (KeyError).\n- Test 6: immediate teardown suffices for catalog-refresh workload (already at minimum via temp-client refresh); called-connector residency fully reclaimable to 0/0.\n- Addendum B: sync mode = 1 shared 'async-runtime' daemon thread (never per-connector); async mode = 0 threads (clean-process verified).\n- Lifecycle finding: connectors orphan indefinitely (ep_poll, stdin EOF) if the owning process exits without explicit close — explicit teardown required for reclamation.\n- Persistence config: persistent=True (default), verified in installed source. Host-load caveat recorded (timings inflated, counts load-independent).\n\nDeliverable committed (00eda4b3): research/toolregistry-lazy-mcp/catalog-scale/ — report.md (Research Finding, Documentation Standard YAML), scripts/, logs/ (all per-run JSON + proxy logs + run streams).",
+          "created_at": "2026-08-08T19:30:05.832991357Z",
+          "kind": "result",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHZfr+CyURJnLmY00gT1j9efpiKgUrHbJWvQDsb0qFLFGD936LopfGW8HPDbSoGt/lfcjfdW8nR14QDJR6MT3Ag=="
         }
       }
     },
@@ -16480,8 +16489,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T19:00:27.432075210Z",
-    "agent_id": "pp3g-gFmp-atomic-task-2-3-continuation-issue-270-part-b-2-6a44",
-    "agent_seq": 12
+    "timestamp": "2026-08-08T19:30:05.843684306Z",
+    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+    "agent_seq": 6
   }
 }
