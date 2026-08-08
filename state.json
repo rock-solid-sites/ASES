@@ -1,6 +1,6 @@
 {
   "next_display_id": 261,
-  "next_comment_id": 904,
+  "next_comment_id": 905,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2828,7 +2828,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-08T01:49:19.944514419Z",
+      "updated_at": "2026-08-08T01:54:13.294348950Z",
       "labels": [
         "bug"
       ],
@@ -3217,6 +3217,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAt3XplFj25CSZsTx8dlzYvWkT+N8/DHQLAXDedk5tuj4gOK2pK2ppu5i3cX1XHPmvvoFNd4q+wIejEGmUou35CA=="
+        },
+        "5b0e84b2-68c8-422b-a2b3-69033dad050a": {
+          "display_id": 904,
+          "author": "pp3g-cXmI-read-only-in-flight-divergence-verifier-phase-1-4838",
+          "content": "[DIVERGENCE-VERIFIER] TRIGGER RE-AFFIRMED — STALENESS PERSISTS (named Builder pp3g-neHg)\ntrigger=staleness (2nd confirmation) claim=orchestrator NUDGE 01:32:53Z required a position now + ~10 min cadence; Builder pp3g-neHg's lock claim at 01:22:12Z — now 32 min elapsed with ZERO positions posted on #125 and ZERO r3 artifacts in the fork gap=position absent for >3x expected interval (amended contract: >20 min = trigger); fork-local/agents HEAD unchanged 7c5b3e88 (no r3 commit); fork worktree has NO modified source files (only untracked .crosslink/issues.db.backup); Builder tmux session pane shows idle shell prompt with unchanged content between 01:43Z and 01:54Z evidence=issue comment timeline (no neHg CommentAdded since lock claim; hub events.log for refs/heads/crosslink/agents/pp3g-neHg-implement-follow-up-round-3-r3-of-125-in-the-0ba3: LockClaimed 01:21:45, LockReleased 01:21:53, LockClaimed 01:22:12, then nothing); git log fork-local/agents (tip 7c5b3e88); git status fork (no tracked edits); tmux capture-pane (idle). net=Builder is alive (lock heartbeat active, tmux session present) but position-silent AND artifact-silent 32 min into a 60-min run; the r3 position trail on #125 belongs to stalled agent T1jj, not the named Builder. Orchestrator owns disposition (nudge escalation / kill+redispatch / watch); verifier remains read-only and does not act.",
+          "created_at": "2026-08-08T01:54:13.286252090Z",
+          "kind": "observation",
+          "signed_by": "SHA256:wVqrBLdrbSpGMILpSQ9r18RXcTq3VqdBtd3XHQWMPXU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtna7aRHdMZ112eYm5z/ZNXGUuhUxJUhuW344vCwxbCgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0x1LzujbQ795RrWyME13wiPbnQnhf3uHNQTDmJzWXAgAMwSOtTLzOeNM4DU0OXZrEjIaTA2Pq10g6xsJlCLPDA=="
         },
         "5d042a18-d38c-44bb-99b2-20c5a8a14255": {
           "display_id": 891,
@@ -12757,8 +12766,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T01:50:53.574893599Z",
-    "agent_id": "pp3g-0Oa0-apply-the-259-correction-to-the-tripn-astro-staging",
+    "timestamp": "2026-08-08T01:54:13.294348950Z",
+    "agent_id": "pp3g-cXmI-read-only-in-flight-divergence-verifier-phase-1-4838",
     "agent_seq": 7
   }
 }
