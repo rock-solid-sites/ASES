@@ -1,6 +1,6 @@
 {
   "next_display_id": 258,
-  "next_comment_id": 865,
+  "next_comment_id": 866,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -2825,7 +2825,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-03T01:13:49.632863877Z",
-      "updated_at": "2026-08-08T00:55:26.255308163Z",
+      "updated_at": "2026-08-08T00:59:09.953749055Z",
       "labels": [
         "bug"
       ],
@@ -3124,6 +3124,15 @@
           "kind": "observation",
           "signed_by": "SHA256:IXhKiO3pnLq233TIQQSu6gAvvkpo7h1CfT0FBblIybI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgSX57Ld6x3T/iRVbPSMrPfTzYOXkLaOnfJsUJ5reBNDQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA3yOyvJUAAHYS3zwDmFKoF1Up9VDUrNWCzrcS3tQrni1d+j+UsSoyyaq4sEMVexlwKy3e1XBoiD81maGdU6G2BQ=="
+        },
+        "4c59ae14-73b1-45af-b489-ac968ea59712": {
+          "display_id": 865,
+          "author": "OL2r",
+          "content": "FOLLOW-UP PLAN (P3-r3) — AMENDED per plan-review (big-pickle TSZN 00:55, CHANGES-REQUIRED narrow). All 4 items kept; precision amendments folded in. R1 (item 1): enumeration must FAIL CLOSED on enumeration failure — list_git_remotes (sync/mod.rs:118-137) returns empty on git failure (soft signal, sync/mod.rs:112-116); spec: distinguish empty-success from empty-failure (Result-returning or exit-status check); Allowed ONLY on confirmed successful zero-remotes enumeration. Make list_git_remotes pub(crate) or local equivalent. Keep existing test v2_file_path_decision_v2_only_no_remote_allowed (hub_v3.rs:4702-4710) green. R2 (item 2): extract daemon tick hydrate step (daemon.rs:281-325) into standalone fn tick_hydrate(...) -> Result<Option<HydrationStats>> implementing v3/v2 branches + warn handling; assert dispatcher Err is consumed (warn, not propagate, loop continues) + v2-Skipped arm warns; warn observation via outcome enum (no tracing-capture infra exists — do not invent one). R3 (item 4): integrity repair must run locked re-check + clear_shared_data + hydrate under ONE lock acquisition (dispatcher variant accepting an already-held HubWriteLock, or locked clear+hydrate helper in integrity_cmd) — acquire_hub_lock (sync/cache.rs:56-60) is NON-REENTRANT file-based create_new; double-acquire would 30s-wait -> Err -> repair fails 100% of the time. Ordering: re-emit (integrity_cmd.rs:379) -> locked re-check -> clear -> hydrate. G4 (scope): record NIT #2 (G6 issues-dir durability) as DELIBERATE scope-out (audit: harmless; read_all_issue_files empty for missing and empty dirs; r2 gate supersedes interim control) — not an omission. G5 (note): item 1 makes tracker_remote=ghost + real v2-only origin -> Forbidden (conservative); legit v2-only remotes unaffected (existing test remote_v2_only_allowed hub_v3.rs:4743-4763). G6 (optional): one-line crosslink-fork.md note on r3 gate behavior. ACCEPTANCE: R1 enumeration fail-closed tests; R2 tick_hydrate extraction + warn tests; R3 single-lock repair test; item 3 marker-write test; full suite green; binary sha == commit sha. COMMIT: 'fix(hydration): follow-up hardening + regressions (gh#125 r3)'. Do NOT close #125. Do NOT push.",
+          "created_at": "2026-08-08T00:59:09.946955941Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAn9xlIVoenchyaWobtqfgH7fWhostPdJZ9HbqJQ7cFcw+FVxbyS8lV9NosxhomdRcV79DzUj0rAh3uKg7SW37Cw=="
         },
         "4d6e75ae-d2b8-434d-9ae4-a92267450588": {
           "display_id": 196,
@@ -12356,8 +12365,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T00:55:26.255308163Z",
-    "agent_id": "pp3g-TSZN-read-only-plan-review-do-not-modify-files-do-not-2da6",
-    "agent_seq": 7
+    "timestamp": "2026-08-08T00:59:09.953749055Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1210
   }
 }
