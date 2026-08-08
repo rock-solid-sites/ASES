@@ -5443,11 +5443,12 @@
       "display_id": 266,
       "title": "DOC: record the chained/pipe-command allowlist gotcha in the playbook + ORCHESTRATOR.md — the bash allowlist matches the command PREFIX, so any pipe chain is denied even when every segment is individually allowed",
       "description": "EVIDENCE (2026-08-08, Phase-2 auditor laguna pp3g-7uA3 on #264): the call 'rtk git show af350f49:.../intercept_poc.py | grep -v ... | grep -v ... | wc -l' was DENIED with 'The user has specified a rule which prevents you from using this specific tool call' even though the allowlist permits 'rtk *', 'git *', 'grep *'-style prefixes. ROOT CAUSE: the OpenCode bash allowlist matches the command STRING PREFIX; a pipe ('|') breaks the prefix match, so the chain fails as a whole even when each component command is individually allowed. Same class of failure as the orchestrator's earlier 'chained read' denials. FIX: document in .crosslink/knowledge/agent-orchestration-playbook.md (the §5.7 permission/bounded-signals section that already notes prefix-granularity allowlisting) and docs/ORCHESTRATOR.md (permission-matrix notes): (a) chained/piped commands are denied at the matcher; (b) agents should use a single tool invocation per command, or the Read tool for files, or rtk/git with flags rather than pipes; (c) this is by-design (prefix-scoped allowlist), not a bug. Doc-only task, low priority.",
-      "status": "open",
+      "status": "closed",
       "priority": "low",
       "created_by": "OL2r",
       "created_at": "2026-08-08T04:57:07.455490066Z",
-      "updated_at": "2026-08-08T07:56:33.565853767Z",
+      "updated_at": "2026-08-08T07:56:40.807508676Z",
+      "closed_at": "2026-08-08T07:56:40.807506021Z",
       "labels": [
         "docs"
       ],
@@ -15809,8 +15810,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:56:33.565853767Z",
+    "timestamp": "2026-08-08T07:56:40.807508676Z",
     "agent_id": "OL2r",
-    "agent_seq": 1435
+    "agent_seq": 1436
   }
 }
