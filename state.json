@@ -1,6 +1,6 @@
 {
   "next_display_id": 293,
-  "next_comment_id": 1183,
+  "next_comment_id": 1184,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -943,7 +943,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:07:00.223189453Z",
-      "updated_at": "2026-08-08T08:20:34.642680703Z",
+      "updated_at": "2026-08-08T08:23:09.948824344Z",
       "labels": [
         "feature"
       ],
@@ -1001,6 +1001,15 @@
           "kind": "plan",
           "signed_by": "SHA256:SJ+ubvvx8CCKYLy/K/pn2Gd9cslQmp/rBwFVKBeWLo8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgofsDNaXCDOrg4oVsNX9NaFZ9Hs0vMBM3jhfLhibuxsEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA81cxjhkf86gsQpcrbGislwcIQnHTjgxSCWJFJBm0DBHpwUN0Q6mWcL1nx3GmV9XCDarK/Dqx6492X7xBcAdcDg=="
+        },
+        "d04f035b-cc58-4569-8059-4c2e77daf3fd": {
+          "display_id": 1183,
+          "author": "pp3g-0GM6-implement-crosslink-kickoff-base-branch-issue-283-7c05",
+          "content": "Result: implemented crosslink kickoff --base <ref> end-to-end (GH#283).\n\nDELIVERED (crosslink repo, branch feature/pp3g-0GM6-kickoff-base-ref-283 @ 6221309e):\n1. CLI: --base on kickoff run AND kickoff plan (main.rs, next to --branch) — PlanOpts also carries base (open verification item 3 resolved: plan worktrees honor --base too).\n2. types.rs: base: Option<&str> on KickoffOpts + PlanOpts; wired through mod.rs dispatch (all 3 KickoffOpts + 3 PlanOpts sites), swarm/lifecycle.rs, sentinel/engine.rs, 14 test fixtures.\n3. create_worktree (launch.rs): validates base ref via git rev-parse --verify BEFORE worktree creation; bails naming the ref + listing valid refs; rejects --base == auto feature branch (self-base). Single chokepoint covers run + plan.\n4. run.rs:94/97 + plan.rs:176 pass opts.base into create_worktree.\n5. prompt.rs: when --base set, KICKOFF.md Context states '**Base**: `<ref>` — branched from here; parent work is already present — no merge needed'.\n6. dry-run: prints 'Base: <ref>' in both run and plan summaries.\n7. Tests (all pass): 6 new unit tests (branch point == base via merge-base --is-ancestor + exact SHA equality; default HEAD unchanged; nonexistent base fails cleanly; self-base rejected; prompt base stanza present/absent) + 5 new CLI integration tests (dry-run prints base + KICKOFF.md states base; branch point == base; nonexistent ref fails cleanly exit 1; self-base rejected; --branch path unchanged). Full sweep: 207 kickoff unit, 223 targeted, 81 swarm, 26 sentinel, 199 cli_integration, 8 kickoff CLI — all green. cargo build OK.\n8. Docs: --base added to resources/claude/commands/kickoff.md (crosslink repo). Playbook §9 note committed on the ASES feature branch @ a0579c7c (playbook lives in the ASES repo, not crosslink).\n\nMANUAL VERIFICATION: crosslink kickoff run --dry-run --base feature/parent-phase printed 'Base: feature/parent-phase'; created worktree branch point == parent ref exactly (rev-parse equal); parent.txt present in worktree without merge; --base feature/nonexistent → exit 1 'Base ref ... does not exist. Valid refs: ...'; --branch feature/self-check --base feature/self-check → 'Refusing to branch ... from itself'.\n\nWHAT-NOT-TESTED: full 2898-test bin suite (OOM-killed on this memory-constrained host at ~600 tests — pre-existing environment issue, unrelated to the change; all kickoff/swarm/sentinel/cli_integration suites pass in isolation). Builder git-merge gating change, swarm phase base, CI changes — explicitly out of scope per issue.",
+          "created_at": "2026-08-08T08:23:09.940395127Z",
+          "kind": "result",
+          "signed_by": "SHA256:SJ+ubvvx8CCKYLy/K/pn2Gd9cslQmp/rBwFVKBeWLo8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgofsDNaXCDOrg4oVsNX9NaFZ9Hs0vMBM3jhfLhibuxsEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAH45PSHVgo9uOEeaS16j9tYhbqJkHTIFi806gUQgYccF0rvwKK0JgOId+cCGt8lJcA+8Qil1mLFFYiwVA6lKbAg=="
         }
       }
     },
@@ -15889,8 +15898,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T08:20:34.642680703Z",
+    "timestamp": "2026-08-08T08:23:09.948824344Z",
     "agent_id": "pp3g-0GM6-implement-crosslink-kickoff-base-branch-issue-283-7c05",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
