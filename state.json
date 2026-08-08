@@ -1,5 +1,5 @@
 {
-  "next_display_id": 290,
+  "next_display_id": 291,
   "next_comment_id": 1162,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -284,6 +284,7 @@
     "f512218f-64c6-43fb-a89b-9e1a67c07301": 240,
     "f734b060-f9f3-4fdb-a808-aa19bb13e99e": 246,
     "f7aa3d48-c0d2-49c9-b27d-045d5e9de7a2": 93,
+    "f7c6491b-97ba-45ba-9647-5a60b98e05b0": 290,
     "f8b231ce-ae2a-440c-9b41-f5ef624a6ac7": 271,
     "f8d68cdb-7f95-4bb6-8760-49119d65d32b": 160,
     "f9aac89a-78dc-4f1c-be5a-2708b06d346c": 288,
@@ -15204,6 +15205,16 @@
         }
       }
     },
+    "f7c6491b-97ba-45ba-9647-5a60b98e05b0": {
+      "uuid": "f7c6491b-97ba-45ba-9647-5a60b98e05b0",
+      "display_id": 290,
+      "title": "CACHE CLEANUP (operator-approved 2026-08-08, memory/space relief): remove safe, re-downloadable caches. SAFE TARGETS (measure-remove-verify): (1) ~/.cache/ms-playwright 656M — only if no playwright tests running (check ps first; crosslink uses no playwright); (2) ~/.cache/go-build 503M — go build cache, safe to clear (GOFLAGS will rebuild on demand); (3) ~/.cache/mongodb-binaries 175M — mongodb binary cache, re-downloadable; (4) ~/.cache/node-gyp 65M — safe. DENYLIST (NEVER): active worktrees (pp3g-0GM6 #283 builder, pp3g-BwfH #289 auditor), /tmp/opencode rebuild state (task 2/3 pending), crosslink target dir (9.5G — #283 cargo build in progress, do NOT touch), opencode.db + opencode-fork-pp3g.db (session store), ~/.config, ~/.local/bin, ASES + tripn-astro + crosslink repos. Do NOT run kickoff cleanup --force (#227). Report freed bytes + df before/after to THIS issue. Ref [#272] (prior cleanup).",
+      "status": "open",
+      "priority": "low",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T07:45:13.479556026Z",
+      "updated_at": "2026-08-08T07:45:13.479556026Z"
+    },
     "f8b231ce-ae2a-440c-9b41-f5ef624a6ac7": {
       "uuid": "f8b231ce-ae2a-440c-9b41-f5ef624a6ac7",
       "display_id": 271,
@@ -15632,8 +15643,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T07:44:08.628286541Z",
+    "timestamp": "2026-08-08T07:45:13.479556026Z",
     "agent_id": "OL2r",
-    "agent_seq": 1406
+    "agent_seq": 1407
   }
 }
