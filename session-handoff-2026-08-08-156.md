@@ -7,6 +7,7 @@ created: 2026-08-08
 updated: 2026-08-08
 ---
 
+
 # Session Handoff 2026-08-08 — session #19 (#156)
 
 Thin handoff per SESSION-END.md. Durable detail lives on the referenced issues/epics; this page only points.
@@ -34,3 +35,7 @@ Thin handoff per SESSION-END.md. Durable detail lives on the referenced issues/e
 - docs/research/Workflow Topology Design and Reasoning Record.md → canonical design
 - research-addenda/Research Addendum 05 - Workflow Topology Design Conversation.md → verbatim transcript
 - SESSION-END.md → handoff convention
+
+## Post-closeout addition (2026-08-08)
+
+- **#280 opened** — DOC: reconcile playbook §5.4/§6.1 orchestrator-direct-watch with §5.8 auditor-mediated monitoring + document the systemd watcher layer. Relayed by operator from a reliability-epic agent conversation (agent's corrected mental model: auditor = liveness canary + divergence verifier; orchestrator polls auditor, does not peer into builder pane as routine). Related to #156 and #266. Operator direction: fix within the #156 playbook-reconciliation pass AND document the full three-layer monitoring model (systemd watcher = process liveness / AUDITOR = claim-vs-evidence divergence / orchestrator = bounded action set) so the orchestrator has complete info for itself and to pass to subagents. Nuance: auditor flags to the ORCHESTRATOR, not the operator directly.
