@@ -1,5 +1,5 @@
 {
-  "next_display_id": 253,
+  "next_display_id": 254,
   "next_comment_id": 844,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -81,6 +81,7 @@
     "48b953c8-85fa-42ed-886a-b1786271d270": 251,
     "4b44cd8c-cd37-49fb-a645-0469be2fc61f": 127,
     "4d2ae734-1b40-41a5-899e-baacb300cd22": 42,
+    "4edf1983-2331-4c46-b251-f05b116f60f5": 253,
     "4f679348-c35f-4ba0-ab80-900788e81b19": 175,
     "513f0126-abff-4948-8d6b-65e8927ba3a1": 213,
     "51942b54-b189-47ee-a0ad-be20dd4840f0": 185,
@@ -3994,6 +3995,16 @@
       "labels": [
         "feature"
       ]
+    },
+    "4edf1983-2331-4c46-b251-f05b116f60f5": {
+      "uuid": "4edf1983-2331-4c46-b251-f05b116f60f5",
+      "display_id": 253,
+      "title": "FORK FEATURE (crosslink swarm): per-phase / per-agent MODEL + multiple agent types in swarm mode. GAP (2026-08-06, verified in fork source): swarm launches ALL agents with a SINGLE global model — lifecycle.rs:749 uses read_agent_model() (utils.rs:44-57) which reads only sentinel.default_agent.model from hook-config.json (default 'opus'). There is NO per-agent or per-phase model; the swarm data model (AgentEntry in types.rs) has no model/role field. Only per-phase AGENT TYPE exists (read_phase_agent_type, utils.rs:63, #75). IMPACT: 'swarm review --agents 3' fans out N agents on the SAME model — cannot run a 3-model review pass (e.g. luna + big-pickle + hy3) or assign different builder models per phase. MOTIVATION: the Model-Routing Matrix (capability-mapping/Model-Routing-Matrix.md) now provides per-task/per-lens routing knowledge, but swarm cannot EXECUTE it — orchestration lags routing. DESIRED: (1) per-phase model map in hook-config.json (e.g. agent.phase_models = { 'Phase 1': 'opencode-go/deepseek-v4-flash', 'Phase 2': 'opencode-go/gpt-5.6-luna', ... }) with read_phase_agent_model() mirroring read_phase_agent_type(); (2) optionally multiple agents per phase with distinct models/types (fan-out with per-agent config). (3) keep agent.type/phase_types working; phase_models is additive. IMPLEMENT in crosslink fork: utils.rs + swarm lifecycle.rs (where model: read_agent_model is set) + swarm types if needed; hook-config examples in docs. Verify: a 3-agent swarm launches with 3 distinct models (check tmux/process). Flash model. Feeds: #158 Orchestration UX, #135 reliability orchestration, Model-Routing Matrix.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-08T00:12:06.908845445Z",
+      "updated_at": "2026-08-08T00:12:06.908845445Z"
     },
     "4f679348-c35f-4ba0-ab80-900788e81b19": {
       "uuid": "4f679348-c35f-4ba0-ab80-900788e81b19",
@@ -12073,8 +12084,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T00:09:06.284333714Z",
-    "agent_id": "pp3g-xFCx-implement-revision-round-2-r2-of-the-125-safe-re-34cb",
-    "agent_seq": 9
+    "timestamp": "2026-08-08T00:12:06.908845445Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1182
   }
 }
