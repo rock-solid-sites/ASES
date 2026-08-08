@@ -7,8 +7,9 @@ sources:
     accessed_at: "2026-08-06"
 contributors: ["pp3g-H4ni-write-the-comprehensive-model-capability-registry-6974", "OL2r"]
 created: 2026-08-06
-updated: 2026-08-06
+updated: 2026-08-08
 ---
+
 
 
 
@@ -171,3 +172,10 @@ updated: 2026-08-06
 - `opencode-go/mimo-v2.5-pro` (reviewer #204 re-review): structural findings-by-findings re-review, PASS with every item re-derived from raw artifacts. Strong showing for a re-review gate; consistent with the #183 pattern (structured verification tables). New paid-variant observation: verification depth here was on par with hy3 on this doc-type task (differed from the #182-vs-#183 depth gap, which was a design/code-review context).
 
 **Infrastructure finding worth propagating:** the reviewer-role bash allowlist (`.opencode/agents/reviewer.md`) denies `python ` even though hook-config allowed_bash_prefixes permits it — live re-verification by reviewers is therefore blocked by a config gap, not a deliverable defect (big-pickle #200/#205 logged interventions). If independent live re-runs are wanted from reviewers, grant `Bash(python *)` to the reviewer map or route live re-runs to builder-role agents.
+
+# Session evidence addendum — 2026-08-08 (session #19: workflow-topology design delivery + reliability closeout)
+
+**Models exercised (role-designated use):**
+- `opencode-go/deepseek-v4-flash` (builder, multi-dispatch, session-approved): produced the full workflow-topology operationalization across AGENTS.md / docs/ORCHESTRATOR.md / SESSION-START.md / playbook (#258), applied the auditor-semantics correction exactly (#259, c13c381f), produced the verbatim conversation addendum extraction from opencode.db (#261, bacaffa0, 1636 lines / 129 messages), and corrected the tripn-astro mirror staging pre-commit (#260). Zero scope drift, all merges verified on main. Strong additional positive evidence for the evidence-first profile (#144/#145/#196) with NO silent-hang occurrence across the whole session — noteworthy because this model is on the hang-class watchlist; the #154 durable-fork install would remove the residual risk.
+- `opencode-go/hy3` (reviewer #248): produced a long multi-part verdict that hit the streaming idle limit (504) — the stream cut mid-verdict. WORKAROUND PROVEN: chunked posting (4-part verdict landed, all parts preserved on hub). NEW OPERATIONAL DATA POINT for the hy3 profile: long verdicts (> streaming idle budget) will 504 mid-stream; chunk the review output into N parts before posting. Cost profile implication: the deep source-verification lens is token-heavy AND now known to exceed streaming limits on the longest outputs — plan chunking at dispatch time for hy3 review tasks.
+- **Discipline reinforcement (not a model-capability data point but routing-relevant):** operator rule confirmed — Grok/xAI products are NEVER to be used for any role (#249 violation corrected mid-session). Model catalog verification via `opencode models <provider>` is mandatory before every launch (no stale-doc model IDs).
