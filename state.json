@@ -1,6 +1,6 @@
 {
   "next_display_id": 300,
-  "next_comment_id": 1218,
+  "next_comment_id": 1219,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5483,7 +5483,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T18:09:43.832889484Z",
-      "updated_at": "2026-08-08T18:16:07.254553784Z",
+      "updated_at": "2026-08-08T18:18:45.828936842Z",
       "labels": [
         "audit"
       ],
@@ -5505,6 +5505,15 @@
           "kind": "observation",
           "signed_by": "SHA256:Rj4INtResnauuPj2uF3Yb3Z0661Knv1vbBrWaPMatDU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7kH+9yLbzy10li5bH72d0oJP8dsvt3nFwqN6fXylgMZYR8D2xY/qhfDYGn4y6GjCTuh6yMl98ykiKHsw/oGvCQ=="
+        },
+        "bce00876-2845-41df-9278-a6a8b22c21f4": {
+          "display_id": 1218,
+          "author": "pp3g-Ij1J-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[PROGRESS] state=working completed=independent re-derivation basis built from the reusable harness; PRE-REGISTERING falsifiable expectations before the Builder emits any claim next=poll trigger set against these predictions blocker=none\n\nPRE-REGISTERED PREDICTIONS (derived from research/toolregistry-lazy-mcp/proxy.py + report.md, NOT from the Builder). Recording these now so later agreement cannot be hindsight-fitted.\n\n(1) TEST 1 IS NEAR-TAUTOLOGICAL FOR THIS PROXY — treat a bare PASS as weak evidence. In proxy.py the only backend-spawn path is BackendClient.ensure_ready() (L117-149), reachable ONLY from on_call_tool (L221) and call() (L170). on_list_tools (L209-211) returns ListToolsResult from the static manifest and never touches backend_client. So backend_spawn_count==0 during acquisition is true BY CONSTRUCTION, not by measurement. A Builder reporting 'Test 1 PASS' has therefore confirmed the harness, not the architecture. What would make Test 1 informative is evidence that the count was actually OBSERVED (proxy log absence of backend_spawn_start / no BACKEND_PID_FILE write), not asserted. WHY: static call-graph read. CERTAINTY: proven for this proxy source. NOT-TESTED: whether ToolRegistry.register_from_mcp() itself spawns anything outside the proxy.\n\n(2) THE DECISIVE RISK IS HARNESS TOPOLOGY, NOT THE BACKEND. The existing manifest.json declares toolcount=1 and each proxy process owns exactly ONE BackendClient. So 'N tools' can be realized two ways, and they answer different questions: (A) ONE proxy whose manifest lists N tools -> 1 proxy + 1 backend regardless of N, residency trivially O(1), and the N-sweep would be VACUOUS: it would demonstrate nothing about per-connector cost because there is only ever one connector. (B) N proxies (N connectors) x 1 tool -> the honest configuration. If the Builder runs topology (A) and reports 'residency scales with K not N', that conclusion is an ARTIFACT OF THE HARNESS and I will raise it as a measurement-validity divergence. Verifying which topology was used is my highest-priority check.\n\n(3) UNDER TOPOLOGY (B) THE EXPECTED SHAPE IS: peak proxy = O(N) sequential / O(concurrency) concurrent — because ToolRegistry must spawn each proxy to complete its tools/list handshake, so an O(N) PEAK is unavoidable and is NOT a failure; resident-after proxy ~= 0 — prior measured evidence says registration uses a SHORT-LIVED discovery proxy (report.md:129, :348-349: 'spawned once for discovery and again for the first call, and must be stateless across processes'); backend spawns during acquisition = 0; backend resident proportional to K, and -> 0 with teardown on. This is exactly why the task makes resident-after decisive and forbids collapsing proxy with backend. A Builder reporting peak proxy = O(1) under topology (B) has a COUNTING error, not a finding.\n\n(4) TEST 4 REUSE IS CHECKABLE FROM LOGS, NOT NARRATION. ensure_ready() early-returns when _session is not None (L119-120), and instance_id is be-{spawn_count}-{pid}-{ms} (L122). A correct reuse result must show ONE backend_spawn_start and call1/call2 both logging 'forward tools/call ... instance=<IDENTICAL id>'. If the report asserts reuse without identical instance_ids, the claim is unsupported.\n\n(5) TEST 5 CANNOT SUCCEED AND MUST NOT BE 'FIXED'. proxy.py docstring L14-18 states the proxy advertises tools.listChanged:false and 'never sends any notification to its client'. Non-propagation is therefore the expected, already-known result. Any Builder change adding notification support is a SCOPE VIOLATION of the explicit characterize-only instruction.\n\n(6) A CREDIBLE RUNTIME FLOOR — my anti-fast-completion tripwire. Prior measured proxy spawn is 1028-1390ms (report.md:254). The N-sweep alone is 1+5+10+20+50 = 86 proxy spawns per (mode,teardown) cell; sequential cells cost ~100s each, and the sweep is 5 N x 2 modes x 2 teardown = 20 runs, plus Tests 1,2,4,5,6. Full honest execution is therefore tens of minutes of wall-clock compute, not minutes. If a complete 6-test PASS with all tables lands materially earlier than roughly 18:35-18:50Z (Builder started ~18:09Z), I will treat the speed itself as evidence of fabricated or copied numbers and demand the raw logs.",
+          "created_at": "2026-08-08T18:18:45.817531218Z",
+          "kind": "observation",
+          "signed_by": "SHA256:Rj4INtResnauuPj2uF3Yb3Z0661Knv1vbBrWaPMatDU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGxPTq6dOeKL4MWaNx1ozVi8KDTo+E99xHQV4aiyiAwi/+Mt/++tqJKemi4QjrbJq1Qtez7/K7Qm2m6H3ooPkAQ=="
         }
       }
     },
@@ -16330,8 +16339,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-08T18:18:32.552117600Z",
-    "agent_id": "pp3g-DAX6-config-task-issue-298-redispatch-prior-builder-pp3g",
+    "timestamp": "2026-08-08T18:18:45.828936842Z",
+    "agent_id": "pp3g-Ij1J-phase-1-pre-positioned-auditor-in-flight-divergence",
     "agent_seq": 4
   }
 }
