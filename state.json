@@ -1,6 +1,6 @@
 {
   "next_display_id": 318,
-  "next_comment_id": 1372,
+  "next_comment_id": 1373,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -10550,7 +10550,7 @@
       "parent_uuid": "497dbef5-069b-4086-b9f5-f2c54953d182",
       "created_by": "OL2r",
       "created_at": "2026-08-09T17:36:01.430170611Z",
-      "updated_at": "2026-08-09T18:09:28.364330343Z",
+      "updated_at": "2026-08-09T18:09:45.020738794Z",
       "labels": [
         "review"
       ],
@@ -10653,6 +10653,15 @@
           "kind": "result",
           "signed_by": "SHA256:rTYY4fhkDYtz6SJeo0n+sM+0Gvd3/0k1KjtJzKUGLS8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5xjAGNcgpxSjh5K/KArdIxgMLULCtBFGf6IsF2nPXyEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+QWvyxc4LCHNP4lOFY5bc4NqYy4l31sULS4QolmATGtNIkgGhYNz/Ll+jzKq/Tt3UCygfBOv5JSOyiwoowmoAg=="
+        },
+        "f014dffe-623f-461f-bfb2-b73f0ee7fb8f": {
+          "display_id": 1372,
+          "author": "pp3g-7zS8-read-only-adversarial-review-r2-retry-kimi-k2-7-code",
+          "content": "### NOTABLE POSITIVES\n- The document is explicitly scoped as experimental/current-state and not canonical, which matches the abstraction-boundary rules in AGENTS.md.\n- It correctly identifies the three-surface configuration-divergence problem (hook-config, kickoff --allowedTools, agent .md blocks) as the central maintainability risk.\n- The #313 sqlite3 example is concrete and well-cited, illustrating the real cost of surface disagreement.\n- The blocked/gated git distinction is accurate against hook-config.json and crosslink-guard.ts.\n- The explicit what-not-tested section follows the project's reasoning-certainty principle.\n\n### WHAT-NOT-TESTED (this review)\n- Did not run a live crosslink kickoff run to observe which layer blocks which tool call.\n- Did not inspect opencode session DBs or plugin logs from #313 or other historical runs.\n- Did not empirically confirm that --auto bypasses the native .md permission engine (only inferred from wrapper mapping and launch.rs comments).\n- Did not verify the exact MCP tool names as exposed by opencode's MCP client (only consulted upstream server documentation).\n- Did not read docs/research/Workflow Topology Design and Reasoning Record.md in full to verify Section 1.3 claims.\n- Did not examine the container image's claude binary or test whether it forwards --allowedTools.\n- Did not verify whether opencode exposes a tool named apply_patch.",
+          "created_at": "2026-08-09T18:09:45.014324298Z",
+          "kind": "result",
+          "signed_by": "SHA256:rTYY4fhkDYtz6SJeo0n+sM+0Gvd3/0k1KjtJzKUGLS8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5xjAGNcgpxSjh5K/KArdIxgMLULCtBFGf6IsF2nPXyEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAaosVIovtHqzr53qB2Cg5x2nFH07HN1ZyaEA7NEGV8eZuDBbkeit3iS/XplZiELH1xchcS/yl9rYWdmGIc5zXCA=="
         },
         "f02402b8-dc49-42ef-9a71-8a2d53c6294c": {
           "display_id": 1350,
@@ -17929,8 +17938,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T18:09:28.364330343Z",
+    "timestamp": "2026-08-09T18:09:45.020738794Z",
     "agent_id": "pp3g-7zS8-read-only-adversarial-review-r2-retry-kimi-k2-7-code",
-    "agent_seq": 13
+    "agent_seq": 14
   }
 }
