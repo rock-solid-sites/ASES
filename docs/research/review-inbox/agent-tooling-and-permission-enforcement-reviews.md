@@ -1929,29 +1929,27 @@ luna
 ````
 ## Review Summary: CHANGES REQUESTED
 
-I would **not carry on with the current enforcement plan**. I would retain the goal, but refactor the security boundary before adding more deny-list rules. The document itself shows that the advertised read-only property is not established and that the enforcement plane is mutable by the Builder.
-
 ### MUST FIX (blocking)
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:502-516` — The corrected resolution says Reviewer/Auditor are only direct-write-tool-denied, while broad `git *`, `opencode *`, `crosslink *`, and finite blocklists leave indirect mutation and delegation paths open. This invalidates “read-only by construction” as an architectural contract. Replace the broad shell authority with a deny-by-default, role-specific capability boundary; do not try to close this solely with more prefix blocklist entries.
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:921-945` — Builder can modify live hook configuration, the active-issue sentinel, and guard plugins. A mutable trust root cannot enforce the Builder/non-Builder separation. Put policy and authorization state outside Builder-writable paths (for example a separate privileged controller plus immutable/read-only mounts or equivalent OS/container isolation).
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:851-868` — Unresolved identity falls back to `builder`, and the two guards resolve identity inconsistently. This is a privilege-escalation failure mode. Make identity resolution fail closed before any security-sensitive tool call, and bind authorization to an authenticated launch/session identity rather than event-order-dependent fallback.
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:695-724` — The MCP guard blocks observed write/edit names but omits the inferred directory/move mutation tools, while the filesystem server is rooted at the main repository. Complete enumeration and deny-by-default MCP capabilities are required before claiming structural protection.
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:576-606` — `--allowedTools` is dead on the local path but active/unknown on the container path, and its generated list is identical across roles. Remove the unsupported control or implement and verify one canonical, per-role enforcement path; never leave a security-looking dormant path.
+- `docs/research/agent-tooling-and-permission-enforcement.md:487-491,535-543` — The blanket claim that `--allowedTools` is currently not enforced end-to-end is incomplete: `launch.rs:1003-1025` has a container path that directly invokes `claude` and passes `--allowedTools`; only the local wrapper path at `~/.local/bin/claude:28-30` drops it. Qualify the claim by launch mode and explain which deployment modes were actually verified.
+- `docs/research/agent-tooling-and-permission-enforcement.md:60-71,380-387` — “all git writes blocked” / “read-only by construction” overstates the actual reviewer/auditor contract. Their native permission grants `git *` (`.opencode/agents/reviewer.md:11-16`, `auditor.md:9-14`), while the plugin blocks only configured finite prefixes (`.crosslink/hook-config.json:70-120`); unlisted mutators such as `git update-ref`, `git branch -f`, `git config`, or `git reflog expire` are not established as blocked. State the bounded blocklist guarantee (or add/test a deny-by-default git policy).
 
 ### SHOULD CONSIDER (non-blocking)
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1197-1216` — Decide and state whether the threat is accidental error or a compromised/misaligned agent. Without that decision, “structural enforcement” has no testable security target.
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1363-1416` — Use the listed MUST-FIX items as a gate, but prioritize boundary redesign over count corrections and documentation cleanup. The document correctly identifies count errors, `--auto`, allow-fast-path semantics, deployment drift, and missing tests; these are evidence that the current multi-layer arrangement is difficult to reason about, not just a collection of isolated defects.
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1426-1511` — Turn the proposed invariants into adversarial tests, especially indirect writes, delegation, identity failure, git ref/config mutation, hook composition, sentinel trust, and log integrity.
+- `docs/research/agent-tooling-and-permission-enforcement.md:247-265,495-503` — The “exactly seven free models” and provider-hiding claims are stronger than the user plugin source supports. `~/.config/opencode/plugins/plugin.ts:25-38` sets a whitelist and empties maps, but `:42-63` subsequently merges cached model maps for every provider, including providers previously emptied. Document the effective whitelist semantics and cache interaction, or label the result as intended policy rather than verified invariant.
+- `docs/research/agent-tooling-and-permission-enforcement.md:423-447` — The “single config source” framing omits that the plugin has hard-coded defaults and behavior (`.opencode/plugins/crosslink-guard.ts:54-125,342-353`) and a local overlay (`:298-329`). Call this the primary repo config plus code defaults/overlays, not a single source of truth.
+- `docs/research/agent-tooling-and-permission-enforcement.md:427-432` — The stated “29 entries” does not match `.crosslink/hook-config.json:127-176` (49 entries). Correct the inventory or explain the counting convention.
 
-### NITS (optional)
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1300-1326` — The consensus matrix has attribution/count caveats that make it harder to use as a decision artifact; separate measured facts, source-derived inferences, and reviewer opinions into distinct tables.
+### NITS
+- `docs/research/agent-tooling-and-permission-enforcement.md:43-49` — Distinguish file writes from arbitrary side effects; “physically able to write files” is not the complete read-only threat model.
+- `docs/research/agent-tooling-and-permission-enforcement.md:334-336` — The orchestrator-guard block message is role-specific even when blocking reviewer/auditor calls (`.opencode/plugins/orchestrator-guard.ts:43-49`); use neutral wording.
 
 ### NOTABLE POSITIVES
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:26-55` — The document is unusually transparent about scope and evidence.
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:502-534` — It correctly retracts the strongest read-only claim and clearly records untested bypasses rather than presenting capability inference as a runtime demonstration.
-- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1515-1599` — The consolidated WHAT-NOT-TESTED list and open questions provide a strong basis for a threat-model-led redesign.
+- The document is unusually explicit about evidence boundaries and untested behavior (`docs/research/agent-tooling-and-permission-enforcement.md:628-670`), including the wrapper/CLI mismatch and hook-order uncertainty.
+- The source map is concrete and makes the important enforcement layers independently auditable (`docs/research/agent-tooling-and-permission-enforcement.md:672-697`).
+- The discussion correctly identifies the observed SQLite auditor limitation and avoids presenting that observation as a fully instrumented causal proof (`docs/research/agent-tooling-and-permission-enforcement.md:572-589,654-659`).
 
-**Recommendation:** pause incremental permission-list work; define the threat model and security invariants, then implement one trusted, deny-by-default capability boundary for non-builder roles, with immutable policy state and deployment-pinned verification. Resume the plan only after the boundary passes the adversarial tests documented here.
+### WHAT-NOT-TESTED
+- I did not launch a live local or container kickoff, inspect the installed opencode binary internals, run the plugin hooks, or test candidate unlisted git mutators.
+- I did not independently verify deployment version/database sizes, issue #313 comments, the user-level timeout config, or historical issue claims; those remain accepted only as documented context.
 ````
 
 ## Review 7
@@ -1961,49 +1959,50 @@ kimi-k2.7-code
 ### Review
 
 ````
-## Review Summary: CHANGES REQUESTED — do not carry on with the current plan as-is
+## Review Summary: CHANGES REQUESTED
 
-I read `docs/research/agent-tooling-and-permission-enforcement-reviewed.md` end-to-end. The document is an impressive piece of review synthesis, but the architecture it describes is not one I would simply continue implementing. I would recommend a **moderate-to-major refactor** of the enforcement architecture rather than a patch-the-MUST-FIX-list path.
+The write-up is thorough and mostly source-grounded, but it overstates several enforcement guarantees and contains a materially incorrect claim about MCP filesystem tool blocking. The most serious defect invalidates the central claim that the #33677 edit:deny gap is closed for MCP filesystem writes.
 
-### Why I would not carry on as planned
+MCP filesystem write tools are mis-identified. The document claims orchestrator-guard blocks filesystem_write_file and filesystem_edit_file, but the configured server is modelcontextprotocol server-filesystem, whose tools are named write_file, edit_file, create_directory, and move_file per upstream docs. Therefore orchestrator-guard does not close the MCP leg of the gap.
 
-The report itself demonstrates that the current multi-layer design (opencode native `.md` + `orchestrator-guard` + `crosslink-guard` + `rtk-guard` + wrapper model enforcement) is **internally inconsistent and fail-open in several places**. Continuing to layer more fixes onto this foundation risks building more sophisticated false confidence. The core architectural problems are not coding mistakes; they are authority-boundary mistakes:
+### MUST FIX (blocking) continued
+- Section 2.2: Crosslink binary version/source mismatch. The document states the deployed binary is v0.9.0-beta.1-59-g6221309e, but crosslink --version reports 0.9.0-beta.1+a87bd513 (live). git describe gives v0.9.0-beta.1-59-g6221309e for the source tree HEAD, but the deployed binary is from a87bd513. Fix: report binary version and source-tree HEAD separately and note the drift.
+- Section 1.2: Read-only by construction is false confidence. The document claims reviewer/auditor are read-only by construction, but the actual guarantees are weaker: (a) kickoff agents run in tmux and the wrapper adds --auto (mapped from --dangerously-skip-permissions), which may bypass native .md permission enforcement; (b) crosslink-guard runs in tracking_mode relaxed for agents and allows any non-blocked/non-gated bash; (c) --allowedTools is dropped by the local wrapper. Fix: recast as read-only by layered enforcement with residual risks enumerated.
 
-- **No threat model means no falsifiable security claims.** `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1163-1216` confirms the document never states whether the adversary is an honest-but-buggy agent or a misaligned/compromised one. Until that is decided, “read-only by construction” is not a testable property.
-- **The enforcement plane is mutable data for the very role it must constrain.** `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:883-957` shows the builder has unrestricted `edit` and `bash`, and there is no mechanism protecting `.crosslink/hook-config.json`, `.active-issue`, `.opencode/plugins/*.ts`, or user-level configs from the builder. A permission model whose guard config can be edited by the guarded principal is not a boundary.
-- **Identity resolution fails open to the least-privileged role.** `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:811-881` confirms that an unresolved reviewer/auditor falls back to `agent.type = builder`, and because there is no `by_type.builder` entry, `git commit` becomes gated rather than blocked. The plugin logs “FAIL-CLOSED,” but the posture is fail-open.
-- **The kickoff path auto-approves `ask` permissions.** `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:958-1013` documents the wrapper injecting `--auto` unconditionally under tmux, which is exactly the kickoff path. This materially weakens the `.md` permission surface.
-- **Read-only is overstated to the point of being misleading.** `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:447-535` and `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:741-809` show reviewer/auditor have `git *`, `opencode *`, `crosslink *`, and reviewer also `cargo *`/`npm *`. The blocklists are finite and prefix-based, so indirect mutation (e.g., `opencode run --pure --agent builder`, `npm run`, `git config core.hooksPath`) is not ruled out.
+- Section 2.3 / 5.1: --allowedTools no-enforcement claim is overbroad. The document correctly notes the host wrapper drops --allowedTools for local tmux launches. But launch.rs lines 1023-1026 pass --allowedTools directly to the claude binary inside Docker/Podman containers without the host wrapper in the way. If the container image ships a real Claude Code binary or a wrapper that forwards it, the tool surface is enforced there. Fix: qualify the claim by launch path and container image behavior.
+- Section 3.2 vs 3.3: orchestrator-guard lacks the CROSSLINK_AGENT_TYPE env fallback that crosslink-guard uses. crosslink-guard resolves agent type via runtimeAgentBySession, then CROSSLINK_AGENT_TYPE env, then hook-config agent.type. orchestrator-guard only uses agentBySession and falls back to currentAgent, never the env. If a kickoff session's chat.params event is delayed or lost, a builder's write could be incorrectly blocked. Fix: align orchestrator-guard resolution with crosslink-guard or document the inconsistency.
 
-### MUST FIX before any implementation continues
+### SHOULD CONSIDER (non-blocking)
+- Section 2.7: User-level model cache can re-enable disabled providers. plugin.ts lines 42-65 merge models-cache.json entries without checking disabled_providers. If the cache contains openai, deepseek, cloudflare, etc., those models are re-added. The disabled-and-hidden providers claim is not robust against cache state. Consider documenting this or adding a filter.
+- Section 3.2: apply_patch tool name is unverified. The blocked tool set includes apply_patch, but the document does not verify that opencode exposes a tool by that exact lowercase name. If the actual name is applyPatch or the tool does not exist, the claim is either wrong or harmless-but-sloppy.
+- Section 3.1: Orchestrator bash pattern count ~40 is inflated. Counting literal entries in .opencode/agents/orchestrator.md yields 33 allow patterns, not about 40. Minor precision issue, but precision matters in a permission audit.
+- Section 3.3 / 3.5: Missing hook-config.local.json overlay. crosslink-guard.ts loadConfigMerged() reads .crosslink/hook-config.local.json and applies +key array extensions. The document presents .crosslink/hook-config.json as the single config source. Mention the local overlay and its implications for drift/verification.
+- Section 3.5: Duplicate/stale sentinel.default_agent.model key. hook-config.json contains both a nested sentinel.default_agent.model (opencode-go/deepseek-v4-pro) and a root-level sentinel.default_agent.model (opencode/ling-3.0-flash-free). The document only mentions the nested value. The root duplicate is either stale or an override mechanism; note or clean it up.
 
-1. **Adopt an explicit threat model.** Map every control to the threats it mitigates and those it does not (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1163-1216`, Qwen §9).
-2. **Make the enforcement policy immutable to the builder.** Move guard config, sentinel, and plugin logic out of the builder’s write reach — signed read-only config, separate user/mount, or a trusted computing base. The current live-read `hook-config.json` model is not acceptable (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:883-957`, Sonnet 5).
-3. **Fail closed on identity resolution.** Default to deny, not builder; add a `by_type.builder` entry so the fallback is at least explicit (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:811-881`).
-4. **Remove or harden the `--auto` injection.** Either stop passing `--auto` in the kickoff path, or document and accept that `ask` permissions become effective grants (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:958-1013`).
-5. **Close the MCP write-tool gap.** Add `filesystem_create_directory`/`filesystem_move_file` to `BLOCKED_TOOLS` and enumerate all enabled MCP tools (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:663-739`).
-6. **Reconcile deployed-vs-source crosslink versions.** Re-verify kickoff claims against the deployed binary `0.9.0-beta.1+a87bd513`, not the undeployed source HEAD `6221309e` (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:608-661`).
-7. **Correct the countable/factual errors.** 49 vs 29, 21 vs 19, 34 vs ~40, and the stale seven-model whitelist (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1015-1079`, `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1218-1294`).
-8. **Replace broad bash grants for read-only roles with deny-by-default least-privilege allowlists.** “Read-only” must mean repository immutability, not merely that the write-tool primitive is blocked (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:447-535`, Qwen §9 item 4).
+- Section 4: .opencode/permissions.md is cited as evidence but is stale. The permissions snapshot says OpenCode 1.18.11 and omits sleep, ps, pgrep, tmux tools, etc., from the orchestrator bash list. The document correctly notes permissions.md is not source of truth, yet still cites permissions.md note 1 in the evidence table. Avoid citing a knowingly stale snapshot as evidence.
+- Section 2.3 / 4: The --auto / --dangerously-skip-permissions path is not analyzed. Because kickoff agents run inside tmux, the wrapper always passes --auto to opencode run. A permission-enforcement report should explain whether --auto bypasses only the consent prompt or also the .md permission engine, and what that means for the effective enforcement surface. The omission leaves the reader unable to assess the true residual risk.
+- Section 5.5: Cross-repo drift mentions unexplained repos. References to tripn-astro and Tools repo appear without introduction. External readers will not know what these are.
 
-### SHOULD CONSIDER
-
-- **Centralize configuration.** The report identifies nine distinct config locations (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1218-1294`). Pick one authoritative source; everything else should be generated from it or explicitly deprecated.
-- **Remove or complete dead controls.** `--allowedTools` is a false-assurance surface on the local tmux path (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:536-607`). Either make it enforced end-to-end, per-role, and least-privilege, or delete it.
-- **Define hook-composition invariants.** Ordering, short-circuiting on `throw`, and plugin-load-failure behavior are currently unspecified (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1487-1498`).
-- **Add automated adversarial tests.** The report lists many capability-inference findings that were never exercised; the cheapest way to stop regressions is tests (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1515-1575`, Qwen §9).
-- **Move model enforcement inside crosslink/opencode.** Relying on a user-editable bash wrapper is another self-modifying trust root (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1218-1294`).
-- **Document the `isAgentContext` / main-repo `role: driver` gap.** In the main repo the `agent_overrides` skip, so `git merge` is not blocked for the builder there (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:145-164`).
+### NITS (optional)
+- Section 1.2: Replace by construction with by layered enforcement or similar; the current phrasing reads like a formal guarantee the tooling does not fully provide.
+- Section 1.4: The permanently-blocked list omits the git clean -f/-fd/-fdx variants that appear in agent_overrides.blocked_git_commands; align the summary with the config.
+- Section 6.4: The what-not-tested clause says --allowedTools enforcement was not verified against a live kickoff, but Sections 2.3 and 5.1 state the no-enforcement finding as verified. Tighten the language so observed facts (wrapper source, --help) are separated from unverified live-kickoff behavior.
 
 ### NOTABLE POSITIVES
+- The document is explicitly scoped as experimental/current-state and not canonical, which matches the abstraction-boundary rules in AGENTS.md.
+- It correctly identifies the three-surface configuration-divergence problem (hook-config, kickoff --allowedTools, agent .md blocks) as the central maintainability risk.
+- The #313 sqlite3 example is concrete and well-cited, illustrating the real cost of surface disagreement.
+- The blocked/gated git distinction is accurate against hook-config.json and crosslink-guard.ts.
+- The explicit what-not-tested section follows the project's reasoning-certainty principle.
 
-- The reviewed document itself is a strong research artifact: self-contained, line-referenced, includes a cross-reviewer consensus matrix, and consistently marks what was not tested. It gives a clear map of what is broken.
-- The reviewer-proposed invariants in section 5 (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1420-1511`) are a sound starting point for a refactored design.
-- The verification appendix (`docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1603-1737`) makes the findings externally checkable.
-
-### Bottom line
-
-I would **not** carry on with the current layered plan. I would refactor around a **single, external, immutable policy engine** with fail-closed identity, deny-by-default capabilities, and an explicit threat model, then validate it with adversarial tests. If the project cannot protect the enforcement config from the builder and cannot resolve agent identity reliably, the current architecture cannot deliver the “structural, not aspirational” guarantee it claims.
+### WHAT-NOT-TESTED (this review)
+- Did not run a live crosslink kickoff run to observe which layer blocks which tool call.
+- Did not inspect opencode session DBs or plugin logs from #313 or other historical runs.
+- Did not empirically confirm that --auto bypasses the native .md permission engine (only inferred from wrapper mapping and launch.rs comments).
+- Did not verify the exact MCP tool names as exposed by opencode's MCP client (only consulted upstream server documentation).
+- Did not read docs/research/Workflow Topology Design and Reasoning Record.md in full to verify Section 1.3 claims.
+- Did not examine the container image's claude binary or test whether it forwards --allowedTools.
+- Did not verify whether opencode exposes a tool named apply_patch.
 ````
 
 ## Review 8
@@ -2013,32 +2012,115 @@ hy3
 ### Review
 
 ````
-## Review Summary: DO NOT carry on as-is — keep content, refactor document architecture
+Review Summary: CHANGES REQUESTED
 
-**Recommendation: Do NOT carry on with the current plan as-is. Recommend a moderate-to-substantial refactor of the document's architecture — but keep the content. The single merged-successor structure is the weak point; the verification discipline and resolutions are strong and should be preserved.**
+Subject: docs/research/agent-tooling-and-permission-enforcement.md @ 4cbae854 (#314). Read-only adversarial review, r3 (hy3). Verified against: .opencode/opencode.json, .opencode/agents/{orchestrator,builder,reviewer,auditor}.md, .opencode/plugins/{orchestrator-guard,crosslink-guard,rtk-guard}.ts, .crosslink/hook-config.json (worktree + main repo), crosslink fork src/commands/kickoff/{prompt,helpers,launch}.rs, ~/.local/bin/claude, ~/.config/opencode/plugins/plugin.ts, .opencode/permissions.md, #313 comment stream, and live CLI (opencode --version, opencode run --help, opencode models opencode|opencode-go, crosslink --version, rtk --version, git describe on the crosslink fork).
 
-### WHY
-The document assigns itself two incompatible jobs and tries to do both in one 1737-line file: (1) be the external-reviewable system description, and (2) be the review-resolution record (fold in 8 reviews, adjudicate 12 contested claims). These pull opposite ways. A system description wants a clean narrative; the review record wants attribution and contested-claim detail. Interleaving CORRECTED flags into section 2 makes the description unclean; burying resolutions inside 12 FINDINGS-heavy sections makes the verdict hard to find.
+The document is well organised, unusually honest in section 6, and several of its hardest findings (the dropped --allowedTools flag, the per-type asymmetry in build_allowed_tools) are correct and valuable. It nevertheless fails its own verification claim in section 7 in ways that are cheap to falsify, and it omits the write paths and threat framing that an external reviewer will attack first.
 
-Additional problems: (a) self-containment is only partial — the #33677 gap is never defined inline, and external docs are cited as authority for a zero-context reader; (b) the document exhibits the very nine-config-locations problem it criticizes — the 49 bash prefixes / 21 git commands / 34 patterns are listed in four places that drift independently; (c) internal inconsistencies: claim (c) says luna did not flag the version conflation while the section 4 matrix lists luna Y; claim (d) frames kimi's MCP finding as refuted when only its mechanism (tool names) was wrong while its conclusion (MCP leg open) was confirmed; (d) the document identifies the missing adversary model as the core unfalsifiability but resolves claims as if the adversary is a mistaken agent without stating that as policy.
+=========================================================
+MUST FIX (blocking)
+=========================================================
 
-### WHAT (keep content, change structure)
-1. Split the two jobs: keep the original as the system description with corrections in a trailing CORRIGENDA; put the 12-claim adjudication + consensus + invariants + what-not-tested in a separate review-resolution document.
-2. Lead with resolution: each claim opens with RESOLUTION + WHY + WHAT-NOT-TESTED; attribution moves to a secondary block or appendix.
-3. State the resolution policy explicitly: adopt mistaken-agent vs misaligned-agent framing in section 1 and resolve all claims under it.
-4. Close self-containment gaps: define #33677 inline; quote facts instead of citing external docs; resolve or flag the mode-primary-vs-subagent contradiction.
-5. De-duplicate inventories: one canonical inventory; narrative references it by line.
-6. Fix the internal contradictions (luna Y vs did-not-flag; kimi refuted vs confirmed).
-If a single merged document is required: reorder to put resolution summary first, add adversary-model framing, fix contradictions, cut inline config duplication.
+M1. Section 2.2 (lines 185-187) and section 7 -- deployed-binary vs source-tree conflation, which is the exact failure class section 1.3 holds up as the motivating incident.
+The doc states: "The deployed binary is built from /home/claude-code/projects/crosslink (a fork of crosslink), v0.9.0-beta.1-59-g6221309e."
+Evidence: `crosslink --version` reports `crosslink 0.9.0-beta.1+a87bd513`. `git -C /home/claude-code/projects/crosslink describe --tags` reports `v0.9.0-beta.1-59-g6221309e` (HEAD = 6221309e). These are different commits. a87bd513 (2026-08-08, "fix(hydration): follow-up hardening") is an ancestor; exactly ONE commit separates them: 6221309e "feat(kickoff): add --base <ref> ...", and `git show --stat 6221309e` shows it modifies `kickoff/launch.rs` (+59) and `kickoff/prompt.rs` (+12) -- two of the three files section 7 lists as verified sources.
+Consequence: every claim in sections 3.6, 5.1 and 5.2 that is presented as a DEPLOYMENT fact is in fact a SOURCE fact about an undeployed commit, in the very module that differs. The cheapest discriminating test was one command, and it was not run.
+Fix: report `crosslink --version` as the deployed version, cite the source commit separately, and either re-verify the kickoff claims against a87bd513 or mark them explicitly as source-only.
 
-### HOW CERTAIN
-Evidence-based, high confidence on the architectural critique — rests entirely on the document's own text (full 1737-line read). Did not re-verify technical claims against live sources (task constraint: read the document ONLY).
+M2. Section 3.5 (lines 426, 433-435) and section 3.1 (line 306) -- three of the four countable claims in the document are wrong.
+- `allowed_bash_prefixes` is stated as 29 entries. hook-config.json lines 128-176 contain 49 entries. (29 appears to be the count of the compressed list in the doc itself, mislabelled as the config entry count -- note the doc collapses five jj entries into "jj *" and five cargo plus two npm entries into "toolchains".)
+- `agent_overrides` is stated as 19 entries. hook-config.json lines 16-36 contain 21.
+- Orchestrator bash is stated as "~40 explicit allow patterns". orchestrator.md lines 9-42 contain 34.
+- Only the root `blocked_git_commands` count (14, lines 180-193) is correct.
+Blocking because section 7 asserts "All claims in this document were verified against these files". Counts are the cheapest verifiable class of claim; failing three of four undermines the verification assertion for everything else.
 
-### WHAT-NOT-TESTED
-Could not run crosslink to post the result (bash-deny rule; verified by two failed attempts). Did not open the underlying config/plugin files, the original, or the other reviews (per task constraint) — assessment of the document as an artifact, not re-verification of technical claims. Did not execute any claimed bypasses.
+M3. Sections 3.5 and 5.1 -- `allowed_bash_prefixes` is not an enforcement surface. It is an allow-fast-path, and it can never deny anything while an issue is active.
+crosslink-guard.ts step 6 (lines 1141-1147): matching the allowlist causes an early `return` (allow). Failing to match does NOT block. Control then falls to step 7 (relaxed mode -> allow, lines 1152-1155) or, in strict mode, step 9, where the mere existence of a non-empty `.crosslink/.active-issue` sentinel returns ALLOW (lines 1170-1181). Only the combination of strict mode AND no active issue blocks (lines 1205-1207).
+Since commits are gated on an active issue, every working agent has one; therefore the allowlist never denies a bash command in either tracking mode. The real bash denials come from `blocked_git_commands` (step 3, git-specific) and from the opencode native .md block.
+The doc frames this as one of "three separate surfaces that must be kept in agreement" (section 5.1) and as "the bash allowlist enforced by crosslink-guard". The parenthetical in section 5.1 concedes the point only for relaxed mode; it is equally true in strict mode. Correct statement: for bash patterns there is ONE denying surface, the agent .md block. This materially changes the central argument of section 5.1.
 
-### NOTABLE POSITIVES
-The CLAIM/FINDINGS/RESOLUTION/WHY/WHAT-NOT-TESTED structure is exactly the project's reasoning-certainty discipline. Consistent propagation of (unverified)/source-derived/runtime-observed distinctions. The verified-sources appendix + 5-minute check script is a strong reproducibility asset. The consensus matrix and MUST-FIX/SHOULD-CONSIDER consolidation are genuinely useful. Section 5 invariants translate reviews into a forward-looking security argument.
+M4. Sections 1.2, 1.4 and 3.3 -- the read-only guarantee is stated unconditionally, but the code has two omitted degradation paths.
+(a) The by_type fallback is fail-OPEN, and the doc repeats the misleading in-code label. crosslink-guard.ts lines 892-918: when no chat.params/chat.message agent has been seen for the session AND CROSSLINK_AGENT_TYPE is unset, resolution falls back to hook-config `agent.type`, which defaults to "builder" (lines 453-465, 879). hook-config.json has NO `by_type.builder` entry (only orchestrator, reviewer, auditor at lines 41-124), so lines 909-918 return the base config unchanged -- under which `git commit` is GATED, not BLOCKED. A reviewer or auditor in that state can commit. The plugin logs this as "FAIL-CLOSED" (lines 887, 894, 911) but the behaviour is a fall back to the LESS restrictive configuration. The doc reproduces the label verbatim (section 3.3 lines 386-387, section 5.4 lines 604-606) without testing the semantics.
+(b) The isAgentContext precondition is omitted entirely. In loadConfig, the whole `agent_overrides` branch -- including `tracking_mode: relaxed` and by_type -- applies only `if (isAgent && config.agent_overrides)` (line 395). isAgentContext (lines 239-258) requires `.crosslink/agent.json` role == "agent" OR a cwd containing `/.claude/worktrees/`. The main repo `.crosslink/agent.json` has `"role": "driver"`, and this repo puts worktrees under `.worktrees/`, not `/.claude/worktrees/`. So in the main repo the agent_overrides branch is skipped and the ROOT lists apply -- and the root `blocked_git_commands` does not contain `git merge`. Section 1.4 (lines 122-123) states "builder may not merge" as an unconditional fact; it is false in the main-repo context.
+Fix: state the isAgentContext precondition, correct the fail-closed label, and state the builder-fallback consequence for the read-only roles.
 
-**Bottom line:** the research is sound and should be carried forward; the packaging (one merged successor that is simultaneously spec + review + resolution) should be refactored before this is treated as the canonical external-reviewable record.
+M5. Sections 1.1 and 1.2 -- "reviewer and auditor are read-only by construction" is not established, and section 1.1 supplies the criterion that falsifies it.
+Section 1.1 line 48-49: "An agent that is told you are read-only but is physically able to write files is not read-only." Apply that test:
+- orchestrator-guard blocks five TOOL NAMES (orchestrator-guard.ts lines 33-39). It does not touch bash.
+- crosslink-guard blocks a list of git subcommands. Absent from every blocked list: `git checkout -- <file>`, `git restore <file>` (only the `.` forms are listed), `git rm`, `git mv`, `git worktree add`.
+- reviewer.md lines 14-15 grant `cargo *` and `npm *`. `cargo run` and `npm run <script>` execute arbitrary project code with write access.
+- Most sharply: reviewer.md line 10 and auditor.md line 10 grant `opencode *`, and hook-config `allowed_bash_prefixes` contains "opencode ". `opencode run --help` documents `--pure  run without external plugins`. `opencode run --pure --agent builder ...` therefore starts a nested session with NONE of the three guard plugins loaded -- a single-command bypass of the entire plugin layer, available to the two roles the doc calls read-only by construction. `task: deny` closes the in-harness delegation path but not this one.
+Section 5 has no entry for bash-mediated write paths at all. For a document written for external review of a permission-enforcement system, this is the largest single omission. See my WHAT-NOT-TESTED item 1: I did not execute any of these.
+
+M6. Section 1.2 table (lines 63-65) -- the Mode column contradicts one of the two sources the doc cites for it.
+Line 58 sources the table to ".opencode/opencode.json, .opencode/agents/*.md". opencode.json lines 16, 20, 24 say `"mode": "subagent"`; builder.md line 3, reviewer.md line 3 and auditor.md line 3 all say `mode: primary`. The doc reports one side silently. Which wins at runtime is unstated and untested. This is material: a primary-mode reviewer is directly launchable as a top-level session, which is precisely how this review was launched.
+
+M7. Section 2.3 -- the claude wrapper injects `--auto`, and that voids an enforcement the doc lists as active.
+~/.local/bin/claude lines 66-68: `if [[ -n "$TMUX" ]]; then ARGS+=("--auto"); fi` -- unconditional for every tmux launch, which is every kickoff agent. `opencode run --help`: `--auto  auto-approve permissions that are not explicitly denied (dangerous!)`. The wrapper also maps `--dangerously-skip-permissions` to `--auto` at lines 21-24, so `--auto` is by the wrapper own accounting the dangerous-skip posture.
+Consequence: every permission set to `ask` is auto-approved in the kickoff path. Section 3.1 line 313 lists Builder `external_directory: {"*": "ask", "/tmp/*": "allow"}` as a constraint; under `--auto` it grants every external directory. The doc four-bullet description of the wrapper (section 2.3) omits this entirely -- it is the one wrapper behaviour that changes permission outcomes.
+Related: the section 3.6 command template (lines 455-456) omits `build_agent_command` parameters `skip_permissions` and `permission_mode` (launch.rs lines 265, 267, 276-287), which emit `--dangerously-skip-permissions` / `--permission-mode`. A permission document should not elide the permission flags.
+
+=========================================================
+SHOULD CONSIDER (non-blocking)
+=========================================================
+
+S1. No threat model anywhere in the document. It never states whether the adversary is a MISTAKEN agent or a MISALIGNED one. Every bypass in M5 is trivial under the second reading and irrelevant under the first. Without this, "structural enforcement" (section 1.1) is unfalsifiable and an external reviewer cannot calibrate any row of section 4. One paragraph fixes it, and it would also let section 5 rank its problem areas.
+
+S2. Section 2.7 -- the seven-model whitelist claim is stale by the project own rule. `opencode models opencode` returns six: big-pickle, deepseek-v4-flash-free, laguna-s-2.1-free, mimo-v2.5-free, nemotron-3-ultra-free, north-mini-code-free. `ling-3.0-flash-free` is in plugin.ts but absent from the live catalog. SESSION-START section 1a: if a doc names a model that `opencode models <provider>` does not list, the doc is stale. Separately, the doc asserts the whitelist EFFECT without citing the observation that makes it checkable (the catalog output above), and it does not note that plugin.ts empties provider `vertex` while the wrapper allowed-provider list names `google-vertex`.
+
+S3. Section 3.5 (lines 441-443) reports the sentinel block neutrally, but that block contains two violations of the model discipline the doc itself states in section 1.5. The escalation model `claude-opus-4-6` carries no provider prefix and no enabled provider. And hook-config.json line 229 carries a stray flattened key `"sentinel.default_agent.model": "opencode/ling-3.0-flash-free"` -- a FREE Zen model for agent work, contradicting section 1.5 lines 139-142, naming an ID that is not in the live catalog. The doc does not mention line 229 at all. Dormant (`enabled: false`), but it is latent config rot in a file the doc claims to have verified.
+
+S4. Section 5.3 -- the sqlite3 case study omits an adjacent mitigation that lives in a file section 7 lists as verified. `.opencode/opencode.json` lines 34-36 configure an MCP `sqlite` server with `"enabled": false`. Whether enabling it would have unblocked the #313 auditor is untested, but a problem write-up that concludes "a per-type allowedTools implementation does not exist" (section 5.2) should mention the already-configured surface sitting next to it.
+
+S5. `.opencode/opencode.json` line 39 roots the filesystem MCP server at `/home/claude-code/projects/ASES` -- the MAIN repo, not the worktree. A builder working in a worktree can therefore reach main-repo paths through `filesystem_*` tools. The worktree-isolation assumption implicit in sections 3.6 and 5.5 is not addressed.
+
+S6. Confidentiality is entirely absent from a document about permissions. The model of "permission" here is write-authority only. `cat` is in the plugin default allow list (crosslink-guard.ts line 103) and `env ` is at hook-config.json line 172; reviewer and auditor both hold `cat *`, and both hold `webfetch: allow` (reviewer.md line 19, auditor.md line 17). The agent process environment carries multiple provider API keys -- I confirmed their presence and will not reproduce them. Read plus egress is a pair worth one paragraph of scoping, even if the conclusion is "accepted risk".
+
+S7. Section 4 -- the column is headed "Failure it prevents", but most rows evidence only that a mechanism EXISTS. The model-whitelist row and the hook-config.json row cite the artefact as its own evidence. Rows with genuine incident evidence (#156, #204, #298, #313) are mixed in with rows that have none. Rename to "Failure it targets" and separate the evidenced rows. As written the table invites the reader to read intent as outcome -- which is the exact conflation section 1.3 exists to prevent.
+
+S8. Layer classification. Front matter says `layer: Research` and the file sits under `docs/research/`, but the content is wholly deployment and implementation description. AGENTS.md abstraction-boundary rule ("Research should not depend upon implementation") argues for Implementation layer or `document_type: Reference`. `authority: Experimental` also reads oddly for a factual current-state inventory.
+
+S9. Section 7 blanket claim "All claims in this document were verified against these files" is stronger than the evidence supports (M1, M2, M6) and is in tension with the genuinely good section 6. Per the AGENTS.md Reasoning Certainty rule the doc supplies WHAT-NOT-TESTED but never HOW-CERTAIN per claim. Per-section certainty markers (observed / read-from-source / inferred) would fix this and would have caught M1.
+
+S10. Section 6 item 3 flags rtk-guard x crosslink-guard hook ordering as unmeasured. The same uncertainty applies to orchestrator-guard x crosslink-guard, and to whether a `throw` in one `tool.execute.before` handler short-circuits the other handlers. Also unaddressed: what happens if a guard plugin fails to load or throws at import -- does opencode continue unguarded? Both are cheap to state and both bear directly on the additive-layers claim in section 3.
+
+S11. No reproduction appendix. Section 6 item 2 admits there is no test suite, so an external reader has no way to check anything. The eight or so commands used in this review would convert the document from assertion to evidence.
+
+=========================================================
+NITS
+=========================================================
+
+N1. Section 2.5 line 228 says the fork DB is "~1.13 GiB"; section 2.1 line 173 says "~1.13 GB". The #313 figure is 1,142,870,016 B = 1.064 GiB = 1.14 GB. The GiB rendering is wrong; two units for one number in one document.
+N2. Section 3.1 lines 320-322 says the auditor has the "same bash shape as reviewer". It does not: reviewer.md lines 14-15 grant `cargo *` and `npm *`, auditor.md grants neither. The inline list two lines later is correct, so the lead clause contradicts its own enumeration.
+N3. Section 3.5 lines 430-431 compresses five jj entries to "jj *" and renders cargo/npm as "toolchains" when the config lists specific subcommands (cargo test|build|check|clippy|fmt, npm test|run). Misleading in a section whose entire point is exact allowlist content. Also the config entry is `python `, not `python3 `.
+N4. Section 1.3 asserts the position store "is durable (it survives agent restarts)". True of the hub, but comments only reach the hub after `crosslink sync` -- which is why the playbook mandates sync-after-checkpoint. An unsynced position is not durable; worth one clause.
+N5. Section 2.1 line 166 credits the durable fix to commit `98dfe4a` in `llm.ts`. That commit lives in the opencode fork tree, which is not among the sources listed in section 7 and was therefore not checked. Cite it as second-hand from the #156 record, or verify it.
+N6. Section 3.6 rendered command omits the `CLAUDE_CONFIG_DIR=` env folding and the optional sandbox wrapper (launch.rs lines 288-302, 322-328). Fine as a simplification -- say "simplified".
+
+=========================================================
+NOTABLE POSITIVES
+=========================================================
+
+P1. Section 6 (WHAT-NOT-TESTED) is genuinely good and rare: seven concrete, falsifiable limits rather than hedging. Items 1, 3, 4, 5, 6 and 7 all check out against source. Item 4 in particular scopes the --allowedTools finding correctly ("verified against the wrapper source and opencode run --help, not against a live kickoff") -- that is exactly the calibration AGENTS.md asks for.
+P2. Section 3.4 (rtk-guard) is the most accurate section in the document. All seven gates, the constants (200-sample window, 15 ms p95, 500-call recheck, version >= 0.40.0), the quote-aware unattestable-construct scan and the V1_VALIDATED set match rtk-guard.ts lines 100-109, 227-243, 258-279 and 397 exactly. `rtk --version` confirms 0.40.0.
+P3. Section 3.6 citation `prompt.rs:429-473` is exact. The reproduced 22-entry base list matches prompt.rs lines 433-456 token for token, as do the `(conventions, verify)` signature and the absence of an agent_type parameter (lines 429-432). The section 5.2 conclusion -- per-type grants are not expressible without a fork change -- follows correctly and is the strongest analytical result in the document.
+P4. The two #313 quotations in section 5.3 are verbatim-accurate against the issue comment stream (the 15:01 [PROGRESS] and 15:03 [handoff] comments), and the surrounding narrative (auditor pp3g-dZ3X on opencode-go/mimo-v2.5, fallback to file-size/stat cross-checks, NO DIVERGENCE OBSERVED) matches the record. Using a real observed cost rather than a hypothetical is the right way to argue section 5.3.
+P5. The --allowedTools-is-dropped finding (sections 2.3, 3.6, 5.1) is correct and valuable: wrapper lines 28-30 consume the flag with `shift 2`, and `opencode run --help` lists no such flag. Confirmed independently.
+P6. The ten-step priority list in section 3.3 matches the actual control flow of crosslink-guard.ts step for step, and the #204 per-session-keying rationale is accurately reproduced from both plugin source comments. The `orchestrator-guard.ts:33-41` citation is exact.
+P7. The helpers.rs claims check out: one-level-deep `has_manifest` with an explicit skip list (lines 154-190) and `read_kickoff_allowed_tools` returning empty absent a `kickoff` key (lines 200-218). I independently confirmed there is no `kickoff` key in either the worktree or the main-repo hook-config, so the section 3.5 and 5.5 conclusions hold.
+
+=========================================================
+WHAT-NOT-TESTED (mine)
+=========================================================
+
+1. I executed no bypass. The M5 paths (`opencode run --pure`, `cargo run`, `npm run`, `git checkout -- <file>`, `git worktree add`, `git rm`) are derived from the permission maps, the guard blocklists and `opencode run --help` -- they are read-from-source and CLI-help claims, not demonstrations. The discriminating test is one command (`opencode run --pure --agent builder` writing a scratch file); it was out of scope for a read-only role and I did not run it. Certainty: evidence-based, not proven.
+2. I did not measure runtime hook ordering, nor whether a throw in one `tool.execute.before` handler short-circuits the others. M3 and M4 are read from source control flow only.
+3. I did not read the guard logs under /tmp, so the M4(a) fail-open path is source-derived, not observed. Note my own session has CROSSLINK_AGENT_TYPE=reviewer set, so the fallback path was not exercised here and I could not observe it naturally.
+4. For M1 I confirmed only that 6221309e touches launch.rs and prompt.rs at file granularity (`git show --stat`). I did not diff `build_allowed_tools` or `build_agent_command` between a87bd513 and 6221309e, so I cannot say whether the deployed behaviour actually differs -- only that the doc cites source that is not the deployed binary and that the delta lands in the cited files.
+5. For M7 I did not empirically confirm that `--auto` converts an `ask` permission to allow; that is read from the flag self-description in `opencode run --help` plus the wrapper source.
+6. I did not review the opencode fork source (commit 98dfe4a, llm.ts), the Workflow Topology Design record, model-discipline.md, or the tripn-astro / Tools repositories. Sections 1.3, 1.5 and the cross-repo parts of 5.5 are therefore unverified by me.
+7. Independence held: I did not read #315 or #317 or any prior verdict. No cross-checking against other reviewers was performed, so overlap or contradiction with them is unknown.
+8. Process note, and an instance of a finding: the kickoff template instructs me to write DONE to `.kickoff-status`, and reviewer.md line 72 carries the same instruction -- but the reviewer role is edit-denied and orchestrator-guard blocks the write tool for every non-builder agent. I did not attempt the write (the task instruction says do not modify any files). The read-only role definition and its own reporting workflow are mutually unsatisfiable; worth adding to section 5 as a concrete instance of the .md-vs-enforcement disagreement the doc discusses in section 5.3.
 ````
+
