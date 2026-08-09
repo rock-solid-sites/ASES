@@ -1,6 +1,6 @@
 {
   "next_display_id": 310,
-  "next_comment_id": 1295,
+  "next_comment_id": 1296,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13033,11 +13033,20 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-09T00:14:42.914478612Z",
-      "updated_at": "2026-08-09T00:27:36.957397850Z",
+      "updated_at": "2026-08-09T00:28:36.559939268Z",
       "labels": [
         "infrastructure"
       ],
       "comments": {
+        "a281d3df-48a3-4eb5-91a3-8b7b93ef33d6": {
+          "display_id": 1295,
+          "author": "pp3g-oda6-cleanup-issue-309-cargo-clean-crosslink-target-12g",
+          "content": "Result: cleanup executed per operator-approved SELECTIVE plan. All four tasks complete, with evidence.\n\n**1. crosslink target — 944MB freed (11,944MB -> 11,000MB du)**\n- 'cargo clean --release': Removed 0 files — DISCOVERY: target is 100% debug, NO release artifacts exist (no target/release dir, 0 release fingerprints in .fingerprint). The 12G headline was all debug-profile.\n- Stale incremental subdirs (older than last build 08-08 08:19, per operator criterion): removed 4 = ac10_deleted_machinery (5M), crosslink-10twfp6rz4gj8 (472M), crosslink-3c1wm1q070tvt (449M), smoke (30M). Kept current-build incremental (cli_integration, crosslink-0blo/0jl9/1xg7/3dd9 = 2.8G) + deps (7.6G) + build (417M) for debug per instruction.\n- Working binary untouched: installed at ~/.cargo/bin/crosslink (26MB, Aug 8 03:31), not in target.\n\n**2. Verification: crosslink works** — 'crosslink --version' = 0.9.0-beta.1+a87bd513; 'crosslink issue list' returns issues. PASS.\n\n**3. opencode.db — WAL 1.9GB -> 0 at truncate; VACUUM completed, integrity ok**\n- DISCOVERY: WAL was 1,935,234,072B (~1.8GiB), NOT 108MB as the issue stated — the 108MB figure was stale; the WAL grew from live-agent writes since #294.\n- 'PRAGMA wal_checkpoint(TRUNCATE)' twice: both returned 0|0|0 (busy=0), WAL file -> 0B at capture (final capture 350KB from live writers re-starting; expected).\n- 'VACUUM': SUCCEEDED (exit 0) despite live agents — no 'database is locked'. integrity_check: ok. journal_mode: wal preserved. page_count 570,994 -> 571,502 (live writes during operation); freelist_count 0 -> 0.\n- DISCOVERY: freelist is 0 — the #294 freed 21,918 pages (~85MB) were REUSED by subsequent live-agent writes (db file grew 2.04G at #294 backup -> 2.34G now), so no 85MB freelist reclaim was available. VACUUM repacked without shrink. The real win was the WAL truncate (~1.8GiB).\n\n**4. df before/after (/)**: before 118G total / 84G used / 29G avail / 75%; after 118G / 82G used / 32G avail / 73%. Net filesystem reclaim ~2-3GB, dominated by the WAL truncate + target cleanup.\n\nDENYLIST respected: no worktrees, no ASES/tripn-astro repos, no row deletes, no ~/.config / ~/.local/bin touches. No kickoff cleanup --force. Note: WAL will re-grow while live agents write; a future quiet-period TRUNCATE will reclaim again.",
+          "created_at": "2026-08-09T00:28:36.540176619Z",
+          "kind": "result",
+          "signed_by": "SHA256:AFLd1iP/rkOWlZJV6pDRgc5yfFG5S7yk6gTBjcTEzJ4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxQ1iMCKSX3W0QVedYHu07/iyZmT0X1MPkpYfruPXdaQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAnZwJySa8AAvdGrtno6u1DDVG5Y7FZxr8NDAarA/fX2LRY0bIF2lMdNPOMtWWSkx1N4/qHz5NLlDA76gMvd6yCw=="
+        },
         "bda1ee1e-a4cd-4e99-8566-4b3aa0319835": {
           "display_id": 1294,
           "author": "pp3g-oda6-cleanup-issue-309-cargo-clean-crosslink-target-12g",
@@ -17194,8 +17203,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T00:27:36.957397850Z",
+    "timestamp": "2026-08-09T00:28:36.559939268Z",
     "agent_id": "pp3g-oda6-cleanup-issue-309-cargo-clean-crosslink-target-12g",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
