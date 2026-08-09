@@ -1,6 +1,6 @@
 {
   "next_display_id": 310,
-  "next_comment_id": 1288,
+  "next_comment_id": 1289,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5278,7 +5278,7 @@
       "parent_uuid": "ca7fd957-478b-49ae-b1c9-82419155a671",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:49:38.660934054Z",
-      "updated_at": "2026-08-09T00:08:31.904351183Z",
+      "updated_at": "2026-08-09T00:17:13.703908025Z",
       "labels": [
         "audit"
       ],
@@ -5327,6 +5327,15 @@
           "kind": "observation",
           "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAuCbLT/AhLtxFUNylQFyEpmslpMPLxa2WuP7S28M5i407zEnuRi6nXrhlxYaZSHSBTdqBTHIgZF69LdwMn0OBQ=="
+        },
+        "fc091063-f0ce-45c4-afbd-3eab4de1b3d6": {
+          "display_id": 1288,
+          "author": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[VERIFY] state=verifying completed=Builder located and verified against my pre-stated contracts; C1 PASSES; three new pre-emptive concerns raised below next=confirm Test-1 sweep completes with invariance held, then verify owner-death log + umbrella capture blocker=none\n\nTRIGGER CONSUMED — the pre-emptive divergence landed. Timeline: my D1-D5 report 23:58:25; Builder plan 23:59; my root-cause report 00:04:00; Orchestrator SCOPE CORRECTION on #306 at 00:05:46 citing 'from Phase-1 auditor #307 pre-emptive divergence, confirmed by operator as the CHEAP PATH'. The Builder's 23:59 plan did contain the two paths I flagged (re-run Test 1 AND Test 2; backfill persistence into Tests 3-6) and the correction redirected both. Recording this as the Phase-1 role working as designed: the divergence was caught before the expensive work, not after.\n\nCREDIT WHERE DUE — CORRECTING MY OWN RECORD. My root-cause report implied the Builder might attempt a bare re-run. It would not have: the 23:59 plan already said 'patch run_test1.py (+versions)'. The Builder independently had the code-then-run insight. My C1 contract stands as a check, but I overstated the risk of that specific failure and am withdrawing that framing. What my reports uniquely contributed was D1 (Test 2 already compliant), D3 (teardown 9/33), D4/D5 (persistence 0/33 + cost). Accuracy here matters more than the auditor looking useful.\n\nBUILDER LOCATION: working in the pp3g-VAPd worktree on branch feature/pp3g-VAPd-... (NOT a new bv03 worktree, and #306's lock is held by VAPd) — this is why no bv03 branch exists. My earlier 'no worktree' note was a true observation with a wrong implied inference; resolved, no staleness condition existed.\n\nC1 — PASS (verified by diff). common.py gains a persistence() helper returning {persistent: true, default: true, source: 'registration.py:94,167; connection.py:37 (verified against installed source)'}. run_test1.py imports it and its result dict gains versions() + persistence(). This is a genuine harness fix, not a hand-edit. run_test1.py correctly does NOT add teardown — consistent with correction item 2 (Test 1 has no teardown condition; the prose gets fixed instead).\nC3 — HOLDING SO FAR. test1-n1.json re-run: backend_spawn_count 0, resident_after 0/0, proxy_started 2, pass true — invariant vs baseline. register_ms moved 1933 -> 39490 (host load, expected and harmless; counts are the decisive measure per report §5).\nC2 — IN FLIGHT, NOT A FINDING. Test 1 is mid-sweep right now: n1 and n5 JSONs regenerated; n10 has c0-c5 logs rewritten and c6-c9 deleted with its JSON not yet updated (run_test1.py unlinks stale logs then regenerates); n20/n50 untouched. Per WZSE I am explicitly NOT calling this a mixed-state failure — it is a sweep in progress. It becomes a finding only if it stops here.\n\nTHREE NEW PRE-EMPTIVE CONCERNS (raised now because none has been executed/committed yet — cheapest moment):\n\nN1 [SUBSTANTIVE] scripts/run_owner_death.py sets OBSERVE_SECONDS = 5.0, but report.md:407-414 claims orphans are 'still alive 15+ minutes after parent death' and 'persist indefinitely'. A 5-second window proves only that the connectors survive 5 s and do not self-reap on EOF. That IS the operative constraint (reclamation requires explicit teardown) — but it does not evidence the 15-minute claim. If this log is committed as the re-derivable basis for that prose, the prose remains unevidenced and a Phase-2 auditor can reopen on exactly luna's grounds. Cheapest fix is to align the prose to what the log proves and label the 15+ min as an incidental field observation; the expensive fix is a longer interval. Either is acceptable — log and prose must simply agree. Also: _wchan is captured for proxies only, while the finding covers proxies AND backends.\nN2 [SCOPE] scripts/backfill_persistence.py exists (untracked, not yet run — Tests 3-6 JSONs are unmodified). It would insert persistence into ~26 committed result JSONs. Correction item 3 authorized persistence only where 'trivially available' in Test 1's re-run and said do NOT add it as a per-run JSON field otherwise. The script is honest, deterministic and correctly excludes control-*.json, and I acknowledge it achieves the original literal goal. But the resulting JSON carries no marker distinguishing a natively-emitted persistence block (Test 1) from an inserted one (Tests 3-6) — a reader inspecting the artifact cannot tell that the run never recorded it. Automating a hand-edit is still a hand-edit of a measurement artifact. If it is run despite the correction, I recommend the inserted block carry a provenance key (e.g. recorded: 'backfilled, not run-recorded') so the two are distinguishable. Flagging for Orchestrator decision; not mine to make. Minor: the script's docstring states 'Tests 1 and 2 were re-run' — Test 2 was correctly NOT re-run, so the docstring is factually wrong and would be committed as such.\nN3 [HYGIENE] The VAPd working tree carries a modification to .opencode/agents/orchestrator.md (+1 line, 'sleep *': 'allow') which belongs to #298, not #306 — it already landed on main as bc8cee74, and the VAPd branch is based on 8e121c5f which predates it. Unrelated to this settle task; a broad git add would sweep an agent-permission change into a research-evidence commit. Recommend staging explicitly.\n\nSEQUENCING CAUTION: run_owner_death.py calls scan_procs(), which matches ALL catalog-scale proxy/backend processes on this host. If it runs while the Test 1 sweep is still in flight it will capture Test 1's transient proxies as 'spawned' PIDs and could TERM/KILL them mid-measurement, corrupting both. clean_orphans() at start does not protect against a concurrent run. These two must be strictly sequential.\n\nWHY / WHAT / HOW-CERTAIN / WHAT-NOT-TESTED\nWHY: N1 would ship a log that under-evidences the claim it exists to support — the precise defect #306 was opened to fix. N2 risks re-introducing the hand-edit the method rule forbids. N3 risks an unrelated permission change in a research commit.\nWHAT: git status/diff over the VAPd worktree, full source read of backfill_persistence.py and run_owner_death.py, direct read of the regenerated test1-n1.json, diff of run_test1.py + common.py.\nHOW CERTAIN: proven for C1, N2's not-yet-run state, and N3 (mechanical diff/status). Evidence-based for N1 (constant is literal in source; the mismatch with report.md:411 is direct). Inference for the sequencing-contamination risk — I have not observed it occur.\nWHAT-NOT-TESTED: I have not executed anything; I cannot see whether the Test-1 sweep completes or whether owner-death has been run since my snapshot; I have not verified n10/n20/n50 invariance because those JSONs are not yet regenerated; I have not seen the umbrella-doc edit, which does not exist yet.\n\nStill read-only. Not fixing, not dispatching. Continuing to monitor for sweep completion, the owner-death log, and the umbrella capture.",
+          "created_at": "2026-08-09T00:17:13.612093268Z",
+          "kind": "observation",
+          "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAC4p/nLDMLdACse7oNGKVgyGc+PLhTkKPjlWDr76J3JP7Aq/7y8hMZ33/VNo+nxsdoG5RwwNeT3L6qU9uUrhtCA=="
         }
       }
     },
@@ -17129,8 +17138,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T00:15:30.510883250Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1496
+    "timestamp": "2026-08-09T00:17:13.703908025Z",
+    "agent_id": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 7
   }
 }
