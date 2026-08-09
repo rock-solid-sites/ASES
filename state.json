@@ -1,6 +1,6 @@
 {
-  "next_display_id": 308,
-  "next_comment_id": 1287,
+  "next_display_id": 309,
+  "next_comment_id": 1288,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -62,6 +62,7 @@
     "2ccb5763-6072-4a50-b949-8343c776c580": 148,
     "2cfce2c2-0068-4810-9222-e9b899bb568d": 4,
     "2d237d66-4428-4d53-a565-b790def3cfa7": 155,
+    "2d9194e1-e454-404f-8475-59945ab10c3e": 308,
     "2ecea944-d900-48f7-a9e8-dc1efda3e943": 165,
     "2eef1a3f-b82d-4f5b-be49-ac8d5aa4af15": 8,
     "3053674d-3335-4d1e-b829-23242837d7e9": 96,
@@ -3215,6 +3216,16 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABADdaQ1KC/jvJauH+L2RiTmAF50tYDqXcgFoTVQ/+RZ7erVyo02BJ2RsO188McNysjYVtwWnIQ863zc8gs7a2YCA=="
         }
       }
+    },
+    "2d9194e1-e454-404f-8475-59945ab10c3e": {
+      "uuid": "2d9194e1-e454-404f-8475-59945ab10c3e",
+      "display_id": 308,
+      "title": "CLEANUP: cargo clean the crosslink target dir (12G) + opencode.db checkpoint/VACUUM (85MB from the #294 prune) + WAL checkpoint (108MB). Operator-approved deep-cleanup scope. SAFE now: #283 (crosslink --base) build is DONE, no cargo processes running (pgrep check first). TASKS: (1) crosslink repo /home/claude-code/projects/crosslink/crosslink — 'cargo clean --release' + stale incremental (operator's earlier SELECTIVE choice); report freed; (2) verify crosslink still works (crosslink --version / crosslink issue list); (3) opencode.db: sqlite3 .../opencode.db 'PRAGMA wal_checkpoint(TRUNCATE);' then 'VACUUM;' — reclaims the 85MB freed by #294 prune (freelist 21,918 pages) + shrinks 108MB WAL; verify page_count before/after + integrity_check; if VACUUM fails 'database is locked' (live agents), checkpoint + report, defer VACUUM; (4) report freed + df before/after to THIS issue. DENYLIST: active worktrees, ASES/tripn-astro repos, opencode.db data (only checkpoint/VACUUM, no row deletes), ~/.config, ~/.local/bin. Do NOT use kickoff cleanup --force (#227). Ref [#272]/[#294]/[#283].",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-09T00:11:53.998419519Z",
+      "updated_at": "2026-08-09T00:11:53.998419519Z"
     },
     "2ecea944-d900-48f7-a9e8-dc1efda3e943": {
       "uuid": "2ecea944-d900-48f7-a9e8-dc1efda3e943",
@@ -13710,7 +13721,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:48:36.099941537Z",
-      "updated_at": "2026-08-09T00:05:46.501799436Z",
+      "updated_at": "2026-08-09T00:11:30.099523550Z",
       "labels": [
         "research",
         "toolregistry"
@@ -13733,6 +13744,15 @@
           "kind": "observation",
           "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoOMSoSCU6/7BogsXijnTJlxGAT6JpGW6SbJriN8DYNc1c+1V1u+/nKkV1W/LloywhXZNhSNf/Y+Yn90Ktqt5Bw=="
+        },
+        "cd27c64d-bb17-47d5-897d-e5133aa3e010": {
+          "display_id": 1287,
+          "author": "OL2r",
+          "content": "ORCHESTRATOR SCOPE CORRECTION (from Phase-1 auditor #307 pre-emptive divergence; operator chose CHEAP PATH). READS BEFORE RUNNING ANY TEST. Original #306 premise partly wrong — corrected scope:\n1. VERSIONS GAP IS TEST-1-ONLY (5 files): test1/n{1,5,10,20,50} lack versions; test2 ALREADY has them. Re-run ONLY Test 1. Do NOT re-run Test 2.\n2. NEW GAP (auditor D3): report.md section 10 claims 'every result JSON embeds teardown' but it's absent in 9/33 (test1 x5, test5a, test5b, test6, threadcheck). FIX THE PROSE: edit section 10 to state exact per-group field coverage. Do NOT full-corpus re-run.\n3. PERSISTENCE 0/33 (D4): keep as source-verified prose (registration.py:94 / connection.py:37 cited in report); document in section 10 that persistence is source-verified, not per-run JSON. A committed deterministic backfill is acceptable.\n4. OWNER-DEATH LOG + 5. UMBRELLA/#212 CAPTURE: unchanged from original brief.\nDO NOT full-corpus re-run (45min+ job, mixed-state risk, auditor D5). Verify: versions present in test1/n* after commit; report.md section 10 matches actual field coverage; owner-death log committed; umbrella capture present.",
+          "created_at": "2026-08-09T00:11:29.813861423Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZpV40Nkrggl3EJbzfs6klG/5XApnK9uiRMhCFsrNRgx8C3HpXX4GXZZTV/lvFzurZFQNewTMDWaMB7+p0LRPCQ=="
         },
         "d2c3cecc-6cd4-456b-ae69-c1d921288ab4": {
           "display_id": 1285,
@@ -17092,8 +17112,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T00:08:31.904351183Z",
-    "agent_id": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 6
+    "timestamp": "2026-08-09T00:11:53.998419519Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1493
   }
 }
