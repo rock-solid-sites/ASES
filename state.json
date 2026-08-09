@@ -1,6 +1,6 @@
 {
   "next_display_id": 312,
-  "next_comment_id": 1311,
+  "next_comment_id": 1312,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13886,7 +13886,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:48:36.099941537Z",
-      "updated_at": "2026-08-09T01:26:43.301585869Z",
+      "updated_at": "2026-08-09T01:33:10.800671997Z",
       "labels": [
         "research",
         "toolregistry"
@@ -13927,6 +13927,15 @@
           "kind": "plan",
           "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlh3ju8ro8Q4SaF9gzC1D30878sLPUyk6ZEiv0e1cf0EH1CgLD1Zrb+ImIw65vZuyOy4VFA3YD5gtQutWTJxIDA=="
+        },
+        "783635a8-8c55-4f4f-a971-5c401e452db3": {
+          "display_id": 1311,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "Result: all four atomic units committed on feature/pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948.\n\nCOMMITS:\n- U1 24a24a0b — research: add versions/calling_mode/persistence fields to test1/test2 per-run JSONs (gh#306) — 128 files (test1 x5 re-run JSONs + proxy logs + run.log; test2 x2 persistence backfill; test3 x20/test4 x2/test5 x2/test6/threadcheck persistence backfills; common.py persistence() helper; acquire.py + run_test1/4/5/6/threadcheck.py +persistence; new backfill_persistence.py)\n- U2 aab86d6e — research: commit owner-death lifecycle evidence for connector orphans (gh#306) — run_owner_death.py + logs/owner-death/owner-death-lifecycle.json + run/*-proxy.log\n- U3 cbe2eb5e — research: correct report section 10 to actual per-group JSON field coverage (gh#306)\n- U4 fc3c1108 — research: capture catalog-scale systemic findings (orphan, list_changed gap, 1-thread sync) into umbrella doc (gh#306)\n\nPER-FILE FIELD CONFIRMATION (committed state, verified programmatically):\n- test1 x5 (n1,n5,n10,n20,n50): versions+calling_mode+persistence+grace_seconds ALL present; report-table values intact (proxy_starts 2/10/20/40/100, backend_spawns 0, resident 0/0, peak 1)\n- test2 x2 (condA/condB): versions+calling_mode+persistence+teardown+grace; MEASURED VALUES IDENTICAL TO HEAD (condA register_ms 216682.3/acq 436509.9/peak 1; condB 24143.3/40180.1/peak 2) — the scope-violation re-run was reverted; persistence-only backfill applied\n- test3-6/threadcheck: persistence backfill only, measured values preserved (diff-verified)\n\nOWNER-DEATH LOG SUMMARY (aab86d6e): 3 connectors registered+invoked, owner SIGKILLed without close_sync; t0 + after-5s observations show all 3 proxies + 3 backends surviving, wchan=ep_poll (blocked, stdin EOF); reclamation SIGTERM'd all 6, final zero snapshot (0 proxies, 0 backends); versions+persistence recorded.\n\nUMBRELLA CAPTURE (fc3c1108): three systemic findings (orphan-on-owner-death; list_changed consumption gap; 1-shared-thread sync model) inserted into docs/research/Identifier-First Tool Calling.md connector-lifecycle constraints section, version-tagged toolregistry 0.15.0/mcp 2.0.0, re-validation trigger #279 noted; comment also posted on epic #212.\n\nUnrelated files left untouched/uncommitted: .opencode/agents/orchestrator.md, .crosslink/.last-hydrated-ref, .kickoff-session, and ephemeral owner-death .pid files (repo convention: no .pid tracked).",
+          "created_at": "2026-08-09T01:33:10.709083661Z",
+          "kind": "result",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsR6smoldRbAu7f9VYDPMchyjVl2e1Q2y1qZNEvwqXvyJMPugm9cQCLVu80+vQFRPkXbkO5HYE37BLKJ5TD8DAg=="
         },
         "b0cfd7d2-1bbb-4888-be23-54196d31eee1": {
           "display_id": 1281,
@@ -17358,8 +17367,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T01:31:05.015975080Z",
+    "timestamp": "2026-08-09T01:33:10.800671997Z",
     "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
-    "agent_seq": 38
+    "agent_seq": 39
   }
 }
