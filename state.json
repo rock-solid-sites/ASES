@@ -1,6 +1,6 @@
 {
   "next_display_id": 337,
-  "next_comment_id": 1489,
+  "next_comment_id": 1490,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7048,7 +7048,7 @@
       "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
       "created_by": "OL2r",
       "created_at": "2026-08-09T23:41:47.302795909Z",
-      "updated_at": "2026-08-09T23:46:10.601052416Z",
+      "updated_at": "2026-08-09T23:46:18.647125652Z",
       "labels": [
         "research"
       ],
@@ -7061,6 +7061,15 @@
           "kind": "plan",
           "signed_by": "SHA256:N3AD3BW8u/C9+DCyZ6XZaIS6+JZib0YsCXkvyGIHtmE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgXKHwuOkqrgD3DMfujD/g+NTPa/v83JzBuaHcZHDUu6oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQAXRgDcNQKGUhKaoSdu40q7INjNIQYLAbkeMYPlq7qB0J8N8zjjpDJWmJ+DYzG6sbIyiGN61tDZGpNF3uZYgAw=="
+        },
+        "308f2d7d-4960-443a-9462-bc2b87a2a496": {
+          "display_id": 1489,
+          "author": "pp3g-H5U7-read-only-verification-task-for-issue-336-verify-9910",
+          "content": "RESULT (read-only verification): **PASS** — the ade6146b fail-closed sync guard is present in both the source tree and the deployed binary.\n\n## 1. Guard identity\n- Commit **ade6146b81cb50725f243686b6420e9dc4834201** 'fix(hydration): gate maybe_auto_hydrate v2 path on v3-ref presence (gh#125)' (rock-solid-sites, 2026-08-06; +347/-1 across 5 files).\n- Adds in hub_v3.rs: **strict_ref_present()** — fail-closed single-ref probe distinguishing clean missing-ref (exit 1, empty stdout/stderr) from detection doubt (spawn failure, broken refs, fatal, signals → Err); **hub_is_confidently_v2_only()** — Ok(true) ONLY when v3 marker refs (META_REF refs/heads/crosslink/meta + CHECKPOINT_REF refs/heads/crosslink/checkpoint) are both cleanly absent AND legacy V2_HUB_BRANCH exists; any doubt → Err.\n- In hydration.rs: FAIL-CLOSED GATE inside maybe_auto_hydrate — the destructive v2 file path (reads stale <hub-cache>/issues/*.json; its 'created_by IS NULL' preservation filter drops agent-authored/local-only rows) runs ONLY on Ok(true). v3 marker refs present OR detection doubt ⇒ skip, return Ok(false). Plus 3 regression tests (v3-hub skip, v2-only still runs, fail-closed on broken ref).\n- **Fail-closed behavior when hub checkpoint is stale (v3 hub, frozen v2 migration host)**: sync does NOT drop local comments and does NOT hydrate from the stale projection. maybe_auto_hydrate no-ops; sync_cmd (locks_cmd.rs) consults the r2 system-wide v2_file_path_decision (local refs + remote) and, when not confidently v2-only, **refuses**: 'sync refused the legacy v2 hydration path (fail-closed, gh#125): {reason}. The local SQLite is left untouched (stale-but-safe)'. If confidently v2-only, hydrate_v2_safely re-verifies under the hub write lock (TOCTOU guard).\n\n## 2. Source presence: CONFIRMED\n- /home/claude-code/projects/crosslink/crosslink/src/hub_v3.rs:687 (strict_ref_present), :778 (v2_file_path_decision, r2), :596 (detect_hub_version); src/hydration.rs:1418 'SYSTEM-WIDE FAIL-CLOSED GATE (gh#125 r2)' incl. TOCTOU lock + hydrate_v2_safely dispatcher; fail-closed skip paths for sync/daemon/post-mutation.\n- Current branch: feature/pp3g-0GM6-kickoff-base-ref-283, HEAD 6221309e (ade6146b is 4 commits below HEAD). Branches containing ade6146b: feature/pp3g-0GM6-kickoff-base-ref-283, fork-local/agents, remotes/fork/fork-local/agents.\n\n## 3. Deployed binary: CONFIRMED present\n- Binary /home/claude-code/.cargo/bin/crosslink reports 0.9.0-beta.1+a87bd513. build.rs: version = CARGO_PKG_VERSION + '+' + 'git rev-parse --short HEAD' (clean tree) → +a87bd513 is the exact short hash of commit a87bd5137200e6b3e3796c6a4b0486e6f1df55b2 ('fix(hydration): follow-up hardening + regressions (gh#125 r3)', 2026-08-08 02:41 UTC).\n- a87bd513 is 3 commits AFTER ade6146b in the same gh#125 chain: ade6146b → 5ada263a (r2 system-wide boundary) → 7c5b3e88 (daemon warns-and-continues) → a87bd513 (r3). The build commit CONTAINS the guard; the binary carries the FULLY HARDENED r2/r3 version, not just the bare ade6146b.\n- Binary mtime 2026-08-08 03:31 UTC ≈ 50 min after the a87bd513 commit, before current HEAD — chronologically consistent.\n- Direct symbol-level evidence (strings on the deployed binary): _ZN9crosslink6hub_v318strict_ref_present... (ade6146b fn), _ZN9crosslink6hub_v321v2_file_path_decision... (r2), _ZN9crosslink9hydration17hydrate_v2_safely... + _locked (r2), plus exact fail-closed messages: 'sync v2 hydration skipped fail-closed (gh#125): ', 'daemon: v2 hydration skipped fail-closed (gh#125): ', 'post-mutation v2 hydration skipped fail-closed (gh#125): ', 'could not acquire the hub write lock for the fail-closed probe (TOCTOU guard): ', 'ref presence probe for '.\n\n## 4. Classification: **PASS** — guard present in source AND deployed binary; mechanism understood (fail-closed: refuse to hydrate / leave local SQLite stale-but-safe; never drop local-only comments via the v2 path).\n\n## WHAT-NOT-TESTED\n- No live 'crosslink sync' against a stale checkpoint was executed — read-only mandate forbids a destructive sync test that could drop comments; refusal path observed statically in source (bail! message) and in binary strings only.\n- Deployed-binary unit tests were not run (release build; tests not executed in the binary).\n- No build-record file (INSTALL-PREP) exists in the repo to cross-check the build provenance; the git-hash injection + symbol evidence stands on its own.\n- CHANGELOG.md contains no gh#125 entry (fix not user-facing-changelogged; does not affect the guard's presence).\n\nThis gates #331 MUST-FIX #3 and #334 MUST-FIX #2 as satisfied for the deployed binary at 0.9.0-beta.1+a87bd513.",
+          "created_at": "2026-08-09T23:46:18.641038544Z",
+          "kind": "result",
+          "signed_by": "SHA256:N3AD3BW8u/C9+DCyZ6XZaIS6+JZib0YsCXkvyGIHtmE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgXKHwuOkqrgD3DMfujD/g+NTPa/v83JzBuaHcZHDUu6oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+lk6nSLadLrMIodEEbrDHn57jOY9af5A52zczOiLsOMVDbXhvbkUNWXc4r4xjSQ5RABlQigQXGRpOmOjOkDMAg=="
         },
         "4e6a0275-e5fb-4b1a-be33-3d2f2d67b136": {
           "display_id": 1486,
@@ -19324,8 +19333,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T23:46:10.601052416Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1617
+    "timestamp": "2026-08-09T23:46:18.647125652Z",
+    "agent_id": "pp3g-H5U7-read-only-verification-task-for-issue-336-verify-9910",
+    "agent_seq": 6
   }
 }
