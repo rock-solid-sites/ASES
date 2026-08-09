@@ -1,6 +1,6 @@
 {
   "next_display_id": 318,
-  "next_comment_id": 1371,
+  "next_comment_id": 1372,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -10550,7 +10550,7 @@
       "parent_uuid": "497dbef5-069b-4086-b9f5-f2c54953d182",
       "created_by": "OL2r",
       "created_at": "2026-08-09T17:36:01.430170611Z",
-      "updated_at": "2026-08-09T18:09:11.972051068Z",
+      "updated_at": "2026-08-09T18:09:28.364330343Z",
       "labels": [
         "review"
       ],
@@ -10644,6 +10644,15 @@
           "kind": "observation",
           "signed_by": "SHA256:rTYY4fhkDYtz6SJeo0n+sM+0Gvd3/0k1KjtJzKUGLS8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5xjAGNcgpxSjh5K/KArdIxgMLULCtBFGf6IsF2nPXyEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABq2bW9SPkT7CnqSDAzZAzaUoS0TOtUQU5z2xIOq7F5VntVX0tnqSfxgb6iyf7Gr17q0/3j8aKagB0YSOAsBqBQ=="
+        },
+        "deab9dd9-b5fb-4d58-aa85-450f93fcda67": {
+          "display_id": 1371,
+          "author": "pp3g-7zS8-read-only-adversarial-review-r2-retry-kimi-k2-7-code",
+          "content": "- Section 4: .opencode/permissions.md is cited as evidence but is stale. The permissions snapshot says OpenCode 1.18.11 and omits sleep, ps, pgrep, tmux tools, etc., from the orchestrator bash list. The document correctly notes permissions.md is not source of truth, yet still cites permissions.md note 1 in the evidence table. Avoid citing a knowingly stale snapshot as evidence.\n- Section 2.3 / 4: The --auto / --dangerously-skip-permissions path is not analyzed. Because kickoff agents run inside tmux, the wrapper always passes --auto to opencode run. A permission-enforcement report should explain whether --auto bypasses only the consent prompt or also the .md permission engine, and what that means for the effective enforcement surface. The omission leaves the reader unable to assess the true residual risk.\n- Section 5.5: Cross-repo drift mentions unexplained repos. References to tripn-astro and Tools repo appear without introduction. External readers will not know what these are.\n\n### NITS (optional)\n- Section 1.2: Replace by construction with by layered enforcement or similar; the current phrasing reads like a formal guarantee the tooling does not fully provide.\n- Section 1.4: The permanently-blocked list omits the git clean -f/-fd/-fdx variants that appear in agent_overrides.blocked_git_commands; align the summary with the config.\n- Section 6.4: The what-not-tested clause says --allowedTools enforcement was not verified against a live kickoff, but Sections 2.3 and 5.1 state the no-enforcement finding as verified. Tighten the language so observed facts (wrapper source, --help) are separated from unverified live-kickoff behavior.",
+          "created_at": "2026-08-09T18:09:28.358415656Z",
+          "kind": "result",
+          "signed_by": "SHA256:rTYY4fhkDYtz6SJeo0n+sM+0Gvd3/0k1KjtJzKUGLS8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5xjAGNcgpxSjh5K/KArdIxgMLULCtBFGf6IsF2nPXyEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+QWvyxc4LCHNP4lOFY5bc4NqYy4l31sULS4QolmATGtNIkgGhYNz/Ll+jzKq/Tt3UCygfBOv5JSOyiwoowmoAg=="
         },
         "f02402b8-dc49-42ef-9a71-8a2d53c6294c": {
           "display_id": 1350,
@@ -17920,8 +17929,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T18:09:11.972051068Z",
+    "timestamp": "2026-08-09T18:09:28.364330343Z",
     "agent_id": "pp3g-7zS8-read-only-adversarial-review-r2-retry-kimi-k2-7-code",
-    "agent_seq": 12
+    "agent_seq": 13
   }
 }
