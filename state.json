@@ -1,6 +1,6 @@
 {
   "next_display_id": 330,
-  "next_comment_id": 1456,
+  "next_comment_id": 1457,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -14033,7 +14033,7 @@
       "parent_uuid": "af271565-c0d9-47bf-8888-339979ae59ee",
       "created_by": "OL2r",
       "created_at": "2026-08-09T21:58:19.880352975Z",
-      "updated_at": "2026-08-09T22:18:30.029414081Z",
+      "updated_at": "2026-08-09T22:19:55.671877667Z",
       "labels": [
         "housekeeping"
       ],
@@ -14055,6 +14055,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAhIMz6JoMxPQq3mXkwWfs/C7cQ/hc6yBIKIhUqVR6d9wu4GL6I7vdUzC26DCkb6SnXa0UXdROR17VCCmPrSEUCw=="
+        },
+        "4eed4bd0-0fd7-4846-966b-6bbd95f8e686": {
+          "display_id": 1456,
+          "author": "pp3g-4MGg-read-only-verification-task-for-issue-328-audit-the",
+          "content": "## FINAL — 48 STALE kickoff worktrees audited: SAFE-TO-CLOSE / DO-NOT-CLOSE\n\nMethod per agent: (1) issue mapped via comment-author analysis on the hub issues.db; (2) kind=result presence checked (incl. verdicts recovered/persisted by builder agents); (3) worktree git status checked (excluding .kickoff-session + .crosslink/.last-hydrated-ref hydration artifacts) + branch-vs-main via git merge-base; (4) tmux + /proc cwd process scan. All 48 verified; none unverifiable.\n\n### (a) SAFE-TO-CLOSE — 34 agents (all 3 criteria met)\n\npp3g-GyLy — #315 result posted (luna r1 review CHANGES REQUESTED); branch merged; clean; no proc\npp3g-zsCG — #322 result posted (kimi arch review); branch merged; clean; no proc\npp3g-Ij1J — #299 result posted (auditor CONDITIONAL PASS); branch merged; clean; no proc\npp3g-CCZy — #237 result posted (luna durability FAIL verdict); branch merged; clean; no proc\npp3g-jHj4 — #236 result posted (3-part r1 hy3 PASS); branch merged; clean; no proc\npp3g-bjyI — #320 result posted (auditor NO DIVERGENCE); branch merged; clean; no proc\npp3g-WZSE — #278 result posted (auditor PASS); branch merged; clean; no proc\npp3g-WzWe — #293 result posted (auditor DIVERGENCE FOUND — verdict delivered); branch merged; clean; no proc\npp3g-FrFi — #307 result posted (auditor final report); branch merged; clean; no proc\npp3g-JhCG — #296 result posted (auditor DIVERGENCE FOUND — verdict delivered); branch merged; clean; no proc\npp3g-dZ3X — #313 result posted (auditor NO DIVERGENCE); branch merged; clean; no proc\npp3g-roQq — #125 result posted (systems/durability review); branch merged; clean; no proc\npp3g-fc8F — #276 result posted (phase-1 in-flight final verdict); branch merged; clean; no proc\npp3g-zgSJ — #284 result posted (auditor PASS); branch merged; clean; no proc\npp3g-TRrm — #239 result posted (r4 matrix PASS); branch merged; clean; no proc\npp3g-THlo — #321 result posted (luna arch review); branch merged; clean; no proc\npp3g-ycCI — #316 result posted (hy3 r3 review); branch merged; clean; no proc\npp3g-U3ti — #325 result posted (auditor NO DIVERGENCE); branch merged; clean; no proc\npp3g-7zS8 — #317 result posted (kimi retry review, 7 comments); branch merged; clean; no proc\npp3g-jZgf — #288 result posted (auditor PASS); branch merged; clean; no proc\npp3g-qR7o — SPECIAL: #319 result recovered+posted by builder pp3g-tJ9X (Gemini synthesis persisted); branch merged; clean; no proc\npp3g-kkzJ — SPECIAL: #323 result recovered+posted by builder pp3g-OLap (hy3 r3 verdict persisted); branch merged; clean; no proc\npp3g-yv6B — SPECIAL: #317 verdict delivered via kimi retry pp3g-7zS8 (issue has result); branch merged; clean; no proc\npp3g-ITiS — #314 verdict posted on issue (CONDITIONAL PASS, as observation+handoff, not kind=result — operator listed as auditor that posted); branch merged; clean; no proc\npp3g-WfsE — #125 verdict PRESERVED by orchestrator as result comment (id 675); branch merged; clean; no proc\npp3g-R99p — #125 r3 commit a87bd513 landed on crosslink fork + verification result posted by pp3g-SzyI; branch merged; clean; no proc\npp3g-Mpl9 — #270 matrix deliverable completed by continuation pp3g-gFmp (result on #270); branch merged; clean; no proc\npp3g-PP6b — #270 rebuild deliverable completed by successors (results on #270); branch merged; clean; no proc\npp3g-7L3l — #270 continuation; task completed by successors (results on #270); branch merged; clean; no proc\npp3g-abSw — #226 rebuild superseded by #270 which completed (results on #270); worktree empty; branch merged; clean; no proc\npp3g-68MQ — #267 completed by re-dispatch pp3g-8e0C (deliverable merged to main f339bb36); worktree empty; merged; clean; no proc\npp3g-neHg — killed silent-hang before producing work; #125 r3 completed by R99p; worktree empty; merged; clean; no proc\npp3g-T1jj — stalled after plan; #125 r3 completed by R99p; worktree empty; merged; clean; no proc\npp3g-3r5F — #236 result posted by sibling same-role agent pp3g-jHj4; worktree empty; merged; clean; no proc\n\n### (b) DO-NOT-CLOSE — 14 agents (reason)\n\npp3g-hNTy — NO result, NO comments, NO commits: #291 doc-correction never done (issue has zero comments)\npp3g-8CFb — NO result, NO comments: #269 fork-install never executed (issue has only dispatch note)\npp3g-1b2H — NO result, NO comments: #310/#311 aggressive auditor never posted (issues have zero comments)\npp3g-rg2i — NO result, NO comments: #273 builder died before doing work (orchestrator note: 'died (7th death) before doing work — no commits')\npp3g-vRPR — NO result: #294 prune posted plan + dry-run only, no completion result on issue\npp3g-EnMl — NO result, NO comments: #125 north-mini triage dispatched but never posted anything\npp3g-KdbW — NO result, NO comments: #125 re-dispatch stopped as redundant by orchestrator (original bJpy had posted); zero-value worktree but no result to confirm\npp3g-KHMD — NO result comment: #125 hy3 adversarial findings consumed into revision plan (id 759) but final MUST-FIX verdict never posted as kind=result\npp3g-Dghg — NO result: #292 independent review posted plan + 1 observation only, no verdict\npp3g-Fo1H — 401 failure, never ran: no result, no work product (operator already flagged)\npp3g-tZHZ — killed before posting (mis-targeted #319 first attempt): no result, no work product\npp3g-ik2P — CRITICAL: branch NOT merged to main; holds the ONLY committed copy of the preserved #154 fork source (commit c7d6e241, fork/opencode-src 6395 files) — force-delete would orphan the artifacts; needs merge to main first\npp3g-VAPd — CRITICAL: branch NOT merged (6 commits ahead: catalog-scale research 573 files NOT on main) + uncommitted .opencode/agents/orchestrator.md change + 3 untracked pid files in worktree; force-delete would lose the research\npp3g-VKbE — uncommitted staged work: 6395 files staged in worktree index (fork/opencode-src incl. the #273 retries:0 edit at prompt.ts:234) — staged only, never committed; force-delete would lose the staged edit\n\n### (c) Could-not-verify: NONE — all 48 audited to a verdict.\n\n### Notes for the operator\n- ik2P / VAPd / VKbE carry real git content not on main — merge or otherwise preserve those branches BEFORE any force cleanup of these three.\n- The 34 SAFE worktrees are all clean (only crosslink hydration artifacts .kickoff-session/.last-hydrated-ref), all branches are ancestors of main, and none have tmux sessions or live processes (checked via /proc cwd + tmux list-sessions).\n- Read-only audit: nothing deleted, nothing killed.",
+          "created_at": "2026-08-09T22:19:55.664235504Z",
+          "kind": "result",
+          "signed_by": "SHA256:hMssjC/y3lZPT4c1t8yeLFM78rBaCi2eGR4cv3zHjSc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgins5ZJOV4tHQIRPdKT8keDE3Cc8wHowa/aRlP17wxIUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA9x3REXGu1vRW2OGLB5YgJMYn9KPzODeH1+HUcWbn/OWMb3rpeDucHnLATS/4phqkeUlBc1UiqsutkgBTX8iXBA=="
         },
         "75085f2c-23bb-4b9c-a31f-edc4969b08dc": {
           "display_id": 1455,
@@ -18898,8 +18907,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T22:18:30.029414081Z",
+    "timestamp": "2026-08-09T22:19:55.671877667Z",
     "agent_id": "pp3g-4MGg-read-only-verification-task-for-issue-328-audit-the",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
