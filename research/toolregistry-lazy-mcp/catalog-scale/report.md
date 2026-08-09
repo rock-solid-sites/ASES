@@ -442,12 +442,39 @@ All logs under `research/toolregistry-lazy-mcp/catalog-scale/logs/`:
 | Test 5 | `test5/run.log` | `test5/5a/test5a.json`, `test5/5b/test5b.json`, proxy logs (`5a/a-proxy.log`, `5b/b-proxy.log`), control files |
 | Test 6 | `test6/run.log` | `test6/test6.json`, `test6/run/*-proxy.log` |
 | Addendum B | `threadcheck/run.log` | `threadcheck/threadcheck.json` |
+| Owner-death | (script stdout) | `owner-death/owner-death-lifecycle.json`, `owner-death/run/*-proxy.log` |
 | Orchestration | `run-all*.log` | sequential test runner output |
 
-Every result JSON embeds: `versions` (toolregistry 0.15.0, mcp 2.0.0,
-python 3.10.12), `calling_mode` (sync/async), `teardown` (off/on),
-`grace_seconds` (2.5), and the `resident_after.threads` profile. The
-persistence config state for every run is `persistent=True` (default),
-verified against the installed source (`registration.py:94`,
-`connection.py:37`).
+Per-group JSON field coverage (verified against the committed files):
+
+| Group | `versions` | `calling_mode` | `teardown` | `grace_seconds` | `persistence` |
+|---|---|---|---|---|---|
+| `test1/n*/test1-n*.json` (5) | yes | yes | no | yes | yes |
+| `test2/test2-cond{A,B}.json` (2) | yes | yes | yes | yes | yes |
+| `test3/n*-{sequential,concurrent}-{off,on}.json` (20) | yes | yes | yes | yes | yes |
+| `test4/test4-teardown-{off,on}.json` (2) | yes | yes | yes | yes | yes |
+| `test5/5a/test5a.json` + `test5/5b/test5b.json` (2) | yes | yes | no | yes | yes |
+| `test6/test6.json` (1) | yes | yes | no | yes | yes |
+| `threadcheck/threadcheck.json` (1) | yes | yes | no | yes | yes |
+
+(Control files `test5/5{a,b}/control-*.json` are static backend manifests,
+not per-run result JSONs, and carry none of these fields.)
+
+`versions` = toolregistry 0.15.0 / mcp 2.0.0 / python 3.10.12; `calling_mode`
+= sync/async; `grace_seconds` = 2.5. Every per-run JSON carries a thread
+profile (`threads`) inside its residency snapshot(s); the snapshot field
+name varies by test — `resident_after` (Test 1/2/3), `resident_after_calls`
++ `resident_after_teardown` (Test 4), `resident_before_change` +
+`resident_after_notify` (Test 5), `resident_*` variants (Test 6),
+`async_only_profile` + `after_sync_call_profile` (threadcheck).
+`teardown` is recorded only where a teardown
+condition was actually run (Test 2/3/4); the Test 1 acquisition, Test 5
+invalidation, Test 6 boundary, and threadcheck runs have no teardown
+condition and therefore no `teardown` field. `persistence` is the
+source-verified config constant `persistent=True` (default) — verified
+against the installed source (`registration.py:94,167`,
+`connection.py:37`) — recorded per run by the measurement scripts and
+backfilled deterministically into the pre-existing JSONs
+(`scripts/backfill_persistence.py`); it is a recorded config constant, not a
+per-run measurement.
 
