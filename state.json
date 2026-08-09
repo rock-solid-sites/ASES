@@ -1,6 +1,6 @@
 {
   "next_display_id": 313,
-  "next_comment_id": 1316,
+  "next_comment_id": 1317,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -14261,7 +14261,18 @@
       "parent_uuid": "ca7fd957-478b-49ae-b1c9-82419155a671",
       "created_by": "OL2r",
       "created_at": "2026-08-09T01:46:44.309091294Z",
-      "updated_at": "2026-08-09T01:46:44.309091294Z"
+      "updated_at": "2026-08-09T02:09:52.000992328Z",
+      "comments": {
+        "80945d9a-43ef-4c66-8844-127dddec07f9": {
+          "display_id": 1316,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "Plan: Restore Test-1 to 00eda4b3 originals + backfill fields only, no re-run. Scope verified: U1 (24a24a0b) changed 92 files under logs/test1/ (5 test1-n*.json + 86 c*-proxy.log + run.log). All 5 JSONs were re-run on a loaded host (register_ms n1: 1933.4->39489.6 etc.) and got versions/persistence appended; proxy logs and run.log were rewritten with re-run timestamps. Approach: (1) write a deterministic restore script (mirrors backfill_persistence.py style) that restores every test1 file byte-identical from 00eda4b3 via git show; (2) for the 5 measurement-bearing JSONs only, append versions={toolregistry:0.15.0,mcp:2.0.0,python:3.10.12} (pinned venv-verified) + persistence from common.py; calling_mode is already 'sync' in the originals (unchanged by U1, carried over as-is); (3) verify measurement keys byte-identical vs git show 00eda4b3 and fields present; (4) single commit on feature branch referencing #312. No test2/other tests touched.",
+          "created_at": "2026-08-09T02:09:51.900049680Z",
+          "kind": "plan",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABApn/uvt3RRmk7+OnQWZ06RXXfFnKIxJK0IExd40z8w52aS/BjO5AtbsTRmHT40oN7JnDHsoatpwhmoSfdk/gFCQ=="
+        }
+      }
     },
     "cc46bd89-87b3-4e0c-b53d-618f8a23e0c5": {
       "uuid": "cc46bd89-87b3-4e0c-b53d-618f8a23e0c5",
@@ -17418,8 +17429,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T02:02:51.314778324Z",
-    "agent_id": "pp3g-VKbE-hardening-273-redispatch-prior-builder-pp3g-rg2i-died",
-    "agent_seq": 3
+    "timestamp": "2026-08-09T02:09:52.000992328Z",
+    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+    "agent_seq": 43
   }
 }
