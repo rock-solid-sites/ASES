@@ -1,6 +1,6 @@
 {
   "next_display_id": 321,
-  "next_comment_id": 1403,
+  "next_comment_id": 1404,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13241,7 +13241,7 @@
       "parent_uuid": "497dbef5-069b-4086-b9f5-f2c54953d182",
       "created_by": "OL2r",
       "created_at": "2026-08-09T19:59:13.347990925Z",
-      "updated_at": "2026-08-09T20:13:17.070091495Z",
+      "updated_at": "2026-08-09T20:13:56.938863073Z",
       "labels": [
         "documentation"
       ],
@@ -13308,6 +13308,15 @@
           "kind": "plan",
           "signed_by": "SHA256:uk5fieOV2PqG3+gwmxtWd6kJ1W+4dh2XiXRmTCe6ctE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJqVotiiW7Q2dg9vcnavtYtXW56qUuvvh2YC8VadGvs0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoyC4CCEKXjiN/l+ziR/gOXvHgKXyzKORuuMWmzMB84AtYQcdoJnSr4ABZteQ+ag3B0riTLkkZqN012QbVggfDw=="
+        },
+        "df4270de-c3b0-48de-b758-6975f6a703ac": {
+          "display_id": 1403,
+          "author": "pp3g-4hUs-doc-task-for-issue-320-build-a-new-fully-self-8d10",
+          "content": "Result: deliverable committed at 527c5eb7 — docs/research/agent-tooling-and-permission-enforcement-reviewed.md (1737 lines, NEW file; original NOT modified).\n\nWHAT: self-contained reviewed document merging (1) original claims from agent-tooling-and-permission-enforcement.md @ 4cbae854 and (2) all 8 reviews (ChatGPT, Sonnet5, GLM-5.2, Deepseek-v4-Pro, Qwen3.8 Max external @ 368cb6c6; luna #315, hy3 #316, kimi #317; Gemini #319 synthesis). Structure per spec: PURPOSE+SCOPE, SYSTEM DESCRIPTION (verified, corrected), CLAIM-BY-CLAIM for all 12 contested claims (a)-(l) each with CLAIM/FINDINGS/RESOLUTION incl. WHY + WHAT-NOT-TESTED, CONSENSUS SUMMARY (Gemini matrix reproduced), SECURITY-PROPERTY INVARIANTS (ChatGPT 10 + Qwen 10 + others), WHAT-NOT-TESTED consolidated + OPEN QUESTIONS, VERIFIED-SOURCES APPENDIX with a 5-minute check script.\n\nKEY VERIFIED RESOLUTIONS (all re-checked against live sources today):\n- (c) deployed crosslink IS 0.9.0-beta.1+a87bd513 vs source HEAD 6221309e; conflation CONFIRMED; delta commit touches launch.rs/prompt.rs.\n- (d) runtime log /tmp/orchestrator-guard.log PROVES filesystem_write_file (51) / filesystem_edit_file (107) ARE the real opencode-exposed names (kimi's 'wrong names' refuted); TRUE gap = create_directory/move_file not in BLOCKED_TOOLS (0 log entries, exposure inferred).\n- (e) allowed_bash_prefixes confirmed as allow-fast-path (crosslink-guard.ts steps 6-10: early-return allow, relaxed/sentinel allow; never denies with active issue).\n- (f) identity fallback confirmed fail-open to builder: no by_type.builder entry -> base config -> git commit gated, NOT blocked, for unresolved reviewer/auditor.\n- (h) wrapper --auto under tmux confirmed (lines 66-67), auto-approves ask.\n- (i) counts confirmed: 49 bash (not 29), 21 agent_overrides (not 19), 34 orchestrator patterns (not ~40), 14 root blocked (correct).\n- (b) --allowedTools: local path drops it (wrapper 28-30), container path passes directly (launch.rs 1000-1035) — qualified by launch mode.\n- (j) #313 sqlite3 quotes verbatim-accurate; causal layer NOT instrumented (resolved as quote-confirmed, layer-unconfirmed).\n- (a)/(g)/(k)/(l) confirmed: read-only-by-construction overstated (opencode --pure escape documented), builder tamper capability unmitigated, no threat model, whitelist global + cache re-enable risk + 6-live-model staleness.\n\nNOT-REVIEWED-BY-ME: my own work per role rules; checkpoint stream complete (plan, post-plan, midpoint, result). READ-ONLY investigation: only the deliverable written. Commit ref: 527c5eb7.",
+          "created_at": "2026-08-09T20:13:56.930027269Z",
+          "kind": "result",
+          "signed_by": "SHA256:ptZevOmOdFsgw4dhTpR7EQgOK849VKPsDUGpKX3+2oc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgNugIGw1O8LYeu7nyf/AbnY3N/R4YVubS8b7IbTuMSVYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvx65V32FWk89bifLAtY4+a2KJK1O4S/bqi/DqTlge9AM4jXEeU09YVj2WrcTIN5X9VHgZ+GThE+JsNOAwxV2AQ=="
         },
         "e459492f-619e-4fb5-be4d-a104cb6be100": {
           "display_id": 1398,
@@ -18261,8 +18270,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T20:13:17.070091495Z",
+    "timestamp": "2026-08-09T20:13:56.938863073Z",
     "agent_id": "pp3g-4hUs-doc-task-for-issue-320-build-a-new-fully-self-8d10",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
