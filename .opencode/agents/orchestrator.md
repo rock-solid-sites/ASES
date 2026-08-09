@@ -18,6 +18,7 @@ permission:
     "ls *": "allow"
     "cat *": "allow"
     "rtk *": "allow"
+    "sleep *": "allow"
     "ps -o *": "allow"
     "pgrep *": "allow"
     "tmux list-sessions *": "allow"
