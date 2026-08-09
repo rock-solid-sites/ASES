@@ -1,6 +1,6 @@
 {
   "next_display_id": 308,
-  "next_comment_id": 1285,
+  "next_comment_id": 1287,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5263,7 +5263,7 @@
       "parent_uuid": "ca7fd957-478b-49ae-b1c9-82419155a671",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:49:38.660934054Z",
-      "updated_at": "2026-08-09T00:04:00.601395377Z",
+      "updated_at": "2026-08-09T00:08:31.904351183Z",
       "labels": [
         "audit"
       ],
@@ -5303,6 +5303,15 @@
           "kind": "observation",
           "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQeV6zug/8Aw9el0c/+APdaIERSSM4YQfGewUekREYwY+WxCrzvEl6IvDC6ZMYLupMUHFC/MjQnN69UWO9Q7OAA=="
+        },
+        "d8221be2-fa01-474a-8b72-a7e9b077cdcb": {
+          "display_id": 1286,
+          "author": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[PROGRESS] state=working completed=V1 re-derivation done (2 divergence reports posted: #306 premise wrong about Test 2; Test-1 harness omits fields BY CONSTRUCTION so a bare re-run is a no-op). V2+V3 baselines now pre-derived and locked below. next=hold and verify Builder checkpoints against the stated contracts blocker=Builder pp3g-bv03 still has no worktree/branch/commit ~25min after #306 creation — NOT yet a staleness call per PVi7, but now approaching the ~2x-cadence threshold; will escalate if nothing appears\n\nV2 BASELINE (owner-death lifecycle log) — CONDITION CONFIRMED GENUINELY OPEN. Unlike condition 1, this one is correctly stated in #306. Evidence: the orphan claim lives ONLY as prose at report.md:407-414 ('observed three times, still alive 15+ minutes after parent death, blocked in ep_poll with stdin at EOF'). Grep over the whole commit for 'ep_poll' returns exactly two hits — report.md:411 and a docstring at scripts/common.py:255. There is NO log, NO script, NO PID capture backing it. The only orphan-related artifacts are 'pre_cleaned_orphans=0' header lines in test4/test5/test6 run.logs — which record ZERO orphans and are the hygiene helper clean_orphans() (common.py:250-288) running BEFORE each phase. So the corpus contains no positive orphan evidence at all; the strongest lifecycle finding in the report is currently pure assertion. Note clean_orphans() SIGTERMs then SIGKILLs after a 6s timeout — a purpose-built owner-death script should reuse that classifier (scan_procs, common.py:52) so its PID accounting is consistent with the rest of the corpus.\nV2 CONTRACT I WILL APPLY: the committed log must show, in order — parent PID + its exit, surviving proxy/backend PIDs identified as children of the dead parent, evidence they are blocked in ep_poll with stdin at EOF (e.g. /proc/PID/stack or wchan or strace), an elapsed-survival interval, the TERM then KILL escalation, and a final zero snapshot. Prose narrating these without captured output does not satisfy re-derivability; that is the exact failure this condition exists to fix.\n\nV3 BASELINE (umbrella doc) — docs/research/Identifier-First Tool Calling.md at main is 223 lines. Grep confirms it currently contains ZERO occurrences of list_changed, orphan, or the shared-thread finding. Correct insertion point already exists and is structurally ideal: section 'Connector-lifecycle constraints observed (version-bound: toolregistry 0.15.0 / mcp 2.0.0)' at line 142, which already carries the exact version-tag idiom the dispatch asks for ('valid for toolregistry 0.15.0 / mcp 2.0.0; verify on upgrade (re-validation trigger filed under epic #212)') and holds two bullets from the C2-gap work at lines 146-147. The three findings belong as additional bullets there.\nTHREE ADJACENT INCONSISTENCIES the capture will create if inserted blindly — flagging so the Builder or Orchestrator can decide, since resolving them is arguably in scope and ignoring them leaves the doc self-contradictory:\n (a) Line 173, Phase 5, says 'Partially complete' and that 'a full eager-vs-lazy memory/process-count comparison ... is still outstanding'. #295 is titled Phase-5 completion and its commit message claims STRONG PASS. Either Phase 5 status updates or the completion claim overreaches — the doc and the report currently disagree.\n (b) Line 183, Success Criteria, states the connector-memory-footprint criterion ('scales with connectors actually used, not connectors configured') as an open target. That is precisely what #295 measured and validated at N=20/K=3. It should be marked validated with the evidence pointer, or the validation is invisible where a reader checks success.\n (c) Line 202, Still open, says 'Idle-timeout teardown and connection pooling are unbuilt and untested'. Test 6 concluded immediate teardown is sufficient and the idle-timeout is 'a policy optimization, not a prerequisite' — that materially changes this open item's framing.\n Also: 'Internal Validation Artifacts' (lines 218-223) lists the lazy-proxy, drift and retry-classification reports but NOT catalog-scale/report.md. The new report is unreferenced from the umbrella doc.\nV3 CONTRACT I WILL APPLY: three findings present, each version-tagged to toolregistry 0.15.0 / mcp 2.0.0; git diff confined to focused insertion — I will check the diff does not rewrite lines 1-141 or 149-217 beyond the specific items above; if (a)/(b)/(c) are touched I will check they were corrected toward the evidence rather than silently restated.\n\nCROSS-CUTTING RISK: parts 1 and 3 are coupled. The orphan finding (part 3, item 1) is the one whose underlying evidence part 2 is supposed to create. If part 3 is written before part 2's log exists, the umbrella doc gains a version-tagged constraint whose only backing is still the unevidenced report.md prose — propagating the assertion upward into a canonical document. Correct order is part 2 then part 3. I will flag out-of-order capture.",
+          "created_at": "2026-08-09T00:08:31.704262383Z",
+          "kind": "observation",
+          "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAuCbLT/AhLtxFUNylQFyEpmslpMPLxa2WuP7S28M5i407zEnuRi6nXrhlxYaZSHSBTdqBTHIgZF69LdwMn0OBQ=="
         }
       }
     },
@@ -13701,7 +13710,7 @@
       "parent_uuid": "2a795a46-f144-4ebd-9cc4-1b22fd436eed",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:48:36.099941537Z",
-      "updated_at": "2026-08-09T00:02:24.709140163Z",
+      "updated_at": "2026-08-09T00:05:46.501799436Z",
       "labels": [
         "research",
         "toolregistry"
@@ -13724,6 +13733,15 @@
           "kind": "observation",
           "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoOMSoSCU6/7BogsXijnTJlxGAT6JpGW6SbJriN8DYNc1c+1V1u+/nKkV1W/LloywhXZNhSNf/Y+Yn90Ktqt5Bw=="
+        },
+        "d2c3cecc-6cd4-456b-ae69-c1d921288ab4": {
+          "display_id": 1285,
+          "author": "OL2r",
+          "content": "ORCHESTRATOR SCOPE CORRECTION (from Phase-1 auditor #307 pre-emptive divergence, confirmed by operator as the CHEAP PATH). READS BEFORE RUNNING ANY TEST. The original #306 brief's premise is partly wrong; the corrected scope is:\n\n1. VERSIONS GAP IS TEST-1-ONLY (5 files, not 7): re-derivation shows test1/n{1,5,10,20,50}/test1-n*.json lack versions; test2-condA/B.json ALREADY have versions+calling_mode. So: re-run ONLY Test 1 (5 JSONs) to add versions+calling_mode+grace_seconds. Do NOT re-run Test 2.\n\n2. NEW GAP (auditor D3): report.md section 10 claims 'every result JSON embeds ... teardown' but teardown is absent from 9/33 JSONs (test1 x5, test5a, test5b, test6, threadcheck). FIX THE PROSE: edit report.md section 10 to state exactly which fields each JSON group carries (e.g. 'versions+calling_mode in every per-run JSON; teardown recorded only where a teardown condition was run; persistence source-verified, not a per-run JSON field'). Do NOT re-run the whole corpus to force uniformity.\n\n3. PERSISTENCE IS 0/33 (auditor D4): it exists only in report.md prose + script comments. Keep it as source-verified prose (report already cites registration.py:94 / connection.py:37); do NOT add it as a per-run JSON field unless trivially available. If you add it to Test 1's re-run for free, fine; otherwise document in §10 that persistence is source-verified, not per-run recorded.\n\n4. OWNER-DEATH LIFECYCLE LOG (unchanged): commit the script + logs/owner-death-lifecycle.json with parent exit / surviving PIDs / observation interval / kill signal / final zero snapshot.\n\n5. UMBRELLA / #212 CAPTURE (unchanged): the three systemic findings (orphan-on-owner-death, list_changed gap, 1-shared-thread sync model) into docs/research/Identifier-First Tool Calling.md and/or a #212 comment, with version tags, focused insertion.\n\nDO NOT attempt a full-corpus re-run (45min+ job, mixed-state risk on this loaded host — auditor D5). If the harness for Test 1 omits versions by construction (scripts/run_test1.py doesn't call common.versions()), add the call and re-run Test 1. Verify: after your commit, git grep confirms versions present in test1/n*/test1-n*.json, report.md §10 matches the actual per-group field coverage, owner-death log committed, umbrella/#212 capture present.",
+          "created_at": "2026-08-09T00:05:46.404631140Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAuevBiBP/qoFIPUjU9fxfRLUg0BtFUuBj1q440um4uo2nl67zAJZV0jHPJ2MKEiO/HgzCcPIHuAG+GGWpNWr0Cg=="
         }
       }
     },
@@ -17074,8 +17092,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T00:04:00.601395377Z",
+    "timestamp": "2026-08-09T00:08:31.904351183Z",
     "agent_id": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
