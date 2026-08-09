@@ -10,6 +10,7 @@ created: 2026-08-06
 updated: 2026-08-09
 ---
 
+
 # opencode Fork (durable silent-hang fix, gh#154)
 
 The durable silent-hang fix for the opencode CLI is maintained as a fork of
@@ -114,6 +115,9 @@ Operator drift check (manual, after any opencode upgrade):
 `opencode --version` must report `-pp3g-fork` AND the binary markers above
 must be present. `grep -c "if(false)return" $(which opencode)` detects the
 EPHEMERAL stopgap byte patch (#145/#179), not the fork.
+
+
+A reconstructable copy of the guarded wrapper is committed at `fork/wrapper/opencode-wrapper` in the ASES repo (identical to the live `~/.local/bin/opencode`; verified diff-clean 2026-08-09). Restore/reinstall: copy it to `~/.local/bin/opencode`, `chmod 755`, and verify `opencode --version` reports `1.18.13-pp3g-fork`.
 
 ## Build / replace / rollback
 
