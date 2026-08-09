@@ -1,6 +1,6 @@
 {
   "next_display_id": 337,
-  "next_comment_id": 1491,
+  "next_comment_id": 1492,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -7043,7 +7043,7 @@
       "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
       "created_by": "OL2r",
       "created_at": "2026-08-09T23:41:47.302795909Z",
-      "updated_at": "2026-08-09T23:46:45.067876748Z",
+      "updated_at": "2026-08-09T23:49:43.351346669Z",
       "labels": [
         "research"
       ],
@@ -7104,6 +7104,15 @@
           "driver_key_fingerprint": "SHA256:zGzmtgnoZhXU4eO6KSQsgBUaiDEkB/tJTAYgLkcxm+w",
           "signed_by": "SHA256:N3AD3BW8u/C9+DCyZ6XZaIS6+JZib0YsCXkvyGIHtmE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgXKHwuOkqrgD3DMfujD/g+NTPa/v83JzBuaHcZHDUu6oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA413ic/EHZb9lUSsPpEAgFohP565x/w5dDlQA6vMmW8w5nH5YPajKkziST5OEh8T9guIyoyH/KyB91B0kLfVkAA=="
+        },
+        "843cf5bb-1583-4d38-ac71-bb1caa454505": {
+          "display_id": 1491,
+          "author": "OL2r",
+          "content": "[ORCHESTRATOR] CLARIFICATION — why this verification exists and how it relates to prior reliability work (operator was under the impression durability was already handled).\n\nTHE DISTINCTION:\n- #156/#135 (reliability epic) = agent LIVENESS: is the agent alive? Heartbeat, kill/restart, silent-hang detection. Covers 'don't lose the agent.'\n- #336 (this issue) = position DURABILITY: does the agent's OUTPUT survive? Is 'comment + sync' a safe commit, or can sync silently drop local comments? Covers 'don't lose the agent's output.'\nBoth are halves of the same reliability goal; neither subsumes the other.\n\nWHY THE IMPRESSION IS WRONG (what prior threads did and did not do):\n- #123 (08-03) documented the checkpoint-comment contract and NOTED the risk: 'crosslink-fork.md also warns stale rehydration can drop local-only comments' — but it did NOT verify the guard.\n- #137 (08-03, big-pickle watcher review) flagged sync/hydration as a watcher risk (point 4: 'comments posted by the watcher are invisible at the hub until sync') — but did NOT verify the sync-rollback guard.\n- The reliability epic (#156) built liveness detection (heartbeat, watchdog, fork fix) — it never validated that the persistence primitive (sync) is actually lossless under the documented stale-checkpoint condition.\n- The ade6146b fail-closed guard precondition was NAMED by Hy3 (#331 MUST-FIX #3, #334 MUST-FIX #2) as a previously-unverified requirement. tripn-astro has now GRANTED the auditor 'crosslink sync' as a live command, making this a deployed risk, not hypothetical.\nCONCLUSION: the durability half was flagged but never handled. This issue is the first actual verification of it. If Level-2 shows the guard works, the #330 premise is sound; if sync drops the comment, we have a deeper defect than checkpoint cadence.",
+          "created_at": "2026-08-09T23:49:43.344574108Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHuz0CidyD8ngVDh4FSL2e0eOOpeYGeimkb3oaxPYLOo674JM8q117LProlP1/tY2CpvgYwmKYZABgdgfk/L2Cw=="
         },
         "eba9ac2c-b3de-4b6e-a2a6-a5083f42d5f1": {
           "display_id": 1488,
@@ -19337,8 +19346,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T23:46:45.067876748Z",
-    "agent_id": "pp3g-H5U7-read-only-verification-task-for-issue-336-verify-9910",
-    "agent_seq": 8
+    "timestamp": "2026-08-09T23:49:43.351346669Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1618
   }
 }
