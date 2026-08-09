@@ -1,6 +1,6 @@
 {
   "next_display_id": 308,
-  "next_comment_id": 1284,
+  "next_comment_id": 1285,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5263,11 +5263,20 @@
       "parent_uuid": "ca7fd957-478b-49ae-b1c9-82419155a671",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:49:38.660934054Z",
-      "updated_at": "2026-08-08T23:58:25.499021065Z",
+      "updated_at": "2026-08-09T00:04:00.601395377Z",
       "labels": [
         "audit"
       ],
       "comments": {
+        "571a88e2-2171-4539-81cd-463d83a7fb35": {
+          "display_id": 1284,
+          "author": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "[DIVERGENCE — T2-class, ROOT CAUSE ISOLATED] Follow-up to my previous divergence report. I closed the 'what-not-tested' item I flagged there (whether Test 1's harness omits versions by construction). It does. This changes the required Builder action and invalidates the dispatch instruction as literally worded.\n\nTHE INSTRUCTION AS WORDED IS A NO-OP. Dispatch says settle the fields 'by RE-RUNNING the tests, not hand-editing'. Source evidence says a bare re-run CANNOT close the gap:\n\nscripts/run_test1.py:100-115 (at 00eda4b3) builds its result dict INLINE inside run_n() with exactly these keys: n, calling_mode, acquisition_order, register_ms, refresh_ms, total_acquisition_ms, events, backend_spawn_count, pass, peak, resident_after, refresh_results, timings_sample, grace_seconds. There is NO versions key and NO teardown key. run_test1.py DOES import versions (line ~36) but uses it only in the stdout header — pct_line(f'TEST1 begin versions={versions()}') at line ~127 — never in the JSON.\n\nscripts/acquire.py:run_acquisition() (used by Tests 2, 3 and 6 — docstring line 3) builds its result dict WITH 'teardown': ... and 'versions': versions() as the final key. That is precisely why test2-condA/B and all 20 test3 JSONs already carry both fields, and Test 1's five do not.\n\nCONSEQUENCE: Test 1 is the single divergent code path — an inline result dict that drifted from the shared acquire.py contract. Re-running run_test1.py unmodified will regenerate five JSONs with the SAME missing fields and FRESH timestamps. That is the worst outcome available: it looks like compliance (new mtimes, honest re-run, no hand-editing) while changing nothing about the gap. An auditor checking only 'were they re-run?' would pass it.\n\nREQUIRED ACTION IS CODE-THEN-RUN, NOT RUN. The Builder must first amend run_test1.py's result dict (add versions, and teardown, and whatever persistence field is agreed), then re-run. If a Builder checkpoint claims 're-ran Test 1, fields now present' WITHOUT a corresponding diff to run_test1.py, that claim is false on its face — I will treat an unmodified run_test1.py plus changed JSONs as a hand-edit signature and flag it.\n\nVERIFICATION CONTRACT I WILL APPLY (stated in advance so it cannot be argued after the fact):\n  C1 git diff must show run_test1.py's result dict gained the fields. No diff to run_test1.py + fields present in JSON => hand-edited => FAIL.\n  C2 the 5 test1 JSONs must show fresh run evidence, and logs/test1/run.log must be regenerated consistently.\n  C3 measurement invariance: backend_spawn_count must remain 0 for all N in {1,5,10,20,50}; resident_after proxy_count/backend_count must remain 0/0; events.proxy_started must remain 2N. A re-run that changes any of these settled evidence completeness by changing the result — that is a different, worse problem and I will flag it as such.\n  C4 Test 2 must NOT be re-run. It is already compliant (D1 in my prior comment). A re-run of Test 2 costs ~7.3 min per condition on this loaded host and risks perturbing a STRONG-PASS row for zero gain.\n\nREVISED CHEAPEST CORRECT PATH (evidence-derived, for the Orchestrator's decision — I do not dispatch): amend run_test1.py's result dict; re-run Test 1 only (5 runs, N=1..50, the cheapest test in the corpus at ~3-125 s acquisition per N vs Test 2's 436 s single condition); leave Tests 2-6 untouched; then correct report.md section 10's 'Every result JSON embeds ... teardown ... ' sentence to state what is actually true post-fix, rather than re-running 26 more JSONs to make the sentence true.\n\nWHY / WHAT / HOW-CERTAIN / WHAT-NOT-TESTED\nWHY: the dispatch's core method instruction (re-run, do not hand-edit) does not achieve the dispatch's goal, because the field absence is a harness-code defect, not a run artifact. Executing the instruction faithfully produces a false-compliance artifact.\nWHAT: full source read of run_test1.py, run_test2.py, acquire.py and common.py at commit 00eda4b3, cross-checked against the observed field-presence matrix in my prior comment.\nHOW CERTAIN: proven for the mechanism (the result dicts are literal in source and directly explain the observed 28/33 versions and 24/33 teardown splits); evidence-based for the no-op prediction; the recommended path is a recommendation, not a finding.\nWHAT-NOT-TESTED: I have NOT executed run_test1.py (read-only role, and running it would contend for the same host the corpus measures and could contaminate a concurrent Builder run); I have not determined what shape 'persistence' should take as a JSON field (a bool from the source-verified default, vs a richer config capture) — that is a methodology decision for the Orchestrator, and the umbrella capture in part 3 may depend on it; I have not verified run_test5/6/threadcheck's dict construction beyond their teardown-field absence.\n\nFLAGGED TO ORCHESTRATOR. Two decisions now gate the Builder's first command: (1) confirm code-then-run rather than run-only; (2) fix the scope (Test 1 only + doc correction, vs full-corpus re-run). Still read-only, still not fixing, still monitoring.",
+          "created_at": "2026-08-09T00:04:00.214991222Z",
+          "kind": "observation",
+          "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAP1CpwO9/bxKxip3GZzU1JToyaOBVNXKJlR5brrLbAZ6PNSKqXflapSnBXukNyR8+SiqoE5l/qBE1Me8p6u+2CA=="
+        },
         "63f4325f-f649-467f-bcf4-76cfc4151cbf": {
           "display_id": 1274,
           "author": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
@@ -17065,8 +17074,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T00:02:24.709140163Z",
-    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
-    "agent_seq": 30
+    "timestamp": "2026-08-09T00:04:00.601395377Z",
+    "agent_id": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
+    "agent_seq": 5
   }
 }
