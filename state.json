@@ -1,6 +1,6 @@
 {
   "next_display_id": 312,
-  "next_comment_id": 1305,
+  "next_comment_id": 1306,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1685,7 +1685,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:44:59.774903959Z",
-      "updated_at": "2026-08-09T00:50:23.213520591Z",
+      "updated_at": "2026-08-09T01:07:36.707176058Z",
       "labels": [
         "infrastructure"
       ],
@@ -1716,6 +1716,15 @@
           "kind": "plan",
           "signed_by": "SHA256:e0C5UHqcLjblg3mHyUuQxEjkVlmIxshvTKX883UwLqM",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgiIS6FgBLCsFGTJ49tUAXkLIZ4mU9IzEr094GKPUg6KYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA3/3EHtKzjvlSINQ598vPAV+n20M0RET37ehFOPSo9VrcoimVObDBjuWh4YpTigQAnYrmQPVq+a54RY4ZMKB0Ag=="
+        },
+        "661a5bfa-aca4-4907-85b3-45665ee79fd4": {
+          "display_id": 1305,
+          "author": "pp3g-AMm2-hardening-issue-274-high-value-enforce-upgrade-ffb9",
+          "content": "Result: HARDENING COMPLETE — upgrade-survival enforced for the installed #154 fork. COMMIT 84262632 (feature/pp3g-AMm2-...).\n\n(1) WRAPPER GUARD (live ~/.local/bin/opencode, reconstructable copy fork/wrapper/opencode-wrapper, backup opencode.pre-guard-20260809): fail-closed fork-identity check before exec — grep -ac 'Body read timed out' >= 2 (~2.2s on 148MB binary); if marker count < 2, fallback to --version containing 'fork'; if BOTH fail -> loud FATAL banner + exit 1, NO exec. Guard placed BEFORE the ~30s models refresh (fail fast on drift). autoupdate:false + wrapper guard = config short-circuit + enforcement layer.\n\n(2) DOCS: canonical knowledge page opencode-fork updated via crosslink knowledge edit (2 commits on crosslink/knowledge branch: e498761d + 27ff179e; now documents ENFORCED invariant + wrapper guard + install status); repo mirror created at .crosslink/knowledge/opencode-fork.md (body-only, diff-verified identical to canonical body).\n\n(3) VERIFICATION (fork/results/verify-guard-274.md + trip outputs): installed fork identity confirmed (1.18.13-pp3g-fork, markers Body read timed out x2 / Turn stalled x1, sha 3872f6ef); control stock binary (1.18.13, markers 0) TRIPS guard (FATAL exit 1); nonexistent path TRIPS guard (FATAL exit 1, 0.4s); live wrapper PASSES (opencode --version == 1.18.13-pp3g-fork, exit 0); fallback branch (markers missing, version contains fork) PASSES exit 0.\n\nNOT MODIFIED: installed binary, autoupdate config. No kickoff cleanup --force (#227). Refs #154 #237 #270.",
+          "created_at": "2026-08-09T01:07:36.700542957Z",
+          "kind": "result",
+          "signed_by": "SHA256:e0C5UHqcLjblg3mHyUuQxEjkVlmIxshvTKX883UwLqM",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgiIS6FgBLCsFGTJ49tUAXkLIZ4mU9IzEr094GKPUg6KYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABam8vMmU1M7CymZ55b6+S3Wm8ehCC1PDh60O6yV9nOScntWyDoLo/EUU0HdiWfpsbPeo1CrGZqYqAwfnS0AADA=="
         }
       }
     },
@@ -17308,8 +17317,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T01:05:14.897999874Z",
-    "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
-    "agent_seq": 34
+    "timestamp": "2026-08-09T01:07:36.707176058Z",
+    "agent_id": "pp3g-AMm2-hardening-issue-274-high-value-enforce-upgrade-ffb9",
+    "agent_seq": 7
   }
 }
