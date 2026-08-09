@@ -1,6 +1,6 @@
 {
   "next_display_id": 315,
-  "next_comment_id": 1341,
+  "next_comment_id": 1342,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5994,11 +5994,20 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-09T15:46:57.221396993Z",
-      "updated_at": "2026-08-09T15:54:53.824130900Z",
+      "updated_at": "2026-08-09T15:55:40.469509679Z",
       "labels": [
         "documentation"
       ],
       "comments": {
+        "2861954e-33bd-452b-ae4e-1c3843dd3084": {
+          "display_id": 1341,
+          "author": "pp3g-LES2-doc-task-for-issue-314-write-a-self-contained-a685",
+          "content": "Result: deliverable committed at 4cbae85 — docs/research/agent-tooling-and-permission-enforcement.md (697 lines, self-contained for external review).\n\nPOINTER: docs/research/agent-tooling-and-permission-enforcement.md\n\nContents:\n1. PURPOSE — four-role permission model (orchestrator plans/coordinates, builder implements, reviewer+auditor read-only verification), workflow-topology pre-positioned auditor (position store, staleness trigger, one-role/two-phase, readiness audit), git write discipline (commit gated on active issue; push/rebase/reset/clean/checkout/restore/stash/tag/am/apply/branch-delete blocked), model discipline (verified IDs, no free-tier for agent work).\n2. SOFTWARE STACK — opencode pp3g fork 1.18.13-pp3g-fork (verified via --version) + separate fork DB (opencode-fork-pp3g.db vs main opencode.db, #313), crosslink fork CLI v0.9.0-beta.1-59-g6221309e, the ~86-line claude bash wrapper (strict model enforcement, memory scope, CROSSLINK_AGENT_TYPE export, drops --allowedTools), rtk 0.40.0, sqlite3 stores, the three in-repo guard plugins, user-level model-whitelist plugin (~/.config/opencode/plugins/plugin.ts).\n3. ENFORCEMENT LAYERS — (a) opencode native engine reading agent .md frontmatter; (b) orchestrator-guard write blocking (#33677 gap); (c) crosslink-guard git/bash/issue enforcement (10-step priority, per-session agent tracking, by_type overrides); (d) rtk-guard fail-open rewrite; (e) hook-config.json as config source; (f) KICKOFF path: build_allowed_tools() -> --allowedTools string, separate surface from the .md blocks.\n4. WHY THIS SET — per-component table with the failure each prevents and evidence (#33677, #156 silent-hang epic, git discipline, active-issue gating, rtk token cost, model whitelist, #298 sleep grant).\n5. IDENTIFIED PROBLEM AREAS — THREE-SURFACE kickoff enforcement (hook-config allowed_bash_prefixes vs kickoff.allowed_tools vs .md block; observed: --allowedTools constructed by fork but dropped by wrapper, kickoff.allowed_tools currently UNSET in ASES); PER-TYPE ASYMMETRY (build_allowed_tools has no agent_type param — auditor-only grants not expressible without fork change); TWO-SURFACE INCONSISTENCY (.md claims 'opencode *'/'git *' but kickoff grants no opencode */sqlite3/stat/ps; concrete #313 evidence: Phase-1 auditor pp3g-dZ3X 'sqlite3 blocked by bash permission pattern (no allow rule for sqlite3)', fell back to stat-level verification); #33677 GAP requiring the custom plugin; CROSS-REPO DRIFT RISK.\n6. WHAT-NOT-TESTED / OPEN QUESTIONS — per-type allowedTools unimplemented; guard testability unaudited; rtk-guard x crosslink-guard hook ordering unmeasured; --allowedTools enforcement semantics; relaxed-mode allowlist nuance; free-tier 401 characterization; fail-open kill/pause paths.\n7. Verified-sources appendix (12 items).\n\nKey verified facts beyond the brief: kickoff.allowed_tools is NOT set in ASES hook-config.json (no 'kickoff' key); the deployed claude wrapper currently discards --allowedTools and opencode run exposes no such flag (so the fork-constructed surface is dormant in this deployment); agent tracking_mode is relaxed (allowlist not the blocking layer for agents; native .md deny is). READ-ONLY investigation — only the deliverable doc was written. Commit ref: 4cbae85.",
+          "created_at": "2026-08-09T15:55:40.462387531Z",
+          "kind": "result",
+          "signed_by": "SHA256:lluBr/C5VCnLCknLgnyVDX0i2uqY9gGAgClmiE8zBtw",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgYpeVnRCHdDi2+itj7ZAvfLkrUgwl4aIm70UTw7cqftoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAE7LkOnhzHnnGOedNnzYm3GvsuzXXT/vbMm9qmiJdHI1AcJXjnI3j18IEH99ooHZDKQML+LA43UBlQHe9tMoQAg=="
+        },
         "5f591c61-74a4-4922-bc77-a1301e4b579c": {
           "display_id": 1337,
           "author": "pp3g-ITiS-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-bc31",
@@ -17591,8 +17600,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T15:54:53.824130900Z",
+    "timestamp": "2026-08-09T15:55:40.469509679Z",
     "agent_id": "pp3g-LES2-doc-task-for-issue-314-write-a-self-contained-a685",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
