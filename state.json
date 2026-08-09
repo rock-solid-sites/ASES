@@ -1,6 +1,6 @@
 {
   "next_display_id": 315,
-  "next_comment_id": 1344,
+  "next_comment_id": 1345,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5999,7 +5999,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-09T15:46:57.221396993Z",
-      "updated_at": "2026-08-09T15:56:23.520030163Z",
+      "updated_at": "2026-08-09T15:58:27.482636982Z",
       "labels": [
         "documentation"
       ],
@@ -6021,6 +6021,15 @@
           "kind": "result",
           "signed_by": "SHA256:lluBr/C5VCnLCknLgnyVDX0i2uqY9gGAgClmiE8zBtw",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgYpeVnRCHdDi2+itj7ZAvfLkrUgwl4aIm70UTw7cqftoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAE7LkOnhzHnnGOedNnzYm3GvsuzXXT/vbMm9qmiJdHI1AcJXjnI3j18IEH99ooHZDKQML+LA43UBlQHe9tMoQAg=="
+        },
+        "469cde24-8d2e-4032-a1fe-cbb4da460e1a": {
+          "display_id": 1344,
+          "author": "pp3g-ITiS-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-bc31",
+          "content": "## Audit Verdict: CONDITIONAL PASS — Corrected Assessment\n\n### Correction to Prior Observation\nMy initial observation (15:56 UTC) was based on stale data — I checked before the builder's comments were synced. The builder DID complete the work successfully. This is the corrected assessment.\n\n### Architectural Assessment\n- [OK] — The doc accurately describes the four-role permission model with correct permission blocks for each role\n- [OK] — The three enforcement layers (agent .md, orchestrator-guard, crosslink-guard) are correctly described with accurate file references\n- [OK] — The hook-config.json values match the actual config (allowed_bash_prefixes, by_type overrides, tracking_mode)\n- [OK] — The #33677 gap description is accurate (orchestrator-guard.ts lines 33-41, BLOCKED_TOOLS set)\n- [OK] — The three-surface kickoff enforcement problem is correctly identified (hook-config vs kickoff.allowed_tools vs .md block)\n- [OK] — The per-type asymmetry claim is accurate (build_allowed_tools has no agent_type parameter, prompt.rs:429-473)\n\n### Process Assessment\n- [OK] — Builder posted plan comment, progress comments, and result comment with commit ref\n- [OK] — Builder committed with [#314] ref as required\n- [OK] — Builder wrote DONE to .kickoff-status\n- [OK] — The doc correctly lists all 12 verified sources with accurate file paths\n\n### Document Accuracy Verification\nSpot-checked key claims against canonical sources:\n- [OK] — orchestrator.md permission block matches doc description (lines 303-311)\n- [OK] — builder.md permission block matches (edit:allow, bash:allow)\n- [OK] — reviewer/auditor .md blocks match (edit:deny, bash:selective allow)\n- [OK] — orchestrator-guard.ts BLOCKED_TOOLS = {write, edit, apply_patch, filesystem_write_file, filesystem_edit_file}\n- [OK] — crosslink-guard.ts 10-step priority chain matches doc description\n- [OK] — rtk-guard.ts V1_VALIDATED = {git, ls, grep, find, diff, wc, cat}\n- [OK] — hook-config.json: 29 allowed_bash_prefixes, by_type with orchestrator/reviewer/auditor overrides\n- [OK] — prompt.rs build_allowed_tools() base list matches doc (lines 433-456)\n\n### Remaining Concerns\n- [CONCERN] — The doc notes kickoff.allowed_tools is UNSET in ASES hook-config.json (no 'kickoff' key). This is accurate but means the third enforcement surface is dormant. The doc correctly identifies this as a divergence risk.\n- [CONCERN] — The doc notes the claude wrapper drops --allowedTools. This is accurate per the wrapper source but means the fork's constructed surface has no enforcement effect.\n\n### Systemic Risks Identified\n- Risk — Three-surface divergence potential (hook-config vs kickoff vs .md) — Impact: adding a tool to one surface doesn't propagate — Recommended mitigation: Document the required surfaces and add a verification step\n- Risk — Per-type asymmetry (build_allowed_tools identical for all roles) — Impact: auditor-only grants not expressible — Recommended mitigation: Fork change to add agent_type parameter\n\n### Recommendations\n- [OK] — The doc is well-structured for external review with clear sections and evidence citations\n- [OK] — The WHAT-NOT-TESTED section correctly identifies 7 open questions\n- [OK] — The verified-sources appendix provides traceability\n\n### Verdict\nCONDITIONAL PASS — The doc is accurate and comprehensive. The two concerns (dormant kickoff surface, wrapper dropping --allowedTools) are correctly identified as problem areas in §5, not errors in the doc. The doc serves its stated purpose of describing the current state for external review.\n\n### Evidence\n- Commit 4cbae85: docs/research/agent-tooling-and-permission-enforcement.md (697 lines)\n- Builder position stream: plan at 15:52, progress at 15:52/15:54, result at 15:55, handoff at 15:56\n- All 12 verified sources confirmed against live files",
+          "created_at": "2026-08-09T15:58:27.475769776Z",
+          "kind": "observation",
+          "signed_by": "SHA256:Vz+lOSSO3dohTz/m+xmKNlyUj+X6QY07cHjK2IDAOmo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg7vFUJ0rdKu9UvFP5S+Vdvbwddnr/3c69PA70tSgeDecAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAwVbW5lwuHkenheGeC2iRy9/8e9+EUbmJts1jRcVOOqGDlAc8PhDakQDcu9eUZOKfVITQlxrIFSF3gSOpGibEBQ=="
         },
         "5f591c61-74a4-4922-bc77-a1301e4b579c": {
           "display_id": 1337,
@@ -17623,8 +17632,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T15:57:58.977113320Z",
+    "timestamp": "2026-08-09T15:58:27.482636982Z",
     "agent_id": "pp3g-ITiS-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-bc31",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
