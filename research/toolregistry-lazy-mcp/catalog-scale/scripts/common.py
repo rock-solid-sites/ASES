@@ -39,6 +39,25 @@ def versions() -> dict[str, str]:
     }
 
 
+def persistence() -> dict:
+    """Persistence config state for a run (addendum B, source-verified).
+
+    The parameter governing persistence is `persistent: bool = True` on
+    register_from_mcp / register_from_mcp_async
+    (toolregistry/_mixins/registration.py:94,167) and on
+    MCPConnectionManager.__init__ (toolregistry/integrations/mcp/
+    connection.py:37). Every run in this corpus uses the default (True): the
+    persistent connection is held lazily across calls, created on first
+    call_tool. Recorded per run so exact reconstruction cannot silently
+    drift from the config the measurements were taken under.
+    """
+    return {
+        "persistent": True,
+        "default": True,
+        "source": "toolregistry/_mixins/registration.py:94,167; toolregistry/integrations/mcp/connection.py:37 (verified against installed source)",
+    }
+
+
 def build_transport(conn_id: str, log_dir: Path) -> dict:
     """Stdio transport dict for connector `conn_id` (sync/async compatible)."""
     return {

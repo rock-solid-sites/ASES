@@ -35,6 +35,7 @@ from common import (  # noqa: E402
     clean_orphans,
     pct_line,
     parse_proxy_log,
+    persistence,
     snapshot,
     versions,
     write_json,
@@ -177,6 +178,7 @@ def run_variant(reg: ToolRegistry, conn_ids, transports, log_dir, teardown_on: b
             ),
         },
         "versions": versions(),
+        "persistence": persistence(),
         "grace_seconds": GRACE_SECONDS,
     }
     return result

@@ -32,6 +32,7 @@ from common import (  # noqa: E402
     GRACE_SECONDS,
     build_transport,
     pct_line,
+    persistence,
     snapshot,
     versions,
     write_json,
@@ -89,6 +90,7 @@ def main() -> None:
         "async_only_profile": profile_async,
         "after_sync_call_profile": profile_sync,
         "versions": versions(),
+        "persistence": persistence(),
         "grace_seconds": GRACE_SECONDS,
     }
     write_json(base / "threadcheck.json", result)

@@ -36,6 +36,7 @@ from common import (  # noqa: E402
     build_transport,
     clean_orphans,
     pct_line,
+    persistence,
     snapshot,
     versions,
     write_json,
@@ -126,6 +127,7 @@ def main() -> None:
         "resident_after_call_teardown": resident_called_after_teardown,
         "call_result": getattr(r1, "result", r1),
         "versions": versions(),
+        "persistence": persistence(),
         "grace_seconds": GRACE_SECONDS,
     }
     write_json(base / "test6.json", result)

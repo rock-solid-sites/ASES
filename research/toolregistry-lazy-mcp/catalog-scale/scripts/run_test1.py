@@ -30,6 +30,7 @@ from common import (  # noqa: E402
     connector_timings,
     count_events,
     pct_line,
+    persistence,
     scan_procs,
     snapshot,
     versions,
@@ -106,6 +107,8 @@ def run_n(n: int, base_log_dir: Path) -> dict:
         "refresh_results": refresh_results,
         "timings_sample": {cid: timings[cid] for cid in conn_ids if cid in timings},
         "grace_seconds": GRACE_SECONDS,
+        "versions": versions(),
+        "persistence": persistence(),
     }
     pct_line(f"TEST1 n={n} pass={result['pass']} backend_spawns={events['backend_spawn_start']} "
              f"proxy_starts={events['proxy_started']} resident_proxies={resident['proxy_count']} "

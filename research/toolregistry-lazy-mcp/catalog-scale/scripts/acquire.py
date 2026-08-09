@@ -38,6 +38,7 @@ from common import (  # noqa: E402
     connector_timings,
     count_events,
     pct_line,
+    persistence,
     snapshot,
     versions,
     PeakMonitor,
@@ -174,6 +175,7 @@ def run_acquisition(
         "timings_sample": {cid: timings[cid] for cid in conn_ids if cid in timings},
         "grace_seconds": GRACE_SECONDS,
         "versions": versions(),
+        "persistence": persistence(),
     }
     pct_line(
         f"RESULT label={label} n={n} order={order} teardown={'on' if teardown else 'off'} "

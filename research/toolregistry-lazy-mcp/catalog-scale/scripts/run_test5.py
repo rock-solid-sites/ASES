@@ -36,6 +36,7 @@ from common import (  # noqa: E402
     clean_orphans,
     count_events,
     pct_line,
+    persistence,
     snapshot,
     versions,
     write_json,
@@ -163,6 +164,7 @@ def test_5a(log_dir: Path) -> dict:
         "emit_result": getattr(r2, "result", r2),
         "calling_mode": "sync",
         "versions": versions(),
+        "persistence": persistence(),
         "grace_seconds": GRACE_SECONDS,
     }
     write_json(log_dir / "test5a.json", result)
@@ -239,6 +241,7 @@ def test_5b(log_dir: Path) -> dict:
         "proxy_log_events": events,
         "calling_mode": "sync",
         "versions": versions(),
+        "persistence": persistence(),
         "grace_seconds": GRACE_SECONDS,
     }
     write_json(log_dir / "test5b.json", result)
