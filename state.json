@@ -1,6 +1,6 @@
 {
   "next_display_id": 318,
-  "next_comment_id": 1370,
+  "next_comment_id": 1371,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -10550,7 +10550,7 @@
       "parent_uuid": "497dbef5-069b-4086-b9f5-f2c54953d182",
       "created_by": "OL2r",
       "created_at": "2026-08-09T17:36:01.430170611Z",
-      "updated_at": "2026-08-09T18:08:54.577701773Z",
+      "updated_at": "2026-08-09T18:09:11.972051068Z",
       "labels": [
         "review"
       ],
@@ -10599,6 +10599,15 @@
           "kind": "plan",
           "signed_by": "SHA256:97sOXcVeO6hbV5NV3sZNWLYYoCK8EiboUGWf2rj5Cgo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgII8HeKldCr78oY8jwe2ZZvBBZUmFSVacrehRqSrL0akAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsWc3Pqeltszpw7I270s0EtHCBzHUz/+aDFcDEQogEyxr+UezDP7W8EcTEL5Z9DKcx+5yBVcxEFuvM2oklXZTAA=="
+        },
+        "685af28d-b270-434c-8935-2b84a5d02710": {
+          "display_id": 1370,
+          "author": "pp3g-7zS8-read-only-adversarial-review-r2-retry-kimi-k2-7-code",
+          "content": "### SHOULD CONSIDER (non-blocking)\n- Section 2.7: User-level model cache can re-enable disabled providers. plugin.ts lines 42-65 merge models-cache.json entries without checking disabled_providers. If the cache contains openai, deepseek, cloudflare, etc., those models are re-added. The disabled-and-hidden providers claim is not robust against cache state. Consider documenting this or adding a filter.\n- Section 3.2: apply_patch tool name is unverified. The blocked tool set includes apply_patch, but the document does not verify that opencode exposes a tool by that exact lowercase name. If the actual name is applyPatch or the tool does not exist, the claim is either wrong or harmless-but-sloppy.\n- Section 3.1: Orchestrator bash pattern count ~40 is inflated. Counting literal entries in .opencode/agents/orchestrator.md yields 33 allow patterns, not about 40. Minor precision issue, but precision matters in a permission audit.\n- Section 3.3 / 3.5: Missing hook-config.local.json overlay. crosslink-guard.ts loadConfigMerged() reads .crosslink/hook-config.local.json and applies +key array extensions. The document presents .crosslink/hook-config.json as the single config source. Mention the local overlay and its implications for drift/verification.\n- Section 3.5: Duplicate/stale sentinel.default_agent.model key. hook-config.json contains both a nested sentinel.default_agent.model (opencode-go/deepseek-v4-pro) and a root-level sentinel.default_agent.model (opencode/ling-3.0-flash-free). The document only mentions the nested value. The root duplicate is either stale or an override mechanism; note or clean it up.",
+          "created_at": "2026-08-09T18:09:11.964138046Z",
+          "kind": "result",
+          "signed_by": "SHA256:rTYY4fhkDYtz6SJeo0n+sM+0Gvd3/0k1KjtJzKUGLS8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5xjAGNcgpxSjh5K/KArdIxgMLULCtBFGf6IsF2nPXyEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAuHQE7FLBbyRYYcdqM8Wl3veaMySBhbOMM0T6WJKpAik3RRDhYBm3EFRRr/u9DfZ2ZBvkoq7TsNXH4eEg+MmlCQ=="
         },
         "8bda966d-2a1c-4ce2-b2c4-a817eca53054": {
           "display_id": 1368,
@@ -17911,8 +17920,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T18:08:54.577701773Z",
+    "timestamp": "2026-08-09T18:09:11.972051068Z",
     "agent_id": "pp3g-7zS8-read-only-adversarial-review-r2-retry-kimi-k2-7-code",
-    "agent_seq": 11
+    "agent_seq": 12
   }
 }
