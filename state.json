@@ -1,6 +1,6 @@
 {
   "next_display_id": 310,
-  "next_comment_id": 1292,
+  "next_comment_id": 1293,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -13033,10 +13033,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-09T00:14:42.914478612Z",
-      "updated_at": "2026-08-09T00:15:30.510883250Z",
+      "updated_at": "2026-08-09T00:26:43.818105596Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "d2d23968-08e0-467d-895c-2f7cc21e7d80": {
+          "display_id": 1292,
+          "author": "pp3g-oda6-cleanup-issue-309-cargo-clean-crosslink-target-12g",
+          "content": "Plan: execute the operator-approved SELECTIVE cleanup + opencode.db checkpoint/VACUUM, with honest before/after evidence.\n\n**Discovery 1 — crosslink target is 100% debug, no release artifacts**: du shows target = 11,944MB, all under target/debug (deps 7,690M + incremental 3,833M + build 417M + binaries ~430M). NO target/release dir exists; .fingerprint has 0 release entries. So 'cargo clean --release' frees ~0. The approved stale-incremental prune (subdirs older than last build 08-08 08:19) removes 4 subdirs: ac10_deleted_machinery (5M), crosslink-10twfp6rz4gj8 (472M), crosslink-3c1wm1q070tvt (449M), smoke (30M) ≈ 956M. Keeping deps + current-build incremental (cli_integration, crosslink-0blo/0jl9/1xg7/3dd9) per operator instruction. The working binary is installed at ~/.cargo/bin/crosslink (26MB, Aug 8 03:31) — target cleanup cannot break it.\n\n**Discovery 2 — opencode.db WAL was 1.9GB, not 108MB** (stale figure; grew from live-agent writes since #294). TRUNCATE checkpoint ALREADY SUCCEEDED (0|0|0, WAL file 1,935,234,072B -> 0B) and VACUUM succeeded (exit 0, integrity_check ok, journal_mode wal preserved). Live agents re-grow the WAL — will do a final TRUNCATE right before the result comment.\n\n**Discovery 3 — freelist is 0**: the #294 freed pages (21,918) were REUSED by subsequent live writes (db file 2.04G -> 2.34G since #294), so no 85MB freelist reclaim is available. VACUUM repacked without shrink (freelist 0 before AND after). The real win is the WAL truncate.\n\nSTEPS: (1) cargo clean --release (approved cmd, expect ~0 freed) + remove the 4 stale incremental subdirs; measure du before/after; (2) verify crosslink --version + crosslink issue list; (3) final opencode.db TRUNCATE checkpoint + capture page_count/freelist/integrity; (4) df before/after + per-item freed to #309 with --kind result. NO row deletes, no worktree/ASES/tripn-astro/config/bin touches. No kickoff cleanup --force (#227).",
+          "created_at": "2026-08-09T00:26:43.804653355Z",
+          "kind": "plan",
+          "signed_by": "SHA256:AFLd1iP/rkOWlZJV6pDRgc5yfFG5S7yk6gTBjcTEzJ4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxQ1iMCKSX3W0QVedYHu07/iyZmT0X1MPkpYfruPXdaQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGKB0yiEUjn0qd+Dwa+hiMIK/8v0PVdWCdsNRPOY+Hi+4pE0kUcss0o5t/8mWMoYhh2bZQtkJHqQuGE30OSwkBw=="
+        }
+      }
     },
     "bdf95444-8d7f-4468-aaf7-e58a7e10f84b": {
       "uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
@@ -17165,8 +17176,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T00:22:05.400888201Z",
-    "agent_id": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 10
+    "timestamp": "2026-08-09T00:26:43.818105596Z",
+    "agent_id": "pp3g-oda6-cleanup-issue-309-cargo-clean-crosslink-target-12g",
+    "agent_seq": 2
   }
 }
