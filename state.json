@@ -1,6 +1,6 @@
 {
   "next_display_id": 312,
-  "next_comment_id": 1310,
+  "next_comment_id": 1311,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5433,12 +5433,21 @@
       "priority": "high",
       "created_by": "pp3g-jlse-validation-task-evidence-only-not-a-system-to-ship",
       "created_at": "2026-08-06T04:59:41.949299474Z",
-      "updated_at": "2026-08-08T06:28:02.234912539Z",
+      "updated_at": "2026-08-09T01:31:05.015975080Z",
       "labels": [
         "epic",
         "toolregistry"
       ],
       "comments": {
+        "b1a3a63e-d71e-41b0-b1b5-78021f505fd9": {
+          "display_id": 1310,
+          "author": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
+          "content": "Captured from catalog-scale validation (#295 settle #306): three further connector-lifecycle constraints, version-bound to toolregistry 0.15.0 / mcp 2.0.0, now documented in the umbrella doc's Connector-lifecycle constraints section (docs/research/Identifier-First Tool Calling.md):\n\n1. ORPHAN-ON-OWNER-DEATH: connector proxy+backend processes persist indefinitely when the ToolRegistry process exits without explicit close (blocked in ep_poll, stdin at EOF; mcp 2.0.0 stdio server does not terminate on bare EOF). Deliberately reproduced and committed as logs/owner-death/owner-death-lifecycle.json (catalog-scale): 3 proxies + 3 backends survived owner SIGKILL through a 5s observation interval; reclamation required explicit TERM. Implication: lifecycle policy must own explicit teardown; process death alone is not sufficient reclamation.\n\n2. list_changed CONSUMPTION GAP: ToolRegistry 0.15.0 registers no message handler and has zero list_changed code (grep-verified; SDK parses the notification at mcp_types/methods.py:217). Backend-emitted tools/list_changed is invisible to the registry — catalog unchanged, no re-list, fresh refresh returns stale static manifest. This is the invalidation half of the output-schema-drift problem.\n\n3. 1-SHARED-THREAD SYNC MODEL: all sync-mode entry points serialize through ONE process-wide AsyncRuntime daemon thread (_async_runtime.py:65,72); count is exactly 1 at every N (1-50), never grows with N. Sync API cannot be truly concurrent; 'one thread per connector' must not be assumed.\n\nRe-validation trigger #279 (upgrade check) covers these alongside the C2-gap constraints.",
+          "created_at": "2026-08-09T01:31:05.002238230Z",
+          "kind": "observation",
+          "signed_by": "SHA256:5YGswZ1VqQhMX1kv2ooYreUQqAdLtPWo8YiQ+FMknzI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLcAEc8XQBuylGyIaiBaeGtTKFiJUdqGspQDMBDK3R4MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWJ6cZ1OTuUQUWRqkRbGxJj1t5+yX0YtgqRrcnqPSijNF7tve4eaNbW3W84EygF2rqoh8WVgGHFHhNDkDqxn3Bg=="
+        },
         "cafb464e-d452-4d3a-9a35-28a40a1314a6": {
           "display_id": 1091,
           "author": "pp3g-qfOy-investigation-task-decision-ready-comparison-not-a",
@@ -17349,8 +17358,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T01:26:43.301585869Z",
+    "timestamp": "2026-08-09T01:31:05.015975080Z",
     "agent_id": "pp3g-VAPd-validation-task-evidence-only-measurement-not-a-9948",
-    "agent_seq": 37
+    "agent_seq": 38
   }
 }
