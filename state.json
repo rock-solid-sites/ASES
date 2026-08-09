@@ -1,5 +1,5 @@
 {
-  "next_display_id": 325,
+  "next_display_id": 326,
   "next_comment_id": 1431,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -232,6 +232,7 @@
     "b0c04e1a-7efb-4f8c-890f-8cb33f6ed176": 29,
     "b1cfb0dd-a42b-4702-9500-73c36ffa31e9": 28,
     "b22a89ff-e016-4eab-9282-4e69d8ca729f": 217,
+    "b32b59a8-d6d9-4dd2-bc67-eda3507bc8f9": 325,
     "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9": 68,
     "b5320c43-7f7c-4d63-9e4c-503c7bde417d": 117,
     "b5fb9123-caba-43fb-b827-e7009cd785b9": 209,
@@ -13705,6 +13706,18 @@
         }
       }
     },
+    "b32b59a8-d6d9-4dd2-bc67-eda3507bc8f9": {
+      "uuid": "b32b59a8-d6d9-4dd2-bc67-eda3507bc8f9",
+      "display_id": 325,
+      "title": "FIX: correct review-inbox split — all original-doc reviews (8) in one file, all reviewed-doc reviews (3 local + 5 external slots) in the other",
+      "description": "Evidence-base correction. CURRENT (wrong): agent-tooling-and-permission-enforcement-reviews.md Reviews 6-8 hold the ARCHITECTURE reviews #321/#322/#323 (which assessed the REVIEWED doc); the reviewed-doc template agent-tooling-and-permission-enforcement-reviewed-reviews.md has 5 empty slots and no local reviews. TARGET: Document A (agent-tooling-and-permission-enforcement-reviews.md) = all 8 reviews of the ORIGINAL doc — Reviews 1-5 external (ChatGPT/Sonnet5/GLM/Deepseek/Qwen, already present, untouched) + Reviews 6-8 = first-wave internal reviews #315 (luna) / #317 (kimi) / #316 (hy3) of the ORIGINAL doc. Document B (agent-tooling-and-permission-enforcement-reviewed-reviews.md) = reviews of the REVIEWED doc — Reviews 1-3 = architecture reviews #321 (luna) / #322 (kimi) / #323 (hy3), Reviews 4-8 = 5 empty paste slots for the operator's external reviews. Four-backtick fences everywhere. READ-ONLY investigation of issues; write only the two doc files. Ref: #320/#324.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "af271565-c0d9-47bf-8888-339979ae59ee",
+      "created_by": "OL2r",
+      "created_at": "2026-08-09T21:14:31.609163074Z",
+      "updated_at": "2026-08-09T21:14:31.609163074Z"
+    },
     "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9": {
       "uuid": "b4fddf86-d5cc-4fa1-ad8c-064d0ad2bbd9",
       "display_id": 68,
@@ -18580,8 +18593,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T21:05:22.180332975Z",
-    "agent_id": "pp3g-OLap-small-mechanical-task-for-issue-323-and-324-hy3-s-1880",
-    "agent_seq": 8
+    "timestamp": "2026-08-09T21:14:31.609163074Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1583
   }
 }
