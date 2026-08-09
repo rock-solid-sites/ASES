@@ -1,6 +1,6 @@
 {
   "next_display_id": 310,
-  "next_comment_id": 1291,
+  "next_comment_id": 1292,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -5278,7 +5278,7 @@
       "parent_uuid": "ca7fd957-478b-49ae-b1c9-82419155a671",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:49:38.660934054Z",
-      "updated_at": "2026-08-09T00:21:04.201445727Z",
+      "updated_at": "2026-08-09T00:22:05.400888201Z",
       "labels": [
         "audit"
       ],
@@ -5345,6 +5345,15 @@
           "kind": "observation",
           "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAC4p/nLDMLdACse7oNGKVgyGc+PLhTkKPjlWDr76J3JP7Aq/7y8hMZ33/VNo+nxsdoG5RwwNeT3L6qU9uUrhtCA=="
+        },
+        "fcd51521-ea10-4250-8680-bcb5d94b2571": {
+          "display_id": 1291,
+          "author": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
+          "content": "Phase-1 pre-positioned AUDITOR (in-flight divergence verifier) for #306 settle task. Verdict CONDITIONAL PASS (in-flight status, not completion sign-off).\n\nOUTCOME: trigger fired PRE-EMPTIVELY (T2 position-vs-artifact class) before the Builder committed to expensive work. Independent re-derivation over commit 00eda4b3 showed the #306 brief premise was partly false. Two divergence reports posted (23:58, 00:04); Orchestrator issued scope corrections at 00:05 and 00:11 explicitly citing #307. Wasteful Test-2 re-run and the 45min+ full-corpus path were both avoided.\n\nKEY FINDINGS: D1 Test 2 already compliant (brief wrong); D2 real gap was 5 Test-1 files not 7; D3 NEW gap missed by all four Phase-2 auditors — report.md s10 also falsely claims teardown in every JSON (absent 9/33); D4 persistence 0/33, stated goal unreachable by stated scope; D5 cost/mixed-state exposure. Root cause isolated: Test 1's inline result dict in run_test1.py drifted from the shared acquire.py contract, so a bare re-run would have been a no-op.\n\nVERIFIED: C1 code-then-run PASS (common.py persistence() helper + run_test1.py diff, genuine harness fix not hand-edit). C3 measurement invariance PASS on n1/n5/n10/n20 — backend_spawn_count 0, resident_after 0/0, proxy_started 2N, pass true; only load-sensitive timings moved. C4 PASS Test 2 untouched. C2 in flight (n50 regenerating, sweep advancing, no staleness call).\n\nOPEN FOR PHASE 2: n50 completion; owner-death log NOT yet executed; report.md s10 prose fix not started; umbrella/#212 capture not started; no commit yet (HEAD still 00eda4b3).\n\nTOP UNRESOLVED RISKS: (1) run_owner_death.py observes 5.0s but report.md claims '15+ minutes/indefinitely' — committing it leaves the headline claim unevidenced and reopenable; (2) owner-death scan_procs() will capture/kill Test 1 proxies if run concurrently — strict sequencing required; (3) unrelated .opencode/agents/orchestrator.md change in the VAPd tree risks being swept into the #306 commit.\n\nSYSTEMIC: audit findings propagated into a work brief without re-derivation; universal completeness claims ('every result JSON') invite reopening; evidence-free findings inherit credibility from validated reports around them.\n\nRead-only throughout: nothing fixed, nothing dispatched, no files written. Full report + all contracts on #307 as --kind result.",
+          "created_at": "2026-08-09T00:22:05.384777460Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:6ZPwTCZQHAb9Qax0xz1itWQ6xCXo1ObYVllketlOttI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCxhkcS34GTA3SE3Wh3eOxZFJgHrcgCJkQgM14YK6bbgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANi3rJTP2AA3h9KNjODs4pDunnADbtzZGWZ1sI8C2CBaowjFLFr8YilcMXNUy15Bc0hzjwoqmfU0MmrUFjyJrCw=="
         }
       }
     },
@@ -17156,8 +17165,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T00:21:55.906564099Z",
+    "timestamp": "2026-08-09T00:22:05.400888201Z",
     "agent_id": "pp3g-FrFi-phase-1-pre-positioned-auditor-in-flight-divergence",
-    "agent_seq": 9
+    "agent_seq": 10
   }
 }
