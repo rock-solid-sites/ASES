@@ -1,6 +1,6 @@
 {
   "next_display_id": 314,
-  "next_comment_id": 1322,
+  "next_comment_id": 1323,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -1629,7 +1629,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-09T13:51:06.321390072Z",
-      "updated_at": "2026-08-09T14:20:08.654136678Z",
+      "updated_at": "2026-08-09T14:29:40.041674081Z",
       "labels": [
         "housekeeping"
       ],
@@ -1651,6 +1651,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAgIj0hNkd4XtwGpG2hiRtf2GWE2+sQnsmLCIzJRbeuskPt3ciC4aJStEyHGgjkmDEKYCAnnoUy1SrwY4k4XzgBg=="
+        },
+        "d18f0458-496c-45e6-be25-35b8776f78a7": {
+          "display_id": 1322,
+          "author": "pp3g-P9z2-read-only-db-audit-for-issue-313-crosslink-session-23",
+          "content": "Plan (builder, session 23): READ-ONLY audit, no writes. Files confirmed: FORK opencode-fork-pp3g.db 1,142,870,016 B + WAL 104,598,592 B (mtime 14:29 = LIVE), MAIN opencode.db 2,598,903,808 B + WAL 9,286,512 B, plus opencode-local.db 1,081,344 B. Steps: (1) .tables/.schema diff on both DBs; (2) row-count inventory incl. 'Say hi.' by title, by model, by project dir, min/max created; (3) per-table size via sum(length())+pg sizes, WAL stats; (4) session-store-split mechanism (config/env/dbname) — investigate only; (5) write prune/vacuum plan as --kind result. All sqlite via 'file:...?mode=ro' only.",
+          "created_at": "2026-08-09T14:29:40.034860294Z",
+          "kind": "plan",
+          "signed_by": "SHA256:QIpL7s0ZZ3NomkRchyZGKj1MYLta8icUBS0ESERcS28",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgAoXY/xDz2lySkQeeF/Wd4skDBzgq6CQxalZ7k0cSzxIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAc3HHt6jySrmksP1LZOBnaFAKBohVZ2KORQ5Fsg+SYxT7Cx3aYtcAXDcaL5qf41mOrrCmoThzrbYw7YbaQVWeDA=="
         }
       }
     },
@@ -17408,8 +17417,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T14:29:07.496976277Z",
+    "timestamp": "2026-08-09T14:29:40.041674081Z",
     "agent_id": "pp3g-P9z2-read-only-db-audit-for-issue-313-crosslink-session-23",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
