@@ -1,6 +1,6 @@
 {
   "next_display_id": 324,
-  "next_comment_id": 1415,
+  "next_comment_id": 1416,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -18263,7 +18263,7 @@
       "parent_uuid": "af271565-c0d9-47bf-8888-339979ae59ee",
       "created_by": "OL2r",
       "created_at": "2026-08-09T20:47:17.604737966Z",
-      "updated_at": "2026-08-09T20:50:41.004906825Z",
+      "updated_at": "2026-08-09T20:51:18.106571872Z",
       "labels": [
         "review"
       ],
@@ -18285,6 +18285,15 @@
           "kind": "observation",
           "signed_by": "SHA256:/tVm6nJWhAhLlyRLLIA1Q7LatziAr9RR0zkCISHnD4U",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgT30RRPf+Oquo+DOxlYF6oMJcLap44nKPHsHB6W3uoxoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoq6bwbU/XQh9fxWofnVqAReTNKjLKxrUJhy5of8o9ec+UsBSHO0UIzNi7f6at5Q/RidRo4M12At8eTzkCjMACg=="
+        },
+        "5d546a3f-602f-4158-913c-e5379c40c46d": {
+          "display_id": 1415,
+          "author": "pp3g-THlo-read-only-architecture-review-r1-luna-for-issue-321",
+          "content": "## Review Summary: CHANGES REQUESTED\n\nI would **not carry on with the current enforcement plan**. I would retain the goal, but refactor the security boundary before adding more deny-list rules. The document itself shows that the advertised read-only property is not established and that the enforcement plane is mutable by the Builder.\n\n### MUST FIX (blocking)\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:502-516` — The corrected resolution says Reviewer/Auditor are only direct-write-tool-denied, while broad `git *`, `opencode *`, `crosslink *`, and finite blocklists leave indirect mutation and delegation paths open. This invalidates “read-only by construction” as an architectural contract. Replace the broad shell authority with a deny-by-default, role-specific capability boundary; do not try to close this solely with more prefix blocklist entries.\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:921-945` — Builder can modify live hook configuration, the active-issue sentinel, and guard plugins. A mutable trust root cannot enforce the Builder/non-Builder separation. Put policy and authorization state outside Builder-writable paths (for example a separate privileged controller plus immutable/read-only mounts or equivalent OS/container isolation).\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:851-868` — Unresolved identity falls back to `builder`, and the two guards resolve identity inconsistently. This is a privilege-escalation failure mode. Make identity resolution fail closed before any security-sensitive tool call, and bind authorization to an authenticated launch/session identity rather than event-order-dependent fallback.\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:695-724` — The MCP guard blocks observed write/edit names but omits the inferred directory/move mutation tools, while the filesystem server is rooted at the main repository. Complete enumeration and deny-by-default MCP capabilities are required before claiming structural protection.\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:576-606` — `--allowedTools` is dead on the local path but active/unknown on the container path, and its generated list is identical across roles. Remove the unsupported control or implement and verify one canonical, per-role enforcement path; never leave a security-looking dormant path.\n\n### SHOULD CONSIDER (non-blocking)\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1197-1216` — Decide and state whether the threat is accidental error or a compromised/misaligned agent. Without that decision, “structural enforcement” has no testable security target.\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1363-1416` — Use the listed MUST-FIX items as a gate, but prioritize boundary redesign over count corrections and documentation cleanup. The document correctly identifies count errors, `--auto`, allow-fast-path semantics, deployment drift, and missing tests; these are evidence that the current multi-layer arrangement is difficult to reason about, not just a collection of isolated defects.\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1426-1511` — Turn the proposed invariants into adversarial tests, especially indirect writes, delegation, identity failure, git ref/config mutation, hook composition, sentinel trust, and log integrity.\n\n### NITS (optional)\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1300-1326` — The consensus matrix has attribution/count caveats that make it harder to use as a decision artifact; separate measured facts, source-derived inferences, and reviewer opinions into distinct tables.\n\n### NOTABLE POSITIVES\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:26-55` — The document is unusually transparent about scope and evidence.\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:502-534` — It correctly retracts the strongest read-only claim and clearly records untested bypasses rather than presenting capability inference as a runtime demonstration.\n- `docs/research/agent-tooling-and-permission-enforcement-reviewed.md:1515-1599` — The consolidated WHAT-NOT-TESTED list and open questions provide a strong basis for a threat-model-led redesign.\n\n**Recommendation:** pause incremental permission-list work; define the threat model and security invariants, then implement one trusted, deny-by-default capability boundary for non-builder roles, with immutable policy state and deployment-pinned verification. Resume the plan only after the boundary passes the adversarial tests documented here.",
+          "created_at": "2026-08-09T20:51:18.091241791Z",
+          "kind": "result",
+          "signed_by": "SHA256:/tVm6nJWhAhLlyRLLIA1Q7LatziAr9RR0zkCISHnD4U",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgT30RRPf+Oquo+DOxlYF6oMJcLap44nKPHsHB6W3uoxoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQJExZ7h6Ol0jJi8xkYGURM3OqZIn3UtI9HpEOrllXZVdbVV1OvEHfSIKca61YbRyZ2juptGmx7u7r/BT+eOFCQ=="
         },
         "c26c27f7-5e55-426c-8241-8cbc10c48d16": {
           "display_id": 1409,
@@ -18425,8 +18434,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T20:51:02.303124243Z",
-    "agent_id": "pp3g-zsCG-read-only-architecture-review-r2-kimi-k2-7-code-for",
-    "agent_seq": 3
+    "timestamp": "2026-08-09T20:51:18.106571872Z",
+    "agent_id": "pp3g-THlo-read-only-architecture-review-r1-luna-for-issue-321",
+    "agent_seq": 5
   }
 }
