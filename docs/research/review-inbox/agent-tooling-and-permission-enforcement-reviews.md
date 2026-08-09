@@ -2013,5 +2013,32 @@ hy3
 ### Review
 
 ````
-(hy3 review pending - paste when available)
+## Review Summary: DO NOT carry on as-is — keep content, refactor document architecture
+
+**Recommendation: Do NOT carry on with the current plan as-is. Recommend a moderate-to-substantial refactor of the document's architecture — but keep the content. The single merged-successor structure is the weak point; the verification discipline and resolutions are strong and should be preserved.**
+
+### WHY
+The document assigns itself two incompatible jobs and tries to do both in one 1737-line file: (1) be the external-reviewable system description, and (2) be the review-resolution record (fold in 8 reviews, adjudicate 12 contested claims). These pull opposite ways. A system description wants a clean narrative; the review record wants attribution and contested-claim detail. Interleaving CORRECTED flags into section 2 makes the description unclean; burying resolutions inside 12 FINDINGS-heavy sections makes the verdict hard to find.
+
+Additional problems: (a) self-containment is only partial — the #33677 gap is never defined inline, and external docs are cited as authority for a zero-context reader; (b) the document exhibits the very nine-config-locations problem it criticizes — the 49 bash prefixes / 21 git commands / 34 patterns are listed in four places that drift independently; (c) internal inconsistencies: claim (c) says luna did not flag the version conflation while the section 4 matrix lists luna Y; claim (d) frames kimi's MCP finding as refuted when only its mechanism (tool names) was wrong while its conclusion (MCP leg open) was confirmed; (d) the document identifies the missing adversary model as the core unfalsifiability but resolves claims as if the adversary is a mistaken agent without stating that as policy.
+
+### WHAT (keep content, change structure)
+1. Split the two jobs: keep the original as the system description with corrections in a trailing CORRIGENDA; put the 12-claim adjudication + consensus + invariants + what-not-tested in a separate review-resolution document.
+2. Lead with resolution: each claim opens with RESOLUTION + WHY + WHAT-NOT-TESTED; attribution moves to a secondary block or appendix.
+3. State the resolution policy explicitly: adopt mistaken-agent vs misaligned-agent framing in section 1 and resolve all claims under it.
+4. Close self-containment gaps: define #33677 inline; quote facts instead of citing external docs; resolve or flag the mode-primary-vs-subagent contradiction.
+5. De-duplicate inventories: one canonical inventory; narrative references it by line.
+6. Fix the internal contradictions (luna Y vs did-not-flag; kimi refuted vs confirmed).
+If a single merged document is required: reorder to put resolution summary first, add adversary-model framing, fix contradictions, cut inline config duplication.
+
+### HOW CERTAIN
+Evidence-based, high confidence on the architectural critique — rests entirely on the document's own text (full 1737-line read). Did not re-verify technical claims against live sources (task constraint: read the document ONLY).
+
+### WHAT-NOT-TESTED
+Could not run crosslink to post the result (bash-deny rule; verified by two failed attempts). Did not open the underlying config/plugin files, the original, or the other reviews (per task constraint) — assessment of the document as an artifact, not re-verification of technical claims. Did not execute any claimed bypasses.
+
+### NOTABLE POSITIVES
+The CLAIM/FINDINGS/RESOLUTION/WHY/WHAT-NOT-TESTED structure is exactly the project's reasoning-certainty discipline. Consistent propagation of (unverified)/source-derived/runtime-observed distinctions. The verified-sources appendix + 5-minute check script is a strong reproducibility asset. The consensus matrix and MUST-FIX/SHOULD-CONSIDER consolidation are genuinely useful. Section 5 invariants translate reviews into a forward-looking security argument.
+
+**Bottom line:** the research is sound and should be carried forward; the packaging (one merged successor that is simultaneously spec + review + resolution) should be refactored before this is treated as the canonical external-reviewable record.
 ````
