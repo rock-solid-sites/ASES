@@ -1,6 +1,6 @@
 {
   "next_display_id": 313,
-  "next_comment_id": 1319,
+  "next_comment_id": 1320,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -14532,7 +14532,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:31:54.744480157Z",
-      "updated_at": "2026-08-09T01:48:48.203146180Z",
+      "updated_at": "2026-08-09T13:32:43.765075254Z",
       "labels": [
         "audit"
       ],
@@ -14617,6 +14617,15 @@
           "kind": "observation",
           "signed_by": "SHA256:OhPwazIk1hD9yUOTHvFD/Lw23WTyz0l+cp5PGmLQyHo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoUwhB5gTHJ/UsByhFb4sDgaCOOf4EGdso7kbxHST9YcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQutfqGwO898xOwaynipOmfobj4vPg2+hxK4mCwLn8sF1hAyBSFAKxwKBjHFaA7qNxCdAJlgSq/5fDYDakpGhDg=="
+        },
+        "8290be9b-63dd-4e4a-83b1-8204311f948d": {
+          "display_id": 1319,
+          "author": "OL2r",
+          "content": "SESSION END (2026-08-09, post-crash restart). Session #22 ended manually after the opencode TUI crashed under CPU/memory pressure (load was 5.6+, opencode fork TUI at 56% CPU for 9h, two duplicate #412 kickoff builders at 84%+13%). Operator killed all tmux panes and restarted fresh (session 'ASES'). STATE AT END: machine recovered (load 0.63, mem 1.9/7.7Gi). Open findings carried to new session: (1) /sessions shows only fork-DB (opencode-fork-pp3g.db, 1.13GB) which is flooded with 1,731 'Say hi.' hang-model test sessions from #270/#273/#274 verification; real history (41,488 sessions, 31,072 ASES hits) lives in main opencode.db (2.6GB) which the fork binary does not read — root cause of 'sessions gone' report; (2) ~/.claude/sessions empty, ~/.claude/projects/-home-claude-code-projects-ASES missing; (3) 22 stale locks to release; (4) orphaned processes: 3 python http.servers (8123/8125/8126), /tmp/opencode/dv-poll.sh, 2 sleep watchers; (5) #304 auditor verdict still outstanding; (6) repo main ahead 11, CHANGELOG.md + .last-hydrated-ref modified, .worktrees/ untracked. NEXT: fresh session for housekeeping + investigation.",
+          "created_at": "2026-08-09T13:32:43.758690307Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAJsN7PYQZ+40J+3/XCr8NxrJMPgPcfTHMjPAt462JGnOxs/RrnYSPathiu79JeLJWJbec9CFG9+iXDcVxJmdAQ=="
         },
         "b3fb08cb-7e95-430d-a20f-9dcf89d7ff83": {
           "display_id": 1238,
@@ -17444,8 +17453,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T13:32:36.361479639Z",
+    "timestamp": "2026-08-09T13:32:43.765075254Z",
     "agent_id": "OL2r",
-    "agent_seq": 1505
+    "agent_seq": 1506
   }
 }
