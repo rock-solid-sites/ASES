@@ -1,6 +1,6 @@
 {
   "next_display_id": 318,
-  "next_comment_id": 1369,
+  "next_comment_id": 1370,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
@@ -10550,7 +10550,7 @@
       "parent_uuid": "497dbef5-069b-4086-b9f5-f2c54953d182",
       "created_by": "OL2r",
       "created_at": "2026-08-09T17:36:01.430170611Z",
-      "updated_at": "2026-08-09T18:08:14.241078771Z",
+      "updated_at": "2026-08-09T18:08:54.577701773Z",
       "labels": [
         "review"
       ],
@@ -10617,6 +10617,15 @@
           "kind": "result",
           "signed_by": "SHA256:rTYY4fhkDYtz6SJeo0n+sM+0Gvd3/0k1KjtJzKUGLS8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5xjAGNcgpxSjh5K/KArdIxgMLULCtBFGf6IsF2nPXyEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAnDKhHYMo1Zz2vDITorH4hxLn/hEdoDxmxqtaY7ox320a7fXpqEn0g/N4KsRuyLOELAgJdP1dlFtTtSHHxCbvDg=="
+        },
+        "bb7b3ae7-108b-4f34-851c-5c8d0f522076": {
+          "display_id": 1369,
+          "author": "pp3g-7zS8-read-only-adversarial-review-r2-retry-kimi-k2-7-code",
+          "content": "- Section 2.3 / 5.1: --allowedTools no-enforcement claim is overbroad. The document correctly notes the host wrapper drops --allowedTools for local tmux launches. But launch.rs lines 1023-1026 pass --allowedTools directly to the claude binary inside Docker/Podman containers without the host wrapper in the way. If the container image ships a real Claude Code binary or a wrapper that forwards it, the tool surface is enforced there. Fix: qualify the claim by launch path and container image behavior.\n- Section 3.2 vs 3.3: orchestrator-guard lacks the CROSSLINK_AGENT_TYPE env fallback that crosslink-guard uses. crosslink-guard resolves agent type via runtimeAgentBySession, then CROSSLINK_AGENT_TYPE env, then hook-config agent.type. orchestrator-guard only uses agentBySession and falls back to currentAgent, never the env. If a kickoff session's chat.params event is delayed or lost, a builder's write could be incorrectly blocked. Fix: align orchestrator-guard resolution with crosslink-guard or document the inconsistency.",
+          "created_at": "2026-08-09T18:08:54.568244610Z",
+          "kind": "result",
+          "signed_by": "SHA256:rTYY4fhkDYtz6SJeo0n+sM+0Gvd3/0k1KjtJzKUGLS8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5xjAGNcgpxSjh5K/KArdIxgMLULCtBFGf6IsF2nPXyEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAk6tH9skforr+uJ/wls+9atrUQi9wZ+wKM26NAk5IiBfd4Lksy8Hi1YUbTp9Gt68lz4qY7Ai/fk6Jw0vnyR+WAw=="
         },
         "ddb16f81-9242-4822-89a2-3be648d1aced": {
           "display_id": 1365,
@@ -17902,8 +17911,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T18:08:14.241078771Z",
+    "timestamp": "2026-08-09T18:08:54.577701773Z",
     "agent_id": "pp3g-7zS8-read-only-adversarial-review-r2-retry-kimi-k2-7-code",
-    "agent_seq": 10
+    "agent_seq": 11
   }
 }
