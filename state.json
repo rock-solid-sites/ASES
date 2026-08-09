@@ -1,5 +1,5 @@
 {
-  "next_display_id": 314,
+  "next_display_id": 315,
   "next_comment_id": 1336,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -100,6 +100,7 @@
     "488a28ca-5050-49e2-a039-8af51eafefa1": 189,
     "48b953c8-85fa-42ed-886a-b1786271d270": 251,
     "49266c99-4085-4339-bf60-348c92add444": 299,
+    "497dbef5-069b-4086-b9f5-f2c54953d182": 314,
     "4b44cd8c-cd37-49fb-a645-0469be2fc61f": 127,
     "4b7e8889-cb57-44de-ae8b-0ce0c26b0a26": 266,
     "4d2ae734-1b40-41a5-899e-baacb300cd22": 42,
@@ -5974,6 +5975,17 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbqNUl2DRFUC4HFd7UeMGWePiPjIHsXIxnoRNVkc9JD8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABATXQSy4tnzexTyUzn1qcko97pHuEOV0Tumb2U4Badmg9P479VNS79y/b8h9SSG9jv4c8YygHNcwi/HmkCq2jVAA=="
         }
       }
+    },
+    "497dbef5-069b-4086-b9f5-f2c54953d182": {
+      "uuid": "497dbef5-069b-4086-b9f5-f2c54953d182",
+      "display_id": 314,
+      "title": "DOC: agent tooling & permission enforcement — current state write-up for external review",
+      "description": "DESCRIPTION: Write a self-contained markdown document describing the current agent tooling / permission-enforcement system in ASES, for external review (to be sent to models inside and outside this environment). Scope: (1) what software we use (opencode + the pp3g fork, the crosslink fork CLI, the claude wrapper, rtk, sqlite3, the three in-repo guard plugins, user-level model-whitelist plugin); (2) what we are trying to do (four-role permission model — orchestrator/builder/reviewer/auditor — with a deliberately read-only reviewer+auditor, workflow-topology pre-positioned auditor, git write discipline gated on active issues); (3) why this specific set of tools/plugins (each layer's job and the failure it prevents: #33677 edit:deny gap, git push/rebase discipline, active-issue gating, token-saving rtk rewrite, model whitelist); (4) the identified problem areas: THREE-SURFACE kickoff enforcement (hook-config allowed_bash_prefixes vs kickoff.allowed_tools vs agent .md permission block), per-type asymmetry (build_allowed_tools is identical for all agent types — auditor-only grants not expressible), two-surface inconsistency (agent .md says 'opencode *' but kickoff template grants less), #33677 gap requiring orchestrator-guard. Canonical sources to verify against: .opencode/opencode.json, .opencode/agents/*.md, .opencode/plugins/*.ts, .crosslink/hook-config.json, /home/claude-code/projects/crosslink/crosslink/src/commands/kickoff/{prompt.rs,helpers.rs,launch.rs}, ~/.config/opencode/plugins/plugin.ts. Deliverable: docs/research/agent-tooling-and-permission-enforcement.md (proposed path; builder may adjust per repo conventions). READ-ONLY investigation of sources; write only the deliverable doc. Ref: workflow-topology design record docs/research/Workflow Topology Design and Reasoning Record.md, #156 epic, #298 (sleep grant precedent), #313 findings.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-09T15:46:57.221396993Z",
+      "updated_at": "2026-08-09T15:46:57.221396993Z"
     },
     "4b44cd8c-cd37-49fb-a645-0469be2fc61f": {
       "uuid": "4b44cd8c-cd37-49fb-a645-0469be2fc61f",
@@ -17529,8 +17541,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T15:03:35.484506955Z",
-    "agent_id": "pp3g-dZ3X-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-31b9",
-    "agent_seq": 7
+    "timestamp": "2026-08-09T15:46:57.221396993Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1556
   }
 }
