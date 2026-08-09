@@ -5,9 +5,9 @@ sources:
   - url: "https://github.com/anomalyco/opencode"
     title: ""
     accessed_at: "2026-08-06"
-contributors: ["pp3g-nHSI-resume-phase-2-154-durable-fork-build-task-on-issue"]
+contributors: ["pp3g-nHSI-resume-phase-2-154-durable-fork-build-task-on-issue", "pp3g-AMm2-hardening-issue-274-high-value-enforce-upgrade-ffb9"]
 created: 2026-08-06
-updated: 2026-08-06
+updated: 2026-08-09
 ---
 
 # opencode Fork (durable silent-hang fix, gh#154)
@@ -30,6 +30,12 @@ the upgrade-survival invariant.
   `fork/patches/opencode-fork-v1.18.13-pp3g.patch`, `fork/tests/`,
   `fork/harness/`. The patch applies cleanly to pristine v1.18.13
   (verified with `patch --dry-run`).
+- INSTALLED (2026-08-08): fork binary LIVE at
+  `/home/claude-code/.nvm/versions/node/v22.22.3/lib/node_modules/opencode-ai/bin/opencode.exe`
+  (sha256 `3872f6ef7fa0246dde0f2691f72750679655ceaf3224c7cfe05b220621f803d5`,
+  148,449,408 B, `--version` = `1.18.13-pp3g-fork`). Pre-fork stock binary
+  preserved in place as `opencode.exe.stock-20260808-234726` and in
+  `~/.local/share/opencode/fork-backups/20260808-233133/`.
 
 ## What the fork changes (patches A-E + Patch D MAJOR)
 
@@ -77,17 +83,37 @@ Use these to tell a fork binary from upstream:
 - `opencode --version` reports `1.18.13-pp3g-fork` (vs upstream `1.18.13`).
 - The binary contains the marker strings: `Body read timed out`,
   `Body read deadline exceeded`, `Turn stalled`, `retry budget exhausted`
-  (grep the binary: each present in the compiled output).
+  (grep the binary: each present in the compiled output). On the installed
+  fork: `grep -c 'Body read timed out'` = **2**, `grep -c 'Turn stalled'` =
+  **1** (verified 2026-08-08).
 - Runtime log markers: `WARN ... "retry"` per attempt, terminal
   `WARN "retry budget exhausted"`, `ERROR ... Body read timed out`,
   `ERROR ... Turn stalled`.
 
-Drift check (operator, after any opencode upgrade):
-`grep -c "if(false)return" $(which opencode)` — this detects the EPHEMERAL
-stopgap byte patch (#145/#179), not the fork. The fork-specific check is
-`opencode --version` containing `-pp3g-fork` AND the marker strings above.
-If the installed binary reports plain `1.18.13` without markers, the upgrade
-has replaced the fork — re-apply the fork build (below).
+### Enforced wrapper guard (gh#274, live 2026-08-09)
+
+`~/.local/bin/opencode` is a wrapper that execs the fork binary at the
+resolved `REAL` path. Since 2026-08-09 it FAILS CLOSED on fork drift:
+before exec it verifies the resolved binary is the fork:
+
+1. `grep -ac 'Body read timed out' "$REAL"` — expect count >= **2**
+   (fast, ~0.8s).
+2. If the marker count < 2, fall back to `"$REAL" --version` — the
+   resolved binary passes only if the version string contains `fork`
+   (protects a future rebuild that renames marker strings).
+
+If BOTH fail, the wrapper prints a loud `FATAL: opencode fork identity
+check FAILED — refusing to exec.` banner to stderr and exits 1 WITHOUT
+exec'ing. A silent upgrade/config loss therefore cannot silently replace
+the fork with stock opencode: the guard trips loudly instead. Verified
+2026-08-09: stock binary (`--version` 1.18.13, marker count 0) -> FATAL
+exit 1; nonexistent path -> FATAL exit 1; live fork -> exec, exit 0.
+Backup of the pre-guard wrapper: `~/.local/bin/opencode.pre-guard-20260809`.
+
+Operator drift check (manual, after any opencode upgrade):
+`opencode --version` must report `-pp3g-fork` AND the binary markers above
+must be present. `grep -c "if(false)return" $(which opencode)` detects the
+EPHEMERAL stopgap byte patch (#145/#179), not the fork.
 
 ## Build / replace / rollback
 
@@ -116,18 +142,26 @@ Rollback: restore the backup with the same atomic mv pattern; verify
 `--version` returns the pre-fork value and the stopgap byte patch markers
 (`if(false)return` x2) are present again.
 
-## Upgrade-survival invariant
+## Upgrade-survival invariant (ENFORCED, not procedural)
 
-The fork must survive opencode self-upgrades. Requirements:
+The fork must survive opencode self-upgrades. This is now enforced at the
+wrapper, not just documented:
 
 - `~/.config/opencode/opencode.json` sets `"autoupdate": false`
-  (already applied by #179 stopgap) so opencode does not overwrite the
-  binary on its own.
-- Any manual upgrade MUST be followed by the drift check above, and the
-  fork build re-applied if the installed binary no longer reports
+  (applied by #179 stopgap; verified present 2026-08-09) so opencode does
+  not overwrite the binary on its own. **This is only a config
+  short-circuit** — it does not protect against a manual upgrade, config
+  loss, or reinstall.
+- `~/.local/bin/opencode` (the wrapper on PATH) runs the fork-identity
+  drift check above BEFORE exec and REFUSES to exec if the resolved binary
+  is not the fork (gh#274). This is the enforcement layer: a silent
+  replacement cannot pass unnoticed.
+- Any manual upgrade MUST still be followed by the drift check above, and
+  the fork build re-applied if the installed binary no longer reports
   `-pp3g-fork`.
-- The interim #179 stopgap byte patch stays in place until the fork binary
-  is verified; it is the recovery net if the fork is reverted.
+- Recovery if the guard trips: re-apply the fork build (below), or restore
+  the fork backup and re-verify markers + `--version`; see also the wrapper
+  FATAL banner for the exact restore steps.
 
 ## Verification harness
 
@@ -149,8 +183,12 @@ fork source with bun 1.3.14.
 
 ## Known status / caveats
 
-The matrix is run against the PRESERVED binary
-(`/tmp/opencode/fork-build/packages/opencode/dist/.../opencode`, mtime
-2026-08-06 01:46, 148 MB). Full 16-row results are posted on the resume
-sub-issue (#205/#209). The stopgap #179 byte patch remains in place until
-the fork is verified and installed with operator approval.
+- INSTALLED + VERIFIED live (2026-08-08, #270 3B/3C): installed-binary
+  hang gate row1 8/8 PASS (`Body read timed out` + exit 1 not 124 + 3-POST
+  budget), healthy regression PASS. Full 16-row matrix green 67/67 vs the
+  rebuilt binary (sha 3872f6ef) on #270.
+- Wrapper guard live 2026-08-09 (gh#274); drift simulations trip loudly
+  (stock / missing path), live fork path passes.
+- The interim #179 stopgap byte patch has been superseded by the installed
+  fork; the preserved stock binary (with the stopgap byte patch) remains
+  as the rollback target.
