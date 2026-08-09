@@ -1,0 +1,93 @@
+{
+  "test": "owner-death-lifecycle",
+  "purpose": "mcp 2.0.0 stdio connectors orphan on owner death without explicit close (lifecycle finding, report.md Section 9 item 3)",
+  "n": 3,
+  "owner_pid": 3074457,
+  "spawned_proxies": [
+    3075592,
+    3075756,
+    3075989
+  ],
+  "spawned_backends": [
+    3075673,
+    3075874,
+    3076122
+  ],
+  "parent_exit_epoch_ms": 1786238188905,
+  "observation_interval_sec": 5.0,
+  "observations": [
+    {
+      "tag": "t0_immediate",
+      "t_sec": 0.1,
+      "proxies_alive": [
+        3075592,
+        3075756,
+        3075989
+      ],
+      "backends_alive": [
+        3075673,
+        3075874,
+        3076122
+      ],
+      "wchan": {
+        "3075592": "ep_poll",
+        "3075756": "ep_poll",
+        "3075989": "ep_poll"
+      }
+    },
+    {
+      "tag": "after_observation_interval",
+      "t_sec": 5.11,
+      "proxies_alive": [
+        3075592,
+        3075756,
+        3075989
+      ],
+      "backends_alive": [
+        3075673,
+        3075874,
+        3076122
+      ],
+      "wchan": {
+        "3075592": "ep_poll",
+        "3075756": "ep_poll",
+        "3075989": "ep_poll"
+      }
+    }
+  ],
+  "survivors_after_interval": [
+    3075592,
+    3075673,
+    3075756,
+    3075874,
+    3075989,
+    3076122
+  ],
+  "reclaim_signal_termed": [
+    "3075592",
+    "3075673",
+    "3075756",
+    "3075874",
+    "3075989",
+    "3076122"
+  ],
+  "reclaim_signal_killed": [],
+  "reclaim_grace_sec": 6.0,
+  "final_zero_snapshot": {
+    "proxy_count": 0,
+    "proxy_pids": [],
+    "backend_count": 0,
+    "backend_pids": []
+  },
+  "versions": {
+    "python": "3.10.12",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0"
+  },
+  "persistence": {
+    "persistent": true,
+    "default": true,
+    "source": "toolregistry/_mixins/registration.py:94,167; toolregistry/integrations/mcp/connection.py:37 (verified against installed source)"
+  },
+  "grace_seconds": 2.5
+}
