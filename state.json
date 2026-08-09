@@ -1,5 +1,5 @@
 {
-  "next_display_id": 309,
+  "next_display_id": 310,
   "next_comment_id": 1288,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -229,6 +229,7 @@
     "b85f8e63-e788-4edb-bc65-0a1b476eb203": 275,
     "b921ee80-ae93-4475-b22e-cf40a9735194": 262,
     "ba2d352b-53b2-4471-abc7-12c68481d622": 58,
+    "bd9fafff-3dc7-4567-95df-8d54951a8d7b": 309,
     "bdf95444-8d7f-4468-aaf7-e58a7e10f84b": 279,
     "bdfe9151-dfb2-417c-a17c-8bee25fbb665": 121,
     "bf05f2c0-c357-4bd1-844e-f313c75877b9": 151,
@@ -3225,7 +3226,10 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-09T00:11:53.998419519Z",
-      "updated_at": "2026-08-09T00:11:53.998419519Z"
+      "updated_at": "2026-08-09T00:12:40.716145664Z",
+      "labels": [
+        "infrastructure"
+      ]
     },
     "2ecea944-d900-48f7-a9e8-dc1efda3e943": {
       "uuid": "2ecea944-d900-48f7-a9e8-dc1efda3e943",
@@ -12994,6 +12998,16 @@
         "feature"
       ]
     },
+    "bd9fafff-3dc7-4567-95df-8d54951a8d7b": {
+      "uuid": "bd9fafff-3dc7-4567-95df-8d54951a8d7b",
+      "display_id": 309,
+      "title": "CLEANUP: cargo clean crosslink target (12G) + opencode.db checkpoint/VACUUM (85MB) + WAL checkpoint (108MB). Operator-approved. SAFE: #283 build DONE, no cargo running. TASKS: (1) crosslink repo /home/claude-code/projects/crosslink/crosslink: 'cargo clean --release' + stale incremental (operator's SELECTIVE choice), report freed; (2) verify crosslink works (crosslink --version); (3) opencode.db: PRAGMA wal_checkpoint(TRUNCATE) then VACUUM (reclaims #294's 85MB + shrinks 108MB WAL); verify page_count + integrity_check; if 'database is locked' (live agents), checkpoint + defer VACUUM; (4) report freed + df before/after. DENYLIST: active worktrees, ASES/tripn-astro repos, opencode.db data (no row deletes), ~/.config, ~/.local/bin. Do NOT use kickoff cleanup --force (#227). Ref [#272]/[#294]/[#283].",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-09T00:14:42.914478612Z",
+      "updated_at": "2026-08-09T00:14:42.914478612Z"
+    },
     "bdf95444-8d7f-4468-aaf7-e58a7e10f84b": {
       "uuid": "bdf95444-8d7f-4468-aaf7-e58a7e10f84b",
       "display_id": 279,
@@ -17112,8 +17126,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T00:11:53.998419519Z",
+    "timestamp": "2026-08-09T00:14:42.914478612Z",
     "agent_id": "OL2r",
-    "agent_seq": 1493
+    "agent_seq": 1495
   }
 }
