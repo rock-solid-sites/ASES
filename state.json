@@ -1,5 +1,5 @@
 {
-  "next_display_id": 327,
+  "next_display_id": 328,
   "next_comment_id": 1446,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -277,6 +277,7 @@
     "d77ea716-9a44-4d7b-b1e9-7246ceff384c": 129,
     "d7a9168a-8aa1-4512-9250-a335cf03a817": 170,
     "d9a7016a-1d05-4937-a945-7b2faac9ab8c": 37,
+    "d9ee8de7-59e5-4973-8d23-4dc1871ff05f": 327,
     "db2d69e3-13f9-4e3b-851a-51ceb14ff79c": 250,
     "db9aef03-c68f-42a4-a9f1-9fe924263e5c": 94,
     "dbee82c3-daf5-46f4-a91b-ce115ed278d9": 270,
@@ -16034,6 +16035,18 @@
         "feature"
       ]
     },
+    "d9ee8de7-59e5-4973-8d23-4dc1871ff05f": {
+      "uuid": "d9ee8de7-59e5-4973-8d23-4dc1871ff05f",
+      "display_id": 327,
+      "title": "VERIFY: audit 48 STALE kickoff worktrees for completion — produce safe-to-close list for scoped --force cleanup",
+      "description": "Read-only verification task. The 48 STALE kickoff agents (from crosslink kickoff cleanup --dry-run) are reviewer/auditor roles that cannot write .kickoff-status, so they never graduate to DONE even when finished. Before a scoped --force cleanup, verify each is genuinely complete: (1) its result/verdict is posted on its issue (--kind result comment present), (2) no uncommitted work in its worktree (git status clean or changes already merged), (3) no live process/tmux running for it. Produce a definitive SAFE-TO-CLOSE list (agent IDs) and a DO-NOT-CLOSE list (any with unposted results, uncommitted work, or live processes). READ-ONLY — do not delete anything. Deliverable: the two lists posted on this issue.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "af271565-c0d9-47bf-8888-339979ae59ee",
+      "created_by": "OL2r",
+      "created_at": "2026-08-09T21:57:39.261177388Z",
+      "updated_at": "2026-08-09T21:57:39.261177388Z"
+    },
     "db2d69e3-13f9-4e3b-851a-51ceb14ff79c": {
       "uuid": "db2d69e3-13f9-4e3b-851a-51ceb14ff79c",
       "display_id": 250,
@@ -18751,8 +18764,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T21:41:52.920779386Z",
-    "agent_id": "pp3g-Wdf2-read-only-synthesis-tabulation-gemini-3-5-flash-for",
-    "agent_seq": 8
+    "timestamp": "2026-08-09T21:57:39.261177388Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1589
   }
 }
