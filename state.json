@@ -1,5 +1,5 @@
 {
-  "next_display_id": 342,
+  "next_display_id": 343,
   "next_comment_id": 1523,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -197,6 +197,7 @@
     "8b93eae0-363c-4820-8a88-730af11389bc": 258,
     "8bcd9b03-5c30-4db2-b7c8-95a842ec9a79": 317,
     "8bf6662b-afe9-49ba-ab5a-17394445d17d": 208,
+    "8cda3348-0d9e-4809-b7da-afcddda27804": 342,
     "8d4d5b12-2ea3-452b-8708-5a5bf89714c0": 156,
     "8e8d2288-1a6a-4b99-9d86-59ccf32a9b3a": 18,
     "9152ab11-6d09-4131-858a-e2ab14b91141": 75,
@@ -11502,6 +11503,18 @@
         }
       }
     },
+    "8cda3348-0d9e-4809-b7da-afcddda27804": {
+      "uuid": "8cda3348-0d9e-4809-b7da-afcddda27804",
+      "display_id": 342,
+      "title": "PROPOSE deny-by-default capability boundary for read-only roles (narrow opencode */git */toolchain per 8-reviewer consensus)",
+      "description": "Design proposal (READ-ONLY investigation + plan, NO implementation). The #340 amendment fixed the crosslink-durability half (narrow allowlist, reviewer sync, knowledge-delete removed) matching+improving the tripn finding. The UNFINISHED half: ASES reviewer/auditor still carry broad grants beyond crosslink — 'opencode *' (enables 'opencode run --pure' which disables guard plugins), 'git *' (unlisted mutators), reviewer 'cargo *'/'npm *' (execute arbitrary project code). The 8-reviewer consensus (#314/#320/#326) unanimously flagged these as overstating 'read-only by construction' (8/8) and recommended a deny-by-default least-privilege capability boundary for read-only roles (luna/kimi/hy3/Deepseek/Qwen/ChatGPT/Sonnet5/GLM). Deliverable: a concrete proposal — exact per-grant keep/narrow/remove with the deny-by-default allowlists, a bypass matrix (what each current grant enables), tradeoffs (what reviewers genuinely need: git diff/log/show for evidence verification), the --pure bypass mechanism, and a verification plan. Present for operator approval; do NOT change any config. Ref #314/#320/#326/#334/#340, tripn read-only-role-crosslink-allowlist.md.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T01:52:50.936698025Z",
+      "updated_at": "2026-08-10T01:52:50.936698025Z"
+    },
     "8d4d5b12-2ea3-452b-8708-5a5bf89714c0": {
       "uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
       "display_id": 156,
@@ -19718,8 +19731,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T01:39:36.299568471Z",
-    "agent_id": "pp3g-rne6-fast-re-pass-of-revised-plan-v2-on-341-read-only-hy3",
-    "agent_seq": 8
+    "timestamp": "2026-08-10T01:52:50.936698025Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1643
   }
 }
