@@ -1,6 +1,6 @@
 {
   "next_display_id": 342,
-  "next_comment_id": 1503,
+  "next_comment_id": 1504,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -15038,7 +15038,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-10T01:08:29.708250028Z",
-      "updated_at": "2026-08-10T01:09:34.797737402Z",
+      "updated_at": "2026-08-10T01:10:05.118548182Z",
       "labels": [
         "documentation"
       ],
@@ -15051,6 +15051,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKMAO8oxt0yn/XyAv+Qod0jB9eYD599tK2ebPLZmsg+ja7fdenr5K51rxXwHWAsvRGYc6EMGr0bx0E6Bsc2eMDQ=="
+        },
+        "5e6a5fc3-88a8-4bbf-82f2-3db2f2942307": {
+          "display_id": 1503,
+          "author": "OL2r",
+          "content": "=== FULL PLAN (for hy3 sanity pass) ===\n\nCONTEXT/FINDINGS:\n1. to-file/project-update/ is a prepared-but-never-filed canonical doc set (15 files + top-level/ subdir, mtime 2026-06-28). It was superseded-by-intent by commit e082d65c (2026-06-29 'Formalize layered architecture and epistemic model') which filed PART of it.\n2. ORIENTATION.md claims canonical docs that do NOT exist as committed files: AI Orchestration Guide (Methodology), Methodology→Requirements (Requirements), Execution Engine Vision (Architecture). The ASES methodology layer is effectively EMPTY in docs/.\n3. Tool-capability artifacts (harness-evaluations/, capability-mapping/, selection-rationale/, core-system-prompts/) are filed as research-flavored top-level dirs but are practical/methodology-support artifacts.\n\nCLASSIFICATION of to-file/project-update/:\nA. IDENTICAL to committed (pure staging duplicates — no re-file needed):\n   - canonical-terminology.md == docs/standards/Canonical Terminology.md\n   - concept-levels-of-abstraction.md == docs/standards/Concept - Levels of Abstraction.md\n   - documenation-standards.md == docs/standards/Documentation Standard.md\n   - documentation-taxonomy.md == docs/standards/Documentation Taxonomy.md\n   - ai-capability-registry-spec.md == docs/research/registry/AI Capability Registry Specification.md\nB. DIVERGENT from committed counterpart (reconciliation decision needed, do NOT auto-overwrite):\n   - evaluation-framework.md vs docs/research/frameworks/Evaluation Framework.md (major diff: staged has frontmatter + structured; committed lacks frontmatter)\n   - ai-evaluation-protocol.md vs docs/research/protocols/AI Evaluation Protocol.md (minor: task-list ordering)\n   - top-level/{README,ORIENTATION,ARCHITECTURE,AGENTS}.md vs committed top-level (major diffs: staged adds frontmatter + restructure)\nC. NO committed counterpart — the MISSING canonical layer (must be filed):\n   - ai-orchestration-guide.md (ASES/Methodology/Methodology Specification/Canonical) → docs/methodology/\n   - methodology-to-requirements-mapping-spec.md (ASES/Requirements/Requirements Specification/Canonical) → docs/requirements/\n   - execution-engine-vision.md (Tooling/Architecture/Vision/Canonical) → docs/architecture/\n   - SKILL-clean-room-execution.md (ASES/Methodology/Guide/Derived) → docs/methodology/ or docs/guides/\n   - edases-methodology-review.md (EDASES/Research/Methodology/Canonical) → docs/research/\n   - repo-review-checklist.md (EDASES/Research/Checklist/Canonical) → docs/research/\n   - proposed-implementation-layer.md (conversation record, no frontmatter) → docs/research/ or historical\n\nSTEP 1 — FILE THE MISSING LAYER (category C): git mv each staged doc to its canonical docs/<layer>/ home per its frontmatter; verify frontmatter completeness per Documentation Standard (add missing fields, keep body verbatim); commit as one '[#341] docs: file staged canonical set — methodology/requirements/architecture layer' commit.\n\nSTEP 2 — RECONCILE DIVERGENT (category B): for each, determine authoritative version (git history + content recency + frontmatter presence); prefer staged-with-frontmatter where it is a superset; otherwise keep committed and note the staged diff; DO NOT delete either until decision recorded on #341. Top-level/ versions: evaluate whether staged frontmatter versions supersede committed top-level docs — if yes, file to top-level as updates (operator decision).\n\nSTEP 3 — RE-ATTRIBUTE TOOL-CAPABILITY ARTIFACTS to methodology layer:\n   - harness-evaluations/ (5 files) → methodology-support (capability surveys) — update layer metadata to Methodology\n   - capability-mapping/ (2 files) → methodology→requirements (rows are layer requirements; Model-Routing-Matrix used operationally)\n   - selection-rationale/ (3 files) → decision records (methodology-support)\n   - core-system-prompts/ (2 files) → methodology (normative prompts)\n   - Keep epistemic pipeline (sources/, observations/, findings/, syntheses/, evaluation-corpus/) in research.\n   - Mechanism: git mv into docs/methodology/... or a top-level methodology/ container; update frontmatter layer + consumed_by; update ORIENTATION navigation; grep reference sweep (CHANGELOG, .design/, research-addenda/, knowledge pages).\n\nSTEP 4 — REFERENCE SWEEP + NAVIGATION: grep all references to moved paths (git grep after each move); update ORIENTATION canonical-docs list; ensure ARCHITECTURE.md repository-organisation section reflects new layout.\n\nACCEPTANCE: (1) docs/methodology/, docs/requirements/, docs/architecture/ exist and contain the category-C canonical docs; (2) every ORIENTATION-claimed canonical doc resolves to a committed file; (3) tool-capability artifacts carry Methodology/Requirements layer metadata; (4) no broken path references remain; (5) staged to-file/project-update/ reduced to only category-B unresolved items.\n\nRISKS/OPEN DECISIONS: category-B reconciliation is judgment work (which version authoritative); top-level supersession is an operator decision; reference sweep is large (CHANGELOG + .design + knowledge pages).",
+          "created_at": "2026-08-10T01:10:05.105552190Z",
+          "kind": "note",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAVoNolYQOrjXj5LuDF4ZWcpcGyc0LjFhm23SVAxn1AJUdQ/NHDPjpMla+nWrmD0iTX4bTxrdUmo1YyIpTooCmDg=="
         }
       }
     },
@@ -19547,8 +19556,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T01:09:46.040360566Z",
-    "agent_id": "pp3g-VY2M-config-amendment-task-for-issue-340-amend-ases-agent",
-    "agent_seq": 1
+    "timestamp": "2026-08-10T01:10:05.118548182Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1641
   }
 }
