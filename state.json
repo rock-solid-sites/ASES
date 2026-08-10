@@ -1,6 +1,6 @@
 {
   "next_display_id": 347,
-  "next_comment_id": 1559,
+  "next_comment_id": 1560,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -6395,7 +6395,7 @@
       "parent_uuid": "8cda3348-0d9e-4809-b7da-afcddda27804",
       "created_by": "OL2r",
       "created_at": "2026-08-10T03:05:33.145688515Z",
-      "updated_at": "2026-08-10T03:10:23.959477868Z",
+      "updated_at": "2026-08-10T03:10:41.057709627Z",
       "labels": [
         "permission"
       ],
@@ -6408,6 +6408,15 @@
           "kind": "plan",
           "signed_by": "SHA256:p6XLq5bUTJioISc4Vbku+DjeNby0lZ5qlJOvg6uIOoU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4PE06/YrWfEShgxsiHB23bwwFb4/TEFHS6uIkxrRYTEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM74l6ie7BIkmAYliL01YxbOgAuOtfFzuRdczDyh6mO3pwEKw+21mQwFirpoX1RVQlytT263iQDHIVnivtpsECw=="
+        },
+        "b6806290-55d1-41e1-abf5-e9a9262aa610": {
+          "display_id": 1559,
+          "author": "pp3g-TOx4-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-77cc",
+          "content": "[AUDITOR BASELINE] Pre-positioned auditor established. Builder pp3g-5cWX session started at 03:07 UTC, 20m timeout. Branch: feature/pp3g-5cWX-implementation-task-for-issue-344-apply-the-approved — currently at same commit as main (12a21e37), no builder commits yet.\n\nPERMISSION SURFACE GROUND TRUTH (from live files):\n- reviewer.md (lines17-23): opencode *, git *, cargo *, npm *, rtk *, crosslink narrow list, ls/cat — all currently allowed\n- auditor.md (lines17-21): opencode *, git *, rtk *, crosslink narrow list, ls/cat — all currently allowed\n- hook-config.json allowed_bash_prefixes (line127-177): includes opencode, cargo test/build/check/clippy/fmt, npm test/run, npx, tsc, node, python — code-exec prefixes for ALL agent types\n- permissions.md snapshot matches agent files\n\nDIVERGENCE CLASSES (per kickoff spec):\n1. Impl-vs-proposal mismatch — changes deviating from #342 exact per-grant tables\n2. Incomplete coverage — any of (reviewer.md/auditor.md/permissions.md/hook-config) skipped\n3. Verification failure — positive/negative matcher check claimed but not run, or DENY that would still ALLOW\n4. Scope breach — files outside approved set modified\n5. Position staleness >2x expected interval (~5min builder cadence, ceiling 20m)\n\nNEXT: monitor #344 comment stream every ~8 min; check builder branch for commits.",
+          "created_at": "2026-08-10T03:10:41.038479373Z",
+          "kind": "observation",
+          "signed_by": "SHA256:cvVKS82rTqmJyE/BvNziY8zhrdnY1l5dBlLYJlqfRR8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnIlBnrSMyfRl6MkHXEia02PFy7wSo+8WbeoMPLaOnF0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA6Ekmo1RJRLQQ/C5sQ47pvmKjkxJ6jgAOUQpdTnpjGgRG7wiuXLCQYhCkMkQXICRaeXuvufIbqvXIaEo7sliiDw=="
         },
         "cac08ece-80f1-434c-ab3f-208adc8b45fe": {
           "display_id": 1558,
@@ -20135,8 +20144,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T03:10:23.959477868Z",
-    "agent_id": "pp3g-5cWX-implementation-task-for-issue-344-apply-the-approved",
-    "agent_seq": 3
+    "timestamp": "2026-08-10T03:10:41.057709627Z",
+    "agent_id": "pp3g-TOx4-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-77cc",
+    "agent_seq": 1
   }
 }
