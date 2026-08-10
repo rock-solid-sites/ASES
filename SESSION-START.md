@@ -124,13 +124,16 @@ are hard invariants, not suggestions:
   timeout; timeout length is the primary problem).
 - **Agents MUST post milestone checkpoint comments** (`crosslink issue comment
   <id> "[PROGRESS] state=... completed=... next=... blocker=..." --kind
-  observation`, max ~4 per session) and **sync after posting** — that is the
-  durable operator-facing progress channel. Session-action breadcrumbs are
-  supplementary telemetry only. See §5.4 of the playbook and the KICKOFF
-  template's `Progress Check-Ins` section.
-- **Stalled-agent signals:** timeout exceeded = likely stalled; no checkpoint
-  for >2x the expected interval = likely stalled. Do not wait blind until
-  timeout.
+  observation`) and **sync after posting** — that is the durable
+  operator-facing progress channel. Session-action breadcrumbs are
+  supplementary telemetry only. Cadence derives from the ~5-minute
+  loss-tolerance budget (§5.4): builders commit incrementally every ~5 minutes
+  of work; read-only roles treat comment+sync as their commit at ~5-minute
+  cadence. The ~4 cap is not a durability throttle. See §5.4 of the playbook
+  and the KICKOFF template's `Progress Check-Ins` section.
+- **Stalled-agent signals:** timeout exceeded = likely stalled; no new commit
+  (builder) / no new synced position (read-only) for >2x the ~5-minute budget
+  = likely stalled. Do not wait blind until timeout.
 
 ## 5. The invariant (overrides everything)
 

@@ -4,7 +4,7 @@ tags: ["orchestration", "kickoff", "swarm", "workflow"]
 sources: []
 contributors: ["ASES"]
 created: 2026-08-01
-updated: 2026-08-08
+updated: 2026-08-10
 ---
 
 # Agent Orchestration Playbook
@@ -218,11 +218,14 @@ signal to decompose into a swarm rather than to raise the timeout.
 **Two-signal stalled detection (checkpoints are the SECONDARY signal):**
 1. **Timeout exceeded = likely stalled.** A shorter timeout bounds blind
    waiting; exceeding it is actionable.
-2. **No checkpoint for >2x the expected interval = likely stalled.** The
-   expected interval is the task ceiling (from the table above) divided by
-   the number of milestone checkpoints (~4, see §5.4). A silent agent past
-   that window warrants investigation via `ps` and session status — do not
-   wait for the timeout.
+2. **No new commit (builder) / no new synced position (read-only) for >2x the
+   ~5-minute budget = likely stalled.** Signal 2 is a **rate clock**, not a
+   milestone clock: the expected interval derives from the ~5-minute
+   loss-tolerance budget (see §5.4), not from the task ceiling divided by a
+   fixed milestone count. A silent agent past that window warrants
+   investigation via `ps` and session status — do not wait for the timeout.
+   The rate-clock rewrite and the §5.4 cap removal are one atomic change:
+   the old ceiling/~4-milestones denominator no longer exists.
 
 **Checkpoints do NOT justify retaining a long timeout.** They are a
 complement to task-matched ceilings, not a replacement for them.
@@ -237,11 +240,22 @@ channel — the operator never waits blind until timeout.
 `kickoff-custom-template.md` and the `Progress Check-Ins` section of the
 template):**
 
-- **Post `--kind observation` checkpoint comments at milestones, max ~4 per
-  session**: (a) POST-PLAN — immediately after the plan comment; (b) MIDPOINT
-  — after the first meaningful completion unit; (c) BLOCKER-OR-VERIFY — a
-  blocker report, or verification results; (d) FINAL — the `--kind result`
-  comment before session end.
+- **Post `--kind observation` checkpoint comments at milestones**: (a)
+  POST-PLAN — immediately after the plan comment; (b) MIDPOINT — after the
+  first meaningful completion unit; (c) BLOCKER-OR-VERIFY — a blocker report,
+  or verification results; (d) FINAL — the `--kind result` comment before
+  session end. The milestones are the operator-visibility skeleton; they are
+  NOT a durability cap.
+- **Durability cadence (role-aware, from a ~5-minute loss-tolerance budget).**
+  Checkpointing is a **durability** mechanism, not a reporting mechanism: the
+  operator-set maximum tolerable work loss is ~5 minutes, and cadence derives
+  from that budget — nothing else. **Builders commit incrementally every ~5
+  minutes of work** — small, resume-friendly commits, so a death loses at most
+  one commit's worth. **Reviewer/auditor roles treat `crosslink issue comment
+  <id> "<position>" --kind observation && crosslink sync` as their commit** at
+  the same ~5-minute cadence. The old fixed ~4-comment cap is **REPLACED by
+  this rate bound** — durability writes are not throttled (the ~5-minute
+  budget IS the new, looser throttle); the cap is not 'unbounded' either.
 - **Use a scannable prefix and structured fields**: `[PROGRESS] state=working
   completed=<one-line> next=<one-line> blocker=none`, or `[BLOCKED]` /
   `[VERIFY]` / `[DONE]` as appropriate. Required fields: `state`
@@ -250,13 +264,17 @@ template):**
   observation` followed by `crosslink sync`. Worktree-local comments do NOT
   reach the hub until sync — without it a checkpoint is invisible to the
   operator and cannot distinguish silent work from a dead agent.
-- **Missed check-in escalation:** if an expected checkpoint has not arrived by
-  the expected interval (see §5.3), investigate: `ps -o pid,etime,time,stat
-  -p <pid>` (TIME climbing = working; frozen = stalled), check session status,
-  then report to the operator. Do not wait silently for the timeout.
+- **Missed check-in escalation:** if no new commit (builder) / no new synced
+  position (read-only) has arrived by the rate-clock interval (>2x the ~5-minute
+  budget, see §5.3), investigate: `ps -o pid,etime,time,stat -p <pid>` (TIME
+  climbing = working; frozen = stalled), check session status, then report to
+  the operator. Do not wait silently for the timeout.
 - **Task-awareness:** a <=10m trivial task posts the mandatory start and final
-  checkpoints; the midpoint is optional. A >30m task must not post more than
-  ~4 comments — milestone-based, never per-action.
+  checkpoints; the midpoint is optional. Stay **milestone-based, never
+  per-action** — per-item commenting (one comment per audit item) is
+  over-checkpointing even under the rate bound. The ~4 cap is not a durability
+  throttle: durability writes (commits for builders, synced positions for
+  read-only roles) follow the ~5-minute budget, not a comment count.
 
 **Session-action breadcrumbs are SUPPLEMENTARY telemetry only.** Use
 `crosslink session action "..."` for high-frequency internal breadcrumbs
@@ -288,6 +306,15 @@ together. The following are kept identical across both repos:
 **Rule:** any change to these files in one repo MUST be applied to the other
 in the same process — never in a follow-up issue. Document the change in the
 same place as the timeout guidance so it cannot be missed.
+
+**Active amendment — checkpointing-as-durability (#330/#331/#339):** the
+durability-cadence amendments in this playbook — §5.3 rate-clock signal-2,
+§5.4 rate-bound checkpoint cadence, §5.8.1 ~5-min idle floor, §6.1
+durable-primitive ground truth, §12 documentation, and the KICKOFF template
+`Progress Check-Ins` role-aware cadence — MUST be mirrored to tripn-astro in
+the same process (per #331 SHOULD-CONSIDER and #334 verdict). A
+durability-cadence change that lands in one repo only is exactly the §5.5
+drift this section forbids.
 
 ### 5.6 Reviewer Independence — Isolated Sub-Issues
 
@@ -376,11 +403,13 @@ WHAT-NOT-TESTED) per AGENTS.md.
 adjustments within scope IF failure modes are encountered.**
 
 1. **Validated cadence defaults.** First position within ~2 min of session
-   start; position at every state transition AND at least every ~10 min even
+   start; position at every state transition AND at least every ~5 min even
    during silent exploration (post `step=exploring`, `completed=<files read>`,
-   `evidence=<file refs>`). `completed` claims MUST carry an
-   artifact/commit/test-log link — a claim without evidence IS a divergence
-   flag.
+   `evidence=<file refs>`). The idle floor is the ~5-minute budget itself —
+   the floor MUST be <= the budget (§5.4), so a ~10-min idle floor is invalid:
+   it would let a silent agent exceed the loss tolerance before a position is
+   emitted. `completed` claims MUST carry an artifact/commit/test-log link — a
+   claim without evidence IS a divergence flag.
 2. **Phase-1 auditor dispatch.** Launch the in-flight auditor ALONGSIDE the
    builder at dispatch (pre-positioned, per the existing §5.8 rule); give it
    the trigger set + the builder's expected cadence explicitly in the prompt.
@@ -433,6 +462,47 @@ orchestrator owns the action set and **surfaces only decisions** to the
 operator. The operator supervises the **orchestrator**, not the swarm. The
 orchestrator itself emits a position/heartbeat (staleness applies to it too).
 
+### 5.9 Decision-Gating Build Artifacts Must Be Committed Before Session End
+
+**HARD RULE (2026-08-08 incident, gh#271):** any build artifact — compiled
+binary, patched source tree, generated output — that is **decision-gating**
+MUST be committed to a git branch **before the session/agent that created it
+ends**. Never leave decision-gating artifacts only in `/tmp`.
+
+**What counts as decision-gating:** any artifact a downstream decision depends
+on — a verified binary whose sha gates install/rollback, a patched source tree
+that encodes a root-cause fix, generated output that evidence claims
+reference. If losing it forces rework or blocks a gate, it is decision-gating.
+
+**Incident evidence (2026-08-08):** the #154 durable-fork verified binary (sha
+`6e0e282b`) and the safeIterable-patched source tree lived ONLY in
+`/tmp/opencode/fork-build`. Issue #209 step 1 explicitly required
+"EXPORT/COMMIT first — copy the patched fork source + unit tests + harness +
+patch files into THIS worktree (or commit the /tmp/fork-build as a branch), so
+nothing depends on volatile /tmp" — but it was only PARTIALLY executed:
+`fork/` (patch + harness + tests) was committed, while the applied source
+tree, the safeIterable commit (`98dfe4a`), and the built binary never were. A
+disk cleanup wiped `/tmp/opencode` (11G), destroying the only copies of the
+verified artifact + root-cause fix; they were recovered only because the
+opencode session DB (opencode.db) embedded the tool calls that applied them.
+
+**The obligation (mandatory, at session/agent closeout):**
+1. Before ending a session/agent that produced any decision-gating artifact,
+   commit the artifact — or the full reconstruction recipe (source + patch +
+   build commands + verification results) — to the worktree's feature branch.
+2. Treat `/tmp` as scratch space, never as the home of a decision-gating
+   artifact. A `/tmp`-only artifact is a lost artifact.
+3. Closeout checklist (SESSION-END.md + KICKOFF template Final Steps):
+   "verified all decision-gating artifacts are in git, not /tmp".
+4. Cleanup guards: `crosslink kickoff cleanup` and disk-clearing operations
+   must never silently destroy uncommitted build state — preserve work before
+   removing (§6.6; #227 tracks a staleness/cleanup guard).
+
+**Cadence tie-in (§5.4):** the §5.9 obligation is the *decision-gating*
+baseline; the §5.4 durability cadence extends it to *all* work — builders
+commit incrementally every ~5 minutes of work, so a death loses at most one
+commit's worth (§6.1 'the durable primitive is ground truth').
+
 ---
 
 ## 6. Monitoring and Verification
@@ -442,12 +512,14 @@ orchestrator itself emits a position/heartbeat (staleness applies to it too).
 - **Never trust status flags alone.** `RUNNING` persists on dead processes.
   `DONE` may be missing from agents that committed successfully but exited
   before writing the flag.
-- **The commit is ground truth.** Monitor by tracking expected commits
-  (`[#N]` references), not `.kickoff-status` flags.
+- **The durable primitive is ground truth.** For builders, that is the
+  commit; for read-only roles, it is the synced crosslink position
+  (`comment + sync`, §5.4). Monitor by tracking expected commits (`[#N]`
+  references) and/or expected synced positions, not `.kickoff-status` flags.
 - **Checkpoint comments are the progress signal.** A synced `--kind
   observation` checkpoint (see §5.4) proves the agent is alive and working. A
-  missing checkpoint past the expected interval is a stalled-agent signal —
-  investigate before the timeout.
+  missing checkpoint past the rate-clock interval (>2x the ~5-minute budget,
+  §5.3) is a stalled-agent signal — investigate before the timeout.
 - **Distinguish STALLED from WORKING:** Read `ps -o pid,etime,time,stat -p
   <pid>`. TIME climbing = computing; frozen + old heartbeat = stalled.
 
@@ -671,7 +743,11 @@ Before trusting such work:
   what was done, what's pending, any agent crashes, state of branches.
 - **Post milestone checkpoint comments** during work (see §5.4): `crosslink
   issue comment <id> "[PROGRESS] state=... completed=... next=... blocker=..."`
-  `--kind observation`, then `crosslink sync`. Max ~4 per session.
+  `--kind observation`, then `crosslink sync`. Cadence derives from the
+  ~5-minute loss-tolerance budget (§5.4): builders commit incrementally every
+  ~5 minutes of work; read-only roles post+sync at ~5-minute cadence. The
+  ~4-comment cap is replaced by this rate bound — durability writes are not
+  throttled (see §5.4).
 - **Record breadcrumbs** as supplementary telemetry: `crosslink session action
   "..."`. They are not a substitute for checkpoint comments.
 - **Reference issues in commits:** `feat: description [#N]`.
@@ -705,6 +781,7 @@ Before trusting such work:
 | Running `crosslink sync` in the main repo to 'refresh' visibility | Rehydrates from stale hub state; drops local-only issues (June rollback) | Re-hydrate safely or `crosslink compact`; never blind-sync (§6.5) |
 | Ending orchestrator turns silently while agents run | Silent turns are indistinguishable from dead sessions | End every turn with a brief Agent Status note (§6.6) |
 | Skipping `crosslink kickoff cleanup` between waves | Orphaned STALE agents and locks accumulate | Assess STALE with `--dry-run --force`, preserve work, then remove (§6.6) |
+| Leaving decision-gating build artifacts only in `/tmp` | 2026-08-08: verified fork binary (sha 6e0e282b) + safeIterable source wiped by disk cleanup; recovered only from the opencode session DB (#271) | Commit decision-gating artifacts before session end (§5.9); `/tmp` is scratch, never the home |
 
 ---
 
