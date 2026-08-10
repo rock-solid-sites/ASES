@@ -1,6 +1,6 @@
 {
   "next_display_id": 351,
-  "next_comment_id": 1609,
+  "next_comment_id": 1610,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -16565,7 +16565,7 @@
       "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
       "created_by": "OL2r",
       "created_at": "2026-08-09T22:21:10.746962022Z",
-      "updated_at": "2026-08-10T02:08:28.675126475Z",
+      "updated_at": "2026-08-10T15:31:04.937187379Z",
       "labels": [
         "process"
       ],
@@ -16587,6 +16587,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvy2e1pSoP2UknjOgGWuWQ81rKSoRRRVMnOwe+pit56JhbnTLYoz7NaQeqTlCBL9vPCfXpYj5L64Ye4Jwzg1gAQ=="
+        },
+        "f001fe06-f8d2-4cc2-9f7d-1d953cb7bbb7": {
+          "display_id": 1609,
+          "author": "OL2r",
+          "content": "[ORCHESTRATOR] TIMEOUT-CALIBRATION LESSON (2026-08-10, #350): Rust compile time is a first-class input to task-timeout estimates. The #350 fork change (cleanup.rs rescope) legitimately ran past its 45m guide because cargo build (~1min) + cargo test (~2min) + backgrounded full-suite + iterative compile-fix loops produce long SILENT stretches with zero positions — yet the agent was clearly working (pane showed compile progress, checkpoints confirmed commits). LESSONS: (1) any task entailing cargo build/test should get a greatly extended estimate or none (the #192 backstop max(timeout*24, 24h) already prevents premature kills; the guide just shouldn't cause operator alarm); (2) the two-signal staleness check (§5.3/§5.4) needs a TASK-TYPE-AWARE silence budget — Rust/compile tasks warrant a much longer no-position tolerance than doc tasks, because compile silence is computing, not stalled; (3) the auditor's stall-flag on #350 was a false positive for exactly this reason (compile silence misread as stall). Recommend: playbook §5.3 gets a 'compile/build-heavy tasks' row in the timeout table + a note that silence during cargo/npm/test execution is expected-working unless the process is frozen. Ref #350, #330, #331.",
+          "created_at": "2026-08-10T15:31:04.926417845Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEVXs32oGLlnwKex1Eu8ehQ0fvRCZl+9jbh5zofv+Du/aX+OvNPIspm4+9NIOOwGqR5jinvsVwQ83nSxTs0fRDg=="
         }
       }
     },
@@ -20659,8 +20668,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T15:21:23.087377069Z",
-    "agent_id": "pp3g-Zbk6-implementation-task-for-issue-350-implement-the-349",
-    "agent_seq": 5
+    "timestamp": "2026-08-10T15:31:04.937187379Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1682
   }
 }
