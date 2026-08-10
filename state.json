@@ -1,5 +1,5 @@
 {
-  "next_display_id": 348,
+  "next_display_id": 349,
   "next_comment_id": 1577,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -288,6 +288,7 @@
     "d4822b37-51ef-4159-a754-5c78bb90dbdd": 143,
     "d4977331-94bb-474b-84ef-056fa22fcb2e": 304,
     "d4d7f935-d559-40b3-b63b-d016ef600040": 222,
+    "d52b679d-fd07-4b92-9e86-4eb27310569a": 348,
     "d549549c-e14f-4d9e-97b2-3c0888ddf035": 215,
     "d60ba942-8aff-40d4-b09b-c9224a8530e8": 126,
     "d61f6d3d-2145-4b68-8086-2db6683dbf96": 62,
@@ -17218,6 +17219,18 @@
       "created_at": "2026-08-06T06:51:43.702348246Z",
       "updated_at": "2026-08-06T06:51:43.702348246Z"
     },
+    "d52b679d-fd07-4b92-9e86-4eb27310569a": {
+      "uuid": "d52b679d-fd07-4b92-9e86-4eb27310569a",
+      "display_id": 348,
+      "title": "MIRROR §5.5: push ASES amendments to tripn-astro (playbook #339, agent defs #340/#344, model-discipline #347) + pull tripn #445/#440 deltas back",
+      "description": "Execute the §5.5 two-repo mirror that #331/#334 mandated and #339/#340/#344 flagged but was never executed. ASES→tripn-astro (push): (1) playbook amendments #339 — §5.3 rate clock, §5.4 rate-bound role-aware cadence, §6.1 durable-primitive ground truth, §5.9 insertion, kickoff template role-aware (tripn-astro playbook currently still has 'max ~4 per session' line 240 + old >2x formula line 223 — verified); (2) agent-definition amendments #340/#344 — reviewer gets 'crosslink sync' (currently missing in tripn reviewer block — verified), knowledge delete removed (tripn still grants it), deny-by-default boundary (remove opencode */git */cargo */npm * from read-only roles, narrow to read-only prefixes). tripn-astro→ASES (pull): verify tripn's #445/#440 narrow-allowlist implementation matches our #340 state and reconcile any deltas. ALSO: model-discipline.md correction #347 must land in BOTH repos. Deliverable: tripn-astro commits with [#339]/[#340]/[#344]/[#347] refs; report deltas + any conflicts. Ref: #331/#334/#339/#340/#344/#347, §5.5.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "484eb300-79b2-4baa-99c7-f5f831f27952",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T13:53:42.539883565Z",
+      "updated_at": "2026-08-10T13:53:42.539883565Z"
+    },
     "d549549c-e14f-4d9e-97b2-3c0888ddf035": {
       "uuid": "d549549c-e14f-4d9e-97b2-3c0888ddf035",
       "display_id": 215,
@@ -20317,8 +20330,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T13:53:17.028681635Z",
+    "timestamp": "2026-08-10T13:53:42.539883565Z",
     "agent_id": "OL2r",
-    "agent_seq": 1665
+    "agent_seq": 1666
   }
 }
