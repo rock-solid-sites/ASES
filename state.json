@@ -1,5 +1,5 @@
 {
-  "next_display_id": 355,
+  "next_display_id": 356,
   "next_comment_id": 1637,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -227,6 +227,7 @@
     "a2f7403f-b326-42fe-8f61-5ce2d48e5d2f": 112,
     "a3a1ba6a-d821-4cbe-a8bf-ca8e01a81b47": 27,
     "a415d4e3-a8d3-471c-a357-1a973117e9e4": 111,
+    "a494de5a-1e07-4115-9286-ec2a22a58619": 355,
     "a59484b8-0d4e-4579-ae32-979c9b7d098e": 118,
     "a6aa399a-7e42-409c-bd0b-d4574239b93c": 245,
     "a6d94575-247d-460d-b1a5-fbd800836daa": 97,
@@ -14068,6 +14069,18 @@
         }
       }
     },
+    "a494de5a-1e07-4115-9286-ec2a22a58619": {
+      "uuid": "a494de5a-1e07-4115-9286-ec2a22a58619",
+      "display_id": 355,
+      "title": "FINDING: pre-positioned Phase-1 auditor stall class — early divergence findings durable, final verdict lost (2 instances 2026-08-10)",
+      "description": "Failure-class finding under epic #156. OBSERVED (2026-08-10, session #24): two pre-positioned Phase-1 auditors stalled before delivering their final verdict, both after producing valuable early output. (1) pp3g-TOx4 on #344: posted baseline + divergence-finding (crosslink sync literal-pattern bug) at 03:07-03:12, then froze 11h past its 20m window; verdict never posted. (2) pp3g-mdQf on #350: posted baseline + 2 valuable divergence findings (wildcard-vs-exact-match design question; security-gate unverifiable-from-auditor-worktree) at 14:45-14:50, then froze 4h past its 45m window in a 'builder position stale' monitoring loop, never registering the builder's 15:39 completion; verdict never posted. COMMON SIGNATURE: (a) early findings posted as observations (durable), (b) final --kind result verdict never delivered, (c) both froze in the monitoring phase, (d) both stalled AFTER their useful contribution. IMPACT: the divergence findings survived (durable), but the consumable verdict (no-divergence/divergence determination) was lost; the orchestrator had to rely on the builder's own verification + the findings. DIFFERENTIATES FROM #330 builder-stall class: builders lose in-progress work; auditors lose the VERDICT after the findings are already in the store. RELATED: #330 (checkpointing-as-durability), #344/#350 (instances), playbook §5.8.1 (two-phase auditor). MITIGATION DIRECTIONS (for discussion): (1) treat the observation stream itself as the auditor deliverable — the orchestrator synthesizes the verdict from posted divergence findings if the agent dies (findings already durable); (2) require the auditor to post a tentative verdict EARLY (even 'pending full verification') so a stall loses less; (3) a dedicated stall-watch for read-only roles (they cannot write .kickoff-status, so the existing completion signal is absent — the same gap hy3 flagged on #316); (4) consider whether the two-phase model should make Phase-1's deliverable the FINDINGS and Phase-2 the VERDICT, so a Phase-1 stall never loses the consumable. Track here for the reliability/process thread.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T18:39:06.019163440Z",
+      "updated_at": "2026-08-10T18:39:06.019163440Z"
+    },
     "a59484b8-0d4e-4579-ae32-979c9b7d098e": {
       "uuid": "a59484b8-0d4e-4579-ae32-979c9b7d098e",
       "display_id": 118,
@@ -20979,8 +20992,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T18:34:24.038025601Z",
+    "timestamp": "2026-08-10T18:39:06.019163440Z",
     "agent_id": "OL2r",
-    "agent_seq": 1694
+    "agent_seq": 1695
   }
 }
