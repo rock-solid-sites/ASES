@@ -1,6 +1,6 @@
 {
   "next_display_id": 347,
-  "next_comment_id": 1570,
+  "next_comment_id": 1571,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -6350,7 +6350,7 @@
       "parent_uuid": "8cda3348-0d9e-4809-b7da-afcddda27804",
       "created_by": "OL2r",
       "created_at": "2026-08-10T03:08:25.321037114Z",
-      "updated_at": "2026-08-10T03:14:28.856214747Z",
+      "updated_at": "2026-08-10T03:15:42.732760293Z",
       "labels": [
         "documentation"
       ],
@@ -6372,6 +6372,15 @@
           "kind": "observation",
           "signed_by": "SHA256:JNF8guQJZUi2sfu7QR7x4DRP12GKPzzlcwKYnIJhj1k",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgg6QCMkXz+Ex+8LtXb+fE46Wkp3eJqqYRPlvl//ZAGboAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA19pXjSouZJ6GeSRDUZJHDHN9Z0N3iCLUs61+DpsOyT9q8Ot+EVA+VV5pRU56VXTp4ZtaIHdhE1pH7J9zOBheCw=="
+        },
+        "b3cd657b-73aa-4f91-bf01-893ec1172098": {
+          "display_id": 1570,
+          "author": "pp3g-GMFP-doc-task-for-issue-345-write-a-research-layer-8a11",
+          "content": "Result: deliverable committed at 8b520d8 — docs/research/read-only-boundary-as-methodology.md (443 lines, Research Finding, authority Experimental).\n\nWHAT: research-layer finding framing the read-only permission-boundary work (#314/#320/#326/#330/#331/#334/#340/#342/#344 + #336/#337) as a methodology-feedback loop with the open EDASES execution-context research areas.\n\nSTRUCTURE:\n1. Finding in one paragraph — the boundary work is the current in-process realization of the research's 'Agent → Execution Harness → Evidence' isolation requirement; the harness IS the agent process.\n2. Boundary-work map — per-issue table of what each task established, incl. the two-layer enforcement model (permission block = load-bearing boundary; plugin layer not deny-by-default) and the source-verified --pure mechanism (plugin/index.ts:179).\n3. Research abstraction — what the topic docs establish (execution context, Local process as harness option, open questions microVMs §20 / Containers §14).\n4. Relation to research areas — direct correspondence table (role model ↔ Agent, kickoff ↔ Execution Request, agent process ↔ Execution Harness, permission boundary ↔ Isolation, position stream ↔ Evidence).\n5. The gap stated precisely — research questions concern execution-substrate isolation only; they do NOT cover the four-role model, --pure, guard plugins, crosslink allowlists, or how read-only is enforced with no substrate between agent and repo.\n6. Feedback loop (key thesis) — three concrete feedback data points: per-role-class isolation requirements (reviewer/auditor read-only evidence, builder full write, neither spawns sessions); comment+sync as the durable-position evidence channel (input to microVMs §20.11); the execution-context property the work implies (isolation must be a property of the context, not of a flag-disableable permission block).\n7. Acceptance criteria — what a workable process must demonstrate to count as methodology: reviewers' concerns addressed (threat model, deny-by-default, fail-closed identity), durability primitive verified (sync guard demonstrated), observations fed back to EDASES.\n8. What-not-tested — #344 in flight, --pure source-verified not empirically executed, research half of loop not yet closed, substrate questions untouched.\n9. Conclusion — the fix is implementation-layer, but the process it defines produces research-relevant observations; workable process counts as methodology when the three criteria hold.\n\nVerified: YAML frontmatter parses (pyyaml), metadata matches Documentation Standard (program EDASES, layer Research, type Research Finding, status Active, authority Experimental, depends_on Documentation Standard + both topic docs, related_documents agent-tooling docs + allowlist record), no stub patterns. Committed with [#342] ref per instructions.",
+          "created_at": "2026-08-10T03:15:42.725203057Z",
+          "kind": "result",
+          "signed_by": "SHA256:JNF8guQJZUi2sfu7QR7x4DRP12GKPzzlcwKYnIJhj1k",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgg6QCMkXz+Ex+8LtXb+fE46Wkp3eJqqYRPlvl//ZAGboAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkLeY9SKov+mjJirMyA/vgHgx/cbjWIY7S86GcwQ7L2VUnhRv9D4Pax7+QimyoKTw/6c4tEzb4xviXGgJ6J/gAQ=="
         },
         "bb5e4c93-b2bb-48a0-bb17-98fd85cdd739": {
           "display_id": 1561,
@@ -20242,8 +20251,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T03:15:34.293122900Z",
-    "agent_id": "pp3g-5cWX-implementation-task-for-issue-344-apply-the-approved",
-    "agent_seq": 7
+    "timestamp": "2026-08-10T03:15:42.732760293Z",
+    "agent_id": "pp3g-GMFP-doc-task-for-issue-345-write-a-research-layer-8a11",
+    "agent_seq": 5
   }
 }
