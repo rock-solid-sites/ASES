@@ -1,3 +1,31 @@
+---
+title: "Failed Conversation — Gemini 3.1 Pro Preview Session Transcript (Raw Evidence)"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Finding
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+
+related_documents:
+  - handoff-failure-analysis.md
+  - research-addendum-epistemic-validation.md
+  - assumption-register-candidate.md
+
+consumed_by:
+  - Future agent sessions
+  - Session handoff analysis
+
+supersedes: []
+
+superseded_by: []
+
+last_updated: 2026-08-10
+---
+
 I was having a chat with with Pro 3.1 Preview earlier and it went insane. This is what happened:
 
 Check the Crosslink handoff notes to resume our state. We are ready to begin the Builder Phase for Issues #8, #9, and #10. First, query the Crosslink knowledgebase for 'orchestration' to understand your role in this repository. Then, acting as the OpenCode Orchestrator, launch the Crosslink builders for those issues. Monitor their progress and prepare to conduct the Adversarial Review once their branches are ready. 

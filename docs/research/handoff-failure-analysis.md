@@ -1,3 +1,32 @@
+---
+title: "Session Handoff Addendum — Agent Reconstruction Failure Analysis"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Finding
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+  - failed-conversation.md
+
+related_documents:
+  - failed-conversation.md
+  - research-addendum-epistemic-validation.md
+  - assumption-register-candidate.md
+
+consumed_by:
+  - Future agent sessions
+  - Session handoff analysis
+
+supersedes: []
+
+superseded_by: []
+
+last_updated: 2026-08-10
+---
+
 # Session Handoff Addendum: Agent Reconstruction Failure Analysis
 
 ## Context

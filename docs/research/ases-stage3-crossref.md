@@ -643,7 +643,7 @@ ec68400 knowledge: add execution-engine-ui-research
 - #25 — Role→key binding via principal encoding (Gap #3, MEDIUM)
 - #26 — Crosslink repo prerequisites (#737, #738, #746)
 - #27 — Audit-violations / override-audit reporting (Phase 5)
-All findings preserved in to-file/crosslink-gates/.
+All findings preserved in docs/research/crosslink-gates/.
 ```
 
 ---
@@ -690,7 +690,7 @@ ec68400 knowledge: add execution-engine-ui-research
 - #25 — Role→key binding via principal encoding (Gap #3, MEDIUM)
 - #26 — Crosslink repo prerequisites (#737, #738, #746)
 - #27 — Audit-violations / override-audit reporting (Phase 5)
-All findings preserved in to-file/crosslink-gates/.
+All findings preserved in docs/research/crosslink-gates/.
 ```
 
 ---
@@ -737,7 +737,7 @@ ec68400 knowledge: add execution-engine-ui-research
 - #25 — Role→key binding via principal encoding (Gap #3, MEDIUM)
 - #26 — Crosslink repo prerequisites (#737, #738, #746)
 - #27 — Audit-violations / override-audit reporting (Phase 5)
-All findings preserved in to-file/crosslink-gates/.
+All findings preserved in docs/research/crosslink-gates/.
 ```
 
 ---

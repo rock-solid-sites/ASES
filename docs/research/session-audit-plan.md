@@ -10,8 +10,8 @@ canonical_repository: edases
 
 depends_on:
 
-* session-recovery-after-crash.md
-* server-crash-postmortem.md
+* docs/research/session-recovery-after-crash.md
+* docs/research/crosslink-gates/server-crash-postmortem.md
 
 consumed_by:
 
@@ -20,11 +20,11 @@ consumed_by:
 related_documents:
 
 * docs/research/session-recovery-after-crash.md
-* to-file/crosslink-gates/server-crash-postmortem.md
+* docs/research/crosslink-gates/server-crash-postmortem.md
 
 supersedes: []
 
-## last_updated: 2026-07-20
+last_updated: 2026-07-20
 
 # Session Audit and DB Recovery Plan
 

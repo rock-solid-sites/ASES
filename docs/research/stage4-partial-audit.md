@@ -2,7 +2,7 @@
 
 **Generated:** 2026-07-20
 **Method:** Multi-source cross-reference (tool output files, git commits, crosslink databases, knowledge cache, research docs)
-**Audit layers checked:** tool output timestamps, next-day commit topic match, crosslink issues/comments, knowledge cache files, `to-file/` research docs, `.design/` documents, `docs/research/harness-evaluations/` files, repo git log
+**Audit layers checked:** tool output timestamps, next-day commit topic match, crosslink issues/comments, knowledge cache files, `to-file/` research docs (filed to `docs/research/` per #351), `.design/` documents, `docs/research/harness-evaluations/` files, repo git log
 
 ---
 
@@ -106,10 +106,10 @@
 - **Cost:** $0.00 (283 events) | **Verdict: Documented elsewhere**
 - **Original evidence:** Git(d+1)=2 (commits `8715d0d`, `ec68400` — these are knowledge pages about research orchestration, not directly related)
 - **Related document found:**
-  - `to-file/crosslink-gates/server-crash-postmortem.md` (8.9KB, created Jul 13 19:19)
+  - `docs/research/crosslink-gates/server-crash-postmortem.md` (8.9KB, created Jul 13 19:19)
   - **Content:** Documents VPS crash at ~17:46 UTC on Jul 13 — VPS became unresponsive, hard reset required
   - **Connection:** SSH issues on Jul 13 (session #15 topic) align with VPS crash documented in postmortem. The "permission denied" error was likely a symptom of the server being unresponsive/crashed.
-- **Finding:** The server crash postmortem document captures the investigation into the VPS crash that caused the SSH issues. Session #15 was likely the user reporting the problem; the postmortem captures the root cause investigation. Work captured in `to-file/crosslink-gates/server-crash-postmortem.md`.
+- **Finding:** The server crash postmortem document captures the investigation into the VPS crash that caused the SSH issues. Session #15 was likely the user reporting the problem; the postmortem captures the root cause investigation. Work captured in `docs/research/crosslink-gates/server-crash-postmortem.md`.
 
 ---
 
@@ -117,10 +117,10 @@
 - **Cost:** $0.00 (1594 events) | **Verdict: Orchestrator only**
 - **Original evidence:** Git(d+1)=2 (same as #15)
 - **Documents read (already existed):**
-  - `to-file/crosslink-gates/evidence-based-gates.md` (26KB, created Jul 13 01:23)
-  - `to-file/crosslink-gates/gates-verified-facts.md` (7.7KB, created Jul 13 03:23)
-  - `to-file/crosslink-gates/gates-issues.md` (7.4KB, created Jul 13 20:00)
-  - `to-file/crosslink-gates/updated-evidence-based-gates.md` (8.4KB, created Jul 13 20:02)
+  - `docs/research/crosslink-gates/evidence-based-gates.md` (26KB, created Jul 13 01:23)
+  - `docs/research/crosslink-gates/gates-verified-facts.md` (7.7KB, created Jul 13 03:23)
+  - `docs/research/crosslink-gates/gates-issues.md` (7.4KB, created Jul 13 20:00)
+  - `docs/research/crosslink-gates/updated-evidence-based-gates.md` (8.4KB, created Jul 13 20:02)
 - **Finding:** READ-ONLY session. The documents being read already existed and were created by earlier/parallel sessions. The session consumed these documents to understand the evidence-based gates design.
 
 ---

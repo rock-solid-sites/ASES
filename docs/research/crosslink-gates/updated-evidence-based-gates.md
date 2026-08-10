@@ -1,3 +1,37 @@
+---
+title: "Updated Evidence-Based Workflow Gates — Consolidated Overview"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Archived
+authority: Finding
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+  - evidence-based-gates.md
+  - gates-verified-facts.md
+  - gates-issues.md
+
+related_documents:
+  - evidence-based-gates.md
+  - gates-verified-facts.md
+  - gates-issues.md
+
+consumed_by:
+  - Crosslink implementation
+
+supersedes:
+  - evidence-based-gates.md
+  - gates-verified-facts.md
+  - gates-issues.md
+
+superseded_by:
+  - Crosslink implementation issues #13, #22-#27
+
+last_updated: 2026-08-10
+---
+
 # Updated Evidence-Based Workflow Gates — Consolidated Overview
 
 **Status:** Synthesis of all work to date (2026-07-13)
