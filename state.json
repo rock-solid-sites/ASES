@@ -1,6 +1,6 @@
 {
   "next_display_id": 351,
-  "next_comment_id": 1594,
+  "next_comment_id": 1595,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -11197,10 +11197,21 @@
       "parent_uuid": "29a56c5f-e8a5-4946-9abd-4291b82f0077",
       "created_by": "OL2r",
       "created_at": "2026-08-10T14:28:10.022219783Z",
-      "updated_at": "2026-08-10T14:28:18.756482117Z",
+      "updated_at": "2026-08-10T14:43:43.022539532Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "45ad6aab-a294-401a-938e-e535fd722e7c": {
+          "display_id": 1594,
+          "author": "pp3g-Zbk6-implementation-task-for-issue-350-implement-the-349",
+          "content": "Plan: (fork) cleanup.rs rescope — (1) add --only <id1,id2,...> selective mode (clap value_delimiter=','), mutually exclusive with --force/--keep; resolves named IDs (exact id / driver--slug / worktree dir name), errors on unknown, refuses Active agents; (2) --force becomes operator-only: bails unless CROSSLINK_OPERATOR=1 env set (agents never have it — structural gate, option (a)+(c) from kickoff; documented); (3) non-force DONE path + --only both print full blast radius and require confirmation: --yes flag or interactive [y/N]; --json requires --yes (no silent non-interactive removal); (4) all-or-nothing DONE path kept with confirmation. Extract pure plan_cleanup + injectable confirmer for tests. Add cleanup tests to kickoff/tests.rs. (perms, ASES) orchestrator.md bash allowlist gains 'git worktree remove *' + 'tmux kill-session *'; hook-config by_type.orchestrator.gated_git_commands gains 'git worktree remove' (active-issue gate, same pattern as commit/merge); tmux kill-session gated via strict-mode active-issue fallthrough; reviewer/auditor surfaces already deny it (narrow allowlists); builder cannot bulk-delete because the binary refuses --force without the operator env. Mirror orchestrator.md + hook-config to tripn-astro per 5.5. Update ASES docs referencing cleanup --force (playbook/SESSION-END/subagent-orchestration).",
+          "created_at": "2026-08-10T14:43:43.013705262Z",
+          "kind": "plan",
+          "signed_by": "SHA256:flauJlf98TnWtPZmGTAWR7XXasiVgqG69rxc14Tr3Y4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgqS0OpAYw7klbcxZ96bMZtSHOJRst07xBtXVQQpMDkH4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAgqWF/uq9c+s5L6jreXSqcTPKp9nmR7M37ho5zOp/XcgriqIJmsiqbbRErsEgev2S6avNHHJQyrGTz6ay3Je5DA=="
+        }
+      }
     },
     "85a1bd39-7a95-4fc2-a029-84b2ec209ac4": {
       "uuid": "85a1bd39-7a95-4fc2-a029-84b2ec209ac4",
@@ -20517,8 +20528,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T14:40:52.344542819Z",
-    "agent_id": "pp3g-vROu-model-discipline-fix-for-issue-347-operator-directed",
-    "agent_seq": 8
+    "timestamp": "2026-08-10T14:43:43.022539532Z",
+    "agent_id": "pp3g-Zbk6-implementation-task-for-issue-350-implement-the-349",
+    "agent_seq": 2
   }
 }
