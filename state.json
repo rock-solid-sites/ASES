@@ -1,6 +1,6 @@
 {
   "next_display_id": 338,
-  "next_comment_id": 1493,
+  "next_comment_id": 1494,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -432,10 +432,21 @@
       "parent_uuid": "52bac49d-a367-4cf6-94e4-47b62124eccf",
       "created_by": "OL2r",
       "created_at": "2026-08-10T00:01:49.265234945Z",
-      "updated_at": "2026-08-10T00:01:56.613589689Z",
+      "updated_at": "2026-08-10T00:24:40.431647010Z",
       "labels": [
         "research"
-      ]
+      ],
+      "comments": {
+        "db1e076f-7aea-4bcb-ae88-3245c3e7c656": {
+          "display_id": 1493,
+          "author": "OL2r",
+          "content": "[ORCHESTRATOR] CHECKPOINT NUDGE: 21 min elapsed, zero checkpoint comments (expected interval ~7.5 min, 2x staleness threshold passed). Pane shows you're actively reading crosslink source (maybe_auto_hydrate/SharedWriter/DB schema) constructing the scratch env — good, that's working. BUT per the durability principle (checkpointing = durability, not reporting), post a position NOW and every ~5-8 min thereafter: state=exploring/working, completed=<what you've built so far>, next=<next step>, blocker=<the actual difficulty>. If constructing a scratch .crosslink dir manually is proving harder than expected (needs crosslink init non-interactively, or schema construction), say so explicitly — that's a legitimate blocker to surface, and I can help (e.g. crosslink init may have a --yes/--force flag, or the worktree's own .crosslink can be cloned to scratch). Do not silently explore past the midpoint without a position.",
+          "created_at": "2026-08-10T00:24:40.423158447Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAl/rd64rHhIkGNvF8gHljWCejbo0ZAp99+UTu7P5tti2uBeAI59ecX2GeewbHVr/tzgsH1SaJNXL1TEk1byb1DQ=="
+        }
+      }
     },
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": {
       "uuid": "05129aa4-5ab4-4e79-a886-1e8ffe0a420b",
@@ -19382,8 +19393,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T00:03:25.125530606Z",
-    "agent_id": "pp3g-ECsj-level-2-behavioral-test-for-issue-337-empirically-e70d",
-    "agent_seq": 1
+    "timestamp": "2026-08-10T00:24:40.431647010Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1623
   }
 }
