@@ -89,8 +89,8 @@ What observations would have falsified the choice:
 
 - `research-addenda/Research Addendum 01.md` — the EDASES layered architecture that AutoGen was evaluated against
 - `methodology-reviews/Heuristic-Scouting.md` — the methodology applied; uses AutoGen as worked example
-- `harness-evaluations/Microsoft-AutoGen.md` — the evaluation produced by this selection
-- `harness-evaluations/Microsoft-AutoGen.md.trace.md` — auto-generated evidence trace
+- `docs/research/harness-evaluations/Microsoft-AutoGen.md` — the evaluation produced by this selection
+- `docs/research/harness-evaluations/Microsoft-AutoGen.md.trace.md` — auto-generated evidence trace
 - `docs/research/registry/Harness-Capability-Matrix.md` — the Addendum 01 §6 deliverable that this selection anchored
 - `scripts/validate_evaluation.py` — the Tier 1 linter, post-commit artifact of the discipline gap exposed by this evaluation
 
