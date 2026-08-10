@@ -39,13 +39,15 @@ last_updated: 2026-08-10
 > (#314/#320/#326/#330/#331/#334/#340/#342/#344) and the open EDASES research
 > areas recorded in the topic retrospectives `EDASES-topic-microVMs.md` and
 > `EDASES-topic-Containers-and-Environment.md`. It argues that the technical
-> fix for the read-only roles is not merely an implementation-layer repair:
-> the process it defines produces research-relevant observations that feed
-> directly into the research layer's open execution-context questions. The
-> technical work is therefore a **methodology-feedback loop**.
+> fix for the read-only roles is not merely a tools-side repair: the process
+> it defines produces research-relevant observations that feed directly into
+> the research layer's open execution-context questions, and into what the
+> future Execution layer — a not-yet-existing project layer whose concrete
+> shape is undetermined — will eventually need to enforce. The technical work
+> is therefore a **methodology-feedback loop**.
 >
 > **Status.** This is a research finding with authority **Experimental**: it
-> records observations from active implementation work and a provisional
+> records observations from active tools-side work and a provisional
 > interpretation of those observations against the research abstraction. It
 > does not redefine any research concept and does not propose methodology.
 > It is offered as input to the open questions in the topic retrospectives.
@@ -64,19 +66,20 @@ last_updated: 2026-08-10
 The EDASES research layer abstracts the execution of engineering work as
 `Agent → Execution Request → Execution Harness → Evidence`, and asks what
 isolation guarantees an execution harness must provide. The read-only
-permission-boundary work is the **current in-process realization of that
-abstraction's isolation requirement** for the reviewer and auditor roles: in
-today's stack the harness *is* the agent process, and isolation is enforced by
-permission blocks and guard plugins, not by a substrate between agent and
-repository. The topic retrospectives' open questions do not cover this case —
-they ask about containers, microVMs and Nix, not about the four-role
-permission model, the `--pure` bypass, guard plugins or crosslink allowlists.
-If the technical fix chain (deny-by-default capability boundary #342/#344,
-durability process #330, verified fail-closed sync guard #336/#337)
-successfully defines a workable process that addresses the reviewers'
-concerns **and** produces observations that feed back to the research layer,
-then that fix is methodology-relevant, not merely implementation. This
-document records how, and what the feedback data points are.
+permission-boundary work is **tools-side evidence about that abstraction's
+isolation requirement** for the reviewer and auditor roles: in today's stack
+the agent process is *not* an execution harness — no Execution layer exists
+yet — and isolation is enforced by permission blocks and guard plugins inside
+the agent process, not by a substrate between agent and repository. The topic
+retrospectives' open questions do not cover this case — they ask about
+containers, microVMs and Nix, not about the four-role permission model, the
+`--pure` bypass, guard plugins or crosslink allowlists. If the technical fix
+chain (deny-by-default capability boundary #342/#344, durability process #330,
+verified fail-closed sync guard #336/#337) successfully defines a workable
+process that addresses the reviewers' concerns **and** produces observations
+that feed back to the research layer, then that fix is methodology-relevant,
+not merely tooling. This document records how, and what the feedback data
+points are.
 
 ---
 
@@ -190,35 +193,48 @@ the stronger substrates (container, microVM, Nix).
 
 ---
 
-## 4. How the Boundary Work Relates to the Open Research Areas
+## 4. How the Tools-Side Boundary Work Informs the Open Research Areas
 
-The read-only permission-boundary work is the **implementation-layer
-counterpart** of the research-layer execution-context abstraction. The
-correspondence is direct:
+The read-only permission-boundary work is **tools-side evidence** that
+informs the research-layer execution-context abstraction. It is **not** a
+realization of that abstraction, and it is **not** the future Execution
+layer. The current stack (opencode fork, crosslink fork, guard plugins,
+claude wrapper, rtk, agent definitions, permission blocks) is Tools-side: a
+general warehouse for forks, plugins, wrappers and hacky constructions. The
+Execution layer is a **future, not-yet-existing project layer** that will
+enforce ASES methodology; its concrete shape (possibly a state-machine-based
+agent harness, possibly something else) is **undetermined**. We are
+developing methodology as we go, and this document must not close options
+prematurely.
 
-| Research abstraction (topic docs) | In-process realization (boundary work) |
+The correspondence between the research abstraction and the current stack is
+therefore not a realization mapping. The table below records, for each
+research abstraction, the **tools-side observation** the current work
+produces — an observation the undetermined Execution-layer design should
+account for:
+
+| Research abstraction (topic docs) | Tools-side observation (current stack) |
 |---|---|
 | Agent (role with a reasoning capability) | Four-role permission model: orchestrator / builder / reviewer / auditor (`.opencode/agents/*.md`) |
 | Execution Request | Dispatch via `crosslink kickoff` / swarm with a chosen agent type |
-| Execution Harness | The agent process itself — an opencode subagent session bounded by a permission block (Layer 1) and guard plugins (Layer 2) |
-| Isolation | The deny-by-default permission boundary: `edit: deny`, `task: deny`, narrow `bash` allowlists for reviewer/auditor |
+| Execution Harness | **Absent.** The current stack has no Execution layer and no harness construct; the agent process is not a harness. The boundary is a permission block (Layer 1) plus guard plugins (Layer 2) inside the agent process. This absence is itself an observation: it shows what the future Execution layer must supply. |
+| Isolation | The deny-by-default permission boundary: `edit: deny`, `task: deny`, narrow `bash` allowlists for reviewer/auditor — observed inside the agent process, not between agent and repository |
 | Evidence | Durable positions: `crosslink issue comment` + `crosslink sync` — the read-only roles' commit primitive (#330) |
 
 The research asks what isolation guarantees ASES requires and abstracts
-`Agent → Execution Harness → Evidence`. The permission-boundary work is the
-current realization of that abstraction's **isolation requirement** for the
-read-only roles. Where the research imagines a substrate between the agent and
-the world, the implementation today places the boundary *inside* the agent
-process: the read-only guarantee is a property of the permission block, not of
-any external boundary.
+`Agent → Execution Harness → Evidence`. The permission-boundary work does not
+instantiate that abstraction; it observes what happens when the abstraction
+is **unimplemented** — when the boundary must sit *inside* the agent process
+because there is no harness and no substrate. The read-only guarantee is a
+property of the permission block, not of any external boundary.
 
-This matters for the research because it means the execution-context
-abstraction already has a live, concrete instance — with observed failure
-modes (the broad grants of #314–#326, the `--pure` escape of #342, the
-durability gaps of #330/#340) and observed requirements (the deny-by-default
-consensus of the 8-reviewer wave, the narrow allowlists of #334/#340, the
-fail-closed sync guard of #336/#337). The research layer's open questions
-can be answered with evidence from this instance.
+This matters for the research because the tools-side observations are real
+and feed the Execution-layer requirements: the observed failure modes (the
+broad grants of #314–#326, the `--pure` escape of #342, the durability gaps
+of #330/#340) and observed requirements (the deny-by-default consensus of the
+8-reviewer wave, the narrow allowlists of #334/#340, the fail-closed sync
+guard of #336/#337) are evidence that the future Execution layer's design
+should account for — not a premature realization of that layer.
 
 ---
 
@@ -238,30 +254,32 @@ state to capture, which substrate to pick. They do not address:
 - crosslink allowlists as the durable-position surface for read-only roles;
 - deny-by-default versus allow-by-default permission semantics inside the
   agent process;
-- how read-only is enforced when the execution harness **is** the agent
-  process, with no substrate between agent and repository.
+- how read-only is enforced when there is no execution harness — when the
+  boundary is only a permission block inside the agent process, with no
+  substrate between agent and repository.
 
 The last point is the sharpest form of the gap. The research abstraction
 `Agent → Execution Harness → Evidence` lists **Local process** as a harness
 option (microVMs §3), but every open question about isolation is posed at the
 substrate level. The abstraction does not yet specify:
 
-> **How is read-only enforced when the execution harness IS the agent
-> process — when there is no container, no microVM, no Nix sandbox between
-> the agent and the repository?**
+> **How is read-only enforced when no Execution layer exists — when there is
+> no container, no microVM, no Nix sandbox between the agent and the
+> repository, and the only boundary is inside the agent process?**
 
-That is the case the current implementation lives in. The research leaves it
-open, and the implementation discovered it is non-trivial: a permission block
+That is the case the current tools stack lives in. The research leaves it
+open, and the tools-side work discovered it is non-trivial: a permission block
 is not automatically an isolation boundary, because (a) the block's own grants
 can be too wide (`opencode *` re-admits session-spawning), (b) the enforcement
 plugins can be disabled by a flag (`--pure`), and (c) the durability surface
 can be incomplete (no `sync` → positions stay local). Each of these was found
-by the implementation work, not by the research questions.
+by the tools-side work, not by the research questions.
 
-This is an **implementation-layer gap the research leaves open** — not a
+This is a **tools-side gap the research leaves open** — not a
 contradiction of the research, and not a failure of it. The research
-abstraction was built to discuss substrates; the boundary work is the part of
-the design space the abstraction has not yet covered.
+abstraction was built to discuss substrates; the tools-side observations are
+the part of the design space the abstraction has not yet covered, and they
+are inputs the future Execution layer's design should account for.
 
 ---
 
@@ -270,11 +288,13 @@ the design space the abstraction has not yet covered.
 The key thesis: if the technical fix successfully defines a **workable
 process** — one that (a) addresses the reviewers' concerns and (b) produces
 observations that feed back to the research layer — then the fix is
-methodology-relevant, not just implementation. The mechanism is a feedback
-loop:
+methodology-relevant, not just tooling. Observations from Tools-side work
+feed the research questions, and the future Execution layer — whose concrete
+shape is undetermined — will eventually enforce the methodology these
+observations inform. The mechanism is a feedback loop:
 
 ```text
-Implementation problem (read-only roles not actually read-only)
+Tools-side problem (read-only roles not actually read-only)
     ↓
 Technical fix chain (#342 band-aid + #330 durability process
                       + #336/#337 verified sync guard)
@@ -285,14 +305,17 @@ Workable process (deny-by-default read-only, durable positions,
 Observations about execution-context requirements
     ↓
 Feed back to open EDASES research questions (microVMs §20, Containers §14)
+    ↓
+Inform the future Execution layer (shape undetermined)
 ```
 
 The direction of the loop is legitimate under the project's abstraction
-rules: research should not depend on implementation, but implementation
+rules: research should not depend on implementation, but tools-side
 **observations** are evidence and may inform research (AGENTS.md, Evidence
 and Reasoning Certainty principles). The observations below are offered as
-evidence for the open questions — not as methodology, and not as redefinitions
-of the research abstraction.
+evidence for the open questions — not as methodology, not as redefinitions
+of the research abstraction, and not as a premature realization of the
+Execution layer.
 
 ### 6.1 Feedback data point 1 — per-role-class isolation requirements
 
@@ -325,7 +348,7 @@ the sync guard (#336/#337) is the verified primitive that makes it safe
 (fail-closed: a stale-hub checkpoint refuses to drop local comments).
 
 This is a direct empirical input to microVMs §20.11 ("What evidence should be
-associated with an execution context?"): in the in-process realization, the
+associated with an execution context?"): in the current tools stack, the
 evidence channel is the **position stream** — structured, durable, ordered,
 traceable to its producer. The read-only roles' evidence *is* their positions,
 and the traceability requirement is what motivated the sync grant and the
@@ -340,29 +363,32 @@ stated:
 > context itself, not of a permission block that a flag can disable.**
 
 The #342 proposal's verdict — remove `opencode *` from read-only roles — is
-an implementation choice, but the requirement it encodes is research-relevant:
-when the harness IS the agent process, the harness must be a **real
-boundary**, not a permission block. A flag that empties the enforcement layer
-(`--pure`) demonstrates that a permission-block-only boundary is not a
-boundary at all. This is precisely the "required guarantees, not prescribed
-technology" framing of the topic docs (microVMs §16): the methodology should
-say "the execution context must not be escapable by a harness flag", and
-leave the implementation to decide how.
+a tools-side choice, but the requirement it encodes is research-relevant:
+when no Execution layer exists and the boundary must sit inside the agent
+process, that boundary must be a **real boundary**, not a permission block.
+A flag that empties the enforcement layer (`--pure`) demonstrates that a
+permission-block-only boundary is not a boundary at all. This is precisely
+the "required guarantees, not prescribed technology" framing of the topic
+docs (microVMs §16): the methodology should say "the execution context must
+not be escapable by a harness flag", and leave the future Execution layer —
+whose shape is undetermined — to decide how.
 
 ### 6.4 Why this makes the fix methodology-relevant
 
 The distinction the operator's framing draws is: a fix that merely changes
-config is implementation. A fix that changes config **and** produces
-observations feeding the research's open questions is both — the config
-change is the implementation-layer side, and the process it defines (threat
-model stated, deny-by-default, durable positions, verified primitives) is the
-methodology-relevant side. The same work product carries both.
+config is tooling. A fix that changes config **and** produces observations
+feeding the research's open questions is both — the config change is the
+tools-side part, and the process it defines (threat model stated,
+deny-by-default, durable positions, verified primitives) is the
+methodology-relevant side. The same work product carries both, and the
+observations are what the future Execution layer's design should account
+for.
 
 ---
 
 ## 7. What a Workable Process Must Demonstrate to Count as Methodology
 
-For the technical fix to count as methodology (not just implementation), the
+For the technical fix to count as methodology (not just tooling), the
 process it defines must demonstrate three things. These are stated as
 acceptance criteria for the ongoing work:
 
@@ -381,14 +407,15 @@ acceptance criteria for the ongoing work:
 
 3. **Observations are fed back to EDASES.** The role-class isolation
    requirements (§6.1), the durable-position evidence channel (§6.2), and the
-   harness-as-real-boundary property (§6.3) are recorded as research inputs —
+   real-boundary requirement (§6.3) are recorded as research inputs —
    this document is one such record — and the open execution-context
    questions are updated or answered with them.
 
 If all three hold, the read-only boundary work is active methodology: a
-live, evidence-producing instance of the execution-context abstraction. If
-any fails, the work remains an implementation repair with an unfulfilled
-feedback promise.
+live, evidence-producing **tools-side** source whose observations inform the
+execution-context abstraction and the future Execution layer's design. If
+any fails, the work remains a tools-side repair with an unfulfilled feedback
+promise.
 
 ---
 
@@ -409,8 +436,8 @@ Consistent with the project's negative-space disclosure discipline:
   document records observations; the topic retrospectives have not yet been
   updated with them, and no research question has yet been answered from
   them. The feedback loop's research half is proposed, not observed.
-- **Whether the boundary survives the next harness change is untested.** The
-  `--pure` finding suggests that any future flag, plugin-loading change, or
+- **Whether the boundary survives the next agent-runtime change is untested.**
+  The `--pure` finding suggests that any future flag, plugin-loading change, or
   permission-matcher change can re-open the boundary; no regression
   discipline for the boundary itself was established beyond the #342
   verification plan.
@@ -424,20 +451,22 @@ Consistent with the project's negative-space disclosure discipline:
 ## 9. Conclusion
 
 The read-only permission-boundary work is a **methodology-feedback loop**. The
-fix is implementation-layer — permission blocks, guard-plugin semantics,
-allowlists, a sync guard. But the process it defines produces
-research-relevant observations that feed the open execution-context questions
-of the microVMs and Containers retrospectives: isolation requirements are
-role-class-scoped; the durable position stream is the read-only roles'
-evidence channel; and an execution context whose boundary can be disabled by
-a flag is not a boundary. The technical work therefore does not merely repair
-the read-only guarantee — it begins to answer what the research abstraction
-left open: how read-only is enforced when the execution harness is the agent
-process itself.
+fix is tools-side — permission blocks, guard-plugin semantics, allowlists, a
+sync guard. But the process it defines produces research-relevant observations
+that feed the open execution-context questions of the microVMs and Containers
+retrospectives: isolation requirements are role-class-scoped; the durable
+position stream is the read-only roles' evidence channel; and an execution
+context whose boundary can be disabled by a flag is not a boundary. The
+technical work therefore does not merely repair the read-only guarantee — it
+begins to answer what the research abstraction left open: how read-only is
+enforced when no Execution layer exists and the boundary must sit inside the
+agent process.
 
 The workable process counts as methodology when the reviewers' concerns are
 addressed (threat model stated, deny-by-default, fail-closed identity), the
 durability primitive is verified (sync guard demonstrated), and the
-observations feed back to EDASES. The first two are the implementation
-side of the loop; the third is the research side. This document is a first
-step on the third.
+observations feed back to EDASES. The first two are the tools-side part of
+the loop; the third is the research side. The future Execution layer — whose
+concrete shape (possibly a state-machine-based agent harness, possibly
+something else) is undetermined — will eventually enforce the methodology
+these observations inform. This document is a first step on the third.
