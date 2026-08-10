@@ -94,6 +94,11 @@ Defines how AI capabilities are evaluated experimentally.
 
 Records evidence-based observations regarding AI systems and engineering tools.
 
+The registry instance is consolidated under `docs/research/registry/`: the
+`AI Capability Registry Specification.md` defines its structure, the
+`Model-Routing-Matrix.md` holds routing evidence, and the
+`model-feedback-*.md` entries record per-model observations.
+
 ---
 
 ## AI Orchestration Guide
