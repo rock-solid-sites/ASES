@@ -1,6 +1,6 @@
 {
   "next_display_id": 344,
-  "next_comment_id": 1538,
+  "next_comment_id": 1539,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -11527,7 +11527,7 @@
       "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
       "created_by": "OL2r",
       "created_at": "2026-08-10T01:52:50.936698025Z",
-      "updated_at": "2026-08-10T02:27:46.116626672Z",
+      "updated_at": "2026-08-10T02:35:23.251925580Z",
       "labels": [
         "permission"
       ],
@@ -11549,6 +11549,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAPHm24fJ8eJpcqYyo8mDNdLPsN4HRJb5KdkzCHTkMdC9q8zZFyVxdfakIYzDkBf+lrnb920K7iM7EkiRn5wrOBw=="
+        },
+        "aa89058d-ceec-40b8-be8b-4bcd1d746683": {
+          "display_id": 1538,
+          "author": "pp3g-GGEY-read-only-design-proposal-task-attempt-2-for-issue",
+          "content": "Plan: compose deny-by-default capability boundary proposal for read-only roles. Verification done: (1) --pure mechanism CONFIRMED at source — .opencode/opencode.json 'plugin' array (the 3 guards) resolves to plugin_origins; fork plugin/index.ts:179 'flags.pure ? [] : (cfg.plugin_origins ?? [])' empties them; internalPlugins() (line 66) contains only auth plugins (CodexAuthPlugin, CopilotAuthPlugin, ModalPlugin, GitlabAuthPlugin, PoeAuthPlugin, CloudflareWorkersAuthPlugin, CloudflareAIGatewayAuthPlugin, AzureAuthPlugin, DigitalOceanAuthPlugin, SnowflakeCortexAuthPlugin, XaiAuthPlugin) — NOT the guards. (2) Two-layer enforcement mapped: opencode permission block (agent .md) is the TRUE deny-by-default boundary; crosslink-guard plugin is a git-blocklist + active-issue gate, NOT a bash allowlist (relaxed mode section 7 + active-issue short-circuit section 9 allow non-list commands). (3) EXTENSION to auditor matrix: 'rtk *' is a broad proxy surface (rtk gh/glab/docker/kubectl/pnpm/dotnet/aws/psql/wget/git/test...), not just read-only file ops; hook-config allowed_bash_prefixes ALSO pass-throughs cargo/npm/npx/node/python/tsc/opencode for all agent types. Deliverable will cover: bypass matrix (verified+extended), exact per-grant keep/narrow/remove allowlists, --pure fix, tradeoffs, verification plan, what-not-tested.",
+          "created_at": "2026-08-10T02:35:23.244065619Z",
+          "kind": "plan",
+          "signed_by": "SHA256:3mlbg/Dgf8kfZ/IasWpZ2q0h/xqcztXi/OAgt6ZGqiA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgGDRmXVrleWlZftKV+IEkw3AylIa4j+6AY7GVERmtQM8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEvuXIJZadUzjT34SsRHy8IPdkpD+sMA022eS0Ut/sXapJnZU9X/6oG/QDApiWOHtnMhOBWYEu3e0qWLgANjmCg=="
         },
         "b3c06b0b-98c8-4b29-bac2-a8a6ca938899": {
           "display_id": 1527,
@@ -19900,8 +19909,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T02:34:52.760415497Z",
-    "agent_id": "pp3g-lT7u-pre-positioned-phase-1-in-flight-auditor-read-only",
-    "agent_seq": 2
+    "timestamp": "2026-08-10T02:35:23.251925580Z",
+    "agent_id": "pp3g-GGEY-read-only-design-proposal-task-attempt-2-for-issue",
+    "agent_seq": 4
   }
 }
