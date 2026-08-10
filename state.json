@@ -1,6 +1,6 @@
 {
   "next_display_id": 353,
-  "next_comment_id": 1612,
+  "next_comment_id": 1613,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -16125,10 +16125,21 @@
       "parent_uuid": "47c15896-0f8f-4b8e-9516-0e336dc42fe1",
       "created_by": "OL2r",
       "created_at": "2026-08-10T17:59:47.849807598Z",
-      "updated_at": "2026-08-10T17:59:56.792100506Z",
+      "updated_at": "2026-08-10T18:04:09.216400414Z",
       "labels": [
         "documentation"
-      ]
+      ],
+      "comments": {
+        "89fbea62-208c-4476-8f7e-3ee5dcb3dd72": {
+          "display_id": 1612,
+          "author": "pp3g-FAfc-doc-correction-task-for-issue-352-fix-the-execution",
+          "content": "Plan: Reframe docs/research/read-only-boundary-as-methodology.md to remove the Execution-layer-vs-Tools conflation per operator clarification. (1) §1 finding: change 'current in-process realization of the abstraction's isolation requirement' → tools-side evidence; state today's stack provides no execution harness. (2) §4: rewrite intro + mapping table — table column becomes 'Tools-side observation (current stack)'; Execution Harness row becomes 'Absent — bare process bounded by permission block/guards' (not 'the agent process itself'); delete 'implementation-layer counterpart' framing; add explicit statement that the current stack is Tools-side (general warehouse for forks/plugins/wrappers/hacky constructions) and the future Execution layer's shape is undetermined (state-machine-based harness = one hypothesis among many). (3) §5: 'execution harness IS the agent process' → 'no execution harness — only boundary is inside the agent process'; 'implementation-layer gap' → 'tools-side gap'. (4) §6 feedback loop: diagram relabels 'Implementation problem' → 'Tools-side problem' and adds terminal node 'Inform the future Execution layer (shape undetermined)'; 6.2 'in-process realization' → 'current tools stack'; 6.3 requirement framed as input to the future Execution layer. (5) §7/§9: 'live instance of the execution-context abstraction' → tools-side evidence source; conclusion states fix is tools-side, Execution layer future/undetermined. Preserve empirical evidence value (failure modes + requirements are real observations). Verify: grep for 'Execution Harness = the agent process' and 'implementation-layer counterpart' both gone. Frontmatter intact. Commit with [#345] ref.",
+          "created_at": "2026-08-10T18:04:09.205890308Z",
+          "kind": "plan",
+          "signed_by": "SHA256:oYswWb9d2l38emBvoB5CKZQgC/jZTKOnt3JfiuSeV1U",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgNwOQsKVD2Yu3IbHwN/f+46L9y+2uWI4gAunngY+zaigAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZKSelAtfzqdTHEEzFwyOUsxqfJ+UqzU5wlPVp+vjYDfRpWPSLa6tyF9BNppFNLfqfVvsty689hKrd3q7P6mUCw=="
+        }
+      }
     },
     "c0e85197-4daf-4f2e-baee-ee7d11314c92": {
       "uuid": "c0e85197-4daf-4f2e-baee-ee7d11314c92",
@@ -20724,8 +20735,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T18:01:46.998098012Z",
+    "timestamp": "2026-08-10T18:04:09.216400414Z",
     "agent_id": "pp3g-FAfc-doc-correction-task-for-issue-352-fix-the-execution",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
