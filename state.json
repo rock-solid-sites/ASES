@@ -1,6 +1,6 @@
 {
   "next_display_id": 343,
-  "next_comment_id": 1527,
+  "next_comment_id": 1528,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -11518,7 +11518,7 @@
       "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
       "created_by": "OL2r",
       "created_at": "2026-08-10T01:52:50.936698025Z",
-      "updated_at": "2026-08-10T01:59:14.939443309Z",
+      "updated_at": "2026-08-10T02:00:25.236113527Z",
       "labels": [
         "permission"
       ],
@@ -11531,6 +11531,15 @@
           "kind": "observation",
           "signed_by": "SHA256:BqrqiyYef0VESubRS7vnwVCYbNjOZ1F09D0a1UAW6u0",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbx7lh9U5uggh+YrZkPYPUScMD0Vmpw/ewnz8B0f96GEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8cdJacKVKXacQLkLLSB+v9MWvqgK5KYRaIzAg2XwjiShevx8fwsDjQ5vvZFLs96WY1jc5GKPwgG6Q1lZ+Sh6DA=="
+        },
+        "b3c06b0b-98c8-4b29-bac2-a8a6ca938899": {
+          "display_id": 1527,
+          "author": "pp3g-rAGB-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-0b23",
+          "content": "[AUDITOR INDEPENDENT ANALYSIS] Complete bypass matrix for current read-only role grants. Builder has not yet produced position. This is the auditor's independent baseline.\n\nGRANT: opencode * (Reviewer + Auditor)\nBYPASSES: (a) opencode run --pure disables all 3 guard plugins (crosslink-guard, orchestrator-guard, rtk-guard) - documented in opencode run --help; (b) opencode run --auto auto-approves permissions under tmux; (c) direct opencode invocation bypasses claude wrapper model enforcement\nRISK: HIGH - single-command escape from entire enforcement layer\nNEED: Reviewer/auditor need opencode for what? Must verify.\n\nGRANT: git * (Reviewer + Auditor)\nBYPASSES: (a) git config core.hooksPath redirects hooks; (b) git update-ref modifies refs; (c) git checkout <branch> -- <path> restores files (only . form blocked); (d) git rm removes files; (e) git stash (blocked but git stash create not); (f) git remote add adds remotes; (g) git submodule add adds submodules\nBLOCKED LIST: push/rebase/reset/clean/checkout ./restore ./stash/tag/am/apply/branch -d/-D/-m/commit (for reviewer/auditor)\nRISK: MEDIUM - many unlisted mutators not in blocked_git_commands\nNEED: git diff/log/show for evidence verification (confirmed in tripn finding)\n\nGRANT: cargo * (Reviewer only)\nBYPASSES: (a) cargo run executes arbitrary Rust code; (b) cargo test runs arbitrary test code; (c) cargo build compiles arbitrary code\nRISK: HIGH - arbitrary code execution\nNEED: Reviewer needs cargo for what? Must verify.\n\nGRANT: npm * (Reviewer only)\nBYPASSES: (a) npm run executes arbitrary scripts; (b) npx executes arbitrary packages\nRISK: HIGH - arbitrary code execution\nNEED: Reviewer needs npm for what? Must verify.\n\nGRANT: crosslink issue comment * (Both)\nSTATUS: OK - this is the legitimate store-access surface per tripn finding\nNOTE: crosslink sync is in allowlist but permission enforcement fails to match literal pattern (systemic bug)\n\nGRANT: crosslink knowledge search/list/add/edit * (Both)\nSTATUS: OK - knowledge page maintenance for read-only roles\nNOTE: knowledge delete was removed in #340\n\nGRANT: ls/cat/rtk * (Both)\nSTATUS: OK - read-only file operations\n\nWHAT-NOT-TESTED: (1) opencode run --pure bypass not empirically executed; (2) --auto vs .md permission engine interaction not measured; (3) cargo/npm execution surface not tested in reviewer context; (4) git mutators like git config/update-ref not demonstrated",
+          "created_at": "2026-08-10T02:00:25.228660497Z",
+          "kind": "observation",
+          "signed_by": "SHA256:BqrqiyYef0VESubRS7vnwVCYbNjOZ1F09D0a1UAW6u0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbx7lh9U5uggh+YrZkPYPUScMD0Vmpw/ewnz8B0f96GEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAb6hBlRb1bVeoH2LSH3y7osu+hjj9NzyN/7tSuVN786V77sFfy8IVVr4oCxYLJgxQUIUQlgcwZIkTmvbvCCDnCQ=="
         },
         "bb8364d4-e551-45c2-b8da-9bbc41b63268": {
           "display_id": 1525,
@@ -19777,8 +19786,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T01:59:14.939443309Z",
+    "timestamp": "2026-08-10T02:00:25.236113527Z",
     "agent_id": "pp3g-rAGB-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-0b23",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
