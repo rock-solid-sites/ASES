@@ -1,6 +1,6 @@
 {
   "next_display_id": 355,
-  "next_comment_id": 1625,
+  "next_comment_id": 1626,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -3487,7 +3487,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-10T17:20:40.223825249Z",
-      "updated_at": "2026-08-10T18:19:10.274846773Z",
+      "updated_at": "2026-08-10T18:19:19.095027641Z",
       "labels": [
         "filing"
       ],
@@ -3500,6 +3500,15 @@
           "kind": "observation",
           "signed_by": "SHA256:N4ffRGSeJiE29NIyScujGxudfA1Fz3GxZwGF7EtQSno",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgB/yubmPRfGdzT8dW9Err4Hitl6/USqRjWoAoqNJ6qusAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdX3Y89KVtaD/z/vPmSkgM/9q7LXhLZ6Bc4M0HJoErMpEd2KXUHGoyfIQfWMmhpgFq8ohMWPNBjjSVQzVO40YCQ=="
+        },
+        "455deb89-8ddb-44a2-8d80-0d174bdee785": {
+          "display_id": 1625,
+          "author": "pp3g-Mdur-execute-the-operator-approved-filing-plan-on-issue",
+          "content": "Plan: executing the operator-approved filing plan (authority = plan comment 2026-08-10 18:07). No deviation from the plan.\n\nScope: 13 moves total — 10 tracked via git mv (Cluster B x5, C x4, E x1) + 3 untracked EDASES docs (Cluster A, copied from main-repo to-file/ then git add at destination). Cluster D (reviews-1/2/3.md) HELD in to-file/ untouched.\n\nApproach:\n1. Cluster A: copy 3 untracked docs from main repo to-file/ into worktree, author Documentation-Standard frontmatter (Research/Research Record; A1/A2 Active/Experimental; A3 Experimental/Experimental), git add at canonical homes.\n2. Cluster B: git mv 5 crosslink-gates docs -> docs/research/crosslink-gates/ (new dir), status Archived, supersession chain (evidence-based-gates superseded_by updated-evidence-based-gates; cluster superseded_by crosslink impl #13/#22-#27); server-crash-postmortem stays in cluster but is an unrelated incident log per #13 (no supersession to impl).\n3. Cluster C: git mv 4 past-event docs -> docs/research/ root, status Active, Research Record (precedent crosslink-db-rollback-incident.md / session-recovery-after-crash.md). failed-conversation.md preserved VERBATIM — frontmatter only, body untouched.\n4. Cluster E: git mv regression-testing.md -> docs/research/regression-testing-orchestrator-compliance.md; sweep notes: meta-instruction-compliance-gap knowledge page exists in tripn-astro (not ASES, not renamed, RTK section RESOLVED); rtk-guard.ts now exists (stale 'once built' wording).\n5. Reference sweep (same commit): update to-file/ paths + titles in session-recovery-after-crash.md (depends_on server-crash-postmortem.md + related_documents handoff-failure-analysis.md), stage4-orphaned-audit.md, stage4-partial-audit.md, ases-stage3-crossref.md, session-audit-plan.md, filing-handbook knowledge page (staging list), CHANGELOG.md. Never touch .crosslink/integrity/*.sqlite or .crosslink/issues.db.\n6. Commit(s) with [#351]; post result; sync.\n\nDiscovery: the 3 untracked EDASES docs exist only in the main repo's to-file/ (not in this worktree, not in git). Will copy content from main repo (readable via bash) into the worktree, then git add at canonical destination.",
+          "created_at": "2026-08-10T18:19:19.087823819Z",
+          "kind": "plan",
+          "signed_by": "SHA256:2mXaj+qTuodbp12PB2uVSa190aw32aPXt5HGGCRy3fs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg1WEHRxIezSHZqUdz6BmaIMy/71GeupY9d9zcHKWexGIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5tchtyf0NL3zw9AlndMfxluZp/EHLJHCp1s2o8D03NTQOis67iaX4jA/89+4vBriD6xWLRq2+2xIfjMD3HTXAQ=="
         },
         "715736ae-dffa-4384-98ed-052c112548d7": {
           "display_id": 1623,
@@ -20879,8 +20888,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T18:19:10.274846773Z",
-    "agent_id": "pp3g-WzRN-phase-1-in-flight-divergence-verifier-for-issue-351",
-    "agent_seq": 2
+    "timestamp": "2026-08-10T18:19:19.095027641Z",
+    "agent_id": "pp3g-Mdur-execute-the-operator-approved-filing-plan-on-issue",
+    "agent_seq": 4
   }
 }
