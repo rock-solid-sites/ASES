@@ -1,6 +1,6 @@
 {
   "next_display_id": 342,
-  "next_comment_id": 1522,
+  "next_comment_id": 1523,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -15025,7 +15025,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-10T01:08:29.708250028Z",
-      "updated_at": "2026-08-10T01:38:53.991431543Z",
+      "updated_at": "2026-08-10T01:39:36.299568471Z",
       "labels": [
         "documentation"
       ],
@@ -15038,6 +15038,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKMAO8oxt0yn/XyAv+Qod0jB9eYD599tK2ebPLZmsg+ja7fdenr5K51rxXwHWAsvRGYc6EMGr0bx0E6Bsc2eMDQ=="
+        },
+        "37976646-ca2d-44d5-a6da-40d6274bc4f0": {
+          "display_id": 1522,
+          "author": "pp3g-rne6-fast-re-pass-of-revised-plan-v2-on-341-read-only-hy3",
+          "content": "Completed: fast re-pass of REVISED PLAN v2 on #341 (read-only). Verdict MAKE CHANGES (narrow) posted as --kind result. All six required changes R1-R6 verified as discharged; the destructive v1 defect (inverted top-level classification) is correctly fixed. Nine residual items found: S1 canonical_repository mirror note applied to C3 only though C1+C2 also declare 'ases' (proven from frontmatter); S2 programme->program normalisation under-scoped to C1/C2 though C5/C6 also carry 'programme'; S3 AC3 unsatisfiable because Step 3a/3b say 'fix drift' but no frontmatter exists on any of the 12 files, so the instruction is a no-op; S4 AC5 unsatisfiable, 7 staged files (A1 x5 + B1 + B2 copies) never removed by any step (18-4-5=9 vs AC5's 2); S5 Microsoft-AutoGen.md.trace.md is a generated artefact inside Step 3 scope and would be wiped by --emit-trace; S6 'Implementation/Tooling' used as a layer value, contradicting v2's own 3e (Tooling is a program value); S7 sweep covers path but not title references, leaving the relationship graph broken across four differing names for C2; S8/S9 nits on document_type drift and the 9 committed docs still using 'programme:'. Also derisked: authoring YAML frontmatter into harness-evaluations is SAFE against validate_evaluation.py (substring section checks, line-level OBS/FIN regexes). Working tree untouched. Could not write .kickoff-status — write tools blocked for read-only role; noted on the issue.",
+          "created_at": "2026-08-10T01:39:36.292054666Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:fZPkJGlZ5iZCiY6DC7DZO9rWk2R9UxjF7w5eztK7cS4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgMX8ert6O1mMvbhL/GkIDm5eTZ3bTk5j3K2Btr44JrKwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA6Lt5bhLKjMMUr1aRg5+1K/kTbPe3/4tVnpA8kSBRYfSvF5AGjoKsc4KjKftgEIgOdFBa6YPVUpXgH0QFh+fdDw=="
         },
         "44656334-3d87-40c0-8efe-9bac05614f99": {
           "display_id": 1517,
@@ -19709,8 +19718,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T01:39:28.109308719Z",
+    "timestamp": "2026-08-10T01:39:36.299568471Z",
     "agent_id": "pp3g-rne6-fast-re-pass-of-revised-plan-v2-on-341-read-only-hy3",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
