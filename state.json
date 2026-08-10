@@ -1,5 +1,5 @@
 {
-  "next_display_id": 347,
+  "next_display_id": 348,
   "next_comment_id": 1577,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -159,6 +159,7 @@
     "6d758d74-81d2-4621-8005-64e83425d269": 195,
     "6de93a06-d6a0-48c4-902d-6c23bdda5f98": 141,
     "6e3bc7f9-a469-48ea-bb12-05b6cb3e6f2d": 83,
+    "6e961517-9924-48d8-abce-903c7e5b41ff": 347,
     "6ee747b1-6d9a-4290-bd0b-2b5326418847": 67,
     "6fde663f-7657-45ad-89e8-f07ad31cebb9": 225,
     "717e6a0a-abbd-4273-bd07-a61a0cc3989f": 132,
@@ -9500,6 +9501,18 @@
       "labels": [
         "feature"
       ]
+    },
+    "6e961517-9924-48d8-abce-903c7e5b41ff": {
+      "uuid": "6e961517-9924-48d8-abce-903c7e5b41ff",
+      "display_id": 347,
+      "title": "FIX: model-discipline corrections — xAI/grok strictly forbidden (patch out of /models), Kimi NOT forbidden (K3 expensive only)",
+      "description": "Correct the model-discipline record. OPERATOR CORRECTION (2026-08-10): (1) xAI models (grok-4.5, grok family) are STRICTLY AND PERMANENTLY FORBIDDEN — they should be patched out of the /models list (opencode models opencode-go currently lists opencode-go/grok-4.5; the user-level plugin at ~/.config/opencode/plugins/plugin.ts does not filter it). Historical note: #249 recorded 'never use Grok/xAI' as a violation — this is the standing rule. ACTION: patch the model catalog/plugin so grok/xAI is not available, and update model-discipline.md + Model-Routing-Matrix.md to state it explicitly. (2) Kimi is NOT strictly forbidden — correct the record: kimi-k2.7-code worked (used successfully on #317/#322); the issue is ONLY that kimi-k3 is extremely expensive (cost-based caution, not a ban). Ensure model-discipline.md + routing matrix state this accurately (current pages are silent on both — the correction must be added). Ref: #249 (grok violation precedent), #313/#336 (free-tier findings), #255 (model data epic).",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "bff799f6-9339-459b-98e7-1a26cd5d29b1",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T13:53:08.383231258Z",
+      "updated_at": "2026-08-10T13:53:08.383231258Z"
     },
     "6ee747b1-6d9a-4290-bd0b-2b5326418847": {
       "uuid": "6ee747b1-6d9a-4290-bd0b-2b5326418847",
@@ -20301,8 +20314,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T13:49:04.045886500Z",
+    "timestamp": "2026-08-10T13:53:08.383231258Z",
     "agent_id": "OL2r",
-    "agent_seq": 1663
+    "agent_seq": 1664
   }
 }
