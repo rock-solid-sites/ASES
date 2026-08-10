@@ -1,5 +1,5 @@
 ---
-title: Harness Evaluation: Microsoft Agent Framework
+title: "Harness Evaluation: Microsoft Agent Framework"
 program: EDASES
 layer: Research
 document_type: Research Record

@@ -1,3 +1,26 @@
+---
+title: "Model Feedback: opencode-go/gpt-5.6-luna"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Derived
+canonical_repository: edases
+
+depends_on:
+  - AI Evaluation Protocol
+  - AI Capability Registry Specification
+
+consumed_by:
+  - Model Routing Matrix
+
+related_documents:
+  - AI Capability Registry Specification
+
+supersedes: []
+last_updated: 2026-08-10
+---
+
 # Model Feedback: opencode-go/gpt-5.6-luna
 
 ## Identification

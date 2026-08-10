@@ -1,3 +1,26 @@
+---
+title: "Model Feedback: cohere/north-mini-code-1-0 — MERGED (existing doc + corroborating evidence)"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Derived
+canonical_repository: edases
+
+depends_on:
+  - AI Evaluation Protocol
+  - AI Capability Registry Specification
+
+consumed_by:
+  - Model Routing Matrix
+
+related_documents:
+  - AI Capability Registry Specification
+
+supersedes: []
+last_updated: 2026-08-10
+---
+
 # Model Feedback: cohere/north-mini-code-1-0 — MERGED (existing doc + corroborating evidence)
 
 ## Identification

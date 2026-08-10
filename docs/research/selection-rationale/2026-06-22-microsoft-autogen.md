@@ -1,5 +1,5 @@
 ---
-title: SR-2026-06-22-AUTOGEN — Microsoft AutoGen as first Track B evaluation
+title: "SR-2026-06-22-AUTOGEN — Microsoft AutoGen as first Track B evaluation"
 program: EDASES
 layer: Research
 document_type: ADR

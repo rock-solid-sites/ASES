@@ -1,5 +1,5 @@
 ---
-title: EDASES Core System Prompt v2
+title: "EDASES Core System Prompt v2"
 program: EDASES
 layer: Methodology
 document_type: Methodology Specification

@@ -194,7 +194,7 @@ All 12 are adversarial review/audit sessions for the model-agnostic implementati
 **Evidence check:**
 - Committed docs capturing findings:
   - `docs/project-completion-report-crosslink-model-agnostic.md` — synthesizes the model-agnostic implementation review findings
-  - `docs/model-feedback-north-mini-code.md` — documents that North Mini Code found 0 issues across 17 modified files in 5 check categories, completed in ~30 seconds
+  - `docs/research/registry/model-feedback-north-mini-code.md` — documents that North Mini Code found 0 issues across 17 modified files in 5 check categories, completed in ~30 seconds
 - Other sessions with similar names (e.g., `ses_0b0bbf0ccffep1X8` "Crosslink architectural audit: model-agnostic refactor review") ARE documented with matching commits (`8875ffb`, `b3ecde1`).
 - The orphaned sessions are review passes that used different models but reviewed the same implementation.
 - Crosslink knowledge cache: No specific knowledge page for each review session, but the aggregate findings are documented.
@@ -219,7 +219,7 @@ All 12 are adversarial review/audit sessions for the model-agnostic implementati
 
 **Evidence check:**
 - Committed docs capturing findings:
-  - `docs/model-feedback-gemini-3.1-pro.md` — documents Gemini 3.1 Pro findings: Score 5/5 on all dimensions, found 0 issues across 17 modified files, completed all 6 check categories. Noted as "slow (2+ min), hit timeout on first attempt" which explains the multiple sessions (retries/timeouts).
+  - `docs/research/registry/model-feedback-gemini-3.1-pro.md` — documents Gemini 3.1 Pro findings: Score 5/5 on all dimensions, found 0 issues across 17 modified files, completed all 6 check categories. Noted as "slow (2+ min), hit timeout on first attempt" which explains the multiple sessions (retries/timeouts).
 - The 6 separate sessions for Gemini reviews are due to timeouts and retries — `model-feedback-gemini-3.1-pro.md` notes "hit timeout on first attempt" which would trigger a new session.
 - Crosslink knowledge cache: Not in DB individually, but aggregate findings captured.
 - `project-completion-report-crosslink-model-agnostic.md` lists all findings.

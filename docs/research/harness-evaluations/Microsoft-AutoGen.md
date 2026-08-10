@@ -1,5 +1,5 @@
 ---
-title: Harness Evaluation: Microsoft AutoGen
+title: "Harness Evaluation: Microsoft AutoGen"
 program: EDASES
 layer: Research
 document_type: Research Record

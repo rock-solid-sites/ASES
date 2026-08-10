@@ -1,5 +1,5 @@
 ---
-title: SR-2026-06-23-microsoft-agent-framework — Microsoft Agent Framework as second Track B evaluation
+title: "SR-2026-06-23-microsoft-agent-framework — Microsoft Agent Framework as second Track B evaluation"
 program: EDASES
 layer: Research
 document_type: ADR

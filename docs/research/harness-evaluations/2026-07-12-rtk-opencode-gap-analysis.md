@@ -1,5 +1,5 @@
 ---
-title: Harness Evaluation: RTK — OpenCode Integration Gap Analysis
+title: "Harness Evaluation: RTK — OpenCode Integration Gap Analysis"
 program: EDASES
 layer: Research
 document_type: Research Record
