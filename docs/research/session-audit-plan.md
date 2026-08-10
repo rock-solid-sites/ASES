@@ -1,7 +1,7 @@
 ---
 
 title: Session Audit and DB Recovery Plan
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Guide
 status: Active

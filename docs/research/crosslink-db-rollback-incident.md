@@ -1,6 +1,6 @@
 ---
 title: Crosslink DB Rollback Incident
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Incident Record
 status: Active

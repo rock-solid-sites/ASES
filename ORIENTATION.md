@@ -125,7 +125,7 @@ All canonical documentation follows the Documentation Standard.
 
 Every canonical document includes metadata describing:
 
-* programme
+* program
 * abstraction layer
 * document type
 * authority

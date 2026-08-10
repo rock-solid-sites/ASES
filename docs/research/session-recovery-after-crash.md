@@ -1,7 +1,7 @@
 ---
 
 title: Session Recovery After VPS Crash
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Research Record
 status: Active

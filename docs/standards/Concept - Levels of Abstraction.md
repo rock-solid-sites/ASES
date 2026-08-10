@@ -1,6 +1,6 @@
 ---
 title: Concept: Levels of Abstraction
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Research Finding
 status: Active

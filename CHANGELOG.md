@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **New Repository Structure:** Implemented the layered document organization under `docs/` (`standards/`, `research/`, `methodology/`, `requirements/`, `architecture/`) to ensure traceability and abstraction boundaries.
 - **Foundational Documents:** Filed 22 new/updated canonical documents including `ARCHITECTURE.md`, `ORIENTATION.md`, and the **Research Synthesis** justifying the architectural pivot.
 - **Mechanical Enforcement Requirement:** Integrated methodology enforcement as a core software requirement (`Methodology to Requirements Mapping Specification.md`).
+- **D5 Convention (issue #341):** standing convention — metadata field is `program` (not `programme`), date field is `last_updated` (not `last_update`), and authored documentation uses American spelling. Applied repo-wide to committed docs.
 
 ### Changed
 - EPIC: Hydration — safe re-hydration + lock consistency (session-scale workstream) (#157)

@@ -1,7 +1,7 @@
 ---
 
 title: Canonical Terminology
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Reference
 status: Active

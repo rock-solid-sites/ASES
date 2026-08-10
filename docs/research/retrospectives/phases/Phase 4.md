@@ -327,7 +327,7 @@ A documentation standard was created to define how canonical documents are struc
 The metadata established during this process included concepts such as:
 
 * title
-* programme
+* program
 * layer
 * document type
 * status

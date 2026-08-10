@@ -1,6 +1,6 @@
 ---
 title: AI Evaluation Protocol
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Research Protocol
 status: Active
