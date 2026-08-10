@@ -1,6 +1,6 @@
 {
   "next_display_id": 342,
-  "next_comment_id": 1507,
+  "next_comment_id": 1508,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -16297,10 +16297,21 @@
       "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
       "created_by": "OL2r",
       "created_at": "2026-08-10T01:06:40.378980431Z",
-      "updated_at": "2026-08-10T01:06:48.536122425Z",
+      "updated_at": "2026-08-10T01:16:06.302107476Z",
       "labels": [
         "documentation"
-      ]
+      ],
+      "comments": {
+        "bfd449d8-ec0a-4943-85c9-8749413cc756": {
+          "display_id": 1507,
+          "author": "pp3g-upeS-doc-amendment-task-for-issue-339-amend-the-agent-1e49",
+          "content": "Plan: Apply the 6 assigned amendments + §5.5 mirror note across the playbook and kickoff template, per #331 verdict (SOUND WITH AMENDMENTS) + #330 finding. (1) §5.3 signal-2: rewrite the ceiling/~4-milestones denominator as a RATE CLOCK — no new commit (builder) / no new synced position (read-only) in >2x the ~5-min budget => investigate; atomic with cap removal. (2) §5.4 + §12: replace 'max ~4 per session' with a RATE BOUND derived from the ~5-min loss-tolerance budget — role-aware (builders commit incrementally ~5min; read-only comment+sync as their commit ~5min); keep milestone-based/never-per-action as over-checkpointing guidance; restate as rate bound, not unbounded. (3) §6.1: 'commit is ground truth' -> 'the durable primitive is ground truth (commits for builders, synced positions for read-only)'. (4) §5.8.1: idle floor ~10min -> ~5min (floor <= budget). (5) §5.9 dangling ref: INSERT §5.9 restoring the #271 decision-gating-artifacts rule (added in a00c0aaf on an unmerged lineage — confirmed absent from current playbook; grep verified) + matching §13 anti-pattern row so the citation resolves. (6) Kickoff template Progress Check-Ins (project .crosslink/rules/kickoff.md + global ~/.crosslink/rules/kickoff.md + kickoff-custom-template.md description): role-aware cadence, cap is not a durability throttle. Scope decision: also update SESSION-START.md + .claude/skills/kickoff/SKILL.md which carry the same stale 'max ~4'/'>2x expected interval' contract and are §5.5-mirrored files — flagging this so operator can veto. §5.5: add active-amendment mirror note (must mirror to tripn-astro, per #331 SHOULD-CONSIDER + #334 verdict). Verify with grep (no residual ~4-cap), commit [#331], result + sync.",
+          "created_at": "2026-08-10T01:16:06.294572514Z",
+          "kind": "plan",
+          "signed_by": "SHA256:Lt93gSmk0X4WzjwBs5EA0jN6jYFbCEgRiISR0a7H5Bk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgqQvWwUlmCp0oQJ98vGPAXxCSS5IMPnEUee7obs5mJ6oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/Ajjdh8L7fzc+7GMh6mYpHWG7EZdfJRkYV+qOKxTjDB8Npl6OKmCe3jVTnpshzi9zGBWgwunX+S8vsP+/be9BA=="
+        }
+      }
     },
     "d4822b37-51ef-4159-a754-5c78bb90dbdd": {
       "uuid": "d4822b37-51ef-4159-a754-5c78bb90dbdd",
@@ -19581,8 +19592,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T01:15:58.306152356Z",
-    "agent_id": "pp3g-VY2M-config-amendment-task-for-issue-340-amend-ases-agent",
-    "agent_seq": 4
+    "timestamp": "2026-08-10T01:16:06.302107476Z",
+    "agent_id": "pp3g-upeS-doc-amendment-task-for-issue-339-amend-the-agent-1e49",
+    "agent_seq": 2
   }
 }
