@@ -14,7 +14,7 @@ related_documents:
   - charters/Charter v1.md
   - research-programs/Operational Research Program v1.md
   - assumption-registers/Assumption Register v1.md
-  - core-system-prompts/Core System Prompt v1.md
+  - docs/methodology/core-system-prompts/Core System Prompt v1.md
   - research-handoffs/Research Handoff 1.md
   - research-addenda/Research Addendum 01.md
 

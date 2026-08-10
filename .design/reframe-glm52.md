@@ -317,7 +317,7 @@ ASES/
 ├── charters/                                 # Project charters (5)
 ├── assumption-registers/                     # Standing register of architectural assumptions (4)
 ├── assumption-to-decision-registers/         # Assumptions → decisions → outcomes traceability (1)
-├── core-system-prompts/                      # Core system prompt iterations for EDASES agents (2)
+├── docs/methodology/core-system-prompts/                      # Core system prompt iterations for EDASES agents (2)
 ├── knowledge-architecture-research/          # Phase-1 research drafts + reviewer responses (6)
 ├── research-programs/                        # Research program versions + the current operational one (4)
 ├── architecture-validation-plans/            # Plans for validating architectural assumptions (1)

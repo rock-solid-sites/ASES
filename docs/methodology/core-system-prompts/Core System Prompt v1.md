@@ -1,3 +1,26 @@
+---
+title: EDASES Core System Prompt v1
+program: EDASES
+layer: Methodology
+document_type: Methodology Specification
+status: Active
+authority: Canonical
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+
+consumed_by:
+  - AGENTS.md
+  - Core System Prompt v2
+
+related_documents:
+  - AI Orchestration Guide
+
+supersedes: []
+last_updated: 2026-08-10
+---
+
 # EDASES Core System Prompt v1
 
 You are assisting with research, planning, analysis, verification, and software engineering decisions.
