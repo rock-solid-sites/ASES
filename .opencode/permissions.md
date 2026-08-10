@@ -61,7 +61,7 @@ is hard-blocked.
 | Permission | Setting | Rationale |
 |------------|---------|-----------|
 | `edit` | `deny` | Read-only review |
-| `bash` | read-only allowlist | Read-only git, ls/cat/rtk, crosslink |
+| `bash` | `{"*": "deny", "crosslink issue comment *": "allow", "crosslink issue show *": "allow", "crosslink session status *": "allow", "crosslink sync": "allow", "crosslink knowledge search *": "allow", "crosslink knowledge list *": "allow", "crosslink knowledge add *": "allow", "crosslink knowledge edit *": "allow", "opencode *": "allow", "git *": "allow", "ls *": "allow", "cat *": "allow", "cargo *": "allow", "npm *": "allow", "rtk *": "allow"}` | Narrow crosslink surface (comment/show, session status, sync, knowledge search/list/add/edit — no delete, no lifecycle/dispatch); read-only git, ls/cat/rtk, toolchain |
 | `task` | `deny` | Cannot delegate |
 | `question` | `deny` | No user interaction during review |
 | `webfetch` | `allow` | May fetch external docs for reference |
@@ -78,7 +78,7 @@ is hard-blocked.
 | Permission | Setting | Rationale |
 |------------|---------|-----------|
 | `edit` | `deny` | Read-only audit |
-| `bash` | read-only allowlist | Read-only git, ls/cat/rtk, crosslink |
+| `bash` | `{"*": "deny", "crosslink issue comment *": "allow", "crosslink issue show *": "allow", "crosslink session status *": "allow", "crosslink sync": "allow", "crosslink knowledge search *": "allow", "crosslink knowledge list *": "allow", "crosslink knowledge add *": "allow", "crosslink knowledge edit *": "allow", "opencode *": "allow", "git *": "allow", "ls *": "allow", "cat *": "allow", "rtk *": "allow"}` | Narrow crosslink surface (comment/show, session status, sync, knowledge search/list/add/edit — no delete, no lifecycle/dispatch); read-only git, ls/cat/rtk |
 | `task` | `deny` | Cannot delegate |
 | `question` | `deny` | No user interaction |
 | `webfetch` | `allow` | May fetch external docs for architectural context |
@@ -148,4 +148,4 @@ is hard-blocked.
 
 - OpenCode: 1.18.11
 - Config schema: https://opencode.ai/config.json
-- Last updated: 2026-08-03
+- Last updated: 2026-08-10

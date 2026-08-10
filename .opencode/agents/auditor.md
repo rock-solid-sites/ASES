@@ -6,7 +6,14 @@ permission:
   edit: deny
   bash:
     "*": deny
-    "crosslink *": allow
+    "crosslink issue comment *": allow
+    "crosslink issue show *": allow
+    "crosslink session status *": allow
+    "crosslink sync": allow
+    "crosslink knowledge search *": allow
+    "crosslink knowledge list *": allow
+    "crosslink knowledge add *": allow
+    "crosslink knowledge edit *": allow
     "opencode *": allow
     "git *": allow
     "ls *": allow
