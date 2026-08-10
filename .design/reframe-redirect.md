@@ -14,7 +14,7 @@ Let me dig into the actual content before forming recommendations.The search did
 
 Before recommendations, it's worth naming what the repo structure and CHANGELOG expose that wasn't visible from the project description alone.
 
-**The structure is ahead of the theory.** The repo already has `assumption-registers`, `findings`, `observations`, `syntheses`, `adversarial-reviews`, `session-handoffs`, `handoff-bundle`, and `selection-rationale` — the full epistemic primitive hierarchy discussed in this conversation is largely already implemented as a folder structure. This is further along than the project description implied.
+**The structure is ahead of the theory.** The repo already has `assumption-registers`, `findings`, `observations`, `syntheses`, `adversarial-reviews`, `session-handoffs`, `handoff-bundle`, and `docs/research/selection-rationale` — the full epistemic primitive hierarchy discussed in this conversation is largely already implemented as a folder structure. This is further along than the project description implied.
 
 **Crosslink is a real external dependency, not a custom build.** The CHANGELOG references `crosslink 0.9.0-beta.1`, a Crosslink tracker reset on 2026-06-23, upstream issues filed at `forecast-bio/crosslink#658`, and a known SQLite uuid-sync bug. Crosslink is not something ASES built — it's a third-party CLI tool that ASES is using as operational infrastructure. This is a critical finding because it means ASES's session memory layer is on a beta dependency with known bugs, not internal code under the project's control.
 
@@ -69,7 +69,7 @@ From the adversarial perspective: three handoff locations is a sign that the han
 
 ### 5. The Selection Rationale Folder Is Doing More Work Than It Appears
 
-The CHANGELOG mentions a `selection-rationale/` folder with a template and backfill for a "Reconstructed rationale" for the AutoGen evaluation. "Reconstructed rationale" is a yellow flag — it means the rationale was written after the fact, not at the time of decision. This is exactly the hindsight injection risk identified in the threat model.
+The CHANGELOG mentions a `docs/research/selection-rationale/` folder with a template and backfill for a "Reconstructed rationale" for the AutoGen evaluation. "Reconstructed rationale" is a yellow flag — it means the rationale was written after the fact, not at the time of decision. This is exactly the hindsight injection risk identified in the threat model.
 
 The template should have a mandatory field distinguishing "live" (written at decision time) from "reconstructed" (written retrospectively). The CHANGELOG actually notes this distinction already exists in the folder — but it should be enforced at the template level with explicit fields, not inferred from the content. The distinction matters because reconstructed rationales have lower epistemic weight and should be treated differently by downstream reasoning.
 

@@ -52,7 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Tier 1 structural validator `scripts/validate_evaluation.py` (post-#3 review fix)
 - Crosslink `template.required_fields` upstream feature request draft (Research Addendum 02) — submitted to https://github.com/forecast-bio/crosslink/issues/658
 - Post-create audit `scripts/audit_research_issues.py` for `research` issues (local mirror of the upstream proposal)
-- `selection-rationale/_template.md` — canonical template for future Live and Reconstructed entries
+- `docs/research/selection-rationale/_template.md` — canonical template for future Live and Reconstructed entries
 - `scripts/session_end_with_audit.sh` — wrapper that runs the audit and appends a summary to `crosslink session end --notes`
 - Selection-rationale backfill documenting the reconstructed rationale for #3 (AutoGen)
 
@@ -69,7 +69,7 @@ The Crosslink tracker was reset on 2026-06-23 (commit `0daf3d9`). Old issue IDs 
 
 Note: #2 and #4 were closed during this session for verification purposes. The actual AutoGen evaluation work is in commit `0cae679` and the MAF evaluation is the next planned work item.
 
-Historical references in `selection-rationale/`, `research-addenda/`, and other docs to old IDs (e.g., "Crosslink issue: #3" in `2026-06-22-microsoft-autogen.md`) refer to the pre-reset tracker. These are **left as historical references** to preserve the audit trail; the substantive work content is unchanged.
+Historical references in `docs/research/selection-rationale/`, `research-addenda/`, and other docs to old IDs (e.g., "Crosslink issue: #3" in `2026-06-22-microsoft-autogen.md`) refer to the pre-reset tracker. These are **left as historical references** to preserve the audit trail; the substantive work content is unchanged.
 
 ### Fixed
 

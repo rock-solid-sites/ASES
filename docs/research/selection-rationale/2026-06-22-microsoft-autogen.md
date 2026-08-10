@@ -1,3 +1,25 @@
+---
+title: SR-2026-06-22-AUTOGEN — Microsoft AutoGen as first Track B evaluation
+program: EDASES
+layer: Research
+document_type: ADR
+status: Active
+authority: Derived
+canonical_repository: edases
+
+depends_on:
+  - Research Addendum 01
+
+consumed_by:
+  - Harness Capability Matrix
+
+related_documents:
+  - Harness Evaluation: Microsoft AutoGen
+
+supersedes: []
+last_updated: 2026-08-10
+---
+
 # SR-2026-06-22-AUTOGEN — Microsoft AutoGen as first Track B evaluation
 
 ## Metadata
