@@ -1,6 +1,6 @@
 {
   "next_display_id": 350,
-  "next_comment_id": 1589,
+  "next_comment_id": 1590,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -3798,10 +3798,21 @@
       "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
       "created_by": "OL2r",
       "created_at": "2026-08-10T14:16:44.073831737Z",
-      "updated_at": "2026-08-10T14:16:59.795286511Z",
+      "updated_at": "2026-08-10T14:24:50.121261826Z",
       "labels": [
         "infrastructure"
-      ]
+      ],
+      "comments": {
+        "cb26b3a0-fed9-4372-968f-ba3ad1ce82e3": {
+          "display_id": 1589,
+          "author": "OL2r",
+          "content": "[ORCHESTRATOR] OPERATOR DIRECTION (2026-08-10) — final design for the rescope:\n(1) ADD selective removal tools, OPERATOR-GATED: bounded per-ID forms — 'git worktree remove <path>' and 'tmux kill-session -t <name>' — granted to the ORCHESTRATOR role only, gated on an active issue, exact-path/name match (no wildcards), so a specific finished agent's worktree+tmux can be closed surgically.\n(2) REMOVE the blanket --force path from agent-facing use: the all-or-nothing 'cleanup --force' (kills everything STALE) must be REMOVED from what any agent can invoke and made OPERATOR-ONLY (a human command, not in any agent allowlist), so the #227-class incident (sweeping live agents) becomes IMPOSSIBLE from the agent side.\n(3) The non-force 'cleanup' path (confirmed-DONE only) may stay agent-invokable but should print the full blast radius and require explicit confirmation.\nThis changes the threat model from 'agents must be careful with a dangerous tool' to 'agents structurally cannot do bulk destruction.' Ref: #227 (2026-08-06 incident: --force swept 23 live agents), #349, #156.",
+          "created_at": "2026-08-10T14:24:50.110749037Z",
+          "kind": "decision",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2WVQL1c8eHmVnxt56Fz49rT/aR7ueEtE6/fSryPUaWViv8+O6+VmWgcavgObj88qKpfbVWeyyO4ep97Hy0r2DQ=="
+        }
+      }
     },
     "29f67bbb-bb7a-438e-bb99-4e7de1b47abc": {
       "uuid": "29f67bbb-bb7a-438e-bb99-4e7de1b47abc",
@@ -20459,8 +20470,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T14:18:22.119832613Z",
-    "agent_id": "pp3g-vROu-model-discipline-fix-for-issue-347-operator-directed",
-    "agent_seq": 3
+    "timestamp": "2026-08-10T14:24:50.121261826Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1676
   }
 }
