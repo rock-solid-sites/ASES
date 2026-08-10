@@ -7,8 +7,9 @@ sources:
     accessed_at: "2026-08-06"
 contributors: ["pp3g-H4ni-write-the-comprehensive-model-capability-registry-6974", "OL2r"]
 created: 2026-08-06
-updated: 2026-08-08
+updated: 2026-08-10
 ---
+
 
 
 
@@ -239,3 +240,5 @@ Reliable implementation agent through chaos (all in-session + kickoff edits this
 | Pre-consumption review gate | opencode-go/mimo-v2.5-pro | Independent claims-not-inferred verification (#425) |
 | Phase-2 post-hoc audit | opencode-go/deepseek-v4-pro or opencode-go/mimo-v2.5-pro | Process+architectural lens (STRONG / ship-ready verdicts — #429/#430) |
 | In-flight divergence monitor (Phase 1) | opencode/big-pickle (different model than builder) | Pre-positioned auditor caught real divergence (#421/#427)
+
+Session evidence addendum 2026-08-10 (session #341 doc-restructure, Phase-1 pre-positioned auditor): opencode/big-pickle (Phase-1 in-flight divergence verifier, #343, pp3g-lT7u) STRONG showing — cadence flag at 10-min staleness correctly refined to durability-risk-not-stall via worktree forensics; self-corrected its own stale position (claimed 0 commits 21s after builder committed); independently verified all 5 plan steps by direct file reads; caught builder AC4 overclaim (3 broken path refs the builder's no-stale-refs claim missed, root-caused to sweep ordering); flag-only discipline throughout. Verdict CONDITIONAL PASS, finding remediated. opencode-go/deepseek-v4-flash (builder #341) 9 incremental commits, healthy cadence after one 14-min gap, claim-discipline weak spot (no-stale-refs overreach). opencode-go/hy3 (plan reviewer #341, 2 passes) v1 caught inverted classification + unsatisfiable AC; v2 confirmed R1-R6 discharged. Workflow-topology validation: Phase-1 auditor held end-to-end — 1 cadence flag, 1 claim-mismatch flag, 1 self-correction, zero false escalations, zero artifact loss.
