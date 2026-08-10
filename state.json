@@ -1,6 +1,6 @@
 {
   "next_display_id": 355,
-  "next_comment_id": 1635,
+  "next_comment_id": 1636,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -3479,7 +3479,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-10T17:20:40.223825249Z",
-      "updated_at": "2026-08-10T18:33:58.133833906Z",
+      "updated_at": "2026-08-10T18:34:07.646880359Z",
       "labels": [
         "filing"
       ],
@@ -3519,6 +3519,15 @@
           "kind": "plan",
           "signed_by": "SHA256:2mXaj+qTuodbp12PB2uVSa190aw32aPXt5HGGCRy3fs",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg1WEHRxIezSHZqUdz6BmaIMy/71GeupY9d9zcHKWexGIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5tchtyf0NL3zw9AlndMfxluZp/EHLJHCp1s2o8D03NTQOis67iaX4jA/89+4vBriD6xWLRq2+2xIfjMD3HTXAQ=="
+        },
+        "4c6dc75c-f27f-485c-9bdf-9086697d0907": {
+          "display_id": 1635,
+          "author": "pp3g-WzRN-phase-1-in-flight-divergence-verifier-for-issue-351",
+          "content": "[AUDIT-VERDICT] PASS\n\n## Audit Verdict: PASS\n\n### Architectural Assessment\n- [OK] — All 13 file moves follow the operator-approved filing plan exactly. Cluster A (3 untracked EDASES docs) copied from main repo with Documentation-Standard frontmatter; Cluster B (5 crosslink-gates docs) git mv'd to docs/research/crosslink-gates/ with Archived status and supersession chain; Cluster C (4 past-event docs) git mv'd to docs/research/ root as Active Research Records; Cluster E (1 regression-testing) git mv'd to docs/research/regression-testing-orchestrator-compliance.md.\n- [OK] — Frontmatter follows Documentation Standard: program/layer/document_type/status/authority/canonical_repository/depends_on/consumed_by/related_documents/supersedes/superseded_by/last_updated. American spelling. Verified on Cluster A (EDASES-topic-Methodology-Research.md), Cluster B (evidence-based-gates.md), and Cluster C (failed-conversation.md — body preserved VERBATIM, md5 verified).\n- [OK] — Cluster D hold respected: reviews-1/2/3.md remain in to-file/ untouched (verified via ls + builder's git diff confirmation).\n- [OK] — Reference sweep completed in same commit: session-recovery-after-crash.md (depends_on + related_documents paths updated), stage4-partial-audit.md (4 crosslink-gates refs + audit-layers note), ases-stage3-crossref.md (3 refs), session-audit-plan.md, CHANGELOG.md (new DOC entry #351). stage4-orphaned-audit.md correctly left unchanged (its to-file/ refs concern HELD reviews). Filing-handbook knowledge page updated via crosslink knowledge edit.\n- [OK] — History preserved: git mv maintained rename history for all 10 tracked moves (65-97% similarity).\n\n### Process Assessment\n- [OK] — Builder posted plan comment at 18:19 (plan matches operator-approved plan).\n- [OK] — Builder posted progress checkpoint at 18:27 (state=working, completed=all 13 docs filed, next=verify git state + commit [#351]).\n- [OK] — Builder posted result comment at 18:32 with commit reference a3cfa800 [#351] (18 files, +2054/-21).\n- [OK] — Commit carries [#351] (verified via builder's result comment referencing commit a3cfa800).\n- [OK] — Builder documented WHAT-NOT-TESTED: crosslink sync post-commit, knowledge-page edit will surface on operator's next sync/push.\n- [OK] — Builder respected constraints: .crosslink/integrity/*.sqlite and .crosslink/issues.db untouched; no .worktrees/ or session artifacts modified; no pushes (operator-gated).\n\n### Systemic Risks Identified\n- Risk: Auditor sandbox cannot run git commands (rtk wrapper prepends rtk to all bash commands, breaking pattern matching for git status/log/diff/show/branch). Impact: Auditor must rely on filesystem inspection + builder claims for git-level verification (commit messages, rename history, branch state). Recommended mitigation: Fix hook-config or permissions to allow bare git commands for auditor role, or add rtk git * patterns to the allowlist.\n\n### Recommendations\n- Improvement: Add git-* patterns to auditor allowlist (e.g. git log*, git status*, git show*) or fix the rtk wrapper to not double-prefix when the command already starts with git. Rationale: The auditor's core function is verifying claim-vs-artifact divergence; without git log access, the auditor cannot independently verify commit messages, rename history, or branch state. Priority: HIGH for future auditor sessions.\n\n### Evidence\n- Commit: a3cfa800 [#351] (builder's result comment)\n- Files: 18 changed, +2054/-21 (builder's result comment)\n- Builder start: 18:08:22 (kickoff-metadata.json)\n- Builder plan: 18:19 (issue comment)\n- Builder progress: 18:27 (issue comment)\n- Builder result: 18:32 (issue comment)\n- Cluster D: reviews-1/2/3.md in to-file/ (rtk find verification)\n- Frontmatter: verified on 3 samples (rtk read verification)\n- Reference sweep: session-recovery-after-crash.md paths updated (rtk read verification)\n- CHANGELOG: #351 entry present (rtk grep verification)\n- Filing-handbook: staging list updated (rtk read verification)",
+          "created_at": "2026-08-10T18:34:07.635757573Z",
+          "kind": "observation",
+          "signed_by": "SHA256:N4ffRGSeJiE29NIyScujGxudfA1Fz3GxZwGF7EtQSno",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgB/yubmPRfGdzT8dW9Err4Hitl6/USqRjWoAoqNJ6qusAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAFZxQuBXnZooA3a+66biQ+pw8tlaTvflkem48Wj82lVxS0J64w13dlU+Kz6fMkdG+kPQiOY6rhR7zQqRDHO2tCQ=="
         },
         "63cb9231-9d8b-4e74-964b-f204bba01b84": {
           "display_id": 1631,
@@ -20961,8 +20970,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T18:33:58.133833906Z",
-    "agent_id": "pp3g-Mdur-execute-the-operator-approved-filing-plan-on-issue",
-    "agent_seq": 10
+    "timestamp": "2026-08-10T18:34:07.646880359Z",
+    "agent_id": "pp3g-WzRN-phase-1-in-flight-divergence-verifier-for-issue-351",
+    "agent_seq": 5
   }
 }
