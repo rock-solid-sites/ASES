@@ -309,7 +309,7 @@ The following canonical documents were identified and created during this phase:
 4. **AI Evaluation Protocol**
 5. **AI Capability Registry**
 6. **AI Orchestration Guide**
-7. **Methodology → Requirements Specification**
+7. **Methodology to Requirements Mapping Specification**
 8. **Execution Engine Vision**
 9. **Canonical Terminology**
 10. **Documentation Taxonomy**

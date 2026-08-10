@@ -163,7 +163,7 @@ Current canonical documents include:
 * AI Evaluation Protocol
 * AI Capability Registry
 * AI Orchestration Guide
-* Methodology → Requirements Specification
+* Methodology to Requirements Mapping Specification
 * Execution Engine Vision
 
 ---

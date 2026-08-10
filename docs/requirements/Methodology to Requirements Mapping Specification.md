@@ -1,11 +1,13 @@
 ---
 title: Methodology to Requirements Mapping Specification
-programme: ASES
+program: ASES
 layer: Requirements
 document_type: Requirements Specification
 status: Active
 authority: Canonical
 canonical_repository: ases
+# Mirror/placeholder: this document is canonical to the ASES repository (ases);
+# it is filed here in edases as a mirror until the ases repository is established.
 
 depends_on:
   - Concept: Levels of Abstraction
@@ -18,8 +20,7 @@ related_documents:
   - Evaluation Framework
 
 supersedes: []
-
-last_updated:
+last_updated: 2026-08-10
 ---
 
 # Methodology → Requirements Mapping

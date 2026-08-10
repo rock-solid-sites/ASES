@@ -1,7 +1,6 @@
 ---
-
 title: Clean Room Execution Guide
-programme: ASES
+program: ASES
 layer: Methodology
 document_type: Guide
 status: Active
@@ -9,21 +8,18 @@ authority: Derived
 canonical_repository: edases
 
 depends_on:
-
-* AI Orchestration Guide
-* Documentation Standard
+  - AI Orchestration Guide
+  - Documentation Standard
 
 consumed_by:
-
-* AGENTS.md
+  - AGENTS.md
 
 related_documents:
-
-* AI Capability Registry
+  - AI Capability Registry
 
 supersedes: []
-
-## last_updated:
+last_updated: 2026-08-10
+---
 
 # Clean Room Execution Guide
 

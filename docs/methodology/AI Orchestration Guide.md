@@ -1,24 +1,27 @@
 ---
 title: AI Orchestration Guide
-programme: ASES
+program: ASES
 layer: Methodology
 document_type: Methodology Specification
 status: Active
 authority: Canonical
 canonical_repository: ases
+# Mirror/placeholder: this document is canonical to the ASES repository (ases);
+# it is filed here in edases as a mirror until the ases repository is established.
 
 depends_on:
   - Concept: Levels of Abstraction
   - AI Capability Registry
 
 consumed_by:
-  - Methodology → Requirements Mapping
+  - Methodology to Requirements Mapping Specification
   - Execution Engine Vision
 
 related_documents:
   - Evaluation Framework
 
 supersedes: []
+last_updated: 2026-08-10
 ---
 
 # AI Orchestration Guide

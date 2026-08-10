@@ -75,4 +75,4 @@ This synthesis serves as the canonical research justification for the entire new
 
 ## 5. Next Steps
 
-The focus shifts immediately to translating the ASES methodology into concrete, machine-enforceable requirements (as detailed in `Methodology → Requirements Mapping Specification`) and defining the Execution Engine's architecture to satisfy those requirements. This architectural pivot enables the project to move from debating how to hack Git to formalizing and automating the research methodology itself.
+The focus shifts immediately to translating the ASES methodology into concrete, machine-enforceable requirements (as detailed in `Methodology to Requirements Mapping Specification`) and defining the Execution Engine's architecture to satisfy those requirements. This architectural pivot enables the project to move from debating how to hack Git to formalizing and automating the research methodology itself.

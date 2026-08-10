@@ -2,23 +2,24 @@
 title: Execution Engine Vision
 program: Tooling
 layer: Architecture
-document_type: Vision
+document_type: Architecture Vision
 status: Active
 authority: Canonical
 canonical_repository: ases-engine
+# Mirror/placeholder: this document is canonical to the ases-engine repository;
+# it is filed here in edases as a mirror until the ases-engine repository is established.
 
 depends_on:
   - Concept: Levels of Abstraction
   - AI Orchestration Guide
-  - Methodology → Requirements Specification
+  - Methodology to Requirements Mapping Specification
 
 related_documents:
   - AI Capability Registry
   - Evaluation Framework
 
 supersedes: []
-
-last_updated:
+last_updated: 2026-08-10
 ---
 
 # Execution Engine Vision

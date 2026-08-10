@@ -1,7 +1,6 @@
 ---
-
 title: Repository Review Checklist
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Checklist
 status: Active
@@ -9,20 +8,18 @@ authority: Canonical
 canonical_repository: edases
 
 depends_on:
-
-* EDASES Review Methodology
+  - EDASES Review Methodology
 
 consumed_by: []
 
 related_documents:
-
-* Documentation Standard
-* ORIENTATION.md
-* ARCHITECTURE.md
+  - Documentation Standard
+  - ORIENTATION.md
+  - ARCHITECTURE.md
 
 supersedes: []
-
-## last_updated:
+last_updated: 2026-08-10
+---
 
 # Repository Review Checklist
 

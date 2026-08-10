@@ -114,7 +114,7 @@ Describe validated engineering methods derived from research.
 **Examples**
 
 * AI Orchestration Guide
-* Methodology → Requirements Specification
+* Methodology to Requirements Mapping Specification
 
 ---
 

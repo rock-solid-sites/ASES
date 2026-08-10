@@ -1,31 +1,27 @@
 ---
-
 title: EDASES Review Methodology
-programme: EDASES
+program: EDASES
 layer: Research
-document_type: Methodology
+document_type: Methodology Specification
 status: Active
 authority: Canonical
 canonical_repository: edases
 
 depends_on:
-
-* Documentation Standard
-* Evaluation Framework
-* Canonical Terminology
+  - Documentation Standard
+  - Evaluation Framework
+  - Canonical Terminology
 
 consumed_by:
-
-* Repository Review Checklist
+  - Repository Review Checklist
 
 related_documents:
-
-* AI Evaluation Protocol
-* ORIENTATION.md
+  - AI Evaluation Protocol
+  - ORIENTATION.md
 
 supersedes: []
-
-## last_updated:
+last_updated: 2026-08-10
+---
 
 # EDASES Review Methodology
 

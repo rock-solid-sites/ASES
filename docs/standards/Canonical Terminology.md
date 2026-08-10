@@ -19,7 +19,7 @@ consumed_by:
 * AI Evaluation Protocol
 * AI Capability Registry
 * AI Orchestration Guide
-* Methodology → Requirements Specification
+* Methodology to Requirements Mapping Specification
 * Execution Engine Vision
 * README.md
 * ORIENTATION.md

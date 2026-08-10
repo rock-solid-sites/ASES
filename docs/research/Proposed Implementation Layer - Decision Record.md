@@ -1,3 +1,27 @@
+---
+title: Proposed Implementation Layer - Decision Record
+program: EDASES
+layer: Research
+document_type: ADR
+status: Archived
+authority: Derived
+canonical_repository: edases
+
+depends_on: []
+
+consumed_by: []
+
+related_documents:
+  - Clean Room Execution Guide
+
+supersedes: []
+last_updated: 2026-08-10
+
+# Status note: Decision D1 on issue #341 superseded this record's conclusion.
+# Clean Room Execution theory/setup is classified as Methodology; only its
+# implementation is classified as execution/tooling.
+---
+
 I actually think you've uncovered an architectural distinction that the documentation doesn't currently express.
 
 The Clean Room Execution Guide is neither methodology nor research. It's an implementation of methodology.
