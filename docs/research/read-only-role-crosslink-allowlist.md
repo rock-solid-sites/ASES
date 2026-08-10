@@ -23,7 +23,7 @@ related_documents:
 
 supersedes: []
 
-last_updated: 2026-08-09
+last_updated: 2026-08-10
 ---
 
 # Read-Only Role Crosslink Allowlist — Repository Role-Permission Change (2026-08-09)
@@ -345,3 +345,74 @@ None of these blocks the allowlist change; each is independently shippable.
 - Whether the auditor's `crosslink sync` grant creates any unintended write
   surface beyond issue comments/knowledge pages is not separately tested.
 - The residual gaps in §6.3 remain unimplemented and untested.
+
+---
+
+## 8. Follow-on Findings (2026-08-10)
+
+The allowlist went live on 2026-08-09; the next day's production runs
+surfaced three follow-on findings that sharpen the original record. They are
+recorded in the same style as the sections above — evidence first, claims
+scoped, untested assumptions stated.
+
+### 8.1 Liveness / commit-cadence contract
+
+The #453 wiring-pass stall proved the original problem (lost time) was not
+fully solved by the allowlist alone. A builder ran 53 minutes on the #453
+wiring pass, posted its plan, then died with **zero commits**. The allowlist
+fixed durability of *emitted positions* (verdicts, findings, checkpoints —
+the store-write surface of §3.2), but it did nothing for **in-progress work
+that never became a position**: the 53 minutes of labor between the plan
+comment and the death produced no durable artifact at all. Lost work, not
+lost verdicts — a different failure class from the one §1.2 documented.
+
+The resolution is a new process rule, recorded as the knowledge page
+`agent-liveness-commit-cadence`:
+
+- **Builder mandate**: commit at least once per 5 minutes of wall-clock time;
+  per-file, per-site, and WIP commits with clear messages are acceptable.
+- **Stall definition**: absence of a new commit for >10 minutes is treated by
+  the auditor and orchestrator as a stall.
+- **Auditor check**: every pre-positioned auditor prompt includes a liveness
+  criterion — check the builder worktree `git log` periodically; if no new
+  commit appears within ~10 minutes of the last, flag a stall to the
+  orchestrator immediately (a divergence flag, not a verdict).
+- **Orchestrator check**: worktree git state is the **primary** liveness
+  signal. Kickoff status `RUNNING` only means the watchdog is alive, not the
+  agent; pane output is ambiguous (a parked agent's pane can look working).
+
+**Empirical proof — failed run vs successful re-run.** The same task/spec ran
+twice. The failed run followed the old protocol: 53 minutes, 1 plan comment,
+0 commits, agent died. The successful re-run followed the cadence mandate:
+**3 commits in 15 minutes**. The commit stream is the discriminator — in the
+window where the failed run produced nothing, the successful run produced
+three durable, resumable artifacts.
+
+### 8.2 Crosslink worktree-to-main sync gap
+
+The §3.2 claim ("positions must be durable at composition time") and §6.2
+("read-only roles own their position stream") need refinement: posts made
+from agent worktrees did **not** propagate to the main issue store during
+this session. The agent pane showed 8 comments on the issue; the main
+repository's `crosslink issue show` showed 1. The orchestrator relayed the
+remaining positions manually — reproducing the exact relay bottleneck §1.3
+describes, for positions their authors had already written to their
+worktree-local store.
+
+The gap is mechanical — worktree-local Crosslink state is not automatically
+synced to the hub view the main session hydrates from. It sharpens the
+sync-for-auditor design decision: the auditor's `crosslink sync` grant (§2.2)
+is only as good as the hub's view of worktree posts, and a position visible
+in the worktree is not yet a position visible to the orchestrator. This is a
+known gap for future work, noted here rather than fixed in this record.
+
+### 8.3 Model reliability note
+
+Free Zen models failed mid-task twice during the runs that produced these
+findings (`laguna`, `nemotron`); paid Go models (`deepseek-v4-flash`,
+`mimo-v2.5`) succeeded consistently. Model choice therefore interacts with
+the drop-recovery story of §3.3: a drop on a free-Zen model is more likely to
+be a mid-task failure whose recovery cost is a full re-run, while the paid-Go
+runs completed with the commit-cadence contract intact. This is an empirical
+note with a small sample, not a tested rule — the naming of models is
+deliberate so future runs can confirm or falsify the split.
