@@ -53,7 +53,7 @@ This two-part evaluation sequence establishes a clear empirical timeline of mult
 ## Cross-references
 
 - `harness-evaluations/Microsoft-AutoGen.md` — The baseline AutoGen evaluation
-- `capability-mapping/Harness-Capability-Matrix.md` — The matrix we are updating with a MAF column
+- `docs/research/registry/Harness-Capability-Matrix.md` — The matrix we are updating with a MAF column
 - `research-addenda/Research Addendum 01.md` — The EDASES layered architecture specifications
 
 ## Why this entry exists

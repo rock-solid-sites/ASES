@@ -47,7 +47,7 @@ Reconstruction quality: medium-high overall. Each factor below carries its own c
 
 3. **AutoGen has high-profile provenance suitable for falsifiable claims.** *Confidence: high.* Direct evidence: 59.2k GitHub stars, 8.9k forks, foundational paper (Wu et al. 2023, arXiv 2308.08155), Microsoft Research origin, explicit "pioneered several concepts in multi-agent orchestration" framing in its own README. If the project's working hypothesis is that Progressive Externalization is happening in the wild (AH-002 in Addendum 01), AutoGen is a high-signal target.
 
-4. **The Addendum 01 §6 deliverable (Harness Capability Matrix) needed a first column.** *Confidence: medium.* Direct evidence: `capability-mapping/Harness-Capability-Matrix.md` did not exist before #3 was worked; the AutoGen evaluation produced the first column. A well-documented framework gives the matrix a recognizable anchor.
+4. **The Addendum 01 §6 deliverable (Harness Capability Matrix) needed a first column.** *Confidence: medium.* Direct evidence: `docs/research/registry/Harness-Capability-Matrix.md` did not exist before #3 was worked; the AutoGen evaluation produced the first column. A well-documented framework gives the matrix a recognizable anchor.
 
 5. **The AutoGen → MAF sequencing was foreseeable from the start.** *Confidence: medium-high.* Direct evidence: MAF's existence as AutoGen's successor was public at the time of selection; the AutoGen README explicitly directs new users to MAF. The natural two-issue sequence (evaluate lineage, then evaluate successor) was available as a planning choice. The fact that #7 (Evaluate MAF) was filed immediately after #3's work finished suggests this sequencing was planned, not improvised.
 
@@ -91,7 +91,7 @@ What observations would have falsified the choice:
 - `methodology-reviews/Heuristic-Scouting.md` — the methodology applied; uses AutoGen as worked example
 - `harness-evaluations/Microsoft-AutoGen.md` — the evaluation produced by this selection
 - `harness-evaluations/Microsoft-AutoGen.md.trace.md` — auto-generated evidence trace
-- `capability-mapping/Harness-Capability-Matrix.md` — the Addendum 01 §6 deliverable that this selection anchored
+- `docs/research/registry/Harness-Capability-Matrix.md` — the Addendum 01 §6 deliverable that this selection anchored
 - `scripts/validate_evaluation.py` — the Tier 1 linter, post-commit artifact of the discipline gap exposed by this evaluation
 
 ## Why this entry exists (precedent statement)

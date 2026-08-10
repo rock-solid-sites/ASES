@@ -1,3 +1,26 @@
+---
+title: Harness Capability Matrix
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Derived
+canonical_repository: edases
+
+depends_on:
+  - Research Addendum 01
+
+consumed_by:
+  - AI Capability Registry
+
+related_documents:
+  - Harness Evaluation: Microsoft AutoGen
+  - Harness Evaluation: Microsoft Agent Framework
+
+supersedes: []
+last_updated: 2026-08-10
+---
+
 # Harness Capability Matrix
 
 **Date:** 2026-06-23

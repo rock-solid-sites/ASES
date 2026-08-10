@@ -12,10 +12,10 @@ depends_on:
   - EDASES Phase 1 Retrospective
 
 related_documents:
-  - capability-mapping/Harness-Capability-Matrix.md
+  - docs/research/registry/Harness-Capability-Matrix.md
 
 consumed_by:
-  - capability-mapping/Harness-Capability-Matrix.md
+  - docs/research/registry/Harness-Capability-Matrix.md
   - ASES methodology development
 
 last_updated: 2026-08-10

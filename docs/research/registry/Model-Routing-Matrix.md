@@ -1,3 +1,26 @@
+---
+title: Model Routing Matrix
+program: EDASES
+layer: Research
+document_type: Registry
+status: Active
+authority: Derived
+canonical_repository: edases
+
+depends_on:
+  - AI Capability Registry Specification
+
+consumed_by:
+  - SESSION-START.md
+  - docs/SESSION-END.md
+
+related_documents:
+  - Model Feedback (per-model registry entries)
+
+supersedes: []
+last_updated: 2026-08-10
+---
+
 # Model Routing Matrix — DIMENSIONED
 
 **Date:** 2026-08-06

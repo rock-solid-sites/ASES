@@ -6,7 +6,7 @@ resolve, see §5 — the doc is stale, not you.
 
 **Ending a session?** See `docs/SESSION-END.md` for handoff conventions.
 
-Model routing: before dispatching agents, consult the Model Routing Matrix (knowledge page: model-routing-matrix, or capability-mapping/Model-Routing-Matrix.md) to pick the model by task type, review lens, and token cost.
+Model routing: before dispatching agents, consult the Model Routing Matrix (knowledge page: model-routing-matrix, or docs/research/registry/Model-Routing-Matrix.md) to pick the model by task type, review lens, and token cost.
 
 ## START-SEQUENCE
 

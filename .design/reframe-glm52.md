@@ -313,7 +313,7 @@ ASES/
 ├── adversarial-reviews/                      # Critical evaluations and stress tests of the methodology
 ├── docs/research/harness-evaluations/                      # Evaluations of external AI coding harnesses (Track B)
 ├── methodology-reviews/                      # Reviews of external software engineering methodologies (Track B)
-├── capability-mapping/                       # Mapping of required capabilities to external solutions (Track B)
+├── docs/research/registry/                       # Mapping of required capabilities to external solutions (Track B)
 ├── charters/                                 # Project charters (5)
 ├── assumption-registers/                     # Standing register of architectural assumptions (4)
 ├── assumption-to-decision-registers/         # Assumptions → decisions → outcomes traceability (1)

@@ -11,10 +11,10 @@ depends_on:
   - Documentation Standard
 
 related_documents:
-  - capability-mapping/Model-Routing-Matrix.md
+  - docs/research/registry/Model-Routing-Matrix.md
 
 consumed_by:
-  - capability-mapping/Model-Routing-Matrix.md
+  - docs/research/registry/Model-Routing-Matrix.md
 
 supersedes:
   - EDASES Phase 4 Retrospective

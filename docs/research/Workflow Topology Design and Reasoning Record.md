@@ -791,7 +791,7 @@ not silently resolve them:
   reasoning-certainty principle
 - docs/ORCHESTRATOR.md, .opencode/permissions.md, .opencode/agents/*.md — role
   contract and permission matrix
-- capability-mapping/Model-Routing-Matrix.md — routing matrix (MODEL-AGREEMENT
+- docs/research/registry/Model-Routing-Matrix.md — routing matrix (MODEL-AGREEMENT
   dimension added as DRAFT in commit 5c92e9d)
 - research-addenda/Research Addendum 05 - Workflow Topology Design Conversation.md
   — VERBATIM white-text transcript of the operator+orchestrator design

@@ -55,7 +55,7 @@ The orchestrator has NO filesystem write (edit denied; orchestrator-guard blocks
 2. Record 'crosslink session action' breadcrumbs for context compression.
 3. Run 'crosslink session end --notes' with the handoff summary (machine-readable).
 4. Produce the durable thin handoff per the structure above (orchestrator; via the repo's handoff mechanism surfaces).
-5. Model evidence: if models were used this session, record their performance (strengths, weaknesses, failure modes, token cost) into the Model Capability Registry (knowledge page: model-routing-matrix / capability-mapping/Model-Routing-Matrix.md + docs/model-feedback-*.md). This is how the registry stays current.
+5. Model evidence: if models were used this session, record their performance (strengths, weaknesses, failure modes, token cost) into the Model Capability Registry (knowledge page: model-routing-matrix / docs/research/registry/Model-Routing-Matrix.md + docs/model-feedback-*.md). This is how the registry stays current.
 6. Run 'crosslink kickoff cleanup' after each dispatch wave (assess STALE with --dry-run --force, preserve work before removing).
 
 ## Conventions
