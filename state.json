@@ -1,6 +1,6 @@
 {
   "next_display_id": 342,
-  "next_comment_id": 1504,
+  "next_comment_id": 1505,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -16045,10 +16045,21 @@
       "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
       "created_by": "OL2r",
       "created_at": "2026-08-10T01:07:12.032581178Z",
-      "updated_at": "2026-08-10T01:07:20.268733577Z",
+      "updated_at": "2026-08-10T01:12:45.398870579Z",
       "labels": [
         "permission"
-      ]
+      ],
+      "comments": {
+        "74985e62-beef-4454-958c-232bdee59614": {
+          "display_id": 1504,
+          "author": "pp3g-VY2M-config-amendment-task-for-issue-340-amend-ases-agent",
+          "content": "Plan: Amend reviewer.md + auditor.md + permissions.md per #334 verdict (3 MUST-FIX).\n(1) Replace broad 'crosslink *' in both files with the narrow tripn-astro Option B allowlist: issue comment/show, session status, sync, knowledge search/list/add/edit — reviewer NOW gets sync too (MUST-FIX 1), making both surfaces identical.\n(2) knowledge delete ABSENT from both (MUST-FIX 3). Decision on add/edit scoping: a prefix allowlist cannot scope knowledge add/edit to the role's own entries (pattern matches any page name), so keep add + edit, drop delete, document the edit-scoping limitation.\n(3) Excluded commands stay absent: quick, issue close/create, kickoff/swarm, session work, intervene/review.\n(4) Update permissions.md snapshot rows for reviewer+auditor to match.\nVerify: pyyaml parse both frontmatters; reviewer==auditor crosslink surface; delete absent; excluded absent; orchestrator.md untouched. Do NOT touch hook-config.json / playbook (#339).",
+          "created_at": "2026-08-10T01:12:45.390809271Z",
+          "kind": "plan",
+          "signed_by": "SHA256:DRiSG6amya3v2L4HCIHsa2QO7vqEuprbq8AGhRhH+Ss",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg7Ex4F951i/g7X1dXWZ8znoFFRIS5brRCSZ4Oxyrg20UAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAb6Yw9kzm91i732D/QqKu8OQuHCuzPyMXH8ff3wkmsFTTeoF6jl9jUYnw57hgkKVSxEUfWvsTn2zCy1RC4h7DCg=="
+        }
+      }
     },
     "cc46bd89-87b3-4e0c-b53d-618f8a23e0c5": {
       "uuid": "cc46bd89-87b3-4e0c-b53d-618f8a23e0c5",
@@ -19552,8 +19563,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T01:12:08.007190706Z",
-    "agent_id": "pp3g-MAMp-quick-pass-plan-review-of-341-read-only-hy3-read-7d00",
+    "timestamp": "2026-08-10T01:12:45.398870579Z",
+    "agent_id": "pp3g-VY2M-config-amendment-task-for-issue-340-amend-ases-agent",
     "agent_seq": 2
   }
 }
