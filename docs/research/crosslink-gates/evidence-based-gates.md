@@ -1,3 +1,33 @@
+---
+title: "Evidence-Based Workflow Gates in Crosslink — Design Document"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Archived
+authority: Experimental
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+
+related_documents:
+  - gates-verified-facts.md
+  - gates-issues.md
+  - updated-evidence-based-gates.md
+  - server-crash-postmortem.md
+
+consumed_by:
+  - Crosslink implementation
+
+supersedes: []
+
+superseded_by:
+  - updated-evidence-based-gates.md
+  - Crosslink implementation issues #13, #22-#27
+
+last_updated: 2026-08-10
+---
+
 # Design Document: Evidence-Based Workflow Gates in Crosslink
 
 **Status**: DRAFT — for review before implementation scoping  

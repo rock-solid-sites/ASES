@@ -1,3 +1,29 @@
+---
+title: "Server Crash Post-Mortem — Evidence Log"
+program: EDASES
+layer: Research
+document_type: Incident Record
+status: Archived
+authority: Finding
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+
+related_documents:
+  - session-recovery-after-crash.md
+  - evidence-based-gates.md
+
+consumed_by:
+  - session-recovery-after-crash.md
+
+supersedes: []
+
+superseded_by: []
+
+last_updated: 2026-08-10
+---
+
 # Server Crash Post-Mortem — Evidence Log
 
 **Date of incident:** 2026-07-13, ~17:46 UTC

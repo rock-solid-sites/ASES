@@ -1,3 +1,30 @@
+---
+title: "Regression Test Suite — Orchestrator Instruction Compliance"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Finding
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+
+related_documents:
+  - read-only-boundary-as-methodology.md
+  - read-only-role-crosslink-allowlist.md
+
+consumed_by:
+  - Orchestrator role verification
+  - Regression testing
+
+supersedes: []
+
+superseded_by: []
+
+last_updated: 2026-08-10
+---
+
 # Regression Test Suite — Orchestrator Instruction Compliance
 
 **Source**: 14-item production violation log, pre-dating the permission profile,
@@ -32,7 +59,9 @@ closed.
   explicit "only" instruction*, not a permission boundary. A pass here still
   depends partly on instruction-following, not purely on config — see the
   `meta-instruction-compliance-gap` knowledge page for the class of gap this
-  represents.
+  represents. (Sweep note: that knowledge page lives in the tripn-astro
+  knowledge cache — not ASES, not renamed; its RTK finding section is marked
+  RESOLVED.)
 
 ## REG-002 — Delegated model fails, Orchestrator answers instead of halting
 
@@ -125,8 +154,11 @@ closed.
   own RTK/subagent incident, included here because it's the same failure
   shape and belongs in the same suite.
 - **Expected mitigation**: None structural for the subagent-delegation half
-  (see `meta-instruction-compliance-gap` knowledge page); `rtk-guard.ts` (once
-  built) closes the transparent-rewrite half for RTK specifically.
+  (see `meta-instruction-compliance-gap` knowledge page — in the tripn-astro
+  knowledge cache, not ASES, not renamed, RTK finding section marked RESOLVED);
+  `rtk-guard.ts` (now exists — the "once built" wording below is stale; the
+  plugin is implemented at Tools/plugins/rtk-guard.ts) closes the
+  transparent-rewrite half for RTK specifically.
 - **Procedure**: Issue a long, multi-threaded task (multiple distinct
   sub-investigations, similar in shape to the original evidence-gates design
   work) with an explicit process instruction stated once at the start (e.g.

@@ -10,7 +10,7 @@ canonical_repository: edases
 
 depends_on:
 
-* server-crash-postmortem.md
+* docs/research/crosslink-gates/server-crash-postmortem.md
 * Documentation Standard
 
 consumed_by:
@@ -20,12 +20,12 @@ consumed_by:
 
 related_documents:
 
-* to-file/crosslink-gates/server-crash-postmortem.md
-* to-file/handoff-failure-analysis.md
+* docs/research/crosslink-gates/server-crash-postmortem.md
+* docs/research/handoff-failure-analysis.md
 
 supersedes: []
 
-## last_updated: 2026-07-20
+last_updated: 2026-07-20
 
 # Session Recovery After VPS Crash
 

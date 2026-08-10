@@ -1,3 +1,34 @@
+---
+title: "Evidence-Based Gates — Implementation Issues (Revised)"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Archived
+authority: Finding
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+  - evidence-based-gates.md
+  - gates-verified-facts.md
+
+related_documents:
+  - evidence-based-gates.md
+  - gates-verified-facts.md
+  - updated-evidence-based-gates.md
+
+consumed_by:
+  - Crosslink implementation
+
+supersedes: []
+
+superseded_by:
+  - updated-evidence-based-gates.md
+  - Crosslink implementation issues #13, #22-#27
+
+last_updated: 2026-08-10
+---
+
 # Evidence-Based Gates — Implementation Issues (Revised)
 
 **Basis:** `evidence-based-gates.md` (DRAFT design) + `gates-verified-facts.md` (source-verified,

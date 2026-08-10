@@ -1,3 +1,33 @@
+---
+title: "Evidence-Based Gates — Verified Facts (Source Synthesis)"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Archived
+authority: Finding
+canonical_repository: edases
+
+depends_on:
+  - Documentation Standard
+  - evidence-based-gates.md
+
+related_documents:
+  - evidence-based-gates.md
+  - gates-issues.md
+  - updated-evidence-based-gates.md
+
+consumed_by:
+  - Crosslink implementation
+
+supersedes: []
+
+superseded_by:
+  - updated-evidence-based-gates.md
+  - Crosslink implementation issues #13, #22-#27
+
+last_updated: 2026-08-10
+---
+
 # Evidence-Based Gates — Verified Facts (Source Synthesis)
 
 **Purpose:** Replace open questions and speculation in `evidence-based-gates.md`

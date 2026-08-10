@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **D5 Convention (issue #341):** standing convention — metadata field is `program` (not `programme`), date field is `last_updated` (not `last_update`), and authored documentation uses American spelling. Applied repo-wide to committed docs.
 
 ### Changed
+- DOC: file the to-file/ staging backlog to canonical homes — 3 untracked EDASES topic docs -> docs/research/retrospectives/topics/ + docs/research/EDASES-Methodology-Feedback-and-Enforcement.md; crosslink-gates cluster (5) -> docs/research/crosslink-gates/ (Archived, superseded by crosslink impl #13/#22-#27); failure-analysis cluster (4) -> docs/research/ root as Active Research Records; regression-testing.md -> docs/research/regression-testing-orchestrator-compliance.md. CLUSTER D (reviews-1/2/3.md) HELD in to-file/ (#351)
 - DOC: file 10 EDASES retrospectives — 5 phase (historical) + 5 topic (active research inputs toward ASES/execution-engine) (#338)
 - DOC: record the chained/pipe-command allowlist gotcha in the playbook + ORCHESTRATOR.md — the bash allowlist matches the command PREFIX, so any pipe chain is denied even when every segment is individually allowed (#266)
 - DOC: file the main project document — Identifier-First Tool Calling for Token- and Resource-Efficient AI Agents (canonical, docs/research/) (#220)
