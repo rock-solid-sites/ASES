@@ -1,6 +1,6 @@
 {
   "next_display_id": 351,
-  "next_comment_id": 1599,
+  "next_comment_id": 1600,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -11202,7 +11202,7 @@
       "parent_uuid": "29a56c5f-e8a5-4946-9abd-4291b82f0077",
       "created_by": "OL2r",
       "created_at": "2026-08-10T14:28:10.022219783Z",
-      "updated_at": "2026-08-10T14:47:32.590109948Z",
+      "updated_at": "2026-08-10T14:47:51.794072422Z",
       "labels": [
         "infrastructure"
       ],
@@ -11233,6 +11233,15 @@
           "kind": "observation",
           "signed_by": "SHA256:pjws1thf8iwEyyfmazleK/IgcqF/9uDfbNP59hHJbhk",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUI9qJhIHi/gOwrpL+fLfT5MftFwGpEBvdZH7jt6AQJoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/72WdYbjE9lscFHAP756BaZah/PdWbuCXgbSe0vSsmETUhextUbj3GxScTYFTcvCUlQBaFIClIHpD//AE2uzAg=="
+        },
+        "91c4eec8-a320-4e94-a717-6c77b6b8e8d5": {
+          "display_id": 1599,
+          "author": "pp3g-mdQf-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-d167",
+          "content": "[DIVERGENCE-FINDING] CRITICAL: Wildcard vs Exact-Match Design Mismatch — The #349 operator direction explicitly states 'exact-path/name match (no wildcards)' for orchestrator tools (git worktree remove, tmux kill-session). However, the builder's plan (14:43) uses 'git worktree remove *' and 'tmux kill-session *' in the orchestrator bash allowlist. The wildcard * in the allowlist means the orchestrator could potentially remove ANY worktree or kill ANY tmux session, not just the specific one intended. This contradicts the operator's threat model change: 'agents structurally cannot do bulk destruction.' If the * is in the bash allowlist, the guard plugin must enforce exact-match at a different layer (e.g., the cleanup.rs code itself), or this is a design divergence. REQUEST: Builder must clarify whether (a) the * in the allowlist is the final form (divergence), or (b) the exact-match enforcement happens in the code/CLI layer (acceptable if structural). Evidence: #349 operator direction comment (14:24), builder plan (14:43). Verification status: CANNOT verify from this worktree — crosslink fork is outside allowed directory. Need builder to confirm the enforcement layer.",
+          "created_at": "2026-08-10T14:47:51.787387932Z",
+          "kind": "observation",
+          "signed_by": "SHA256:pjws1thf8iwEyyfmazleK/IgcqF/9uDfbNP59hHJbhk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUI9qJhIHi/gOwrpL+fLfT5MftFwGpEBvdZH7jt6AQJoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAW62+gBf0ak/xpl6ZiPojjeOjjUr5JVtfhYXZRSt/33sGYcxkoLT9Wqhr2jxksOkYacLDxNjrSeeh+lM+C9mZBQ=="
         },
         "b4cd2a1a-db99-4e95-b947-65792aa7e4b2": {
           "display_id": 1597,
@@ -20569,8 +20578,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T14:47:32.590109948Z",
+    "timestamp": "2026-08-10T14:47:51.794072422Z",
     "agent_id": "pp3g-mdQf-audit-phase-1-pre-positioned-in-flight-mimo-v2-5-d167",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
