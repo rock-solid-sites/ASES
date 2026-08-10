@@ -1,5 +1,5 @@
 {
-  "next_display_id": 354,
+  "next_display_id": 355,
   "next_comment_id": 1615,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -339,6 +339,7 @@
     "f077579a-2e98-4c88-84e9-d2f25e89eea6": 269,
     "f0a6a859-cba0-4308-948d-321479f4139a": 22,
     "f257261a-e750-4e5f-bb48-301c61263054": 110,
+    "f2a8a904-548b-469a-bc63-f76f00727bc1": 354,
     "f4a5cbb0-6bea-4b14-8d00-1ba9e59e36f5": 264,
     "f512218f-64c6-43fb-a89b-9e1a67c07301": 240,
     "f5cf8b37-fe5e-4123-9318-20282967be6e": 334,
@@ -19898,6 +19899,18 @@
         }
       }
     },
+    "f2a8a904-548b-469a-bc63-f76f00727bc1": {
+      "uuid": "f2a8a904-548b-469a-bc63-f76f00727bc1",
+      "display_id": 354,
+      "title": "ANALYZE: Tools repo monorepo migration — inventory, boundaries, integration points",
+      "description": "Analyze /home/claude-code/projects/Tools for migration into the monorepo (operator direction 2026-08-10). Context: monorepo = EDASES + ASES + Execution layers (separate repos, defined boundaries); Tools = general warehouse for forks/plugins/wrappers/skills/hooks/agent-defs/scripts; tripn-astro = separate client (NOT a member). Deliverable (READ-ONLY analysis + plan, NO implementation): (1) full inventory of Tools repo contents (per TOOLING.md catalog + actual filesystem) — what belongs in the monorepo, what is crosslink-fork material, what is tripn-client-specific (the tripn-astro/ bundle should probably NOT go in); (2) boundary analysis — which Tools contents are consumed BY each layer repo (ASES consumes guard plugins/agent defs/skills; crosslink fork consumed by all), i.e. the dependency graph; (3) integration points — how the monorepo would reference/consume Tools (submodule? separate package? vendored copy?), given Tools is a warehouse not a layer; (4) migration plan — steps, order, risks (e.g. the crosslink fork's own repo, the .opencode/plugins duplication between ASES/tripn, the user-level config at ~/.config/opencode); (5) what should NOT move (tripn-astro bundle, user-level config, live binary paths). READ-ONLY — produce the analysis on this issue; no file changes. Ref: #353 (ontology record), #345/#352 (the corrected doc), TOOLING.md, README.md.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "c463f63f-aba9-4cd9-b2ae-698a5c6dcef6",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T18:05:18.085937070Z",
+      "updated_at": "2026-08-10T18:05:18.085937070Z"
+    },
     "f4a5cbb0-6bea-4b14-8d00-1ba9e59e36f5": {
       "uuid": "f4a5cbb0-6bea-4b14-8d00-1ba9e59e36f5",
       "display_id": 264,
@@ -20769,8 +20782,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T18:04:56.750442705Z",
+    "timestamp": "2026-08-10T18:05:18.085937070Z",
     "agent_id": "OL2r",
-    "agent_seq": 1689
+    "agent_seq": 1690
   }
 }
