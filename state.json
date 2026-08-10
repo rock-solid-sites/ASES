@@ -1,6 +1,6 @@
 {
   "next_display_id": 339,
-  "next_comment_id": 1499,
+  "next_comment_id": 1500,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -437,7 +437,7 @@
       "parent_uuid": "52bac49d-a367-4cf6-94e4-47b62124eccf",
       "created_by": "OL2r",
       "created_at": "2026-08-10T00:01:49.265234945Z",
-      "updated_at": "2026-08-10T00:44:43.814683892Z",
+      "updated_at": "2026-08-10T00:49:17.351507154Z",
       "labels": [
         "research"
       ],
@@ -459,6 +459,15 @@
           "kind": "plan",
           "signed_by": "SHA256:r8gkw6P6ACppvwySQfu5msstOcUVKuvNPQHueOLfLZk",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgNLnXGftZwLE6Y3NFIcUycKmriLQu83tmD4MUXNgUXvMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAPfP46fF3lcxnQTTHqfeTbkIoWlkMiQ4BCWK8Q2gn/Al7FfzhfpLvhrhTuXShS8NQSJ+nbwWypv/aqfzhfHHbCQ=="
+        },
+        "cc24dc9c-6983-41b9-bc29-24202c7370e0": {
+          "display_id": 1499,
+          "author": "pp3g-xDEE-level-2-behavioral-test-attempt-2-for-issue-337-884a",
+          "content": "RESULT (Level-2 isolated behavioral test): **DEMONSTRATED-FAIL-CLOSED** — the ade6146b fail-closed sync guard works at runtime in an isolated scratch environment.\n\n## Commands run (all in /tmp scratch; zero contact with real state)\n1. cp -r <worktree>/.crosslink /tmp/crosslink-sync-test-337b/ ; git init -b main\n2. git update-ref refs/heads/crosslink/hub + /meta + /checkpoint <base-sha> (GUARD TRIGGER: v2 hub branch so init_cache keeps hub_mode V2; v3 markers so v2_file_path_decision=Forbidden)\n3. crosslink issue comment 337 'level2-local-only-comment' --kind observation  (no sync — comment id 1498 in scratch SQLite)\n4. crosslink sync  -> REFUSED (exact fail-closed message)\n5. sqlite3 scratch issues.db -> comment 1498 SURVIVED; issue count 336 -> 336 unchanged\n\n## Observed output (verbatim)\n'Error: sync refused the legacy v2 hydration path (fail-closed, gh#125): v3 marker refs present locally (refs/heads/crosslink/meta + checkpoint); the cache worktree issue files are a stale migration host. The local SQLite is left untouched (stale-but-safe). If this project's hub is v3, the cache should have joined it — retry, or run crosslink compact; if the hub is genuinely v2-only, make the configured remote reachable and retry crosslink sync.'\n\n## Evidence\n- Scratch dirs (left for inspection): /tmp/crosslink-sync-test-337b (primary), /tmp/crosslink-sync-test-337b-control, /tmp/crosslink-sync-test-337b-repro — each has sync-output.txt captured logs.\n- CONTROL: same setup minus v3 marker refs (confidently-v2-only) -> sync did NOT refuse; ran legacy v2 read-only path ('This hub uses the legacy v2 layout (read-only)...'). Proves refusal is conditional on v3 markers.\n- REPRO: identical refusal + comment survival in a fresh scratch — deterministic.\n- Secondary: a 2nd sync in primary (hub_mode now resolves V3 after cache creation) took the v3 path, warned 'v2 file-path auto-hydration skipped (fail-closed, gh#125)', and STILL did not drop the comment.\n- SAFETY: real ASES issues.db sha256 unchanged (20cfd33f...); worktree .crosslink/issues.db unchanged (8d340bc3...); real hub-cache issues/ still empty.\n\n## Classification: DEMONSTRATED-FAIL-CLOSED\n\n## WHAT-NOT-TESTED\n- Remote v3-advertisement branch (fresh-clone path) — scratch had no remote; observed trigger was local-refs Forbidden.\n- Detection-doubt branch (broken refs -> Err) — not manufactured; clean v3-markers-present observed.\n- Counterfactual destructive path (v2-only hub with stale *populated* hub-cache dropping rows) — NOT run; unnecessary for classification; that is the operator-gated Level-3 live destructive test.\n- Full evidence doc + reconstruction recipe: findings/2026-08-10-level2-fail-closed-guard-empirically-demonstrated.md (committed to this feature branch).",
+          "created_at": "2026-08-10T00:49:17.344707871Z",
+          "kind": "result",
+          "signed_by": "SHA256:r8gkw6P6ACppvwySQfu5msstOcUVKuvNPQHueOLfLZk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgNLnXGftZwLE6Y3NFIcUycKmriLQu83tmD4MUXNgUXvMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAf0YaB4xTo7luRe5O5LsV6mIpAIRyxMnSLSjtOOCa521kxsr8P1lwgYRy1cWl6qRbNa0NyYYDJ3Xbb6V/wUbyAg=="
         },
         "d76694fe-82fb-4864-a206-8e4022e8920a": {
           "display_id": 1494,
@@ -19458,8 +19467,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T00:49:00.064996264Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1629
+    "timestamp": "2026-08-10T00:49:17.351507154Z",
+    "agent_id": "pp3g-xDEE-level-2-behavioral-test-attempt-2-for-issue-337-884a",
+    "agent_seq": 6
   }
 }
