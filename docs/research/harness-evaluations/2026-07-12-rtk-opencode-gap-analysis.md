@@ -1,3 +1,25 @@
+---
+title: Harness Evaluation: RTK — OpenCode Integration Gap Analysis
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Derived
+canonical_repository: edases
+
+depends_on:
+  - Research Addendum 01
+
+consumed_by:
+  - Harness Capability Matrix
+
+related_documents:
+  - Evaluation Framework
+
+supersedes: []
+last_updated: 2026-08-10
+---
+
 # Harness Evaluation: RTK — OpenCode Integration Gap Analysis
 
 **Date:** 2026-07-12

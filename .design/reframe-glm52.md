@@ -311,7 +311,7 @@ ASES/
 ├── syntheses/                                # Higher-level integration across findings
 ├── evaluation-corpus/                        # Artifacts for evaluating methodologies and architectures
 ├── adversarial-reviews/                      # Critical evaluations and stress tests of the methodology
-├── harness-evaluations/                      # Evaluations of external AI coding harnesses (Track B)
+├── docs/research/harness-evaluations/                      # Evaluations of external AI coding harnesses (Track B)
 ├── methodology-reviews/                      # Reviews of external software engineering methodologies (Track B)
 ├── capability-mapping/                       # Mapping of required capabilities to external solutions (Track B)
 ├── charters/                                 # Project charters (5)

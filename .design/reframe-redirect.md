@@ -81,11 +81,11 @@ The `crosslink knowledge` feature in particular overlaps significantly with what
 
 This is worth a deliberate evaluation, not assumption. Specifically: can `crosslink knowledge` store and retrieve the epistemic primitive types ASES needs, with the dependency relationships ASES requires? If yes, that's significant consolidation. If no, the gap is a good upstream feature request (and appears to be the kind of thing ASES is already doing — the upstream issue #658 reference in the CHANGELOG shows this is already the pattern).
 
-### 7. The `capability-mapping` and `harness-evaluations` Folders Suggest an Evaluation Framework — Document the Methodology
+### 7. The `capability-mapping` and `docs/research/harness-evaluations` Folders Suggest an Evaluation Framework — Document the Methodology
 
-The folder structure includes `capability-mapping/`, `harness-evaluations/` (with a template that now has a mandatory verification-status tag convention), and `evaluation-corpus/`. These together suggest ASES is building a structured way to evaluate external tools (AutoGen, MAF, others) against EDASES requirements.
+The folder structure includes `capability-mapping/`, `docs/research/harness-evaluations/` (with a template that now has a mandatory verification-status tag convention), and `evaluation-corpus/`. These together suggest ASES is building a structured way to evaluate external tools (AutoGen, MAF, others) against EDASES requirements.
 
-This evaluation framework is itself a methodology artifact — but it's not documented as such anywhere visible. The `harness-evaluations/_template.md` is there, but a document explaining "here is how ASES evaluates candidate tools, here are the criteria, here is how results feed back into architecture decisions" would close the loop between the evaluations and the research program's findings.
+This evaluation framework is itself a methodology artifact — but it's not documented as such anywhere visible. The `docs/research/harness-evaluations/_template.md` is there, but a document explaining "here is how ASES evaluates candidate tools, here are the criteria, here is how results feed back into architecture decisions" would close the loop between the evaluations and the research program's findings.
 
 ### 8. The .crosslink/rules Directory Is an Opportunity
 

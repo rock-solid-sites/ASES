@@ -1,3 +1,27 @@
+---
+title: Harness Evaluation: Microsoft AutoGen
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Derived
+canonical_repository: edases
+
+depends_on:
+  - Research Addendum 01
+  - Heuristic Scouting
+
+consumed_by:
+  - Harness Capability Matrix
+
+related_documents:
+  - Evaluation Framework
+  - Microsoft Agent Framework
+
+supersedes: []
+last_updated: 2026-08-10
+---
+
 # Harness Evaluation: Microsoft AutoGen
 
 **Date:** 2026-06-23

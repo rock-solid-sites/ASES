@@ -95,7 +95,7 @@ This forces `.crosslink/decisions.json`, its lock file, and its index to live un
     4.  An open issue is instantly deemed compliant if its ID exists in the index set. It terminates without any line-by-line file scans.
 
 ### 2.5 Pre-Commit Compilation Gate (WIP Bypass)
-*   `scripts/compile_matrix.py` parses only the strict YAML frontmatter of `harness-evaluations/*.md`.
+*   `scripts/compile_matrix.py` parses only the strict YAML frontmatter of `docs/research/harness-evaluations/*.md`.
 *   **Boundary:** Executed during the `pre-commit` hook (not `pre-push`). This ensures that any compiled Markdown updates to the capability matrix are staged and committed in the same push cycle, preventing uncommitted local files:
     `git add capability-mapping/Harness-Capability-Matrix.md`
 *   **Staging Integrity:** The compiler reads target files directly from the Git index using `git show :<file_path>` instead of the raw working directory, preventing unstaged changes from leaking into the matrix.
@@ -217,10 +217,10 @@ The refactoring is divided into **four fully decoupled tasks** worked in paralle
 
 ### Task B: Automated YAML-to-Markdown Matrix Compiler
 *   **Deliverables:**
-    - Implement `scripts/compile_matrix.py` using `PyYAML` to read frontmatter from `harness-evaluations/*.md`.
+    - Implement `scripts/compile_matrix.py` using `PyYAML` to read frontmatter from `docs/research/harness-evaluations/*.md`.
     - Dynamically generates and overwrites `capability-mapping/Harness-Capability-Matrix.md` and syntheses tables in the `pre-commit` hook.
     - **Fail-Fast & WIP Bypass:** Must exit with code 1 on malformed YAML, but skip files with `draft: true` in their frontmatter.
-*   **Isolation Profile:** Read-only on `harness-evaluations/`, write-only on matrix files. No runtime dependencies.
+*   **Isolation Profile:** Read-only on `docs/research/harness-evaluations/`, write-only on matrix files. No runtime dependencies.
 
 ### Task C: Audit Script Schema & Index Refactoring
 *   **Deliverables:**
