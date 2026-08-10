@@ -1,7 +1,7 @@
 ---
 
 title: Canonical Terminology
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Reference
 status: Active
@@ -19,7 +19,7 @@ consumed_by:
 * AI Evaluation Protocol
 * AI Capability Registry
 * AI Orchestration Guide
-* Methodology → Requirements Specification
+* Methodology to Requirements Mapping Specification
 * Execution Engine Vision
 * README.md
 * ORIENTATION.md

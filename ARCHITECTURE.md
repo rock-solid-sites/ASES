@@ -163,8 +163,10 @@ Current canonical documents include:
 * AI Evaluation Protocol
 * AI Capability Registry
 * AI Orchestration Guide
-* Methodology → Requirements Specification
+* Methodology to Requirements Mapping Specification
 * Execution Engine Vision
+
+The AI Capability Registry instance is consolidated under `docs/research/registry/` (Specification, Model-Routing-Matrix, and `model-feedback-*.md` entries).
 
 ---
 
@@ -183,7 +185,16 @@ ARCHITECTURE.md
 docs/
     standards/
     research/
+        frameworks/
+        protocols/
+        registry/
+        harness-evaluations/
+        selection-rationale/
+        retrospectives/
+        syntheses/
+        review-inbox/
     methodology/
+        core-system-prompts/
     requirements/
     architecture/
 ```

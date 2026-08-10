@@ -1,7 +1,7 @@
 ---
 
 title: Documentation Taxonomy
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Reference
 status: Active
@@ -114,7 +114,7 @@ Describe validated engineering methods derived from research.
 **Examples**
 
 * AI Orchestration Guide
-* Methodology → Requirements Specification
+* Methodology to Requirements Mapping Specification
 
 ---
 

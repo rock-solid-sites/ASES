@@ -83,7 +83,7 @@ supersedes:
 
 superseded_by:
 
-last_update:
+last_updated:
 ---
 ```
 

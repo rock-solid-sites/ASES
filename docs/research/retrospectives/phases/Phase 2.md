@@ -215,7 +215,7 @@ ASES/
 ├── charters/
 ├── assumption-registers/
 ├── assumption-to-decision-registers/
-├── core-system-prompts/
+├── docs/methodology/core-system-prompts/
 ├── knowledge-architecture-research/
 ├── research-programs/
 ├── architecture-validation-plans/

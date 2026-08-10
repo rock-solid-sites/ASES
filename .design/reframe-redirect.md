@@ -14,7 +14,7 @@ Let me dig into the actual content before forming recommendations.The search did
 
 Before recommendations, it's worth naming what the repo structure and CHANGELOG expose that wasn't visible from the project description alone.
 
-**The structure is ahead of the theory.** The repo already has `assumption-registers`, `findings`, `observations`, `syntheses`, `adversarial-reviews`, `session-handoffs`, `handoff-bundle`, and `selection-rationale` — the full epistemic primitive hierarchy discussed in this conversation is largely already implemented as a folder structure. This is further along than the project description implied.
+**The structure is ahead of the theory.** The repo already has `assumption-registers`, `findings`, `observations`, `syntheses`, `adversarial-reviews`, `session-handoffs`, `handoff-bundle`, and `docs/research/selection-rationale` — the full epistemic primitive hierarchy discussed in this conversation is largely already implemented as a folder structure. This is further along than the project description implied.
 
 **Crosslink is a real external dependency, not a custom build.** The CHANGELOG references `crosslink 0.9.0-beta.1`, a Crosslink tracker reset on 2026-06-23, upstream issues filed at `forecast-bio/crosslink#658`, and a known SQLite uuid-sync bug. Crosslink is not something ASES built — it's a third-party CLI tool that ASES is using as operational infrastructure. This is a critical finding because it means ASES's session memory layer is on a beta dependency with known bugs, not internal code under the project's control.
 
@@ -69,7 +69,7 @@ From the adversarial perspective: three handoff locations is a sign that the han
 
 ### 5. The Selection Rationale Folder Is Doing More Work Than It Appears
 
-The CHANGELOG mentions a `selection-rationale/` folder with a template and backfill for a "Reconstructed rationale" for the AutoGen evaluation. "Reconstructed rationale" is a yellow flag — it means the rationale was written after the fact, not at the time of decision. This is exactly the hindsight injection risk identified in the threat model.
+The CHANGELOG mentions a `docs/research/selection-rationale/` folder with a template and backfill for a "Reconstructed rationale" for the AutoGen evaluation. "Reconstructed rationale" is a yellow flag — it means the rationale was written after the fact, not at the time of decision. This is exactly the hindsight injection risk identified in the threat model.
 
 The template should have a mandatory field distinguishing "live" (written at decision time) from "reconstructed" (written retrospectively). The CHANGELOG actually notes this distinction already exists in the folder — but it should be enforced at the template level with explicit fields, not inferred from the content. The distinction matters because reconstructed rationales have lower epistemic weight and should be treated differently by downstream reasoning.
 
@@ -81,11 +81,11 @@ The `crosslink knowledge` feature in particular overlaps significantly with what
 
 This is worth a deliberate evaluation, not assumption. Specifically: can `crosslink knowledge` store and retrieve the epistemic primitive types ASES needs, with the dependency relationships ASES requires? If yes, that's significant consolidation. If no, the gap is a good upstream feature request (and appears to be the kind of thing ASES is already doing — the upstream issue #658 reference in the CHANGELOG shows this is already the pattern).
 
-### 7. The `capability-mapping` and `harness-evaluations` Folders Suggest an Evaluation Framework — Document the Methodology
+### 7. The `docs/research/registry` and `docs/research/harness-evaluations` Folders Suggest an Evaluation Framework — Document the Methodology
 
-The folder structure includes `capability-mapping/`, `harness-evaluations/` (with a template that now has a mandatory verification-status tag convention), and `evaluation-corpus/`. These together suggest ASES is building a structured way to evaluate external tools (AutoGen, MAF, others) against EDASES requirements.
+The folder structure includes `docs/research/registry/`, `docs/research/harness-evaluations/` (with a template that now has a mandatory verification-status tag convention), and `evaluation-corpus/`. These together suggest ASES is building a structured way to evaluate external tools (AutoGen, MAF, others) against EDASES requirements.
 
-This evaluation framework is itself a methodology artifact — but it's not documented as such anywhere visible. The `harness-evaluations/_template.md` is there, but a document explaining "here is how ASES evaluates candidate tools, here are the criteria, here is how results feed back into architecture decisions" would close the loop between the evaluations and the research program's findings.
+This evaluation framework is itself a methodology artifact — but it's not documented as such anywhere visible. The `docs/research/harness-evaluations/_template.md` is there, but a document explaining "here is how ASES evaluates candidate tools, here are the criteria, here is how results feed back into architecture decisions" would close the loop between the evaluations and the research program's findings.
 
 ### 8. The .crosslink/rules Directory Is an Opportunity
 

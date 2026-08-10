@@ -15,7 +15,7 @@ the gap for the Principal or for session-end review.
 Motivation: a `research` issue was created on 2026-06-22 with no
 description and no record of why Microsoft AutoGen was selected as the
 first Track B harness evaluation. The reasoning had to be reconstructed
-post-hoc. See `selection-rationale/2026-06-22-microsoft-autogen.md`
+post-hoc. See `docs/research/selection-rationale/2026-06-22-microsoft-autogen.md`
 for the documented gap.
 
 Usage:
@@ -136,9 +136,9 @@ def format_text(violations: list[dict], min_chars: int) -> str:
         lines.append("")
     lines.append(
         "Recommendation: add `Rationale:` and `Alternatives considered:` sections "
-        "to each issue's description, OR create a `selection-rationale/YYYY-MM-DD-*.md` "
+        "to each issue's description, OR create a `docs/research/selection-rationale/YYYY-MM-DD-*.md` "
         "file and link it in the issue body. The companion template is in the "
-        "selection-rationale/ folder."
+        "docs/research/selection-rationale/ folder."
     )
     return "\n".join(lines) + "\n"
 

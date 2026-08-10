@@ -4,7 +4,7 @@
 **Layer:** Execution (OpenCode plugin)
 **Location:** `.opencode/plugins/rtk-guard.ts`
 **Depends on:** `@opencode-ai/plugin` (already present), `rtk` binary on `PATH` (already present at `~/.cargo/bin/rtk`)
-**Companion analysis:** `harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md`
+**Companion analysis:** `docs/research/harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md`
 **Companion plugin:** `.opencode/plugins/crosslink-guard.ts` (pattern source — read but NOT copy-pasted)
 
 ---

@@ -2,7 +2,7 @@
 
 **Generated:** 2026-07-20
 **Method:** Multi-source cross-reference (tool output files, git commits, crosslink databases, knowledge cache, research docs)
-**Audit layers checked:** tool output timestamps, next-day commit topic match, crosslink issues/comments, knowledge cache files, `to-file/` research docs, `.design/` documents, `harness-evaluations/` files, repo git log
+**Audit layers checked:** tool output timestamps, next-day commit topic match, crosslink issues/comments, knowledge cache files, `to-file/` research docs, `.design/` documents, `docs/research/harness-evaluations/` files, repo git log
 
 ---
 
@@ -84,7 +84,7 @@
 - **Original evidence:** Git(day)=2 (commits `84ed45d`, `3e7eac9` — but these are about model-agnostic features, NOT RTK)
 - **RTK documentation found in repo (NOT created by this session):**
   - `.design/rtk-guard.md` — design doc (created Jul 13 00:18, NOT Jul 11)
-  - `harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md` — gap analysis (created Jul 12 23:40, NOT Jul 11)
+  - `docs/research/harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md` — gap analysis (created Jul 12 23:40, NOT Jul 11)
   - `.opencode/design/rtk-guard-plugin-design.md` — plugin design (created Jul 13 01:41)
   - `.opencode/design/rtk-guard-final-synthesis.md` — final synthesis (created Jul 13 02:09)
 - **Finding:** This session READ existing RTK documentation to determine what was already done. The session was investigative/exploratory with no direct output. The RTK documents were created by later sessions (#14). The two Git(day) commits attributed to this session are actually the same commits from session #12's next-day output.
@@ -95,10 +95,10 @@
 - **Cost:** $0.93 (771 events) | **Verdict: Documented elsewhere**
 - **Original evidence:** Keywords=1
 - **Output found:**
-  - `harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md` — **11.9KB** comprehensive gap analysis
+  - `docs/research/harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md` — **11.9KB** comprehensive gap analysis
   - **File timestamp:** Jul 12 23:40 — matches session date perfectly
   - **File content:** Detailed architectural analysis of RTK vs OpenCode integration, covering Claude Code PreToolUse hook, OpenCode plugin API, execution layer alignment, key gaps (FIN-01 through FIN-05), and recommendations
-- **Finding:** The gap analysis document IS the output of this session. Document is thorough and structured (Source → Observation → Finding → Recommendation pipeline). Work captured in `harness-evaluations/`.
+- **Finding:** The gap analysis document IS the output of this session. Document is thorough and structured (Source → Observation → Finding → Recommendation pipeline). Work captured in `docs/research/harness-evaluations/`.
 
 ---
 

@@ -181,7 +181,7 @@ This forces Git to automatically concatenate lines from both branches during mer
 ### 3.3 Operational Workflow & Git Hooks
 1.  **Write Phase (Agent Loop):** The agent writes raw, unvalidated telemetry to `.crosslink/queue/{uuid}.jsonl` in <1ms. No locks. No validation.
 2.  **Pre-Commit Gate (`compile_matrix.py`):**
-    *   Parses only the strict YAML frontmatter of `harness-evaluations/*.md` in the `pre-commit` hook.
+    *   Parses only the strict YAML frontmatter of `docs/research/harness-evaluations/*.md` in the `pre-commit` hook.
     *   **Staging Integrity:** The compiler reads target files directly from the Git index using `git show :<file_path>` instead of the raw working directory, preventing unstaged changes from leaking into the matrix.
     *   If a malformed YAML header is found, the script **exits with code 1 and aborts the commit**.
 3.  **Local Compaction (`post-commit` Hook):** Spawns a detached process `nohup python3 scripts/ases-compact.py &` which:

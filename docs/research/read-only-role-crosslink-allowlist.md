@@ -1,6 +1,6 @@
 ---
 title: Read-Only Role Crosslink Allowlist — Repository Role-Permission Change (2026-08-09)
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Research Record
 status: Active

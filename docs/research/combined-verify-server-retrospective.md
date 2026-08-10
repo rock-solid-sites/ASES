@@ -1,7 +1,7 @@
 ---
 
 title: Combined Static Verification Server — Session Retrospective
-programme: EDASES
+program: EDASES
 layer: Research
 document_type: Research Record
 status: Active

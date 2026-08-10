@@ -94,6 +94,11 @@ Defines how AI capabilities are evaluated experimentally.
 
 Records evidence-based observations regarding AI systems and engineering tools.
 
+The registry instance is consolidated under `docs/research/registry/`: the
+`AI Capability Registry Specification.md` defines its structure, the
+`Model-Routing-Matrix.md` holds routing evidence, and the
+`model-feedback-*.md` entries record per-model observations.
+
 ---
 
 ## AI Orchestration Guide
@@ -102,7 +107,7 @@ Defines the ASES methodology for coordinating humans, AI systems and supporting 
 
 ---
 
-## Methodology → Requirements Specification
+## Methodology to Requirements Mapping Specification
 
 Translates methodological rules into capabilities that software must provide.
 
@@ -120,7 +125,7 @@ All canonical documentation follows the Documentation Standard.
 
 Every canonical document includes metadata describing:
 
-* programme
+* program
 * abstraction layer
 * document type
 * authority
@@ -188,7 +193,7 @@ A typical reading order is:
 5. AI Evaluation Protocol
 6. AI Capability Registry
 7. AI Orchestration Guide
-8. Methodology → Requirements Specification
+8. Methodology to Requirements Mapping Specification
 9. Execution Engine Vision
 
 The remaining documentation should be interpreted in the context established by these canonical documents.

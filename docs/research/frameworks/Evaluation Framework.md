@@ -1,3 +1,34 @@
+---
+title: Evaluation Framework
+program: EDASES
+layer: Research
+document_type: Research Framework
+status: Active
+authority: Canonical
+canonical_repository: edases
+
+depends_on:
+  - Concept: Levels of Abstraction
+
+consumed_by:
+  - AI Evaluation Protocol
+  - AI Capability Registry
+  - AI Orchestration Guide
+  - Methodology to Requirements Mapping Specification
+  - Execution Engine Vision
+
+related_documents:
+  - Documentation Standard
+
+supersedes: []
+
+review_frequency: Quarterly
+
+last_reviewed:
+
+last_updated: 2026-08-10
+---
+
 # Evaluation Framework
 
 ## Status
