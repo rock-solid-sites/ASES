@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **D5 Convention (issue #341):** standing convention — metadata field is `program` (not `programme`), date field is `last_updated` (not `last_update`), and authored documentation uses American spelling. Applied repo-wide to committed docs.
 
 ### Changed
+- PLAN: reconcile to-file/project-update canonical set + re-attribute tool-capability artifacts to the ASES methodology layer (needs hy3 sanity pass first) (#341)
+- AUDIT (phase-1 pre-positioned in-flight, big-pickle): monitor the #341 builder — verify 5-min commit cadence + plan adherence (read-only, flag-only to orchestrator) (#343)
 - DOC: file 10 EDASES retrospectives — 5 phase (historical) + 5 topic (active research inputs toward ASES/execution-engine) (#338)
 - DOC: record the chained/pipe-command allowlist gotcha in the playbook + ORCHESTRATOR.md — the bash allowlist matches the command PREFIX, so any pipe chain is denied even when every segment is individually allowed (#266)
 - DOC: file the main project document — Identifier-First Tool Calling for Token- and Resource-Efficient AI Agents (canonical, docs/research/) (#220)
