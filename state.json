@@ -1,5 +1,5 @@
 {
-  "next_display_id": 339,
+  "next_display_id": 340,
   "next_comment_id": 1502,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -276,6 +276,7 @@
     "cf966cd1-1b10-4dce-8db6-71b6b7d1669a": 294,
     "d0e0f7ba-1352-43ca-95c1-17d68d618fa2": 280,
     "d45969a2-1afe-4fa0-b1b9-d61c3398c115": 50,
+    "d46ef803-ed60-40d5-9ca8-70d508d70fb8": 339,
     "d4822b37-51ef-4159-a754-5c78bb90dbdd": 143,
     "d4977331-94bb-474b-84ef-056fa22fcb2e": 304,
     "d4d7f935-d559-40b3-b63b-d016ef600040": 222,
@@ -16198,6 +16199,18 @@
         "feature"
       ]
     },
+    "d46ef803-ed60-40d5-9ca8-70d508d70fb8": {
+      "uuid": "d46ef803-ed60-40d5-9ca8-70d508d70fb8",
+      "display_id": 339,
+      "title": "AMEND playbook per #331: checkpointing-as-durability (atomic signal-2 rewrite, rate-bound, role-aware cadence, position-stream ground truth)",
+      "description": "Amend .crosslink/knowledge/agent-orchestration-playbook.md + kickoff template per Hy3 #331 verdict (SOUND WITH AMENDMENTS, 3 MUST-FIX). Changes: (1) §5.3 signal-2: rewrite the 'ceiling/~4 milestones' denominator as a rate clock — no new commit (builder) / no new synced position (read-only) in >2x the ~5-min budget => investigate; atomic with cap removal. (2) §5.4 + §12: replace 'max ~4 checkpoint comments' with a rate bound (~5-min loss-tolerance budget); role-aware: builders commit incrementally every ~5 min, read-only roles comment+sync every ~5 min; the cap remains only as a soft operator-visibility guideline. (3) §6.1: generalize 'commit is ground truth' to 'the durable primitive is ground truth (commits for builders, synced positions for read-only)'. (4) §5.8.1: reconcile the ~10-min idle floor with the ~5-min budget (floor must be <= budget). (5) Fix dangling §5.9 reference (cited by #330 and kickoff prompt but absent from playbook). (6) Kickoff template Progress Check-Ins: role-aware cadence. Commit with [#331] ref. Ref #330/#331.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T01:06:40.378980431Z",
+      "updated_at": "2026-08-10T01:06:40.378980431Z"
+    },
     "d4822b37-51ef-4159-a754-5c78bb90dbdd": {
       "uuid": "d4822b37-51ef-4159-a754-5c78bb90dbdd",
       "display_id": 143,
@@ -19477,8 +19490,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T00:50:27.254298942Z",
+    "timestamp": "2026-08-10T01:06:40.378980431Z",
     "agent_id": "OL2r",
-    "agent_seq": 1632
+    "agent_seq": 1633
   }
 }
