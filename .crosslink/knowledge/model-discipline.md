@@ -21,6 +21,18 @@ OpenCode has two distinct provider categories with different cost and reliabilit
 
 4. **Use the full verified model ID.** Copy it exactly from `opencode models`. Do not guess, shorten, or modify.
 
+## Forbidden and Restricted Models
+
+- **xAI / Grok — STRICTLY AND PERMANENTLY FORBIDDEN.** xAI models (grok-4.5
+  and the grok family) are never to be used for any role. This is the
+  standing rule (violation precedent: #249 recorded 'never use Grok/xAI').
+  The models are patched out of the model catalog — `opencode models
+  opencode-go` must not list them. Do not launch agents with a grok/xAI
+  model ID even if one is visible in the catalog; report it instead.
+- **Kimi — NOT forbidden.** `opencode-go/kimi-k2.7-code` works and has been
+  used successfully (e.g. #317/#322). The only caveat is cost: **kimi-k3 is
+  extremely expensive** — cost-based caution applies, not a ban.
+
 ## Failure Discrimination — Rate Limit vs Silent Hang
 
 **Free-model failures are NOT always rate limits.** Do not assume a stalled
