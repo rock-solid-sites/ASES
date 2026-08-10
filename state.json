@@ -1,5 +1,5 @@
 {
-  "next_display_id": 349,
+  "next_display_id": 350,
   "next_comment_id": 1587,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -63,6 +63,7 @@
     "274ee9b8-8086-4a78-a88c-e82a11deaafa": 256,
     "286d35ca-9c9b-46f8-8a88-1ca6d09e5754": 98,
     "299f287a-4ade-4071-80a9-c9e7df83605d": 191,
+    "29a56c5f-e8a5-4946-9abd-4291b82f0077": 349,
     "29f67bbb-bb7a-438e-bb99-4e7de1b47abc": 45,
     "2a795a46-f144-4ebd-9cc4-1b22fd436eed": 295,
     "2bcb7a02-f2b9-46d1-98d3-9b8dc2c757aa": 178,
@@ -3786,6 +3787,18 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA9c/mn2ItwkY7Psh0zKze2nTFSvwoe+JXwcgrXnv5wY7sC3cTJkg3I61reb1N6cl1uePCf1wfvIT61hAvFNtACQ=="
         }
       }
+    },
+    "29a56c5f-e8a5-4946-9abd-4291b82f0077": {
+      "uuid": "29a56c5f-e8a5-4946-9abd-4291b82f0077",
+      "display_id": 349,
+      "title": "TOOLING: crosslink kickoff cleanup needs scoped/selective removal (ID-list or per-agent) — current all-or-nothing is destructive",
+      "description": "Tooling gap in the crosslink fork (operator-directed rescope). PROBLEM: 'crosslink kickoff cleanup' is all-or-nothing — no way to remove SELECTED worktrees/tmux sessions. --force sweeps all STALE, non-force sweeps all DONE; neither accepts an ID list. CONSEQUENCE: cannot surgically close a specific finished agent's worktree without risking collateral (the #227 lesson: cleanup --force swept 23 live agents 2026-08-06; this session's stalled agents pp3g-TOx4/pp3g-e2sZ had active tmux shells that looked alive). Also: orchestrator + reviewer/auditor tool surfaces lack git worktree remove / tmux kill-session (only read variants), so neither role can do scoped removal even manually. REQUESTED: (1) crosslink kickoff cleanup gains a selective mode — e.g. '--only <id1,id2>' or positional agent IDs, removing just those worktrees+tmux; (2) consider whether orchestrator should get scoped 'git worktree remove <path>' + 'tmux kill-session -t <name>' (bounded per-ID forms) so selective cleanup is possible at the role level; (3) keep the all-or-nothing path but make it require explicit confirmation listing the blast radius. Ref: #227 (the original cleanup--force incident), #328/#333 (this session's verified SAFE lists that could not be selectively applied). Location: crosslink fork /home/claude-code/projects/crosslink/crosslink/src/commands/kickoff/cleanup.rs.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T14:16:44.073831737Z",
+      "updated_at": "2026-08-10T14:16:44.073831737Z"
     },
     "29f67bbb-bb7a-438e-bb99-4e7de1b47abc": {
       "uuid": "29f67bbb-bb7a-438e-bb99-4e7de1b47abc",
@@ -20423,8 +20436,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T14:16:03.875046704Z",
-    "agent_id": "pp3g-oYYY-audit-post-hoc-mimo-v2-5-verify-the-344-deny-by-5757",
-    "agent_seq": 2
+    "timestamp": "2026-08-10T14:16:44.073831737Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1674
   }
 }
