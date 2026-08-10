@@ -39,10 +39,13 @@ The custom template is at `~/.crosslink/rules/kickoff.md` (global) or `.crosslin
 - Blocked/gated git commands
 - Essential instructions (agent setup, session, plan, implement, sync)
 - **Progress Check-Ins** — mandatory milestone checkpoint comments (POST-PLAN /
-  MIDPOINT / BLOCKER-OR-VERIFY / FINAL, max ~4 per session), exact `crosslink
-  issue comment ... --kind observation` commands, required `state` /
-  `completed` / `next` / `blocker` fields, `crosslink sync` after posting, and
-  missed check-in escalation (see `agent-orchestration-playbook.md` §5.4)
+  MIDPOINT / BLOCKER-OR-VERIFY / FINAL — the operator-visibility skeleton, NOT
+  a durability cap), exact `crosslink issue comment ... --kind observation`
+  commands, required `state` / `completed` / `next` / `blocker` fields,
+  `crosslink sync` after posting, the role-aware durability cadence (builders
+  commit incrementally every ~5 minutes; read-only roles treat comment+sync as
+  their commit at ~5-minute cadence — the ~4 cap is not a durability throttle),
+  and missed check-in escalation (see `agent-orchestration-playbook.md` §5.4)
 - Code quality rules
 - Final steps
 

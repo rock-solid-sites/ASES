@@ -36,7 +36,8 @@ and **sync after each one**. Session-action breadcrumbs
 (`crosslink session action "..."`) are supplementary telemetry only; they do
 not reach the hub and are not a substitute.
 
-Post at most ~4 checkpoint comments per session, at these milestones:
+Post checkpoint comments at these milestones — the operator-visibility
+skeleton, NOT a durability cap:
 
 1. **POST-PLAN** — immediately after your plan comment (step 4):
    `crosslink issue comment {issue_id} "[PROGRESS] state=working completed=<plan posted> next=<first step> blocker=none" --kind observation`
@@ -54,14 +55,25 @@ Post at most ~4 checkpoint comments per session, at these milestones:
 
 Required fields in every checkpoint: `state` (working/blocked/verifying),
 `completed` (one line), `next` (what's next, or 'done'), `blocker` (detail or
-none). Milestone-based, never per-action — ~4 max keeps the timeline
-scannable.
+none). Milestone-based, never per-action — per-item commenting is
+over-checkpointing.
+
+**Durability cadence (role-aware):** checkpointing is a **durability**
+mechanism, not a reporting mechanism. Cadence derives from the ~5-minute
+loss-tolerance budget (playbook §5.4), not from a fixed comment count.
+- **Builders:** commit incrementally every ~5 minutes of work — small,
+  resume-friendly commits, so a death loses at most one commit's worth.
+- **Reviewer/auditor roles:** treat `crosslink issue comment {issue_id}
+  "<position>" --kind observation && crosslink sync` as your commit, at the
+  same ~5-minute cadence.
+The ~4-comment cap is not a durability throttle — durability writes are not
+throttled; the ~5-minute budget IS the bound (not 'unbounded').
 
 **Missed check-in escalation:** if you realize a checkpoint was missed, post
 it immediately and continue — never batch checkpoints at the end. A silent
 agent is indistinguishable from a dead one; checkpoints are how the operator
-distinguishes working from stalled (timeout exceeded = likely stalled; no
-checkpoint for >2x the expected interval = likely stalled).
+distinguishes working from stalled (timeout exceeded = likely stalled; no new
+commit / no new synced position for >2x the ~5-minute budget = likely stalled).
 
 ## Code Quality
 

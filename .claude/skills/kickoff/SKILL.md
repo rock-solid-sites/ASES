@@ -38,12 +38,15 @@ work on a 40m timeout; review/doc/port tasks all landed in <=30m):
 | Complex / multi-phase feature | `45m+` — suggest swarm, not kickoff |
 
 **Progress checkpoints:** the child agent posts milestone checkpoint comments
-(`--kind observation`, max ~4 per session) and syncs after each — this is how
-the operator sees progress before the timeout. If the user asks to check on an
-agent, look at its issue's checkpoint comments (`crosslink issue show <id>`),
-not just `.kickoff-status`. Timeout exceeded, or no checkpoint for >2x the
-expected interval, means likely stalled — investigate (see the
-`agent-orchestration-playbook.md` §5.3/§5.4).
+(`--kind observation`) and syncs after each — this is how the operator sees
+progress before the timeout. Cadence derives from the ~5-minute loss-tolerance
+budget (playbook §5.4): builders commit incrementally every ~5 minutes of work;
+read-only roles treat comment+sync as their commit at ~5-minute cadence. The
+~4 cap is not a durability throttle. If the user asks to check on an agent,
+look at its issue's checkpoint comments (`crosslink issue show <id>`), not
+just `.kickoff-status`. Timeout exceeded, or no new commit / no new synced
+position for >2x the ~5-minute budget, means likely stalled — investigate (see
+the `agent-orchestration-playbook.md` §5.3/§5.4).
 
 ## Steps
 
