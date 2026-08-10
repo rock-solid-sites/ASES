@@ -1,6 +1,6 @@
 {
   "next_display_id": 347,
-  "next_comment_id": 1569,
+  "next_comment_id": 1570,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -6448,7 +6448,7 @@
       "parent_uuid": "8cda3348-0d9e-4809-b7da-afcddda27804",
       "created_by": "OL2r",
       "created_at": "2026-08-10T03:05:33.145688515Z",
-      "updated_at": "2026-08-10T03:14:53.530029256Z",
+      "updated_at": "2026-08-10T03:15:34.293122900Z",
       "labels": [
         "permission"
       ],
@@ -6461,6 +6461,15 @@
           "kind": "plan",
           "signed_by": "SHA256:p6XLq5bUTJioISc4Vbku+DjeNby0lZ5qlJOvg6uIOoU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4PE06/YrWfEShgxsiHB23bwwFb4/TEFHS6uIkxrRYTEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM74l6ie7BIkmAYliL01YxbOgAuOtfFzuRdczDyh6mO3pwEKw+21mQwFirpoX1RVQlytT263iQDHIVnivtpsECw=="
+        },
+        "54aaa77c-6aaf-4c4c-8007-50a9b36c0429": {
+          "display_id": 1569,
+          "author": "pp3g-5cWX-implementation-task-for-issue-344-apply-the-approved",
+          "content": "Completed: Applied approved #342 deny-by-default proposal as interim band-aid on #344. Edited reviewer.md (removed opencode/cargo/npm, narrowed git to 8 read-only prefixes, rtk to 7 read-only proxies, sync-star fix), auditor.md (same minus cargo/npm), permissions.md (both snapshot rows), hook-config.json (removed 12 code-exec prefixes from global allowed_bash_prefixes, moved to by_type.builder). Verified per proposal section 5: static checks pass; matcher verification with the fork's actual Wildcard.match — all positive ALLOW, all negative DENY for both roles incl. 'opencode run --pure --agent builder' escape; crosslink sync bare-allow fix confirmed; plugin-layer merge simulation pass; workflow regression pass (orchestrator/builder untouched, builder retains full bash). Committed c4072f04 with [#342] ref. Result comment posted on #344. Residual: DEFAULT_ALLOWED_BASH fallback in crosslink-guard.ts still lists code-exec prefixes (dormant; hook-config always replaces it) — plugin source change out of scope for band-aid.",
+          "created_at": "2026-08-10T03:15:34.286565582Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:p6XLq5bUTJioISc4Vbku+DjeNby0lZ5qlJOvg6uIOoU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4PE06/YrWfEShgxsiHB23bwwFb4/TEFHS6uIkxrRYTEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZZH8pdkmdEsbg22vZ43QBm0lGIxMVEoUdunNP9tLNROiPJMLvRmLo3hULCxGz09fyxBkU9uipGTRQBOUDtisDQ=="
         },
         "798bff98-b5ff-492d-880e-195a8ccd4778": {
           "display_id": 1562,
@@ -20233,8 +20242,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T03:15:26.094858649Z",
+    "timestamp": "2026-08-10T03:15:34.293122900Z",
     "agent_id": "pp3g-5cWX-implementation-task-for-issue-344-apply-the-approved",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
