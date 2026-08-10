@@ -67,6 +67,22 @@
           "git merge"
         ]
       },
+      "builder": {
+        "allowed_bash_prefixes": [
+          "opencode ",
+          "cargo test",
+          "cargo build",
+          "cargo check",
+          "cargo clippy",
+          "cargo fmt",
+          "npm test",
+          "npm run",
+          "npx ",
+          "tsc",
+          "node ",
+          "python "
+        ]
+      },
       "reviewer": {
         "blocked_git_commands": [
           "git push",
@@ -126,7 +142,6 @@
   },
   "allowed_bash_prefixes": [
     "crosslink ",
-    "opencode ",
     "git status",
     "git diff",
     "git log",
@@ -137,17 +152,6 @@
     "jj status",
     "jj show",
     "jj bookmark list",
-    "cargo test",
-    "cargo build",
-    "cargo check",
-    "cargo clippy",
-    "cargo fmt",
-    "npm test",
-    "npm run",
-    "npx ",
-    "tsc",
-    "node ",
-    "python ",
     "ls",
     "dir",
     "pwd",

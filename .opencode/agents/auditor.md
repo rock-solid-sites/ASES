@@ -9,16 +9,28 @@ permission:
     "crosslink issue comment *": allow
     "crosslink issue show *": allow
     "crosslink session status *": allow
-    "crosslink sync": allow
+    "crosslink sync *": allow
     "crosslink knowledge search *": allow
     "crosslink knowledge list *": allow
     "crosslink knowledge add *": allow
     "crosslink knowledge edit *": allow
-    "opencode *": allow
-    "git *": allow
+    "git status *": allow
+    "git diff *": allow
+    "git log *": allow
+    "git show *": allow
+    "git branch -a *": allow
+    "git branch -r *": allow
+    "git branch -vv *": allow
+    "git branch --show-current *": allow
     "ls *": allow
     "cat *": allow
-    "rtk *": allow
+    "rtk read *": allow
+    "rtk ls *": allow
+    "rtk tree *": allow
+    "rtk grep *": allow
+    "rtk find *": allow
+    "rtk wc *": allow
+    "rtk diff *": allow
   task: deny
   question: deny
   webfetch: allow
