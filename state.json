@@ -1,5 +1,5 @@
 {
-  "next_display_id": 352,
+  "next_display_id": 353,
   "next_comment_id": 1612,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -265,6 +265,7 @@
     "bf05f2c0-c357-4bd1-844e-f313c75877b9": 151,
     "bfbdca98-404f-43c0-8ed1-0ce816fc1422": 61,
     "bff799f6-9339-459b-98e7-1a26cd5d29b1": 255,
+    "c026f3f3-e8e3-47a4-8011-3980d1c3a7b5": 352,
     "c0e85197-4daf-4f2e-baee-ee7d11314c92": 293,
     "c1dd8493-501b-4913-8257-e4da32d05913": 237,
     "c1f776eb-8025-4e12-81cd-4f5e84d04053": 31,
@@ -16110,6 +16111,18 @@
         }
       }
     },
+    "c026f3f3-e8e3-47a4-8011-3980d1c3a7b5": {
+      "uuid": "c026f3f3-e8e3-47a4-8011-3980d1c3a7b5",
+      "display_id": 352,
+      "title": "FIX #345 doc: correct Execution-layer-vs-Tools conflation — tooling is Tools-side evidence, not Execution realization",
+      "description": "Correct docs/research/read-only-boundary-as-methodology.md §4 (the mapping table). OPERATOR CLARIFICATION (2026-08-10): (1) The Execution layer is a FUTURE, not-yet-existing project layer that will enforce ASES methodology — its concrete shape (possibly a state-machine-based agent harness) is UNDETERMINED; we are developing methodology as we go and must not close options prematurely. (2) The current stack (opencode fork, crosslink fork, guard plugins, claude wrapper, rtk, agent definitions, permission blocks) is NOT the Execution layer — it is Tools-side: a general warehouse for forks/plugins/wrappers/hacky constructions. (3) Therefore §4's mapping 'Execution Harness = the agent process itself' and 'the permission-boundary work is the implementation-layer counterpart of the execution-context abstraction' is a conflation. CORRECTION: the current work is TOOLS-SIDE EVIDENCE that informs what the future Execution layer must enforce — it is not that layer. Reframe §4 to: current tooling = empirical observations feeding the Execution-layer requirements (isolation needs, durable positions, deny-by-default consensus), explicitly noting the Execution layer's shape is undetermined. Preserve the empirical evidence value (the failure modes + requirements are real observations). Commit with [#345] ref.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "47c15896-0f8f-4b8e-9516-0e336dc42fe1",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T17:59:47.849807598Z",
+      "updated_at": "2026-08-10T17:59:47.849807598Z"
+    },
     "c0e85197-4daf-4f2e-baee-ee7d11314c92": {
       "uuid": "c0e85197-4daf-4f2e-baee-ee7d11314c92",
       "display_id": 293,
@@ -20704,8 +20717,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T17:21:00.975312211Z",
+    "timestamp": "2026-08-10T17:59:47.849807598Z",
     "agent_id": "OL2r",
-    "agent_seq": 1685
+    "agent_seq": 1686
   }
 }
