@@ -1,5 +1,5 @@
 {
-  "next_display_id": 350,
+  "next_display_id": 351,
   "next_comment_id": 1591,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -194,6 +194,7 @@
     "83998e6e-ea6a-4b70-94d8-c9ba10a4fbac": 7,
     "83be1dc0-30d2-48de-9dd6-0bd560241e3f": 236,
     "83dee241-d847-4cda-948d-8e7bc79d3bb0": 114,
+    "84644164-9cf0-41db-bb30-ca704b67b6d2": 350,
     "85a1bd39-7a95-4fc2-a029-84b2ec209ac4": 33,
     "85bee50a-7e9b-4431-b63e-0ba2c0343595": 122,
     "87738dd2-98f2-495f-840b-2b7219d5d26e": 109,
@@ -11164,6 +11165,18 @@
         }
       }
     },
+    "84644164-9cf0-41db-bb30-ca704b67b6d2": {
+      "uuid": "84644164-9cf0-41db-bb30-ca704b67b6d2",
+      "display_id": 350,
+      "title": "IMPLEMENT #349 cleanup rescope: selective operator-gated removal + remove blanket --force from agents",
+      "description": "Implement the operator-approved #349 rescope in the crosslink fork. (1) crosslink kickoff cleanup gains selective mode: --only <id1,id2> removing just those worktrees+tmux; (2) remove the blanket --force path from agent-invokable use (operator-only; no agent allowlist); (3) non-force path prints full blast radius + requires confirmation. ALSO: grant orchestrator bounded per-ID 'git worktree remove <path>' + 'tmux kill-session -t <name>' (exact match, no wildcards, gated on active issue) in orchestrator agent definition + hook-config; remove 'crosslink kickoff cleanup --force' from agent surfaces. Location: /home/claude-code/projects/crosslink/crosslink/src/commands/kickoff/cleanup.rs + .opencode/agents/orchestrator.md + .crosslink/hook-config.json (ASES) + tripn-astro mirror per §5.5. Commit with [#349] ref.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "29a56c5f-e8a5-4946-9abd-4291b82f0077",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T14:28:10.022219783Z",
+      "updated_at": "2026-08-10T14:28:10.022219783Z"
+    },
     "85a1bd39-7a95-4fc2-a029-84b2ec209ac4": {
       "uuid": "85a1bd39-7a95-4fc2-a029-84b2ec209ac4",
       "display_id": 33,
@@ -20479,8 +20492,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T14:26:57.140395966Z",
-    "agent_id": "pp3g-vROu-model-discipline-fix-for-issue-347-operator-directed",
-    "agent_seq": 4
+    "timestamp": "2026-08-10T14:28:10.022219783Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1677
   }
 }
