@@ -1,8 +1,9 @@
 {
-  "next_display_id": 337,
+  "next_display_id": 338,
   "next_comment_id": 1492,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
+    "04473229-f530-4a94-b092-19e9557085a2": 337,
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": 200,
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "055ac696-f51f-4c63-9498-cf99b79299f3": 218,
@@ -415,6 +416,18 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWmYXU0O0tB0MPqQc+IQtRGBUekVGk6LuKaFt7K/PEQkNnzSgCwojwljfnCSCXlhSS+d9A5n0X2w6LrUdup3pAg=="
         }
       }
+    },
+    "04473229-f530-4a94-b092-19e9557085a2": {
+      "uuid": "04473229-f530-4a94-b092-19e9557085a2",
+      "display_id": 337,
+      "title": "EXECUTE Level-2: isolated behavioral test of ade6146b fail-closed sync guard (stale-checkpoint comment-survival)",
+      "description": "Execute the Level-2 isolated behavioral test for #336 (which verified the guard statically = PASS). Build a SCRATCH crosslink environment and reproduce the stale-hub-checkpoint condition: post a local-only comment, manufacture a stale hub checkpoint, run crosslink sync, observe whether the local comment survives. If it survives -> guard demonstrated fail-closed in practice. If dropped -> guard present-but-ineffective (durability premise broken). SAFETY: throwaway data ONLY, zero risk to real hub/issues/comments. Do NOT touch ~/.crosslink or the real issue store. Deliverable: observed result + classification (demonstrated-fail-closed / demonstrated-ineffective / infeasible-in-scratch). Ref #336/#330/#331/#334, playbook §6.5.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "52bac49d-a367-4cf6-94e4-47b62124eccf",
+      "created_by": "OL2r",
+      "created_at": "2026-08-10T00:01:49.265234945Z",
+      "updated_at": "2026-08-10T00:01:49.265234945Z"
     },
     "05129aa4-5ab4-4e79-a886-1e8ffe0a420b": {
       "uuid": "05129aa4-5ab4-4e79-a886-1e8ffe0a420b",
@@ -19352,8 +19365,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-09T23:50:05.520931481Z",
+    "timestamp": "2026-08-10T00:01:49.265234945Z",
     "agent_id": "OL2r",
-    "agent_seq": 1619
+    "agent_seq": 1620
   }
 }
