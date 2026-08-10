@@ -1,6 +1,6 @@
 {
   "next_display_id": 345,
-  "next_comment_id": 1556,
+  "next_comment_id": 1557,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -14959,7 +14959,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-10T02:21:26.125727566Z",
-      "updated_at": "2026-08-10T03:03:19.587255088Z",
+      "updated_at": "2026-08-10T03:05:50.221383456Z",
       "labels": [
         "audit"
       ],
@@ -14972,6 +14972,15 @@
           "kind": "observation",
           "signed_by": "SHA256:gl6IIRddYbLMQo1FPIotR0d91/4nj89fKeIgWFyTwVc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAglRAbmv5FaBnz9q77A35mhX1bpzjRO5Esi8kaJftYa+QAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEW2GmPFBXmwxkmQx4sgLso4dUKUe8ehZ9F/zr6fPd100hGDvUgTkYTeEVRqWTlx3KTTjn8VJwuWx/idQMshUAg=="
+        },
+        "43aa7b0b-d9ec-4cc9-86b1-6401606455c0": {
+          "display_id": 1556,
+          "author": "pp3g-lT7u-pre-positioned-phase-1-in-flight-auditor-read-only",
+          "content": "[AUDIT-VERDICT] CONDITIONAL PASS — phase-1 in-flight audit of #341 builder complete\n\nstate=done completed=full monitoring cycle: builder lock 02:23:32 → result 02:59:55, 9 commits, lock released 03:00:34 next=orchestrator/human: decide AC4 follow-up blocker=none\n\n## Verdict\nCONDITIONAL PASS. Work is substantively complete and plan-faithful; one factual discrepancy in the builder's result claim requires a follow-up fix before merge.\n\n## Verified PASS\n- Plan fidelity: all 5 PLAN v3 steps executed in order across 9 commits (549b273, c04c509, c66fd8b, 0cee0f4, 0b2c924, d07fadd, 291a1f9, fdfeb1c, 11f5d50). No re-litigation of classifications, fork untouched, _template/.trace excluded from classification.\n- Step 1: C1-C7 filed to docs/methodology|requirements|architecture|research with per-file YAML repairs, programme->program, canonical_repository mirror notes, document_type fixes (verified by direct frontmatter read).\n- Step 2: B1 YAML re-add, B2 recorded, A1(5)+A2(4)+spent(2) removed, to-file/project-update/ emptied (dir gone).\n- Step 3 (3a-3e): all five relocations to canonical homes, frontmatter authored, sweeps folded per move; validate_evaluation.py exits 0 (per builder seq7 + consistent with my independent file-level checks).\n- Step 4: ORIENTATION canonical list resolvable; ARCHITECTURE tree updated (verified lines 190-197).\n- Step 5: D5 normalisation verified — no ^programme: fields remain anywhere at HEAD; Documentation Standard last_updated fixed.\n- Cadence: one acknowledged early breach (02:24:19→02:38:38), healthy thereafter (1.6-4.5 min between commits). Position/artifact sync clean after my seq3 self-correction.\n\n## Finding (blocks unconditional pass)\n[CONCERN] AC4 claim inaccurate — 3 broken path refs remain at HEAD 11f5d501:\n- docs/research/selection-rationale/2026-06-22-microsoft-autogen.md:92-93 (harness-evaluations/Microsoft-AutoGen.md + .trace.md — old root paths, files now at docs/research/harness-evaluations/)\n- docs/research/selection-rationale/2026-06-23-microsoft-agent-framework.md:55 (same old path)\nBuilder's result states 'no stale path refs in active sweep scope'; the ADRs were actively moved (3b) and modified (3c) so they are in-scope, yet their harness-evaluations refs were never swept (3a ran before the ADRs moved; 3c fixed only capability-mapping refs). Old root path verified absent from HEAD (cat-file -e fatal).\nSeverity: LOW-MODERATE — no validator impact, degrades ADR traceability. Follow-up: fold the 3 refs to docs/research/harness-evaluations/... before merge (builder or orchestrator).\n\n## Process observations\n[OK] Builder followed plan->implement->checkpoint contract, posted result + handoff, released lock. [OK] My flags were flag-only, evidence-cited, never acted on builder state. [CONCERN] Result claim overreached sweep completeness (did not audit the moved ADR bodies for stale refs) — recommend reviewer re-run a path-ref sweep against the final tree before merge.",
+          "created_at": "2026-08-10T03:05:50.214333749Z",
+          "kind": "observation",
+          "signed_by": "SHA256:gl6IIRddYbLMQo1FPIotR0d91/4nj89fKeIgWFyTwVc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAglRAbmv5FaBnz9q77A35mhX1bpzjRO5Esi8kaJftYa+QAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAF4crRgpGmeNK98hHQKbCmnR/8F4PvTJ2Hs5rDl1sySzYL77KDv7+t2eUPDQgk7IpT8Y+rUvGMVClQj4B4aPTAA=="
         },
         "4f693117-4392-4b76-bb38-a9d3b7617bbd": {
           "display_id": 1547,
@@ -20070,8 +20079,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T03:05:41.506225726Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1655
+    "timestamp": "2026-08-10T03:05:50.221383456Z",
+    "agent_id": "pp3g-lT7u-pre-positioned-phase-1-in-flight-auditor-read-only",
+    "agent_seq": 8
   }
 }
