@@ -2,10 +2,11 @@
 title: "Filing Handbook — routing + conventions for document-filing sessions"
 tags: ["filing", "documentation", "routing"]
 sources: []
-contributors: ["OL2r"]
+contributors: ["OL2r", "pp3g-Mdur-execute-the-operator-approved-filing-plan-on-issue"]
 created: 2026-08-10
 updated: 2026-08-10
 ---
+
 
 Thin handbook for document-filing sessions. Pointer-only: deeper docs live elsewhere and are read on demand. If you were pointed here via 'read the filing handbook', also read SESSION-START.md first.
 
@@ -33,7 +34,8 @@ Worked example: the filed set at docs/research/retrospectives/ (read a phase + a
 - docs/standards/ — Documentation Standard, Documentation Taxonomy, Canonical Terminology, Concept: Levels of Abstraction
 
 ## Staging / backlog
-- to-file/ — items awaiting classification: crosslink-gates/ (5), reviews-1/2/3.md, failed-conversation.md, handoff-failure-analysis.md, regression-testing.md, research-addendum-epistemic-validation.md, assumption-register-candidate.md, and new untracked EDASES docs (e.g. EDASES-topic-methodology-research.md, EDASES-methodology-enforcement.md). Classify before filing; do not auto-file.
+
+to-file/ — holds only CLUSTER D (reviews-1/2/3.md), HELD per operator decision on #351 (waiting for checklist subjects). All other staging items filed to canonical homes per #351: crosslink-gates/ (5) -> docs/research/crosslink-gates/ (Archived, superseded by crosslink impl #13/#22-#27); failed-conversation.md, handoff-failure-analysis.md, research-addendum-epistemic-validation.md, assumption-register-candidate.md -> docs/research/ (Active Research Records); regression-testing.md -> docs/research/regression-testing-orchestrator-compliance.md; EDASES-topic-methodology-research.md + EDASES-topic-Git-Based-Engineering-Systems.md -> docs/research/retrospectives/topics/; EDASES-methodology-enforcement.md -> docs/research/EDASES-Methodology-Feedback-and-Enforcement.md.
 
 ## Deeper docs (read on demand)
 - docs/standards/Documentation Standard.md — frontmatter rules, permitted layer values, authority rules
