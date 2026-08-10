@@ -160,6 +160,15 @@ last_updated: 2026-08-10
 
 ## Routing principles distilled from evidence
 
+0. **FORBIDDEN MODELS (#347): xAI / Grok is strictly and permanently
+   forbidden.** xAI models (grok-4.5 and the grok family) must never be
+   routed to any task. Violation precedent: #249 ('never use Grok/xAI').
+   The models are patched out of the model catalog (user-level plugin
+   `~/.config/opencode/plugins/plugin.ts`) — `opencode models` must not list
+   them. **Kimi is NOT forbidden** — `opencode-go/kimi-k2.7-code` is usable
+   (used on #317/#322); only `kimi-k3` is extremely expensive (cost-based
+   caution, not a ban). See `.crosslink/knowledge/model-discipline.md`.
+
 1. **Match the lens to the review need**: durability-critical designs -> luna; edge-case/implementation-readiness -> hy3; breadth+live-system -> big-pickle; fast triage -> ling/north-mini-code; final audit -> gemini.
 2. **Cost discipline**: research/web/cheap tasks -> flash (operator rule #147); high-value review/audit -> luna. Do not burn luna on cheap research.
 3. **Reliability gates**: free-tier models (laguna esp.) and flash have a confirmed silent-hang failure class — do not use for deadline-critical or unattended tasks until the #146 watcher / #154 durable fix lands.
