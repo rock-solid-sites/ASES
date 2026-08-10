@@ -1,6 +1,6 @@
 {
   "next_display_id": 344,
-  "next_comment_id": 1555,
+  "next_comment_id": 1556,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -14943,11 +14943,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-10T02:21:26.125727566Z",
-      "updated_at": "2026-08-10T02:53:56.860945150Z",
+      "updated_at": "2026-08-10T03:03:19.587255088Z",
       "labels": [
         "audit"
       ],
       "comments": {
+        "12f3658f-08b3-42fe-8a33-50844c5ac6c8": {
+          "display_id": 1555,
+          "author": "pp3g-lT7u-pre-positioned-phase-1-in-flight-auditor-read-only",
+          "content": "[FLAG-AC4] Broken path refs in Step 3b ADRs — AC4 not fully satisfied at HEAD 11f5d501\n\nstate=flag completed=independent acceptance sweep found 3 stale refs next=builder to confirm whether its in-flight final acceptance check catches them blocker=none\n\nEvidence (verified in HEAD 11f5d501, worktree pp3g-AHi6):\n- docs/research/selection-rationale/2026-06-22-microsoft-autogen.md:92 — backtick ref `harness-evaluations/Microsoft-AutoGen.md` (old root path; file now at docs/research/harness-evaluations/Microsoft-AutoGen.md)\n- same file:93 — `harness-evaluations/Microsoft-AutoGen.md.trace.md` (old root path; now docs/research/harness-evaluations/Microsoft-AutoGen.md.trace.md)\n- docs/research/selection-rationale/2026-06-23-microsoft-agent-framework.md:55 — `harness-evaluations/Microsoft-AutoGen.md` (old root path)\n\nRoot cause: 3a sweep (c66fd8be) ran while ADRs were still at root selection-rationale/ and did not include them; 3b (0cee0f41) moved the ADRs without sweeping internal harness-evaluations refs; 3c (0b2c924d) modified both ADRs (capability-mapping refs) but left harness-evaluations refs stale. Old root path harness-evaluations/ verified absent from HEAD (cat-file -e fatal: path does not exist).\n\nScope check: ALL other old-path refs (capability-mapping/, core-system-prompts/, selection-rationale/) verified clean across docs/, .design/*, scripts/, CHANGELOG, ORIENTATION, ARCHITECTURE, SESSION-START/END. ARCHITECTURE.md new tree (lines 190-197) correct. docs/historical/README.md old paths are intentional frozen archive. gap-analysis line 77 quote is historical observation text, not a live ref.\n\nSeverity: LOW-MODERATE. Does not affect validate_evaluation.py (passed per builder seq8); degrades traceability for ADR consumers. Recommendation: builder folds the 3 refs to docs/research/harness-evaluations/... in a follow-up commit before merge; otherwise orchestrator should require it at review. Flag-only, no action taken on builder.",
+          "created_at": "2026-08-10T03:03:19.575461991Z",
+          "kind": "observation",
+          "signed_by": "SHA256:gl6IIRddYbLMQo1FPIotR0d91/4nj89fKeIgWFyTwVc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAglRAbmv5FaBnz9q77A35mhX1bpzjRO5Esi8kaJftYa+QAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEW2GmPFBXmwxkmQx4sgLso4dUKUe8ehZ9F/zr6fPd100hGDvUgTkYTeEVRqWTlx3KTTjn8VJwuWx/idQMshUAg=="
+        },
         "4f693117-4392-4b76-bb38-a9d3b7617bbd": {
           "display_id": 1547,
           "author": "pp3g-lT7u-pre-positioned-phase-1-in-flight-auditor-read-only",
@@ -20045,8 +20054,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-10T03:00:42.781329629Z",
-    "agent_id": "pp3g-AHi6-execute-plan-v3-on-issue-341-builder-doc-restructure",
-    "agent_seq": 11
+    "timestamp": "2026-08-10T03:03:19.587255088Z",
+    "agent_id": "pp3g-lT7u-pre-positioned-phase-1-in-flight-auditor-read-only",
+    "agent_seq": 7
   }
 }
