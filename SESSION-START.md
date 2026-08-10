@@ -114,6 +114,7 @@ are hard invariants, not suggestions:
 | Adversarial review | `crosslink-adversarial-review.md` (knowledge) + `docs/crosslink-adversarial-review.md` |
 | Launching a background agent | the in-repo `kickoff` skill (`.claude/skills/kickoff/SKILL.md`) |
 | Long-running processes / OOM risk | `server-memory-management.md` (knowledge) |
+| Filing documents (new/staged docs, retrospectives, frontmatter, canonical homes) | **`filing-handbook`** (knowledge page: crosslink knowledge show filing-handbook) — thin routing + conventions; read SESSION-START + the handbook, then the deeper docs it points at |
 
 ## 4a. Timeouts and progress feedback (read before ANY launch)
 
