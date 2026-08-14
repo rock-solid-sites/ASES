@@ -1,6 +1,6 @@
 {
   "next_display_id": 372,
-  "next_comment_id": 1712,
+  "next_comment_id": 1713,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -11204,7 +11204,7 @@
       "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
       "created_by": "OL2r",
       "created_at": "2026-08-14T23:43:10.052375493Z",
-      "updated_at": "2026-08-14T23:52:21.083998016Z",
+      "updated_at": "2026-08-14T23:52:36.749245577Z",
       "labels": [
         "review"
       ],
@@ -11253,6 +11253,15 @@
           "kind": "observation",
           "signed_by": "SHA256:prHqb5uo8bgYse0dKjeDZfRi7JuMFttOHgot8Aj7KZo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAghZRxLQOWt+gccT/3usNxuUm9XO7Mz+NXaeh1UiCXJG4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM1v9MDxifh/D7i9wcNSipcAeYQ5Uw+IxLWhVq64P35Pk0u6ywjMjAg4DpxDGMCdzNrXisQCchXXDGprzCYoMBA=="
+        },
+        "f05b3a22-2fe2-4fff-8550-d03aae467588": {
+          "display_id": 1712,
+          "author": "pp3g-KaeS-open-ended-architectural-review-on-issue-371-read-the",
+          "content": "### (e) What I would build instead - concrete\n\n1. **Move the three guard plugins to user-level** (~/.config/opencode/plugins/): they are repo-agnostic by design (crosslink-guard already reads per-repo hook-config via crosslinkDir; orchestrator-guard/rtk-guard have no per-repo logic). One copy -> the 3-way divergence class dies permanently. Per-repo hook-config.json stays per-repo (class 3). This mirrors the model-whitelist precedent that is currently the only non-diverged artifact.\n2. **Wrappers + model plugins: Tools as versioned upstream, install-from-Tools with a pin; never edit live.** Delete/replace models-cache: it is a *generation* problem, not a copy problem - regenerate from the live catalog on demand (or on a freshness check), never merge a stale cache into provider configs. Consolidate plugin.ts/dynamic-models.ts near-duplicates into one source with the newest semantics (grok-ban + whitelist).\n3. **Skills/hooks/commands/mcp: keep init-deployed but give each a single source.** Either the fork embeds them (then Tools drops its copies; init is the only deployer) or Tools is canonical and init reads from Tools - pick ONE per artifact. The gitignore'd .claude snapshots (drift item 7) must have a checked-in generated manifest so they are verifiable.\n4. **Class-3 policy stays layer-owned** - and implement the .ases/ boundary (currently draft/aspirational) as the explicit home for layer-owned methodology state; it is the correct design, it is simply unimplemented.\n5. **Fix the correctness bugs now, independent of the architecture choice:** (i) remove git merge from agent_overrides.blocked_git_commands (it belongs only in by_type.orchestrator.gated); (ii) add a hook-config cross-surface consistency check (blocked intersect gated must be empty) to the guard plugin - cheap, catches this class forever; (iii) models-cache freshness guard; (iv) whitelist verification against live catalog.\n\n### Must change vs optional\n\n**MUST:** (1) eliminate the multi-copy guard-plugin distribution (move to user-level single copy); (2) wrappers/model plugins: install-from-Tools pinning, never edit-live; (3) models-cache regeneration + plugin.ts/dynamic-models.ts consolidation; (4) fix hook-config merge precedence + add blocked/gated consistency check; (5) generated (not hand-maintained) manifest for any remaining materialized copies, checked in.\n\n**OPTIONAL:** (6) submodule vs pin-file for per-repo materialization (pin-file+script is sufficient); (7) .ases/ implementation; (8) fork embedding vs Tools canonical for init-deployed resources (pick one, either works); (9) packages as the long-term mechanism if the fleet grows beyond single-operator scale.\n\n### WHAT-NOT-TESTED\n\n- Tools repo, tripn-astro repo, crosslink fork source, and live ~/.local/bin wrappers were not readable from this sandbox (filesystem restricted to the ASES worktree). The issue's stated sizes/divergences for those repos are taken as given; I verified the ASES-side claims directly (plugin byte size, hook-config double-listing, .gitignore of .claude, knowledge-page staleness evidence, .ases draft status).\n- I did not run a live orchestrator merge attempt to observe the hook-config precedence bug end-to-end; the conclusion follows from static reading of plugin check order (blocked before gated) plus the config's double-listing, with the by_type fallback path documented in the plugin itself (FAIL-CLOSED warnings at crosslink-guard.ts:887-917).\n- I did not test whether opencode loads user-level plugins identically to the model-whitelist precedent for ALL plugin types; the precedent (plugin.ts at user level, documented as working) is strong but the guard plugins' exact behavior at user level is untested.\n- The pin-file materialization design is proposed from first principles, not exercised.\n\n**Bottom line:** the proposed fix (warehouse + sync + manifest + rules-excluded + per-repo commits) is directionally right and worth executing as the interim stabilization - but it does not go far enough. Adopt it, then drive the distribution to the three-class model above so that the sync script's job shrinks to zero over time rather than becoming permanent infrastructure for a problem that should be deleted, not managed.",
+          "created_at": "2026-08-14T23:52:36.743405230Z",
+          "kind": "result",
+          "signed_by": "SHA256:prHqb5uo8bgYse0dKjeDZfRi7JuMFttOHgot8Aj7KZo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAghZRxLQOWt+gccT/3usNxuUm9XO7Mz+NXaeh1UiCXJG4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA60Jp3QDAwB9hFF8kF5Nf2YPeNDJdUyyyIW9t05P18O2KUIgHYFH5S2xHd2JF5bY5LPZUXVHjFN0l0qbkEKZHDQ=="
         }
       }
     },
@@ -21975,8 +21984,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:52:21.083998016Z",
+    "timestamp": "2026-08-14T23:52:36.749245577Z",
     "agent_id": "pp3g-KaeS-open-ended-architectural-review-on-issue-371-read-the",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
