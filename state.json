@@ -1,5 +1,5 @@
 {
-  "next_display_id": 357,
+  "next_display_id": 358,
   "next_comment_id": 1638,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -313,6 +313,7 @@
     "dfdb4a01-b729-401e-8abe-5ef45f8c32da": 291,
     "dfe33474-d858-4190-9489-3b57b4b47d9b": 272,
     "e0052314-bb07-4e90-b738-d328007ef9dc": 297,
+    "e027f616-67a9-48d1-811e-5d5dd144cc1c": 357,
     "e0787292-68df-4ee6-a926-63ce08b8d825": 229,
     "e0ed5df8-fbf0-4be4-a381-54372e997ebd": 164,
     "e17b7dd1-ee7c-4462-bf98-4dc7b28a11b5": 133,
@@ -18830,6 +18831,18 @@
       "created_at": "2026-08-08T18:08:25.237942850Z",
       "updated_at": "2026-08-08T18:08:25.237942850Z"
     },
+    "e027f616-67a9-48d1-811e-5d5dd144cc1c": {
+      "uuid": "e027f616-67a9-48d1-811e-5d5dd144cc1c",
+      "display_id": 357,
+      "title": "FIX: auditor tool-surface gaps — rtk double-prefix breaks git (#351), no kickoff-list visibility (#320); one allowlist/rtk-guard fix targets both",
+      "description": "Unified finding from two auditor-verification failures (operator noted the connection, 2026-08-10). COMMON ROOT CAUSE: the auditor role's read-only tool surface is missing capabilities its core verification job requires. (1) #351 (filing task auditor pp3g-WzRN): 'Auditor sandbox cannot run git commands — rtk wrapper prepends rtk to all bash commands, breaking pattern matching for git status/log/diff/show/branch.' Auditor forced to rely on filesystem inspection + builder claims for git-level verification (commit messages, rename history, branch state). (2) #320 (doc task auditor pp3g-bjyI): auditor could not detect the builder's activity — 'no kickoff agent found' repeatedly, because tmux-launched agents are invisible to crosslink kickoff list; nearly false-flagged a working builder as stalled. (3) Related: #344 post-hoc auditor (pp3g-oYYY) could not run bun to reproduce matcher tests. FIX SHAPE (one change set): (a) rtk-guard.ts — stop double-prefixing when the command already starts with a known tool (git/crosslink/etc.), or add 'rtk git *' / 'rtk crosslink *' patterns to the auditor allowlist; (b) auditor.md allowlist — add the registry-query commands (crosslink kickoff list/status) so agent visibility works; (c) consider bun/node for matcher-verification reproduction (or document orchestrator-side verification as the pattern). Files: .opencode/plugins/rtk-guard.ts + .opencode/agents/auditor.md (+ mirror per §5.5). Ref: #320/#351/#344, the #320 monitoring-gap finding, the #351 auditor systemic finding.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
+      "created_by": "OL2r",
+      "created_at": "2026-08-14T07:37:05.412777656Z",
+      "updated_at": "2026-08-14T07:37:05.412777656Z"
+    },
     "e0787292-68df-4ee6-a926-63ce08b8d825": {
       "uuid": "e0787292-68df-4ee6-a926-63ce08b8d825",
       "display_id": 229,
@@ -21043,8 +21056,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T07:32:56.356643793Z",
+    "timestamp": "2026-08-14T07:37:05.412777656Z",
     "agent_id": "OL2r",
-    "agent_seq": 1705
+    "agent_seq": 1706
   }
 }
