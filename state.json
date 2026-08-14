@@ -1,5 +1,5 @@
 {
-  "next_display_id": 363,
+  "next_display_id": 364,
   "next_comment_id": 1659,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -216,6 +216,7 @@
     "938b926a-c400-4088-837f-9bc1322dd8d7": 172,
     "951b3b57-44f1-4503-9404-6cb182065dd1": 144,
     "96e2152d-85c5-465e-b90f-2d593b463473": 147,
+    "96f5e782-aa7d-43f1-9e4a-0f96e27e0954": 363,
     "97952c91-bb14-4a15-95d8-65af45753451": 158,
     "9ca01ace-424c-4ed0-a5c6-ffe9982fd236": 333,
     "9d3e3af4-2363-4f2c-8990-674b86333212": 181,
@@ -13713,6 +13714,18 @@
         }
       }
     },
+    "96f5e782-aa7d-43f1-9e4a-0f96e27e0954": {
+      "uuid": "96f5e782-aa7d-43f1-9e4a-0f96e27e0954",
+      "display_id": 363,
+      "title": "REVIEW r2 (big-pickle): adversarial review of B1-B6 remediation plan (#361)",
+      "description": "READ-ONLY reviewer role. Independent adversarial review of the remediation plan for Tools-migration blockers B1-B6 (issue #361). Post verdict ONLY to this sub-issue (playbook §5.6 independence). Do NOT read other reviewers' verdicts (#362/#363); work independently.\n\nCONTEXT: Issue #361 contains the remediation plan (posted as --kind result) for the six blocking findings from the Tools monorepo migration plan review. Review the PLAN posted on #361, not the original migration plan on #354.\n\nREAD #361'S RESULT COMMENT (the remediation plan) CAREFULLY. The plan proposes:\n- B1: exclude .crosslink/rules from sync entirely (28/31 binary-distributed rules byte-identical; 4 layer-owned: global.md/knowledge.md/project.md/kickoff.md); --include-rules opt-in.\n- B2: drop .ases/ boundary (aspirational per EDASES-Methodology-Feedback-and-Enforcement.md §3); sync directly to tripn/.opencode/plugins.\n- B3: consumption-time drift check — .canonical-manifest.json (sha256) + crosslink-guard.ts startup check (warn-mode first, hard-fail after proven) + sync-tooling.sh --check.\n- B4: re-sequence step 5: pin binary (37789b51) -> document returncode behavior delta -> rm -> crosslink init -> verify -> ASES mirror; defer option.\n- B5: transactional cutover: clean-worktree precondition (Tools fails it; step 0 commits uncommitted changes), local-edit preservation, dry-run, atomic staging, tx log, rollback, per-repo verify.\n- B6: provenance capture + 8-item wrapper contract battery (--agent, tmux auto, quoting, fork identity, exit codes, memory scope, plugin load).\n- Revised 8-step plan (new step 0) + 10-row risk register.\n\nADVERSARIAL MANDATE: Is the remediation plan correct, complete, and safe? Does it actually resolve each blocker? Does it introduce NEW problems (e.g., the B3 warn-mode enforcement, the B5 rollback design, the step-0 commit decision, the tripn direct-sync)? Hunt for flaws, incorrect assumptions, order-of-operations hazards, and residual drift risk. Distinguish blocking findings from non-blocking. Include WHAT-NOT-TESTED. Read-only: no file changes, no commits. Deliver verdict as --kind result on THIS sub-issue only.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
+      "created_by": "OL2r",
+      "created_at": "2026-08-14T21:40:31.735338212Z",
+      "updated_at": "2026-08-14T21:40:31.735338212Z"
+    },
     "97952c91-bb14-4a15-95d8-65af45753451": {
       "uuid": "97952c91-bb14-4a15-95d8-65af45753451",
       "display_id": 158,
@@ -21334,8 +21347,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T21:40:15.373812131Z",
+    "timestamp": "2026-08-14T21:40:31.735338212Z",
     "agent_id": "OL2r",
-    "agent_seq": 1734
+    "agent_seq": 1735
   }
 }
