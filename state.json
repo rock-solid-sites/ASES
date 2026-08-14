@@ -14400,11 +14400,12 @@
       "uuid": "aa72fa69-30e2-46c5-9410-4e0a2e4a1545",
       "display_id": 356,
       "title": "FIX: auditor/reviewer git-verification gap — rtk wrapper double-prefixes git commands, blocking git-level verification for read-only roles (finding from #351 filing audit)",
+      "description": "FIX: read-only-role git verification gap — the rtk bash wrapper double-prefixes git commands in the auditor/reviewer sandbox, so read-only roles cannot run bare git-level verification.\n\nOBSERVED (2026-08-10, #351 filing audit, Phase-1 auditor pp3g-WzRN): the auditor's AUDIT-VERDICT PASS noted a systemic limitation — 'Auditor sandbox cannot run git commands (rtk wrapper prepends rtk to all bash commands, breaking pattern matching for git status/log/diff/show/branch). Impact: Auditor must rely on filesystem inspection + builder claims for git-level verification (commit messages, rename history, branch state).'\n\nWHY IT MATTERS: the workflow-topology design makes the AUDITOR the in-flight divergence verifier and the REVIEWER the pre-consumption readiness audit — both read-only roles whose core function is verifying claim-vs-artifact (commits exist, carry [\\#N], rename history preserved, branch state correct). Without git access, they cannot independently verify commit messages, rename similarity, or branch state — the exact things the #351 filing needed checked. This is the same verification-dimension gap class as the playbook §6.1 'durable primitive is ground truth' principle: read-only roles cannot read the durable primitive (the commit) through the current wrapper.\n\nROOT CAUSE: rtk wrapper (or rtk-guard.ts / hook-config allowlist interaction) prepends 'rtk ' to every bash command, so 'git log' becomes 'rtk git log' — which either fails or bypasses the intended allowlist pattern match. Recommended fix directions (evaluate cheapest-test-first):\n1. Fix the wrapper/hook: don't double-prefix when the command already starts with rtk (self-rewrite guard — the same hazard class documented in the meta-instruction-compliance-gap knowledge page's RTK plugin notes: 'the hook re-fires on its own rewritten output').\n2. OR add rtk git * proxy patterns to the auditor/reviewer allowlist in .opencode/agents/*.md + hook-config.json by_type overrides so the prefixed form matches.\n3. Verify per #342/#344 verification approach: positive/negative matcher checks, live auditor run attempting git log/show/status in its sandbox.\n\nRELATED: #342/#344 (deny-by-default read-only capability boundary — this is the verification half of that boundary), #340 (read-only allowlist amendment), #351 (finding source), #330 (checkpointing/durability thread), meta-instruction-compliance-gap knowledge page (rtk self-rewrite hazard).\n\nCOMMIT with [#356] ref. Ref #342/#344/#340/#351.",
       "status": "open",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-14T07:31:48.332880011Z",
-      "updated_at": "2026-08-14T07:32:00.467714615Z",
+      "updated_at": "2026-08-14T07:32:34.164446799Z",
       "labels": [
         "permission"
       ]
@@ -21033,8 +21034,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T07:32:13.105766701Z",
+    "timestamp": "2026-08-14T07:32:34.164446799Z",
     "agent_id": "OL2r",
-    "agent_seq": 1702
+    "agent_seq": 1703
   }
 }
