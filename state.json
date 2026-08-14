@@ -1,5 +1,5 @@
 {
-  "next_display_id": 361,
+  "next_display_id": 362,
   "next_comment_id": 1653,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -117,6 +117,7 @@
     "4d2ae734-1b40-41a5-899e-baacb300cd22": 42,
     "4edf1983-2331-4c46-b251-f05b116f60f5": 253,
     "4f679348-c35f-4ba0-ab80-900788e81b19": 175,
+    "4fd047c3-b6ed-46a2-9b26-0f90cc14c782": 361,
     "513f0126-abff-4948-8d6b-65e8927ba3a1": 213,
     "51942b54-b189-47ee-a0ad-be20dd4840f0": 185,
     "51e6faeb-184d-4b1e-9b24-ba208d33f29b": 197,
@@ -7403,6 +7404,18 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg22VA8Vi6EEevLSrJx0oOCtIzgRpaGvIfOtg+AR9m394AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoi5uB+QzPFlMpxuaRcT4/5eoMf18F80pXPjS4DWYAm/KTE+LKNsyWI8B5XxGDIGRw7AaPRvXLYMlBcWPl78pDw=="
         }
       }
+    },
+    "4fd047c3-b6ed-46a2-9b26-0f90cc14c782": {
+      "uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
+      "display_id": 361,
+      "title": "PLAN: remediation plan for Tools-migration blockers B1-B6 (revise #354 plan post-review)",
+      "description": "ZERO-CONTEXT PLANNING TASK. Produce a remediation PLAN ONLY — no implementation, no file changes, no commits. Work solely from this brief + the repositories on disk. Do not inherit any prior conversation.\n\nCONTEXT: The Tools repo monorepo migration plan (issue #354, 7 operator decisions D1-D7) was adversarially reviewed by two independent reviewers. Both verdicts: CHANGES REQUESTED. Six blocking findings (B1-B6) must be resolved before implementation.\n\nONTOLOGY (#353): EDASES + ASES + Execution Engine = three separate layer repos. Tools = general warehouse (NOT a layer, NOT the Execution Engine) for forks/plugins/wrappers/skills/hooks/agent-defs/scripts. tripn-astro = separate client (NOT a monorepo member). Monorepo = repo-of-repos (D7). Tools stays a single sibling warehouse repo (D6); the crosslink fork stays its own repo at ~/projects/crosslink.\n\nTHE 7 DECISIONS (already made, must be preserved):\nD1 Guard-plugin authority = ASES/.opencode/plugins is authoritative (newest), push to Tools/plugins as canonical. ASES keeps own copy until sync tool exists.\nD2 Wrapper canonicalization = reverse-sync ~/.local/bin/claude + opencode into Tools/scripts as canonical source.\nD3 Warehouse scope = Tools OWNS TOOLING.md, scripts/, plugins/, 2 crosslink skills, docs. MIRRORS (documented, not synced): hooks/commands/mcp (crosslink binary deploys), skills+rules (binary + ASES overrides), role agents (ASES/tripn), agents/ (user-level). Remove gitignored embedded snapshots from Tools fs.\nD4 Sync mechanism = sync-tooling.sh deploy script with version/checksum markers (drift-detectable, fail-loud like the #274 fork-identity guard).\nD5 tripn-astro bundle = keep as documented STALE archive.\nD6 Fork placement = crosslink fork stays sibling repo ~/projects/crosslink; Tools = one git repo.\nD7 Monorepo container = repo-of-repos, no submodules.\n\nTHE 6 BLOCKERS TO RESOLVE:\nB1. D3 says rules are mirror-not-synced; D4 says sync copies rules -> contradiction. Sync would clobber ASES overrides (ASES global.md has a 'Background processes' rule Tools lacks; ASES adds kickoff.md). NEED: per-path ownership map (warehouse-owned vs layer-owned rules), or exclude .crosslink/rules from sync.\nB2. D4's tripn sync path references a '.ases/ boundary' that does NOT exist (no .ases/ dir in tripn-astro; EDASES-methodology-enforcement.md absent everywhere). NEED: concrete tripn sync path (sync directly to tripn/.opencode/plugins + tripn/.crosslink/rules? create+document .ases/ first? or drop tripn leg from scope?).\nB3. No consumer-side enforcement point for the canonical-source claim. The #274 pattern is a consumer-side fail-loud guard checked every invocation. D4's checksum marker has no defined consumer check (who runs it, when, what fails loudly). Also D1 inverts dev workflow: plugins are developed in ASES today; after migration canonical is Tools but consumers load own .opencode/plugins -> next plugin fix lands in ASES, Tools silently stale. NEED: consumption-time check design (guard-plugin startup marker check? preflight that compares checksums and fails loudly?).\nB4. Step 5 (rm gitignored .claude/hooks+commands+mcp from Tools fs) has no re-deploy step and changes runtime behavior. On-disk hooks are LIVE (wired via Tools/.claude/settings.json), match an OLDER embedded version (returncode==2) than fork current resources (returncode!=2). rm without re-init -> Tools agents run with NO hooks; rm+re-init -> hook behavior changes without fork rebuild. NEED: exact sequence (rm -> crosslink init from known binary version -> verify) or defer step 5.\nB5. No cutover transaction for cross-repo writes. NEED: clean-worktree precondition, local-edit preservation, atomic staging, partial-failure detection, rollback, dry-run, per-repo verification.\nB6. D1/D2 lack provenance + cheapest discriminating tests. NEED: capture exact sources; test wrapper contracts (--agent, tmux auto, CROSSLINK_AGENT_TYPE, fork identity, quoting, exit codes, memory scope) before canonicalization.\n\nALSO VALIDATED BUT NON-BLOCKING (consider folding in):\n- D2 merge premise stale: live ~/.local/bin/claude ALREADY has memory-scope + --agent + CROSSLINK_AGENT_TYPE + --auto mapping; Tools/scripts/claude lacks --agent, has a prompt-quoting bug (). No deploy path back to ~/.local/bin after Tools canonical. TOOLING.md §1.1/§1.2 falsely claim copies identical.\n- 'Newest = authoritative' weak; functional diff is the evidence (ASES plugin is functional superset + repo-agnostic). Sizes: ASES 41.2K / tripn 36.7K / Tools 32.7K.\n- hook-config.json drift (ASES vs tripn differ: by_type builder, comment_discipline, signing_enforcement) is out of scope but half the enforcement surface -> list as layer-owned.\n- Sync target matrix undefined: only ASES exists on disk (no EDASES/Execution dirs); script must tolerate absent targets. 'wrappers' in D4 copy list has no layer-repo destination.\n- Catalog knowledge page refresh dropped from plan (tooling knowledge page last audited 2026-07-09).\n- TOOLING.md §16 never calls the fork a fork (external upstream, canonical embedded-resource source).\n\nDELIVERABLE: A concrete remediation plan posted as --kind result to THIS issue. Structure: for each B1-B6, (a) recommended resolution with rationale, (b) alternatives considered, (c) what it changes in the 6-step implementation plan, (d) cheapest discriminating test to validate before executing. Then an UPDATED full implementation plan (revised step ordering) and a risk register. Ground your recommendations in the actual files on disk (read ASES/.opencode/plugins, ~/.local/bin wrappers, Tools/scripts, Tools/.crosslink/rules, ASES/.crosslink/rules, tripn-astro/.opencode, the crosslink fork resources dir ~/projects/crosslink/crosslink/resources). You MAY read these paths but MUST NOT modify anything. WHAT-NOT-TESTED required.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "f2a8a904-548b-469a-bc63-f76f00727bc1",
+      "created_by": "OL2r",
+      "created_at": "2026-08-14T20:08:12.434650280Z",
+      "updated_at": "2026-08-14T20:08:12.434650280Z"
     },
     "513f0126-abff-4948-8d6b-65e8927ba3a1": {
       "uuid": "513f0126-abff-4948-8d6b-65e8927ba3a1",
@@ -21246,8 +21259,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T20:04:48.556534661Z",
+    "timestamp": "2026-08-14T20:08:12.434650280Z",
     "agent_id": "OL2r",
-    "agent_seq": 1730
+    "agent_seq": 1731
   }
 }
