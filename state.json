@@ -1,6 +1,6 @@
 {
   "next_display_id": 372,
-  "next_comment_id": 1693,
+  "next_comment_id": 1694,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -14105,7 +14105,7 @@
       "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
       "created_by": "OL2r",
       "created_at": "2026-08-14T23:41:52.478856063Z",
-      "updated_at": "2026-08-14T23:47:40.699672650Z",
+      "updated_at": "2026-08-14T23:48:07.027679023Z",
       "labels": [
         "review"
       ],
@@ -14136,6 +14136,15 @@
           "kind": "plan",
           "signed_by": "SHA256:pfTzP29ngEGfQm87RqGLOnykBkYfo8upB1axgAWtxTU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvF2YsnQTnF7UcAEpO9wPzTpHDDEeESUCEAZ1xaKs3woAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAnjAhpDTIllkx/JEaPv975zfNtrEgTYJH/Hl7/9ax2xzceOBN/yalJGgCXoomWOz+hGl5gNJovsGK0BIG4EskBA=="
+        },
+        "61bb1259-4b26-4f43-b847-3c3a7f60bf42": {
+          "display_id": 1693,
+          "author": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
+          "content": "## Root Cause Analysis\n\nThe root cause is a SPLIT DISTRIBUTION MECHANISM. The crosslink binary atomically deploys some resources; Tools manually copies others. The non-embedded resources drift because: (1) no atomicity guarantee for manual copies; (2) no version locking between Tools copies and deployed copies; (3) no single deployment command — each resource type has its own ad-hoc copy path; (4) Tools copies are not regenerated from a canonical source — they ARE the canonical source, but can only be updated by manual editing, which falls behind live deployments.\n\nThe proposed sync-tooling.sh fix PRESERVES the root cause by adding a second distribution mechanism alongside the first. It adds complexity (sha256 manifests, State 0/1/2 state machine, --promote/--check/--pull flags) to DETECT drift after it happens, rather than PREVENTING it by eliminating the second path.\n\n## Answers to the Mandate Questions\n\n(a) Is warehouse + copy-out via sync script fundamentally sound? NO. The copy/drift problem is inherent to any copy-based distribution running alongside an atomic mechanism. The sync script is a manual copy with extra steps. The binary embedding mechanism already solves this for hooks/skills/commands/rules; extending it to plugins/wrappers eliminates the need for a sync script entirely.\n\n(b) Would a different distribution mechanism serve better? YES — the existing binary embedding mechanism, extended. The build.rs auto-discovers resources from resources/ directories and embeds via include_str!. Adding resources/opencode/plugins/ and resources/bin/ is a trivial extension of the established pattern. No new mechanism needed.\n\nAlternatives rejected: npm packages (external dependency, publishing workflow); git submodules (error-prone, doesnt solve global config); symlinks (single point of failure, doesnt work with git); shared config dir (eliminates per-repo customization).\n\n(c) Should the layers even be separate repos? The repo separation is FINE; the distribution mechanism is the problem. The conceptual layers SHOULD be separate repos. The crosslink binary works the same in any repo. If all resources were embedded, each repo runs crosslink init and gets the same atomic set. No drift, no sync scripts.\n\n(d) Is consumer-side drift detection the right enforcement, or should drift be structurally impossible? Drift should be STRUCTURALLY IMPOSSIBLE. Consumer-side detection is a fallback, not a primary mechanism. The State 0/1/2 state machine adds operational complexity without eliminating the root cause. If the crosslink binary is the only deployment path, drift cannot happen. The existing init-manifest.json already provides SHA256-based drift detection for embedded resources.\n\n(e) What would I build instead? See concrete proposal below.",
+          "created_at": "2026-08-14T23:48:07.020457989Z",
+          "kind": "result",
+          "signed_by": "SHA256:pfTzP29ngEGfQm87RqGLOnykBkYfo8upB1axgAWtxTU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvF2YsnQTnF7UcAEpO9wPzTpHDDEeESUCEAZ1xaKs3woAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+N7CEZ8OlLO7II10By7hHIEUz/40gwYN9aupuxSrSX9uLCZ7Py0nEEDzjBHkGpqzQdv4FsPjdH/s1PLqLPloCA=="
         },
         "a79f0c15-a14f-4b26-9daa-687d113131d7": {
           "display_id": 1690,
@@ -21802,8 +21811,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:47:58.384190482Z",
-    "agent_id": "pp3g-XUaf-open-ended-architectural-review-on-issue-369-read-the",
-    "agent_seq": 3
+    "timestamp": "2026-08-14T23:48:07.027679023Z",
+    "agent_id": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
+    "agent_seq": 5
   }
 }
