@@ -1,6 +1,6 @@
 {
   "next_display_id": 372,
-  "next_comment_id": 1702,
+  "next_comment_id": 1703,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -20944,7 +20944,7 @@
       "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
       "created_by": "OL2r",
       "created_at": "2026-08-14T23:42:30.863462766Z",
-      "updated_at": "2026-08-14T23:49:42.413810470Z",
+      "updated_at": "2026-08-14T23:49:58.011988034Z",
       "labels": [
         "review"
       ],
@@ -20957,6 +20957,15 @@
           "kind": "observation",
           "signed_by": "SHA256:AO8Wlu1w8lNW4hbExePHQBhp6SJKVN7l/BieZmrabcg",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgEHWgLkpJN0EfJgIOe7Sx6xE0ze9mj1zGuuor/3mKq3sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7Vl7WhP1tz1LabMqxk4UU7I2eAN36I0tuRKVABjak1r3vyqoa7J2L4WK8fVUgR96R8K6tAuxX7ulVwlVLCOZCQ=="
+        },
+        "83089428-f2ca-4596-bbe1-3291fd26c2b1": {
+          "display_id": 1702,
+          "author": "pp3g-XUaf-open-ended-architectural-review-on-issue-369-read-the",
+          "content": "Proposed system: (1) Tools becomes the single canonical warehouse for guard plugins, wrappers, model plugins, shared skills, and shared hooks/commands/mcp. (2) Layer repos consume by reference, not by copy - use Git submodules or symlinks so ASES/.opencode/plugins/crosslink-guard.ts points to Tools/plugins/crosslink-guard.ts, ~/.local/bin/opencode points to Tools/scripts/opencode, and ~/.config/opencode/plugins/plugin.ts points to Tools/plugins/plugin.ts. (3) Split ownership cleanly: the crosslink fork owns only crosslink-specific embedded resources; OpenCode plugins, wrappers, skills, and model policies belong in Tools and are removed from crosslink init's payload. (4) Layer repos keep only layer-owned config: .crosslink/hook-config.json, project rules, .opencode/opencode.json, layer-specific agents. (5) Fix the by_type runtime agent-type resolution bug in crosslink-guard.ts so per-role permissions are deterministic.",
+          "created_at": "2026-08-14T23:49:58.005117299Z",
+          "kind": "result",
+          "signed_by": "SHA256:AO8Wlu1w8lNW4hbExePHQBhp6SJKVN7l/BieZmrabcg",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgEHWgLkpJN0EfJgIOe7Sx6xE0ze9mj1zGuuor/3mKq3sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7Hvn4ZWrk5P81s61oB5IAFUaC2UopUMGj0N94TKaZqwks8WxlpC8vtrJmYT8Ef7k7KmfDxHLplbo9Ned30GOCQ=="
         },
         "8687f652-f0c0-4d24-a43c-65050115c4d5": {
           "display_id": 1695,
@@ -21885,8 +21894,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:49:42.413810470Z",
+    "timestamp": "2026-08-14T23:49:58.011988034Z",
     "agent_id": "pp3g-XUaf-open-ended-architectural-review-on-issue-369-read-the",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
