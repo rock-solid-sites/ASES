@@ -1,6 +1,6 @@
 {
   "next_display_id": 358,
-  "next_comment_id": 1644,
+  "next_comment_id": 1645,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -20181,7 +20181,7 @@
       "parent_uuid": "c463f63f-aba9-4cd9-b2ae-698a5c6dcef6",
       "created_by": "OL2r",
       "created_at": "2026-08-10T18:05:18.085937070Z",
-      "updated_at": "2026-08-14T18:56:13.286303025Z",
+      "updated_at": "2026-08-14T19:09:40.955166926Z",
       "labels": [
         "architecture"
       ],
@@ -20194,6 +20194,15 @@
           "kind": "plan",
           "signed_by": "SHA256:8xW0Zo/6aknDReD/uWECt7Bz5Z9+z/4hZhKxDGc5BhA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3pY2Mbp0xlKax8jIMF3lZT2x6aC0Jm0nfKp+FzPFaK8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4W0vwLXuHNcjPJ8NNN/bSH7gPypTqdk1ntrnNZenDSHNMGWyuGVpIAfdQCCiZbB/gz7h69XP0ixe/8OHzO50Bg=="
+        },
+        "4f1320c2-64b7-4854-807e-0f91445b3cca": {
+          "display_id": 1644,
+          "author": "OL2r",
+          "content": "# 7 OPERATOR DECISIONS — RESOLVED (session #27, 2026-08-14)\n\nAll seven open questions from the #354 analysis now have operator direction. Recorded for the implementation follow-up.\n\n## D1 — Guard-plugin authority\n**ASES is the source.** ASES/.opencode/plugins/crosslink-guard.ts (42.1K) is the newest (per-role by_type resolution, git-merge gating, chat.params agent resolution; 71 agent-related refs vs tripn 32). Push ASES versions of crosslink-guard/orchestrator-guard/rtk-guard into Tools/plugins as canonical. ASES keeps consuming its own copy until sync-tooling.sh exists.\n\n## D2 — Wrapper canonicalization\n**Reverse-sync live wrappers into Tools/scripts as canonical source.** Push ~/.local/bin/claude (--agent, tmux --auto, CROSSLINK_AGENT_TYPE) and ~/.local/bin/opencode (#274 fork-identity guard, real-path) into Tools/scripts. crosslink-moe already identical. The pending uncommitted scripts/claude memory-scope (systemd-run) change must be merged with the live copy before committing — live claude is ahead on --agent/tmux; Tools working tree is ahead on memory-scope.\n\n## D3 — Warehouse scope\n**Own/mirror split + remove embedded snapshots.**\n- OWNS (source, sync-script distributes): TOOLING.md, scripts/, plugins/, the 2 crosslink skills, docs/instructions.\n- MIRRORS (documented, not synced): hooks/commands/mcp (crosslink binary deploys via crosslink init), .claude/skills + .crosslink/rules (binary + ASES overrides), role agents (ASES/tripn), agents/ (user-level live).\n- Remove the gitignored on-disk .claude/hooks + .claude/commands + .claude/mcp from the Tools filesystem (stale-artifact confusion; re-deployed by crosslink init).\n\n## D4 — Sync mechanism\n**sync-tooling.sh deploy script** in Tools/scripts. Copies authoritative warehouse content (plugins, wrappers, skills, rules) into each layer repo (.opencode/plugins, .claude/skills, .crosslink/rules) and to tripn via its .ases/ boundary. Version/checksum marker for drift detection, mirroring the #274 fork-identity-guard pattern (fail loudly on mismatch). Mirrors crosslink init's embedded-resource deployment.\n\n## D5 — tripn-astro bundle\n**Keep as documented archive**, not deleted. Mark STALE in TOOLING.md pointing to the tripn repo as live source (newer build-combined.mjs + 3 extra scripts there).\n\n## D6 — Fork placement / repo structure\n**Hybrid: single Tools repo + fork sibling.** Tools stays ONE git repo (the warehouse), directories as organization. The crosslink fork stays its own repo at ~/projects/crosslink (the only item with a genuine external upstream), cataloged in TOOLING.md §16. Operator considered repo-per-tool under Tools; tradeoffs (nested-repo gitlink/submodule mechanics, lost atomicity, homeless TOOLING.md, trajectory reversal vs SESSION-START consolidation) made hybrid the choice. Rejected: repo-per-tool umbrella, submodule umbrella.\n\n## D7 — Monorepo container mechanism\n**Repo-of-repos.** EDASES + ASES + Execution remain separate git repos, logically grouped as a monorepo via the shared TOOLING.md catalog + sync-tooling.sh + crosslink. No submodule mechanics. This fixes the target shape so today's Tools work doesn't need redoing when the monorepo forms.\n\n---\n## IMPLEMENTATION PLAN (follow-up work, blocked on operator go)\n\n1. Reverse-sync wrappers: merge live ~/.local/bin/claude (--agent/tmux --auto) with Tools working-tree memory-scope change → Tools/scripts/claude; same for opencode. Commit on Tools repo.\n2. Push ASES guard plugins → Tools/plugins (crosslink-guard/orchestrator-guard/rtk-guard). Commit on Tools repo.\n3. Build sync-tooling.sh in Tools/scripts with version markers.\n4. Update TOOLING.md: source-of-truth map (own/mirror), STALE marker on tripn-astro, fork §16 note, sync procedure.\n5. rm gitignored on-disk .claude/hooks+commands+mcp from Tools fs.\n6. Create implementation issues on the Tools repo crosslink tracker; wire D1/D2/D4 into ASES consumption (ASES keeps own copy until sync script lands).\n\nWHAT-NOT-TESTED: nested-repo mechanics not tested (decision based on git semantics knowledge, not experiment); live claude/opencode wrapper bytes not yet merged (plan, not executed); sync script not yet written.",
+          "created_at": "2026-08-14T19:09:40.945533628Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMxHKYf7WcDpLgYbRZcSEao4Vd9TYENcZ3pQGgdP8aL+vYVw6HfBKIR87qZF8n6jiCcnl00BmjG5sH5lcgBKpCA=="
         },
         "9d64ec51-8e93-4f6d-b38b-e1bcfe6403a6": {
           "display_id": 1627,
@@ -21113,8 +21122,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T18:56:13.286303025Z",
+    "timestamp": "2026-08-14T19:09:40.955166926Z",
     "agent_id": "OL2r",
-    "agent_seq": 1722
+    "agent_seq": 1723
   }
 }
