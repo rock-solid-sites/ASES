@@ -1,6 +1,6 @@
 {
   "next_display_id": 372,
-  "next_comment_id": 1697,
+  "next_comment_id": 1698,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -14125,11 +14125,20 @@
       "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
       "created_by": "OL2r",
       "created_at": "2026-08-14T23:41:52.478856063Z",
-      "updated_at": "2026-08-14T23:48:07.027679023Z",
+      "updated_at": "2026-08-14T23:48:59.754859868Z",
       "labels": [
         "review"
       ],
       "comments": {
+        "0fd0eaf3-56b3-42f4-b83b-d323b58507a9": {
+          "display_id": 1697,
+          "author": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
+          "content": "## What I Would Build: Extend Binary Embedding to All Resources\n\n### MUST CHANGE (blocking)\n\n1. EMBED GUARD PLUGINS in the crosslink binary. Move crosslink-guard.ts, orchestrator-guard.ts, rtk-guard.ts into crosslink/resources/opencode/plugins/. The build.rs auto-discovers and embeds resources — adding a new resource directory follows the established pattern (skills, commands, rules). crosslink init deploys them to .opencode/plugins/. This eliminates the 3-way guard plugin divergence structurally — there is only one source.\n\n2. CONSOLIDATE AND EMBED MODEL PLUGINS. plugin.ts and dynamic-models.ts are near-duplicates that have already diverged. Consolidate into a single plugin. Move into crosslink/resources/opencode/plugins/. crosslink init deploys to .opencode/plugins/ (per-repo). Remove the global ~/.config/opencode/plugins/ copies. This eliminates model plugin divergence and the duplication.\n\n3. EMBED CLI WRAPPERS in the crosslink binary. Move claude, opencode, crosslink-moe into crosslink/resources/bin/. Add a crosslink install-wrappers command that deploys them to ~/.local/bin/. This eliminates wrapper drift. The wrappers are global by nature; a dedicated command (not crosslink init) is the right deployment path for global resources.\n\n4. UPDATE THE EMBEDDED hook-config.json. The embedded resources/crosslink/hook-config.json is stale (no by_type section, missing four-role model). Update it to match the current deployed model (by_type overrides for orchestrator/builder/reviewer/auditor). This ensures crosslink init --force deploys the current permission model, not a stale one.\n\n5. FIX THE hook-config PRECEDENCE BUG in the guard plugin. The git merge precedence bug (#9) is in the guard plugins interpretation of hook-config.json. Fix the logic so by_type overrides take precedence over agent_overrides defaults for the matching role. Once the guard plugin is embedded (MUST CHANGE #1), the fix propagates atomically to all repos.\n\n### OPTIONAL (non-blocking)\n\n6. Embed agent definition TEMPLATES. Move agent definitions into crosslink/resources/opencode/agents/. crosslink init deploys as templates; users customize; --update preserves customizations (existing behavior); --force resets to template.\n\n7. Add crosslink refresh-models command. Fetches current model catalog from provider APIs, updates ~/.config/opencode/models-cache.json. Eliminates stale cache problem (drift #4).\n\n8. Make freeZenModels whitelist DYNAMIC. Read from a config file that crosslink refresh-models updates, instead of hardcoding in the plugin. Eliminates stale whitelist (drift #5).\n\n9. DELETE Tools/.claude/ stale snapshots. These are stale copies of resources the crosslink binary already embeds. They create a false source of truth.\n\n10. REDUCE OR ELIMINATE the Tools repo. If all distributable resources move to the crosslink fork, Tools loses its role as a distribution path. Options: eliminate entirely; reduce to documentation-only; retain project-specific bundles (tripn-astro/).",
+          "created_at": "2026-08-14T23:48:59.745213865Z",
+          "kind": "result",
+          "signed_by": "SHA256:pfTzP29ngEGfQm87RqGLOnykBkYfo8upB1axgAWtxTU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvF2YsnQTnF7UcAEpO9wPzTpHDDEeESUCEAZ1xaKs3woAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA1xs9ZP9XnaJGpey8lNPgQBYZJ15w8Ypx23UrZZ5xOQw9th27cGF8hKqbHwtxvCQZdQZB9aGT+BmnEoKWyzKUCQ=="
+        },
         "19940a07-81f3-492a-8198-c4ea8b4d9aea": {
           "display_id": 1691,
           "author": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
@@ -21840,8 +21849,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:48:51.162495521Z",
-    "agent_id": "pp3g-KaeS-open-ended-architectural-review-on-issue-371-read-the",
-    "agent_seq": 2
+    "timestamp": "2026-08-14T23:48:59.754859868Z",
+    "agent_id": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
+    "agent_seq": 6
   }
 }
