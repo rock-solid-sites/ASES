@@ -1,6 +1,6 @@
 {
   "next_display_id": 372,
-  "next_comment_id": 1683,
+  "next_comment_id": 1684,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -386,10 +386,21 @@
       "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
       "created_by": "OL2r",
       "created_at": "2026-08-14T23:42:11.233953602Z",
-      "updated_at": "2026-08-14T23:42:18.648669545Z",
+      "updated_at": "2026-08-14T23:44:53.663476679Z",
       "labels": [
         "review"
-      ]
+      ],
+      "comments": {
+        "59c34e49-3327-41b0-a7db-ba3002c09067": {
+          "display_id": 1683,
+          "author": "pp3g-m57E-open-ended-architectural-review-on-issue-368-read-the",
+          "content": "VERDICT — KEEP THE REPO/LAYER BOUNDARIES, REPLACE COPY-OUT WITH VERSIONED DISTRIBUTION.\\n\\nDecision: the proposed warehouse plus sync script is a useful migration tactic, but not a sufficient target architecture. It makes drift observable and recoverable; it does not make drift impossible, and it leaves ASES/tripn/Tools competing authorities. I would not approve it as the end state.\\n\\nWHY: The conceptual repository architecture explicitly permits separate repositories while preserving research→methodology→implementation dependency direction (ARCHITECTURE.md:202-204, 273-294). The observed failures are instead distribution and authority failures: executable resources are duplicated between Tools, consumers, the live home directory, and crosslink's embedded bundle. A script and hashes improve procedure, but every copied mutable checkout remains another place that can become authoritative.\\n\\nWHAT I WOULD BUILD:\\n1. Keep EDASES, ASES, and the future engine as separate repositories. Keep tripn-astro separate. Do not collapse the layers merely to hide synchronization pain; that would increase coupling and blur the abstraction boundaries.\\n2. Make crosslink the owner of crosslink runtime resources that it embeds/deploys (its hooks, commands, MCP, and crosslink-owned rules). Release them atomically with the binary. Crosslink init should record the installed bundle version and content digest.\\n3. Make Tools a versioned distribution source for non-crosslink tooling: guard plugins, model plugins, wrappers, skills, and agent definitions. Publish an immutable bundle/package per release, with a manifest, checksums, compatibility metadata, and a lockfile. Consumers pin a bundle version; installation is generated and atomic.\\n4. Treat consumer copies as generated artifacts, never hand-edited sources. CI in each consumer verifies the lockfile, manifest, generated files, and source provenance. A deliberate promote/import command creates a new Tools release; it must not silently infer that a live home-directory copy is canonical.\\n5. Keep project-specific methodology rules and project policy in each layer repository. Do not package those as generic Tools payload merely to reduce file count.\\n6. Replace the proposed warn→hard-fail drift state machine with a narrower invariant: fail installation/CI when a pinned bundle is incomplete, tampered with, or generated output is dirty; allow an explicit, audited compatibility override for emergency operation. Runtime warning is useful telemetry, not the primary correctness boundary.\\n\\nEVALUATION OF ALTERNATIVES: Symlinks fail across machines, containers, CI, and independent checkouts. Git submodules add pinning but poor ergonomics and do not solve live ~/.local/bin or ~/.config copies. A single shared config directory creates hidden global state and makes repository reproducibility worse. Embedding all plugins in crosslink would couple unrelated release cadences and make crosslink the accidental owner of OpenCode/Claude-specific tooling. A monorepo could reduce drift but would not solve generated home-directory deployments, and would sacrifice the current conceptual independence.\\n\\nMUST CHANGE: establish one owner per artifact class; stop treating live home-directory snapshots as sources; ship immutable versioned bundles; pin and verify them in consumers; make generation atomic and CI-enforced; define the crosslink/Tools ownership boundary.\\n\\nOPTIONAL: a sync script may remain as the local developer UX, but it should consume the pinned bundle and regenerate files rather than copy arbitrary working-tree files. Consumer-side hashes are valuable as diagnostics and tamper detection, but are not a substitute for versioned provenance and generated-output checks.\\n\\nCERTAINTY: evidence-based architectural judgment, based on issue #368's verified drift inventory and inspection of the repository's layer-boundary and orchestration documents.\\n\\nWHAT-NOT-TESTED: I did not inspect the sibling Tools repository, crosslink source/release pipeline, live ~/.local/bin or ~/.config state, package-manager constraints, or execute a migration prototype. Therefore the proposed package format, release cadence, and exact ownership split remain to be validated with a cheapest discriminating test: install one pinned bundle into clean ASES and tripn-astro checkouts, mutate generated output and the live home-directory copy independently, then verify CI detects each mutation and promotion cannot silently reverse authority.",
+          "created_at": "2026-08-14T23:44:53.649084151Z",
+          "kind": "result",
+          "signed_by": "SHA256:7im5rOjbrJ6Oin9IpZtO3/cS61ZkeEQSlyIRPgdOV70",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg7ZluFoi2aYtBF8gOldx+MPEJj6YATu0zc1Q0hHdQ/wYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABADB7hfgBtMrb1ElXW8JyEChf31uNK/kq24nMeijnajZIiDQUtZPeZzj+cD5yCVNLF8HfsRhZPfazq/24Vn+w8DA=="
+        }
+      }
     },
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": {
       "uuid": "036319c2-0184-46ff-9ab1-7eeb54c44e65",
@@ -21704,8 +21715,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:43:17.458859914Z",
-    "agent_id": "OL2r",
-    "agent_seq": 1755
+    "timestamp": "2026-08-14T23:44:53.663476679Z",
+    "agent_id": "pp3g-m57E-open-ended-architectural-review-on-issue-368-read-the",
+    "agent_seq": 1
   }
 }
