@@ -1,5 +1,5 @@
 {
-  "next_display_id": 364,
+  "next_display_id": 365,
   "next_comment_id": 1659,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -8,6 +8,7 @@
     "05414e46-befb-4780-88a2-900c5acfecbf": 41,
     "055ac696-f51f-4c63-9498-cf99b79299f3": 218,
     "0560ad5b-5def-46a1-8177-e9639eccf512": 315,
+    "0658e85d-4f1c-4e1e-9383-46c5cb6eadf4": 364,
     "066754eb-b51d-480b-a498-4619e1407b75": 193,
     "069885f8-f86d-474e-92c0-4903a36bb754": 247,
     "073e6d6a-3f4d-44d4-be58-0a3ffeff9ae2": 77,
@@ -727,6 +728,18 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3iuur++EDr+fvTMyN9TXRQKcaHfCyzzVJeDsMH9P01oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdPXmIUO9rU4Fcv436sR1FLSfGNSrlykQE3IvpJok1Rt/sOl60VOcDCyVCAz6L9XjiMMVIG4HB16Q4mDzuzfYCA=="
         }
       }
+    },
+    "0658e85d-4f1c-4e1e-9383-46c5cb6eadf4": {
+      "uuid": "0658e85d-4f1c-4e1e-9383-46c5cb6eadf4",
+      "display_id": 364,
+      "title": "REVIEW r3 (mimo-v2.5): adversarial review of B1-B6 remediation plan (#361)",
+      "description": "READ-ONLY reviewer role. Independent adversarial review of the remediation plan for Tools-migration blockers B1-B6 (issue #361). Post verdict ONLY to this sub-issue (playbook §5.6 independence). Do NOT read other reviewers' verdicts (#362/#363); work independently.\n\nCONTEXT: Issue #361 contains the remediation plan (posted as --kind result) for the six blocking findings from the Tools monorepo migration plan review. Review the PLAN posted on #361, not the original migration plan on #354.\n\nREAD #361'S RESULT COMMENT (the remediation plan) CAREFULLY. The plan proposes:\n- B1: exclude .crosslink/rules from sync entirely (28/31 binary-distributed rules byte-identical; 4 layer-owned: global.md/knowledge.md/project.md/kickoff.md); --include-rules opt-in.\n- B2: drop .ases/ boundary (aspirational per EDASES-Methodology-Feedback-and-Enforcement.md §3); sync directly to tripn/.opencode/plugins.\n- B3: consumption-time drift check — .canonical-manifest.json (sha256) + crosslink-guard.ts startup check (warn-mode first, hard-fail after proven) + sync-tooling.sh --check.\n- B4: re-sequence step 5: pin binary (37789b51) -> document returncode behavior delta -> rm -> crosslink init -> verify -> ASES mirror; defer option.\n- B5: transactional cutover: clean-worktree precondition (Tools fails it; step 0 commits uncommitted changes), local-edit preservation, dry-run, atomic staging, tx log, rollback, per-repo verify.\n- B6: provenance capture + 8-item wrapper contract battery (--agent, tmux auto, quoting, fork identity, exit codes, memory scope, plugin load).\n- Revised 8-step plan (new step 0) + 10-row risk register.\n\nADVERSARIAL MANDATE: Is the remediation plan correct, complete, and safe? Does it actually resolve each blocker? Does it introduce NEW problems (e.g., the B3 warn-mode enforcement, the B5 rollback design, the step-0 commit decision, the tripn direct-sync)? Hunt for flaws, incorrect assumptions, order-of-operations hazards, and residual drift risk. Distinguish blocking findings from non-blocking. Include WHAT-NOT-TESTED. Read-only: no file changes, no commits. Deliver verdict as --kind result on THIS sub-issue only.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
+      "created_by": "OL2r",
+      "created_at": "2026-08-14T21:40:55.959271267Z",
+      "updated_at": "2026-08-14T21:40:55.959271267Z"
     },
     "066754eb-b51d-480b-a498-4619e1407b75": {
       "uuid": "066754eb-b51d-480b-a498-4619e1407b75",
@@ -21350,8 +21363,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T21:40:39.798037101Z",
+    "timestamp": "2026-08-14T21:40:55.959271267Z",
     "agent_id": "OL2r",
-    "agent_seq": 1736
+    "agent_seq": 1737
   }
 }
