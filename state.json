@@ -1,5 +1,5 @@
 {
-  "next_display_id": 365,
+  "next_display_id": 366,
   "next_comment_id": 1673,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -91,6 +91,7 @@
     "3a7e8d4a-fb0b-4659-978b-4ee0ec1258c1": 187,
     "3b8274f4-d06e-415a-b1a8-aaab3bdf6237": 125,
     "3c0d44fe-9e99-4b0f-944b-de738de7c7ea": 305,
+    "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f": 365,
     "3d541fb9-e5fa-4549-8d88-e533fca17162": 80,
     "3dc64611-2f7a-4f60-a28f-6ff3e885cb17": 100,
     "3f132a04-b3d7-4217-bc9d-399c5bde3b67": 92,
@@ -6040,6 +6041,18 @@
       "created_by": "OL2r",
       "created_at": "2026-08-08T23:48:13.060726566Z",
       "updated_at": "2026-08-08T23:48:13.060726566Z"
+    },
+    "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f": {
+      "uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
+      "display_id": 365,
+      "title": "PLAN REVISION: revise #361 remediation plan per round-2 review C1-C4 (+ non-blocking folds)",
+      "description": "ZERO-CONTEXT PLANNING TASK. Produce a REVISED remediation plan — no implementation, no file changes, no commits. Work solely from this brief + the repositories on disk.\n\nCONTEXT: The Tools monorepo migration remediation plan (issue #361, --kind result comment) was adversarially reviewed by three reviewers (issues #362/#363/#364 — all CHANGES REQUESTED). You must read #361's result comment as the base plan, and read the three review verdicts on #362/#363/#364 for the specific findings. Produce a revision that resolves the convergent blockers below.\n\nTHE FOUR CONVERGENT BLOCKERS (C1-C4) to fix in the revision:\n\nC1 — B4 step-5 init sequence is mechanically broken (Big Pickle #363 M1; Luna agrees).\nThe fork init source (~/projects/crosslink/crosslink/src/commands/init/mod.rs) proves: 'crosslink init' on an already-initialized repo returns Ok WITHOUT writing (mod.rs:869-874 'Already initialized'); 'crosslink init --update' SKIPS deleted files (mod.rs:683-687); only 'crosslink init --force' redeploys but it OVERWRITES all .crosslink/rules/* (incl. layer-owned global.md/knowledge.md/project.md — test_run_force_updates_rules) and rewrites hook-config.json, .mcp.json, .gitignore (Tools has a customized hook-config.json 2.0K + custom-order .mcp.json 453B vs embedded 381B). So the plan's 'rm -> init' leaves no hooks; 'rm -> init --force' destroys B1's layer-owned rules + Tools' custom configs. REVISION MUST: name the exact invocation and the restore set (recommended candidates: keep rm + 'init --force' + pre-backup/git-restore the 4 layer-owned rule files + hook-config.json + .mcp.json immediately after + post-init rules-hash re-verification; OR drop the rm entirely and let --force rewrite hooks in place, then restore layer-owned files). Pick one, justify, and update the B4(d) scratch test + R1 risk row accordingly.\n\nC2 — B3 enforcement spec incomplete (all three reviewers).\n(a) Marker-role conflation: source-side canonical manifest (what --check compares against) vs per-destination marker (what the consumer startup check compares its own file against) are described as one artifact — separate them, define location + lifecycle in destination git (tracked vs gitignored, committed vs per-sync churn vs B5's git-status gate).\n(b) One-directionality: startup check catches only destination-local edits; an unsynced Tools-side edit is invisible at startup. State this explicitly and define who runs --check and when for source-side drift. Mimo NC-6: the D1-inversion fix requires sync-tooling.sh to be bidirectionally-capable (push canonical; detect/pull edits back), not just drift detection.\n(c) 'warn first, hard-fail after proven' — define 'proven' operationally. Mimo BF-1 proposes the concrete state machine: State 0 (no manifest = no-op), State 1 (warn-mode: manifest exists, mismatch logged, no hard-fail), State 2 (hard-fail: manifest exists AND --check run successfully at least once); transition = deliberate operator action (e.g. --promote flag), NOT automatic. Also define failure-mode semantics when the check ITSELF fails (manifest missing/corrupted): fail-open = drift undetected, fail-closed = wedges sessions — choose explicitly.\n\nC3 — Step-0 + B5 preconditions conflict (Big Pickle M3; Luna; Mimo BF-2).\n- B5's clean-worktree precondition fails on the plan's own step 0: Tools has untracked .opencode/ + .worktrees/ + .claude/findings-interrupt-plugin.md, none gitignored. After step 0 (commit scripts/claude + global.md) porcelain is still non-empty. REVISION: narrow the precondition to 'no uncommitted modifications to files in the sync write-set' (untracked outside write-set are irrelevant), OR extend step 0 to commit/gitignore the untracked paths.\n- Mimo BF-2: committing global.md in step 0 CONTRADICTS B1 (global.md is layer-owned, not synced) — stash it, don't commit it. Big Pickle S4: step-0 commit of scripts/claude is dead-on-arrival (step 1 replaces the whole file with the live copy) — commit only global.md in step 0 or stash; let step 1's replacement commit carry the wrapper delta.\n\nC4 — B5 transaction machinery over-engineered (Mimo BF-3; Luna concurs it's not a real cross-repo transaction).\nMimo: DROP the transaction log + backup dir; rely on git for atomicity (script writes files, operator commits in each destination repo); make script idempotent (always overwrite, never skip). Luna: temp-rename + tx log is not a cross-repo transaction; later-repo failure leaves earlier repos changed; first sync has no prior manifest. REVISION: decide the transaction approach — either (a) adopt git-only atomicity (script writes, per-destination operator commits, no log/backup, no .sync-tmp) or (b) keep a protocol but specify per-repo operator gates + recovery states + first-run behavior. Justify.\n\nNON-BLOCKING FOLDS (incorporate if consistent with your revision; note disposition):\n- S1: git-status per-repo verification is vacuous for gitignored (.claude/hooks) + non-repo (~/.local/bin) destinations — use checksum --check as primary gate there.\n- S2: B2 tripn leg needs a behavioral acceptance test (plugin under tripn's stricter hook-config: comment_discipline=required, signing_enforcement=enforced, orchestrator gates git worktree remove) + dry-run asserts zero rules writes.\n- S5: rollback must also restore .canonical-manifest.json markers (moot if git-only adopted).\n- S6: B1 --include-rules opt-in scoped to binary-distributed subset only; fail loudly on ownership-class mismatch.\n- S7: B6/B5 deploy-leg circularity (canonicalize FROM ~/.local/bin step 1, deploy TO ~/.local/bin step 3) — run deploy immediately after canonicalization or establish marker baseline first.\n- NC-2: B6 contract battery needs live runtime deps (opencode, fork binary, bun) — run in live env, not scratch.\n- NC-3: B4 ASES mirror sequenced AFTER Tools (not simultaneous).\n- NC-5: sync-tooling.sh itself needs canonical-source treatment (location, maintenance, versioning).\n- N-1: .sync-tmp fragile (moot if git-only atomicity).\n- N-2: B6 contract battery item 4 must test the literal-quote bug explicitly (prompt with spaces+special chars = ONE arg).\n\nDELIVERABLE: REVISED remediation plan posted as --kind result to THIS issue. Structure: (1) what changed vs #361 per C1-C4 with rationale (and disposition of each non-blocking fold), (2) the complete revised plan (updated 8-step ordering), (3) updated risk register (add R1-mechanics row, compat row for S2, marker-lifecycle row), (4) revised cheapest discriminating tests, (5) WHAT-NOT-TESTED. Ground in actual files on disk (read fork init source, Tools/ASES/tripn files, wrappers). Read-only: MAY read, MUST NOT modify.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
+      "created_by": "OL2r",
+      "created_at": "2026-08-14T22:42:24.626894745Z",
+      "updated_at": "2026-08-14T22:42:24.626894745Z"
     },
     "3d541fb9-e5fa-4549-8d88-e533fca17162": {
       "uuid": "3d541fb9-e5fa-4549-8d88-e533fca17162",
@@ -21498,8 +21511,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T21:52:53.177143986Z",
+    "timestamp": "2026-08-14T22:42:24.626894745Z",
     "agent_id": "OL2r",
-    "agent_seq": 1739
+    "agent_seq": 1740
   }
 }
