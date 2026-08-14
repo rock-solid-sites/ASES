@@ -1,6 +1,6 @@
 {
   "next_display_id": 372,
-  "next_comment_id": 1691,
+  "next_comment_id": 1692,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -14105,11 +14105,20 @@
       "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
       "created_by": "OL2r",
       "created_at": "2026-08-14T23:41:52.478856063Z",
-      "updated_at": "2026-08-14T23:47:22.005739635Z",
+      "updated_at": "2026-08-14T23:47:40.699672650Z",
       "labels": [
         "review"
       ],
       "comments": {
+        "19940a07-81f3-492a-8198-c4ea8b4d9aea": {
+          "display_id": 1691,
+          "author": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
+          "content": "ARCHITECTURAL VERDICT: CHANGES REQUESTED — extend binary embedding, eliminate the second distribution path\n\n## Executive Summary\n\nThe proposed warehouse + sync-tooling.sh + drift detection architecture is a patch on a fundamentally incoherent system. The incoherence is not in the warehouse concept or the repo-of-repos model — it is in the SPLIT DISTRIBUTION MECHANISM: the crosslink binary atomically embeds and deploys hooks/skills/commands/rules/mcp, while guard plugins, model plugins, CLI wrappers, and agent definitions are distributed via manual copy from Tools. Every drift problem (#1-#8) is in the non-embedded resources. The fix is not to add a second copy mechanism with drift detection — it is to EXTEND the existing atomic mechanism to cover all resources, making drift structurally impossible.\n\n## Evidence Base (verified on disk 2026-08-14)\n\nThe crosslink fork embeds resources at compile time via include_str! in build.rs and deploys via crosslink init: hooks (7 Python), skills (20 dirs), commands (14 .md), mcp (3 servers), rules (31 files), hook-config.json, settings.json, mcp.json. It writes init-manifest.json with SHA256 hashes. crosslink init --update does three-way merges preserving user mods; --force overwrites all.\n\nResources NOT embedded are distributed via manual copy from Tools. Verified drift: guard plugins 3-way diverged (ASES 41.2K / tripn 37.6K / Tools 33.5K); model plugins Tools 51L behind deployed 133L (missing #347 grok-ban + whitelist); CLI wrappers Tools 2443B behind live 3039B (missing --agent, CROSSLINK_AGENT_TYPE, --auto); hook-config.json embedded stale (no by_type section) vs deployed (four-role model).\n\nTools/.claude/ contains stale snapshots (Jul 9) of resources the crosslink binary already embeds (Jul 31-Aug 6) — a THREE-WAY source of truth that serves no purpose.",
+          "created_at": "2026-08-14T23:47:40.693409469Z",
+          "kind": "result",
+          "signed_by": "SHA256:pfTzP29ngEGfQm87RqGLOnykBkYfo8upB1axgAWtxTU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvF2YsnQTnF7UcAEpO9wPzTpHDDEeESUCEAZ1xaKs3woAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAVZ0cwCW7aucnmk6mdZMkUpm8siKg4MbNTVSPPBLsBnO2tacyyw7sG57HsWCMkMoEhM1u59+B1NcWnlVGSiQWBg=="
+        },
         "3fcd83cc-fad7-4dff-99bd-07b85017bbf1": {
           "display_id": 1687,
           "author": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
@@ -21784,8 +21793,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:47:22.005739635Z",
+    "timestamp": "2026-08-14T23:47:40.699672650Z",
     "agent_id": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
