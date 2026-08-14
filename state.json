@@ -1,5 +1,5 @@
 {
-  "next_display_id": 358,
+  "next_display_id": 359,
   "next_comment_id": 1645,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -331,6 +331,7 @@
     "e8d793ca-3c95-474b-ae98-609ffcbe254b": 186,
     "e93da01b-46e9-43ed-a76c-77ce81481095": 198,
     "e94bd364-b6f9-4505-ae53-13f1912f1966": 252,
+    "ea0ab1ee-558b-47b0-940f-739c97d825dc": 358,
     "ec7808cb-b7f9-4248-9dc9-dbb36255ab24": 51,
     "ed2be289-b151-45eb-9b85-03749f34d822": 239,
     "ed3b540e-5810-4a63-98dc-42a72bf362dd": 323,
@@ -19621,6 +19622,18 @@
         }
       }
     },
+    "ea0ab1ee-558b-47b0-940f-739c97d825dc": {
+      "uuid": "ea0ab1ee-558b-47b0-940f-739c97d825dc",
+      "display_id": 358,
+      "title": "REVIEW r1 (luna): adversarial review of Tools monorepo migration plan (#354)",
+      "description": "READ-ONLY reviewer role. Independent adversarial review of the Tools repo monorepo-migration plan and its 7 operator decisions (recorded on #354). Post verdict ONLY to this sub-issue (playbook §5.6 independence). You must NOT read other reviewers' verdicts; work independently.\n\nREVIEW TARGET: The migration plan and decisions. Context to review:\n\nONTOLOGY (#353): EDASES + ASES + Execution Engine = three separate layer repos. Tools = general warehouse (NOT a layer, NOT the Execution Engine) for forks/plugins/wrappers/skills/hooks/agent-defs/scripts. tripn-astro = separate client (NOT a monorepo member). Monorepo = EDASES+ASES+Execution, repo-of-repos (D7). Tools stays a sibling warehouse repo (D6-hybrid).\n\nTHE 7 DECISIONS:\n- D1 Guard-plugin authority: ASES/.opencode/plugins is authoritative (newest, 42.1K vs tripn 37.6K vs Tools 33.5K). Push ASES versions into Tools/plugins as canonical. ASES keeps its own copy until sync-tooling.sh exists.\n- D2 Wrapper canonicalization: reverse-sync ~/.local/bin/claude (--agent, tmux --auto, CROSSLINK_AGENT_TYPE) and ~/.local/bin/opencode (#274 fork-identity guard) into Tools/scripts as canonical source. Merge pending Tools scripts/claude memory-scope (systemd-run) change.\n- D3 Warehouse scope: Own/mirror split. Tools OWNS TOOLING.md, scripts/, plugins/, 2 crosslink skills, docs. MIRRORS (documented, not synced): hooks/commands/mcp (crosslink binary deploys via crosslink init), .claude/skills + .crosslink/rules (binary + ASES overrides), role agents (ASES/tripn), agents/ (user-level live). Remove gitignored on-disk embedded snapshots (.claude/hooks+commands+mcp) from Tools fs.\n- D4 Sync mechanism: sync-tooling.sh in Tools/scripts. Copies authoritative warehouse content into each layer repo (.opencode/plugins, .claude/skills, .crosslink/rules) and to tripn via its .ases/ boundary. Version/checksum marker for drift detection, mirroring #274 fork-identity-guard pattern (fail loudly on mismatch).\n- D5 tripn-astro bundle: keep as documented STALE archive in Tools, TOOLING.md points to tripn repo as live source.\n- D6 Fork placement: crosslink fork stays its own sibling repo at ~/projects/crosslink (only item with external upstream), cataloged in TOOLING.md §16. Tools stays ONE git repo, directories as organization.\n- D7 Monorepo container: repo-of-repos (separate git repos, no submodules). Monorepo NOT built today; decision fixes target shape.\n\nIMPLEMENTATION PLAN (6 steps):\n1. Reverse-sync wrappers: merge live ~/.local/bin/claude (--agent/tmux --auto) with Tools working-tree memory-scope change -> Tools/scripts/claude; same for opencode. Commit on Tools repo.\n2. Push ASES guard plugins -> Tools/plugins (crosslink-guard/orchestrator-guard/rtk-guard). Commit on Tools repo.\n3. Build sync-tooling.sh in Tools/scripts with version markers.\n4. Update TOOLING.md: source-of-truth map (own/mirror), STALE marker on tripn-astro, fork §16 note, sync procedure.\n5. rm gitignored on-disk .claude/hooks+commands+mcp from Tools fs.\n6. Create implementation issues on Tools repo crosslink tracker; wire D1/D2/D4 into ASES consumption (ASES keeps own copy until sync script lands).\n\nCurrent drift confirmed: 3 divergent guard-plugin versions; Tools uncommitted (scripts/claude memory-scope, .crosslink/rules/global.md memory-awareness); ~/.local/bin wrappers ahead of Tools/scripts; Tools/tripn-astro stale; gitignored embedded snapshots on Tools fs.\n\nADVERSARIAL MANDATE: Hunt for architectural flaws, incorrect assumptions, risk the plan misses, order-of-operations hazards, and anything that would cause drift to persist. Review the plan AS A PLAN — is it correct, complete, and safe? Distinguish blocking findings (must fix before execution) from non-blocking. Include WHAT-NOT-TESTED. Read-only: no file changes, no commits. Deliver verdict as --kind result on THIS sub-issue only.",
+      "status": "open",
+      "priority": "medium",
+      "parent_uuid": "f2a8a904-548b-469a-bc63-f76f00727bc1",
+      "created_by": "OL2r",
+      "created_at": "2026-08-14T19:12:50.160488336Z",
+      "updated_at": "2026-08-14T19:12:50.160488336Z"
+    },
     "ec7808cb-b7f9-4248-9dc9-dbb36255ab24": {
       "uuid": "ec7808cb-b7f9-4248-9dc9-dbb36255ab24",
       "display_id": 51,
@@ -21122,8 +21135,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T19:09:40.955166926Z",
+    "timestamp": "2026-08-14T19:12:50.160488336Z",
     "agent_id": "OL2r",
-    "agent_seq": 1723
+    "agent_seq": 1724
   }
 }
