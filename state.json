@@ -1,6 +1,6 @@
 {
   "next_display_id": 361,
-  "next_comment_id": 1652,
+  "next_comment_id": 1653,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -20296,7 +20296,7 @@
       "parent_uuid": "c463f63f-aba9-4cd9-b2ae-698a5c6dcef6",
       "created_by": "OL2r",
       "created_at": "2026-08-10T18:05:18.085937070Z",
-      "updated_at": "2026-08-14T19:09:40.955166926Z",
+      "updated_at": "2026-08-14T20:04:48.556534661Z",
       "labels": [
         "architecture"
       ],
@@ -20363,6 +20363,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:8xW0Zo/6aknDReD/uWECt7Bz5Z9+z/4hZhKxDGc5BhA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3pY2Mbp0xlKax8jIMF3lZT2x6aC0Jm0nfKp+FzPFaK8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASNypNTHPtgS3tFPWY9y6RfSCoiwmBOvHZxpBqGl7IsW6bMphjIyEnPkwkvHVyn3F4ArBOCBXVjMapV3cEb3kAg=="
+        },
+        "de6b2e42-add8-4edd-bf30-bb9c2c485f41": {
+          "display_id": 1652,
+          "author": "OL2r",
+          "content": "# REVIEW SYNTHESIS — Luna (#358) + Big Pickle (#359) — CHANGES REQUESTED (both)\n\nTwo independent read-only adversarial reviews of the D1–D7 decisions + 6-step implementation plan. Both verdicts: **CHANGES REQUESTED**. A third reviewer (Nemotron, free tier) was dispatched twice and failed both times with Nvidia 502 upstream errors — no verdict. This synthesis gates execution: the plan is directionally sound but must be revised before implementation.\n\n## Convergent BLOCKING findings (both reviewers independently)\n\n**B1. D3 ↔ D4 contradiction on rules → sync would clobber layer overrides.**\nD3 says `.claude/skills + .crosslink/rules` are mirrors (\"not synced\"); D4 says sync-tooling.sh copies \"skills, rules\" into each layer repo. If it copies `Tools/.crosslink/rules/*` → `ASES/.crosslink/rules/*`, it wipes ASES overrides that exist today (ASES global.md \"Background processes\" rule + kickoff.md — verified on disk). RESOLUTION NEEDED: per-path ownership map (which rules are warehouse-owned vs layer-owned), or exclude `.crosslink/rules` from sync entirely (consistent with D3 mirror-not-synced).\n\n**B2. D4's tripn `.ases/` boundary does not exist.**\nBig Pickle verified: no `.ases/` dir in tripn-astro, and `EDASES-methodology-enforcement.md` (the doc #353 cites) is absent from ASES, Tools, crosslink, and rock-solid-sites. sync-tooling.sh \"pushes to tripn via its .ases/ boundary\" — as written, step 3 cannot be built. RESOLUTION: sync directly to `tripn/.opencode/plugins` + `tripn/.crosslink/rules` (tripn is already crosslink-tracked), or create+document `.ases/` first, or drop the tripn leg from this migration's scope.\n\n**B3. No consumer-side enforcement point for the canonical-source claim — drift persists by design.**\nThe #274 pattern is a consumer-side fail-loud guard (checked on every invocation). D4's version/checksum marker has no defined consumer check — nothing specifies who runs it, when, or what fails loudly. Worse, D1 inverts the dev workflow: plugins are developed in ASES today (that's where `.opencode/opencode.json` loads them); after migration the canonical copy is in Tools but consumers still load their own `.opencode/plugins` — the next plugin fix lands in ASES, Tools silently goes stale, drift relocates. RESOLUTION: define a consumption-time check (guard-plugin startup marker check or preflight that fails loudly on checksum mismatch) before declaring Tools canonical.\n\n**B4. Step 5 (rm gitignored .claude/hooks+commands+mcp from Tools fs) has no re-deploy step and changes runtime behavior.**\nThese are LIVE artifacts wired via Tools/.claude/settings.json (work-check, prompt-guard, heartbeat, session-start — loaded every session). On-disk hooks match an OLDER embedded version (returncode==2) than the fork's current resources (returncode!=2). rm without re-init → Tools agents run with NO hooks; rm + re-init → hook behavior changes without a fork rebuild. RESOLUTION: specify exact sequence (rm → crosslink init from known binary version → verify), or defer step 5 until the binary is rebuilt.\n\n**B5. No cutover transaction for cross-repo writes.**\nLuna: steps 1–6 lack clean-worktree precondition, local-edit preservation, atomic staging, partial-failure detection, rollback. Require dry-run + reversible commits + per-repo verification.\n\n**B6. D1/D2 lack cheapest discriminating tests / provenance.**\nLuna: authority rests on size + live install without provenance or tested contracts. Capture exact sources; test wrapper contracts (--agent, tmux auto, CROSSLINK_AGENT_TYPE, fork identity, quoting, exit codes, memory scope) before canonicalization.\n\n## Non-blocking findings (worth folding in)\n\n- **D2 merge premise is stale** (Big Pickle): live ~/.local/bin/claude ALREADY contains memory-scope + --agent + CROSSLINK_AGENT_TYPE + --auto mapping. Tools/scripts/claude lacks --agent, passes --dangerously-skip-permissions through, and has a prompt-quoting bug (${PROMPT:+\"\\\"\\\"\"}). Step 1 ≈ \"replace Tools copy with live copy\" — low risk, but state it + add post-merge functional check. Also: no deploy path back to ~/.local/bin after Tools becomes canonical → the two copies diverge again (TOOLING.md §1.1/§1.2 already falsely claim they're identical).\n- **D1 \"newest = authoritative\" is weak; functional diff is the evidence**: Big Pickle verified ASES plugin is a functional superset of tripn AND repo-agnostic (no hardcoded paths) — record that instead of size. (Also: issue's 42.1K/37.6K/33.5K are stale; measured 41.2K/36.7K/32.7K.)\n- **hook-config.json drift is out of scope yet half the enforcement surface**: ASES vs tripn configs differ materially (by_type builder entry, comment_discipline, signing_enforcement). At minimum list hook-config.json as layer-owned in the source-of-truth map.\n- **Sync target matrix undefined**: \"each layer repo\" — only ASES exists on disk today (no EDASES/Execution dirs); sync script must tolerate absent targets. \"wrappers\" in D4's copy list has no destination in layer repos.\n- **Knowledge-page step dropped**: #354 analysis step 6 (migrate catalog knowledge page) absent from 6-step plan; the `tooling` knowledge page's \"last audited\" (2026-07-09) will go stale — fold into step 4.\n- **TOOLING.md §16 never calls the fork a fork**: doesn't state external upstream or canonical-source-of-embedded-resources status. Strengthen in step 4.\n- **Steps 1/2 \"commit on Tools repo\" lack preconditions**: Tools has uncommitted changes (scripts/claude, .crosslink/rules/global.md) + unverified branch state — commit/stash first.\n- **Cross-repo tracking**: implementation will live on Tools' own crosslink tracker; step 6's Tools issues must reference #354/D1–D7 to avoid orphaned issues.\n\n## What the reviewers validated (positives)\n\n- Drift inventory accurate — Big Pickle independently verified every claim (3-way plugin divergence, wrappers ahead, tripn-astro stale, hooks gitignored, TOOLING.md catalog drift).\n- D1's ASES-as-authority choice validated by functional diff (superset + repo-agnostic).\n- D6 (single Tools repo + fork sibling) matches on-disk reality.\n- D5 (keep STALE archive) and D7 (repo-of-repos) sound.\n\n## What-not-tested (per reviewers)\n\n- sync-tooling.sh not built/tested; marker enforcement untested; crosslink init / fork rebuild not run; rtk-guard not byte-diffed; Tools git branch state not inspected (sandbox block); tripn config-compat reasoned not run.\n\n## GATE DECISION\n\n**Execution is BLOCKED pending operator resolution of B1–B6.** Recommended revision order: (1) resolve B1 (rules ownership map), (2) resolve B2 (tripn sync path), (3) define B3 enforcement point, (4) sequence B5 cutover into steps 1–6, (5) fold D2-stale finding + hooks re-deploy (B4) into step 1/5, (6) fold non-blocking items into step 4/6. Decision record #354 stays authoritative; this synthesis + the two sub-issue verdicts (#358/#359) are the review evidence.",
+          "created_at": "2026-08-14T20:04:48.548631679Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvf+hWf6zZtkQd5PkAWbZwyUgfIHEjGLl7+mElP1AR87xKVXuT0hBJVNxEmqwpCaDPKvuKvpLnhxsZMSnMxkOCQ=="
         }
       }
     },
@@ -21237,8 +21246,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T19:21:17.628587140Z",
-    "agent_id": "pp3g-MMlK-adversarial-review-of-the-tools-monorepo-migration",
-    "agent_seq": 3
+    "timestamp": "2026-08-14T20:04:48.556534661Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1730
   }
 }
