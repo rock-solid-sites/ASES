@@ -1,5 +1,5 @@
 {
-  "next_display_id": 370,
+  "next_display_id": 371,
   "next_comment_id": 1683,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
@@ -247,6 +247,7 @@
     "abd66fee-3c91-4c40-bbfb-478cdce6edf6": 34,
     "ac8ea82a-64d6-4339-895d-b13bd7cbf522": 286,
     "ac8f1405-9026-44d9-8716-cda73e0ed55c": 201,
+    "ac9ff902-e363-4e7a-be69-4fbadf893f69": 370,
     "ae626387-2d74-45ed-b6fa-91d1f44a9b70": 142,
     "af271565-c0d9-47bf-8888-339979ae59ee": 320,
     "af65cd2d-89a9-4b3e-b153-820f107b0af5": 82,
@@ -14990,6 +14991,18 @@
         }
       }
     },
+    "ac9ff902-e363-4e7a-be69-4fbadf893f69": {
+      "uuid": "ac9ff902-e363-4e7a-be69-4fbadf893f69",
+      "display_id": 370,
+      "title": "ARCH-REVIEW r4 (qwen3.7-plus): open-ended architectural judgment on Tools/monorepo drift architecture",
+      "description": "OPEN-ENDED ARCHITECTURAL REVIEW (not a plan check). READ-ONLY reviewer role. Post verdict ONLY to this sub-issue (playbook §5.6 independence). Do NOT read other reviewers verdicts.\n\nQUESTION: The Tools-repo/monorepo architecture is experiencing persistent DRIFT. Review the architecture AS A WHOLE and give an independent architectural judgment: does the current system make sense, or would you propose a completely different system to address these issues? You are FREE to propose whatever you want (keep+fix, or a fundamentally different design). There is no preferred answer.\n\nCURRENT ARCHITECTURE (verified state, 2026-08-14):\n\nLAYERS: EDASES (research) + ASES (methodology) + Execution Engine (future, undetermined) = three separate git repos (repo-of-repos monorepo, no submodules). Tools = a sibling warehouse repo (NOT a layer) holding forks/plugins/wrappers/skills/hooks/agent-defs/scripts. tripn-astro = a separate client repo.\n\nDISTRIBUTION MODEL: the crosslink fork (~/projects/crosslink, Rust CLI, own repo) EMBEDS hooks/skills/commands/mcp/rules in its binary and deploys them into every tracked repo via \"crosslink init\". Separately, Tools holds guard plugins (crosslink-guard.ts, orchestrator-guard.ts, rtk-guard.ts), CLI wrappers (claude, opencode, crosslink-moe), model plugins (plugin.ts, dynamic-models.ts), skills — consumed by layer repos which maintain their OWN .opencode/plugins, .claude/skills, .crosslink/rules copies.\n\nTHE DRIFT PROBLEM (the issue this architecture must solve):\n1. Guard plugins diverged 3 ways (ASES 41.2K newest / tripn 37.6K / Tools 33.5K oldest) — no single source.\n2. Live ~/.local/bin wrappers ahead of Tools/scripts copies (--agent flag, #274 fork-identity guard missing from Tools).\n3. Model plugins: Tools/plugins/plugin.ts (51L) BEHIND deployed ~/.config/opencode/plugins/plugin.ts (133L, missing #347 grok-ban + whitelist); plugin.ts vs dynamic-models.ts near-duplicates already diverged.\n4. Stale models-cache.json (Jul 25) merged into provider configs; no regeneration mechanism.\n5. freeZenModels whitelist stale — new free models invisible, dead entries remain.\n6. hook-config precedence bug: git merge in BOTH by_type.orchestrator.gated AND top-level blocked — by_type loses, orchestrator merges falsely blocked.\n7. Tools/.claude/hooks+commands+mcp are gitignored on-disk snapshots deployed by crosslink init — no canonical git source, drift vs embedded resources.\n8. .ases/ integration boundary (tripn) is aspirational design, not implemented.\n\nPROPOSED FIX (in review, NOT yet executed): Tools stays one warehouse repo as canonical source for plugins/wrappers/skills; ASES versions pushed back into Tools; a sync-tooling.sh deploy script distributes to layer repos (rules EXCLUDED — layer-owned); consumer-side drift markers (sha256 manifest, state machine warn→hard-fail with --promote); git-only atomicity; per-repo operator commits; crosslink fork stays sibling repo.\n\nYOUR MANDATE: Independent architectural judgment. Consider at minimum: (a) is a \"warehouse + copy-out via sync script\" model fundamentally sound, or is the copy/drift problem inherent to it? (b) would a different distribution mechanism (packages, symlinks, submodules, single shared config dir, the crosslink binary embedding everything incl. plugins, generated single source) serve better? (c) should the layers even be separate repos, or is the repo-of-repos itself the problem? (d) is consumer-side drift detection the right enforcement, or should drift be structurally impossible? (e) what would YOU build instead? Be concrete and decisive — propose a system, or commit to keep+fix with specific changes. Distinguish \"must change\" from \"optional\". Include WHAT-NOT-TESTED. Read-only: no file changes, no commits. Deliver verdict as --kind result on THIS sub-issue only.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
+      "created_by": "OL2r",
+      "created_at": "2026-08-14T23:42:51.152337143Z",
+      "updated_at": "2026-08-14T23:42:51.152337143Z"
+    },
     "ae626387-2d74-45ed-b6fa-91d1f44a9b70": {
       "uuid": "ae626387-2d74-45ed-b6fa-91d1f44a9b70",
       "display_id": 142,
@@ -21672,8 +21685,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:42:38.693264944Z",
+    "timestamp": "2026-08-14T23:42:51.152337143Z",
     "agent_id": "OL2r",
-    "agent_seq": 1751
+    "agent_seq": 1752
   }
 }
