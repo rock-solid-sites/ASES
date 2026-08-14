@@ -1,6 +1,6 @@
 {
   "next_display_id": 365,
-  "next_comment_id": 1664,
+  "next_comment_id": 1665,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -739,7 +739,7 @@
       "parent_uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
       "created_by": "OL2r",
       "created_at": "2026-08-14T21:40:55.959271267Z",
-      "updated_at": "2026-08-14T21:47:42.737565619Z",
+      "updated_at": "2026-08-14T21:47:58.723949024Z",
       "labels": [
         "review"
       ],
@@ -752,6 +752,15 @@
           "kind": "observation",
           "signed_by": "SHA256:kaf/Oz7c6BWiav0zvdNqtVCp7+iJfoP07LfEx10tSuE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgw+l+JOUUy3CnHlQfwhto47tVC9UsslHD++zIZePOaSMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlNnQLmay4oqICdx8gy3qDVq0q9lrRuiDRFFUujNmohxI/O/FlpfPAGaxzLCTNdqf8FYEvUT0CE0S+9kDus76CQ=="
+        },
+        "b7282278-cba1-4eba-945f-118edf6e60d5": {
+          "display_id": 1664,
+          "author": "pp3g-REr3-adversarial-review-of-the-b1-b6-remediation-plan-9b2e",
+          "content": "## SHOULD CONSIDER (non-blocking)\n\n### NC-1: B3 sync-tooling.sh --check is a preflight, not a consumer check\n\nThe plan conflates two concerns: (1) consumer-side check (startup, every session) = guard plugin marker comparison, and (2) preflight check (on demand, before deploy) = sync-tooling.sh --check. These serve different purposes. Preflight catches drift before deployment; consumer check catches drift after. Should be explicitly distinguished.\n\n### NC-2: B6 contract battery requires runtime deps not available in scratch dirs\n\nItems 1 (--agent), 5 (fork identity), 8 (plugin contract) require opencode, fork binary, bun/ts runtime. A scratch dir wont have these. Battery should run in LIVE environment where dependencies exist, or explicitly list prerequisites with a setup script.\n\n### NC-3: B4 step 5 ASES mirror is second simultaneous cutover\n\nPlan says mirror the same pinned sequence in ASES — two repos cutovered in same step. If Tools succeeds but ASES fails, asymmetric hook versions. Should sequence explicitly: Tools first, verify, then ASES.\n\n### NC-4: B1 md5 count is a snapshot\n\n28/31 identical is true TODAY but changes on binary rebuild. The ownership map (not the count) is the durable artifact. Should document this.\n\n### NC-5: sync-tooling.sh maintenance and deployment undefined\n\nPlan describes what it does but not where it lives, how deployed, who maintains, how versioned. The sync tool is itself a piece of tooling needing canonical-source treatment.\n\n### NC-6: B3 D1 workflow inversion fix is incomplete\n\nPlan says consumer check fixes D1 inversion explicitly. But check only detects drift — the actual fix requires bidirectional sync capability in sync-tooling.sh. Should state that D1 is resolved by the scripts bidirectional capability, not just the consumer check.\n\n## NITS\n\n### N-1: B5 atomic staging via *.sync-tmp rename is fragile\nIf process crashes between write and rename, orphaned temp files. Simpler: write directly, rely on git for atomicity.\n\n### N-2: B6 contract battery item 4 should test literal-quote bug specifically\nShould include test case: prompt with spaces+special chars, verify ONE argument to opencode.\n\n### N-3: Risk register R10 underspecified\nhook-config.json divergence: ASES has comment_discipline=encouraged/signing_enforcement=audit, tripn has required/enforced. Guard behavior differs. Plan documents but does not prescribe resolution.",
+          "created_at": "2026-08-14T21:47:58.711576225Z",
+          "kind": "observation",
+          "signed_by": "SHA256:kaf/Oz7c6BWiav0zvdNqtVCp7+iJfoP07LfEx10tSuE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgw+l+JOUUy3CnHlQfwhto47tVC9UsslHD++zIZePOaSMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAm/6jazzvT3dIctkfZv/j69HFql1NreCP7NUugbF5Ee+B7zeiwIDOulD3jZ1HL51nZFKV6ajdr0GQyPu5INBeBQ=="
         },
         "f084bf6b-2f9a-41cb-a97a-bf984f284c62": {
           "display_id": 1663,
@@ -21415,8 +21424,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T21:47:42.737565619Z",
+    "timestamp": "2026-08-14T21:47:58.723949024Z",
     "agent_id": "pp3g-REr3-adversarial-review-of-the-b1-b6-remediation-plan-9b2e",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
