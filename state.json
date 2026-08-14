@@ -1,6 +1,6 @@
 {
   "next_display_id": 372,
-  "next_comment_id": 1700,
+  "next_comment_id": 1701,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -14125,7 +14125,7 @@
       "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
       "created_by": "OL2r",
       "created_at": "2026-08-14T23:41:52.478856063Z",
-      "updated_at": "2026-08-14T23:48:59.754859868Z",
+      "updated_at": "2026-08-14T23:49:34.211031648Z",
       "labels": [
         "review"
       ],
@@ -14174,6 +14174,15 @@
           "kind": "result",
           "signed_by": "SHA256:pfTzP29ngEGfQm87RqGLOnykBkYfo8upB1axgAWtxTU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvF2YsnQTnF7UcAEpO9wPzTpHDDEeESUCEAZ1xaKs3woAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+N7CEZ8OlLO7II10By7hHIEUz/40gwYN9aupuxSrSX9uLCZ7Py0nEEDzjBHkGpqzQdv4FsPjdH/s1PLqLPloCA=="
+        },
+        "8a863e1f-388b-40f7-8dd8-3c8767479ad3": {
+          "display_id": 1700,
+          "author": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
+          "content": "## Why This Is Better Than the Proposed sync-tooling.sh Approach\n\n| Dimension | sync-tooling.sh (#365) | Binary embedding (this proposal) |\n|---|---|---|\n| Distribution paths | TWO (crosslink init + sync-tooling.sh) | ONE (crosslink init + install-wrappers) |\n| Drift prevention | DETECTION after the fact (manifest + State 0/1/2) | STRUCTURAL IMPOSSIBILITY (one source) |\n| New artifacts | sync-tooling.sh, .canonical-manifest.json, state machine, --promote/--check/--pull | None — extends existing build.rs + init |\n| Complexity | High (manifests, state machine, bidirectional sync, local-edit refusal) | Low (add resource dirs to build.rs, add deploy calls) |\n| hook-config staleness | Not addressed (documented as residual drift) | Fixed (update embedded template) |\n| models-cache staleness | Documented, not fixed | Fixed (crosslink refresh-models) |\n| freeZenModels staleness | Documented, not fixed | Fixed (dynamic whitelist) |\n| Atomicity | Per-repo git commits (not cross-repo) | Binary version lock (one binary = one set) |\n\nThe sync-tooling.sh approach is not wrong — it would work. But it is over-engineered for a problem that has a simpler solution. The binary embedding mechanism already solves distribution for 5 resource types. Extending it to 3 more (plugins, wrappers, agents) is less work than building sync-tooling.sh + manifests + state machine + bidirectional sync, and it eliminates drift rather than detecting it.\n\n## WHAT-NOT-TESTED\n\n- opencode plugin loading: not verified that per-repo .opencode/plugins/ TypeScript plugins load alongside global ~/.config/opencode/plugins/. The opencode.json references ./plugins/*.ts (per-repo), so it should work, but not executed.\n- build.rs TypeScript embedding: not verified that include_str! works for .ts files. It embeds text resources (Python, Markdown, JSON) — TypeScript is also text, but not compiled.\n- crosslink init plugin deployment: not verified that init can deploy to .opencode/plugins/. The pattern is established for .claude/hooks/ etc., but not extended.\n- Guard plugin line-by-line diff: confirmed file sizes differ (ASES 41.2K / tripn 37.6K / Tools 33.5K) but not identified specific divergences.\n- Model plugin per-repo vs global: not verified whether per-repo model plugins conflict with global ones if both exist.\n- hook-config precedence logic: confirmed git merge is in both agent_overrides.blocked and by_type.orchestrator.gated in deployed config, but not traced crosslink-guard.ts precedence logic to confirm which wins.\n- Agent definition template customization: not verified that --update preserves customized agent definitions (proven for hooks, but agents are a new resource type).\n- crosslink install-wrappers command: does not exist; not designed its implementation.\n- Tools repo elimination impact: not assessed whether any process depends on Tools existing as a separate git repo.\n\n## Certainty Statement\n\n- WHY: The drift problems are all in non-embedded resources; the embedded resources dont drift. Extending embedding to all resources eliminates the drift class.\n- WHAT: Based on reading crosslink fork build.rs, init/mod.rs, manifest.rs source; comparing Tools/ASES/deployed/live file sizes and dates; reading hook-config.json and opencode.json; reading the #365 revised plan.\n- HOW CERTAIN: Evidence-based. The embedding mechanism is proven (works for hooks/skills/commands/rules). The extension to plugins/wrappers is inferred from the pattern, not tested.\n- WHAT-NOT-TESTED: See above — opencode plugin loading, build.rs TypeScript embedding, init plugin deployment, guard plugin diff, model plugin per-repo vs global, precedence logic, agent definition customization, install-wrappers command, Tools repo elimination impact.",
+          "created_at": "2026-08-14T23:49:34.204313964Z",
+          "kind": "result",
+          "signed_by": "SHA256:pfTzP29ngEGfQm87RqGLOnykBkYfo8upB1axgAWtxTU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvF2YsnQTnF7UcAEpO9wPzTpHDDEeESUCEAZ1xaKs3woAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAB6+5A3YikqL0P9LKJCSUoEZRAktkRUsNVxYiQcaiv2rX5zSYVlFN9nbQH7TVf3OKDrIIUxGqcT5EB4wSwhjqAg=="
         },
         "a79f0c15-a14f-4b26-9daa-687d113131d7": {
           "display_id": 1690,
@@ -21867,8 +21876,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:49:25.863523420Z",
-    "agent_id": "pp3g-XUaf-open-ended-architectural-review-on-issue-369-read-the",
-    "agent_seq": 6
+    "timestamp": "2026-08-14T23:49:34.211031648Z",
+    "agent_id": "pp3g-aWah-open-ended-architectural-review-on-issue-367-read-the",
+    "agent_seq": 7
   }
 }
