@@ -1,6 +1,6 @@
 {
   "next_display_id": 366,
-  "next_comment_id": 1678,
+  "next_comment_id": 1679,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -6052,7 +6052,7 @@
       "parent_uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
       "created_by": "OL2r",
       "created_at": "2026-08-14T22:42:24.626894745Z",
-      "updated_at": "2026-08-14T22:51:11.101320760Z",
+      "updated_at": "2026-08-14T22:51:39.987956668Z",
       "labels": [
         "planning"
       ],
@@ -6083,6 +6083,15 @@
           "kind": "observation",
           "signed_by": "SHA256:feJ5hpFKkeeFzwOIb/BJoSSGGp7CL5xDXR6bDflle68",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoDyRkpqsSHXj4J7S3WBZCyY8gzzlDnkXxRJwGKXyxksAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbAALzzhi/wUTyb65VMT9uVCPCB7oXzpgLWgcBLKy9/AuH2VUzMjjAc1KyHA69O9pGPT2Lwlz9cHxXGvWowEzAA=="
+        },
+        "daf13ae3-18c5-49da-b63b-201e4de10719": {
+          "display_id": 1678,
+          "author": "pp3g-T2OR-planning-task-zero-context-plan-revision-only-no-290d",
+          "content": "Completed: zero-context revision of #361 remediation plan per round-2 blockers C1-C4, delivered as --kind result on #365. All C1-C4 mechanics re-verified on disk: fork init source (already-init no-op :869-874, update skips deleted :683-687, --force rewrites all 31 RULE_FILES :1045-1059 + hook-config :989 + mcp merge :1131); NEW: Tools hook-config semantically identical to embedded (2041B both) so clobber benign for Tools/destructive for ASES+tripn; restore-set files all git-tracked in Tools+ASES; C3 state verified (global.md memory-rule delta, scripts/claude memory-scope+quoting-bug delta, untracked .opencode/.worktrees/findings-interrupt-plugin.md none gitignored); NEW: skills write-set inversion (crosslink-subagent-orchestration Tools 4077B vs ASES 6571B superset) -> step-1 canonicalization; tripn hook-config strictness verified for S2; bun/opencode/crosslink 37789b51 present for NC-2 live battery. Revision resolves C1 (drop rm, init --force + git-restore 5-file restore set + post-init hash verify), C2 (source manifest vs per-destination gitignored marker, one-directionality + bidirectional --pull, State 0/1/2 with --promote after clean --check, corrupt-in-State-2 fails closed), C3 (narrowed write-set precondition, step-0 commits global.md only per S4, scripts/claude carried by step-1 replacement), C4 (git-only atomicity, no log/backup/tmp, local-edit refusal preserved). All non-blocking folds S1-S7/NC-2/3/5/N-1/2 disposed (S5/N-1 moot under git-only). Deliverable: what-changed per C1-C4 + 8-step plan + 13-row risk register (R1m mechanics, R11 S2-compat, R12 marker-lifecycle, R13 skills) + revised cheapest discriminating tests + WHAT-NOT-TESTED. Read-only task: no files modified, no commits.",
+          "created_at": "2026-08-14T22:51:39.981937062Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:feJ5hpFKkeeFzwOIb/BJoSSGGp7CL5xDXR6bDflle68",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoDyRkpqsSHXj4J7S3WBZCyY8gzzlDnkXxRJwGKXyxksAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAq0ujsEyv77hXqJVknFP7QFhhz8Jl+lkf/6YcfrCUQkCRZ8yB+B99LkiiqzOJE3cNBmCDzbbD+n4S7Oy+yCKlAQ=="
         },
         "dec915ea-799b-4401-8c20-07daaf5f806e": {
           "display_id": 1675,
@@ -21561,8 +21570,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T22:51:31.369058980Z",
+    "timestamp": "2026-08-14T22:51:39.987956668Z",
     "agent_id": "pp3g-T2OR-planning-task-zero-context-plan-revision-only-no-290d",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
