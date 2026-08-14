@@ -1,6 +1,6 @@
 {
   "next_display_id": 366,
-  "next_comment_id": 1673,
+  "next_comment_id": 1674,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -6057,10 +6057,21 @@
       "parent_uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
       "created_by": "OL2r",
       "created_at": "2026-08-14T22:42:24.626894745Z",
-      "updated_at": "2026-08-14T22:42:32.109518064Z",
+      "updated_at": "2026-08-14T22:43:50.177891915Z",
       "labels": [
         "planning"
-      ]
+      ],
+      "comments": {
+        "f47dc114-55ca-4e34-bd81-84e1538f3ad1": {
+          "display_id": 1673,
+          "author": "pp3g-T2OR-planning-task-zero-context-plan-revision-only-no-290d",
+          "content": "Plan: zero-context revision of the #361 B1-B6 remediation plan per round-2 blockers C1-C4. Approach: (1) re-verify the load-bearing mechanics on disk — fork init source semantics (init/init --update/init --force), Tools' customized hook-config.json/.mcp.json/.gitignore, layer-owned rules state in Tools/ASES/tripn, untracked Tools paths, wrapper deploy leg, tripn hook-config strictness; (2) resolve C1 by naming the exact init invocation + restore set; (3) resolve C2 by separating source-side canonical manifest from per-destination marker, defining lifecycle, one-directionality, and the warn/hard-fail state machine; (4) resolve C3 by narrowing the clean-worktree precondition and fixing step-0 commit/stash per ownership class; (5) resolve C4 by deciding git-only vs protocol-based transaction semantics with justification; (6) fold S1-S7/NC-2/3/5/N-1/2 with explicit disposition; (7) deliver the revised plan (changed-vs-#361, full revised plan, updated risk register, cheapest discriminating tests, WHAT-NOT-TESTED) as --kind result on #365 ONLY. Read-only: no file modifications, no commits.",
+          "created_at": "2026-08-14T22:43:50.170828165Z",
+          "kind": "plan",
+          "signed_by": "SHA256:feJ5hpFKkeeFzwOIb/BJoSSGGp7CL5xDXR6bDflle68",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoDyRkpqsSHXj4J7S3WBZCyY8gzzlDnkXxRJwGKXyxksAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGhZgi13/O7ry32LnFG6xjNmEmqqdOe486kWi3ncWUqptIeTZ6s4/cZqFBhgRsoufsKi/lJEF4zbSZEXAzNFpCw=="
+        }
+      }
     },
     "3d541fb9-e5fa-4549-8d88-e533fca17162": {
       "uuid": "3d541fb9-e5fa-4549-8d88-e533fca17162",
@@ -21519,8 +21530,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T22:43:22.828546221Z",
+    "timestamp": "2026-08-14T22:43:50.177891915Z",
     "agent_id": "pp3g-T2OR-planning-task-zero-context-plan-revision-only-no-290d",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
