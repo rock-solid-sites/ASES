@@ -1,6 +1,6 @@
 {
   "next_display_id": 365,
-  "next_comment_id": 1661,
+  "next_comment_id": 1662,
   "display_id_map": {
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
     "04473229-f530-4a94-b092-19e9557085a2": 337,
@@ -13248,11 +13248,20 @@
       "parent_uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
       "created_by": "OL2r",
       "created_at": "2026-08-14T21:40:07.398127161Z",
-      "updated_at": "2026-08-14T21:42:52.865726403Z",
+      "updated_at": "2026-08-14T21:43:35.445396413Z",
       "labels": [
         "review"
       ],
       "comments": {
+        "33249865-be83-479d-8ee8-a7b515b2c559": {
+          "display_id": 1661,
+          "author": "pp3g-HrY3-adversarial-review-of-the-b1-b6-remediation-plan-d056",
+          "content": "## Review Summary: CHANGES REQUESTED\n\n### MUST FIX (blocking)\n- #361 result B3(a): This is not a complete fail-closed consumer check. A stale plugin is the code that performs the check, and the plan does not define the host-level refusal mechanism; a banner/log is not refusal. The warn-to-hard-fail promotion gate is also undefined. Specify startup failure semantics, absent/malformed marker behavior, and test a pre-check stale plugin plus tampered marker.\n- #361 result B5(a): Temp rename plus a transaction log is not a cross-repository transaction. A later repo failure can leave earlier repos changed, and rollback failure/manifest ordering are unspecified. Clean-worktree also conflicts with local-edit preservation, while first sync has no prior manifest. Define per-repo operator gates or a real coordinated rollback protocol and all recovery states.\n- #361 result B4(a), Step 5: crosslink init remains unconstrained after rules are declared layer-owned. The plan verifies hooks but not that init avoids overwriting .crosslink/rules or other layer-owned paths. Add scoped init or a scratch test with before/after ownership verification that aborts before consumer writes.\n- #361 result B5(a), Step 0: Commit-or-stash is unsafe for the observed worktree containing untracked .opencode/.worktrees and layer-sensitive changes. Require per-path classification, durable snapshot, and operator approval; do not blanket-canonize unrelated artifacts.\n\n### SHOULD CONSIDER (non-blocking)\n- #361 result B1(a): Exclude-rules and --include-rules opt-in conflict. If opt-in remains, use an allowlist and hard refusal for layer-owned paths, not only a warning.\n- #361 result B3/B5: Define the canonical manifest source and behavior when Tools is unavailable; a destination-generated manifest must not become its own stale authority.\n- #361 result B6 and WHAT-NOT-TESTED: The battery and plugin load test are recipes, not executed evidence. Make recorded passing results an implementation gate.\n\n### NITS (optional)\n- #361 result R8: Replace “after sync is proven” with measurable promotion criteria.\n\n### NOTABLE POSITIVES\nThe plan correctly identifies all six blockers, preserves rules ownership, removes the nonexistent .ases dependency, records provenance, and discloses untested work. B4 hook-delta and B6 wrapper inventories are valuable, but the residual enforcement and transaction semantics block implementation readiness.\n\nWHAT-NOT-TESTED: No wrapper battery, crosslink init, sync implementation, plugin startup, or rollback was executed; this review assesses the written plan and stated evidence only.",
+          "created_at": "2026-08-14T21:43:35.438641051Z",
+          "kind": "result",
+          "signed_by": "SHA256:BD2Ib7Obw7QDNbixrDtrm+EhFkBbYpVrq/UW1KCXkMc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgNOPPLizpmqGOXCmRYvD7ec3jucZ+uMzHt4eoQ1IdcFgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAU8Qg1UgYNPjJTRaCd52QOeTo9pjiCwfHli1m1/iO8XsQFdOEM46M9rJr+RI8RWD2iJ/V0XUttM8juKn0b3nZDg=="
+        },
         "39cad4cd-c0bc-4bca-a989-5e578d0af0a9": {
           "display_id": 1659,
           "author": "pp3g-HrY3-adversarial-review-of-the-b1-b6-remediation-plan-d056",
@@ -21386,8 +21395,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T21:42:52.865726403Z",
+    "timestamp": "2026-08-14T21:43:35.445396413Z",
     "agent_id": "pp3g-HrY3-adversarial-review-of-the-b1-b6-remediation-plan-d056",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
