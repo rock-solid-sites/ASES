@@ -1,6 +1,6 @@
 {
   "next_display_id": 384,
-  "next_comment_id": 1841,
+  "next_comment_id": 1842,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -4189,12 +4189,13 @@
       "display_id": 295,
       "title": "VALIDATE (catalog scale vs connector residency): does a runtime know N tools while keeping physical connector-process residency proportional to K (used), not N (configured/refreshed) — 6 tests + addendum (stdio only, reuse lazy proxy + pinned venv)",
       "description": "Phase-5 completion for the identifier-first line. Validates the session-boundary confirmation model's cost assumption: catalog knowledge N decoupled from physical connector residency O(K), K<=N. 6 tests: (1) catalog acquisition stays backend-lazy (scope guard, stop-and-investigate if violated); (2) refresh residency single-N with teardown off/on (proxy vs backend reported SEPARATELY, never collapsed); (3) N-sweep 1/5/10/20/50 x sequential/concurrent x teardown off/on, resident-after is the decisive measure; (4) sparse-use N=20 K=3, headline row = 17 refreshed-but-never-called tools' proxies, plus connector identity/reuse tracking across acquire->call1->call2; (5) catalog invalidation via notifications/tools/list_changed (long-standing MCP capability since 2024-11-05, already declared false in the Round-1 initialize artifact; characterizes current behavior, does NOT design a fix) + no-signal stale-catalog baseline; (6) immediate teardown as diagnostic boundary (NOT the full idle-timeout feature). Addendum A-E applied: Test 5 split into invalidation-test + stale-baseline; record sync/async calling mode + daemon-thread count per connector + persistence config state (verify actual parameter name in installed toolregistry==0.15.0 source) + pinned versions per run; strong-pass criterion reframed as 'resident resources bounded by workload/policy, not proportional to N' (not literal count==K); connector identity tracking. Residency rules: resident = still running holding resources; briefly-defunct within 2s grace OK; beyond grace = lifecycle finding. Out of scope: full configurable idle-timeout feature, invalidation-strategy design, unreachable-connector failure design, non-stdio, re-testing output-schema drift. Deliverable: report with Test 1-6 results, required data tables, one-sentence scaling conclusion (scales with N or K?), architectural conclusion per Strong/Conditional/Fail criteria.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-08T18:02:26.310813685Z",
-      "updated_at": "2026-08-15T04:46:22.267839285Z",
+      "updated_at": "2026-08-15T04:46:30.887454452Z",
+      "closed_at": "2026-08-15T04:46:30.887450164Z",
       "labels": [
         "research",
         "toolregistry"
@@ -8900,11 +8901,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T07:13:50.661561346Z",
-      "updated_at": "2026-08-08T07:17:21.720828759Z",
+      "updated_at": "2026-08-15T04:46:42.215016994Z",
       "labels": [
         "infrastructure"
       ],
       "comments": {
+        "12dd5acb-6df3-403d-bc22-fcbb05979af6": {
+          "display_id": 1841,
+          "author": "OL2r",
+          "content": "Closing via close-out audit (session #27 end): functionally complete — result/handoff evidence on this issue confirms delivery. Content preserved in issue comments + committed docs.",
+          "created_at": "2026-08-15T04:46:42.208699274Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAYEKmJlrWgTw5GtgNBhiDMBGKVsnWtLblxV0G1Gd9gZjpA6gf2MNhjbJgbDOiLkhh6qd5obd3k2E3jVJ+Mk1yDw=="
+        },
         "719b0917-1b3a-4a76-bf0c-d61040a46456": {
           "display_id": 1125,
           "author": "pp3g-RSnf-write-and-file-a-durable-report-issue-285-in-this-39b6",
@@ -23416,8 +23426,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:46:22.267839285Z",
+    "timestamp": "2026-08-15T04:46:42.215016994Z",
     "agent_id": "OL2r",
-    "agent_seq": 1910
+    "agent_seq": 1912
   }
 }
