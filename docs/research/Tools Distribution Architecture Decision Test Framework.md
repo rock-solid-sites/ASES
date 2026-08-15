@@ -20,6 +20,122 @@ supersedes: []
 last_updated: 2026-08-15
 ---
 
+# Amendment — Tools Distribution Architecture Decision Test Framework
+
+Status: Active. Supersedes: the original D1 and D5 sections of
+`docs/research/Tools Distribution Architecture Decision Test Framework.md`.
+Operator direction 2026-08-15.
+
+## 0. Governing framing (applies to the whole document)
+
+This migration is an **ongoing process**. The current-phase work — the interim
+sync-tooling.sh plan, the one-time reverse-sync, and any transitional
+machinery built to get from today's drifted state to the target state — is
+**scaffolding**, not the intended architecture. Each of these will be retired
+once the target topology works. Do not mistake the bootstrap mechanism for the
+design; the design is the target state described below. The Decision Test
+Framework tests the *target state* decisions; the transitional steps exist
+only to reach that state.
+
+## 1. Target state (operator-confirmed 2026-08-15)
+
+- **One canonical home repo (Tools) owns each shared artifact.**
+- **The fix happens once, in Tools, and is pushed mechanically to every
+  consumer workspace** — the layer repos, tripn, `~/.local/bin`,
+  `~/.config/opencode`. This is the settled flow direction.
+- **The same tooling is used across every repo** by construction, because every
+  workspace derives from the single canonical source.
+- The reverse-sync (live→Tools) is a **one-time bootstrap seed**, necessary
+  only because the live copies currently carry newer content (the #347 grok-ban,
+  the #274 fork-identity guard, the memory-scope wrapper) that must not be lost
+  when Tools becomes canonical. After the seed, reverse-sync is never needed
+  again; the ongoing flow is Tools→everywhere.
+
+## 2. D1 — REVISED: flow direction is operator-settled; test becomes forward-only flow verification
+
+### 2.1 Why the original D1 historical audit was invalid
+
+The original D1 proposed a historical audit (git log + mtimes over ~30 days) to
+decide Tools→live vs live→Tools. This audit is **confounded**: during the entire
+window, "Tools as canonical source" **did not exist** — Tools was dormant (last
+commits to scripts/ and plugins/ were 2026-07-09 and 2026-07-15, ~a month before
+the consolidation idea, which is only a few days old). The audit therefore
+measured "where people happened to work," not "which direction survives as
+canonical." Of course edits happened live: Tools was not established as the home.
+
+### 2.2 Correct reading of the historical data
+
+The data is **failure-mode evidence**, not a direction vote. The artifacts that
+stayed current (user-level model plugin, live wrappers) are the single-copy
+ones — people edit where the artifact actually runs. The dormant Tools copies
+confirm the multi-copy drift failure mode. This is consistent with (and
+corroborates) the reviews' core thesis; it does **not** argue for live-as-
+canonical.
+
+### 2.3 Settled decision
+
+**Flow direction = Tools→everywhere (operator intent, 2026-08-15).** Not chosen
+by measurement — chosen because single-source-of-truth with mechanical push is
+the stated goal: "the fix happens in one place and gets pushed to the other
+workspaces."
+
+### 2.4 Remaining empirical question (the test that survives)
+
+The direction is no longer in question. What must be verified forward is that
+**the push mechanism actually keeps every workspace in sync**. The D1 test is
+therefore re-scoped to a forward flow-verification window:
+
+- **Signal:** after the seed + first pushes, does an edit made in Tools reach
+  every consumer workspace (ASES, tripn, `~/.local/bin`, `~/.config/opencode`)
+  without manual re-copying?
+- **Test:** make one canonical change in Tools (e.g. a comment or a no-op
+  semantic tweak in `crosslink-guard.ts`), run the push, and verify all four
+  consumer locations converge to the new sha256 within the window; then make
+  one consumer-local edit and verify it is detected (not silently overwritten).
+- **Threshold:** all four consumers converge on a canonical change within one
+  push cycle with zero manual steps; a consumer-local edit is detected and
+  reported. If a consumer silently stays stale, the push mechanism is
+  insufficient and must be fixed before declaring D reached.
+
+This replaces the original D1 historical audit, which is removed.
+
+## 3. D5 — REVISED: historical leg removed, prospective-only
+
+The original D5 included a historical scan (git history + issue refs for
+cross-repo-coordinated changes). Like D1, this leg is invalid: there were no
+coordinated multi-repo changes to measure in a month where the monorepo idea
+did not exist. The historical leg is removed. D5 keeps only the prospective
+friction telemetry that rides the migration (log every cross-repo-coordinated
+change + friction score during Phases 1–4). Threshold unchanged (≥5
+coordinated changes/month with documented friction → revisit repo-of-repos).
+
+## 4. What this changes in the migration plan
+
+- **Phase 1 (reverse-sync)** is relabeled: it is a **one-time bootstrap seed**
+  (capture live's newer content into Tools), not an ongoing reverse-sync
+  workflow. The plan must state explicitly that the seed is executed once and
+  the ongoing flow is Tools→everywhere.
+- The **push mechanism is the core deliverable** of the migration. Its
+  correctness is what D2 (symlink loading), D3 (user-level loading), and D4
+  (drift window) actually verify — the D1 re-scope (2.4) adds the end-to-end
+  convergence check that ties them together.
+- The **interim sync-tooling.sh** remains a transition tool (per the original
+  framework and the synthesis: E is migration-only). Its life is bounded by
+  Phase 4 (retire transitional machinery).
+
+## 5. WHAT-NOT-TESTED
+
+- The forward flow-verification test (2.4) has not been run — it requires the
+  seed + push mechanism to exist first.
+- The historical re-reading (2.2) is an interpretation of data already
+  gathered, not new evidence.
+- The D1 original historical audit result (100% of edits originating live) was
+  recorded on the test issue but is not treated as a direction vote anywhere in
+  this amendment.
+
+---
+
+
 # Tools Distribution Architecture — Decision Test Framework
 
 > **Purpose.** The synthesis (`Tools Distribution Architecture Synthesis.md`
