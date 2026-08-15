@@ -1,6 +1,6 @@
 {
   "next_display_id": 372,
-  "next_comment_id": 1714,
+  "next_comment_id": 1715,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -6084,7 +6084,7 @@
       "parent_uuid": "4fd047c3-b6ed-46a2-9b26-0f90cc14c782",
       "created_by": "OL2r",
       "created_at": "2026-08-14T22:42:24.626894745Z",
-      "updated_at": "2026-08-14T23:41:27.829344753Z",
+      "updated_at": "2026-08-15T00:06:58.291080323Z",
       "labels": [
         "planning"
       ],
@@ -6106,6 +6106,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0dp1jHncDb/YEUDm2U7IC3dXaqvLX01vDZpHBlQIS5Bx8626MFGVRhOGTNuPZtzSanCkWsAA4/FCFxk7IwFUCA=="
+        },
+        "57f897e4-5991-4474-897b-4238f21fa2c1": {
+          "display_id": 1714,
+          "author": "OL2r",
+          "content": "# ARCHITECTURAL SYNTHESIS — 5 independent open-ended reviews (GLM5.2 #367, Luna #368, Kimi #369, Qwen #370, Big Pickle #371)\n\nAll five independently reviewed the whole architecture with an open mandate (keep+fix OR replace). Full verdicts on the sub-issues. Synthesis:\n\n## CONVERGENT JUDGMENT (all five agree on the diagnosis)\n\n1. **The copy-out distribution model is the flaw — drift is structural, not a bug.** Every artifact that exists in N places will diverge; the observed drift is the steady state of copy-out. Big Pickle: \"the copy/drift problem is inherent to copy-out; the answer is fewer copies, not better copying.\" Kimi: \"do not build better drift detection. Build a system where shared-tooling drift cannot occur.\"\n2. **The proposed sync-tooling.sh + manifest + state-machine is directionally RIGHT but not the end state.** It is a managed version of copy-out: it reduces silent drift but adds new artifacts (the script, the manifest) that must themselves be maintained or they drift like everything else. ALL FIVE classify it as acceptable INTERIM stabilization, not the target architecture. (Luna: \"a useful migration tactic, but not a sufficient target architecture.\")\n3. **The layer separation (EDASES/ASES/Execution repo-of-repos) is CORRECT — keep it.** All five independently reject collapsing layers or submoduling them. Qwen: repo-of-repos \"is not the root cause but amplifies the problem.\" Kimi: \"The repo-of-repos is not the problem. The problem is strictly the tooling distribution model.\" The flaw is conflating layer separation (correct) with tooling distribution (broken).\n4. **Consumer-side drift DETECTION is necessary-but-not-sufficient** — detection has already repeatedly failed (documented staleness never enforced; hook-config precedence bug detectable by reading was not caught). Structural impossibility where possible; detection only as backstop.\n\n## DIVERGENCE — the proposed alternative mechanisms (5 distinct positions)\n\n| Reviewer | Position | Mechanism |\n|---|---|---|\n| **GLM5.2** (#367) | Extend binary embedding | Move plugins/wrappers/agents INTO the crosslink binary (build.rs resources) — crosslink init becomes the ONE distribution channel; drift structurally impossible; simpler than sync-tooling (no manifest/state-machine). |\n| **Qwen3.7** (#370) | FUNDAMENTALLY FLAWED; same as GLM5.2 | Crosslink binary embeds everything (plugins+wrappers). Single channel, atomic (rebuild+init), no detection needed. \"Proposed fix is BAND-AID; mine is CURE.\" |\n| **Kimi K2.7** (#369) | REJECT copy model; reference-based | Submodules or SYMLINKS: ASES/.opencode/plugins/* → Tools/plugins/*; ~/.local/bin/opencode → Tools/scripts/opencode; ~/.config/opencode/plugins/plugin.ts → Tools. Consumers reference, never copy. Split ownership: fork owns only crosslink-specific resources; OpenCode plugins/wrappers belong in Tools, removed from init payload. |\n| **Luna** (#368) | Versioned distribution source | Tools publishes immutable per-release BUNDLES (manifest + checksums + lockfile); consumers PIN a version; copies are generated artifacts verified by CI; promote/import is a deliberate command, never silent inference from a live copy. Replace warn→hard-fail with fail-install-on-incomplete. |\n| **Big Pickle** (#371) | Three-class artifact locus | (1) machine-global single-copy: wrappers + model plugins + guard plugins move to USER-LEVEL (~/.config/opencode/plugins — the one place that already stayed current); (2) per-repo materialized: pinned copy-out with a checked-in .tools-pin (commit hash) + GENERATED sha256 manifest (git exposes divergence); (3) layer-owned policy: never synced. Plus: fix correctness bugs NOW independent of architecture (hook-config precedence, blocked∩gated consistency check, models-cache regeneration, whitelist verification). |\n\n## OPERATOR-LEVEL OBSERVATIONS (beyond architecture)\n\n- Big Pickle found the hook-config precedence bug is REAL in code: crosslink-guard.ts checks blocked FIRST (:1009), so by_type gated never gets a chance → orchestrator merges hard-blocked. Fix = remove git merge from agent_overrides.blocked_git_commands (belongs only in by_type.gated) + add a blocked∩gated consistency check to the plugin.\n- Big Pickle notes the guard plugins are repo-agnostic by design (crosslink-guard reads per-repo hook-config via crosslinkDir; orchestrator-guard/rtk-guard have no per-repo logic) → they CAN move to user-level without loss. The model-whitelist plugin.ts (user-level) is currently the ONLY non-diverged artifact — direct evidence for single-copy distribution.\n- Multiple reviewers: models-cache is a GENERATION problem, not a copy problem — regenerate from live catalog on demand, never merge stale cache. plugin.ts/dynamic-models.ts should consolidate to one source.\n- Luna's counter to binary-embedding: embedding everything in crosslink \"couples unrelated release cadences and makes crosslink the accidental owner of OpenCode/Claude tooling.\" GLM5.2/Qwen accept that coupling as the price of single-channel.\n\n## RECOMMENDED NEXT STEP (for operator)\n\nThe five positions cluster into TWO end-state families:\n- **A. Binary-embedding family** (GLM5.2, Qwen): everything in crosslink binary, init deploys all.\n- **B. Single-source-without-copy family** (Kimi: symlinks/submodules; Luna: versioned bundles; Big Pickle: user-level single-copy + pins).\n\nBoth families agree: (1) interim sync-tooling.sh + manifest is fine as a first wave, (2) the end state must eliminate physical copies / make drift structurally impossible, (3) fix the correctness bugs (#9 hook-config precedence, plugin duplication, models-cache, whitelist) regardless of architecture choice.\n\nDECISION NEEDED: pick end-state family A or B (or Big Pickle's hybrid), then fold the target architecture into the #365 plan as a phase-2 goal (phase-1 = interim stabilization with the already-APPROVED revised plan). The three-class model (Big Pickle) is the most concrete and least invasive; symlink-reference (Kimi) is the most radical on consumer repos; binary-embedding (GLM5.2/Qwen) centralizes everything in the fork.",
+          "created_at": "2026-08-15T00:06:58.283847825Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAzpCkF/v9oQfAloVfKlJy48ERpOXL9XmrRlYYBpLly4Bp+FXZ6uc9zixMzDzo0K+mfhQ4MvB+19gK2VHC8VeoAg=="
         },
         "7165690a-e1a6-4d9a-93a8-2ab772d279fb": {
           "display_id": 1681,
@@ -21993,8 +22002,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-14T23:52:53.116353925Z",
-    "agent_id": "pp3g-KaeS-open-ended-architectural-review-on-issue-371-read-the",
-    "agent_seq": 7
+    "timestamp": "2026-08-15T00:06:58.291080323Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1756
   }
 }
