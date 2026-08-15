@@ -10868,11 +10868,12 @@
       "uuid": "71884bfa-33e4-4d10-8390-786973a140bc",
       "display_id": 226,
       "title": "REBUILD the #154 durable fork binary from the preserved patched source (nHSI #209 finding: the preserved 01:46 binary does NOT have the bodyIdleTimeout wrapper firing — 0 ERROR/0 WARN/0 markers, silent hang to 240s outer kill — while the SOURCE unit tests DO fire it; divergence is binary-vs-source, not source logic). SOURCE IS PRESERVED + COMMITTED: /tmp/opencode/fork-build (patches A-E + Patch D fix, detached @ v1.18.13) and the nHSI commit 792cdbe exported fork/ into the worktree branch feature/pp3g-nHSI-resume-phase-2-154-durable-fork-build-task-on-issue. TASK: (1) rebuild the fork binary from the patched source with bun@1.3.14 (workspace-root install, --single, OPENCODE_VERSION=1.18.13-pp3g-fork OPENCODE_CHANNEL=fork-pp3g, --skip-embed-web-ui acceptable per design F11); (2) CRITICAL VERIFICATION: after build, run the SDK-level test that nHSI used (the isolated real-code test that DID fire BODY IDLE in source) against the NEW binary — the wrapper must actually fire (Body read timed out / Turn stalled markers) — do NOT install until this passes; also grep the new binary for 'Body read timed out' + 'Turn stalled' markers; (3) run the 16-row matrix (/tmp/opencode/matrix-run/run-matrix.sh, harness already fixed: env-arg, 90-240s timeouts) against the NEW binary; (4) report the binary path + markers + matrix table to THIS sub-issue. Do NOT install to the live path (operator approves that separately). GENEROUS timeouts. If the rebuilt binary STILL lacks the wrapper, report the divergence hypothesis (config propagation at build time vs runtime) — do not paper over it.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T07:17:11.002027378Z",
-      "updated_at": "2026-08-15T04:55:28.395506411Z",
+      "updated_at": "2026-08-15T04:55:37.130462701Z",
+      "closed_at": "2026-08-15T04:55:37.130459646Z",
       "labels": [
         "infrastructure"
       ],
@@ -23658,8 +23659,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:55:28.395506411Z",
+    "timestamp": "2026-08-15T04:55:37.130462701Z",
     "agent_id": "OL2r",
-    "agent_seq": 1958
+    "agent_seq": 1959
   }
 }
