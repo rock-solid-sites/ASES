@@ -19651,11 +19651,12 @@
       "uuid": "d549549c-e14f-4d9e-97b2-3c0888ddf035",
       "display_id": 215,
       "title": "IMPLEMENT #135 Phase 2: wire heartbeat into OPENCODE's hook system so the PRIMARY liveness signal actually flows. EVIDENCE (#192 verification, issue #210): worktree hooks installed (.claude/hooks/heartbeat.py) but heartbeat mtime does NOT flow — kickoff agents run 'opencode run', and .claude/settings.json PostToolUse hooks are Claude Code-only, so heartbeat.py never executes (no .crosslink/.cache/last-heartbeat in worktrees; main-repo heartbeat stale since 07-09). CONSUMER ALREADY EXISTS: tools/kickoff-notify.py (Phase 1 watcher) reads .crosslink/.cache/last-heartbeat as PRIMARY liveness. TASK: (1) implement heartbeat via opencode's native plugin mechanism — e.g. a small plugin (alongside crosslink-guard.ts/rtk-guard.ts) with a 'tool.execute.after' hook that writes .crosslink/.cache/last-heartbeat (mtime touch, throttled ~120s like the current heartbeat.py); verify opencode's plugin API surface for the right hook (tool.execute.after fires per tool call; session.idle exists too — pick the one that fires during active agent work); (2) register the plugin in the worktree/kickoff chain so agents launched via 'opencode run' get it (check how crosslink-guard/rtk-guard load in kickoff worktrees); (3) VERIFY with a live kickoff: heartbeat file must appear + mtime update during agent activity; confirm kickoff-notify.py sees it; (4) update docs (.crosslink/knowledge + playbook §6.4) that heartbeat now flows under opencode; (5) coordinate with #146 (this is the detection tier its kill/restart gates depend on). DEPENDENCY: #192 done (hooks installed). Do NOT modify crosslink fork source. Commit with [#135] ref.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T05:25:37.021712061Z",
-      "updated_at": "2026-08-15T04:49:54.336998643Z",
+      "updated_at": "2026-08-15T04:50:02.919892477Z",
+      "closed_at": "2026-08-15T04:50:02.919888873Z",
       "labels": [
         "infrastructure"
       ],
@@ -23526,8 +23527,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:49:54.336998643Z",
+    "timestamp": "2026-08-15T04:50:02.919892477Z",
     "agent_id": "OL2r",
-    "agent_seq": 1932
+    "agent_seq": 1933
   }
 }
