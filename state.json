@@ -1,6 +1,6 @@
 {
   "next_display_id": 375,
-  "next_comment_id": 1730,
+  "next_comment_id": 1731,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -7309,7 +7309,7 @@
       "parent_uuid": "f2a8a904-548b-469a-bc63-f76f00727bc1",
       "created_by": "OL2r",
       "created_at": "2026-08-15T01:09:21.677166833Z",
-      "updated_at": "2026-08-15T01:19:18.197658860Z",
+      "updated_at": "2026-08-15T01:20:45.123726861Z",
       "labels": [
         "documentation"
       ],
@@ -7322,6 +7322,15 @@
           "kind": "observation",
           "signed_by": "SHA256:EBgRXFIlpWQR8VhwTnd8nlfmMMhnqjwcfOm0qv7JZa0",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgSWkjo/OzFW0yYHkQtkp/jq2+eqpYMtgnWl6LwyOHRw0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAiGngeRZL4tdkeZoob2NK2++/rk+aUI+T51z4lWdyJB6WEEy4hNLpgps0wg2nIO0sCgGZBdhEiHo1LWb3gAopAQ=="
+        },
+        "ca0ea0e7-1b4b-4f62-9510-e041cf462384": {
+          "display_id": 1730,
+          "author": "pp3g-AYIk-update-the-model-routing-matrix-per-issue-374-read",
+          "content": "Result: Model-Routing-Matrix.md + 5 per-model feedback docs updated with session #27 evidence (commit 85575b80, [#374]).\n\nWHAT WAS DONE:\n1. Matrix frontmatter last_updated -> 2026-08-15.\n2. deepseek-v4-flash: added zero-context planning (#361 B1-B6 plan, #365 C1-C4 revision) + large-document synthesis (#373, 865-line synthesis of 7 one-shot reviews); confidence Moderate -> Moderate-High (9 sessions).\n3. gpt-5.6-luna: added plan-review rounds #358/#362 (MUST-FIX/SHOULD-CONSIDER/NITS taxonomy, 4 blocking each) + open-ended architecture #368 (versioned distribution source Option B); confidence Moderate -> Moderate-High (6 sessions).\n4. big-pickle: added #359 (independent re-verification of every drift claim), #363 (M1 — CRITICAL init-mechanics bug in fork source, the wave's most valuable catch), #366 (recheck APPROVED), #371 (three-class artifact locus Option D); confidence -> High (9 sessions).\n5. mimo-v2.5: added #364 (3 blocking BF-1/2/3, concrete 3-state enforcement state machine + git-only atomicity proposals).\n6. nemotron-3-ultra-free: CRITICAL — failure mode updated from 'None observed (1/1)' to 2/2 FAILURES on 2026-08-14 (#360, 'Streaming response failed: [502] Upstream error from Nvidia'); removed from backup-reviewer routing row, replaced with paid fallback (flash cheap / luna high-value); reliability-gates + backup-discipline principles updated; feedback doc robustness downgraded to 2 with superseding evidence.\n7. NEW rows: glm-5.2 (#367, decisive Option A + comparison-table format) and qwen3.7-plus (#370, 'FUNDAMENTALLY FLAWED' verdict + strong comparison table) with profile + routing entries.\n8. kimi-k2.7-code: #369 evidence (REJECT copy model, reference-based symlink/submodule) added to the FORBIDDEN-MODELS note, consistent with 'usable'.\n9. Cross-model convergence note added: 5/5 independent reviewers (#367-#371) rejected copy-out and converged near single source + three-class locus (Option D); references docs/research/Tools Distribution Architecture Synthesis.md.\n10. Routing table: backup reviewer -> paid fallback; cheap free-tier triage drops nemotron; new rows for open-ended architectural review, zero-context planning, large-document synthesis.\n\nVERIFICATION: 6 files changed (145 insertions, 87 deletions); table structure verified; no stubs. Model IDs verified against live 'opencode models' catalog (glm-5.2, qwen3.7-plus, kimi-k2.7-code, mimo-v2.5 all exist). Existing rows kept intact; FORBIDDEN MODELS note + routing principles only changed where evidence requires (nemotron exception, kimi evidence per issue).",
+          "created_at": "2026-08-15T01:20:45.116621787Z",
+          "kind": "result",
+          "signed_by": "SHA256:EBgRXFIlpWQR8VhwTnd8nlfmMMhnqjwcfOm0qv7JZa0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgSWkjo/OzFW0yYHkQtkp/jq2+eqpYMtgnWl6LwyOHRw0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyxb94Vu2EjZcJpL/6i4l9wK8t0li7GoX/ui6UekfV+uxTo5+M9e6WY2Jhz3m3VH2Q5tof/P9LWiC39bZk84JCQ=="
         },
         "eca664bd-ba33-4c70-9162-c43376d67120": {
           "display_id": 1727,
@@ -22196,8 +22205,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T01:19:18.197658860Z",
+    "timestamp": "2026-08-15T01:20:45.123726861Z",
     "agent_id": "pp3g-AYIk-update-the-model-routing-matrix-per-issue-374-read",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
