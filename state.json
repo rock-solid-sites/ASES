@@ -9719,11 +9719,12 @@
       "uuid": "66a72bd3-2ae5-4226-8f7f-aaa144d03763",
       "display_id": 298,
       "title": "CONFIG: add 'sleep *' to the orchestrator bash allowlist. FILE: .opencode/agents/orchestrator.md — the permission.bash block (~line 7-44). Currently the allowlist ends with 'curl --head *': 'allow'. ADD one line: '    \"sleep *\": \"allow\"' (alphabetical position after 'rtk *' or at a sensible spot — match the existing style with 4-space indent + quotes). PURPOSE (operator-directed, 2026-08-08): the orchestrator needs to run sleep-based polling loops ('sleep N' then check auditor issue) for the #270 matrix-finish loop and future unattended monitoring; sleep is currently blocked (prefix allowlist). This is a PURE config addition — no logic change, no permission removal. COMMIT with [#156] ref. Do NOT modify any other permission. Verify: the line is present in the committed file + valid YAML/TOML frontmatter (the file uses YAML frontmatter between --- markers). Ref #156 (reliability epic — unattended monitoring).",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T18:08:35.335749165Z",
-      "updated_at": "2026-08-15T04:46:03.902283741Z",
+      "updated_at": "2026-08-15T04:46:12.688312842Z",
+      "closed_at": "2026-08-15T04:46:12.688309568Z",
       "labels": [
         "infra"
       ],
@@ -23406,8 +23407,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:46:03.902283741Z",
+    "timestamp": "2026-08-15T04:46:12.688312842Z",
     "agent_id": "OL2r",
-    "agent_seq": 1908
+    "agent_seq": 1909
   }
 }
