@@ -1,6 +1,6 @@
 {
   "next_display_id": 375,
-  "next_comment_id": 1727,
+  "next_comment_id": 1728,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -7309,10 +7309,21 @@
       "parent_uuid": "f2a8a904-548b-469a-bc63-f76f00727bc1",
       "created_by": "OL2r",
       "created_at": "2026-08-15T01:09:21.677166833Z",
-      "updated_at": "2026-08-15T01:09:29.576425932Z",
+      "updated_at": "2026-08-15T01:13:46.876359644Z",
       "labels": [
         "documentation"
-      ]
+      ],
+      "comments": {
+        "eca664bd-ba33-4c70-9162-c43376d67120": {
+          "display_id": 1727,
+          "author": "pp3g-AYIk-update-the-model-routing-matrix-per-issue-374-read",
+          "content": "Plan: update docs/research/registry/Model-Routing-Matrix.md with session #27 evidence (#358-#373), then update the 5 existing per-model feedback docs (luna, big-pickle, mimo, flash, nemotron) where the matrix references them. Scope: (1) frontmatter last_updated -> 2026-08-15; (2) ADD evidence cells for luna (#358/#362/#368), big-pickle (#359/#363/#366/#371), mimo (#364), flash (#361/#365/#373); (3) NEW profile + routing rows for glm-5.2 (#367) and qwen3.7-plus (#370); (4) kimi evidence (#369) into the existing FORBIDDEN-MODELS note (kimi is NOT forbidden); (5) CRITICAL nemotron update: failure mode 'None observed (1/1)' -> 2/2 Nvidia 502 failures (#360), remove from backup-reviewer routing row, replace with paid fallback, note deadline-critical exclusion; (6) routing table: update backup row + free-tier triage row, add planning/synthesis rows for flash, add open-ended architectural review rows for glm/qwen; (7) add cross-model convergence note (#367-#371 all rejected copy-out, converged near single-source + three-class locus Option D, ref synthesis doc). Keep existing rows intact, preserve FORBIDDEN MODELS note + routing principles except evidence-required nemotron changes (minimal factual append to reliability-gates principle). Commit with [#374] ref.",
+          "created_at": "2026-08-15T01:13:46.869721552Z",
+          "kind": "plan",
+          "signed_by": "SHA256:EBgRXFIlpWQR8VhwTnd8nlfmMMhnqjwcfOm0qv7JZa0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgSWkjo/OzFW0yYHkQtkp/jq2+eqpYMtgnWl6LwyOHRw0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAshJp9h4zR8xShEo94E/SJ6u72LBu37/7b4rNXJucVeQe04yfBijS/+YfgGFOQF2qsrf9bGjOkMkuaUiwQ41MDA=="
+        }
+      }
     },
     "4b44cd8c-cd37-49fb-a645-0469be2fc61f": {
       "uuid": "4b44cd8c-cd37-49fb-a645-0469be2fc61f",
@@ -22167,8 +22178,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T01:10:18.144212843Z",
+    "timestamp": "2026-08-15T01:13:46.876359644Z",
     "agent_id": "pp3g-AYIk-update-the-model-routing-matrix-per-issue-374-read",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
