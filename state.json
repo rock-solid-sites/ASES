@@ -3528,11 +3528,12 @@
       "uuid": "244a7b32-8ab3-4c7d-aace-921ad8811450",
       "display_id": 268,
       "title": "EXECUTE #154 durable-fork install: replace live opencode with verified fork binary (sha 6e0e282b, 1.18.13-pp3g-fork) per INSTALL-PREP, operator-approved (session #21). Steps: (1) backup live binary+wrapper+package.json to ~/.local/share/opencode/fork-backups/<ts>; (2) stage fork binary from /tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode (markers 'Body read timed out' x2 + 'Turn stalled' x1 + fork marker verified); (3) atomic same-filesystem mv replace of /home/claude-code/.nvm/versions/node/v22.22.3/lib/node_modules/opencode-ai/bin/opencode.exe; (4) flip wrapper ~/.local/bin/opencode REAL= to node-module binary path (bypass npm shim); (5) verify: opencode --version = 1.18.13-pp3g-fork + markers grep + healthy model call regression + hang gate (row1 non-SSE hang aborts with 'Body read timed out' + exit 1 not 124); (6) rollback documented path if any check fails. Then file hardening follow-ups: maxRetries=0 pin (title-gen path), upgrade-survival enforcement (wrapper fail-closed drift gate), installer atomicity. Do NOT use kickoff cleanup --force (#227). GENEROUS timeouts. Ref [#154]. Stopgap #179 superseded after verified install.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:09:11.082329495Z",
-      "updated_at": "2026-08-15T04:53:22.159788249Z",
+      "updated_at": "2026-08-15T04:53:30.623077138Z",
+      "closed_at": "2026-08-15T04:53:30.623074283Z",
       "comments": {
         "40d92e02-f8d7-450c-af8c-a6d0fb5039d9": {
           "display_id": 1862,
@@ -23638,8 +23639,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:53:22.159788249Z",
+    "timestamp": "2026-08-15T04:53:30.623077138Z",
     "agent_id": "OL2r",
-    "agent_seq": 1954
+    "agent_seq": 1955
   }
 }
