@@ -232,6 +232,167 @@ events in a clean window → drop) is consistent and unchanged.
 
 ---
 
+# Amendment 3 — D6 decision note (whitelist policy: Policy A + B-watchdog, provider-list policy)
+
+Status: Active. Supersedes: nothing (adds to Amendment 2). Operator direction
+2026-08-15. Applies on top of Amendment 2. Records the DECIDED D6 outcome from
+the A/B spike (issue #379). The decision-note text below is preserved intact.
+
+# Decision note — D6 whitelist policy (appended to Decision Test Framework)
+
+Status: Decided. Operator-approved 2026-08-15. Test evidence: issue #379
+(D6 A/B spike, scratch-only, all artifacts /tmp/d6-spike/artifacts/).
+
+## Finding (empirical, from the spike)
+
+- The pp3g-fork **binary has a baked-in 7-model set** for the `opencode`
+  provider; `--pure`/no-cache runs return the same 7 regardless of
+  models.json. The plugin whitelist can only **contract** that set; it can
+  never expand it.
+- The **only** mechanism that expands visibility is the plugin's **models-map
+  merge**: config-added models surface if they are free (cost 0) AND
+  new-to-binary. This is what enables discovery.
+- Policy A (discovery-first blocklist + auto-derived models-map merge from the
+  live catalog): time-to-visibility = **seconds with zero manual edits**;
+  forbidden block holds; zero dead-entry surface.
+- Policy B (curated allowlist + refresh-validation): validation bounds *list*
+  drift but **cannot make a new model visible** (binary cap) — it bounds the
+  wrong thing.
+- 20 free models are currently marked deprecated in the live catalog (drift
+  beyond the original baseline).
+
+## Decision
+
+**Phase-0 whitelist fix = Policy A's mechanism as the foundation:**
+forbidden-pattern blocklist (grok/x-ai, the existing #347 guards) +
+auto-derived models-map merge (every cost-0 model from the live catalog) on
+launch. No curated allowlist.
+
+**Keep Policy B's validation as a cheap secondary watchdog:** a scheduled
+refresh-validation run against the live catalog flags dead entries
+(DEAD=missing/deprecated) and registry changes. It bounds dead-entry
+accumulation without gating visibility.
+
+**Provider list policy (operator direction, same date):** remove providers
+that are not needed, or shorten provider model lists to free-only models for
+now. The free-only restriction is *automatic* under Policy A's mechanism
+(only cost-0 models surface); provider *removal* is expressed as an explicit,
+documented disabled-provider list in the canonical plugin (same family as the
+#347 forbidden-pattern blocklist). Future expansion is: edit the documented
+list in the canonical source → push to consumers (the D7 surviving push
+mechanism) → watchdog validates. Quick and documented by construction.
+
+## How this fits the architecture
+
+- Lives in the canonical model plugin (Tools after the reverse-sync seed);
+  Phase 0 applies it once, Phase 1 seeds it, the D7 mechanism pushes it.
+- Provider suppression = the documented disabled-provider list; the fix is a
+  one-file edit in the canonical source, then push. No reverse-sync ever
+  again after the seed.
+- Regression coverage = Phase-0 fix verification 2.2 (plugin consolidation)
+  and 2.3 (models-cache regeneration) in the framework.
+- The D6 A/B mechanism and this provider policy are recorded here so the
+  future change path is a documented, mechanical edit, not tribal knowledge.
+
+## WHAT-NOT-TESTED
+
+- No network-reliant `--refresh` runs; no full UI/selection test; no actual
+  provider call (catalog-only injection); the fork binary's baked-in set is
+  out of scope.
+- The disabled-provider list contents (which providers to remove vs shorten)
+  are an operator decision pending; the mechanism is decided, the manifest is
+  not yet written.
+
+---
+
+# Amendment 4 — Provider Visibility Policy (operator-confirmed 2026-08-15)
+
+Status: Decided. Applies on top of Amendment 3 (D6 decision note). This is the
+concrete provider-manifest policy for the Phase-0 plugin fix.
+
+## Governing principle
+
+**Provider visibility is driven by credentials + usable-credit state, not by a
+static catalog manifest.**
+
+- opencode already token-gates providers: providers without API tokens do NOT
+  appear in the `/models` list. We do not fight or duplicate this (no static
+  removal list for token-less providers — it would break the moment a token is
+  added).
+- Our policy layer handles only what opencode does not: free-only filtering,
+  the paid-visible carve-out, and explicit disabled/forbidden entries.
+
+## The policy (three layers)
+
+**Layer 1 — token-gating (native).** No API token → invisible. Owned by
+opencode; untouched by us.
+
+**Layer 2 — free-only merge with a paid-visible carve-out (Policy A
+mechanism).** Providers WITH tokens surface free (cost-0) models only, EXCEPT
+providers on the explicit `paid_visible_allowlist` (active paid credit), which
+surface their full list and stay auto-updated from the live catalog.
+
+**Layer 3 — explicit disabled/forbidden list.** Only where a specific reason
+requires hiding despite a token:
+- grok/x-ai (#347 forbidden, permanent)
+- `google-vertex-anthropic` — Vertex promo credits cannot be used for Anthropic
+  models, so its Anthropic models must not surface (Vertex's other usable
+  models may surface normally)
+- providers with a token but no active credit that are paid-only
+- `deepseek` — kept disabled (per operator: both deepseek models are obtained
+  via the opencode/opencode-go providers, so the direct deepseek provider adds
+  nothing)
+
+## The concrete manifest (canonical, lives in the Tools plugin)
+
+| Category | Members | Result |
+|---|---|---|
+| `paid_visible_allowlist` | `opencode-go` | Full visibility, always updated from live catalog (our main paid provider) |
+| `disabled_providers` | `deepseek`, `openai`, `cloudflare`, `cloudflare-ai-gateway` (existing) + `google-vertex-anthropic` + grok/x-ai forbidden block (#347) | Hidden |
+| Free-only auto-merge | everything else with a token (e.g. `nvidia` 96/100 free, `cohere` 1/14 free, `google-vertex` non-Anthropic) | Free (cost-0) models only, derived from live catalog on launch |
+| Token-less providers | the ~180 remaining | Already invisible via native token-gating; untouched |
+
+**Note on cohere/nvidia (operator 2026-08-15):** no credits held for either;
+only free-tier models are viable for now. This needs no list entry — the
+free-only merge surfaces exactly their free models, and if no token is held
+they are invisible via Layer 1.
+
+## How future changes stay quick and documented
+
+- **Add a token for a new provider** → free models appear automatically (no
+  edit).
+- **Start paying for a provider** → one-line addition to
+  `paid_visible_allowlist`.
+- **Credit runs out / stop using** → one-line removal from the allowlist (or
+  add to disabled).
+- **Provider's Anthropic models become usable** (Vertex case) → one-line
+  removal from disabled.
+- All edits happen once in the canonical Tools plugin, pushed to every
+  consumer via the D7 surviving push mechanism, validated by the B-watchdog
+  (Amendment 3). Never per-machine editing.
+
+## Relation to the D6 decision (Amendment 3)
+
+This is a refinement of D6's "provider list policy": the free-only restriction
+is automatic under Policy A's mechanism; provider removal is the documented
+`disabled_providers` list; and the paid-visible carve-out for `opencode-go` is
+the one case where free-only must NOT apply. The D6 A/B mechanism is
+unchanged; this fills in the manifest contents that Amendment 3 left pending
+("the disabled-provider list contents are an operator decision pending").
+
+## WHAT-NOT-TESTED
+
+- The specific provider visibility behavior (with real tokens) is not
+  executed-tested; the token-gating claim (Layer 1) is the user's observed
+  behavior, not a fresh experiment.
+- `google-vertex-anthropic` disabling and the exact free-model surfacing for
+  nvidia/cohere are specified from catalog data + operator statement, not
+  verified in a live token'd session.
+- The manifest is written as policy here; the Phase-0 implementation
+  (plugin.ts consolidation + D6 A mechanism) is a separate task that consumes
+  this policy.
+
+---
 
 # Tools Distribution Architecture — Decision Test Framework
 
