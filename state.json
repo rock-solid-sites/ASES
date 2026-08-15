@@ -1,5 +1,5 @@
 {
-  "next_display_id": 382,
+  "next_display_id": 383,
   "next_comment_id": 1774,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
@@ -47,6 +47,7 @@
     "1acb2141-10eb-41ff-9005-5e15c6ae7525": 123,
     "1af4c4f2-765e-4470-bb7e-2dc4a5f9922d": 32,
     "1b2c2eec-f80d-4ec8-b103-5b9faca8c40a": 25,
+    "1c0f60f8-293f-4715-9c6c-ff11832e3943": 382,
     "1c90bf8f-5f05-46db-bd56-0531eb53590e": 278,
     "1cdcd388-a982-4363-adb0-086452b9f63a": 26,
     "1ce26212-a5f5-4669-82f7-54e13a6629e7": 6,
@@ -2933,6 +2934,17 @@
         "crosslink-gates",
         "implementation"
       ]
+    },
+    "1c0f60f8-293f-4715-9c6c-ff11832e3943": {
+      "uuid": "1c0f60f8-293f-4715-9c6c-ff11832e3943",
+      "display_id": 382,
+      "title": "EPIC: Tools distribution architecture — decide, test, implement (Phase-1 done; Phase-2 toolkit bootstrap)",
+      "description": "EPIC for the Tools migration, phase 2 of the broader toolkit centralization (supersedes #164). Owns the distribution-architecture work: decision, empirical testing, and Phase-0 implementation.\n\nPHASE 1 (DONE, 2026-08-14/15): Architecture decision + empirical test framework.\n- Drift analysis + 7 operator decisions: #354 (analysis, decisions), #353 (ontology — kept open, authoritative)\n- Two review rounds + synthesis of 7 one-shot reviews: #361/#365 plans, review sub-issues, docs/research/Tools Distribution Architecture Synthesis.md\n- Decision Test Framework (docs/research/Tools Distribution Architecture Decision Test Framework.md + 4 amendments): D1 (flow, settled Tools→everywhere), D2 (symlink loading PASS), D3 (user-level loading PASS), gap-9 (init does NOT deploy guard plugins), D4/D5/D7 (ride migration), D6 (whitelist policy decided: Policy A mechanism + B-watchdog)\n- Provider visibility policy (Amendment 4): token-gated + free-only merge + paid-visible carve-out (opencode-go) + disabled list (deepseek, google-vertex-anthropic, grok)\n- Model-Routing-Matrix updated with session #27 review-feedback evidence (#374)\n- Key empirical findings: fork binary caps visible model set; symlinks + user-level single-copy both viable (operational preference → symlinks lean); correctness bugs enumerated with regression tests\n\nPHASE 0 (PENDING — the forward work): implement the correctness fixes + canonical source.\n1. plugin.ts/dynamic-models.ts consolidation + D6 Policy-A mechanism (blocklist + auto-derived models-map merge) + B-watchdog validation script + provider manifest (Amendment 4)\n2. hook-config precedence fix (#9 class: by_type gated override must win over global blocked) + schema-level blocked∩gated overlap rejection\n3. models-cache regeneration mechanism (deterministic, idempotent) or documented removal\n4. One-time reverse-sync seed: newest live/ASES artifacts → Tools canonical (wrappers, guard plugins, model plugins, skills)\n5. D7 surviving push mechanism (tools link/install/doctor/promote minimal form)\n6. Run remaining verification gates: D1-forward flow verification, D4 drift window, Phase-0 fix verifications (2.1-2.3)\n\nPHASE 2 (CARRIED FORWARD FROM #164): toolkit centralization + reusable new-project bootstrap — a fresh project bootstraps from the canonical toolkit with only its needed overlay. NOT started; tracked here to avoid loss when #164 closes.\n\nREFERENCE MAP: docs/research/Tools Distribution Architecture Synthesis.md; docs/research/Tools Distribution Architecture Decision Test Framework.md (+ Amendments 1-4); docs/research/tools-distribution-architecture-review-input.md; docs/research/Tools Distribution Architecture Reviews.md; docs/research/registry/Model-Routing-Matrix.md; #353 (ontology), #354 (decisions), #164 (superseded).",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-15T04:13:32.007229329Z",
+      "updated_at": "2026-08-15T04:13:32.007229329Z"
     },
     "1c90bf8f-5f05-46db-bd56-0531eb53590e": {
       "uuid": "1c90bf8f-5f05-46db-bd56-0531eb53590e",
@@ -22721,8 +22733,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T03:30:41.770820845Z",
-    "agent_id": "pp3g-LdWy-apply-amendment-4-per-issue-381-read-the-issue-dbac",
-    "agent_seq": 8
+    "timestamp": "2026-08-15T04:13:32.007229329Z",
+    "agent_id": "OL2r",
+    "agent_seq": 1783
   }
 }
