@@ -10808,12 +10808,13 @@
       "display_id": 376,
       "title": "TEST EXECUTION: run D2 (symlink-loading spike) + D3 (user-level guard-plugin loading) from the Decision Test Framework",
       "description": "Run the D2 and D3 mechanical tests from docs/research/Tools Distribution Architecture Decision Test Framework.md. These are the two blocking spikes that gate Phase-3 Class-1 mechanics. DO NOT touch the real ASES repo, real ~/.config/opencode/plugins, or real ~/.local/bin — use scratch dirs under /tmp only.\n\nD2 — SYMLINK-LOADING SPIKE (framework §D2): In a scratch repo under /tmp:\n1. Create a minimal scratch opencode project (opencode.json loading ./plugins/*.ts) with a copy of crosslink-guard.ts SYMLINKED into .opencode/plugins/ (symlink to a canonical copy, e.g. the ASES copy — read-only source, do not modify).\n2. Launch opencode in that scratch repo with a trivial prompt and a --print-last-message or similar non-interactive mode; capture stdout/stderr. Determine: (a) does the plugin LOAD without silent drop (look for guard plugin errors, or absence of expected behavior), (b) does the plugin fail loudly or silently?\n3. Repeat the symlink test for a wrapper: symlink ~/.local/bin/opencode-equivalent pointing at a copy of the Tools/scripts/opencode wrapper... actually simpler: verify the #274 fork-identity guard in a copy by checking the live ~/.local/bin/opencode runs (do NOT modify the real one).\n4. Record: did symlinked plugin load? did role resolution work? any silent failure?\n\nD3 — USER-LEVEL GUARD-PLUGIN LOADING SPIKE (framework §D3): \n1. Create a scratch session that points OPENCODE_CONFIG or the plugins path at a scratch ~/.config-style dir containing COPIES (not the real files) of the ASES guard plugins.\n2. Verify whether opencode loads plugins from a user-level config dir, and whether the guard plugin reads the repo-local hook-config.json from the working directory (crosslinkDir discovery uses cwd).\n3. Record: does user-level loading work? does per-repo role resolution work through it?\n\nALSO — GAP-9 PROBE: check whether 'crosslink init' deploys guard plugins (read the fork source ~/projects/crosslink/crosslink/src/commands/init/mod.rs and resources/ — is there a plugins deployment step? List which paths init writes). This determines Class-1 vs Class-2 assignment.\n\nDELIVERABLE: a result comment on this issue reporting, per test: setup, command run, observed output (quote key lines), PASS/FAIL verdict against the framework threshold, and the implications for D2/D3 decisions. Do NOT modify any real config or repo file. Scratch work under /tmp only. No commits to any repo (or if a scratch repo is needed, it is /tmp-only and not committed).",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "parent_uuid": "eac9d11b-1507-4530-946f-cce60f3c4862",
       "created_by": "OL2r",
       "created_at": "2026-08-15T01:39:24.150700938Z",
-      "updated_at": "2026-08-15T04:19:45.715028396Z",
+      "updated_at": "2026-08-15T04:19:54.208378669Z",
+      "closed_at": "2026-08-15T04:19:54.208360706Z",
       "labels": [
         "testing"
       ],
@@ -22928,8 +22929,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:19:45.715028396Z",
+    "timestamp": "2026-08-15T04:19:54.208378669Z",
     "agent_id": "OL2r",
-    "agent_seq": 1821
+    "agent_seq": 1822
   }
 }
