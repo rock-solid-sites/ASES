@@ -17051,11 +17051,12 @@
       "uuid": "b5fb9123-caba-43fb-b827-e7009cd785b9",
       "display_id": 209,
       "title": "RESUME Phase 2 #154 durable fork (recovery after Nu9v timer-kill; inspection #201 verdict = PARTIAL, resume on preserved build). DONE & PRESERVED (verified by #201 inspection): fork source with patches A-E + Patch D MAJOR fix at /tmp/opencode/fork-build (uncommitted, detached @ a105350=v1.18.13); unit tests (retry.test.ts 38 tests incl 5 new budget, body-idle-timeout.test.ts 7 tests — green at 01:32 checkpoint, NOT re-run); built binary /tmp/opencode/fork-build/packages/opencode/dist/opencode-linux-x64/bin/opencode (148MB, mtime 01:46, --version=1.18.13-pp3g-fork, markers verified); harness in Nu9v worktree fork/harness/ (server.js all modes, gen-cfg.mjs, run-matrix.sh 16 rows). PARTIAL: only 3 ad-hoc diagnostic rows; hang rows showed NO markers because the 60s outer harness timeout killed runs before markers surfaced. MISSING: docs (opencode-fork.md), matrix results, install, commits (branch has ZERO commits; everything volatile in /tmp). TASK (in order): (1) EXPORT/COMMIT first — copy the patched fork source + unit tests + harness + patch files into THIS worktree (or commit the /tmp/fork-build as a branch), so nothing depends on volatile /tmp; (2) RUN the full 16-row matrix against the PRESERVED binary with GENEROUS harness timeouts (fix the 60s-outer-timeout problem — hang rows need enough time for markers to surface; use e.g. per-row timeout > bodyIdleTimeout + retry budget, or capture without the outer kill); assert <=3 POSTs + grep ERROR/WARN markers deterministically; (3) re-run unit tests to independently confirm the green claim; (4) write .crosslink/knowledge/opencode-fork.md (upstream identity, pinned tag v1.18.13, both-copy patch, build/replace/rollback, marker + drift detection, upgrade-survival invariant); (5) INSTALL prep only — stage the atomic mv + backup + wrapper REAL flip as a documented procedure (do NOT actually replace the live binary without operator approval; verify the current stopgap #179 byte patch is still in place); (6) commit everything with [#154] refs and post the full result + matrix table to THIS sub-issue. CRITICAL: preserve the #179 stopgap until the fork is verified; use generous timeouts throughout (the 60s harness kill is the failure we already hit).",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "pp3g-nHSI-resume-phase-2-154-durable-fork-build-task-on-issue",
       "created_at": "2026-08-06T04:12:03.108314653Z",
-      "updated_at": "2026-08-15T04:52:44.936825610Z",
+      "updated_at": "2026-08-15T04:52:53.699769574Z",
+      "closed_at": "2026-08-15T04:52:53.699765883Z",
       "labels": [
         "infrastructure"
       ],
@@ -23616,8 +23617,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:52:44.936825610Z",
+    "timestamp": "2026-08-15T04:52:53.699769574Z",
     "agent_id": "OL2r",
-    "agent_seq": 1950
+    "agent_seq": 1951
   }
 }
