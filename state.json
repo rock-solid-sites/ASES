@@ -8144,12 +8144,13 @@
       "display_id": 336,
       "title": "VERIFY: ade6146b fail-closed sync guard on deployed binaries (gates #331-MF3 + #334-MF2 durability premise)",
       "description": "Read-only verification. Hy3 #331 MUST-FIX #3 and #334 MUST-FIX #2 both hinge on the §6.5 sync-rollback precondition: crosslink sync is documented as data-lossy on stale hub checkpoints, safe only on binaries carrying the ade6146b fail-closed guard. The tripn-astro change grants the auditor 'crosslink sync' as a live command — so this is now a real verification requirement. Determine: (1) does the deployed crosslink binary (crosslink --version = 0.9.0-beta.1+a87bd513) contain the ade6146b fail-closed guard? (2) does the source at /home/claude-code/projects/crosslink/crosslink contain it (grep the commit/guard)? (3) what is the fail-closed behavior — does sync refuse to drop local-only comments when the hub checkpoint is stale? Deliverable: PASS (guard present + behavior verified) / FAIL (absent) / PARTIAL (present in source, not confirmed in binary) with evidence. Ref: #331/#334/#330, playbook §6.5.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "parent_uuid": "c802cb20-c441-425b-82f9-3d76e8f314dd",
       "created_by": "OL2r",
       "created_at": "2026-08-09T23:41:47.302795909Z",
-      "updated_at": "2026-08-15T04:38:01.675295883Z",
+      "updated_at": "2026-08-15T04:38:10.173464988Z",
+      "closed_at": "2026-08-15T04:38:10.173457355Z",
       "labels": [
         "research"
       ],
@@ -23182,8 +23183,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:38:01.675295883Z",
+    "timestamp": "2026-08-15T04:38:10.173464988Z",
     "agent_id": "OL2r",
-    "agent_seq": 1861
+    "agent_seq": 1862
   }
 }
