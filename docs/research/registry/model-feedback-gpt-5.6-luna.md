@@ -18,7 +18,7 @@ related_documents:
   - AI Capability Registry Specification
 
 supersedes: []
-last_updated: 2026-08-10
+last_updated: 2026-08-15
 ---
 
 # Model Feedback: opencode-go/gpt-5.6-luna
@@ -28,12 +28,14 @@ last_updated: 2026-08-10
 - Provider: opencode-go (paid)
 - Access Method: opencode subagent / kickoff
 - Configuration: default opencode-go provider config; reserved for high-value work per #147
-- Session evidence: #136 (watcher plan review), #150 (wrapSSE patch review), #177 (design re-review round 1)
+- Session evidence: #136 (watcher plan review), #150 (wrapSSE patch review), #177 (design re-review round 1), #358 (plan review round-1), #362 (remediation round-2), #368 (open-ended architectural review)
 
 ## Task Categories Evaluated
 - [x] Adversarial review (watcher design #136, binary patch #150)
 - [x] Design review (durable fix #177)
 - [x] Systems/durability analysis (both reviews)
+- [x] Plan review (Tools monorepo migration plan #358; remediation plan #362)
+- [x] Open-ended architectural review (#368)
 
 ## Assessment Dimensions
 
@@ -51,8 +53,9 @@ last_updated: 2026-08-10
 ## Observed Strengths
 - SYSTEMS/DURABILITY LENS (signature style): evaluates lifecycle safety, state-machine invariants, races, leases, idempotency — not just code correctness - Evidence: #136 (atomic status schema, single-writer/lease ownership, recovery ledger, fault-injection tests)
 - Conditional verdicts with named preconditions: 'adopt for observation, do not enable autonomous recovery until controls specified AND fault-tested' (#136); 'SHOULD NOT ship as the durable fix without hardening' (#150)
-- Precise failure taxonomy: MUST FIX / SHOULD CONSIDER / NIT with concrete remedies - Evidence: #150
+- Precise failure taxonomy: MUST FIX / SHOULD CONSIDER / NIT with concrete remedies - Evidence: #150, #358 (4 blocking with taxonomy), #362 (4 blocking — fail-closed-check incompleteness, non-transactional rollback, init unconstrained, step-0 unsafe)
 - Long-horizon risk identification: binary patch fragility (any upgrade silently re-introduces bug), retry budget, per-request ctl verification - Evidence: #150 findings F1-F4 mirror hy3 #153 F3/F4 independently
+- Open-ended architectural decisiveness: #368 proposed 'versioned distribution source' (Option B) — independent, decisive, cost/benefit aware, with WHAT-NOT-TESTED
 
 ## Observed Weaknesses
 - Requires high-value work to justify cost: operator rule reserves luna for coding/adversarial/audits and explicitly says 'don't burn it on cheap research' (#147) - Evidence: #147 operator routing rule
@@ -103,6 +106,8 @@ last_updated: 2026-08-10
 - Code review of fragile/emergency patches (#145, #150) - evidence: #150
 - Design re-review rounds (#177) - evidence: round-1 verdict
 - Final audit/sign-off where systems durability matters
+- Plan adversarial review rounds (#358/#362) - evidence: CHANGES REQUESTED with precise taxonomy both rounds
+- Open-ended architectural review with decisive proposals (#368) - evidence: versioned distribution source Option B
 
 ## Unsuitable Tasks (evidence-backed)
 - Cheap research/web tasks (operator routing rule #147) - evidence: operator direction
@@ -118,14 +123,14 @@ last_updated: 2026-08-10
 | Project observation | #136 controls list matches big-pickle #137 hardening list | Repeated |
 
 ## Confidence Assessment
-- Level: Moderate
-- Reviewer: evidence-gathering draft (#190)
+- Level: Moderate-High
+- Reviewer: evidence-gathering draft (#190); updated 2026-08-15 (session #27 evidence: #358/#362/#368)
 - Date: 2026-08-06
-- Evidence considered: #136, #150, #177, #147 (operator routing)
-- Significant changes from prior assessment: First luna profile (was not previously documented)
+- Evidence considered: #136, #150, #177, #358, #362, #368, #147 (operator routing)
+- Significant changes from prior assessment: First luna profile (was not previously documented); session #27 added plan-review and open-ended architectural decisiveness evidence
 
 ## Last Review
-- Date: 2026-08-06
-- Reviewer: evidence-gathering draft (#190)
-- Evidence considered: #136, #150, #177, #147
-- Significant changes: First profile; systems/durability lens + operator cost-reservation rule documented
+- Date: 2026-08-15
+- Reviewer: session #27 update (#374)
+- Evidence considered: #136, #150, #177, #358, #362, #368, #147
+- Significant changes: Added #358/#362 plan-review taxonomy evidence and #368 open-ended architecture Option B; confidence raised to Moderate-High (6 sessions, 0 failures)
