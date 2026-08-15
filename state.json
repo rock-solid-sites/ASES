@@ -6437,11 +6437,12 @@
       "uuid": "408d8fb2-94d2-40a3-9f41-5db162f17787",
       "display_id": 276,
       "title": "AUDITOR (phase-1 in-flight divergence verifier): monitor Builder pp3g-PP6b on the #270 durable-fork rebuild. READ-ONLY — you are dispatched with the auditor permission surface; do NOT modify files, do NOT dispatch, do NOT act — you FLAG divergence to the orchestrator only. SUBJECT: issue #270 (rebuild the #154 durable fork from recovered artifacts; Builder pp3g-PP6b, ~90m task, model flash). Your job per Workflow Topology Design §5.3: pre-positioned alongside the Builder, join the position stream on #270 (structured '[PROGRESS] state=... completed=... next=... blocker=...' comments) against artifact evidence on the hub/worktree. TRIGGERS (from the design's logical trigger set): (1) position/heartbeat staleness >2x expected interval (expected cadence ~10 min for a 90m task — a gap >20 min is a trigger); (2) position-vs-artifact mismatch (claims without evidence, or evidence contradicting claims — e.g. 'build done' with no binary/log artifact, 'tests pass' with no test output); (3) silent-hang signature (no advancing position + no heartbeat while .kickoff-status reads RUNNING); (4) anything that looks like the fork's decision-gating claims are unverifiable. METHOD: periodically read #270 comments (via crosslink issue show 270 or the hub events refs/heads/crosslink/agents/pp3g-PP6b-rebuild-the-154-durable-opencode-fork-from-recovered:events.log), verify claims against artifacts (worktree .worktrees/pp3g-PP6b-rebuild-the-154-durable-opencode-fork-from-recovered/, /tmp rebuild state), post divergence findings to THIS sub-issue with --kind observation; escalate to orchestrator only when a trigger fires (a report comment on this sub-issue IS the escalation — the orchestrator polls it). Do NOT read other auditor sub-issues (#263/#264/#265 etc). Verdict only at the end: no divergence observed / divergence found (list). Ref #270.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-08T05:52:30.010503687Z",
-      "updated_at": "2026-08-15T04:47:18.819176540Z",
+      "updated_at": "2026-08-15T04:47:27.914359714Z",
+      "closed_at": "2026-08-15T04:47:27.914352196Z",
       "labels": [
         "audit"
       ],
@@ -23446,8 +23447,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:47:18.819176540Z",
+    "timestamp": "2026-08-15T04:47:27.914359714Z",
     "agent_id": "OL2r",
-    "agent_seq": 1916
+    "agent_seq": 1917
   }
 }
