@@ -21552,11 +21552,12 @@
       "uuid": "e93da01b-46e9-43ed-a76c-77ce81481095",
       "display_id": 198,
       "title": "DOC FIX (explicit): Task tool vs kickoff/swarm decision matrix — make it EXPLICIT that the opencode Task tool is NOT for implementation. PROBLEM (operator, 2026-08-06): multiple times agents have used the Task tool for actual implementation and ended up LOCKING THE SESSION while it runs, in a way kickoff does not. Task tool subagents run IN-SESSION (synchronous, blocking — the orchestrator session locks and cannot converse or dispatch; no worktree isolation, no crosslink issue/identity/tracking, no durable commit trail, no checkpoint contract). kickoff runs OUT-OF-SESSION (own tmux session + worktree + feature branch + crosslink issue + hub sync + checkpoints — session stays free). CURRENT DOC STATE (verified): .claude/skills/crosslink-subagent-orchestration/SKILL.md line 20 says only 'Task tool, @explore, @general — those are for read-only research, not feature implementation' — no rationale, no locking warning, no explicit prohibition; .crosslink/knowledge/agent-orchestration-playbook.md §1-§2 covers kickoff/swarm/sentinel with NO Task-tool row; docs/crosslink-subagent-orchestration.md has no Task mention. REQUIRED CHANGE (all three docs, both repos per §5.5 two-repo sync — ASES canonical, mirror to tripn-astro in same process): (1) an explicit DECISION MATRIX: Task tool = in-session read/research/quick-answer only (small file reads, summarization, bounded analysis) — NEVER implementation, NEVER review verdicts for the record, NEVER anything requiring a durable worktree/commit/tracking trail; kickoff = single implementation ticket (isolated, tracked, non-blocking); swarm = multi-phase parallel; sentinel = autonomous daemon. (2) STATE THE LOCKING MECHANISM explicitly: Task = synchronous in-session subagent call — the calling session is blocked until it returns (cannot converse with operator, cannot dispatch other agents); kickoff = background tmux/worktree — session stays live. (3) Add the failure evidence: repeated in-session Task-for-implementation incidents locking the orchestrator session. (4) Where to edit: .claude/skills/crosslink-subagent-orchestration/SKILL.md (Not this skill section + trigger), .crosslink/knowledge/agent-orchestration-playbook.md (new subsection in §2 or a new §), docs/crosslink-subagent-orchestration.md (add Task-tool exclusion row in the tier table + a 'Why not the Task tool' section). Verify JSON/format intact, commit [#ref], mirror to tripn-astro per §5.5.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T02:31:36.177862366Z",
-      "updated_at": "2026-08-15T04:51:09.504829321Z",
+      "updated_at": "2026-08-15T04:51:18.133095352Z",
+      "closed_at": "2026-08-15T04:51:18.133082019Z",
       "labels": [
         "docs"
       ],
@@ -23566,8 +23567,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:51:09.504829321Z",
+    "timestamp": "2026-08-15T04:51:18.133095352Z",
     "agent_id": "OL2r",
-    "agent_seq": 1940
+    "agent_seq": 1941
   }
 }
