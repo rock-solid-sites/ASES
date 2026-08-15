@@ -18,7 +18,7 @@ related_documents:
   - AI Capability Registry Specification
 
 supersedes: []
-last_updated: 2026-08-10
+last_updated: 2026-08-15
 ---
 
 # Model Feedback: opencode-go/deepseek-v4-flash
@@ -28,7 +28,7 @@ last_updated: 2026-08-10
 - Provider: opencode-go (paid; opencode/deepseek-v4-flash-free Zen free variant also exists)
 - Access Method: opencode subagent / kickoff default agent (sentinel.default_agent.model = opencode-go/deepseek-v4-flash per hook-config)
 - Configuration: default opencode-go provider config (timeout 3600000ms, headerTimeout 300000ms, chunkTimeout 300000ms per #140)
-- Session evidence: pp3g-K6yV (#138), pp3g-OZWZ (#142), Tier-1 experiment (#144), wrapSSE binary patch (#145), launch-chain fix (#173), doc updates (#140), operator routing rule (#147)
+- Session evidence: pp3g-K6yV (#138), pp3g-OZWZ (#142), Tier-1 experiment (#144), wrapSSE binary patch (#145), launch-chain fix (#173), doc updates (#140), operator routing rule (#147), zero-context plan B1-B6 (#361), zero-context plan revision C1-C4 (#365), one-shot reviews synthesis (#373)
 
 ## Task Categories Evaluated
 - [x] Implementation (fork Rust fix #138; hook-config + plugin TS fix #173)
@@ -36,6 +36,8 @@ last_updated: 2026-08-10
 - [x] Research (hydration mechanism #142; web research routing #147)
 - [x] Documentation (model-discipline + playbook updates #140)
 - [x] Binary/byte-level engineering (wrapSSE patch #145)
+- [x] Zero-context planning (#361 B1-B6 remediation plan, #365 C1-C4 revision)
+- [x] Large-document synthesis (#373 865-line synthesis of 7 one-shot reviews)
 
 ## Assessment Dimensions
 
@@ -55,6 +57,8 @@ last_updated: 2026-08-10
 - Rigorous controlled reproduction: fake hanging SSE server with 3 content-type modes proved chunkTimeout bypass (#144) - Evidence: #144 verdict
 - Preserves work before failure: #138 committed 163-insertion fork fix + tests BEFORE stalling - Evidence: #138 result
 - Verified end-to-end: #173 four-stage evolution (BLOCK -> BLOCK stale -> generic-allow -> GATED) each with guard-log evidence - Evidence: #173
+- Zero-context planning grounded on disk: #361 B1-B6 remediation plan (rules ownership matrix, hook logic delta, wrapper deltas all verified read-only), #365 C1-C4 revision (fork init source semantics, NEW skills-inversion finding) - Evidence: #361/#365 result comments
+- Large-document synthesis: #373 865-line synthesis of 7 one-shot reviews, corrected reviewer count (7 labeled, not 8+unlabeled), every claim cited reviewer+section - Evidence: #373
 - Cheap enough for research/web tasks - per operator routing rule #147
 
 ## Observed Weaknesses
@@ -108,6 +112,8 @@ last_updated: 2026-08-10
 - Fork/plugin implementation with verification (#138, #173) - evidence: commits 799ce67, 17a1960, a73d12f
 - Research + web tasks per operator routing (#147) - evidence: operator rule
 - Documentation updates (#140) - evidence: mirrored to tripn-astro
+- Zero-context planning / remediation plan authoring (#361/#365) - evidence: both plans grounded on disk, revised through two review rounds
+- Large-document synthesis (#373) - evidence: 865-line synthesis, corrected reviewer count
 
 ## Unsuitable Tasks (evidence-backed)
 - Long-running unattended tasks with no watchdog: hangs are silent and un-recoverable without external kill (#138/#142) - evidence: 2 stalls
@@ -126,14 +132,14 @@ last_updated: 2026-08-10
 | Independent reviewer agreement | #150-#153 consensus on #145 patch (directionally correct) | Agreement |
 
 ## Confidence Assessment
-- Level: Moderate
-- Reviewer: evidence-gathering draft (#190)
+- Level: Moderate-High
+- Reviewer: evidence-gathering draft (#190); updated 2026-08-15 (session #27 evidence: #361/#365/#373)
 - Date: 2026-08-06
-- Evidence considered: #138/#142/#144/#145/#173/#140/#147
-- Significant changes from prior assessment: First consolidated flash profile; prior model-discipline only listed flash as paid Go model without capability evidence
+- Evidence considered: #138/#142/#144/#145/#173/#140/#147/#361/#365/#373
+- Significant changes from prior assessment: First consolidated flash profile; prior model-discipline only listed flash as paid Go model without capability evidence. Session #27 added zero-context planning + large-document synthesis strengths.
 
 ## Last Review
-- Date: 2026-08-06
-- Reviewer: evidence-gathering draft (#190)
-- Evidence considered: #138/#142/#144/#145/#173/#140/#147 (6 sessions)
-- Significant changes: First profile; 2 confirmed silent-hang failure class documented
+- Date: 2026-08-15
+- Reviewer: session #27 update (#374)
+- Evidence considered: #138/#142/#144/#145/#173/#140/#147/#361/#365/#373 (9 sessions)
+- Significant changes: Added zero-context planning (#361/#365) and large-document synthesis (#373) strengths; confidence raised to Moderate-High.

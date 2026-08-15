@@ -18,7 +18,7 @@ related_documents:
   - AI Capability Registry Specification
 
 supersedes: []
-last_updated: 2026-08-10
+last_updated: 2026-08-15
 ---
 
 # Model Feedback: opencode/big-pickle
@@ -28,12 +28,15 @@ last_updated: 2026-08-10
 - Provider: opencode (Zen free tier)
 - Access Method: opencode subagent (reviewer role)
 - Configuration: free tier, reviewer mode, read-only
-- Session evidence: #130 (orchestrator allowlist review), #137 (watcher plan review), #149 (aborted wrapSSE review — scope drift), #178 (design review round 1), #184 (design re-review round 2)
+- Session evidence: #130 (orchestrator allowlist review), #137 (watcher plan review), #149 (aborted wrapSSE review — scope drift), #178 (design review round 1), #184 (design re-review round 2), #359 (remediation round-1), #363 (remediation round-2), #366 (recheck), #371 (open-ended architecture review)
 
 ## Task Categories Evaluated
 - [x] Adversarial review (allowlist #130, watcher plan #137, design #178/#184)
 - [x] Design review (durable fix rounds)
 - [x] Live-system verification (#137 verified launch.rs, heartbeat.py, opencode config against running system)
+- [x] Plan remediation review rounds (#359/#363)
+- [x] Self-recheck of own prior findings (#366)
+- [x] Open-ended architectural review (#371)
 
 ## Assessment Dimensions
 
@@ -54,6 +57,10 @@ last_updated: 2026-08-10
 - Practical implementation guidance: #130 gave exact scoped bash prefixes per layer and warned both permission layers must be updated together (guard requires every pipe segment allowed) - Evidence: #130 implementation notes
 - Systemic-failure thinking: #137's '≥2 stalls in a window = HALT, no relaunch' correlation guard and auto-relaunch masking critique - Evidence: #137
 - Reuse-over-build discipline: #137 found the nudge already exists in crosslink watchdog and should be FIXED not duplicated - Evidence: #137 missing-item 1
+- Independent re-verification of every drift claim: #359 re-checked plugin versions, wrappers, tripn .ases/ boundary, hook-config divergence on disk before reviewing - Evidence: #359
+- Source-level adversarial reading: #363 M1 found the CRITICAL init-mechanics bug in the fork source (~/projects/crosslink init/mod.rs:869-874) that broke the plan's step-5 — the single most valuable catch of the whole wave - Evidence: #363
+- Self-verifying recheck: #366 re-verified its own round-1 blockers M1/M2/M3 resolved in the revised plan and APPROVED with 3 SHOULD-CONSIDER - Evidence: #366
+- Concrete architectural proposal: #371 three-class artifact locus (machine-global single-copy / per-repo pinned copy-out / layer-owned never-synced) — the most concrete Option D proposal - Evidence: #371
 
 ## Observed Weaknesses
 - SCOPE DRIFT RISK (confirmed failure): #149 was killed for drifting into crosslink fork sync/hydration internals (sync.rs, cache.rs, bootstrap.rs, hub-cache) and exploring 'an env override would let me use my identity with the parent's data' — security-sensitive territory it was never asked to touch - Evidence: #149 observation
@@ -106,6 +113,9 @@ last_updated: 2026-08-10
 - Permission/security policy review with exact scoping (#127 allowlist -> #130) - evidence: #130
 - Design review rounds (#154 -> #178/#184) - evidence: both conditional verdicts
 - Root-cause hunting in infrastructure code (found #138 watchdog bug) - evidence: #137 -> #138
+- Plan remediation review rounds with independent drift re-verification (#359/#363) - evidence: M1 init-mechanics catch, both CHANGES REQUESTED
+- Recheck/verification of its own prior findings (#366) - evidence: APPROVED
+- Open-ended architecture with concrete proposals (#371) - evidence: three-class artifact locus Option D
 
 ## Unsuitable Tasks (evidence-backed)
 - Tight-scope reviews where scope-drift is dangerous: requires re-scoping mid-task or early kill (#149) - evidence: #149 aborted
@@ -123,14 +133,14 @@ last_updated: 2026-08-10
 | Independent reviewer agreement | #137 findings -> #138 fork bug (accepted); #150/#152/#153 partial agreement on #145 | Agreement |
 
 ## Confidence Assessment
-- Level: Moderate-High
-- Reviewer: evidence-gathering draft (#190)
+- Level: High
+- Reviewer: evidence-gathering draft (#190); updated 2026-08-15 (session #27 evidence: #359/#363/#366/#371)
 - Date: 2026-08-06
-- Evidence considered: #130, #137, #149, #178, #184
-- Significant changes from prior assessment: First big-pickle profile; #149 scope-drift must be documented as a dispatch risk
+- Evidence considered: #130, #137, #149, #178, #184, #359, #363, #366, #371
+- Significant changes from prior assessment: First big-pickle profile; #149 scope-drift must be documented as a dispatch risk. Session #27 added independent re-verification + source-level adversarial reading (M1 catch), self-recheck, and most-concrete Option D.
 
 ## Last Review
-- Date: 2026-08-06
-- Reviewer: evidence-gathering draft (#190)
-- Evidence considered: #130, #137, #149, #178, #184
-- Significant changes: First profile; breadth+adversarial+live-system lens and scope-drift dispatch risk documented
+- Date: 2026-08-15
+- Reviewer: session #27 update (#374)
+- Evidence considered: #130, #137, #149, #178, #184, #359, #363, #366, #371 (9 sessions, 1 aborted)
+- Significant changes: Added #359/#363/#366/#371 evidence; confidence raised to High
