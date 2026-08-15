@@ -1,6 +1,6 @@
 {
   "next_display_id": 383,
-  "next_comment_id": 1782,
+  "next_comment_id": 1783,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -21397,12 +21397,13 @@
       "display_id": 366,
       "title": "RECHECK (big-pickle): verify C1-C4 resolved in revised plan #365",
       "description": "READ-ONLY reviewer role. RE-CHECK (light review, not a full wave): verify that the revised remediation plan on issue #365 (--kind result comment) actually resolves the four round-2 blockers C1-C4 that YOU identified in your round-1 verdict on #363. Post verdict ONLY to this sub-issue (playbook §5.6 independence).\n\nYOUR ROUND-1 BLOCKERS (from #363):\n- M1: B4 step-5 init sequence mechanically broken — plain init no-op on initialized repo (mod.rs:869-874), --update skips deleted (mod.rs:683-687), only --force redeploys but it overwrites all .crosslink/rules/* (incl. layer-owned) + hook-config.json + .mcp.json.\n- M2: B3 enforcement under-specified — marker-role conflation, one-directionality, undefined warn->hard-fail.\n- M3: B5 clean-worktree precondition unsatisfiable by step 0 (untracked .opencode/.worktrees not gitignored).\nPlus your S1-S7 non-blocking findings.\n\nTHE REVISED PLAN (#365) CLAIMS:\n- C1: dropped the rm; exact invocation = 'crosslink init --force' + git-restore of a 5-file restore set (global.md/knowledge.md/project.md/hook-config.json/.mcp.json — all git-tracked, verified) + post-init restore-set hash equality + git-clean check. New evidence: .mcp.json is a MERGE not overwrite (merge.rs:96-152, no-op for identical server sets); Tools hook-config semantically identical to embedded (2041B both) so clobber benign for Tools but destructive for ASES/tripn.\n- C2: source-side canonical manifest (Tools/*/ tracked) vs per-destination marker (gitignored, consumer READ-only); explicit one-directionality (startup catches dest-local edits only; source-side covered by --check + bidirectional --pull); state machine State 0 (no marker=no-op) / State 1 (warn) / State 2 (hard-fail: throw on tool.execute.before) with --promote requiring a prior clean --check; corrupt-in-State-2 fails closed, missing marker fails open.\n- C3: precondition narrowed to 'no uncommitted modifications to files in the sync write-set'; step 0 commits global.md only (annotated baseline, never-sync-source), scripts/claude carried by step-1 replacement (S4).\n- C4: git-only atomicity — no tx log/backup/tmp; direct writes, always-overwrite canonical/marker-state files, REFUSE + fail loudly on local edits; per-destination operator commits; no --rollback (S5 moot).\n\nVERIFY: (1) re-read the #365 result comment fully; (2) spot-check the load-bearing mechanics claims against disk/fork source where you can read-only (especially the init --force + git-restore sequence soundness, the marker gitignore-outside-managed-section claim, the write-set precondition); (3) confirm each of M1/M2/M3 and your S1-S7 got a valid resolution — accept, reject, or flag as still-open with reasons; (4) identify any NEW flaw introduced by the revision. Verdict: APPROVED / CHANGES STILL REQUIRED (with the specific unresolved items). Include WHAT-NOT-TESTED. Read-only: no file changes, no commits. Post verdict as --kind result to THIS sub-issue ONLY.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "parent_uuid": "3c49b50b-e2f5-4bec-98f4-1a64ed991b1f",
       "created_by": "OL2r",
       "created_at": "2026-08-14T22:55:03.705273083Z",
-      "updated_at": "2026-08-15T04:16:11.999684713Z",
+      "updated_at": "2026-08-15T04:16:31.058109037Z",
+      "closed_at": "2026-08-15T04:16:20.864697069Z",
       "labels": [
         "review"
       ],
@@ -21412,6 +21413,15 @@
           "author": "OL2r",
           "content": "Closing: verdict delivered and synthesized into the #365 plan revision / #382 epic. Content preserved in the review evidence + docs/research synthesis.",
           "created_at": "2026-08-15T04:16:11.993686828Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA29QG/H+qoL+4tWY0eALW7xx//wqHPPwP0ykg5/YywE9TdJNtQweNgj9Bwtg3QEzZFwhnSZok4aCorR+fsnH7DA=="
+        },
+        "4d6b85bf-a3b4-4412-bbf3-58425bae43c9": {
+          "display_id": 1782,
+          "author": "OL2r",
+          "content": "Closing: verdict delivered and synthesized into the #365 plan revision / #382 epic. Content preserved in the review evidence + docs/research synthesis.",
+          "created_at": "2026-08-15T04:16:31.050605989Z",
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA29QG/H+qoL+4tWY0eALW7xx//wqHPPwP0ykg5/YywE9TdJNtQweNgj9Bwtg3QEzZFwhnSZok4aCorR+fsnH7DA=="
@@ -22819,8 +22829,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:16:11.999684713Z",
+    "timestamp": "2026-08-15T04:16:31.058109037Z",
     "agent_id": "OL2r",
-    "agent_seq": 1799
+    "agent_seq": 1801
   }
 }
