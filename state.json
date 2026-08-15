@@ -14548,11 +14548,12 @@
       "display_id": 227,
       "title": "INFRA: crosslink kickoff cleanup --force is a broad sweep that kills live agents — violates the evidence-stream liveness principle (#192/#146)",
       "description": "EVIDENCE (2026-08-06): a 'crosslink kickoff cleanup --force' run swept 23 agents including actively running ones — killed tmux sessions + removed worktrees, destroying uncommitted in-worktree state (commits + git branches + hub agent refs survive). Killed mid-flight: bJpy (#125 reviewer 3 mimo, verdict lost), oIft (#214 matrix, lost), uQTp (#201 inspect, lost); nHSI (#205/#209) survives via commit 792cdbe; BVCY relaunch never launched (tool timeout during kickoff init).\n\nWHY IT MATTERS: the #192/#146 reliability direction defines agent liveness by EVIDENCE STREAM (milestone checkpoints, heartbeat, file/commit activity), and the timer is explicitly a guide not a destroyer. cleanup --force is a second, unrelated destroyer that fires WITHOUT consulting any of those signals — it treats 'DONE-status worktree' as removable regardless of whether a live agent is mid-turn inside it. It also ran while hydration (#125) was actively mutating the issue store, compounding the renumbering/staleness churn.\n\nFIX DIRECTION (design task, not yet decided): (1) cleanup must classify 'has a live tmux/opencode session' as PROTECTED, never DONE-removable, regardless of stored status; (2) --force should require an explicit allowlist of agent IDs (targeted kill) rather than being a blanket sweep; (3) add a HALT-protocol-consistent guard: cleanup consults heartbeat/liveness before removing a worktree (same source of truth as #192/#146); (4) document the blast radius in the playbook §6.4 alongside the timer guidance. Related: #192 (timer not a destroyer), #146 (Phase 3 kill gates), #135 (watcher), #125 (hydration).",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T07:18:02.783157750Z",
-      "updated_at": "2026-08-15T04:55:46.733050238Z",
+      "updated_at": "2026-08-15T04:55:55.302507639Z",
+      "closed_at": "2026-08-15T04:55:55.302504294Z",
       "labels": [
         "bug",
         "infrastructure"
@@ -23670,8 +23671,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:55:46.733050238Z",
+    "timestamp": "2026-08-15T04:55:55.302507639Z",
     "agent_id": "OL2r",
-    "agent_seq": 1960
+    "agent_seq": 1961
   }
 }
