@@ -135,6 +135,103 @@ coordinated changes/month with documented friction → revisit repo-of-repos).
 
 ---
 
+# Amendment 2 — Tools Distribution Architecture Decision Test Framework
+
+Status: Active. Supersedes: nothing (adds to Amendment 1). Operator direction
+2026-08-15. Applies on top of Amendment 1 (`framework-amendment.md`).
+
+## 1. D7 — REVISED: the test chooses the surviving push mechanism, not the scaffolding
+
+The original D7 test reads "implement the minimal form first (plain scripts in
+Tools/scripts/), track skip-rate." This conflates two different artifacts:
+
+- **The scaffolding** — `sync-tooling.sh` and its transitional machinery. This
+  is explicitly temporary (Amendment 1 §0, §4; the synthesis: E is
+  migration-only). Its skip-rate is **not** evidence about the target state.
+- **The surviving push mechanism** — the durable tooling that distributes
+  canonical Tools content to consumers once the target topology is in place
+  (`tools doctor/link/install/promote`-style thin tooling, or Makefile
+  targets, or equivalent). This IS the core deliverable of the migration
+  (Amendment 1 §4). Its skip-rate is what D7 must measure.
+
+**Revision:** D7 tests the form of the **surviving mechanism**, not the
+scaffolding. The dogfood window begins only when the surviving mechanism
+exists in its minimal form and the scaffolding is on its way out. Measure the
+surviving mechanism's skip-rate and recall-failure rate. Threshold unchanged
+(≥2 missed sync/link/install events in the window → upgrade affordance;
+doc-lookups dominate → command form with completion wins). The scaffolding's
+own skip-rate during the transition is recorded as context but is NOT a D7
+input.
+
+## 2. NEW — Phase-0 correctness-fix verification (adds to the framework)
+
+The framework currently has no explicit verification for the four Phase-0
+correctness bug fixes (hook-config precedence, plugin.ts/dynamic-models.ts
+consolidation, models-cache regeneration, whitelist). D6 covers the whitelist
+A/B. The other three get verifications here:
+
+### 2.1 Hook-config precedence fix — regression verification
+
+The live bug: `git merge` appears in BOTH `by_type.orchestrator.gated_
+git_commands` AND top-level `blocked_git_commands`; the global block is
+checked first, so orchestrator merges are falsely hard-blocked despite the
+role override.
+
+- **Signal:** an orchestrator-role `git merge --no-ff` with an active issue
+  either passes the gated path or is blocked.
+- **Test:** (a) with the fix applied and an active issue, run an orchestrator
+  `git merge --no-ff` in a scratch repo → must pass the gated path (not be
+  hard-blocked as "PERMANENTLY FORBIDDEN"); (b) with NO active issue, the
+  same merge → must be blocked (gating still enforced); (c) schema-level:
+  load the config through a blocked∩gated overlap check → an ambiguous config
+  (same command in both lists) must be **rejected** at load time, not silently
+  resolved.
+- **Threshold:** (a) passes, (b) blocks, (c) rejects overlap. Any deviation =
+  fix incomplete.
+
+### 2.2 plugin.ts / dynamic-models.ts consolidation — verification
+
+- **Signal:** a single consolidated model plugin carries the union of both
+  behaviors without regression.
+- **Test:** deploy the consolidated plugin to a scratch user-level config;
+  verify (a) #347 grok-ban still blocks forbidden providers, (b) the
+  models-cache merge still applies (when a valid cache exists), (c) the
+  provider-suppression behavior from both originals is preserved, (d) no
+  duplicate application (the #103 double-apply root cause is gone).
+- **Threshold:** all four hold in a live session smoke test.
+
+### 2.3 models-cache regeneration — verification
+
+- **Signal:** a deterministic regeneration command produces a current cache
+  and is idempotent.
+- **Test:** run the regeneration command; verify (a) the cache timestamp
+  advances and reflects the live catalog, (b) re-running produces identical
+  output (idempotent), (c) the plugin, given the fresh cache, no longer merges
+  stale provider configs (spot-check that a provider's models match the
+  regenerated cache).
+- **Threshold:** (a)–(c) hold. If no deterministic regeneration is possible,
+  the merge must be **removed** (documented decision) rather than left stale.
+
+## 3. Note on D4 (state-machine disposition)
+
+Amendment 1's framing (transitional machinery is scaffolding) strengthens D4's
+"drop entirely" outcome: since the state machine is scaffolding, the question
+is whether detection survives at all. The existing D4 test (0 genuine drift
+events in a clean window → drop) is consistent and unchanged.
+
+## 4. WHAT-NOT-TESTED
+
+- The D7 revision's distinction (scaffolding skip-rate vs surviving-mechanism
+  skip-rate) requires the surviving mechanism to exist in minimal form; it
+  cannot be measured pre-migration.
+- The Phase-0 fix verifications (2.1–2.3) require the fixes to be applied
+  first; none are run as of 2026-08-15.
+- 2.1(c) schema-level overlap rejection assumes the schema fix (Qwen's
+  preferred approach over a one-line list edit) is adopted; if the one-line
+  edit is used instead, (c) is replaced by a config-audit check.
+
+---
+
 
 # Tools Distribution Architecture — Decision Test Framework
 
