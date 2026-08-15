@@ -16701,12 +16701,13 @@
       "display_id": 328,
       "title": "VERIFY: audit STALE kickoff worktrees for completion — produce safe-to-close list for scoped force cleanup",
       "description": "Read-only verification task. 48 STALE kickoff agents (from crosslink kickoff cleanup --dry-run) are reviewer/auditor roles that cannot write .kickoff-status, so they never graduate to DONE even when finished. Before scoped force cleanup, verify each is genuinely complete: (1) its result/verdict is posted on its issue (kind=result comment present), (2) no uncommitted work in its worktree (git status clean or changes already merged), (3) no live process/tmux session running for it. Produce a definitive SAFE-TO-CLOSE list (agent IDs) and a DO-NOT-CLOSE list (any with unposted results, uncommitted work, or live processes). READ-ONLY — do not delete anything. Deliverable: the two lists posted on this issue. Ref: #320/#327.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "parent_uuid": "af271565-c0d9-47bf-8888-339979ae59ee",
       "created_by": "OL2r",
       "created_at": "2026-08-09T21:58:19.880352975Z",
-      "updated_at": "2026-08-15T04:39:40.447703131Z",
+      "updated_at": "2026-08-15T04:39:49.619765434Z",
+      "closed_at": "2026-08-15T04:39:49.619761897Z",
       "labels": [
         "housekeeping"
       ],
@@ -23232,8 +23233,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:39:40.447703131Z",
+    "timestamp": "2026-08-15T04:39:49.619765434Z",
     "agent_id": "OL2r",
-    "agent_seq": 1871
+    "agent_seq": 1872
   }
 }
