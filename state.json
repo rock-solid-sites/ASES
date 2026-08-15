@@ -11241,11 +11241,12 @@
       "uuid": "77419f95-4e90-4fc5-8bbf-980e76e07b9a",
       "display_id": 194,
       "title": "IMPLEMENT #154 durable opencode fork (Phase 2, implementation-ready design #186 + round-3 fixes folded in). BUILD the durable silent-hang fix as a fork of anomalyco/opencode @ installed version (1.18.13), per the approved design (#186 final; round-3 hy3 verdict #191: 1 MAJOR Patch D fix + 3 MODERATE + 12 minor). SCOPE: (1) fork + pin @ v1.18.13, patch BOTH guard copies (provider.ts + aiskd.ts) with wrapBodyIdle dispatcher (Option A' idle-progress deadline, bodyIdleTimeout opt-in, bodyAbsoluteTimeout default OFF); (2) FIX Patch D — llmIdleTimeout binding must reference config in scope (llm.ts:76), NOT the sibling stream binding at llm.ts:357 (TS2304); (3) turn-level guard via Stream.timeoutOrElse (NOT timeoutFail — absent in effect 4.0.0-beta.83); (4) error-class-scoped retry budget RETRY_MAX_RETRIES=2 (timeout/stream class), retry-after preserved for 429/usage-limit, per-attempt WARN + terminal WARN=meta.attempt, <=3 POSTs; (5) matrix fixes: row 3 aligned to bounded budget, 6.5 acceptance reworded to 'guard count = 2 with dispatcher routing', V4 numeric chain with backoff; (6) rebuild/replace/rollback: workspace-root bun install, bun@1.3.14 pin, atomic stage+mv, backup, fork-identity marker (OPENCODE_VERSION/CHANNEL) + launch-time drift detection; (7) verification harness §7 matrix (15+ tests: slow-legit, stalled-but-not-dead, parsed-stream stall, gzip, non-chat, PER_REQUEST, grep-assert ERROR, POST counts, real-provider capture) + fork unit tests; (8) docs .crosslink/knowledge/opencode-fork.md + upgrade-survival invariant; (9) 12 minor nits from #191. HARD CONSTRAINTS: preserve the interim #179 byte patch until the fork binary is verified; do NOT modify ~/.config/opencode/opencode.json except adding bodyIdleTimeout to the provider section when implementing; atomic install with backup; if any provider regresses roll back and report. This is the durable replacement for the stopgap. Verify with the controlled hang harness + unit tests.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T01:09:27.513538859Z",
-      "updated_at": "2026-08-15T04:52:24.973208975Z",
+      "updated_at": "2026-08-15T04:52:34.024053737Z",
+      "closed_at": "2026-08-15T04:52:34.024046127Z",
       "labels": [
         "infrastructure"
       ],
@@ -23606,8 +23607,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:52:24.973208975Z",
+    "timestamp": "2026-08-15T04:52:34.024053737Z",
     "agent_id": "OL2r",
-    "agent_seq": 1948
+    "agent_seq": 1949
   }
 }
