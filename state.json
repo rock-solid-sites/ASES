@@ -22587,11 +22587,12 @@
       "uuid": "f512218f-64c6-43fb-a89b-9e1a67c07301",
       "display_id": 240,
       "title": "PROBE (regression test for #192 backstop): dispatch an agent with --timeout 5m and verify whether the GNU wrapper applies the 24h-backstop (max(timeout*24, 24h) = 2h for a 5m guide) or the raw 5m kill. PURPOSE: resolve the conflict from pdzT (#235) which showed 'Terminated' at ~60m despite the #192 fix (launch.rs:236-251: backstop = max(timeout*24, 24h); no timeout_backstop_secs override; tmux survived). HYPOTHESES: (a) regression — installed binary applies raw timeout; (b) process crash — the opencode process died (hang class), not the wrapper. TASK (the probe agent itself): (1) report your launch wrapper if visible (ps of your own parent chain early on); (2) work slowly enough that you EXCEED the 5m raw-timeout mark — e.g. do a sleep/long task past 5m, or simply continue normal work; (3) if you survive past 5m -> the backstop works (hypothesis b confirmed); if you are terminated at ~5m -> regression (hypothesis a). (4) post a checkpoint at ~4m, another at ~6m (if alive), and a final result noting exactly when/if you died and what you observed. GENEROUS guidance: your actual timeout is 5m per the guide — the probe's PURPOSE is to see if that guide is enforced as a kill. Post everything you observe.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-06T18:55:18.941248525Z",
-      "updated_at": "2026-08-15T04:48:34.676057958Z",
+      "updated_at": "2026-08-15T04:48:43.413119506Z",
+      "closed_at": "2026-08-15T04:48:43.413116271Z",
       "labels": [
         "infrastructure"
       ],
@@ -23486,8 +23487,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T04:48:34.676057958Z",
+    "timestamp": "2026-08-15T04:48:43.413119506Z",
     "agent_id": "OL2r",
-    "agent_seq": 1924
+    "agent_seq": 1925
   }
 }
