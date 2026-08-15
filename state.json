@@ -1,6 +1,6 @@
 {
   "next_display_id": 378,
-  "next_comment_id": 1750,
+  "next_comment_id": 1751,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -10625,7 +10625,7 @@
       "parent_uuid": "eac9d11b-1507-4530-946f-cce60f3c4862",
       "created_by": "OL2r",
       "created_at": "2026-08-15T01:39:24.150700938Z",
-      "updated_at": "2026-08-15T01:58:05.869875499Z",
+      "updated_at": "2026-08-15T01:58:41.085083817Z",
       "labels": [
         "testing"
       ],
@@ -10665,6 +10665,15 @@
           "kind": "observation",
           "signed_by": "SHA256:bO2Tr6JBXjBlzetXl3ovB7KoQ27fs6kd+1mJW+6OCnk",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnsmg0mdWV2LEtl/MyoWAXuELkvXmm8cBoHis2cgztQ8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4KdBjMhIM9wfDXt50ioEg3AfanHFMuACYIwV9XPGV+9J13/ZN3GlYvfuz17p7QMzo/2xW/yTT0hIw0B7sWUHAg=="
+        },
+        "9cb92bb1-e7ce-46a9-81ba-e1d481f5356e": {
+          "display_id": 1750,
+          "author": "pp3g-6rjb-run-the-d2-d3-mechanical-tests-gap-9-probe-per-issue",
+          "content": "Completed: Ran D2 (symlink-loading spike) + D3 (user-level guard-plugin loading spike) + gap-9 probe per issue #376. D2 PASS: symlinked crosslink-guard.ts loads (init line in /tmp/crosslink-guard.log), cwd-based crosslinkDir discovery resolves scratch repo's own .crosslink (NOT symlink target dir), by_type reviewer/builder resolution works, git push BLOCK proven; wrapper fork-identity (#274) guard verified in copies (pass + fail-closed exit 1). D3 PASS: user-level plugin copies load via XDG_CONFIG_HOME scratch dir, repo-local hook-config read from cwd, all four roles (orchestrator/builder/reviewer/auditor) resolve with by_type overrides. GAP-9: crosslink init writes 87 files (.claude hooks/mcp/commands/skills/settings, .mcp.json, .crosslink rules/db/hook-config/agent/keys/manifest, .gitignore) — ZERO .opencode/plugins artifacts; TS guard plugins are NOT deployed by init (not Class-2-generated, not crosslink-owned). Result comment posted on #376 with per-test setup/command/output/PASS-FAIL/threshold-vs-result. No real configs modified (live wrapper mtime unchanged), no commits, all scratch under /tmp cleaned. Key finding: both D2 and D3 thresholds met — mechanics work either way; operator's Phase-3 choice is operational preference, not feasibility. Note: current crosslink-guard.ts has no sha256 self-check (framework D2 item c N/A).",
+          "created_at": "2026-08-15T01:58:41.079156809Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:bO2Tr6JBXjBlzetXl3ovB7KoQ27fs6kd+1mJW+6OCnk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnsmg0mdWV2LEtl/MyoWAXuELkvXmm8cBoHis2cgztQ8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA3NAJswf4LIzBiTcTxeXVTHIo8qUt+xUh4HVhi3NANbLwOkqXCJ9ZKC+zjSFEDJPhQMqbp5qizGYcz7pnwQ7KBQ=="
         },
         "afebe35a-5c09-4fa5-85b6-8e91f746bbbc": {
           "display_id": 1744,
@@ -22425,8 +22434,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-15T01:58:32.790688011Z",
+    "timestamp": "2026-08-15T01:58:41.085083817Z",
     "agent_id": "pp3g-6rjb-run-the-d2-d3-mechanical-tests-gap-9-probe-per-issue",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
