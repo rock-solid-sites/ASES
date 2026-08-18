@@ -1,6 +1,6 @@
 {
   "next_display_id": 411,
-  "next_comment_id": 1979,
+  "next_comment_id": 1980,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -12272,7 +12272,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-18T16:45:28.977785589Z",
-      "updated_at": "2026-08-18T16:49:11.910874350Z",
+      "updated_at": "2026-08-18T17:14:05.981235193Z",
       "labels": [
         "fix,research"
       ],
@@ -12294,6 +12294,15 @@
           "kind": "plan",
           "signed_by": "SHA256:nFoc4pSxNIoDItH/Ux4DGkVX4HRUOpcC3ZNkljnkX/g",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgT6lIcyNo22ZIvNGa6QXs2dvMQrWa9qwPJ0MJJlHcr2cAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5pw0sZDM5LiJs0+VdfByqjHdkmQfJ1ESteb90RnF3MKmrKaNciwvf09kflEQLklkbjv+WfjpiOXfWALq4iEeAw=="
+        },
+        "df97b797-2291-4749-8246-0b2aacf0163c": {
+          "display_id": 1979,
+          "author": "OL2r",
+          "content": "## RESULT — fixes applied; corrected inventory posted on #391\n\n**Agent:** pp3g-qO5v (mimo-v2.5) — process exited after posting; final status write incomplete (bookkeeping closed by orchestrator).\n\n**Deliverable:** ## CORRECTED INVENTORY (post-#404) posted as result comment on #391 (2026-08-18 16:51) and verified present.\n\n**All 4 fixes applied (verified):**\n1. Script count corrected — distinguishes 3 OpenCode plugins + 2 Claude Code hooks + 1 systemd watcher (kickoff-notify.py)\n2. §1.1 orchestrator write blocking correctly attributed to orchestrator-guard.ts as SOLE enforcer (crosslink-guard.ts removed as co-enforcer)\n3. All 'already enforced' items now labeled HOOK, PERMISSION, or BOTH — permission-model vs hook enforcement no longer conflated\n4. Hook-enforced count revised to ~12 (10 direct + 2 infra), no longer the overstated '~15'\n\n**Verdict chain complete:** #404 CONDITIONAL PASS (3rd verification, gUUV) → 4 corrections → #410 fix → corrected inventory on #391. Remaining: inventory corrections are in the issue comment; operator may choose to also commit the corrected inventory to a file if the inventory is promoted to a repo document.",
+          "created_at": "2026-08-18T17:14:05.972100370Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABADZlQ4oyR5AqQtG359odab6tTMggG0Ml9ZT3HKz7nazUWgmnKlcflvrbYRfVT68yP4N9EXUFnzlTQOzK006dLDw=="
         }
       }
     },
@@ -25186,8 +25195,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T16:51:42.665913595Z",
-    "agent_id": "pp3g-qO5v-fix-issue-410-apply-the-4-factual-corrections-from",
-    "agent_seq": 6
+    "timestamp": "2026-08-18T17:14:05.981235193Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2048
   }
 }
