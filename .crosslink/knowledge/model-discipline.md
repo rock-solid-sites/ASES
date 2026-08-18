@@ -1,3 +1,7 @@
+---
+updated: 2026-08-18
+---
+
 # Model Discipline
 
 OpenCode has two distinct provider categories with different cost and reliability profiles. Agents constantly confuse them. This page documents the rules.
@@ -20,6 +24,16 @@ OpenCode has two distinct provider categories with different cost and reliabilit
 3. **Do not use free-tier models for kickoff or swarm agents.** Rate limits will cause agents to hang or fail mid-task.
 
 4. **Use the full verified model ID.** Copy it exactly from `opencode models`. Do not guess, shorten, or modify.
+
+## Standing Facts (Operator-Stated, 2026-08-18)
+
+1. **Only OpenCode credits exist — there are NO OpenRouter credits.** OpenRouter is NOT an available provider for agent work. Only models reachable via OpenCode's own providers ('opencode/' free Zen and 'opencode-go/' paid) are in scope, unless the operator explicitly states otherwise. Do NOT propose, dispatch, or reason about OpenRouter routes. Do NOT list openrouter/* model IDs in this page.
+
+2. **Google models are always served from Vertex AI** (prefix 'google-vertex/'). Never dispatch a Google model via any other provider route (e.g. never openrouter/google/*). The Google Vertex AI section of this page is the authoritative home for google model IDs.
+
+3. **The OpenCode website NEVER displays full model IDs.** The Zen page lists only which models are *available*, never their exact IDs. Full model IDs are obtainable ONLY by querying the Zen catalog API (https://opencode.ai/zen/v1/models) — an agent-scoped task: a builder/agent fetches the API and reports exact IDs. The operator cannot and will not paste model IDs from the website. When a model is not in the local 'opencode models' cache, agents MUST query the Zen API themselves rather than asking the operator for IDs.
+
+**NOTE:** `opencode models` refreshes from models.dev, which LAGS BEHIND the Zen API. Absence of a model from `opencode models` output does NOT mean the model is unavailable on Zen — the Zen catalog API is authoritative for Zen availability.
 
 ## Forbidden and Restricted Models
 
