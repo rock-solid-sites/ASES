@@ -4,7 +4,7 @@ tags: ["orchestration", "kickoff", "swarm", "workflow"]
 sources: []
 contributors: ["ASES"]
 created: 2026-08-01
-updated: 2026-08-10
+updated: 2026-08-18
 ---
 
 # Agent Orchestration Playbook
@@ -672,6 +672,59 @@ breach. The orchestrator must never silently take over a failed agent's work.
 6. Relaunch fresh with state reconstruction from hub + git log — never trust
    prior in-context memory.
 
+### 7.2 Pathological Repetition Loop — Immediate Kill
+
+An agent exhibiting a **pathological repetition loop** MUST be killed as soon
+as it is identified. Do not wait for timeout.
+
+**Definition:** a repetition loop is an agent that repeats identical or
+near-identical output without advancing — same deliberation text, same denied
+command attempts, same error recovery sequence — producing zero new commits,
+zero checkpoint comments, and zero new observable output. The agent is
+consuming compute budget while making no progress.
+
+**Signals (any TWO of the following confirm a loop):**
+
+1. **Repeated identical command attempts** — the same `crosslink` / `git` /
+   shell command is issued (and denied or fails) multiple times in succession
+   with no variation.
+2. **Repeated identical deliberation text** — the agent's commentary or
+   reasoning repeats verbatim or near-verbatim across turns without new
+   content.
+3. **Zero new commits** — no `[#N]`-referenced commits appear on the feature
+   branch after the loop starts.
+4. **Zero checkpoint comments** — no `--kind observation` comments are posted
+   to the issue, or only stale/duplicate positions repeat.
+5. **Time advancing with no output change** — `ps` shows the process running
+   (TIME climbing) but the tmux pane / session output is frozen or cycling
+   through the same text.
+
+**Kill procedure:**
+
+1. `crosslink kickoff stop <agent-id>` — sends SIGTERM, waits for graceful
+   shutdown (agent commits any in-progress work and writes DONE).
+2. If the agent does not stop within ~30 seconds:
+   `crosslink kickoff stop <agent-id> --force` — sends SIGKILL immediately.
+3. Confirm death: `ps -p <pid>` (process gone) and `crosslink kickoff status
+   <agent-id>` (state terminal).
+4. Run `crosslink kickoff cleanup --force` to release the orphan lock and
+   worktree.
+5. Report to the operator: which agent, how long it looped, estimated budget
+   consumed.
+
+**Do NOT let a looping agent "finish on its own."** A looped agent does not
+self-recover — it will burn the full timeout. The operator directive (2026-08-18):
+"Infinite loops need to be killed as soon as they're identified."
+
+**Automated monitoring (priority).** The Phase 1 lifecycle watcher (§6.4)
+does not yet detect repetition loops. Automated detection — scanning agent
+output for repeated identical command strings or repeated identical
+deliberation blocks within a rolling window — is a priority to enable faster
+kill decisions without requiring manual operator observation. When available,
+this should be integrated as a Phase 2/3 watcher extension (see §6.4
+"Known Phase 1 limitations") and the failure-matrix 'agent infinite loop'
+row.
+
 ---
 
 ## 8. Signing Key Discipline
@@ -782,6 +835,7 @@ Before trusting such work:
 | Ending orchestrator turns silently while agents run | Silent turns are indistinguishable from dead sessions | End every turn with a brief Agent Status note (§6.6) |
 | Skipping `crosslink kickoff cleanup` between waves | Orphaned STALE agents and locks accumulate | Assess STALE with `--dry-run --force`, preserve work, then remove (§6.6) |
 | Leaving decision-gating build artifacts only in `/tmp` | 2026-08-08: verified fork binary (sha 6e0e282b) + safeIterable source wiped by disk cleanup; recovered only from the opencode session DB (#271) | Commit decision-gating artifacts before session end (§5.9); `/tmp` is scratch, never the home |
+| Letting a looping agent run to timeout | 2026-08-18: multiple agents burned a full 5-hour budget window via pathological repetition loops (identical deliberation/command cycling, zero output, zero checkpoints); operator directive: "Infinite loops need to be killed as soon as they're identified" | Kill immediately on detection — `crosslink kickoff stop <agent-id>` (§7.2); do not wait for timeout |
 
 ---
 
@@ -807,6 +861,10 @@ crosslink swarm launch
 # Status and monitoring
 crosslink kickoff status <agent-id>
 crosslink swarm status
+
+# Kill a looping agent (§7.2) — do NOT wait for timeout
+crosslink kickoff stop <agent-id>           # graceful SIGTERM
+crosslink kickoff stop <agent-id> --force   # SIGKILL if SIGTERM ignored
 
 # Cleanup after crashes
 crosslink kickoff cleanup --force
