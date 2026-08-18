@@ -1,6 +1,6 @@
 {
   "next_display_id": 407,
-  "next_comment_id": 1950,
+  "next_comment_id": 1951,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -16235,13 +16235,24 @@
       "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
       "created_by": "OL2r",
       "created_at": "2026-08-10T18:39:06.019163440Z",
-      "updated_at": "2026-08-10T18:39:43.868333955Z",
+      "updated_at": "2026-08-18T08:07:38.870068115Z",
       "labels": [
         "reliability"
       ],
       "related": [
         "c802cb20-c441-425b-82f9-3d76e8f314dd"
-      ]
+      ],
+      "comments": {
+        "0a8ffeb5-8fb0-4c08-8334-2d6cd8415ece": {
+          "display_id": 1950,
+          "author": "pp3g-sQsC-recovery-issue-406-five-mimo-auditor-agents-completed",
+          "content": "## 5-Instance Confirmation of Auditor Verdict-Loss Failure Class (2026-08-18)\n\nToday's five mimo auditor agents (pp3g-hngZ, pp3g-HdGN, pp3g-pCVo, pp3g-Jo2n, pp3g-zpjP) all hit the same finalization barrier. The auditor role's sandbox blocks:\n1. **** — cannot write the DONE marker\n2. **** — cannot manage session lifecycle\n3. **Result comment posting** — in some cases, the agent couldn't post its  comment\n\n### Instance Summary\n\n| Agent | Issue | Audit Target | Verdict | Finalization |\n|-------|-------|-------------|---------|-------------|\n| pp3g-hngZ | #394 | Hook research #388/#389 | CONDITIONAL PASS (4 preconditions) | Could not write DONE; result comment recovered by orchestrator |\n| pp3g-HdGN | #402 | Failure matrix | CONDITIONAL PASS (6 preconditions) | Could not write DONE; result comment was posted via crosslink |\n| pp3g-pCVo | #403 | Playbook §7.2 | CONDITIONAL PASS (2 preconditions) | Could not write DONE; result comment was posted via crosslink |\n| pp3g-Jo2n | #404 | Hook inventory #391 | CONDITIONAL PASS (reconstructed) | Could NOT post result comment — verdict lost, reconstructed from tmux pane by orchestrator |\n| pp3g-zpjP | #405 | Model-discipline standing facts | CONDITIONAL PASS (all OK, 1 systemic note) | Could not write DONE; result comment was posted via crosslink |\n\n### Failure Pattern\n\n- **4 of 5** agents posted their verdicts via  (the one allowed bash command) but could not write  DONE\n- **1 of 5** (pp3g-Jo2n) could not even start a session or post comments — the sandbox blocked Session #1 is already active (started 2026-08-18 08:02) AND  for this agent\n- The pp3g-Jo2n verdict had to be **reconstructed from the tmux pane** by the recovery agent (#406)\n\n### Occurrence Count\n\nThis is the **3rd+ occurrence** of this failure class:\n- **1st**: #355 original (2026-08-10, 2 instances: pp3g-TOx4 on #344, pp3g-mdQf on #350)\n- **2nd**: #398 (2026-08-18, 4 instances: #391, #392, #393, #397)\n- **3rd**: #406 (2026-08-18, 5 instances: #394, #402, #403, #404, #405)\n\n**Total confirmed instances: 11 auditors across 3 batches affected by the same root cause.**\n\n### Root Cause (confirmed by #398)\n\nThe auditor role's permission surface (orchestrator-guard plugin + crosslink-guard bash allowlist) blocks:\n- File writes (, , )\n- Session lifecycle commands ()\n- In some configurations, even  (pp3g-Jo2n's case)\n\nThis is the mechanical root cause: the read-only role design correctly prevents code modification but inadvertently prevents the finalization step that makes the audit consumable.\n\n### Related\n- #398 (finalization gap investigation — confirmed mechanical root cause)\n- #357 (auditor tool-surface gaps — the permission surface that causes this)\n- #330 (checkpointing-as-durability)",
+          "created_at": "2026-08-18T08:07:38.862156916Z",
+          "kind": "observation",
+          "signed_by": "SHA256:FOc8iHLYN/NSoSugkswPiYPxvLKGX055ikWItGno4sw",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgpv9fo06Wf83NELk3AP/D/5T97brh1vD8eFCXUaPZ168AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAz+ixyO5qn5WeUd2jQb1jREngQA2b1btihS4crqvACGb3KzpVLmw20bpNN2mJwduTfIhlW83piJV800OdXgebAg=="
+        }
+      }
     },
     "a59484b8-0d4e-4579-ae32-979c9b7d098e": {
       "uuid": "a59484b8-0d4e-4579-ae32-979c9b7d098e",
@@ -24851,8 +24862,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T08:06:17.201595435Z",
+    "timestamp": "2026-08-18T08:07:38.870068115Z",
     "agent_id": "pp3g-sQsC-recovery-issue-406-five-mimo-auditor-agents-completed",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
