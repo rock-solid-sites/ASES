@@ -15,6 +15,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **D5 Convention (issue #341):** standing convention — metadata field is `program` (not `programme`), date field is `last_updated` (not `last_update`), and authored documentation uses American spelling. Applied repo-wide to committed docs.
 
 ### Changed
+- RECOVER: capture the 5 completed auditor verdicts (#394/#402/#403/#404/#405) onto their issues from the agent panes; append today's 5-instance confirmation to #355 (auditor verdict-loss class); cross-link #357/#398 for the permission fix (#406)
+- INVENTORY: catalog all saved sessions + handoff docs across ASES/tripn-astro/Tools/other repos worth mining for model-capability and failure-mode data (feeds epic #396) — session handoffs, opencode DB transcripts, historical docs (#408)
+- DATA: fill failure-matrix updates from today's session (2026-08-18) — add session evidence rows to docs/research/registry/Failure-Matrix.md (infinite loops, timeout recurrence, auditor finalization gap, model-catalog staleness, free-model stalls, disk-pressure crashes) (#407)
+- AUDIT (mimo): verify the hook-inventory deliverable (#391) — the hookability classifications per playbook section, mechanism assignments, 'already hook-enforced' claims, and priority ranking (#404)
 - FIX: auditor/reviewer git-verification gap — rtk wrapper double-prefixes git commands, blocking git-level verification for read-only roles (finding from #351 filing audit) (#356)
 - File to-file/ staging backlog: classify + move 16 documents (3 untracked EDASES topic docs, crosslink-gates cluster x5, failure-analysis cluster x4, reviews x3, regression-testing) to canonical homes with Documentation-Standard frontmatter + reference sweep (#351)
 - PLAN: reconcile to-file/project-update canonical set + re-attribute tool-capability artifacts to the ASES methodology layer (needs hy3 sanity pass first) (#341)
