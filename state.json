@@ -1,6 +1,6 @@
 {
   "next_display_id": 390,
-  "next_comment_id": 1875,
+  "next_comment_id": 1876,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -4622,10 +4622,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-18T02:17:49.473052427Z",
-      "updated_at": "2026-08-18T02:18:01.074978692Z",
+      "updated_at": "2026-08-18T02:19:28.632775020Z",
       "labels": [
         "feature"
-      ]
+      ],
+      "comments": {
+        "3152ba36-d613-4dea-a643-8041f522a126": {
+          "display_id": 1875,
+          "author": "pp3g-2Gfr-research-read-only-investigate-opencode-s-plugin-hook",
+          "content": "Plan: Pure read-only research. (1) Enumerate OpenCode plugin hook events + payloads from the installed opencode source (opencode/models + any TS type defs on disk), cross-referenced with official docs; (2) read .opencode/plugins/{crosslink-guard,orchestrator-guard,rtk-guard}.ts and .opencode/design/rtk-guard-*.md to capture the working plugin API patterns (tool.execute.before blocking, config gating, block messages); (3) trace how crosslink kickoff run / swarm launch / hook-config.json edits surface as tool calls (Bash tool input parsing) to determine whether tool.execute.before can fire specifically before those actions, and what injection channels exist (output, config mutate, model context); (4) produce concrete recommendation: exact hook event, file(s) to modify (new plugin or existing guard), limitations (knowledge-page injection feasibility, tool-input parsing fragility), and any gating caveats. Deliverable: single --kind result comment with exact hook names, payload shapes, and recommendation. No file modifications.",
+          "created_at": "2026-08-18T02:19:28.624744759Z",
+          "kind": "plan",
+          "signed_by": "SHA256:NoFKIm/eAclBeXJFToi3i1IZsGu87l9De+yIxG4gDW4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgScvMpgXnyqKazUcdfM0VWpw7fpKUNzHbKifwDi5Dr/wAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAwR+oAiE24MsnGiFjQRn2oZh+ZblZdD0Ec6kM1vrd7IVdJe93j4Zv5t1iW1TqdqqwAeUtI4ycvKt0jR2FiSOiDQ=="
+        }
+      }
     },
     "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79": {
       "uuid": "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79",
@@ -23876,8 +23887,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T02:19:07.747383606Z",
+    "timestamp": "2026-08-18T02:19:28.632775020Z",
     "agent_id": "pp3g-2Gfr-research-read-only-investigate-opencode-s-plugin-hook",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
