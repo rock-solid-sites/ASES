@@ -28,7 +28,7 @@ last_reviewed: 2026-08-18
 # Failure Matrix
 
 **Date:** 2026-08-18
-**Source:** Recurring workflow failures observed across EDASES orchestration sessions, including HMS research session post-mortem (#519), #506 regression-stall report, #522 doc-navigation probe, multiple agent timeouts, and historical Claude Code project documentation.
+**Source:** Recurring workflow failures observed across EDASES orchestration sessions, including HMS research session post-mortem (#519), #506 regression-stall report, #522 doc-navigation probe, multiple agent timeouts, and historical Claude Code project documentation. Updated 2026-08-18 with evidence from today's session: pre-positioned auditor loops (#506 regression agents, pp3g-tU4X), 10+ agent timeouts across models, finalization gaps (#398/#355), model-catalog staleness (Tools #4), free-model stall patterns, and disk-pressure crashes.
 **Convention:** Rows are recurring failure classes. Columns describe the required semantic that would prevent or detect each failure, evidence quality, and hookability.
 
 ---
@@ -75,8 +75,8 @@ Confidence levels reflect the quantity and quality of supporting evidence:
 
 | Failure Class | Required Semantic | Evidence | Confidence | Hookable? |
 |---------------|-------------------|----------|------------|-----------|
-| **Agent infinite loop** — agent repeats the same action indefinitely without progress | **Liveness observation + escalation** — external watchdog detects lack of state change and escalates (kill, operator alert) | HMS post-mortem §9: pathological monitoring loops; orchestrator repeatedly issued same check command against same agent pane in tight succession without advancing work (#519); playbook §5.3 documents "no new commit for >2x budget = likely stalled" | High | Yes — watchdog timer on session activity; escalation hook on repeated identical tool calls |
-| **Agent exceeds expected duration** — agent runs longer than task-matched timeout | **Deadline/attention state** — agent maintains explicit deadline awareness; external monitor enforces timeout | HMS post-mortem: orchestrator failed to bound monitoring cadence; playbook §5.3 documents task-matched timeouts (trivial <=10m, doc 15-20m, review 15-20m, port 30m, complex 45m+) | Well Established | Yes — timeout enforcement in crosslink-guard; agent deadline injection via kickoff template |
+| **Agent infinite loop** — agent repeats the same action indefinitely without progress | **Liveness observation + escalation** — external watchdog detects lack of state change and escalates (kill, operator alert) | HMS post-mortem §9: pathological monitoring loops; orchestrator repeatedly issued same check command against same agent pane in tight succession without advancing work (#519); playbook §5.3 documents "no new commit for >2x budget = likely stalled"; 2026-08-18: pre-positioned auditor (pp3g-tU4X) looped on 'rtk git status --short' (denied, repeated, zero progress); #506 regression agents looped; HMS post-mortem documented loops — multiple independent recurrences confirm pattern | Well Established | Yes — watchdog timer on session activity; escalation hook on repeated identical tool calls |
+| **Agent exceeds expected duration** — agent runs longer than task-matched timeout | **Deadline/attention state** — agent maintains explicit deadline awareness; external monitor enforces timeout | HMS post-mortem: orchestrator failed to bound monitoring cadence; playbook §5.3 documents task-matched timeouts (trivial <=10m, doc 15-20m, review 15-20m, port 30m, complex 45m+); 2026-08-18: ~10+ agents timed out across models (big-pickle, deepseek-flash-free, laguna all timed out; only paid Mimo-v2.5 consistently completed) — consistent pattern across sessions | Well Established | Yes — timeout enforcement in crosslink-guard; agent deadline injection via kickoff template |
 | **Agent legitimately exceeds duration** — task genuinely requires more time than estimated | **No automatic termination** — system distinguishes legitimate work from stalls; allows human override | Playbook §5.3: "A shorter timeout bounds blind waiting; exceeding it is actionable" — but legitimate work should be re-scoped, not killed; playbook documents "if timeout exceeded = likely stalled" but acknowledges legitimate work exists | Moderate | Partial — requires human judgment to distinguish stall from legitimate work; hook can alert but not auto-terminate |
 | **Worker dies** — agent process crashes or is killed externally | **Worker-loss detection** — system detects process death and reports to orchestrator | Handoff-failure-analysis.md: agent session degraded into generation loop; playbook §5.3 documents "timeout exceeded = likely stalled" — process death is a subclass of stall | High | Yes — process monitoring via systemd/tmux; crosslink session status detection |
 | **Relaunch claimed but didn't happen** — orchestrator believes agent was relaunched but launch failed | **Authoritative worker lifecycle** — single source of truth for worker state; launch verification required | HMS post-mortem §4: orchestrator dispatched unrequested builder to change config; playbook §4 pre-flight checklist requires "crosslink issue exists and is claimed" before dispatch | Moderate | Yes — launch verification in crosslink-guard; pre-flight checklist enforcement |
@@ -88,6 +88,10 @@ Confidence levels reflect the quantity and quality of supporting evidence:
 | **Worktree disappears** — isolated work environment vanishes | **Environment reconstruction** — worktree state persisted; can be reconstructed from durable state | Not directly observed; worktree isolation is architectural assumption in kickoff/swarm design | Preliminary | No — worktrees are filesystem-based; reconstruction requires manual intervention |
 | **Multiple workers collide** — agents attempt to modify same resources simultaneously | **Reservation/ownership** — resource locking prevents concurrent modification | Playbook §5.6: reviewer independence via isolated sub-issues; contamination incident documented where second reviewer read first reviewer's verdict | Moderate | Yes — crosslink lock system; issue-level resource ownership; worktree isolation |
 | **Orchestrator loses context** — orchestrator session loses understanding of project state | **Queryable execution history** — all decisions and state changes are recorded and queryable | HMS post-mortem §3: orchestrator theorized from source code instead of reading documentation; playbook §5.7: "the orchestrator's context is the scarcest resource in the stack" | High | Partial — crosslink issue comments provide history; but context window limits are inherent to LLM architecture |
+| **Agent completes work but fails to finalize** — agent performs the substantive work but cannot post result comments, write .kickoff-status, or complete handoff procedures | **Finalization permission/verification** — system verifies that post-work artifacts (result comments, status files) are written; escalation on finalization failure | 2026-08-18: all 5 auditor agents completed analysis but failed to finalize — auditor role blocks echo/file-write tools; tracked as #398 + #355; agents finish substantive work but cannot close the loop due to permission model gaps | Moderate | Partial — hook can verify finalization artifacts exist; but role-permission gaps require architectural fix |
+| **Model catalog stale / whitelist blocks new models** — local model catalog (models.dev cache) lags the live API; whitelist in plugin.ts/dynamic-models.ts blocks newly-added free models | **Authoritative model catalog + whitelist sync** — plugin whitelist must sync with live model registry; stale cache must be detected and refreshed | 2026-08-18: local 'opencode models' cache showed 5 models vs Zen API's 62; whitelist in plugin.ts/dynamic-models.ts blocked hy3-free and muse-spark-1.2; tracked as Tools #4 | Moderate | Yes — cache invalidation on model list fetch; dynamic whitelist update from live catalog |
+| **Free-model stall pattern** — free-tier Zen models (big-pickle, deepseek-flash-free, laguna) repeatedly stall or time out on substantial tasks while paid models (Mimo-v2.5) complete consistently | **Model-routing awareness** — system must factor model tier/capability into dispatch decisions; free-model failures should trigger routing adjustment | 2026-08-18: big-pickle, deepseek-flash-free, laguna all timed out on substantial tasks; only paid Mimo-v2.5 consistently completed; free Zen models are rate-limited with opaque limits; evidence supports tier-aware routing decisions | Moderate | Partial — routing matrix already exists but not enforced; hook could auto-downgrade on stall pattern |
+| **Disk-pressure environmental crashes** — disk saturation (100% usage) causes agent crashes, stalls, and degraded system behavior | **Resource monitoring + preemptive cleanup** — system monitors disk pressure and triggers cleanup before saturation; agents detect and report resource constraints | 2026-08-18: disk hit 100% causing agent crashes/stalls; cleanup (cargo clean + repo removal) freed ~15G; environmental failure contributor — not a workflow logic bug but an infrastructure constraint | Single observation | Partial — disk monitoring can alert; but cleanup is manual and project-specific |
 
 ---
 
@@ -102,6 +106,8 @@ Confidence levels reflect the quantity and quality of supporting evidence:
 3. **#522 Doc-Navigation Probe** — agent failed to navigate documentation correctly. Key failure classes: agent makes partial progress, orchestrator loses context.
 
 4. **Multiple Agent Timeouts** — agents exceeding task-matched timeouts across sessions. Key failure classes: agent exceeds expected duration, agent infinite loop.
+
+5. **2026-08-18 Session (issue #407)** — comprehensive failure observation session. Pre-positioned auditor (pp3g-tU4X) looped on denied 'rtk git status --short'; #506 regression agents looped; ~10+ agents timed out across models (big-pickle, deepseek-flash-free, laguna); only paid Mimo-v2.5 consistently completed; all 5 auditor agents hit finalization gap (#398/#355); model catalog staleness blocked new free models (Tools #4); disk hit 100% causing crashes. Key failure classes: agent infinite loop, agent exceeds expected duration, agent completes work but fails to finalize, model catalog stale, free-model stall pattern, disk-pressure crashes.
 
 ### Secondary Evidence (Historical)
 
@@ -130,14 +136,18 @@ Based on confidence level and hookability, prioritized for implementation:
 6. **Agent repeats work after retry** — git-based idempotency checks; crosslink issue state tracking
 7. **Relaunch claimed but didn't happen** — launch verification in crosslink-guard; pre-flight checklist enforcement
 8. **Engine restarts** — durable state via crosslink hub; checkpoint contract
+9. **Model catalog stale / whitelist blocks new models** — cache invalidation on model list fetch; dynamic whitelist update from live catalog
+10. **Agent completes work but fails to finalize** — hook can verify finalization artifacts exist; but role-permission gaps require architectural fix
+11. **Free-model stall pattern** — routing matrix already exists but not enforced; hook could auto-downgrade on stall pattern
 
-### Lower Priority (Emerging/Preliminary Confidence)
+### Lower Priority (Emerging/Preliminary/Single-Observation Confidence)
 
-9. **Queue item disappears** — crosslink issue tracking provides some durability
-10. **Timer disappears** — crosslink checkpoint contract provides some durability
-11. **Agent legitimately exceeds duration** — requires human judgment
-12. **Worktree disappears** — requires manual intervention
-13. **Orchestrator loses context** — inherent LLM limitation; partial mitigation via history
+12. **Queue item disappears** — crosslink issue tracking provides some durability
+13. **Timer disappears** — crosslink checkpoint contract provides some durability
+14. **Agent legitimately exceeds duration** — requires human judgment
+15. **Worktree disappears** — requires manual intervention
+16. **Orchestrator loses context** — inherent LLM limitation; partial mitigation via history
+17. **Disk-pressure environmental crashes** — disk monitoring can alert; but cleanup is manual and project-specific
 
 ---
 
