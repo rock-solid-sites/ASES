@@ -1,6 +1,6 @@
 {
   "next_display_id": 390,
-  "next_comment_id": 1873,
+  "next_comment_id": 1874,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -10406,10 +10406,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-18T02:17:13.164236289Z",
-      "updated_at": "2026-08-18T02:17:20.814625762Z",
+      "updated_at": "2026-08-18T02:18:43.589163176Z",
       "labels": [
         "feature"
-      ]
+      ],
+      "comments": {
+        "06d0f842-164a-4545-81cf-21267ac760ff": {
+          "display_id": 1873,
+          "author": "pp3g-Mjzt-research-read-only-investigate-crosslink-s-hook-d493",
+          "content": "Plan: Pure research task. (1) Read the crosslink hook configuration surface: .crosslink/hook-config.json, .claude/hooks/ (work-check.py PreToolUse hook), crosslink-guard.ts native plugin, .crosslink/rules/, and crosslink CLI docs/skills (crosslink-guide skill, .crosslink/knowledge/crosslink-fork.md). (2) Enumerate supported hook events and their payloads from the hook implementation source (work-check.py reads stdin JSON; crosslink-guard.ts plugin; any plugin API docs in .opencode/design/). (3) Trace whether hooks fire on crosslink kickoff run / swarm launch / hook-config.json edits (git hooks vs. opencode plugin hooks vs. crosslink-internal hooks). (4) Produce a concrete recommendation with exact file paths for a documentation-check-before-consequential-action hook, plus limitations. Report as a --kind result comment on #388. No file modifications.",
+          "created_at": "2026-08-18T02:18:43.580875411Z",
+          "kind": "plan",
+          "signed_by": "SHA256:hflk01ZRT+wUSRzfNYVgtQG/oRVwxUxSLdN5MTMzFpA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbDwDwTqKkik2f8/Ypq4MtksQwV91gDZAwxRXXu0bGpsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA71hP79NjZsY7UoRIFS/lOt069t9lceDg0vXttK8rHBmswIBiVUX6y2JoMVLBwRhEkRcyrmjLb4nrmYFU+PhHDQ=="
+        }
+      }
     },
     "6c762cf3-0100-46bc-8d42-dfa892898ab2": {
       "uuid": "6c762cf3-0100-46bc-8d42-dfa892898ab2",
@@ -23852,8 +23863,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T02:18:22.682821776Z",
+    "timestamp": "2026-08-18T02:18:43.589163176Z",
     "agent_id": "pp3g-Mjzt-research-read-only-investigate-crosslink-s-hook-d493",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
