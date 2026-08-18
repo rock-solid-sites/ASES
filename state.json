@@ -1,6 +1,6 @@
 {
   "next_display_id": 407,
-  "next_comment_id": 1963,
+  "next_comment_id": 1964,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -21615,7 +21615,7 @@
       "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
       "created_by": "OL2r",
       "created_at": "2026-08-14T07:37:05.412777656Z",
-      "updated_at": "2026-08-18T08:10:20.290055956Z",
+      "updated_at": "2026-08-18T14:38:30.170551636Z",
       "labels": [
         "infrastructure"
       ],
@@ -21650,6 +21650,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOSA3oQHaE0PB9Z00lpMRtK7aPlncPXNKulcb53pf8k4sE2GayYpgtZ/+F6qheYFn/K0cUYWTjfF+1wUPPzlCAA=="
+        },
+        "eb38b9f6-6bfc-4b29-b79d-c59af42db2df": {
+          "display_id": 1963,
+          "author": "pp3g-ftHS-post-comments-issue-406-follow-up-post-three-systemic",
+          "content": "## 2026-08-18 Cross-Reference: Auditor Tool-Surface Gaps — Finalization Mechanics and Verdict-Loss Class\n\n**The `.kickoff-status` write gap is part of the auditor tool-surface problem documented in this issue.**\n\n**Cross-references:**\n- **#398** (finalization mechanics) — confirms the mechanical root cause: the auditor role's permission surface blocks finalization via two specific gaps: (1) no file-write permission (cannot echo DONE to `.kickoff-status`), and (2) result-comment posting is fragile for the role.\n- **#355** (verdict-loss class) — documents the observable failure pattern: all five Mimo auditors (#394, #402, #403, #404, #405) completed audits in-session but could not finalize. This is the 3rd+ occurrence of this failure class (prior: 2026-08-10). Common signature: early findings durable, final verdict at risk.\n\n**The three issues form a complete picture of the auditor finalization problem:**\n1. **#357** — design-level tool-surface gaps (what the auditor role lacks)\n2. **#398** — mechanical root cause (how the gaps manifest as blocked finalization)\n3. **#355** — failure-class tracking (how often and with what signature the problem recurs)",
+          "created_at": "2026-08-18T14:38:30.164377667Z",
+          "kind": "observation",
+          "signed_by": "SHA256:hZcsX8I75EhVgJ/K5o24OUSrJFT5ibe2Nhm2YrEbrJA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgcs8/qYoXgHg0wN4983sxWY3VFeMJSUTQ8uEPOZUyTnQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAld7MRLEhlBjDaWjwDhhmUGyLMleqJwnB/ne1P5pcDUDnZ/Ia1/50bKHtGd+kuOq+c5i5uyUcogQDyCPoW2uAA=="
         }
       }
     },
@@ -24972,8 +24981,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T14:38:09.988599605Z",
+    "timestamp": "2026-08-18T14:38:30.170551636Z",
     "agent_id": "pp3g-ftHS-post-comments-issue-406-follow-up-post-three-systemic",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
