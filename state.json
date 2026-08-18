@@ -1,6 +1,6 @@
 {
   "next_display_id": 407,
-  "next_comment_id": 1953,
+  "next_comment_id": 1954,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -21593,7 +21593,7 @@
       "parent_uuid": "8d4d5b12-2ea3-452b-8708-5a5bf89714c0",
       "created_by": "OL2r",
       "created_at": "2026-08-14T07:37:05.412777656Z",
-      "updated_at": "2026-08-14T07:48:43.729867344Z",
+      "updated_at": "2026-08-18T08:10:20.290055956Z",
       "labels": [
         "infrastructure"
       ],
@@ -21602,6 +21602,15 @@
         "af271565-c0d9-47bf-8888-339979ae59ee"
       ],
       "comments": {
+        "54940c38-1e94-4025-af5e-fa62368591a7": {
+          "display_id": 1953,
+          "author": "pp3g-sQsC-recovery-issue-406-five-mimo-auditor-agents-completed",
+          "content": "## Cross-Reference: Finalization Gap Confirmed (2026-08-18)\n\nThis issue (#357) documents the auditor tool-surface gaps that cause the finalization failure class. Today's 5-instance batch (#406) confirms the mechanical link:\n\n- **#398** (finalization gap investigation) confirms the root cause: the auditor permission surface blocks .kickoff-status writes and session lifecycle commands\n- **#355** (original failure class) documents 11 total instances across 3 batches (2026-08-10, 2026-08-18 x2)\n- **#406** (recovery) captured 5 auditor verdicts from tmux panes, proving the verdicts exist but cannot be posted by the agents themselves\n\nThe fix direction from #357's 2026-08-14 amendment is directly relevant: the auditor needs read-only query tools (git diff, crosslink issue comment) but NOT general-purpose runtimes. The finalization gap is a special case: the auditor needs a LIMITED write surface for .kickoff-status and crosslink issue comment, which are not code-execution surfaces.\n\n### Recommended Action\n\nExtend #357's fix shape to include:\n- Allow crosslink issue comment in the auditor bash allowlist (already partially working — 4 of 5 agents could post)\n- Allow echo to .kickoff-status as a limited write (or add a dedicated crosslink session complete signal)\n- This is NOT a general-purpose runtime grant — it is a specific finalization signal\n\n### Related\n- #355 (original failure class — 11 instances)\n- #398 (finalization gap investigation — confirmed root cause)\n- #406 (recovery agent — captured 5 verdicts)",
+          "created_at": "2026-08-18T08:10:20.283604498Z",
+          "kind": "observation",
+          "signed_by": "SHA256:FOc8iHLYN/NSoSugkswPiYPxvLKGX055ikWItGno4sw",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgpv9fo06Wf83NELk3AP/D/5T97brh1vD8eFCXUaPZ168AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5+TOA5k4Ul6AOcPL3p9GlWiBcyk1Z+HMSC8XmyieiBKrjIxRc5RdvHIF+Ncxuk+ASIaES6yQkVzmt6OPkhi2DA=="
+        },
         "7c26b377-6f5d-4971-9e22-67110c5d621d": {
           "display_id": 1640,
           "author": "OL2r",
@@ -24878,8 +24887,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T08:09:48.818436128Z",
+    "timestamp": "2026-08-18T08:10:20.290055956Z",
     "agent_id": "pp3g-sQsC-recovery-issue-406-five-mimo-auditor-agents-completed",
-    "agent_seq": 10
+    "agent_seq": 11
   }
 }
