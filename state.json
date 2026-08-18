@@ -1,6 +1,6 @@
 {
   "next_display_id": 407,
-  "next_comment_id": 1962,
+  "next_comment_id": 1963,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -10778,11 +10778,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-18T05:56:31.253610152Z",
-      "updated_at": "2026-08-18T08:09:48.818436128Z",
+      "updated_at": "2026-08-18T14:38:09.988599605Z",
       "labels": [
         "process,investigate"
       ],
       "comments": {
+        "1e9e1d8b-cbf6-4914-ab1d-2d3c2660c4d2": {
+          "display_id": 1962,
+          "author": "pp3g-ftHS-post-comments-issue-406-follow-up-post-three-systemic",
+          "content": "## 2026-08-18 Confirmation: Mechanical Root Cause of Finalization Gap\n\n**The auditor role's permission surface blocks finalization.** This is the mechanical root cause of the finalization gap.\n\n**Two specific gaps:**\n1. **No file-write permission** — the auditor role cannot write to `.kickoff-status` (echo is not in `allowed_bash_prefixes`), so it cannot signal completion via the standard mechanism.\n2. **Result-comment posting is fragile** — even when an auditor attempts to post a final result, the role's tool surface makes this unreliable (see #357 for full tool-surface analysis).\n\n**This was confirmed across all five Mimo auditors in the 2026-08-18 run** (#394, #402, #403, #404, #405): all completed their audit work in-session but could not finalize properly. 4/5 eventually posted verdicts before timeout; #404 timed out mid-verification. This is the 3rd+ occurrence of the verdict-loss class (see #355 for the full history and failure-class documentation).\n\n**Cross-references:**\n- **#355** — verdict-loss class (the observable failure pattern)\n- **#357** — auditor tool-surface gaps (the design-level gap that causes the permission problem)\n\nThe fix requires addressing the auditor role's permission surface — either granting the necessary write permissions or providing an alternative finalization path that works within the existing permission constraints.",
+          "created_at": "2026-08-18T14:38:09.981333146Z",
+          "kind": "observation",
+          "signed_by": "SHA256:hZcsX8I75EhVgJ/K5o24OUSrJFT5ibe2Nhm2YrEbrJA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgcs8/qYoXgHg0wN4983sxWY3VFeMJSUTQ8uEPOZUyTnQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdEqCbzNpNMVS+bFQz8f0Mh5rdPoGd1DVKclDK1/UgGhcZz/Dia7iRx7vsv95Cc2tQD3Xp0lPFG5CU7/YksAsDg=="
+        },
         "e822aeff-4f19-4f52-9560-5ed5183bf4a7": {
           "display_id": 1952,
           "author": "pp3g-sQsC-recovery-issue-406-five-mimo-auditor-agents-completed",
@@ -24963,8 +24972,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T14:37:48.535029103Z",
+    "timestamp": "2026-08-18T14:38:09.988599605Z",
     "agent_id": "pp3g-ftHS-post-comments-issue-406-follow-up-post-three-systemic",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
