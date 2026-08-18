@@ -1,6 +1,6 @@
 {
   "next_display_id": 410,
-  "next_comment_id": 1975,
+  "next_comment_id": 1976,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -7120,11 +7120,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-18T06:47:33.891816328Z",
-      "updated_at": "2026-08-18T15:37:59.549461458Z",
+      "updated_at": "2026-08-18T16:24:14.353340987Z",
       "labels": [
         "audit"
       ],
       "comments": {
+        "041444ee-7cd6-4550-a933-b4738bb436ec": {
+          "display_id": 1975,
+          "author": "OL2r",
+          "content": "## AUDIT VERDICT: CONDITIONAL PASS (reconstructed from agent pane pp3g-gUUV — agent believed it posted but comment did not land; finalization gap #398)\n\n**Agent:** pp3g-gUUV (mimo-v2.5)\n**Scope:** Third independent verification of the hook-inventory deliverable (#391) — verified all 9 infrastructure files (3 OpenCode plugins, 2 Claude Code hooks, hook-config.json, opencode.json, permissions.md, kickoff-notify.py) and grep-verified playbook sections.\n\n### 10 Findings\n- **FINDING 1** (LOW): Script count '5' conflates OpenCode plugins with Claude Code hooks — should distinguish the two categories.\n- **FINDING 2** (MEDIUM): crosslink-guard.ts is NOT a co-enforcer for orchestrator write blocking — orchestrator-guard.ts is the SOLE enforcer. Inventory's section 1.1 attribution is wrong.\n- **FINDING 3** (MEDIUM): Permission-model enforcement conflated with hook enforcement in the inventory's 'ALREADY ENFORCED' claims.\n- **FINDING 4-6** (CONFIRMED): Orchestrator merge gated (hook-config.json by_type), lifecycle watcher exists (kickoff-notify.py), HIGH-PRIORITY gaps (--model enforcement, timeout validation, empty review, session end --notes) all verified as genuinely NOT enforced — confirmed hookable gaps.\n- **FINDING 7** (MEDIUM): '~15 rules ALREADY hook-enforced' overstates — actual count is ~12 (10 rules with direct hook/plugin enforcement + 2 infrastructure hooks: heartbeats, lifecycle watcher). Severity: MEDIUM — inflates the hook-enforcement surface.\n- **FINDING 8** (CONFIRMED): Hookability classifications for NOT-hookable rules are semantically sound (spot-checked 1.2, 2.1-2.3, 5.5, 7.1-7.4).\n- **FINDING 9** (CONFIRMED): Mechanism legend (a-e) accurate.\n- **FINDING 10** (CONFIRMED): Priority ranking sound — HIGH-PRIORITY gap items correctly prioritized by failure frequency and implementation cost.\n\n### WHAT-NOT-TESTED\n1. Complete playbook section-by-section audit (825-line playbook; spot-checked verifiable claims only)\n2. Runtime behavior — plugins not fired in a live OpenCode session\n3. crosslink CLI fork hookpoints (mechanism c) — not verified whether the CLI actually exposes them\n\n### VERDICT: CONDITIONAL PASS\nCore claims substantively correct: existing hook infrastructure accurately described (caveats FINDING 2/3 on attribution), HIGH-PRIORITY gaps correctly identified and verified as not enforced, hookability classifications sound, priority ranking reasonable.\n\n**Conditions for full PASS:**\n1. Correct the '5 scripts' count to distinguish OpenCode plugins from Claude Code hooks (FINDING 1)\n2. Remove crosslink-guard.ts as co-enforcer for section 1.1 — orchestrator-guard.ts is sole enforcer (FINDING 2)\n3. Distinguish permission-model enforcement from hook enforcement in 'ALREADY ENFORCED' claims (FINDING 3)\n4. Revise '~15 rules ALREADY hook-enforced' to '~12 rules with hook/plugin enforcement' (FINDING 7)\n\nThese are factual corrections, not structural flaws — the inventory's value as a hookability audit is intact.",
+          "created_at": "2026-08-18T16:24:14.344200816Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2gJsZyb0SW4crZfMrjeAVBSzlvpyYzVPI9XdiXo48YzJ3M61ng8h30YK3j9P9VKvKgxmEy2jVJx5v49VUf+NBg=="
+        },
         "3d144b36-9004-4b5f-a587-d7cf29e5e69d": {
           "display_id": 1974,
           "author": "pp3g-gUUV-third-verification-issue-404-independently-verify-the",
@@ -25130,8 +25139,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T15:37:59.549461458Z",
-    "agent_id": "pp3g-gUUV-third-verification-issue-404-independently-verify-the",
-    "agent_seq": 2
+    "timestamp": "2026-08-18T16:24:14.353340987Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2044
   }
 }
