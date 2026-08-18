@@ -18,7 +18,7 @@ related_documents:
   - AI Capability Registry Specification
 
 supersedes: []
-last_updated: 2026-08-15
+last_updated: 2026-08-18
 ---
 
 # Model Feedback: opencode-go/deepseek-v4-flash
@@ -28,7 +28,7 @@ last_updated: 2026-08-15
 - Provider: opencode-go (paid; opencode/deepseek-v4-flash-free Zen free variant also exists)
 - Access Method: opencode subagent / kickoff default agent (sentinel.default_agent.model = opencode-go/deepseek-v4-flash per hook-config)
 - Configuration: default opencode-go provider config (timeout 3600000ms, headerTimeout 300000ms, chunkTimeout 300000ms per #140)
-- Session evidence: pp3g-K6yV (#138), pp3g-OZWZ (#142), Tier-1 experiment (#144), wrapSSE binary patch (#145), launch-chain fix (#173), doc updates (#140), operator routing rule (#147), zero-context plan B1-B6 (#361), zero-context plan revision C1-C4 (#365), one-shot reviews synthesis (#373)
+- Session evidence: pp3g-K6yV (#138), pp3g-OZWZ (#142), Tier-1 experiment (#144), wrapSSE binary patch (#145), launch-chain fix (#173), doc updates (#140), operator routing rule (#147), zero-context plan B1-B6 (#361), zero-context plan revision C1-C4 (#365), one-shot reviews synthesis (#373). 2026-08-18: free variant (opencode/deepseek-v4-flash-free) timed out on substantial tasks; completed bounded doc-navigation probe (#522); #506 regression agents stalled.
 
 ## Task Categories Evaluated
 - [x] Implementation (fork Rust fix #138; hook-config + plugin TS fix #173)
@@ -38,6 +38,7 @@ last_updated: 2026-08-15
 - [x] Binary/byte-level engineering (wrapSSE patch #145)
 - [x] Zero-context planning (#361 B1-B6 remediation plan, #365 C1-C4 revision)
 - [x] Large-document synthesis (#373 865-line synthesis of 7 one-shot reviews)
+- [x] Doc-navigation probe (free variant #522 — bounded read-only, SUCCESS; but timed out on substantial tasks same day)
 
 ## Assessment Dimensions
 
@@ -66,6 +67,15 @@ last_updated: 2026-08-15
 - Stall discards the deliverable: #142 was read-only research; the answer was lost with the hang (partial evidence only from pane capture) - Evidence: #142 result
 - No recovery from hung stream without external kill/relaunch - Evidence: #138/#142 (both killed by operator)
 
+## Free-Variant Behavior (opencode/deepseek-v4-flash-free)
+
+**Important:** The existing hang evidence (#138/#142) is for the **paid** variant (opencode-go/deepseek-v4-flash). The following evidence is for the **free** variant (opencode/deepseek-v4-flash-free), which is a distinct model class with different rate-limit characteristics.
+
+- 2026-08-18: free variant timed out on substantial tasks; cited in Failure-Matrix free-model stall pattern row alongside big-pickle and laguna — only paid Mimo-v2.5 consistently completed
+- 2026-08-18: #522 doc-navigation probe used a free flash agent — SUCCEEDED at finding docs when prompted (confirming docs are findable; a capability datapoint for the free variant on a bounded read-only task)
+- 2026-08-18: #506 regression agents stalled (free variant agents)
+- Pattern: free variant exhibits the same stall/timeout behavior as other free-tier models (laguna, big-pickle) on substantial multi-phase tasks, but CAN complete bounded read-only research probes successfully
+
 ## Failure Modes Observed
 - Silent provider hang (application/json body bypass): last 'stream' never returns, zero ERROR, process alive, flags lie as RUNNING; only outer timeout or operator kill recovers - Evidence: #138 (10.5h), #142 (10.9h), root cause in #144 (chunkTimeout bypassed by non-SSE content-type)
 - Killed without commit on read-only tasks: #142 delivered nothing; only pane capture preserved partial findings - Evidence: #142
@@ -84,7 +94,7 @@ last_updated: 2026-08-15
 ## Performance Characteristics
 - Response latency: Fast
 - Throughput: High (#145 full patch cycle ~1h; #138 163-insertion fix before stall)
-- Reliability: MEDIUM - 2 confirmed hangs in ~5 dispatched sessions (40%)
+- Reliability: MEDIUM (paid variant: 2 confirmed hangs in ~5 dispatched sessions, 40%; free variant: timed out on substantial tasks 2026-08-18 but completed bounded probe — tier-dependent reliability)
 - Determinism: High when working
 
 ## Tool Integration
@@ -114,11 +124,13 @@ last_updated: 2026-08-15
 - Documentation updates (#140) - evidence: mirrored to tripn-astro
 - Zero-context planning / remediation plan authoring (#361/#365) - evidence: both plans grounded on disk, revised through two review rounds
 - Large-document synthesis (#373) - evidence: 865-line synthesis, corrected reviewer count
+- Bounded read-only research probes (free variant) - evidence: #522 doc-navigation probe succeeded
 
 ## Unsuitable Tasks (evidence-backed)
 - Long-running unattended tasks with no watchdog: hangs are silent and un-recoverable without external kill (#138/#142) - evidence: 2 stalls
 - Any task where 10h+ stall is unacceptable without Tier-1/watcher protection (#146 prerequisite) - evidence: #138/#142
 - Tasks needing guaranteed delivery under short cap: #142 ran past 15-min cap and still delivered nothing - evidence: #142
+- Substantial multi-phase tasks without watchdog (free variant): free variant timed out on substantial tasks 2026-08-18; only bounded probes completed - evidence: 2026-08-18 session, Failure-Matrix free-model stall row
 
 ## Dependencies
 - Works well with: controlled repro harnesses, opencode provider timeout config (defense-in-depth), #135/#146 watcher kill/restart as recovery safety net
@@ -130,16 +142,17 @@ last_updated: 2026-08-15
 | Controlled experiment | #144 fake-server repro; #145 verification table | Replicated |
 | Project observation | #138/#142 stalls (2x) | Repeated |
 | Independent reviewer agreement | #150-#153 consensus on #145 patch (directionally correct) | Agreement |
+| Project observation (free variant) | 2026-08-18: free variant timed out on substantial tasks + #522 bounded probe success + #506 stall | Single session, mixed results |
 
 ## Confidence Assessment
 - Level: Moderate-High
-- Reviewer: evidence-gathering draft (#190); updated 2026-08-15 (session #27 evidence: #361/#365/#373)
-- Date: 2026-08-06
-- Evidence considered: #138/#142/#144/#145/#173/#140/#147/#361/#365/#373
-- Significant changes from prior assessment: First consolidated flash profile; prior model-discipline only listed flash as paid Go model without capability evidence. Session #27 added zero-context planning + large-document synthesis strengths.
+- Reviewer: evidence-gathering draft (#190); updated 2026-08-15 (session #27 evidence: #361/#365/#373), updated 2026-08-18 (free-variant behavior: #522 success, #506 stall, Failure-Matrix free-model stall row)
+- Date: 2026-08-18
+- Evidence considered: #138/#142/#144/#145/#173/#140/#147/#361/#365/#373, 2026-08-18 free-variant evidence (#522, #506, Failure-Matrix)
+- Significant changes from prior assessment: First consolidated flash profile; prior model-discipline only listed flash as paid Go model without capability evidence. Session #27 added zero-context planning + large-document synthesis strengths. 2026-08-18 adds free-variant behavioral distinction (timed out on substantial tasks, succeeded on bounded probe).
 
 ## Last Review
-- Date: 2026-08-15
-- Reviewer: session #27 update (#374)
-- Evidence considered: #138/#142/#144/#145/#173/#140/#147/#361/#365/#373 (9 sessions)
-- Significant changes: Added zero-context planning (#361/#365) and large-document synthesis (#373) strengths; confidence raised to Moderate-High.
+- Date: 2026-08-18
+- Reviewer: companion agent (#411)
+- Evidence considered: #138/#142/#144/#145/#173/#140/#147/#361/#365/#373 (9 sessions), 2026-08-18 free-variant evidence (#522, #506, Failure-Matrix free-model stall row)
+- Significant changes: Added free-variant behavior section distinguishing opencode/deepseek-v4-flash-free (stalls on substantial tasks, completes bounded probes) from paid variant (hangs); added doc-navigation probe as task category; reinforced unsuitable tasks for free-variant substantial multi-phase work.
