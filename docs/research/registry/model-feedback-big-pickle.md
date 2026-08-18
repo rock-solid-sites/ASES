@@ -18,7 +18,7 @@ related_documents:
   - AI Capability Registry Specification
 
 supersedes: []
-last_updated: 2026-08-15
+last_updated: 2026-08-18
 ---
 
 # Model Feedback: opencode/big-pickle
@@ -28,7 +28,7 @@ last_updated: 2026-08-15
 - Provider: opencode (Zen free tier)
 - Access Method: opencode subagent (reviewer role)
 - Configuration: free tier, reviewer mode, read-only
-- Session evidence: #130 (orchestrator allowlist review), #137 (watcher plan review), #149 (aborted wrapSSE review — scope drift), #178 (design review round 1), #184 (design re-review round 2), #359 (remediation round-1), #363 (remediation round-2), #366 (recheck), #371 (open-ended architecture review)
+- Session evidence: #130 (orchestrator allowlist review), #137 (watcher plan review), #149 (aborted wrapSSE review — scope drift), #178 (design review round 1), #184 (design re-review round 2), #359 (remediation round-1), #363 (remediation round-2), #366 (recheck), #371 (open-ended architecture review), pp3g-cCNd (#404 progress-check — startup stall)
 
 ## Task Categories Evaluated
 - [x] Adversarial review (allowlist #130, watcher plan #137, design #178/#184)
@@ -37,6 +37,7 @@ last_updated: 2026-08-15
 - [x] Plan remediation review rounds (#359/#363)
 - [x] Self-recheck of own prior findings (#366)
 - [x] Open-ended architectural review (#371)
+- [x] Progress-check audit (#404, pp3g-cCNd — startup stall, killed)
 
 ## Assessment Dimensions
 
@@ -69,7 +70,8 @@ last_updated: 2026-08-15
 
 ## Failure Modes Observed
 - Scope drift into forbidden/security-sensitive territory mid-review; no verdict posted; agent killed + cleaned up (#149) - Context: #145 patch review, drifted to fork sync/hydration + identity-override exploration - Evidence: #149
-- NOTE: #149 is the ONLY confirmed big-pickle failure; #130/#137/#178/#184 all succeeded.
+- Startup stall: dispatched as #404 progress-check auditor (pp3g-cCNd), never produced output — 2.2% CPU, blank pane since launch banner, no heartbeat file created, killed after 17+ minutes - Context: #404 progress-check, dispatched 15:16, killed at ~17m - Evidence: pp3g-cCNd pane observation
+- NOTE: 2 confirmed failure modes (#149 scope drift + pp3g-cCNd startup stall); #130/#137/#178/#184/#359/#363/#366/#371 all succeeded.
 
 ## Context Behavior
 - Large context: Handled #135 watcher plan + crosslink source + live system state simultaneously (#137)
@@ -85,7 +87,7 @@ last_updated: 2026-08-15
 ## Performance Characteristics
 - Response latency: ~10 min per deep review (with live verification)
 - Throughput: Moderate-High (one deep review per dispatch)
-- Reliability: High (4/5 successful)
+- Reliability: Moderate (8/10 successful across all sessions; 1 scope drift #149, 1 startup stall pp3g-cCNd)
 - Determinism: High (reproducible rigor)
 
 ## Tool Integration
@@ -96,14 +98,14 @@ last_updated: 2026-08-15
 
 ## Human Interaction
 - Clarification behavior: N/A (autonomous)
-- Instruction following: Good when tightly scoped; #149 demonstrates the need for re-scoping/kill-early discipline
+- Instruction following: Good when tightly scoped; #149 demonstrates the need for re-scoping/kill-early discipline; pp3g-cCNd shows startup stall can occur without any instruction-related trigger
 - Resistance to ambiguity: High
 - Responsiveness to critique: N/A
 - Recovery from mistakes: N/A
 
 ## Protocol Adherence
 - Negative constraint respect: PASS in 4/5 sessions; FAILED in #149 (entered security-sensitive territory)
-- Negative constraint violations: 1 (High severity, #149)
+- Negative constraint violations: 2 (High severity: #149 scope drift; pp3g-cCNd startup stall — no output, no heartbeat, killed at 17m)
 - Fallback behavior on error: N/A
 - Model substitution without consent: 0
 - Process control compliance: Excellent in successful sessions (plan/checkpoint/result discipline)
@@ -121,6 +123,7 @@ last_updated: 2026-08-15
 - Tight-scope reviews where scope-drift is dangerous: requires re-scoping mid-task or early kill (#149) - evidence: #149 aborted
 - Tasks involving access to security-sensitive internals (identity, keys, cross-repo data) - evidence: #149 territory
 - Quick triage: too thorough/slow for fast gates
+- Agent tasks where reliable completion matters — startup stall risk (dispatched 15:16, 2.2% CPU, blank pane, no heartbeat, killed at 17m) - evidence: pp3g-cCNd #404 progress-check
 
 ## Dependencies
 - Works well with: tight explicit scope + checkpoints; luna (durability) and hy3 (edge-cases) as complementary lenses; kill-early on visible drift per #149 lesson
@@ -129,18 +132,18 @@ last_updated: 2026-08-15
 | Evidence Type | Reference | Quality |
 |---|---|---|
 | Controlled experiment | #130 16-candidate classification; #137 live-system verification | Replicated |
-| Project observation | #149 scope-drift incident | Observed |
+| Project observation | #149 scope-drift incident; pp3g-cCNd startup stall (#404 progress-check) | Observed (2 patterns) |
 | Independent reviewer agreement | #137 findings -> #138 fork bug (accepted); #150/#152/#153 partial agreement on #145 | Agreement |
 
 ## Confidence Assessment
-- Level: High
-- Reviewer: evidence-gathering draft (#190); updated 2026-08-15 (session #27 evidence: #359/#363/#366/#371)
-- Date: 2026-08-06
-- Evidence considered: #130, #137, #149, #178, #184, #359, #363, #366, #371
-- Significant changes from prior assessment: First big-pickle profile; #149 scope-drift must be documented as a dispatch risk. Session #27 added independent re-verification + source-level adversarial reading (M1 catch), self-recheck, and most-concrete Option D.
+- Level: High (10 sessions, 8/10 successful; 2 failure modes confirmed)
+- Reviewer: evidence-gathering draft (#190); updated 2026-08-18 (issue #411: pp3g-cCNd startup stall evidence)
+- Date: 2026-08-18
+- Evidence considered: #130, #137, #149, #178, #184, #359, #363, #366, #371, pp3g-cCNd (#404 progress-check)
+- Significant changes from prior assessment: First big-pickle profile; #149 scope-drift must be documented as a dispatch risk. Session #27 added independent re-verification + source-level adversarial reading (M1 catch), self-recheck, and most-concrete Option D. 2026-08-18: added startup-stall failure mode (pp3g-cCNd); reliability adjusted to Moderate (8/10).
 
 ## Last Review
-- Date: 2026-08-15
-- Reviewer: session #27 update (#374)
-- Evidence considered: #130, #137, #149, #178, #184, #359, #363, #366, #371 (9 sessions, 1 aborted)
-- Significant changes: Added #359/#363/#366/#371 evidence; confidence raised to High
+- Date: 2026-08-18
+- Reviewer: issue #411 (pp3g-w8pi builder agent)
+- Evidence considered: #130, #137, #149, #178, #184, #359, #363, #366, #371, pp3g-cCNd
+- Significant changes: Added pp3g-cCNd startup-stall evidence; 2 confirmed failure modes; reliability adjusted to Moderate (8/10); Unsuitable Tasks updated with startup-stall risk
