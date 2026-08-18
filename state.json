@@ -1,6 +1,6 @@
 {
   "next_display_id": 406,
-  "next_comment_id": 1942,
+  "next_comment_id": 1943,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -21799,10 +21799,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-18T06:46:32.645169339Z",
-      "updated_at": "2026-08-18T06:46:48.605762185Z",
+      "updated_at": "2026-08-18T06:52:36.917851438Z",
       "labels": [
         "audit"
-      ]
+      ],
+      "comments": {
+        "b0ca4371-6671-4c6f-905b-f014b0855b0a": {
+          "display_id": 1942,
+          "author": "pp3g-pCVo-audit-read-only-flag-only-independently-verify-the",
+          "content": "## Audit Verdict: CONDITIONAL PASS\n\n### Architectural Assessment\n- [OK] §7.2 accurately captures the operator directive 'Infinite loops need to be killed as soon as they'\\''re identified' (line 717). The operative language 'MUST be killed as soon as it is identified. Do not wait for timeout' (lines 677-678) directly reflects the directive.\n- [OK] The 5 diagnostic signals (lines 688-700) are sensible and operationally grounded: repeated identical commands, repeated identical deliberation text, zero new commits, zero checkpoint comments, time advancing with no output change. Each is observable via concrete tools (crosslink status, git log, ps). The 'any TWO confirm' threshold (line 686) is reasonable — single signals can have innocent explanations, but concurrent signals indicate a real loop.\n- [OK] §7.2 is consistent with §7 main body (lines 648-660): §7 halts on failure and waits for operator direction; §7.2 narrows the window by killing before timeout hits. It does not contradict §7 — it is a refinement that says 'don'\\''t even let it reach timeout.'\n- [OK] §7.2 is consistent with §5.3 (lines 195-231): §5.3's two-signal stalled detection ('no new commit for >2x ~5-minute budget') is the general stall signal; §7.2 is the immediate kill for pathological loops with repeated identical output. §7.2 is a superset — it detects the specific case of active repetition, not just absence of output.\n- [OK] §7.2 is consistent with §5.4 (lines 233-249): signal #4 ('zero checkpoint comments') aligns with §5.4's checkpoint contract.\n- [OK] §7.2 is consistent with §6 (lines 508-625): the automated monitoring note (lines 719-726) correctly states §6.4 lifecycle watcher does not yet detect repetition loops, accurately references 'Phase 2/3 watcher extension' and 'Known Phase 1 limitations' (§6.4 lines 576-587).\n- [OK] The failure-matrix reference (line 725-726) is accurate: 'Agent infinite loop' row exists in docs/research/registry/Failure-Matrix.md (line 78) with High confidence and hookable semantics.\n\n### Process Assessment\n- [OK] Commit 442ee647 is a single-file change to the canonical playbook — correct scope for a documentation update per §5.5 (two-repo sync obligation noted).\n- [OK] The commit message references issue #393 with the conventional prefix 'docs:' — correct format.\n- [OK] §13 anti-pattern row (line 838) follows the existing table format with incident reference and operator directive.\n- [CONCERN] The §7.2 kill procedure introduces 'crosslink kickoff stop <agent-id> --force' (line 707) — but the '--force' flag does not appear in any other project documentation: crosslink-subagent-orchestration.md (line 113), crosslink-guide/SKILL.md (line 199), or the pre-existing Quick Reference. Either this flag exists in the CLI but is undocumented, or it doesn'\\''t exist. This is the most significant concern in the update. **Precondition: verify 'crosslink kickoff stop --help' shows the --force flag, or remove/qualify it.**\n- [CONCERN] §7.1 step 2 (line 665) says 'Let running workers FINISH — they commit and write DONE autonomously. Don'\\''t kill mid-commit.' This creates a minor reader confusion risk: a reader encountering a looping agent might reference §7.1 ('let it finish') instead of §7.2 ('kill immediately'). A cross-reference in §7.1 ('This does not apply to pathological repetition loops — see §7.2') would eliminate ambiguity. **Precondition: add a clarifying note to §7.1 step 2.**\n\n### Systemic Risks Identified\n- Risk — --force flag undocumented — Impact: operator or orchestrator may try the kill procedure and encounter an unknown flag, undermining confidence in the playbook — Recommended mitigation: verify CLI support, or add a note that --force may not be available in all crosslink versions\n- Risk — §7.1 vs §7.2 reader confusion — Impact: minor risk of misapplication in stress scenarios — Recommended mitigation: add cross-reference in §7.1 step 2\n\n### Recommendations\n1. Verify crosslink kickoff stop --force flag exists — Rationale: playbook is canonical; introducing a non-existent command flag erodes trust — Priority: HIGH (must be resolved before this update can be considered fully correct)\n2. Add cross-reference in §7.1 step 2 to §7.2 — Rationale: prevents reader confusion between 'let workers finish' and 'kill loops immediately' — Priority: LOW (minor clarity improvement)\n3. Mirror to tripn-astro per §5.5 — Rationale: playbook changes must be applied to both repos per §5.5's two-repo sync rule — Priority: MEDIUM (process obligation)",
+          "created_at": "2026-08-18T06:52:36.909589885Z",
+          "kind": "result",
+          "signed_by": "SHA256:/6qR5nFurkkCxl0tlbn1tLqxZqaadlbRhEW9QDBDzxo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJuYvs7Zj01IelkjN6EDv8/y/PynULQow/gvC3FoAGHYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOT8+JAasMwMb54REJt2PnkChV0CgW4M9B/7IDN3JsdfKv8vk+V8ufIbbAvtKewVtQfo0HXEhKiJLbViNTV5vCA=="
+        }
+      }
     },
     "e25c833c-2fd7-45eb-9f2a-19bb10c743c9": {
       "uuid": "e25c833c-2fd7-45eb-9f2a-19bb10c743c9",
@@ -24751,8 +24762,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T06:52:27.653232615Z",
-    "agent_id": "pp3g-zpjP-audit-read-only-flag-only-independently-verify-the",
-    "agent_seq": 2
+    "timestamp": "2026-08-18T06:52:36.917851438Z",
+    "agent_id": "pp3g-pCVo-audit-read-only-flag-only-independently-verify-the",
+    "agent_seq": 1
   }
 }
