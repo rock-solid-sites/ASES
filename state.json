@@ -1,5 +1,5 @@
 {
-  "next_display_id": 389,
+  "next_display_id": 390,
   "next_comment_id": 1873,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
@@ -83,6 +83,7 @@
     "312bd03b-dd8f-438a-9f26-fbfe7b483a65": 30,
     "32448817-0947-454b-8d44-be5ff27adc7c": 69,
     "32833dfd-4059-4678-9fba-a1435227303b": 21,
+    "32e370bd-e3f2-430f-ae77-28b0afca8694": 389,
     "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79": 38,
     "34039581-0656-4c92-94b6-9554f28e19c6": 116,
     "340ee84a-b4cb-4d2c-9f06-707c30eb6e5c": 99,
@@ -4603,6 +4604,17 @@
         "execution-engine-ui,rq4,kuzu,deferred",
         "research"
       ]
+    },
+    "32e370bd-e3f2-430f-ae77-28b0afca8694": {
+      "uuid": "32e370bd-e3f2-430f-ae77-28b0afca8694",
+      "display_id": 389,
+      "title": "RESEARCH (read-only): Investigate OpenCode's plugin/hook system to determine how to add a 'documentation-check-before-consequential-action' hook. Specifically: (1) enumerate the OpenCode plugin hook events available (tool.execute.before, tool.execute.after, chat.params, chat.message, etc.) and what data each receives; (2) examine the existing native TS plugins in .opencode/plugins/ (crosslink-guard.ts, orchestrator-guard.ts, rtk-guard.ts) to understand the plugin API and how tool.execute.before is used to block/gate commands; (3) determine whether a plugin hook can fire specifically before an agent dispatches a kickoff/swarm (crosslink kickoff run / crosslink swarm launch) or edits shared config (hook-config.json), and what it could inject (e.g. force the agent to read a knowledge page first, or block the action until a doc-check is confirmed); (4) identify the exact mechanism and file(s) to modify to add such a hook, and any limitations (e.g. can a plugin read a knowledge page and inject its content into the model context?). Do NOT modify any files — pure research. Report findings as a comment on your issue, including exact hook event names, plugin API details, and a concrete recommendation for where a doc-check hook would live.",
+      "description": "Created by crosslink kickoff",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-18T02:17:49.473052427Z",
+      "updated_at": "2026-08-18T02:17:49.473052427Z"
     },
     "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79": {
       "uuid": "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79",
@@ -23833,8 +23845,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T02:17:20.814625762Z",
+    "timestamp": "2026-08-18T02:17:49.473052427Z",
     "agent_id": "OL2r",
-    "agent_seq": 1987
+    "agent_seq": 1988
   }
 }
