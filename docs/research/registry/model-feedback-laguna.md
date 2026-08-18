@@ -18,7 +18,7 @@ related_documents:
   - AI Capability Registry Specification
 
 supersedes: []
-last_updated: 2026-08-10
+last_updated: 2026-08-18
 ---
 
 # Model Feedback: opencode/laguna-s-2.1-free
@@ -28,10 +28,11 @@ last_updated: 2026-08-10
 - Provider: opencode (Zen free tier)
 - Access Method: opencode subagent (reviewer role)
 - Configuration: free tier, reviewer mode, read-only
-- Session evidence: #129 (allowlist review — FAILED silent hang), #152 (wrapSSE patch review — SUCCESS). Historical rate-limit incidents July 23-26 (#140).
+- Session evidence: #129 (allowlist review — FAILED silent hang), #152 (wrapSSE patch review — SUCCESS). Historical rate-limit incidents July 23-26 (#140). 2026-08-18: attempted twice as auditor for hook-research audits — TIMED OUT both times (operator switched to paid mimo-v2.5 for all audits); cited in Failure-Matrix 2026-08-18 free-model stall pattern row.
 
 ## Task Categories Evaluated
 - [x] Adversarial review (allowlist #129 — failed; wrapSSE patch #152 — success)
+- [x] Auditor dispatch (hook-research audits 2026-08-18 — failed timeout both attempts)
 
 ## Assessment Dimensions
 
@@ -59,6 +60,7 @@ last_updated: 2026-08-10
 ## Failure Modes Observed
 - SILENT PROVIDER-SIDE HANG (primary): outgoing 'message=stream' at 02:01:30, no response, zero ERROR entries, never completed; indistinguishable from working without log inspection - Evidence: #129 (session ses_03aa886c0ffeXKFRLMhDrbTNyd)
 - Rate limit (historical): 'Provider rate limit exceeded' / 429 — distinct signature from hang - Evidence: #140
+- Timeout on auditor dispatch (2026-08-18): attempted twice as auditor for hook-research audits, timed out both times; operator switched to paid mimo-v2.5 — extends the documented reliability failure class to include role-specific dispatch timeouts - Evidence: 2026-08-18 session, Failure-Matrix free-model stall pattern row
 
 ## Context Behavior
 - Large context: N/A (no successful large-context task observed beyond #152)
@@ -74,7 +76,7 @@ last_updated: 2026-08-10
 ## Performance Characteristics
 - Response latency: ~6 min when working (#152)
 - Throughput: Moderate
-- Reliability: LOW (1 confirmed hang + historical rate limits)
+- Reliability: LOW (1 confirmed hang + historical rate limits + 2 auditor timeouts on 2026-08-18; all three failure classes persist)
 - Determinism: High when working
 
 ## Tool Integration
@@ -102,9 +104,10 @@ last_updated: 2026-08-10
 - Tasks with external watchdog protection (#146) once deployed - evidence: #129
 
 ## Unsuitable Tasks (evidence-backed)
-- Any task with a hard delivery deadline: hang risk is real and silent (#129) - evidence: #129
+- Any task with a hard delivery deadline: hang risk is real and silent (#129), confirmed by 2026-08-18 auditor timeouts - evidence: #129, 2026-08-18
 - Sole-reviewer dependency: REQUIRES a backup reviewer (#132 nemotron replaced #129) - evidence: #129/#132
 - Unattended overnight tasks: hang went undetected until operator log check - evidence: #129
+- Deadline-critical or sole-auditor dispatch: timed out on both 2026-08-18 attempts; only paid models (mimo-v2.5) completed — free laguna is unsuitable where audit completion is blocking - evidence: 2026-08-18 session, Failure-Matrix free-model stall pattern
 
 ## Dependencies
 - Works well with: backup reviewer (nemotron #132), failure-discrimination procedure (#140), watchdog (#146)
@@ -116,16 +119,17 @@ last_updated: 2026-08-10
 | Project observation | #129 hang (silent, zero ERROR) + #152 success | Repeated |
 | Historical observation | July 23-26 rate-limit incidents | Observed |
 | Independent reviewer agreement | #152 consistent with #150/#151/#153 | Agreement |
+| Project observation | 2026-08-18 auditor dispatch timeouts (2x) | Single session, repeated within session |
 
 ## Confidence Assessment
 - Level: Moderate
-- Reviewer: evidence-gathering draft (#190)
-- Date: 2026-08-06
-- Evidence considered: #129, #152, #140
-- Significant changes from prior assessment: Prior model-discipline treated free-model failures as rate limits; #129/#140 established the silent-hang class distinct from rate limits
+- Reviewer: evidence-gathering draft (#190); updated 2026-08-18
+- Date: 2026-08-18
+- Evidence considered: #129, #152, #140, 2026-08-18 auditor timeouts, Failure-Matrix free-model stall row
+- Significant changes from prior assessment: Prior model-discipline treated free-model failures as rate limits; #129/#140 established the silent-hang class distinct from rate limits; 2026-08-18 adds timeout-on-auditor-dispatch as third observed failure class
 
 ## Last Review
-- Date: 2026-08-06
-- Reviewer: evidence-gathering draft (#190)
-- Evidence considered: #129, #152, #140
-- Significant changes: Silent-hang class distinguished from rate-limit class; reliability flagged as binding constraint
+- Date: 2026-08-18
+- Reviewer: companion agent (#411)
+- Evidence considered: #129, #152, #140, 2026-08-18 auditor timeouts, Failure-Matrix free-model stall row
+- Significant changes: Added timeout-on-auditor-dispatch failure mode (2026-08-18); reinforced unsuitable tasks for deadline-critical/sole-auditor dispatch; reliability evidence now covers three distinct failure classes (silent hang, rate limit, dispatch timeout)
