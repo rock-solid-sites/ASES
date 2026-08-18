@@ -1,6 +1,6 @@
 {
   "next_display_id": 390,
-  "next_comment_id": 1882,
+  "next_comment_id": 1883,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -10449,7 +10449,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-18T02:17:13.164236289Z",
-      "updated_at": "2026-08-18T02:32:22.520156051Z",
+      "updated_at": "2026-08-18T02:33:06.499769787Z",
       "labels": [
         "feature"
       ],
@@ -10471,6 +10471,15 @@
           "kind": "observation",
           "signed_by": "SHA256:hflk01ZRT+wUSRzfNYVgtQG/oRVwxUxSLdN5MTMzFpA",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbDwDwTqKkik2f8/Ypq4MtksQwV91gDZAwxRXXu0bGpsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2xS/Dnxq4TX8kCImEEQP/aJCWdL8p3TDLV2qApDcXjFD+mFhyfTnK411M99P0WdcbZ2+zxMnLxtUdJ0aJNnfCw=="
+        },
+        "c1f56fad-6e5c-4ff0-a4e4-0561603fae1c": {
+          "display_id": 1882,
+          "author": "pp3g-Mjzt-research-read-only-investigate-crosslink-s-hook-d493",
+          "content": "Read-only research on #388 complete. Enumerated Claude Code hook events (PreToolUse/PostToolUse/ConfigChange/etc. with exact payloads) and OpenCode plugin hooks (tool.execute.before/after, command.execute.before, chat.params, etc.). Located all hook config surfaces: .claude/settings.json, .claude/hooks/*.py (7 scripts in main, only 2 in worktrees via launch.rs ensure_worktree_hooks), .opencode/opencode.json plugin array, .opencode/plugins/{crosslink-guard,orchestrator-guard,rtk-guard}.ts, .crosslink/hook-config.json, crosslink crate templates. Determined: tool.execute.before (bash) CAN fire before crosslink kickoff run/swarm launch when agent-invoked (block via throw or mutate output.args.command, rtk-guard precedent); PreToolUse Write|Edit fires before hook-config.json edits; crosslink CLI itself has NO pre-dispatch hookpoint; command.execute.before only fires for slash commands; human-terminal CLI invocations are not interceptable by hooks. Recommendation: extend crosslink-guard.ts or add doc-check-guard.ts (tool.execute.before bash+write/edit matchers), optional .claude/hooks/doc-check.py + settings.json PreToolUse entry. Result comment posted --kind result; DONE written to .kickoff-status.",
+          "created_at": "2026-08-18T02:33:06.491734273Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:hflk01ZRT+wUSRzfNYVgtQG/oRVwxUxSLdN5MTMzFpA",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbDwDwTqKkik2f8/Ypq4MtksQwV91gDZAwxRXXu0bGpsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABARu1NuIkWqD4AmpbOSOBBk4UVqq3j2pn6GBgBjlFyYK5Jn9dCN+vqj9SB8emURNpFCOOwFTW0yz7T07D3Uj7GCA=="
         },
         "d59d7f8a-4088-4d92-8079-be5842229ee8": {
           "display_id": 1881,
@@ -23933,8 +23942,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-18T02:32:57.946281819Z",
+    "timestamp": "2026-08-18T02:33:06.499769787Z",
     "agent_id": "pp3g-Mjzt-research-read-only-investigate-crosslink-s-hook-d493",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
