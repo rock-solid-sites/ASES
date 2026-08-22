@@ -1,6 +1,6 @@
 {
   "next_display_id": 416,
-  "next_comment_id": 2009,
+  "next_comment_id": 2010,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -16770,10 +16770,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-22T17:53:54.675502180Z",
-      "updated_at": "2026-08-22T17:54:02.516994070Z",
+      "updated_at": "2026-08-22T17:57:00.277809621Z",
       "labels": [
         "docs,models,fix"
-      ]
+      ],
+      "comments": {
+        "c235ec40-6683-4ee0-93e0-7a2b10fe643a": {
+          "display_id": 2009,
+          "author": "pp3g-k42O-restore-the-zen-model-list-in-crosslink-knowledge-75bc",
+          "content": "Plan: (1) Live Zen API queried -> 64 total, 61 non-grok (grok-build-0.1/grok-4.6/grok-4.5 excluded). (2) Replace freeZenModels array in both plugin.ts and dynamic-models.ts with the 61 bare-string IDs (sorted), preserving grok blacklist + isForbiddenModel guard. (3) Replace the Zen free models block in model-discipline.md with the 61 opencode/-prefixed IDs, preserving Go/Vertex/Cohere/disclaimer. (4) Verify counts + parity, then commit only model-discipline.md gated on #415.",
+          "created_at": "2026-08-22T17:57:00.270006737Z",
+          "kind": "plan",
+          "signed_by": "SHA256:R2043aMtgEsYZUsXfjgfqlDKgH5XYgg1c+UfjCpcWF8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAggYX7Y1TARWiKwXjEKXxv8QE0yFcaboE5UMzlskb+Sr0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbJUjznbak++PsSHCyiks08Tl9HzcxvlTMUU0Ysbo4fA1tRoQr7TdcSRfEpQScp7V7ZNUJAJ4LPkSB+Lxb4Y3BQ=="
+        }
+      }
     },
     "a9771e7c-d67b-4b85-9a0b-b56f3e64845c": {
       "uuid": "a9771e7c-d67b-4b85-9a0b-b56f3e64845c",
@@ -25534,8 +25545,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-22T17:55:55.980646544Z",
+    "timestamp": "2026-08-22T17:57:00.277809621Z",
     "agent_id": "pp3g-k42O-restore-the-zen-model-list-in-crosslink-knowledge-75bc",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
