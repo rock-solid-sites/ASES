@@ -1,6 +1,6 @@
 {
   "next_display_id": 414,
-  "next_comment_id": 1999,
+  "next_comment_id": 2000,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -13623,7 +13623,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-22T17:17:38.852641045Z",
-      "updated_at": "2026-08-22T17:22:11.009228283Z",
+      "updated_at": "2026-08-22T17:22:44.519867248Z",
       "labels": [
         "review,models"
       ],
@@ -13645,6 +13645,15 @@
           "kind": "observation",
           "signed_by": "SHA256:jd26xv47UWMZAIjcaEsHKUAE703vf6wO6th894iIUHU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg64XH+/xOUE7xnpTBLNnqOaDV6t2vuvK95v6SduB9Yp4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAVYpW8f2/oDuHyaRuZur9CU586RzjcpId6l5+ZPOXXA2JcNY/kjqiA8xyDelC949N642pZhtMBlQxHD7WVNZbDw=="
+        },
+        "5ba85a5b-6d48-4ee1-875e-325576fccc0b": {
+          "display_id": 1999,
+          "author": "pp3g-OJvY-read-only-review-of-builder-commit-724badbb-issue-412",
+          "content": "Result: CONDITIONAL — Commit 724badbb is internally consistent and live-aligned, but not an exact reconciliation to the #399 snapshot. (1) PASS Go: opencode-go/deepseek-v4-flash\nopencode-go/deepseek-v4-flash-vision-exp\nopencode-go/deepseek-v4-pro\nopencode-go/glm-5\nopencode-go/glm-5.1\nopencode-go/glm-5.2\nopencode-go/glm-5.3\nopencode-go/gpt-5.6-luna\nopencode-go/hy3\nopencode-go/hy3-preview\nopencode-go/kimi-k2.5\nopencode-go/kimi-k2.6\nopencode-go/kimi-k2.7-code\nopencode-go/kimi-k3\nopencode-go/mimo-v2-omni\nopencode-go/mimo-v2-pro\nopencode-go/mimo-v2.5\nopencode-go/mimo-v2.5-pro\nopencode-go/minimax-m2.5\nopencode-go/minimax-m2.7\nopencode-go/minimax-m3\nopencode-go/muse-spark-1.2-contributor\nopencode-go/ox-alpha-free\nopencode-go/qwen3.5-plus\nopencode-go/qwen3.6-plus\nopencode-go/qwen3.7-max\nopencode-go/qwen3.7-plus\nopencode-go/qwen3.8-max returned exactly 28 IDs; document lines 87-116 contain the same 28, with no grok/xAI. (2) CONDITIONAL Zen: live https://opencode.ai/zen/v1/models was reachable and returned 64 models: 61 non-grok after removing grok-build-0.1, grok-4.6, grok-4.5. Document lines 119-181 contain 61 IDs, so match current live non-grok API; however #399 recorded 62 total/59 non-grok, and the document has two IDs not in #399:  (line 176) and  (line 181). No #399 non-grok IDs are missing. These are the suspected additions and should be explicitly resolved against the intended snapshot/current-catalog policy. (3) PASS plugin arrays: plugin.ts lines 47-109 and dynamic-models.ts lines 44-106 each contain the same 61 bare IDs as the document (no  prefixes); whitelist assignments are plugin.ts:111 and dynamic-models.ts:108. Grok blacklist is preserved at plugin.ts:39-45 and dynamic-models.ts:36-42; cache-merge filtering is preserved at plugin.ts:135-140 and dynamic-models.ts:125-131. (4) PASS disclaimer: document lines 85-85 states lists are refreshed from live API, identifies models.dev lag, and directs Zen re-verification via API. (5) PASS scope: 724badbb changes only  (no plugin/provider additions); no OpenRouter/anthropic/openai/deepseek provider was added. Existing plugin hygiene still disables/hides openai/deepseek, unrelated to this commit. (6) Original  and  are absent from the current live Zen API (and were correctly removed from the revised whitelist/document); they should remain absent. Current opencode/big-pickle\nopencode/hy3-free\nopencode/mimo-v2.5-free\nopencode/muse-spark-1.2-contributor-free\nopencode/nemotron-3-ultra-free\nopencode/nemotron-3.5-lightning-free\nopencode/x-preview-f-free exposes 7 cached models, including the two new IDs, but API is authoritative. No files were edited by this review; only Crosslink/session bookkeeping changed working-tree metadata.",
+          "created_at": "2026-08-22T17:22:44.512233825Z",
+          "kind": "result",
+          "signed_by": "SHA256:jd26xv47UWMZAIjcaEsHKUAE703vf6wO6th894iIUHU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg64XH+/xOUE7xnpTBLNnqOaDV6t2vuvK95v6SduB9Yp4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA3m24IAe9SiW+llpU4NBE10bTGKYlf76trPb3WXyRwmkOk9nfZJNk5K+dENsDqJS6UHYX+1veejhPlU5P294UBw=="
         },
         "70b5a302-13fb-45f0-8eac-a9a3f7934817": {
           "display_id": 1996,
@@ -25408,8 +25417,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-22T17:22:11.009228283Z",
+    "timestamp": "2026-08-22T17:22:44.519867248Z",
     "agent_id": "pp3g-OJvY-read-only-review-of-builder-commit-724badbb-issue-412",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
