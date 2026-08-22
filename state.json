@@ -1,6 +1,6 @@
 {
   "next_display_id": 413,
-  "next_comment_id": 1991,
+  "next_comment_id": 1992,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -18336,10 +18336,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-22T16:54:06.788886767Z",
-      "updated_at": "2026-08-22T16:54:15.049710582Z",
+      "updated_at": "2026-08-22T16:56:41.117859125Z",
       "labels": [
         "docs,models"
-      ]
+      ],
+      "comments": {
+        "875d3360-5e70-484c-af01-9174a4f24130": {
+          "display_id": 1991,
+          "author": "OL2r",
+          "content": "[plan] Plan for #412 — Reconcile Go + Zen model lists in .crosslink/knowledge/model-discipline.md and expand the Zen whitelist in the plugin.\n\nBuilder steps:\n1. Read .crosslink/knowledge/model-discipline.md, focus on \"## Currently Verified Models\" (around lines 83-120).\n2. OpenCode Go subsection: run `opencode models opencode-go` and replace the 6 stale example models (lines ~88-95) with the FULL live output. Expected 28 models; grok-4.5 is already absent via the plugin blacklist. Do NOT add any grok/xAI model.\n3. OpenCode Zen free models subsection: replace the 7-model whitelist (lines ~98-106) with the FULL free Zen set. Authoritative source = Zen API findings in issue #399 (62 free models). Remove the 3 grok/xAI models (grok-build-0.1, grok-4.6, grok-4.5) -> 59 free models. List each WITH the `opencode/` prefix (e.g. `opencode/big-pickle`). Update the trailing note: the plugin whitelist is being expanded to match (step 5); state the Zen API is authority for Zen availability (Standing Facts #3).\n4. Disclaimer (line 85: \"Run opencode models for the authoritative list. The IDs below are examples only and may be stale:\"): change to state these lists are refreshed from the OpenCode API and must be re-verified with `opencode models <provider>` (and the Zen catalog API for Zen) whenever the catalog changes.\n5. Plugin whitelist: edit ~/.config/opencode/plugins/dynamic-models.ts. Replace the `freeZenModels` array (currently 7 IDs) with ALL 59 free Zen bare IDs (NO `opencode/` prefix), matching the Zen list in step 3. Preserve the grok/xAI blacklist logic and the cache-merge guard exactly. This is a user-level global file (outside the repo) so it will NOT be git-committed — just edit in place.\n6. Do NOT modify Google Vertex, Cohere, or any other subsection. Do NOT add OpenRouter/anthropic/openai/deepseek providers.\n7. Commit ONLY the model-discipline.md change (gated on #412) with a conventional message referencing [#412]. Post a --kind result comment summarizing changes (Go count, Zen count, plugin whitelist expanded).\n8. Post milestone checkpoint comments (--kind observation) as you progress.\n\nAcceptance: Go list = 28 live models; Zen list = 59 free models minus grok; plugin freeZenModels = those 59 bare IDs; OpenRouter/anthropic/etc absent; disclaimer updated; commit references [#412].",
+          "created_at": "2026-08-22T16:56:41.108138623Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0oHYMsrI/kd4DHHtoGzlIj6cbigGCY3Q2tayrYN9NE1HRDclPwn85oqq4M0WvTdHf4tZFR6fIKhlBng+8/toCQ=="
+        }
+      }
     },
     "ba2d352b-53b2-4471-abc7-12c68481d622": {
       "uuid": "ba2d352b-53b2-4471-abc7-12c68481d622",
@@ -25322,8 +25333,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-22T16:54:28.381351124Z",
+    "timestamp": "2026-08-22T16:56:41.117859125Z",
     "agent_id": "OL2r",
-    "agent_seq": 2062
+    "agent_seq": 2063
   }
 }
