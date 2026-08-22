@@ -1,6 +1,6 @@
 {
   "next_display_id": 413,
-  "next_comment_id": 1992,
+  "next_comment_id": 1993,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -18336,7 +18336,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-22T16:54:06.788886767Z",
-      "updated_at": "2026-08-22T16:56:41.117859125Z",
+      "updated_at": "2026-08-22T16:59:50.752135502Z",
       "labels": [
         "docs,models"
       ],
@@ -18349,6 +18349,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0oHYMsrI/kd4DHHtoGzlIj6cbigGCY3Q2tayrYN9NE1HRDclPwn85oqq4M0WvTdHf4tZFR6fIKhlBng+8/toCQ=="
+        },
+        "98a5a89b-3d3f-46e1-a157-faf2a53823bd": {
+          "display_id": 1992,
+          "author": "pp3g-VUFX-reconcile-go-zen-model-lists-in-crosslink-knowledge",
+          "content": "Plan: Builder approach for #412.\n\nSources of truth:\n- Go list: LIVE opencode-go/deepseek-v4-flash\nopencode-go/deepseek-v4-flash-vision-exp\nopencode-go/deepseek-v4-pro\nopencode-go/glm-5\nopencode-go/glm-5.1\nopencode-go/glm-5.2\nopencode-go/glm-5.3\nopencode-go/gpt-5.6-luna\nopencode-go/hy3\nopencode-go/hy3-preview\nopencode-go/kimi-k2.5\nopencode-go/kimi-k2.6\nopencode-go/kimi-k2.7-code\nopencode-go/kimi-k3\nopencode-go/mimo-v2-omni\nopencode-go/mimo-v2-pro\nopencode-go/mimo-v2.5\nopencode-go/mimo-v2.5-pro\nopencode-go/minimax-m2.5\nopencode-go/minimax-m2.7\nopencode-go/minimax-m3\nopencode-go/muse-spark-1.2-contributor\nopencode-go/ox-alpha-free\nopencode-go/qwen3.5-plus\nopencode-go/qwen3.6-plus\nopencode-go/qwen3.7-max\nopencode-go/qwen3.7-plus\nopencode-go/qwen3.8-max output (28 models, no grok/xAI — grok-4.5 already absent via plugin blacklist). Replaces the 6 stale example IDs.\n- Zen list: Zen catalog API findings in #399 (62 free models) minus the 3 grok/xAI IDs (grok-build-0.1, grok-4.6, grok-4.5) = 59 free models, each prefixed . opencode/big-pickle\nopencode/mimo-v2.5-free\nopencode/nemotron-3-ultra-free is stale (5 models) so it is NOT used for the Zen list.\n\nEdits to .crosslink/knowledge/model-discipline.md:\n1. Disclaimer (line 85): state lists are refreshed from the OpenCode API and must be re-verified with  (and the Zen catalog API for Zen) whenever the catalog changes.\n2. OpenCode Go subsection: 28 live models with  prefix.\n3. OpenCode Zen free subsection: 59 free models with  prefix; trailing note updated to say the plugin whitelist is expanded to match and the Zen API is authoritative for Zen availability (Standing Facts #3).\n\nPlugin whitelist: doc line 108 states the whitelist lives in BOTH  and . To keep that claim true, I will replace the  array (7 IDs) in BOTH files with the 59 bare IDs (NO  prefix), preserving the grok/xAI blacklist and cache-merge guard exactly. These are user-level global files, not git-committed.\n\nCommit: ONLY model-discipline.md (gated on #412). Plugin files edited in place, not committed.",
+          "created_at": "2026-08-22T16:59:50.742211560Z",
+          "kind": "plan",
+          "signed_by": "SHA256:j77JdtlCZyIu45kzAsFGOzzzv3vfvvzlRJaZ5/K0FEk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg1i3JqYq7vA1fTMB8DO6D8zLz2Gb2Rm5Vi9VG01iY+jQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAPNZawqUMlruvstX51K9tSKiPYqrNZrHma90lVvPtVjehnjwFyN+C/4on0BkBFgFbNHXoGEoQXpOS4rnhQuCdBg=="
         }
       }
     },
@@ -25333,8 +25342,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-22T16:58:13.094149761Z",
+    "timestamp": "2026-08-22T16:59:50.752135502Z",
     "agent_id": "pp3g-VUFX-reconcile-go-zen-model-lists-in-crosslink-knowledge",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
