@@ -1,6 +1,6 @@
 {
   "next_display_id": 414,
-  "next_comment_id": 2000,
+  "next_comment_id": 2001,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -13623,7 +13623,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-22T17:17:38.852641045Z",
-      "updated_at": "2026-08-22T17:22:44.519867248Z",
+      "updated_at": "2026-08-22T17:23:07.416352643Z",
       "labels": [
         "review,models"
       ],
@@ -13645,6 +13645,15 @@
           "kind": "observation",
           "signed_by": "SHA256:jd26xv47UWMZAIjcaEsHKUAE703vf6wO6th894iIUHU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg64XH+/xOUE7xnpTBLNnqOaDV6t2vuvK95v6SduB9Yp4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAVYpW8f2/oDuHyaRuZur9CU586RzjcpId6l5+ZPOXXA2JcNY/kjqiA8xyDelC949N642pZhtMBlQxHD7WVNZbDw=="
+        },
+        "1335875c-915b-4d11-9d98-e3cf892f4f13": {
+          "display_id": 2000,
+          "author": "pp3g-OJvY-read-only-review-of-builder-commit-724badbb-issue-412",
+          "content": "Correction to Result comment (shell quoting): CONDITIONAL. Commit 724badbb is internally consistent and matches current live Zen data, but is not an exact reconciliation to the #399 snapshot. Go PASS: opencode models opencode-go returned exactly 28 IDs; document lines 87-116 match, with no grok/xAI. Zen: live API returned 64 total and 61 non-grok after removing grok-build-0.1, grok-4.6, grok-4.5; document lines 119-181 contain 61 IDs. The two IDs absent from #399 are muse-spark-1.2-contributor-free (line 176) and x-preview-f-free (line 181); no #399 non-grok IDs are missing. Plugin arrays match the 61 document IDs exactly: plugin.ts lines 47-109 and dynamic-models.ts lines 44-106; assignments plugin.ts:111 and dynamic-models.ts:108. Grok blacklist remains plugin.ts:39-45 and dynamic-models.ts:36-42; cache guards remain plugin.ts:135-140 and dynamic-models.ts:125-131. Disclaimer is updated at document line 85. Commit diff is document-only; no OpenRouter, anthropic, openai, or deepseek provider was added. ling-3.0-flash-free and north-mini-code-free are absent from the current live Zen API and should remain absent; they were correctly removed. No project files were edited by this review; only required Crosslink/session bookkeeping and kickoff status metadata changed.",
+          "created_at": "2026-08-22T17:23:07.394029107Z",
+          "kind": "result",
+          "signed_by": "SHA256:jd26xv47UWMZAIjcaEsHKUAE703vf6wO6th894iIUHU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg64XH+/xOUE7xnpTBLNnqOaDV6t2vuvK95v6SduB9Yp4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAY6lG9kqDERN3dyUoXBHmJnnrRXBw6kiWqUoCzvevIoKD0U8v63zutr/MZBaq1ccGhOe6DGJTCTcmXyDkB/ErCA=="
         },
         "5ba85a5b-6d48-4ee1-875e-325576fccc0b": {
           "display_id": 1999,
@@ -25417,8 +25426,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-22T17:22:44.519867248Z",
+    "timestamp": "2026-08-22T17:23:07.416352643Z",
     "agent_id": "pp3g-OJvY-read-only-review-of-builder-commit-724badbb-issue-412",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
