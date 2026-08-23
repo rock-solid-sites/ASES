@@ -1,6 +1,6 @@
 {
   "next_display_id": 424,
-  "next_comment_id": 2043,
+  "next_comment_id": 2044,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -4598,11 +4598,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:12:10.557422364Z",
-      "updated_at": "2026-08-23T19:08:29.935512304Z",
+      "updated_at": "2026-08-23T19:08:54.556903379Z",
       "labels": [
         "agent-config"
       ],
       "comments": {
+        "22dd5e6e-a639-4069-b495-3131e876a3e6": {
+          "display_id": 2043,
+          "author": "pp3g-pq7V-scope-tight-relaunch-of-417-part-1-only-a-previous",
+          "content": "Result: Appended one short '## SHELL COMMAND MECHANICS' section below frontmatter in each of exactly 4 files — .opencode/agents/orchestrator.md, .opencode/agents/builder.md, .opencode/agents/reviewer.md, .opencode/agents/auditor.md — with role-matched content (orchestrator/reviewer/auditor: deny-by-default prefix-matches whole command string, chained/piped always denied by design, remediate by re-issuing one plain command, never loop/workaround; builder: full bash including chaining/piping permitted, git commit gated on active Crosslink issue, destructive git hard-blocked). Zero frontmatter line changes. No edits outside these four files. Commit 8f997b1b [#417].\n\nWHAT-NOT-TESTED: Did not empirically re-verify OpenCode/MCP runtime permission enforcement or orchestrator filesystem-MCP exposure (explicitly deferred per scope); did not run full build/lint/typecheck suite (repo has no package-level build for markdown agent files); did not test rendered agent prompt behavior against live permission hooks beyond static frontmatter reading; MCP-permission-semantics investigation remains out-of-scope per instructions.",
+          "created_at": "2026-08-23T19:08:54.548871442Z",
+          "kind": "result",
+          "signed_by": "SHA256:XhZ4S8uWGm0YWHuilDEV1GrkLZBUorhys17eq3X/bkU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3gHgmI63WrpqWq0LStx4rFz76lv6gQVL7v0BoUKRG9kAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALYKpGV0vW+JwN6cDqtYJTCaRcO6fU9ABxhHAtbqDdur5M0a3fYVvsn8joVjXYpD6SSTbQNAdyJl0M+rgUyapBQ=="
+        },
         "8032b4ea-3edd-410d-abdb-e97194a35a15": {
           "display_id": 2039,
           "author": "OL2r",
@@ -25993,8 +26002,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T19:08:29.935512304Z",
+    "timestamp": "2026-08-23T19:08:54.556903379Z",
     "agent_id": "pp3g-pq7V-scope-tight-relaunch-of-417-part-1-only-a-previous",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
