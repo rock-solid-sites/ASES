@@ -1,6 +1,6 @@
 {
   "next_display_id": 419,
-  "next_comment_id": 2023,
+  "next_comment_id": 2024,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -24860,7 +24860,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:12:18.535716625Z",
-      "updated_at": "2026-08-23T18:23:52.314446601Z",
+      "updated_at": "2026-08-23T18:24:16.746976282Z",
       "labels": [
         "investigation"
       ],
@@ -24882,6 +24882,15 @@
           "kind": "observation",
           "signed_by": "SHA256:JrO411ubqBVTlnilU61PMBhOgliVKTABcEIedizbpq8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgDeoJPDqP//7u9wp/BuQbFC0hP5X06hM+iZfR5DbMEFoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAiSmaGWO3kXy3Bn7KBI1JQC/59H5v6NHreKOTgwSRxEO8Q1YmyAQie3tk+Fadr8VnQI2ma7JI3CC2/NJjLMrvDg=="
+        },
+        "97091d95-7fa0-452a-8783-38db968bda88": {
+          "display_id": 2023,
+          "author": "pp3g-Zp39-investigate-dead-instructions-wiring-418-opencode-afda",
+          "content": "## Ranked fix options (read-only recommendations)\n\n### Option 1 (low-risk, immediate) — Make path explicit and prove it\nWHY: Relative resolution is fragile and docs admit confusion. Change \\`.opencode/opencode.json\\` from [\\\"SESSION-START.md\\\"] to an absolute-ish or explicit relative form (e.g. \\\"./SESSION-START.md\\\" or \\`\\\"/home/.../ASES/SESSION-START.md\\\"\\\" is worst) — better: use path relative to config dir via PR #4815 logic: either adopt absolute path or use \\`\\\"AGENTS.md\\\"\\\"-style discovery (which is already hard-coded) and move SESSION-START content into AGENTS.md, or keep SESSION-START.md and add a second entry with explicit glob. WHAT: Guarantees globUp finds file even if CWD shifts. HOW-CERTAIN: guess (needs cheap probe: run with changed pattern and re-probe injection). WHAT-NOT-TESTED: not applied (read-only constraint); not tested with \\\"./\\\" prefix.\n\n### Option 2 (correct) — Adopt PR #4815 splitGlob fix in fork\nWHY: Upstream author identified root cause (Bun.Glob unreliable, need base-dir split) and proposed resolving relative to config file, not CWD. WHAT: Cherry-pick d369b0e fix/custom-instruction-loading's splitGlob helper into fork/opencode-src, so \\`instructions: [\\\"SESSION-START.md\\\"]\\` resolves against \\`.opencode/opencode.json\\` directory rather than InstanceState directory. This matches user mental model and docs PR #9376. HOW-CERTAIN: evidence-based (issue #4758, PR #4815). WHAT-NOT-TESTED: did not build or test patched binary; PR was 4515 commits behind dev and closed stale — may need rebase.\n\n### Option 3 (workaround) — Duplicate instruction via hard-coded path\nWHY: AGENTS.md is already injected via findUp without config. WHAT: Copy SESSION-START content into AGENTS.md or make SESSION-START.md symlinked/required by AGENTS.md, so injection does not depend on config instructions at all. HOW-CERTAIN: proven (AGENTS.md injection always works per Claim 2). WHAT-NOT-TESTED: maintenance burden not evaluated.\n\n### Option 4 (observability) — Fix reporter inspection path\nWHY: If wiring is live but inspection was wrong (TUI truncation, grep miss), no code fix needed. WHAT: Document canonical verification: \\`opencode run --auto --format json \"...Inspect SYSTEM only...\\\"\\` plus \\`opencode debug config | python3 -c 'import json...print(d[\\\"instructions\\\"])'\\` and \\`opencode export <sid> | grep Instructions\\` — add to AGENTS.md/SESSION-START.md. HOW-CERTAIN: evidence-based for inspection fix, guess for reporter's actual method. WHAT-NOT-TESTED: did not inspect TUI screen buffer.\n\n### Capability observations — muse-spark-1.2-contributor-free (routing-matrix evidence)\nLaunch success: YES — both opencode run invocations succeeded first try with model opencode/muse-spark-1.2-contributor-free, no denials.\nThroughput: ~8-14s per probe (log: stream small=true title gen ~1s, loop init ~1s, LLM response ~7s, tokens input 17464 output 394 reasoning 1185). No rate-limit symptoms.\nSelf-reported anomalies: NONE — model correctly obeyed \\\"Do NOT use tools\\\" and returned verbatim system slices; earlier probe without --auto triggered permission ask for /home/claude-code/.claude/* (external_directory -> ask) which auto-rejected as designed, not a rate limit.\nModel routing note: prompt/prompt-meta selection maps muse-spark -> PROMPT_META (packages/opencode/src/session/system.ts:28).\n",
+          "created_at": "2026-08-23T18:24:16.739195638Z",
+          "kind": "result",
+          "signed_by": "SHA256:JrO411ubqBVTlnilU61PMBhOgliVKTABcEIedizbpq8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgDeoJPDqP//7u9wp/BuQbFC0hP5X06hM+iZfR5DbMEFoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlg6qqs0/KdWa0i40PNw/h2S5ZNgq2YAedU/EIYMXcIXleVQEFVscD2/zUWE9VupFDh/Vp1hF7HcMtZCXT0uPCA=="
         },
         "fa68b39c-86d8-4ebd-ac00-2f7e9ea97d95": {
           "display_id": 2022,
@@ -25719,8 +25728,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T18:23:52.314446601Z",
+    "timestamp": "2026-08-23T18:24:16.746976282Z",
     "agent_id": "pp3g-Zp39-investigate-dead-instructions-wiring-418-opencode-afda",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
