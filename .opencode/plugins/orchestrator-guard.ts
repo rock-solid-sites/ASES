@@ -15,6 +15,7 @@
 
 import type { Plugin } from "@opencode-ai/plugin";
 import * as fs from "fs";
+import * as path from "path";
 
 const LOG_FILE = "/tmp/orchestrator-guard.log";
 
@@ -81,11 +82,30 @@ const orchestratorGuardPlugin: Plugin = async () => {
       log("chat.message agent:", input.agent ?? "(none)", "session:", input.sessionID);
     },
 
-    "tool.execute.before": async (input, _output) => {
+    "tool.execute.before": async (input, output) => {
       const toolName = (input.tool as string || "").toLowerCase();
 
       if (!BLOCKED_TOOLS.has(toolName)) {
         return;
+      }
+
+      // Narrow exemption (#434 liveness accounting): read-only roles
+      // (auditor/reviewer) must be able to write their own .kickoff-status
+      // DONE marker; without this exception kickoff cleanup classifies live
+      // and finished read-only roles as stale forever. Applies ONLY to
+      // filesystem_write_file targeting a path whose basename is exactly
+      // ".kickoff-status" — every other tool and path stays blocked below.
+      if (toolName === "filesystem_write_file") {
+        const targetPath = (output.args as { path?: string } | undefined)?.path;
+        if (targetPath && path.basename(targetPath) === ".kickoff-status") {
+          log(
+            "ALLOW .kickoff-status marker write (#434 liveness):",
+            targetPath,
+            "session:",
+            input.sessionID,
+          );
+          return;
+        }
       }
 
       // Resolve the agent for THIS session first. Fall back to the most
