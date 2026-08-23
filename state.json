@@ -1,6 +1,6 @@
 {
   "next_display_id": 426,
-  "next_comment_id": 2052,
+  "next_comment_id": 2053,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5015,7 +5015,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-23T18:57:13.820767574Z",
+      "updated_at": "2026-08-23T19:42:44.168348027Z",
       "labels": [
         "epic"
       ],
@@ -5028,6 +5028,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtQw3ubYCgY3AKr6BBgAii4JQypkSMZbsmtrg/UnBPU7dRov4LanLtIzDBu0vG32wpin+eZ24h61epcRT+XvyAg=="
+        },
+        "f0d42dcb-7f66-4fb2-9900-d5f9dc4f0ba1": {
+          "display_id": 2052,
+          "author": "OL2r",
+          "content": "[SEED FINDING 9 - native Task/subagent mechanics diverge in v2; investigation evidence]: [E1] Attempting native spawn of registered subagent 'builder' from the orchestrator session failed: 'Agent builder cannot run as a subagent'. [E2] Binary-level source of v2 (opencode2 @opencode-ai/cli beta bundle): throw occurs when resolved agent.mode==='primary'; distinct later branch throws 'Subagent denied' when permission assert fails; depth limit experimental.subagent_depth default 1. [E3] v2 built-in registry discovered: Build(primary), General(subagent), Explore(subagent) - replaces 1.x build/plan/general. [E4] Permission-action enum in v2 config schema includes 'task' but NOT a 'subagent' action, while the spawn tool asserts action named after the subagent tool - suggests another silent rename gap for configs authored against 1.x. [E5] This session's v2 instance is rooted at parent dir /home/claude-code/projects which has NO opencode config; global ~/.config/opencode/opencode.json defines plugins/mcp/provider-timeouts but NO agents; global agents dir holds 16 model-specific *.md agents all correctly using mode: subagent frontmatter, none named builder/reviewer/auditor. [E6] Repo registers builder/reviewer/auditor via .opencode/opencode.json agent map with path+mode:'subagent'. CONCLUSION (evidence-based, mechanism partially inferred): something between v2's config loading and agent resolution turns repo-registered path-style agents into mode-primary - most plausibly the V1-compat layer dropping or ignoring fields for path-indirect entries (consistent with E4 rename-gap pattern and with instructions-not-injected #418). WHAT-NOT-TESTED: actual merge order of global vs project agent maps in v2; whether markdown-dir discovery (.opencode/agents/*.md style) works in v2 project scope; exact ConfigAgentV1 field whitelist. RETRY PLAN: register a purpose-built Muse Spark docs agent using the CONVENTION V2 DEMONSTRABLY HONORS (global ~/.config/opencode/agents/*.md with mode: subagent + model frontmatter, same shape as existing big-pickle.md) and re-attempt the same doc task natively through it. SIDE-DISCOVERY for #425: global filesystem MCP server is rooted at /home/claude-code/projects/tripn-astro NOT ASES - per-surface FS exposure answers must account for which config each surface reads.",
+          "created_at": "2026-08-23T19:42:44.159495316Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABApCWllXKibjRK0dDeHjdWb8WIqy8VJG8jnZNfov4P9M39p4078FDq9uJe76im5e9b4jZS+AMONpjFpPvjw44tCg=="
         }
       }
     },
@@ -26104,8 +26113,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T19:28:34.920015503Z",
-    "agent_id": "pp3g-xVYS-research-only-investigation-425-deferred-part-2-of",
-    "agent_seq": 9
+    "timestamp": "2026-08-23T19:42:44.168348027Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2110
   }
 }
