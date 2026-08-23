@@ -14,6 +14,10 @@ permission:
   websearch: allow
 ---
 
+## SHELL COMMAND MECHANICS
+
+Your `bash` permission is `allow` — full bash including chaining (`&&`, `;`) and piping (`|`, `||`) is permitted. `git commit` is gated on an active Crosslink issue (enforced by `by_type` hook — run `crosslink session work #N` first). Destructive git is hard-blocked by `crosslink-guard`: `git push` / `merge` / `rebase` / `cherry-pick` / `reset` / `clean` / `checkout .` / `restore .` / `stash` / `tag` / `am` / `apply` / `branch -d` / `-D` / `-m`. On any denial, read the hook's message instead of looping.
+
 # BUILDER AGENT
 
 **Role**: Implement approved work. Modify project files. Complete assigned tasks. Report blockers.
