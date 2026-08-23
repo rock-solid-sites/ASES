@@ -1,6 +1,6 @@
 {
   "next_display_id": 434,
-  "next_comment_id": 2109,
+  "next_comment_id": 2110,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -18108,7 +18108,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T22:14:14.307967929Z",
-      "updated_at": "2026-08-23T22:20:54.530455905Z",
+      "updated_at": "2026-08-23T22:21:10.176232131Z",
       "labels": [
         "review"
       ],
@@ -18121,6 +18121,15 @@
           "kind": "observation",
           "signed_by": "SHA256:tUf+Yfn7YETig7tytiUbSS0xDWW/g8Ba6qDZqZ7e0pI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4QBetGVQo8I0gobtcd9EupgLHt0iVydD9bC43hQFVSQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAw22JnwxpRIkRoYGHsb5kCE32b9jhhRRC2kB/oIFLzM7zc8FzzpkT/mV6NrNN/CYv5HEimx5nyaTXXXiaPYJLCw=="
+        },
+        "92fb58f5-8812-4c6a-8507-1aee507948ff": {
+          "display_id": 2109,
+          "author": "pp3g-4xe1-primary-adversarial-review-on-433-a-muse-spark-894c",
+          "content": "PRIMARY ADVERSARIAL REVIEW #433 (hy3) — FINDINGS PART 2/3 (D,E,F).\n\nFINDING D [HIGH] Budget-window 'hard limit / agents terminated' (playbook 5.2) is unimplemented in visible source; replan calls it a 'guide' (contradiction).\n- statement: playbook 5.2 (lines 189-190): 'Budget windows are hard limits. Agents exceeding the budget are terminated.' But swarm budget.rs contains ONLY config (config_budget), estimation (estimate_phase_cost, default_agent_duration) and budget_recommendation -> NO termination/kill logic. Grep across the swarm module found only a '// Cost exceeds budget' comment (mod.rs:783). The replan says 'Budget window: 6h total guide' -> directly contradicts the playbook's 'hard limit.'\n- why-unverified: playbook asserts enforcement; source shows only recommendation. Whether termination exists in the orchestrator/sentinel path is unverified.\n- cheapest discriminating test: grep -rn 'terminate|kill' crosslink/src/commands/swarm/ (done -> none) and check whether any caller enforces budget_window_s as a hard cutoff; also inspect orchestrator/sentinel. If no enforcement code exists, the 'hard limit' is aspirational.\n- severity-if-wrong: if not a hard limit, the 6h 'guide' is de-facto behavior and the swarm could run unbounded or be mis-scoped; reliance on the playbook claim for sequencing is unsound. Medium-High.\n\nFINDING E [MEDIUM] D1-D9 delta claims are single-source, self-admitted unverified; design docs inherit them as established.\n- statement: replan/plan present D1-D9 (fork deltas) as the foundation for R2 parity probes and R3 verdict. But #427 matrix is explicitly a read-only breadth-first probe that 'did NOT run the harness', 'did NOT probe opencode2 beta', and lists 5 WHAT-NOT-TESTED items. Deltas are evidence-based for v1 fork but UNKNOWN for v2 beta. Design docs inherit them without re-derivation.\n- context: the plan's own REQ-P0A..D probes ARE the re-verification (good), but they are gated on R2 (late). Early phases (DIS, R0, R1) assume the deltas are real without independent check.\n- cheapest discriminating test: promote at least one independent fork-vs-source delta confirmation (e.g. run the 16-row hang matrix from #427) before R3 gating, not after.\n- severity-if-wrong: if any D1-D9 is mischaracterized (e.g. D2/D3 already landed upstream), the R3 verdict gate could be wrong. Medium.\n\nFINDING F [MEDIUM] Worktree design-doc copies are stale vs main repo; launch source ambiguous.\n- statement: my worktree's replan/plan docs carry the OLD four-instance list (incl. self-healed #2) and lack the parser-grammar instance. The MAIN repo plan doc (line 9) already has 'four verified current instances' + parser instance + temporal-healing. So worktree copies are behind. If the swarm is launched from this worktree, it consumes stale docs.\n- why-unverified: worktree not synced to main repo's corrections.\n- cheapest discriminating test: git diff main -- .design/ to confirm divergence; decide which copy is canonical for launch.\n- severity-if-wrong: launching from stale worktree docs propagates stale instance #2 and misses the parser instance. Medium.",
+          "created_at": "2026-08-23T22:21:10.170582250Z",
+          "kind": "observation",
+          "signed_by": "SHA256:tUf+Yfn7YETig7tytiUbSS0xDWW/g8Ba6qDZqZ7e0pI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4QBetGVQo8I0gobtcd9EupgLHt0iVydD9bC43hQFVSQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAi/WQ4fa7bmRCBGFEDpwrH1BEN5vyLgw9x9MfW59U4R217DcEkodtuTvbk6BA2+iNiHysLHOJajKes9R8BvSVAA=="
         },
         "bbf09248-6759-4b3e-9d6f-e5b913ad51d4": {
           "display_id": 2108,
@@ -26753,8 +26762,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T22:20:54.530455905Z",
+    "timestamp": "2026-08-23T22:21:10.176232131Z",
     "agent_id": "pp3g-4xe1-primary-adversarial-review-on-433-a-muse-spark-894c",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
