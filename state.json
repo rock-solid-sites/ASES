@@ -1,6 +1,6 @@
 {
   "next_display_id": 429,
-  "next_comment_id": 2073,
+  "next_comment_id": 2074,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -16934,7 +16934,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T20:14:08.901715114Z",
-      "updated_at": "2026-08-23T20:21:45.837582654Z",
+      "updated_at": "2026-08-23T20:21:58.954664629Z",
       "labels": [
         "investigation"
       ],
@@ -16956,6 +16956,15 @@
           "kind": "observation",
           "signed_by": "SHA256:kpmhg3j+qTk/mZOq89IkcgZ64NhYgHNB1rXTy7a6WxI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5uLAnDeBey6J8bcLYPT4aRDQh3oVDuXEUYhs4qgPfxAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoSKH1UVSLQRUd9FOkpHi6TF5NFrOG+yGqxVsIuDuUPVXfXDL214ilzLf6Zg3dxLMs76HZ4nCqE/SnggQCJGCBA=="
+        },
+        "6e949166-dfa2-445b-b250-e46b0035a0d1": {
+          "display_id": 2073,
+          "author": "OL2r",
+          "content": "[INDEPENDENT CROSS-CHECK - orchestrator's own read-only chain, complementary to this issue's doc-based pass]: [D1 - CONFIRMED VIA BINARY FORENSICS] durable silent-hang mitigation is a REAL fork delta: current deployed binary /home/claude-code/.nvm/versions/node/v22.22.3/lib/node_modules/opencode-ai/bin/opencode.exe contains 2 occurrences of marker string 'Body read timed out'; pristine stock backup opencode.exe.stock-1.18.13 (fork-backups/20260808-233133/, sha256 22475732...) contains ZERO. Wrapper identity-guard threshold is exactly these >=2 markers, so the guard is meaningful, not ceremonial. Packaging note: npm package.json still reports stock version '1.18.13' - the fork replaced the platform binary in-place under the stock-versioned package, meaning version-string checks alone CANNOT detect fork-vs-stock (the wrapper's marker scan exists precisely because of this). [D2 - STALE POINTER] wrapper cites .crosslink/knowledge/opencode-fork.md as restoration doc; that file DOES NOT EXIST (.crosslink/knowledge/ holds only playbook/crosslink-fork/model-discipline/kickoff-template). Fork knowledge is actually scattered across docs/research/agent-tooling-and-permission-enforcement*.md + the wrapper itself. Restoration runbook gap = recovery risk if binary regresses. [D3] repo preserves fork source as single squashed import commit 9e898aa1 (6395 files, msg cites #154+#273 retries:0 edit) - no incremental fork history in-repo; delta archaeology must rely on docs + binary/string comparison. HOW CERTAIN: D1/D3 direct observation; D2 absence-of-file = evidence-based but I did not exhaustively search sibling Tools repo. WHAT-NOT-TESTED: behavioral diff of hang handling (markers prove presence of patched strings, not runtime behavior); whether other functional deltas exist beyond hang-fix and catalog-patch without source-level diff against stock tree.",
+          "created_at": "2026-08-23T20:21:58.945618975Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAPavJ0U8KJ4IQK/HUD4B2Pvs/FAwL86dFi86E8/RjUYFArXT7W9OqlFTm5rmL6oJp3T5euIX1ZlWybyfZI7eiCg=="
         },
         "9f329a81-5d74-4898-864f-89c0adcd05ef": {
           "display_id": 2067,
@@ -26348,8 +26357,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T20:21:45.837582654Z",
-    "agent_id": "pp3g-HJkE-r3-exploratory-pass-427-under-epic-423-inventory-what",
-    "agent_seq": 6
+    "timestamp": "2026-08-23T20:21:58.954664629Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2123
   }
 }
