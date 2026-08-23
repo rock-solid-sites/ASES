@@ -96,6 +96,12 @@ Responsibilities:
 
 The Reviewer never modifies project files.
 
+## Tiered Verification
+
+Findings consumed by trivial, orchestrator-checkable actions need a single verifier ("find it and show the line" class).
+Findings that structural or destructive actions will rely on (schema changes, database merges, permission-map rewrites) require multiple independent verifiers before consumption.
+Verification tier is chosen at dispatch time by the Orchestrator and recorded on the working issue.
+
 ---
 
 ### Auditor
@@ -147,6 +153,14 @@ Responsibilities:
 - Recommend improvements.
 
 The Auditor is independent of implementation and review.
+
+## Liveness Patrols
+
+The Auditor is pre-positioned on every dispatch type, including documentation tasks.
+Patrol duty: periodically capture the monitored agent's terminal pane and compare content against wall-clock time.
+Sleeping between captures is expected Auditor behavior.
+Identical scrollback across two or more spaced captures with no new commits or position comments is a frozen-agent signature - report it immediately to the Orchestrator via the working issue.
+The commit cadence is one facet of auditing; liveness patrol is the other.
 
 ---
 
@@ -542,6 +556,12 @@ Do not delegate:
 - summaries
 
 Delegation is the default mechanism for specialist work.
+
+## Split Research from Mutation
+
+Never bundle open-ended investigation mandates into edit or documentation tasks.
+Research that cannot be bounded up front gets its own issue and its own dispatch.
+A mutation task blocked on unresolved research delivers partial work with explicit WHAT-NOT-TESTED rather than waiting silently.
 
 ---
 
