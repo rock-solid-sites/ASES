@@ -1,6 +1,6 @@
 {
   "next_display_id": 435,
-  "next_comment_id": 2115,
+  "next_comment_id": 2116,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -8007,11 +8007,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T22:29:21.702761714Z",
-      "updated_at": "2026-08-23T22:38:16.284546436Z",
+      "updated_at": "2026-08-23T22:38:54.217073680Z",
       "labels": [
         "agent-config"
       ],
       "comments": {
+        "2498925e-e469-42a2-8d10-1fdf8571804a": {
+          "display_id": 2115,
+          "author": "pp3g-29VW-fix-434-narrow-orchestrator-guard-exception-for-5749",
+          "content": "Result: Implemented the narrow .kickoff-status write exemption in .opencode/plugins/orchestrator-guard.ts (only file touched; NOT committed — orchestrator verifies and commits).\n\nEXACT CHANGES (21 insertions, 1 deletion):\n- Line 18 (new): `import * as path from \"path\";` (after the fs import; matches sibling plugins crosslink-guard.ts:28 / rtk-guard.ts:22).\n- Line 85: handler signature `(input, _output)` -> `(input, output)` so tool args are accessible.\n- Lines 92-109 (new block), inserted AFTER the BLOCKED_TOOLS early-return and BEFORE agent resolution/generic block:\n  Comment citing #434 liveness accounting rationale, then:\n  `if (toolName === \"filesystem_write_file\") {`\n    `const targetPath = (output.args as { path?: string } | undefined)?.path;`\n    `if (targetPath && path.basename(targetPath) === \".kickoff-status\") { log(...); return; }`\n  `}`\nBLOCKED_TOOLS set, ALLOWED_AGENTS, builder allow-path, and generic block are untouched.\n\nWHY: auditors/reviewers structurally could not write their own DONE marker; kickoff cleanup then classified live/finished read-only roles as stale forever. WHAT: basename-exact match on filesystem_write_file's args.path only. HOW CERTAIN: evidence-based — strict tsc --noEmit passes; 11/11 logic-level tests pass invoking the REAL plugin hooks directly (marker write allowed for auditor/reviewer incl. relative path; blocked for other.txt, .kickoff-status.bak, marker-as-intermediate-dir, filesystem_edit_file, native write, create_directory, move_file onto marker; builder path unchanged; unknown-agent still blocked).\n\nWHAT-NOT-TESTED: live in-opencode runtime behavior (plugin loaded by a real opencode process with real MCP filesystem_write_file calls) was not tested per task constraints — arg-shape assumption is output.args.path matching the MCP schema and sibling-plugin convention (crosslink-guard reads output.args.filePath the same way); Windows-style path separators untested (irrelevant to this Linux deployment); interaction with a future native-write exemption untested.\n\nAnti-loop note: stale lock on #434 (holder OL2r) blocked session work once; resolved via the error's documented remedy 'crosslink locks steal 434'.",
+          "created_at": "2026-08-23T22:38:54.210922139Z",
+          "kind": "result",
+          "signed_by": "SHA256:7ZijOP47Rv4jqnhNHZyat4fcfBuy4A+GSD/vprd7ntY",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxIHYcPJi0FBfhEpit85/LeNtYJvwj6dEq2i4tqGpPGcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKbNR9y828/hKSS6u7aJc2FbFYcivhmZmo+mqXIS7M6biWuJbh/HIuwXeMwCFA92sl18+l1yl5qylUdlpEVydCg=="
+        },
         "52b6c511-3d0c-41c7-a5c3-90b1ac320362": {
           "display_id": 2114,
           "author": "pp3g-29VW-fix-434-narrow-orchestrator-guard-exception-for-5749",
@@ -26827,8 +26836,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T22:38:16.284546436Z",
+    "timestamp": "2026-08-23T22:38:54.217073680Z",
     "agent_id": "pp3g-29VW-fix-434-narrow-orchestrator-guard-exception-for-5749",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
