@@ -1,6 +1,6 @@
 {
   "next_display_id": 428,
-  "next_comment_id": 2063,
+  "next_comment_id": 2064,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -1745,7 +1745,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:25:46.881375163Z",
-      "updated_at": "2026-08-23T18:48:17.432431939Z",
+      "updated_at": "2026-08-23T20:15:46.746329411Z",
       "labels": [
         "investigation"
       ],
@@ -1803,6 +1803,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQjBYviHjGQyXiVBGjSX4LzXtsvy2RVTY4ChU677YG23GpMHPp3P4adill3sw/3d2/oLz0b5dBr283ZaNGhKACg=="
+        },
+        "9be22282-5ed3-4ab3-b1b6-8c967e86b8fd": {
+          "display_id": 2063,
+          "author": "OL2r",
+          "content": "[OPERATOR DECISION 2026-08-23 ~20:15]: Option B approved and dispatched (builder pp3g-KGFh). Option A (merge) is EXPLICITLY DEFERRED and gated on EPIC #423 / R3 fork-necessity verdict - rationale: #425 proved a dual-writer world (S1 v2 reads only main db; S2 fork writes only fork db), so merging before the fork write-path freezes would go immediately stale or force repeated merges. When R3 concludes: retire-fork => one-time freeze then single multi-verifier merge per the newly codified tiered-verification doctrine (docs/ORCHESTRATOR.md); keep-fork => scheduled periodic merges instead. Option C precondition (db-path override existence) folded into R2 probe list. Recorded by orchestrator.",
+          "created_at": "2026-08-23T20:15:46.733561953Z",
+          "kind": "decision",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHNPucrW2QmraF7KQv3MAAHTgfJifGlOT75ySH+8yhcpZKZ9NzC1MDWlPIb12wxJE48E4b44B69DWz+BIL8u7CQ=="
         }
       }
     },
@@ -26241,8 +26250,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T20:15:05.052762674Z",
-    "agent_id": "pp3g-KGFh-build-remediation-option-b-from-419-read-side-union",
-    "agent_seq": 1
+    "timestamp": "2026-08-23T20:15:46.746329411Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2120
   }
 }
