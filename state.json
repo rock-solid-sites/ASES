@@ -1,6 +1,6 @@
 {
   "next_display_id": 434,
-  "next_comment_id": 2111,
+  "next_comment_id": 2112,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -18108,11 +18108,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T22:14:14.307967929Z",
-      "updated_at": "2026-08-23T22:21:26.674169868Z",
+      "updated_at": "2026-08-23T22:21:43.902652568Z",
       "labels": [
         "review"
       ],
       "comments": {
+        "3edb5e8d-86c2-4fc5-ba9b-6abbbcc67599": {
+          "display_id": 2111,
+          "author": "pp3g-4xe1-primary-adversarial-review-on-433-a-muse-spark-894c",
+          "content": "PRIMARY ADVERSARIAL REVIEW #433 (hy3) — FINAL VERDICT.\n\nVERDICT: HOLD (not launch-ready, not merely launch-with-holes).\n\nRationale: Finding A is launch-blocking on its own. The replan doc is the file explicitly marked 'consumed_by: crosslink swarm init --doc', yet its H1-only structure makes the crosslink fork parser (design_doc.rs + swarm/init.rs:18) discard all body content, yielding a DesignDoc with ZERO requirement groups -> the swarm would initialize with no work units. Until the consumed_by target parses to a non-empty requirement set, no launch is meaningful. The other findings (B,C,D,E,F,G) are serious but secondary to A; H/I are non-blocking.\n\nINDEPENDENT TOP-3 MUST-CLOSE (before any swarm launch):\n1. [from A] Make the consumed_by target parseable. Either (a) restructure .design/epic-423-swarm-replan.md to the parser grammar: add a '## Requirements' H2 and convert each '# Phase X' to '### Phase N' nested under it (mirroring the already-conformant plan doc), or (b) repoint 'consumed_by' to the conformant plan doc and ensure the replan's richer phase/gate content is preserved. Verify with 'crosslink swarm init --doc <file>' producing requirement_groups.len() > 0.\n2. [from B,C,F] Reconcile the DIS four-acceptance-instance list with current reality. Drop or locate-and-verify the self-healed instance #2 (playbook citations, per #429 provenance correction) and the unlocatable instance #4 ('stale git claim in auditor kickoff text' — not found in auditor.md, kickoff template, or .crosslink/.claude trees). Align the worktree copies with the main repo's already-corrected list ('four verified current instances' + parser-grammar instance + temporal-healing). All four acceptance instances must be real, current, and mechanically catchable before the DIS gate is trusted.\n3. [from D] Verify the budget-window hard-limit semantics. The playbook (5.2) claims 'agents exceeding the budget are terminated', but the swarm budget module implements only config/estimate/recommendation (no termination logic found). Resolve the '6h total guide' (replan) vs 'hard limit' (playbook) contradiction: confirm whether enforcement exists anywhere (orchestrator/sentinel) or the claim is aspirational, and correct the design doc accordingly before using it to bound phases.\n\nSECONDARY (should close, non-blocking): E (independently confirm >=1 fork delta before R3 gate, not after), G (verify projects/server/migration-handoff-summary.md exists/current before Track M relies on it), H (surface open S1 risks in the docs). I (installed-binary-vs-source divergence) is a reviewer-scope limitation: re-confirm the parser grammar against the INSTALLED crosslink binary before launch.\n\nNote: my worktree copies are stale vs the main repo's corrected plan doc; the operator should decide the canonical launch source. I did not read the muse-spark reviewer's findings (per isolation mandate) — divergence between our verdicts is intended signal.",
+          "created_at": "2026-08-23T22:21:43.896808975Z",
+          "kind": "observation",
+          "signed_by": "SHA256:tUf+Yfn7YETig7tytiUbSS0xDWW/g8Ba6qDZqZ7e0pI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4QBetGVQo8I0gobtcd9EupgLHt0iVydD9bC43hQFVSQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAzQhZOSxjwBECIC9lKGJilg+NBsv5Iv5j0hIzsItHHNVhCBwc87M3ATU9wQ7meiJWgK0Zy8gDnCvEbCUsG3P4Aw=="
+        },
         "694ce058-641b-4635-a7f6-91dc351c2532": {
           "display_id": 2107,
           "author": "pp3g-4xe1-primary-adversarial-review-on-433-a-muse-spark-894c",
@@ -26771,8 +26780,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T22:21:26.674169868Z",
+    "timestamp": "2026-08-23T22:21:43.902652568Z",
     "agent_id": "pp3g-4xe1-primary-adversarial-review-on-433-a-muse-spark-894c",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
