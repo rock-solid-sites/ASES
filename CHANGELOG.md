@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Security
+- SECURITY: orchestrator-guard BLOCKED_TOOLS misses filesystem_create_directory + filesystem_move_file - write-path bypass even on S2 (found by #425 research) (#426)
+
 ### Added
 - **Architectural Pivot:** Formalized the project structure into three layers: EDASES (Research), ASES (Methodology), and Execution Engine (Implementation), following the resolution of the Provenance Deadlock.
 - **Epistemic Model:** Formalized the first-class status of reasoning artifacts: Observations, Findings, Assumptions, Decisions, Challenges, and Validations (`Canonical Terminology.md`).
@@ -15,6 +18,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **D5 Convention (issue #341):** standing convention — metadata field is `program` (not `programme`), date field is `last_updated` (not `last_update`), and authored documentation uses American spelling. Applied repo-wide to committed docs.
 
 ### Changed
+- Harden agent definitions: shell-command mechanics guidance + explicit orchestrator FS-read permissions (#417)
+- RESEARCH (deferred Part 2 of #417): empirically verify OpenCode MCP-tool permission-matching semantics + orchestrator filesystem-MCP exposure across surfaces before any frontmatter change (#425)
+- R3 EXPLORATORY (under EPIC #423): inventory pp3g fork deltas vs stock 1.x baseline and map each against OpenCode 2 upstream parity - foundation for fork-necessity verdict (#427)
+- INVESTIGATE: session-history divergence at v1→v2 boundary — this repo's visible history stops ~Aug 9 despite active use through Aug 23 (#419)
+- DOC: codify 2026-08-23 doctrine amendments in docs/ORCHESTRATOR.md — split research from mutation tasks; auditor liveness patrols on ALL dispatch types; tiered verification for consumed findings (#424)
+- FIX-2: restore Zen list to exact 61 live-API non-grok set (include muse-spark-1.2-contributor-free and x-preview-f-free — valid live models); revert #414 regression (#415)
+- FIX-3: expand OpenCode Go list to full 28 live opencode-go models (include ox-alpha-free); Zen/plugin arrays already correct, do not touch (#416)
+- FIX: correct Zen list in #412 — remove 2 spurious IDs (muse-spark-1.2-contributor-free, x-preview-f-free), reconcile to live Zen API 61 non-grok; sync plugin freeZenModels arrays (#414)
+- REVIEW: verify #412 Go+Zen reconciliation (commit 724badbb) against #399 Zen API snapshot + live opencode models (#413)
+- DOC: reconcile Go + Zen model lists in model-discipline.md with live OpenCode API (#412)
 - DATA: update model-feedback registry (mimo-v2.5, big-pickle) + Failure-Matrix evidence with 2026-08-18 session data — mimo 5/5 completions incl. verification+fix+doc+recovery; big-pickle startup stall pattern (cCNd 2.2% CPU no heartbeat); finalization-gap recurrences (Fsyf, Jo2n-reconstruction, gUUV, qO5v); process-exit-after-posting (qO5v) (#411)
 - FIX: apply the 4 factual corrections from #404 verdict to the hook-inventory deliverable (#391) — (1) distinguish OpenCode plugins from Claude Code hooks in script count, (2) remove crosslink-guard.ts as co-enforcer for orchestrator write blocking (orchestrator-guard.ts is sole enforcer), (3) distinguish permission-model vs hook enforcement in 'ALREADY ENFORCED' claims, (4) revise '~15 rules ALREADY hook-enforced' to '~12 rules with hook/plugin enforcement' (#410)
 - RECOVER: capture the 5 completed auditor verdicts (#394/#402/#403/#404/#405) onto their issues from the agent panes; append today's 5-instance confirmation to #355 (auditor verdict-loss class); cross-link #357/#398 for the permission fix (#406)
