@@ -2,7 +2,8 @@
  * Orchestrator Guard — OpenCode Plugin
  *
  * Closes the edit:deny gap (OpenCode issue #33677). Native write/edit/apply_patch
- * and MCP filesystem_write_file / filesystem_edit_file tools succeed regardless of
+ * and MCP filesystem_write_file / filesystem_edit_file /
+ * filesystem_create_directory / filesystem_move_file tools succeed regardless of
  * `edit: deny` in the permission config. This plugin blocks them at the
  * tool.execute.before hook level for all non-Builder agents.
  *
@@ -36,6 +37,8 @@ const BLOCKED_TOOLS = new Set([
   "apply_patch",
   "filesystem_write_file",
   "filesystem_edit_file",
+  "filesystem_create_directory",
+  "filesystem_move_file",
 ]);
 
 const ALLOWED_AGENTS = new Set(["builder"]);
