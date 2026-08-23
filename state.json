@@ -1,6 +1,6 @@
 {
   "next_display_id": 434,
-  "next_comment_id": 2110,
+  "next_comment_id": 2111,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -18108,7 +18108,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T22:14:14.307967929Z",
-      "updated_at": "2026-08-23T22:21:10.176232131Z",
+      "updated_at": "2026-08-23T22:21:26.674169868Z",
       "labels": [
         "review"
       ],
@@ -18130,6 +18130,15 @@
           "kind": "observation",
           "signed_by": "SHA256:tUf+Yfn7YETig7tytiUbSS0xDWW/g8Ba6qDZqZ7e0pI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4QBetGVQo8I0gobtcd9EupgLHt0iVydD9bC43hQFVSQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAi/WQ4fa7bmRCBGFEDpwrH1BEN5vyLgw9x9MfW59U4R217DcEkodtuTvbk6BA2+iNiHysLHOJajKes9R8BvSVAA=="
+        },
+        "bb7258c0-e631-45cd-b6c8-93e1f9e1f0ec": {
+          "display_id": 2110,
+          "author": "pp3g-4xe1-primary-adversarial-review-on-433-a-muse-spark-894c",
+          "content": "PRIMARY ADVERSARIAL REVIEW #433 (hy3) — FINDINGS PART 3/3 (G,H,I).\n\nFINDING G [MEDIUM] Track M assumptions from projects/server/migration-handoff-summary.md not independently verified.\n- statement: replan Track M says 'lower-risk parallel environment + cutover' and 'Path updates handled systematically by projects/server/migration-handoff-summary.md runbook.' The design treats the runbook as existing and authoritative. Per mandate I should verify it exists and its claims hold. I could not locate/verify it within reviewer scope (it is outside the worktree; likely in a different projects tree).\n- why-unverified: not read; existence/claims unconfirmed.\n- cheapest discriminating test: locate projects/server/migration-handoff-summary.md, confirm it exists, and verify its cutover/parallel-environment claims are current (not themselves stale like permissions.md).\n- severity-if-wrong: if the runbook is missing or stale, Track M gating (M1 gated on R1, M4 on R0d) rests on a phantom. Medium.\n\nFINDING H [LOW/NIT] S1/S2/S3 definitions are accurate but understate open S1 risks.\n- statement: S1/S2/S3 match #423 definitions (good). But #423 seed findings flag unverified S1 risks: permission-matcher semantics unverified for S1 (#417), guard plugins use 1.x tool.execute.before hook API (v2 compat unverified), model-discipline.md timeout schema verified only against 1.18.11 (S1 may reschema provider.options.timeouts -> silent hang-protection loss). The design docs' S1-targeted probes (REQ-P1..P4) are the right response, but the docs present S1 as a clean surface without surfacing these open risks.\n- severity: Low (plan does include the probes). Note for dispatcher.\n\nFINDING I [LIMITATION, not a design defect] Installed binary vs source-tree divergence not fully verifiable from reviewer scope.\n- statement: mandate asked to check divergence between installed /home/claude-code/.cargo/bin/crosslink and source tree /home/claude-code/projects/crosslink. I verified the SOURCE tree's parser grammar (design_doc.rs) and budget module directly. But I could NOT (a) run 'crosslink swarm init --doc' / 'crosslink --version' (not in reviewer allowlist), nor (b) grep the binary's string table as text (ripgrep skips binary; no 'strings' in allowlist). So the installed binary's actual grammar/version is unverified. The source tree's git log was also blocked by the token-based permission matcher (rtk git / git -C denied; only 'git log .' with workdir would work and I could not confirm it).\n- implication: the already-verified 'H3+Requirements-section parser grammar empirically confirmed twice' should be re-confirmed against the INSTALLED binary before launch, since the binary may predate the source tree's '## Requirements' requirement (design_doc.rs line 352 warns when absent).\n- this is a reviewer-scope limitation to report, not a defect in the design docs.",
+          "created_at": "2026-08-23T22:21:26.668632746Z",
+          "kind": "observation",
+          "signed_by": "SHA256:tUf+Yfn7YETig7tytiUbSS0xDWW/g8Ba6qDZqZ7e0pI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4QBetGVQo8I0gobtcd9EupgLHt0iVydD9bC43hQFVSQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA91TrPbjms8JF3nxMZxXQnn938aVLWegnFUxlt4umM2rp+xJvbnbjuEVLloowz12ZtuZYdORb4eVWWymrTBFfDw=="
         },
         "bbf09248-6759-4b3e-9d6f-e5b913ad51d4": {
           "display_id": 2108,
@@ -26762,8 +26771,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T22:21:10.176232131Z",
+    "timestamp": "2026-08-23T22:21:26.674169868Z",
     "agent_id": "pp3g-4xe1-primary-adversarial-review-on-433-a-muse-spark-894c",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
