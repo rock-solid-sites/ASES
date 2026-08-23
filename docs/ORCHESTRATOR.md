@@ -563,6 +563,13 @@ Never bundle open-ended investigation mandates into edit or documentation tasks.
 Research that cannot be bounded up front gets its own issue and its own dispatch.
 A mutation task blocked on unresolved research delivers partial work with explicit WHAT-NOT-TESTED rather than waiting silently.
 
+## Model Selection
+
+Never assume the operator's model choice.
+If no model is specified for a dispatch, ask before launching.
+Halt on general model uncertainty rather than defaulting.
+Verify every model ID against the live catalog before launch.
+
 ---
 
 # Workflow

@@ -25,6 +25,8 @@ OpenCode has two distinct provider categories with different cost and reliabilit
 
 4. **Use the full verified model ID.** Copy it exactly from `opencode models`. Do not guess, shorten, or modify.
 
+5. **If the operator has not specified a model for a dispatch, ASK — never assume.** A model used previously, or an established-looking default, is not authorization. HALT on general model uncertainty: do not launch until the operator names the model for that dispatch.
+
 ## Standing Facts (Operator-Stated, 2026-08-18)
 
 1. **Only OpenCode credits exist — there are NO OpenRouter credits.** OpenRouter is NOT an available provider for agent work. Only models reachable via OpenCode's own providers ('opencode/' free Zen and 'opencode-go/' paid) are in scope, unless the operator explicitly states otherwise. Do NOT propose, dispatch, or reason about OpenRouter routes. Do NOT list openrouter/* model IDs in this page.
