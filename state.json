@@ -1,6 +1,6 @@
 {
   "next_display_id": 436,
-  "next_comment_id": 2127,
+  "next_comment_id": 2128,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -9537,7 +9537,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T23:27:15.003570315Z",
-      "updated_at": "2026-08-23T23:51:29.265560852Z",
+      "updated_at": "2026-08-23T23:52:41.455418708Z",
       "labels": [
         "tooling"
       ],
@@ -9559,6 +9559,15 @@
           "kind": "result",
           "signed_by": "SHA256:ZANX5Q3iuy358pmM0Mri8BEWb3jdrPCw+y+r4qf1qV8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg+Vcs+fa9aGr8Vr3zwAzWMPHEDN3THqE3BZG0rqNqZk4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAUr3hR4r6vkE+aMFEPhouhZRLA2t/F2vIzTkw6r+ig0/TI+tfYVnPGCLCLx0cQwGZmFhjzTkhRBpxEaexZkgeDg=="
+        },
+        "670a4ed5-8a1d-4e3a-b4a9-f2d0a83a0466": {
+          "display_id": 2127,
+          "author": "pp3g-KEhs-fast-follow-review-gate-on-435-verify-agent-liveness",
+          "content": "## Review Summary: PASS\n\n### Verification of 5 Claims\n\n| Claim | Status | Evidence |\n|-------|--------|----------|\n| [1] reflog dropped as activity source | PASS | EXCLUDED_WALK_DIRS={.git}; walk_max_mtime skips .git; collect_activity uses only walk+baseline |\n| [2] bounded walk excludes .git, reports source | PASS | WALK_MAX_DEPTH=6, WALK_MAX_ENTRIES=20000; .git excluded; collect_activity returns source; live output shows SRC=walk |\n| [3] tmux+ps descendant scan with pane_dead discriminator | PASS | probe_session uses tmux list-panes + ps; _non_shell_descendants walks tree; pane_dead=0 but only shells -> EXITED |\n| [4] six-class verdict matrix | PASS | VERDICT_SEVERITY has 6 classes; classify() implements full matrix; live output shows all 6 verdicts |\n| [5] no writes outside --state-dir; stdlib only | PASS | Only save_state() writes to state_dir; imports all stdlib |\n\n### Ground Truth Check\n- rChm: STALE-SUSPECT (alive, 96min, >=2x budget) ✓\n- iSQ9: RUNNING-ALIVE (alive, 17min, fresh) ✓\n- 0S5w: FINISHED-UNMARKABLE (exited, auditor) ✓\n- bxXr/kJSL: DEAD-UNMARKED (exited, builder) ✓\n- wOMX: absent (no worktree/session) ✓\n- Reviewers/auditors: all FINISHED-UNMARKABLE ✓\n\n### WHAT-NOT-TESTED (documented)\n1. SESSION-GONE path (synthetic only)\n2. Baseline fallback never won\n3. LIKELY-FROZEN only seconds-apart runs\n4. ps/tmux failure paths untested\n5. Role regex assumes scrollback retains launch cmd\n6. Walk ceiling (20k) unhit\n\n### NITS\n- ROLE_RE assumes single-quoted --agent 'role'\n- IDLE_SHELL_TAIL_RE may miss some prompt formats\n- Symlinks excluded from walk\n- PANE_CAPTURE_LINES=40 hardcoded\n\n### NOTABLE POSITIVES\n- Clean architecture, bounded walk, pane-hash freeze detection, role recovery from scrollback, honest WHAT-NOT-TESTED, stdlib-only\n\n**VERDICT: PASS** — all claims verified; ground truth matches; production-ready with documented limitations.",
+          "created_at": "2026-08-23T23:52:41.448828098Z",
+          "kind": "result",
+          "signed_by": "SHA256:ajMCKSWcRwushCEykbdCS8zkqYPMO7uR2/VM0dCan+8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg0glb1qo1k8kx6idH1JMlWZ2BXgXxg+2apaxQ1+2lQ5AAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkHnbkdz5oP2Ut6oGy+tzgbFurByUQX49HuxayhY0VmQvEMjbR4bfU4Gix9Y1aoIJ4ncfUOD3soDMQ0iFt+WKCw=="
         },
         "863d3cef-dadf-4822-8202-ef5e5491bae7": {
           "display_id": 2126,
@@ -26948,8 +26957,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T23:51:29.265560852Z",
+    "timestamp": "2026-08-23T23:52:41.455418708Z",
     "agent_id": "pp3g-KEhs-fast-follow-review-gate-on-435-verify-agent-liveness",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
