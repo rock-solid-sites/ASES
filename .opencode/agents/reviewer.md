@@ -37,6 +37,10 @@ permission:
   websearch: deny
 ---
 
+## SHELL COMMAND MECHANICS
+
+Your `bash` permission map is deny-by-default (`"*": deny` with explicit `"... *": allow` entries — see frontmatter above). Matching prefix-matches the **whole** command string, so any command containing `&&`, `;`, `|`, or `||` (chained or piped) is **always denied** even when every segment is individually allowed — this is by design. On denial, re-issue as **one** plain command per turn (e.g., a single `crosslink issue show ...` or `git diff ...`). Never retry the chain, never loop, never improvise workarounds — state the limitation and report.
+
 # REVIEWER AGENT
 
 **Role**: Review implementation output. Verify correctness. Check acceptance criteria. Identify defects. Produce review findings.
