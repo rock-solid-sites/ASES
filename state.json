@@ -1,6 +1,6 @@
 {
   "next_display_id": 424,
-  "next_comment_id": 2038,
+  "next_comment_id": 2039,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -4939,10 +4939,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-23T18:55:35.527327684Z",
+      "updated_at": "2026-08-23T18:57:13.820767574Z",
       "labels": [
         "epic"
-      ]
+      ],
+      "comments": {
+        "e7413f78-56eb-47e5-8e48-36fb57c31c03": {
+          "display_id": 2038,
+          "author": "OL2r",
+          "content": "STRUCTURE + SEED INVENTORY. Three surfaces define the compatibility matrix: [S1] v2 TUI 'opencode2' (@opencode-ai/cli 0.0.0-beta-17963, operator-facing, installed 2026-08-23 17:27); [S2] OpenCode pp3g fork CLI 1.18.13 (what the 'opencode' wrapper - flipped Aug 9 00:47 - execs; all agent/kickoff launches); [S3] crosslink-fork CLI (coordination layer itself). WORKSTREAMS: R1 INVENTORY - enumerate every custom tool (3 repo plugins incl orchestrator-guard/crosslink-guard/rtk-guard, user-level ~/.config/opencode/plugins/plugin.ts + dynamic-models.ts whitelist, claude wrapper + opencode wrapper, agent definitions x4, skills, scripts/, hook-config enforcement chain) and classify each x {S1,S2,S3} x {verified-working / suspect / broken / superseded-by-v2}. R2 REGRESSION SUITE - design+run probe-based tests per tool against live surfaces; mechanical where possible; results recorded per-tool with claim discipline. R3 FORK-NECESSITY REVIEW - enumerate every delta the pp3g fork carries vs upstream v2 (catalog grok-patch, chunkTimeout/hang mitigations, sentinel plumbing, whatever else differs); verdict per delta: still-needed / superseded-by-v2 / port-forward / retire. NOTE fork retirement also gated on v2 being beta-preview. SEED FINDINGS (all from 2026-08-23): [1] #419 root cause - store split by binary brand since Aug 9 cutover; fix options A-D parked pending operator decision. [2] #422 - grok visible in S1 picker; enforcement chain has no link on interactive path. [3] #421/QOL - S1 list insertion-order, different renderer than S2 models.ts. [4] #418 - instructions resolution CWD-relative; injection absent on S1-at-parent-root though proven on S2-at-repo-root. [5] model-discipline.md line 227 documents timeout schema as 'verified against live opencode 1.18.11 schema' - explicit 1.x-era assumption guarding the silent-hang mitigation (chunkTimeout); if S1 ignores or reschemas provider.options.timeouts, the hang-class protection may be silently absent on any S1-launched path - HIGH-VALUE R2 TARGET. [6] guard plugins use 1.x tool.execute.before hook API - v2 plugin API compatibility unverified (and if v2 closed upstream gap #33677 natively, guards may be redundant there instead). [7] permission matcher semantics verified only against S2 source (#417 verifying now); S1 matcher unverified - the shell-guidance text we are installing may be inaccurate for S1 sessions. [8] claude-wrapper strict-model validation targets whichever binary PATH resolves - wrapper-chain integrity under the Aug 9 flip unverified. GOVERNANCE: default builder model muse-spark-free per operator correction 2026-08-23 unless task routing dictates otherwise; no dispatches until #417 lands (hold); every R2 result needs WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED.",
+          "created_at": "2026-08-23T18:57:13.815039965Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtQw3ubYCgY3AKr6BBgAii4JQypkSMZbsmtrg/UnBPU7dRov4LanLtIzDBu0vG32wpin+eZ24h61epcRT+XvyAg=="
+        }
+      }
     },
     "312bd03b-dd8f-438a-9f26-fbfe7b483a65": {
       "uuid": "312bd03b-dd8f-438a-9f26-fbfe7b483a65",
@@ -25944,7 +25955,7 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T18:57:04.855875805Z",
+    "timestamp": "2026-08-23T18:57:13.820767574Z",
     "agent_id": "OL2r",
     "agent_seq": 2101
   }
