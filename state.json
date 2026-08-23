@@ -1,6 +1,6 @@
 {
   "next_display_id": 426,
-  "next_comment_id": 2053,
+  "next_comment_id": 2054,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5015,11 +5015,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-23T19:42:44.168348027Z",
+      "updated_at": "2026-08-23T19:51:51.025224531Z",
       "labels": [
         "epic"
       ],
       "comments": {
+        "d830f6e8-6b8a-4b7b-b6d9-06c22182d6a1": {
+          "display_id": 2053,
+          "author": "OL2r",
+          "content": "[SEED FINDING 9 ADDENDUM - permission-key rename confirmed empirically]: retry with properly-registered global md agent (ases-builder.md, mode: subagent, unpinned model - created by operator) progressed PAST mode resolution (global markdown-dir convention works in v2) but failed at the permission assert: 'Permission denied: subagent'. CONCLUSION: v2 renamed the spawn-permission action from 'task' (1.x, what ALL our agent frontmatter maps gate on) to 'subagent'. Combined with the earlier builder/mode failure, the complete native-subagent deadlock for sessions running our current definitions: every allowlisted name {builder,reviewer,auditor} mis-resolves to primary via repo path-style config; every correctly-resolving name is denied because our allowlists gate an action name v2 no longer reads for this tool. MIGRATION ITEMS for R2/R3: [1] add parallel 'subagent' permission blocks to all four .opencode/agents/*.md (retain 'task' blocks for S2/fork compat); [2] determine whether v2 honors project-level markdown agents (.opencode/agents/*.md convention) so role definitions can stop relying on opencode.json path-indirection; [3] verify whether permission changes require session restart in v2 or hot-reload; [4] re-test model-inheritance hypothesis once spawn succeeds (ases-builder.md deliberately unpinned).",
+          "created_at": "2026-08-23T19:51:51.015951208Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABABDWU1RWQQXfS0Qg6pCA0mpzcE7cqXkOGoU+/vx6dmnK1eu0BYtnoJrG1KxmMuczpkAV3v3zG/E6xxMJjMCjxBA=="
+        },
         "e7413f78-56eb-47e5-8e48-36fb57c31c03": {
           "display_id": 2038,
           "author": "OL2r",
@@ -26113,8 +26122,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T19:42:44.168348027Z",
+    "timestamp": "2026-08-23T19:51:51.025224531Z",
     "agent_id": "OL2r",
-    "agent_seq": 2110
+    "agent_seq": 2111
   }
 }
