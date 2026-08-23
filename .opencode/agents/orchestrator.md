@@ -45,6 +45,12 @@ permission:
     "builder": "allow"
     "reviewer": "allow"
     "auditor": "allow"
+  subagent:
+    "*": "deny"
+    "ases-builder": "allow"
+    "builder": "allow"
+    "reviewer": "allow"
+    "auditor": "allow"
   question: allow
   webfetch: deny
   websearch: deny
