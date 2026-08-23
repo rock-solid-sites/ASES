@@ -2,6 +2,8 @@
 
 Coordination layer drives fork CLI (S2) today and must be verified against OpenCode 2 beta (S1) before any retirement decision. Context document: .design/epic-423-swarm-replan.md
 
+## Requirements
+
 ### Phase 1: Documentation Integrity System (sequential)
 
 - REQ-DIS1: Build doc-graph extractor over existing frontmatter conventions plus citation scan across docs, .crosslink/knowledge, wrapper scripts and configs. Acceptance: graph flags all four known-broken instances from 2026-08-23 - missing .crosslink/knowledge/opencode-fork.md target cited by opencode wrapper, unverifiable playbook section citations reported on issue #429, permissions.md self-declared staleness, stale git claim in auditor kickoff text.
