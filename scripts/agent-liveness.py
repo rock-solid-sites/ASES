@@ -1,58 +1,87 @@
 #!/usr/bin/env python3
 """
-agent-liveness.py — read-only one-glance staleness dashboard for running
-kickoff agents (EPIC #423 liveness workstream).
+agent-liveness.py v2 — read-only one-glance liveness dashboard for kickoff
+agents (EPIC #423 liveness workstream; issue #435).
 
-Discovers kickoff agents from ``<root>/*/.kickoff-metadata.json`` (default root:
-``/home/claude-code/projects/ASES/.worktrees``), reads each agent's lifecycle
-sentinel (``.kickoff-status``: DONE / RUNNING / absent), estimates how long
-since the agent last did *anything observable*, and renders a verdict table.
+v1 believed two liars and this is v2's reason to exist:
 
-DESIGN NOTE — why "old + no DONE" is not "confirmed done" (#434):
-    DONE-marker writes are blocked for read-only agent roles (issue #434), so a
-    finished-but-never-marked agent is indistinguishable from an agent that was
-    killed mid-flight: in both cases the sentinel is absent and activity stops.
-    This tool therefore treats *absent sentinel + old activity* as
-    STALE-SUSPECT / LIKELY-FROZEN — never as confirmed-done. Only an explicit
-    DONE sentinel counts as completed. The verdict vocabulary is deliberately
-    suspicion-shaped ("SUSPECT", "LIKELY") because every signal here is
-    heuristic; the human orchestrator decides.
+  Bug-A (fixed): LAST_ACTIVITY sourced from .git reflog mtimes reported
+      identical fresh ages across ALL worktrees, because crosslink hydration
+      and git housekeeping touch refs globally. Reflog mtime measures
+      INFRASTRUCTURE activity, not agent activity. v2 drops the reflog as a
+      signal entirely.
+  Bug-B (fixed): STATUS was trusted from .kickoff-status files, which are
+      write-once builder artifacts: killed processes show RUNNING forever,
+      and read-only roles (blocked from sentinel writes per #434) show
+      RUNNING after finishing. v2 never trusts the sentinel alone; it
+      cross-checks against process aliveness.
 
-Activity signals per agent (last_activity = NEWEST of):
-    status  — mtime of the worktree's .kickoff-status file;
-    reflog  — newest file mtime under the worktree gitdir's logs/ (reflog),
-              located via the worktree's ".git: gitdir:" pointer file;
-    walk    — approximate tracked-file activity: max mtime over an os.walk of
-              the worktree capped at depth 3 (cheap proxy for "files changed
-              since checkout"; blessed approximation, not exact git tracking).
-If none of these exist the agent is skipped (reported on stderr).
+Activity signal (last_activity), per agent:
+    walk      — newest mtime among worktree files via a bounded recursive
+                scandir walk that EXCLUDES the .git directory (depth cap +
+                entry-count cap keep it bounded). This intentionally still
+                includes the worktree's .crosslink/ tree: comments, syncs and
+                issue writes there are authored by the agent itself, whereas
+                the global-churn culprits of Bug-A live under .git/ and in
+                the main checkout — both outside this walk.
+    baseline  — checkout-time fallback used only when the walk finds no
+                files: max(.kickoff-metadata.json started_at, worktree root
+                mtime). The row always reports which source won.
 
-Pane-hash freeze detection (--pane NAME, repeatable):
-    For each named agent, if a tmux session of the same name exists, capture
-    its pane (`tmux capture-pane -p -S -40`), sha256 it, and store the hash in
-    a state file under --state-dir. If two consecutive runs record identical
-    hashes, nothing on that pane has changed between runs → LIKELY-FROZEN
-    regardless of age. The FIRST observation can never conclude frozenness
-    (one sample, no delta). State is written ONLY inside --state-dir.
+Process aliveness probe (tmux, per agent whose session name == agent name):
+    SESSION-GONE — tmux reports no such session.
+    EXITED       — session exists but every pane is dead (#{pane_dead}) or
+                   the pane's process tree contains nothing but shells: the
+                   agent process exited back to an idle prompt while tmux
+                   kept the session (remain-on-exit). Verified live: zombie
+                   panes show pane_dead=0 + cmd=bash, so pane_dead alone is
+                   NOT sufficient — the descendant scan is the discriminator.
+    ALIVE        — at least one pane has a live non-shell descendant
+                   (claude/opencode/node/timeout/...).
 
-Verdicts (age measured against --budget-min, default 45 min):
-    ok            age <  2x budget silence
-    STALE-SUSPECT 2x <= age <= 4x budget silence
-    LIKELY-FROZEN age > 4x budget silence, OR identical pane hashes across runs
+Agent role (for the #434 class): recovered from the session's FULL scrollback
+(`tmux capture-pane -S -`), which retains the launch command containing
+`--agent '<role>'` even after the agent process has exited. Roles
+reviewer/auditor/orchestrator are read-only (sentinel-write blocked per #434).
+When the session is gone the role is unknowable and reported as "unknown".
+
+Cross-signal verdict matrix (sentinel x aliveness x recency x role):
+    DONE-CONFIRMED        sentinel DONE (any aliveness) — explicit
+                          completion beats every other signal
+    RUNNING-ALIVE         ALIVE + fresh walk activity (< 2x budget)
+    STALE-SUSPECT         ALIVE but quiet (>= 2x budget) — process lives,
+                          evidence of progress does not
+    FINISHED-UNMARKABLE   gone/exited + sentinel RUNNING/ABSENT + read-only
+                          role (#434 class; mitigated by guard exception but
+                          still detected)
+    DEAD-UNMARKED         gone/exited + sentinel RUNNING/ABSENT + builder or
+                          unknown role (the zombie class; conservative when
+                          role is undetectable)
+    LIKELY-FROZEN         overlay: identical pane hashes across two runs
+                          (--pane/--all) freezes the verdict regardless of
+                          the matrix outcome above
+
+Pane-hash freeze detection:
+    --pane NAME (repeatable) hashes the named agents' panes;
+    --all hashes EVERY alive session in one pass. Two consecutive runs with
+    identical hashes => nothing on that pane changed between runs =>
+    LIKELY-FROZEN overlay. The first observation never concludes frozenness.
+    State is written ONLY inside --state-dir.
 
 Usage:
     python3 scripts/agent-liveness.py                     # dashboard table
     python3 scripts/agent-liveness.py --budget-min 30     # override silence budget
     python3 scripts/agent-liveness.py --pane pp3g-rChm-relaunch-of-429-research-after-frozen-predecessor-see
+    python3 scripts/agent-liveness.py --all               # hash every alive session
     python3 scripts/agent-liveness.py --json              # machine-readable
-    python3 scripts/agent-liveness.py --help
 
-Constraints: reads only; writes ONLY the pane-hash state file inside
---state-dir (default /tmp/opencode/liveness-state/). Never modifies any agent
-state, never invokes git, never touches tmux except capture-pane.
+Constraints: reads only outside --state-dir; writes ONLY the pane-hash state
+file inside --state-dir (default /tmp/opencode/liveness-state/). Never
+modifies agent state; tmux is invoked only for list-panes/capture-pane/
+display-message reads; `ps` is invoked read-only for the process-tree scan.
 
-Dependencies: Python 3 stdlib only (argparse, hashlib, json, os, subprocess,
-sys, time, datetime).
+Dependencies: Python 3 stdlib only (argparse, hashlib, json, os, re,
+subprocess, sys, time, datetime); external read-only tools: tmux, ps.
 """
 
 from __future__ import annotations
@@ -61,6 +90,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -69,10 +99,29 @@ from datetime import datetime, timezone
 DEFAULT_ROOT = "/home/claude-code/projects/ASES/.worktrees"
 DEFAULT_STATE_DIR = "/tmp/opencode/liveness-state"
 STATE_FILENAME = "pane-hashes.json"
-WALK_MAX_DEPTH = 3          # depth cap for the worktree mtime walk (see docstring)
-AGENT_COL_CAP = 52          # display cap for long worktree names in text mode
-PANE_CAPTURE_LINES = 40     # matches `-S -40`
+
+WALK_MAX_DEPTH = 6          # depth cap for the worktree mtime walk
+WALK_MAX_ENTRIES = 20000    # hard ceiling on visited entries (bounded walk)
+AGENT_COL_CAP = 46          # display cap for long worktree names in text mode
+PANE_CAPTURE_LINES = 40     # tail length for -S capture in hash/evidence mode
 TMUX_TIMEOUT_SECS = 10
+PS_TIMEOUT_SECS = 10
+
+EXCLUDED_WALK_DIRS = {".git"}          # Bug-A: global git churn is not activity
+SHELL_COMM_NAMES = {"bash", "sh", "zsh", "dash", "fish", "ksh"}
+READ_ONLY_ROLES = {"reviewer", "auditor", "orchestrator"}  # #434 sentinel-blocked
+ROLE_RE = re.compile(r"--agent\s+'?([A-Za-z][A-Za-z0-9_-]*)'")
+IDLE_SHELL_TAIL_RE = re.compile(r"[@\w:~/-]+[$#]\s*$")
+
+# Verdict severity for one-glance sorting (lower = needs attention sooner).
+VERDICT_SEVERITY = {
+    "DEAD-UNMARKED": 0,
+    "LIKELY-FROZEN": 1,
+    "FINISHED-UNMARKABLE": 2,
+    "STALE-SUSPECT": 3,
+    "RUNNING-ALIVE": 4,
+    "DONE-CONFIRMED": 5,
+}
 
 
 def iso(ts: float | None) -> str | None:
@@ -83,7 +132,7 @@ def iso(ts: float | None) -> str | None:
 
 
 # --------------------------------------------------------------------------
-# Discovery and signal collection (all read-only)
+# Discovery and activity signals (all read-only)
 # --------------------------------------------------------------------------
 
 def discover_agents(root: str) -> list[tuple[str, str]]:
@@ -111,19 +160,28 @@ def read_status(wt: str) -> str:
     return content or "ABSENT"
 
 
-def walk_max_mtime(top: str, max_depth: int = WALK_MAX_DEPTH) -> float | None:
-    """Max mtime of regular files under top, recursing at most max_depth levels.
+def walk_max_mtime(top: str, max_depth: int = WALK_MAX_DEPTH,
+                   max_entries: int = WALK_MAX_ENTRIES) -> float | None:
+    """Newest mtime of regular files under top, excluding .git directories.
 
-    Symlinks are never followed (no escapes, no loops). Errors ignored: this is
-    a best-effort heuristic signal by design.
+    Bounded twice: recursion depth <= max_depth AND total visited entries <=
+    max_entries (whichever hits first ends the walk). Symlinks are never
+    followed (no escapes, no loops). Errors ignored on individual entries:
+    best-effort heuristic by design. Returns None when no file was seen.
     """
     best: float | None = None
+    visited = 0
 
     def rec(directory: str, depth: int) -> None:
-        nonlocal best
+        nonlocal best, visited
+        if visited >= max_entries:
+            return
         try:
             with os.scandir(directory) as it:
                 for entry in it:
+                    if visited >= max_entries:
+                        return
+                    visited += 1
                     try:
                         if entry.is_symlink():
                             continue
@@ -131,7 +189,9 @@ def walk_max_mtime(top: str, max_depth: int = WALK_MAX_DEPTH) -> float | None:
                             mtime = entry.stat().st_mtime
                             if best is None or mtime > best:
                                 best = mtime
-                        elif entry.is_dir(follow_symlinks=False) and depth < max_depth:
+                        elif (entry.is_dir(follow_symlinks=False)
+                              and depth < max_depth
+                              and entry.name not in EXCLUDED_WALK_DIRS):
                             rec(entry.path, depth + 1)
                     except OSError:
                         continue
@@ -142,36 +202,161 @@ def walk_max_mtime(top: str, max_depth: int = WALK_MAX_DEPTH) -> float | None:
     return best
 
 
-def reflog_newest_mtime(wt: str) -> float | None:
-    """Newest mtime under the worktree gitdir's logs/ via the .git pointer."""
+def baseline_mtime(wt: str) -> float | None:
+    """Checkout-time fallback: newest of metadata started_at / root dir mtime."""
+    candidates: list[float] = []
     try:
-        with open(os.path.join(wt, ".git"), encoding="utf-8") as fh:
-            line = fh.read().strip()
-    except OSError:
-        return None
-    if not line.startswith("gitdir:"):
-        return None
-    gitdir = line.split(":", 1)[1].strip()
-    if not os.path.isabs(gitdir):
-        gitdir = os.path.join(wt, gitdir)
-    return walk_max_mtime(os.path.join(gitdir, "logs"), max_depth=WALK_MAX_DEPTH)
-
-
-def collect_signals(wt: str) -> dict[str, float]:
-    """All available activity signals: {'status'|'reflog'|'walk': mtime}."""
-    signals: dict[str, float] = {}
-    try:
-        signals["status"] = os.stat(
-            os.path.join(wt, ".kickoff-status")).st_mtime
+        candidates.append(os.stat(wt).st_mtime)
     except OSError:
         pass
-    reflog = reflog_newest_mtime(wt)
-    if reflog is not None:
-        signals["reflog"] = reflog
+    meta_path = os.path.join(wt, ".kickoff-metadata.json")
+    try:
+        with open(meta_path, encoding="utf-8") as fh:
+            started_at = json.load(fh).get("started_at")
+        if isinstance(started_at, str):
+            candidates.append(
+                datetime.fromisoformat(started_at).timestamp())
+    except (OSError, ValueError, TypeError):
+        pass
+    return max(candidates) if candidates else None
+
+
+def collect_activity(wt: str) -> tuple[float | None, str]:
+    """(last_activity_epoch, source) with source in {'walk', 'baseline'}."""
     walked = walk_max_mtime(wt)
     if walked is not None:
-        signals["walk"] = walked
-    return signals
+        return walked, "walk"
+    base = baseline_mtime(wt)
+    if base is not None:
+        return base, "baseline"
+    return None, "none"
+
+
+# --------------------------------------------------------------------------
+# Process aliveness probe (read-only tmux + ps)
+# --------------------------------------------------------------------------
+
+def _run(cmd: list[str], timeout: int) -> tuple[int, str, str | None]:
+    """Run a read-only external command; stderr collapsed to first line."""
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True,
+                              timeout=timeout)
+    except FileNotFoundError:
+        return 127, "", "binary not found"
+    except subprocess.TimeoutExpired:
+        return 124, "", "timed out"
+    err = (proc.stderr or "").strip().splitlines()
+    return proc.returncode, proc.stdout, (err[0] if err else None)
+
+
+def probe_session(session: str) -> dict:
+    """Classify session aliveness: ALIVE / EXITED / SESSION-GONE (+evidence).
+
+    EXITED means the agent process is gone although tmux may still hold the
+    session: either every pane reports #{pane_dead}=1, or the process tree
+    under each pane pid contains nothing but shell processes (idle prompt).
+    """
+    rc, out, err = _run(
+        ["tmux", "list-panes", "-t", session,
+         "-F", "#{pane_dead}\t#{pane_pid}\t#{pane_current_command}"],
+        TMUX_TIMEOUT_SECS)
+    if rc != 0:
+        return {"state": "SESSION-GONE",
+                "detail": err or "tmux reported no such session"}
+
+    panes = [line.split("\t") for line in out.splitlines() if line.strip()]
+    if not panes:
+        return {"state": "SESSION-GONE", "detail": "session has no panes"}
+
+    procs = _process_table()
+    alive_panes, dead_panes = [], []
+    for dead_flag, pid_str, command in panes:
+        pid = int(pid_str) if pid_str.isdigit() else None
+        if dead_flag == "1":
+            dead_panes.append({"pid": pid, "command": command})
+            continue
+        non_shell = _non_shell_descendants(pid, procs) if pid else []
+        if non_shell:
+            alive_panes.append({
+                "pid": pid, "command": command,
+                "live_descendants": sorted(non_shell)[:8],
+            })
+        else:
+            dead_panes.append({"pid": pid, "command": command,
+                               "reason": "only shell processes remain"})
+
+    if alive_panes:
+        return {"state": "ALIVE", "panes_alive": alive_panes,
+                "panes_dead": dead_panes}
+    return {"state": "EXITED", "panes_alive": [], "panes_dead": dead_panes}
+
+
+def _process_table() -> dict[int, tuple[int, str]]:
+    """Snapshot of {pid: (ppid, comm)} from ps; empty map if ps unavailable."""
+    rc, out, _ = _run(["ps", "-eo", "pid=,ppid=,comm="], PS_TIMEOUT_SECS)
+    table: dict[int, tuple[int, str]] = {}
+    if rc != 0:
+        return table
+    for line in out.splitlines():
+        parts = line.split(None, 2)
+        if len(parts) != 3:
+            continue
+        pid_s, ppid_s, comm = parts
+        if pid_s.isdigit() and ppid_s.isdigit():
+            table[int(pid_s)] = (int(ppid_s), comm.strip())
+    return table
+
+
+def _non_shell_descendants(root_pid: int | None,
+                           procs: dict[int, tuple[int, str]]) -> set[str]:
+    """comm names of descendants of root_pid that are not plain shells."""
+    found: set[str] = set()
+    if root_pid is None:
+        return found
+    children: dict[int, list[int]] = {}
+    for pid, (ppid, _comm) in procs.items():
+        children.setdefault(ppid, []).append(pid)
+    stack = list(children.get(root_pid, []))
+    while stack:
+        pid = stack.pop()
+        comm = procs.get(pid, (0, ""))[1]
+        base = os.path.basename(comm)
+        if base and base not in SHELL_COMM_NAMES:
+            found.add(base)
+        stack.extend(children.get(pid, []))
+    return found
+
+
+def role_from_scrollback(session: str) -> tuple[str | None, bool]:
+    """(role, idle_shell_hint) from full scrollback, or (None, hint).
+
+    The launch command (`... claude --agent 'builder' ...`) stays in tmux
+    history after the agent exits, so the role remains recoverable while the
+    session exists. idle_shell_hint=True when the last non-blank captured
+    line looks like an idle shell prompt (corroborating EXITED evidence).
+    """
+    rc, out, _ = _run(["tmux", "capture-pane", "-p", "-S", "-", "-t", session],
+                      TMUX_TIMEOUT_SECS)
+    role = None
+    idle_hint = False
+    if rc == 0:
+        match = ROLE_RE.search(out)
+        if match:
+            role = match.group(1).lower()
+        tail_lines = [ln.rstrip() for ln in out.splitlines() if ln.strip()]
+        if tail_lines and IDLE_SHELL_TAIL_RE.search(tail_lines[-1]):
+            idle_hint = True
+    return role, idle_hint
+
+
+def capture_pane_hash(session: str) -> tuple[str | None, str | None]:
+    """sha256 of the pane tail (`capture-pane -p -S -40`), or (None, reason)."""
+    cmd = ["tmux", "capture-pane", "-p",
+           "-S", f"-{PANE_CAPTURE_LINES}", "-t", session]
+    rc, out, err = _run(cmd, TMUX_TIMEOUT_SECS)
+    if rc != 0:
+        return None, err or "capture failed"
+    return hashlib.sha256(out.encode("utf-8", "replace")).hexdigest(), None
 
 
 # --------------------------------------------------------------------------
@@ -195,51 +380,34 @@ def save_state(state_dir: str, panes: dict) -> str | None:
         os.makedirs(state_dir, exist_ok=True)
         tmp_path = path + ".tmp"
         with open(tmp_path, "w", encoding="utf-8") as fh:
-            json.dump({"version": 1, "panes": panes}, fh, indent=2, sort_keys=True)
+            json.dump({"version": 2, "panes": panes}, fh, indent=2,
+                      sort_keys=True)
         os.replace(tmp_path, path)
         return None
     except OSError as exc:
         return f"cannot write {path}: {exc}"
 
 
-def capture_pane_hash(session: str) -> tuple[str | None, str | None]:
-    """sha256 of `tmux capture-pane -p -S -40 -t session`, or (None, reason)."""
-    cmd = ["tmux", "capture-pane", "-p",
-           "-S", f"-{PANE_CAPTURE_LINES}", "-t", session]
-    try:
-        proc = subprocess.run(cmd, capture_output=True, text=True,
-                              timeout=TMUX_TIMEOUT_SECS)
-    except FileNotFoundError:
-        return None, "tmux binary not found"
-    except subprocess.TimeoutExpired:
-        return None, "tmux capture timed out"
-    if proc.returncode != 0:
-        first_err = (proc.stderr or "").strip().splitlines()
-        return None, (first_err[0] if first_err else "capture failed")
-    return hashlib.sha256(proc.stdout.encode("utf-8", "replace")).hexdigest(), None
-
-
 # --------------------------------------------------------------------------
-# Verdicts
+# Verdict matrix
 # --------------------------------------------------------------------------
 
-def classify(status: str, age_min: float, pane_frozen: bool | None,
+def classify(status: str, aliveness: str, age_min: float,
+             role: str | None, pane_frozen: bool | None,
              budget_min: float) -> str:
-    """ok (<2x) / STALE-SUSPECT (2x-4x inclusive) / LIKELY-FROZEN (>4x or pane).
-
-    DONE sentinels short-circuit to ok (explicit completion beats age math);
-    ABSENT sentinels go through the same thresholds as RUNNING — see the #434
-    design note in the module docstring.
-    """
+    """Cross-signal verdict matrix — see module docstring for the full table."""
+    if status == "DONE":
+        return "DONE-CONFIRMED"
+    if aliveness in ("SESSION-GONE", "EXITED"):
+        if role in READ_ONLY_ROLES:
+            return "FINISHED-UNMARKABLE"
+        return "DEAD-UNMARKED"
+    # ALIVE below here.
     if pane_frozen:
         return "LIKELY-FROZEN"
-    if status == "DONE":
-        return "ok"
     if age_min < 2.0 * budget_min:
-        return "ok"
-    if age_min <= 4.0 * budget_min:
-        return "STALE-SUSPECT"
-    return "LIKELY-FROZEN"
+        return "RUNNING-ALIVE"
+    return "STALE-SUSPECT"
 
 
 def truncate(name: str, cap: int = AGENT_COL_CAP) -> str:
@@ -247,20 +415,32 @@ def truncate(name: str, cap: int = AGENT_COL_CAP) -> str:
 
 
 def render_table(rows: list[dict]) -> str:
-    headers = ("AGENT", "STATUS", "LAST_ACTIVITY_AGE_MIN", "SOURCE", "VERDICT")
-    agent_w = max([len(truncate(r["agent"])) for r in rows] + [len(headers[0])])
-    status_w = max([len(r["status"]) for r in rows] + [len(headers[1])])
-    src_w = max([len(r["source"]) for r in rows] + [len(headers[3])])
-    verd_w = max([len(r["verdict"]) for r in rows] + [len(headers[4])])
+    headers = ("AGENT", "STATUS", "ALIVENESS", "AGE_MIN", "SRC", "ROLE",
+               "VERDICT")
+    agent_w = max([len(truncate(r["agent"])) for r in rows]
+                  + [len(headers[0])])
+    widths = [
+        max([len(r["status"]) for r in rows] + [len(headers[1])]),
+        max([len(r["aliveness"]) for r in rows] + [len(headers[2])]),
+        max([len(headers[3])]),
+        max([len(r["source"]) for r in rows] + [len(headers[4])]),
+        max([len(r["role"]) for r in rows] + [len(headers[5])]),
+        max([len(r["verdict"]) for r in rows] + [len(headers[6])]),
+    ]
     lines = [
-        f"{headers[0]:<{agent_w}}  {headers[1]:<{status_w}}  "
-        f"{headers[2]:>21}  {headers[3]:<{src_w}}  {headers[4]}",
-        f"{'-' * agent_w}  {'-' * status_w}  {'-' * 21}  {'-' * src_w}  {'-' * verd_w}",
+        f"{headers[0]:<{agent_w}}  {headers[1]:<{widths[0]}}  "
+        f"{headers[2]:<{widths[1]}}  {headers[3]:>{widths[2]}}  "
+        f"{headers[4]:<{widths[3]}}  {headers[5]:<{widths[4]}}  {headers[6]}",
+        (f"{'-' * agent_w}  {'-' * widths[0]}  {'-' * widths[1]}  "
+         f"{'-' * widths[2]}  {'-' * widths[3]}  {'-' * widths[4]}  "
+         f"{'-' * widths[5]}"),
     ]
     for r in rows:
         lines.append(
-            f"{truncate(r['agent']):<{agent_w}}  {r['status']:<{status_w}}  "
-            f"{r['age_min']:>21,.1f}  {r['source']:<{src_w}}  {r['verdict']}")
+            f"{truncate(r['agent']):<{agent_w}}  {r['status']:<{widths[0]}}  "
+            f"{r['aliveness']:<{widths[1]}}  {r['age_min']:>{widths[2]},.1f}  "
+            f"{r['source']:<{widths[3]}}  {r['role']:<{widths[4]}}  "
+            f"{r['verdict']}")
     return "\n".join(lines)
 
 
@@ -271,20 +451,29 @@ def render_table(rows: list[dict]) -> str:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="agent-liveness.py",
-        description="Read-only staleness dashboard for running kickoff agents "
-                    "(EPIC #423). Writes only its pane-hash state file.",
-        epilog="Verdict thresholds: ok < 2x budget; STALE-SUSPECT 2x-4x; "
-               "LIKELY-FROZEN >4x or identical pane hashes across runs.")
+        description="Read-only liveness dashboard for kickoff agents (EPIC "
+                    "#423, v2 per #435). Cross-checks sentinels against tmux "
+                    "process aliveness and .git-free filesystem activity. "
+                    "Writes only its pane-hash state file.",
+        epilog="Verdict matrix: DONE-CONFIRMED (explicit DONE); RUNNING-ALIVE "
+               "(alive+fresh); STALE-SUSPECT (alive+quiet >=2x budget); "
+               "FINISHED-UNMARKABLE (gone/exited + read-only role, #434); "
+               "DEAD-UNMARKED (gone/exited + RUNNING sentinel, zombie class); "
+               "LIKELY-FROZEN (identical pane hashes across runs).")
     p.add_argument("--root", default=DEFAULT_ROOT,
                    help=f"worktrees root to scan (default: {DEFAULT_ROOT})")
     p.add_argument("--budget-min", type=float, default=45.0, metavar="MIN",
                    help="expected silence budget in minutes (default: 45)")
     p.add_argument("--pane", action="append", default=[], metavar="AGENT",
-                   help="enable tmux pane-hash freeze detection for this agent "
-                        "name (repeatable); tmux session must share the name")
+                   help="enable tmux pane-hash freeze detection for this "
+                        "agent name (repeatable)")
+    p.add_argument("--all", action="store_true",
+                   help="run pane-hash comparison across every ALIVE session "
+                        "in one pass (supersedes --pane selection)")
     p.add_argument("--state-dir", default=DEFAULT_STATE_DIR, metavar="DIR",
                    help=f"directory for the pane-hash state file "
-                        f"(default: {DEFAULT_STATE_DIR}; the only write target)")
+                        f"(default: {DEFAULT_STATE_DIR}; the only write "
+                        f"target)")
     p.add_argument("--json", action="store_true",
                    help="emit machine-readable JSON instead of a table")
     return p
@@ -302,17 +491,28 @@ def main(argv: list[str] | None = None) -> int:
 
     for name, wt in discover_agents(args.root):
         status = read_status(wt)
-        signals = collect_signals(wt)
-        if not signals:
-            skipped.append(name)  # spec: skip when no signal exists at all
+        last_activity, source = collect_activity(wt)
+        if last_activity is None:
+            skipped.append(name)  # no walkable files AND no baseline at all
             continue
-        source, last_activity = max(signals.items(), key=lambda kv: kv[1])
         age_min = max(0.0, (now - last_activity) / 60.0)
 
+        probe = probe_session(name)
+        aliveness = probe["state"]
+
+        role: str | None = None
+        idle_hint: bool | None = None
+        if aliveness != "SESSION-GONE":
+            role, idle_hint = role_from_scrollback(name)
+
+        # Pane hashing: --all covers every alive session; --pane names are
+        # honoured additionally (so an exited-but-present session can still
+        # be hashed on explicit request).
+        want_hash = args.all and aliveness == "ALIVE" or name in args.pane
         pane_frozen: bool | None = None
         pane_note: str | None = None
         pane_hash: str | None = None
-        if name in args.pane:
+        if want_hash:
             digest, err = capture_pane_hash(name)
             pane_hash = digest
             if digest is None:
@@ -328,18 +528,24 @@ def main(argv: list[str] | None = None) -> int:
                     pane_frozen = False
                     pane_note = "pane changed since previous run"
 
+        verdict = classify(status, aliveness, age_min, role, pane_frozen,
+                           args.budget_min)
+
         row = {
             "agent": name,
             "status": status,
+            "aliveness": aliveness,
             "age_min": round(age_min, 1),
             "source": source,
-            "verdict": classify(status, age_min, pane_frozen, args.budget_min),
+            "role": role or "unknown",
+            "verdict": verdict,
             "last_activity": iso(last_activity),
-            "signals": {k: iso(v) for k, v in sorted(signals.items())},
             "budget_min": args.budget_min,
+            "probe": probe,
         }
-        if name in args.pane:
-            # Always expose pane evidence in JSON, even when it changed nothing.
+        if idle_hint is not None:
+            row["idle_shell_tail_hint"] = idle_hint
+        if want_hash:
             row["pane_frozen"] = pane_frozen
             row["pane_hash"] = pane_hash
         if pane_note is not None:
@@ -350,8 +556,10 @@ def main(argv: list[str] | None = None) -> int:
     if new_panes:
         state_error = save_state(args.state_dir, new_panes)
 
-    # Most-stale first: the one-glance question is "what needs attention".
-    rows.sort(key=lambda r: r["age_min"], reverse=True)
+    # One-glance question is "what needs attention": severity rank first,
+    # newest-activity-first within each severity class.
+    rows.sort(key=lambda r: (VERDICT_SEVERITY.get(r["verdict"], 99),
+                             r["age_min"]))
 
     if args.json:
         payload = {
@@ -375,7 +583,7 @@ def main(argv: list[str] | None = None) -> int:
                   file=sys.stderr)
         if state_error:
             print(f"agent-liveness: {state_error}", file=sys.stderr)
-        if args.pane:
+        if args.all or args.pane:
             print(f"pane-hash state: {os.path.join(args.state_dir, STATE_FILENAME)} "
                   f"(identical hashes across 2 runs => LIKELY-FROZEN)",
                   file=sys.stderr)
