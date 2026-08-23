@@ -1,6 +1,6 @@
 {
   "next_display_id": 419,
-  "next_comment_id": 2022,
+  "next_comment_id": 2023,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -24860,7 +24860,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:12:18.535716625Z",
-      "updated_at": "2026-08-23T18:17:38.231528960Z",
+      "updated_at": "2026-08-23T18:23:52.314446601Z",
       "labels": [
         "investigation"
       ],
@@ -24882,6 +24882,15 @@
           "kind": "observation",
           "signed_by": "SHA256:JrO411ubqBVTlnilU61PMBhOgliVKTABcEIedizbpq8",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgDeoJPDqP//7u9wp/BuQbFC0hP5X06hM+iZfR5DbMEFoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAiSmaGWO3kXy3Bn7KBI1JQC/59H5v6NHreKOTgwSRxEO8Q1YmyAQie3tk+Fadr8VnQI2ma7JI3CC2/NJjLMrvDg=="
+        },
+        "fa68b39c-86d8-4ebd-ac00-2f7e9ea97d95": {
+          "display_id": 2022,
+          "author": "pp3g-Zp39-investigate-dead-instructions-wiring-418-opencode-afda",
+          "content": "## Root-cause analysis: dead instructions wiring (#418) — opencode 1.18.13-pp3g-fork\n\n**Installed version (step 1):** `opencode --version` -> `1.18.13-pp3g-fork` (binary at /home/claude-code/.local/bin/opencode, built from fork/opencode-src at rev 25ba14d0, package.json version 1.18.13, schema https://opencode.ai/config.json).\n\n### Claim 1 — Field still exists and is loaded\nWHY: Code search shows \\`instructions\\` defined in both config schemas (packages/core/src/v1/config/config.ts:124, packages/core/src/config.ts:96) and loaded via Config Service (packages/opencode/src/config/config.ts:47 mergeConfigConcatArrays). WHAT: \\`opencode debug config\\` with --print-logs shows \\`loading path=.../.opencode/opencode.json\\` and final JSON contains \\\"instructions\\\": [\\\"SESSION-START.md\\\"] — captured at /tmp/opencode/config.json (wc 117673). HOW-CERTAIN: proven (live probe, not inference). WHAT-NOT-TESTED: did not test global config precedence interactions; did not test OPENCODE_CONFIG / OPENCODE_DISABLE_PROJECT_CONFIG flag paths.\n\n### Claim 2 — Live injection CONTRADICTS report: file IS injected headless\nWHY: Ran headless \\`opencode run --auto --format json\\` with muse-spark-1.2-contributor-free (the test vehicle) from worktree root and from main repo root, prompting model to dump system prompt without tool reads. WHAT: Both builder (subagent) and orchestrator (primary) returned YES_SESSION_START_PRESENT with 3 \\`Instructions from:\\` lines including \\`.../SESSION-START.md\\` and first 3 lines verbatim \\`# SESSION-START — read this first...\\` — captured at /tmp/opencode/418-probe2/run.json and session export ses_fd025bc94ffeXNiWoU3O18j85A. HOW-CERTAIN: proven (two independent probes + export, reproducible). WHAT-NOT-TESTED: did not probe TUI launch (opencode TUI vs opencode run) — TUI uses same Session prompt assembly but not empirically tested here; did not test non---auto permission path headless with identical prompt (may hit denied-by-default external_directory for global file).\n\n### Claim 3 — Relative-path resolution is CWD/worktree via globUp, NOT config-dir\nWHY: packages/opencode/src/session/instruction.ts:81-90 defines \\`relative(instruction) -> fs.globUp(instruction, ctx.directory, ctx.worktree)\\`. For \\\"SESSION-START.md\\\" at worktree root, globUp walks from directory to worktree and matches with Glob.scan pattern=\\\"SESSION-START.md\\\" cwd=current. WHAT: Verified by python glob walk matching at /home/claude-code/projects/ASES/.worktrees/.../SESSION-START.md, and by probing from /tmp/opencode/emptydir (isDirectory outside git) where injection was absent. Official docs (opencode.ai/docs/rules#custom-instructions, opencode.ai/docs/config#instructions) describe instructions as relative paths/globs but do not specify base; upstream issue #4758 and comment \\\"resolved relative to where opencode runs. Use absolute paths\\\" plus PR #4815 \\\"fix: resolve custom instruction paths relative to config file\\\" confirm community confusion and attempted fix (splitGlob, resolve relative to config file). That PR was auto-closed 2026-03-04 as stale, so 1.18.13-pp3g-fork still uses CWD-relative globUp — fragile when CWD != project root. HOW-CERTAIN: evidence-based (code + docs + upstream issue/PR). WHAT-NOT-TESTED: did not rebuild binary with PR #4815 splitGlob to verify fix; did not test absolute-path or \\`./\\`-prefixed patterns; did not test \\\"~/\\\" handling beyond code read.\n\n### Claim 4 — Why reporter saw NOT injected (hypotheses, ranked by likelihood)\nWHY: Since headless injection works, reporter's \\\"NOT injected\\\" must stem from different inspection surface. Candidates:\n (a) TUI context viewer truncation / stale server cache — top hypothesis.\n (b) Inspection via \\`opencode debug config\\` grep without realizing instructions at JSON tail (we initially missed it with simple grep).\n (c) Session started before .opencode/opencode.json edit and server not invalidated (Config uses cachedGlobal infinity but per-instance reload should reload; not proven stale).\n WHAT: No code change needed to reproduce injection in this worktree; wiring is live. HOW-CERTAIN: evidence-based for (a) gap: we proved TUI path not tested, but docs treat TUI and run as same prompt assembly (packages/opencode/src/session/prompt.ts:1261-1273). WHAT-NOT-TESTED: did not launch TUI interactively; did not test server hot-reload after editing .opencode/opencode.json.\n\n### Claim 5 — Semantics still present in v2, but merge behavior diverges\nWHY: V2 docs at opencode.ai/v2/docs/instructions state instructions array still accepted but with different precedence: \\\"If more than one config defines instructions, the highest-precedence, closest config's entire array is selected; arrays are not merged\\\" — contrast with v1's mergeConfigConcatArrays dedup. WHAT: If project migrated to v2 catalog, .opencode/opencode.json entries could be shadowed by a nearer opencode.json without instructions. At 1.18.13 we are still on v1 loader (ConfigPaths.files + directories), but fork may pick up v2 loader via core package in future. HOW-CERTAIN: evidence-based (doc fetch + code). WHAT-NOT-TESTED: did not run against a pure v2 binary; did not test multi-config precedence clash.\n\n### Empirical artifact summary\n- /tmp/opencode/config.json (debug config full output, 117k)\n- /tmp/opencode/418-probe2/run.json (builder YES_SESSION_START_PRESENT)\n- /tmp/opencode/418-probe*/ (additional orchestrator YES, main repo YES, emptydir NO probes)\n- Session export ses_fd025bc94ffeXNiWoU3O18j85A shows 3 Instructions from lines.",
+          "created_at": "2026-08-23T18:23:52.305174532Z",
+          "kind": "result",
+          "signed_by": "SHA256:JrO411ubqBVTlnilU61PMBhOgliVKTABcEIedizbpq8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgDeoJPDqP//7u9wp/BuQbFC0hP5X06hM+iZfR5DbMEFoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAh3ZE3yOyEGXqlMPT5X8yqHJj4C+fR+/ctFNydC9jC+7b1ZGwpuYTEEGHzgeW+xkKLwi/O0SMa30W27FLiq/fCw=="
         }
       }
     },
@@ -25710,8 +25719,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T18:17:38.231528960Z",
+    "timestamp": "2026-08-23T18:23:52.314446601Z",
     "agent_id": "pp3g-Zp39-investigate-dead-instructions-wiring-418-opencode-afda",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
