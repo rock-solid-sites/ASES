@@ -1,6 +1,6 @@
 {
   "next_display_id": 433,
-  "next_comment_id": 2098,
+  "next_comment_id": 2099,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -22054,11 +22054,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T21:32:26.586926217Z",
-      "updated_at": "2026-08-23T21:52:26.555116049Z",
+      "updated_at": "2026-08-23T21:54:42.885801555Z",
       "labels": [
         "investigation"
       ],
       "comments": {
+        "09a5330c-5c5f-4517-a2d7-8d87fbb6ad0b": {
+          "display_id": 2098,
+          "author": "pp3g-Nvny-categorize-the-full-open-issue-backlog-432-early-2e26",
+          "content": "# CLASSIFICATION SUMMARY — all 151 open issues categorized (R1b early execution, EPIC #423)\n\nMethod: anchors = #423 surface definitions (S1/S2/S3) + #427 9-delta fork matrix (D1–D9) + #420 W1 seeds. Evidence base = per-issue comment streams (read for every open issue); no repository files modified; no commits. Read-only discipline held throughout.\n\n## Bucket totals (n=151, including this issue #432)\n\n| Verdict | Count | Share |\n|---------|-------|-------|\n| correctly-open | 47 | 31% |\n| close-candidate | 93 | 62% |\n| blocked-pending | 11 | 7% |\n\nSurface applicability: S1=1 · S2=28 · S3=15 · multi=11 · none=96.\nRetirement sensitivity: blocks-retirement=26 · accelerates-retirement=2 · unaffected=1 · orthogonal=122.\n\n## Complete close-candidate list (93)\n\n428, 418, 409, 405, 403, 402, 400, 399, 398, 397, 394, 393, 392, 391, 390, 389, 388, 387, 385, 384, 355, 354, 349, 346, 345, 334, 331, 330, 329, 327, 326, 324, 323, 322, 321, 319, 318, 317, 316, 315, 314, 313, 311, 310, 309, 308, 307, 306, 305, 304, 303, 302, 301, 300, 299, 297, 296, 294, 293, 292, 291, 290, 286, 281, 279, 274, 273, 264, 239, 238, 237, 236, 235, 214, 202, 191, 189, 188, 187, 186, 184, 183, 182, 180, 179, 178, 177, 176, 175, 173, 172, 168, 12\n\nDominant pattern: one-shot audit/review/synthesis instances whose deliverable landed same-day in comments but were never closed (the Aug-08 #295/#306 audit wave alone contributes ~15). Second pattern: never-ran duplicate auditor/settle instances with zero comments (310, 311, 297, 305, 308, 264). Third: doc/design deliverables committed with refs but left open (346, 345, 329, 324, 318, 286, 281, 172).\n\n## Blocked-pending list (11) — cannot settle without new research/operator input\n\n- #395 — core ops done; two residual sub-items (tmux-session prune, session-end cleanup convention) unverified\n- #181 — registry update never dispatched; overlaps #346 synthesis; needs reconciliation decision\n- #169 — scope-corrected to TOOLING; correct home never decided\n- #27, #26, #25, #24, #23, #22 — July signing-enforcement program, dormant; signing now reports enabled so some prerequisites may have silently landed; placement requires source-level research\n- #21 — Kuzu governance monitoring: zero context anywhere in current docs; needs operator direction\n- #3 — aiart extraction stalled since June 26; needs operator go/no-go\n\n## Genuinely unclassifiable-without-new-research\n\nNone beyond the blocked-pending set above — every open issue received a verdict. Weakest-evidence verdicts (title+absence-of-activity only, no contrary evidence): #401, #386, #165, #143, #148, #155 (all correctly-open planned-but-unstarted work).\n\n## Fork-retirement reading (per #427 gate)\n\nThe 26 blocks-retirement items cluster exactly on the #154 lineage (design→build→matrix-gate→review→harden): these ARE deltas D1–D8 plus their functional gate. Retirement sequencing per #427 (D3+D2 upstream parity + 16-row matrix pass) must consult them; none block retirement individually except as the ported set. The two accelerators are #420 (v2 reverification evidence) and #422 (S1 enforcement gap).\n\n## W2 reconciliation status\n\nAuditor W2 (pp3g-0S5w) staleness findings on #420 had NOT landed as of final check (21:5x Z; #420 still shows only W1 seed + relationship comments). This classification is therefore an independent first pass; W2's verified stale-open candidates should be reconciled against the 93-item close-candidate list above when posted — conflicts favor W2's live-verified findings.\n\n## Caveats (WHAT-NOT-TESTED)\n\n- Verdicts rest on issue-comment evidence, not independent file-system/git verification of every claimed commit or deletion.\n- Close-candidate ≠ approved-close: several (e.g. #402 preconditions, #403 --force-flag verify, #394 preconditions) carry unresolved follow-ups that should be re-filed before their parents close.\n- Lock table shows 20 stale locks incl. many classified issues — lock state was treated as noise per SESSION-START, not as activity evidence.",
+          "created_at": "2026-08-23T21:54:42.878574885Z",
+          "kind": "result",
+          "signed_by": "SHA256:n4Q3/ttJkEw2HPzNL820/BzsztAg5oCTuMeJRjOPUnE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg6kvdW98yC9bk7SWxlKP1RIEGXGK2CpZI2uKZHZqxF3YAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQ3EV0fp46mGpvv6opanrSDviRCIcS4w9VQPP5RcCAwlpMzbtlnFCkhhiVbr5fVmnmkLi0WcGsH/XHAlP3xBaBA=="
+        },
         "116379e1-c914-4631-863d-0fd71d9b53dc": {
           "display_id": 2097,
           "author": "pp3g-Nvny-categorize-the-full-open-issue-backlog-432-early-2e26",
@@ -26642,8 +26651,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T21:52:26.555116049Z",
+    "timestamp": "2026-08-23T21:54:42.885801555Z",
     "agent_id": "pp3g-Nvny-categorize-the-full-open-issue-backlog-432-early-2e26",
-    "agent_seq": 10
+    "agent_seq": 11
   }
 }
