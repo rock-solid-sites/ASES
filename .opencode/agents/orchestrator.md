@@ -40,6 +40,10 @@ permission:
     "git -C *": "allow"
     "curl -I *": "allow"
     "curl --head *": "allow"
+    "filesystem_read*": "allow"
+    "filesystem_write*": "deny"
+    "filesystem_create_directory": "deny"
+    "filesystem_move_file": "deny"
   task:
     "*": "deny"
     "builder": "allow"
