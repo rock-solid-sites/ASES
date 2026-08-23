@@ -1,6 +1,6 @@
 {
   "next_display_id": 426,
-  "next_comment_id": 2047,
+  "next_comment_id": 2048,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -8810,10 +8810,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-23T19:16:14.325626930Z",
-      "updated_at": "2026-08-23T19:16:22.336547829Z",
+      "updated_at": "2026-08-23T19:19:37.231374406Z",
       "labels": [
         "investigation"
-      ]
+      ],
+      "comments": {
+        "1d9bebcc-8507-4e6c-a418-a2a38f86d5c1": {
+          "display_id": 2047,
+          "author": "pp3g-xVYS-research-only-investigation-425-deferred-part-2-of",
+          "content": "Plan: (1) Inspect live resolved config on both surfaces: opencode debug config + opencode debug agent orchestrator (S2 fork 1.18.13-pp3g) and opencode2 debug config/agents (S1 v2 beta) to capture actual permission resolution. (2) Read permission matcher source in fork/opencode-src: packages/opencode/src/permission/index.ts (evaluate/Wildcard/fromConfig/disabled/visibleTools), packages/core/src/util/wildcard, schema/permission.ts, tool registry + session Prompt where Permission.ask is called to trace native vs MCP tool permission strings. (3) Read plugins/orchestrator-guard.ts block list behavior + any v2-side equivalent searched via glob/grep. (4) Where behavior cannot be read from source, probe headless: create scratch dir under /tmp/opencode/425-probe and attempt filesystem_read_text_file + filesystem_write_file as orchestrator-type agent via opencode run --agent orchestrator to observe allow/deny/ask. (5) Synthesize answers to Q1-Q4 with WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED per claim and recommend exact frontmatter keys. No repo file changes; scratch only under /tmp/opencode.",
+          "created_at": "2026-08-23T19:19:37.224652653Z",
+          "kind": "plan",
+          "signed_by": "SHA256:PEhbr63L0EG90FNYmzfxGdJ97wr3fudWUbtjj02d2lI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIjCHG5o33kWB2JEhe9xdEU8KEnFd3GVZE+NzNCbfc+kAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANOsyxuVo+uVjgzFnI19HsgFu/9Js50KSISOymcLfDnnZDKBKcmhyCJmc0a1DAAZZrWSp7BjKNptxMWyeRXn5DQ=="
+        }
+      }
     },
     "51e6faeb-184d-4b1e-9b24-ba208d33f29b": {
       "uuid": "51e6faeb-184d-4b1e-9b24-ba208d33f29b",
@@ -26061,8 +26072,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T19:18:20.210405862Z",
+    "timestamp": "2026-08-23T19:19:37.231374406Z",
     "agent_id": "pp3g-xVYS-research-only-investigation-425-deferred-part-2-of",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
