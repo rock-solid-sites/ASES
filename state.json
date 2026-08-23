@@ -1,6 +1,6 @@
 {
   "next_display_id": 421,
-  "next_comment_id": 2027,
+  "next_comment_id": 2028,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -1698,10 +1698,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:25:46.881375163Z",
-      "updated_at": "2026-08-23T18:26:10.974593572Z",
+      "updated_at": "2026-08-23T18:27:25.823735029Z",
       "labels": [
         "investigation"
-      ]
+      ],
+      "comments": {
+        "385bc64d-888d-43da-93d1-87ffcaca6677": {
+          "display_id": 2027,
+          "author": "OL2r",
+          "content": "BASELINE EVIDENCE (orchestrator probes 2026-08-23 18:2x, all read-only): [1] ~/.local/share/opencode/storage/session DOES NOT EXIST; storage/ contains only a 'migration' marker file (mtime Aug 14 18:04) + empty session_diff/. [2] opencode.db 2.6GB WAL hot at probe time (current v2 store). [3] opencode-fork-pp3g.db 2.8GB WAL also hot now - crosslink fork maintains its OWN database. [4] opencode-local.db COLD since Aug 18 14:52 - purpose unknown, possibly orphaned. [5] Repo-visible session history stops ~Aug 9 = end of v1.18 era (permissions.md snapshot dated Aug 10 says OpenCode 1.18.11). WORKING HYPOTHESES TO DISCRIMINATE: (a) viewing surface reads pre-migration data; (b) OpenCode 2 keys projects differently so old sessions sit under a different project identity than new ones; (c) fork-db vs main-db split hides entries. WHY: these are observations from filesystem mtimes only - DB contents not yet inspected. HOW CERTAIN: existence/mtimes = evidence-based; hypotheses = guess pending DB inspection. WHAT-NOT-TESTED: any SQLite content, project-key derivation, viewer-surface behavior.",
+          "created_at": "2026-08-23T18:27:25.817993450Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvztcN2n/kwG/TXAFIZw3pZ4XwB1z4N+y6RaxWpQ9Ln7UYiB8dUKPuRdphzfrUkgnHpxx6KGSgFQ0VRWRoFwSBQ=="
+        }
+      }
     },
     "0bb2bbd4-2554-414d-ad01-9cf866ed29e6": {
       "uuid": "0bb2bbd4-2554-414d-ad01-9cf866ed29e6",
@@ -25787,7 +25798,7 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T18:27:16.574383018Z",
+    "timestamp": "2026-08-23T18:27:25.823735029Z",
     "agent_id": "OL2r",
     "agent_seq": 2088
   }
