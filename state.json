@@ -1,6 +1,6 @@
 {
   "next_display_id": 423,
-  "next_comment_id": 2035,
+  "next_comment_id": 2036,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -16763,10 +16763,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:50:35.851711939Z",
-      "updated_at": "2026-08-23T18:50:43.855987103Z",
+      "updated_at": "2026-08-23T18:51:49.467760856Z",
       "labels": [
         "discipline"
-      ]
+      ],
+      "comments": {
+        "403813c4-f466-4e8a-8e1a-86d03736c252": {
+          "display_id": 2035,
+          "author": "OL2r",
+          "content": "EVIDENCE BASE: [E1] .crosslink/knowledge/model-discipline.md lines 40-45 documents the standing rule - xAI/Grok STRICTLY AND PERMANENTLY FORBIDDEN (#249 precedent) AND claims 'models are patched out of the model catalog - opencode models opencode-go must not list them'. [E2] Live probe this session: fork CLI 'opencode models opencode-go' lists 28 models, ZERO grok entries - patch confirmed on fork surface. [E3] Operator observation 2026-08-23: grok 4.5 IS selectable in the OpenCode 2 TUI picker, which renders in insertion order (deepseek-v4-flash-vision-exp, ox-alpha, glm-5.3, muse-spark) - i.e. a different catalog source than the fork CLI's localeCompare output. [E4] Zen free-tier whitelist mechanism lives in ~/.config/opencode/plugins/plugin.ts + dynamic-models.ts (model-discipline.md line 184); no evidence it reaches the v2 TUI surface. [E5] .crosslink/hook-config.json contains NO model denylist/blacklist keys (grep empty). CONCLUSION: the mechanical enforcement chain (fork patch -> Zen whitelist -> claude-wrapper strict validation) covers agent launch paths but has NO LINK on the v2 TUI interactive selection path. WHY: every element above is direct observation or documented standing rule. HOW CERTAIN: E1-E5 evidence-based; the claim 'v2 reads an unpatched source' is inference from E3 vs E2 - strong fit, not yet source-verified. WHAT-NOT-TESTED: actual v2 binary provenance/catalog fetch URL; whether v2 honors any config-level model disabling; whether selecting grok in v2 would even succeed at launch (wrapper absent in TUI). FIX DIRECTIONS to evaluate: (a) locate v2 catalog source and check for config-level disable/override support; (b) port the whitelist approach to whatever extension point v2 offers; (c) upstream issue if renderer is outside fork control; (d) INTERIM OPERATOR GUIDANCE: avoid picker selection for launches pending a structural block. This issue doubles as the FIRST CONCRETE FINDING of EPIC #420 / workstream W1 (OpenCode-2 assumption reverification): a documented standing fact silently falsified by the v2 transition.",
+          "created_at": "2026-08-23T18:51:49.461114378Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM8/oyfkPQpfsHELjFKOmzQCLqC4K9nvekMkw03zEE/wc1tx6YGaho8LCV97gjFv5Ec09PUClhPtPLqAay32XAA=="
+        }
+      }
     },
     "a59484b8-0d4e-4579-ae32-979c9b7d098e": {
       "uuid": "a59484b8-0d4e-4579-ae32-979c9b7d098e",
@@ -25895,8 +25906,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T18:50:57.191539097Z",
+    "timestamp": "2026-08-23T18:51:49.467760856Z",
     "agent_id": "OL2r",
-    "agent_seq": 2096
+    "agent_seq": 2097
   }
 }
