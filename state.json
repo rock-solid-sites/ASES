@@ -1,6 +1,6 @@
 {
   "next_display_id": 433,
-  "next_comment_id": 2096,
+  "next_comment_id": 2097,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -22054,7 +22054,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T21:32:26.586926217Z",
-      "updated_at": "2026-08-23T21:50:51.152848586Z",
+      "updated_at": "2026-08-23T21:51:35.805668804Z",
       "labels": [
         "investigation"
       ],
@@ -22103,6 +22103,15 @@
           "kind": "observation",
           "signed_by": "SHA256:n4Q3/ttJkEw2HPzNL820/BzsztAg5oCTuMeJRjOPUnE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg6kvdW98yC9bk7SWxlKP1RIEGXGK2CpZI2uKZHZqxF3YAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2EVFYWgSn9ewRctB6wTPCDVPTABUL5FOSmK3oYl3aROJahizA9SZdO+fQQJujkMic7KVFI7kaQxGapZMf9u2AQ=="
+        },
+        "c7ebd63c-d95f-4107-aaf0-f8eeabb837ba": {
+          "display_id": 2096,
+          "author": "pp3g-Nvny-categorize-the-full-open-issue-backlog-432-early-2e26",
+          "content": "# CLASSIFICATION BATCH 3/4 — issues #294–#179 (36 rows)\n\n| ID | Title (≤8w) | Surface | Retirement | Verdict |\n|----|-------------|---------|-----------|---------|\n| #294 | Prune old subagent sessions | none | orthogonal | close-candidate — executed (dry-run + backup + delete; #313 confirms MAIN pruned 823→698 sessions) |\n| #293 | Auditor #270 task-2/3 matrix | S2 | blocks-retirement | close-candidate — DIVERGENCE FOUND (silent-hang) verdict 17:33; fed the reliability epic |\n| #292 | Verify C2-gap load-bearing claims | none | orthogonal | close-candidate — operator disregarded C2 thread 08-08 (#156 note: agents #291/#292 stopped); verdict intentionally not pursued |\n| #291 | DOC correction C2 umbrella framing | none | orthogonal | close-candidate — same operator stop of C2 thread; issue remains filed only |\n| #290 | Cache cleanup operator-approved | none | orthogonal | close-candidate — executed, 1399M freed (result 07:48) |\n| #286 | Time-based commit cadence §5.9.1 | none | orthogonal | close-candidate — committed 9835cdb3 + tripn mirror staged byte-identical |\n| #281 | Reconcile playbook monitoring model | none | orthogonal | close-candidate — committed 160c94f (3 files) |\n| #279 | Revalidate C2-gap conclusions | none | orthogonal | close-candidate — baseline confirmed at bound versions; both concerns settled via #287; re-file on toolregistry/mcp upgrade |\n| #275 | Hardening 3/3 installer atomicity | S2 | unaffected | correctly-open — never dispatched beyond wave note; installer atomicity hardening still pending while fork deployed |\n| #274 | Hardening 2/3 upgrade-survival | S2 | blocks-retirement | close-candidate — wrapper fail-closed guard delivered (84262632); retirement sequencing must consciously remove/retune this guard (#427) |\n| #273 | Hardening 1/3 title-gen retries:0 | S2 | blocks-retirement | close-candidate — implemented (prompt.ts retries:0); confirmed live as fork delta D5 in #427 matrix |\n| #264 | Phase-2 laguna audit #228 | none | orthogonal | close-candidate — zero comments, never ran; C2 thread disregarded by operator |\n| #257 | Reusable model-agreement template | none | orthogonal | correctly-open — child of epic #255; template not yet created |\n| #256 | Collect tripn model-agreement data | none | orthogonal | correctly-open — collection from completed tripn waves not yet run |\n| #253 | Swarm per-phase/per-agent models | S3 | orthogonal | correctly-open — gap verified in fork source (single global model); implementation pending |\n| #255 | EPIC model data collection | none | orthogonal | correctly-open — epic with open children (#256/#257); partially fed by #346 |\n| #239 | Review r4 matrix gate PASS/FAIL | S2 | blocks-retirement | close-candidate — PASS verdict posted (65/67 meets bar); gate evidence for #427 conditional retirement |\n| #238 | Review r3 live-system verification | S2 | blocks-retirement | close-candidate — PASS posted (critical gate 7/7 exit-1 evidence) |\n| #237 | Review r2 durability | S2 | blocks-retirement | close-candidate — FAIL verdict posted; blockers subsequently closed via #273/#274 hardening |\n| #236 | Review r1 source-fix primary | S2 | blocks-retirement | close-candidate — 3-part PASS verdict posted 04:55 |\n| #235 | Re-run 16-row matrix fixed harness | S2 | blocks-retirement | close-candidate — run completed 65/67 (factual record 04:26); the functional gate #427 requires for conditional retirement |\n| #214 | Matrix run parallel SDK verify | S2 | blocks-retirement | close-candidate — superseded by #235 re-run after harness-bug findings invalidated its 53/67 |\n| #212 | ToolRegistry lazy-MCP proxy stream | none | orthogonal | correctly-open — active research stream; constraints still being captured (latest 08-09) |\n| #202 | Remove fetch MCP server | multi | orthogonal | close-candidate — removal dispatched to closed #203 per #195 measurement |\n| #191 | Review verdict r1-REL relaunch | S2 | blocks-retirement | close-candidate — round-3 verdict accepted per resolution comment 01:06 |\n| #189 | Fetch-MCP config fix main repo | multi | orthogonal | close-candidate — committed 02ae358 + merged to main |\n| #188 | Review verdict r1 (died mid-verdict) | S2 | blocks-retirement | close-candidate — superseded by relaunched #191 which completed |\n| #187 | Fix+test fetch MCP server | multi | orthogonal | close-candidate — root-caused, pinned, measured (~89–96% savings), committed |\n| #186 | Final patch-correctness revision | S2 | blocks-retirement | close-candidate — implementation-ready design posted; built as the durable fork (sha 6e0e282b lineage) |\n| #185 | Deferred: completion updates in chat | none | orthogonal | correctly-open — explicitly LATER/deferred operator request |\n| #184 | Re-review r3 (#154 round 2) | S2 | blocks-retirement | close-candidate — CONDITIONAL verdict posted 23:16 |\n| #183 | Re-review r2 (#154 round 2) | S2 | blocks-retirement | close-candidate — PASS verdict posted 23:08 |\n| #182 | Re-review r1 (#154 round 2) | S2 | blocks-retirement | close-candidate — CONDITIONAL verdict posted 23:21 |\n| #181 | Model-feedback registry update | none | orthogonal | blocked-pending — filed but no builder result ever posted; overlap with #346 synthesis needs reconciliation |\n| #180 | Design revision sub-issue round 2 | S2 | blocks-retirement | close-candidate — revised design posted 22:52; consumed by reviews + #186 |\n| #179 | Stopgap emergency protection re-applied | S2 | blocks-retirement | close-candidate — applied 22:57; later SUPERSEDED by durable fork install (#304 milestone note) |\n\nBatch 4/4 (final) follows.",
+          "created_at": "2026-08-23T21:51:35.798323121Z",
+          "kind": "observation",
+          "signed_by": "SHA256:n4Q3/ttJkEw2HPzNL820/BzsztAg5oCTuMeJRjOPUnE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg6kvdW98yC9bk7SWxlKP1RIEGXGK2CpZI2uKZHZqxF3YAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtoR674v31ISECfN3D+ANMTF+jUHHMV0IWw7k4qV4KqA2roUdo3MtVtBPyDk9jl6nXQyQAqTQLWGOxTipSayoAA=="
         }
       }
     },
@@ -26624,8 +26633,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T21:50:51.152848586Z",
+    "timestamp": "2026-08-23T21:51:35.805668804Z",
     "agent_id": "pp3g-Nvny-categorize-the-full-open-issue-backlog-432-early-2e26",
-    "agent_seq": 8
+    "agent_seq": 9
   }
 }
