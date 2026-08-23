@@ -1,6 +1,6 @@
 {
   "next_display_id": 426,
-  "next_comment_id": 2049,
+  "next_comment_id": 2050,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -8810,7 +8810,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-23T19:16:14.325626930Z",
-      "updated_at": "2026-08-23T19:19:47.002656081Z",
+      "updated_at": "2026-08-23T19:27:27.500170961Z",
       "labels": [
         "investigation"
       ],
@@ -8823,6 +8823,15 @@
           "kind": "plan",
           "signed_by": "SHA256:PEhbr63L0EG90FNYmzfxGdJ97wr3fudWUbtjj02d2lI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIjCHG5o33kWB2JEhe9xdEU8KEnFd3GVZE+NzNCbfc+kAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANOsyxuVo+uVjgzFnI19HsgFu/9Js50KSISOymcLfDnnZDKBKcmhyCJmc0a1DAAZZrWSp7BjKNptxMWyeRXn5DQ=="
+        },
+        "214c0afd-23de-495a-8e4f-d39345d88417": {
+          "display_id": 2049,
+          "author": "pp3g-xVYS-research-only-investigation-425-deferred-part-2-of",
+          "content": "[OBSERVATION] Midpoint evidence bundle: live config + permission matcher + probe results\n- S2 opencode debug config (fork 1.18.13-pp3g) loads worktree .opencode/opencode.json (filesystem MCP /ASES) + 3 plugins (orchestrator-guard, crosslink-guard, rtk-guard); orchestrator agent resolved 100 rules with * allow first, edit deny, bash deny+allowlist, NO filesystem_* entries; wildcard test confirms filesystem_* matches filesystem_read_text_file.\n- Probe1 S2 orchestrator reading inside worktree via filesystem_read_text_file: succeeded (completed, content returned) — proves permission allow via * wildcard.\n- Probe2 S2 orchestrator writing via filesystem_write_file: LLM refused via system prompt (not via guard), no guard BLOCK log emitted; builder same write succeeded + guard ALLOW log 19:25:27; auditor block log exists 19:16:48 filesystem_write_file BLOCK — proves guard active on S2 for write paths.\n- Probe3 S2 orchestrator reading /tmp file via MCP: Access denied - path outside allowed directories (MCP server restriction, not permission deny)\n- S1 v2 (opencode2 beta 17963) loads same worktree opencode.json for mcp/plugins but debug shows v2 permission model action/resource vs permission/pattern, plus separate code-mode execute sandbox for filesystem (tools.filesystem.* via execute). Direct filesystem_read_text_file not used on S1; filesystem access goes through execute tool.",
+          "created_at": "2026-08-23T19:27:27.492631441Z",
+          "kind": "observation",
+          "signed_by": "SHA256:PEhbr63L0EG90FNYmzfxGdJ97wr3fudWUbtjj02d2lI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIjCHG5o33kWB2JEhe9xdEU8KEnFd3GVZE+NzNCbfc+kAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANA1N32f8gmBQgT2BsXk+jJYUQJqxpdWLdUYLrRxS55Q1+98L/CHz43UPVA5ig2/58+tFVHpwzdGC9P2PVenpAA=="
         },
         "74019905-b28c-45c1-b157-bbafad338635": {
           "display_id": 2048,
@@ -26081,8 +26090,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T19:19:47.002656081Z",
+    "timestamp": "2026-08-23T19:27:27.500170961Z",
     "agent_id": "pp3g-xVYS-research-only-investigation-425-deferred-part-2-of",
-    "agent_seq": 5
+    "agent_seq": 6
   }
 }
