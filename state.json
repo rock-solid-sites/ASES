@@ -1,6 +1,6 @@
 {
   "next_display_id": 419,
-  "next_comment_id": 2020,
+  "next_comment_id": 2021,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -24860,10 +24860,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:12:18.535716625Z",
-      "updated_at": "2026-08-23T18:12:26.475386533Z",
+      "updated_at": "2026-08-23T18:17:27.856886207Z",
       "labels": [
         "investigation"
-      ]
+      ],
+      "comments": {
+        "45c01627-d1df-461e-89d8-1e301c57a11b": {
+          "display_id": 2020,
+          "author": "pp3g-Zp39-investigate-dead-instructions-wiring-418-opencode-afda",
+          "content": "Plan: (1) Record installed version via opencode --version (done: 1.18.13-pp3g-fork). (2) Trace instructions field through code: schema definitions in packages/core/src/config.ts and packages/core/src/v1/config/config.ts, loader at packages/opencode/src/config/config.ts, consumer at packages/opencode/src/session/instruction.ts (globUp resolution), and v2 equivalent. (3) Consult OpenCode 2 official docs/changelog via webfetch for instructions semantics, path resolution, renames. (4) Empirical probe: headless opencode run asking model which instructions were injected, writing scratch under /tmp/opencode only. (5) Determine relative-path base (CWD vs config dir vs project root) and whether field still exists in v2. (6) Post root-cause + ranked fixes with WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED.",
+          "created_at": "2026-08-23T18:17:27.850672527Z",
+          "kind": "plan",
+          "signed_by": "SHA256:JrO411ubqBVTlnilU61PMBhOgliVKTABcEIedizbpq8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgDeoJPDqP//7u9wp/BuQbFC0hP5X06hM+iZfR5DbMEFoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWK4UWCVb6k42SF6rMdGicgqnYVMDrNs0JVA6VpTSyIS3RLewW1lvQugNlYxJfUrHL6UfCo2IreMQYalNVTHfDw=="
+        }
+      }
     },
     "f5cf8b37-fe5e-4123-9318-20282967be6e": {
       "uuid": "f5cf8b37-fe5e-4123-9318-20282967be6e",
@@ -25690,8 +25701,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-23T18:16:19.325911736Z",
-    "agent_id": "pp3g-kJSL-harden-agent-definitions-417-part-1-add-a-short-shell",
+    "timestamp": "2026-08-23T18:17:27.856886207Z",
+    "agent_id": "pp3g-Zp39-investigate-dead-instructions-wiring-418-opencode-afda",
     "agent_seq": 4
   }
 }
