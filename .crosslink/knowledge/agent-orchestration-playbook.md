@@ -186,8 +186,13 @@ crosslink swarm launch
 Swarm rules:
 - **One phase at a time.** Run `crosslink swarm gate` between phases. Never
   skip gates.
-- **Budget windows are hard limits.** Agents exceeding the budget are
-  terminated. Set realistic windows.
+- **Budget windows are launch-time recommendations, not runtime hard limits.**
+  `budget.rs` implements estimation plus a launch-time gate only
+  (`launch_budget_aware`): on `Block` it refuses the launch (overridable by
+  launching without `--budget-aware`); on `Split` it warns and launches anyway.
+  There is no termination logic — agents exceeding the window are NOT killed at
+  runtime. Set realistic windows and enforce them through gates and
+  checkpoints.
 - **Phases depend on each other.** Encode `blocked_by` edges so `issue ready`
   reflects real ordering (edges are documentation, not machine-gated at
   launch — verify them as a process gate).
