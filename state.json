@@ -1,6 +1,6 @@
 {
   "next_display_id": 460,
-  "next_comment_id": 2366,
+  "next_comment_id": 2367,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -19631,11 +19631,20 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-24T01:12:45.564494664Z",
-      "updated_at": "2026-08-24T02:36:29.849929400Z",
+      "updated_at": "2026-08-24T07:32:03.508717999Z",
       "labels": [
         "tooling"
       ],
       "comments": {
+        "1d1123dd-1b5a-4b55-92b8-120b5d54c313": {
+          "display_id": 2366,
+          "author": "OL2r",
+          "content": "[SCOPE PROMOTION]: the RPC enforcement core (.design/rpc-enforcement-prototype.md) is promoted from v2-successor to CO-EQUAL BUILD TARGET alongside the thin CLI, per operator direction 2026-08-24. REASONING: the 2026-08-24 server-restart event demonstrated that any state living inside the OpenCode process tree is vulnerable to cascading loss. A separate-process EDASES core connected via thin plugin makes the system immune to harness restarts BY CONSTRUCTION, not by defensive coding. REVISED BUILD ORDER: Phase 1 = thin CLI (ases-tools) for immediate capability-scoped access; Phase 2 = RPC core with per-session event ingestion, state store, policy engine; Phase 3 = migrate guards/admission/liveness from plugins to core. The CLI remains as fallback/control surface after full migration.",
+          "created_at": "2026-08-24T07:32:03.501660701Z",
+          "kind": "decision",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAh5rIH37wPVjIU8r8VUfeHksQE5oj7iifWkJIM0F/LjIf3bZZ7T1dni+Pew8NRv94QPg7Ktwz5mXph6g1IHfjBA=="
+        },
         "29cb93f3-77c7-4ca5-b6ca-55cb2e511efc": {
           "display_id": 2260,
           "author": "OL2r",
@@ -29543,8 +29552,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T07:24:09.484144694Z",
+    "timestamp": "2026-08-24T07:32:03.508717999Z",
     "agent_id": "OL2r",
-    "agent_seq": 2246
+    "agent_seq": 2247
   }
 }
