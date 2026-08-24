@@ -1,6 +1,6 @@
 {
   "next_display_id": 444,
-  "next_comment_id": 2231,
+  "next_comment_id": 2232,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5787,11 +5787,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T01:17:12.098905831Z",
-      "updated_at": "2026-08-24T01:23:41.080759194Z",
+      "updated_at": "2026-08-24T01:27:02.784993547Z",
       "labels": [
         "research"
       ],
       "comments": {
+        "613955d0-ddb2-4339-abb5-c1755c81c312": {
+          "display_id": 2231,
+          "author": "OL2r",
+          "content": "[SPEC ADDENDUM 2 - pane delivery on transition]: watchdog captures agent pane scrollback at STATE TRANSITIONS and attaches to alerts. Rules: LIKELY-FROZEN and DEAD-UNMARKED transitions attach substantial recent scrollback (default last 200 lines, configurable) - the scrollback IS the diagnosis (bare bash tree = zombie, fetch-burst then silence = stream-death, banner-only = pre-first-action); DONE/FINISHED transitions attach short completion receipt (~20 lines) only; steady-state RUNNING emits no pane content. Storage: snapshots written under /tmp/opencode/panes/<agent>/<timestamp>.txt with alert comments referencing the file path rather than embedding large blobs. Effect: orchestrator receives detection AND diagnostic evidence in one delivery; evidence survives subsequent session cleanup; manual capture-pane becomes unnecessary except for interactive deep-dives.",
+          "created_at": "2026-08-24T01:27:02.775569939Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQOZ6dCfOdcmr41VXQlC+EYHxa9lE9AtMbPlpUHq9pw6BVNF54HFrNgYACb9iaP6uqeSlZDqkk2B6wOpz1uyDCw=="
+        },
         "b850b8a5-e329-4852-b0d1-a51c4c2a4bee": {
           "display_id": 2229,
           "author": "OL2r",
@@ -28041,8 +28050,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T01:25:01.602330565Z",
-    "agent_id": "pp3g-pfpM-upgrade-the-liveness-watchdog-under-epic-423-a-8463",
-    "agent_seq": 23
+    "timestamp": "2026-08-24T01:27:02.784993547Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2188
   }
 }
