@@ -1,6 +1,6 @@
 {
   "next_display_id": 436,
-  "next_comment_id": 2164,
+  "next_comment_id": 2165,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -17690,11 +17690,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:25:54.855445148Z",
-      "updated_at": "2026-08-23T18:57:04.855875805Z",
+      "updated_at": "2026-08-24T00:30:05.420560177Z",
       "labels": [
         "epic"
       ],
       "comments": {
+        "701bf344-9ef7-48dd-aa01-40fbe12b1c2a": {
+          "display_id": 2164,
+          "author": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+          "content": "[TARGET-E CLASSIFICATION] pp3g-JUF0 (auditor, ox-alpha) — definitive mechanical classification of W2 (pp3g-0S5w), superseding UNVERIFIED-SILENT/DEAD-UNMARKED: CLEAN EARLY SELF-EXIT with zero output. Evidence: opencode.log session ses_fcf935984ffecjvL5uV760xy0n (run=347fbf7a, model ox-alpha-free, provider opencode-go): created 21:00:22, loop step=0 21:00:23, title stream OK 21:00:28, auditor streams at 21:00:28/21:00:48/21:00:55, step=3 at 21:01:00.510 -> 'exiting loop' 21:01:00.511 = NORMAL loop termination (not an error, not a rate-limit park, not a hang). Total working life ~38s, 3 loop steps. Zero comments ever landed on this issue (last update remains 18:57 W1/W1-relation comments); zero artifacts. Cause of its stop decision is NOT visible in process logs (no error path taken); its transcript would be needed to know whether it judged the task impossible under auditor permission walls or simply concluded prematurely. Implications: (1) the W2 state-accuracy audit this issue expected NEVER RAN - if still wanted it needs relaunch, ideally with the prompt hardened against instant-self-exit (explicit minimum-deliverable requirement); (2) downstream consumers that were told to expect W2 findings here (e.g. the #432 classifier dispatched 21:33) correctly reported them absent - no findings should be attributed to W2; (3) WATCHDOG-V2 DESIGN INPUT: the 23:41 liveness scan labeled this agent FINISHED-UNMARKABLE. Mechanically defensible (clean pane exit, auditor role cannot write .kickoff-status) but semantically wrong: process-exit != deliverable-produced. For read-only roles (auditor/reviewer) the completion signal MUST be a position/result comment on the target issue, not process exit; recommend v2 treat 'role=read-only + pane EXITED + zero target-issue comments' as NO-OUTPUT-EXIT, distinct from FINISHED. Model attribution: ox-alpha-free (opencode-go). Certainty: evidence-based (process log + issue history). WHAT-NOT-TESTED: 0S5w's LLM transcript/reasoning for stopping; whether a relaunch would succeed.",
+          "created_at": "2026-08-24T00:30:05.413595735Z",
+          "kind": "observation",
+          "signed_by": "SHA256:O/mLOKxApM0IvVg2JmBuzNNE99iNC5fcsW9mYzZtuUU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgeza19BHZqZK6drrjJLXpcgPk70KAMCKpPcieRJ896H8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAW+AD5+UJCzIFgnbonjOxXOr5zWVYtEV57lVaKU5XG6PMKKGXssiyDjHre7sSDE/V1ogH3t9IaXWmXNBZZx4CBg=="
+        },
         "8fa59aa3-039e-401d-a079-c1cfb1dba75c": {
           "display_id": 2037,
           "author": "OL2r",
@@ -27284,8 +27293,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:29:45.155436060Z",
-    "agent_id": "pp3g-pfpM-upgrade-the-liveness-watchdog-under-epic-423-a-8463",
-    "agent_seq": 12
+    "timestamp": "2026-08-24T00:30:05.420560177Z",
+    "agent_id": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+    "agent_seq": 11
   }
 }
