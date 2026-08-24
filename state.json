@@ -1,6 +1,6 @@
 {
   "next_display_id": 446,
-  "next_comment_id": 2273,
+  "next_comment_id": 2274,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -24197,7 +24197,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T20:34:07.163286851Z",
-      "updated_at": "2026-08-24T02:07:03.650485942Z",
+      "updated_at": "2026-08-24T02:08:08.714151095Z",
       "labels": [
         "research"
       ],
@@ -24300,6 +24300,15 @@
           "kind": "observation",
           "signed_by": "SHA256:J32cdojISj9vHgYDulRJrzXf6jI50ZSUdUmV2xYvlds",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgGsQjQCnyjX7C9BRIKUbZv0tkDkaovxOXdgRSrhnn/8oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+o4S7pRhrPhjG9saAEOz4OOxK5i4HcrF+oQ9ogySXxQvzkhsiN3giJJR1ocjHO4DVstz4wmZu5A+tff/sHzlCw=="
+        },
+        "1f8f8e77-fd3e-468c-b6e8-c7912da473e3": {
+          "display_id": 2273,
+          "author": "OL2r",
+          "content": "[COLLATOR TERMINATION + ROOT CAUSE]: pp3g-Grbq (hy3-free) stopped after ~2h with zero master-doc output. Root cause chain: (1) orchestrator failed to merge the five section branches before collator launch - sections existed only on worker feature branches; (2) collator compensated by writing a BLOCKING 8-minute poll script watching the wrong location, burning cycles; (3) harness stream-stall detector terminated its final turn at 300s silence. Salvage: none needed - the five source sections themselves are intact on their branches and now merged to main (2127 lines). RELAUNCH: collator v2 dispatching against a main tree containing docs/research/sections/* directly - no polling required, pure integration work. Process lesson for the plan-checker gate (#441/#440 discussion): dispatch briefs that depend on OTHER agents' unmerged outputs must declare that dependency explicitly - the linter should flag collation tasks whose input files do not exist in their own worktree base.",
+          "created_at": "2026-08-24T02:08:08.703338370Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdiB3SJlEFuZXUhECiPHKQWUORscd7Oo5bg1GFAuf4Mcg6vfSoTShU48Ma31sNQSzowaF9rq/AHN8LPkQSQYwAA=="
         },
         "1fa9ec9e-eb96-4902-b103-b32ac2018000": {
           "display_id": 2122,
@@ -28455,8 +28464,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T02:07:03.650485942Z",
-    "agent_id": "pp3g-pfpM-upgrade-the-liveness-watchdog-under-epic-423-a-8463",
-    "agent_seq": 42
+    "timestamp": "2026-08-24T02:08:08.714151095Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2200
   }
 }
