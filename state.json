@@ -1,6 +1,6 @@
 {
   "next_display_id": 457,
-  "next_comment_id": 2358,
+  "next_comment_id": 2359,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5448,7 +5448,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-24T00:37:43.093986696Z",
+      "updated_at": "2026-08-24T05:47:48.076106196Z",
       "labels": [
         "epic"
       ],
@@ -5470,6 +5470,15 @@
           "kind": "observation",
           "signed_by": "SHA256:xlKKSXvnmk5eaQckZ1w5Ie+t3kkmS2p/a/ZjjPYCUks",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgOKD+dgmIIM4bKUdmcPlnPSk9rUSOXSXf7uVSbuqOeoEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAneRt1DSj/S5MIEY1s5BgfLVBKjoVjrIG3tmOBtbMVr8N8UY6cxeR1ZiZsjD/ausPHQBHSCtOFppdqQYwd3LaBQ=="
+        },
+        "307e7da5-90ef-48d0-b081-9479c6cd0661": {
+          "display_id": 2358,
+          "author": "OL2r",
+          "content": "[PLATFORM CAPABILITIES - external research findings, source-cited]: operator-conducted deep research on OpenCode architecture answered all eight design questions. KEY FINDINGS: [1] ATTRIBUTION SOLVED STRUCTURALLY - plugin event(input) hook receives EVERY bus event WITH sessionID; an EDASES plugin can maintain .edases/runs/<session-id>.jsonl per-session telemetry, making failure attribution structural rather than forensic (implements nemotron-reviewer M1-alt proposal from #444). [2] WAKE-ON-EVENT SOLVED - POST /api/session/:id/prompt_async exists in V2 API spec (starts session if needed, returns immediately); SDK exposes session.prompt(); OpenCode itself uses synthetic-prompt injection for background-task completion. #443 notification channel has its transport. [3] PROVIDER ERRORS ARE STRUCTURED - AI SDK APICallError normalized by OpenCode into MessageV2.APIError carrying statusCode/isRetryable/responseHeaders/responseBody/metadata; Retry-After is actively consumed by retry policy (retry-after-ms, seconds, HTTP-date, exponential fallback). External monitors can distinguish rate-limiting from other failures WITHOUT parsing human-readable strings. [4] DYNAMIC NATIVE APPROVAL MISSING - tool.execute.before can block/mutate but CANNOT escalate to the native once/always/reject approval UI (tracked upstream #37164, open); permission.ask plugin hook only OBSERVES existing requests. Enforcement-by-denial works; enforcement-by-dynamic-ask does not. [5] doom_loop PRECISELY CHARACTERIZED - threshold=3 identical serialized tool calls, NO time window, NOT configurable (feature request open), default ask; CRITICAL HEADLESS BUG: unanswered doom_loop ask can stall sessions indefinitely (#37694) - relevant risk for our headless kickoff fleet. [6] LOG ROTATION - V1 retained 10 timestamped files; V2 writes single opencode.log with NO documented rotation policy - reinforces decision to keep EDASES records OUT of opencode's own log. [7] SESSION-ID: collision-resistant auto-gen; caller-supplied IDs return existing sessions; treat as durable identity but PAIR with own run-id for incarnation identity. META-CONCLUSION from the research: the decisive question is which structured events a plugin can reliably observe across the FULL agent lifecycle (retries, provider failures, permission waits, idle/termination, child-agent creation) - that seam determines how much of the EDASES execution engine sits AROUND OpenCode versus requiring a fork. All claims carry citations to upstream repo/issues/docs captured in the operator's research session.",
+          "created_at": "2026-08-24T05:47:48.064057927Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAa2jPdcTG9McbDW4lLDB/ZSW7p/LzBTZA+KgSDybKhLUUAlVY+44L+phjtZRl7BXAsSuDRIWml+jVHNEpCW2TBg=="
         },
         "3ff6f3e9-9bb4-4bb5-ad4a-8e396ab87ba6": {
           "display_id": 2155,
@@ -29415,8 +29424,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T05:39:41.511747632Z",
+    "timestamp": "2026-08-24T05:47:48.076106196Z",
     "agent_id": "OL2r",
-    "agent_seq": 2232
+    "agent_seq": 2233
   }
 }
