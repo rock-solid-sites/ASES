@@ -20,15 +20,15 @@ related_documents:
 
 supersedes: []
 review_frequency: Quarterly (or when playbook changes)
-last_reviewed: 2026-08-18
+last_reviewed: 2026-08-24
 
 ---
 
 # Hookability Matrix
 
-**Date:** 2026-08-18
-**Source:** Agent Orchestration Playbook hookability audit, corrected per #404 verdict. Covers all 13 playbook sections plus Summary. Every rule classified as hookable (a/b/c/d) or not hookable (e), with mechanism details and feasibility assessment.
-**Convention:** Rows are playbook rules. Columns describe hookability, mechanism, feasibility, and enforcement status.
+**Date:** 2026-08-24 (extended per #440; original 2026-08-18)
+**Source:** Agent Orchestration Playbook hookability audit, corrected per #404 verdict. Covers all 13 playbook sections plus Summary. Every rule classified as hookable (a/b/c/d) or not hookable (e), with mechanism details and feasibility assessment. The #440 extension adds (1) per-surface validity re-classification of every enforcement row against the S1/S2 divergence established by #425, and (2) classification rows for the 2026-08-23/24 doctrine batch (fetch-method-selection, push-cadence, task-length atomization, never-assume-model, quota-parking failure class).
+**Convention:** Rows are playbook rules. Columns describe hookability, mechanism, feasibility, and enforcement status. Enforcement entries carry a surface tag where validity is surface-dependent: **[S2]** = fork CLI 1.18.13-pp3g only, **[S1+S2]** = both surfaces, **[surface-independent]** = outside the OpenCode plugin system (Claude Code hook, systemd, shell wrapper).
 
 ---
 
@@ -57,18 +57,55 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 
 ---
 
+## Surface Re-Validation — S1 vs S2 (2026-08-24, per #425 evidence)
+
+**Established empirically by #425 (closed 2026-08-23):** the two dispatch surfaces load different plugin sets, so mechanism (a) — OpenCode `tool.execute.before` plugin interception — is **surface-dependent**.
+
+| Property | S1 — opencode2 beta TUI | S2 — fork CLI 1.18.13-pp3g |
+|---|---|---|
+| Plugin loading | Global fallback plugins only (`plugins/plugin.ts`, `plugins/interrupt.ts`); **worktree `.opencode/plugins/` guards NOT loaded** (`orchestrator-guard`, `crosslink-guard`, `rtk-guard` absent from v2 debug config) | Worktree `.opencode/opencode.json` loaded; all 3 plugins active — proven by runtime logs (guard ALLOW for builder `filesystem_write_file` 19:25:27; BLOCK for auditor 19:16:48) |
+| Permission model | `{action, resource, effect}` shape; filesystem access routed through code-mode **execute sandbox** (`tools.filesystem.*` inside tool=execute), not discrete `filesystem_*` permission keys | `permission/pattern` Wildcard matcher; MCP tools evaluated with same engine as bash (degenerate pattern dimension `"*"`) |
+| Frontmatter `filesystem_*` keys | Silently ignored (never evaluated) | Honored via Wildcard match |
+| Default with no explicit entries | ALLOW on both surfaces (global `* allow` first rule) | ALLOW (same) |
+
+**Consequences for this matrix:**
+
+1. Every row enforced by an OpenCode plugin is re-classified **[S2]**: enforcement is real and log-proven on S2, and **absent on S1**. An agent dispatched through S1 gets prompt-level discipline only for those rules.
+2. Claude Code hooks, the systemd watcher, shell wrappers, and crosslink CLI checks are **[surface-independent]** — they do not depend on OpenCode plugin loading.
+3. New S2-side gap found by #425: `orchestrator-guard.ts` BLOCKED_TOOLS omits `filesystem_create_directory` and `filesystem_move_file` — an orchestrator can create/move files via MCP even on S2 (frontmatter deny would cover the permission layer; guard logging gap remains). The #434 narrow `.kickoff-status` write exemption (closed 2026-08-23) is a refinement of the same guard.
+4. S1 coverage for write-path protection requires either a v2-side guard equivalent intercepting `tools.filesystem.*` inside execute, or an `execute` deny (too broad), or v2 parity work. No such mechanism exists today.
+
+**Per-row surface tags** are applied inline below and consolidated here:
+
+| Enforced rule (Summary #) | Mechanism | S1 validity | S2 validity |
+|---|---|---|---|
+| 1 Orchestrator write blocking (`orchestrator-guard.ts`) | (a) | ❌ not loaded | ✅ log-proven (+#434 marker exemption) |
+| 2 Git push blocked (`crosslink-guard.ts`) | (a) | ❌ not loaded | ✅ |
+| 3 Git merge blocked workers | (a) | ❌ not loaded | ✅ |
+| 4 Git merge gated orchestrator | (a) | ❌ not loaded | ✅ |
+| 5 Git commit gated active issue | (a) | ❌ not loaded | ✅ |
+| 6–9 Comment discipline / active-issue / kill-pause flags | (a) | ❌ not loaded | ✅ |
+| 10 RTK rewriting (`rtk-guard.ts`) | (a) | ❌ not loaded | ✅ |
+| 11 Heartbeat (`heartbeat.py`) | Claude Code hook | ✅ surface-independent | ✅ |
+| 12 Lifecycle watcher (`kickoff-notify.py`) | systemd (d) | ✅ surface-independent | ✅ |
+| NEW 13 Model validation (`claude` wrapper) | (d) | ✅ surface-independent | ✅ |
+
+---
+
 ## Existing Hook Infrastructure
 
-**Verified:** 3 OpenCode plugins + 2 Claude Code hooks + 1 systemd watcher (2026-08-18)
+**Verified:** 3 OpenCode plugins [S2-only] + 2 Claude Code hooks + 1 systemd watcher + 1 tmux watchdog loop + 1 launch wrapper (updated 2026-08-24 per #440; plugin loading divergence per #425)
 
-| Category | File | Runtime | What it enforces |
-|----------|------|---------|-----------------|
-| **OpenCode plugin** | crosslink-guard.ts | OpenCode `tool.execute.before` | Blocked git commands, gated git (active issue), comment discipline, active-issue enforcement, kill/pause flags, allowed bash |
-| **OpenCode plugin** | orchestrator-guard.ts | OpenCode `tool.execute.before` | Write/edit blocked for non-Builder agents (SOLE enforcer — see §1.1 correction) |
-| **OpenCode plugin** | rtk-guard.ts | OpenCode `tool.execute.before` | Transparent RTK command rewriting |
-| **Claude Code hook** | heartbeat.py | Claude Code PostToolUse | Agent heartbeats on 120s throttle |
-| **Claude Code hook** | crosslink_config.py | Claude Code PreToolUse/PostToolUse | Shared config, crosslink binary resolution |
-| **systemd watcher** | tools/kickoff-notify.py | systemd timer (15s interval) | Agent lifecycle monitoring (LAUNCHING→RUNNING→DONE/FAILED), STALLED detection, notify-send + webhook |
+| Category | File | Runtime | What it enforces | Surface validity |
+|----------|------|---------|-----------------|------------------|
+| **OpenCode plugin** | crosslink-guard.ts | OpenCode `tool.execute.before` | Blocked git commands, gated git (active issue), comment discipline, active-issue enforcement, kill/pause flags, allowed bash | **[S2]** — not loaded on S1 (#425) |
+| **OpenCode plugin** | orchestrator-guard.ts | OpenCode `tool.execute.before` | Write/edit blocked for non-Builder agents (SOLE enforcer — see §1.1 correction); narrow `.kickoff-status` write exemption for read-only roles (#434) | **[S2]** — not loaded on S1 (#425) |
+| **OpenCode plugin** | rtk-guard.ts | OpenCode `tool.execute.before` | Transparent RTK command rewriting | **[S2]** — not loaded on S1 (#425) |
+| **Claude Code hook** | heartbeat.py | Claude Code PostToolUse | Agent heartbeats on 120s throttle | surface-independent |
+| **Claude Code hook** | crosslink_config.py | Claude Code PreToolUse/PostToolUse | Shared config, crosslink binary resolution | surface-independent |
+| **systemd watcher** | tools/kickoff-notify.py | systemd timer (**15s interval**, `ases-kickoff-notify.timer`) | Agent lifecycle monitoring (LAUNCHING→RUNNING→DONE/FAILED), STALLED detection (heartbeat-stale floor 900s scaled by timeout/2, debounced ×2 scans, 300s grace; timeout-overrun fallback), notify-send + webhook. No task-length/decomposition assessment. | surface-independent |
+| **tmux watchdog loop** | scripts/liveness-watchdog.sh (v2, live) | detached tmux session, 120s cycle | Runs agent-liveness.py --json --all; JSONL log; verdict-diff flags (new/worsened/vanished LIKELY-FROZEN / STALE-SUSPECT / SESSION-GONE) posted to issue #429 with dedup + recovery memory. No opencode.log parsing → no quota-parking detection. | surface-independent |
+| **launch wrapper** | ~/.local/bin/claude | bash pre-dispatch | STRICT model validation: FATAL exit on missing/`opus`/`sonnet`/`haiku` model args; systemd-run memory scope in tmux; exports CROSSLINK_AGENT_TYPE. Does NOT verify model against live catalog (`opencode models`). | surface-independent |
 
 ---
 
@@ -76,10 +113,10 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 
 | Rule/Mandate | Hookable? | Mechanism(s) | Notes/Feasibility | Enforcement |
 |---|---|---|---|---|
-| Orchestrator never implements (no write/edit on orchestrator) | Yes | (a) | `orchestrator-guard.ts` blocks write/edit/apply_patch for non-Builder agents at `tool.execute.before` | ✅ HOOK — `orchestrator-guard.ts` (SOLE enforcer) |
+| Orchestrator never implements (no write/edit on orchestrator) | Yes | (a) | `orchestrator-guard.ts` blocks write/edit/apply_patch for non-Builder agents at `tool.execute.before`. #425: guard NOT loaded on S1 (global-fallback plugins only). #434: narrow `.kickoff-status` write exemption added. S2 gap: BLOCKED_TOOLS omits filesystem_create_directory/move_file. | ✅ HOOK [S2] — `orchestrator-guard.ts` (SOLE enforcer); ❌ S1 unenforced |
 | Orchestrator never reviews own work | No | (e) | Requires understanding whether a review is of the agent's own output — semantic judgment, not syntactic | ❌ |
 | Orchestrator never silently takes over failed agents | No | (e) | Requires detecting intent to retry/substitute — semantic understanding of agent behavior | ❌ |
-| Workers never plan, review, or merge to master | Partial | (a)+(c) | Workers already blocked from merge/push by `crosslink-guard.ts`. Planning is a model-level instruction; reviewing is blocked by permission model (reviewer/auditor subagents only). | ✅ BOTH — HOOK: git push/merge blocked (`crosslink-guard.ts`); PERMISSION: task deny (`permissions.md`) |
+| Workers never plan, review, or merge to master | Partial | (a)+(c) | Workers already blocked from merge/push by `crosslink-guard.ts`. Planning is a model-level instruction; reviewing is blocked by permission model (reviewer/auditor subagents only). #425: plugin not loaded on S1. | ✅ BOTH [S2] — HOOK: git push/merge blocked (`crosslink-guard.ts`); PERMISSION: task deny (`permissions.md`); ❌ S1: permission-model layer only |
 | Operator never handed code to read/write | No | (e) | This is a human-role discipline — not applicable to hook enforcement | ❌ N/A (human role) |
 
 ---
@@ -102,8 +139,8 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 
 | Rule/Mandate | Hookable? | Mechanism(s) | Notes/Feasibility | Enforcement |
 |---|---|---|---|---|
-| Every kickoff/swarm command MUST include `--model` | Yes | (c)+(d) | A shell wrapper or crosslink CLI modification could check `crosslink kickoff run` / `crosslink swarm launch` args for `--model` flag and refuse to run without it. | ❌ Could build |
-| Verify model against live catalog before dispatch | Partial | (c)+(d) | Could shell-wrap `crosslink kickoff run` to first run `opencode models <provider>` and check the model ID exists. But requires knowing the provider — partial. | ❌ Could build |
+| Every kickoff/swarm command MUST include `--model` | Yes | (c)+(d) | **Re-classified 2026-08-24 (#440): PARTIALLY ENFORCED.** The `~/.local/bin/claude` launch wrapper FATAL-exits on missing/implicit Anthropic models (`opus`/`sonnet`/`haiku`) before opencode runs — mechanism (d), surface-independent. Gap: `crosslink kickoff run` itself does not check; a dispatch path bypassing the wrapper would not be caught. | ✅ PARTIAL HOOK — `claude` wrapper strict validation (d); CLI-level check still buildable |
+| Verify model against live catalog before dispatch | Partial | (c)+(d) | Could shell-wrap `crosslink kickoff run` to first run `opencode models <provider>` and check the model ID exists. But requires knowing the provider — partial. **#440 finding: the claude wrapper does NOT do this** — it accepts any non-Anthropic string (e.g. a typo'd model ID passes the wrapper and fails only at stream time). Catalog verification remains entirely prompt-enforced. | ❌ Could build — confirmed gap |
 | HALT if model unreachable (no silent fallback) | No | (e) | Requires understanding whether a fallback occurred — semantic agent behavior | ❌ |
 | Do not use `claude-mode` CLI wrappers | Yes | (d) | A shell wrapper could detect and block `claude-mode` invocations | ❌ Could build |
 | Free Zen models: verify they launch and complete promptly | No | (e) | Requires monitoring runtime behavior — too complex for a pre-hook | ❌ |
@@ -240,11 +277,13 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 
 ### §6.4 Agent Lifecycle Watcher — Phase 1
 
+*Surface re-validation 2026-08-24: systemd watcher rows are **[surface-independent]** — they monitor worktree files, not OpenCode plugin state, so they remain fully valid on S1 and S2 alike (#425 does not affect them).*
+
 | Rule/Mandate | Hookable? | Mechanism(s) | Notes/Feasibility | Enforcement |
 |---|---|---|---|---|
 | systemd timer runs every 15s | Yes | (d) | Already implemented — `ases-kickoff-notify.timer` + `tools/kickoff-notify.py` | ✅ HOOK — `kickoff-notify.py` (systemd) |
 | LAUNCHING → RUNNING → DONE \| FAILED \| CI_FAILED state machine | Yes | (d) | Already implemented in watcher | ✅ HOOK — `kickoff-notify.py` |
-| STALLED detection (heartbeat stale, 2 consecutive detections) | Yes | (d) | Already implemented | ✅ HOOK — `kickoff-notify.py` |
+| STALLED detection (heartbeat stale, 2 consecutive detections) | Yes | (d) | Already implemented. Threshold = max(900s floor, timeout_secs/2), debounced ×2 scans after 300s grace; timeout-overrun fallback when heartbeat missing. Covers stall detection only — does NOT assess task-length atomization (see §14). | ✅ HOOK — `kickoff-notify.py` |
 | notify-send + optional webhook | Yes | (d) | Already implemented | ✅ HOOK — `kickoff-notify.py` |
 | No destructive action (monitor + notify only) | N/A | N/A | Design decision — Phase 1 is intentionally inert | ✅ By design |
 
@@ -300,9 +339,9 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 
 | Rule/Mandate | Hookable? | Mechanism(s) | Notes/Feasibility | Enforcement |
 |---|---|---|---|---|
-| Workers commit to feature branches only | Yes | (a) | Could detect branch name in `git commit` and block commits to non-feature branches. `crosslink-guard.ts` already blocks merge/push; could add branch-name validation. | ✅ HOOK — `crosslink-guard.ts` (git merge/push blocked) |
-| Never merge to master from worker | Yes | (a)+(c) | `crosslink-guard.ts` already blocks `git merge` for workers. | ✅ HOOK — `crosslink-guard.ts` (git merge blocked) |
-| Push is operator-gated | Yes | (a) | `crosslink-guard.ts` already blocks `git push` for all agents. | ✅ HOOK — `crosslink-guard.ts` (git push blocked) |
+| Workers commit to feature branches only | Yes | (a) | Could detect branch name in `git commit` and block commits to non-feature branches. `crosslink-guard.ts` already blocks merge/push; could add branch-name validation. Not loaded on S1 (#425). | ✅ HOOK [S2] — `crosslink-guard.ts` (git merge/push blocked); ❌ S1 unenforced |
+| Never merge to master from worker | Yes | (a)+(c) | `crosslink-guard.ts` already blocks `git merge` for workers. Not loaded on S1 (#425). | ✅ HOOK [S2] — `crosslink-guard.ts` (git merge blocked); ❌ S1 unenforced |
+| Push is operator-gated | Yes | (a) | `crosslink-guard.ts` already blocks `git push` for all agents. Not loaded on S1 (#425). #438 designs converting the hard block into a permission-ask popup — see §14. | ✅ HOOK [S2] — `crosslink-guard.ts` (git push blocked); ❌ S1 unenforced |
 | One scope per session | No | (e) | Requires understanding scope — semantic | ❌ |
 
 ### §9.1 Operator Git Convention — No Interactive Editors
@@ -317,7 +356,7 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 
 | Rule/Mandate | Hookable? | Mechanism(s) | Notes/Feasibility | Enforcement |
 |---|---|---|---|---|
-| Workers commit to feature branches; orchestrator does NOT push | Yes | (a) | Already enforced by `crosslink-guard.ts` blocking push for all agents. | ✅ HOOK — `crosslink-guard.ts` |
+| Workers commit to feature branches; orchestrator does NOT push | Yes | (a) | Already enforced by `crosslink-guard.ts` blocking push for all agents. Not loaded on S1 (#425). | ✅ HOOK [S2] — `crosslink-guard.ts`; ❌ S1 unenforced |
 | Nothing merges unreviewed | Partial | (a)+(c) | Merge is gated on active issue for orchestrator (§1 crosslink-guard.ts). But "reviewed" vs "unreviewed" is semantic — the gate only checks issue active, not review status. | ✅ PARTIAL HOOK — active-issue gate on merge |
 | Skeletons/structure can run unattended; fidelity-sensitive work HELD | No | (e) | Requires classifying work as "skeleton" vs "fidelity-sensitive" — semantic judgment | ❌ |
 
@@ -355,16 +394,16 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 | Blanket `--timeout 1h` | Partial | (c)+(d) | Crosslink CLI could reject oversized timeouts for non-complex tasks | ❌ Could build |
 | Using `claude-mode` CLI wrappers | Yes | (d) | Shell wrapper could detect and block | ❌ Could build |
 | Accepting empty review output | Partial | (c) | Crosslink CLI could check review output length before accepting | ❌ Could build |
-| Orchestrator implementing directly | Yes | (a) | ✅ Already enforced by `orchestrator-guard.ts` blocking write/edit for non-Builder | ✅ HOOK — `orchestrator-guard.ts` |
+| Orchestrator implementing directly | Yes | (a) | ✅ Already enforced by `orchestrator-guard.ts` blocking write/edit for non-Builder — **[S2] only** (#425: not loaded on S1) | ✅ HOOK [S2] — `orchestrator-guard.ts` |
 | Parallelizing unproven patterns | No | (e) | Requires understanding whether a pattern is "proven" — semantic | ❌ |
 | Trusting `.kickoff-status` flags | No | (e) | Model guidance — "verify against git commits" | ❌ |
 | Waiting silently until timeout | No | (e) | Model behavior guidance | ❌ |
 | Relying session actions for operator visibility | No | (e) | Model guidance | ❌ |
 | Dispatching multiple reviewers on one thread | Partial | (c) | Crosslink swarm could block multi-reviewer dispatch without sub-issue creation | ❌ Could build |
-| Merging to master from worktree | Yes | (a)+(c) | ✅ Already enforced — git merge blocked for workers, gated for orchestrator | ✅ HOOK — `crosslink-guard.ts` |
+| Merging to master from worktree | Yes | (a)+(c) | ✅ Already enforced — git merge blocked for workers, gated for orchestrator — **[S2] only** (#425) | ✅ HOOK [S2] — `crosslink-guard.ts` |
 | Retrying a failed delegation | No | (e) | Requires understanding intent to retry — semantic | ❌ |
 | LLM-based sampling for safety gates | No | (e) | Requires understanding verification method — semantic | ❌ |
-| Pushing from orchestrator | Yes | (a) | ✅ Already enforced — git push blocked for all agents | ✅ HOOK — `crosslink-guard.ts` |
+| Pushing from orchestrator | Yes | (a) | ✅ Already enforced — git push blocked for all agents — **[S2] only** (#425); #438 popup design would soften this into an informed operator transition (§14) | ✅ HOOK [S2] — `crosslink-guard.ts` |
 | Trusting static permission/model doc | Partial | (d) | Could build a freshness check that runs `opencode models` and compares against doc | ❌ Could build |
 | Reading agent output from local SQLite | No | (e) | Conceptual principle | ❌ |
 | Running `crosslink sync` in main repo to refresh visibility | Partial | (c) | Crosslink CLI could detect and warn/block blind sync from main repo | ❌ Could build |
@@ -374,24 +413,39 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 
 ---
 
+## §14 Doctrine Additions — 2026-08-23/24 Batch [#440]
+
+New rules from the 2026-08-23/24 doctrine batch, classified with the same columns. These postdate the 2026-08-18 baseline and are integrated per #440.
+
+| Rule/Mandate | Hookable? | Mechanism(s) | Notes/Feasibility | Enforcement |
+|---|---|---|---|---|
+| **Fetch-method-selection** (knowledge page: local fetch = substrate, WebFetch = query; never chain sequential WebFetch as bulk ingestion — four research-agent freezes on 2026-08-23 followed this pattern, evidence #429 termination records + #423 forensics) | Yes | (a) | Three-state WebFetch pattern guard designed in #439: allow first queries → ASK operator on bulk-ingestion pattern → deny+teach at excess; counter resets on local clone/curl acquisition. Purely syntactic signal (tool name + call sequence count) — well-suited to `tool.execute.before`. As a plugin it inherits the S1/S2 divergence: **[S2] only** unless a v2 equivalent is built. | ❌ DESIGN ONLY — #439 open, not implemented |
+| **Git push-cadence** (AGENTS.md: agents proactively propose push moments — after merge clusters, before cleanup/migration ops, at session end) | Partial | (a)+(e) | Two separable layers. Detection of `git push` is mechanical and already hard-blocked [S2]. The *cadence* judgment (when proposing a push is appropriate) is semantic — (e). #438 designs the middle ground: intercept push via permission-ask action, render native y/n popup to operator with ahead-count context, converting the hard block into an informed human transition. Popup would be plugin-based → **[S2]**. | ✅ HOOK [S2] for the hard block (`crosslink-guard.ts`); cadence timing ❌ (e); popup ❌ DESIGN ONLY — #438 open |
+| **Task-length atomization** (>~45m estimated sequential single-agent work = decompose into swarm rather than raise timeout; playbook §5.3) | Partial | (c)+(d) | Dispatch-time check is buildable: crosslink CLI or wrapper could reject/flag `kickoff run` timeouts >45m, or flag tasks whose prompts estimate long sequential work (the latter is semantic). Runtime coverage that ALREADY exists: `kickoff-notify.py` STALLED detection at 15s timer cadence catches heartbeat-stale agents and timeout-overrun (elapsed > timeout_secs + 120s buffer) — but this detects a *stalled over-long agent after dispatch*; nothing assesses or enforces decomposition at dispatch. The gap is preventive, not detective. | ❌ Could build (dispatch-time); runtime overrun detection exists via §6.4 watcher |
+| **Never-assume-model** (verify model IDs against live catalog before use; never guess/shorten/modify) | Partial | (d)+(c) | **#440 finding: partially enforced already.** The `claude` launch wrapper FATAL-exits on missing/implicit Anthropic model names (verified in wrapper source) — mechanism (d), surface-independent. Remaining gap: the wrapper accepts any non-Anthropic string without checking `opencode models <provider>`; a typo'd or stale model ID passes and fails only at stream time. Catalog verification could be added to the same wrapper (cheap: one subprocess call). | ✅ PARTIAL HOOK — `claude` wrapper strict validation (d); catalog-check gap confirmed, buildable in same wrapper |
+| **Quota-parking failure class** (agent silently parks retrying on provider quota exhaustion: `AI_APICallError: Resource exhausted` / HTTP 429 with future-retry semantics in `~/.local/share/opencode/log/opencode.log`) | Yes | (d) | Log signature verified present in the live opencode.log (#440 inspection: repeated `stream error ... AI_APICallError: Resource exhausted ... 429` entries). Detection is mechanical log-scan: match AI_APICallError + quota-exhaustion text + repeated timestamps per session → PARKED-RETRYING verdict. Integration candidate: scripts/liveness-watchdog.sh v2 (live, 120s cycle, already posts verdict flags to #429) — v3 could parse opencode.log alongside tmux pane state. Neither existing watcher (kickoff-notify.py, liveness-watchdog.sh) reads opencode.log today — confirmed gap. | ❌ GAP — no detector exists; watchdog v3 integration candidate |
+
+---
+
 ## SUMMARY — Rules Already Enforced
 
-**~12 rules with hook/plugin enforcement** (corrected from ~15 per #404 FINDING 7):
+**~13 rules with hook/plugin enforcement** (12 at 2026-08-18 baseline + claude-wrapper model validation added #440; corrected from ~15 per #404 FINDING 7):
 
-| # | Rule | Enforcement Mechanism | Type |
-|---|------|----------------------|------|
-| 1 | Orchestrator write blocking (§1.1) | `orchestrator-guard.ts` — blocks write/edit/apply_patch for non-Builder agents | HOOK |
-| 2 | Git push blocked (§9.2/§10.1/§13.15) | `crosslink-guard.ts` — blocked_git_commands | HOOK |
-| 3 | Git merge blocked for workers (§9.1) | `crosslink-guard.ts` — by_type.blocked_git_commands | HOOK |
-| 4 | Git merge gated on active issue for orchestrator (§9.3) | `crosslink-guard.ts` + hook-config.json by_type.gated_git_commands | HOOK |
-| 5 | Git commit gated on active issue (§10.1) | `crosslink-guard.ts` — gated_git_commands + active-issue sentinel | HOOK |
-| 6 | Comment discipline: plan comment before commit (§5.4) | `crosslink-guard.ts` — comment_discipline check | HOOK |
-| 7 | Comment discipline: result comment before close (§6.3) | `crosslink-guard.ts` — issue close detection | HOOK |
-| 8 | Active-issue enforcement for writes (§13.15) | `crosslink-guard.ts` — strict mode blocks write/edit/bash without active issue | HOOK |
-| 9 | Kill/pause flags (§7) | `crosslink-guard.ts` — highest-priority check | HOOK |
-| 10 | RTK command rewriting (§8) | `rtk-guard.ts` — tool.execute.before, transparent rewrite | HOOK |
-| 11 | Heartbeat/liveness tracking (§6.4) | `.claude/hooks/heartbeat.py` — PostToolUse, throttled 120s | HOOK (Claude Code) |
-| 12 | Agent lifecycle watcher (§6.4) | `tools/kickoff-notify.py` — systemd timer, monitor + notify only | HOOK (systemd) |
+| # | Rule | Enforcement Mechanism | Type | Surface |
+|---|------|----------------------|------|---------|
+| 1 | Orchestrator write blocking (§1.1) | `orchestrator-guard.ts` — blocks write/edit/apply_patch for non-Builder agents; `.kickoff-status` exemption per #434 | HOOK | **[S2]** |
+| 2 | Git push blocked (§9.2/§10.1/§13.15) | `crosslink-guard.ts` — blocked_git_commands | HOOK | **[S2]** |
+| 3 | Git merge blocked for workers (§9.1) | `crosslink-guard.ts` — by_type.blocked_git_commands | HOOK | **[S2]** |
+| 4 | Git merge gated on active issue for orchestrator (§9.3) | `crosslink-guard.ts` + hook-config.json by_type.gated_git_commands | HOOK | **[S2]** |
+| 5 | Git commit gated on active issue (§10.1) | `crosslink-guard.ts` — gated_git_commands + active-issue sentinel | HOOK | **[S2]** |
+| 6 | Comment discipline: plan comment before commit (§5.4) | `crosslink-guard.ts` — comment_discipline check | HOOK | **[S2]** |
+| 7 | Comment discipline: result comment before close (§6.3) | `crosslink-guard.ts` — issue close detection | HOOK | **[S2]** |
+| 8 | Active-issue enforcement for writes (§13.15) | `crosslink-guard.ts` — strict mode blocks write/edit/bash without active issue | HOOK | **[S2]** |
+| 9 | Kill/pause flags (§7) | `crosslink-guard.ts` — highest-priority check | HOOK | **[S2]** |
+| 10 | RTK command rewriting (§8) | `rtk-guard.ts` — tool.execute.before, transparent rewrite | HOOK | **[S2]** |
+| 11 | Heartbeat/liveness tracking (§6.4) | `.claude/hooks/heartbeat.py` — PostToolUse, throttled 120s | HOOK (Claude Code) | surface-independent |
+| 12 | Agent lifecycle watcher (§6.4) | `tools/kickoff-notify.py` — systemd timer (15s), monitor + notify only | HOOK (systemd) | surface-independent |
+| 13 | Implicit/default model rejection (§3) | `~/.local/bin/claude` wrapper — FATAL exit on missing/opus/sonnet/haiku (#440) | HOOK (shell wrapper) | surface-independent |
 
 **Additionally enforced via permission model (NOT hooks):**
 - Task deny for orchestrator/worker (permissions.md edit:deny, task:deny)
@@ -399,31 +453,41 @@ Unlike the Failure Matrix (which maps failures to required semantics), this matr
 
 These are permission-model constraints (permissions.md, hook-config.json), not hook/plugin enforcement. They were previously counted in the "~15" figure — this overstatement is corrected per #404 FINDING 3 and 7.
 
+**Surface caveat (#425, applied #440):** all `[S2]` rows are unenforced on the S1 opencode2 beta TUI, which loads global-fallback plugins only. S1 dispatches rely on prompt discipline plus the surface-independent rows (11–13) for structural enforcement.
+
 ---
 
 ## SUMMARY — Highest-Value Hookable Rules Not Yet Enforced
 
-These are the rules where hook enforcement would provide the most value (high failure frequency, low implementation cost):
+These are the rules where hook enforcement would provide the most value (high failure frequency, low implementation cost). **Top-3 re-ranked 2026-08-24 (#440) against the night's failure classes** (agent freezes: native-stream ×2 + kickoff freeze ×1 on ox-alpha; WebFetch bulk-ingestion freezes #429/#423; quota-parking 429s confirmed in opencode.log):
 
-1. **§3 `--model` enforcement** — Shell wrapper or crosslink CLI check. The #1 cause of agent failures is model issues. Could block `kickoff run`/`swarm launch` without `--model`. **Mechanism: (c)+(d), LOW effort.**
+1. **§14 Quota-parking PARKED-RETRYING detector** — extend `scripts/liveness-watchdog.sh` (v3) to parse `~/.local/share/opencode/log/opencode.log` for AI_APICallError/quota-exhaustion signatures and emit a PARKED-RETRYING verdict alongside existing tmux-pane verdicts. Directly addresses tonight's silent-parked agents that look alive but make no progress. **Mechanism: (d), LOW effort — watchdog loop and flag channel already live.**
 
-2. **§4 Pre-flight checks (HEAD clean, issue claimed, branch not exists)** — Crosslink CLI pre-dispatch validation. Prevents wasted agent launches. **Mechanism: (c)+(d), LOW effort.**
+2. **§14 Fetch-method-selection three-state guard (#439)** — WebFetch sequence counter in a `tool.execute.before` plugin: allow first queries, ASK on bulk-ingestion pattern, deny+teach at excess. Addresses the documented four-freeze ingestion pattern. **Mechanism: (a), LOW-MEDIUM effort — design exists; [S2]-only until v2 parity.**
 
-3. **§5.3 Timeout validation** — Crosslink CLI could reject blanket `--timeout 1h`. Prevents operator starvation of feedback. **Mechanism: (c), LOW effort.**
+3. **§14 Never-assume-model catalog verification** — add one `opencode models <provider>` subprocess check to the existing `claude` wrapper so typo'd/stale model IDs fail at dispatch with a clear message instead of at stream time. Complements the wrapper's existing implicit-model block. **Mechanism: (d), LOW effort — wrapper already exists and is the enforcement point.**
 
-4. **§12 Issue reference in commits** — Pre-commit hook validating `[#N]` in commit message. **Mechanism: (c)+(d), LOW effort.**
+Remaining high-value items from the 2026-08-18 baseline:
 
-5. **§12 `crosslink session end --notes` enforcement** — Block session end without notes. **Mechanism: (c), LOW effort.**
+4. **§4 Pre-flight checks (HEAD clean, issue claimed, branch not exists)** — Crosslink CLI pre-dispatch validation. Prevents wasted agent launches. **Mechanism: (c)+(d), LOW effort.**
 
-6. **§8 Signing key re-assertion** — Auto-re-assert before dispatch. **Mechanism: (c)+(d), MEDIUM effort.**
+5. **§5.3 Timeout validation / task-length atomization** — Crosslink CLI could reject blanket `--timeout 1h` and flag >45m sequential estimates for decomposition (§14). Prevents operator starvation of feedback. **Mechanism: (c), LOW effort.**
 
-7. **§5.5 Two-repo sync reminder** — Post-commit hook detecting shared-file changes. **Mechanism: (d), MEDIUM effort.**
+6. **§12 Issue reference in commits** — Pre-commit hook validating `[#N]` in commit message. **Mechanism: (c)+(d), LOW effort.**
 
-8. **§6.5 Blind-sync prevention** — Block `crosslink sync` from main repo. **Mechanism: (c), LOW effort.**
+7. **§12 `crosslink session end --notes` enforcement** — Block session end without notes. **Mechanism: (c), LOW effort.**
 
-9. **§5.9 /tmp artifact check** — Session-end hook checking for uncommitted decision-gating artifacts. **Mechanism: (c)+(d), MEDIUM effort (fragile).**
+8. **§8 Signing key re-assertion** — Auto-re-assert before dispatch. **Mechanism: (c)+(d), MEDIUM effort.**
 
-10. **§5.6 Multi-reviewer isolation** — Crosslink swarm enforces sub-issue creation. **Mechanism: (c), MEDIUM effort.**
+9. **§5.5 Two-repo sync reminder** — Post-commit hook detecting shared-file changes. **Mechanism: (d), MEDIUM effort.**
+
+10. **§6.5 Blind-sync prevention** — Block `crosslink sync` from main repo. **Mechanism: (c), LOW effort.**
+
+11. **§5.9 /tmp artifact check** — Session-end hook checking for uncommitted decision-gating artifacts. **Mechanism: (c)+(d), MEDIUM effort (fragile).**
+
+12. **§5.6 Multi-reviewer isolation** — Crosslink swarm enforces sub-issue creation. **Mechanism: (c), MEDIUM effort.**
+
+13. **§14 Git push-ask popup (#438)** — Convert the S2 hard block into a permission-ask popup with ahead-count context. Valuable but operator-workflow-changing; sequenced after the failure-class detectors above. **Mechanism: (a), MEDIUM effort — design exists.**
 
 ---
 
@@ -447,6 +511,8 @@ These remain prompt-enforced discipline and cannot be structurally guaranteed.
 
 **Post-#404 Correction Notes:** This matrix applies the 4 factual corrections from the #404 audit verdict. The matrix's value as a hookability audit is intact — the corrections address factual accuracy, not structural flaws. Key changes: (1) infrastructure table now distinguishes 3 OpenCode plugins from 2 Claude Code hooks + 1 systemd watcher; (2) §1.1 orchestrator write blocking correctly attributed to orchestrator-guard.ts alone; (3) all "already enforced" items now labeled HOOK, PERMISSION, or BOTH; (4) hook-enforced count corrected to ~12 (10 direct + 2 infra).
 
+**Post-#440 Extension Notes (2026-08-24):** Surface re-validation per #425 supersedes the surface-neutral framing above: the 3 OpenCode plugins are [S2]-only, so the effective structural-enforcement count on S1 is 3 (rows 11–13), not 13. §14 adds the 2026-08-23/24 doctrine batch. Scope addendum on #440 (2026-08-24 01:14) explicitly defers #442 (Observer role) and #441 (ases-tools CLI) classification to a follow-up pass — they are intentionally absent from this revision.
+
 ---
 
 ## Source / Provenance
@@ -456,6 +522,7 @@ These remain prompt-enforced discipline and cannot be structurally guaranteed.
 - **Corrections applied from:** Issue #404 audit verdict (CONDITIONAL PASS) — 4 factual corrections
 - **File creation:** Issue #410 — repository document promoted from issue comment to registry file
 - **Session:** 2026-08-18, pp3g-0WU8 (builder agent) + orchestrator
+- **2026-08-24 extension:** Issue #440 — surface re-validation evidence from #425 (closed); doctrine-batch sources: fetch-method-selection knowledge page + #439 design, AGENTS.md push-cadence rule + #438 design, playbook §5.3 atomization rule, model-discipline rules + `claude` wrapper inspection, opencode.log quota-parking signatures; watcher/watchdog source inspection (`tools/kickoff-notify.py`, `scripts/liveness-watchdog.sh`, `tools/ases-kickoff-notify.timer`); session pp3g-w9QQ (builder agent, relaunch of frozen predecessor)
 
 ---
 
@@ -473,6 +540,7 @@ These remain prompt-enforced discipline and cannot be structurally guaranteed.
 | Date | Change | Author |
 |------|--------|--------|
 | 2026-08-18 | Initial creation from #391 corrected inventory (post-#404) | pp3g-qO5v + orchestrator |
+| 2026-08-24 | #440 extension: per-surface re-validation of all enforcement rows per #425 (S1 opencode2 beta does not load worktree plugins; [S2] tags applied); infrastructure table updated (liveness-watchdog.sh v2, claude wrapper, 15s timer detail); §14 added classifying the 2026-08-23/24 doctrine batch (fetch-method-selection #439 design, push-cadence #438 design, task-length atomization, never-assume-model partial hook found, quota-parking gap); priorities re-ranked against 2026-08-23/24 failure classes; enforced count 12→13 | pp3g-w9QQ (builder) + orchestrator |
 
 ---
 
