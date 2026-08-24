@@ -1,6 +1,6 @@
 {
   "next_display_id": 436,
-  "next_comment_id": 2152,
+  "next_comment_id": 2153,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5279,7 +5279,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-24T00:17:08.038155583Z",
+      "updated_at": "2026-08-24T00:17:17.056473867Z",
       "labels": [
         "epic"
       ],
@@ -5418,6 +5418,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:PtHvA8WyCHfSrUi3tdbbpaB+spkNxiyNYFs7I+lwIKk",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgQOrG27ObyCcGNmC5xTS2LKUq4+EM3ONGuakHB+6xDTMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAx9m0mzaXW1klo4sCyCLbi+8pA5WB6SpzdHqnbBytzqIyCnJR1FPhwnE1DGkOMEV8gvANNMoWtXPBm8JkouwWDw=="
+        },
+        "e4d4f14b-e4ab-4699-8eae-cd4e4e1bb4bb": {
+          "display_id": 2152,
+          "author": "pp3g-pfpM-upgrade-the-liveness-watchdog-under-epic-423-a-8463",
+          "content": "Result: Liveness watchdog upgraded to v2 under EPIC #423. Commit 4c8ab0ba adds scripts/liveness-watchdog.sh (192 lines, committed to feature branch). REPLACEMENT: predecessor log-only session (bash PID 485890, created 23:56:21 by pp3g-4GeS, verified via pane start-command before kill) was killed at ~00:12; v2 detached tmux session 'liveness-watch' started 00:13:07 executing the runner script directly. PID EVIDENCE: tmux pane pid=653932 cmd=bash .../scripts/liveness-watchdog.sh, attached=0 (detached, survives my exit); pgrep corroborates. V2 LOOP: every 120s runs agent-liveness.py --json --all (script-relative resolution), appends ONE compacted JSON line per cycle to /tmp/opencode/liveness-log.jsonl (v1 appended raw multi-line blobs; baseline was 3223 lines), diffs verdicts/aliveness vs /tmp/opencode/liveness-state/watchdog-state.json, flags NEW LIKELY-FROZEN/STALE-SUSPECT + severity-worsening + ALIVE->SESSION-GONE vanish transitions via the mandated crosslink issue comment 429 format, deduped via per-agent last_flagged_verdict (re-flag only on worsening or after recovery creates a new episode); flags/errors/cycle summaries appended as JSONL events. VERIFICATION (two real cycles, no fabricated agents): cycle 1 at 00:13:07 (uptime_s=2) + cycle 2 at 00:15:09 (uptime_s=123) - two data lines landed (log lines 3224 + 3226, generated_at 00:13:07.529/00:15:09.435, 24 then 25 agents), cadence 122s as designed. ZERO SPURIOUS COMMENTS: flags=0 on both cycles; #429 has 0 actual '[WATCHDOG]' posts (its 2 'WATCHDOG' string matches are operator/auditor prose mentioning the system). Zero-flag was the CORRECT outcome, not a vacuous pass: the two agents pane-hash-frozen at my 00:06 pre-flight (pp3g-4GeS, pp3g-d818) had finished cleanly (DONE-CONFIRMED) by cycle 1, and no agent is currently STALE-SUSPECT. DEDUPE EVIDENCE: state file v1 tracks all 25 agents, 0 carry flag memory after two cycles (nothing re-flagged); trigger logic additionally unit-tested deterministically from the shipped script text: T1 vanished-transition fires, T2 STALE->FROZEN worsened fires, T3 identical-verdict repeat suppressed (dedupe core), T4 recovery clears memory so later degradation is a new episode, T5 FROZEN->DEAD escalation fires, T6 never-flagged EXITED stays silent - ALL PASS. WHY: verdict-diff must be episode-based because LIKELY-FROZEN is a point-in-time pane-hash verdict - tonight proved agents can be hash-frozen at T and DONE at T+5min. HOW CERTAIN: loop mechanics + JSONL format + state writes + zero-spurious-comments = evidence-based (live two-cycle run); dedupe semantics = proven at unit level + consistent live. WHAT-NOT-TESTED: (1) vanish/worsened paths not exercised against LIVE traffic (no agent vanished during the 2-cycle window) - synthetic tests only; (2) the loop's own crosslink-comment invocation never fired live (flags=0) - same command form used manually throughout this session, but the in-loop posted=true/false logging path is unverified end-to-end; (3) longevity beyond 2 cycles unobserved (session left running for the epic to consume). OPERATIONAL CAVEAT: the session executes the script from THIS worktree path; if the worktree is removed post-merge the loop degrades to visible error events every cycle (never silent) and should be relaunched from the merged main-checkout copy.",
+          "created_at": "2026-08-24T00:17:17.049254706Z",
+          "kind": "result",
+          "signed_by": "SHA256:PgLOQUXElnglLDchW69k+2DXK62Ox5m0Ss6nm2pYlHY",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgkQsdp8khFylDKEhnzJlO466XAX3qzva8b/kjfhwsKPMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABADBzwc4a59OKuRHLnzy+HfOse8pSfjgLMSk55CqX0UJRZnoLHRdrQ2TyLL5Mqr8c6XXTKXgM1Y52FSuhMRL/DBg=="
         },
         "e7413f78-56eb-47e5-8e48-36fb57c31c03": {
           "display_id": 2038,
@@ -27180,8 +27189,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:17:08.038155583Z",
-    "agent_id": "pp3g-Fdp6-logic-review-of-liveness-tooling-under-epic-423-e5d4",
-    "agent_seq": 1
+    "timestamp": "2026-08-24T00:17:17.056473867Z",
+    "agent_id": "pp3g-pfpM-upgrade-the-liveness-watchdog-under-epic-423-a-8463",
+    "agent_seq": 6
   }
 }
