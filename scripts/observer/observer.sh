@@ -81,6 +81,15 @@
 #   OBSERVER_FASTPATH_DEDUP_SECS. The expensive liveness walk keeps its own
 #   slower cadence; detection of log-visible failures takes seconds.
 #
+# Commit-age signal (#460 F3):
+#   Per-builder last-commit age (git log -1 %ct in the worktree) feeds the
+#   STALE logic, making the incremental-commit discipline mechanical:
+#     RUNNING-ALIVE + commit older than OBSERVER_COMMIT_STALE_MINS
+#       -> deduped commit-overdue event (re-arms on fresh commit)
+#     STALE-SUSPECT + stale commit  -> escalate on FIRST quiet cycle
+#     STALE-SUSPECT + fresh commit  -> one extra grace cycle before
+#                                      escalation
+#
 # Safety model:
 #   - Never touches live agent processes or worktrees directly: every
 #     mutation goes through crosslink CLI surfaces (kickoff stop/cleanup,
@@ -547,6 +556,18 @@ def agent_branch(agent):
                      timeout=20)
     if rc == 0 and out.strip() and out.strip() != "HEAD":
         return out.strip()
+    return None
+
+def commit_age_min(agent):
+    """F3 (#460): minutes since the last commit in the agent worktree.
+    Makes the incremental-commit discipline mechanically observable."""
+    wt = os.path.join(WORKTREES_ROOT, agent)
+    if not os.path.isdir(wt):
+        return None
+    rc, out, _ = run(["git", "-C", wt, "log", "-1", "--format=%ct"],
+                     timeout=20)
+    if rc == 0 and out.strip().isdigit():
+        return round(max(0.0, time.time() - int(out.strip())) / 60.0, 1)
     return None
 
 # ---------------------------------------------------------------------------
@@ -1109,6 +1130,22 @@ def process_agent(state, row):
         if phase not in ("completed", "finished-unmarkable", "failed",
                          "killed", "frozen-handled"):
             rec["phase"] = "active"
+            # F3: commit-overdue signal while nominally alive (deduped per
+            # stale episode; re-arms automatically when a fresh commit lands).
+            age = commit_age_min(agent)
+            if age is not None:
+                rec["commit_age_min"] = age
+                if age > COMMIT_STALE_MINS:
+                    if rec.get("commit_overdue_alerted") != "stale":
+                        log_event({"event": "commit-overdue",
+                                   "agent": agent,
+                                   "commit_age_min": age,
+                                   "threshold_min": COMMIT_STALE_MINS})
+                        rec["commit_overdue_alerted"] = "stale"
+                elif rec.get("commit_overdue_alerted"):
+                    log_event({"event": "commit-caught-up", "agent": agent,
+                               "commit_age_min": age})
+                    rec["commit_overdue_alerted"] = None
 
     elif verdict == "DONE-CONFIRMED":
         if "DONE-CONFIRMED" not in handled and phase != "completed":
@@ -1150,18 +1187,40 @@ def process_agent(state, row):
                 act_parked(state, row, rec, li)
             else:
                 rec["stale_streak"] = rec.get("stale_streak", 0) + 1
+                age = rec.get("commit_age_min")
+                if age is None:
+                    age = commit_age_min(agent)
+                    if age is not None:
+                        rec["commit_age_min"] = age
                 fatal = rec.get("fast_path_fatal")
-                if rec["stale_streak"] == 1 and not fatal:
-                    log_event({"event": "stale-warning", "agent": agent,
-                               "detail": "one warning cycle before "
-                                         "escalation"})
-                elif fatal:
+                old_commit = age is not None and age > COMMIT_STALE_MINS
+                fresh_commit = age is not None and \
+                    age <= COMMIT_STALE_MINS
+                if fatal:
                     act_frozen(state, row, rec,
                                "STALE-SUSPECT escalated: fast-path fatal "
                                "evidence {0} at {1}".format(
-                                   fatal.get("class"),
-                                   fatal.get("ts")))
-                elif rec["stale_streak"] >= max(2, STALE_ESCALATE):
+                                   fatal.get("class"), fatal.get("ts")))
+                elif old_commit:
+                    # F3: a stale commit removes the benefit of the doubt.
+                    act_frozen(state, row, rec,
+                               "STALE-SUSPECT escalated on first quiet "
+                               "cycle: last commit {0} min old exceeds "
+                               "threshold {1} min".format(
+                                   age, COMMIT_STALE_MINS))
+                elif rec["stale_streak"] == 1:
+                    if fresh_commit:
+                        log_event({"event": "stale-warning", "agent": agent,
+                                   "detail": "one warning cycle before "
+                                             "escalation; fresh commit "
+                                             "({0} min) grants an extra "
+                                             "grace cycle".format(age)})
+                    else:
+                        log_event({"event": "stale-warning", "agent": agent,
+                                   "detail": "one warning cycle before "
+                                             "escalation"})
+                elif rec["stale_streak"] >= max(2, STALE_ESCALATE) + \
+                        (1 if fresh_commit else 0):
                     act_frozen(state, row, rec,
                                "STALE-SUSPECT escalated after {0} quiet "
                                "cycles".format(rec["stale_streak"]))

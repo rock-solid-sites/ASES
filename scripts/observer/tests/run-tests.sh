@@ -320,5 +320,48 @@ if [ "$BEFORE_N" = "$AFTER_N" ]; then printf 'PASS T13 dedup suppresses repeats\
 else printf 'FAIL T13 dedup: %s -> %s classifications\n' "$BEFORE_N" "$AFTER_N"; FAIL=$((FAIL+1)); fi
 unset TEST_OPENCODE_LOG
 
+# ---------------------------------------------------------------------------
+note "T14 commit-age signal (F3: overdue event, accelerated + graced escalation)"
+root="$TESTS/fake-repo3"; rm -rf "$root"; mkdir -p "$root/.worktrees/zzz-lc-slow" "$root/.worktrees/zzz-lc-fresh"
+git -C "$root/.worktrees/zzz-lc-slow" init -q -b main
+git -C "$root/.worktrees/zzz-lc-slow" config user.email t@t; git -C "$root/.worktrees/zzz-lc-slow" config user.name t
+echo old > "$root/.worktrees/zzz-lc-slow/f.txt"
+git -C "$root/.worktrees/zzz-lc-slow" add f.txt
+GIT_AUTHOR_DATE="2026-08-20T10:00:00" GIT_COMMITTER_DATE="2026-08-20T10:00:00" \
+    git -C "$root/.worktrees/zzz-lc-slow" commit -qm old-commit
+git -C "$root/.worktrees/zzz-lc-fresh" init -q -b main
+git -C "$root/.worktrees/zzz-lc-fresh" config user.email t@t; git -C "$root/.worktrees/zzz-lc-fresh" config user.name t
+echo new > "$root/.worktrees/zzz-lc-fresh/f.txt"
+git -C "$root/.worktrees/zzz-lc-fresh" add f.txt
+git -C "$root/.worktrees/zzz-lc-fresh" commit -qm fresh-commit
+export TEST_REPO_ROOT="$root"
+# (a) RUNNING-ALIVE with stale commit -> deduped commit-overdue event
+sd="$TESTS/t14a"; rm -rf "$sd"; mkdir -p "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-slow RUNNING-ALIVE builder ALIVE RUNNING
+run_cycle "$sd" "$fx"
+check "T14a commit-overdue fired"      "commit-overdue" "$sd/events.jsonl"
+run_cycle "$sd" "$fx"
+check "T14a overdue deduped on rerun"  '"event":"commit-overdue"' "$sd/events.jsonl"
+test "$(grep -c '"event":"commit-overdue"' "$sd/events.jsonl")" -eq 1 && { printf 'PASS T14a exactly one overdue event\n'; PASS=$((PASS+1)); } || { printf 'FAIL T14a overdue event count != 1\n'; FAIL=$((FAIL+1)); }
+# (b) STALE-SUSPECT with stale commit -> escalate on FIRST quiet cycle
+sd="$TESTS/t14b"; rm -rf "$sd"; mkdir -p "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-slow STALE-SUSPECT builder ALIVE RUNNING
+run_cycle "$sd" "$fx"
+check "T14b immediate escalation"      "last commit .* min old exceeds" "$sd/events.jsonl"
+check "T14b termination recorded"      "frozen-termination" "$sd/events.jsonl"
+check_absent "T14b no plain warning first" "stale-warning" "$sd/events.jsonl"
+# (c) STALE-SUSPECT with FRESH commit -> warning, extra grace, then escalate
+sd="$TESTS/t14c"; rm -rf "$sd"; mkdir -p "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-fresh STALE-SUSPECT builder ALIVE RUNNING
+run_cycle "$sd" "$fx"
+check "T14c first cycle warning only"  "stale-warning" "$sd/events.jsonl"
+check "T14c grace noted"               "grace cycle" "$sd/events.jsonl"
+check_absent "T14c no escalation yet"  "frozen-termination" "$sd/events.jsonl"
+run_cycle "$sd" "$fx"
+check_absent "T14c grace cycle holds"  "frozen-termination" "$sd/events.jsonl"
+run_cycle "$sd" "$fx"
+check "T14c escalates after grace"     "STALE-SUSPECT escalated after" "$sd/events.jsonl"
+unset TEST_REPO_ROOT
+
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]
