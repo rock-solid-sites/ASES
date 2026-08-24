@@ -27,6 +27,8 @@ OpenCode has two distinct provider categories with different cost and reliabilit
 
 5. **If the operator has not specified a model for a dispatch, ASK — never assume.** A model used previously, or an established-looking default, is not authorization. HALT on general model uncertainty: do not launch until the operator names the model for that dispatch.
 
+6. **Free-tier-in-swarm restriction suspended by operator override (2026-08-23)** under compensating auditor net, following observed quota-exhaustion mechanics (see zen-rate-limit-observations). Reviewer strategy: hy3-class primary, luna reserved for complex phases, peer-review permitted. Re-evaluate if quota-parking recurs uncaught.
+
 ## Standing Facts (Operator-Stated, 2026-08-18)
 
 1. **Only OpenCode credits exist — there are NO OpenRouter credits.** OpenRouter is NOT an available provider for agent work. Only models reachable via OpenCode's own providers ('opencode/' free Zen and 'opencode-go/' paid) are in scope, unless the operator explicitly states otherwise. Do NOT propose, dispatch, or reason about OpenRouter routes. Do NOT list openrouter/* model IDs in this page.

@@ -100,3 +100,7 @@ Cross-worktree filesystem access is blocked. Git-based review works within the s
 - `crosslink sync` — push state to hub
 - `crosslink session end --notes "Completed: <summary>"`
 - Write `DONE` to `.kickoff-status` when finished
+
+# Source Acquisition Rule
+
+If your task involves reading most of an external resource (repository, paper, multi-page documentation), acquire it locally before processing: git clone --depth 1 for repositories, curl -o for static pages, stored under /tmp/opencode/. If you need one answer from one page, WebFetch is appropriate. Never chain sequential WebFetch calls as bulk ingestion - each call re-opens a stream window and this pattern has caused agent freezes. When unsure, acquire locally.

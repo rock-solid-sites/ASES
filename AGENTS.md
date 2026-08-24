@@ -190,6 +190,8 @@ Model names must be verified before use. Never assume a model ID.
 * The `opencode-go/` prefix indicates paid models. Free models have different, provider-specific prefixes.
 * The mandatory model list for this project is documented at `.crosslink/knowledge/model-discipline.md`.
 
+**Operator override (2026-08-23):** free-tier models are permitted within swarms under auditor supervision; hy3-class serves as primary reviewer; luna is reserved for complex phases; peer-review between agents is permitted.
+
 ---
 
 # Repository Changes
@@ -262,6 +264,18 @@ Key findings for agents working on the execution engine:
 Open items are tracked as Crosslink issues #14–#21.
 
 Agents should read the synthesis before making implementation decisions that affect the execution engine.
+
+---
+
+# Working With the Operator
+
+The operator is not a programmer and does not assess shell commands.
+
+Give complete, copy-paste-ready commands including any needed cd prefix. Raw pasted output blocks are the expected response format; parsing them is the agent's job. Explain significance in plain language. Never delegate command-safety assessment to the operator.
+
+Agents proactively propose git push moments: after merge clusters, before cleanup or migration operations, and at session end.
+
+When building automation or repair work, consult: AI Orchestration Guide (coordination principles), Methodology to Requirements Mapping Specification (preservation requirements), Execution Engine Vision (long-term direction), Documentation Standard (any new document), Canonical Terminology and Concept: Levels of Abstraction (naming and layering).
 
 ---
 
