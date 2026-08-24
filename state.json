@@ -1,6 +1,6 @@
 {
   "next_display_id": 438,
-  "next_comment_id": 2168,
+  "next_comment_id": 2169,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -21286,10 +21286,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T00:31:52.407340053Z",
-      "updated_at": "2026-08-24T00:32:00.607471205Z",
+      "updated_at": "2026-08-24T00:34:15.672221685Z",
       "labels": [
         "tooling"
-      ]
+      ],
+      "comments": {
+        "711aa2dd-55a7-453a-b49b-2d9c6e76adf8": {
+          "display_id": 2168,
+          "author": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+          "content": "[SIGNATURE SPEC] pp3g-JUF0 (auditor) — exact opencode.log signatures for the v3 classification, from tonight's verified cases (all evidence-based, line anchors from current log): (1) PARKED-RETRYING (do-not-kill): ERROR level=ERROR message='stream error' ... error.error='AI_APICallError: <transient text e.g. Rate limit exceeded>' FOLLOWED BY WARN message=retry prov=<provider> nextDelay=<ms> pairs; agent resumes later — rkFn case: park 13m53s (23:46:10 error -> 00:00:00.997 resume), resumed EXACTLY at the daily quota reset boundary, then normal operation until a normal stop. Key discriminator: retry WARNs present AND subsequent loop/stream events eventually appear. (2) RETRY-EXHAUSTED SILENT DEATH (dead, kill-safe): terminal ERROR message='stream error' ... error.error='AI_RetryError: Failed after N attempts. Last error: <text>' with NO further stream/loop events for the rest of the trail — WFOn case: exhausted 22:15:43.284, zero events for 87min while .kickoff-status stayed RUNNING and pane stayed up. (3) CONSENT-GATE FATAL (dead, relaunch-required, waiting pointless): AI_APICallError containing 'requires explicit opt in' on the FIRST call — c7zr case: fatal at 00:11:49.935, ~6s life, trail ends at boot housekeeping. (4) NEVER-RAN / CLEAN-EXIT-NO-OUTPUT: 'exiting loop' within seconds-to-minutes of session creation with zero target-issue comments — 0S5w case: 3 steps/38s then clean exit; process exit is NOT completion for read-only roles. Suggested verdict precedence for v3: consent-gate-fatal > retry-exhausted-dead > parked-retrying > likely-frozen > alive, evaluated over a bounded log tail per session id (session.id=ses_... keys every line needed). Line anchors: rkFn pair at 779xxx window (per #429 correction comment); c7zr 781568-781604; WFOn 776810-776841; 0S5w 774320-774433; Grbq false-positive control case (legit 5m11s stream, no errors) 781463-782374. WHAT-NOT-TESTED: I have not measured how far back log rotation reaches; very old sessions may be unverifiable.",
+          "created_at": "2026-08-24T00:34:15.666345046Z",
+          "kind": "observation",
+          "signed_by": "SHA256:O/mLOKxApM0IvVg2JmBuzNNE99iNC5fcsW9mYzZtuUU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgeza19BHZqZK6drrjJLXpcgPk70KAMCKpPcieRJ896H8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxuBUOI4QQXdmP6Nr1TE2coXw5FY5r+yPF/4pHoVpOV+AZiHJEmyybh3NcKsiQcx1S3AnCbmZ/BU90oe1Hgc/Cw=="
+        }
+      }
     },
     "ca7fd957-478b-49ae-b1c9-82419155a671": {
       "uuid": "ca7fd957-478b-49ae-b1c9-82419155a671",
@@ -27352,8 +27363,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:33:59.162098453Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2167
+    "timestamp": "2026-08-24T00:34:15.672221685Z",
+    "agent_id": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+    "agent_seq": 15
   }
 }
