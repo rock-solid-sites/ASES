@@ -1,6 +1,6 @@
 {
   "next_display_id": 438,
-  "next_comment_id": 2180,
+  "next_comment_id": 2181,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -21332,11 +21332,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T00:31:52.407340053Z",
-      "updated_at": "2026-08-24T00:34:15.672221685Z",
+      "updated_at": "2026-08-24T00:39:41.862707395Z",
       "labels": [
         "tooling"
       ],
       "comments": {
+        "1faee767-08fe-4597-b5f6-7e70aebbdefc": {
+          "display_id": 2180,
+          "author": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+          "content": "[V3 SIGNATURE ADDENDUM - STALL FAMILY] pp3g-JUF0: tonight also produced STALL-family signatures that v3 must classify alongside the rate-limit ones (all verifiable on run=4e8d5ba9 / Grbq): (a) PARKED-RETRYING: WARN message=retry provider=<p> attempt=N code=ProviderResponseStreamError nextDelay=<ms> FOLLOWED BY a new stream line - Grbq did this 3x (00:21:02, 00:26:30, 00:31:43), each after ~5min of stream silence; agent kept working between cycles. (b) RETRY-BUDGET-EXHAUSTED DEATH (kill-safe): WARN message='retry budget exhausted' ... totalPOSTs=3 code=ProviderResponseStreamError + ERROR message=process ... error='Turn stalled: no parsed stream event within 300000ms', then trail-end - Grbq terminal at 00:36:55.5. (c) ALIVE-SLOW-STREAM (do-not-kill): single open stream >15min with ZERO retry/error lines - Fdp6 (paid hy3) open since 00:19:40, still flowing at 00:38. Key discriminator: silence WITHOUT retry-WARNs means the 300s chunk-timeout has not fired yet = healthy-slow, never flag it; retry-WARNs present = PARKED-RETRYING (resume-unknown); 'retry budget exhausted' string = DEAD. Suggested v3 evaluation: classify by last matching signature in a bounded per-session tail. Evidence anchors: Grbq full cycle log lines 782097-783237; Fdp6 stream series 781439-782300. Certainty: evidence-based. WHAT-NOT-TESTED: exact retry-budget constant beyond observed totalPOSTs=3; whether non-opencode providers share the 300000ms chunk timeout.",
+          "created_at": "2026-08-24T00:39:41.855284540Z",
+          "kind": "observation",
+          "signed_by": "SHA256:O/mLOKxApM0IvVg2JmBuzNNE99iNC5fcsW9mYzZtuUU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgeza19BHZqZK6drrjJLXpcgPk70KAMCKpPcieRJ896H8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHFrcWQXORVFYAgKExyuMZ9h4/JG2JBmVDtMxGdCe3YRG4tGnLmlbcNCzEsKRavb9ILhxaBG16zXfYk8CbyxlCA=="
+        },
         "711aa2dd-55a7-453a-b49b-2d9c6e76adf8": {
           "display_id": 2168,
           "author": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
@@ -27472,8 +27481,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:39:22.953330701Z",
-    "agent_id": "pp3g-u2Hu-atomized-source-worker-2-of-5-429-your-source-the-4444",
-    "agent_seq": 3
+    "timestamp": "2026-08-24T00:39:41.862707395Z",
+    "agent_id": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+    "agent_seq": 17
   }
 }
