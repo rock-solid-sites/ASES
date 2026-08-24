@@ -1,6 +1,6 @@
 {
   "next_display_id": 445,
-  "next_comment_id": 2255,
+  "next_comment_id": 2256,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -6080,11 +6080,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T01:41:40.239371268Z",
-      "updated_at": "2026-08-24T01:51:09.489308141Z",
+      "updated_at": "2026-08-24T01:51:37.863195461Z",
       "labels": [
         "review"
       ],
       "comments": {
+        "03806379-67a1-4cc7-89a5-6d8803f4dcb1": {
+          "display_id": 2255,
+          "author": "pp3g-4eBL-clean-room-adversarial-review-on-444-you-are-one-of",
+          "content": "FINDINGS (4/4) — framing, latency, kill safety, evidence, park timeout\n\nF8 — 'Replacing polling' is inaccurate; a poll remains.\n- statement: Framed as replacing periodic polling, yet retains a 'reduced 60s poll as backstop' that still runs agent-liveness.py (walk + tmux/ps per agent).\n- why-it-matters: Eventing augments, not replaces; polling cost/failure modes persist. Framing affects scope and the 'who watches the watcher' analysis (now two watchers + their supervisor).\n- cheapest-test: N/A (clarification). State explicitly this is augmentation; size the 60s poll as a first-class supervised component.\n- severity: NIT/clarification.\n\nF9 — Latency benefit for STREAM-DEATH is overstated.\n- statement: Eventing's speed helps PARKED-RETRYING and SPIRAL, but STREAM-DEATH latency is dominated by the aging threshold, not poll-vs-event (detected at T+epsilon either way; polling adds <=30s).\n- why-it-matters: The core motivation (silent deaths) is addressed by the threshold, not eventing. Overstating the gain can justify premature auto-kill. The real win is classification quality (parked vs dead vs thinking), which depends on F1-F3, not latency.\n- cheapest-test: N/A (analysis). Right-size expectations.\n- severity: MEDIUM (affects rationale).\n\nF10 — Kill interaction with in-flight git ops and existing guards unspecified.\n- statement: Auto-kill = tmux kill-session / process kill. Not addressed: killing mid-commit (git writes gated on active issue but a kill can interrupt a non-atomic write), coordination with crosslink-guard/orchestrator-guard, or whether kill targets the agent process vs whole session.\n- why-it-matters: A kill interrupting a half-written file/commit corrupts agent state — a NEW failure mode introduced by auto-kill. Existing guards prevent unauthorized writes, not unsafe termination; the watcher's kill bypasses human-in-the-loop for the spiral class.\n- cheapest-test: Define kill primitive precisely (SIGTERM agent process, wait, SIGKILL; never blind 'tmux kill-session'); check for '.git/index.lock' / in-progress commit before kill; document crosslink-guard interaction.\n- severity: HIGH (required before auto-kill is safe).\n\nF13 — Evidence-bundle integrity depends entirely on attribution.\n- statement: Alerts attach an 'attributed log tail ~30 lines'; if attribution (F1) is wrong, the evidence misleads operator/auditor.\n- why-it-matters: Audit trail only as trustworthy as attribution; a misattributed bundle confirms a false premise post-hoc.\n- cheapest-test: Same as F1; in shadow mode have a human verify 10 attributed bundles against ground truth.\n- severity: MEDIUM (follows F1).\n\nF14 — PARKED-RETRYING needs a max-park timeout.\n- statement: 'AI_APICallError + future-retry => PARKED-RETRYING do-not-kill' has no upper bound; a persistent auth/config error retrying forever parks indefinitely, consuming a slot, never escalating.\n- why-it-matters: Do-not-kill is right for transient rate-limits, but a misconfigured agent retrying forever is itself a failure needing human attention.\n- cheapest-test: Define max-park duration (e.g., quota-reset window + margin); beyond it, escalate to a flag (not a kill).\n- severity: LOW/NIT.",
+          "created_at": "2026-08-24T01:51:37.857528278Z",
+          "kind": "observation",
+          "signed_by": "SHA256:usl0k0EVKIRzWIYxQlgcjiM/cGQ8uEjxBXwkMq/YBro",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCLvCYlub0EX1P/3vBtfMaCQEYV65ygOLwZSOiPTrhK4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlRwCZkASBJlwnKk3+CZPxNePphJQXk0n+DFzg1AIo0+yReu8ECbAjiR1NQ9A+nZvnuAOB5UB8oQNePbdQQFEAQ=="
+        },
         "365b460c-5f7f-4a7a-8c87-d5fc2f783777": {
           "display_id": 2249,
           "author": "pp3g-4eBL-clean-room-adversarial-review-on-444-you-are-one-of",
@@ -28277,8 +28286,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T01:51:28.160515679Z",
-    "agent_id": "pp3g-w9QQ-relaunch-of-440-extension-predecessor-frozen-pre-8314",
-    "agent_seq": 5
+    "timestamp": "2026-08-24T01:51:37.863195461Z",
+    "agent_id": "pp3g-4eBL-clean-room-adversarial-review-on-444-you-are-one-of",
+    "agent_seq": 6
   }
 }
