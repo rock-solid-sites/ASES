@@ -1,6 +1,6 @@
 {
   "next_display_id": 462,
-  "next_comment_id": 2382,
+  "next_comment_id": 2383,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2404,7 +2404,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-24T09:31:13.736761919Z",
+      "updated_at": "2026-08-24T10:54:12.073016922Z",
       "labels": [
         "tooling"
       ],
@@ -2417,6 +2417,15 @@
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWM3k//jkcLYQ9HXsUIbOdvOYxRxj8WeIIAoz+0WkOOIt6q+RuynPukRV6dn3HnVI2/oa3nu6k1Nb1LJT32hkDQ=="
+        },
+        "a05b554c-bf15-4578-ae73-eb1be2a2de58": {
+          "display_id": 2382,
+          "author": "OL2r",
+          "content": "[PLAN][ORCHESTRATOR] CONSOLIDATED DISPATCH SPEC - Observer build, two milestones, incremental commits throughout. Supersedes prior build attempts (#459 Y2aY lost-to-worktree-wipe, U44g incomplete). RECOVERY BASELINE: /tmp/opencode/recovered/lifecycle-manager.y2ay.sh (= true #459 final, 1344 lines, syntax OK) + /tmp/opencode/recovered/y2ay-tests/run-tests.sh (matched harness, 36/43 pass; triage of 7 fails in #460 result comment 2026-08-24). Copy these INTO the worktree as the starting point - do NOT rewrite from scratch.\n\nMILESTONE 1 (land the baseline):\n[R1] RENAME everything to Observer: script scripts/observer.sh (or scripts/observer/ dir), env prefix OBSERVER_* (all 18 LIFECYCLE_* vars), state dir /tmp/opencode/observer-state/, comments/docs in-file. Rationale: #442 decision 2026-08-24 - Observer = the mechanical pipeline; rename before first landing costs nothing.\n[R2] Fix deliverable-existence check: verify FILE presence on branch/main (git cat-files existence), not branch-state alone - U44g empty branch was reported merged_into_main=true (false positive proven).\n[R3] Close harness triage items: T3 placeholder check, T5 stale grep pattern (space-vs-compact JSON), T8 merge/push harness logic inconsistency, T4-killed tmux kill-signature path.\n[R4] Full matched-pair suite green; commit incrementally (~5min cadence, conventional messages referencing #460).\n\nMILESTONE 2 (session-end elimination features):\n[F1] Evidence-at-transition on EVERY terminal verdict (not just FROZEN): attributed opencode.log tail (sha256) + pane tail + worktree git status/diffstat + verdict timeline + last hub position ref -> composed at detection, posted to working issue. Speed requirement from operator: failure documentation must take seconds, not archaeology.\n[F2] Event-driven fast path per #456 revised scope: byte-offset cursor over opencode.log, classify AI_APICallError/retry-after (PARKED), consent-gate language (CONSENT-GATE-FATAL), retry-exhausted (RETRY-EXHAUSTED-DEAD); fire same cycle; slow walk stays on its own cadence.\n[F3] Commit-age signal: per-builder last-commit age feeds STALE logic (makes incremental-commit discipline mechanical).\n[F4] Dual-store backup subsystem per .crosslink/knowledge/data-retention.md policy: (a) hot sqlite3 .backup of BOTH opencode.db AND opencode-fork-pp3g.db (split-brain stores; see scripts/session-union.py store discovery), (b) incremental export new-session rows -> compressed JSONL + index under ~/opencode-archive/ keyed (store,session_id), (c) off-server sync via rclone IF configured else explicit pending flag, (d) destination-side read-back verification -> green/red entries appended to verification log; deletion/pruning gated on green (enforcement point, pruning stays operator-manual v1). rclone absent today - graceful local mode required.\n[F5] Admission-policy absorption: implement launch-contract validation (model ID valid against live catalog, issue exists+claimed, estimate declared) as Observer config-driven checks - absorbs would-be plugins #448/#446/#451/#452/#451-family into one policy surface + events.jsonl audit trail. Do NOT create new plugin files.\n[F6] Wave-anomaly event: all-agents-vanish transition = platform-restart signature alert.\n\nCONSOLIDATION DISCIPLINE (binding): no new top-level scripts/plugins; single self-contained directory; every mechanism states its layer home (crosslink=coordination, Observer=supervision policy, project repo=project-specific); mirrors forbidden (single source + pointer).\n\nCONSTRAINTS: model opencode-go/ox-alpha-free (verified live catalog). Work in THIS issue's worktree only. No push (orchestrator merges). All mutations via crosslink CLI surfaces. Claim discipline WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED on results. Checkpoint comments ~5min cadence with sync. WHAT-NOT-TESTED expected: non-dry-run mutations end-to-end (orchestrator verifies at shakedown n=1).",
+          "created_at": "2026-08-24T10:54:12.061441693Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAf08KZLJ/kgR9Ls0TJqwucc7CHsnFCiRUVlyEPCSPsNfftD91Mh8qnJcx5JAI4/8CBO1wQsm4xArO+IqPWpveDA=="
         }
       }
     },
@@ -29727,8 +29736,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T09:31:13.736761919Z",
+    "timestamp": "2026-08-24T10:54:12.073016922Z",
     "agent_id": "OL2r",
-    "agent_seq": 2257
+    "agent_seq": 2258
   }
 }
