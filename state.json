@@ -1,6 +1,6 @@
 {
   "next_display_id": 460,
-  "next_comment_id": 2371,
+  "next_comment_id": 2372,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -29417,10 +29417,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T05:39:18.129383457Z",
-      "updated_at": "2026-08-24T05:39:27.008323516Z",
+      "updated_at": "2026-08-24T07:55:25.511402695Z",
       "labels": [
         "tooling"
-      ]
+      ],
+      "comments": {
+        "6519eeed-bc7e-46b1-a112-dadfe7d80e67": {
+          "display_id": 2371,
+          "author": "OL2r",
+          "content": "[SCOPE REVISION per operator]: detection must be EVENT-DRIVEN from the log, not periodic polling. c7zr's consent-gate error was visible in opencode.log within 6 SECONDS of launch. A watchdog that checked at that point would have caught it instantly. REVISED DESIGN: [1] Watchdog maintains a byte-offset cursor into opencode.log; each cycle reads ONLY new lines since last position. [2] Classifies each new line by pattern: AI_APICallError + retry-after = PARKED-RETRYING; AI_APICallError containing opt-in/consent language = CONSENT-GATE-FATAL; AI_RetryError exhausted = RETRY-EXHAUSTED-DEAD; unrecognized error = UNKNOWN flag for review; no new lines from an expected-active session = SILENCE-SUSPECT. [3] Non-healthy classifications fire IMMEDIATELY (same cycle), not deferred to next checkpoint. [4] Polling interval can drop to 15-30s because each cycle is now cheap (read only new bytes, not full liveness walk). The expensive walk stays on its own slower cadence for filesystem/activity signals. This separates fast log-based failure detection (seconds) from slow activity-based liveness verification (minutes).",
+          "created_at": "2026-08-24T07:55:25.503252947Z",
+          "kind": "decision",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEkW7A+uZ0jEh+GMtqT7sVkedRmrXesO9Zzj8AHjS/5PVy6cR+KseUyYiS8PCkJmWQBhY9ZUtNRKViplk/kp4Dw=="
+        }
+      }
     },
     "fbd70c07-aa31-4974-8f85-5d1129d40e0d": {
       "uuid": "fbd70c07-aa31-4974-8f85-5d1129d40e0d",
@@ -29584,8 +29595,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T07:33:59.469861603Z",
-    "agent_id": "pp3g-Y2aY-build-459-lifecycle-manager-sh-extend-the-liveness",
-    "agent_seq": 11
+    "timestamp": "2026-08-24T07:55:25.511402695Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2248
   }
 }
