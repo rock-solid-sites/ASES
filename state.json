@@ -1,6 +1,6 @@
 {
   "next_display_id": 457,
-  "next_comment_id": 2359,
+  "next_comment_id": 2360,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5866,7 +5866,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T01:17:12.098905831Z",
-      "updated_at": "2026-08-24T01:32:59.615937224Z",
+      "updated_at": "2026-08-24T05:48:13.253391372Z",
       "labels": [
         "research"
       ],
@@ -5897,6 +5897,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAiR9S6rsrjbIROqwcg3wWUTlVbNYJ8OBs4ePDG/J9iTiV2IICrBrGq133PKWVhYye00aMna7mpQvOTFp9g0y/Ag=="
+        },
+        "d755d642-79b2-4bd0-88ea-d133650cfa04": {
+          "display_id": 2359,
+          "author": "OL2r",
+          "content": "[MECHANISM UPDATE - wake-on-event transport identified]: the #443 open question (how does the watchdog wake the orchestrator on state transitions) has a candidate answer from platform research: OpenCode exposes POST /api/session/:sessionID/prompt_async (V2 API spec; starts session if needed, returns immediately; SDK equivalent session.prompt()) and OpenCode itself uses synthetic-prompt injection when background tasks complete. A watchdog detection cycle could POST a structured event-summary prompt_async into the orchestrator session - durable, addressable, no tmux send-keys hacks. CAVEATS: V2-beta API stability; our current kickoff fleet runs on S2 fork whose HTTP surface differs; verification task filed under this epic's follow-ups. Interim: jsonl log + per-turn sweep remains the transport until verified.",
+          "created_at": "2026-08-24T05:48:13.246185840Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM1JsEqfN3z6HaG89EIVp9JKmbLqPDzySx22eVX4Xhn5xLc4b8cteH7HdfgGicN4icWzGaZac7DYm/DbEYlaCCA=="
         }
       }
     },
@@ -29424,8 +29433,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T05:47:48.076106196Z",
+    "timestamp": "2026-08-24T05:48:13.253391372Z",
     "agent_id": "OL2r",
-    "agent_seq": 2233
+    "agent_seq": 2234
   }
 }
