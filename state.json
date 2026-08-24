@@ -1,6 +1,6 @@
 {
   "next_display_id": 460,
-  "next_comment_id": 2365,
+  "next_comment_id": 2366,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5463,7 +5463,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-24T07:01:19.096957416Z",
+      "updated_at": "2026-08-24T07:24:09.484144694Z",
       "labels": [
         "epic"
       ],
@@ -5521,6 +5521,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAgWCHKg/RM+0fcgV76Y40dmv9rNOsD9Am6l/beXKA13lue4XJiXkF0NEBP2Q3D0m4oTytKxBZbSrrhpd408ePAw=="
+        },
+        "43baa92a-a05f-4e51-aee7-dc09525248e7": {
+          "display_id": 2365,
+          "author": "OL2r",
+          "content": "[OPEN QUESTION - unexplained platform restart during operations]: at approximately 04:00-04:30 UTC on 2026-08-24, all running agent processes received interrupt signals simultaneously, the Code Mode tool catalog stripped and restored twice, and three dispatched agents were killed pre-first-action. Evidence rules out full VPS reboot (tmux survived, filesystem intact, orchestrator session seamless). Evidence is consistent with an internal process-tree crash/restart in the OpenCode v2 beta hosting layer - possibly the opencode2.exe process cycling and taking its children (MCP servers, Code Mode tools, spawned agents) down with it. OPERATOR REPORTS never seeing this behavior on v1. ARCHITECTURAL CONCERN: if v2 consolidates TUI + MCP servers + Code Mode into a single process tree, a crash cascades to everything simultaneously - a reliability regression from v1's separated process model. STATUS: open question, not root-caused. Relevant to #443 notification channel reliability and lifecycle-manager design (must handle platform restarts).",
+          "created_at": "2026-08-24T07:24:09.475448028Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANZAF7HRlABmijw6NFpkTRPRYd5v2nsLCPCTIA+e4INqFPOTfeJDBhXbfVvHJx+0VcJHlivYl5k084iWrCBm5Bw=="
         },
         "53038565-d969-464c-b379-5092fc57825a": {
           "display_id": 2140,
@@ -29534,8 +29543,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T07:20:42.196272243Z",
-    "agent_id": "pp3g-Y2aY-build-459-lifecycle-manager-sh-extend-the-liveness",
-    "agent_seq": 6
+    "timestamp": "2026-08-24T07:24:09.484144694Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2246
   }
 }
