@@ -1,6 +1,6 @@
 {
   "next_display_id": 460,
-  "next_comment_id": 2372,
+  "next_comment_id": 2373,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -22841,10 +22841,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T04:09:09.855679131Z",
-      "updated_at": "2026-08-24T04:09:18.557943517Z",
+      "updated_at": "2026-08-24T07:55:53.333687798Z",
       "labels": [
         "tooling"
-      ]
+      ],
+      "comments": {
+        "94938eec-8f3f-45a3-9d7f-f37c16810d66": {
+          "display_id": 2372,
+          "author": "OL2r",
+          "content": "[SCOPE REFINEMENT per operator]: commit-cadence enforcement is not a separate tool - it is a LOG-BASED DETECTION built into the same watchdog that monitors agent health. The mechanism: watchdog tails opencode.log continuously (or at 15-30s intervals), classifies new lines by pattern, and fires on: [1] error signatures (rate-limit, consent-gate, stream-death) within seconds of appearance; [2] silence from an expected-active session (no new log entries in N minutes); [3] repetition spirals (identical output repeating). This means the SAME process that detects failures also enforces commit cadence: an agent that hasn't committed in ~5 minutes AND has no recent log activity = stalled; an agent with recent log activity but no commits = working but needs a nudge to checkpoint. One detection pipeline, two signals.",
+          "created_at": "2026-08-24T07:55:53.325429148Z",
+          "kind": "decision",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAqB3nIKHc9t8bseACh9hZX6FQmIwigUsPdInmRaw+SsBAVK2YgNcrhPnhc/7epGKZB+kn1qTk1xQmwm1nrdamBQ=="
+        }
+      }
     },
     "d45969a2-1afe-4fa0-b1b9-d61c3398c115": {
       "uuid": "d45969a2-1afe-4fa0-b1b9-d61c3398c115",
@@ -29595,8 +29606,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T07:55:25.511402695Z",
+    "timestamp": "2026-08-24T07:55:53.333687798Z",
     "agent_id": "OL2r",
-    "agent_seq": 2248
+    "agent_seq": 2249
   }
 }
