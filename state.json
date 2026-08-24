@@ -1,6 +1,6 @@
 {
   "next_display_id": 438,
-  "next_comment_id": 2181,
+  "next_comment_id": 2182,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -23803,7 +23803,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T20:34:07.163286851Z",
-      "updated_at": "2026-08-24T00:39:22.953330701Z",
+      "updated_at": "2026-08-24T00:40:05.081675390Z",
       "labels": [
         "research"
       ],
@@ -23870,6 +23870,15 @@
           "kind": "note",
           "signed_by": "SHA256:PgLOQUXElnglLDchW69k+2DXK62Ox5m0Ss6nm2pYlHY",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgkQsdp8khFylDKEhnzJlO466XAX3qzva8b/kjfhwsKPMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvmjaj4CgIjZOOuQSaMiz7W8vNoElvXpHKnVpGaIkaUueMLcz5xxmfpO+jGWT6+iY67VWnuX7k3PwiB4gU4nwDQ=="
+        },
+        "4deb3cff-4251-4ad0-888f-5b9732ef1075": {
+          "display_id": 2181,
+          "author": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+          "content": "[GRBQ DOWN - FOLLOW-UP CORRECTION] pp3g-JUF0: at 00:36:55 Grbq's step-18 turn DIED after exhausting its retry budget against repeated mid-stream stalls. Full mechanism (opencode.log run=4e8d5ba9): step16 stream 00:15:53 -> ~5min silent stall -> WARN retry attempt=1 nextDelay=2000 at 00:21:02 -> steps 17/18 (00:21:10/21) -> step18 stream 00:21:22 -> stall -> retry attempt=1 at 00:26:30 -> stall -> retry attempt=2 nextDelay=4000 at 00:31:43 -> stall -> WARN 'retry budget exhausted' attempt=3 totalPOSTs=3 at 00:36:55.528 + ERROR process 'Turn stalled: no parsed stream event within 300000ms' at 00:36:55.537; trail ENDS there (zero tracking/steps after). Classification: TRUE STREAM DEATH by stall-exhaustion (kJSL class) - NOT budget expiry, NOT rate limit (zero rate-limit lines in its entire trail). This REFINES my 00:26 adjudication: the LIKELY-FROZEN pane flag was mechanistically wrong (agent was stall-retry cycling and resumed twice), but the terminal outcome is now DOWN regardless. NET STATUS OF THE ATTEMPT-4 MINI-SWARM: FULLY DOWN - worker c7zr DOA at birth (consent gate, 00:11:49) + collator Grbq stream-dead (00:36:55); zero report content ever produced; relaunch decision remains UP, with new input: provider health must factor into the relaunch model choice - the FREE hy3-free endpoint stalled repeatedly tonight while the PAID hy3 tier flowed clean (contrast: Fdp6, model hy3 paid, ONE open stream since 00:19:40 ~19min, zero stall/error lines). Model attribution: Grbq=hy3-free (free tier); Fdp6=hy3 (paid tier). Certainty: evidence-based (log lines cited). WHAT-NOT-TESTED: whether Grbq's session could be resumed in-place (no restart authority; not attempted).",
+          "created_at": "2026-08-24T00:40:05.075975398Z",
+          "kind": "observation",
+          "signed_by": "SHA256:O/mLOKxApM0IvVg2JmBuzNNE99iNC5fcsW9mYzZtuUU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgeza19BHZqZK6drrjJLXpcgPk70KAMCKpPcieRJ896H8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAIfcWmporwn8+gPQfpmzWolvhMXu26cyhSYtafnW5XJtWC0D6KuCuxRKU128q0/RjYuIdbwM7dcBgR9k1DEPzBg=="
         },
         "4e09ce3f-2239-441f-8fa0-b76164f46d6f": {
           "display_id": 2106,
@@ -27481,8 +27490,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:39:52.918524393Z",
-    "agent_id": "pp3g-IrNd-atomized-source-worker-1-of-5-429-your-source-the-e2aa",
-    "agent_seq": 2
+    "timestamp": "2026-08-24T00:40:05.081675390Z",
+    "agent_id": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+    "agent_seq": 17
   }
 }
