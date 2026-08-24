@@ -1,6 +1,6 @@
 {
   "next_display_id": 436,
-  "next_comment_id": 2145,
+  "next_comment_id": 2146,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -18373,7 +18373,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T22:14:14.307967929Z",
-      "updated_at": "2026-08-24T00:09:41.076550293Z",
+      "updated_at": "2026-08-24T00:10:14.489697994Z",
       "labels": [
         "review"
       ],
@@ -18404,6 +18404,15 @@
           "kind": "observation",
           "signed_by": "SHA256:tUf+Yfn7YETig7tytiUbSS0xDWW/g8Ba6qDZqZ7e0pI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4QBetGVQo8I0gobtcd9EupgLHt0iVydD9bC43hQFVSQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAzQhZOSxjwBECIC9lKGJilg+NBsv5Iv5j0hIzsItHHNVhCBwc87M3ATU9wQ7meiJWgK0Zy8gDnCvEbCUsG3P4Aw=="
+        },
+        "56e42ac0-02b3-4709-aacd-194db09d25db": {
+          "display_id": 2145,
+          "author": "pp3g-d818-independent-second-review-on-433-a-prior-hy3-pass-on",
+          "content": "INDEPENDENT SECOND REVIEW #433 (Zen-variant) — FINAL VERDICT.\n\nVERDICT: HOLD (not launch-ready). Independent of hy3, I reach the SAME bottom-line verdict — convergence is signal, not consensus-by-contagion.\n\nRationale: F1 is launch-blocking on its own. The replan doc is the file explicitly marked consumed_by: crosslink swarm init --doc, yet its H1-only structure makes the crosslink fork parser (design_doc.rs + swarm/init.rs:184-196 fallback) discard all body content, yielding a DesignDoc with ZERO requirement groups → swarm init creates ONE degenerate agent (title 'Swarm Parameters') and loses all 26 planned work units. Until the consumed_by target parses to a non-empty requirement set, no meaningful launch is possible. F2/F3 (DIS instance list disagreement + a phantom instance) and F5 (playbook budget overclaim) are serious but secondary to F1.\n\nTOP-3 MUST-CLOSE (before any swarm launch):\n1. [from F1] Make the consumed_by target parseable. Either (a) restructure .design/epic-423-swarm-replan.md to the parser grammar: add a '## Requirements' H2 and convert each '# Phase X' to '### Phase N: <name>' nested under it (mirroring the conformant plan doc), preserving gates/budget/track content; or (b) repoint 'consumed_by' to the conformant plan doc and merge the replan's richer phase/gate content in. Verify with 'crosslink swarm init --doc <file>' producing requirement_groups.len() > 0 (ideally 26 work units).\n2. [from F2/F3] Reconcile the DIS four-acceptance-instance list with current reality. The two worktree docs disagree; the replan still lists a self-healed instance (#2 playbook citations, playbook 5.1-5.9 exist) and a phantom instance (#3 stale git claim, unlocatable). Drop or locate-and-verify both; align replan with plan's corrected list (opencode-fork.md missing + permissions.md staleness + stale-git [if locatable] + parser-grammar H2/H3). All four acceptance instances must be real, current, and mechanically catchable before the DIS gate is trusted.\n3. [from F5] Resolve the budget-window semantics contradiction at the PLAYBOOK, not the design doc. The design doc's 'guide' is accurate; playbook 5.2's 'hard limit / terminated' is unimplemented in source (budget.rs has only launch-time block/split, no termination). Correct the playbook claim (or implement enforcement) before using the window to bound phases.\n\nSECONDARY (should close, non-blocking): F4 (instance #1 naming ambiguity crosslink-fork.md), F6 (propagate #427's WHAT-NOT-TESTED + cascade risk from F1 breaking R2 probe creation), F7 (verify projects/server/migration-handoff-summary.md exists/current before Track M relies on it), F8 (surface S1/S2/S3 completeness: user-level plugin + S1 beta-breaking note). F9 is a reviewer-scope limitation: re-confirm the parser grammar against the INSTALLED crosslink binary before launch.\n\nDIVERGENCES FROM hy3 (explicit, per mandate):\n- F1 precision: hy3 'ZERO work units → launches nothing' → corrected to 'ONE degenerate agent (title fallback)'. Substance unchanged.\n- F5 direction: hy3 'fix the contradiction in the design doc' → my read: design doc is CORRECT ('guide'), PLAYBOOK overclaims. Severity MEDIUM not medium-high.\n- F4 (instance #1 naming ambiguity): NEW — hy3 treated instance #1 as solid without the crosslink-fork.md overlap caveat.\n- F2 (replan vs plan instance-list disagreement): NEW emphasis — the two worktree docs themselves disagree, not just worktree-vs-main.\n- F6 cascade: NEW insight — F1's parser breakage prevents R2 probe creation, so D1-D9 re-verification (and thus R3 verdict) is impossible by cascade.\n- F9: git-log also blocked here by the rtk alias (hy3 noted only rtk git denial).\n\nNote: I did not read the muse-spark reviewer's findings (per isolation mandate); divergence between our verdicts is intended signal. Worktree copies are internally inconsistent (F2) and the operator should decide the canonical launch source.",
+          "created_at": "2026-08-24T00:10:14.481551631Z",
+          "kind": "result",
+          "signed_by": "SHA256:VGwMZmRn+VH/h+u9cCpYEUAHZKYqStEYNmWI2937cOM",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgVb2u6mHEDn2APO2Gb7FwfAR0xP/tXB4RKhjHKSfMSXcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAe5wHy/FWIta/lBRyRm+YdNkxbbxEb9/fHNsTcOgrTU3uw0bXVlgTua2I9XH1KsOWb7bTwQ8tUy//MjcDF/hcAA=="
         },
         "694ce058-641b-4635-a7f6-91dc351c2532": {
           "display_id": 2107,
@@ -27117,8 +27126,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:09:41.076550293Z",
+    "timestamp": "2026-08-24T00:10:14.489697994Z",
     "agent_id": "pp3g-d818-independent-second-review-on-433-a-prior-hy3-pass-on",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
