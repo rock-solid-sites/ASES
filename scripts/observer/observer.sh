@@ -59,6 +59,15 @@
 #   tailed per session. Model/provider identity comes from the last
 #   llm.provider=/llm.model= pair in the attributed section.
 #
+# Evidence-at-transition (#460 F1):
+#   EVERY terminal verdict (COMPLETED, FINISHED-UNMARKABLE, FAILED, KILLED,
+#   FROZEN termination) composes a full evidence bundle AT DETECTION:
+#   attributed opencode.log tail + pane tail + worktree git status/diffstat
+#   + verdict timeline + last hub position ref (latest comment stamp/kind on
+#   the working issue), all sha256-manifested, with a compact digest line
+#   posted to the working issue. Failure documentation takes seconds, not
+#   archaeology.
+#
 # Safety model:
 #   - Never touches live agent processes or worktrees directly: every
 #     mutation goes through crosslink CLI surfaces (kickoff stop/cleanup,
@@ -540,6 +549,112 @@ def write_evidence_bundle(agent, tag, sections):
         return None, {}
 
 # ---------------------------------------------------------------------------
+# F1 (#460): evidence-at-transition composer. Every terminal verdict gets a
+# full bundle composed AT DETECTION: attributed opencode.log tail (sha256),
+# pane tail, worktree git status/diffstat, verdict timeline, and the last
+# hub position ref from the working issue. Failure documentation must take
+# seconds, not archaeology.
+# ---------------------------------------------------------------------------
+
+def worktree_git_evidence(agent):
+    """Bounded git evidence from the agent worktree (status + diffstat +
+    last-commit age). Read-only; absent worktree reported as such."""
+    ev = {"worktree": None, "branch": None, "status": None,
+          "status_count": 0, "diffstat": None, "last_commit_age_min": None}
+    wt = os.path.join(WORKTREES_ROOT, agent)
+    if not os.path.isdir(wt):
+        return ev
+    ev["worktree"] = wt
+    rc, out, _ = run(["git", "-C", wt, "status", "--porcelain"], timeout=30)
+    if rc == 0:
+        lines = out.splitlines()
+        ev["status_count"] = len(lines)
+        ev["status"] = "\n".join(lines[:40]) or "(clean)"
+    branch = agent_branch(agent)
+    ev["branch"] = branch
+    rc, out, _ = run(["git", "-C", wt, "diff", "--stat", "main"],
+                     timeout=30)
+    if rc == 0 and out.strip():
+        ev["diffstat"] = "\n".join(out.splitlines()[:20])
+    elif rc == 0:
+        ev["diffstat"] = "(no delta vs main)"
+    rc, out, _ = run(["git", "-C", wt, "log", "-1", "--format=%ct"],
+                     timeout=20)
+    if rc == 0 and out.strip().isdigit():
+        ev["last_commit_age_min"] = round(
+            max(0.0, time.time() - int(out.strip())) / 60.0, 1)
+    return ev
+
+def last_hub_position(issue):
+    """Last synced position comment on the working issue (hub view).
+
+    Returns {"stamp": ..., "kind": ...} for the most recent comment crosslink
+    reports, or None. One bounded CLI read per terminal transition.
+    """
+    if not issue:
+        return None
+    rc, out, _ = run(["crosslink", "issue", "show", str(issue)], timeout=60)
+    if rc != 0 or not out:
+        return None
+    best = None
+    for m in re.finditer(
+            r"\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)\]\s+\[([a-z-]+)\]",
+            out):
+        best = {"stamp": m.group(1), "kind": m.group(2)}
+    return best
+
+def compose_transition_evidence(state, row, rec, tag):
+    """Compose the full transition evidence bundle. Returns a dict with the
+    bundle path, per-section sha256 map, log attribution info, git evidence
+    and hub position ref."""
+    agent = row["agent"]
+    loginfo = agent_log_section(agent)
+    tail_text = "\n".join(loginfo.get("tail", []))
+    if not tail_text:
+        tail_text = "(no attributed opencode.log section found)"
+    pane_text = pane_tail_text(agent)
+    if not pane_text:
+        pane_text = "(tmux session unavailable for pane capture)"
+    git_ev = worktree_git_evidence(agent)
+    pos = last_hub_position(working_issue(agent) or FLAG_ISSUE)
+    timeline = rec.get("history", [])[-12:]
+    sections = {
+        "opencode-tail.log": tail_text,
+        "pane-tail.txt": pane_text,
+        "git-status.txt": git_ev.get("status") or "(worktree absent)",
+        "git-diffstat.txt": git_ev.get("diffstat") or "(none)",
+        "verdict-timeline.json": json.dumps(timeline, indent=2),
+        "hub-position.json": json.dumps(pos or {"position": None},
+                                        separators=(",", ":")),
+    }
+    bundle, hashes = write_evidence_bundle(agent, tag, sections)
+    return {"bundle": bundle, "sha256": hashes, "loginfo": loginfo,
+            "git": git_ev, "hub_position": pos}
+
+def evidence_summary_line(ev):
+    """Compact one-line evidence digest for posted comments."""
+    if not ev:
+        return ""
+    parts = []
+    if ev.get("bundle"):
+        parts.append("bundle={0}".format(ev["bundle"]))
+    if ev.get("git", {}).get("branch"):
+        parts.append("branch={0}".format(ev["git"]["branch"]))
+    parts.append("dirty_files={0}".format(
+        ev.get("git", {}).get("status_count", 0)))
+    age = ev.get("git", {}).get("last_commit_age_min")
+    if age is not None:
+        parts.append("last_commit_age_min={0}".format(age))
+    pos = ev.get("hub_position")
+    if pos:
+        parts.append("hub_position={0}[{1}]".format(pos.get("stamp"),
+                                                    pos.get("kind")))
+    nhash = len(ev.get("sha256", {}))
+    if nhash:
+        parts.append("sections_sha256={0}".format(nhash))
+    return " ".join(parts)
+
+# ---------------------------------------------------------------------------
 # Crosslink mutation surfaces (the ONLY write paths into the fleet)
 # ---------------------------------------------------------------------------
 
@@ -661,7 +776,8 @@ def act_completed(state, row, rec):
     issue = working_issue(agent)
     started = agent_started_epoch(agent)
     branch = agent_branch(agent)
-    loginfo = agent_log_section(agent)
+    ev = compose_transition_evidence(state, row, rec, "completed")
+    loginfo = ev["loginfo"]
     cleanup_ok = kickoff_cleanup(state, agent)
     orphan = os.path.isdir(os.path.join(WORKTREES_ROOT, agent))
     if orphan:
@@ -678,12 +794,21 @@ def act_completed(state, row, rec):
         "cleanup": "dry-run" if DRY_RUN else ("executed" if cleanup_ok
                                               else "failed"),
         "orphan_worktree": orphan,
+        "evidence_bundle": ev["bundle"], "evidence_sha256": ev["sha256"],
     })
     rec["phase"] = "completed"
     rec.setdefault("handled", {})["DONE-CONFIRMED"] = now_iso()
+    message = ("[OBSERVER] COMPLETED agent={0} deliverable={1} "
+               "files_changed={2} merged={3}. {4}".format(
+                   agent,
+                   deliv.get("deliverable_present"),
+                   deliv.get("files_changed"), deliv.get("merged"),
+                   evidence_summary_line(ev)))
+    post_comment(state, issue or FLAG_ISSUE, message)
     log_event({"event": "transition-action", "action": "completed",
                "agent": agent, "issue": issue, "cleanup_ok": cleanup_ok,
-               "orphan": orphan, "deliverable": deliv})
+               "orphan": orphan, "deliverable": deliv,
+               "evidence": ev["bundle"], "sha256": ev["sha256"]})
 
 def issue_comment_count_since(issue_text, since_epoch):
     count = 0
@@ -713,18 +838,26 @@ def act_finished_unmarkable(state, row, rec):
     flag_for_sweep(agent, "finished-unmarkable: read-only role finished "
                           "without DONE marker; operator force-sweep at "
                           "wave end")
-    loginfo = agent_log_section(agent)
+    ev = compose_transition_evidence(state, row, rec, "finished-unmarkable")
+    loginfo = ev["loginfo"]
     append_staging_row({
         "agent": agent, "outcome": "finished-unmarkable",
         "role": row.get("role"), "issue": issue,
         "findings_on_working_issue": findings_exist,
         "model": loginfo.get("model"), "provider": loginfo.get("provider"),
+        "evidence_bundle": ev["bundle"], "evidence_sha256": ev["sha256"],
     })
     rec["phase"] = "finished-unmarkable"
     rec.setdefault("handled", {})["FINISHED-UNMARKABLE"] = now_iso()
+    message = ("[OBSERVER] FINISHED-UNMARKABLE agent={0} "
+               "findings_on_working_issue={1}. Worktree flagged for "
+               "operator force-sweep. {2}".format(
+                   agent, findings_exist, evidence_summary_line(ev)))
+    post_comment(state, issue or FLAG_ISSUE, message)
     log_event({"event": "transition-action", "action": "finished-unmarkable",
                "agent": agent, "issue": issue,
-               "findings_on_working_issue": findings_exist})
+               "findings_on_working_issue": findings_exist,
+               "evidence": ev["bundle"], "sha256": ev["sha256"]})
 
 def classify_death(row, loginfo):
     """FAILED (preserve) vs KILLED (orchestrator stop) discrimination.
@@ -756,13 +889,9 @@ def classify_death(row, loginfo):
 def act_failed(state, row, rec, reason):
     agent = row["agent"]
     issue = working_issue(agent) or FLAG_ISSUE
-    loginfo = agent_log_section(agent)
-    tail_text = "\n".join(loginfo.get("tail", []))
-    if not tail_text:
-        tail_text = "(no attributed opencode.log section found)"
-    bundle, hashes = write_evidence_bundle(agent, "failed", {
-        "opencode-tail.log": tail_text,
-    })
+    ev = compose_transition_evidence(state, row, rec, "failed")
+    loginfo = ev["loginfo"]
+    bundle, hashes = ev["bundle"], ev["sha256"]
     rec["phase"] = "failed"
     rec.setdefault("handled", {})["DEAD-UNMARKED"] = now_iso()
     rec["fail_reason"] = reason
@@ -774,8 +903,8 @@ def act_failed(state, row, rec, reason):
         pass
     message = ("[OBSERVER] FAILED agent={0} verdict={1} reason={2}. "
                "Worktree PRESERVED for forensics (no automatic cleanup). "
-               "Evidence: {3}".format(agent, row.get("verdict"), reason,
-                                      bundle or "unavailable"))
+               "{3}".format(agent, row.get("verdict"), reason,
+                            evidence_summary_line(ev)))
     if loginfo.get("model"):
         message += (" Failed model={0}/{1}.".format(
             loginfo.get("provider"), loginfo.get("model")))
@@ -789,6 +918,7 @@ def act_failed(state, row, rec, reason):
 def act_killed(state, row, rec, reason):
     agent = row["agent"]
     issue = working_issue(agent) or FLAG_ISSUE
+    ev = compose_transition_evidence(state, row, rec, "killed")
     cleanup_ok = kickoff_cleanup(state, agent)
     orphan = os.path.isdir(os.path.join(WORKTREES_ROOT, agent))
     if orphan:
@@ -801,14 +931,17 @@ def act_killed(state, row, rec, reason):
         "verdict_timeline": rec.get("history", [])[-8:],
         "cleanup_executed": cleanup_ok,
         "orphan_worktree": orphan,
+        "evidence_bundle": ev["bundle"],
+        "sha256": ev["sha256"],
     }
     message = ("[OBSERVER] KILLED agent={0} trigger={1}. Scoped cleanup "
                "executed={2}; orphaned worktree={3}. Evidence chain: "
-               "{4}".format(agent, reason,
-                            "yes" if cleanup_ok else "NO",
-                            "PRESENT (force-sweep flagged)" if orphan
-                            else "none",
-                            json.dumps(chain, separators=(",", ":"))))
+               "{4}. {5}".format(
+                   agent, reason,
+                   "yes" if cleanup_ok else "NO",
+                   "PRESENT (force-sweep flagged)" if orphan else "none",
+                   json.dumps(chain, separators=(",", ":")),
+                   evidence_summary_line(ev)))
     post_comment(state, issue, message)
     log_event({"event": "transition-action", "action": "killed",
                "agent": agent, "issue": issue, "chain": chain})
@@ -816,17 +949,9 @@ def act_killed(state, row, rec, reason):
 def act_frozen(state, row, rec, trigger_detail):
     agent = row["agent"]
     issue = working_issue(agent) or FLAG_ISSUE
-    loginfo = agent_log_section(agent)
-    tail_text = "\n".join(loginfo.get("tail", []))
-    if not tail_text:
-        tail_text = "(no attributed opencode.log section found)"
-    pane_text = pane_tail_text(agent)
-    if not pane_text:
-        pane_text = "(tmux session unavailable for pane capture)"
-    bundle, hashes = write_evidence_bundle(agent, "terminated", {
-        "opencode-tail.log": tail_text,
-        "pane-tail.txt": pane_text,
-    })
+    ev = compose_transition_evidence(state, row, rec, "terminated")
+    loginfo = ev["loginfo"]
+    bundle, hashes = ev["bundle"], ev["sha256"]
     branch = agent_branch(agent)
     stop_ok = kickoff_stop(state, agent, branch)
     cleanup_ok = kickoff_cleanup(state, agent)
@@ -851,13 +976,14 @@ def act_frozen(state, row, rec, trigger_detail):
                "trigger={2}. Auto-killed per operator-granted spiral "
                "authority (#443 rev3, 2026-08-24): stop={3}, cleanup={4}, "
                "orphan_worktree={5}. Evidence bundle: {6} sha256={7}. "
-               "Recommendation: relaunch-with-backup-model.".format(
+               "{8} Recommendation: relaunch-with-backup-model.".format(
                    agent, row.get("verdict"), trigger_detail,
                    chain["auto_kill"],
                    "executed" if cleanup_ok else "FAILED",
                    "PRESENT (force-sweep flagged)" if orphan else "none",
                    bundle or "unavailable",
-                   json.dumps(hashes, separators=(",", ":"))))
+                   json.dumps(hashes, separators=(",", ":")),
+                   evidence_summary_line(ev)))
     post_comment(state, issue, message)
     log_event({"event": "transition-action", "action": "frozen-termination",
                "agent": agent, "issue": issue, "chain": chain})

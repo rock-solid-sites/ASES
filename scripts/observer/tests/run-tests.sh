@@ -274,5 +274,17 @@ PYEOF
 run_cycle "$sd" "$sd/fix.json"
 check "T11 external vanish recorded"  "vanished-externally" "$sd/events.jsonl"
 
+# ---------------------------------------------------------------------------
+note "T12 evidence-at-transition on COMPLETED (F1: full bundle + digest comment)"
+sd="$TESTS/t12"; rm -rf "$sd"; mkdir -p "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-ev DONE-CONFIRMED builder EXITED DONE
+run_cycle "$sd" "$fx"
+ls "$sd/evidence/zzz-lc-ev/"*-completed/verdict-timeline.json >/dev/null 2>&1 && { printf 'PASS T12 verdict timeline section\n'; PASS=$((PASS+1)); } || { printf 'FAIL T12 verdict timeline section missing\n'; FAIL=$((FAIL+1)); }
+ls "$sd/evidence/zzz-lc-ev/"*-completed/git-status.txt >/dev/null 2>&1 && { printf 'PASS T12 git status section\n'; PASS=$((PASS+1)); } || { printf 'FAIL T12 git status section missing\n'; FAIL=$((FAIL+1)); }
+ls "$sd/evidence/zzz-lc-ev/"*-completed/hub-position.json >/dev/null 2>&1 && { printf 'PASS T12 hub position section\n'; PASS=$((PASS+1)); } || { printf 'FAIL T12 hub position section missing\n'; FAIL=$((FAIL+1)); }
+ls "$sd/evidence/zzz-lc-ev/"*-completed/bundle.json >/dev/null 2>&1 && { printf 'PASS T12 bundle manifest\n'; PASS=$((PASS+1)); } || { printf 'FAIL T12 bundle manifest missing\n'; FAIL=$((FAIL+1)); }
+check "T12 completed digest comment recorded" "\[OBSERVER\] COMPLETED agent=zzz-lc-ev" "$sd/events.jsonl"
+check "T12 staging row carries evidence" '"evidence_bundle"' "$sd/model-evidence-staging.jsonl"
+
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]
