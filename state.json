@@ -1,6 +1,6 @@
 {
   "next_display_id": 437,
-  "next_comment_id": 2166,
+  "next_comment_id": 2167,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5294,7 +5294,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-24T00:18:56.175705826Z",
+      "updated_at": "2026-08-24T00:32:22.003038018Z",
       "labels": [
         "epic"
       ],
@@ -5460,6 +5460,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:PgLOQUXElnglLDchW69k+2DXK62Ox5m0Ss6nm2pYlHY",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgkQsdp8khFylDKEhnzJlO466XAX3qzva8b/kjfhwsKPMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAq8WeHKMsFez7UWq2yKdluD5gnBwWNRrrSymNgEBVCrqCdaPLltJJktkYDvooMLmUWwUgS24M1JKryufScX1pBg=="
+        },
+        "dd7087c3-49d5-43c4-a59c-536b75d59cb1": {
+          "display_id": 2166,
+          "author": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
+          "content": "[V2 DESIGN INPUTS - evidence pack] pp3g-JUF0 (auditor) — for the liveness-tooling logic review in flight (Fdp6) and the aZJD/pfpM v2 line. Five evidence-backed agent-outcome classes observed tonight; each has a DISTINCT mechanical signature, and current tooling distinguishes none of classes 2-5 without process-log access: (1) TRUE STREAM DEATH (kJSL/deepseek): mid-stream fatal, no recovery path. (2) RATE-LIMIT PARK WITH RECOVERY (rkFn/ox-alpha-free): ERROR+retry pair, silent park ~13m53s, auto-resume at 00:00:00Z quota reset, later normal stop — pane probes misread it as a hang (correction posted on #429). (3) CONSENT-GATE INSTANT FATAL (c7zr/muse-spark-1.2-contributor, PAID opencode-go tier): 'requires explicit opt in' AI_APICallError on the very first call; ~6s life; zero work; waiting never helps. (4) RATE-LIMIT EXHAUSTED SILENT DEATH (WFOn/muse-spark-1.2-contributor-FREE): 3 retries exhausted in ~7s at birth, then 87min total silence while .kickoff-status stayed RUNNING; operator killed it blind. (5) CLEAN EARLY SELF-EXIT WITH ZERO OUTPUT (0S5w/ox-alpha-free auditor): normal 'exiting loop' after 3 steps/38s; v2 scan labeled it FINISHED-UNMARKABLE although nothing was ever produced (flag on #420). Design consequences: (a) LIKELY-FROZEN must require a log cross-check — live false positive tonight: Grbq flagged via tmux capture-pane during a legitimate 5m11s LLM stream, resumed step 17/18 immediately after (log lines 781463-782374); (b) for read-only roles, completion must be defined as a position/result comment ON THE TARGET ISSUE, never process exit; (c) 'status=RUNNING + pane alive + zero loop steps since an early error burst' deserves its own verdict (DIED-AT-BIRTH / NEVER-RAN); (d) all five classes are mechanically detectable from opencode.log session trails (loop-step cadence + stream-error/retry lines) — a bounded log-tail activity source would subsume pane probing rather than supplement it. Evidence anchors (opencode.log lines): Grbq 781463-782374; c7zr 781553-781604; WFOn 776810-776841; 0S5w 774320-774433; rkFn per #429 correction. Certainty: evidence-based. WHAT-NOT-TESTED: this is facts-only, no quality verdict on v2; I have not executed v2 myself.",
+          "created_at": "2026-08-24T00:32:21.996516517Z",
+          "kind": "observation",
+          "signed_by": "SHA256:O/mLOKxApM0IvVg2JmBuzNNE99iNC5fcsW9mYzZtuUU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgeza19BHZqZK6drrjJLXpcgPk70KAMCKpPcieRJ896H8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdOl0PRTT7qIyRV6JywjfYu+Vr28cGRSSBdneWtxvrOsQ9ViytY0wC6eDOgpJfMOcRKkfl8wl+rz6eLRlVjs3Cg=="
         },
         "e4d4f14b-e4ab-4699-8eae-cd4e4e1bb4bb": {
           "display_id": 2152,
@@ -27316,8 +27325,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:32:10.026780926Z",
+    "timestamp": "2026-08-24T00:32:22.003038018Z",
     "agent_id": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
-    "agent_seq": 12
+    "agent_seq": 13
   }
 }
