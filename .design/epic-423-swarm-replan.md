@@ -6,7 +6,7 @@ document_type: Design
 status: Proposed
 authority: Derived
 parent_epic: "#423"
-consumed_by: crosslink swarm init --doc
+consumed_by: none (context document; executable companion: .design/epic-423-swarm-plan.md)
 ---
 
 # Purpose
@@ -14,7 +14,8 @@ consumed_by: crosslink swarm init --doc
 Execute EPIC #423 remainder as a gated swarm. Ordering principle established by
 operator 2026-08-23: documentation-integrity infrastructure precedes all phases,
 because every downstream agent consumes documents and stale docs would reproduce
-the 2026-08-23 failure classes at swarm scale.
+the 2026-08-23 failure classes at swarm scale. Executable companion:
+.design/epic-423-swarm-plan.md carries the parser-conformant phase structure.
 
 # Surfaces (classification axis)
 
@@ -32,10 +33,11 @@ D0a Spike: auto-extract a doc-graph from existing frontmatter conventions
 (authority, dependencies, downstream consumers) plus a citation scan across
 docs/, .crosslink/knowledge/, wrapper scripts and configs. ACCEPTANCE TEST: the
 extracted graph must flag all four known-broken instances from 2026-08-23 -
-the missing .crosslink/knowledge/opencode-fork.md target cited by the opencode
-wrapper, the unverifiable playbook section citations reported by issue #429
-researcher, the permissions.md self-declared staleness, and the stale git claim
-in auditor kickoff text. Failure to catch all four = redesign, not proceed.
+missing .crosslink/knowledge/opencode-fork.md target cited by opencode wrapper,
+permissions.md self-declared staleness, stale git claim in auditor kickoff text,
+and knowledge page crosslink-subagent-orchestration.md documents H2 phase
+headers while installed fork parser requires H3 groups nested under an H2
+Requirements section. Failure to catch all four = redesign, not proceed.
 
 D0b Existence validator (V1): every cited path/section resolves.
 D0c Freshness + propagation (V3): last-verified stamps; editing a source node
