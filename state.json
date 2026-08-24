@@ -1,6 +1,6 @@
 {
   "next_display_id": 460,
-  "next_comment_id": 2361,
+  "next_comment_id": 2362,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5463,7 +5463,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-24T06:06:38.518566655Z",
+      "updated_at": "2026-08-24T07:01:19.096957416Z",
       "labels": [
         "epic"
       ],
@@ -5512,6 +5512,15 @@
           "kind": "observation",
           "signed_by": "SHA256:N2MKNhC24y9CrvAmIsloNCwW+yR3ND/cHGCpBawbvQc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgjRheorzkSr9SfTBgosQr/VKNecNMMWzQOuLX+IxysRMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAhdZonGXKEIfOFoulRds5BwpzrD/Xfc3bjmEbCHbj8JIDbgR4ElcuT8cXi/ttyXx9Rcd+XZ+63Rop5yVEORBqCA=="
+        },
+        "41cce6dd-c6cf-402b-9867-e32d3a44bfc1": {
+          "display_id": 2361,
+          "author": "OL2r",
+          "content": "[CONTINUATION HANDOFF - zero-context start]: NEXT SESSION PICKS UP HERE. STATE: All design docs committed to .design/ (lifecycle-manager, swarm-plan, swarm-replan, wind-down, prior-art-brief, RPC-prototype, execution-classification). All working tools merged to main (dashboard v2, watchdog runner v2, session-union CLI). Doctrine batch live in context (operator profile, push cadence, never-assume-model, fetch-method selection, retention policy). IMMEDIATE NEXT ACTIONS IN ORDER: [1] Build lifecycle-manager.sh per .design/lifecycle-manager-design.md (SC1-SC5 criteria; extends liveness-watchdog v2 commit 4c8ab0ba). [2] Revise docs/SESSION-END.md per #458 spec (split per-agent-lifecycle hooks from ceremony). [3] Swarm config: budget-window 6h, per-phase model assignments pending operator decision (mostly ox-alpha-free; muse-spark-free for data-gathering phases; hy3-class reviewers; luna for complex phases). [4] Swarm launch Phase 1 only; report roster before Phase 2. OPEN ISSUES BY PRIORITY: HIGH #456 PARKED-detector build (hRmt attempt lost in cleanup); #455 fact-check (lB6o running); #442 observer-as-mechanism revised scope; #443 notification channel research; #446 plan-linter + role-topology design; #422 grok picker S1 gap; MEDIUM #421 natural sort QOL; #441 thin CLI umbrella; LOW #420 old EPIC partially superseded by #423. KEY ARCHITECTURAL DECISIONS THIS SESSION: three-layer model (MODEL reasons / POLICY checks legality / ENGINE enforces mechanically) - independently confirmed by ChatGPT classification and internal analysis; per-agent JSONL telemetry via plugin event bus makes attribution structural (M1-alt confirmed feasible); prompt_async solves wake-on-event; dynamic native approval escalation is a MISSING platform primitive (enforcement-by-denial only); doom_loop threshold=3 hard-coded no time window; quota-parking masquerades as hang (AI_APICallError + retry-after parks silently until daily reset); pre-first-action freezes hit ALL model families under concurrent load; per-agent log files (M1-alt) eliminate attribution problem entirely. OPERATOR PROFILE: non-programmer; complete copy-paste commands only; raw paste blocks expected; plain-language significance; push-cadence proactively suggested by agents.",
+          "created_at": "2026-08-24T07:01:19.089163888Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAgWCHKg/RM+0fcgV76Y40dmv9rNOsD9Am6l/beXKA13lue4XJiXkF0NEBP2Q3D0m4oTytKxBZbSrrhpd408ePAw=="
         },
         "53038565-d969-464c-b379-5092fc57825a": {
           "display_id": 2140,
@@ -29496,8 +29505,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T06:59:22.305642992Z",
-    "agent_id": "pp3g-Y2aY-build-459-lifecycle-manager-sh-extend-the-liveness",
-    "agent_seq": 3
+    "timestamp": "2026-08-24T07:01:19.096957416Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2245
   }
 }
