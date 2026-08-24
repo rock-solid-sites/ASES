@@ -1,6 +1,6 @@
 {
   "next_display_id": 436,
-  "next_comment_id": 2157,
+  "next_comment_id": 2158,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -5284,7 +5284,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T18:55:27.491681128Z",
-      "updated_at": "2026-08-24T00:18:35.088985337Z",
+      "updated_at": "2026-08-24T00:18:56.175705826Z",
       "labels": [
         "epic"
       ],
@@ -5405,6 +5405,15 @@
           "kind": "observation",
           "signed_by": "SHA256:6vzNuhKzlsY1uUz2ffLQufqsF3o+ANjaN+Mkz2Kt8Fc",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3XjQok8XohSIWglHIdwsDaVByavO87p5HPx1kgjnaBYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALyI/8NfDR11myOu/gp6qTygPGzeTNuzdt69sSD0yMHEAfPJdIcdESCc0h9+xPvO7UO3LXHsCi+tRg/O96yBmDg=="
+        },
+        "b25616fa-2ecc-4c64-8fe9-f3b42142dc2a": {
+          "display_id": 2157,
+          "author": "pp3g-Fdp6-logic-review-of-liveness-tooling-under-epic-423-e5d4",
+          "content": "## LOGIC REVIEW — RESULT + COUNTERFACTUAL (EPIC #423 liveness tooling)\n\nOVERALL JUDGMENT: SOUND-WITH-CAVEATS.\nThe core engine (process-aliveness probe, .git-free bounded walk, scrollback role recovery, 6-class matrix) is structurally sound — mutually exclusive, collectively exhaustive, and a genuine fix for Bug-A (reflog) / Bug-B (sentinel trust). The caveats are signal-validity and watchdog-robustness gaps, not correctness bugs. The tool WOULD have surfaced all five tonight-hangs, but with misclassified cause for the rate-limit class and no pre-death prediction. Not a redesign; targeted fixes [A1b],[A2b],[A3],[A4] raise it from \"catches deaths\" to \"catches hangs earlier, with correct cause.\"\n\n### COUNTERFACTUAL — would it have caught tonight's five hangs EARLIER?\n\n| Agent | True class | Tool verdict | Detected when | Operator detected | Earlier? |\n|---|---|---|---|---|---|\n| kJSL (deepseek) | true stream-death 19:04:39 | DEAD-UNMARKED (EXITED) | ~19:06 (+120s) | \"frozen\" 18:58 (false alarm during churn) | catches REAL death ~8min post; no pre-death warning |\n| bxXr (muse) | rate-limit park ->00:00 | STALE-SUSPECT (ALIVE, quiet) | ~22:08 (last-write+90m) | ~22:03 | ~same, MISCLASSIFIED as hang |\n| rChm (muse) | rate-limit park ->00:00 | STALE-SUSPECT | ~23:34 | ~23:40 | ~6min earlier, MISCLASSIFIED |\n| WFOn (muse) | rate-limit park ->00:00 | STALE-SUSPECT | ~23:45 | ~23:44 | ~same, MISCLASSIFIED |\n| iSQ9 (muse) | rate-limit park ->00:00 | STALE-SUSPECT (baseline age) | ~23:25 (started_at+90m) | ~23:49 | ~24min earlier, MISCLASSIFIED |\n\nConcrete reasoning:\n- The tool is a DEATH/QUIET detector, not a PRE-HANG predictor. It would have surfaced all five as anomalous, but only kJSL at the moment of actual process exit; the four muse cases only at last-activity+90min (the stale budget), comparable to or slightly better than the operator's manual detection — and every one MISCLASSIFIED as \"hang\" rather than \"rate-limit parked.\"\n- It would NOT have caught any hang BEFORE the agent stopped progressing: kJSL's 25-min invisible-churn loop shows RUNNING-ALIVE (if writing) or STALE-SUSPECT (if not) — never a pre-death warning; the muse parking windows show ALIVE+quiet the whole time. No signal in the tool anticipates the failure.\n- Net: the tool removes the 85-96 min blind wait and adds mechanical consistency, but its \"earlier\" benefit is modest and comes with wrong-cause classification for 4/5 cases. To genuinely catch hangs earlier you need (a) shorter budget [A4], (b) rate-limit awareness [A2b], (c) a progress heartbeat [A2].\n\n### NOTABLE POSITIVES\n- Genuinely fixes Bug-A (reflog) and Bug-B (sentinel trust) with a clean, bounded, stdlib-only design.\n- Process-aliveness probe with descendant scan is the right discriminator (pane_dead alone proven insufficient — zombies show pane_dead=0 over idle bash).\n- Matrix is MECE; VERDICT_SEVERITY ordering enables sane one-glance sorting.\n- Honest WHAT-NOT-TESTED in #435 result; pane-hash state written atomically (os.replace, line 385).\n- Watchdog spec already includes dedupe + vanish-transition intent (right shape; needs hardening in [A3]).\n\n### BOTTOM LINE\nlogic-sound (structure correct, would catch the deaths) WITH CAVEATS (signal-validity gaps — esp. rate-limit vs hang [A2b], and the 90min budget [A4] — plus watchdog self-liveness/spam hardening [A3]). Not a redesign. Targeted fixes [A1b],[A2b],[A3],[A4] raise it from \"catches deaths\" to \"catches hangs earlier, with correct cause.\"\n\nSeverity tally: MUST-CONSIDER x1 ([A3] watchdog self-liveness); SHOULD-CONSIDER x11 ([A1b],[A1c],[A2],[A2b],[A2c],[A2d],[A3b],[A3c],[A3d],[A4],[A5]); positive x1 ([A1] MECE). No MUST-FIX correctness bug found in agent-liveness.py v2 itself (code assumed correct per brief); the one MUST-CONSIDER is in the in-flight watchdog, which is still mutable.",
+          "created_at": "2026-08-24T00:18:56.169697230Z",
+          "kind": "result",
+          "signed_by": "SHA256:N2MKNhC24y9CrvAmIsloNCwW+yR3ND/cHGCpBawbvQc",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgjRheorzkSr9SfTBgosQr/VKNecNMMWzQOuLX+IxysRMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAw45NrUc8kK01u8Qh5JsHTQkUqsXNUdXtqJYshBIW9L9Si6eAzwbPY/um4J8CT5OTo+8WlH+CoLoosonE44qsDA=="
         },
         "bd501841-f687-404e-a59b-1391a84375ea": {
           "display_id": 2151,
@@ -27221,8 +27230,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:18:47.120377451Z",
-    "agent_id": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
-    "agent_seq": 8
+    "timestamp": "2026-08-24T00:18:56.175705826Z",
+    "agent_id": "pp3g-Fdp6-logic-review-of-liveness-tooling-under-epic-423-e5d4",
+    "agent_seq": 3
   }
 }
