@@ -1,6 +1,6 @@
 {
   "next_display_id": 445,
-  "next_comment_id": 2256,
+  "next_comment_id": 2257,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -6080,7 +6080,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T01:41:40.239371268Z",
-      "updated_at": "2026-08-24T01:51:37.863195461Z",
+      "updated_at": "2026-08-24T01:51:58.135914191Z",
       "labels": [
         "review"
       ],
@@ -6147,6 +6147,15 @@
           "kind": "observation",
           "signed_by": "SHA256:usl0k0EVKIRzWIYxQlgcjiM/cGQ8uEjxBXwkMq/YBro",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCLvCYlub0EX1P/3vBtfMaCQEYV65ygOLwZSOiPTrhK4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyBB6xBXPwNajEN+qpSI8a+K2a8PZcNwR6gOtota0HiU9KUb7Tiy9TMLRGNxvBXqRvntrfvjhCVCxF7w9HmCwAA=="
+        },
+        "ae2ae5aa-1f6e-4cad-bf13-f77b5d80e111": {
+          "display_id": 2256,
+          "author": "pp3g-4eBL-clean-room-adversarial-review-on-444-you-are-one-of",
+          "content": "VERDICT: MODIFY (do not adopt as specified; build behind mandatory gates).\n\nThe classification taxonomy — PARKED-RETRYING vs STREAM-DEATH vs SPIRAL, with evidence bundles — is a genuine improvement over today's pane-hash heuristics, and event-driven detection is conceptually sound. But the proposal cannot be ADOPTED as written because four load-bearing elements are unproven or unsafe:\n\n1. Attribution (F1) and request-correlation (F2) are the entire mechanism and are admitted-unverified. If a shared log line cannot be reliably mapped to an agent, every classification and every kill is misrouted.\n2. The parser (F3) is built on one night's inferred strings; it will silently miss real failures (false negatives) — the exact deaths it targets.\n3. Spiral auto-kill (F4, F11) grants irreversible authority on an unverified classifier with no shadow-mode, no rate-limit, no override. Asymmetric risk: a false-positive kill destroys uncommitted work; a false-negative is cheaply recovered.\n4. The tail process is an unsupervised SPOF (F5) with no persisted read-position (F6) and unhandled rotation (F7); it can miss the very events it exists to catch.\n\nMANDATORY MODIFICATIONS before build/adoption:\n- M1 (blocking): Prove attribution + request-correlation against real multi-agent logs from BOTH producers (F1,F2). If unprovable, the event mechanism adds nothing over the existing poll for STREAM-DEATH and SPIRAL becomes unsafe => switch to ALTERNATIVE M1-alt: per-agent log files (one log per session) tailed individually, making attribution structural rather than parsed.\n- M2 (blocking): Build the parser against a real error/stream corpus; add an unrecognized-line-rate alert for schema drift (F3).\n- M3 (blocking for auto-kill): Ship in SHADOW mode first (emit WOULD-KILL + evidence, no kill) for a defined burn-in; require ~zero false positives on a labeled corpus of verbose-good vs spiral; only then enable SPIRAL-class auto-kill behind a kill-rate cap (<=1/10min) and a global kill-disable switch (F4,F11).\n- M4: Specify supervision hierarchy + persisted (inode,offset) checkpoint + rotation-recovery (rename AND copytruncate) so restarts neither miss nor replay (F5,F6,F7).\n- M5: Define a safe kill primitive (SIGTERM agent proc, wait, SIGKILL; never blind 'tmux kill-session') that checks for in-progress git locks and documents crosslink-guard interaction (F10).\n- M6: Key watcher state by (session-id + spawn-time) or worktree path; expire on agent disappearance; confirm log control lines are binary-trusted (F12,F15).\n- M7: Add PARKED-RETRYING max-park timeout -> flag (F14); reframe as augmentation not replacement (F8,F9).\n\nALTERNATIVE-MECHANISM (if M1 attribution fails): per-agent log tails. Each agent/session writes its own log; the watcher tails one file per agent. Attribution becomes structural (the file IS the agent), eliminating F1/F2/F12/F15 entirely. Cost: N file handles instead of one, and requires the fork/TUI to support per-session log paths — but it removes the hardest unsolved problem (parsing a shared multiplexed stream). Recommend evaluating this as the primary design if shared-log attribution cannot be proven cheaply.\n\nNet: MODIFY — the architecture is worth building, but only behind M1-M7. Granting auto-kill before M1-M3 is rejected.",
+          "created_at": "2026-08-24T01:51:58.129721587Z",
+          "kind": "result",
+          "signed_by": "SHA256:usl0k0EVKIRzWIYxQlgcjiM/cGQ8uEjxBXwkMq/YBro",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCLvCYlub0EX1P/3vBtfMaCQEYV65ygOLwZSOiPTrhK4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAd8RFVq/eNUSu6rIiFqSTl37wKYajwg6/L9Was7ZEmttObBorBipfsYFoCrfKvYVQx4RU8yv2NCEUWwdrR9Z4Cw=="
         },
         "d818ae48-dd32-40fa-8430-0214fd92aef4": {
           "display_id": 2241,
@@ -28286,8 +28295,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T01:51:37.863195461Z",
+    "timestamp": "2026-08-24T01:51:58.135914191Z",
     "agent_id": "pp3g-4eBL-clean-room-adversarial-review-on-444-you-are-one-of",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
