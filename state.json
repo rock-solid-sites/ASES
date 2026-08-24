@@ -1,6 +1,6 @@
 {
   "next_display_id": 445,
-  "next_comment_id": 2252,
+  "next_comment_id": 2253,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -6080,7 +6080,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T01:41:40.239371268Z",
-      "updated_at": "2026-08-24T01:50:42.045122799Z",
+      "updated_at": "2026-08-24T01:51:09.489308141Z",
       "labels": [
         "review"
       ],
@@ -6147,6 +6147,15 @@
           "kind": "observation",
           "signed_by": "SHA256:Qz3te/SlYhdAXvqN++pkBuFIMi/Ih3KPYJAFtLwDtH0",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgRP2JBy6xVmSg1ID2I+OIA8m+TsgPc5KXL0JOKTpfm4UAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4hSbdSyAw3zjJ/p6oECIJ+it+nj7tanMs0SpzN884IKoqiDRZ66GAE4r/DRmSFWLnoLexO0Zjql8RwlxDM23Bw=="
+        },
+        "ee26d19e-e57d-48ac-8197-63b83980a4ac": {
+          "display_id": 2252,
+          "author": "pp3g-4eBL-clean-room-adversarial-review-on-444-you-are-one-of",
+          "content": "FINDINGS (3/4) — tail SPOF, persistence, rotation, session-ID, injection\n\nF5 — Tail-process is a single point of failure with no stated supervision.\n- statement: One continuous tail performs all detection. The 'reduced 60s poll backstop' detects watcher death but doesn't perform detection; no restart owner stated.\n- why-it-matters: Current poll is crash-resilient (fresh process each run). Continuous design concentrates capability into one long-lived process with the same death modes it detects (OOM, uncaught parse exception, lost log handle on rotation). If it dies unrestarted, you regress to blind polling with false confidence. The backstop must trigger automatic restart AND the restart must resume from a persisted offset (F6).\n- cheapest-test: Kill the watcher mid-run; verify backstop detects within 60s, an external supervisor restarts it, and it resumes without re-firing or missing events.\n- severity: HIGH (must specify supervision + restart semantics).\n\nF6 — No persisted read-position; restart drops or replays events.\n- statement: Proposal doesn't mention persisting tail offset/inode across restarts/rotations.\n- why-it-matters: Naive tail -F restarts at EOF, missing the downtime window (a death during downtime goes undetected until next poll — defeating the mechanism). Restarting from file start replays history and can re-fire kills for resolved agents. Rotation while down loses the old inode.\n- cheapest-test: Simulate watcher crash + rotation during a live run; verify resumed watcher neither misses the gap nor re-fires historical lines (needs inode+offset checkpoint + rotation-recovery path).\n- severity: HIGH (required for event-model correctness).\n\nF7 — Rotation handling hand-waved; copytruncate breaks tail -F.\n- statement: 'tail -F style' handles rename-and-recreate but NOT in-place truncation (logrotate copytruncate), which keeps the inode and can drop/duplicate lines at the boundary.\n- why-it-matters: If deployment uses copytruncate (common default), lines are silently lost or duplicated at rotation => missed detections or spurious re-classifications.\n- cheapest-test: Reproduce the exact rotation method used; verify line delivery across one rotation with a known injected sequence.\n- severity: MEDIUM-HIGH.\n\nF12 — Session-ID lifecycle/reuse can bleed attribution across agents.\n- statement: Agents churn; if the log's session ID is reused after cleanup, a new agent inherits the prior agent's trailing window/state => spurious SPIRAL/STREAM-DEATH. Not addressed.\n- why-it-matters: Attribution state keyed by a reusable ID is a safety hole: a fresh healthy agent could be killed for inheriting a 'spiral' window.\n- cheapest-test: Verify session-ID uniqueness/monotonicity in real logs; if reusable, key watcher state by (session-id + spawn-time) or worktree path and expire on disappearance.\n- severity: MEDIUM-HIGH.\n\nF15 — Log injection/spoofing if agent content shares the log (security).\n- statement: If agent stdout/tool-output is interleaved into the shared log and the parser can't distinguish binary-emitted control lines from agent content, a buggy/adversarial agent could forge 'AI_APICallError' (avoid kill) or spoof another's stream-death.\n- why-it-matters: Classifier trust (F11) assumes a trustworthy log; if attribution tags are influenceable, the safety mechanism is gameable.\n- cheapest-test: Confirm session-ID/control lines are written by the trusted opencode binary (not the agent); if agent content shares the stream, require a structured trusted prefix agents can't emit.\n- severity: MEDIUM (security).",
+          "created_at": "2026-08-24T01:51:09.483094520Z",
+          "kind": "observation",
+          "signed_by": "SHA256:usl0k0EVKIRzWIYxQlgcjiM/cGQ8uEjxBXwkMq/YBro",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCLvCYlub0EX1P/3vBtfMaCQEYV65ygOLwZSOiPTrhK4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA3nY0YjOm+23UyeswAAv5tkMPXiDC0iHJeGAGMUcI8BTZSe/iH3+M7aZb4P7VCrD/H552yG7Gx23Jysc+gy5MCA=="
         },
         "f284eadd-c93e-483a-95b4-e656fc3aa428": {
           "display_id": 2248,
@@ -28250,8 +28259,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T01:51:00.414248940Z",
-    "agent_id": "pp3g-w9QQ-relaunch-of-440-extension-predecessor-frozen-pre-8314",
-    "agent_seq": 4
+    "timestamp": "2026-08-24T01:51:09.489308141Z",
+    "agent_id": "pp3g-4eBL-clean-room-adversarial-review-on-444-you-are-one-of",
+    "agent_seq": 5
   }
 }
