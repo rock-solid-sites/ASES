@@ -68,6 +68,19 @@
 #   posted to the working issue. Failure documentation takes seconds, not
 #   archaeology.
 #
+# Event-driven fast path (#456 revised scope; #460 F2):
+#   A byte-offset cursor over opencode.log reads ONLY new bytes each cycle
+#   (rotation/truncation safe, partial-line safe). New lines are classified:
+#     AI_APICallError + retry-after        -> PARKED-RETRYING (tracked agents
+#                                             enter PARKED same cycle)
+#     AI_APICallError + consent/opt-in     -> CONSENT-GATE-FATAL (alert now;
+#                                             accelerates STALE escalation)
+#     AI_RetryError + exhausted            -> RETRY-EXHAUSTED-DEAD (alert now)
+#     other AI_*Error                      -> UNKNOWN (flagged for review)
+#   Alerts are deduped per (class, session) within
+#   OBSERVER_FASTPATH_DEDUP_SECS. The expensive liveness walk keeps its own
+#   slower cadence; detection of log-visible failures takes seconds.
+#
 # Safety model:
 #   - Never touches live agent processes or worktrees directly: every
 #     mutation goes through crosslink CLI surfaces (kickoff stop/cleanup,
@@ -125,12 +138,20 @@ OBSERVER_DRY_RUN="${OBSERVER_DRY_RUN:-}"
 OBSERVER_INPUT_JSON="${OBSERVER_INPUT_JSON:-}"
 OBSERVER_DOCTRINE_DIRS="${OBSERVER_DOCTRINE_DIRS:-.crosslink/knowledge:docs/methodology:docs/standards}"
 OBSERVER_DOCTRINE_FILES="${OBSERVER_DOCTRINE_FILES:-AGENTS.md:ORIENTATION.md:SESSION-START.md:docs/SESSION-END.md}"
+# F2 (#456 revised scope): event-driven fast path over opencode.log.
+OBSERVER_FAST_PATH="${OBSERVER_FAST_PATH:-1}"
+OBSERVER_FAST_READ_CAP="${OBSERVER_FAST_READ_CAP:-2097152}"
+OBSERVER_FASTPATH_DEDUP_SECS="${OBSERVER_FASTPATH_DEDUP_SECS:-3600}"
+# F3 (#460): per-builder commit-age signal feeding STALE logic.
+OBSERVER_COMMIT_STALE_MINS="${OBSERVER_COMMIT_STALE_MINS:-10}"
 
 export OB_REPO_ROOT OB_STATE_DIR OB_FLAG_ISSUE OB_EVIDENCE_LINES \
     OB_PANE_LINES OB_PUSH_AHEAD_THRESHOLD OB_PARKED_ALERT_COUNT \
     OB_PARKED_DEFAULT_RESUME_MINS OB_MAX_ACTIONS_PER_HOUR \
     OB_STALE_ESCALATE_CYCLES OB_OPENCODE_LOG OB_DIS_VALIDATOR \
-    OB_DRY_RUN OB_DOCTRINE_DIRS OB_DOCTRINE_FILES
+    OB_DRY_RUN OB_DOCTRINE_DIRS OB_DOCTRINE_FILES \
+    OB_FAST_PATH OB_FAST_READ_CAP OB_FASTPATH_DEDUP_SECS \
+    OB_COMMIT_STALE_MINS
 
 OB_STATE_DIR="$OBSERVER_STATE_DIR"
 OB_FLAG_ISSUE="$OBSERVER_FLAG_ISSUE"
@@ -146,6 +167,10 @@ OB_DIS_VALIDATOR="$OBSERVER_DIS_VALIDATOR"
 OB_DRY_RUN="${OBSERVER_DRY_RUN:+1}"
 OB_DOCTRINE_DIRS="$OBSERVER_DOCTRINE_DIRS"
 OB_DOCTRINE_FILES="$OBSERVER_DOCTRINE_FILES"
+OB_FAST_PATH="$OBSERVER_FAST_PATH"
+OB_FAST_READ_CAP="$OBSERVER_FAST_READ_CAP"
+OB_FASTPATH_DEDUP_SECS="$OBSERVER_FASTPATH_DEDUP_SECS"
+OB_COMMIT_STALE_MINS="$OBSERVER_COMMIT_STALE_MINS"
 
 # Repo root discovery: this script may run from the main checkout
 # (<root>/scripts/) or from an agent worktree (<root>/.worktrees/<slug>/scripts/).
@@ -236,6 +261,10 @@ STALE_ESCALATE = env_int("OB_STALE_ESCALATE_CYCLES", 2)
 DIS_VALIDATOR = env("OB_DIS_VALIDATOR")
 DOCTRINE_DIRS = [d for d in env("OB_DOCTRINE_DIRS").split(":") if d]
 DOCTRINE_FILES = [f for f in env("OB_DOCTRINE_FILES").split(":") if f]
+FAST_PATH = env("OB_FAST_PATH", "1") == "1"
+FAST_READ_CAP = env_int("OB_FAST_READ_CAP", 2097152)
+FASTPATH_DEDUP_SECS = env_int("OB_FASTPATH_DEDUP_SECS", 3600)
+COMMIT_STALE_MINS = env_int("OB_COMMIT_STALE_MINS", 10)
 
 EVENTS_FILE = os.path.join(STATE_DIR, "events.jsonl")
 STAGING_FILE = os.path.join(STATE_DIR, "model-evidence-staging.jsonl")
@@ -362,7 +391,7 @@ def agent_log_section(agent):
     """
     result = {"available": False, "tail": [], "model": None,
               "provider": None, "rate_limited": False, "retry_after": None,
-              "error_signature": False}
+              "error_signature": False, "sessions": []}
     if not OPENCODE_LOG or not os.path.isfile(OPENCODE_LOG):
         return result
     esc = re.escape(agent)
@@ -398,6 +427,7 @@ def agent_log_section(agent):
                 if pm:
                     provider, model = pm.group(1), pm.group(2)
     result["provider"], result["model"] = provider, model
+    result["sessions"] = sessions
     if not sessions:
         return result
     result["available"] = True
@@ -1044,6 +1074,12 @@ def process_agent(state, row):
     def loginfo():
         if deep_probed["loginfo"] is None:
             deep_probed["loginfo"] = agent_log_section(agent)
+            sids = deep_probed["loginfo"].get("sessions") or []
+            if sids:
+                known = rec.setdefault("session_ids", [])
+                for s in sids:
+                    if s not in known:
+                        known.append(s)
         return deep_probed["loginfo"]
 
     # PARKED resolution first: recovery on fresh activity, expiry to FROZEN.
@@ -1114,10 +1150,17 @@ def process_agent(state, row):
                 act_parked(state, row, rec, li)
             else:
                 rec["stale_streak"] = rec.get("stale_streak", 0) + 1
-                if rec["stale_streak"] == 1:
+                fatal = rec.get("fast_path_fatal")
+                if rec["stale_streak"] == 1 and not fatal:
                     log_event({"event": "stale-warning", "agent": agent,
                                "detail": "one warning cycle before "
                                          "escalation"})
+                elif fatal:
+                    act_frozen(state, row, rec,
+                               "STALE-SUSPECT escalated: fast-path fatal "
+                               "evidence {0} at {1}".format(
+                                   fatal.get("class"),
+                                   fatal.get("ts")))
                 elif rec["stale_streak"] >= max(2, STALE_ESCALATE):
                     act_frozen(state, row, rec,
                                "STALE-SUSPECT escalated after {0} quiet "
@@ -1384,6 +1427,138 @@ def wave_doctrine(state):
                            "finding_count": 0})
 
 # ---------------------------------------------------------------------------
+# F2 (#456 revised scope): event-driven fast path over opencode.log.
+# A byte-offset cursor reads ONLY new bytes each cycle; lines are classified
+# (PARKED-RETRYING / CONSENT-GATE-FATAL / RETRY-EXHAUSTED-DEAD / UNKNOWN)
+# and non-healthy classifications fire the SAME cycle. The expensive
+# liveness walk stays on its own slower cadence.
+# ---------------------------------------------------------------------------
+
+def classify_log_line(line):
+    """(class, session_id) for one log line; class None = uninteresting."""
+    if "AI_" not in line:
+        return None, None
+    m = re.search(r"session\.id=(ses_[A-Za-z0-9]+)", line)
+    sid = m.group(1) if m else None
+    is_api_err = re.search(r"AI_APICallError", line) is not None
+    if is_api_err and re.search(r"retry[-_ ]after", line, re.IGNORECASE):
+        return "PARKED-RETRYING", sid
+    if is_api_err and re.search(r"opt-?in|consent|approv", line,
+                                re.IGNORECASE):
+        return "CONSENT-GATE-FATAL", sid
+    if re.search(r"AI_RetryError", line) and \
+            re.search(r"exhaust", line, re.IGNORECASE):
+        return "RETRY-EXHAUSTED-DEAD", sid
+    if is_api_err or re.search(r"AI_[A-Za-z]+Error", line):
+        return "UNKNOWN", sid
+    return None, sid
+
+def read_new_log_lines(state):
+    """Byte-offset cursor read. Rotation/first-sight baselines at EOF so
+    history is never re-classified; truncation resets to 0."""
+    result = {"lines": [], "baseline": False}
+    if not OPENCODE_LOG or not os.path.isfile(OPENCODE_LOG):
+        return result
+    try:
+        st = os.stat(OPENCODE_LOG)
+    except OSError:
+        return result
+    cur = state.get("log_cursor") or {}
+    if cur.get("ino") != st.st_ino:
+        state["log_cursor"] = {"ino": st.st_ino, "offset": st.st_size}
+        result["baseline"] = True
+        log_event({"event": "fastpath-baseline",
+                   "rotated": bool(cur), "size": st.st_size})
+        return result
+    offset = cur.get("offset", 0)
+    if offset > st.st_size:
+        offset = 0  # truncated in place: start over
+    if st.st_size == offset:
+        return result
+    try:
+        with open(OPENCODE_LOG, "rb") as fh:
+            fh.seek(offset)
+            data = fh.read(FAST_READ_CAP)
+            new_offset = offset + len(data)
+        # avoid classifying a partial trailing line when capped mid-line
+        if new_offset < st.st_size and data:
+            idx = data.rfind(b"\n")
+            if idx >= 0:
+                data = data[:idx + 1]
+                new_offset = offset + len(data)
+    except OSError:
+        return result
+    state["log_cursor"] = {"ino": st.st_ino, "offset": new_offset}
+    text = data.decode("utf-8", errors="replace")
+    result["lines"] = [ln for ln in text.splitlines() if ln.strip()]
+    return result
+
+def fast_path_scan(state):
+    if not FAST_PATH or not OPENCODE_LOG:
+        return
+    scan = read_new_log_lines(state)
+    if scan["baseline"] or not scan["lines"]:
+        return
+    seen = state.get("fastpath_seen", {})
+    now = time.time()
+    for key, ts in list(seen.items()):
+        if not isinstance(ts, (int, float)) or now - ts > FASTPATH_DEDUP_SECS:
+            seen.pop(key, None)
+    counts = {}
+    for line in scan["lines"]:
+        cls, sid = classify_log_line(line)
+        if not cls:
+            continue
+        counts[cls] = counts.get(cls, 0) + 1
+        dedup_key = cls + ":" + (sid or "unattributed")
+        if now - seen.get(dedup_key, 0) < FASTPATH_DEDUP_SECS:
+            continue
+        seen[dedup_key] = now
+        agent_name = None
+        if sid:
+            for a, r in state["agents"].items():
+                if sid in (r.get("session_ids") or []):
+                    agent_name = a
+                    break
+        log_event({"event": "fastpath-classification", "class": cls,
+                   "session": sid, "agent": agent_name,
+                   "line": line[:300]})
+        if cls == "PARKED-RETRYING":
+            li = {"retry_after": parse_retry_after([line]),
+                  "rate_limited": True, "tail": [line],
+                  "model": None, "provider": None}
+            if agent_name and agent_name in state["agents"]:
+                rec = state["agents"][agent_name]
+                if rec.get("phase") in ("active", "parked"):
+                    prow = {"agent": agent_name,
+                            "verdict": rec.get("verdict",
+                                               "RUNNING-ALIVE")}
+                    act_parked(state, prow, rec, li)
+            else:
+                post_comment(state, FLAG_ISSUE,
+                             "[OBSERVER][FAST] PARKED-RETRYING detected "
+                             "(unattributed session {0}); retry-after "
+                             "evidence recorded.".format(sid or "?"))
+        elif cls in ("CONSENT-GATE-FATAL", "RETRY-EXHAUSTED-DEAD"):
+            if agent_name and agent_name in state["agents"]:
+                rec = state["agents"][agent_name]
+                rec["fast_path_fatal"] = {"class": cls, "ts": now_iso()}
+            post_comment(state, FLAG_ISSUE,
+                         "[OBSERVER][FAST] {0} session={1} agent={2}: "
+                         "fatal log signature; agent cannot proceed "
+                         "without operator action.".format(
+                             cls, sid or "?", agent_name or "unknown"))
+        elif cls == "UNKNOWN":
+            post_comment(state, FLAG_ISSUE,
+                         "[OBSERVER][FAST] UNKNOWN AI-error signature "
+                         "session={0} for review: {1}".format(
+                             sid or "?", line[:200]))
+    state["fastpath_seen"] = seen
+    if counts:
+        log_event({"event": "fastpath-summary", "counts": counts,
+                   "lines_read": len(scan["lines"])})
+
+# ---------------------------------------------------------------------------
 # Main cycle
 # ---------------------------------------------------------------------------
 
@@ -1424,6 +1599,10 @@ def main():
             log_event({"event": "vanished-externally", "agent": agent,
                        "detail": "tracked agent left the scan; worktree "
                                  "already removed"})
+
+    # F2: event-driven fast path fires BEFORE wave checks so classifications
+    # land in the same cycle they appear in the log.
+    fast_path_scan(state)
 
     # Simultaneous-parking alert (shared quota exhaustion signal).
     parked = [a for a, r in state["agents"].items()

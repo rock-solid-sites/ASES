@@ -286,5 +286,39 @@ ls "$sd/evidence/zzz-lc-ev/"*-completed/bundle.json >/dev/null 2>&1 && { printf 
 check "T12 completed digest comment recorded" "\[OBSERVER\] COMPLETED agent=zzz-lc-ev" "$sd/events.jsonl"
 check "T12 staging row carries evidence" '"evidence_bundle"' "$sd/model-evidence-staging.jsonl"
 
+# ---------------------------------------------------------------------------
+note "T13 event-driven fast path (F2: cursor, classification, same-cycle fire)"
+sd="$TESTS/t13"; rm -rf "$sd"; mkdir -p "$sd"
+cat > "$sd/agent.log" <<'LOGEOF'
+timestamp=2026-08-24T07:00:00.000Z level=INFO run=abc message=tracking cwd=/tmp/opencode/observer-tests/fake-wt/zzz-lc-fast session.id=ses_fastknown001
+LOGEOF
+export TEST_OPENCODE_LOG="$sd/agent.log"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-fast RUNNING-ALIVE builder ALIVE RUNNING
+# cycle 1: baseline cursor at EOF; nothing classified
+run_cycle "$sd" "$fx"
+check_absent "T13 baseline classifies nothing" "fastpath-classification" "$sd/events.jsonl"
+# deep-probe the tracked agent so its known session id is recorded
+fx2="$sd/fix2.json"; fixture "$fx2" zzz-lc-fast STALE-SUSPECT builder ALIVE RUNNING
+run_cycle "$sd" "$fx2"
+# append fatal + parked signatures; next cycle must classify them SAME cycle
+cat >> "$sd/agent.log" <<'LOGEOF'
+timestamp=2026-08-24T07:05:00.000Z level=ERROR run=abc message="stream error" providerID=opencode-go modelID=m1 session.id=ses_fastknown001 error.error="AI_APICallError: This model requires opt-in consent before use."
+timestamp=2026-08-24T07:05:01.000Z level=ERROR run=abc message="stream error" providerID=opencode-go modelID=m1 session.id=ses_other002 error.error="AI_APICallError: Rate limit exceeded." retry-after: 2026-08-24 09:30
+timestamp=2026-08-24T07:05:02.000Z level=ERROR run=abc message="stream error" providerID=opencode-go modelID=m1 session.id=ses_other002 error.error="AI_RetryError: retries exhausted after 5 attempts"
+LOGEOF
+fx3="$sd/fix3.json"; fixture "$fx3" zzz-lc-fast STALE-SUSPECT builder ALIVE RUNNING
+run_cycle "$sd" "$fx3"
+check "T13 consent-gate classified"   '"class":"CONSENT-GATE-FATAL"' "$sd/events.jsonl"
+check "T13 parked-retrying classified" '"class":"PARKED-RETRYING"' "$sd/events.jsonl"
+check "T13 retry-exhausted classified" '"class":"RETRY-EXHAUSTED-DEAD"' "$sd/events.jsonl"
+check "T13 fatal alert posted same cycle" "\[OBSERVER\]\[FAST\] CONSENT-GATE-FATAL" "$sd/events.jsonl"
+check "T13 attribution to tracked agent" '"agent":"zzz-lc-fast"' "$sd/events.jsonl"
+BEFORE_N=$(grep -c "fastpath-classification" "$sd/events.jsonl")
+run_cycle "$sd" "$fx3"
+AFTER_N=$(grep -c "fastpath-classification" "$sd/events.jsonl")
+if [ "$BEFORE_N" = "$AFTER_N" ]; then printf 'PASS T13 dedup suppresses repeats\n'; PASS=$((PASS+1));
+else printf 'FAIL T13 dedup: %s -> %s classifications\n' "$BEFORE_N" "$AFTER_N"; FAIL=$((FAIL+1)); fi
+unset TEST_OPENCODE_LOG
+
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]
