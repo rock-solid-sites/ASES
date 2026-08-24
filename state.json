@@ -1,6 +1,6 @@
 {
   "next_display_id": 436,
-  "next_comment_id": 2144,
+  "next_comment_id": 2145,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -18373,11 +18373,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-23T22:14:14.307967929Z",
-      "updated_at": "2026-08-24T00:09:05.790874123Z",
+      "updated_at": "2026-08-24T00:09:41.076550293Z",
       "labels": [
         "review"
       ],
       "comments": {
+        "2893bec9-4842-4040-90bc-088719082abb": {
+          "display_id": 2144,
+          "author": "pp3g-d818-independent-second-review-on-433-a-prior-hy3-pass-on",
+          "content": "INDEPENDENT SECOND REVIEW #433 (Zen-variant) — FINDINGS PART 3/3 (F6, F7, F8, F9).\n\nFINDING F6 [MEDIUM] D1-D9 delta claims inherited single-source from #427 without propagating its explicit uncertainty.\n- statement: replan/plan present D1-D9 (fork deltas) as the foundation for R2 parity probes (P0a-P0d) and R3 verdict (REQ-V1). #427 is explicitly a read-only breadth-first probe with 5 WHAT-NOT-TESTED items (§5) and self-rates D1-D3 v2 status as UNKNOWN-NEEDS-PROBE, D3 v2 as Guess. The design docs do NOT carry forward this uncertainty; they present the deltas as established ('behavioral probes from #427 matrix'). The plan's P0 series IS the re-verification (good) but is gated on R2 (late); early phases (DIS, R0, R1) assume the fork/deltas are real without independent check.\n- why-unverified: #427 self-admits it did NOT run the 16-row hang matrix, did NOT probe opencode2 beta, did NOT fetch upstream llm.ts/provider.ts HEAD.\n- cheapest discriminating test: promote at least one independent fork-vs-source delta confirmation (run the 16-row hang matrix from #427) BEFORE R3 gating, not after; and propagate #427's WHAT-NOT-TESTED into the design docs so R3 isn't treated as confirmed.\n- severity-if-wrong: if any D1-D9 is mischaracterized for v2 (e.g. D2/D3 already landed upstream), the R3 verdict gate could be wrong. MEDIUM. COMPOUNDING: if F1 (parser breakage) stands, R2 probes are never created as work units, so D1-D9 are never re-verified and R3 is unsound by cascade. (NEW insight vs hy3: the parser defect breaks the re-verification path itself.)\n\nFINDING F7 [MEDIUM] Track M assumes projects/server/migration-handoff-summary.md runbook exists; not present in reachable scope.\n- statement: replan Track M: 'Path updates handled systematically by projects/server/migration-handoff-summary.md runbook.' No projects/ directory and no migration-handoff-summary.md exists in this worktree/repo. The runbook is outside the swarm's reachable scope (likely a different projects tree). M1 gated on R1, M4 on R0d — both rest on a runbook whose existence/currency is unverified here.\n- why-unverified: not read; existence/claims unconfirmed from reviewer scope.\n- cheapest discriminating test: locate projects/server/migration-handoff-summary.md, confirm it exists, and verify its cutover/parallel-environment claims are current (not themselves stale like permissions.md).\n- severity-if-wrong: if the runbook is missing or stale, Track M gating rests on a phantom; M-track agents would block or operate on absent instructions. MEDIUM. (Confirms hy3 finding G.)\n\nFINDING F8 [LOW] S1/S2/S3 surface taxonomy omits the user-level plugin/config layer and doesn't flag S1 beta-breaking status.\n- statement: S1/S2/S3 classify the three binaries (opencode2 beta / pp3g fork CLI / crosslink-fork CLI). But #427 D9 shows active controls live in user-level plugin ~/.config/opencode/plugins/plugin.ts (grok blacklist) + ~/.config/opencode/opencode.json (chunkTimeout hygiene), which run tonight and survive fork-binary swap — they are NOT classified under S1/S2/S3. R1a classifies tools x {S1,S2,S3}; tools/config in the user-level layer would be misclassified or missed. Also S1 is defined as 'opencode2 beta' without noting #427's finding that the beta is breaking (plugin API broken, provider schema redesigned), which affects R2 P1-P7 probe feasibility.\n- severity: LOW (plan includes the probes; gap is classification completeness + probe-feasibility note). Note for dispatcher. (Extends hy3 finding H with the user-level-plugin gap.)\n\nFINDING F9 [LIMITATION, not a design defect] Installed binary vs source-tree divergence not fully verifiable from reviewer scope.\n- statement: mandate asked to check divergence between installed /home/claude-code/.cargo/bin/crosslink and source /home/claude-code/projects/crosslink. I verified the SOURCE tree's parser grammar (design_doc.rs) and budget module directly. But I could NOT (a) run 'crosslink swarm init --doc' / 'crosslink --version' (not in reviewer allowlist), nor (b) retrieve git log (git is aliased to rtk git, which is denied in this scope). So the installed binary's actual grammar/version is unverified, and git-log drift between binary era and source is unverified.\n- implication: the parser-grammar finding (F1) should be re-confirmed against the INSTALLED crosslink binary before launch, since the binary may predate the source tree's '## Requirements' requirement.\n- this is a reviewer-scope limitation to report, not a defect in the design docs. (Same class as hy3 finding I; additionally git-log is blocked by the rtk alias here.)",
+          "created_at": "2026-08-24T00:09:41.069757040Z",
+          "kind": "observation",
+          "signed_by": "SHA256:VGwMZmRn+VH/h+u9cCpYEUAHZKYqStEYNmWI2937cOM",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgVb2u6mHEDn2APO2Gb7FwfAR0xP/tXB4RKhjHKSfMSXcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABARUPcmDDu/YHugwII6AM64Eij1wW4JWH+C7CTYghKN485j3uhoTTOwrnI4jDV9G6GqH6FVOeJY3h7lk9xtzypDA=="
+        },
         "3326faa7-8ebb-49ac-9f2f-4c8bf3d83619": {
           "display_id": 2141,
           "author": "pp3g-d818-independent-second-review-on-433-a-prior-hy3-pass-on",
@@ -27108,8 +27117,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-24T00:09:32.028915394Z",
-    "agent_id": "pp3g-JUF0-dedicated-pre-positioned-phase-1-auditor-for-issue",
-    "agent_seq": 5
+    "timestamp": "2026-08-24T00:09:41.076550293Z",
+    "agent_id": "pp3g-d818-independent-second-review-on-433-a-prior-hy3-pass-on",
+    "agent_seq": 4
   }
 }
