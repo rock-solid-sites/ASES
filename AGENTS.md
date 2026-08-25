@@ -271,7 +271,33 @@ Agents should read the synthesis before making implementation decisions that aff
 
 The operator is not a programmer and does not assess shell commands.
 
-Give complete, copy-paste-ready commands including any needed cd prefix. Raw pasted output blocks are the expected response format; parsing them is the agent's job. Explain significance in plain language. Never delegate command-safety assessment to the operator.
+## Execution Boundary (Doctrine, issue #462 — binding)
+
+* **[D1]** Any action executable in a shell, a config file, an admin UI, or over SSH is **agent work by default**. The orchestrator delegates it; the operator never performs it. The operator never runs shell commands, admin consoles, SSH sessions, or vendor consoles (cloud dashboards, OAuth wizards, rclone-style config menus).
+* **[D2]** The operator surface is exactly: decisions, priorities, approvals, reviewing results, and — where a task irreducibly requires a human identity action (e.g. clicking a Google consent button) — that ONE action, presented as a single step.
+* **[D3]** If a task in flight discovers it needs more than one such operator action, the workflow is WRONG: stop, re-plan for agent delegation, and re-present. Never escalate operator involvement to compensate for delegation failure.
+* **[D4]** Multi-step terminal sequences, menu navigation, port flags, and config-file editing are never given to the operator, even as copy-paste blocks.
+
+Raw pasted output blocks are the expected response format; parsing them is the agent's job. Explain significance in plain language. Never delegate command-safety assessment to the operator.
+
+Where an irreducible operator action exists (e.g. a `git push` that triggers deploys, or a consent click), present it as ONE single step — nothing more.
+
+## Secrets Handling
+
+Agents NEVER ask the operator for codes, keys, tokens, or any secret inside the conversation. The operator-preferred pattern: the operator copies the secret into a shell command or file ON THE MACHINE themselves (so it is available to agents at runtime) without it entering chat context; agents are told only WHERE to find it (a path or variable name), never its value. Dispatch specs must name a secret-placement location (e.g. a file under `/tmp/opencode/secrets/` or an env var set by the operator) whenever external credentials are involved.
+
+## Startup Verification
+
+No agent launch may be reported as healthy at t=0. Mandatory sequence for every launch:
+
+1. launch;
+2. sleep 30 seconds;
+3. check the opencode.log tail for the session — creation line present, no `AI_APICallError` / retry-after / consent-gate signature, tracking heartbeats advancing — AND check `.kickoff-status`;
+4. only then report status.
+
+Evidence from the 2026-08-24 forensics shows agent death signatures appear in opencode.log within seconds of launch (consent-gate fatal ~6s; rate-limit parking within one cycle). Seconds-scale log evidence is therefore authoritative for launch-window checks; staleness thresholds referencing 45–90 minute budgets are SUPERSEDED for this purpose (interim procedure until Observer F2 fast-path is live).
+
+---
 
 Agents proactively propose git push moments: after merge clusters, before cleanup or migration operations, and at session end.
 

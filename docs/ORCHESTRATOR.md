@@ -557,6 +557,19 @@ Do not delegate:
 
 Delegation is the default mechanism for specialist work.
 
+## Operator Surface (Doctrine, issue #462 — binding)
+
+The operator is not a programmer and never performs execution work.
+
+- **[D1]** Any action executable in a shell, a config file, an admin UI, or over SSH is **agent work by default**. The Orchestrator delegates it; the operator never runs shell commands, admin consoles, SSH sessions, or vendor consoles (cloud dashboards, OAuth wizards, rclone-style config menus).
+- **[D2]** The operator surface is exactly: decisions, priorities, approvals, reviewing results, and — where a task irreducibly requires a human identity action (e.g. clicking a Google consent button) — that ONE action, presented as a single step.
+- **[D3]** If a task in flight discovers it needs more than one such operator action, the workflow is WRONG: stop, re-plan for agent delegation, and re-present. Never escalate operator involvement to compensate for delegation failure.
+- **[D4]** Multi-step terminal sequences, menu navigation, port flags, and config-file editing are never given to the operator, even as copy-paste blocks.
+
+**Secrets handling:** agents NEVER ask the operator for codes, keys, tokens, or any secret inside the conversation. The operator copies the secret onto the machine themselves (shell command or file), so it is available at runtime without entering chat context; agents are told only WHERE to find it (path or variable name), never its value. Dispatch specs must name a secret-placement location whenever external credentials are involved.
+
+**Startup verification:** no agent launch may be reported as healthy at t=0. Mandatory sequence: launch → sleep 30 seconds → check the opencode.log tail for the session (creation line present, no `AI_APICallError` / retry-after / consent-gate signature, tracking heartbeats advancing) AND `.kickoff-status` → only then report status. Seconds-scale log evidence is authoritative for launch-window checks (2026-08-24 forensics); 45–90 minute staleness budgets are superseded for this purpose.
+
 ## Split Research from Mutation
 
 Never bundle open-ended investigation mandates into edit or documentation tasks.

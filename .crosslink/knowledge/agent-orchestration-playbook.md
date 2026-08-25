@@ -4,7 +4,7 @@ tags: ["orchestration", "kickoff", "swarm", "workflow"]
 sources: []
 contributors: ["ASES"]
 created: 2026-08-01
-updated: 2026-08-18
+updated: 2026-08-25
 ---
 
 # Agent Orchestration Playbook
@@ -32,7 +32,7 @@ active-issue-gated, not a hard block. Pushing remains operator-only everywhere.
 
 | Role | Responsibility | Forbidden |
 |------|---------------|-----------|
-| **Operator (Human)** | Directs, decides, approves architecture, holds production secrets | Never handed code to read/write |
+| **Operator (Human)** | Directs, decides, approves, reviews results. **Operator profile (#462 D1-D4):** never runs shell commands, admin consoles, SSH sessions, or vendor consoles — all execution is agent work by default; surface is decisions/priorities/approvals/review plus at most ONE irreducible human-identity action presented as a single step; >1 such action = the workflow is wrong, re-plan for delegation. Secrets never enter chat: the operator places them on the machine themselves and agents learn only the location (path/env var), never the value. No launch is reported healthy at t=0: launch → sleep 30s → opencode.log tail + `.kickoff-status` check → then report | Never handed code to read/write, multi-step terminal sequences, menu navigation, port flags, config-file edits, or secret values |
 | **Orchestrator (Main Session)** | Plans, delegates via kickoff/swarm, reviews at gates, handles structural tasks | Never implements, reviews own work, or silently takes over failed agents |
 | **Workers (Kickoff/Swarm Agents)** | Execute specific implementation tickets in isolated worktrees | Never plan, review, or merge to master |
 
