@@ -1563,9 +1563,144 @@ def act_killed(state, row, rec, reason):
                "agent": agent, "issue": issue, "chain": chain,
                "notified": notified})
 
+# ---------------------------------------------------------------------------
+# C3 (#460 v1.1): CONVERGENT-EVIDENCE GATE ON THE TERMINATION PATH.
+#
+# Binding evidence precedence for every Observer-initiated termination:
+#
+#   P1 AUTHORITATIVE / CONTRACTUAL - any ONE qualifies as the required
+#      non-progress witness:
+#        hub-position recency ... working-issue position stamp identical
+#                                 across two gate evaluations (static hub
+#                                 = nothing posted as progress)
+#        commit state .......... last worktree commit older than
+#                                OBSERVER_COMMIT_STALE_MINS (worktrees
+#                                WITH commits; age=None for commit-less
+#                                worktrees is UNDECIDABLE, never a signal)
+#        process exit .......... tmux pane dead (positive exit status)
+#        contractual deadline .. parsed retry-after resume_at expired
+#                                (provider contract exhausted; the FIX 4
+#                                fresh-signature park-extension runs
+#                                upstream of this gate)
+#   P2 CORROBORATING INFERENCE - context only, NEVER sufficient:
+#        pane-hash silence, mtime walks, quiet windows (the liveness
+#        scanner classes feeding LIKELY-FROZEN / STALE-SUSPECT)
+#   P3 ABSENCE / SILENCE - ranks last:
+#        may contribute (an empty attributed tail is vacuously quiet) but
+#        NEVER independently triggers termination
+#
+# A destructive transition therefore requires:
+#     >= 1 P1 non-progress signal  AND  log-tail quiet.
+# Log-tail quiet means NO observed fresh attributed activity:
+#   - a MISSING attributed tail is silence-class (vacuously quiet; the P1
+#     requirement still stands),
+#   - a PRESENT tail needs a prior baseline AND an unchanged last line AND
+#     no live rate-limit signature; the FIRST sighting of a tail is
+#     UNDECIDABLE (held) - this is the veto window for the #473 live-
+#     misfire class: self-throttling collectors look frozen to pane hashes
+#     while their logs keep advancing, and a CHANGED last line vetoes
+#     termination outright.
+# Pane-hash silence alone NEVER terminates, no matter how often it is
+# confirmed. The six-class verdict taxonomy is UNCHANGED; only the
+# evidence sourcing and precedence on the transition path are new.
+# ---------------------------------------------------------------------------
+
+def hub_position_sig(pos):
+    if not pos:
+        return None
+    return "{0}|{1}".format(pos.get("stamp"), pos.get("kind"))
+
+def convergent_gate(state, agent, rec, row):
+    """Evaluate the convergent-evidence gate for a termination candidate.
+
+    Records per-agent baselines on EVERY evaluation (in rec, persisted by
+    the caller); a missing baseline makes a history-dependent signal
+    unclaimable THIS cycle - fail-open toward continued supervision,
+    fail-closed toward destruction. Returns a dict describing the decision.
+    """
+    li = agent_log_section(agent)
+    tail = li.get("tail") or []
+    last_line = tail[-1] if tail else None
+    prev = rec.get("gate_log_last") or {}
+    if not tail:
+        # silence-class: absence contributes nothing, vetoes nothing
+        tail_changed = False
+        log_quiet = True
+    elif prev.get("seen"):
+        tail_changed = last_line != prev.get("line")
+        log_quiet = (not tail_changed) and (not li.get("rate_limited"))
+    else:
+        # first sighting of a live tail: undecidable this cycle
+        tail_changed = False
+        log_quiet = False
+    rec["gate_log_last"] = {"seen": bool(tail), "line": last_line}
+
+    signals = []
+
+    # P1 hub-position recency (needs two evaluations)
+    pos = last_hub_position(working_issue(agent) or FLAG_ISSUE)
+    sig = hub_position_sig(pos)
+    prev_sig = rec.get("gate_hub_sig")
+    if sig is not None and prev_sig is not None and sig == prev_sig:
+        signals.append("hub-position-static")
+    rec["gate_hub_sig"] = sig
+
+    # P1 commit state (point-in-time; None = undecidable, not stale).
+    # ALWAYS re-probed here: a cached age would let a once-fresh commit
+    # stay fresh forever in rec, defeating convergence after the agent
+    # actually stops committing.
+    age = commit_age_min(agent)
+    if age is not None:
+        rec["commit_age_min"] = age
+    if age is not None and age > COMMIT_STALE_MINS:
+        signals.append("commit-stale")
+
+    # P1 process exit (positive exit-status evidence)
+    status, _exit_code = pane_status(agent)
+    if status == "dead":
+        signals.append("process-exit")
+
+    # P1 contractual deadline (expired retry-after resume window)
+    resume = rec.get("resume_at_epoch")
+    if isinstance(resume, (int, float)) and time.time() >= resume:
+        signals.append("resume-contract-expired")
+
+    allow = bool(signals) and log_quiet
+    return {"allow": allow, "signals": signals, "log_quiet": log_quiet,
+            "tail_changed": tail_changed,
+            "rate_limited": bool(li.get("rate_limited"))}
+
 def act_frozen(state, row, rec, trigger_detail):
     agent = row["agent"]
     issue = working_issue(agent) or FLAG_ISSUE
+    # C3 (#460 v1.1): THE GATE SITS ON THE TERMINATION PATH - invoked here,
+    # before any destructive capability below (kickoff_stop /
+    # kickoff_cleanup). A denial downgrades this transition to
+    # notification-only for the cycle; baselines persist in rec so the
+    # next cycle can converge.
+    gate = convergent_gate(state, agent, rec, row)
+    if not gate["allow"]:
+        fp = hashlib.sha256(json.dumps(
+            {"t": trigger_detail, "s": sorted(gate["signals"]),
+             "q": gate["log_quiet"], "c": gate["tail_changed"]},
+            sort_keys=True).encode("utf-8", "replace")).hexdigest()[:12]
+        alerted = state.setdefault("gate_held_alerted", {})
+        log_event({"event": "termination-gate-held", "agent": agent,
+                   "trigger": trigger_detail, "gate": gate})
+        if alerted.get(agent) != fp:
+            alerted[agent] = fp
+            post_comment(state, issue,
+                         "[OBSERVER] TERMINATION HELD (convergent-evidence "
+                         "gate): agent={0} trigger={1}. Authoritative "
+                         "non-progress signals: {2}; log-tail quiet={3} "
+                         "(tail changed={4}). Pane-hash silence alone "
+                         "never terminates (#473); re-evaluating next "
+                         "cycle.".format(
+                             agent, trigger_detail,
+                             ", ".join(gate["signals"]) or "none-yet",
+                             gate["log_quiet"], gate["tail_changed"]))
+        return
+    state.setdefault("gate_held_alerted", {}).pop(agent, None)
     ev = compose_transition_evidence(state, row, rec, "terminated")
     loginfo = ev["loginfo"]
     bundle, hashes = ev["bundle"], ev["sha256"]

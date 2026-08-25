@@ -139,6 +139,14 @@ make_stale_wt() { # make_stale_wt <root> <agent> [orch_id]
     printf '%s\n' "$orch" > "$root/.worktrees/$agent/.owner-orchestrator"
 }
 
+# C3 helper: rewrite the last commit's dates so commit_age crosses the
+# staleness threshold (tree unchanged).
+backdate_last_commit() { # backdate_last_commit <worktree-path>
+    GIT_AUTHOR_DATE="2026-08-20T10:00:00" \
+        GIT_COMMITTER_DATE="2026-08-20T10:00:00" \
+        git -C "$1" commit -q --amend --no-edit
+}
+
 # ---------------------------------------------------------------------------
 note "T1 COMPLETED transition (deliverable gate PASSES -> cleanup fires)"
 sd="$TESTS/t1"; root="$TESTS/t1-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
@@ -271,8 +279,12 @@ rec["resume_at_epoch"] = 1
 with open(path, "w") as fh: json.dump(state, fh)
 PYEOF
 fx3="$sd/fix3.json"; fixture "$fx3" zzz-lc-parked LIKELY-FROZEN builder ALIVE RUNNING
+# C3: the clean tail was first sighted at this expiry attempt -> log-quiet
+# undecidable -> gate holds; the SECOND expiry evaluation converges.
 run_cycle "$sd" "$fx3"
 check "T5 expiry reclassified frozen" "parked-expired" "$sd/events.jsonl"
+check_absent "T5 first expiry held by gate" "frozen-termination" "$sd/events.jsonl"
+run_cycle "$sd" "$fx3"
 check "T5 termination after clean-tail expiry" "frozen-termination" "$sd/events.jsonl"
 unset TEST_OPENCODE_LOG
 
@@ -301,14 +313,27 @@ unset TEST_REPO_ROOT
 
 # ---------------------------------------------------------------------------
 note "T7 STALE-SUSPECT warning cycle then escalation"
-sd="$TESTS/t7"; rm -rf "$sd"; mkdir -p "$sd"
+# C3-aware sequence: fresh commit -> warning cycle; escalation fires but
+# the convergent gate HOLDS it (no P1 yet); once the commit goes stale the
+# same escalation converges and terminates.
+sd="$TESTS/t7"; root="$TESTS/t7-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-stale
+export TEST_REPO_ROOT="$root"
 fx="$sd/fix.json"; fixture "$fx" zzz-lc-stale STALE-SUSPECT builder ALIVE RUNNING
 run_cycle "$sd" "$fx"
 check "T7 first cycle warning only"   "stale-warning" "$sd/events.jsonl"
 check_absent "T7 no escalation yet"   "frozen-termination" "$sd/events.jsonl"
 run_cycle "$sd" "$fx"
-check "T7 second cycle escalates"     "STALE-SUSPECT escalated" "$sd/events.jsonl"
-check "T7 termination record posted"  "frozen-termination" "$sd/events.jsonl"
+# fresh commit grants one extra grace cycle (F3)
+check_absent "T7 grace cycle holds"   "STALE-SUSPECT escalated" "$sd/events.jsonl"
+run_cycle "$sd" "$fx"
+check "T7 escalation fires"           "STALE-SUSPECT escalated" "$sd/events.jsonl"
+check_absent "T7 gate holds unconfirmed escalation" "frozen-termination" "$sd/events.jsonl"
+check "T7 gate-held recorded"         '"event":"termination-gate-held"' "$sd/events.jsonl"
+backdate_last_commit "$root/.worktrees/zzz-lc-stale"
+run_cycle "$sd" "$fx"
+check "T7 termination after convergence" "frozen-termination" "$sd/events.jsonl"
+unset TEST_REPO_ROOT
 
 # ---------------------------------------------------------------------------
 note "T8 merge detection + push suggestion + doctrine DIS trigger (fixture git repo)"
@@ -355,10 +380,15 @@ unset TEST_REPO_ROOT
 
 # ---------------------------------------------------------------------------
 note "T9 circuit breaker caps mutating actions"
-sd="$TESTS/t9"; rm -rf "$sd"; mkdir -p "$sd"
+# C3 refit: stale-commit worktree lets the convergent gate ADMIT the
+# termination so the breaker window is actually exercised by stop/cleanup.
+sd="$TESTS/t9"; root="$TESTS/t9-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_stale_wt "$root" zzz-lc-brk
+export TEST_REPO_ROOT="$root"
 fx="$sd/fix.json"; fixture "$fx" zzz-lc-brk LIKELY-FROZEN builder ALIVE RUNNING
 run_cycle "$sd" "$fx" "OBSERVER_MAX_ACTIONS_PER_HOUR=1"
 check "T9 breaker halt event"         "breaker-halt" "$sd/events.jsonl"
+unset TEST_REPO_ROOT
 
 # ---------------------------------------------------------------------------
 note "T10 consecutive-error cap halts loop"
@@ -940,6 +970,63 @@ else printf 'FAIL T24 act mode started without an orchestrator identity\n'; FAIL
 check "T24 fatal event recorded"       '"kind":"act-mode-requires-orchestrator-id"' "$sd/events.jsonl"
 if grep -q "FATAL" "$sd/stderr.txt" 2>/dev/null; then printf 'PASS T24 loud stderr fatal\n'; PASS=$((PASS+1));
 else printf 'FAIL T24 no loud stderr fatal\n'; FAIL=$((FAIL+1)); fi
+
+# ---------------------------------------------------------------------------
+note "T25 pane-hash silence alone NEVER terminates (C3: #473 misfire class)"
+# Fresh-commit worktree: NO authoritative non-progress signal exists, so
+# repeated LIKELY-FROZEN confirmation must hold the gate forever.
+sd="$TESTS/t25"; root="$TESTS/t25-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-panealone
+export TEST_REPO_ROOT="$root"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-panealone LIKELY-FROZEN builder ALIVE RUNNING
+run_cycle "$sd" "$fx"
+run_cycle "$sd" "$fx"
+run_cycle "$sd" "$fx"
+check "T25 gate held events recorded" '"event":"termination-gate-held"' "$sd/events.jsonl"
+N=$(grep -c "frozen-termination" "$sd/events.jsonl")
+test "$N" -eq 0 && { printf 'PASS T25 repeated pane-silence never terminates\n'; PASS=$((PASS+1));
+} || { printf 'FAIL T25 terminated on pane silence alone (%s records)\n' "$N"; FAIL=$((FAIL+1)); }
+tripwire_clean "T25" "$sd" "$root" "zzz-lc-panealone"
+# (b) advancing log VETOES even when a P1 signal exists: stale commit +
+# live attributed tail whose last line changes between evaluations.
+sd="$TESTS/t25b"; root="$TESTS/t25b-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_stale_wt "$root" zzz-lc-logveto
+export TEST_REPO_ROOT="$root"
+cat > "$sd/agent.log" <<'LOGEOF'
+timestamp=2026-08-24T07:00:00.000Z level=INFO run=abc message=tracking cwd=/tmp/opencode/observer-tests/t25b-root/.worktrees/zzz-lc-logveto session.id=ses_logveto001
+timestamp=2026-08-24T07:00:01.000Z level=INFO run=abc message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode-go llm.model=test-model-free session.id=ses_logveto001
+LOGEOF
+export TEST_OPENCODE_LOG="$sd/agent.log"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-logveto LIKELY-FROZEN builder ALIVE RUNNING
+run_cycle "$sd" "$fx"          # first sighting of the tail: undecidable -> held
+printf 'timestamp=2026-08-24T07:03:00.000Z level=INFO run=abc message="agent-loop step 42 still working" session.id=ses_logveto001\n' >> "$sd/agent.log"
+run_cycle "$sd" "$fx"          # tail changed: fresh activity VETOES despite P1
+check "T25b gate held on live tail" '"event":"termination-gate-held"' "$sd/events.jsonl"
+N=$(grep -c "frozen-termination" "$sd/events.jsonl")
+test "$N" -eq 0 && { printf 'PASS T25b advancing log vetoes termination\n'; PASS=$((PASS+1));
+} || { printf 'FAIL T25b killed a working agent (%s records)\n' "$N"; FAIL=$((FAIL+1)); }
+unset TEST_OPENCODE_LOG
+unset TEST_REPO_ROOT
+
+# ---------------------------------------------------------------------------
+note "T26 convergence-kills: pane-frozen + P1 + quiet log terminates (C3)"
+sd="$TESTS/t26"; root="$TESTS/t26-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_stale_wt "$root" zzz-lc-converge
+export TEST_REPO_ROOT="$root"
+cat > "$sd/agent.log" <<'LOGEOF'
+timestamp=2026-08-24T07:00:00.000Z level=INFO run=abc message=tracking cwd=/tmp/opencode/observer-tests/t26-root/.worktrees/zzz-lc-converge session.id=ses_converge001
+timestamp=2026-08-24T07:00:01.000Z level=INFO run=abc message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode-go llm.model=test-model-free session.id=ses_converge001
+LOGEOF
+export TEST_OPENCODE_LOG="$sd/agent.log"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-converge LIKELY-FROZEN builder ALIVE RUNNING
+run_cycle "$sd" "$fx"          # baseline: tail sighted, held
+check "T26 first evaluation held" '"event":"termination-gate-held"' "$sd/events.jsonl"
+check_absent "T26 not yet terminated" "frozen-termination" "$sd/events.jsonl"
+run_cycle "$sd" "$fx"          # same tail + stale commit -> converges
+check "T26 converged termination fired" "frozen-termination" "$sd/events.jsonl"
+check "T26 commit-stale signal cited" "commit-stale" "$sd/events.jsonl"
+unset TEST_OPENCODE_LOG
+unset TEST_REPO_ROOT
 
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]
