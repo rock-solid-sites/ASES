@@ -670,5 +670,77 @@ check "T19 cycle executed after recovery" '"event":"cycle"' "$sd/events.jsonl"
 if [ ! -f "$sd/observer.lock" ]; then printf 'PASS T19 own lock released on exit\n'; PASS=$((PASS+1));
 else printf 'FAIL T19 own lock leaked\n'; FAIL=$((FAIL+1)); fi
 
+# ---------------------------------------------------------------------------
+note "T20a saturated mutation window denies cleanup LOUDLY (shakedown #460)"
+# Production failure reproduction: 2026-08-25 05:26-05:31 the leftover-fleet
+# triage consumed all 24 window slots; the healthy builder YBKJ legitimate
+# cleanup at 05:54:54 was then denied by the breaker SILENTLY (no subprocess,
+# no out/err event, halt event already fired) - surfacing only as
+# cleanup_ok:false. Pre-seed the exact production state (full window) and
+# require the deny to emit its own cleanup event.
+sd="$TESTS/t20a"; root="$TESTS/t20a-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-denied
+export TEST_REPO_ROOT="$root"
+python3 - "$sd/manager-state.json" <<'PYEOF'
+import json, sys, time
+now = time.time()
+with open(sys.argv[1], "w") as fh:
+    json.dump({"agents": {}, "action_window": [now - i for i in range(24)]}, fh)
+PYEOF
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-denied DONE-CONFIRMED builder EXITED DONE
+run_cycle "$sd" "$fx"
+check "T20a deny emits cleanup event"  '"denied": *"breaker-cap"\|"denied":"breaker-cap"' "$sd/events.jsonl"
+check_absent "T20a command never attempted" "cleanup-dry-run" "$sd/events.jsonl"
+check "T20a transition-action failed" '"cleanup_ok": *false\|"cleanup_ok":false' "$sd/events.jsonl"
+
+# ---------------------------------------------------------------------------
+note "T20b successful cleanup resolves prior force-sweep flag (shakedown #460)"
+# The pending-sweep file was append-only: a successful cleanup left stale
+# flags for operator hand-reconciliation. Faithful test needs a REAL cleanup
+# execution (dry-run never removes the worktree, so orphan would stay true
+# and resolution must NOT fire). Hermetic real-mode cycle: PATH-shimmed
+# crosslink stub simulates the cleanup side effect (worktree removal) and
+# no-ops comments; admission checks off; backup off.
+sd="$TESTS/t20b"; root="$TESTS/t20b-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-resv
+printf '2026-08-25T05:54:54+00:00 zzz-lc-resv completed-but-worktree-remains-after-cleanup\n' \
+    > "$sd/force-sweep-pending.txt"
+mkdir -p "$sd/bin"
+cat > "$sd/bin/crosslink" <<STUBEOF
+#!/usr/bin/env bash
+# test stub: real-mode stand-in for crosslink (hermetic; no hub contact)
+if [ "\$1" = "kickoff" ] && [ "\$2" = "cleanup" ]; then
+    agent=""
+    prev=""
+    for a in "\$@"; do
+        if [ "\$prev" = "--only" ]; then agent="\$a"; fi
+        prev="\$a"
+    done
+    for slug in \${agent//,/ }; do
+        rm -rf "$root/.worktrees/\$slug"
+    done
+    printf '{"cleaned": ["%s"], "dry_run": false}\n' "\$agent"
+    exit 0
+fi
+exit 0
+STUBEOF
+chmod +x "$sd/bin/crosslink"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-resv DONE-CONFIRMED builder EXITED DONE
+(
+    export OBSERVER_STATE_DIR="$sd" OBSERVER_INPUT_JSON="$fx"
+    export OBSERVER_OPENCODE_LOG="$TESTS/empty.log"
+    export OBSERVER_REPO_ROOT="$root"
+    unset OBSERVER_DRY_RUN
+    export OBSERVER_BACKUP_ENABLED=0 OBSERVER_ADMISSION_ENABLED=0
+    export PATH="$sd/bin:$PATH"
+    cd /
+    bash "$MANAGER" --once >/dev/null 2>&1
+)
+check "T20b cleanup really executed"    '"event": *"cleanup"\|"event":"cleanup"' "$sd/events.jsonl"
+check "T20b cleanup rc zero"            '"rc": *0\|"rc":0' "$sd/events.jsonl"
+test ! -d "$root/.worktrees/zzz-lc-resv" && { printf 'PASS T20b worktree removed by cleanup\n'; PASS=$((PASS+1)); } || { printf 'FAIL T20b worktree still present\n'; FAIL=$((FAIL+1)); }
+check "T20b resolution event emitted"   '"event":"force-sweep-resolved"' "$sd/events.jsonl"
+check "T20b resolution line appended"   "resolved-by-cleanup-ok" "$sd/force-sweep-pending.txt"
+
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]

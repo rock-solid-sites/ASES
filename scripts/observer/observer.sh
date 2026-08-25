@@ -941,6 +941,20 @@ def evidence_summary_line(ev):
 
 def kickoff_cleanup(state, agent):
     if not breaker_allow(state, "cleanup:" + agent):
+        # Shakedown fix (#460, 2026-08-25): this early-return was SILENT.
+        # During the 05:26-05:31 leftover-fleet triage the 24/hour mutation
+        # budget was fully consumed by comments; when the healthy builders
+        # legitimate cleanup fired at 05:54:54 the breaker denied it with
+        # ZERO trace - no subprocess ran (so no out/err existed to log) and
+        # the once-per-hour breaker-halt event had already fired at
+        # 05:31:38. The failure surfaced only as cleanup_ok:false in the
+        # transition-action event, i.e. archaeology. Every early-return now
+        # emits the cleanup event with an explicit denial reason so a
+        # denied cleanup is bounded and evidenced, never silent.
+        log_event({"event": "cleanup", "agent": agent, "rc": None,
+                   "denied": "breaker-cap",
+                   "out": "",
+                   "err": "mutation cap reached; cleanup not attempted"})
         return False
     if DRY_RUN:
         log_event({"event": "cleanup-dry-run", "agent": agent,
@@ -983,6 +997,34 @@ def flag_for_sweep(agent, reason):
     except OSError as exc:
         log_event({"event": "force-sweep-flag-failed", "agent": agent,
                    "err": str(exc)})
+
+def resolve_sweep(agent):
+    """Shakedown #460 (2026-08-25): the pending-sweep file was append-only
+    with no code path ever resolving an entry - a successful cleanup left
+    the stale flag behind for the operator to reconcile by hand. When a
+    cleanup succeeds and no orphan remains, close the loop: append an
+    explicit resolution line (only if the agent has an unresolved flag)
+    plus a force-sweep-resolved event."""
+    try:
+        if not os.path.isfile(SWEEP_FILE):
+            return False
+        last = None
+        with open(SWEEP_FILE, encoding="utf-8") as fh:
+            for ln in fh:
+                parts = ln.split()
+                if len(parts) >= 3 and parts[1] == agent:
+                    last = parts[-1]
+        if last is None or last.startswith("resolved-"):
+            return False
+        line = "{0} {1} resolved-by-cleanup-ok\n".format(now_iso(), agent)
+        with open(SWEEP_FILE, "a", encoding="utf-8") as fh:
+            fh.write(line)
+        log_event({"event": "force-sweep-resolved", "agent": agent})
+        return True
+    except OSError as exc:
+        log_event({"event": "force-sweep-resolve-failed", "agent": agent,
+                   "err": str(exc)})
+        return False
 
 def append_staging_row(row):
     row.setdefault("ts", now_iso())
@@ -1075,6 +1117,11 @@ def act_completed(state, row, rec):
         if orphan:
             flag_for_sweep(agent,
                            "completed-but-worktree-remains-after-cleanup")
+        elif cleanup_ok:
+            # Shakedown #460: successful cleanup closes any prior
+            # force-sweep flag for this agent (resolution flows through
+            # code, not operator hand-reconciliation).
+            resolve_sweep(agent)
     else:
         flag_for_sweep(agent,
                        "completed-deliverable-unverified-worktree-preserved")
