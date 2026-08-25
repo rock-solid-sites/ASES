@@ -924,6 +924,8 @@ run_tripwire_cycle "$sd" "$fx" "OBSERVER_MODE=act" \
 check "T22 authority check recorded mismatch" '"reason":"owner-mismatch"' "$sd/events.jsonl"
 check "T22 downgrade names would-be action" '"event":"authority-downgraded","agent":"zzz-lc-crossown","would_be_action":"kickoff_cleanup"' "$sd/events.jsonl"
 check "T22 actual owner named in event" '"owner_orchestrator":"sibling-orchestrator-domain"' "$sd/events.jsonl"
+# C4: the TERMINAL transition event itself must carry the would-be action
+check "T22 terminal event carries would_be_action" '"would_be_action":"kickoff_cleanup"' "$sd/events.jsonl"
 if grep -q "AUTHORITY.*sibling-orchestrator-domain" "$sd/comments.txt" 2>/dev/null; then
     printf 'PASS T22 notification names actual owner\n'; PASS=$((PASS+1))
 else
@@ -1026,6 +1028,29 @@ run_cycle "$sd" "$fx"          # same tail + stale commit -> converges
 check "T26 converged termination fired" "frozen-termination" "$sd/events.jsonl"
 check "T26 commit-stale signal cited" "commit-stale" "$sd/events.jsonl"
 unset TEST_OPENCODE_LOG
+unset TEST_REPO_ROOT
+
+# ---------------------------------------------------------------------------
+note "T27 authority/evidence facts present on terminal paths (C4)"
+# (a) FAILED transition, owner unknown: bundle carries authority.json with
+# owner=unknown + mode; terminal event carries notified rc + mode + owner.
+sd="$TESTS/t27"; rm -rf "$sd"; mkdir -p "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-evfact DEAD-UNMARKED builder SESSION-GONE RUNNING
+run_cycle "$sd" "$fx"
+ls "$sd/evidence/zzz-lc-evfact/"*-failed/authority.json >/dev/null 2>&1 && { printf 'PASS T27 authority.json in bundle\n'; PASS=$((PASS+1)); } || { printf 'FAIL T27 authority.json missing from bundle\n'; FAIL=$((FAIL+1)); }
+check "T27 bundle owner unknown"       '"owner_orchestrator": *"unknown"\|"owner_orchestrator":"unknown"' "$sd/evidence/zzz-lc-evfact/"*-failed/authority.json
+check "T27 bundle carries mode"        '"mode"' "$sd/evidence/zzz-lc-evfact/"*-failed/authority.json
+check "T27 terminal event has notified rc" '"action":"failed","agent":"zzz-lc-evfact","issue":"999999","reason":.*"notified":\(true\|false\),"mode":"observe"' "$sd/events.jsonl"
+check "T27 terminal event names owner" '"owner_orchestrator":"unknown"' "$sd/events.jsonl"
+# (b) COMPLETED transition with a stamped worktree: authority.json names
+# the actual owner orchestrator.
+sd="$TESTS/t27b"; root="$TESTS/t27b-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-evown
+export TEST_REPO_ROOT="$root"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-evown DONE-CONFIRMED builder EXITED DONE
+run_cycle "$sd" "$fx"
+check "T27b bundle names real owner"   '"owner_orchestrator": *"obs-test-orchestrator"\|"owner_orchestrator":"obs-test-orchestrator"' "$sd/evidence/zzz-lc-evown/"*-completed/authority.json
+check "T27b staging row carries owner+mode" '"owner_orchestrator":"obs-test-orchestrator"' "$sd/model-evidence-staging.jsonl"
 unset TEST_REPO_ROOT
 
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
