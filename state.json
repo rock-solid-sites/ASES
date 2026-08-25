@@ -1,6 +1,6 @@
 {
   "next_display_id": 472,
-  "next_comment_id": 2507,
+  "next_comment_id": 2508,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -23095,7 +23095,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T02:06:41.685837152Z",
-      "updated_at": "2026-08-25T05:28:01.431045942Z",
+      "updated_at": "2026-08-25T05:31:26.172014804Z",
       "labels": [
         "review"
       ],
@@ -23153,6 +23153,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:yJqhVs6VvSA+R/sRTHH+7fRyRM6vGnIAKr5wwzBuj0Q",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbuqwMJup+uI/6mBaINp3WLN626geZ1OtlycfDKNmaL4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAogwLtHmr/+7ZK/M5p2j+ZoTNK6lQdATIv7rWQSG/gjGqkRi4V4TnZy3blKr/YrPgl9QmG1TLEaViRHBrkA88Ag=="
+        },
+        "7e5a6edb-4187-48be-be0f-0a6f0250dd20": {
+          "display_id": 2507,
+          "author": "pp3g-O8rg-verification-of-fix-pass-short-the-six-blockers-you",
+          "content": "[result] VERDICT: ACCEPT-FOR-SHAKEDOWN — 5 of 6 fix points CLOSED, 1 PARTIAL, 0 NOT-CLOSED (on the directly-addressed items), no new defects introduced by the fixes.\n\nReview method: read observer.sh (2847 ln) at 5cbfbc86 via git show; ran rtk git diff 1a23ab42..5cbfbc86 (350+/65-); bash -n clean on both files; executed harness: 120/122 from proper directory structure (2 fails = T16 issue-exists/issue-claimed CWD-hermeticity, same root cause as original F20, builder 98/98 in-repo confirmed).\n\n=== FIX-BY-FIX VERDICT ===\n\nF1 (parked-expiry re-verification) — CLOSED\nCode at ~lines 1388-1423: when resume_at expires, loginfo() re-scans attributed log tail. If rate_limited is True, park is extended with resume_at = max(parsed, now + grace_floor) where grace_floor = PARKED_DEFAULT_MINS. Kill requires expiry AND no live parking evidence. Exactly what was demanded. Test T5 now covers both paths: fresh-signature-extends-park (PASS) and clean-tail-allows-kill (PASS), including a floor-check that the extension respects max(parsed, grace).\n\nF2 (watermark held on sync failure) — CLOSED\nThree sub-fixes verified: (a) commit_watermarks() called ONLY when sync GREEN or local-mode-acknowledged (~lines 2297, 2330). Sync RED holds ALL watermarks. (b) sync_backlog accumulates failed artifacts; next pass retries pending_rels = new_rels UNION backlog. Failed pass re-stamps last_run_ts = now - interval + RETRY_MINS (default 15), not full interval. (c) backup_alert fires per deduped fingerprint on hot-copy/verify-export/sync failures. sync-pending.log now written on both failure AND local-mode paths. Test T15 verifies local-mode ack event (backup-sync-pending). +17 checks from original baseline.\n\nF3 (COMPLETED cleanup gated on deliverable) — CLOSED\nCode at ~lines 1059-1132: deliverable_check(branch) called FIRST; kickoff_cleanup fires ONLY if deliverable_present. Else: flag_for_sweep with \"completed-deliverable-unverified-worktree-preserved\" + cleanup_skipped event + loud comment. Staging row carries cleanup_field=\"skipped-unverified-deliverable\". Tests T18a (branch missing) and T18b (empty branch, zero delta) both PASS — worktree physically preserved in both cases, skip events recorded.\n\nF4 (breaker starvation of kill authority) — NOT-CLOSED\nThe breaker_allow function is unchanged. The single rolling window still gates comments AND lethal actions with no reserved budget for stop/cleanup. The deduped backup_alert reduces storm volume (each fingerprint alerts once), which indirectly lowers pressure, but a diverse failure landscape can still exhaust the 24/hour budget and starve kill authority. The rc=2 state-save fix addresses F5, not F4. Honest assessment: this remains the weakest structural gap. For shakedown, the deduped alert + reduced storm probability is sufficient; for unsupervised operation, a reserved safety budget is needed.\n\nF5 (crash leads to duplicate mutations) — PARTIAL\nState-save failure now returns rc=2 (stderr witness + log_event). The bash loop uses bump_error() which counts ALL failures toward OBSERVER_MAX_CONSECUTIVE_ERRORS. When cap hit, fatal exit, loop halts. This reduces blast radius from \"indefinite duplicates\" to \"at most one duplicate per crash\" (the next cycle re-executes before its state save, but then the cap halts). Does not achieve full idempotency — a crash mid-action still fires the action twice — but prevents the destructive loop class. Partial but meaningful for shakedown.\n\nF6 (single-instance lockfile) — CLOSED\nAll four demanded elements present: (1) set -o noclobber atomic exclusive create, (2) PID content in lockfile, (3) ps -p liveness check for stale detection, (4) LOCK_OWNED flag ensures owned-only trap release (EXIT/INT/TERM). Garbage/empty content treated as stale. Stale recovery removes + retries once (bounded). Documented fail-safe limitation: PID reuse makes stale lock look live, second instance refuses (never double-runs). Tests T19 cover both paths: live-holder-refusal (PASS + loud stderr + foreign lock untouched) and stale-recovery (PASS + cycle executes + own lock released on exit).\n\n=== SET -EUO PIPEFAIL CHECK ===\nCode uses set -eu + set -o pipefail (functionally identical to set -euo pipefail, split across two lines). The kickoff description said \"WITHOUT literal -e\" — this is inaccurate; -e IS present. However, this is the CORRECT implementation: -e catches unexpected failures (fatal), while || rc=$? handles expected ones explicitly. Without -e, unexpected failures in the bash loop would be silently ignored — the original root cause of silent swallowing.\n\nSilent-swallow root cause status: CLOSED. Verified: (1) state-dir creation is now fatal exit (was 2>/dev/null), (2) event writes fall back to stderr (audit trail preserved, documented exception), (3) ALL cycle failures count toward the error cap (halt-not-loop), (4) state-save failure returns rc=2 + stderr witness.\n\n=== NEW DEFECTS ===\nNone introduced. Spot-checks: F1 max(parsed, grace) with large misparse extends park (fail-safe direction); sync_backlog bounded by unique artifact count (finite); lock file after SIGKILL handled by stale-PID detection (documented).\n\n=== FINAL ===\nACCEPT-FOR-SHAKEDOWN: yes. Four of six fix points fully closed (F1/F2/F3/F6), one partial but meaningful (F5), one structural gap acknowledged (F4). The directly-demanded fixes implement what was specified without introducing new defects. F4 remains for pre-unsupervised-operation. Test coverage: 120/122 (+22 from baseline), the 2 fails are the pre-existing T16 CWD-hermeticity class (F20).\n\nReviewer: pp3g-O8rg, verification pass at 5cbfbc86.",
+          "created_at": "2026-08-25T05:31:26.165431644Z",
+          "kind": "result",
+          "signed_by": "SHA256:RyZ5FqoJQt7S4gCDmN/qIDMmdMgirY9yAaQQtEJzl3g",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLibhtp1qDPWaTvE8BN4CQNHjYKsM/chXcvnUk00Yt9EAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdf0Rfz1iarhNHhWwBwUFsOOX8avqwALxPntNFO9S8RAKH6yNnMyahaNAXhgV72VN8v8W+fzZ1DENrMrUnuZ8Cg=="
         },
         "80d82700-7899-4115-b032-28d85678390d": {
           "display_id": 2450,
@@ -31024,8 +31033,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T05:31:15.553178817Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2322
+    "timestamp": "2026-08-25T05:31:26.172014804Z",
+    "agent_id": "pp3g-O8rg-verification-of-fix-pass-short-the-six-blockers-you",
+    "agent_seq": 3
   }
 }
