@@ -217,7 +217,14 @@ OBSERVER_PRUNE_AGE_DAYS="${OBSERVER_PRUNE_AGE_DAYS:-30}"
 # F5 (#460): admission-policy absorption (config-driven checks).
 OBSERVER_ADMISSION_ENABLED="${OBSERVER_ADMISSION_ENABLED:-1}"
 OBSERVER_ADMISSION_PROVIDERS="${OBSERVER_ADMISSION_PROVIDERS:-opencode:opencode-go}"
-OBSERVER_MODELS_CMD="${OBSERVER_MODELS_CMD:-opencode models {provider}}"
+# NOTE: default assigned via single quotes, NOT ${VAR:-...}: a closing
+# brace inside the :-default word leaks an extra } into the SET-var value
+# (bash does not nest-match the terminator), corrupting the {provider}
+# placeholder to {provider}}.
+OBSERVER_MODELS_CMD="${OBSERVER_MODELS_CMD:-}"
+if [ -z "$OBSERVER_MODELS_CMD" ]; then
+    OBSERVER_MODELS_CMD='opencode models {provider}'
+fi
 OBSERVER_ADMISSION_CATALOG_TTL_SECS="${OBSERVER_ADMISSION_CATALOG_TTL_SECS:-1800}"
 OBSERVER_ADMISSION_ESTIMATE_RE="${OBSERVER_ADMISSION_ESTIMATE_RE:-(?i)\\bestimat}"
 
@@ -2321,11 +2328,6 @@ def main():
     rows = data.get("agents", [])
     scanned = set()
 
-    # F6: capture the pre-cycle active/parked set BEFORE phases update, so
-    # an all-agents-vanish transition is detectable against last cycle.
-    prev_active = {a for a, r in state["agents"].items()
-                   if r.get("phase") in ("active", "parked")}
-
     for row in rows:
         agent = row.get("agent", "")
         if not agent:
@@ -2378,32 +2380,43 @@ def main():
     wave_admission(state)
 
     # F6: all-agents-vanish transition -> platform-restart signature alert.
+    # Tracking is SCAN-based (who physically appeared), not phase-based:
+    # a vanished agent degrades to the cleaned-external phase, which would
+    # otherwise make the re-arm undetectable.
+    cur_active = {a for a, r in state["agents"].items()
+                  if r.get("phase") in ("active", "parked")}
+    prev_active = set(state.get("wave_prev_active") or [])
     vanished = prev_active - scanned
-    if prev_active and not (prev_active & scanned):
+    if prev_active and vanished == prev_active and \
+            not state.get("wave_anomaly_alerted"):
         wt_present = [a for a in sorted(vanished)
                       if os.path.isdir(os.path.join(WORKTREES_ROOT, a))]
-        if not state.get("wave_anomaly_alerted"):
-            state["wave_anomaly_alerted"] = True
-            log_event({"event": "wave-anomaly",
-                       "vanished": sorted(vanished),
-                       "worktrees_present": len(wt_present),
-                       "signature": "platform-restart-suspected"})
-            post_comment(
-                state, FLAG_ISSUE,
-                "[OBSERVER][WAVE-ANOMALY] all-agents-vanish: {0} tracked "
-                "active/parked agent(s) ({1}) absent from the scan "
-                "simultaneously with no terminal verdicts and no "
-                "Observer-executed cleanup; worktrees still present: "
-                "{2}/{3}. Platform-restart signature suspected - "
-                "recommend host/platform health-check before any "
-                "relaunch.".format(
-                    len(vanished), ", ".join(sorted(vanished)),
-                    len(wt_present), len(vanished)))
-    elif prev_active & scanned:
+        state["wave_anomaly_alerted"] = True
+        state["wave_vanished"] = sorted(vanished)
+        log_event({"event": "wave-anomaly",
+                   "vanished": sorted(vanished),
+                   "worktrees_present": len(wt_present),
+                   "signature": "platform-restart-suspected"})
+        post_comment(
+            state, FLAG_ISSUE,
+            "[OBSERVER][WAVE-ANOMALY] all-agents-vanish: {0} tracked "
+            "active/parked agent(s) ({1}) absent from the scan "
+            "simultaneously with no terminal verdicts and no "
+            "Observer-executed cleanup; worktrees still present: "
+            "{2}/{3}. Platform-restart signature suspected - "
+            "recommend host/platform health-check before any "
+            "relaunch.".format(
+                len(vanished), ", ".join(sorted(vanished)),
+                len(wt_present), len(vanished)))
+    reappeared = [a for a in (state.get("wave_vanished") or [])
+                  if a in scanned]
+    if reappeared:
         if state.get("wave_anomaly_alerted"):
             log_event({"event": "wave-anomaly-rearmed",
-                       "reappeared": sorted(prev_active & scanned)})
+                       "reappeared": reappeared})
         state["wave_anomaly_alerted"] = False
+        state["wave_vanished"] = []
+    state["wave_prev_active"] = sorted(cur_active)
 
     # F4: dual-store backup pass (interval-gated inside).
     wave_backup(state)

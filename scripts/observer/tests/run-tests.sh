@@ -429,5 +429,100 @@ check "T15 new row indexed"       '"session_id":"ses_a3"' "$f4arch/index/main.nd
 G=$(ls "$f4arch/hot-backups/main/"*.db 2>/dev/null | wc -l)
 test "$G" -eq 1 && { printf 'PASS T15 generation cap enforced\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 expected 1 generation got %s\n' "$G"; FAIL=$((FAIL+1)); }
 
+# ---------------------------------------------------------------------------
+note "T16 admission-policy absorption (F5: model/issue/claim/estimate checks + audit trail)"
+root="$TESTS/t16-root"; sd="$TESTS/t16"
+rm -rf "$root" "$sd"; mkdir -p "$root/.worktrees/zzz-adm-good" \
+    "$root/.worktrees/zzz-adm-badmodel" "$root/.worktrees/zzz-adm-noest" "$sd"
+cat > "$root/.worktrees/zzz-adm-good/KICKOFF.md" <<'EOF'
+# KICKOFF: good contract
+**Issue**: #460
+--model opencode-go/real-model
+Estimated duration: 45 minutes
+EOF
+cat > "$root/.worktrees/zzz-adm-badmodel/KICKOFF.md" <<'EOF'
+# KICKOFF: bad model
+**Issue**: #460
+--model opencode-go/fake-model-xyz
+Estimated duration: 30 minutes
+EOF
+cat > "$root/.worktrees/zzz-adm-noest/KICKOFF.md" <<'EOF'
+# KICKOFF: contract without duration note
+**Issue**: #460
+--model opencode-go/real-model
+EOF
+cat > "$sd/fake-models.sh" <<'EOF'
+#!/usr/bin/env bash
+# deterministic stand-in for the OBSERVER_MODELS_CMD template; the
+# substituted {provider} arrives as $1
+if [ "$1" = "opencode-go" ]; then
+    printf 'opencode-go/real-model\nopencode-go/other-model\n'
+else
+    printf 'opencode/free-one\n'
+fi
+EOF
+export TEST_REPO_ROOT="$root"
+fx="$sd/fix.json"
+python3 - "$fx" <<'PYEOF'
+import json, sys
+def row(agent):
+    return {"agent": agent, "status": "RUNNING", "aliveness": "ALIVE",
+            "age_min": 1.0, "source": "walk", "role": "builder",
+            "verdict": "RUNNING-ALIVE",
+            "last_activity": "2026-08-24T06:00:00+00:00",
+            "budget_min": 45.0, "probe": {"state": "ALIVE"}}
+payload = {"generated_at": "2026-08-24T07:10:00+00:00", "root": "/x",
+           "budget_min": 45.0, "state_dir": "/x",
+           "agents": [row("zzz-adm-good"), row("zzz-adm-badmodel"),
+                      row("zzz-adm-noest")],
+           "skipped_no_signal": []}
+with open(sys.argv[1], "w") as fh:
+    json.dump(payload, fh)
+PYEOF
+run_cycle "$sd" "$fx" "OBSERVER_MODELS_CMD=bash $sd/fake-models.sh {provider}"
+# NOTE: issue-exists/issue-claimed checks exercise the LIVE crosslink CLI
+# against #460 (this build's own issue: exists + locked by this session).
+check "T16 valid model accepted"   '"check":"model-valid","ok":true,"model":"opencode-go/real-model"' "$sd/events.jsonl"
+check "T16 invalid model flagged"  '"check":"model-valid","ok":false,"model":"opencode-go/fake-model-xyz"' "$sd/events.jsonl"
+check "T16 issue-exists true"      '"check":"issue-exists","ok":true,"issue":"460"' "$sd/events.jsonl"
+check "T16 issue-claimed true"     '"check":"issue-claimed","ok":true,"issue":"460"' "$sd/events.jsonl"
+check "T16 estimate detected"      '"check":"estimate-declared","ok":true' "$sd/events.jsonl"
+check "T16 missing estimate fails" '"check":"estimate-declared","ok":false' "$sd/events.jsonl"
+check "T16 violation alert posted" "\[OBSERVER\]\[ADMISSION\]" "$sd/events.jsonl"
+A1=$(grep -c "\[OBSERVER\]\[ADMISSION\]" "$sd/events.jsonl")
+run_cycle "$sd" "$fx" "OBSERVER_MODELS_CMD=bash $sd/fake-models.sh {provider}"
+A2=$(grep -c "\[OBSERVER\]\[ADMISSION\]" "$sd/events.jsonl")
+test "$A1" = "$A2" && { printf 'PASS T16 alert deduped until fingerprint changes\n'; PASS=$((PASS+1)); } || { printf 'FAIL T16 alert not deduped: %s -> %s\n' "$A1" "$A2"; FAIL=$((FAIL+1)); }
+N=$(grep -c '"event":"admission-check"' "$sd/events.jsonl")
+test "$N" -ge 12 && { printf 'PASS T16 audit trail populated (%s checks)\n' "$N"; PASS=$((PASS+1)); } || { printf 'FAIL T16 audit trail thin: %s\n' "$N"; FAIL=$((FAIL+1)); }
+unset TEST_REPO_ROOT
+
+# ---------------------------------------------------------------------------
+note "T17 wave-anomaly all-agents-vanish (F6: platform-restart signature, dedup, re-arm)"
+sd="$TESTS/t17"; rm -rf "$sd"; mkdir -p "$sd"
+fx1="$sd/fix1.json"; fixture "$fx1" zzz-wv RUNNING-ALIVE builder ALIVE RUNNING
+python3 - "$sd/fix0.json" <<'PYEOF'
+import json, sys
+payload = {"generated_at": "2026-08-24T07:10:00+00:00", "root": "/x",
+           "budget_min": 45.0, "state_dir": "/x", "agents": [],
+           "skipped_no_signal": []}
+with open(sys.argv[1], "w") as fh:
+    json.dump(payload, fh)
+PYEOF
+run_cycle "$sd" "$fx1"                                  # baseline: tracked active
+run_cycle "$sd" "$sd/fix0.json"                         # mass vanish
+check "T17 wave-anomaly event"          '"event":"wave-anomaly"' "$sd/events.jsonl"
+check "T17 platform-restart signature"  '"signature":"platform-restart-suspected"' "$sd/events.jsonl"
+check "T17 alert names vanished agent"  "all-agents-vanish: 1 tracked active/parked agent(s) (zzz-wv)" "$sd/events.jsonl"
+C1=$(grep -c "WAVE-ANOMALY" "$sd/events.jsonl")
+run_cycle "$sd" "$sd/fix0.json"                         # still gone: deduped
+C2=$(grep -c "WAVE-ANOMALY" "$sd/events.jsonl")
+test "$C1" = "$C2" && { printf 'PASS T17 anomaly deduped per episode\n'; PASS=$((PASS+1)); } || { printf 'FAIL T17 anomaly not deduped: %s -> %s\n' "$C1" "$C2"; FAIL=$((FAIL+1)); }
+run_cycle "$sd" "$fx1"                                  # reappearance
+check "T17 rearm on reappearance"       '"event":"wave-anomaly-rearmed"' "$sd/events.jsonl"
+run_cycle "$sd" "$sd/fix0.json"                         # vanishes again
+C3=$(grep -c "WAVE-ANOMALY" "$sd/events.jsonl")
+test "$C3" -eq $((C2 + 1)) && { printf 'PASS T17 second episode alerts again\n'; PASS=$((PASS+1)); } || { printf 'FAIL T17 expected %s alerts got %s\n' "$((C2 + 1))" "$C3"; FAIL=$((FAIL+1)); }
+
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]
