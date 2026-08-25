@@ -154,16 +154,57 @@
 #     a rolling-window circuit breaker capping mutating actions per hour,
 #     and a consecutive-scan-failure cap that halts the loop rather than
 #     looping destructively.
-#   - OBSERVER_DRY_RUN=1 records every intended mutation (comments included)
-#     in events.jsonl without executing it; OBSERVER_INPUT_JSON injects a
-#     fixture liveness payload for deterministic testing.
+#
+# Execution-authority boundary (#460 v1.1 pass, 2026-08-25):
+#
+#   CHANGE 1 - FAIL-CLOSED MODE. Destructive capability is governed by
+#   OBSERVER_MODE with exactly two values:
+#     observe  detect, classify, compose evidence bundles, post
+#            notifications - ZERO mutations (the historical DRY_RUN
+#            behavior, now the default)
+#     act      the existing real behavior (stop/cleanup execute)
+#   DEFAULT and ANY unrecognized value resolve to observe: the observer is
+#   never lethal via unset config, a typo, or garbage input. The legacy
+#   OBSERVER_DRY_RUN=1 remains honored as an observe-mode alias and wins
+#   over act if both are set. The resolved mode is recorded at startup
+#   (startup event + manager-state) and repeated in every cycle summary.
+#
+#   CHANGE 2 - OWNER STAMP + AUTHORIZATION. Every execution carries an
+#   owner stamp file <worktree>/.owner-orchestrator (opaque id string)
+#   written at dispatch time by the launcher; it is IMMUTABLE per execution
+#   (a retry is a new execution with a new stamp). Before ANY destructive
+#   action the Observer reads the stamp:
+#     missing/unreadable        -> owner=unknown -> destructive action
+#                                  DOWNGRADED to notification-only
+#     stamp != OBSERVER_ORCHESTRATOR_ID
+#                               -> DOWNGRADED to notification naming the
+#                                  actual owner (cross-domain protection:
+#                                  a misconfigured Observer can never kill
+#                                  a sibling domain's agents, #472/#473)
+#   MODE=act REQUIRES OBSERVER_ORCHESTRATOR_ID at startup: refusal is loud
+#   and fatal. Downgrades apply regardless of mode.
+#
+#   CHANGE 3 - CONVERGENT-EVIDENCE GATE on the termination path. Observer-
+#   initiated terminations require convergent evidence under an explicit
+#   precedence (documented at convergent_gate()): authoritative/contractual
+#   signals OUTRANK corroborating inference; absence/silence alone can
+#   contribute but NEVER independently trigger termination; pane-hash
+#   silence alone NEVER terminates (the #473 live-misfire class).
+#
+#   CHANGE 4 - AUTHORITY/EVIDENCE FACTS PRESERVED. Evidence bundles carry
+#   an authority section (owner_orchestrator or unknown, observer id,
+#   mode); terminal events record which capability was exercised in which
+#   mode, whether the notification was delivered, and - for downgrades -
+#   the would-be-action name.
 #
 # Deployment: intended to run inside a detached tmux session so it outlives
 # the dispatching agent:
 #   tmux new-session -d -s observer-mgr \
 #     bash /home/claude-code/projects/ASES/scripts/observer/observer.sh
 # Single-cycle invocation for testing:
-#   OBSERVER_DRY_RUN=1 scripts/observer/observer.sh --once
+#   scripts/observer/observer.sh --once                 (observe mode)
+#   OBSERVER_MODE=act OBSERVER_ORCHESTRATOR_ID=<id> \
+#     scripts/observer/observer.sh --once               (real behavior)
 #
 # Shell: bash, stdlib tooling only (embedded python3 for JSON/state/actions).
 #
@@ -211,6 +252,13 @@ OBSERVER_STALE_ESCALATE_CYCLES="${OBSERVER_STALE_ESCALATE_CYCLES:-2}"
 OBSERVER_OPENCODE_LOG="${OBSERVER_OPENCODE_LOG:-$HOME/.local/share/opencode/log/opencode.log}"
 OBSERVER_DIS_VALIDATOR="${OBSERVER_DIS_VALIDATOR:-}"
 OBSERVER_DRY_RUN="${OBSERVER_DRY_RUN:-}"
+# CHANGE 1 (#460 v1.1): fail-closed execution mode. Resolved below (after
+# the event log exists) - unset/empty/unrecognized resolves to observe.
+OBSERVER_MODE="${OBSERVER_MODE:-}"
+# CHANGE 2 (#460 v1.1): this Observer instance's orchestrator identity.
+# REQUIRED for MODE=act (loud fatal otherwise); destructive actions against
+# agents whose owner stamp differs are downgraded to notification-only.
+OBSERVER_ORCHESTRATOR_ID="${OBSERVER_ORCHESTRATOR_ID:-}"
 OBSERVER_INPUT_JSON="${OBSERVER_INPUT_JSON:-}"
 OBSERVER_DOCTRINE_DIRS="${OBSERVER_DOCTRINE_DIRS:-.crosslink/knowledge:docs/methodology:docs/standards}"
 OBSERVER_DOCTRINE_FILES="${OBSERVER_DOCTRINE_FILES:-AGENTS.md:ORIENTATION.md:SESSION-START.md:docs/SESSION-END.md}"
@@ -250,7 +298,7 @@ export OB_REPO_ROOT OB_STATE_DIR OB_FLAG_ISSUE OB_EVIDENCE_LINES \
     OB_PANE_LINES OB_PUSH_AHEAD_THRESHOLD OB_PARKED_ALERT_COUNT \
     OB_PARKED_DEFAULT_RESUME_MINS OB_MAX_ACTIONS_PER_HOUR \
     OB_STALE_ESCALATE_CYCLES OB_OPENCODE_LOG OB_DIS_VALIDATOR \
-    OB_DRY_RUN OB_DOCTRINE_DIRS OB_DOCTRINE_FILES \
+    OB_MODE OB_ORCHESTRATOR_ID OB_DOCTRINE_DIRS OB_DOCTRINE_FILES \
     OB_FAST_PATH OB_FAST_READ_CAP OB_FASTPATH_DEDUP_SECS \
     OB_COMMIT_STALE_MINS \
     OB_BACKUP_ENABLED OB_BACKUP_INTERVAL_MINS OB_ARCHIVE_DIR \
@@ -271,7 +319,8 @@ OB_MAX_ACTIONS_PER_HOUR="$OBSERVER_MAX_ACTIONS_PER_HOUR"
 OB_STALE_ESCALATE_CYCLES="$OBSERVER_STALE_ESCALATE_CYCLES"
 OB_OPENCODE_LOG="$OBSERVER_OPENCODE_LOG"
 OB_DIS_VALIDATOR="$OBSERVER_DIS_VALIDATOR"
-OB_DRY_RUN="${OBSERVER_DRY_RUN:+1}"
+# OB_DRY_RUN removed (#460 v1.1): the embedded program resolves mutations
+# from OB_MODE; OBSERVER_DRY_RUN=1 is folded into mode resolution below.
 OB_DOCTRINE_DIRS="$OBSERVER_DOCTRINE_DIRS"
 OB_DOCTRINE_FILES="$OBSERVER_DOCTRINE_FILES"
 OB_FAST_PATH="$OBSERVER_FAST_PATH"
@@ -392,6 +441,44 @@ emit_event() { # emit_event <complete-json-line>
         || printf '%s\n' "$1" >&2
 }
 
+# ---------------------------------------------------------------------------
+# CHANGE 1 (#460 v1.1): fail-closed execution-mode resolution.
+#   OBSERVER_MODE=act      -> act
+#   OBSERVER_MODE=observe  -> observe
+#   unset / empty / ANY other value -> observe (never lethal via garbage)
+# Backward-compat alias: OBSERVER_DRY_RUN set to any non-empty value forces
+# observe (the alias is the older, strictly-safer spelling and wins over
+# act when both are present).
+# ---------------------------------------------------------------------------
+OBSERVER_MODE_RESOLVED="observe"
+case "$OBSERVER_MODE" in
+    act) OBSERVER_MODE_RESOLVED="act" ;;
+    observe) OBSERVER_MODE_RESOLVED="observe" ;;
+    *) OBSERVER_MODE_RESOLVED="observe" ;;
+esac
+if [ -n "$OBSERVER_DRY_RUN" ]; then
+    OBSERVER_MODE_RESOLVED="observe"
+fi
+
+# ---------------------------------------------------------------------------
+# CHANGE 2 (#460 v1.1): MODE=act requires an orchestrator identity. Without
+# it the ownership check could never match, so act mode would be either
+# dead weight (everything downgraded) or unattributable. Refusal is LOUD
+# and fatal, before the lock is even attempted.
+# ---------------------------------------------------------------------------
+if [ "$OBSERVER_MODE_RESOLVED" = "act" ] && \
+        [ -z "$OBSERVER_ORCHESTRATOR_ID" ]; then
+    emit_event "$(printf '{"ts":"%s","event":"fatal","kind":"act-mode-requires-orchestrator-id","detail":"set OBSERVER_ORCHESTRATOR_ID to the dispatching orchestrator id; refusing destructive authority without an identity"}\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)")"
+    printf 'observer: FATAL - OBSERVER_MODE=act requires OBSERVER_ORCHESTRATOR_ID (owner-stamp authorization would be unresolvable). Refusing to start.\n' >&2
+    exit 1
+fi
+
+# Hand the resolved configuration to the embedded program.
+OB_MODE="$OBSERVER_MODE_RESOLVED"
+OB_ORCHESTRATOR_ID="$OBSERVER_ORCHESTRATOR_ID"
+export OB_MODE OB_ORCHESTRATOR_ID
+
 ONCE=0
 for arg in "$@"; do
     case "$arg" in
@@ -452,7 +539,16 @@ STATE_DIR = env("OB_STATE_DIR", "/tmp/opencode/observer-state")
 WORKTREES_ROOT = os.path.join(REPO_ROOT, ".worktrees") if REPO_ROOT else ""
 OPENCODE_LOG = env("OB_OPENCODE_LOG")
 FLAG_ISSUE = env("OB_FLAG_ISSUE", "429")
-DRY_RUN = env("OB_DRY_RUN", "") == "1"
+# CHANGE 1 (#460 v1.1): fail-closed mode resolution. The bash wrapper has
+# already normalized (alias folding + garbage -> observe); re-validate here
+# so the embedded program is independently fail-closed: any value other
+# than the two literals degrades to observe. ACT is the single authority
+# bit for every mutating path below; there are no other DRY_RUN reads.
+MODE = env("OB_MODE", "observe")
+if MODE not in ("observe", "act"):
+    MODE = "observe"
+ACT = MODE == "act"
+ORCHESTRATOR_ID = env("OB_ORCHESTRATOR_ID").strip()
 EVIDENCE_LINES = env_int("OB_EVIDENCE_LINES", 200)
 PANE_LINES = env_int("OB_PANE_LINES", 40)
 PUSH_THRESHOLD = env_int("OB_PUSH_AHEAD_THRESHOLD", 5)
@@ -606,7 +702,7 @@ def post_comment(state, issue, message):
         return False
     if not breaker_allow(state, "comment:" + str(issue)):
         return False
-    if DRY_RUN:
+    if not ACT:
         log_event({"event": "comment-dry-run", "issue": issue,
                    "message": message})
         return True
@@ -956,7 +1052,7 @@ def kickoff_cleanup(state, agent):
                    "out": "",
                    "err": "mutation cap reached; cleanup not attempted"})
         return False
-    if DRY_RUN:
+    if not ACT:
         log_event({"event": "cleanup-dry-run", "agent": agent,
                    "cmd": "crosslink kickoff cleanup --only " + agent +
                           " --yes"})
@@ -973,7 +1069,7 @@ def kickoff_stop(state, agent, branch):
     for cand in candidates:
         if not breaker_allow(state, "stop:" + cand):
             return False
-        if DRY_RUN:
+        if not ACT:
             log_event({"event": "stop-dry-run", "agent": agent,
                        "target": cand,
                        "cmd": "crosslink kickoff stop " + cand + " --force"})
@@ -1133,7 +1229,7 @@ def act_completed(state, row, rec):
         duration_min = round((time.time() - started) / 60.0, 1)
     if cleanup_ok is None:
         cleanup_field = "skipped-unverified-deliverable"
-    elif DRY_RUN:
+    elif not ACT:
         cleanup_field = "dry-run"
     elif cleanup_ok:
         cleanup_field = "executed"
@@ -1334,7 +1430,7 @@ def act_frozen(state, row, rec, trigger_detail):
         "verdict_timeline": rec.get("history", [])[-8:],
         "evidence_bundle": bundle,
         "sha256": hashes,
-        "auto_kill": "executed" if stop_ok else ("dry-run" if DRY_RUN
+        "auto_kill": "executed" if stop_ok else ("dry-run" if not ACT
                                                  else "FAILED"),
         "cleanup_executed": cleanup_ok,
         "orphan_worktree": orphan,
@@ -2632,6 +2728,9 @@ def main():
         return 1
     state = load_state()
     state.setdefault("agents", {})
+    # CHANGE 1 (#460 v1.1): the persistent state record carries the resolved
+    # execution mode from the first cycle onward (startup state record).
+    state["mode"] = MODE
     rows = data.get("agents", [])
     scanned = set()
 
@@ -2735,7 +2834,10 @@ def main():
     summary = {"scanned": len(rows), "tracked": len(state["agents"]),
                "phases": phases, "parked_now": len(parked),
                "actions_used_window": len(state.get("action_window", [])),
-               "dry_run": DRY_RUN}
+               "mode": MODE,
+               # derived compatibility field (pre-v1.1 consumers); the
+               # authoritative statement is "mode" above
+               "dry_run": not ACT}
     print(json.dumps(summary, separators=(",", ":")))
     err = save_state(state)
     if err:
@@ -2834,6 +2936,14 @@ acquire_lock() {
 if ! acquire_lock; then
     exit 1
 fi
+
+# CHANGE 1 (#460 v1.1): startup state record. The resolved mode (and whether
+# an orchestrator identity is configured) is written to the audit trail at
+# launch; manager-state.json carries it persistently from the first cycle.
+emit_event "$(printf '{"ts":"%s","event":"startup","mode":"%s","orchestrator_id_set":%s,"pid":%s,"state_dir":"%s"}\n' \
+    "$cycle_ts" "$OBSERVER_MODE_RESOLVED" \
+    "$([ -n "$OBSERVER_ORCHESTRATOR_ID" ] && printf true || printf false)" \
+    "$$" "$OBSERVER_STATE_DIR")"
 
 while :; do
     cycle_ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"

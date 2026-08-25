@@ -23,6 +23,10 @@ MANAGER="$TEST_DIR/../observer.sh"
 TESTS=/tmp/opencode/observer-tests
 PASS=0
 FAIL=0
+# C2 (#460 v1.1): canonical test-side orchestrator identity. Fixture
+# worktrees carry a matching .owner-orchestrator stamp so owner-match is
+# the default; individual tests override to exercise downgrades.
+TEST_ORCH_ID="obs-test-orchestrator"
 
 note() { printf '%s\n' "== $*"; }
 check() { # check <name> <pattern> <file>
@@ -68,6 +72,12 @@ run_cycle() { # run_cycle <statedir> <fixture.json> [extra env as KEY=VAL...]
         export OBSERVER_INPUT_JSON="$fx"
         export OBSERVER_OPENCODE_LOG="${TEST_OPENCODE_LOG:-$TESTS/empty.log}"
         export OBSERVER_REPO_ROOT="${TEST_REPO_ROOT:-$TESTS/fake-repo}"
+        # C1 (#460 v1.1): hermetic flag issue - gate/hub decisions must not
+        # depend on live hub state; an unresolvable number fails fast and
+        # deterministically (last_hub_position -> None).
+        export OBSERVER_FLAG_ISSUE="${OBSERVER_FLAG_ISSUE:-999999}"
+        # C2 (#460 v1.1): default test identity (owner-match default).
+        export OBSERVER_ORCHESTRATOR_ID="${OBSERVER_ORCHESTRATOR_ID:-$TEST_ORCH_ID}"
         # F4 backup pass OFF by default: every test uses a fresh state dir,
         # so an enabled pass would hot-copy the REAL multi-GB stores each
         # cycle. T15 opts back in explicitly with fixture stores.
@@ -103,6 +113,9 @@ make_deliverable_wt() { # make_deliverable_wt <root> <agent>
     printf 'deliverable\n' > "$root/.worktrees/$agent/deliverable.txt"
     git -C "$root/.worktrees/$agent" add deliverable.txt
     git -C "$root/.worktrees/$agent" commit -qm "deliverable for $agent"
+    # C2 (#460 v1.1): launcher-written owner stamp (immutable per
+    # execution); default fixtures belong to the canonical test identity.
+    printf '%s\n' "$TEST_ORCH_ID" > "$root/.worktrees/$agent/.owner-orchestrator"
 }
 
 # ---------------------------------------------------------------------------
@@ -730,6 +743,10 @@ fx="$sd/fix.json"; fixture "$fx" zzz-lc-resv DONE-CONFIRMED builder EXITED DONE
     export OBSERVER_STATE_DIR="$sd" OBSERVER_INPUT_JSON="$fx"
     export OBSERVER_OPENCODE_LOG="$TESTS/empty.log"
     export OBSERVER_REPO_ROOT="$root"
+    # C1 (#460 v1.1): real mutations now require EXPLICIT act-mode arming
+    # (unset DRY_RUN alone resolves to observe, fail-closed).
+    export OBSERVER_MODE=act
+    export OBSERVER_ORCHESTRATOR_ID="$TEST_ORCH_ID"
     unset OBSERVER_DRY_RUN
     export OBSERVER_BACKUP_ENABLED=0 OBSERVER_ADMISSION_ENABLED=0
     export PATH="$sd/bin:$PATH"
@@ -741,6 +758,88 @@ check "T20b cleanup rc zero"            '"rc": *0\|"rc":0' "$sd/events.jsonl"
 test ! -d "$root/.worktrees/zzz-lc-resv" && { printf 'PASS T20b worktree removed by cleanup\n'; PASS=$((PASS+1)); } || { printf 'FAIL T20b worktree still present\n'; FAIL=$((FAIL+1)); }
 check "T20b resolution event emitted"   '"event":"force-sweep-resolved"' "$sd/events.jsonl"
 check "T20b resolution line appended"   "resolved-by-cleanup-ok" "$sd/force-sweep-pending.txt"
+
+# ---------------------------------------------------------------------------
+note "T21 fail-closed execution mode (C1 #460 v1.1: default/garbage -> observe)"
+# Mutation tripwire harness: a PATH-shimmed crosslink that RECORDS any
+# kickoff stop/cleanup reaching it. Observe mode must never touch it;
+# act mode must (proving the tripwire and the arming both work).
+make_tripwire() { # make_tripwire <statedir>
+    mkdir -p "$1/bin"
+    cat > "$1/bin/crosslink" <<STUBEOF
+#!/usr/bin/env bash
+if [ "\$1" = "kickoff" ]; then
+    printf 'MUTATION-ATTEMPTED %s\n' "\$*" >> "$1/mutations.txt"
+fi
+exit 0
+STUBEOF
+    chmod +x "$1/bin/crosslink"
+}
+run_tripwire_cycle() { # <statedir> <fixture> [extra env KEY=VAL...]
+    local sd="$1" fx="$2"; shift 2
+    (
+        export OBSERVER_STATE_DIR="$sd" OBSERVER_INPUT_JSON="$fx"
+        export OBSERVER_OPENCODE_LOG="$TESTS/empty.log"
+        export OBSERVER_REPO_ROOT="${TEST_REPO_ROOT:-$TESTS/fake-repo}"
+        export OBSERVER_BACKUP_ENABLED=0 OBSERVER_ADMISSION_ENABLED=0
+        export PATH="$sd/bin:$PATH"
+        for kv in "$@"; do export "$kv"; done
+        cd /
+        bash "$MANAGER" --once >/dev/null 2>&1
+    )
+}
+tripwire_clean() { # tripwire_clean <name> <statedir> <worktree-root> <agent>
+    if [ ! -e "$2/mutations.txt" ]; then printf 'PASS %s zero mutation capability\n' "$1"; PASS=$((PASS+1));
+    else printf 'FAIL %s destructive command reached crosslink: %s\n' "$1" "$(cat "$2/mutations.txt")"; FAIL=$((FAIL+1)); fi
+    if [ -d "$3/.worktrees/$4" ]; then printf 'PASS %s worktree untouched\n' "$1"; PASS=$((PASS+1));
+    else printf 'FAIL %s worktree mutated\n' "$1"; FAIL=$((FAIL+1)); fi
+}
+# (a) NO mode configuration at all -> observe-only (the historical safe
+# default is now enforced, not incidental)
+sd="$TESTS/t21a"; root="$TESTS/t21a-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-obsdef
+export TEST_REPO_ROOT="$root"
+make_tripwire "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-obsdef DONE-CONFIRMED builder EXITED DONE
+run_tripwire_cycle "$sd" "$fx"
+check "T21a summary carries resolved mode" '"mode":"observe"' "$sd/events.jsonl"
+check "T21a intent recorded not executed" "cleanup-dry-run" "$sd/events.jsonl"
+check "T21a startup record present" '"event":"startup","mode":"observe"' "$sd/events.jsonl"
+check "T21a state record carries mode" '"mode": *"observe"\|"mode":"observe"' "$sd/manager-state.json"
+tripwire_clean "T21a" "$sd" "$root" "zzz-lc-obsdef"
+# (b) garbage mode value -> observe (never lethal via unrecognized input)
+sd="$TESTS/t21b"; root="$TESTS/t21b-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-obsgarbage
+export TEST_REPO_ROOT="$root"
+make_tripwire "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-obsgarbage DONE-CONFIRMED builder EXITED DONE
+run_tripwire_cycle "$sd" "$fx" "OBSERVER_MODE=i-am-absolutely-act-trust-me"
+check "T21b garbage mode resolved observe" '"mode":"observe"' "$sd/events.jsonl"
+tripwire_clean "T21b" "$sd" "$root" "zzz-lc-obsgarbage"
+# (c) legacy alias wins: OBSERVER_DRY_RUN forces observe over MODE=act
+sd="$TESTS/t21c"; root="$TESTS/t21c-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-obsalias
+export TEST_REPO_ROOT="$root"
+make_tripwire "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-obsalias DONE-CONFIRMED builder EXITED DONE
+run_tripwire_cycle "$sd" "$fx" "OBSERVER_MODE=act" "OBSERVER_ORCHESTRATOR_ID=obs-test" \
+    "OBSERVER_DRY_RUN=1"
+check "T21c alias forces observe over act" '"mode":"observe"' "$sd/events.jsonl"
+tripwire_clean "T21c" "$sd" "$root" "zzz-lc-obsalias"
+# (d) act mode arms real behavior (tripwire fires; non-vacuous proof)
+sd="$TESTS/t21d"; root="$TESTS/t21d-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-actreal
+export TEST_REPO_ROOT="$root"
+make_tripwire "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-actreal DONE-CONFIRMED builder EXITED DONE
+run_tripwire_cycle "$sd" "$fx" "OBSERVER_MODE=act" "OBSERVER_ORCHESTRATOR_ID=obs-test"
+check "T21d summary carries act" '"mode":"act"' "$sd/events.jsonl"
+if [ -e "$sd/mutations.txt" ] && grep -q "cleanup" "$sd/mutations.txt"; then
+    printf 'PASS T21d act mode executes real mutations\n'; PASS=$((PASS+1))
+else
+    printf 'FAIL T21d act mode did not reach crosslink\n'; FAIL=$((FAIL+1))
+fi
+unset TEST_REPO_ROOT
 
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]
