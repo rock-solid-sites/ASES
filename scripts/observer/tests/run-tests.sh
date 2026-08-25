@@ -633,5 +633,41 @@ check "T18b sweep flag preserves worktree" "completed-deliverable-unverified-wor
 test -d "$root/.worktrees/zzz-lc-empty" && { printf 'PASS T18b worktree physically preserved\n'; PASS=$((PASS+1)); } || { printf 'FAIL T18b worktree gone\n'; FAIL=$((FAIL+1)); }
 unset TEST_REPO_ROOT
 
+# ---------------------------------------------------------------------------
+note "T19 instance lockfile (FIX 5 / #466 F6: refuse double-run, recover stale lock)"
+sd="$TESTS/t19"; rm -rf "$sd"; mkdir -p "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-lock RUNNING-ALIVE builder ALIVE RUNNING
+# (a) LIVE holder -> loud refusal, nonzero exit, foreign lock untouched
+sleep 30 &
+HOLDER=$!
+printf '%s\n' "$HOLDER" > "$sd/observer.lock"
+rc=0
+(
+    export OBSERVER_DRY_RUN=1 OBSERVER_STATE_DIR="$sd" \
+        OBSERVER_INPUT_JSON="$fx" \
+        OBSERVER_OPENCODE_LOG="$TESTS/empty.log" \
+        OBSERVER_REPO_ROOT="$TESTS/fake-repo" \
+        OBSERVER_BACKUP_ENABLED=0
+    cd /
+    bash "$MANAGER" --once
+) >/dev/null 2>"$sd/stderr.txt" || rc=$?
+if [ "$rc" -ne 0 ]; then printf 'PASS T19 second instance refused (rc=%s)\n' "$rc"; PASS=$((PASS+1));
+else printf 'FAIL T19 second instance ran despite live lock\n'; FAIL=$((FAIL+1)); fi
+check "T19 refusal event recorded"     '"kind":"instance-lock-held"' "$sd/events.jsonl"
+if grep -q "REFUSING to start" "$sd/stderr.txt" 2>/dev/null; then printf 'PASS T19 loud stderr refusal\n'; PASS=$((PASS+1));
+else printf 'FAIL T19 no loud stderr refusal\n'; FAIL=$((FAIL+1)); fi
+LOCKPID_NOW="$(cat "$sd/observer.lock" 2>/dev/null || true)"
+if [ "$LOCKPID_NOW" = "$HOLDER" ]; then printf 'PASS T19 foreign lock not removed\n'; PASS=$((PASS+1));
+else printf 'FAIL T19 foreign lock disturbed: %s\n' "$LOCKPID_NOW"; FAIL=$((FAIL+1)); fi
+kill "$HOLDER" 2>/dev/null; wait "$HOLDER" 2>/dev/null
+# (b) STALE holder (dead pid) -> recovered exactly once, cycle proceeds,
+# and our own lock is removed on exit by the trap.
+printf '%s\n' "$HOLDER" > "$sd/observer.lock"
+run_cycle "$sd" "$fx"
+check "T19 stale recovery event"       '"event":"instance-lock-stale-recovered"' "$sd/events.jsonl"
+check "T19 cycle executed after recovery" '"event":"cycle"' "$sd/events.jsonl"
+if [ ! -f "$sd/observer.lock" ]; then printf 'PASS T19 own lock released on exit\n'; PASS=$((PASS+1));
+else printf 'FAIL T19 own lock leaked\n'; FAIL=$((FAIL+1)); fi
+
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]

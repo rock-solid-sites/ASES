@@ -2683,6 +2683,68 @@ bump_error() { # bump_error <source>
     fi
 }
 
+# ---------------------------------------------------------------------------
+# FIX 5 (#466 F6): single-instance guard. The observer holds kill/cleanup
+# authority over the fleet; two interleaved instances would double-fire
+# mutations against last-writer-wins state. Lock = atomic exclusive create
+# (noclobber) carrying our PID. A second instance REFUSES loudly while the
+# recorded PID is alive; a crashed instance leaves a STALE lock that is
+# detected (recorded PID no longer alive, checked via ps so cross-owner
+# zombies count as alive) and recovered exactly once.
+# Known limitation (documented, fail-safe direction): PID reuse could make
+# a stale lock look live -> the second instance refuses (never double-runs).
+# ---------------------------------------------------------------------------
+LOCK_FILE="$OBSERVER_STATE_DIR/observer.lock"
+LOCK_OWNED=0
+release_lock() {
+    # Only ever remove a lock WE own - never a live competitor's.
+    if [ "$LOCK_OWNED" -eq 1 ]; then
+        rm -f "$LOCK_FILE" 2>/dev/null || :
+    fi
+}
+trap release_lock EXIT
+trap 'release_lock; exit 130' INT
+trap 'release_lock; exit 143' TERM
+
+acquire_lock() {
+    tries=0
+    while [ "$tries" -lt 2 ]; do
+        if ( set -o noclobber; printf '%s\n' "$$" > "$LOCK_FILE" ) 2>/dev/null; then
+            LOCK_OWNED=1
+            return 0
+        fi
+        lock_pid="$(cat "$LOCK_FILE" 2>/dev/null || true)"
+        case "$lock_pid" in
+            ''|*[!0-9]*)
+                # unreadable or garbage lock content: treat as stale,
+                # remove and retry once
+                rm -f "$LOCK_FILE" 2>/dev/null || :
+                tries=$((tries + 1))
+                continue
+                ;;
+        esac
+        if ps -p "$lock_pid" >/dev/null 2>&1; then
+            emit_event "$(printf '{"ts":"%s","event":"fatal","kind":"instance-lock-held","holder_pid":%s,"my_pid":%s}\n' \
+                "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$lock_pid" "$$")"
+            printf 'observer: REFUSING to start - another instance already holds %s (pid %s); this invocation (pid %s) will not run.\n' \
+                "$LOCK_FILE" "$lock_pid" "$$" >&2
+            return 1
+        fi
+        emit_event "$(printf '{"ts":"%s","event":"instance-lock-stale-recovered","stale_pid":%s,"my_pid":%s}\n' \
+            "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$lock_pid" "$$")"
+        rm -f "$LOCK_FILE" 2>/dev/null || :
+        tries=$((tries + 1))
+    done
+    emit_event "$(printf '{"ts":"%s","event":"fatal","kind":"instance-lock-unavailable","my_pid":%s}\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$$")"
+    printf 'observer: REFUSING to start - lock %s could not be acquired.\n' \
+        "$LOCK_FILE" >&2
+    return 1
+}
+if ! acquire_lock; then
+    exit 1
+fi
+
 while :; do
     cycle_ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
