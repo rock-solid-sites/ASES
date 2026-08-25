@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2550,
+  "next_comment_id": 2551,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2511,7 +2511,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-25T07:16:33.558499710Z",
+      "updated_at": "2026-08-25T07:17:00.523949877Z",
       "labels": [
         "tooling"
       ],
@@ -2839,6 +2839,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASvGxPtMpd9niojroZOO79wOLVLMRVKdCVhU/PEgjdsM8UG2r8iitDKE7SgGdv6W8RB6kTWk2PBmRYIEypx9wBA=="
+        },
+        "9017c604-f1cc-43b4-8860-a748168a2af2": {
+          "display_id": 2550,
+          "author": "pp3g-0kW3-emergency-supervision-mode-change-under-460-473-7a2e",
+          "content": "Plan: EMERGENCY supervision mode change to OBSERVE-ONLY. Baseline captured 07:16:23Z: live observer tmux 'observer-live' pane PID 1031847 (child 1032135) running WITHOUT OBSERVER_DRY_RUN (verified via /proc/1031847/environ - only OBSERVER_FLAG_ISSUE=460 present). Lock /tmp/opencode/observer-state/observer.lock held by 1031847. Event baseline (2039 lines): transition-action=28, comment=37, cleanup=3, cycle=18. Steps: [1] kill observer-live session; [2] relaunch detached with OBSERVER_DRY_RUN=1 OBSERVER_FLAG_ISSUE=460 from MAIN checkout binary; [3] verify within ~150s: session alive, lock held by new PID, newest cycle event dry_run:true, ZERO transition-action/mutation events newer than start time, no fatal events; [4] post result with old/new PIDs + first dry-run cycle summary verbatim. No file modifications.",
+          "created_at": "2026-08-25T07:17:00.515521486Z",
+          "kind": "plan",
+          "signed_by": "SHA256:I3aQWgjXsdQzdtAhzJLGYEFEqLhT1VKa+A26GblNzmQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgmqLD3iH/dEI5E64YUy/Ao3d6dWWk0+AP8Llll9fx5IcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlKbBYXltunPGOopirjHbmHJp5I+iAkjxPifJLXKrAFOGorzUXeAPOXZVu+mFwWaVImO+oZ36/vP4gRnY4mAsCA=="
         },
         "9a13b666-61f3-4cf1-8617-2ffa7e4009d5": {
           "display_id": 2505,
@@ -31484,8 +31493,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T07:16:33.558499710Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2357
+    "timestamp": "2026-08-25T07:17:00.523949877Z",
+    "agent_id": "pp3g-0kW3-emergency-supervision-mode-change-under-460-473-7a2e",
+    "agent_seq": 2
   }
 }
