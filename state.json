@@ -1,6 +1,6 @@
 {
   "next_display_id": 471,
-  "next_comment_id": 2456,
+  "next_comment_id": 2457,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -13785,7 +13785,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T23:39:49.454091761Z",
-      "updated_at": "2026-08-25T03:37:14.410179359Z",
+      "updated_at": "2026-08-25T03:39:55.855714746Z",
       "labels": [
         "doctrine"
       ],
@@ -13861,6 +13861,15 @@
           "kind": "result",
           "signed_by": "SHA256:nPNa8MXwtEJRJy8myEcefNNGjvX0l0oQafANji0EiF0",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxoRf1st2GdxSPLJN4xNPVVouJ9Wh7cvhAr4zcZP9TzEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAJmM92SJLQdyi93QzdnzZs6r3jYTAHBe6DiQlxD3Zsm4U2ny04ytToet7IEmLF2vsYQKu12YZGS7eGRXwovhUBw=="
+        },
+        "799688b3-9780-4814-bb99-0ea9f4234a40": {
+          "display_id": 2456,
+          "author": "pp3g-Bi1p-micro-fix-under-462-in-main-checkout-home-claude-code",
+          "content": "Result: micro-fix in MAIN checkout /home/claude-code/projects/ASES (branch main) COMPLETE — operator's accidental 'git add .' fully remediated, root-cause guard added. NO push performed.\n\nPREMISE VERIFIED LIVE: staged = 16 .worktrees/pp3g-* gitlinks + .crosslink/.last-hydrated-ref (MM) + exactly 14 to-file/*.md docs; .gitignore had no worktrees entry.\n\nEXECUTION:\n[1] Unstaged worktree entries + hub-state file: 'git rm -r --cached .worktrees' initially REFUSED by git's embedded-repo safety check (staged gitlink SHAs differed from current worktree HEADs); resolved with --force — safe because --cached touches ONLY the index (zero working-tree/object-store changes). Then 'git restore --staged .crosslink/.last-hydrated-ref' → now unstaged-modified runtime churn, as specified.\n[2] COMMIT 1 = b8680bd0f3d5dc4bdd19e8fcd432c4087b3383e5 'docs: intake research-level classification corpus (14 docs) via to-file' — verified via git show --stat: EXACTLY 14 files, all to-file/*.md, 19377 insertions, nothing else.\n[3] Root-cause guard: appended '.worktrees/' (+comment) to .gitignore line 42 after verifying absence; staged.\n[4] COMMIT 2 = 330ad339d912fe0a04fe8cff70eaa2c9499601b8 'chore: ignore .worktrees to prevent embedded-repo staging accidents'.\n\nVERIFY EVIDENCE (final git status --porcelain):\n M .crosslink/.last-hydrated-ref\n?? \"to-file/ChatGPT Gastown Deep Dive Summary.md\"\n→ ZERO staged entries; ZERO .worktrees mentions (guard already suppressing them); only leftover modification = .crosslink/.last-hydrated-ref unstaged-modified. Full status: main...origin/main [ahead 14].\n\nNOTES: (a) untracked to-file/ChatGPT Gastown Deep Dive Summary.md predates this task, was never staged, is NOT one of the 14 wanted docs — left untouched for orchestrator decision. (b) branch ahead 14 incl. these 2 commits + prior merges — push/merge deliberately not attempted (orchestrator-owned). WHAT-NOT-TESTED: doc contents not audited (commit preserves them byte-exact as staged); no push/merge executed by design. Certainty: PROVEN by direct git inspection at every step. Blocker: none.",
+          "created_at": "2026-08-25T03:39:55.847680881Z",
+          "kind": "result",
+          "signed_by": "SHA256:Mz03FY6bQXmkNSsWsG2I9msmUg50fbP9dm7z4ky4lv8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg/mQ9Po40UU+4WeboW+xn+25xdNz+NbA0WGaiycErK+oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABApItC+PgtX3/OrkX29vfjYGh5zFVyQR4200W9XofKC/8hYbZ5FrebrDTnK7KxcQqeFsgGTY9Dyve32naa+tmIAQ=="
         },
         "89d22d27-6846-47c0-8959-979af771c8c2": {
           "display_id": 2453,
@@ -30546,8 +30555,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T03:37:14.410179359Z",
+    "timestamp": "2026-08-25T03:39:55.855714746Z",
     "agent_id": "pp3g-Bi1p-micro-fix-under-462-in-main-checkout-home-claude-code",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
