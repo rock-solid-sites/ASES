@@ -1,6 +1,6 @@
 {
   "next_display_id": 471,
-  "next_comment_id": 2476,
+  "next_comment_id": 2477,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2481,7 +2481,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-25T04:45:50.630838719Z",
+      "updated_at": "2026-08-25T04:51:17.542857949Z",
       "labels": [
         "tooling"
       ],
@@ -2602,6 +2602,15 @@
           "kind": "note",
           "signed_by": "SHA256:6e4CKr9qWKIo/QDlRxXHjnpD6gvfXbVhWSiQrVCBI/w",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtP1rEgV7U+HxJU7+5Rb/cbWT+TGC8TupNtkqfKNqZ2wAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAiWet9jfBEHojssedo9JxC6lapif7UE+5RS3zK9bOYWUrwtoApwbL/sY+R3GvzROkbOjMB3kfCpg07E/r1R7LBA=="
+        },
+        "898dc5ed-772f-438f-91d1-17a145afbb13": {
+          "display_id": 2476,
+          "author": "pp3g-ODIv-fix-pass-on-observer-v1-under-460-close-the-six-8ff6",
+          "content": "Result: [RESULT][BUILDER] FIX PASS on Observer v1 COMPLETE - all six convergent blockers closed on feature/pp3g-ODIv-fix-pass-on-observer-v1-under-460-close-the-six-8ff6, one commit per fix, suite green after every commit: 98 -> 122 checks, final 122/122 from BOTH the project root AND a neutral /tmp cwd (the pre-fix suite was 96-98/98 depending on environment). Verified with bash -n, zero stub patterns, plus a REAL-fleet dry-run smoke test executed from /tmp (20 live agents scanned, full cycle rc=0 - end-to-end proof of hermeticity).\n\nFIX -> COMMIT MAP:\n[FIX 1 CWD HERMETICITY #465 F1] 1a23ab42 - all path-like OBSERVER_* env vars normalized to absolute before any cd (resolved against launch dir); OB_CROSSLINK_ROOT discovered by walking up from SCRIPT_DIR for .crosslink (OBSERVER_CROSSLINK_ROOT override, fallback OB_REPO_ROOT) and process cd anchored there with loud fatal on failure; python run() gained cwd param and ALL six crosslink call sites pass it explicitly (monitored REPO_ROOT no longer assumed to be a crosslink repo); harness run_cycle now runs every cycle from / - T16 issue-exists ok:true is the hermeticity discriminator, issue-claimed asserts a definitive verdict since lock state is session state not script state.\n[FIX 2 STRICT FAILURE MODE #469 CRITICAL] 64fb9890 - set -euo pipefail; bash loop rewritten to explicit '|| rc=$?' capture for liveness/input/json-compaction/cycle-program; state-dir mkdir failure = loud fatal exit; events appends via emit_event() with stderr fallback (documented exception); cycle-program failures NOW count toward the consecutive-error cap (halt-not-loop; previously only liveness counted so a crashing program looped forever) - verified live: crash -> counted -> cap -> exit 1; save_state failure escalates stderr + nonzero rc so the cap halts before duplicate mutations; backup critical failures (hot-copy/snapshot/export/RED verify) fire deduped [OBSERVER][BACKUP] alerts; failed backup pass re-stamps last_run_ts to a SHORT retry backoff (OBSERVER_BACKUP_RETRY_MINS default 15) instead of silently skipping a full day (#465 F7 class); dead timeout_ok param removed.\n[FIX 3 DELIVERABLE-GATED CLEANUP #466 F3] 5d4959e5 - act_completed reordered: deliverable_check FIRST, kickoff_cleanup ONLY when deliverable_present true; fail/indeterminate (branch missing OR empty branch - the exact #460 false-positive class) -> NO cleanup at all, worktree preserved, force-sweep flag naming the preserve reason, staging row cleanup=skipped-unverified-deliverable, posted comment carries explicit 'Cleanup SKIPPED' notice; T1/T12 refit with real git-worktree fixtures so the gate genuinely passes there; new T18a/T18b cover both skip paths incl. physical worktree preservation.\n[FIX 4 PARKED-EXPIRY RE-VERIFICATION #466 F1] fb12f590 - expiry branch re-scans attributed log tail BEFORE any kill; fresh rate-limit signature extends park with resume_at = max(parsed, now+PARKED_DEFAULT_RESUME_MINS grace), source=park-extension-fresh-signature, event parked-extended; kill only on expiry AND clean tail; T5 extended: extension phase, grace-floor assertion (stale past-dated retry-after parse must NOT be used), then clean-tail expiry kill still fires.\n[FIX 5 INSTANCE LOCKFILE #466 F6] 51ed928f - atomic noclobber lockfile <state-dir>/observer.lock carrying PID; second instance refuses loudly (fatal event + stderr + exit 1) while holder PID alive via ps -p (cross-owner safe); stale lock recovered exactly once with instance-lock-stale-recovered event; EXIT/INT/TERM trap removes lock ONLY when owned (refused instance never disturbs a live competitor); documented fail-safe limitation: PID reuse reads as live -> refuse rather than double-run; new T19 covers refusal/stale-recovery/trap-cleanup.\n[FIX 6 WATERMARK HOLD ON SYNC FAILURE #466 F2] 5cbfbc86 - local GREEN read-back now yields CANDIDATE watermarks only; commitment deferred to sync gate: advances ONLY when read-back GREEN AND (rclone sync GREEN OR remote-unconfigured local mode explicitly acknowledged in events); sync RED holds ALL watermarks, writes SYNC-FAILED line to sync-pending.log, fires deduped alert, queues artifacts into bk[sync_backlog] retried+cleared on later GREEN passes; last_pass records watermarks_committed + backlog; prune-gate auto-degrades to PENDING for held windows.\n\nWHY: closes the six consensus blockers from the four-model review round exactly as scoped. WHAT: evidence = per-commit suite runs (98->98->110->114->121->122), final 122/122 dual-CWD, live program-failure halt demonstration, real-fleet smoke cycle from /tmp. HOW CERTAIN: evidence-based for everything above. WHAT-NOT-TESTED (per dispatch constraint, unchanged): rclone positive-path sync and fault injection stay untested - the FIX 6 sync-RED hold branch is code-inspected only, local-mode advance path is suite-covered; non-dry-run mutations end-to-end remain orchestrator shakedown n=1; long-duration loop behavior unchanged.",
+          "created_at": "2026-08-25T04:51:17.534646652Z",
+          "kind": "result",
+          "signed_by": "SHA256:6e4CKr9qWKIo/QDlRxXHjnpD6gvfXbVhWSiQrVCBI/w",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtP1rEgV7U+HxJU7+5Rb/cbWT+TGC8TupNtkqfKNqZ2wAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdz12iUXefgGdqy+z6jOE//HQJJZUhm+566yWfP0w/kQ6H3nqjgIHDqpjQtgBLCuHMJ7cV5Qkqx4EMzD8wV22Dw=="
         },
         "8bda041a-5a3a-49fa-8ca9-0e56e4c8ef0a": {
           "display_id": 2383,
@@ -30718,8 +30727,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T04:45:50.630838719Z",
+    "timestamp": "2026-08-25T04:51:17.542857949Z",
     "agent_id": "pp3g-ODIv-fix-pass-on-observer-v1-under-460-close-the-six-8ff6",
-    "agent_seq": 13
+    "agent_seq": 14
   }
 }
