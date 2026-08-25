@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2544,
+  "next_comment_id": 2545,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2511,7 +2511,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-25T07:05:04.500451804Z",
+      "updated_at": "2026-08-25T07:11:41.610851205Z",
       "labels": [
         "tooling"
       ],
@@ -2704,6 +2704,15 @@
           "kind": "observation",
           "signed_by": "SHA256:O05dKMjpFuMdmfsh5ehsbZ68nszFiLwrSUp8bti/X7I",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgzsl5kzNHs0st6frW0D8e72V6iveTqRAm54s6zUQr8qQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsNMk4L0ttxVIvZedXr8hitgXQ10AJtoZMYUNzZMajt+6TCI8T1MKOxWHkTbQuN27XnFVWF5sergi+6DLqMirAQ=="
+        },
+        "7182a7fe-e3c7-4b7c-a54a-dfadff25e9ab": {
+          "display_id": 2544,
+          "author": "pp3g-HZGb-observer-supervision-restart-under-460-the-live-8e0e",
+          "content": "Plan: RESTART live Observer supervision onto main-checkout binary per dispatch. Pre-flight verified: [a] dispatch premise CONFIRMED - PID 856975 alive but ORPHANED (PPID 1), NO observer-live tmux session exists anymore (killed as side-effect of Gfq8 worktree cleanup 07:03), script path /home/claude-code/projects/ASES/.worktrees/pp3g-Gfq8-.../scripts/observer/observer.sh DELETED from disk while bash holds the open fd - next worktree-relative subprocess is a failure waiting to happen; [b] main checkout READY - HEAD includes 889570e7 (breaker-deny fix) as ancestor, observer.sh present (126.1K); [c] duplicate-detection baseline captured - events.jsonl at 1997 lines (last cycle 07:03:06Z rc=0 scanned=25), 28 transition-action events total, ZERO fatal events all-time, manager-state.json tracks 26 agents ALL with handled-sets (18 DONE-CONFIRMED, 7 DEAD-UNMARKED, 1 LIKELY-FROZEN), observer.lock=856975. SEQUENCE: [1] tmux kill-session -t observer-live will be a no-op (session already absent) -> SIGTERM 856975 directly for clean EXIT-trap lock release; confirm gone; stale-lock recovery is backstop if trap misses. [2] Relaunch detached from MAIN checkout: tmux new-session -d -s observer-live 'OBSERVER_FLAG_ISSUE=460 bash /home/claude-code/projects/ASES/scripts/observer/observer.sh'. [3] Verify <=150s: session present; lock held by NEW pid; cycle event rc=0 newer than start; zero fatals; ZERO new transition-actions vs baseline (handled-sets must suppress re-fires for all 26 tracked agents). [4] Result comment: old/new PIDs, first-cycle summary JSON, duplicate check. No file modifications anywhere.",
+          "created_at": "2026-08-25T07:11:41.604255802Z",
+          "kind": "plan",
+          "signed_by": "SHA256:CCfqy/ldH7IRa/+tEMe4PwezdGDP+Gq0I/mkWib22Wk",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJpK8pK4daOcAr0wiXoaD+7HkdWZNdYkcZCDEBso0i/YAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAaajhqgMHzuPC4wnk40aNRChrAKYOsmoibKtvgm5ySnzF2YjGI9UmPpbWdsXzrIHVgc9V6VzS0j29JNLzMSJcBA=="
         },
         "77e32dd0-dccc-413a-895e-49b14d5553ea": {
           "display_id": 2381,
@@ -31430,8 +31439,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T07:11:31.789279414Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2353
+    "timestamp": "2026-08-25T07:11:41.610851205Z",
+    "agent_id": "pp3g-HZGb-observer-supervision-restart-under-460-the-live-8e0e",
+    "agent_seq": 2
   }
 }
