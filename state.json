@@ -1,6 +1,6 @@
 {
   "next_display_id": 474,
-  "next_comment_id": 2522,
+  "next_comment_id": 2523,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2505,7 +2505,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-25T05:50:56.258569056Z",
+      "updated_at": "2026-08-25T06:30:14.382407335Z",
       "labels": [
         "tooling"
       ],
@@ -2545,6 +2545,15 @@
           "kind": "observation",
           "signed_by": "SHA256:O05dKMjpFuMdmfsh5ehsbZ68nszFiLwrSUp8bti/X7I",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgzsl5kzNHs0st6frW0D8e72V6iveTqRAm54s6zUQr8qQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZWhOVi2eaCsWSbEn+bYbHzsS1HW1uYCoNF8k7k8B0Kx0beGfuVv81Wh9TSHXH9VUS8u95BIu5eQpI643WsnQAg=="
+        },
+        "34b7e36f-252e-4db8-800d-5e41d0f93bb3": {
+          "display_id": 2522,
+          "author": "pp3g-Gfq8-diagnosis-fix-documentation-under-460-the-live-2bfc",
+          "content": "Plan: DIAGNOSIS+FIX+DOCUMENTATION for the YBKJ cleanup failure under #460 shakedown. ROOT-CAUSE HYPOTHESIS (evidence-based, pre-verified against live state): [1] Cleanup failure = mutation-cap starvation, NOT invocation error. manager-state.json action_window holds exactly 24 entries (= OBSERVER_MAX_ACTIONS_PER_HOUR cap), 05:26:02..05:31:14 (leftover-fleet triage consumed the whole budget on comments); rolling 1h window still saturated when YBKJ's legitimate cleanup fired 05:54:54 -> breaker_allow returned False -> kickoff_cleanup line 943 early-return False WITHOUT ANY EVENT (the once/hour breaker-halt event already fired 05:31:38, so total silence). Same deny path silently dropped ~7 transition notification comments 05:31->now (zero comment events after 05:31:24 despite 6+ transition-actions) - Observer looked alive (admission-checks flowing) but its mutations were all dead. [2] Missing kickoff_cleanup out/err event = same silent early-return: the command NEVER RAN (no subprocess, no rc/out/err to log); only the breaker-deny happened, invisibly. WORK PLAN: [T1 reproduce] dry-run first (cheap discriminating test, non-mutating): cd /home/claude-code/projects/ASES && crosslink kickoff cleanup --only <YBKJ> --dry-run --json --yes capturing rc/out/err verbatim to validate invocation form without consuming the recovery target; plus deterministic suite reproduction of the saturated-window silent-deny. Real --yes form executes later INSIDE the fixed-code recovery (it is the same command Observer runs). [T2 root cause] as above, documented with event/state citations. [T3 fix] observer.sh: (a) kickoff_cleanup ALWAYS emits its event - breaker-deny path logs event=cleanup with explicit denied=breaker-cap + reason in err field (no more silent False); (b) invocation form corrected IF dry-run proves it wrong (else documented correct); (c) force-sweep resolution marker: successful cleanup+orphan=false appends resolved line to force-sweep-pending.txt + force-sweep-resolved event so task-4 success criterion 'force-sweep resolved' flows through code not hand-editing. [T4 recovery] stop live observer tmux session (superseded pre-fix binary; lock released via FIX5 stale-recovery if trap misses SIGHUP) -> surgical manager-state edit resetting ONLY YBKJ handled.DONE-CONFIRMED + phase (re-fire gate line 1447) -> run FIXED observer.sh --once against real state dir + real fleet -> expect DONE-CONFIRMED re-fire, deliverable gate pass, REAL cleanup execution (worktree+tmux removed by crosslink via fixed code), orphan=false, force-sweep-resolved, transition-action cleanup_ok=true, completion comment finally posted -> relaunch live loop on fixed binary to restore supervision. No hand-rm anywhere. [T5] suite green + bash -n. [T6] SHAKEDOWN LEDGER result comment (PASS / FAIL->FIXED / TRIAGED-DEFERRED tables, evidence-cited, WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED). Incremental commits referencing #460.",
+          "created_at": "2026-08-25T06:30:14.373446672Z",
+          "kind": "plan",
+          "signed_by": "SHA256:K6HliG+FMpSzrkEs5c2elFvSmlG1gb1b1KNl6VCkbZQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxBzyKeKP7hj+BH38EZQi6wpMAsuqFHVlMUrB1wdlKVAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAJihbGG+UPKZiKZKujuqf9YmL3+HpMrTlbSvJOH1TgLgB7gEUroSzRENqEikpFioX7gTllXJNbbMR//y69dGmCw=="
         },
         "3642570e-e25b-4816-a555-b513d275172a": {
           "display_id": 2472,
@@ -31195,8 +31204,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T06:25:53.643026198Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2331
+    "timestamp": "2026-08-25T06:30:14.382407335Z",
+    "agent_id": "pp3g-Gfq8-diagnosis-fix-documentation-under-460-the-live-2bfc",
+    "agent_seq": 2
   }
 }
