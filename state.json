@@ -1,6 +1,6 @@
 {
   "next_display_id": 463,
-  "next_comment_id": 2410,
+  "next_comment_id": 2411,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -13481,7 +13481,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T23:39:49.454091761Z",
-      "updated_at": "2026-08-25T01:08:16.024218925Z",
+      "updated_at": "2026-08-25T01:17:45.441482419Z",
       "labels": [
         "doctrine"
       ],
@@ -13512,6 +13512,15 @@
           "kind": "observation",
           "signed_by": "SHA256:nPNa8MXwtEJRJy8myEcefNNGjvX0l0oQafANji0EiF0",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxoRf1st2GdxSPLJN4xNPVVouJ9Wh7cvhAr4zcZP9TzEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyVKfUgnE7MqTu/pP78eEiI9fryRof7KAM+An06Zjd/S8ySngDiO6M1TUJ++8HwmOSdSceD9yWK85h1ruLBMoBA=="
+        },
+        "3fefb918-1882-4eec-9aaf-1e603e7a4e8c": {
+          "display_id": 2410,
+          "author": "pp3g-lCZ2-micro-housekeeping-batch-under-462-three-small-tasks",
+          "content": "Result: micro-housekeeping batch — all three tasks executed with live-evidence verification. TWO OF THREE DISPATCH PREMISES WERE STALE; both prior agents' claimed results were in fact real.\n\n== TASK 1: MAIN-checkout cleanup (DONE, tree left clean for orchestrator merge) ==\nPre-state (branch main @ 739025bd): 'M CHANGELOG.md' (+3 lines = exactly entries #440/#435/#434) + untracked docs/research/hms-postmortem-claims-assessment.md. Byte-verified BOTH stale copies against frAx branch commits BEFORE removal: cmp(working CHANGELOG.md, a1e76eb7:CHANGELOG.md)=identical; cmp(working hms doc, c5632914:docs/research/hms-postmortem-claims-assessment.md)=identical — removal loses nothing. Executed: git restore -- CHANGELOG.md && rm docs/research/hms-postmortem-claims-assessment.md. Post-state: porcelain shows only .crosslink/.last-hydrated-ref (hydration plumbing) + .worktrees/ (worktree dir) — neither blocks a merge. No merge attempted (orchestrator's).\n\n== TASK 2: fact-check #455 salvage (NOT NEEDED — findings were never lost) ==\nDispatch premise 'posted NOTHING to the hub' is FALSE. Evidence chain: (a) session ses_fc9ad2107ffepWN428IQkR57gW ran 2026-08-25T00:29:56Z→00:42:08Z, 172 parts (22 text / 27 reasoning / 49 tool); (b) transcript contains FOUR completed 'crosslink issue comment 455' bash tool calls — plan 00:32:19, PROGRESS 00:32:43, PROGRESS 00:36:56, RESULT 00:40:09 (payload 8048 chars, verified to contain the full 24-claim table incl. corrections C1-C6 and the WHAT-NOT-TESTED section) — plus 4 crosslink sync calls; (c) hub #455 displays all of them today: [plan] 00:32, [PROGRESS] 00:32+00:37, [result] 00:40 (doom_loop exists/threshold=3 hard-coded/no time window VERIFIED, auto-kill REFUTED-as-stated, per-message scope PARTIAL; AgentRM arXiv:2603.13110 algorithm claims VERIFIED, MIT-license UNVERIFIABLE; shell-exit/read/edit hook names REFUTED; prompt_async immediate-return + starts-if-needed VERIFIED; regressions #26635/#21728 VERIFIED; OTel cache_hits REFUTED -> gen_ai.usage.cache_read.input_tokens / cache_creation.input_tokens), [handoff] 00:41. Findings are NEITHER partial NOR absent — they are complete and canonical on #455. DELIBERATE DEVIATION: no duplicate SALVAGED-FROM-TRANSCRIPT comment posted to #455 — it would add a second competing result to a correctly-documented issue. Raw transcript extracts preserved under /tmp/opencode/n6qb-{text,reasoning}-parts.txt for audit only.\n\n== TASK 3: liveness-watch kill (GOAL STATE ALREADY ACHIEVED; dispatch premise stale) ==\nLive checks: tmux ls lists NO liveness-watch session; pgrep/ps find no liveness-watchdog.sh process (only kernel [watchdogd] + self-matches); /tmp/opencode/liveness-log.jsonl mtime frozen at 2026-08-25 00:41:06.026426124 (4781 lines). Dispatch protocol still executed: tmux kill-session -t liveness-watch -> 'can't find session: liveness-watch' exit=1 (= target absent, confirming); static-window test PASSED — baseline 01:10:40 UTC vs post-wait 01:13:10 UTC (150s): mtime identical to the nanosecond, line count identical, last line unchanged ({ts:2026-08-25T00:41:06Z, uptime_s:88079}). Death timestamp: 00:41:06 = uptime_s 88079 (~24.47h) after the 2026-08-24 ~00:13 start — exactly when frAx's result comment was posted. CONCLUSION: frAx DID execute the kill (contradicting 'frAx did not execute it'); its 00:41 claim was true.\n\nWHAT-NOT-TESTED: no merge performed (orchestrator-owned); N6QB's external fetches (arXiv/GitHub/OTel registry) not re-run — completeness verified via DB payload length + tail-marker match against the hub comment instead; no hunt for watchdog auto-restarters (systemd/cron) beyond the ps/pgrep snapshot — a restarter would have advanced the jsonl during the 150s window and did not; root cause of the stale dispatch premises (likely pre-hydration hub check) not investigated — out of scope. Certainties: all three task outcomes PROVEN by direct observation (byte-compare, sqlite records, tmux/mtime measurements). Blocker: none.",
+          "created_at": "2026-08-25T01:17:45.434410917Z",
+          "kind": "result",
+          "signed_by": "SHA256:kjm6F+qTfUZiZcYxYOrwtz42CBftrwRvpeIWb1ktMKE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg6+CNG9QlLLBvVe0KJzsSU0tWINmtCnIqxx6/FbpYw0kAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASBRwsPbcTtPowbxCUBTYkjeGDW+pZiIZ8+4xkTgrTqEjMt+6DM4L5gsYVmCim/HTQG1vp0MGF5HXtp/i8PjGBw=="
         },
         "457fe9c7-1cc8-4b2d-a63c-0fdde471cc95": {
           "display_id": 2405,
@@ -29993,8 +30002,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T01:08:16.024218925Z",
+    "timestamp": "2026-08-25T01:17:45.441482419Z",
     "agent_id": "pp3g-lCZ2-micro-housekeeping-batch-under-462-three-small-tasks",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
