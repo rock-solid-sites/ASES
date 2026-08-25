@@ -1,6 +1,6 @@
 {
   "next_display_id": 474,
-  "next_comment_id": 2523,
+  "next_comment_id": 2524,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -23570,11 +23570,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T06:24:42.029665760Z",
-      "updated_at": "2026-08-25T06:25:53.643026198Z",
+      "updated_at": "2026-08-25T06:30:24.373590889Z",
       "labels": [
         "research"
       ],
       "comments": {
+        "db7700a7-7669-4e93-bbb0-256e64a65df9": {
+          "display_id": 2523,
+          "author": "OL2r",
+          "content": "[ADDENDUM][ORCHESTRATOR] Operator ran the kernel-log query: EMPTY RESULT for the 05:45+ window. Null result is itself informative - no classic OOM-killer signature survives in journalctl -k, so Finding 2 remains guess-level with widened alternatives: (a) rotated/absent kernel logging on this host; (b) userspace SIGTERM from the OTHER orchestrator's own supervision stack (ownership per #472: qlIC belongs to the sibling orchestration domain and its death is THAT domain's forensic problem); (c) non-OOM abnormal exit. Cross-domain investigation explicitly handed to the owning orchestrator per operator routing 2026-08-25 - this project's thread closes here except as design input.",
+          "created_at": "2026-08-25T06:30:24.366641632Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+SbZuERnFjhIkzCw54pjt38mkjsbGGwT37y6OxGkHuvij+wU2fbpu2bUxwwvU7kCA2HlV1wT2okSKm/UNnxsBg=="
+        },
         "de216f7c-7f84-4d33-8b0b-edda7f568feb": {
           "display_id": 2521,
           "author": "OL2r",
@@ -31204,8 +31213,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T06:30:14.382407335Z",
-    "agent_id": "pp3g-Gfq8-diagnosis-fix-documentation-under-460-the-live-2bfc",
-    "agent_seq": 2
+    "timestamp": "2026-08-25T06:30:24.373590889Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2332
   }
 }
