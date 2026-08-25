@@ -1,6 +1,6 @@
 {
   "next_display_id": 471,
-  "next_comment_id": 2453,
+  "next_comment_id": 2454,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -13776,7 +13776,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T23:39:49.454091761Z",
-      "updated_at": "2026-08-25T02:23:36.242233647Z",
+      "updated_at": "2026-08-25T03:36:55.146088969Z",
       "labels": [
         "doctrine"
       ],
@@ -13843,6 +13843,15 @@
           "kind": "result",
           "signed_by": "SHA256:nPNa8MXwtEJRJy8myEcefNNGjvX0l0oQafANji0EiF0",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxoRf1st2GdxSPLJN4xNPVVouJ9Wh7cvhAr4zcZP9TzEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAJmM92SJLQdyi93QzdnzZs6r3jYTAHBe6DiQlxD3Zsm4U2ny04ytToet7IEmLF2vsYQKu12YZGS7eGRXwovhUBw=="
+        },
+        "89d22d27-6846-47c0-8959-979af771c8c2": {
+          "display_id": 2453,
+          "author": "pp3g-Bi1p-micro-fix-under-462-in-main-checkout-home-claude-code",
+          "content": "Plan: Micro-fix in MAIN checkout /home/claude-code/projects/ASES (branch main). Premise verified live: staged = 16 .worktrees/pp3g-* gitlinks + .crosslink/.last-hydrated-ref (MM) + exactly 14 to-file/*.md docs; .gitignore lacks any worktrees entry. Steps: [1] git rm -r --cached .worktrees && git restore --staged .crosslink/.last-hydrated-ref (leaves it modified-unstaged as runtime churn); [2] commit 1 = the 14 to-file docs exactly as staged, message 'docs: intake research-level classification corpus (14 docs) via to-file'; [3] append .worktrees/ to .gitignore (verified absent), stage it; [4] commit 2 'chore: ignore .worktrees to prevent embedded-repo staging accidents'; [5] VERIFY zero staged entries / zero .worktrees mentions / only leftover mod = last-hydrated-ref unstaged. NO push. Evidence (final status + both hashes) posted as result on #462.",
+          "created_at": "2026-08-25T03:36:55.138334628Z",
+          "kind": "plan",
+          "signed_by": "SHA256:Mz03FY6bQXmkNSsWsG2I9msmUg50fbP9dm7z4ky4lv8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg/mQ9Po40UU+4WeboW+xn+25xdNz+NbA0WGaiycErK+oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAjvUD+Gd2s0v1kfshGpmyZ/IeVHQHfqGfASLdttCbCpJ53C1kT4JlMjwD3//pMWm3OGeRa3SaM8PqS54RGJuCCQ=="
         },
         "91c15427-a836-42ef-938a-4c842f7d17f1": {
           "display_id": 2409,
@@ -30519,8 +30528,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T03:36:11.571235404Z",
-    "agent_id": "pp3g-7zcB-you-are-one-of-several-independent-adversarial-3470",
-    "agent_seq": 4
+    "timestamp": "2026-08-25T03:36:55.146088969Z",
+    "agent_id": "pp3g-Bi1p-micro-fix-under-462-in-main-checkout-home-claude-code",
+    "agent_seq": 2
   }
 }
