@@ -4,8 +4,9 @@ tags: ["ops", "memory", "oom", "systemd"]
 sources: []
 contributors: ["OL2r"]
 created: 2026-07-20
-updated: 2026-07-20
+updated: 2026-08-25
 ---
+
 
 # Server Memory Management
 
@@ -81,3 +82,24 @@ When an agent needs to delete sessions from the DB:
 - `docs/research/session-audit-plan.md` — 7-stage cleanup plan and results
 - `docs/research/opencode-bug-session-delete-active.md` — upstream bug report
 - `to-file/crosslink-gates/server-crash-postmortem.md` — July 13 crash postmortem
+
+
+
+---
+
+## earlyoom kill behavior (documented 2026-08-25 after #473 misfire chain)
+
+Stock Debian earlyoom, DEFAULT thresholds on this host: SIGTERMs the **biggest memory consumer** whenever available RAM AND swap BOTH drop below 10 percent. The only flag in use is -r 3600 (hourly self-report) — no -m/-s threshold overrides and NO prefer/avoid lists.
+
+**Observed kills:** opencode sessions (operator-reported, multiple times) and agent processes (pp3g-qlIC collector killed ~05:58 UTC 2026-08-25 during swap exhaustion at 3.4G/3.9G — see issue #473).
+
+**Forensics trap:** earlyoom kills are USERSPACE SIGTERMs. They are logged under the earlyoom unit journal / syslog, NOT the kernel ring buffer — journalctl -k plus grep oom returns EMPTY even right after an earlyoom kill. Check: journalctl -u earlyoom --since <window> (may require sudo).
+
+**PRE-LAUNCH CHECK (orchestrator procedure before dispatching memory-heavy agents):**
+1. free -m — read the available column.
+2. Rule of thumb from the July-13 crash postmortem: keep >=1GB headroom over base stack (~1.9GB) plus expected fleet footprint; defer or stagger launches when available RAM+swap headroom approaches the 10-percent earlyoom trigger.
+3. Heavy collectors/scrapers: schedule during low-fleet windows or add their own memory ceiling.
+
+**Mitigation knobs if tuned later:** earlyoom -m/-s PERCENT to move thresholds, --prefer/--avoid regex lists (e.g., protect the opencode TUI itself), -r for report cadence.
+
+Related: #473 (first live Observer misfire chain — earlyoom SIGTERM of a self-throttling collector misread hours earlier by the freeze detector).
