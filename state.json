@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2576,
+  "next_comment_id": 2577,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2507,7 +2507,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-25T09:10:27.706807947Z",
+      "updated_at": "2026-08-25T09:20:10.702827222Z",
       "labels": [
         "tooling"
       ],
@@ -3161,6 +3161,15 @@
           "kind": "result",
           "signed_by": "SHA256:K6HliG+FMpSzrkEs5c2elFvSmlG1gb1b1KNl6VCkbZQ",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxBzyKeKP7hj+BH38EZQi6wpMAsuqFHVlMUrB1wdlKVAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAUNizHKsVbFt4SXoOsW4f4Gtsk+Xq+1ZTV4hCkbfFMx5bKDx54kbCK1V3ycmtR06WIPEk0u4pG+F/qpVBOyzsDQ=="
+        },
+        "f13dfea5-5087-40a3-bbc6-7ce2c50e90d8": {
+          "display_id": 2576,
+          "author": "pp3g-VGK2-execution-authority-boundary-pass-v1-1-under-460-the",
+          "content": "Result: [RESULT][BUILDER] EXECUTION-AUTHORITY BOUNDARY pass v1.1 COMPLETE under #460 - four changes landed as ONE coherent mechanism on feature/pp3g-VGK2-execution-authority-boundary-pass-v1-1-under-460-the, one commit per change, suite green after every commit: 130 -> 144 (C1) -> 159 (C2) -> 173 (C3) -> 181 (C4), final 181/181 verified on the committed tree.\n\nC1 FAIL-CLOSED MODE (2e690049): OBSERVER_MODE in {observe|act}; unset/empty/ANY unrecognized value resolves to observe; OBSERVER_DRY_RUN non-empty kept as observe alias and WINS over act. Every internal DRY_RUN read replaced by MODE/ACT resolution (python re-validates independently). Startup event + manager-state carry resolved mode; every cycle summary includes mode (+derived dry_run for compat).\n\nC2 OWNER STAMP + AUTHORIZATION (1050447c): launcher-written immutable <worktree>/.owner-orchestrator read passively (Observer never writes stamps); authorize_destructive() enforced INSIDE kickoff_stop/kickoff_cleanup in act mode BEFORE the breaker: owner-unknown / observer-id-unset / owner-mismatch all DOWNGRADE to notification-only naming the actual owner + would-be action (deduped per agent+action until fingerprint changes). MODE=act without OBSERVER_ORCHESTRATOR_ID = loud fatal before lock acquisition. Design decision (dispatch-faithful): observe mode records intents authorization-free (recording is not destructive) but annotates records with ownership facts and stays breaker-capped - the observer remains a pure recorder.\n\nC3 CONVERGENT-EVIDENCE GATE (2fa5a189): convergent_gate() invoked inside act_frozen BEFORE any destructive capability; all five termination routes (LIKELY-FROZEN direct, STALE escalation x3 variants, parked-expiry) flow through it. Precedence documented in-code: P1 authoritative/contractual (hub-position static across evaluations, commit-age stale, process exit, expired retry-after contract) outrank P2 corroborating inference (pane-hash/mtime/quiet windows); P3 absence/silence contributes but never triggers. Termination requires >=1 P1 AND log-tail quiet; a CHANGED attributed log last-line VETOES outright (#473 self-throttling-collector class); first sighting of a live tail is undecidable->held; missing tail is silence-class vacuous-quiet (P1 still required). Pane-hash silence alone NEVER terminates regardless of repetitions. Six-class taxonomy untouched. Bug caught by refit: gate initially trusted cached commit_age from rec (a once-fresh commit stayed fresh forever, defeating convergence) - now always re-probed.\n\nC4 AUTHORITY/EVIDENCE FACTS (1050447c + c5eb6e72): every evidence bundle carries authority.json (owner_orchestrator or unknown, observer id, mode, capability); all five terminal transition-action events carry owner_orchestrator + authority{capability,mode} + notified (posted rc bool) + would_be_action on downgrades + mode; staging rows carry owner+mode.\n\nPOST-BUILD SELF-CHECK: [a] PROVEN live - default launch (no OBSERVER_MODE, no DRY_RUN, no id) against the REAL fleet (30 agents scanned, neutral cwd, isolated state dir): startup record mode=observe, cycle summary mode=observe/dry_run=true, ZERO stop/cleanup invocations, 24 intent records only. [b] PROVEN live - act without OBSERVER_ORCHESTRATOR_ID: exit rc=1, stderr 'FATAL - OBSERVER_MODE=act requires OBSERVER_ORCHESTRATOR_ID', fatal event kind=act-mode-requires-orchestrator-id. [c] GREP-PROVEN - observer.sh:1681 convergent_gate() call sits inside act_frozen with early return at :1683 BEFORE kickoff_stop (:1685) and kickoff_cleanup (:1686); act_frozen call sites at :1868/:1924/:1945/:1951/:1969 cover every termination route.\n\nWHY: closes the #473 harmful-by-design class (cross-domain kill of a healthy agent) per #462/#473/#475 decisions - no single bit flip or weak signal reaches lethal capability anymore. WHAT: evidence above; new tests T21a-d (default/garbage/alias/act tripwire proofs), T22-T24 (cross-owner, unknown-owner, act-without-id), T25a-b (pane-silence-alone x3 never kills; advancing-log veto despite P1), T26 (convergence kills), T27a-b (authority facts present). HOW CERTAIN: evidence-based for everything above (per-commit suite runs + live demonstrations). WHAT-NOT-TESTED: hub-position-static signal exercised only via its absence in hermetic tests (unresolvable flag issue) - the positive two-evaluation static path is code-inspected, not suite-driven (needs a live hub fixture); process-exit P1 not driven through the gate end-to-end (T4 covers classification only); real cross-domain downgrade against a genuinely sibling-owned live agent not attempted (would require the sibling domain); non-dry-run mutations remain orchestrator shakedown n=1.",
+          "created_at": "2026-08-25T09:20:10.696145356Z",
+          "kind": "result",
+          "signed_by": "SHA256:AYmo5ABb3g+YopdhtqlTTBcKwW5Ot6f4RPcYVTX9+jI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg0u9bX5RqY1EMsvAcmf+7Xl0S9fd4uChKsnN6h5kGFmoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAd3DKy1fHoRmh/DHh0BFVouaradi0hsJHTszL7j4G8LPVv/LqpL6Z59K3AAba0sHsTm7h56q4gU4iLPNzxipRBA=="
         },
         "ff37efb7-4ff2-489e-911e-2b6d84c47474": {
           "display_id": 2389,
@@ -31716,8 +31725,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T09:10:27.706807947Z",
+    "timestamp": "2026-08-25T09:20:10.702827222Z",
     "agent_id": "pp3g-VGK2-execution-authority-boundary-pass-v1-1-under-460-the",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
