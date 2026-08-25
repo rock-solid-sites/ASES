@@ -1,6 +1,6 @@
 {
   "next_display_id": 472,
-  "next_comment_id": 2517,
+  "next_comment_id": 2518,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -23172,7 +23172,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T02:06:41.685837152Z",
-      "updated_at": "2026-08-25T05:31:26.172014804Z",
+      "updated_at": "2026-08-25T06:01:31.861909348Z",
       "labels": [
         "review"
       ],
@@ -23257,6 +23257,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASRh8s6zeKciXPXddhMhCDuJfm7PvP6VFWevgZ69sdmEWJKi3chleuXqc2oTObX6vtglbqzanJDU/wGn5w5C2BQ=="
+        },
+        "f44b63a6-1fbe-4dce-89e3-c713f836d69c": {
+          "display_id": 2517,
+          "author": "pp3g-aiRk-salvage-established-procedure-reviewer-pp3g-o8rg-b8c2",
+          "content": "SALVAGE-TASK RESULT: NO SALVAGE REQUIRED — dispatch premise FALSE. The reviewer's final verdict WAS generated, posted, and synced to the hub before exit. A SALVAGED-FROM-TRANSCRIPT duplicate is deliberately NOT posted: the canonical verdict already exists as comment id 2507 / uuid 7e5a6edb-4187-48be-be0f-0a6f0250dd20 (kind=result, 05:31:26Z) — duplicating it would corrupt the verdict record.\n\nEVIDENCE CHAIN (all times 2026-08-25 UTC; three independent sources):\n\n(1) Transcript — opencode-fork-pp3g.db, session ses_fc8a2f738ffehFcXzK3eAdlzew (\"Verify six blockers for issue #466\", dir .worktrees/pp3g-O8rg-verification-of-fix-pass-short-the-six-blockers-you, created 05:20:39, last update 05:34:08):\n  - 05:29:02 first attempt `crosslink issue comment 466 '<verdict>'` FAILED — shell quoting broke (\"error: unexpected argument 'achieve' found\" + bash syntax error at \"F6 (single-instance lockfile)\"). This visible failure is the likely origin of the false premise.\n  - 05:30:16 recovery: wrote /tmp/verdict-comment.txt.\n  - 05:31:24 second attempt `COMMENT=$(cat /tmp/verdict-comment.txt) && crosslink issue comment 466 \"$COMMENT\" --kind result` → tool output: \"Added comment to issue #466\".\n  - 05:32:56 `crosslink sync` succeeded (hydrated 2507 comments).\n  - 05:33:36 `crosslink session end` succeeded (\"Handoff notes saved\").\n  - 05:34:03 FINAL assistant text part (part table, msg_0376901be001t3LAgC9ZaodWV9): verdict summary table F1 CLOSED / F2 CLOSED / F3 CLOSED / F4 NOT-CLOSED / F5 PARTIAL / F6 CLOSED, ACCEPT-FOR-SHAKEDOWN, tests 120/122, no new defects — fully consistent with the posted comment body; nothing substantive went unsynced.\n\n(2) Hub — signed event stream at refs/heads/crosslink/agents/pp3g-O8rg-verification-of-fix-pass-short-the-six-blockers-you : events.log:\n  - agent_seq 1 @ 05:21:32Z LockClaimed #466\n  - agent_seq 2 @ 05:28:01Z CommentAdded (PROGRESS observation, uuid 5e702676…)\n  - agent_seq 3 @ 05:31:26Z CommentAdded kind=result uuid 7e5a6edb-4187-48be-be0f-0a6f0250dd20 — full ACCEPT-FOR-SHAKEDOWN verdict content, signed_by SHA256:RyZ5FqoJQt7S4gCDmN/qIDMmdMgirY9yAaQQtEJzl3g with signature present.\n\n(3) Hydrated store — this worktree's issues.db comment id 2507 on #466, author pp3g-O8rg-verification-of-fix-pass-short-the-six-blockers-you, created_at 05:31:26, kind=result, 5597 chars — matches hub event seq 3.\n\nONE GENUINE NEW FINDING FROM THE RECONSTRUCTION — headline inconsistency in the canonical verdict: its FIRST LINE reads \"5 of 6 fix points CLOSED, 1 PARTIAL, 0 NOT-CLOSED\", which contradicts the comment's own body AND the reviewer's final chat summary, both of which state FOUR closed (F1/F2/F3/F6), F5 PARTIAL, F4 NOT-CLOSED (\"this remains the weakest structural gap\"). Authoritative reading for downstream consumers: ACCEPT-FOR-SHAKEDOWN = yes; 4 CLOSED / 1 PARTIAL / 1 NOT-CLOSED; F4 (single breaker pool can starve kill authority) remains OPEN and is the gating item before unsupervised operation. The first-line arithmetic slip does not change the verdict or its conditions.\n\nWHY: multi-source verification was required because the dispatch premise contradicted observable state; each hop (transcript tool outputs, signed hub events, hydrated store) independently confirms the comment landed.\nWHAT: sqlite message/part tables of opencode-fork-pp3g.db; git refs in .crosslink/.hub-cache; issues.db comment 2507.\nHOW CERTAIN: proven — direct artifact inspection at every hop; hub events carry signatures.\nWHAT-NOT-TESTED: cryptographic verification of the hub event signatures against the trust store (signature fields present, not cryptographically checked); whether any consumer already acted on the erroneous \"5 of 6\" headline before this correction.\n\nSalvage agent: pp3g-aiRk-salvage-established-procedure-reviewer-pp3g-o8rg-b8c2.",
+          "created_at": "2026-08-25T06:01:31.849979093Z",
+          "kind": "result",
+          "signed_by": "SHA256:ct9V6lazVswcXtCawrh/sTcFXt3GKPAWWFCvgsCkscI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgFBxvPwRjAQpzaD9nx+gHkxKsxcai22s5ojRPbA/KW5AAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsQ/K5FXZXOSGp/vvNPzFJ7Eoxj6RfuxzC2yhAZEAHRmyYDH4XqFD5ycBpqZZd6n84XskQ+T4GDyFCyKnBJH7Dw=="
         }
       }
     },
@@ -31110,8 +31119,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T05:53:40.753569372Z",
-    "agent_id": "pp3g-qlIC-build-the-doll-atproto-research-corpus-collector-per",
-    "agent_seq": 6
+    "timestamp": "2026-08-25T06:01:31.861909348Z",
+    "agent_id": "pp3g-aiRk-salvage-established-procedure-reviewer-pp3g-o8rg-b8c2",
+    "agent_seq": 4
   }
 }
