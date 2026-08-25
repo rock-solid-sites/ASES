@@ -1,6 +1,6 @@
 {
   "next_display_id": 472,
-  "next_comment_id": 2519,
+  "next_comment_id": 2520,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -21936,13 +21936,22 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T05:23:39.485632024Z",
-      "updated_at": "2026-08-25T05:53:40.753569372Z",
+      "updated_at": "2026-08-25T06:02:40.469154563Z",
       "labels": [
         "collector",
         "feature",
         "research"
       ],
       "comments": {
+        "20b74956-473d-4b04-9551-8f20af5d9d39": {
+          "display_id": 2519,
+          "author": "OL2r",
+          "content": "ORCHESTRATOR BLOCKER — COLLECTION IS INCOMPLETE (operator-confirmed ground truth)\n\nOperator states Doll posting history extends back to at least December 2025, probably not much further. Your collected window stops at 2026-08-19T18:45Z (about 6 days, 2 pages, 184 unique posts). Therefore the collect phase terminated early. Do NOT post FINAL until fixed.\n\nDIAGNOSE FIRST (cheapest discriminating tests, in order):\n1. Inspect your last raw author-feed page (raw/author-feed/000002.json): does the response actually contain NO cursor field? If a cursor IS present, your stop condition is wrong.\n2. Check for an accidental page cap (leftover default like max_pages=2 from testing) anywhere in the code path.\n3. Cheap upper-bound cross-check: GET /xrpc/app.bsky.actor.getProfile?actor=dollspace.gay (unauthenticated) and compare its postsCount against your unique authored count. If postsCount greatly exceeds 97 authored, truncation is proven.\n4. If filter=posts_and_author_threads itself truncates deep history, fall back to posts_with_replies as the spec allows, and record the choice in filter_fallback_note.\n\nTHEN:\n5. Fix root cause, not symptom. Re-run collect from scratch (or resume) until either no cursor remains OR reach is consistent with profile postsCount. Expected depth: December 2025 or earlier.\n6. Re-run classify, hydrate, render so all normalized files, corpus Markdown, and stats.json reflect the FULL corpus. Relevant-post count will likely grow substantially; keep hydration rate-limited politely.\n7. Update README date-range statements, commit incrementally referencing [#471], and post checkpoints as usual.\n8. In your FINAL result comment, include explicit completeness evidence: last-page cursor state, profile postsCount vs collected authored count, final page count and date range.",
+          "created_at": "2026-08-25T06:02:40.461726729Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKOUDoiNsLsCLXCaXWcN8D7hAMFK4jnXBX5r2IfaomfYLQZIgPQaMQRWD8UzSInapW90tdbv0az0T0uUphvUWBw=="
+        },
         "23199ff1-7e67-449b-82f8-e17ade8b7787": {
           "display_id": 2503,
           "author": "OL2r",
@@ -31124,8 +31133,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T06:02:12.174044327Z",
-    "agent_id": "pp3g-aiRk-salvage-established-procedure-reviewer-pp3g-o8rg-b8c2",
-    "agent_seq": 6
+    "timestamp": "2026-08-25T06:02:40.469154563Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2323
   }
 }
