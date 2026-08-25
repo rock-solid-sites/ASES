@@ -1385,6 +1385,32 @@ def process_agent(state, row):
             if resume is not None:
                 rec["resume_at_epoch"] = resume
         if resume is not None and time.time() >= resume:
+            # FIX 4 (#466 F1): expiry alone is the weakest-evidence kill
+            # trigger in the whole action table (a stale or misparsed
+            # resume_at would auto-kill a correctly-waiting agent). Before
+            # ANY expiry kill, re-scan the attributed log tail for a FRESH
+            # rate-limit/retry-after signature; if one is live, extend the
+            # park with resume_at = max(parsed, now + grace) instead.
+            # Kill requires expiry AND no live parking evidence.
+            li = loginfo()
+            if li.get("rate_limited"):
+                parsed = li.get("retry_after")
+                grace = time.time() + PARKED_DEFAULT_MINS * 60
+                new_resume = max(parsed, grace) if parsed else grace
+                prev_resume = rec.get("resume_at")
+                rec["resume_at"] = now_iso(new_resume)
+                rec["resume_at_epoch"] = new_resume
+                rec["resume_at_source"] = \
+                    "park-extension-fresh-signature"
+                log_event({"event": "parked-extended", "agent": agent,
+                           "prev_resume_at": prev_resume,
+                           "resume_at": rec["resume_at"],
+                           "grace_floor_min": PARKED_DEFAULT_MINS,
+                           "detail": "fresh rate-limit signature at "
+                                     "expiry; park extended, kill "
+                                     "suppressed"})
+                state["agents"][agent] = rec
+                return
             log_event({"event": "parked-expired", "agent": agent,
                        "resume_at": rec.get("resume_at")})
             act_frozen(state, row, rec,

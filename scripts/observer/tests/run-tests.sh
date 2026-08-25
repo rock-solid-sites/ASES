@@ -189,7 +189,9 @@ run_cycle "$sd" "$fx"
 check "T5 parked action fired"        '"action": *"parked"\|"action":"parked"' "$sd/events.jsonl"
 check "T5 resume_at parsed from header" '"resume_at_source": *"retry-after-header"' "$sd/manager-state.json"
 check_absent "T5 no kill while parked" '"event":"stop-dry-run"' "$sd/events.jsonl"
-# expiry: rewrite resume_at into the past, rerun
+# FIX 4 (#466 F1): expiry with a FRESH rate-limit signature still in the
+# attributed tail -> park EXTENDED (resume_at = max(parsed, now+grace)),
+# never killed.
 python3 - "$sd/manager-state.json" <<'PYEOF'
 import json, sys
 path = sys.argv[1]
@@ -201,8 +203,43 @@ with open(path, "w") as fh: json.dump(state, fh)
 PYEOF
 fx2="$sd/fix2.json"; fixture "$fx2" zzz-lc-parked LIKELY-FROZEN builder ALIVE RUNNING
 run_cycle "$sd" "$fx2"
+check "T5 fresh signature extends park" '"event":"parked-extended"' "$sd/events.jsonl"
+check "T5 extension source recorded"    '"resume_at_source": *"park-extension-fresh-signature"' "$sd/manager-state.json"
+check_absent "T5 no kill while signature live" "frozen-termination" "$sd/events.jsonl"
+# floor: parsed retry-after (2026-08-24 09:30) is in the PAST; the extended
+# resume_at must be at least now + default grace (60 min), not the stale parse
+python3 - "$sd/manager-state.json" <<'PYEOF'
+import json, sys, time
+path = sys.argv[1]
+with open(path) as fh: state = json.load(fh)
+epoch = state["agents"]["zzz-lc-parked"]["resume_at_epoch"]
+floor = time.time() + 3000  # 60-min grace minus 10-min slack
+if epoch >= floor:
+    print("PASS T5 extension floor = max(parsed, now+grace)")
+    sys.exit(0)
+print("FAIL T5 extension floor violated: %s < %s" % (epoch, floor))
+sys.exit(1)
+PYEOF
+if [ $? -eq 0 ]; then PASS=$((PASS+1)); else FAIL=$((FAIL+1)); fi
+# expiry with a CLEAN tail (no parking evidence) -> kill fires
+cat > "$sd/agent-clean.log" <<'LOGEOF'
+timestamp=2026-08-24T07:00:00.000Z level=INFO run=abc message=tracking cwd=/tmp/opencode/observer-tests/fake-wt/zzz-lc-parked session.id=ses_testparked001
+timestamp=2026-08-24T07:00:01.000Z level=INFO run=abc message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode-go llm.model=test-model-free session.id=ses_testparked001
+LOGEOF
+export TEST_OPENCODE_LOG="$sd/agent-clean.log"
+python3 - "$sd/manager-state.json" <<'PYEOF'
+import json, sys
+path = sys.argv[1]
+with open(path) as fh: state = json.load(fh)
+rec = state["agents"]["zzz-lc-parked"]
+rec["resume_at"] = "2026-08-24T00:00:00+00:00"
+rec["resume_at_epoch"] = 1
+with open(path, "w") as fh: json.dump(state, fh)
+PYEOF
+fx3="$sd/fix3.json"; fixture "$fx3" zzz-lc-parked LIKELY-FROZEN builder ALIVE RUNNING
+run_cycle "$sd" "$fx3"
 check "T5 expiry reclassified frozen" "parked-expired" "$sd/events.jsonl"
-check "T5 termination after expiry"   "frozen-termination" "$sd/events.jsonl"
+check "T5 termination after clean-tail expiry" "frozen-termination" "$sd/events.jsonl"
 unset TEST_OPENCODE_LOG
 
 # ---------------------------------------------------------------------------
