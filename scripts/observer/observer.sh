@@ -1056,35 +1056,74 @@ def act_completed(state, row, rec):
     branch = agent_branch(agent)
     ev = compose_transition_evidence(state, row, rec, "completed")
     loginfo = ev["loginfo"]
-    cleanup_ok = kickoff_cleanup(state, agent)
-    orphan = os.path.isdir(os.path.join(WORKTREES_ROOT, agent))
-    if orphan:
-        flag_for_sweep(agent, "completed-but-worktree-remains-after-cleanup")
+    # FIX 3 (#466 F3): deliverable verification gates cleanup. Observer
+    # automates the exact lost-worktree class that produced the #460 data
+    # loss (DONE-marked builder, uncommitted/unverified work, worktree
+    # wiped). So: kickoff_cleanup fires ONLY after deliverable_check
+    # PASSES (real committed file delta present on the branch). Failure or
+    # indeterminacy -> NO cleanup, worktree preserved, force-sweep flag +
+    # loud flag comment for the orchestrator.
     deliv = deliverable_check(branch)
+    cleanup_ok = None  # None = gate not passed (skipped)
+    orphan = None
+    if deliv.get("deliverable_present"):
+        cleanup_ok = kickoff_cleanup(state, agent)
+        orphan = os.path.isdir(os.path.join(WORKTREES_ROOT, agent))
+        if orphan:
+            flag_for_sweep(agent,
+                           "completed-but-worktree-remains-after-cleanup")
+    else:
+        flag_for_sweep(agent,
+                       "completed-deliverable-unverified-worktree-preserved")
+        log_event({"event": "cleanup-skipped", "agent": agent,
+                   "reason": "deliverable-unverified",
+                   "branch": branch, "deliverable": deliv})
     duration_min = None
     if started:
         duration_min = round((time.time() - started) / 60.0, 1)
+    if cleanup_ok is None:
+        cleanup_field = "skipped-unverified-deliverable"
+    elif DRY_RUN:
+        cleanup_field = "dry-run"
+    elif cleanup_ok:
+        cleanup_field = "executed"
+    else:
+        cleanup_field = "failed"
     append_staging_row({
         "agent": agent, "outcome": "completed", "role": row.get("role"),
         "issue": issue, "model": loginfo.get("model"),
         "provider": loginfo.get("provider"), "branch": branch,
         "deliverable": deliv, "duration_min": duration_min,
-        "cleanup": "dry-run" if DRY_RUN else ("executed" if cleanup_ok
-                                              else "failed"),
+        "cleanup": cleanup_field,
         "orphan_worktree": orphan,
         "evidence_bundle": ev["bundle"], "evidence_sha256": ev["sha256"],
     })
     rec["phase"] = "completed"
     rec.setdefault("handled", {})["DONE-CONFIRMED"] = now_iso()
-    message = ("[OBSERVER] COMPLETED agent={0} deliverable={1} "
-               "files_changed={2} merged={3}. {4}".format(
-                   agent,
-                   deliv.get("deliverable_present"),
-                   deliv.get("files_changed"), deliv.get("merged"),
-                   evidence_summary_line(ev)))
+    if cleanup_ok is None:
+        message = ("[OBSERVER] COMPLETED agent={0} deliverable={1} "
+                   "files_changed={2} merged={3}. Cleanup SKIPPED - "
+                   "deliverable unverified (branch missing or no "
+                   "committed file delta); worktree PRESERVED and "
+                   "flagged for operator review before any sweep. "
+                   "{4}".format(
+                       agent,
+                       deliv.get("deliverable_present"),
+                       deliv.get("files_changed"), deliv.get("merged"),
+                       evidence_summary_line(ev)))
+    else:
+        message = ("[OBSERVER] COMPLETED agent={0} deliverable={1} "
+                   "files_changed={2} merged={3}. Deliverable verified; "
+                   "scoped cleanup executed={4}. {5}".format(
+                       agent,
+                       deliv.get("deliverable_present"),
+                       deliv.get("files_changed"), deliv.get("merged"),
+                       "yes" if cleanup_ok else "NO",
+                       evidence_summary_line(ev)))
     post_comment(state, issue or FLAG_ISSUE, message)
     log_event({"event": "transition-action", "action": "completed",
                "agent": agent, "issue": issue, "cleanup_ok": cleanup_ok,
+               "cleanup_skipped": cleanup_ok is None,
                "orphan": orphan, "deliverable": deliv,
                "evidence": ev["bundle"], "sha256": ev["sha256"]})
 

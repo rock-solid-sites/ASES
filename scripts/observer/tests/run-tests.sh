@@ -86,15 +86,38 @@ run_cycle() { # run_cycle <statedir> <fixture.json> [extra env as KEY=VAL...]
 mkdir -p "$TESTS"
 : > "$TESTS/empty.log"
 
+# FIX 3 (#466 F3) fixture: a real git repo whose agent worktree carries a
+# COMMITTED file delta vs main, so deliverable_check() can actually pass
+# (cleanup is now gated on that check).
+make_deliverable_wt() { # make_deliverable_wt <root> <agent>
+    local root="$1" agent="$2"
+    mkdir -p "$root/.worktrees"
+    git -C "$root" init -q -b main
+    git -C "$root" config user.email t@t
+    git -C "$root" config user.name t
+    printf 'base\n' > "$root/base.txt"
+    git -C "$root" add base.txt
+    git -C "$root" commit -qm base
+    git -C "$root" worktree add -q -b "feature/$agent" \
+        "$root/.worktrees/$agent"
+    printf 'deliverable\n' > "$root/.worktrees/$agent/deliverable.txt"
+    git -C "$root/.worktrees/$agent" add deliverable.txt
+    git -C "$root/.worktrees/$agent" commit -qm "deliverable for $agent"
+}
+
 # ---------------------------------------------------------------------------
-note "T1 COMPLETED transition"
-sd="$TESTS/t1"; rm -rf "$sd"; mkdir -p "$sd"
+note "T1 COMPLETED transition (deliverable gate PASSES -> cleanup fires)"
+sd="$TESTS/t1"; root="$TESTS/t1-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-done
+export TEST_REPO_ROOT="$root"
 fx="$sd/fix.json"; fixture "$fx" zzz-lc-done DONE-CONFIRMED builder EXITED DONE
 run_cycle "$sd" "$fx"
 check "T1 cleanup dry-run recorded"   "cleanup-dry-run" "$sd/events.jsonl"
+check "T1 deliverable verified note"  "Deliverable verified" "$sd/events.jsonl"
 check "T1 staging row appended"       "model-evidence-row" "$sd/events.jsonl"
 check "T1 outcome completed"          '"outcome":"completed"' "$sd/model-evidence-staging.jsonl"
 check "T1 phase completed"            '"phase": *"completed"\|"phase":"completed"' "$sd/manager-state.json"
+unset TEST_REPO_ROOT
 
 # ---------------------------------------------------------------------------
 note "T2 FINISHED-UNMARKABLE transition"
@@ -286,7 +309,9 @@ check "T11 external vanish recorded"  "vanished-externally" "$sd/events.jsonl"
 
 # ---------------------------------------------------------------------------
 note "T12 evidence-at-transition on COMPLETED (F1: full bundle + digest comment)"
-sd="$TESTS/t12"; rm -rf "$sd"; mkdir -p "$sd"
+sd="$TESTS/t12"; root="$TESTS/t12-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-ev
+export TEST_REPO_ROOT="$root"
 fx="$sd/fix.json"; fixture "$fx" zzz-lc-ev DONE-CONFIRMED builder EXITED DONE
 run_cycle "$sd" "$fx"
 ls "$sd/evidence/zzz-lc-ev/"*-completed/verdict-timeline.json >/dev/null 2>&1 && { printf 'PASS T12 verdict timeline section\n'; PASS=$((PASS+1)); } || { printf 'FAIL T12 verdict timeline section missing\n'; FAIL=$((FAIL+1)); }
@@ -295,6 +320,7 @@ ls "$sd/evidence/zzz-lc-ev/"*-completed/hub-position.json >/dev/null 2>&1 && { p
 ls "$sd/evidence/zzz-lc-ev/"*-completed/bundle.json >/dev/null 2>&1 && { printf 'PASS T12 bundle manifest\n'; PASS=$((PASS+1)); } || { printf 'FAIL T12 bundle manifest missing\n'; FAIL=$((FAIL+1)); }
 check "T12 completed digest comment recorded" "\[OBSERVER\] COMPLETED agent=zzz-lc-ev" "$sd/events.jsonl"
 check "T12 staging row carries evidence" '"evidence_bundle"' "$sd/model-evidence-staging.jsonl"
+unset TEST_REPO_ROOT
 
 # ---------------------------------------------------------------------------
 note "T13 event-driven fast path (F2: cursor, classification, same-cycle fire)"
@@ -538,6 +564,37 @@ check "T17 rearm on reappearance"       '"event":"wave-anomaly-rearmed"' "$sd/ev
 run_cycle "$sd" "$sd/fix0.json"                         # vanishes again
 C3=$(grep -c "WAVE-ANOMALY" "$sd/events.jsonl")
 test "$C3" -eq $((C2 + 1)) && { printf 'PASS T17 second episode alerts again\n'; PASS=$((PASS+1)); } || { printf 'FAIL T17 expected %s alerts got %s\n' "$((C2 + 1))" "$C3"; FAIL=$((FAIL+1)); }
+
+# ---------------------------------------------------------------------------
+note "T18 COMPLETED with UNVERIFIED deliverable -> NO cleanup, worktree preserved (FIX 3 / #466 F3)"
+# (a) branch missing entirely: no worktree, no ref -> gate indeterminate
+sd="$TESTS/t18a"; rm -rf "$sd"; mkdir -p "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-nodel DONE-CONFIRMED builder EXITED DONE
+run_cycle "$sd" "$fx"
+check_absent "T18a no cleanup on unverified deliverable" "cleanup-dry-run" "$sd/events.jsonl"
+check "T18a skip event recorded"       '"event":"cleanup-skipped"' "$sd/events.jsonl"
+check "T18a sweep flag preserves worktree" "completed-deliverable-unverified-worktree-preserved" "$sd/events.jsonl"
+check "T18a staging skip reason"       "skipped-unverified-deliverable" "$sd/model-evidence-staging.jsonl"
+check "T18a orchestrator flag comment" "Cleanup SKIPPED" "$sd/events.jsonl"
+check "T18a phase still completed"     '"phase": *"completed"\|"phase":"completed"' "$sd/manager-state.json"
+# (b) EMPTY branch: ref exists but zero file delta vs main - the exact
+# #460 false-positive class; deliverable_present must be False.
+root="$TESTS/t18-root"; sd="$TESTS/t18b"; rm -rf "$root" "$sd"; mkdir -p "$sd" "$root/.worktrees"
+git -C "$root" init -q -b main
+git -C "$root" config user.email t@t; git -C "$root" config user.name t
+printf 'base\n' > "$root/base.txt"
+git -C "$root" add base.txt
+git -C "$root" commit -qm base
+git -C "$root" worktree add -q -b feature/zzz-lc-empty "$root/.worktrees/zzz-lc-empty"
+export TEST_REPO_ROOT="$root"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-empty DONE-CONFIRMED builder EXITED DONE
+run_cycle "$sd" "$fx"
+check_absent "T18b no cleanup on empty branch" "cleanup-dry-run" "$sd/events.jsonl"
+check "T18b skip event recorded"       '"event":"cleanup-skipped"' "$sd/events.jsonl"
+check "T18b files_changed zero reported" '"files_changed": *0\|"files_changed":0' "$sd/events.jsonl"
+check "T18b sweep flag preserves worktree" "completed-deliverable-unverified-worktree-preserved" "$sd/events.jsonl"
+test -d "$root/.worktrees/zzz-lc-empty" && { printf 'PASS T18b worktree physically preserved\n'; PASS=$((PASS+1)); } || { printf 'FAIL T18b worktree gone\n'; FAIL=$((FAIL+1)); }
+unset TEST_REPO_ROOT
 
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]
