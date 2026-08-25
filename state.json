@@ -1,6 +1,6 @@
 {
   "next_display_id": 464,
-  "next_comment_id": 2416,
+  "next_comment_id": 2417,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -1818,7 +1818,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-25T01:45:24.341260648Z",
-      "updated_at": "2026-08-25T01:49:10.268558902Z",
+      "updated_at": "2026-08-25T01:50:26.670082385Z",
       "labels": [
         "archival"
       ],
@@ -1840,6 +1840,18 @@
           "kind": "observation",
           "signed_by": "SHA256:V+9A9aaGkP+spKnMc9mwUEgqctSKZr6jFoOHaY9n48Y",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgYePDhyVZNWzYKpaCt0NIsfnSf/jqx9cKOV+zr8lYtjQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAeXu8nWMWuJUEUZo5orUhxr4oEAAgCyNzBdMuw1w+ec7/C1H1yNKFVyinZ2wbOyjagX+WbQj78K7Iru/t1wEFAg=="
+        },
+        "9abff19f-e80b-44a1-a06b-f9429f03c0ff": {
+          "display_id": 2416,
+          "author": "pp3g-ByWC-read-only-audit-for-issue-463-no-mutations-no-commits",
+          "content": "Attempted: chained read-only inventory in Tools repo (status/branch/remote/log + 'git stash list' + du). Blocked by crosslink-guard because the chain included 'git stash list' which pattern-matches forbidden 'git stash'. Stash inventory therefore NOT collected via git CLI; recorded as evidence gap in result comment.",
+          "created_at": "2026-08-25T01:50:26.663602388Z",
+          "kind": "intervention",
+          "trigger_type": "tool_blocked",
+          "intervention_context": "TASK 1 sync/status audit of /home/claude-code/projects/Tools for archive decision #463; stash list is read-only but shares the blocked 'stash' token",
+          "driver_key_fingerprint": "SHA256:zGzmtgnoZhXU4eO6KSQsgBUaiDEkB/tJTAYgLkcxm+w",
+          "signed_by": "SHA256:V+9A9aaGkP+spKnMc9mwUEgqctSKZr6jFoOHaY9n48Y",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgYePDhyVZNWzYKpaCt0NIsfnSf/jqx9cKOV+zr8lYtjQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAV7LvUVSpbtv0OVSCSj7uQI0cwFtKmJTTKjf2suZuhB+Mtr5FDH0v9bRmlRlBP4WEDtfH7JepEQ+Ceawsv1yDAQ=="
         }
       }
     },
@@ -30059,8 +30071,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T01:49:19.977207516Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2273
+    "timestamp": "2026-08-25T01:50:26.670082385Z",
+    "agent_id": "pp3g-ByWC-read-only-audit-for-issue-463-no-mutations-no-commits",
+    "agent_seq": 5
   }
 }
