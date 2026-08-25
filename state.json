@@ -1,6 +1,6 @@
 {
   "next_display_id": 472,
-  "next_comment_id": 2478,
+  "next_comment_id": 2479,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2490,7 +2490,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-25T04:52:01.601546976Z",
+      "updated_at": "2026-08-25T05:24:48.739629036Z",
       "labels": [
         "tooling"
       ],
@@ -2674,6 +2674,15 @@
           "kind": "observation",
           "signed_by": "SHA256:6e4CKr9qWKIo/QDlRxXHjnpD6gvfXbVhWSiQrVCBI/w",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtP1rEgV7U+HxJU7+5Rb/cbWT+TGC8TupNtkqfKNqZ2wAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAII/5I8UHb7RpSRzBF2u+KiJLtGGl8olYPrAVVbsPdCnktOlHUeY2vvKdRvCorLuAz2f46ahJ/iZi1rg3EaiqBA=="
+        },
+        "abbb2a5d-4888-4eb4-ac4f-7d6e40b6cde3": {
+          "display_id": 2478,
+          "author": "pp3g-Sx5K-start-the-observer-live-in-home-claude-code-projects",
+          "content": "Plan: Launch Observer v1 LIVE (shakedown n=1) per dispatch: detached tmux session observer-live in /home/claude-code/projects/ASES running OBSERVER_FLAG_ISSUE=460 bash scripts/observer/observer.sh (REAL mode, no DRY_RUN). Pre-launch verified: no existing observer process or observer.lock (no instance-lock conflict); state dir /tmp/opencode/observer-state holds only stale Aug-24 test events (3 lines, delta baseline recorded); merged fix-pass tree (1a23ab42..5cbfbc86) is the binary. Verification protocol within ~150s: [1] tmux session present; [2] events.jsonl gains a cycle event (delta vs baseline); [3] zero fatal events (state-dir-unwritable/crosslink-root-unresolvable/instance-lock-held); [4] observer.lock present while running; [5] first-cycle summary JSON + tracked-agent names from manager-state.json + any transitions/actions fired. Expectation note: fresh state triggers the F4 backup pass inside cycle 1 (hot .backup of both multi-GB stores), so the first cycle event may take longer than a normal 120s cadence - interim backup/admission events in events.jsonl will serve as liveness evidence while it runs. Observe-only: no interference with Observer decisions.",
+          "created_at": "2026-08-25T05:24:48.731262407Z",
+          "kind": "plan",
+          "signed_by": "SHA256:9KZcJe0KoIWHyGOEtjwLM1GzZk1NrmkhLN1dobuMkgw",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3ggh4pa1xRF46RaUU+vkxfMoFsa2Y+zbk0N7NeLIbIoAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7whe7kPVTe2/BTA14lfwxVelBfyYlBEJ4mE4dAM1aGCy2h5vt1SLMN+YBC8HTFLBvMZ/5d67OhTeI9Oiv89RBQ=="
         },
         "b08c917a-8b44-4914-9707-c050e4ad752c": {
           "display_id": 2399,
@@ -30761,8 +30770,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T05:24:20.919865453Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2298
+    "timestamp": "2026-08-25T05:24:48.739629036Z",
+    "agent_id": "pp3g-Sx5K-start-the-observer-live-in-home-claude-code-projects",
+    "agent_seq": 2
   }
 }
