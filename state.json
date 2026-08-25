@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2559,
+  "next_comment_id": 2560,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -25329,7 +25329,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T06:43:32.194911318Z",
-      "updated_at": "2026-08-25T07:20:33.345862822Z",
+      "updated_at": "2026-08-25T07:31:44.837274107Z",
       "labels": [
         "design"
       ],
@@ -25351,6 +25351,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM1kt5tZe0qCZBZSlFj1kSFBQYYRN09bCSl/oEREVmoZcKMEk+gPwq80/tkYwTMrwjqNjgwGkmJeacw2WVRYzCQ=="
+        },
+        "cc6b38d9-c606-43d4-86a1-39687b8f86bd": {
+          "display_id": 2559,
+          "author": "OL2r",
+          "content": "[DESIGN PRINCIPLE ADDENDUM - operator question 2026-08-25 'is a single bit flip safe-to-killer?']: ANSWER TODAY: yes - OBSERVER_DRY_RUN is a single variable between total safety and full destructive authority, and the historical DEFAULT was killer (safe required action, lethal required nothing). GUARD FIX improves to two-factor (flag x convergent-evidence), but principle demanded: NO SINGLE TRANSITION may toggle full destructive authority. Requirements: [L1] LAYERED AUTHORITY LADDER - observe / notify / act as separate, individually-granted levels; [L2] SCOPED KILLS - termination rights bind to own-fleet agents via #472 orchestrator ownership; a misconfiguration can never affect sibling domains; [L3] TIME-BOXED ARMING - destructive grants expire with the wave/issue that requested them (re-arm = fresh operator grant, recorded); [L4] LOUD ARMING - every grant/expiry/revoke emits an evidenced, alerted event; armed state visible in every cycle summary. END-STATE: supervisor registry entries carry their granted authorities as expiring, scoped, audited properties (can_terminate becomes a grant record, not a boolean constant).",
+          "created_at": "2026-08-25T07:31:44.829835395Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAfmxSEwRd/Xs4fs1az1zjZ7JR6NG/NJrRHd1Lu6+6ri2Mm44Uedg9L22b0SVJlmOO/xTSOs6SKAvJUCy1+9tTCg=="
         }
       }
     },
@@ -31565,8 +31574,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T07:30:30.806246286Z",
+    "timestamp": "2026-08-25T07:31:44.837274107Z",
     "agent_id": "OL2r",
-    "agent_seq": 2360
+    "agent_seq": 2361
   }
 }
