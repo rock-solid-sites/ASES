@@ -163,8 +163,20 @@
 #   OBSERVER_DRY_RUN=1 scripts/observer/observer.sh --once
 #
 # Shell: bash, stdlib tooling only (embedded python3 for JSON/state/actions).
+#
+# Strict failure mode (FIX 2, #469 CRITICAL):
+#   set -euo pipefail. Every command whose NONZERO exit is EXPECTED is an
+#   explicit, documented exception (rc captured via '|| rc=$?' and handled);
+#   nothing else may fail silently. Critical failures halt or escalate
+#   loudly per the action table: unwritable state dir -> fatal exit;
+#   cycle-program failure -> counted toward the consecutive-error cap
+#   (halt-not-loop); state write failure -> nonzero cycle rc so the cap can
+#   halt before duplicate mutations; backup hot-copy/verification/sync
+#   failure -> deduped loud alert + shortened retry backoff instead of a
+#   silent full-interval skip.
 
-set -u
+set -eu
+set -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Liveness scanner resolution: explicit override wins; then a sibling copy in
@@ -212,6 +224,9 @@ OBSERVER_ARCHIVE_DIR="${OBSERVER_ARCHIVE_DIR:-$HOME/opencode-archive}"
 OBSERVER_STORES_ROOT="${OBSERVER_STORES_ROOT:-$HOME/.local/share/opencode}"
 OBSERVER_STORES="${OBSERVER_STORES:-main:opencode.db,fork:opencode-fork-pp3g.db}"
 OBSERVER_BACKUP_KEEP="${OBSERVER_BACKUP_KEEP:-1}"
+# FIX 2 (#469): retry backoff after a FAILED backup pass (a failed pass must
+# not silently skip for a full interval).
+OBSERVER_BACKUP_RETRY_MINS="${OBSERVER_BACKUP_RETRY_MINS:-15}"
 OBSERVER_RCLONE_REMOTE="${OBSERVER_RCLONE_REMOTE:-}"
 OBSERVER_PRUNE_AGE_DAYS="${OBSERVER_PRUNE_AGE_DAYS:-30}"
 # F5 (#460): admission-policy absorption (config-driven checks).
@@ -236,7 +251,8 @@ export OB_REPO_ROOT OB_STATE_DIR OB_FLAG_ISSUE OB_EVIDENCE_LINES \
     OB_FAST_PATH OB_FAST_READ_CAP OB_FASTPATH_DEDUP_SECS \
     OB_COMMIT_STALE_MINS \
     OB_BACKUP_ENABLED OB_BACKUP_INTERVAL_MINS OB_ARCHIVE_DIR \
-    OB_STORES_ROOT OB_STORES OB_BACKUP_KEEP OB_RCLONE_REMOTE \
+    OB_STORES_ROOT OB_STORES OB_BACKUP_KEEP OB_BACKUP_RETRY_MINS \
+    OB_RCLONE_REMOTE \
     OB_PRUNE_AGE_DAYS \
     OB_ADMISSION_ENABLED OB_ADMISSION_PROVIDERS OB_MODELS_CMD \
     OB_ADMISSION_CATALOG_TTL_SECS OB_ADMISSION_ESTIMATE_RE
@@ -265,6 +281,7 @@ OB_ARCHIVE_DIR="$OBSERVER_ARCHIVE_DIR"
 OB_STORES_ROOT="$OBSERVER_STORES_ROOT"
 OB_STORES="$OBSERVER_STORES"
 OB_BACKUP_KEEP="$OBSERVER_BACKUP_KEEP"
+OB_BACKUP_RETRY_MINS="${OBSERVER_BACKUP_RETRY_MINS:-15}"
 OB_RCLONE_REMOTE="$OBSERVER_RCLONE_REMOTE"
 OB_PRUNE_AGE_DAYS="$OBSERVER_PRUNE_AGE_DAYS"
 OB_ADMISSION_ENABLED="$OBSERVER_ADMISSION_ENABLED"
@@ -354,8 +371,23 @@ fi
 EVENTS_FILE="$OBSERVER_STATE_DIR/events.jsonl"
 ERRCOUNT_FILE="$OBSERVER_STATE_DIR/.consecutive-errors"
 
-mkdir -p "$OBSERVER_STATE_DIR/evidence" 2>/dev/null
+# FIX 2 (#469): state-dir creation failures were suppressed with
+# 2>/dev/null, leaving subsequent writes to fail mysteriously. Loud fatal:
+# without a writable state dir the observer is blind and must not run.
+if ! mkdir -p "$OBSERVER_STATE_DIR/evidence" 2>/dev/null; then
+    printf '{"ts":"%s","event":"fatal","kind":"state-dir-unwritable","dir":"%s"}\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$OBSERVER_STATE_DIR" >&2
+    exit 1
+fi
 [ -f "$EVENTS_FILE" ] || : >> "$EVENTS_FILE" 2>/dev/null
+
+# FIX 2 (#469): events are the audit trail; a failed append must not pass
+# silently. Documented exception to strict mode: fall back LOUDLY to stderr
+# instead of killing supervision over a transient write error.
+emit_event() { # emit_event <complete-json-line>
+    printf '%s\n' "$1" >> "$EVENTS_FILE" 2>/dev/null \
+        || printf '%s\n' "$1" >&2
+}
 
 ONCE=0
 for arg in "$@"; do
@@ -369,8 +401,8 @@ for arg in "$@"; do
 done
 
 if [ -z "$OBSERVER_INPUT_JSON" ] && [ ! -r "$LIVENESS_PY" ]; then
-    printf '{"ts":"%s","event":"fatal","kind":"missing-liveness-script","path":"%s"}\n' \
-        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$LIVENESS_PY" >> "$EVENTS_FILE"
+    emit_event "$(printf '{"ts":"%s","event":"fatal","kind":"missing-liveness-script","path":"%s"}\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$LIVENESS_PY")"
     exit 1
 fi
 
@@ -439,6 +471,9 @@ ARCHIVE_DIR = env("OB_ARCHIVE_DIR") or os.path.join(
 STORES_ROOT = env("OB_STORES_ROOT") or os.path.join(
     os.path.expanduser("~"), ".local/share/opencode")
 BACKUP_KEEP = env_int("OB_BACKUP_KEEP", 1)
+# FIX 2 (#469 / #465 F7): a FAILED backup pass must not silently wait a full
+# interval (default 1440 min) before retrying; it retries after this much.
+BACKUP_RETRY_MINS = env_int("OB_BACKUP_RETRY_MINS", 15)
 RCLONE_REMOTE = env("OB_RCLONE_REMOTE").strip()
 PRUNE_AGE_DAYS = env_int("OB_PRUNE_AGE_DAYS", 30)
 STORES = []
@@ -493,8 +528,12 @@ def log_event(fields):
     try:
         with open(EVENTS_FILE, "a", encoding="utf-8") as fh:
             fh.write(json.dumps(fields, separators=(",", ":")) + "\n")
-    except OSError:
-        pass
+    except OSError as exc:
+        # FIX 2 (#469): audit-trail write failures are never silent (stderr
+        # mirror); they also must not kill supervision over a transient
+        # write error, so this is a documented swallow-with-witness.
+        sys.stderr.write(
+            "observer: event-log-write-failed: {0}\n".format(exc))
 
 def run(cmd, timeout=90, cwd=None):
     """Run a subprocess and return (rc, stdout, stderr).
@@ -1844,6 +1883,24 @@ def sha256_file(path):
         return None
 
 
+def backup_alert(state, key, subject, detail):
+    """FIX 2 (#469): backup-critical failures (hot-copy failure, RED
+    read-back, snapshot/export failure) escalate LOUDLY - a deduped alert
+    comment to the flag issue per changed failure fingerprint - instead of
+    continuing silently. Dedup key resets when the failure detail changes."""
+    fp = hashlib.sha256("{0}:{1}".format(key, detail).encode(
+        "utf-8", "replace")).hexdigest()[:12]
+    alerted = state.setdefault("backup_alerted", {})
+    if alerted.get(key) == fp:
+        return
+    alerted[key] = fp
+    post_comment(state, FLAG_ISSUE,
+                 "[OBSERVER][BACKUP] {0}: {1}. Data-retention extraction "
+                 "degraded; watermark held for affected windows and the "
+                 "pass will retry after {2} min (not a full interval)."
+                 .format(subject, detail[:300], BACKUP_RETRY_MINS))
+
+
 def hot_copy_store(label, fname, stamp):
     """sqlite3 .backup hot copy + integrity check + sha256. Returns
     (info, error) where info has path/sha256/bytes or None."""
@@ -2045,7 +2102,11 @@ def wave_backup(state):
         last = 0
     if time.time() - last < BACKUP_INTERVAL_MINS * 60:
         return
-    bk["last_run_ts"] = time.time()
+    # FIX 2 (#469/#465 F7): last_run_ts is provisional until the pass
+    # finishes; a FAILED pass re-stamps it to a SHORT retry backoff below,
+    # so a daily backup that fails retries in minutes, not tomorrow.
+    run_started = time.time()
+    bk["last_run_ts"] = run_started
     stamp = ts_slug()
     log_event({"event": "backup-pass-start", "stores": [s for s, _ in STORES],
                "interval_mins": BACKUP_INTERVAL_MINS})
@@ -2067,6 +2128,8 @@ def wave_backup(state):
             pass_ok = False
             log_event({"event": "backup-hot-copy-failed", "store": label,
                        "err": err})
+            backup_alert(state, "hotcopy:" + label,
+                         "hot copy FAILED store=" + label, err)
             continue
         snapshots[label] = info["path"]
         log_event({"event": "backup-hot-copy", "store": label,
@@ -2088,6 +2151,9 @@ def wave_backup(state):
             pass_ok = False
             log_event({"event": "backup-snapshot-open-failed",
                        "store": label, "err": str(exc)[:150]})
+            backup_alert(state, "snapshot:" + label,
+                         "snapshot open FAILED store=" + label,
+                         str(exc)[:200])
             continue
         store_green = True
         try:
@@ -2113,6 +2179,10 @@ def wave_backup(state):
                     log_event({"event": "backup-export-failed",
                                "store": label, "table": table,
                                "err": werr})
+                    backup_alert(state,
+                                 "export:" + label + ":" + table,
+                                 "export FAILED store=" + label +
+                                 " table=" + table, werr)
                     continue
                 new_rels.append(rel)
                 ok, detail = verify_export_readback(rel, digest, n)
@@ -2132,6 +2202,8 @@ def wave_backup(state):
                     log_event({"event": "backup-verify-red",
                                "store": label, "table": table,
                                "artifact": rel, "detail": detail})
+                    backup_alert(state, "verify:" + rel,
+                                 "read-back RED artifact=" + rel, detail)
         finally:
             conn.close()
         store_green_map[label] = store_green
@@ -2229,6 +2301,13 @@ def wave_backup(state):
         "ts": now_iso(), "ok": pass_ok, "snapshots": snapshots,
         "new_artifacts": new_rels, "remote_sync": remote_ok,
         "watermarks": {k: int(v) for k, v in watermarks.items()}}
+    if not pass_ok:
+        # FIX 2 (#469/#465 F7): failed pass retries after the SHORT backoff,
+        # not a full silent interval.
+        bk["last_run_ts"] = time.time() - BACKUP_INTERVAL_MINS * 60 + \
+            BACKUP_RETRY_MINS * 60
+        log_event({"event": "backup-retry-scheduled",
+                   "retry_mins": BACKUP_RETRY_MINS})
     log_event({"event": "backup-pass-done", "ok": pass_ok,
                "new_artifacts": len(new_rels),
                "remote_sync": remote_ok})
@@ -2494,10 +2573,6 @@ def main():
     # F4: dual-store backup pass (interval-gated inside).
     wave_backup(state)
 
-    err = save_state(state)
-    if err:
-        log_event({"event": "state-save-failed", "err": err})
-
     phases = {}
     for agent, rec in state["agents"].items():
         phases[rec.get("phase", "unknown")] = \
@@ -2507,6 +2582,17 @@ def main():
                "actions_used_window": len(state.get("action_window", [])),
                "dry_run": DRY_RUN}
     print(json.dumps(summary, separators=(",", ":")))
+    err = save_state(state)
+    if err:
+        # FIX 2 (#469 F5): state loss AFTER executed actions means the next
+        # cycle would re-fire those actions (duplicate kills/cleanups/
+        # comments). Escalate loudly: stderr witness + nonzero rc feeds the
+        # consecutive-error cap so the loop halts instead of repeating
+        # mutations with volatile state.
+        log_event({"event": "state-save-failed", "err": err})
+        sys.stderr.write(
+            "observer: FATAL state-save-failed: {0}\n".format(err))
+        return 2
     return 0
 
 sys.exit(main())
@@ -2514,49 +2600,78 @@ sys.exit(main())
 
 cycle_start=$(date +%s)
 consecutive_errors=0
+cycle_ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+# FIX 2 (#469): one error-accounting path for every failure class. A cycle
+# that fails (liveness, json parse, or the python program itself) bumps the
+# consecutive counter; hitting the cap HALTS the loop rather than looping
+# destructively.
+bump_error() { # bump_error <source>
+    consecutive_errors=$((consecutive_errors + 1))
+    printf '%s' "$consecutive_errors" > "$ERRCOUNT_FILE" 2>/dev/null || :
+    emit_event "$(printf '{"ts":"%s","event":"error","kind":"%s","consecutive":%s}\n' \
+        "$cycle_ts" "$1" "$consecutive_errors")"
+    if [ "$consecutive_errors" -ge "$OBSERVER_MAX_CONSECUTIVE_ERRORS" ]; then
+        emit_event "$(printf '{"ts":"%s","event":"fatal","kind":"consecutive-error-cap","source":"%s","consecutive":%s}\n' \
+            "$cycle_ts" "$1" "$consecutive_errors")"
+        exit 1
+    fi
+}
+
 while :; do
     cycle_ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
+    # FIX 2 (#469): strict mode + pipefail. Nonzero rc from these command
+    # substitutions is EXPECTED and captured explicitly ('|| rc=$?'); it is
+    # handled immediately below, never swallowed.
+    liveness_rc=0
+    out=""
     if [ -n "$OBSERVER_INPUT_JSON" ]; then
-        out="$(cat "$OBSERVER_INPUT_JSON" 2>/dev/null)"
-        liveness_rc=$?
+        out="$(cat "$OBSERVER_INPUT_JSON" 2>/dev/null)" || liveness_rc=$?
     else
-        out="$(python3 "$LIVENESS_PY" --json --all 2>/dev/null)"
-        liveness_rc=$?
+        out="$(python3 "$LIVENESS_PY" --json --all 2>/dev/null)" || liveness_rc=$?
     fi
 
     if [ "$liveness_rc" -ne 0 ] || [ -z "$out" ]; then
-        consecutive_errors=$((consecutive_errors + 1))
-        printf '%s' "$consecutive_errors" > "$ERRCOUNT_FILE" 2>/dev/null
-        printf '{"ts":"%s","event":"error","kind":"liveness-failed","rc":%s,"consecutive":%s}\n' \
-            "$cycle_ts" "$liveness_rc" "$consecutive_errors" >> "$EVENTS_FILE"
-        if [ "$consecutive_errors" -ge "$OBSERVER_MAX_CONSECUTIVE_ERRORS" ]; then
-            printf '{"ts":"%s","event":"fatal","kind":"consecutive-error-cap","consecutive":%s}\n' \
-                "$cycle_ts" "$consecutive_errors" >> "$EVENTS_FILE"
-            exit 1
-        fi
+        emit_event "$(printf '{"ts":"%s","event":"error","kind":"liveness-failed","rc":%s,"consecutive":%s}\n' \
+            "$cycle_ts" "$liveness_rc" "$((consecutive_errors + 1))")"
+        bump_error "liveness-failed"
     else
         consecutive_errors=0
-        printf '%s' 0 > "$ERRCOUNT_FILE" 2>/dev/null
+        printf '%s' 0 > "$ERRCOUNT_FILE" 2>/dev/null || :
 
-        if ! compact="$(printf '%s' "$out" | python3 -c \
+        compact=""
+        json_rc=0
+        compact="$(printf '%s' "$out" | python3 -c \
                 'import json,sys; sys.stdout.write(json.dumps(json.load(sys.stdin), separators=(",", ":"))+"\n")' \
-                2>/dev/null)" || [ -z "$compact" ]; then
-            printf '{"ts":"%s","event":"error","kind":"json-parse-failed"}\n' \
-                "$cycle_ts" >> "$EVENTS_FILE"
+                2>/dev/null)" || json_rc=$?
+        if [ "$json_rc" -ne 0 ] || [ -z "$compact" ]; then
+            emit_event "$(printf '{"ts":"%s","event":"error","kind":"json-parse-failed","rc":%s}\n' \
+                "$cycle_ts" "$json_rc")"
+            bump_error "json-parse-failed"
         else
-            summary="$(printf '%s\n' "$compact" | python3 -c "$CYCLE_PROG" 2>>"$OBSERVER_STATE_DIR/python-stderr.log")"
-            prog_rc=$?
+            summary=""
+            prog_rc=0
+            summary="$(printf '%s\n' "$compact" | python3 -c "$CYCLE_PROG" 2>>"$OBSERVER_STATE_DIR/python-stderr.log")" || prog_rc=$?
             if [ -n "$summary" ]; then
-                printf '{"ts":"%s","event":"cycle","rc":%s,"summary":%s}\n' \
-                    "$cycle_ts" "$prog_rc" "$summary" >> "$EVENTS_FILE"
+                emit_event "$(printf '{"ts":"%s","event":"cycle","rc":%s,"summary":%s}\n' \
+                    "$cycle_ts" "$prog_rc" "$summary")"
             else
-                printf '{"ts":"%s","event":"error","kind":"cycle-program-failed","rc":%s}\n' \
-                    "$cycle_ts" "$prog_rc" >> "$EVENTS_FILE"
+                emit_event "$(printf '{"ts":"%s","event":"error","kind":"cycle-program-failed","rc":%s}\n' \
+                    "$cycle_ts" "$prog_rc")"
+            fi
+            # FIX 2 (#469 finding 10): python program failures previously
+            # logged but never counted toward the consecutive-error cap,
+            # so a persistently crashing program looped forever. Counted
+            # now: halt-not-loop applies to program failures too.
+            if [ "$prog_rc" -ne 0 ]; then
+                bump_error "cycle-program-failed"
             fi
         fi
     fi
 
-    [ "$ONCE" -eq 1 ] && break
+    if [ "$ONCE" -eq 1 ]; then
+        break
+    fi
     sleep "$OBSERVER_INTERVAL"
 done
