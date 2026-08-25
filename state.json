@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2543,
+  "next_comment_id": 2544,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -23736,7 +23736,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T06:24:42.029665760Z",
-      "updated_at": "2026-08-25T06:38:24.640902987Z",
+      "updated_at": "2026-08-25T07:11:31.789279414Z",
       "labels": [
         "research"
       ],
@@ -23749,6 +23749,15 @@
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA03JlhUFvaNOWKkFrczYz5aPHjUj4qMzj1I89Tvaopv82/GfUFJqO8p68kcnRXCexpcdYPdqqYIGSrImmjCz8CA=="
+        },
+        "dae0de34-2f6c-4344-923a-59992dba9a87": {
+          "display_id": 2543,
+          "author": "OL2r",
+          "content": "[ESCALATION - SECOND OCCURRENCE, DESTRUCTIVE THIS TIME][2026-08-25 06:41 UTC]: The freeze heuristic killed a HEALTHY agent belonging to the SIBLING ORCHESTRATION DOMAIN - their continuation builder on issue #471, ~4 minutes into life, during its silent opening phase (reading a large spec). Same trigger (identical pane hashes across two runs); this time kickoff stop --force SUCCEEDED and the worktree was auto-deleted. Pre-commit work lost; corpus+code survived in the predecessor worktree/branch. CRITICAL TECHNICAL NOTE: last night's FIX 4 (parked-expiry re-verification) does NOT cover this path - the kill fired via the pane-hash LIKELY-FROZEN->FROZEN confirmation route, which still has NO equivalent multi-signal re-verification. Cross-domain impact acknowledged as OUR defect per #472 governance; owning orchestrator notified with full evidence. SEVERITY ESCALATED: yesterday fail-safe-by-accident, today harmful-by-design-as-built. Candidate interim mitigations queued for operator decision: [a] emergency guard - FROZEN auto-kill gated behind OBSERVER_AUTO_KILL env default-off (notify-only) + multi-signal requirement (pane-hash AND commit-age stale AND log-quiet AND hub-position static); [b] interim DRY_RUN restart of supervision (observe/post only, zero mutations by construction). Related: #475 attribution table would have recorded earlyoom-style external kills vs Observer kills unambiguously.",
+          "created_at": "2026-08-25T07:11:31.781463949Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7byNk2tWkkT21S338++fZCUEC+GHnSLW6uA+55dEe6NDZPhicxsKccbAc9rnjHIcKvDf3Zj3YY0gHW7bb1yeCQ=="
         },
         "db7700a7-7669-4e93-bbb0-256e64a65df9": {
           "display_id": 2523,
@@ -31421,8 +31430,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T07:07:59.893136315Z",
-    "agent_id": "pp3g-HZGb-observer-supervision-restart-under-460-the-live-8e0e",
-    "agent_seq": 1
+    "timestamp": "2026-08-25T07:11:31.789279414Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2353
   }
 }
