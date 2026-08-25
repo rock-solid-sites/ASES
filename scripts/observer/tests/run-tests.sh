@@ -367,5 +367,67 @@ run_cycle "$sd" "$fx"
 check "T14c escalates after grace"     "STALE-SUSPECT escalated after" "$sd/events.jsonl"
 unset TEST_REPO_ROOT
 
+# ---------------------------------------------------------------------------
+note "T15 dual-store backup subsystem (F4: hot copy, incremental export, GREEN verification, pending flag, prune gate)"
+f4root="$TESTS/f4-root"; f4arch="$TESTS/f4-archive"; sd="$TESTS/t15"
+rm -rf "$f4root" "$f4arch" "$sd"; mkdir -p "$f4root" "$f4arch" "$sd"
+python3 - "$f4root" <<'PYEOF'
+import sqlite3, sys, os
+root = sys.argv[1]
+for name in ("opencode.db", "opencode-fork-pp3g.db"):
+    conn = sqlite3.connect(os.path.join(root, name))
+    conn.execute("CREATE TABLE session (id TEXT PRIMARY KEY, "
+                 "directory TEXT, title TEXT, time_created INTEGER, "
+                 "time_updated INTEGER)")
+    conn.execute("INSERT INTO session VALUES "
+                 "('ses_a1','/wt/a','alpha',1000,2000)")
+    conn.execute("INSERT INTO session VALUES "
+                 "('ses_a2','/wt/b','beta',1500,2500)")
+    conn.commit()
+    conn.close()
+PYEOF
+fx="$sd/fix.json"; fixture "$fx" zzz-none RUNNING-ALIVE builder ALIVE RUNNING
+BKENV=(OBSERVER_BACKUP_ENABLED=1 OBSERVER_BACKUP_INTERVAL_MINS=0
+       OBSERVER_ARCHIVE_DIR="$f4arch" OBSERVER_STORES_ROOT="$f4root"
+       OBSERVER_STORES=main:opencode.db,fork:opencode-fork-pp3g.db
+       OBSERVER_RCLONE_REMOTE=totally-absent-remote
+       OBSERVER_PRUNE_AGE_DAYS=30)
+# pass 1: baseline export of both fixture stores
+run_cycle "$sd" "$fx" "${BKENV[@]}"
+ls "$f4arch/hot-backups/main/"*.db >/dev/null 2>&1 && { printf 'PASS T15 main hot copy\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 main hot copy missing\n'; FAIL=$((FAIL+1)); }
+ls "$f4arch/hot-backups/fork/"*.db >/dev/null 2>&1 && { printf 'PASS T15 fork hot copy\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 fork hot copy missing\n'; FAIL=$((FAIL+1)); }
+check "T15 GREEN verify main"   "GREEN | store=main" "$f4arch/verification.log"
+check "T15 GREEN verify fork"   "GREEN | store=fork" "$f4arch/verification.log"
+check "T15 index keyed row"     '"session_id":"ses_a1"' "$f4arch/index/main.ndx"
+check "T15 index carries artifact ref" '"export_file":"exports/' "$f4arch/index/main.ndx"
+check "T15 sync pending explicit" "PENDING | remote=" "$f4arch/sync-pending.log"
+check "T15 absent remote named in pending" "totally-absent-remote" "$f4arch/sync-pending.log"
+check "T15 prune report gated GREEN" "gate=GREEN" "$f4arch/prune-report.txt"
+N1=$(ls "$f4arch/exports/"*/*.jsonl.gz 2>/dev/null | wc -l)
+test "$N1" -eq 2 && { printf 'PASS T15 one artifact per store\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 expected 2 artifacts got %s\n' "$N1"; FAIL=$((FAIL+1)); }
+# pass 2: no new rows -> export-empty, watermark holds, artifact count stable
+run_cycle "$sd" "$fx" "${BKENV[@]}"
+E2=$(grep -c "backup-export-empty" "$sd/events.jsonl")
+test "$E2" -ge 2 && { printf 'PASS T15 empty exports reported\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 expected >=2 export-empty got %s\n' "$E2"; FAIL=$((FAIL+1)); }
+N2=$(ls "$f4arch/exports/"*/*.jsonl.gz 2>/dev/null | wc -l)
+test "$N2" -eq 2 && { printf 'PASS T15 no duplicate artifacts\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 artifact count drifted: %s\n' "$N2"; FAIL=$((FAIL+1)); }
+# pass 3: one new row -> exactly one new single-row artifact (incremental)
+python3 - "$f4root" <<'PYEOF'
+import sqlite3, sys, os
+conn = sqlite3.connect(os.path.join(sys.argv[1], "opencode.db"))
+conn.execute("INSERT INTO session VALUES "
+             "('ses_a3','/wt/c','gamma',2800,3000)")
+conn.commit()
+conn.close()
+PYEOF
+run_cycle "$sd" "$fx" "${BKENV[@]}"
+N3=$(ls "$f4arch/exports/"*/*.jsonl.gz 2>/dev/null | wc -l)
+test "$N3" -eq 3 && { printf 'PASS T15 incremental artifact added\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 expected 3 artifacts got %s\n' "$N3"; FAIL=$((FAIL+1)); }
+check "T15 new row exported alone" "rows=1 sha256=" "$f4arch/verification.log"
+check "T15 new row indexed"       '"session_id":"ses_a3"' "$f4arch/index/main.ndx"
+# generation cap: KEEP=1 -> exactly one .db per label after three passes
+G=$(ls "$f4arch/hot-backups/main/"*.db 2>/dev/null | wc -l)
+test "$G" -eq 1 && { printf 'PASS T15 generation cap enforced\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 expected 1 generation got %s\n' "$G"; FAIL=$((FAIL+1)); }
+
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]

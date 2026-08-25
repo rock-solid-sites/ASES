@@ -1851,7 +1851,9 @@ def write_export(store, table, rows):
     """Write gzip JSONL + append uncompressed index lines. Returns
     (rel_artifact, count, decompressed_sha256) or (None, 0, reason)."""
     day = now_iso()[:10]
-    stamp = ts_slug()
+    # Microsecond stamp: second-resolution names collided when two passes
+    # ran within one second, silently overwriting the earlier artefact.
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     exp_dir = os.path.join(ARCHIVE_DIR, "exports", day)
     idx_dir = os.path.join(ARCHIVE_DIR, "index")
     try:
@@ -2085,10 +2087,11 @@ def wave_backup(state):
         try:
             with open(os.path.join(ARCHIVE_DIR, "sync-pending.log"), "a",
                       encoding="utf-8") as fh:
-                fh.write("{0} | PENDING | remote=unconfigured "
-                         "(OBSERVER_RCLONE_REMOTE unset or absent from "
-                         "rclone listremotes) | artifacts={1}\n".format(
-                             now_iso(), len(new_rels)))
+                fh.write("{0} | PENDING | remote={1} not configured "
+                         "(unset or absent from rclone listremotes) | "
+                         "artifacts={2}\n".format(
+                             now_iso(),
+                             RCLONE_REMOTE or "<unset>", len(new_rels)))
         except OSError:
             pass
         log_event({"event": "backup-sync-pending",
