@@ -90,10 +90,62 @@
 #     STALE-SUSPECT + fresh commit  -> one extra grace cycle before
 #                                      escalation
 #
+# Dual-store backup subsystem (#460 F4; .crosslink/knowledge/data-retention.md):
+#   A wave-level pass (interval-gated, default daily — the live stores are
+#   multi-GB, so this is NEVER per-cycle) that:
+#     (a) hot-copies BOTH session stores (sqlite3 .backup; discovery mirrors
+#         scripts/session-union.py: main:opencode.db + fork:opencode-fork-pp3g.db),
+#         verifying each copy with PRAGMA integrity_check + sha256;
+#     (b) incrementally exports NEW session rows from THE SNAPSHOT COPY
+#         (zero load on the live DB) as compressed JSONL plus an
+#         uncompressed index under ~/opencode-archive/, keyed
+#         (store, session_id); a per-(store,table) time_updated watermark
+#         advances only after read-back verification passes;
+#     (c) syncs the archive off-server via rclone ONLY when
+#         OBSERVER_RCLONE_REMOTE names a remote that exists in
+#         `rclone listremotes`; otherwise an explicit sync-pending entry is
+#         recorded (graceful local mode — never blocks);
+#     (d) performs destination-side read-back verification (decompress,
+#         row count, sha256 vs manifest; `rclone cat` when remote) and
+#         appends GREEN/RED entries to <archive>/verification.log.
+#   Deletion gating: NOTHING is ever deleted from the live stores. The pass
+#   emits a prune-gate REPORT (operator-manual deletion per policy v1):
+#   sessions older than OBSERVER_PRUNE_AGE_DAYS are listed prune-eligible
+#   ONLY when covered by GREEN-verified exports; RED/unverified windows are
+#   explicitly excluded. Hot-backup generations beyond OBSERVER_BACKUP_KEEP
+#   (Observer's OWN artefacts, not live data) are pruned after a verified
+#   newer copy exists.
+#
+# Admission-policy absorption (#460 F5):
+#   Launch-contract validation as config-driven pre-dispatch checks over
+#   each tracked agent's KICKOFF.md, absorbing the would-be plugin family
+#   (#448/#445/#446/#451/#452) into one Observer policy surface — NO new
+#   plugin files:
+#     model-declared-and-valid  — every model ID in the contract resolves
+#                                 against the LIVE opencode models catalog
+#                                 (`opencode models <provider>`, TTL-cached;
+#                                 command template OBSERVER_MODELS_CMD
+#                                 overridable for deterministic tests)
+#     issue-exists              — crosslink issue show <n> succeeds
+#     issue-claimed             — crosslink locks check <n> reports a lock
+#     estimate-declared         — contract matches OBSERVER_ADMISSION_ESTIMATE_RE
+#   Every check appends an admission-check event to events.jsonl (audit
+#   trail); failing fingerprints alert the flag issue, deduped until the
+#   failure set changes.
+#
+# Wave-anomaly detection (#460 F6):
+#   When EVERY agent that was active/parked last cycle is absent from the
+#   current scan simultaneously (no terminal verdicts, no Observer-executed
+#   cleanup), the transition emits a platform-restart signature alert to
+#   the flag issue plus a wave-anomaly event. Deduped per episode; re-arms
+#   when any agent reappears. Normal terminal wind-down never triggers it.
+#
 # Safety model:
 #   - Never touches live agent processes or worktrees directly: every
 #     mutation goes through crosslink CLI surfaces (kickoff stop/cleanup,
 #     issue comment).
+#   - The backup pass never opens the live databases for writing: hot copies
+#     go through sqlite3 .backup; exports read the static snapshot copy.
 #   - All state lives under /tmp/opencode/observer-state/.
 #   - Anti-loop protections: once-per-episode dedup per (agent, verdict),
 #     a rolling-window circuit breaker capping mutating actions per hour,
@@ -153,6 +205,21 @@ OBSERVER_FAST_READ_CAP="${OBSERVER_FAST_READ_CAP:-2097152}"
 OBSERVER_FASTPATH_DEDUP_SECS="${OBSERVER_FASTPATH_DEDUP_SECS:-3600}"
 # F3 (#460): per-builder commit-age signal feeding STALE logic.
 OBSERVER_COMMIT_STALE_MINS="${OBSERVER_COMMIT_STALE_MINS:-10}"
+# F4 (#460): dual-store backup subsystem (data-retention.md policy).
+OBSERVER_BACKUP_ENABLED="${OBSERVER_BACKUP_ENABLED:-1}"
+OBSERVER_BACKUP_INTERVAL_MINS="${OBSERVER_BACKUP_INTERVAL_MINS:-1440}"
+OBSERVER_ARCHIVE_DIR="${OBSERVER_ARCHIVE_DIR:-$HOME/opencode-archive}"
+OBSERVER_STORES_ROOT="${OBSERVER_STORES_ROOT:-$HOME/.local/share/opencode}"
+OBSERVER_STORES="${OBSERVER_STORES:-main:opencode.db,fork:opencode-fork-pp3g.db}"
+OBSERVER_BACKUP_KEEP="${OBSERVER_BACKUP_KEEP:-1}"
+OBSERVER_RCLONE_REMOTE="${OBSERVER_RCLONE_REMOTE:-}"
+OBSERVER_PRUNE_AGE_DAYS="${OBSERVER_PRUNE_AGE_DAYS:-30}"
+# F5 (#460): admission-policy absorption (config-driven checks).
+OBSERVER_ADMISSION_ENABLED="${OBSERVER_ADMISSION_ENABLED:-1}"
+OBSERVER_ADMISSION_PROVIDERS="${OBSERVER_ADMISSION_PROVIDERS:-opencode:opencode-go}"
+OBSERVER_MODELS_CMD="${OBSERVER_MODELS_CMD:-opencode models {provider}}"
+OBSERVER_ADMISSION_CATALOG_TTL_SECS="${OBSERVER_ADMISSION_CATALOG_TTL_SECS:-1800}"
+OBSERVER_ADMISSION_ESTIMATE_RE="${OBSERVER_ADMISSION_ESTIMATE_RE:-(?i)\\bestimat}"
 
 export OB_REPO_ROOT OB_STATE_DIR OB_FLAG_ISSUE OB_EVIDENCE_LINES \
     OB_PANE_LINES OB_PUSH_AHEAD_THRESHOLD OB_PARKED_ALERT_COUNT \
@@ -160,7 +227,12 @@ export OB_REPO_ROOT OB_STATE_DIR OB_FLAG_ISSUE OB_EVIDENCE_LINES \
     OB_STALE_ESCALATE_CYCLES OB_OPENCODE_LOG OB_DIS_VALIDATOR \
     OB_DRY_RUN OB_DOCTRINE_DIRS OB_DOCTRINE_FILES \
     OB_FAST_PATH OB_FAST_READ_CAP OB_FASTPATH_DEDUP_SECS \
-    OB_COMMIT_STALE_MINS
+    OB_COMMIT_STALE_MINS \
+    OB_BACKUP_ENABLED OB_BACKUP_INTERVAL_MINS OB_ARCHIVE_DIR \
+    OB_STORES_ROOT OB_STORES OB_BACKUP_KEEP OB_RCLONE_REMOTE \
+    OB_PRUNE_AGE_DAYS \
+    OB_ADMISSION_ENABLED OB_ADMISSION_PROVIDERS OB_MODELS_CMD \
+    OB_ADMISSION_CATALOG_TTL_SECS OB_ADMISSION_ESTIMATE_RE
 
 OB_STATE_DIR="$OBSERVER_STATE_DIR"
 OB_FLAG_ISSUE="$OBSERVER_FLAG_ISSUE"
@@ -180,6 +252,19 @@ OB_FAST_PATH="$OBSERVER_FAST_PATH"
 OB_FAST_READ_CAP="$OBSERVER_FAST_READ_CAP"
 OB_FASTPATH_DEDUP_SECS="$OBSERVER_FASTPATH_DEDUP_SECS"
 OB_COMMIT_STALE_MINS="$OBSERVER_COMMIT_STALE_MINS"
+OB_BACKUP_ENABLED="$OBSERVER_BACKUP_ENABLED"
+OB_BACKUP_INTERVAL_MINS="$OBSERVER_BACKUP_INTERVAL_MINS"
+OB_ARCHIVE_DIR="$OBSERVER_ARCHIVE_DIR"
+OB_STORES_ROOT="$OBSERVER_STORES_ROOT"
+OB_STORES="$OBSERVER_STORES"
+OB_BACKUP_KEEP="$OBSERVER_BACKUP_KEEP"
+OB_RCLONE_REMOTE="$OBSERVER_RCLONE_REMOTE"
+OB_PRUNE_AGE_DAYS="$OBSERVER_PRUNE_AGE_DAYS"
+OB_ADMISSION_ENABLED="$OBSERVER_ADMISSION_ENABLED"
+OB_ADMISSION_PROVIDERS="$OBSERVER_ADMISSION_PROVIDERS"
+OB_MODELS_CMD="$OBSERVER_MODELS_CMD"
+OB_ADMISSION_CATALOG_TTL_SECS="$OBSERVER_ADMISSION_CATALOG_TTL_SECS"
+OB_ADMISSION_ESTIMATE_RE="$OBSERVER_ADMISSION_ESTIMATE_RE"
 
 # Repo root discovery: this script may run from the main checkout
 # (<root>/scripts/) or from an agent worktree (<root>/.worktrees/<slug>/scripts/).
@@ -236,10 +321,13 @@ fi
 # python code deliberately avoids single-quote characters.
 # ---------------------------------------------------------------------------
 CYCLE_PROG='
+import gzip
 import hashlib
 import json
 import os
 import re
+import shutil
+import sqlite3
 import subprocess
 import sys
 import time
@@ -274,6 +362,28 @@ FAST_PATH = env("OB_FAST_PATH", "1") == "1"
 FAST_READ_CAP = env_int("OB_FAST_READ_CAP", 2097152)
 FASTPATH_DEDUP_SECS = env_int("OB_FASTPATH_DEDUP_SECS", 3600)
 COMMIT_STALE_MINS = env_int("OB_COMMIT_STALE_MINS", 10)
+BACKUP_ENABLED = env("OB_BACKUP_ENABLED", "1") == "1"
+BACKUP_INTERVAL_MINS = env_int("OB_BACKUP_INTERVAL_MINS", 1440)
+ARCHIVE_DIR = env("OB_ARCHIVE_DIR") or os.path.join(
+    os.path.expanduser("~"), "opencode-archive")
+STORES_ROOT = env("OB_STORES_ROOT") or os.path.join(
+    os.path.expanduser("~"), ".local/share/opencode")
+BACKUP_KEEP = env_int("OB_BACKUP_KEEP", 1)
+RCLONE_REMOTE = env("OB_RCLONE_REMOTE").strip()
+PRUNE_AGE_DAYS = env_int("OB_PRUNE_AGE_DAYS", 30)
+STORES = []
+for _chunk in env("OB_STORES").split(","):
+    _chunk = _chunk.strip()
+    if _chunk and ":" in _chunk:
+        _label, _fname = _chunk.split(":", 1)
+        STORES.append((_label.strip(), _fname.strip()))
+ADMISSION_ENABLED = env("OB_ADMISSION_ENABLED", "1") == "1"
+ADMISSION_PROVIDERS = [p for p in
+                       env("OB_ADMISSION_PROVIDERS").split(":") if p]
+MODELS_CMD_TMPL = env("OB_MODELS_CMD", "opencode models {provider}")
+ADMISSION_CATALOG_TTL = env_int("OB_ADMISSION_CATALOG_TTL_SECS", 1800)
+ADMISSION_ESTIMATE_RE = env("OB_ADMISSION_ESTIMATE_RE",
+                            r"(?i)\bestimat")
 
 EVENTS_FILE = os.path.join(STATE_DIR, "events.jsonl")
 STAGING_FILE = os.path.join(STATE_DIR, "model-evidence-staging.jsonl")
@@ -1618,6 +1728,581 @@ def fast_path_scan(state):
                    "lines_read": len(scan["lines"])})
 
 # ---------------------------------------------------------------------------
+# F4 (#460): dual-store backup subsystem per data-retention.md.
+# Hot sqlite3 .backup of BOTH stores -> incremental session-row export
+# (compressed JSONL + uncompressed index keyed (store,session_id)) read from
+# THE SNAPSHOT COPY -> destination-side read-back verification appending
+# GREEN/RED entries to verification.log -> rclone off-server sync when
+# OBSERVER_RCLONE_REMOTE names an existing remote else explicit sync-pending
+# flag -> prune-gate REPORT ONLY (deletion stays operator-manual v1; nothing
+# is ever deleted from the live stores).
+# ---------------------------------------------------------------------------
+
+def verify_log_line(result, store, table, artifact, rows, digest,
+                    destination, detail=""):
+    line = "{0} | {1} | store={2} table={3} artifact={4} rows={5} " \
+           "sha256={6} destination={7}".format(
+               now_iso(), result, store, table, artifact, rows, digest,
+               destination)
+    if detail:
+        line += " detail=" + detail
+    try:
+        with open(os.path.join(ARCHIVE_DIR, "verification.log"), "a",
+                  encoding="utf-8") as fh:
+            fh.write(line + "\n")
+    except OSError as exc:
+        log_event({"event": "backup-verify-log-failed", "err": str(exc)})
+
+
+def sha256_file(path):
+    h = hashlib.sha256()
+    try:
+        with open(path, "rb") as fh:
+            for chunk in iter(lambda: fh.read(1048576), b""):
+                h.update(chunk)
+        return h.hexdigest()
+    except OSError:
+        return None
+
+
+def hot_copy_store(label, fname, stamp):
+    """sqlite3 .backup hot copy + integrity check + sha256. Returns
+    (info, error) where info has path/sha256/bytes or None."""
+    src = os.path.join(STORES_ROOT, fname)
+    if not os.path.isfile(src):
+        return None, "store-missing:" + src
+    dest_dir = os.path.join(ARCHIVE_DIR, "hot-backups", label)
+    dest = os.path.join(dest_dir, stamp + ".db")
+    try:
+        os.makedirs(dest_dir, exist_ok=True)
+        free = shutil.disk_usage(ARCHIVE_DIR).free
+        need = os.path.getsize(src) * 1.2 + 1048576
+        if free < need:
+            return None, "insufficient-disk:free={0} need={1}".format(
+                free, need)
+    except OSError as exc:
+        return None, "fs-error:" + str(exc)[:120]
+    rc, out, err = run(["sqlite3", src, ".backup " + dest], timeout=600)
+    if rc != 0 or not os.path.isfile(dest):
+        return None, "backup-failed:" + ((err or out or "").strip()[:150])
+    try:
+        conn = sqlite3.connect(dest)
+        row = conn.execute("PRAGMA integrity_check").fetchone()
+        conn.close()
+    except sqlite3.Error as exc:
+        return None, "integrity-error:" + str(exc)[:100]
+    if not row or row[0] != "ok":
+        return None, "integrity-report:" + str(row)[:100]
+    digest = sha256_file(dest)
+    if not digest:
+        return None, "digest-failed"
+    return {"path": dest, "sha256": digest,
+            "bytes": os.path.getsize(dest)}, None
+
+
+def prune_hot_generations(label, keep):
+    """Prune Observer-owned hot-backup generations beyond keep (its OWN
+    artefacts — never live data)."""
+    d = os.path.join(ARCHIVE_DIR, "hot-backups", label)
+    try:
+        gens = sorted(f for f in os.listdir(d) if f.endswith(".db"))
+    except OSError:
+        return
+    for old in gens[:-keep] if keep > 0 else gens:
+        try:
+            os.remove(os.path.join(d, old))
+            log_event({"event": "backup-generation-pruned",
+                       "store": label, "file": old})
+        except OSError:
+            pass
+
+
+def snapshot_session_tables(conn):
+    """Discover session tables at runtime (session-union.py pattern)."""
+    tables = []
+    try:
+        for (name,) in conn.execute(
+                "SELECT name FROM sqlite_master WHERE type=?", ("table",)):
+            if name == "session" or name == "session_v2":
+                cols = {r[1] for r in conn.execute(
+                    "PRAGMA table_info({0})".format(name))}
+                if {"id", "directory", "title", "time_created",
+                    "time_updated"} <= cols:
+                    tables.append(name)
+    except sqlite3.Error:
+        pass
+    return sorted(tables)
+
+
+def export_new_rows(conn, store, table, watermark):
+    """Rows with time_updated > watermark from the SNAPSHOT copy."""
+    q = ("SELECT id, directory, title, time_created, time_updated "
+         "FROM {0} WHERE time_updated > ? ORDER BY time_updated ASC"
+         ).format(table)
+    try:
+        return conn.execute(q, (watermark,)).fetchall()
+    except sqlite3.Error as exc:
+        log_event({"event": "backup-export-query-failed",
+                   "store": store, "table": table, "err": str(exc)[:150]})
+        return None
+
+
+def write_export(store, table, rows):
+    """Write gzip JSONL + append uncompressed index lines. Returns
+    (rel_artifact, count, decompressed_sha256) or (None, 0, reason)."""
+    day = now_iso()[:10]
+    stamp = ts_slug()
+    exp_dir = os.path.join(ARCHIVE_DIR, "exports", day)
+    idx_dir = os.path.join(ARCHIVE_DIR, "index")
+    try:
+        os.makedirs(exp_dir, exist_ok=True)
+        os.makedirs(idx_dir, exist_ok=True)
+        fname = "{0}-{1}-{2}.jsonl.gz".format(store, table, stamp)
+        fpath = os.path.join(exp_dir, fname)
+        h = hashlib.sha256()
+        n = 0
+        with gzip.open(fpath, "wb") as gz:
+            for sid, directory, title, tc, tu in rows:
+                rec = {"store": store, "session_id": sid,
+                       "table": table,
+                       "directory": directory, "title": title,
+                       "time_created": tc, "time_updated": tu,
+                       "source": "{0}:{1}".format(store, table)}
+                line = (json.dumps(rec, separators=(",", ":")) +
+                        "\n").encode("utf-8")
+                gz.write(line)
+                h.update(line)
+                n += 1
+        rel = os.path.join("exports", day, fname)
+        with open(os.path.join(idx_dir, store + ".ndx"), "a",
+                  encoding="utf-8") as idx:
+            for sid, directory, title, tc, tu in rows:
+                idx.write(json.dumps({
+                    "store": store, "session_id": sid, "table": table,
+                    "time_created": tc, "time_updated": tu,
+                    "export_file": rel, "exported_at": now_iso()},
+                    separators=(",", ":")) + "\n")
+        return rel, n, h.hexdigest(), None
+    except OSError as exc:
+        return None, 0, None, "write-failed:" + str(exc)[:150]
+
+
+def verify_export_readback(rel, expected_digest, expected_count):
+    """Destination-side read-back: decompress the written artefact and
+    compare row count + sha256 against the write-time manifest."""
+    path = os.path.join(ARCHIVE_DIR, rel)
+    try:
+        h = hashlib.sha256()
+        n = 0
+        with gzip.open(path, "rb") as gz:
+            for chunk in iter(lambda: gz.read(1048576), b""):
+                h.update(chunk)
+                n += chunk.count(b"\n")
+        if n != expected_count:
+            return False, "row-count-mismatch:{0}!={1}".format(
+                n, expected_count)
+        if h.hexdigest() != expected_digest:
+            return False, "sha256-mismatch"
+        return True, ""
+    except (OSError, EOFError) as exc:
+        return False, "readback-failed:" + str(exc)[:120]
+
+
+def rclone_remote_ready():
+    """True when OBSERVER_RCLONE_REMOTE names a configured remote."""
+    if not RCLONE_REMOTE:
+        return False
+    rc, out, _ = run(["rclone", "listremotes"], timeout=30)
+    if rc != 0:
+        return False
+    want = RCLONE_REMOTE.rstrip(":").lower()
+    for ln in out.splitlines():
+        if ln.strip().rstrip(":").lower() == want:
+            return True
+    return False
+
+
+def rclone_sync_and_verify(new_rels):
+    """Copy new artefacts + index to remote and read back via rclone cat.
+    Returns (ok, detail)."""
+    dest = RCLONE_REMOTE.rstrip(":") + ":opencode-archive"
+    rc, _, err = run(["rclone", "copy",
+                      os.path.join(ARCHIVE_DIR, "index"),
+                      dest + "/index"], timeout=600)
+    if rc != 0:
+        return False, "index-sync-failed:" + (err or "")[:150]
+    day_dirs = sorted(set(os.path.dirname(r) for r in new_rels))
+    for d in day_dirs:
+        rc, _, err = run(["rclone", "copy",
+                          os.path.join(ARCHIVE_DIR, d), dest + "/" + d],
+                         timeout=1800)
+        if rc != 0:
+            return False, "export-sync-failed:" + (err or "")[:150]
+    # Destination-side read-back: hash every index file remotely.
+    for label in sorted({s for s, _ in STORES}):
+        local = os.path.join(ARCHIVE_DIR, "index", label + ".ndx")
+        if not os.path.isfile(local):
+            continue
+        want = sha256_file(local)
+        rc, out, err = run(["rclone", "cat",
+                            dest + "/index/" + label + ".ndx"],
+                           timeout=300)
+        got = hashlib.sha256(out.encode("utf-8", "replace")).hexdigest() \
+            if rc == 0 else None
+        if got != want:
+            return False, "remote-readback-mismatch:index=" + label
+    return True, "verified index files for {0} store(s)".format(
+        len(STORES))
+
+
+def wave_backup(state):
+    if not BACKUP_ENABLED or not STORES:
+        return
+    bk = state.setdefault("backup", {})
+    last = bk.get("last_run_ts", 0)
+    if not isinstance(last, (int, float)):
+        last = 0
+    if time.time() - last < BACKUP_INTERVAL_MINS * 60:
+        return
+    bk["last_run_ts"] = time.time()
+    stamp = ts_slug()
+    log_event({"event": "backup-pass-start", "stores": [s for s, _ in STORES],
+               "interval_mins": BACKUP_INTERVAL_MINS})
+    try:
+        os.makedirs(ARCHIVE_DIR, exist_ok=True)
+    except OSError as exc:
+        log_event({"event": "backup-pass-aborted",
+                   "reason": "archive-dir-unavailable:" + str(exc)[:120]})
+        return
+
+    watermarks = bk.get("watermarks", {})
+    pass_ok = True
+
+    # (a) hot copies
+    snapshots = {}
+    for label, fname in STORES:
+        info, err = hot_copy_store(label, fname, stamp)
+        if err:
+            pass_ok = False
+            log_event({"event": "backup-hot-copy-failed", "store": label,
+                       "err": err})
+            continue
+        snapshots[label] = info["path"]
+        log_event({"event": "backup-hot-copy", "store": label,
+                   "path": info["path"], "bytes": info["bytes"],
+                   "sha256": info["sha256"]})
+
+    # (b)+(d) incremental export from the snapshot copies + read-back
+    new_rels = []
+    green_wms = {}
+    store_green_map = {}
+    for label, _ in STORES:
+        snap = snapshots.get(label)
+        if not snap:
+            continue
+        try:
+            conn = sqlite3.connect("file:{0}?immutable=1".format(snap),
+                                   uri=True)
+        except sqlite3.Error as exc:
+            pass_ok = False
+            log_event({"event": "backup-snapshot-open-failed",
+                       "store": label, "err": str(exc)[:150]})
+            continue
+        store_green = True
+        try:
+            for table in snapshot_session_tables(conn):
+                wm_key = "{0}:{1}".format(label, table)
+                wm = watermarks.get(wm_key, 0)
+                if not isinstance(wm, (int, float)):
+                    wm = 0
+                rows = export_new_rows(conn, label, table, wm)
+                if rows is None:
+                    store_green = False
+                    continue
+                if not rows:
+                    log_event({"event": "backup-export-empty",
+                               "store": label, "table": table,
+                               "watermark": int(wm)})
+                    green_wms[wm_key] = wm
+                    continue
+                rel, n, digest, werr = write_export(label, table, rows)
+                if werr:
+                    pass_ok = False
+                    store_green = False
+                    log_event({"event": "backup-export-failed",
+                               "store": label, "table": table,
+                               "err": werr})
+                    continue
+                new_rels.append(rel)
+                ok, detail = verify_export_readback(rel, digest, n)
+                if ok:
+                    green_wms[wm_key] = max(tu for *_x, tu in rows)
+                    verify_log_line("GREEN", label, table, rel, n,
+                                    digest, "local")
+                    log_event({"event": "backup-verify-green",
+                               "store": label, "table": table,
+                               "artifact": rel, "rows": n,
+                               "sha256": digest})
+                else:
+                    pass_ok = False
+                    store_green = False
+                    verify_log_line("RED", label, table, rel, n,
+                                    digest or "-", "local", detail)
+                    log_event({"event": "backup-verify-red",
+                               "store": label, "table": table,
+                               "artifact": rel, "detail": detail})
+        finally:
+            conn.close()
+        store_green_map[label] = store_green
+        if store_green:
+            for k, v in green_wms.items():
+                if k.startswith(label + ":"):
+                    watermarks[k] = v
+        else:
+            log_event({"event": "backup-watermark-held",
+                       "store": label,
+                       "detail": "red/unverified window; watermark not "
+                                 "advanced (pruning stays gated)"})
+
+    # hot-backup generation cap (Observer-owned artefacts only)
+    for label, _ in STORES:
+        prune_hot_generations(label, BACKUP_KEEP)
+
+    # (c) off-server sync when a remote is configured, else pending flag
+    remote_ok = None
+    if rclone_remote_ready():
+        ok, detail = rclone_sync_and_verify(new_rels)
+        remote_ok = ok
+        if ok:
+            log_event({"event": "backup-sync-complete",
+                       "remote": RCLONE_REMOTE, "artifacts": len(new_rels),
+                       "detail": detail})
+        else:
+            pass_ok = False
+            log_event({"event": "backup-sync-failed",
+                       "remote": RCLONE_REMOTE, "detail": detail})
+    else:
+        try:
+            with open(os.path.join(ARCHIVE_DIR, "sync-pending.log"), "a",
+                      encoding="utf-8") as fh:
+                fh.write("{0} | PENDING | remote=unconfigured "
+                         "(OBSERVER_RCLONE_REMOTE unset or absent from "
+                         "rclone listremotes) | artifacts={1}\n".format(
+                             now_iso(), len(new_rels)))
+        except OSError:
+            pass
+        log_event({"event": "backup-sync-pending",
+                   "detail": "local mode; off-server sync deferred until "
+                             "OBSERVER_RCLONE_REMOTE is wired",
+                   "artifacts": len(new_rels)})
+
+    # prune-gate report (REPORT ONLY — operator-manual deletion v1)
+    cutoff_ms = int((time.time() - PRUNE_AGE_DAYS * 86400) * 1000)
+    report_lines = []
+    for label, _ in STORES:
+        snap = snapshots.get(label)
+        if not snap:
+            continue
+        try:
+            conn = sqlite3.connect("file:{0}?immutable=1".format(snap),
+                                   uri=True)
+        except sqlite3.Error:
+            continue
+        try:
+            for table in snapshot_session_tables(conn):
+                wm_key = "{0}:{1}".format(label, table)
+                gwm = watermarks.get(wm_key, 0)
+                gate = "GREEN" if store_green_map.get(label) and gwm \
+                    else "PENDING"
+                q = ("SELECT COUNT(*) FROM {0} WHERE time_updated < ?"
+                     ).format(table)
+                try:
+                    old_total = conn.execute(q, (cutoff_ms,)).fetchone()[0]
+                    elig = conn.execute(
+                        q + " AND time_updated <= ?",
+                        (cutoff_ms, gwm)).fetchone()[0]
+                except sqlite3.Error:
+                    continue
+                report_lines.append(
+                    "{0} | store={1} table={2} older_than_{3}d={4} "
+                    "prune_eligible={5} gate={6}".format(
+                        now_iso(), label, table, PRUNE_AGE_DAYS,
+                        old_total, elig, gate))
+        finally:
+            conn.close()
+    if report_lines:
+        try:
+            with open(os.path.join(ARCHIVE_DIR, "prune-report.txt"), "a",
+                      encoding="utf-8") as fh:
+                for ln in report_lines:
+                    fh.write(ln + "\n")
+            log_event({"event": "backup-prune-report",
+                       "lines": len(report_lines),
+                       "detail": "report only; no live deletion"})
+        except OSError:
+            pass
+
+    bk["watermarks"] = watermarks
+    bk["last_pass"] = {
+        "ts": now_iso(), "ok": pass_ok, "snapshots": snapshots,
+        "new_artifacts": new_rels, "remote_sync": remote_ok,
+        "watermarks": {k: int(v) for k, v in watermarks.items()}}
+    log_event({"event": "backup-pass-done", "ok": pass_ok,
+               "new_artifacts": len(new_rels),
+               "remote_sync": remote_ok})
+
+
+# ---------------------------------------------------------------------------
+# F5 (#460): admission-policy absorption. Config-driven launch-contract
+# validation over each tracked agent KICKOFF.md; audit trail in events.jsonl;
+# absorbs would-be plugins #448/#445/#446/#451/#452 into this policy surface
+# (no new plugin files).
+# ---------------------------------------------------------------------------
+
+MODEL_PATTERNS = [
+    re.compile(r"--model[ =]([A-Za-z0-9._/-]+)"),
+    re.compile(r"(?im)^model:\s*([A-Za-z0-9._/-]+)"),
+    re.compile(r"\b((?:opencode(?:-go)?)\/([A-Za-z0-9._-]+))"),
+]
+
+def load_catalog(state, force=False):
+    """Live opencode models catalog with TTL cache. Returns
+    {provider: [model ids]} or None when unavailable."""
+    cat = state.get("admission_catalog") or {}
+    if not force and isinstance(cat.get("ts"), (int, float)) and \
+            time.time() - cat["ts"] < ADMISSION_CATALOG_TTL and \
+            isinstance(cat.get("models"), dict):
+        return cat["models"]
+    models = {}
+    for provider in ADMISSION_PROVIDERS:
+        cmd = MODELS_CMD_TMPL.replace("{provider}", provider).split()
+        rc, out, _ = run(cmd, timeout=60)
+        if rc == 0 and out.strip():
+            models[provider] = [ln.strip() for ln in
+                                out.splitlines() if ln.strip()]
+        else:
+            models[provider] = []
+    if not any(models.values()):
+        state["admission_catalog"] = {"ts": time.time(), "models": models}
+        return None
+    state["admission_catalog"] = {"ts": time.time(), "models": models}
+    return models
+
+
+def model_valid(model_id, catalog):
+    if not catalog:
+        return None  # catalog unavailable: not decidable
+    if model_id in {m for ids in catalog.values() for m in ids}:
+        return True
+    if "/" in model_id:
+        prov, mid = model_id.split("/", 1)
+        if mid in catalog.get(prov, []):
+            return True
+    return False
+
+
+def admission_checks(state, agent):
+    """Run the config-driven contract checks for one tracked agent.
+    Appends admission-check events; returns list of failure strings."""
+    wt = os.path.join(WORKTREES_ROOT, agent)
+    kfile = os.path.join(wt, "KICKOFF.md")
+    failures = []
+    try:
+        with open(kfile, encoding="utf-8", errors="replace") as fh:
+            text = fh.read(40000)
+    except OSError:
+        log_event({"event": "admission-check", "agent": agent,
+                   "check": "kickoff-present", "ok": False,
+                   "detail": "KICKOFF.md unreadable"})
+        return ["kickoff-present: KICKOFF.md unreadable"]
+    # model-declared-and-valid
+    declared = []
+    for pat in MODEL_PATTERNS:
+        for m in pat.finditer(text):
+            tok = m.group(1)
+            if tok not in declared:
+                declared.append(tok)
+    catalog = load_catalog(state)
+    for tok in declared:
+        valid = model_valid(tok, catalog)
+        if valid is None:
+            log_event({"event": "admission-check", "agent": agent,
+                       "check": "model-valid", "ok": None,
+                       "detail": "catalog-unavailable model=" + tok})
+            continue
+        if valid:
+            log_event({"event": "admission-check", "agent": agent,
+                       "check": "model-valid", "ok": True, "model": tok})
+        else:
+            log_event({"event": "admission-check", "agent": agent,
+                       "check": "model-valid", "ok": False, "model": tok,
+                       "detail": "not in live catalog"})
+            failures.append("model-valid: {0} not in live catalog".format(
+                tok))
+    # issue-exists + issue-claimed
+    m = re.search(r"\*\*Issue\*\*:\s*#(\d+)", text)
+    issue = m.group(1) if m else None
+    if not issue:
+        log_event({"event": "admission-check", "agent": agent,
+                   "check": "issue-declared", "ok": False,
+                   "detail": "no Issue field in KICKOFF.md"})
+        failures.append("issue-declared: no Issue field")
+    else:
+        rc, _, _ = run(["crosslink", "issue", "show", issue], timeout=60)
+        exists = rc == 0
+        log_event({"event": "admission-check", "agent": agent,
+                   "check": "issue-exists", "ok": exists,
+                   "issue": issue})
+        if not exists:
+            failures.append("issue-exists: #{0} not found".format(issue))
+        else:
+            rc2, out2, _ = run(["crosslink", "locks", "check", issue],
+                               timeout=30)
+            claimed = rc2 == 0 and "is locked by" in (out2 or "")
+            log_event({"event": "admission-check", "agent": agent,
+                       "check": "issue-claimed", "ok": claimed,
+                       "issue": issue})
+            if not claimed:
+                failures.append(
+                    "issue-claimed: #{0} has no active lock".format(issue))
+    # estimate-declared
+    try:
+        est = re.search(ADMISSION_ESTIMATE_RE, text) is not None
+    except re.error:
+        est = re.search(r"(?i)\bestimat", text) is not None
+    log_event({"event": "admission-check", "agent": agent,
+               "check": "estimate-declared", "ok": est})
+    if not est:
+        failures.append("estimate-declared: no estimate in KICKOFF.md")
+    return failures
+
+
+def wave_admission(state):
+    if not ADMISSION_ENABLED:
+        return
+    for agent in sorted(state["agents"]):
+        wt = os.path.join(WORKTREES_ROOT, agent)
+        if not os.path.isdir(wt):
+            continue
+        failures = admission_checks(state, agent)
+        fp = hashlib.sha256(
+            "\n".join(sorted(failures)).encode("utf-8")).hexdigest()[:12]
+        alerted = state.setdefault("admission_alerted", {})
+        if failures:
+            if alerted.get(agent) != fp:
+                post_comment(state, FLAG_ISSUE,
+                             "[OBSERVER][ADMISSION] launch-contract "
+                             "violations agent={0}: {1}. Checks are "
+                             "config-driven Observer policy (events.jsonl "
+                             "audit trail); fix the contract before "
+                             "re-dispatch.".format(agent, "; ".join(
+                                 failures[:6])))
+                alerted[agent] = fp
+        else:
+            if alerted.pop(agent, None) is not None:
+                log_event({"event": "admission-healed", "agent": agent})
+
+# ---------------------------------------------------------------------------
 # Main cycle
 # ---------------------------------------------------------------------------
 
@@ -1632,6 +2317,11 @@ def main():
     state.setdefault("agents", {})
     rows = data.get("agents", [])
     scanned = set()
+
+    # F6: capture the pre-cycle active/parked set BEFORE phases update, so
+    # an all-agents-vanish transition is detectable against last cycle.
+    prev_active = {a for a, r in state["agents"].items()
+                   if r.get("phase") in ("active", "parked")}
 
     for row in rows:
         agent = row.get("agent", "")
@@ -1680,6 +2370,40 @@ def main():
 
     wave_merge(state)
     wave_doctrine(state)
+
+    # F5: admission-policy absorption (config-driven contract checks).
+    wave_admission(state)
+
+    # F6: all-agents-vanish transition -> platform-restart signature alert.
+    vanished = prev_active - scanned
+    if prev_active and not (prev_active & scanned):
+        wt_present = [a for a in sorted(vanished)
+                      if os.path.isdir(os.path.join(WORKTREES_ROOT, a))]
+        if not state.get("wave_anomaly_alerted"):
+            state["wave_anomaly_alerted"] = True
+            log_event({"event": "wave-anomaly",
+                       "vanished": sorted(vanished),
+                       "worktrees_present": len(wt_present),
+                       "signature": "platform-restart-suspected"})
+            post_comment(
+                state, FLAG_ISSUE,
+                "[OBSERVER][WAVE-ANOMALY] all-agents-vanish: {0} tracked "
+                "active/parked agent(s) ({1}) absent from the scan "
+                "simultaneously with no terminal verdicts and no "
+                "Observer-executed cleanup; worktrees still present: "
+                "{2}/{3}. Platform-restart signature suspected - "
+                "recommend host/platform health-check before any "
+                "relaunch.".format(
+                    len(vanished), ", ".join(sorted(vanished)),
+                    len(wt_present), len(vanished)))
+    elif prev_active & scanned:
+        if state.get("wave_anomaly_alerted"):
+            log_event({"event": "wave-anomaly-rearmed",
+                       "reappeared": sorted(prev_active & scanned)})
+        state["wave_anomaly_alerted"] = False
+
+    # F4: dual-store backup pass (interval-gated inside).
+    wave_backup(state)
 
     err = save_state(state)
     if err:

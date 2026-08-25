@@ -68,6 +68,10 @@ run_cycle() { # run_cycle <statedir> <fixture.json> [extra env as KEY=VAL...]
         export OBSERVER_INPUT_JSON="$fx"
         export OBSERVER_OPENCODE_LOG="${TEST_OPENCODE_LOG:-$TESTS/empty.log}"
         export OBSERVER_REPO_ROOT="${TEST_REPO_ROOT:-$TESTS/fake-repo}"
+        # F4 backup pass OFF by default: every test uses a fresh state dir,
+        # so an enabled pass would hot-copy the REAL multi-GB stores each
+        # cycle. T15 opts back in explicitly with fixture stores.
+        export OBSERVER_BACKUP_ENABLED="${OBSERVER_BACKUP_ENABLED:-0}"
         for kv in "$@"; do export "$kv"; done
         bash "$MANAGER" --once >/dev/null 2>&1
     )
