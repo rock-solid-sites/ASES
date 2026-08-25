@@ -118,6 +118,27 @@ make_deliverable_wt() { # make_deliverable_wt <root> <agent>
     printf '%s\n' "$TEST_ORCH_ID" > "$root/.worktrees/$agent/.owner-orchestrator"
 }
 
+# C3 fixture: worktree whose last commit is deliberately OLD (the P1
+# commit-stale authoritative signal) + owner stamp.
+make_stale_wt() { # make_stale_wt <root> <agent> [orch_id]
+    local root="$1" agent="$2" orch="${3:-$TEST_ORCH_ID}"
+    mkdir -p "$root/.worktrees"
+    git -C "$root" init -q -b main
+    git -C "$root" config user.email t@t
+    git -C "$root" config user.name t
+    printf 'base\n' > "$root/base.txt"
+    git -C "$root" add base.txt
+    git -C "$root" commit -qm base
+    git -C "$root" worktree add -q -b "feature/$agent" \
+        "$root/.worktrees/$agent"
+    printf 'stale work\n' > "$root/.worktrees/$agent/stale.txt"
+    git -C "$root/.worktrees/$agent" add stale.txt
+    GIT_AUTHOR_DATE="2026-08-20T10:00:00" \
+        GIT_COMMITTER_DATE="2026-08-20T10:00:00" \
+        git -C "$root/.worktrees/$agent" commit -qm "stale commit for $agent"
+    printf '%s\n' "$orch" > "$root/.worktrees/$agent/.owner-orchestrator"
+}
+
 # ---------------------------------------------------------------------------
 note "T1 COMPLETED transition (deliverable gate PASSES -> cleanup fires)"
 sd="$TESTS/t1"; root="$TESTS/t1-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
@@ -257,15 +278,26 @@ unset TEST_OPENCODE_LOG
 
 # ---------------------------------------------------------------------------
 note "T6 FROZEN direct (evidence bundle + auto-kill + termination record)"
-sd="$TESTS/t6"; rm -rf "$sd"; mkdir -p "$sd"
+# C2/C3 refit: the agent owns a stamped worktree whose last commit is
+# deliberately OLD - owner-match lets the dry-run stop/cleanup fire now,
+# and the stale commit provides the P1 authoritative signal the convergent
+# gate will require once C3 lands.
+sd="$TESTS/t6"; root="$TESTS/t6-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_stale_wt "$root" zzz-lc-frozen
+export TEST_REPO_ROOT="$root"
 fx="$sd/fix.json"; fixture "$fx" zzz-lc-frozen LIKELY-FROZEN builder ALIVE RUNNING
 run_cycle "$sd" "$fx"
+# C2: observe mode records intents authorization-free but carries the
+# ownership fact on the record; act-mode owner-match enforcement is proven
+# end-to-end by T20b (real cleanup executes).
+check "T6 stop record carries owner fact" '"owner_orchestrator":"obs-test-orchestrator"' "$sd/events.jsonl"
 check "T6 stop dry-run recorded"      "stop-dry-run" "$sd/events.jsonl"
 check "T6 cleanup dry-run recorded"   "cleanup-dry-run" "$sd/events.jsonl"
 check "T6 termination record"         "frozen-termination" "$sd/events.jsonl"
 check "T6 spiral authority cited"     "#443 rev3" "$sd/events.jsonl"
 check "T6 relaunch recommendation"    "relaunch-with-backup-model" "$sd/events.jsonl"
 ls "$sd/evidence/zzz-lc-frozen"/*/bundle.json >/dev/null 2>&1 && { printf 'PASS T6 bundle manifest\n'; PASS=$((PASS+1)); } || { printf 'FAIL T6 bundle manifest missing\n'; FAIL=$((FAIL+1)); }
+unset TEST_REPO_ROOT
 
 # ---------------------------------------------------------------------------
 note "T7 STALE-SUSPECT warning cycle then escalation"
@@ -771,6 +803,9 @@ make_tripwire() { # make_tripwire <statedir>
 if [ "\$1" = "kickoff" ]; then
     printf 'MUTATION-ATTEMPTED %s\n' "\$*" >> "$1/mutations.txt"
 fi
+if [ "\$1" = "issue" ] && [ "\$2" = "comment" ]; then
+    printf 'COMMENT %s\n' "\$*" >> "$1/comments.txt"
+fi
 exit 0
 STUBEOF
     chmod +x "$1/bin/crosslink"
@@ -832,7 +867,8 @@ make_deliverable_wt "$root" zzz-lc-actreal
 export TEST_REPO_ROOT="$root"
 make_tripwire "$sd"
 fx="$sd/fix.json"; fixture "$fx" zzz-lc-actreal DONE-CONFIRMED builder EXITED DONE
-run_tripwire_cycle "$sd" "$fx" "OBSERVER_MODE=act" "OBSERVER_ORCHESTRATOR_ID=obs-test"
+run_tripwire_cycle "$sd" "$fx" "OBSERVER_MODE=act" \
+    "OBSERVER_ORCHESTRATOR_ID=$TEST_ORCH_ID"
 check "T21d summary carries act" '"mode":"act"' "$sd/events.jsonl"
 if [ -e "$sd/mutations.txt" ] && grep -q "cleanup" "$sd/mutations.txt"; then
     printf 'PASS T21d act mode executes real mutations\n'; PASS=$((PASS+1))
@@ -840,6 +876,70 @@ else
     printf 'FAIL T21d act mode did not reach crosslink\n'; FAIL=$((FAIL+1))
 fi
 unset TEST_REPO_ROOT
+
+# ---------------------------------------------------------------------------
+note "T22 cross-owner destructive action DOWNGRADED to notification (C2)"
+# The worktree belongs to a DIFFERENT orchestrator domain: even in act mode
+# with full identity, stop/cleanup must never fire - only a notification
+# naming the actual owner.
+sd="$TESTS/t22"; root="$TESTS/t22-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-crossown
+printf '%s\n' "sibling-orchestrator-domain" \
+    > "$root/.worktrees/zzz-lc-crossown/.owner-orchestrator"
+export TEST_REPO_ROOT="$root"
+make_tripwire "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-crossown DONE-CONFIRMED builder EXITED DONE
+run_tripwire_cycle "$sd" "$fx" "OBSERVER_MODE=act" \
+    "OBSERVER_ORCHESTRATOR_ID=$TEST_ORCH_ID"
+check "T22 authority check recorded mismatch" '"reason":"owner-mismatch"' "$sd/events.jsonl"
+check "T22 downgrade names would-be action" '"event":"authority-downgraded","agent":"zzz-lc-crossown","would_be_action":"kickoff_cleanup"' "$sd/events.jsonl"
+check "T22 actual owner named in event" '"owner_orchestrator":"sibling-orchestrator-domain"' "$sd/events.jsonl"
+if grep -q "AUTHORITY.*sibling-orchestrator-domain" "$sd/comments.txt" 2>/dev/null; then
+    printf 'PASS T22 notification names actual owner\n'; PASS=$((PASS+1))
+else
+    printf 'FAIL T22 downgrade notification missing owner name\n'; FAIL=$((FAIL+1))
+fi
+tripwire_clean "T22" "$sd" "$root" "zzz-lc-crossown"
+unset TEST_REPO_ROOT
+
+# ---------------------------------------------------------------------------
+note "T23 unknown-owner destructive action DOWNGRADED (C2 fail-closed)"
+# Missing stamp -> owner unknown -> downgraded REGARDLESS of mode. This is
+# the default state of every pre-stamp fleet agent.
+sd="$TESTS/t23"; root="$TESTS/t23-root"; rm -rf "$sd" "$root"; mkdir -p "$sd"
+make_deliverable_wt "$root" zzz-lc-nostamp
+rm -f "$root/.worktrees/zzz-lc-nostamp/.owner-orchestrator"
+export TEST_REPO_ROOT="$root"
+make_tripwire "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-nostamp DONE-CONFIRMED builder EXITED DONE
+run_tripwire_cycle "$sd" "$fx" "OBSERVER_MODE=act" \
+    "OBSERVER_ORCHESTRATOR_ID=$TEST_ORCH_ID"
+check "T23 authority check owner-unknown" '"reason":"owner-unknown"' "$sd/events.jsonl"
+check "T23 downgrade event recorded" '"event":"authority-downgraded","agent":"zzz-lc-nostamp"' "$sd/events.jsonl"
+check "T23 owner reported as unknown" '"owner_orchestrator":"unknown"' "$sd/events.jsonl"
+tripwire_clean "T23" "$sd" "$root" "zzz-lc-nostamp"
+unset TEST_REPO_ROOT
+
+# ---------------------------------------------------------------------------
+note "T24 MODE=act without OBSERVER_ORCHESTRATOR_ID fatals loudly (C2)"
+sd="$TESTS/t24"; rm -rf "$sd"; mkdir -p "$sd"
+fx="$sd/fix.json"; fixture "$fx" zzz-lc-noid RUNNING-ALIVE builder ALIVE RUNNING
+rc=0
+(
+    export OBSERVER_MODE=act OBSERVER_STATE_DIR="$sd" \
+        OBSERVER_INPUT_JSON="$fx" \
+        OBSERVER_OPENCODE_LOG="$TESTS/empty.log" \
+        OBSERVER_REPO_ROOT="$TESTS/fake-repo" \
+        OBSERVER_BACKUP_ENABLED=0
+    unset OBSERVER_ORCHESTRATOR_ID OBSERVER_DRY_RUN
+    cd /
+    bash "$MANAGER" --once
+) >/dev/null 2>"$sd/stderr.txt" || rc=$?
+if [ "$rc" -ne 0 ]; then printf 'PASS T24 act-without-id refused (rc=%s)\n' "$rc"; PASS=$((PASS+1));
+else printf 'FAIL T24 act mode started without an orchestrator identity\n'; FAIL=$((FAIL+1)); fi
+check "T24 fatal event recorded"       '"kind":"act-mode-requires-orchestrator-id"' "$sd/events.jsonl"
+if grep -q "FATAL" "$sd/stderr.txt" 2>/dev/null; then printf 'PASS T24 loud stderr fatal\n'; PASS=$((PASS+1));
+else printf 'FAIL T24 no loud stderr fatal\n'; FAIL=$((FAIL+1)); fi
 
 printf '\nRESULT: %d passed, %d failed\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]

@@ -995,6 +995,13 @@ def compose_transition_evidence(state, row, rec, tag):
     git_ev = worktree_git_evidence(agent)
     pos = last_hub_position(working_issue(agent) or FLAG_ISSUE)
     timeline = rec.get("history", [])[-12:]
+    # C4 (#460 v1.1): authority/evidence facts are part of EVERY bundle.
+    authority = {
+        "owner_orchestrator": read_owner_stamp(agent) or "unknown",
+        "observer_orchestrator_id": ORCHESTRATOR_ID or None,
+        "mode": MODE,
+        "authority_exercised": {"capability": tag, "mode": MODE},
+    }
     sections = {
         "opencode-tail.log": tail_text,
         "pane-tail.txt": pane_text,
@@ -1003,10 +1010,11 @@ def compose_transition_evidence(state, row, rec, tag):
         "verdict-timeline.json": json.dumps(timeline, indent=2),
         "hub-position.json": json.dumps(pos or {"position": None},
                                         separators=(",", ":")),
+        "authority.json": json.dumps(authority, indent=2, sort_keys=True),
     }
     bundle, hashes = write_evidence_bundle(agent, tag, sections)
     return {"bundle": bundle, "sha256": hashes, "loginfo": loginfo,
-            "git": git_ev, "hub_position": pos}
+            "git": git_ev, "hub_position": pos, "authority": authority}
 
 def evidence_summary_line(ev):
     """Compact one-line evidence digest for posted comments."""
@@ -1035,7 +1043,113 @@ def evidence_summary_line(ev):
 # Crosslink mutation surfaces (the ONLY write paths into the fleet)
 # ---------------------------------------------------------------------------
 
+# C2 (#460 v1.1): owner-stamp authorization. Every execution carries a
+# launcher-written, IMMUTABLE stamp file <worktree>/.owner-orchestrator
+# holding an opaque orchestrator id. The Observer NEVER writes stamps (a
+# retry is a new execution with a new stamp, written by the launcher).
+OWNER_STAMP_FILE = ".owner-orchestrator"
+
+def read_owner_stamp(agent):
+    """Passive read of the owner stamp. Missing/unreadable/empty -> None
+    (owner unknown -> fail-closed downstream)."""
+    if not WORKTREES_ROOT:
+        return None
+    try:
+        with open(os.path.join(WORKTREES_ROOT, agent, OWNER_STAMP_FILE),
+                  encoding="utf-8") as fh:
+            value = fh.read(256).strip()
+        return value or None
+    except OSError:
+        return None
+
+def notify_downgrade(state, agent, action, owner, reason):
+    """Notification-only downgrade: name the actual owner and the
+    would-be action so the owning domain can act. Deduped per
+    (agent, action) until the denial fingerprint changes; the audit-trail
+    event fires every time so events.jsonl stays complete."""
+    issue = working_issue(agent) or FLAG_ISSUE
+    fp = hashlib.sha256("{0}|{1}|{2}|{3}".format(
+        agent, action, reason, owner or "").encode(
+            "utf-8", "replace")).hexdigest()[:12]
+    alerted = state.setdefault("authority_downgrade_alerted", {})
+    log_event({"event": "authority-downgraded", "agent": agent,
+               "would_be_action": action, "reason": reason,
+               "owner_orchestrator": owner or "unknown",
+               "observer_orchestrator_id": ORCHESTRATOR_ID or None,
+               "mode": MODE})
+    if alerted.get(agent + ":" + action) != fp:
+        alerted[agent + ":" + action] = fp
+        sids = (state.get("agents", {}).get(agent, {}) or {}).get(
+            "session_ids") or []
+        linkage = (" Attributed session(s): {0}.".format(
+            ", ".join(sids[-2:]))) if sids else ""
+        post_comment(state, issue,
+                     "[OBSERVER][AUTHORITY] {0} DOWNGRADED to "
+                     "notification-only: agent={1} (execution id={1}) "
+                     "would-be-action={2} reason={3} "
+                     "owner_orchestrator={4} observer={5}. No stop or "
+                     "cleanup was executed; the owning orchestrator "
+                     "decides.{6}".format(
+                         action, agent, action, reason,
+                         owner or "unknown", ORCHESTRATOR_ID or "unset",
+                         linkage))
+
+def authorize_destructive(state, agent, action):
+    """THE authorization gate for destructive capability (kickoff_stop,
+    kickoff_cleanup). Enforced INSIDE the mutation surfaces, before any
+    destructive step, REGARDLESS of mode. Fail-closed on unknown
+    ownership: a missing/unreadable stamp downgrades exactly like a
+    mismatch. Returns {"allowed", "owner", "reason"}."""
+    owner = read_owner_stamp(agent)
+    if owner is None:
+        result = {"allowed": False, "owner": None,
+                  "reason": "owner-unknown"}
+    elif not ORCHESTRATOR_ID:
+        # Unreachable in act mode (startup fatal); kept as observe-mode
+        # defense so destructive paths can never run identity-free.
+        result = {"allowed": False, "owner": owner,
+                  "reason": "observer-id-unset"}
+    elif owner != ORCHESTRATOR_ID:
+        result = {"allowed": False, "owner": owner,
+                  "reason": "owner-mismatch"}
+    else:
+        result = {"allowed": True, "owner": owner,
+                  "reason": "owner-match"}
+    log_event({"event": "authority-check", "agent": agent,
+               "action": action, "allowed": result["allowed"],
+               "reason": result["reason"],
+               "owner_orchestrator": owner or "unknown",
+               "observer_orchestrator_id": ORCHESTRATOR_ID or None,
+               "mode": MODE})
+    if not result["allowed"]:
+        notify_downgrade(state, agent, action, owner, result["reason"])
+    return result
+
 def kickoff_cleanup(state, agent):
+    # Observe mode FIRST: recording an intent is not a destructive action,
+    # so it is authorization-free by design (the observer stays a pure
+    # recorder); the record still carries the ownership fact so it
+    # faithfully predicts what act mode would do. Breaker still caps the
+    # record: the window counts ALL mutating invocations, real or recorded.
+    if not ACT:
+        if not breaker_allow(state, "cleanup:" + agent):
+            log_event({"event": "cleanup", "agent": agent, "rc": None,
+                       "denied": "breaker-cap", "out": "",
+                       "err": "mutation cap reached; cleanup not "
+                              "attempted"})
+            return False, None
+        log_event({"event": "cleanup-dry-run", "agent": agent,
+                   "cmd": "crosslink kickoff cleanup --only " + agent +
+                          " --yes",
+                   "owner_orchestrator": read_owner_stamp(agent)
+                   or "unknown"})
+        return True, None
+    # C2 (#460 v1.1): ownership authorization precedes EVERYTHING destructive.
+    # A downgraded action performs no mutation, so it consumes no breaker
+    # budget either - authorization sits before the breaker here.
+    auth = authorize_destructive(state, agent, "kickoff_cleanup")
+    if not auth["allowed"]:
+        return False, auth
     if not breaker_allow(state, "cleanup:" + agent):
         # Shakedown fix (#460, 2026-08-25): this early-return was SILENT.
         # During the 05:26-05:31 leftover-fleet triage the 24/hour mutation
@@ -1049,39 +1163,50 @@ def kickoff_cleanup(state, agent):
         # denied cleanup is bounded and evidenced, never silent.
         log_event({"event": "cleanup", "agent": agent, "rc": None,
                    "denied": "breaker-cap",
+                   "authority": auth,
                    "out": "",
                    "err": "mutation cap reached; cleanup not attempted"})
-        return False
-    if not ACT:
-        log_event({"event": "cleanup-dry-run", "agent": agent,
-                   "cmd": "crosslink kickoff cleanup --only " + agent +
-                          " --yes"})
-        return True
+        return False, auth
     rc, out, err = run(["crosslink", "kickoff", "cleanup", "--only", agent,
                         "--yes"], timeout=180, cwd=CROSSLINK_ROOT)
     log_event({"event": "cleanup", "agent": agent, "rc": rc,
+               "authority": auth,
                "out": (out or "").strip()[:300],
                "err": (err or "").strip()[:300]})
-    return rc == 0
+    return rc == 0, auth
 
 def kickoff_stop(state, agent, branch):
+    # Observe mode: intent recording is authorization-free (see
+    # kickoff_cleanup) but still breaker-capped per candidate.
+    if not ACT:
+        candidates = [c for c in (branch, agent) if c]
+        for cand in candidates:
+            if not breaker_allow(state, "stop:" + cand):
+                return False, None
+            log_event({"event": "stop-dry-run", "agent": agent,
+                       "target": cand,
+                       "cmd": "crosslink kickoff stop " + cand + " --force",
+                       "owner_orchestrator": read_owner_stamp(agent)
+                       or "unknown"})
+            return True, None
+    # C2 (#460 v1.1): the lethal capability is authorized first in act
+    # mode (before the breaker - downgrades consume no budget).
+    auth = authorize_destructive(state, agent, "kickoff_stop")
+    if not auth["allowed"]:
+        return False, auth
     candidates = [c for c in (branch, agent) if c]
     for cand in candidates:
         if not breaker_allow(state, "stop:" + cand):
-            return False
-        if not ACT:
-            log_event({"event": "stop-dry-run", "agent": agent,
-                       "target": cand,
-                       "cmd": "crosslink kickoff stop " + cand + " --force"})
-            return True
+            return False, auth
         rc, out, err = run(["crosslink", "kickoff", "stop", cand, "--force"],
                            timeout=90, cwd=CROSSLINK_ROOT)
         log_event({"event": "stop", "agent": agent, "target": cand,
-                   "rc": rc, "out": (out or "").strip()[:300],
+                   "rc": rc, "authority": auth,
+                   "out": (out or "").strip()[:300],
                    "err": (err or "").strip()[:300]})
         if rc == 0:
-            return True
-    return False
+            return True, auth
+    return False, auth
 
 def flag_for_sweep(agent, reason):
     line = "{0} {1} {2}\n".format(now_iso(), agent, reason)
@@ -1206,9 +1331,10 @@ def act_completed(state, row, rec):
     # loud flag comment for the orchestrator.
     deliv = deliverable_check(branch)
     cleanup_ok = None  # None = gate not passed (skipped)
+    cleanup_auth = None
     orphan = None
     if deliv.get("deliverable_present"):
-        cleanup_ok = kickoff_cleanup(state, agent)
+        cleanup_ok, cleanup_auth = kickoff_cleanup(state, agent)
         orphan = os.path.isdir(os.path.join(WORKTREES_ROOT, agent))
         if orphan:
             flag_for_sweep(agent,
@@ -1242,35 +1368,49 @@ def act_completed(state, row, rec):
         "deliverable": deliv, "duration_min": duration_min,
         "cleanup": cleanup_field,
         "orphan_worktree": orphan,
+        "owner_orchestrator": read_owner_stamp(agent) or "unknown",
+        "mode": MODE,
         "evidence_bundle": ev["bundle"], "evidence_sha256": ev["sha256"],
     })
     rec["phase"] = "completed"
     rec.setdefault("handled", {})["DONE-CONFIRMED"] = now_iso()
+    authority_note = ""
+    if cleanup_auth and not cleanup_auth["allowed"]:
+        authority_note = (" Authority: cleanup DOWNGRADED "
+                          "(reason={0}, owner_orchestrator={1}; "
+                          "would-be-action=kickoff_cleanup).".format(
+                              cleanup_auth["reason"],
+                              cleanup_auth["owner"] or "unknown"))
     if cleanup_ok is None:
         message = ("[OBSERVER] COMPLETED agent={0} deliverable={1} "
                    "files_changed={2} merged={3}. Cleanup SKIPPED - "
                    "deliverable unverified (branch missing or no "
                    "committed file delta); worktree PRESERVED and "
                    "flagged for operator review before any sweep. "
-                   "{4}".format(
+                   "{4}{5}".format(
                        agent,
                        deliv.get("deliverable_present"),
                        deliv.get("files_changed"), deliv.get("merged"),
-                       evidence_summary_line(ev)))
+                       evidence_summary_line(ev), authority_note))
     else:
         message = ("[OBSERVER] COMPLETED agent={0} deliverable={1} "
                    "files_changed={2} merged={3}. Deliverable verified; "
-                   "scoped cleanup executed={4}. {5}".format(
+                   "scoped cleanup executed={4}. {5}{6}".format(
                        agent,
                        deliv.get("deliverable_present"),
                        deliv.get("files_changed"), deliv.get("merged"),
                        "yes" if cleanup_ok else "NO",
-                       evidence_summary_line(ev)))
-    post_comment(state, issue or FLAG_ISSUE, message)
+                       evidence_summary_line(ev), authority_note))
+    notified = post_comment(state, issue or FLAG_ISSUE, message)
     log_event({"event": "transition-action", "action": "completed",
                "agent": agent, "issue": issue, "cleanup_ok": cleanup_ok,
                "cleanup_skipped": cleanup_ok is None,
                "orphan": orphan, "deliverable": deliv,
+               "owner_orchestrator": read_owner_stamp(agent) or "unknown",
+               "authority": cleanup_auth,
+               "would_be_action": ("kickoff_cleanup" if cleanup_auth and
+                                   not cleanup_auth["allowed"] else None),
+               "notified": notified, "mode": MODE,
                "evidence": ev["bundle"], "sha256": ev["sha256"]})
 
 def issue_comment_count_since(issue_text, since_epoch):
@@ -1317,10 +1457,14 @@ def act_finished_unmarkable(state, row, rec):
                "findings_on_working_issue={1}. Worktree flagged for "
                "operator force-sweep. {2}".format(
                    agent, findings_exist, evidence_summary_line(ev)))
-    post_comment(state, issue or FLAG_ISSUE, message)
+    notified = post_comment(state, issue or FLAG_ISSUE, message)
     log_event({"event": "transition-action", "action": "finished-unmarkable",
                "agent": agent, "issue": issue,
                "findings_on_working_issue": findings_exist,
+               "owner_orchestrator": read_owner_stamp(agent) or "unknown",
+               "authority": {"capability": "finished-unmarkable-flag",
+                             "mode": MODE},
+               "notified": notified, "mode": MODE,
                "evidence": ev["bundle"], "sha256": ev["sha256"]})
 
 def classify_death(row, loginfo):
@@ -1374,16 +1518,19 @@ def act_failed(state, row, rec, reason):
             loginfo.get("provider"), loginfo.get("model")))
     message += (" Recommendation: relaunch-with-backup-model; operator "
                 "selects the backup from the Model Routing Matrix.")
-    post_comment(state, issue, message)
+    notified = post_comment(state, issue, message)
     log_event({"event": "transition-action", "action": "failed",
                "agent": agent, "issue": issue, "reason": reason,
+               "owner_orchestrator": read_owner_stamp(agent) or "unknown",
+               "authority": {"capability": "failed-preserve", "mode": MODE},
+               "notified": notified, "mode": MODE,
                "evidence": bundle, "sha256": hashes})
 
 def act_killed(state, row, rec, reason):
     agent = row["agent"]
     issue = working_issue(agent) or FLAG_ISSUE
     ev = compose_transition_evidence(state, row, rec, "killed")
-    cleanup_ok = kickoff_cleanup(state, agent)
+    cleanup_ok, cleanup_auth = kickoff_cleanup(state, agent)
     orphan = os.path.isdir(os.path.join(WORKTREES_ROOT, agent))
     if orphan:
         flag_for_sweep(agent, "killed-but-orphaned-worktree-remains")
@@ -1395,6 +1542,11 @@ def act_killed(state, row, rec, reason):
         "verdict_timeline": rec.get("history", [])[-8:],
         "cleanup_executed": cleanup_ok,
         "orphan_worktree": orphan,
+        "owner_orchestrator": read_owner_stamp(agent) or "unknown",
+        "authority": cleanup_auth,
+        "would_be_action": ("kickoff_cleanup" if cleanup_auth and
+                            not cleanup_auth["allowed"] else None),
+        "mode": MODE,
         "evidence_bundle": ev["bundle"],
         "sha256": ev["sha256"],
     }
@@ -1406,9 +1558,10 @@ def act_killed(state, row, rec, reason):
                    "PRESENT (force-sweep flagged)" if orphan else "none",
                    json.dumps(chain, separators=(",", ":")),
                    evidence_summary_line(ev)))
-    post_comment(state, issue, message)
+    notified = post_comment(state, issue, message)
     log_event({"event": "transition-action", "action": "killed",
-               "agent": agent, "issue": issue, "chain": chain})
+               "agent": agent, "issue": issue, "chain": chain,
+               "notified": notified})
 
 def act_frozen(state, row, rec, trigger_detail):
     agent = row["agent"]
@@ -1417,14 +1570,19 @@ def act_frozen(state, row, rec, trigger_detail):
     loginfo = ev["loginfo"]
     bundle, hashes = ev["bundle"], ev["sha256"]
     branch = agent_branch(agent)
-    stop_ok = kickoff_stop(state, agent, branch)
-    cleanup_ok = kickoff_cleanup(state, agent)
+    stop_ok, stop_auth = kickoff_stop(state, agent, branch)
+    cleanup_ok, cleanup_auth = kickoff_cleanup(state, agent)
     orphan = os.path.isdir(os.path.join(WORKTREES_ROOT, agent))
     if orphan:
         flag_for_sweep(agent, "frozen-but-orphaned-worktree-remains")
     rec["phase"] = "frozen-handled"
     rec.setdefault("handled", {})[row.get("verdict", "FROZEN")] = now_iso()
     rec["frozen_trigger"] = trigger_detail
+    downgraded = []
+    if stop_auth and not stop_auth["allowed"]:
+        downgraded.append("kickoff_stop")
+    if cleanup_auth and not cleanup_auth["allowed"]:
+        downgraded.append("kickoff_cleanup")
     chain = {
         "trigger": trigger_detail,
         "verdict_timeline": rec.get("history", [])[-8:],
@@ -1434,23 +1592,36 @@ def act_frozen(state, row, rec, trigger_detail):
                                                  else "FAILED"),
         "cleanup_executed": cleanup_ok,
         "orphan_worktree": orphan,
+        "owner_orchestrator": read_owner_stamp(agent) or "unknown",
+        "authority": {"stop": stop_auth, "cleanup": cleanup_auth},
+        "downgraded_actions": downgraded,
+        "mode": MODE,
         "model": loginfo.get("model"), "provider": loginfo.get("provider"),
     }
+    authority_note = ""
+    if downgraded:
+        authority_note = (" Authority: {0} DOWNGRADED to notification-only "
+                          "(reason={1}, owner_orchestrator={2}).".format(
+                              "+".join(downgraded),
+                              (stop_auth or cleanup_auth or {}).get("reason"),
+                              (stop_auth or cleanup_auth or {}).get(
+                                  "owner") or "unknown"))
     message = ("[OBSERVER] FROZEN TERMINATION agent={0} verdict={1} "
                "trigger={2}. Auto-killed per operator-granted spiral "
                "authority (#443 rev3, 2026-08-24): stop={3}, cleanup={4}, "
                "orphan_worktree={5}. Evidence bundle: {6} sha256={7}. "
-               "{8} Recommendation: relaunch-with-backup-model.".format(
+               "{8}{9} Recommendation: relaunch-with-backup-model.".format(
                    agent, row.get("verdict"), trigger_detail,
                    chain["auto_kill"],
                    "executed" if cleanup_ok else "FAILED",
                    "PRESENT (force-sweep flagged)" if orphan else "none",
                    bundle or "unavailable",
                    json.dumps(hashes, separators=(",", ":")),
-                   evidence_summary_line(ev)))
-    post_comment(state, issue, message)
+                   evidence_summary_line(ev), authority_note))
+    notified = post_comment(state, issue, message)
     log_event({"event": "transition-action", "action": "frozen-termination",
-               "agent": agent, "issue": issue, "chain": chain})
+               "agent": agent, "issue": issue, "chain": chain,
+               "notified": notified})
 
 def act_parked(state, row, rec, loginfo):
     agent = row["agent"]
