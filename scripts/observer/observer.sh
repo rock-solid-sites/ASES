@@ -100,7 +100,10 @@
 #         (zero load on the live DB) as compressed JSONL plus an
 #         uncompressed index under ~/opencode-archive/, keyed
 #         (store, session_id); a per-(store,table) time_updated watermark
-#         advances only after read-back verification passes;
+#         advances ONLY when local read-back is GREEN AND (rclone sync is
+#         GREEN OR remote-unconfigured local mode is explicitly
+#         acknowledged); sync RED holds every watermark and queues the
+#         artifacts into a retry backlog for later passes (#466 F2);
 #     (c) syncs the archive off-server via rclone ONLY when
 #         OBSERVER_RCLONE_REMOTE names a remote that exists in
 #         `rclone listremotes`; otherwise an explicit sync-pending entry is
@@ -2272,34 +2275,63 @@ def wave_backup(state):
         finally:
             conn.close()
         store_green_map[label] = store_green
-        if store_green:
-            for k, v in green_wms.items():
-                if k.startswith(label + ":"):
-                    watermarks[k] = v
-        else:
-            log_event({"event": "backup-watermark-held",
-                       "store": label,
-                       "detail": "red/unverified window; watermark not "
-                                 "advanced (pruning stays gated)"})
 
     # hot-backup generation cap (Observer-owned artefacts only)
     for label, _ in STORES:
         prune_hot_generations(label, BACKUP_KEEP)
 
-    # (c) off-server sync when a remote is configured, else pending flag
+    # (c) off-server sync gate -> decides whether the candidate watermarks
+    # may be COMMITTED. FIX 6 (#466 F2): a watermark advances ONLY when
+    # local read-back is GREEN AND (rclone sync is GREEN OR remote-
+    # unconfigured local mode is explicitly acknowledged in events). Sync
+    # RED holds ALL watermarks and queues every artifact into a retry
+    # backlog that later passes re-attempt; nothing is silently lost.
+    def commit_watermarks():
+        for k, v in green_wms.items():
+            if store_green_map.get(k.split(":", 1)[0]):
+                watermarks[k] = v
+
     remote_ok = None
+    backlog = [r for r in bk.get("sync_backlog", [])
+               if isinstance(r, str)]
     if rclone_remote_ready():
-        ok, detail = rclone_sync_and_verify(new_rels)
+        pending_rels = sorted(set(new_rels) | set(backlog))
+        ok, detail = rclone_sync_and_verify(pending_rels)
         remote_ok = ok
         if ok:
+            commit_watermarks()
+            cleared = len(backlog)
+            bk["sync_backlog"] = []
             log_event({"event": "backup-sync-complete",
                        "remote": RCLONE_REMOTE, "artifacts": len(new_rels),
-                       "detail": detail})
+                       "backlog_cleared": cleared, "detail": detail})
         else:
             pass_ok = False
-            log_event({"event": "backup-sync-failed",
-                       "remote": RCLONE_REMOTE, "detail": detail})
+            bk["sync_backlog"] = pending_rels
+            try:
+                with open(os.path.join(ARCHIVE_DIR, "sync-pending.log"),
+                          "a", encoding="utf-8") as fh:
+                    fh.write("{0} | SYNC-FAILED | remote={1} | detail={2} "
+                             "| held_artifacts={3} backlog={4}\n".format(
+                                 now_iso(), RCLONE_REMOTE,
+                                 (detail or "")[:200], len(new_rels),
+                                 len(pending_rels)))
+            except OSError:
+                pass
+            log_event({"event": "backup-watermark-held",
+                       "reason": "sync-red",
+                       "remote": RCLONE_REMOTE, "detail": detail,
+                       "held_candidates": sorted(green_wms.keys()),
+                       "backlog": len(pending_rels)})
+            backup_alert(state, "sync:" + RCLONE_REMOTE,
+                         "off-server sync FAILED remote=" + RCLONE_REMOTE,
+                         "{0}; watermarks HELD and {1} artifact(s) queued "
+                         "for retry next pass".format(detail,
+                                                      len(pending_rels)))
     else:
+        # Local mode: no remote configured. Explicitly acknowledged here;
+        # GREEN local read-back is sufficient to advance the watermark.
+        commit_watermarks()
         try:
             with open(os.path.join(ARCHIVE_DIR, "sync-pending.log"), "a",
                       encoding="utf-8") as fh:
@@ -2314,6 +2346,15 @@ def wave_backup(state):
                    "detail": "local mode; off-server sync deferred until "
                              "OBSERVER_RCLONE_REMOTE is wired",
                    "artifacts": len(new_rels)})
+
+    uncommitted = {k: v for k, v in green_wms.items()
+                   if watermarks.get(k) != v}
+    if uncommitted:
+        log_event({"event": "backup-watermark-held",
+                   "keys": sorted(uncommitted),
+                   "detail": "candidates not committed: local read-back "
+                             "red/unverified for their store, or off-server "
+                             "sync failed (pruning stays gated)"})
 
     # prune-gate report (REPORT ONLY — operator-manual deletion v1)
     cutoff_ms = int((time.time() - PRUNE_AGE_DAYS * 86400) * 1000)
@@ -2365,6 +2406,8 @@ def wave_backup(state):
     bk["last_pass"] = {
         "ts": now_iso(), "ok": pass_ok, "snapshots": snapshots,
         "new_artifacts": new_rels, "remote_sync": remote_ok,
+        "watermarks_committed": not uncommitted,
+        "sync_backlog": bk.get("sync_backlog", []),
         "watermarks": {k: int(v) for k, v in watermarks.items()}}
     if not pass_ok:
         # FIX 2 (#469/#465 F7): failed pass retries after the SHORT backoff,

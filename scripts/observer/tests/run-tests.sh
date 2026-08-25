@@ -471,6 +471,7 @@ check "T15 index keyed row"     '"session_id":"ses_a1"' "$f4arch/index/main.ndx"
 check "T15 index carries artifact ref" '"export_file":"exports/' "$f4arch/index/main.ndx"
 check "T15 sync pending explicit" "PENDING | remote=" "$f4arch/sync-pending.log"
 check "T15 absent remote named in pending" "totally-absent-remote" "$f4arch/sync-pending.log"
+check "T15 local-mode ack in events (FIX 6 gate)" '"event":"backup-sync-pending"' "$sd/events.jsonl"
 check "T15 prune report gated GREEN" "gate=GREEN" "$f4arch/prune-report.txt"
 N1=$(ls "$f4arch/exports/"*/*.jsonl.gz 2>/dev/null | wc -l)
 test "$N1" -eq 2 && { printf 'PASS T15 one artifact per store\n'; PASS=$((PASS+1)); } || { printf 'FAIL T15 expected 2 artifacts got %s\n' "$N1"; FAIL=$((FAIL+1)); }
