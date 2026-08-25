@@ -1,6 +1,6 @@
 {
   "next_display_id": 464,
-  "next_comment_id": 2413,
+  "next_comment_id": 2414,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -1818,10 +1818,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-25T01:45:24.341260648Z",
-      "updated_at": "2026-08-25T01:45:33.747930078Z",
+      "updated_at": "2026-08-25T01:48:53.171090228Z",
       "labels": [
         "archival"
-      ]
+      ],
+      "comments": {
+        "1b7c9756-a2f4-4d1c-8637-c0ab910b1b01": {
+          "display_id": 2413,
+          "author": "pp3g-ByWC-read-only-audit-for-issue-463-no-mutations-no-commits",
+          "content": "Plan: Read-only audit of /home/claude-code/projects/Tools for archive-finalization decision. TASK 1 sync/status: git status --porcelain + untracked inventory, branch, fetch origin then rev-list --counts both directions, stash list, verbatim origin URL, last-commit date, du -sh .git. TASK 2 history: total commits, first/last dates, top-level structure at HEAD, narrative cross-checked against TOOLING.md. TASK 3 uniqueness: hash every file in Tools-backup (git hash-object), test membership against ALL blobs in live Tools object store (git cat-file --batch-all-objects) plus hashes of Tools working-tree files (covers untracked); emit fully-covered vs not-found lists. TASK 4 dependency sweep: literal '/home/claude-code/projects/Tools' references in systemd units (user+system), crontab -l, shell profiles, all sibling projects' scripts/configs/docs (excluding Tools itself), ~/.local/bin/*; classify each {live-critical|stale-safe}. Deliverable: single result comment with sync verdict table, verbatim URL, narrative, uniqueness verdicts, dependency classification, finalize-sequence recommendation. Claim discipline (WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED) on every verdict. NOTE: session-work lock on 463 reported STALE (held by OL2r) — known non-blocking noise per SESSION-START; proceeding read-only without stealing.",
+          "created_at": "2026-08-25T01:48:53.162941482Z",
+          "kind": "plan",
+          "signed_by": "SHA256:V+9A9aaGkP+spKnMc9mwUEgqctSKZr6jFoOHaY9n48Y",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgYePDhyVZNWzYKpaCt0NIsfnSf/jqx9cKOV+zr8lYtjQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAY+BHbxGSI4aJJIGHIY0fWG3fJORLtCOypNdpinoYpd+7GK5n5kED6FTVc3nQpcEabhcVvX9Vj2KLvO3IeR2WAQ=="
+        }
+      }
     },
     "0a9e8ea8-a028-401c-b6f8-9e29a9dde9bc": {
       "uuid": "0a9e8ea8-a028-401c-b6f8-9e29a9dde9bc",
@@ -30030,8 +30041,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T01:48:03.011392293Z",
+    "timestamp": "2026-08-25T01:48:53.171090228Z",
     "agent_id": "pp3g-ByWC-read-only-audit-for-issue-463-no-mutations-no-commits",
-    "agent_seq": 2
+    "agent_seq": 3
   }
 }
