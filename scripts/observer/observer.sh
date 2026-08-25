@@ -294,6 +294,63 @@ discover_repo_root() {
 OB_REPO_ROOT="${OBSERVER_REPO_ROOT:-$(discover_repo_root)}"
 export OB_REPO_ROOT
 
+# FIX 1 (#465 F1, #460): CWD hermeticity. Every external invocation (git,
+# crosslink, opencode, sqlite3, rclone, tmux) and every state-path resolution
+# must derive from absolute paths, never from the process CWD: a detached
+# tmux launch inherits the launcher CWD, and crosslink silently no-ops
+# outside a crosslink repository (demonstrated in #465: rc=0 in-project,
+# rc=1 from /tmp). Two layers:
+#   (a) normalize every path-like env var to an ABSOLUTE path BEFORE any cd;
+#   (b) anchor the process CWD to the Observer's own crosslink repository
+#       root so inherited-CWD subprocesses land in valid repo context too.
+# Relative OBSERVER_* inputs are resolved against the LAUNCH directory (the
+# only moment the original CWD is meaningful).
+normalize_abs() { # normalize_abs <path>  -> absolute (against launch CWD)
+    case "$1" in
+        /*) printf '%s\n' "$1" ;;
+        *)  printf '%s\n' "$(pwd)/$1" ;;
+    esac
+}
+OBSERVER_STATE_DIR="$(normalize_abs "$OBSERVER_STATE_DIR")"
+[ -n "${OBSERVER_OPENCODE_LOG:-}" ] && \
+    OBSERVER_OPENCODE_LOG="$(normalize_abs "$OBSERVER_OPENCODE_LOG")"
+[ -n "${OBSERVER_INPUT_JSON:-}" ] && \
+    OBSERVER_INPUT_JSON="$(normalize_abs "$OBSERVER_INPUT_JSON")"
+[ -n "${OBSERVER_LIVENESS_PY:-}" ] && \
+    LIVENESS_PY="$(normalize_abs "$LIVENESS_PY")"
+[ -n "${OBSERVER_ARCHIVE_DIR:-}" ] && \
+    OBSERVER_ARCHIVE_DIR="$(normalize_abs "$OBSERVER_ARCHIVE_DIR")"
+[ -n "${OBSERVER_STORES_ROOT:-}" ] && \
+    OBSERVER_STORES_ROOT="$(normalize_abs "$OBSERVER_STORES_ROOT")"
+[ -n "${OBSERVER_DIS_VALIDATOR:-}" ] && \
+    OBSERVER_DIS_VALIDATOR="$(normalize_abs "$OBSERVER_DIS_VALIDATOR")"
+
+# Crosslink repo context: the Observer's OWN repository (where .crosslink
+# lives), discovered by walking up from this script. NOT necessarily the
+# monitored OB_REPO_ROOT (tests point that at fixture trees). Env override
+# wins; fallback is the monitored repo root.
+discover_crosslink_root() {
+    local d="$SCRIPT_DIR"
+    while [ "$d" != "/" ]; do
+        if [ -d "$d/.crosslink" ]; then
+            printf '%s\n' "$d"
+            return 0
+        fi
+        d="$(dirname "$d")"
+    done
+    printf '%s\n' "$OB_REPO_ROOT"
+}
+OB_CROSSLINK_ROOT="${OBSERVER_CROSSLINK_ROOT:-$(discover_crosslink_root)}"
+export OB_CROSSLINK_ROOT
+
+# Anchor the process CWD (layer b). Loud failure per FIX 2: without a valid
+# anchor, every crosslink surface would silently no-op for the whole run.
+if ! cd "$OB_CROSSLINK_ROOT" 2>/dev/null; then
+    printf '{"ts":"%s","event":"fatal","kind":"crosslink-root-unresolvable","root":"%s"}\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$OB_CROSSLINK_ROOT" >&2
+    exit 1
+fi
+
 EVENTS_FILE="$OBSERVER_STATE_DIR/events.jsonl"
 ERRCOUNT_FILE="$OBSERVER_STATE_DIR/.consecutive-errors"
 
@@ -350,6 +407,12 @@ def env_int(name, default):
         return default
 
 REPO_ROOT = env("OB_REPO_ROOT")
+# FIX 1 (#465 F1): crosslink CLI context root. The monitored repo (fixtures
+# in tests) is NOT necessarily a crosslink repository, so crosslink
+# invocations are pinned to the repo the Observer itself runs from,
+# discovered by the bash wrapper (env OBSERVER_CROSSLINK_ROOT override;
+# falls back to REPO_ROOT).
+CROSSLINK_ROOT = env("OB_CROSSLINK_ROOT") or env("OB_REPO_ROOT")
 STATE_DIR = env("OB_STATE_DIR", "/tmp/opencode/observer-state")
 WORKTREES_ROOT = os.path.join(REPO_ROOT, ".worktrees") if REPO_ROOT else ""
 OPENCODE_LOG = env("OB_OPENCODE_LOG")
@@ -433,10 +496,17 @@ def log_event(fields):
     except OSError:
         pass
 
-def run(cmd, timeout=90, timeout_ok=True):
+def run(cmd, timeout=90, cwd=None):
+    """Run a subprocess and return (rc, stdout, stderr).
+
+    FIX 2 (#469): rc is ALWAYS returned; callers decide. The unused
+    timeout_ok parameter (dead code, #467 M4) is removed. FIX 1: callers
+    pass cwd= explicitly for CWD-sensitive binaries (crosslink); nothing
+    here depends on the inherited process CWD.
+    """
     try:
         proc = subprocess.run(cmd, capture_output=True, text=True,
-                              timeout=timeout)
+                              timeout=timeout, cwd=cwd)
         return proc.returncode, proc.stdout, proc.stderr
     except FileNotFoundError:
         return 127, "", "binary not found"
@@ -499,7 +569,7 @@ def post_comment(state, issue, message):
                    "message": message})
         return True
     rc, _, err = run(["crosslink", "issue", "comment", str(issue), message],
-                     timeout=120)
+                     timeout=120, cwd=CROSSLINK_ROOT)
     log_event({"event": "comment", "issue": issue, "posted": rc == 0,
                "rc": rc, "err": (err or "").strip()[:200]})
     return rc == 0
@@ -761,7 +831,8 @@ def last_hub_position(issue):
     """
     if not issue:
         return None
-    rc, out, _ = run(["crosslink", "issue", "show", str(issue)], timeout=60)
+    rc, out, _ = run(["crosslink", "issue", "show", str(issue)], timeout=60,
+                     cwd=CROSSLINK_ROOT)
     if rc != 0 or not out:
         return None
     best = None
@@ -835,7 +906,7 @@ def kickoff_cleanup(state, agent):
                           " --yes"})
         return True
     rc, out, err = run(["crosslink", "kickoff", "cleanup", "--only", agent,
-                        "--yes"], timeout=180)
+                        "--yes"], timeout=180, cwd=CROSSLINK_ROOT)
     log_event({"event": "cleanup", "agent": agent, "rc": rc,
                "out": (out or "").strip()[:300],
                "err": (err or "").strip()[:300]})
@@ -852,7 +923,7 @@ def kickoff_stop(state, agent, branch):
                        "cmd": "crosslink kickoff stop " + cand + " --force"})
             return True
         rc, out, err = run(["crosslink", "kickoff", "stop", cand, "--force"],
-                           timeout=90)
+                           timeout=90, cwd=CROSSLINK_ROOT)
         log_event({"event": "stop", "agent": agent, "target": cand,
                    "rc": rc, "out": (out or "").strip()[:300],
                    "err": (err or "").strip()[:300]})
@@ -1000,7 +1071,8 @@ def act_finished_unmarkable(state, row, rec):
     findings_exist = None
     started = agent_started_epoch(agent)
     if issue and started:
-        rc, out, _ = run(["crosslink", "issue", "show", issue], timeout=60)
+        rc, out, _ = run(["crosslink", "issue", "show", issue], timeout=60,
+                         cwd=CROSSLINK_ROOT)
         if rc == 0:
             findings_exist = issue_comment_count_since(out, started) > 0
     flag_for_sweep(agent, "finished-unmarkable: read-only role finished "
@@ -2258,7 +2330,8 @@ def admission_checks(state, agent):
                    "detail": "no Issue field in KICKOFF.md"})
         failures.append("issue-declared: no Issue field")
     else:
-        rc, _, _ = run(["crosslink", "issue", "show", issue], timeout=60)
+        rc, _, _ = run(["crosslink", "issue", "show", issue], timeout=60,
+                       cwd=CROSSLINK_ROOT)
         exists = rc == 0
         log_event({"event": "admission-check", "agent": agent,
                    "check": "issue-exists", "ok": exists,
@@ -2267,7 +2340,7 @@ def admission_checks(state, agent):
             failures.append("issue-exists: #{0} not found".format(issue))
         else:
             rc2, out2, _ = run(["crosslink", "locks", "check", issue],
-                               timeout=30)
+                               timeout=30, cwd=CROSSLINK_ROOT)
             claimed = rc2 == 0 and "is locked by" in (out2 or "")
             log_event({"event": "admission-check", "agent": agent,
                        "check": "issue-claimed", "ok": claimed,
