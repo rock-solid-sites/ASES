@@ -18,6 +18,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **D5 Convention (issue #341):** standing convention — metadata field is `program` (not `programme`), date field is `last_updated` (not `last_update`), and authored documentation uses American spelling. Applied repo-wide to committed docs.
 
 ### Changed
+- RESEARCH: extend Hookability Matrix - re-validate classifications against v2/S1 surfaces, integrate 2026-08-23 doctrine additions (fetch-method, push-cadence, task-length atomization, quota-parking class) (#440)
+- FIX agent-liveness.py v2: reflog mtimes go stale-fresh from global hydration (all rows identical age); sentinel files lie for killed/read-only roles - require process-aliveness check plus filesystem walk evidence before believing any row (#435)
+- FIX: permit read-only roles to write .kickoff-status completion marker - narrow orchestrator-guard path exception so cleanup stops misclassifying live auditors/reviewers as stale (#434)
 - Harden agent definitions: shell-command mechanics guidance + explicit orchestrator FS-read permissions (#417)
 - RESEARCH (deferred Part 2 of #417): empirically verify OpenCode MCP-tool permission-matching semantics + orchestrator filesystem-MCP exposure across surfaces before any frontmatter change (#425)
 - R3 EXPLORATORY (under EPIC #423): inventory pp3g fork deltas vs stock 1.x baseline and map each against OpenCode 2 upstream parity - foundation for fork-necessity verdict (#427)
