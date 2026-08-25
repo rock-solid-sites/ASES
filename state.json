@@ -1,6 +1,6 @@
 {
   "next_display_id": 471,
-  "next_comment_id": 2436,
+  "next_comment_id": 2437,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -9848,11 +9848,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T01:57:11.563759989Z",
-      "updated_at": "2026-08-25T02:11:18.486665104Z",
+      "updated_at": "2026-08-25T03:02:47.816881605Z",
       "labels": [
         "research"
       ],
       "comments": {
+        "2220cbc6-2874-49cc-b5c9-f12a310ee4ea": {
+          "display_id": 2436,
+          "author": "pp3g-OgQA-continuation-of-the-464-interop-probe-prior-run-pp3g",
+          "content": "Plan (continuation of pp3g-KXdh, T1-T4 already green): [T5a] plugin loading scope — create probe project with a worktree .opencode/plugins/ canary plugin (observable side-effect: writes marker file via hook event) + rely on existing global plugins (~/.config/opencode/plugins/) as global canary; run v2 headless in that cwd; check GET /api/plugin + marker files + debug output to determine global-fallback vs project-only loading. [T5b] permission shape — run headless command that trips a filesystem permission rule WITHOUT --auto; capture {action,resource,effect} from the permission request surface (event stream / GET /api/permission/request) and how execute-sandbox routes fs access. [T5c] live API drive — start opencode2 serve, enumerate openapi routes (prior capture exists), confirm prompt_async absent, then LIVE-drive: POST session -> POST prompt -> POST wait -> read messages, proving programmatic drive loop end-to-end. [T5d] post VERDICT BLOCK {works|works-with-caveats|blocked} + migration notes with file:line/command-output evidence, WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED per claim. Scratch stays /tmp/opencode/probe-v2/. Reusing prior invocation patterns: plain headless run, --model opencode-go/ox-alpha-free, --format json.",
+          "created_at": "2026-08-25T03:02:47.811179411Z",
+          "kind": "plan",
+          "signed_by": "SHA256:Ky5Z4VB8wELdMm04hGcbJKD3vSZrafxZ5qj3Y0L6OY4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5pI05tQ2laOzeu3+4/1o7znykAauZGV+shMNBQFxANAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZH6gcaOFxueWB9YNwBksgrW3DxVnSvgf22nTnt0jB/vU1Z8teRsOFvDgjT0PYCficgoMRWfx2eX4leRGtJNzDw=="
+        },
         "c625bbc2-3fbf-45b2-b17a-04e230c49594": {
           "display_id": 2422,
           "author": "pp3g-KXdh-interop-probe-per-issue-464-epic-423-r0b-f2-determine",
@@ -30364,8 +30373,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T03:02:38.445141669Z",
-    "agent_id": "pp3g-2QW7-you-are-one-of-several-independent-adversarial-283e",
-    "agent_seq": 10
+    "timestamp": "2026-08-25T03:02:47.816881605Z",
+    "agent_id": "pp3g-OgQA-continuation-of-the-464-interop-probe-prior-run-pp3g",
+    "agent_seq": 4
   }
 }
