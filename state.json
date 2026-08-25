@@ -1,6 +1,6 @@
 {
   "next_display_id": 471,
-  "next_comment_id": 2443,
+  "next_comment_id": 2444,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -9844,7 +9844,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T01:57:11.563759989Z",
-      "updated_at": "2026-08-25T03:15:10.864412712Z",
+      "updated_at": "2026-08-25T03:22:07.548094456Z",
       "labels": [
         "research"
       ],
@@ -9875,6 +9875,15 @@
           "kind": "observation",
           "signed_by": "SHA256:Ky5Z4VB8wELdMm04hGcbJKD3vSZrafxZ5qj3Y0L6OY4",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5pI05tQ2laOzeu3+4/1o7znykAauZGV+shMNBQFxANAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAM9PxO73XbPdzTGmrqD+g+zLFNTWIeUAFvyngIuAQSdjzZkVQ4uidaDynUeYhd6mIFHJybZy7um2FSLWjRdBCA=="
+        },
+        "b9abb993-2af1-4d2c-acf6-08843385b432": {
+          "display_id": 2443,
+          "author": "pp3g-OgQA-continuation-of-the-464-interop-probe-prior-run-pp3g",
+          "content": "RESULT — VERDICT BLOCK (crosslink-drives-v2-headless, opencode2 v0.0.0-beta-17963; runs pp3g-KXdh T1-T4 + pp3g-OgQA T5a-T5d; raw evidence + reconstruction recipe committed at docs/research/registry/Interop-Probe-Evidence-Pack-464.md, commit 7e938063)\n\nVERDICT: WORKS-WITH-CAVEATS\n\nCoordination layer CAN drive v2 headlessly end-to-end today — both CLI (opencode2 run --format json --model <id>) and HTTP API (session→prompt→wait→message loop proven live) — but five caveats gate a naive fleet migration.\n\nWHY: every claim below was executed against the live beta binary in this environment, with discriminating tests where global-vs-project behavior could be confounded.\nWHAT: command outputs + openapi schema captures under /tmp/opencode/probe-v2/, mirrored to the committed evidence pack.\nHOW CERTAIN: evidence-based (all reproduced at least once; core loop twice). Not proven: behavior under service restarts/fleet-scale concurrency.\n\nMIGRATION NOTES (each with evidence):\n1. WRAPPER CHANGES — kickoff wrapper must move from fork CLI to: opencode2 run [--standalone] --model opencode-go/<id> --format json [--auto]. JSON stream carries sessionID per event (T3). No prompt_async endpoint exists (0 matches in 100-route openapi) — programmatic drivers use POST /api/session/{id}/prompt (async submit, delivery:steer) + POST /api/session/{id}/wait (204 on idle) + GET /api/session/{id}/message; push consumers use GET /api/event (SSE + heartbeats). Live loop returned exact prompted string PROBE-T5C-DRIVE-OK.\n2. STORE COEXISTENCE — clean. v2 writes ~/.local/share/opencode/opencode.db table session_v2 (my API-driven session id verified present there by direct sqlite read); v1-fork keeps its own opencode-fork-pp3g.db (627 sessions, untouched). Both fleets can run side-by-side during migration.\n3. PLUGIN GAP (highest risk) — v2 does NOT execute global plugins: (a) no dir fallback — temp canary in ~/.config/opencode/plugins/ stayed silent while project canary fired in same run; (b) config plugin[] is parsed (visible in GET /api/config source stack) but not executed — grok + cloudflare-ai-gateway/deepseek/openai models are VISIBLE in v2 catalog but filtered in v1 fork where plugin.ts runs its FORBIDDEN-model blacklist (#347). Any global-plugin guarantee (provider bans, model blacklists, provider suppression) silently vanishes on v2. Project-level .opencode/plugins/ DO auto-load (canary factory-invoked marker).\n4. PERMISSION SHAPE — v2 uses permissions:[{action,resource,effect allow|deny|ask}] rulesets (openapi Permission.Rule; attaches to Config + per-Agent), NOT the fork permission object-map. Practice: deny ⇒ tool removed from toolset entirely; ask ⇒ hidden statically AND runtime asks (action external_directory for fs paths outside project root) auto-REJECT in headless without --auto (stderr: 'permission requested: external_directory (/etc/*); auto-rejecting'; fail-closed, never hangs — safe for unattended fleets); --auto approves non-denied asks; no rules = default allow. Wrapper must either pass --auto or ship project permission configs; silent-tool-removal under deny/ask can make agents flail (observed 'Unknown tool search' pivots).\n5. SERVICE LIFETIME — default CLI connects to a long-lived background service (serve --service); plugins/config load ONCE per service lifetime (project canary fired on first run only), and plugin code executes with the SERVICE cwd (/home/claude-code), not the session directory. Config changes require service restart to take effect; use --standalone for hermetic per-run isolation if freshness matters.\n\nWHAT-NOT-TESTED: agent/subagent dispatch via POST /api/session/{id}/agent and inbox queue/steer semantics beyond single steer; programmatic permission reply flow (once/always/reject); whether --auto overrides explicit deny rules (help text implies no; unverified); MCP server functionality under v2 beyond spawn logs; worktree endpoints; multi-session concurrency limits of one background service; service-restart plugin reload.",
+          "created_at": "2026-08-25T03:22:07.538434336Z",
+          "kind": "result",
+          "signed_by": "SHA256:Ky5Z4VB8wELdMm04hGcbJKD3vSZrafxZ5qj3Y0L6OY4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5pI05tQ2laOzeu3+4/1o7znykAauZGV+shMNBQFxANAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAnwYvey/2/x0RtMy9yiqRZxiU4FHxJ+7+gMATbV+niBVA5K7MsPiixgv2TxjIpi6MVtpvXAgD7GX49QRW92J0AQ=="
         },
         "c625bbc2-3fbf-45b2-b17a-04e230c49594": {
           "display_id": 2422,
@@ -30423,8 +30432,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T03:15:10.864412712Z",
+    "timestamp": "2026-08-25T03:22:07.548094456Z",
     "agent_id": "pp3g-OgQA-continuation-of-the-464-interop-probe-prior-run-pp3g",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
