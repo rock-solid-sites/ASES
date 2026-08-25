@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2573,
+  "next_comment_id": 2574,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -24793,11 +24793,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T04:09:09.855679131Z",
-      "updated_at": "2026-08-24T07:55:53.333687798Z",
+      "updated_at": "2026-08-25T08:32:30.854563850Z",
       "labels": [
         "tooling"
       ],
       "comments": {
+        "7bea6374-431b-4ea1-8abe-e37e1f5d00d6": {
+          "display_id": 2573,
+          "author": "OL2r",
+          "content": "[EVIDENCE UPDATE 2026-08-25 - priority elevated to near-term implementation tier]: Tonight produced the live case this hook exists to prevent. Builder pp3g-VGK2 (v1.1 authority boundary, four-part coherent change) went ~30 minutes with ZERO commits despite active editing (log-proven file touches, changing content hashes) and an explicit orchestrator intervene-redirect at ~20min. Root cause of violation: dispatch language offered a coherence escape hatch ('commit coherent units together') which converted a large task into a zero-commit opening phase - precisely the rationalization that lost the lifecycle-manager worktree on 2026-08-24 night. Doctrine now recorded on #462: CADENCE OVERRIDES COHERENCE - partial commits expected and required. DETECTION vs ENFORCEMENT status: detection EXISTS in two places (Observer v1.1 commit-age staleness signal feeding STALE escalation; your refined log-classification here distinguishes stalled vs working-but-needs-nudge) - what is still MISSING is the ENFORCEMENT half: a mechanical hook action at breach (~5 min) rather than prompt-compliance nudges. Design question for this issue: breach action semantics - {inject automatic intervention redirect | block further non-git tool calls until HEAD advances | auto-commit WIP with marker | escalate-to-orchestrator-only}. Tonight's case argues for automatic-intervention-injection as default breach action since manual nudges arrived late and the agent kept productively violating throughout. Links: #462 D-doctrine, #460 FIX3/F3 commit-age signal, Gfq8 889570e7.",
+          "created_at": "2026-08-25T08:32:30.848052613Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2wQGCKWcl8QsxwPjLj2E+SMZbeOiVODyyQkemdrR2mnWy7YsUV+xzyXqM8NM1YbDHKLE2uuTWfTMad+uDkRUAw=="
+        },
         "94938eec-8f3f-45a3-9d7f-f37c16810d66": {
           "display_id": 2372,
           "author": "OL2r",
@@ -31689,8 +31698,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T08:29:05.162867581Z",
-    "agent_id": "pp3g-VGK2-execution-authority-boundary-pass-v1-1-under-460-the",
-    "agent_seq": 5
+    "timestamp": "2026-08-25T08:32:30.854563850Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2365
   }
 }
