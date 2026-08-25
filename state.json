@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2533,
+  "next_comment_id": 2534,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -25113,10 +25113,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T06:43:32.194911318Z",
-      "updated_at": "2026-08-25T06:43:41.504259936Z",
+      "updated_at": "2026-08-25T06:44:55.857402046Z",
       "labels": [
         "design"
-      ]
+      ],
+      "comments": {
+        "23471cec-df7c-4807-ae58-3c180a7c3e2d": {
+          "display_id": 2533,
+          "author": "OL2r",
+          "content": "[SEED SPEC - operator verbatim sketches, 2026-08-25] PRINCIPLE: Every execution must have an attributable termination model covering all known authorities capable of ending or altering that execution. An agent dying under supervision should emit EXECUTION_INTERRUPTED with a per-authority cause table: Observer termination: no | process self-exit: unknown | earlyoom: probable | kernel OOM: unknown | systemd: no evidence | operator: no evidence - plus evidence references. And/or an EXECUTION ENVIRONMENT model declared up front: supervisors: [{name: observer, authority: lifecycle, can_terminate: true}, {name: earlyoom, authority: memory_pressure, can_terminate: true, evidence: journalctl -u earlyoom}, {name: systemd, authority: service_supervision, can_terminate: true}] plus external_state: [crosslink, git]. [DESIGN NOTES - orchestrator]: Two shapes, complementary not competing: (A) VERDICT-TIME TABLE - on every terminal transition Observer walks the supervisor registry and emits the per-authority cause/evidence table inside the existing evidence bundle; upgrades FAILED-vs-KILLED discrimination from heuristic to attribution output (#473 lesson: earlyoom kills are userspace SIGTERMs invisible to journalctl -k). (B) DECLARATIVE REGISTRY - supervisors list is CONFIG (OBSERVER_SUPERVISORS), each entry carrying name/authority/can_terminate/evidence-source command; adding a new authority = config line + probe function, not code. NEAR-TERM v1.1 PARTIAL (no new infra): populate the table on FAILED/KILLED verdicts using probes that exist today - Observer action log (self), tmux pane_dead_status (self-exit), journalctl -u earlyoom since-launch (memory pressure), journalctl -k (kernel OOM), systemctl --user scope exit status (systemd), crosslink session actions (operator). PERMISSION PREREQUISITE: journalctl unit access may require adm group or sudo helper - operator grant needed, else earlyoom row degrades to unknown-with-pointer. LONG-TERM: registry becomes part of the identity-binding chain (#472 orchestrator_id as root principal; sibling orchestrators appear as authorities too); ties into #469 unbounded-state and #466 breaker findings only insofar as table emission must respect mutation budget (table is read-only evidence, not a mutating action). RELATES: #466 F-series discrimination upgrade, #473 resolution, #472 ownership root, ChatGPT classification Tier1 items 1+7.",
+          "created_at": "2026-08-25T06:44:55.850365275Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM1kt5tZe0qCZBZSlFj1kSFBQYYRN09bCSl/oEREVmoZcKMEk+gPwq80/tkYwTMrwjqNjgwGkmJeacw2WVRYzCQ=="
+        }
+      }
     },
     "d77ea716-9a44-4d7b-b1e9-7246ceff384c": {
       "uuid": "d77ea716-9a44-4d7b-b1e9-7246ceff384c",
@@ -31329,8 +31340,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T06:43:56.740939231Z",
+    "timestamp": "2026-08-25T06:44:55.857402046Z",
     "agent_id": "OL2r",
-    "agent_seq": 2345
+    "agent_seq": 2346
   }
 }
