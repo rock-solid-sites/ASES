@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2537,
+  "next_comment_id": 2538,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2507,7 +2507,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-25T07:01:15.063943469Z",
+      "updated_at": "2026-08-25T07:01:56.801820815Z",
       "labels": [
         "tooling"
       ],
@@ -2520,6 +2520,15 @@
           "kind": "observation",
           "signed_by": "SHA256:6e4CKr9qWKIo/QDlRxXHjnpD6gvfXbVhWSiQrVCBI/w",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtP1rEgV7U+HxJU7+5Rb/cbWT+TGC8TupNtkqfKNqZ2wAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA36QTJOxGQNvuFHGzP2nNqzh4vdlm59N+itVDPOBcZXioRKNwUbc426+EaSYNdps7QpKIKekmVBXF76SQ9wD2Cw=="
+        },
+        "03e3e07e-3ff4-4433-b646-8254f33f548b": {
+          "display_id": 2537,
+          "author": "pp3g-Gfq8-diagnosis-fix-documentation-under-460-the-live-2bfc",
+          "content": "Completed: shakedown bug diagnosis+fix+recovery under #460. Root cause: breaker-cap starvation (24/24 window consumed by triage comments 05:26-05:31) + silent deny early-return in kickoff_cleanup - the YBKJ cleanup command never ran; invocation form proven correct via live dry-run rc=0. Fix 889570e7: deny path now emits cleanup event denied=breaker-cap; resolve_sweep closes force-sweep flags through code on successful cleanup; T20a/T20b regression tests (T20b hermetic real-mode via PATH-shimmed crosslink stub); suite 122->130 green. Recovery PROVEN through fixed code: refire cycle executed cleanup rc=0, worktree+tmux removed, orphan=false, force-sweep resolved, completion comment posted 06:41:58. Supervision relaunched on fixed binary PID 856975, cycle 06:54:12 rc=0, zero duplicates. SHAKEDOWN LEDGER posted as result comment.",
+          "created_at": "2026-08-25T07:01:56.795589593Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:K6HliG+FMpSzrkEs5c2elFvSmlG1gb1b1KNl6VCkbZQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxBzyKeKP7hj+BH38EZQi6wpMAsuqFHVlMUrB1wdlKVAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAc1goPTOIVwufLItFJy3lcOsfyCm/sEsqVAOH0s/oI5a2hG2X286bK19bCtTU60tMtRGqTdQ1ljkJG4DgXLQUDw=="
         },
         "099e5dc4-4328-4454-aa60-2a82ddab68d0": {
           "display_id": 2479,
@@ -31363,8 +31372,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T07:01:47.062402171Z",
+    "timestamp": "2026-08-25T07:01:56.801820815Z",
     "agent_id": "pp3g-Gfq8-diagnosis-fix-documentation-under-460-the-live-2bfc",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
