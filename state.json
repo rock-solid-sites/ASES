@@ -1,6 +1,6 @@
 {
   "next_display_id": 473,
-  "next_comment_id": 2520,
+  "next_comment_id": 2521,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -29721,10 +29721,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T06:21:22.718738542Z",
-      "updated_at": "2026-08-25T06:21:34.744701299Z",
+      "updated_at": "2026-08-25T06:22:28.269964314Z",
       "labels": [
         "design"
-      ]
+      ],
+      "comments": {
+        "c30d6a72-3fa2-4708-a333-75bff23c05f3": {
+          "display_id": 2520,
+          "author": "OL2r",
+          "content": "[DESIGN SKETCH - candidate mechanisms, cheapest-first]: [M1] DISPATCH-TIME STAMPING (near-term, ~zero new infra): kickoff wrapper writes orchestrator session-id into KICKOFF.md frontmatter + .kickoff-metadata.json (extends #448 metadata flags); Observer reads ownership from the worktree it already walks. Covers 80% with current tooling. [M2] ENV PROPAGATION: CROSSLINK_ORCHESTRATOR_ID exported at launch; inherited by agent processes; surfaces in opencode.log creation lines -> Observer's existing log-attribution path picks it up with no file changes. [M3] DB PARENTAGE: opencode sessions already carry a parent_id column (observed in fork schema); if child sessions record the orchestrator session as parent, ownership becomes a DB query - but split-brain stores complicate cross-store lookups. [M4] CRYPTOGRAPHIC BINDING: orchestrator principals via existing crosslink trust keys (#22-#25 signing chain) - strongest identity, highest setup cost. GOVERNANCE QUESTION bundled: kill/cleanup authority is operator-granted per #443 rev3 - does it scope to OWN-fleet only? Cross-orchestrator policy needed: {observe-only | notify-owner | escalate-to-operator}. Live evidence anchors: pp3g-qlIC admission-checked by wrong owner 05:30-06:05 UTC; Observer fleet counts mixed two orchestration domains unknowingly. NEAR-TERM PARTIAL: M1 folds into the #448 dispatch-metadata work already queued.",
+          "created_at": "2026-08-25T06:22:28.262299139Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0Q2egmZBBHecCCt89Bh7mpnNF/dVEwsXwiz76AnRGDMcL60ivaV8KqCql5QAwDDCg7LObVEhhZj2RsFYXnJSBw=="
+        }
+      }
     },
     "f07207cd-d69f-4856-93e4-7db9b3d7a922": {
       "uuid": "f07207cd-d69f-4856-93e4-7db9b3d7a922",
@@ -31155,8 +31166,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T06:21:53.933248674Z",
+    "timestamp": "2026-08-25T06:22:28.269964314Z",
     "agent_id": "OL2r",
-    "agent_seq": 2326
+    "agent_seq": 2327
   }
 }
