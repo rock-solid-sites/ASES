@@ -1,6 +1,6 @@
 {
   "next_display_id": 463,
-  "next_comment_id": 2408,
+  "next_comment_id": 2409,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -13481,7 +13481,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T23:39:49.454091761Z",
-      "updated_at": "2026-08-25T00:42:25.757821587Z",
+      "updated_at": "2026-08-25T01:07:50.243937397Z",
       "labels": [
         "doctrine"
       ],
@@ -13548,6 +13548,15 @@
           "kind": "decision",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAWonXhQGiiaIbFcpsFISofWTzHfq6y1Tk11bhDGvI4YD8JEXLcq/6Wyrp8U4BWDznVW4TTT6E7TWdVDqbmkzZBg=="
+        },
+        "e21ed3df-3351-4232-874a-dcc510ccfe26": {
+          "display_id": 2408,
+          "author": "pp3g-lCZ2-micro-housekeeping-batch-under-462-three-small-tasks",
+          "content": "Plan: Three-task micro-housekeeping batch, verify-live-evidence-first (do not trust prior agent's claimed results): [T1] In MAIN checkout /home/claude-code/projects/ASES: confirm stale CHANGELOG.md modification + docs/research/hms-postmortem-claims-assessment.md presence via git status/diff, then git restore -- CHANGELOG.md && rm the doc; verify clean tree (no merge attempted - orchestrator merges). [T2] Salvage fact-check #455 findings from opencode-fork-pp3g.db table part, session ses_fc9ad2107ffepWN428IQkR57gW via sqlite3 json_extract; reconstruct claim-verdicts; post to #455 as --kind result attributed SALVAGED-FROM-TRANSCRIPT with timestamps; state explicitly if partial/absent. [T3] Capture pre-kill evidence (tmux ls + liveness-log.jsonl mtime), tmux kill-session -t liveness-watch, verify absent from tmux ls AND jsonl mtime static across >=150s wait (overlap wait with T2 work). One combined --kind result comment on #462 with evidence for all three.",
+          "created_at": "2026-08-25T01:07:50.236291601Z",
+          "kind": "plan",
+          "signed_by": "SHA256:kjm6F+qTfUZiZcYxYOrwtz42CBftrwRvpeIWb1ktMKE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg6+CNG9QlLLBvVe0KJzsSU0tWINmtCnIqxx6/FbpYw0kAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAvqjQIitd11m3Uw2zmax6wMewlDEH5DthIxQEBrTQHKJ6XK6J1k9tWyzmQXT4ABQY9gPD5IWHQJI6LE2Ymf1ADg=="
         },
         "ea61dd2d-8193-4346-ac0e-a4c4f4bfb67e": {
           "display_id": 2388,
@@ -29975,8 +29984,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T01:07:02.907904573Z",
+    "timestamp": "2026-08-25T01:07:50.243937397Z",
     "agent_id": "pp3g-lCZ2-micro-housekeeping-batch-under-462-three-small-tasks",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
