@@ -1,6 +1,6 @@
 {
   "next_display_id": 475,
-  "next_comment_id": 2527,
+  "next_comment_id": 2528,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -23614,11 +23614,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T06:24:42.029665760Z",
-      "updated_at": "2026-08-25T06:30:24.373590889Z",
+      "updated_at": "2026-08-25T06:37:23.507118997Z",
       "labels": [
         "research"
       ],
       "comments": {
+        "33eb9879-3ed9-42d7-977c-099408b761e6": {
+          "display_id": 2527,
+          "author": "OL2r",
+          "content": "[RESOLUTION - Finding 2]: CAUSE IDENTIFIED. Server runs stock Debian earlyoom (default 10-percent RAM+swap thresholds, SIGTERM to biggest consumer, no overrides/avoid-lists) - operator-confirmed, previously seen killing opencode itself. qlIC's death signature (SIGTERM/Terminated, no kernel OOM in journalctl -k) matches earlyoom's USERSPACE kill path exactly: earlyoom logs to its own unit journal, not the kernel ring - which is why the kernel-log check returned empty. Finding 2 upgraded guess -> evidence-based-strong (mechanism + host config + prior observed kills + swap-exhaustion timing all align; earlyoom unit journal line still unverified - requires sudo). Knowledge page server-memory-management updated with: kill behavior defaults, forensic trap (wrong log trap), PRE-LAUNCH memory-headroom CHECK for orchestrators before dispatching heavy agents, and mitigation knobs (-m/-s/--avoid). Design consequence added to #460 hardening backlog: FAILED/KILLED discrimination should consult journalctl -u earlyoom when attributing external SIGTERM deaths.",
+          "created_at": "2026-08-25T06:37:23.501160792Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA03JlhUFvaNOWKkFrczYz5aPHjUj4qMzj1I89Tvaopv82/GfUFJqO8p68kcnRXCexpcdYPdqqYIGSrImmjCz8CA=="
+        },
         "db7700a7-7669-4e93-bbb0-256e64a65df9": {
           "display_id": 2523,
           "author": "OL2r",
@@ -31257,7 +31266,7 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-25T06:37:13.031432926Z",
+    "timestamp": "2026-08-25T06:37:23.507118997Z",
     "agent_id": "OL2r",
     "agent_seq": 2338
   }
