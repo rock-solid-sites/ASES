@@ -1,6 +1,6 @@
 {
   "next_display_id": 478,
-  "next_comment_id": 2630,
+  "next_comment_id": 2631,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
@@ -22657,7 +22657,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T05:23:39.485632024Z",
-      "updated_at": "2026-08-26T22:27:57.027708279Z",
+      "updated_at": "2026-08-26T23:14:25.122750759Z",
       "labels": [
         "collector",
         "feature",
@@ -22735,6 +22735,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:1ReMk9jzMKhuA3u9nNpviqfzYICX5VnKh/f1NGOij/c",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIyT3AIo69gxN9z+AYs0exnGGX/jqgcwEqy9JTapVLmkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoR0uM1dZqPP9uimVxQan0E7UpV7o+B7H54MZygVKCbXTS4VPReaTRIqrXvNsbSFi3llfTv7o+8BCkjzdNDqDCA=="
+        },
+        "4fb3a4e3-695f-4bfd-9792-f9a178249ed6": {
+          "display_id": 2630,
+          "author": "OL2r",
+          "content": "Muse Spark builder: git-boundary fix applied at 2026-08-26T23:14:23Z\n\nOVERWROTE research/doll-corpus/.gitignore from narrow (raw/author-feed/ etc) to STRICT mandated version:\nraw/\nnormalized/\nstate/\ncorpus/\n__pycache__/\n\nVERIFICATION (git check-ignore -v):\n- raw/foo.json -> ignored via raw/ ✓\n- normalized/bar.json -> ignored via normalized/ ✓\n- state/baz.json -> ignored via state/ ✓\n- corpus/thread-001.json -> ignored via corpus/ ✓\n- __pycache__/x.pyc -> ignored ✓\n- collector.py -> trackable (not ignored) ✓\n- README.md -> trackable (not ignored) ✓\n\ngit status --ignored confirms !! for raw/normalized/state/corpus/__pycache__; git ls-files --others --exclude-standard shows only .gitignore/README.md/collector.py/stats.json as untracked trackable. No add/stage/commit/push performed. Leak vector (git add . picking up corpus/thread-posts.jsonl etc) is closed.",
+          "created_at": "2026-08-26T23:14:25.112980246Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAc1KjIhC9zDsVzDHwei1mPD6o/XRtwkJwDd72meiQq8aGm7sI4sHrq9LpWde5fxs8Vf37WibCbrw3s2JGMATwBA=="
         },
         "5bf1868f-cea1-4c61-a70d-db6820af9db3": {
           "display_id": 2598,
@@ -32232,8 +32241,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-26T23:13:48.198096413Z",
-    "agent_id": "pp3g-A1hS-synthesis-of-observer-adversarial-reviews-read-only",
-    "agent_seq": 7
+    "timestamp": "2026-08-26T23:14:25.122750759Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2401
   }
 }
