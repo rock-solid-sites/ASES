@@ -1,6 +1,6 @@
 {
   "next_display_id": 478,
-  "next_comment_id": 2625,
+  "next_comment_id": 2626,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
@@ -1339,10 +1339,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-26T23:03:47.492915445Z",
-      "updated_at": "2026-08-26T23:03:56.118226945Z",
+      "updated_at": "2026-08-26T23:07:00.815699994Z",
       "labels": [
         "feature"
-      ]
+      ],
+      "comments": {
+        "ecf863e2-09cf-4ba2-a1ed-14192b2e8d2d": {
+          "display_id": 2625,
+          "author": "pp3g-A1hS-synthesis-of-observer-adversarial-reviews-read-only",
+          "content": "Plan: Read-only synthesis of Observer adversarial reviews #465, #466, #467, #469, #470 (skip 6T4f). Approach: (1) pull all verdict comments via crosslink issue show; (2) normalize severities and deduplicate by underlying mechanism (group duplicates: breaker starvation, parked-expiry, backup integrity, CWD, fragile parsing, etc.); (3) treat F24 as MAJOR per operator override (ephemeral /tmp + unbounded logs + no tamper anchoring = unreliable); (4) assign disposition MUST now / SHOULD now / DEFER / DO NOT CHANGE per cost-vs-safety (MUST = blocks unsupervised, SHOULD = low-cost high-value like F23 threading, DEFER = v2/v3 architectural, DO NOT CHANGE = already closed or noise); (5) draft Observer design implications mapping F23 blocking, F24 ephemerality, F4 breaker to finite-state/explicit-contract principles; (6) deliver full registry table + implications as --kind result comment, no code changes.",
+          "created_at": "2026-08-26T23:07:00.808805758Z",
+          "kind": "plan",
+          "signed_by": "SHA256:wV/CDHJyPsmC09K1yKN8pRBOCTvwbZ79hfVzS0pQWJ0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg73F9p1rLmzPVsqvFb8ZujM+FWnDlf7AO7tQPIi+z4sEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoey90QkFRMMftbIekT/UT2SLS21QMPkS29VYVm9k15/iAg+iqpaj8HF3sYrvvanYIaQH+Cuvit+y04XC0N07DA=="
+        }
+      }
     },
     "06c7f945-8e2e-47da-9e3f-6c914a0a6627": {
       "uuid": "06c7f945-8e2e-47da-9e3f-6c914a0a6627",
@@ -32189,8 +32200,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-26T23:05:51.050930573Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2400
+    "timestamp": "2026-08-26T23:07:00.815699994Z",
+    "agent_id": "pp3g-A1hS-synthesis-of-observer-adversarial-reviews-read-only",
+    "agent_seq": 2
   }
 }
