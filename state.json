@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2581,
+  "next_comment_id": 2582,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2507,7 +2507,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-25T09:22:42.056723050Z",
+      "updated_at": "2026-08-26T05:02:27.922669308Z",
       "labels": [
         "tooling"
       ],
@@ -2918,6 +2918,15 @@
           "kind": "plan",
           "signed_by": "SHA256:I3aQWgjXsdQzdtAhzJLGYEFEqLhT1VKa+A26GblNzmQ",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgmqLD3iH/dEI5E64YUy/Ao3d6dWWk0+AP8Llll9fx5IcAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlKbBYXltunPGOopirjHbmHJp5I+iAkjxPifJLXKrAFOGorzUXeAPOXZVu+mFwWaVImO+oZ36/vP4gRnY4mAsCA=="
+        },
+        "927ba72a-8eae-4f70-952f-d8ad0776e464": {
+          "display_id": 2581,
+          "author": "pp3g-NPoZ-supervision-cutover-to-v1-1-under-460-two-mode-0abe",
+          "content": "Plan: SUPERVISION CUTOVER to v1.1 two-mode binary under #460. [0] Locate+stop OLD pre-v1.1 instance (observer.lock PID + tmux observer-live; SIGTERM for clean EXIT-trap lock release). [PHASE A] Launch detached tmux observer-live with ZERO OBSERVER_* env - bare 'bash /home/claude-code/projects/ASES/scripts/observer/observer.sh' (main checkout v1.1 binary). Verify <=150s: startup record mode=observe, cycle summary dry_run:true derived, ZERO mutation actions = unset-config-must-not-kill proof live. Capture evidence verbatim. Stop cleanly. [PHASE B] Relaunch detached: OBSERVER_MODE=act OBSERVER_ORCHESTRATOR_ID=orch-OC2-main OBSERVER_FLAG_ISSUE=460 same path. Verify <=150s: startup mode=act, cycle summary mode=act visible, lock held by new PID, zero fatal events. LEAVE RUNNING. [DELIVERABLE] result comment with Phase-A/B evidence verbatim, old/new PIDs, final-state confirmation (act-mode supervision from MAIN checkout v1.1).",
+          "created_at": "2026-08-26T05:02:27.910567068Z",
+          "kind": "plan",
+          "signed_by": "SHA256:aLndnzmdOCZeoM+e0ZiIHGZNGzgRPqlD31K+SgePOsE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4PEm9D8u6SfDHAvIymrHmPofJHpgKEV1+Sl3dybAF3UAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQyxXcbPKIIC6avqoc5U5WItp+zdNxJlSFKchQR/v9EHQlF+SflzfvPND8sSF5TwUpOFq4/JbM0vT2+wug01bDw=="
         },
         "9a13b666-61f3-4cf1-8617-2ffa7e4009d5": {
           "display_id": 2505,
@@ -31761,8 +31770,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-26T05:01:41.459742835Z",
+    "timestamp": "2026-08-26T05:02:27.922669308Z",
     "agent_id": "pp3g-NPoZ-supervision-cutover-to-v1-1-under-460-two-mode-0abe",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
