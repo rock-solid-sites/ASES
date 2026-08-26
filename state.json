@@ -1,6 +1,6 @@
 {
   "next_display_id": 476,
-  "next_comment_id": 2583,
+  "next_comment_id": 2584,
   "display_id_map": {
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
     "036319c2-0184-46ff-9ab1-7eeb54c44e65": 182,
@@ -2507,7 +2507,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-24T08:06:12.127196560Z",
-      "updated_at": "2026-08-26T05:03:04.752844877Z",
+      "updated_at": "2026-08-26T05:15:12.981002989Z",
       "labels": [
         "tooling"
       ],
@@ -2547,6 +2547,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASOnzEt3D36hdOko45A/F2QGhf7DxoBdSGD0l7itaCvELsnhSqmx9/GDE1GdG6+t+gXsyDwmomV3zApchHeEKAg=="
+        },
+        "1499ae2a-5a0f-463a-a71f-65251a64aa93": {
+          "display_id": 2583,
+          "author": "pp3g-NPoZ-supervision-cutover-to-v1-1-under-460-two-mode-0abe",
+          "content": "Result: [RESULT][BUILDER] SUPERVISION CUTOVER to v1.1 COMPLETE - two-mode verification sequence executed against the newly merged MAIN checkout binary (/home/claude-code/projects/ASES/scripts/observer/observer.sh @ main HEAD c5eb6e72, v1.1 C4). Final state: ACT-MODE SUPERVISION RUNNING from MAIN checkout, detached tmux session observer-live, PID 40096, left running as dispatched.\n\nOLD INSTANCE STOPPED FIRST: pre-v1.1 instance found as tmux observer-live (created Aug25 07:18 emergency DRY_RUN relaunch) holding observer.lock PID 1102945 (+child bash 4112308, PPID=1102945, same OBSERVER_DRY_RUN=1 env); pre-v1.1 status confirmed by manager-state.json lacking any mode field. Stopped via tmux kill-session -> SIGHUP -> FIX5 EXIT-trap released lock cleanly (PID gone, child gone, lockfile removed).\n\nPHASE A - UNSET-CONFIG-MUST-NOT-KILL PROOF LIVE (launched 2026-08-26T05:05:23Z, detached, ZERO OBSERVER_* env verified via /proc/<pane>/environ grep count=0, bare 'bash <main>/scripts/observer/observer.sh'):\nSTARTUP RECORD VERBATIM: {\"ts\":\"2026-08-26T05:05:23Z\",\"event\":\"startup\",\"mode\":\"observe\",\"orchestrator_id_set\":false,\"pid\":4175868,\"state_dir\":\"/tmp/opencode/observer-state\"}\nFIRST CYCLE SUMMARY VERBATIM: {\"ts\":\"2026-08-26T05:05:23Z\",\"event\":\"cycle\",\"rc\":0,\"summary\":{\"scanned\":32,\"tracked\":34,\"phases\":{\"failed\":9,\"completed\":22,\"finished-unmarkable\":1,\"frozen-handled\":1,\"active\":1},\"parked_now\":0,\"actions_used_window\":4,\"mode\":\"observe\",\"dry_run\":true}}\nmanager-state.json gained mode=observe from first cycle. ZERO MUTATION ACTIONS proven by full event-kind census in the Phase-A window: admission-check x135 (read-only policy checks), comment-dry-run x4 (observe-mode intent records - recorded NOT posted), startup/cycle/commit-overdue/admission-healed x1 each; ZERO events of kinds cleanup/stop/kickoff-stop/kickoff-cleanup/transition-action/comment. Fail-closed default observe proven live against the real fleet. Stopped cleanly 05:10:49Z (PID 4175868 gone, lock released).\n\nPHASE B - EXPLICIT ACT ARMING (launched 2026-08-26T05:11:06Z, detached, env verified in-pane: OBSERVER_MODE=act OBSERVER_ORCHESTRATOR_ID=orch-OC2-main OBSERVER_FLAG_ISSUE=460):\nSTARTUP RECORD VERBATIM: {\"ts\":\"2026-08-26T05:11:06Z\",\"event\":\"startup\",\"mode\":\"act\",\"orchestrator_id_set\":true,\"pid\":40096,\"state_dir\":\"/tmp/opencode/observer-state\"}\nFIRST CYCLE SUMMARY VERBATIM: {\"ts\":\"2026-08-26T05:11:06Z\",\"event\":\"cycle\",\"rc\":0,\"summary\":{\"scanned\":32,\"tracked\":34,\"phases\":{\"failed\":9,\"completed\":22,\"active\":1,\"finished-unmarkable\":1,\"frozen-handled\":1},\"parked_now\":0,\"actions_used_window\":4,\"mode\":\"act\",\"dry_run\":false}}\nLock held by NEW PID 40096 (= pane PID, verified via lockfile content + ps lstart 05:11:06). ZERO fatal events all-time AND since Phase-B launch (grep count=0; ORCHESTRATOR_ID present so the act-requires-identity tripwire correctly did NOT fire). manager-state.json mode=act. Instance LEFT RUNNING as dispatched.\n\nPID LEDGER: old pre-v1.1 = 1102945 (+child 4112308) stopped; Phase-A observe = 4175868 stopped; Phase-B act = 40096 RUNNING (final).\n\nWHY: completes the #460 cutover - supervision now runs the v1.1 execution-authority boundary (fail-closed mode resolution, owner-stamp authorization, convergent-evidence gate) instead of the stale dry_run-only binary. WHAT: every claim above is a verbatim line from /tmp/opencode/observer-state/events.jsonl or manager-state.json, plus /proc environ reads and lockfile/ps checks; both phase launches verified inside their ~150s windows (Phase-A cycle landed ~3.5min after launch - observe-mode cycle duration with 32 scanned agents, within dispatch tolerance). HOW CERTAIN: evidence-based (direct observation of persisted artifacts and live processes). WHAT-NOT-TESTED: no destructive action was exercised in Phase B (fleet presented no authorized termination candidate during the verification window - act capability is armed but unexercised this session; authorization+gate paths remain suite-proven T21-T27); long-duration act-mode behavior now under live observation.",
+          "created_at": "2026-08-26T05:15:12.971863188Z",
+          "kind": "result",
+          "signed_by": "SHA256:aLndnzmdOCZeoM+e0ZiIHGZNGzgRPqlD31K+SgePOsE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4PEm9D8u6SfDHAvIymrHmPofJHpgKEV1+Sl3dybAF3UAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAt/QsjXA+H2QVCWb8FPWjZD117N2uOvvjKmj7RnyKGlzzKbOFbUIjlWOHCR23l2kngJ2/uDUoxp35yaNtqddoBA=="
         },
         "14a68bcd-099d-4ec7-ac9b-5a57f8a45922": {
           "display_id": 2499,
@@ -31779,8 +31788,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-26T05:03:04.752844877Z",
+    "timestamp": "2026-08-26T05:15:12.981002989Z",
     "agent_id": "pp3g-NPoZ-supervision-cutover-to-v1-1-under-460-two-mode-0abe",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
