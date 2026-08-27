@@ -1,5 +1,5 @@
 {
-  "next_display_id": 505,
+  "next_display_id": 506,
   "next_comment_id": 2816,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -75,6 +75,7 @@
     "235a3a4a-bbad-43e5-8623-c3eed7023bf4": 183,
     "244a7b32-8ab3-4c7d-aace-921ad8811450": 268,
     "246c7e5b-4bb4-404f-bfd3-d9eee60e0e3f": 135,
+    "2498d305-50b9-4066-ab45-de3a2b001382": 505,
     "2550a909-6d69-46ce-a9e9-27a20efa3b72": 407,
     "25a640df-b4b3-4df8-ae6e-ba79ed6772d5": 351,
     "25e2a009-daff-4ae7-85a9-9809adce0713": 426,
@@ -6282,6 +6283,17 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxGQqQy0oVLZouh6RxEn/ufpBoz/MDuJORkTw/vVATpwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABARHvSbe9DOy8bDO9YkEe5Yf8swPDqWeGiLRJ6gKVg2N4ZLTzKqbI7h4DzjqpPODZ+m6JMz8chmufiC5muj/FhCg=="
         }
       }
+    },
+    "2498d305-50b9-4066-ab45-de3a2b001382": {
+      "uuid": "2498d305-50b9-4066-ab45-de3a2b001382",
+      "display_id": 505,
+      "title": "Track B — Crosslink dormant capability audit (native file+tool restriction): audit every dormant Crosslink feature that could achieve file/tool restriction without new Engine code. Verify against deployed crosslink 0.9.0-beta.1+37789b51-dirty (crosslink --help, crosslink config list, crosslink kickoff run --help) and source /home/claude-code/projects/crosslink (launch.rs, prompt.rs, hook-config.json). Cover kickoff.allowed_tools (empty, per-type split, wrapper drop vs container enforcement), kickoff_verification, --permission-mode/--dangerously-skip-permissions, --agent-type, --base, --container, tracking_mode, comment_discipline, signing_enforcement, auto_steal_stale_locks, sentinel (enabled:false), workflow diff/trail, integrity, knowledge, locks. For each: deployed behaviour + source line + V2 interaction + activate / fix-then-activate / leave-dormant with rationale. Specifically answer which subset of restricted-kickoff-to-allowed-files can be met natively today. Deliverable: .design/crosslink-dormant-capability-audit.md with WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED. Inputs: docs/research/agent-tooling-and-permission-enforcement-reviewed.md §2.4/§2.5, .crosslink/hook-config.json, docs/research/registry/Hookability-Matrix.md",
+      "description": "Created by crosslink kickoff",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-27T09:46:47.319005204Z",
+      "updated_at": "2026-08-27T09:46:47.319005204Z"
     },
     "2550a909-6d69-46ce-a9e9-27a20efa3b72": {
       "uuid": "2550a909-6d69-46ce-a9e9-27a20efa3b72",
@@ -34405,8 +34417,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T09:46:37.550641901Z",
+    "timestamp": "2026-08-27T09:46:47.319005204Z",
     "agent_id": "OL2r",
-    "agent_seq": 2582
+    "agent_seq": 2583
   }
 }
