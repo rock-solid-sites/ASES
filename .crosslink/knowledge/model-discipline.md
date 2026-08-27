@@ -75,6 +75,73 @@ limit exceeded`, which was absent here. Ling + big-pickle + nemotron completed
 the same review in the same window on the same free tier. Conclusion: the
 laguna freeze was a silent provider-side hang, NOT a rate limit.
 
+## Go Key Exhaustion Pre-flight (auth.json vs env)
+
+**Root cause (2026-08-27 #510/#512):** builders read the Go API key from the
+DB-backed file `~/.local/share/opencode/auth.json` (`opencode-go.key`), NOT from
+the shell env `OPENCODE_GO_API_KEY`. At 13:06 UTC workspace
+`wrk_01KZF2ZCX2J3H5S248MFCWH3CE` hit its monthly limit; two durable builders on
+#510 parked. `OPENCODE_GO_API_KEY` in the shell already held a fresh key at
+1.9% usage, but builders kept reading the stale `auth.json` key and parking.
+Fix was updating `auth.json` (2026-08-27 13:38, now `sk-yvUg9…` for workspace
+`wrk_01KZF2ZCX2J3H5S248MFCWH3CE`); verification: `ses_fbc24c189ffeH3um1r564nlFAW`
+(this session) runs `opencode-go/muse-spark-1.2-contributor` at 15:33 UTC with
+zero `Monthly usage limit` errors, and direct streaming test
+`curl https://opencode.ai/zen/go/v1/chat/completions` with the `auth.json` key
+returns SSE chunks. Current shell env still diverges (`sk-B1p…`, workspace
+`wrk_01KV6…`, now returns `DataPolicyError` on muse-spark) — illustrating the
+same class in reverse: env is stale, DB is fresh. The invariant is that both
+stores must agree before a kickoff; either direction of staleness parks builders.
+
+**Log signatures (grep `~/.local/share/opencode/log/opencode.log`):**
+
+```
+AI_APICallError: Monthly usage limit reached. Resets in 11 days. \
+  To continue using this model now, enable usage from your available balance: \
+  https://opencode.ai/workspace/wrk_01KZF2ZCX2J3H5S248MFCWH3CE/go
+```
+
+- Builder stream: `level=ERROR … providerID=opencode-go … error.error="AI_APICallError: Monthly usage limit…"`
+- Retry line: `level=WARN … message=retry … nextDelay=982…000` (~16 min parked retry)
+- Title fallback: `level=ERROR … small=true … error.error="AI_RetryError: Failed after 3 attempts. Last error: Monthly usage limit…"`
+- Do not confuse with `DataPolicyError` (`This model collects data… requires explicit opt in`) or `Insufficient balance` on the old workspace — those are different workspaces.
+
+**Pre-flight check — run BEFORE any kickoff/swarm:**
+
+```bash
+# 1. Do the two key stores agree? (builders use the DB file, not the env)
+python3 -c "import json,os; a=json.load(open('/home/claude-code/.local/share/opencode/auth.json'))['opencode-go']['key']; e=os.environ.get('OPENCODE_GO_API_KEY',''); print('auth.json:',a[:12]+'… len='+str(len(a))); print('env:      ',(e[:12]+'… len='+str(len(e))) if e else '<unset>'); print('MATCH' if a==e else 'MISMATCH — sync required')"
+# 2. Has the Go workspace parked in the last hour?
+rg -n "Monthly usage limit.*wrk_01KZF2ZCX2J3H5S248MFCWH3CE" ~/.local/share/opencode/log/opencode.log | tail -n 5
+# Any hit = key exhausted; do not launch until synced and verified.
+```
+
+**One-command sync (DB ← env, the common direction when the operator rotates the key in the shell):**
+
+```bash
+python3 -c "import json,os; p='/home/claude-code/.local/share/opencode/auth.json'; d=json.load(open(p)); d['opencode-go']['key']=os.environ['OPENCODE_GO_API_KEY']; json.dump(d,open(p,'w'),indent=2); print('auth.json synced from env')" && echo "verify:" && python3 -c "import json; print(json.load(open('/home/claude-code/.local/share/opencode/auth.json'))['opencode-go']['key'][:12]+'…')"
+```
+
+If the fresh key lives only in `auth.json` (current state 2026-08-27: DB is
+`sk-yvUg9…`, env is stale `sk-B1p…`), sync the other direction or re-export
+the fresh key into the shell before running the command above. The invariant:
+**both stores must hold the same unexhausted key before a kickoff.**
+
+**Verify after sync (cheapest discriminating test):**
+
+```bash
+curl -s -N -X POST https://opencode.ai/zen/go/v1/chat/completions \
+  -H "Authorization: Bearer $(python3 -c "import json;print(json.load(open('/home/claude-code/.local/share/opencode/auth.json'))['opencode-go']['key']")" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"deepseek-v4-flash","messages":[{"role":"user","content":"Say hi"}],"max_tokens":20,"stream":true}' \
+  --max-time 15 | head -n 5
+# Expect SSE data: lines starting `data: {` — not `{"type":"error"… Monthly usage limit…}`
+```
+
+A successful SSE stream proves the Go key is not parked. A `Monthly usage
+limit` error proves exhaustion — do not dispatch; rotate/fund the workspace
+at the URL in the error, then re-sync.
+
 ## Provider Links
 
 - OpenCode Go plan (paid): https://opencode.ai/docs/go/
