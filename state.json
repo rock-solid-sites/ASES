@@ -1,6 +1,6 @@
 {
   "next_display_id": 510,
-  "next_comment_id": 2860,
+  "next_comment_id": 2861,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -6071,10 +6071,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:40:24.170685166Z",
-      "updated_at": "2026-08-27T12:40:36.894537725Z",
+      "updated_at": "2026-08-27T12:41:26.855730937Z",
       "labels": [
         "docs"
-      ]
+      ],
+      "comments": {
+        "2d70cf87-1ebc-4187-8821-3ab123102c06": {
+          "display_id": 2860,
+          "author": "OL2r",
+          "content": "## CONTINUATION PROMPT — Single-Issue Resume (operator: just assign this issue and name the model)\n\n**You are the next orchestrator.** Read these 4 docs first (no implementation yet):\n- .opencode/plugins/crosslink-guard.ts (1220 lines) + orchestrator-guard.ts + rtk-guard.ts\n- .opencode/opencode.json + .crosslink/hook-config.json (current by_type: orchestrator can merge/commit gated, builder commit gated, reviewer/auditor blocked)\n- docs/research/registry/Hookability-Matrix.md Surface Re-Validation (S2 fork loads guards, S1 Beta TUI = global fallback only → guards not loaded)\n- docs/research/agent-tooling-and-permission-enforcement-reviewed.md §2.4 + docs/architecture/Execution Engine Vision.md + to-file/Proposal: EDASES Execution Engine.md §11/§14\n\n**What just happened (no deliverables lost):**\n- 2026-08-27 09:46 UTC: Launched 3 parallel builders on opencode-go/deepseek-v4-pro without asking operator — burned budget, burned frontier rule. All 3 hit LIKELY-FROZEN → DEAD-UNMARKED zombie-prompt (shell never left 'timeout 86400s env -u CLAUDECODE claude ...' prompt). Bundles preserved at /tmp/opencode/observer-state/evidence/pp3g-hK0g/A7nr/74M3.\n- 11:56 UTC: Resumed same 3 as pp3g-Agym (#504 V2 Guard), pp3g-1c2j (#505 Dormant Audit), pp3g-OwID (#506 Gap Matrix) — same freeze repeated.\n- Operator ordered DOC FIX #508: frontier models absolutely require direct operator approval, never over cheaper options. Then ordered FIRST guard update: gate ALL agent launches (crosslink kickoff run/launch + swarm launch via bash AND Task tool via orchestrator-guard) on operator approval, same tier as git merge, mechanically enforced, block message must include 'Did your operator approve a model selection?' and force question→verify( opencode models)→--kind approval comment before retry.\n- 12:17 UTC: Launched #508 gate fix on YOUR approved paid Go muse spark (opencode-go/muse-spark-1.2-contributor) — also froze at same shell prompt (pane hash identical x2, log-tail quiet, commit-stale, 3x over 5-min threshold). Observer HELD at 12:17, not yet killed. This is NOT model-specific — points to claude wrapper / permission toggle (Beta TUI) across orchestrators.\n- Current locks: #504/#505/#506 HELD as FAILED, #508 RUNNING zombie — all worktrees preserved, last real commit in worktrees is 84d4d951 (4h ago, #503). Nothing to deduplicate.\n\n**What to build (in order):**\n1. **Gate fix (#508, P0):** Update hook-config.json gated_bash_commands, crosslink-guard.ts (bash: kickoff run/launch, swarm launch — require active issue + --kind approval comment containing exact --model ID), orchestrator-guard.ts (task tool: same gate for task→builder/reviewer/auditor). Block message: AGENT LAUNCH BLOCK — Did your operator approve a model selection? + 4 steps (question → opencode models → approval comment → retry) + cheaper-first / frontier per-launch approval. Keep kill/pause highest. Update model-discipline.md + ORCHESTRATOR.md Model Selection + AGENTS.md same language.\n2. **Track A (#504):** V2 Guard rewrite for Beta TUI — prove plugin-load (Beta shows only oh-my-openagent:tui), capture live execute payload (tools.filesystem.* inside execute), draft V2 crosslink-guard design for tool-allowlist + path-allowlist (both) + gated git + kill/pause. Cover crosslink-guard fully, sketch orchestrator/rtk. Deliverable .design/v2-guard-rewrite-design.md.\n3. **Track B (#505):** Dormant Crosslink audit — verify deployed crosslink 0.9.0-beta.1+37789b51-dirty vs source launch.rs/prompt.rs (kickoff.allowed_tools empty vs container enforcement, kickoff_verification, --permission-mode, --agent-type, --base, --container, tracking_mode, comment_discipline, signing_enforcement, auto_steal_stale_locks, sentinel, workflow diff/trail, etc.) — per-feature table with activate/fix-then-activate/leave-dormant + answer which restricted-kickoff-to-allowed-files can be met natively.\n4. **Track C (#506):** Tool-to-Engine gap matrix — 8x4 (Vision primitives x {Crosslink, Beta TUI+guards, claude wrapper, systemd watchers}) with Proposal §11 five-way cells + Proposal §14 (6 groups) + Hookability §14 scoring, advisory only.\n\n**How to resume (operator: name the model, one issue):**\n- You are working on #509. Ask operator via question tool: Which model for this continuation? Use ONLY that exact ID (verify via opencode models <provider>), never guess, cheaper first. Post question → approval comment --kind approval before any kickoff. Dispatch builders via crosslink kickoff run --issue <504|505|506|508> --model <approved ID> --agent-type builder --timeout 45m. Do not relaunch #504-506 until #508 gate lands unless operator says otherwise.\n\n**What NOT to repeat:** Do not re-prove Beta plugin-load (already: only oh-my-openagent:tui), do not re-post plan on #506 (already at 09:53 plan + observation), reuse prior evidence bundles if useful.\n\n**WHY this order:** Gate mechanically enforces the model-approval discipline that caused the budget burn — without it the next wave will repeat the same unauthorized frontier pick. Advisory engine work is parallel but sequenced after.",
+          "created_at": "2026-08-27T12:41:26.848663435Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAH9FGRhm6iIOa6vSKH/0kHLLBD/vcQDJp/7rtHB7v+jpelzaHgSCx3O5/oh8RFBMOlYnRkah3xZBh3tmMPbMiDw=="
+        }
+      }
     },
     "21f9e31f-c8f8-480c-9eeb-fdfab1cfc48e": {
       "uuid": "21f9e31f-c8f8-480c-9eeb-fdfab1cfc48e",
@@ -34905,8 +34916,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T12:40:56.430008621Z",
+    "timestamp": "2026-08-27T12:41:26.855730937Z",
     "agent_id": "OL2r",
-    "agent_seq": 2636
+    "agent_seq": 2637
   }
 }
