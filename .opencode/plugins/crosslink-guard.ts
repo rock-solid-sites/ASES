@@ -71,6 +71,12 @@ const DEFAULT_AGENT_BLOCKED_GIT: string[] = [
 
 const DEFAULT_GATED_GIT: string[] = ["git commit"];
 
+const DEFAULT_GATED_BASH: string[] = [
+  "crosslink kickoff run",
+  "crosslink kickoff launch",
+  "crosslink swarm launch",
+];
+
 const DEFAULT_ALLOWED_BASH: string[] = [
   "crosslink ",
   "opencode ",
@@ -265,12 +271,14 @@ interface HookConfig {
   tracking_mode?: string;
   blocked_git_commands?: string[];
   gated_git_commands?: string[];
+  gated_bash_commands?: string[];
   allowed_bash_prefixes?: string[];
   comment_discipline?: string;
   agent_overrides?: {
     tracking_mode?: string;
     blocked_git_commands?: string[];
     gated_git_commands?: string[];
+    gated_bash_commands?: string[];
     allowed_bash_prefixes?: string[];
     comment_discipline?: string;
     agent_lint_commands?: string[];
@@ -334,6 +342,7 @@ interface LoadedConfig {
   tracking_mode: string;
   blocked_git: string[];
   gated_git: string[];
+  gated_bash: string[];
   allowed_bash: string[];
   is_agent: boolean;
   comment_discipline: string;
@@ -347,6 +356,7 @@ function loadConfig(crosslinkDir: string | null): LoadedConfig {
     tracking_mode: "strict",
     blocked_git: [...DEFAULT_BLOCKED_GIT],
     gated_git: [...DEFAULT_GATED_GIT],
+    gated_bash: [...DEFAULT_GATED_BASH],
     allowed_bash: [...DEFAULT_ALLOWED_BASH],
     is_agent: isAgent,
     comment_discipline: "encouraged",
@@ -357,6 +367,7 @@ function loadConfig(crosslinkDir: string | null): LoadedConfig {
     result.tracking_mode = "relaxed";
     result.blocked_git = [...DEFAULT_AGENT_BLOCKED_GIT];
     result.gated_git = [];
+    result.gated_bash = [];
     result.comment_discipline = "off";
     return result;
   }
@@ -369,6 +380,7 @@ function loadConfig(crosslinkDir: string | null): LoadedConfig {
       result.tracking_mode = "relaxed";
       result.blocked_git = [...DEFAULT_AGENT_BLOCKED_GIT];
       result.gated_git = [];
+      result.gated_bash = [];
       result.comment_discipline = "off";
     }
     return result;
@@ -383,6 +395,9 @@ function loadConfig(crosslinkDir: string | null): LoadedConfig {
   }
   if (config.gated_git_commands) {
     result.gated_git = [...config.gated_git_commands];
+  }
+  if (config.gated_bash_commands) {
+    result.gated_bash = [...config.gated_bash_commands];
   }
   if (config.allowed_bash_prefixes) {
     result.allowed_bash = [...config.allowed_bash_prefixes];
@@ -401,6 +416,11 @@ function loadConfig(crosslinkDir: string | null): LoadedConfig {
     result.gated_git = o.gated_git_commands
       ? [...o.gated_git_commands]
       : [];
+    result.gated_bash = o.gated_bash_commands
+      ? [...o.gated_bash_commands]
+      : result.gated_bash.length > 0
+        ? [...result.gated_bash]
+        : [];
     result.comment_discipline = o.comment_discipline ?? "off";
 
     // Merge agent lint/test commands into allowed prefixes
@@ -424,7 +444,7 @@ function loadConfig(crosslinkDir: string | null): LoadedConfig {
     // auditor block git commit while builder keeps it gated). The type comes
     // from hook-config agent.type (the fork's read_agent_type equivalent).
     const byTypeMap = o.by_type as
-      | Record<string, { blocked_git_commands?: string[]; gated_git_commands?: string[]; allowed_bash_prefixes?: string[] }>
+      | Record<string, { blocked_git_commands?: string[]; gated_git_commands?: string[]; gated_bash_commands?: string[]; allowed_bash_prefixes?: string[] }>
       | undefined;
     const byType = byTypeMap?.[resolveAgentType(crosslinkDir)];
     if (byType) {
@@ -433,6 +453,9 @@ function loadConfig(crosslinkDir: string | null): LoadedConfig {
       }
       if (byType.gated_git_commands) {
         result.gated_git = [...byType.gated_git_commands];
+      }
+      if (byType.gated_bash_commands) {
+        result.gated_bash = [...byType.gated_bash_commands];
       }
       if (byType.allowed_bash_prefixes) {
         result.allowed_bash = [...byType.allowed_bash_prefixes];
@@ -470,17 +493,22 @@ function resolveAgentType(crosslinkDir: string | null): string {
 
 /**
  * Check if a command (directly or via chaining) matches any entry in a list.
- * Normalises git commands before matching.
+ * Normalises git commands before matching and strips leading rtk prefixes
+ * so "rtk crosslink kickoff run ..." is still gated.
  */
 function matchesCommandList(command: string, cmdList: string[]): boolean {
-  const normalized = normalizeGitCommand(command);
+  // Strip leading rtk prefixes for the direct check
+  let stripped = command;
+  while (stripped.startsWith("rtk ")) stripped = stripped.slice(4);
+  const normalized = normalizeGitCommand(stripped);
   for (const entry of cmdList) {
     if (normalized.startsWith(entry)) return true;
   }
-  // Check chained commands
+  // Check chained commands — strip rtk per part as well
   for (const sep of [" && ", " ; ", " | "]) {
     for (const part of command.split(sep)) {
-      const trimmed = part.trim();
+      let trimmed = part.trim();
+      while (trimmed.startsWith("rtk ")) trimmed = trimmed.slice(4);
       if (trimmed) {
         const normPart = normalizeGitCommand(trimmed);
         for (const entry of cmdList) {
@@ -790,6 +818,107 @@ const NORMAL_MODE_MESSAGE =
   "  crosslink session work <id>";
 
 // ---------------------------------------------------------------------------
+// Model-gated launch helpers (operator approval gate, same tier as git merge)
+// ---------------------------------------------------------------------------
+
+/**
+ * Extract the --model <id> value from a bash command string.
+ * Handles --model value, --model=value, --model="value", --model='value'.
+ */
+function extractModelId(command: string): string | null {
+  const m = command.match(/--model(?:\s*=\s*|\s+)(?:"([^"]+)"|'([^']+)'|(\S+))/);
+  if (!m) return null;
+  const raw = m[1] ?? m[2] ?? m[3] ?? "";
+  // Strip surrounding quotes if present after capture
+  return raw.trim().replace(/^["']|["']$/g, "") || null;
+}
+
+/**
+ * Check whether the active issue has an --kind approval comment that
+ * contains the exact model ID string.
+ */
+function hasApprovalForModel(
+  crosslinkDir: string,
+  issueId: number,
+  modelId: string,
+): boolean {
+  const dbPath = path.join(crosslinkDir, "issues.db");
+  if (!fs.existsSync(dbPath)) return true; // no DB — don't block (fail open)
+  try {
+    const db = new Database(dbPath, { readonly: true });
+    try {
+      const stmt = db.prepare<{ content: string }, [number, string]>(
+        "SELECT content FROM comments WHERE issue_id = ? AND kind = ?",
+      );
+      const rows = stmt.all(issueId, "approval") as { content: string }[];
+      for (const row of rows) {
+        if (row.content && row.content.includes(modelId)) {
+          return true;
+        }
+      }
+      return false;
+    } finally {
+      db.close();
+    }
+  } catch {
+    return true; // DB error — don't block
+  }
+}
+
+function getActiveIssueIdFromSentinel(crosslinkDir: string): number | null {
+  const sentinelPath = path.join(crosslinkDir, ".active-issue");
+  if (!fs.existsSync(sentinelPath)) return null;
+  try {
+    const content = fs.readFileSync(sentinelPath, "utf-8").trim();
+    if (!content) return null;
+    const num = parseInt(content.replace(/^#/, ""), 10);
+    return isNaN(num) ? null : num;
+  } catch {
+    return null;
+  }
+}
+
+function buildModelGateNoIssueMessage(modelId: string | null): string {
+  const modelPart = modelId ? ` (model: ${modelId})` : " (no --model flag found)";
+  return (
+    `AGENT LAUNCH BLOCK — Did your operator approve a model selection?${modelPart}\n\n` +
+    "Model-gated launches (crosslink kickoff run/launch, crosslink swarm launch) " +
+    "require an active crosslink issue AND per-launch operator approval — same tier as git merge.\n\n" +
+    "You have no active issue. Required steps BEFORE retry:\n" +
+    "  1. question — Ask the operator via the question tool: Which model for this dispatch? (cheaper-first: prefer cheaper models that satisfy the task; frontier requires explicit approval every launch)\n" +
+    "  2. opencode models — Verify the exact ID: opencode models <provider>  (e.g. opencode models opencode-go) — copy the ID exactly, never guess\n" +
+    "  3. approval comment — Operator posts on the active issue: crosslink issue comment <id> \"Approved model: <exact model ID> verified via opencode models <provider>\" --kind approval\n" +
+    "  4. retry — Re-run the same launch; the gate checks the active issue has an --kind approval comment containing the exact --model ID\n\n" +
+    "Cheaper-first: never select a frontier/expensive model over a cheaper option without operator approval.\n\n" +
+    "Create/claim an issue first:\n" +
+    '  crosslink quick "<describe the work>" -p <priority> -l <label>\n' +
+    "  crosslink session work <id>\n"
+  );
+}
+
+function buildModelGateNoApprovalMessage(
+  issueId: number,
+  modelId: string | null,
+): string {
+  const modelPart = modelId ? `model: ${modelId}` : "no --model flag found (all launches must specify --model)";
+  const approvalExample = modelId
+    ? `crosslink issue comment ${issueId} "Approved model: ${modelId} verified via opencode models <provider>" --kind approval`
+    : `crosslink issue comment ${issueId} "Approved model: <exact model ID> verified via opencode models <provider>" --kind approval`;
+  return (
+    `AGENT LAUNCH BLOCK — Did your operator approve a model selection? (${modelPart})\n\n` +
+    "Model-gated launches (crosslink kickoff run/launch, crosslink swarm launch) " +
+    `require per-launch operator approval on issue #${issueId} — same tier as git merge.\n\n` +
+    `You attempted a launch with ${modelPart} but issue #${issueId} has no --kind approval comment containing the exact --model ID.\n\n` +
+    "Required steps BEFORE retry:\n" +
+    "  1. question — Ask the operator via the question tool: Which model for this dispatch? (cheaper-first: prefer cheaper models that satisfy the task; frontier requires explicit approval every launch)\n" +
+    "  2. opencode models — Verify the exact ID: opencode models <provider>  (e.g. opencode models opencode-go) — copy the ID exactly, never guess\n" +
+    `  3. approval comment — Operator posts: ${approvalExample}\n` +
+    "  4. retry — Re-run the same launch; the gate checks the active issue has an --kind approval comment containing the exact --model ID\n\n" +
+    "Cheaper-first: never select a frontier/expensive model over a cheaper option without operator approval. Each launch needs its own approval.\n"
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Runtime agent tracking
 // ---------------------------------------------------------------------------
 
@@ -903,7 +1032,7 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
     }
     const merged = loadConfigMerged(crosslinkDir);
     const byTypeMap = merged.agent_overrides?.by_type as
-      | Record<string, { blocked_git_commands?: string[]; gated_git_commands?: string[]; allowed_bash_prefixes?: string[] }>
+      | Record<string, { blocked_git_commands?: string[]; gated_git_commands?: string[]; gated_bash_commands?: string[]; allowed_bash_prefixes?: string[] }>
       | undefined;
     const byType = byTypeMap?.[runtimeAgent];
     if (!byType) {
@@ -919,6 +1048,7 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
     const next: LoadedConfig = { ...config };
     if (byType.blocked_git_commands) next.blocked_git = [...byType.blocked_git_commands];
     if (byType.gated_git_commands) next.gated_git = [...byType.gated_git_commands];
+    if (byType.gated_bash_commands) next.gated_bash = [...byType.gated_bash_commands];
     if (byType.allowed_bash_prefixes) next.allowed_bash = [...byType.allowed_bash_prefixes];
     log("by_type override applied for agent:", runtimeAgent, "(source:", source + ")");
     return next;
@@ -1080,6 +1210,59 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
           }
 
           log("ALLOW: gated git with active issue:", command);
+          return;
+        }
+      }
+
+      // ------------------------------------------------------------------
+      // 4b. Gated bash commands (model-launch gate: operator approval)
+      // ------------------------------------------------------------------
+      if (toolLower === "bash") {
+        const command = (output.args?.command as string) ?? "";
+        if (config.gated_bash.length > 0 && matchesCommandList(command, config.gated_bash)) {
+          if (!crosslinkDir) {
+            log("ALLOW: gated bash but no crosslink dir");
+            return;
+          }
+
+          const modelId = extractModelId(command);
+
+          // Fast path: sentinel
+          let activeIssueId: number | null = getActiveIssueIdFromSentinel(crosslinkDir);
+
+          // Slow path: session status / active issue id via shell
+          if (activeIssueId === null) {
+            const statusStdout = await runCrosslinkGetStdout(
+              shell,
+              ["session", "status"],
+              crosslinkDir,
+            );
+            const hasActive =
+              statusStdout !== null &&
+              (statusStdout.includes("Working on: #") ||
+                statusStdout.includes("Working on: L"));
+            if (!hasActive) {
+              log("BLOCK: gated bash without active issue:", command.slice(0, 200));
+              throw new Error(buildModelGateNoIssueMessage(modelId));
+            }
+            activeIssueId = await getActiveIssueId(shell, crosslinkDir);
+            if (activeIssueId === null) {
+              log("BLOCK: gated bash active issue id unresolved, treating as no issue");
+              throw new Error(buildModelGateNoIssueMessage(modelId));
+            }
+          }
+
+          // Require --kind approval comment containing exact model ID
+          if (!modelId) {
+            log("BLOCK: gated bash missing --model:", command.slice(0, 200));
+            throw new Error(buildModelGateNoApprovalMessage(activeIssueId, null));
+          }
+          if (!hasApprovalForModel(crosslinkDir, activeIssueId, modelId)) {
+            log("BLOCK: gated bash no approval for model:", modelId, "issue:", activeIssueId);
+            throw new Error(buildModelGateNoApprovalMessage(activeIssueId, modelId));
+          }
+
+          log("ALLOW: gated bash with approval for model:", modelId, "issue:", activeIssueId);
           return;
         }
       }

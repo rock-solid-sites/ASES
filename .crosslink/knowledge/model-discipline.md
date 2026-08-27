@@ -29,6 +29,18 @@ OpenCode has two distinct provider categories with different cost and reliabilit
 
 6. **Free-tier-in-swarm restriction suspended by operator override (2026-08-23)** under compensating auditor net, following observed quota-exhaustion mechanics (see zen-rate-limit-observations). Reviewer strategy: hy3-class primary, luna reserved for complex phases, peer-review permitted. Re-evaluate if quota-parking recurs uncaught.
 
+7. **Operator-gated model launch — same tier as git merge (mechanically enforced).** Every agent launch via `crosslink kickoff run`, `crosslink kickoff launch`, or `crosslink swarm launch` (bash) and via the `Task` tool (orchestrator → builder/reviewer/auditor) is gated on per-launch operator approval. The gate is enforced by `gated_bash_commands` in `.crosslink/hook-config.json` (`crosslink-guard.ts` for bash, `orchestrator-guard.ts` for Task) and cannot be bypassed by retrying or rewriting the command.
+
+   **Block signature:** `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`
+
+   **Required 4 steps before retry (cheaper-first):**
+   1. **question** — Ask the operator via the question tool: *Which model for this dispatch?* Prefer cheaper models that satisfy the task; frontier/expensive models require explicit approval on every launch — never select a frontier model over a cheaper option without operator approval.
+   2. **opencode models** — Verify the exact ID: `opencode models <provider>` (e.g. `opencode models opencode-go`) — copy the ID exactly, never guess, shorten, or modify.
+   3. **approval comment** — Operator posts on the active issue: `crosslink issue comment <id> "Approved model: <exact model ID> verified via opencode models <provider>" --kind approval` — the gate checks the active issue has an `--kind approval` comment *containing the exact `--model` ID* from the launch command.
+   4. **retry** — Re-run the same launch; the gate allows it only when the active issue and approval are present. Each launch needs its own approval — a prior approval for a different model does not authorize a new model.
+
+   Without an active issue the gate blocks with the same message; create/claim one first (`crosslink quick` / `crosslink session work <id>`) and post the approval before launching. The gate sits above the `crosslink`-prefix allowlist — being in `allowed_bash_prefixes` does NOT bypass the approval check.
+
 ## Standing Facts (Operator-Stated, 2026-08-18)
 
 1. **Only OpenCode credits exist — there are NO OpenRouter credits.** OpenRouter is NOT an available provider for agent work. Only models reachable via OpenCode's own providers ('opencode/' free Zen and 'opencode-go/' paid) are in scope, unless the operator explicitly states otherwise. Do NOT propose, dispatch, or reason about OpenRouter routes. Do NOT list openrouter/* model IDs in this page.

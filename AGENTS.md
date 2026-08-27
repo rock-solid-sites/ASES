@@ -179,13 +179,16 @@ Implementation proposals belong in implementation documents.
 
 ---
 
-# Model Discipline
+# Model Discipline — Operator-Gated (same tier as git merge)
 
 Model names must be verified before use. Never assume a model ID.
 
 * Run `opencode models <provider>` before using any model in a command or configuration.
 * Copy model IDs exactly — do not guess, shorten, or modify them.
 * Ask the operator which provider to use. Do not choose on your own.
+* **Operator-gated launch (mechanically enforced):** every `crosslink kickoff run`, `crosslink kickoff launch`, and `crosslink swarm launch` (bash via `crosslink-guard.ts`) and every `Task` delegation to builder/reviewer/auditor (`orchestrator-guard.ts`) is gated on per-launch operator approval — same tier as `git merge`. Config: `gated_bash_commands` in `.crosslink/hook-config.json`. Block signature: `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`
+* **Required 4 steps before retry:** 1) **question** — ask the operator via the question tool which model; 2) **opencode models** — verify the exact ID (`opencode models <provider>`); 3) **approval comment** — operator posts `crosslink issue comment <id> "Approved model: <exact model ID> verified via opencode models <provider>" --kind approval` on the active issue (gate checks for an `--kind approval` comment containing the exact `--model` ID); 4) **retry** — re-run the launch. Each launch needs its own approval.
+* **Cheaper-first:** prefer cheaper models that satisfy the task; never select a frontier/expensive model over a cheaper option without explicit per-launch operator approval.
 * Do not use free-tier (Zen) models for kickoff or swarm agents — rate limits will cause failures.
 * The `opencode-go/` prefix indicates paid models. Free models have different, provider-specific prefixes.
 * The mandatory model list for this project is documented at `.crosslink/knowledge/model-discipline.md`.
