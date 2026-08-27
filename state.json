@@ -1,5 +1,5 @@
 {
-  "next_display_id": 513,
+  "next_display_id": 514,
   "next_comment_id": 2914,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -244,6 +244,7 @@
     "78769cf4-4e9a-4884-91c6-3b7b9e233e01": 161,
     "788734bc-3abd-4cc0-acf2-746100f3a476": 105,
     "7904364b-0548-4ff2-b479-d9ab8fea4961": 486,
+    "796d4bf7-96e9-4d15-963e-f5c681dd1f4f": 513,
     "7a52af7a-94ba-429b-bd4e-3c9da139564f": 384,
     "7a6ab794-bcd9-4086-bd6e-d224944a9896": 216,
     "7b0d84e4-7753-40dc-bc53-2fa5ce6b4a7e": 73,
@@ -16993,6 +16994,17 @@
       "labels": [
         "feature"
       ]
+    },
+    "796d4bf7-96e9-4d15-963e-f5c681dd1f4f": {
+      "uuid": "796d4bf7-96e9-4d15-963e-f5c681dd1f4f",
+      "display_id": 513,
+      "title": "Guard: operator-gate model launch like git merge",
+      "description": "Operator-gate model launch the same way git merge is gated. Before any Task, kickoff or swarm, the orchestrator/builder must have explicit operator approval on every model choice. No implicit model, no previously-used default, no guessing. Implement guard similar to gated_git_commands for git merge: crosslink-guard / hook-config by_type.* must block Task/kickoff/swarm dispatches without an explicit model approval record. Verify with cheapest-test: attempt dispatch without approval is blocked, with approval passes. Reference: model-discipline.md rules 1,5, git merge gated pattern in hook-config.json by_type.orchestrator.gated_git_commands, Failure-Matrix Go key stale, session-handoffs/stop-button-handoff.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-27T16:42:03.986578361Z",
+      "updated_at": "2026-08-27T16:42:03.986578361Z"
     },
     "7a52af7a-94ba-429b-bd4e-3c9da139564f": {
       "uuid": "7a52af7a-94ba-429b-bd4e-3c9da139564f",
@@ -35447,8 +35459,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T15:47:03.795233505Z",
+    "timestamp": "2026-08-27T16:42:03.986578361Z",
     "agent_id": "OL2r",
-    "agent_seq": 2681
+    "agent_seq": 2682
   }
 }
