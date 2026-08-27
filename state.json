@@ -1,6 +1,6 @@
 {
   "next_display_id": 503,
-  "next_comment_id": 2791,
+  "next_comment_id": 2792,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -27656,11 +27656,20 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-27T07:10:35.614360100Z",
-      "updated_at": "2026-08-27T07:14:23.948481553Z",
+      "updated_at": "2026-08-27T07:18:18.879557476Z",
       "labels": [
         "feature"
       ],
       "comments": {
+        "8c21e5d3-68c6-4df8-9e5a-6178754fcff2": {
+          "display_id": 2791,
+          "author": "pp3g-eNiI-observer-swarm-v1-1-resilience-hardening-677b",
+          "content": "Plan: Implement the remaining observer.sh resilience-hardening code gaps from .design/observer-swarm-v1.1-resilience.md (issue #488/#490/#495 deliverable), scoped to the Observer supervision pipeline in scripts/observer/. Much of Phase 3 is already landed (C1-C4 execution-authority boundary, convergent gate, evidence bundles, park-expiry: 181/181 tests green). Remaining concrete code gaps I will close, each with regression tests:\n\nPHASE 3 — earlyoom traceability (P3-AC2/AC3): SIGTERM(143) deaths currently classify 'killed' with NO earlyoom consultation — the exact #473 guess-vs-evidence gap. Add earlyoom_attribution(): run 'journalctl -u earlyoom --since <window>' (NOT journalctl -k; forensic trap documented in-code), emit earlyoom-kill event (journal line + victim + headroom) on positive, explicit earlyoom-negative record ('empty for window W') on empty, unknown+sudo note on unavailable. Add machine field 'attribution: earlyoom|observer|failed|unknown' on every terminal transition: act_killed(SIGTERM->earlyoom/unknown; SIGKILL->unknown), act_failed->failed, act_frozen->observer. Staging rows gain attribution.\n\nPHASE 1 — launch-resilience gate:\n- P1-AC1 memory headroom: wave-level memory_gate() running 'free -m' (OBSERVER_FREE_CMD-shimmable), headroom=available_RAM+swap_free vs floor=max(1GB,10%*(RAM+swap)); breach -> launch-deferred-memory event + comment carrying free -m snapshot; recovery -> memory-recovered. Headroom snapshot cached for the earlyoom event.\n- P1-AC5 D1-D4: admission_checks gains operator-delegation check (shell/SSH/admin-console delegation or >1 human action in KICKOFF.md -> reject).\n- P1-AC6 secrets: admission_checks gains secret-placement check (credential requirement without named placement path/env-var -> reject).\n- P1-AC2/AC3/AC4: earlyoom kill model + forensic path + mitigation knobs documented in-code (knobs documented as tunable, NOT default-tuned).\n\nTests T28-T33: memory gate defer+recover, earlyoom positive/negative/observer attribution, D1-D4 + secrets rejection. Suite must stay green (181 -> ~200). Commit incrementally referencing #502.",
+          "created_at": "2026-08-27T07:18:18.872792342Z",
+          "kind": "plan",
+          "signed_by": "SHA256:JBAs6x6ncQr3P0GHrYoe3fPaO2/EiXbGdW1M4FErk9k",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5Wa3O0pdN1D6CryYlsiN5UuEkct5xKFwpqUrf10xNkEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAguwZB/MEg+ERiFrEVlHAQkvDYTbF78UrWgFssv780JLrAgRTEyEkf+hhCHTmBGtvE6+vZjnbUFPfPO9Dua0cDQ=="
+        },
         "9576e125-8b4a-4d17-8a1f-a18aa9603441": {
           "display_id": 2790,
           "author": "OL2r",
@@ -34137,8 +34146,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T07:14:23.948481553Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2553
+    "timestamp": "2026-08-27T07:18:18.879557476Z",
+    "agent_id": "pp3g-eNiI-observer-swarm-v1-1-resilience-hardening-677b",
+    "agent_seq": 2
   }
 }
