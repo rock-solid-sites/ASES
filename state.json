@@ -1,6 +1,6 @@
 {
   "next_display_id": 497,
-  "next_comment_id": 2767,
+  "next_comment_id": 2768,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -20407,7 +20407,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T00:44:24.358053868Z",
-      "updated_at": "2026-08-27T03:48:45.858174203Z",
+      "updated_at": "2026-08-27T04:11:15.949122705Z",
       "labels": [
         "feature"
       ],
@@ -20681,6 +20681,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAphrINXoN1sr139VOJd1uoWITjuPTDRZjwuDilYLMvcXIX5GWwHChtwfBu5lhzZnzC8VSIvzgYiPl4JtnhTdSCA=="
+        },
+        "f61dc34c-5b5e-440e-94ab-82d30a5a6b68": {
+          "display_id": 2767,
+          "author": "OL2r",
+          "content": "Gate 10 — Final deliverables complete ✅ (last gate, #491)\n\n**4 committed artifacts (thin, not bulk) — under `research/doll-corpus/` (NOT in `derived/`):**\n- ① `research/doll-corpus/REPORT_REDUCTION.md` (= `derived/gate10/reduction-report.md`) — corpus reduction report\n- ② `research/doll-corpus/TIMELINE.md` (= `derived/gate10/timeline.md`) — historical timeline 5 eras, 29 URIs\n- ③ `research/doll-corpus/EVIDENCE_MATRIX.csv` + `research/doll-corpus/EVIDENCE_MATRIX.md` (= `derived/gate10/evidence-matrix.*` + `derived/gate6/decisions.jsonl` source) — CSV (10 rows) + MD companion\n- ④ `research/doll-corpus/BRIEF_OPEN_QUESTIONS.md` (= `derived/gate10/open-questions.md`) — only unresolved high-value RQs (P0 5 blocking)\n- Summary: `research/doll-corpus/GATE10_REPORT.md` (= `derived/gate10/GATE10_REPORT.md`)\n- Derived mirrors + `stats.json` under `research/doll-corpus/derived/gate10/` (disk-only, `derived/` in `.gitignore` verified; `git check-ignore` reports ignored; committed not-ignored).\n\n**Disk-only derived mirrors:** `derived/gate10/{reduction-report.md, timeline.md, evidence-matrix.{csv,md}, open-questions.md, stats.json, GATE10_REPORT.md}` — never staged.\n\n**Corpus reduction funnel (STOP metrics, streaming, no silent phase, RSS <500MB):**\n| Stage | Count | Detail |\n|---|---|---|\n| Original posts | **19,932** unique AT URIs (14,333 authored +5,599 reposts) — 205 pages, `normalized/posts.jsonl` 134 MB; scan universe 21,413 unique (22,824 lines incl thread/quoted dup) — source_identity `09a2c6f4…` 857 files 304,877,775 bytes |\n| Lexical candidates | **2,326** (10.86% of 21,413) STOP — vocab `d8cca707` (76 lexical+6 known, after **doll strip** from before 4,392/20.51% with `ee278f4…`: removed 2,066 doll-only −47.0%; high 560 preserved) |\n| Contextual candidates | **509** (21.9% of 2326) STOP — retained high 460 (90.4%) + low anchored 49 (9.6% via 362 threads_with_high, N50 0, explicit 0); discarded 1,817 = 649 zero-term FP (IAR/Git/OOM/ADR word-boundary len≤3) + 1,168 low-no-anchor |\n| Relevant threads | **284** threads → **1,251** posts expanded (avg 4.405, 309 doll hit 60.7% → 537 doll expanded 42.9%, 213 participants, 24 unresolved) STOP |\n| Final research set | **284 threads / 509 hits / 1,251 expanded / 10 decisions / 36 URIs / 72 facet evidence / 16 RQs** — thin committed evidence base |\n| Decisions | **10** (D-001..D-010, mean 0.839, 0.72-0.92 curated verbatim ≤500) — 5 C / 2 A / 2 D / 1 B; 0 E/F/G/H |\n| Timeline | **5 eras** Beads→Chainlink→VDD/VDD-IAR→Crosslink→Evolution — 29 supporting posts (36 URIs), 7 transitions, boundaries evidence-anchored 0.88/0.82 vs inferred 0.52-0.58 |\n| Matrix | **CSV 10 rows + header (11 lines) == decisions 10** — columns `date,source,category,problem,decision,reasoning,evidence_strength,ASES_relevance` |\n| Questions | **16 RQs** P0 5 blocking / P1 5 / P2 4 / P3 2 — P0 would change ASES design (fork rationale, Crosslink essential, locking, liveness, lifecycle ownership) |\n\n**Rejection/noise + vocab note (doll strip):** `doll`2585 + `dollspace.gay`672 alias inflated candidates to 4,392; operator decision strip L5 6→4 terms (hash `ee278f4…` → `d8cca707`), rerun lexical → 2,326 (−47%); Gate3 dominant FP Gate2 §5.2 (IAR inside familiar/consider, Git inside legitimate, OOM inside room/bloom) eliminated 649 via len≤3 word-boundary; low-only precision 0.29 → Gate3 thread anchoring not deletion; Gates 0-9 streaming outputs (<2m checkpoint, 45s visible) all verified.\n\n**Git boundary:** `raw/normalized/state/corpus/derived/__pycache__/` ignored (`git check-ignore -v` passes for derived); `git ls-files --others` lists only extraction + 4 finals; `EVIDENCE_MATRIX.csv` 11 lines ==10 data verified.\n\n**No Crosslink-vs-ASES comparison** produced per task — evidence base only (purpose is base, not verdict).\n\nCommit: `81039f30` on `feature/pp3g-Gate2-quality-check-issue-491` — `docs(gate10): final deliverables — 4 committed artifacts ... [#491]`",
+          "created_at": "2026-08-27T04:11:15.941438854Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZzOOipLyZkxkCSxw32F/eY9Sam2/kWwA3IIqXDR9EJcHTJ++mYdYg34DGqwqKVHpdkD5Aky0OXtPmuoxt2ZnBw=="
         }
       }
     },
@@ -33806,8 +33815,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T04:00:10.757538455Z",
+    "timestamp": "2026-08-27T04:11:15.949122705Z",
     "agent_id": "OL2r",
-    "agent_seq": 2513
+    "agent_seq": 2514
   }
 }
