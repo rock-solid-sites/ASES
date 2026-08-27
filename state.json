@@ -1,6 +1,6 @@
 {
   "next_display_id": 514,
-  "next_comment_id": 2917,
+  "next_comment_id": 2918,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -21044,11 +21044,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:17:48.416231329Z",
-      "updated_at": "2026-08-27T16:45:42.457655816Z",
+      "updated_at": "2026-08-27T16:49:58.548376413Z",
       "labels": [
         "docs"
       ],
       "comments": {
+        "347165c0-3a17-41c6-8255-1bad62371499": {
+          "display_id": 2917,
+          "author": "pp3g-3i7P-guard-operator-gate-model-launch-like-git-merge-4ffc",
+          "content": "Plan: Gate model launches at same tier as git merge. 1) hook-config.json: add gated_bash_commands [crosslink kickoff run, launch, swarm launch] top-level + by_type orchestrator. 2) crosslink-guard.ts: add DEFAULT_GATED_BASH, load gated_bash, extract --model, check active-issue sentinel + DB approval (kind approval containing exact model), block message with Did your operator approve + 4 steps + cheaper-first before allowed_bash. 3) orchestrator-guard.ts: gate Task tool same checks (extract model from Task args, require active issue + approval). 4) Update model-discipline.md with Operator-Gated section, ORCHESTRATOR.md Model Selection expanded, AGENTS.md bullet. 5) Verify cheapest-test: without approval blocked, with approval passes (manual simulation + plugin logic test).",
+          "created_at": "2026-08-27T16:49:58.541497120Z",
+          "kind": "plan",
+          "signed_by": "SHA256:6oIlJFDr6FZftBB5VByCBAk49xbT2ERBdqOkGSe7pXQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg69qgXv5zxz+FFb8qh4sUUMJvGjKBIsXf1Fts7x6HcmwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2IggkK7aMWEvpCjSFg0qFRFZhxeRcy6APoHVB/t4NRU358NfALjij8bQyyjI4CNi8hb9v+MuBXR7B43rlHCoDA=="
+        },
         "ab127f68-8214-485b-9d2a-048bde317889": {
           "display_id": 2859,
           "author": "OL2r",
@@ -35496,8 +35505,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T16:47:40.047869911Z",
+    "timestamp": "2026-08-27T16:49:58.548376413Z",
     "agent_id": "pp3g-3i7P-guard-operator-gate-model-launch-like-git-merge-4ffc",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
