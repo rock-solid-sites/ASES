@@ -1,5 +1,5 @@
 {
-  "next_display_id": 510,
+  "next_display_id": 511,
   "next_comment_id": 2868,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -351,6 +351,7 @@
     "b0c04e1a-7efb-4f8c-890f-8cb33f6ed176": 29,
     "b0c073ab-7220-4167-86a3-b1e823a85e05": 441,
     "b1cfb0dd-a42b-4702-9500-73c36ffa31e9": 28,
+    "b1dfdeb3-a85a-402c-b912-8b26718693f5": 510,
     "b22a89ff-e016-4eab-9282-4e69d8ca729f": 217,
     "b2de22a7-f0d4-47e9-9dc2-d4b5d7993a8f": 377,
     "b32b59a8-d6d9-4dd2-bc67-eda3507bc8f9": 325,
@@ -23835,6 +23836,17 @@
         "chore"
       ]
     },
+    "b1dfdeb3-a85a-402c-b912-8b26718693f5": {
+      "uuid": "b1dfdeb3-a85a-402c-b912-8b26718693f5",
+      "display_id": 510,
+      "title": "stop-button: Stop button with confirm → session.interrupt",
+      "description": "Tiny V2 Stop-button: toggle Send↔■ Stop right of prompt + confirm Yes/No → authoritative ctx.session.interrupt(sessionID) / POST /api/session/:id/interrupt. References opencode.nvim <Esc>→session.interrupt, opencode-auto-resume respect ESC. Phase 0: curl POST 6-point probe (idle, stream killed, tool killed, new prompt accepted, 401/429 also killed, no orphan after UI restart) before UI wiring. If placebo (204 but fiber lives), halt UI and flag SessionRunCoordinator fence bug. Branch: stop-button",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-27T12:53:49.605977705Z",
+      "updated_at": "2026-08-27T12:53:49.605977705Z"
+    },
     "b22a89ff-e016-4eab-9282-4e69d8ca729f": {
       "uuid": "b22a89ff-e016-4eab-9282-4e69d8ca729f",
       "display_id": 217,
@@ -34975,8 +34987,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T12:53:24.782862566Z",
+    "timestamp": "2026-08-27T12:53:49.605977705Z",
     "agent_id": "OL2r",
-    "agent_seq": 2645
+    "agent_seq": 2646
   }
 }
