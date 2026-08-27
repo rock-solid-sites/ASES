@@ -1,6 +1,6 @@
 {
   "next_display_id": 493,
-  "next_comment_id": 2691,
+  "next_comment_id": 2692,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
@@ -20009,11 +20009,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T00:44:24.358053868Z",
-      "updated_at": "2026-08-27T01:55:14.307717571Z",
+      "updated_at": "2026-08-27T01:57:11.326430596Z",
       "labels": [
         "feature"
       ],
       "comments": {
+        "1d8bf73b-fde9-4239-8d2c-dcbb08fad3c0": {
+          "display_id": 2691,
+          "author": "pp3g-biDw-gate-0-input-integrity-for-issue-491-read-design-doll",
+          "content": "Plan: Gate 0 — Input integrity (design §8 Gate 0 + §10 git boundary). Approach: (1) Verify source corpus at /home/claude-code/projects/ASES/research/doll-corpus is intact (205 pages, 454 threads, 19932 posts, stats.json counts, 293MB); STOP if mismatch. (2) Create worktree-local research/doll-corpus/.gitignore adding derived/ (was missing in worktree), verify via git check-ignore -v strict boundary. (3) Create research/doll-corpus/derived/ as separate derived space (disk-only, never overwrite source). (4) Implement streaming gate0_manifest.py (hash per file via chunked sha256, line-by-line JSONL verification, <2m checkpoint + 45s visible progress) that enumerates every source file (raw/author-feed 205 + raw/threads 454 + raw/quoted batches + normalized 4 jsonl + state + stats + corpus) and emits derived/manifest.json (path/sha256/bytes, totals, gitignore_verified, stats_match, sha256_of_manifest) + committed docs copy at research/doll-corpus/manifest.json + verification report. (5) Commit as docs: gate0 code + manifest committed copy + verification (derived bulk stays ignored). No source file is written.",
+          "created_at": "2026-08-27T01:57:11.320255894Z",
+          "kind": "plan",
+          "signed_by": "SHA256:lRWq9IrwUd4DATgvWWu/S0v9LL9AoJPLJyetcVblgn8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg+YYzfvOs4mVR5u8GR0ZiC319PaUAZsOHu0A02B/tbXQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAE4PN/rfe4EJV1EA6uDpogv1G99F7ofLcyX6GOs9ysdagVqBQlna1jeF5bqmozA+4J+jZEhmdNW8SrY+3LouQDQ=="
+        },
         "22a803f0-f4e3-4cbd-b3b7-d91b30791195": {
           "display_id": 2678,
           "author": "pp3g-N2qc-create-design-doc-design-doll-corpus-extraction-md",
@@ -33056,8 +33065,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T01:56:58.417128523Z",
-    "agent_id": "pp3g-NkoD-lex-2-final-synthesis-canonical-doc-promotion-issue",
-    "agent_seq": 3
+    "timestamp": "2026-08-27T01:57:11.326430596Z",
+    "agent_id": "pp3g-biDw-gate-0-input-integrity-for-issue-491-read-design-doll",
+    "agent_seq": 2
   }
 }
