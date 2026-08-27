@@ -1,6 +1,6 @@
 {
   "next_display_id": 493,
-  "next_comment_id": 2720,
+  "next_comment_id": 2721,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
@@ -20187,7 +20187,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T00:44:24.358053868Z",
-      "updated_at": "2026-08-27T02:41:21.620432011Z",
+      "updated_at": "2026-08-27T02:43:29.945004928Z",
       "labels": [
         "feature"
       ],
@@ -20362,6 +20362,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtD9MamLLE1Pz3s6HSZUcyYj8Ntzg6ec48SFUXi/nrqZ1ntHZ+ZiFibVB/08RxFUMI5HZtu7FD8l2/tT7mDCMDQ=="
+        },
+        "d961276a-c932-4b90-9b3f-9f41e2d53b7b": {
+          "display_id": 2720,
+          "author": "pp3g-GPWd-gate-1-lexical-candidate-extraction-for-issue-491-7fb6",
+          "content": "Plan: Gate 1 lexical candidate extraction — purely lexical, no LLM, streaming 19,932 posts + 2,836 thread + 56 quoted line-by-line (RSS <500MB). Approach: (1) materialize gate0 files into worktree (done) + create extraction/gate1_lexical.py with 6-group vocab exactly per design §5 (L1 14 high, L2 27 low, L3 12 low, L4 12 low, L5 6 low, L6 7 high) with NFKC lower + isalnum-punct→space normalization for case-insensitive hyphen/punct variants, substring match on normalized text + lowercased URL/facet known_reference detection, per-group high/low flag; (2) stream normalized/*.jsonl via lib/streaming jsonl_stream, dedup by AT URI, emit derived/gate1/candidates.jsonl (uri/cid/author/createdAt/text/matched_terms/matched_groups/is_high_specificity/source_file/thread_root) + derived-gate1 vocab.json frozen + stats.json (total/matched/unmatched, per-term counts, per-group totals, % retained, duplicate count, specificity breakdown) — all derived disk-only; (3) verify git boundary (derived ignored, only code+small stats commit-eligible), visible progress per 45s + checkpoint <2m via lib/checkpoints heartbeat, STOP after stats. No Gate 2.",
+          "created_at": "2026-08-27T02:43:29.937705259Z",
+          "kind": "plan",
+          "signed_by": "SHA256:Upm8nC6Uy1iV/dI+RrkIgXdNWrTq9gNVKrZGgxfZgSo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgpG71FbI/doaA1hQef8+Y2Qqva8bbPFewI4XtF5JMTxsAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxu00hAx2AGV09c7TEqoXh60XPkE1qoFh7JbSMCX6H2vo4pme58W1YKBIItWiTLgr6nIVBjz38zGfEa7o9CJEAg=="
         }
       }
     },
@@ -33317,8 +33326,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T02:41:52.247076423Z",
+    "timestamp": "2026-08-27T02:43:29.945004928Z",
     "agent_id": "pp3g-GPWd-gate-1-lexical-candidate-extraction-for-issue-491-7fb6",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
