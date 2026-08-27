@@ -1,6 +1,6 @@
 {
   "next_display_id": 513,
-  "next_comment_id": 2901,
+  "next_comment_id": 2902,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24040,7 +24040,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-27T15:35:55.243819585Z",
+      "updated_at": "2026-08-27T15:36:28.965668836Z",
       "labels": [
         "feature"
       ],
@@ -24101,6 +24101,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAN79bmraxbx8aqNMESs/KUUbJJdpsNKM8VOo11jooN5OFxYIsu8/CFCfn6FzYsW8AnkaV3sPQOmP1FShPE44JCQ=="
+        },
+        "ccd98285-e041-4079-a9db-420513115106": {
+          "display_id": 2901,
+          "author": "pp3g-OIN4-stop-button-3-way-c-phase-0-6-point-probe-idle-stream",
+          "content": "Plan: Phase0 cheapest-test (code-inspection + curl 6-point probe) before UI: verify POST /api/session/:id/interrupt fences SessionRunCoordinator Fiber.interrupt + Runner.cancel + SessionExecution delegation across 6 points (idle 204/no-op, stream killed, tool sleep60 killed, new prompt accepted 200, 401/429 cleared, no orphan after restart). Run probe script fallback when server down, live curl when up. If placebo (204 but fiber lives) halt UI and flag fence bug. Phase1: materialize TUI diff from feature/stop-button (stash blocked hence manual filesystem apply via git show) — single-file fork/opencode-src/packages/tui/src/component/prompt/index.tsx toggle Send↔■Stop + confirm Yes/No→sdk.client.session.interrupt (migrate abort→interrupt, debounced 1s, toast, /tmp/stop-button.log), plus Failure-Matrix 3 rows + handoff. Gated commit on feature/stop-button-c [#510].",
+          "created_at": "2026-08-27T15:36:28.959958369Z",
+          "kind": "plan",
+          "signed_by": "SHA256:egmHhRS+tsPpGasbhJhLpdnGm7GmwfiRdGl18Cj/qRU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPmYDIBouJDPnHv1fm6rmLE2gG9JBgo7ZX5QXxMLEyuEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAf3tmM3vG2pl0+BQNTy9x63kfZa7INvwSDVn/jJC+PAdW13fJJ2T1tqtoKGS6xhWr6rddC73MY7dNGkojVMLhBQ=="
         },
         "d66061cc-d30b-4ef1-9e9b-b4993ee5fd9f": {
           "display_id": 2896,
@@ -35334,8 +35343,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T15:36:07.512813798Z",
-    "agent_id": "pp3g-TVXm-verify-go-key-fix-then-docs-operator-notice-1-verify",
-    "agent_seq": 4
+    "timestamp": "2026-08-27T15:36:28.965668836Z",
+    "agent_id": "pp3g-OIN4-stop-button-3-way-c-phase-0-6-point-probe-idle-stream",
+    "agent_seq": 5
   }
 }
