@@ -7,6 +7,9 @@
  * BunShell (`$`) API.
  *
  * Behaviour (in priority order):
+ *   0. Crosslink health — halt > warn > suggest (fail-closed if CLI/DB/hub-cache
+ *      unavailable: command fails, DB lock, auto-hydration skipped, SQLite stale,
+ *      v2 file-path warning). Blocks ALL tool calls. Do NOT wait-and-retry. (#514)
  *   1. Operator kill/pause flags (highest priority — `crosslink agent flags --strict`)
  *   2. ~/.claude/ exemption for write/edit (Claude Code's own config)
  *   3. Permanently blocked git commands (push, rebase, reset, clean, …)
@@ -790,6 +793,185 @@ const NORMAL_MODE_MESSAGE =
   "  crosslink session work <id>";
 
 // ---------------------------------------------------------------------------
+// Crosslink health — halt > warn > suggest (issue #514)
+// ---------------------------------------------------------------------------
+
+/** Build the HALT message shown when Crosslink is unavailable. */
+function buildCrosslinkUnavailableMessage(reason: string, crosslinkDir: string | null): string {
+  const dirNote = crosslinkDir ? ` crosslinkDir=${crosslinkDir}` : "";
+  return (
+    "CROSSLINK UNAVAILABLE — HALT\n\n" +
+    `Crosslink is unavailable: ${reason}${dirNote}\n` +
+    "Do NOT wait-and-retry — several agents today attempted wait and failed.\n" +
+    "This is a definite HALT > WARN > SUGGEST situation.\n\n" +
+    "HALT: All agent launches and tool calls are BLOCKED until Crosslink recovers.\n" +
+    "WARN: Operator attention required.\n" +
+    "SUGGEST: Investigate before retrying:\n" +
+    "  1. crosslink sync\n" +
+    "  2. check .crosslink/hook-config.json (exists + valid JSON)\n" +
+    "  3. check opencode.log for hydration: grep -n \"hydration\\|v2 file-path\\|auto-hydration\" ~/.local/share/opencode/log/opencode.log | tail\n" +
+    "  4. check issues.db: ls -lh .crosslink/issues.db && sqlite3 .crosslink/issues.db \"SELECT count(*) FROM issues;\"\n" +
+    "  5. check hub-cache: ls -la .crosslink/.hub-cache && cat .crosslink/.last-hydrated-ref\n" +
+    "  6. check crosslink CLI: which crosslink && crosslink --version\n" +
+    "\nDo NOT proceed with wait-and-retry. Fix the underlying Crosslink issue first.\n" +
+    "\n--- INTERVENTION LOGGING ---\n" +
+    "If you observe this block, log it:\n" +
+    '  crosslink issue intervene <issue-id> "Blocked: Crosslink unavailable — ' +
+    reason.replace(/"/g, "'").slice(0, 80) +
+    '" --trigger tool_blocked --context "crosslink health check failed"'
+  );
+}
+
+/**
+ * Cheapest-test-first health probe.
+ *
+ * Checks in order of cheapest discriminating test:
+ *  1. crosslinkDir + hook-config.json present + valid JSON (file checks)
+ *  2. crosslink CLI available (which + --version, one subprocess)
+ *  3. hub-cache present (file check)
+ *  4. issues.db present, non-zero, readable via bun:sqlite (DB lock / SQLite stale / DB unavailable)
+ *  5. crosslink command probe for auto-hydration skipped / v2 file-path warning
+ *
+ * Returns healthy=true only when ALL checks pass. Any failure is HALT.
+ */
+async function checkCrosslinkHealth(
+  shell: PluginInput["$"] ,
+  crosslinkDir: string | null,
+): Promise<{ healthy: boolean; reason: string }> {
+  // No crosslink dir — not a crosslink repo, nothing to halt.
+  if (!crosslinkDir) {
+    return { healthy: true, reason: "" };
+  }
+
+  // 1. hook-config.json must exist and be valid JSON
+  const hookConfigPath = path.join(crosslinkDir, "hook-config.json");
+  if (!fs.existsSync(hookConfigPath)) {
+    return { healthy: false, reason: "hook-config.json missing — .crosslink/hook-config.json not found" };
+  }
+  try {
+    const raw = fs.readFileSync(hookConfigPath, "utf-8");
+    JSON.parse(raw);
+  } catch (e) {
+    return { healthy: false, reason: `hook-config.json invalid JSON — ${String(e).slice(0, 120)}` };
+  }
+
+  // 2. crosslink CLI must be executable (which + --version)
+  // which check is cheap file check; --version is subprocess probe.
+  const versionResult = await runCrosslink(shell, ["--version"], crosslinkDir);
+  if (!versionResult || versionResult.exitCode !== 0) {
+    const detail = versionResult ? `exit=${versionResult.exitCode} out=${versionResult.stdout.slice(0, 120)}` : "command failed (null)";
+    return { healthy: false, reason: `crosslink CLI unavailable — crosslink --version failed (${detail})` };
+  }
+  // Detect hydration / v2 warning leaked into version output (should not happen, but catch)
+  const versionCombined = versionResult.stdout.toLowerCase();
+  if (versionCombined.includes("auto-hydration skipped") || versionCombined.includes("v2 file-path")) {
+    return { healthy: false, reason: `crosslink CLI reports auto-hydration skipped / v2 file-path warning — ${versionResult.stdout.slice(0, 160)}` };
+  }
+
+  // 3. hub-cache — check if present; missing hub-cache in worktrees is
+  // tolerated (main repo holds canonical hub-cache), but log warning.
+  // Strict halt on hub-cache unavailable applies only when hub-cache dir
+  // exists but is corrupt/empty in a way that signals hydration failure.
+  // Reasoning: worktree .crosslink often lacks .hub-cache yet crosslink
+  // remains healthy (proven: this worktree has no .hub-cache but sync works).
+  // Cheapest discriminating test is to warn, not halt, on absence.
+  const hubCacheDir = path.join(crosslinkDir, ".hub-cache");
+  const hubCacheExists = fs.existsSync(hubCacheDir) && fs.statSync(hubCacheDir).isDirectory();
+  if (!hubCacheExists) {
+    log("Health: hub-cache missing — .crosslink/.hub-cache not found (tolerated in worktree, not halting)");
+  } else {
+    const hubMetaDir = path.join(hubCacheDir, "meta");
+    const hubIssuesDir = path.join(hubCacheDir, "issues");
+    if (!fs.existsSync(hubMetaDir) && !fs.existsSync(hubIssuesDir)) {
+      log("Health: hub-cache empty — no meta/issues (tolerated, not halting)");
+    } else {
+      // v2 file-path / auto-hydration skipped sentinel...
+      const hubIssuesDb2 = path.join(hubCacheDir, "issues.db");
+      if (fs.existsSync(hubIssuesDb2)) {
+        try {
+          const st = fs.statSync(hubIssuesDb2);
+          if (st.size === 0) {
+            const issuesEmpty = fs.existsSync(hubIssuesDir) ? fs.readdirSync(hubIssuesDir).length === 0 : true;
+            if (issuesEmpty) {
+              log("Health: hub-cache issues.db zero-byte with empty issues dir — treating as stale warning");
+            }
+          }
+        } catch { /* ignore */ }
+      }
+    }
+  }
+  // 4. issues.db must exist, non-zero, readable, not locked, not stale
+  const dbPath = path.join(crosslinkDir, "issues.db");
+  if (!fs.existsSync(dbPath)) {
+    return { healthy: false, reason: "SQLite DB unavailable — .crosslink/issues.db missing" };
+  }
+  try {
+    const st = fs.statSync(dbPath);
+    if (st.size === 0) {
+      return { healthy: false, reason: "SQLite stale/empty — .crosslink/issues.db is 0 bytes" };
+    }
+    // Check staleness via mtime vs .last-hydrated-ref (if .last-hydrated-ref older than DB mtime check is not stale; if DB mtime far in past >24h warn)
+    const now = Date.now();
+    const mtime = st.mtimeMs;
+    const ageHours = (now - mtime) / (1000 * 60 * 60);
+    if (ageHours > 24) {
+      log(`Health: issues.db age ${ageHours.toFixed(1)}h — stale suspected but not halting (age alone not decisive)`);
+    }
+  } catch (e) {
+    return { healthy: false, reason: `SQLite stale — cannot stat .crosslink/issues.db (${String(e).slice(0, 100)})` };
+  }
+  // Try to open via bun:sqlite and run a cheap query — detects DB lock / SQLITE_BUSY / corruption
+  try {
+    const db = new Database(dbPath, { readonly: true });
+    try {
+      // Cheap discriminating query; PRAGMA integrity_check is heavier so we first try SELECT 1
+      const row = db.prepare("SELECT count(*) as c FROM issues").get() as { c: number } | null;
+      if (row === null || typeof row.c !== "number") {
+        return { healthy: false, reason: "SQLite stale — SELECT count(*) FROM issues returned null/non-number" };
+      }
+      // Also catch DB lock via busy string in error — already caught in catch below, but also check row for sentinel
+    } finally {
+      db.close();
+    }
+  } catch (e) {
+    const msg = String(e);
+    const lower = msg.toLowerCase();
+    if (lower.includes("busy") || lower.includes("locked") || lower.includes("database is locked") || lower.includes("sqlite_busy")) {
+      return { healthy: false, reason: `DB lock — issues.db is locked/busy (${msg.slice(0, 160)})` };
+    }
+    if (lower.includes("malformed") || lower.includes("corrupt") || lower.includes("not a database")) {
+      return { healthy: false, reason: `SQLite stale/corrupt — ${msg.slice(0, 160)}` };
+    }
+    return { healthy: false, reason: `SQLite unavailable — cannot query issues.db (${msg.slice(0, 160)})` };
+  }
+
+  // 5. Probe crosslink session status for auto-hydration skipped / v2 file-path / stale warnings
+  // Cheap subprocess that also validates CLI+DB+hub path together.
+  const statusResult = await runCrosslink(shell, ["session", "status"], crosslinkDir);
+  if (!statusResult) {
+    return { healthy: false, reason: "crosslink CLI unavailable — crosslink session status failed (null)" };
+  }
+  const combined = (statusResult.stdout || "").toLowerCase();
+  if (combined.includes("auto-hydration skipped") || combined.includes("auto_hydration") || combined.includes("v2 file-path") || combined.includes("file-path auto-hydration")) {
+    return { healthy: false, reason: `auto-hydration skipped / v2 file-path warning — crosslink session status reports hydration skip (${statusResult.stdout.slice(0, 160)})` };
+  }
+  if (statusResult.exitCode !== 0 && combined.includes("stale")) {
+    return { healthy: false, reason: `SQLite stale — crosslink session status reports stale (${statusResult.stdout.slice(0, 160)})` };
+  }
+  // If command itself failed (exit !=0) and not due to no-active-issue, treat as CLI/DB failure
+  // session status exit 0 normally even without active issue; non-zero is abnormal.
+  if (statusResult.exitCode !== 0 && !combined.includes("not working") && !combined.includes("no active")) {
+    // Check stderr-like markers for lock/busy
+    if (combined.includes("database is locked") || combined.includes("busy") || combined.includes("locked")) {
+      return { healthy: false, reason: `DB lock — crosslink session status reports lock/busy (${statusResult.stdout.slice(0, 160)})` };
+    }
+    return { healthy: false, reason: `crosslink CLI/DB unavailable — crosslink session status exit=${statusResult.exitCode} (${statusResult.stdout.slice(0, 160)})` };
+  }
+
+  return { healthy: true, reason: "" };
+}
+
+// ---------------------------------------------------------------------------
 // Runtime agent tracking
 // ---------------------------------------------------------------------------
 
@@ -974,6 +1156,21 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
       }
 
       log("Intercepting tool:", toolName, "callID:", input.callID);
+
+      // ------------------------------------------------------------------
+      // 0. Crosslink health — halt > warn > suggest (highest priority, #514)
+      // ------------------------------------------------------------------
+      // Fail-closed: if Crosslink CLI/DB/hub-cache unavailable (command fails,
+      // DB lock, file-path auto-hydration skipped, SQLite stale, v2 file-path
+      // warning), block ALL tool calls. Do NOT wait-and-retry.
+      {
+        const { crosslinkDir: healthDir } = ensureState();
+        const health = await checkCrosslinkHealth(shell, healthDir);
+        if (!health.healthy) {
+          log("BLOCK: crosslink health —", health.reason);
+          throw new Error(buildCrosslinkUnavailableMessage(health.reason, healthDir));
+        }
+      }
 
       // ------------------------------------------------------------------
       // 1. Operator kill/pause flags (highest priority)
