@@ -1,0 +1,10 @@
+---
+title: "Model Evidence 2026-08-27 — LEXICON conclusion (muse-spark + hy3)"
+tags: ["model", "evidence", "lexicon"]
+sources: []
+contributors: ["OL2r"]
+created: 2026-08-27
+updated: 2026-08-27
+---
+
+# Model Evidence 2026-08-27 — LEXICON conclusion\n\n**Session:** #31/#32 OL2r (LEXICON 478-481, FIX 496, review r1/r1b, follow-up #498)\n**Models used:**\n- opencode/muse-spark-1.2-contributor-free (Zen) ×4: LEX-0 (4fd1eec5, 5-6m), LEX-1 (f272cc0c, 8m), LEX-2 (0cd306e7, 10m), FIX 496 (02d87250, 4m) — all PASS, held 30s health + 5m commit/position + 10m stall, no 429, no fallback needed, byte-identical synthesis verified\n- opencode-go/hy3 (paid) ×1: review r1 pp3g-Uoa5 DEAD-UNMARKED at 1m (Observer 02:47, session gone, no kill evidence, bundle preserved) — not rate-limit, not token cost, silent provider session loss; required immediate relaunch per doctrine #457\n- opencode/muse-spark-1.2-contributor-free (Zen) ×1 relaunch: review r1b pp3g-JAjs PASS at 4m (02:58) — 8/8 checklist, independent convergence after hy3 death\n\n**Strengths observed:** muse-spark held strict 5m cadence and produced structured, evidence-linked synthesis (lex-0 165 lines, lex-1a 177, lex-1b 195, conclusion 242) with WHY/WHAT/HOW-CERTAIN/WHAT-NOT-TESTED; fast 5-10m ceilings well under 20m task-match; fallback pre-approved worked without halt\n**Failure modes:** hy3 silent DEAD-UNMARKED (not 429/consent) — 5h budget not burned, caught by Observer COMPLETED vs RUNNING divergence + hub position stale\n**Token/cost:** Zen free = zero cash, low token per synthesis 5-10m vs hy3 heavy review (not measured this session)\n**Routing recommendation:** keep muse-spark Zen as primary builder for 15-20m research synthesis (as demonstrated), reserve hy3 for deep source re-derivation but expect occasional silent loss — always pair with backup muse-spark relaunch and 30s health gate\n**Evidence refs:** #479/plan, #480/plan, #481/result, #494/result PASS, Observer notes 02:47/02:58, commits 4fd1eec5/f272cc0c/0cd306e7/02d87250, merges 354ff0f8/a92d9\n
