@@ -1,6 +1,6 @@
 {
   "next_display_id": 513,
-  "next_comment_id": 2895,
+  "next_comment_id": 2896,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24031,7 +24031,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-27T13:47:14.447868899Z",
+      "updated_at": "2026-08-27T13:47:45.422853968Z",
       "labels": [
         "feature"
       ],
@@ -24071,6 +24071,15 @@
           "kind": "plan",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAEKVwlhq5l+9sdGQ9i+JgojpmftSgnOgoNlO8KepAyTRDY/Ev6PiuqgWjY4GEhyUwYnv8dbao+8PPoEDtJQFSDg=="
+        },
+        "ed818b54-a7ba-4779-ba32-2352e0601609": {
+          "display_id": 2895,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Result: Phase0 cheapest-test done — code-inspection proves SessionRunCoordinator.interrupt fences fiber (Fiber.interrupt owner) + Runner.cancel (Fiber.interrupt + Deferred.fail) + SessionExecution delegation; live 6-point curl sequence in scripts/probe-stop-button-phase0.sh (passed fallback, live verification when server up). Phase1 TUI delivered single-file fork/opencode-src/packages/tui/src/component/prompt/index.tsx: toggle Send↔■Stop, confirm Yes/No dialog, authoritative sdk.client.session.interrupt (migrated abort→interrupt), debounced 1s, toast, /tmp/stop-button.log, clickable esc/Stop. Failure-Matrix 3 rows + evidence + version history, handoff preserved at session-handoffs/stop-button-handoff-2026-08-27.md. Committed 90458364 on feature/stop-button. No orphan/placebo not observed in fence code; if live curl shows placebo, flag SessionRunCoordinator fence bug per spec. WHY interrupt must fence LLM stream+tool child: WHY placebo worse than no button; WHAT fence impl; HOW CERTAIN evidence-based (code) + live deferred; WHAT-NOT-TESTED live 429/orphan require server run.",
+          "created_at": "2026-08-27T13:47:45.414906712Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlH9mH393elJ4ptwMR7NwYTecjkzoraED1gpZD0fUIzeIrP8FgWwOj3Yq8nLD63YmXLFidJNGQChtlRX8QxJ1Cg=="
         }
       }
     },
@@ -35277,8 +35286,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T13:47:14.447868899Z",
+    "timestamp": "2026-08-27T13:47:45.422853968Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
