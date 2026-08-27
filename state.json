@@ -1,5 +1,5 @@
 {
-  "next_display_id": 514,
+  "next_display_id": 515,
   "next_comment_id": 2922,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -99,6 +99,7 @@
     "2ecea944-d900-48f7-a9e8-dc1efda3e943": 165,
     "2eef1a3f-b82d-4f5b-be49-ac8d5aa4af15": 8,
     "2f09bd62-2e7c-4fd4-a7f6-471467f58751": 311,
+    "2f2e08aa-e1ec-4fe9-a45c-1be36980fa7f": 514,
     "3053674d-3335-4d1e-b829-23242837d7e9": 96,
     "30fdaa60-778d-4e12-8e6f-20bf8f76caa2": 79,
     "30fe1518-83b9-482d-ad39-5554a2a31c71": 423,
@@ -7846,6 +7847,17 @@
       "created_by": "OL2r",
       "created_at": "2026-08-09T00:51:32.013676998Z",
       "updated_at": "2026-08-09T00:51:32.013676998Z"
+    },
+    "2f2e08aa-e1ec-4fe9-a45c-1be36980fa7f": {
+      "uuid": "2f2e08aa-e1ec-4fe9-a45c-1be36980fa7f",
+      "display_id": 514,
+      "title": "Guard: halt if Crosslink unavailable - do not wait",
+      "description": "Hook: if Crosslink isn't available halt and investigate. Do not proceed and 'wait for Crosslink to come back' as several agents have attempted this today and it does not work. A failure of Crosslink is a definite 'halt > warn operator > suggest investigation' situation. Add to crosslink-guard.ts: if crosslink CLI/DB/hub-cache unavailable (command fails, DB lock, file-path auto-hydration skipped, SQLite stale), block all agent launches and tool calls, warn operator, suggest investigation (crosslink sync, check .crosslink/hook-config, check opencode.log for hydration). Do not proceed with wait-and-retry. Reference: v2 file-path auto-hydration skipped warning at 2026-08-27T15:32:06, several agents today attempted wait and failed, FAILURE-Matrix Task vs kickoff divergence.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-27T16:56:12.383555948Z",
+      "updated_at": "2026-08-27T16:56:12.383555948Z"
     },
     "3053674d-3335-4d1e-b829-23242837d7e9": {
       "uuid": "3053674d-3335-4d1e-b829-23242837d7e9",
@@ -35537,8 +35549,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T16:55:57.892945592Z",
-    "agent_id": "pp3g-3i7P-guard-operator-gate-model-launch-like-git-merge-4ffc",
-    "agent_seq": 12
+    "timestamp": "2026-08-27T16:56:12.383555948Z",
+    "agent_id": "OL2r",
+    "agent_seq": 2689
   }
 }
