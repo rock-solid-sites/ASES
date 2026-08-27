@@ -1,6 +1,6 @@
 {
   "next_display_id": 488,
-  "next_comment_id": 2638,
+  "next_comment_id": 2639,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "022f93f7-1c91-4992-83bb-4b05f83190e9": 368,
@@ -666,10 +666,6 @@
     "478": {
       "agent_id": "OL2r",
       "claimed_at": "2026-08-26T23:57:58.292354534Z"
-    },
-    "479": {
-      "agent_id": "OL2r",
-      "claimed_at": "2026-08-26T23:58:38.614229154Z"
     },
     "480": {
       "agent_id": "OL2r",
@@ -22830,7 +22826,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-25T05:23:39.485632024Z",
-      "updated_at": "2026-08-27T00:06:32.367495319Z",
+      "updated_at": "2026-08-27T00:07:51.611279362Z",
       "labels": [
         "collector",
         "feature",
@@ -23043,6 +23039,15 @@
           "kind": "observation",
           "signed_by": "SHA256:1ReMk9jzMKhuA3u9nNpviqfzYICX5VnKh/f1NGOij/c",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgIyT3AIo69gxN9z+AYs0exnGGX/jqgcwEqy9JTapVLmkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASkwBMk7kMljUnT57sezmsG6Ptaqr7UkIg+aDcZyU8yKfO5neroDlub+uCcx8W8NF4HxvU+kISUC6spa6eMCPBQ=="
+        },
+        "cb366f89-54d0-4fa4-b9fc-dfc3c8242d15": {
+          "display_id": 2638,
+          "author": "pp3g-mrs9-reviewer-r1-second-relaunch-hy3-for-issue-471-pre-d947",
+          "content": "VERDICT: PASS — Doll/ATProto corpus is pre-consumption ready. Audited 10 points via rtk-only reads (no bare git, per harness workaround) against the durable copy at /home/claude-code/projects/ASES/research/doll-corpus/.\n\n1. File/line counts vs stats.json — PASS. posts.jsonl=19932 (==unique_post_uris), relevant-posts.jsonl=454, thread-posts.jsonl=2836, quoted-posts.jsonl=56 (all == stats). raw/author-feed=205 sequential files 000001-000205, no gaps. corpus/ has index.md, chronology.md, relevant-posts.md, threads.md + threads/ subdir.\n2. Raw losslessness — PASS. raw/author-feed/000005.json contains post 3mtg6iiqsq22h (cid matches normalized source); 000001.json is a full getAuthorFeed response with nested post/reply/parent/grandparentAuthor/threadgate + top-level cursor. Raw is byte-faithful and is the source of normalized source.\n3. Normalized integrity + exactly-one-AT-URI dedup — PASS. Cross-source URI 3lbaue4lq5k2k appears once in posts.jsonl; exact-URI greps return 1 in relevant/thread/quoted jsonl; every record carries full source. item_type counts (5599 repost + 14333 post) sum to 19932.\n4. Repost vs authored — PASS. item_type repost=5599, post=14333, distinct, never treated as authored.\n5. Classification + non-relevant retention — PASS. relevant-posts.jsonl has matched_terms/matched_topics/known_references/external_urls; non-relevant retained in posts.jsonl (19932 total). quoted-posts correctly have empty matched_terms.\n6. Threads/quotes dedup + attribution — PASS. thread-posts.jsonl has real third-party authors (segyges, Blake Brown, etc.), not attributed to Doll; quoted-posts has quoted_by + real authors; dedup verified (exact-URI=1); 454 threads == 454 relevant; 56 quoted deduped.\n7. corpus/*.md exact-text preservation — PASS. index.md matches stats exactly; relevant-posts.md preserves text verbatim (e.g. doesnt not normalized to doesn't); chronology.md + threads.md present.\n8. Completeness proof — PASS. filter_fallback_note + README document the posts_and_author_threads omission (68/100 probe) and fallback to posts_with_replies (commit 768e96f4). authored_posts=14333 EXACTLY matches profile postsCount. Last page 000205.json has NO cursor (grep -c cursor = 0) -> pagination exhausted. Date range 2024-11-17 to 2026-08-25 continuous.\n9. Git boundary — PASS. .gitignore is STRICT (raw/ normalized/ state/ corpus/ __pycache__/). Issue evidence (Muse Spark 2026-08-26T23:14) confirms git check-ignore ignores all bulk dirs; only collector.py/README.md/.gitignore/stats.json are untracked-trackable. Data dirs present, off git.\n10. README accuracy — PASS. DID, filter choice + 68/100 probe, postsCount 14333 match, commands, output layout, known limitations (gitignored bulk + reconstruction command) all accurate vs stats.json.\n\nNON-BLOCKING OBSERVATIONS:\n- SHOULD-CONSIDER: thread-posts.jsonl excludes the root relevant post (only thread participants); root is in relevant-posts.jsonl. Defensible design but spec-literal reading of 'one record per AT URI across hydrated threads' could include roots.\n- NIT: stats.json is untracked-trackable but not in operator's exhaustive commit scope (tiny metadata, harmless).\n- NIT: disk usage stats.json=304922938 bytes (~290.9 MiB) vs builder du -sh 293M (~2 MiB rounding/block diff, not a defect).\n- NOTE: raw/threads exact file count (454) not independently enumerated (no-pipe constraint); relied on builder durability verification + structural consistency (454 threads == 454 relevant).\n\nConclusion: all acceptance criteria satisfied; corpus is ready for research consumption. No MUST-FIX defects.",
+          "created_at": "2026-08-27T00:07:51.603331522Z",
+          "kind": "result",
+          "signed_by": "SHA256:n2Fc9razsei8Tca/59UKFB5OB1d7B5eDT8AwBJwb1Po",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJ+kF2KrbwrXIan1F7UEtgl53qrqyfDx5CeH3Ogt7DnkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAm/nOmNrYIYrZdHHVkmpPi/T1C5DuanvtPUEa0lzvFjX0EFtqYpv/FMYMMGoVRuXiwOsOQR/qzCUG2Yzv5ggjAw=="
         },
         "cf83d576-15de-4744-af1c-91d1cae12edd": {
           "display_id": 2579,
@@ -32492,8 +32497,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T00:07:35.355112392Z",
-    "agent_id": "pp3g-QQqq-lex-0-reconciled-landscape-audit-verify-connector-62fd",
-    "agent_seq": 1
+    "timestamp": "2026-08-27T00:07:51.611279362Z",
+    "agent_id": "pp3g-mrs9-reviewer-r1-second-relaunch-hy3-for-issue-471-pre-d947",
+    "agent_seq": 4
   }
 }
