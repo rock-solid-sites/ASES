@@ -1,5 +1,5 @@
 {
-  "next_display_id": 512,
+  "next_display_id": 513,
   "next_comment_id": 2881,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -285,6 +285,7 @@
     "8d1ed88d-db2c-4a99-b422-75f55f5b477b": 409,
     "8d4d5b12-2ea3-452b-8708-5a5bf89714c0": 156,
     "8e8d2288-1a6a-4b99-9d86-59ccf32a9b3a": 18,
+    "8ebf1d19-59d8-4374-b369-a70971fcd63b": 512,
     "8f975411-e932-430b-8b78-aa265cb8b117": 362,
     "902b3f60-30b4-4603-bad7-ae714e35a662": 454,
     "90c58cb7-b2d5-43ff-bccd-e82ff1304ff4": 400,
@@ -20303,6 +20304,17 @@
         "research"
       ]
     },
+    "8ebf1d19-59d8-4374-b369-a70971fcd63b": {
+      "uuid": "8ebf1d19-59d8-4374-b369-a70971fcd63b",
+      "display_id": 512,
+      "title": "docs: Go key exhaustion pre-flight check + operator notice",
+      "description": "After Go workspace wrk_01KZF2ZCX2J3H5S248MFCWH3CE monthly-limit park blocked two durable builders on #510 (log 13:06:52). Env OPENCODE_GO_API_KEY had new 1.9% key but builders read stale /home/claude-code/.local/share/opencode/auth.json. Need: 1) Verify fix: opencode-go/muse-spark-1.2-contributor LLM call no longer parks. 2) Update docs (.crosslink/knowledge/model-discipline.md + Failure-Matrix) with pre-flight check: before any kickoff, verify opencode-go key in auth.json matches env and check opencode.log for monthly-limit signature. 3) Write brief operator notice (paste-ready) explaining one-command sync. Single builder, earlyoom-safe, pinned model.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-27T13:13:18.301105960Z",
+      "updated_at": "2026-08-27T13:13:18.301105960Z"
+    },
     "8f975411-e932-430b-8b78-aa265cb8b117": {
       "uuid": "8f975411-e932-430b-8b78-aa265cb8b117",
       "display_id": 362,
@@ -35130,8 +35142,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-27T13:13:08.847184218Z",
+    "timestamp": "2026-08-27T13:13:18.301105960Z",
     "agent_id": "OL2r",
-    "agent_seq": 2661
+    "agent_seq": 2662
   }
 }
