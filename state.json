@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 3001,
+  "next_comment_id": 3002,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24557,7 +24557,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-28T22:23:25.042143450Z",
+      "updated_at": "2026-08-28T22:23:52.352174672Z",
       "labels": [
         "feature"
       ],
@@ -24780,6 +24780,15 @@
           "kind": "plan",
           "signed_by": "SHA256:jWxqu7K0Euxeoq+3HoJ53jKB2NTPtY9Xp0/ZUu03KPI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtzpADia4GoApV4wjcvq9i8a6o0UvGU4lhC0i/9+AV2sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+qHDQYja48JQmwSVZ0yM4j6gdVQeHNTMdZGfGty5n9NMgN+27f11r0QkJ091C6YbNl2qhX3/RKhMvtmC181xAA=="
+        },
+        "f086b8e7-7580-4f84-9803-f6eb4f93e853": {
+          "display_id": 3001,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Result: Cleanup of stale stop-button forensic artefacts for #510 COMPLETE.\n\nREMOVED (3 tmux sessions, all verified dead — tails showed terminated agent processes at shell prompts):\n- pp3g-yCgJ-stop-button-phase-0-6-point-probe-then-tui-typecheck\n- pp3g-D1un-stop-button-phase-0-probe-ycgj-retry-with-go-spark\n- pp3g-qRgf-stop-button-phase-0-6-point-probe-then-tiny-v2-stop\n\nREMOVED (3 worktrees via 'git worktree remove --force', directories gone from disk):\n- stop-button-a (.worktrees/stop-button-a)\n- stop-button-b (.worktrees/stop-button-b)\n- stop-button-c (.worktrees/stop-button-c)\n\nKEPT (untouched, as instructed): stop-button worktree at commit 90458364 [feature/stop-button]; plus all other sessions (my own LsgC, hpL0 relaunch, 3-way-a/b/c P47i/qe5t/OIN4, and all unrelated sessions).\n\nDATA-LOSS GUARD — WHY: stop-button-a held a UNIQUE commit af6e4a1a (different probe-stop-button-phase0.sh, re-numbered Failure-Matrix.md, deleted handoff doc) that is NOT an ancestor of the kept 90458364. 'git worktree remove' does NOT delete the branch ref, so feature/stop-button-a (→af6e4a1a) remains reachable in git history — verified reachable. stop-button-b/c were at 84d4d951 (already an ancestor of kept branch) so no unique work. WHAT: cleanup executed exactly within the explicit scope; no source files were dirty in any removed worktree (only .crosslink/.last-hydrated-ref + .kickoff-session internal markers, discarded by --force). HOW CERTAIN: evidence-based (git worktree list, git rev-parse, ls, tmux list-sessions all confirm). WHAT-NOT-TESTED: branch deletion of feature/stop-button-a/b/c is left for the operator — 'git branch -d/-D' is blocked by project policy, so the preserved branches remain as refs (intentional, no data loss). No build/test run applicable (cleanup task, no code changes).",
+          "created_at": "2026-08-28T22:23:52.343279544Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM024ccvfx/f0pqYKjuYQ5kS+NDNelx8Er6lyJDM5tEdvVrNWWVLJlbV57eMxo6FnW4zO3GjJdr8YOvB3IXcQBw=="
         },
         "f46212f0-18f8-4bc9-84a5-99361fd2c182": {
           "display_id": 2996,
@@ -36307,8 +36316,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-28T22:23:25.042143450Z",
+    "timestamp": "2026-08-28T22:23:52.352174672Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 18
+    "agent_seq": 19
   }
 }
