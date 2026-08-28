@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 2996,
+  "next_comment_id": 2997,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24539,7 +24539,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-28T22:21:08.377565730Z",
+      "updated_at": "2026-08-28T22:22:02.367030068Z",
       "labels": [
         "feature"
       ],
@@ -24744,6 +24744,15 @@
           "kind": "plan",
           "signed_by": "SHA256:jWxqu7K0Euxeoq+3HoJ53jKB2NTPtY9Xp0/ZUu03KPI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtzpADia4GoApV4wjcvq9i8a6o0UvGU4lhC0i/9+AV2sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+qHDQYja48JQmwSVZ0yM4j6gdVQeHNTMdZGfGty5n9NMgN+27f11r0QkJ091C6YbNl2qhX3/RKhMvtmC181xAA=="
+        },
+        "f46212f0-18f8-4bc9-84a5-99361fd2c182": {
+          "display_id": 2996,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Cleanup of stale stop-button forensic artefacts for #510. SCOPE (explicit, per kickoff): (1) Remove 3 worktrees — stop-button-a, stop-button-b, stop-button-c — via 'git worktree remove --force' (force needed only for non-source crosslink hydration ref + .kickoff-session marker dirtiness; no source files dirty). (2) Kill 3 tmux sessions — pp3g-yCgJ-stop-button-phase-0-6-point-probe-then-tui-typecheck, pp3g-D1un-stop-button-phase-0-probe-ycgj-retry-with-go-spark, pp3g-qRgf-stop-button-phase-0-6-point-probe-then-tiny-v2-stop. KEEP: stop-button worktree (commit 90458364) and all other sessions (incl. my own LsgC + hpL0 relaunch + 3-way-a/b/c). DATA-LOSS GUARD: 'git worktree remove' does NOT delete the branch ref, so feature/stop-button-a (commit af6e4a1a) remains reachable in git history — af6e4a1a has UNIQUE content vs 90458364 (different probe script + Failure-Matrix renumber + deleted handoff), so it is preserved, not destroyed. Branch deletion is blocked by policy (git branch -d/-D) and left for operator. stop-button-b/c are at 84d4d951 (ancestor of kept branch) so no unique work. Verified yCgJ/D1un/qRgf tails show terminated agents at shell prompts (stale/dead) — safe to kill.",
+          "created_at": "2026-08-28T22:22:02.360941173Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAXesyLri/BEgx1A6vzee6KhXQ903sjbF6WVYTGD6oKuK+3z2IcIV4Y0ksjiRD4HB4kK5m7zxt7DXKS06nUrPwAg=="
         },
         "f501ff77-d958-4018-8a20-387211f105f8": {
           "display_id": 2979,
@@ -36262,8 +36271,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-28T22:21:51.968282574Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2735
+    "timestamp": "2026-08-28T22:22:02.367030068Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 16
   }
 }
