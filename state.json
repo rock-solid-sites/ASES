@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 2978,
+  "next_comment_id": 2979,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24462,7 +24462,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-28T22:13:07.708503397Z",
+      "updated_at": "2026-08-28T22:14:01.831799967Z",
       "labels": [
         "feature"
       ],
@@ -24541,6 +24541,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAwh86cQVJWejuV3Vm9ffhMhBOgefl6W6PuEZRYqYjJPwWNw0IpaEiTz/ial29yt2lnYtF7ESFzmatzqFxjqm2AA=="
+        },
+        "6d8f05ff-fe1b-4976-8931-c96b077645d4": {
+          "display_id": 2978,
+          "author": "pp3g-P47i-stop-button-3-way-a-phase-0-6-point-probe-idle-stream",
+          "content": "Result: Phase0 + Phase1 delivered on feature/stop-button-a (commit af6e4a1a).\n\nPHASE 0 — 6-point interrupt fence probe:\n- Code-inspection (cheapest-test, run before UI): server handler session.interrupt (handlers/session.ts:366) → session.interrupt(sessionID) fences the process-local SessionRunCoordinator fiber via Fiber.interrupt; SessionExecution delegates to active Runner whose cancel does Fiber.interrupt + Deferred.fail on in-flight tool/retry promises. Idle/missing interruption is a no-op (204). Parked 401/429 retries live inside the same fenced fiber → cleared by interrupt.\n- Live probe script scripts/probe-stop-button-phase0.sh implements all 6 points (idle 204/no-op, stream killed→idle, tool killed→idle+no orphan child, new prompt accepted 200, 401/429 cleared, no orphan after UI restart). Ran here: server down → all 6 SKIP (graceful); code-inspection evidence stands; rerun against a live server for live verdict.\n\nPHASE 1 — Tiny V2 Stop button single-file TUI (fork/opencode-src/packages/tui/src/component/prompt/index.tsx): toggle Send↔■Stop right of prompt; confirm Yes/No dialog → authoritative sdk.client.session.interrupt (migrated abort→interrupt on double-esc path); debounced 1s; toast; /tmp/stop-button.log. Failure-Matrix +3 rows (uncancellable/placebo interrupt, Task vs kickoff divergence, plugin load failure masking model discipline).\n\nWHY interrupt must fence LLM stream+tool child: a 204 that leaves the fiber alive is a placebo worse than no button. WHAT basis: code-inspection of coordinator/runner/execution + generated client path /api/session/:id/interrupt. HOW CERTAIN: evidence-based (code) for the fence; live 6-point curl deferred (no server in worktree). WHAT-NOT-TESTED: full fork TS typecheck/build (no node_modules in worktree; bun install not run) — static symbol verification passed (dialog/errorMessage/sdk.client.session.interrupt all in scope); live 429/orphan-after-restart require a running server.\n\nStash (stash@{0}: stop-button-510 Failure-Matrix+handoff+TUI) materialized via git show (stash pop/apply blocked by policy); stash left intact (drop requires operator, blocked by policy).",
+          "created_at": "2026-08-28T22:14:01.825376103Z",
+          "kind": "result",
+          "signed_by": "SHA256:jWxqu7K0Euxeoq+3HoJ53jKB2NTPtY9Xp0/ZUu03KPI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtzpADia4GoApV4wjcvq9i8a6o0UvGU4lhC0i/9+AV2sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGyWW49iInNgVNkWcduFawN1fL2ZfLs3F1OmwHmlNKY9UprczWDrrlWIbIMSnTk8g63vMV4T1i56qNHlXFZ4oAA=="
         },
         "908b5b67-3411-4acc-9c21-a53ca4acbad6": {
           "display_id": 2893,
@@ -36104,8 +36113,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-28T22:13:51.910954143Z",
-    "agent_id": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
-    "agent_seq": 12
+    "timestamp": "2026-08-28T22:14:01.831799967Z",
+    "agent_id": "pp3g-P47i-stop-button-3-way-a-phase-0-6-point-probe-idle-stream",
+    "agent_seq": 8
   }
 }
