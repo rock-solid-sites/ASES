@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 2969,
+  "next_comment_id": 2970,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26787,7 +26787,7 @@
       "parent_uuid": "bff799f6-9339-459b-98e7-1a26cd5d29b1",
       "created_by": "pp3g-7qQf-read-today-s-sessions-to-recover-context-for-session",
       "created_at": "2026-08-28T12:47:07.410383664Z",
-      "updated_at": "2026-08-28T22:00:05.282652250Z",
+      "updated_at": "2026-08-28T22:01:56.903079209Z",
       "labels": [
         "feature",
         "research"
@@ -26796,6 +26796,15 @@
         "ff08a85a-10dc-4c2e-9539-a8d3209b46dc"
       ],
       "comments": {
+        "580ab418-e6da-4a8c-a530-e6db38615d17": {
+          "display_id": 2969,
+          "author": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
+          "content": "Result: Built scripts/session-model-recommend (Python, 726 lines, +x) — joins live `opencode models opencode` + `opencode-go` with Routing Matrix, emits per-task cheapest suitable + runner-up + cost tier (0=FREE <1=VERY LOW <2=LOW <3=MODERATE <4=HIGH <5=VERY HIGH) with delta, grouped staleness warnings (matrix->catalog missing: ling+laguna 2026-08-28; catalog->matrix new: 29 models including muse-spark), forbidden check (grok/xAI). Filtering via --task-type / --issue labels, cheapest-test via --actual-model (operator authoritative). Wired SESSION-START.md (advisory block + §1a cost-vs-suitability) and Model-Routing-Matrix.md Maintenance section with weekly cadence referencing epic #255 OPERATIONAL DATA and evidence refs (lexicon + brief-note). Dry-run: `scripts/session-model-recommend --issue 516 --actual-model opencode-go/muse-spark-1.2-contributor` => research cheapest=deepseek-v4-flash (LOW) vs actual=muse-spark-1.2-contributor (LOW, delta 0, operator choice authoritative). Full advisory run lists 21 tasks, all tiers. Commit 5ae3fd01 on feature/session-model-recommender.",
+          "created_at": "2026-08-28T22:01:56.895460672Z",
+          "kind": "result",
+          "signed_by": "SHA256:mBKZNHG5HtCxyzi3oB6HOx+40kAg4UAqFn+cSLo3AQU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgm7WMG7nIoE4puoYC2j9lCnRU9xklMXmAox0TwOHaJ70AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAb2j6tPe4CdMkxNMfCboICGkTpS/6+/nTc5PfRdvO7rz/XYxHI3MKP2pyz12tgrjSOY3d6e+TKovy/XWsNX2lAw=="
+        },
         "5a56e002-c450-4ee7-ac33-d7fc78e36d2f": {
           "display_id": 2968,
           "author": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
@@ -36023,8 +36032,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-28T22:00:05.282652250Z",
+    "timestamp": "2026-08-28T22:01:56.903079209Z",
     "agent_id": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
-    "agent_seq": 6
+    "agent_seq": 7
   }
 }
