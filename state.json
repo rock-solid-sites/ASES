@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 2977,
+  "next_comment_id": 2978,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26832,7 +26832,7 @@
       "parent_uuid": "bff799f6-9339-459b-98e7-1a26cd5d29b1",
       "created_by": "pp3g-7qQf-read-today-s-sessions-to-recover-context-for-session",
       "created_at": "2026-08-28T12:47:07.410383664Z",
-      "updated_at": "2026-08-28T22:12:50.718480354Z",
+      "updated_at": "2026-08-28T22:13:51.910954143Z",
       "labels": [
         "feature",
         "research"
@@ -26867,6 +26867,15 @@
           "kind": "observation",
           "signed_by": "SHA256:mBKZNHG5HtCxyzi3oB6HOx+40kAg4UAqFn+cSLo3AQU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgm7WMG7nIoE4puoYC2j9lCnRU9xklMXmAox0TwOHaJ70AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA1IOrU5Y82fXXMLmbvJ277Y9o3CV/BByL/adNT6p+MMg4rs5kWlSwLJDRo0W+2L11AQUD/9Byq9gXxDR5F5qhCg=="
+        },
+        "73d8232d-6c8d-4544-82e4-79cf6dbaf83c": {
+          "display_id": 2977,
+          "author": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
+          "content": "Result: Verified prior commit 5ae3fd01 (script + SESSION-START wiring + matrix Maintenance note) and fixed a core defect. DEFECT: cost tiers were hardcoded in COST_TIERS, violating the matrix Maintenance rule (line 243: do not hard-code in the recommender) and the acceptance criterion that cost tier be sourced from live catalog + Routing Matrix. FIX (commit df9a6e5f): parse_matrix now derives tiers from each per-model 'Token cost profile' cell (MATRIX_TIERS primary; COST_TIERS curated fallback for non-matrix models). Free/paid resolved per model id so combined 'free (Zen) / paid' headings tier correctly. VERIFIED: 13 matrix models parse to correct tiers (free=0, north-mini=1, deepseek=2, hy3=3, luna/gemini=4); mimo-v2.5 matrix-vs-curated discrepancy surfaced under --verbose for maintenance; all CLI modes (default/--json/--check-staleness-only/--verbose/--issue/--actual-model) run clean; no stubs. Dry-run ========================================================================\nMODEL RECOMMENDER — advisory only (never overrides operator)\n========================================================================\nMatrix: /home/claude-code/projects/ASES/.worktrees/session-model-recommender/docs/research/registry/Model-Routing-Matrix.md (21 tasks, 13 per-model profiles)\nCatalog: 6 opencode + 32 opencode-go = 38 total\nTask filter: 'research' (inferred from issue #516 label 'research')\nActual model (for cheapest-test): opencode-go/muse-spark-1.2-contributor [LOW (paid, cheap), in catalog]\n\n  TASK: Research / web investigation (cheap)\n    Cheapest suitable: opencode-go/deepseek-v4-flash  [LOW (paid, cheap)]  AVAILABLE\n    Runner-up:       (none — single candidate)\n    Rationale: Operator rule #147: preferred for research/web; cheap; deep investigation proven (#144)\n    CHEAPEST-TEST: actual=opencode-go/muse-spark-1.2-contributor vs recommended=opencode-go/deepseek-v4-flash (tier delta 0) — operator choice authoritative\n\n------------------------------------------------------------------------\nCOST TIERS: 0=FREE(Zen) < 1=VERY LOW < 2=LOW < 3=MODERATE < 4=HIGH < 5=VERY HIGH\nAdvisory only — operator-named model is never overridden (model-discipline rule #5).\n\nSTALENESS / CATALOG-MATRIX CHECK:\n  WARNING: 2 model(s) in Routing Matrix but NOT in live catalog (removed/renamed):\n    - opencode/laguna-s-2.1-free\n    - opencode/ling-3.0-flash-free\n  WARNING: 29 model(s) in live catalog but NOT in Routing Matrix (new — suitability unknown):\n    opencode-go/deepseek-v4-flash-vision-exp, opencode-go/deepseek-v4-pro, opencode-go/glm-5, opencode-go/glm-5.1, opencode-go/glm-5.3, opencode-go/glm-5.3-flash, opencode-go/hy3-preview, opencode-go/hy4-preview, opencode-go/kimi-k2.5, opencode-go/kimi-k2.6, opencode-go/kimi-k2.7-code, opencode-go/kimi-k3, opencode-go/longcat-2.0, opencode-go/mimo-v2-omni, opencode-go/mimo-v2-pro, opencode-go/mimo-v2.5-pro, opencode-go/minimax-m2.5, opencode-go/minimax-m2.7, opencode-go/minimax-m3, opencode-go/muse-spark-1.2-contributor, opencode-go/ox-alpha-free, opencode-go/qwen3.5-plus, opencode-go/qwen3.6-plus, opencode-go/qwen3.7-max, opencode-go/qwen3.8-flash, opencode-go/qwen3.8-max, opencode/hy3-free, opencode/muse-spark-1.2-contributor-free, opencode/nemotron-3.5-lightning-free\n    (run with --verbose to see tiers, --json for full list)\n\n  Action: refresh Model-Routing-Matrix.md when warnings appear.\n  Cadence: weekly or on any staleness warning (see matrix Maintenance). => research cheapest=deepseek-v4-flash (LOW) vs actual=muse-spark-1.2-contributor (LOW, delta 0, operator authoritative). Staleness warnings fire both directions (matrix->catalog missing: ling+laguna; catalog->matrix new: 29 incl. muse-spark). Acceptance criteria met: per-task cheapest-suitable + runner-up + cost tier sourced from catalog+matrix; advisory never overrides operator; staleness fires on disagreement. NOTE: runner-up appears only where the matrix routing row lists >1 model (data limitation, not a script bug); single-model rows correctly flag UNAVAILABLE when the endorsed model left the catalog (drives matrix maintenance).",
+          "created_at": "2026-08-28T22:13:51.903523799Z",
+          "kind": "result",
+          "signed_by": "SHA256:mBKZNHG5HtCxyzi3oB6HOx+40kAg4UAqFn+cSLo3AQU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgm7WMG7nIoE4puoYC2j9lCnRU9xklMXmAox0TwOHaJ70AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAe63l+SvUHP5Xn0mTiiukVz9evvAP14X2jg/RvvNTfDjKZjETTZKYpP2as9HOsDWyXb2HwLUR5SBb6gOMbZ9dDQ=="
         },
         "a0521666-a651-47dd-b8b3-3b8db68d20a8": {
           "display_id": 2964,
@@ -36095,8 +36104,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-28T22:13:07.708503397Z",
-    "agent_id": "pp3g-P47i-stop-button-3-way-a-phase-0-6-point-probe-idle-stream",
-    "agent_seq": 7
+    "timestamp": "2026-08-28T22:13:51.910954143Z",
+    "agent_id": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
+    "agent_seq": 12
   }
 }
