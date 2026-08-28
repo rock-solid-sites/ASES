@@ -576,12 +576,23 @@ Never bundle open-ended investigation mandates into edit or documentation tasks.
 Research that cannot be bounded up front gets its own issue and its own dispatch.
 A mutation task blocked on unresolved research delivers partial work with explicit WHAT-NOT-TESTED rather than waiting silently.
 
-## Model Selection
+## Model Selection — Operator-Gated (same tier as git merge)
 
-Never assume the operator's model choice.
-If no model is specified for a dispatch, ask before launching.
-Halt on general model uncertainty rather than defaulting.
-Verify every model ID against the live catalog before launch.
+Model launch is **operator-gated and mechanically enforced** — same tier as `git merge`. The gate covers ALL agent launches: `crosslink kickoff run`, `crosslink kickoff launch`, and `crosslink swarm launch` via bash (`crosslink-guard.ts`), AND `Task` delegations to builder/reviewer/auditor (`orchestrator-guard.ts`). Configuration: `gated_bash_commands` in `.crosslink/hook-config.json`.
+
+* Never assume the operator's model choice; halt on general model uncertainty rather than defaulting.
+* **Cheaper-first:** prefer cheaper models that satisfy the task; never select a frontier/expensive model over a cheaper option without explicit per-launch operator approval.
+* Verify every model ID against the live catalog before launch: `opencode models <provider>` — copy the ID exactly.
+
+**Block signature if not approved:** `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`
+
+**Required 4 steps before retry:**
+1. **question** — Ask the operator via the question tool: Which model for this dispatch?
+2. **opencode models** — Verify the exact ID: `opencode models <provider>` (e.g. `opencode models opencode-go`).
+3. **approval comment** — Operator posts on the active issue: `crosslink issue comment <id> "Approved model: <exact model ID> verified via opencode models <provider>" --kind approval` — the gate checks the active issue has an `--kind approval` comment containing the exact `--model` ID.
+4. **retry** — Re-run the same launch; the gate allows it only when approval is present. Each launch needs its own approval.
+
+Without an active issue the gate also blocks; create/claim one first (`crosslink quick` / `crosslink session work <id>`) then post the approval. The gate sits above the `crosslink`-prefix allowlist — being in `allowed_bash_prefixes` does not bypass it.
 
 ---
 
