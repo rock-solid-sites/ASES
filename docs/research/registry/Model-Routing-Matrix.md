@@ -206,3 +206,40 @@ Five independent dispatched reviewers (#367-#371: glm-5.2, luna, kimi-k2.7-code,
 4. **Backup discipline**: always dispatch a backup reviewer for free-tier primary (#129 -> #132 pattern), but prefer a PAID fallback — nemotron (the original free-tier backup) failed 2/2 on 2026-08-14 (#360).
 5. **Scope discipline**: big-pickle needs tight scope + checkpoints (#149 scope-drift lesson); re-scope or kill early on visible drift.
 6. **Two-tier pipelines**: fast verifier (north-mini-code/ling) for triage + deep reviewer (gemini/luna/hy3) for audit — the proven adversarial-consensus pattern (project-completion-report §8).
+
+---
+
+## Maintenance — catalog / matrix staleness (#516, epic #255 OPERATIONAL DATA)
+
+The model catalog churns (new model IDs, renames, removals); the live catalog
+(`opencode models opencode` + `opencode models opencode-go`) is authoritative
+— `models.dev` LAGS the Zen API. The Routing Matrix is evidence-derived and
+therefore stale the moment the catalog changes.
+
+**Refresh cadence:** weekly, or immediately when `scripts/session-model-recommend`
+emits a staleness warning (matrix lists a model not in catalog, or catalog lists
+a model not in matrix).
+
+**Recommender (advisory, #516):** `scripts/session-model-recommend` joins the
+live catalog with this matrix and prints per-task cheapest-suitable +
+runner-up + cost tier (delta). Output is advisory only — it never overrides an
+operator-named model (model-discipline rule #5). The cheapest-test dry-run
+`scripts/session-model-recommend --issue <num> --actual-model <id>` compares
+recommendation vs the model actually chosen. Staleness warnings fire in both
+directions (matrix→catalog missing, catalog→matrix new) and for forbidden
+models (grok/xAI). See `SESSION-START.md` wiring.
+
+**On staleness:** add the new model to the appropriate per-model profile (or
+create one) with cost/lens/evidence, add routing rows if the task type is new,
+and remove/annotate models that disappeared from the catalog (e.g.
+`opencode/ling-3.0-flash-free` and `opencode/laguna-s-2.1-free` were in the
+matrix on 2026-08-15 but absent from the live catalog on 2026-08-28 — see
+recommender staleness output). File updates against epic #255 item (6)
+OPERATIONAL DATA and link to this section.
+
+**Evidence toi:** `model-evidence-2026-08-27-lexicon.md` + `model-evidence-brief-note.md`
+demonstrate cost-vs-suitability as a live decision axis (muse-spark Zen
+5-10 m synthesis vs hy3 DEAD-UNMARKED silent loss) — feed new evidence into
+per-model rows and the routing table rather than hard-coding it in the
+recommender.
+
