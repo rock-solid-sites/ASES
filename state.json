@@ -1,6 +1,6 @@
 {
   "next_display_id": 516,
-  "next_comment_id": 2954,
+  "next_comment_id": 2955,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -29207,7 +29207,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-08-27T07:10:35.614360100Z",
-      "updated_at": "2026-08-27T13:13:50.271577421Z",
+      "updated_at": "2026-08-28T00:15:14.364581080Z",
       "labels": [
         "feature"
       ],
@@ -29256,6 +29256,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA6zYRJRfZdC8B4J6hR2cBmFEq6D/CfRXhp16Cko2cl8c0b5nsJrlzIjx0HvdocHMVFD6iAJxKsMZJGKbWFs5DDQ=="
+        },
+        "abd60492-f5c1-4f86-8616-4fdc7cf8cd03": {
+          "display_id": 2954,
+          "author": "pp3g-5Gmp-review-phase1-observer-v1-1-mimo-8468",
+          "content": "[REVIEW] Reviewer verdict: NO-OPINION — builder work not committed.\n\n## Summary\n\nAttempted to review Phase 1 observer resilience hardening for issue #502\n(Observer Swarm v1.1 — Resilience Hardening). The review cannot proceed\nbecause the builder's implementation was never committed to git.\n\n## Evidence\n\n1. OBSERVER reports from both builder launches show dirty_files=2 on the\n   builder branch (feature/observer-swarm-v1-1-resilience-hardening-phase1-\n   relaunch and its relaunch), with no commits landing on the branch.\n\n2. The previous review attempt (pp3g-BsZf, hy3 model) was FINISHED-UNMARKABLE\n   but produced no review findings on the issue.\n\n3. The current worktree (pp3g-5Gmp) contains the BASELINE observer.sh\n   (3310 lines, 27 tests T1-T27). Verification:\n   - grep for memory_gate, earlyoom_attribution, journalctl, launch-deferred-\n     memory, T28-T33: ALL ABSENT\n   - admission_checks function contains only model/issue/claim/estimate\n     checks (no D1-D4 operator-delegation, no secrets-placement)\n   - No attribution field on terminal transitions\n\n## What the builder was supposed to implement (per plan comment)\n\n- Phase 3 earlyoom traceability (P3-AC2/AC3): SIGTERM attribution via\n  journalctl -u earlyoom with machine field attribution: earlyoom|observer|\n  failed|unknown\n- Phase 1 launch-resilience gate: memory_gate() via free -m, D1-D4\n  operator-delegation check, secrets-placement check\n- Tests T28-T33 covering all of the above\n\n## Conclusion\n\nNothing to review. The builder's two launch attempts both FAILED without\ncommitting code. The implementation needs to be re-attempted before review\nis meaningful.",
+          "created_at": "2026-08-28T00:15:14.355186659Z",
+          "kind": "observation",
+          "signed_by": "SHA256:HdNS837yma1JFj77TD7nk9DKmm06PJLIhqGvvAedPIs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg8PTdS+KQ6OyS47PfRBBLr7hwRCufBXsbEawzt7joA+AAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2ErnP8ZtnFBhDk/++ebCke1L6xZyWs2Qi893YmtYsaqymg/D7sZrkH10S8sAheTNYZl0R1gYFwWjAQ/pBU4dBQ=="
         },
         "b7154516-ad36-4111-9e6f-8b8a20329937": {
           "display_id": 2876,
@@ -35859,8 +35868,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-28T00:09:34.035967786Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2711
+    "timestamp": "2026-08-28T00:15:14.364581080Z",
+    "agent_id": "pp3g-5Gmp-review-phase1-observer-v1-1-mimo-8468",
+    "agent_seq": 1
   }
 }
