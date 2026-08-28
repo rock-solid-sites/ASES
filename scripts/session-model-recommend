@@ -57,8 +57,11 @@ FALLBACK_TIER_FREE = 0
 FALLBACK_TIER_PAID_LOW = 2
 FALLBACK_TIER_PAID_MODERATE = 3
 
-# Hardcoded cost-tier map derived from Routing Matrix "Token cost profile" cells.
-# Lower tier = cheaper. Used for cheapest-suitable ranking.
+# Curated cost-tier fallback for models NOT yet present in the Routing Matrix
+# (new catalog models are "suitability unknown" until evidenced there). When a
+# model IS in the matrix, its tier is parsed from the per-model "Token cost
+# profile" cell (see parse_cost_profiles / MATRIX_TIERS) — that is the primary
+# source. Lower tier = cheaper.
 COST_TIERS: dict[str, int] = {
     # Tier 0 — free Zen (zero cash)
     "opencode/big-pickle": 0,
@@ -152,7 +155,77 @@ FALLBACK_ROUTING: list[dict] = [
 ]
 
 
+# Matrix-derived cost tiers (parsed from per-model "Token cost profile" cells).
+# PRIMARY source when a model is present in the matrix; COST_TIERS below is the
+# curated fallback for models not yet in the matrix (see the matrix Maintenance
+# section — new catalog models are "suitability unknown" until evidenced there).
+MATRIX_TIERS: dict[str, int] = {}
+
+
+def is_free_model(model_id: str) -> bool:
+    """A model is free (zero cash) if it is a Zen free variant or opencode/ (Zen)."""
+    return model_id.endswith("-free") or model_id.startswith("opencode/")
+
+
+def cost_label_to_tier(label: str, free: bool) -> int:
+    """Map a qualitative 'Token cost profile' cell to a numeric tier.
+
+    Free models are always tier 0 (zero cash) regardless of token volume — the
+    matrix itself notes free models are "zero cash" even when token-heavy.
+    Paid models map by keyword: VERY LOW=1, LOW/LOW-MODERATE=2, MODERATE=3,
+    HIGHER/HIGH=4, VERY HIGH=5; a bare 'Paid tier' defaults to MODERATE(3).
+    """
+    low = label.lower()
+    if free:
+        return 0
+    if "very low" in low:
+        return 1
+    if "low-moderate" in low or "low moderate" in low:
+        return 2
+    if "low" in low:
+        return 2
+    if "moderate" in low:
+        return 3
+    if "very high" in low:
+        return 5
+    if "higher" in low or "high" in low:
+        return 4
+    if "paid" in low:
+        return 3
+    return 3
+
+
+def parse_cost_profiles(text: str) -> dict[str, int]:
+    """Parse per-model 'Token cost profile' cells -> {model_id: tier}.
+
+    Each '### model-id' section's '| Token cost profile | <label> |' row is read.
+    Free/paid is resolved per model id (free variant or opencode/ = free) so a
+    combined 'free (Zen) / paid' heading tiers each variant correctly.
+    """
+    tiers: dict[str, int] = {}
+    sections = re.split(r"^###\s+", text, flags=re.MULTILINE)
+    for sec in sections[1:]:
+        lines = sec.splitlines()
+        if not lines:
+            continue
+        heading = lines[0].strip()
+        ids = re.findall(r"[a-zA-Z0-9_-]+/[a-zA-Z0-9._-]+", heading)
+        cost_label: str | None = None
+        for line in lines:
+            m = re.match(r"\|\s*Token cost profile\s*\|\s*(.+?)\s*\|", line)
+            if m:
+                cost_label = m.group(1).strip()
+                break
+        if cost_label is None:
+            continue
+        for mid in ids:
+            tiers[mid] = cost_label_to_tier(cost_label, is_free_model(mid))
+    return tiers
+
+
 def get_tier(model_id: str) -> int:
+    if MATRIX_TIERS and model_id in MATRIX_TIERS:
+        return MATRIX_TIERS[model_id]
     if model_id in COST_TIERS:
         return COST_TIERS[model_id]
     if model_id.startswith("opencode/"):
@@ -212,9 +285,12 @@ def parse_matrix(matrix_path: Path) -> tuple[list[dict], list[str], list[str]]:
     warnings: list[str] = []
     if not matrix_path.exists():
         warnings.append(f"Matrix not found at {matrix_path}; using fallback routing table")
-        return FALLBACK_ROUTING.copy(), [], warnings
+        return FALLBACK_ROUTING.copy(), [], warnings, {}
 
     text = matrix_path.read_text(encoding="utf-8", errors="replace")
+
+    # Derive cost tiers from per-model "Token cost profile" cells (primary source).
+    cost_tiers = parse_cost_profiles(text)
 
     # Extract per-model profile model IDs from headings like "### opencode-go/xxx (paid)"
     per_model_ids: list[str] = []
@@ -291,9 +367,9 @@ def parse_matrix(matrix_path: Path) -> tuple[list[dict], list[str], list[str]]:
 
     if not routing_rows:
         warnings.append("Failed to parse routing table; using fallback")
-        return FALLBACK_ROUTING.copy(), per_model_ids, warnings
+        return FALLBACK_ROUTING.copy(), per_model_ids, warnings, {}
 
-    return routing_rows, per_model_ids, warnings
+    return routing_rows, per_model_ids, warnings, cost_tiers
 
 
 def infer_task_type_from_issue(issue_num: str) -> str | None:
@@ -533,7 +609,15 @@ def main(argv: list[str] | None = None) -> int:
     catalog_set = set(catalog_all)
 
     # Parse matrix
-    routing_rows, per_model_ids, parse_warnings = parse_matrix(matrix_path)
+    routing_rows, per_model_ids, parse_warnings, matrix_cost_tiers = parse_matrix(matrix_path)
+    MATRIX_TIERS.clear()
+    MATRIX_TIERS.update(matrix_cost_tiers)
+
+    # Cross-check: matrix-derived tier vs curated COST_TIERS (maintenance signal).
+    tier_discrepancies: list[tuple[str, int, int]] = []
+    for mid, mt in matrix_cost_tiers.items():
+        if mid in COST_TIERS and COST_TIERS[mid] != mt:
+            tier_discrepancies.append((mid, mt, COST_TIERS[mid]))
 
     # Build recommendations
     recommendations = build_recommendations(routing_rows, catalog_set, task_filter)
@@ -717,6 +801,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Catalog opencode ({len(catalog_opencode)}): {', '.join(catalog_opencode) or '(none)'}")
         print(f"Catalog opencode-go ({len(catalog_go)}): {', '.join(catalog_go) or '(none)'}")
         print(f"Matrix per-model IDs ({len(per_model_ids)}): {', '.join(per_model_ids) or '(none)'}")
+        if tier_discrepancies:
+            print("TIER DISCREPANCIES (matrix cost profile vs curated COST_TIERS — reconcile in matrix):")
+            for mid, mt, ct in tier_discrepancies:
+                print(f"    - {mid}: matrix={mt}({tier_label(mt)}) curated={ct}({tier_label(ct)})")
         print()
 
     return 0
