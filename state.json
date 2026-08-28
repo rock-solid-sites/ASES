@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 2975,
+  "next_comment_id": 2976,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26823,7 +26823,7 @@
       "parent_uuid": "bff799f6-9339-459b-98e7-1a26cd5d29b1",
       "created_by": "pp3g-7qQf-read-today-s-sessions-to-recover-context-for-session",
       "created_at": "2026-08-28T12:47:07.410383664Z",
-      "updated_at": "2026-08-28T22:02:30.043510850Z",
+      "updated_at": "2026-08-28T22:12:50.718480354Z",
       "labels": [
         "feature",
         "research"
@@ -26832,6 +26832,15 @@
         "ff08a85a-10dc-4c2e-9539-a8d3209b46dc"
       ],
       "comments": {
+        "4377e1d9-86ce-443d-b4e8-d89df683ba3b": {
+          "display_id": 2975,
+          "author": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
+          "content": "[PROGRESS] state=working completed=Verified prior commit 5ae3fd01; found defect: cost tiers were HARDCODED (COST_TIERS) instead of sourced from Routing Matrix per-matrix Maintenance rule (line 243) + acceptance criteria. Fixed: parse_matrix now derives tiers from per-model 'Token cost profile' cells (MATRIX_TIERS primary, COST_TIERS curated fallback for non-matrix models); free/paid resolved per model id so combined free/paid headings tier correctly. Verified: 13 matrix models parse to correct tiers (free=0, north-mini=1, deepseek=2, hy3=3, luna/gemini=4); mimo-v2.5 discrepancy (matrix=2 vs curated=3) surfaced under --verbose for maintenance. All modes (default/--json/--check-staleness-only/--verbose/--issue/--actual-model) run clean; no stubs. next=commit fix, then final dry-run verify blocker=none",
+          "created_at": "2026-08-28T22:12:50.712489853Z",
+          "kind": "observation",
+          "signed_by": "SHA256:mBKZNHG5HtCxyzi3oB6HOx+40kAg4UAqFn+cSLo3AQU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgm7WMG7nIoE4puoYC2j9lCnRU9xklMXmAox0TwOHaJ70AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoR4VXOBXwTUeHumm+XU3DDBIAXdS+8yMMbtKsd6bGRkSn2lrCR2oErudnED6Uvr5gWFZy/Cgh4dY7sUDlynCCg=="
+        },
         "580ab418-e6da-4a8c-a530-e6db38615d17": {
           "display_id": 2969,
           "author": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
@@ -36077,8 +36086,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-28T22:12:40.580069976Z",
-    "agent_id": "pp3g-P47i-stop-button-3-way-a-phase-0-6-point-probe-idle-stream",
-    "agent_seq": 6
+    "timestamp": "2026-08-28T22:12:50.718480354Z",
+    "agent_id": "pp3g-LrHk-implement-session-start-model-cost-vs-suitability-f625",
+    "agent_seq": 11
   }
 }
