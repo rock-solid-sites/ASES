@@ -8290,11 +8290,12 @@
       "display_id": 514,
       "title": "Guard: halt if Crosslink unavailable - do not wait",
       "description": "Hook: if Crosslink isn't available halt and investigate. Do not proceed and 'wait for Crosslink to come back' as several agents have attempted this today and it does not work. A failure of Crosslink is a definite 'halt > warn operator > suggest investigation' situation. Add to crosslink-guard.ts: if crosslink CLI/DB/hub-cache unavailable (command fails, DB lock, file-path auto-hydration skipped, SQLite stale), block all agent launches and tool calls, warn operator, suggest investigation (crosslink sync, check .crosslink/hook-config, check opencode.log for hydration). Do not proceed with wait-and-retry. Reference: v2 file-path auto-hydration skipped warning at 2026-08-27T15:32:06, several agents today attempted wait and failed, FAILURE-Matrix Task vs kickoff divergence.",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T16:56:12.383555948Z",
-      "updated_at": "2026-08-27T17:15:08.834301268Z",
+      "updated_at": "2026-08-29T03:47:31.569190899Z",
+      "closed_at": "2026-08-29T03:47:31.569187641Z",
       "labels": [
         "feature"
       ],
@@ -37191,8 +37192,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T03:47:16.772304446Z",
+    "timestamp": "2026-08-29T03:47:31.569190899Z",
     "agent_id": "OL2r",
-    "agent_seq": 2795
+    "agent_seq": 2796
   }
 }
