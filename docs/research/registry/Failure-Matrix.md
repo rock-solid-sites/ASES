@@ -91,7 +91,7 @@ Confidence levels reflect the quantity and quality of supporting evidence:
 | **Agent completes work but fails to finalize** — agent performs the substantive work but cannot post result comments, write .kickoff-status, or complete handoff procedures | **Finalization permission/verification** — system verifies that post-work artifacts (result comments, status files) are written; escalation on finalization failure | 2026-08-18: all 5 auditor agents completed analysis but failed to finalize — auditor role blocks echo/file-write tools; tracked as #398 + #355; agents finish substantive work but cannot close the loop due to permission model gaps; ADDITIONAL: pp3g-Fsyf (#408 inventory completed, 39-entry across 10 repos, comment never landed — recovered by orchestrator); pp3g-gUUV (#404 verdict agent BELIEVED it posted and verified, comment was absent — recovered from pane); pp3g-qO5v (#410 — process exited after posting, .kickoff-status never written, still 'RUNNING'); pp3g-Jo2n (#404 first verification, sandbox restrictions blocked posting); pp3g-ATNS (#407 failure-matrix update, timed out at finalization, work recovered) — 6+ instances today; root cause is role-permission gap (auditor role blocks session start/comment posting), not model-specific | High (6+ instances today, role-permission root cause identified) | Partial — hook can verify finalization artifacts exist; but role-permission gaps require architectural fix |
 | **Model catalog stale / whitelist blocks new models** — local model catalog (models.dev cache) lags the live API; whitelist in plugin.ts/dynamic-models.ts blocks newly-added free models | **Authoritative model catalog + whitelist sync** — plugin whitelist must sync with live model registry; stale cache must be detected and refreshed | 2026-08-18: local 'opencode models' cache showed 5 models vs Zen API's 62; whitelist in plugin.ts/dynamic-models.ts blocked hy3-free and muse-spark-1.2; tracked as Tools #4 | Moderate | Yes — cache invalidation on model list fetch; dynamic whitelist update from live catalog |
 | **Free-model stall pattern** — free-tier Zen models (big-pickle, deepseek-flash-free, laguna) repeatedly stall or time out on substantial tasks while paid models (Mimo-v2.5) complete consistently | **Model-routing awareness** — system must factor model tier/capability into dispatch decisions; free-model failures should trigger routing adjustment | 2026-08-18: big-pickle, deepseek-flash-free, laguna all timed out on substantial tasks; only paid Mimo-v2.5 consistently completed; free Zen models are rate-limited with opaque limits; evidence supports tier-aware routing decisions; ADDITIONAL: big-pickle startup stall (pp3g-cCNd, #404 progress-check, 2.2% CPU, blank pane since launch, no heartbeat, killed at 17m — never produced output) | High (multiple free models stall; big-pickle adds startup-stall pattern to timeout pattern) | Partial — routing matrix already exists but not enforced; hook could auto-downgrade on stall pattern |
-| **Disk-pressure environmental crashes** — disk saturation (100% usage) causes agent crashes, stalls, and degraded system behavior | **Resource monitoring + preemptive cleanup** — system monitors disk pressure and triggers cleanup before saturation; agents detect and report resource constraints | 2026-08-18: disk hit 100% causing agent crashes/stalls; cleanup (cargo clean + repo removal) freed ~15G; environmental failure contributor — not a workflow logic bug but an infrastructure constraint | Single observation | Partial — disk monitoring can alert; but cleanup is manual and project-specific |
+| **Go API key stale (auth.json vs env)** — operator rotates `OPENCODE_GO_API_KEY` in the shell but builders read `~/.local/share/opencode/auth.json` (`opencode-go.key`), so the fresh key is never consumed and builders park on the exhausted workspace | **Key-store pre-flight + sync** — before any kickoff, verify `auth.json` key prefix equals env key prefix and that `opencode.log` has no `Monthly usage limit reached` for the active workspace; one-command sync `auth.json ← env` (or re-export if DB is fresher); cheapest-test `curl …/zen/go/v1/chat/completions` streams SSE not `Monthly usage limit` | 2026-08-27 #510/#512: workspace `wrk_01KZF2ZCX2J3H5S248MFCWH3CE` monthly-limit at 13:06:52 parked two durable builders on #510 (`AI_APICallError: Monthly usage limit reached. Resets in 11 days…` + `AI_RetryError: Failed after 3 attempts…` + `retry nextDelay=982…000`); env held a fresh key at 1.9% but `auth.json` still held the exhausted predecessor for `wrk_01KZF…`; fixed 13:38 by updating `auth.json` to `sk-yvUg9…` (now streams SSE); verified 15:33 `ses_fbc24c189ffeH3um1r564nlFAW` (`opencode-go/muse-spark-1.2-contributor`) streams with zero monthly-limit errors and direct `curl` SSE succeeds | High (parked fleet; reproduced via direct API call; fix verified live) | Yes — pre-kickoff hook: compare `auth.json` vs env key prefix, grep `opencode.log` for `Monthly usage limit.*wrk_01KZF`, refuse launch on mismatch or recent park; sync command in `model-discipline.md` |
 
 ---
 
@@ -140,14 +140,18 @@ Based on confidence level and hookability, prioritized for implementation:
 10. **Agent completes work but fails to finalize** — hook can verify finalization artifacts exist; but role-permission gaps require architectural fix
 11. **Free-model stall pattern** — routing matrix already exists but not enforced; hook could auto-downgrade on stall pattern
 
+### High Priority (Go key cold path)
+
+12. **Go API key stale (auth.json vs env)** — pre-kickoff key-store check + log grep + one-command sync; cheapest-test `curl` SSE before dispatch
+
 ### Lower Priority (Emerging/Preliminary/Single-Observation Confidence)
 
-12. **Queue item disappears** — crosslink issue tracking provides some durability
-13. **Timer disappears** — crosslink checkpoint contract provides some durability
-14. **Agent legitimately exceeds duration** — requires human judgment
-15. **Worktree disappears** — requires manual intervention
-16. **Orchestrator loses context** — inherent LLM limitation; partial mitigation via history
-17. **Disk-pressure environmental crashes** — disk monitoring can alert; but cleanup is manual and project-specific
+13. **Queue item disappears** — crosslink issue tracking provides some durability
+14. **Timer disappears** — crosslink checkpoint contract provides some durability
+15. **Agent legitimately exceeds duration** — requires human judgment
+16. **Worktree disappears** — requires manual intervention
+17. **Orchestrator loses context** — inherent LLM limitation; partial mitigation via history
+18. **Disk-pressure environmental crashes** — disk monitoring can alert; but cleanup is manual and project-specific
 
 ---
 
@@ -168,6 +172,7 @@ This is a **living document** updated at the end of every session and reviewed r
 |------|--------|--------|
 | 2026-08-18 | Initial creation with 13 failure classes seeded from today's incidents and historical documentation | pp3g-5w3e builder agent |
 | 2026-08-18 | Post-407 evidence pass: added 6+ finalization-gap instances (pp3g-Fsyf, pp3g-gUUV, pp3g-qO5v, pp3g-Jo2n, pp3g-ATNS, pp3g-cCNd context), big-pickle startup stall (pp3g-cCNd), qO5v/ATNS timeout evidence, Worker-die subclass note (qO5v is finalization-miss not crash) | pp3g-w8pi builder agent |
+| 2026-08-27 | Added Go API key stale row: `wrk_01KZF2ZCX2J3H5S248MFCWH3CE` monthly-limit park 13:06:52, `auth.json` vs env divergence, one-command sync, log signatures, verification via live `muse-spark` session + `curl` SSE | auth-verify builder (#512) |
 
 ---
 
