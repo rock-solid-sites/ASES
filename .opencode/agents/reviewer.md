@@ -1,6 +1,6 @@
 ---
 description: Code Reviewer agent for ASES. Deep read-only review, design critique, bug hunting. Produces review findings.
-mode: primary
+mode: subagent
 temperature: 0.1
 permission:
   edit: deny
