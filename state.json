@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 3029,
+  "next_comment_id": 3030,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24765,7 +24765,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T00:12:13.099416171Z",
+      "updated_at": "2026-08-29T00:13:10.079398011Z",
       "labels": [
         "feature"
       ],
@@ -24862,6 +24862,15 @@
           "driver_key_fingerprint": "SHA256:zGzmtgnoZhXU4eO6KSQsgBUaiDEkB/tJTAYgLkcxm+w",
           "signed_by": "SHA256:egmHhRS+tsPpGasbhJhLpdnGm7GmwfiRdGl18Cj/qRU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPmYDIBouJDPnHv1fm6rmLE2gG9JBgo7ZX5QXxMLEyuEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA9VFPNOi7S5wev6S5RI1vk/tyIt49LLGVzKmsy0yWX6hnzcabUxw915qfJAkoLVJ3c0uK13pgdG11bebeW2k/AQ=="
+        },
+        "57cdb46f-9727-4b02-b2ee-6e7125afac83": {
+          "display_id": 3029,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Result: Killed 3 orphaned tmux sessions for #510 — pp3g-P47i/qe5t/OIN4-stop-button-3-way-a/b/c-phase-0-6-point-probe-idle-stream. Each was verified orphaned BEFORE kill: pane showed 'Terminated' + dead shell prompt, pane shell had zero child processes, and their worktrees (stop-button-a/b/c) were already removed by prior LsgC cleanup. Also reaped 2 stale keeper watcher procs (PIDs 2515994 stop-button-b, 2539291 stop-button-c) — orphans for removed worktrees, NOT the protected keeper 90458364; they self-terminated once their tmux sessions died. KEPT: stop-button worktree at commit 90458364 (the 'keeper') + my own session (pp3g-pdgm-...). VERIFIED after: exact-name check confirms all 3 target sessions GONE; no live opencode/claude agent processes for stop-button-a/b/c; keeper 90458364 worktree still reachable (git rev-parse 90458364). No git/code changes (ops cleanup only). WHY: these are exactly the 'orphan after UI restart' case the stop-button feature targets — agent fiber died but tmux session+shell persisted. WHAT basis: tmux capture-pane + ps process-tree inspection + worktree-removal record. HOW CERTAIN: evidence-based (pane content 'Terminated', empty child process sets, prior cleanup handoff). WHAT-NOT-TESTED: none — full state verified pre and post kill.",
+          "created_at": "2026-08-29T00:13:10.073543233Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkx9lxCR1OPhSGNkFiXbYW76dzrZbNEr26l0RnSlpE8iVrvV/T8G5k7LNqdTPcyvFTMUoMOGq0AD+t4M6LFAHAQ=="
         },
         "664339a7-26e4-482b-ba3f-6afce05e7517": {
           "display_id": 2897,
@@ -36551,8 +36560,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T00:13:00.379535113Z",
-    "agent_id": "pp3g-UFhR-track-c-gap-matrix-advisory-build-8x4-semantic-matrix",
-    "agent_seq": 4
+    "timestamp": "2026-08-29T00:13:10.079398011Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 25
   }
 }
