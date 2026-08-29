@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3100,
+  "next_comment_id": 3101,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25037,7 +25037,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T04:11:24.060042715Z",
+      "updated_at": "2026-08-29T04:13:51.410206091Z",
       "labels": [
         "feature"
       ],
@@ -25242,6 +25242,15 @@
           "kind": "result",
           "signed_by": "SHA256:jWxqu7K0Euxeoq+3HoJ53jKB2NTPtY9Xp0/ZUu03KPI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtzpADia4GoApV4wjcvq9i8a6o0UvGU4lhC0i/9+AV2sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGyWW49iInNgVNkWcduFawN1fL2ZfLs3F1OmwHmlNKY9UprczWDrrlWIbIMSnTk8g63vMV4T1i56qNHlXFZ4oAA=="
+        },
+        "71b9a356-e58f-439e-974b-715ea8fdeab2": {
+          "display_id": 3100,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Result: Added 'opencode2' shell function to ~/.bash_aliases (crosslink #510), mirroring the existing 'opencode' function so it defaults to the keeper worktree on login alongside opencode.\n\nWHAT: ~/.bash_aliases now defines opencode2() parallel to opencode(): it cd's into ASES_KEEPER_WT (feature/stop-button @ /home/claude-code/projects/ASES/.worktrees/stop-button, commit 90458364) by default, with the same smart-default (uses $PWD when cwd is already inside a git work tree, so other worktrees keep working). The real opencode2 binary (official @opencode-ai/cli, resolved from PATH via 'command opencode2') is invoked, preserving its behaviour. Header comment updated to cover opencode2; the 'keeper' function and ASES_KEEPER_WT export are unchanged.\n\nWHY: The operator wants, on login, opencode2 to open the surviving keeper worktree by default alongside opencode, rather than requiring a manual cd. Environment convenience, not a code change, so it lives in operator home, not the repo (consistent with the prior opencode-alias deliverable at 2026-08-29 03:56).\n\nHOW CERTAIN: Evidence-based. Verified: bash -n syntax OK; 'type opencode2' resolves as a function; end-to-end 'opencode2 --version' from /home/claude-code cd's into the keeper and launches the official binary (prints v0.0.0-beta-17963); a sentinel ASES_KEEPER_WT test from a non-git dir proves the function honors the keeper var (cd to sentinel fails -> binary not launched, exit 1); smart-default probe confirms it selects the current git project when inside one and the keeper otherwise (temp repo -> temp repo; /home/claude-code and /tmp -> keeper).\n\nWHAT-NOT-TESTED: Did not launch the interactive opencode2 TUI (would block); verified via --version + target-selection probe. Did not test an actual SSH/login shell spawn, but the sourcing chain (~/.profile -> ~/.bashrc -> ~/.bash_aliases) is standard and was confirmed by the prior opencode-alias deliverable. Pre-existing unrelated working-tree changes (reviewer.md mode, sandbox/restrict.sh) left untouched; no repo commit (deliverable is in operator home, not the repo).",
+          "created_at": "2026-08-29T04:13:51.402114280Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGBIDRmCnkL2Sl9+X4LD26JLzttlpWBvjuN+r6rjDaYjmLkwFxEHp53Uu8QZ0+UQHI+PRRkWhnLIGVFkh3wZbBw=="
         },
         "7387ed3c-671c-45b9-9c6b-7de095f1dc16": {
           "display_id": 3054,
@@ -37277,8 +37286,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T04:11:24.060042715Z",
+    "timestamp": "2026-08-29T04:13:51.410206091Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 57
+    "agent_seq": 58
   }
 }
