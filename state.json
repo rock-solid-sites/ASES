@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 3052,
+  "next_comment_id": 3053,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24874,7 +24874,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T01:39:02.440892797Z",
+      "updated_at": "2026-08-29T01:39:43.022552547Z",
       "labels": [
         "feature"
       ],
@@ -25070,6 +25070,15 @@
           "kind": "observation",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAycU5ZEw976icgKk+JfUg0zD3p84jBe9wZIwKhLzlqLyRGOa5qszbOdAWDJE1WamBgNyXReeDtS5PwdfPHhHMCQ=="
+        },
+        "999ecc8e-3947-4194-9a3b-4c048fb101fa": {
+          "display_id": 3052,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Issue #510 stop-button: TUI typecheck fixed (sdk.client.v2.session.interrupt) and committed (d8cd1535). Live 6-point interrupt probe run against authenticated opencode :49374. Verified: idle interrupt 204 no-op + post-interrupt prompt 200. NOT verified (N/A): stream-kill/tool-kill/no-orphan fences — agent on that server does not spawn shell-tool children and generations finish <2s, so running state unobservable. Original probe FAIL was false positive from 3 probe bugs (URL doubling, pgrep 'sleep 30' colliding with 'sleep 300' watchers, wrong prompt body); all fixed in committed probe script. Core #510 placebo concern (does interrupt truly kill a running fiber?) remains UNVERIFIED — needs a server that runs tool children or a handler unit test. Handoff: see issue #510 result comment.",
+          "created_at": "2026-08-29T01:39:43.016460203Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAR9WuMVmvF6GE9oIM0+5bGaAOWc5JcXEK37BXcVLLuU0TxczAg92HteyS9eZd+5ALjqqeOD7Irvgaknt/twR2Bg=="
         },
         "9a67c685-75dd-4f8b-ba0e-ab29d28e73e5": {
           "display_id": 2991,
@@ -36750,8 +36759,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T01:39:29.771037656Z",
+    "timestamp": "2026-08-29T01:39:43.022552547Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 39
+    "agent_seq": 40
   }
 }
