@@ -1,6 +1,6 @@
 {
   "next_display_id": 523,
-  "next_comment_id": 3242,
+  "next_comment_id": 3243,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25975,7 +25975,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T17:31:05.149038501Z",
+      "updated_at": "2026-08-29T17:31:15.479464343Z",
       "labels": [
         "feature"
       ],
@@ -26765,6 +26765,15 @@
           "kind": "result",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM024ccvfx/f0pqYKjuYQ5kS+NDNelx8Er6lyJDM5tEdvVrNWWVLJlbV57eMxo6FnW4zO3GjJdr8YOvB3IXcQBw=="
+        },
+        "f1023ae3-ecbc-4d0a-a58b-c30bc07db464": {
+          "display_id": 3242,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Result: Debounce orphan fix + 9-point live probe + Universal Checklist §§5-16 conformance (issue #510, branch feature/stop-button, commit f19df87c).\n\nWHAT:\n- Fix handleStopClick debounce orphan in fork/opencode-src/packages/tui/src/component/prompt/index.tsx: removed lastInterruptAt gate before dialog (which orphaned retry after No within 1s), wrapped dialog await in try/finally guaranteeing isConfirming reset on Esc/dismiss race, and added lastInterruptAt 1s debounce + log at the YES→interrupting fence only.\n- Extend probe to 9 points: 7 concurrency (two concurrent POST /interrupt → 204/204 idempotent, session idle), 8 temporal (rapid 200ms duplicate coalesced + observed vs authoritative reconciliation via wait_status idle + recovery prompt 200), 9 transport (idle 204 acceptance vs running 204+settle completion vs duplicate 204 all distinct). All 12 SKIP gracefully when server down (exit 3, code-inspection stands).\n- Pure machine: export STOP_BUTTON_EVENTS (11), STOP_BUTTON_TRANSITIONS, forbiddenTransitions() (28 = 44-16); add conformance headers mapping §§5-8.\n- Expand stop-button-machine.test.ts from 12→16 tests (569 lines): §§5 State Model Completeness (states/events/guards/permitted/forbidden/effects/identity/settlement/invariants/concurrency/boundaries) and §6 State Conformance per-state audits, plus 4 new tests debounce-orphan (Stop→No→Stop still confirming), concurrency idempotence, temporal no-spurious-idle, transport acceptance distinct.\n- Add fork/opencode-src/packages/core/test/stop-button-identity-ownership-resource.test.ts (779 lines): §§10 Identity (per-key pendingWake isolation), §11 Ownership (Fiber+active), §12 Resource (LLM stream / tool Process / retry Deferred lifetimes & settlement signals incl. pgrep 0), §13 External Boundary (SDK→handler→coordinator thin delegation, 204 vs settle, unavailability 404 no-op).\n- Instantiate docs/conformance/Stop-Button-Conformance-Suite.md (430 lines) covering all 36 universal dimensions, grounding §§14-16 in live probe 7-9 + coordinator concurrent tests and the debounce-orphan fix; §§24/30 adversarial review marked BLOCKED pending fresh context.\n\nWHY: Placebo 204 while fiber/tool/401-429 lives is worse than no button, and a debounce orphan that silently blocks retry after cancel is a temporal correctness violation (§15) that hides behind model-permitted transitions. Mechanical enforcement (statechart owns lifecycle, engine schedules via Fiber.interrupt) requires both the pure gate and the temporal/transport discriminating tests.\n\nHOW CERTAIN: evidence-based. tui 235 pass 1 skip 613→1183 expects (46 files), core 1107 pass 0 fail, core typecheck clean, probe bash -n OK and probe_exit 3 SKIP (server down) rehearsed, machine file zero-imports arity-2 pure verified. Regression guard: prior placebo tests still pass (Fiber.interrupt neuter would fail).\n\nWHAT-NOT-TESTED: tui tsgo --noEmit SIGTERM/OOM in this env (tui core typecheck clean via tsc + bun test instead); handler round-trip integration thin delegation only code-inspected; live tool-child still N/A on :49374 (covered at coordinator seam); adversarial review §§24/30 still BLOCKED (requires fresh zero-context); Phase5 hardening (Kani/proptest + @xstate/test execution) deferred. Commit f19df87c on feature/stop-button.",
+          "created_at": "2026-08-29T17:31:15.472717379Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMv9BDwfUdjkvKGDjwAVFKjo3ouTDDV/Zx8F1rJ7VRx5/HfWARlixlvBavkri33Qap3ik8u7j0wk2GRku2GseBQ=="
         },
         "f327cea4-e72a-46e5-b553-f3d7ec04a8e3": {
           "display_id": 3200,
@@ -38566,8 +38575,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T17:31:05.149038501Z",
+    "timestamp": "2026-08-29T17:31:15.479464343Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 104
+    "agent_seq": 105
   }
 }
