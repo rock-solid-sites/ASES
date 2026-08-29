@@ -1,0 +1,351 @@
+{
+  "version": "0.1.0",
+  "derived_from": "authoritative/schemas.json@0.1.0",
+  "generated_at": "2026-08-29T00:00:00Z",
+  "variant": "C",
+  "description": "Stable operation ID + one-line description (<=20 words) + parameter names/types + enum literals per \u00a74",
+  "capabilities": [
+    {
+      "op_id": "search_artefacts",
+      "summary": "Search artefacts by free-text query with pagination.",
+      "params": [
+        {
+          "name": "query",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "get_artefact",
+      "summary": "Retrieve a single artefact by its stable identifier.",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "op_id": "create_artefact",
+      "summary": "Create a new artefact of a given type with title, optional body, and optional tags.",
+      "params": [
+        {
+          "name": "type",
+          "type": "string",
+          "required": true,
+          "enum": [
+            "spec",
+            "decision",
+            "evidence",
+            "review"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "body",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "tags",
+          "type": "array<string>",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "update_artefact_status",
+      "summary": "Transition an artefact to a new lifecycle status with optional reason.",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true,
+          "enum": [
+            "draft",
+            "active",
+            "archived"
+          ]
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "create_review",
+      "summary": "Create a review verdict for an artefact with rationale and optional citations.",
+      "params": [
+        {
+          "name": "artefact_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "verdict",
+          "type": "string",
+          "required": true,
+          "enum": [
+            "approve",
+            "request_changes",
+            "reject"
+          ]
+        },
+        {
+          "name": "severity",
+          "type": "string",
+          "required": false,
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        {
+          "name": "rationale",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "citations",
+          "type": "array<string>",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "set_severity",
+      "summary": "Set the severity level for an artefact.",
+      "params": [
+        {
+          "name": "artefact_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "level",
+          "type": "string",
+          "required": true,
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      ]
+    },
+    {
+      "op_id": "set_artefact_state",
+      "summary": "Set the lifecycle state for an artefact.",
+      "params": [
+        {
+          "name": "artefact_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "required": true,
+          "enum": [
+            "draft",
+            "active",
+            "archived"
+          ]
+        },
+        {
+          "name": "comment",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "query_metrics",
+      "summary": "Query aggregate metrics with optional grouping and faceting.",
+      "params": [
+        {
+          "name": "filter",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "group_by",
+          "type": "string",
+          "required": false,
+          "enum": [
+            "type",
+            "status",
+            "severity"
+          ]
+        },
+        {
+          "name": "include_facets",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "list_reviews",
+      "summary": "List reviews with optional filtering by artefact and verdict.",
+      "params": [
+        {
+          "name": "artefact_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "verdict",
+          "type": "string",
+          "required": false,
+          "enum": [
+            "approve",
+            "request_changes",
+            "reject"
+          ]
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "get_capability_schema",
+      "summary": "Retrieve the authoritative schema for a capability by operation ID and optional version.",
+      "params": [
+        {
+          "name": "op_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "submit_evidence",
+      "summary": "Attach evidence items to an artefact.",
+      "params": [
+        {
+          "name": "artefact_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "evidence_items",
+          "type": "array<object>",
+          "required": true
+        },
+        {
+          "name": "note",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "link_artefacts",
+      "summary": "Create directed links between artefacts with a typed relation.",
+      "params": [
+        {
+          "name": "source_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "target_ids",
+          "type": "array<string>",
+          "required": true
+        },
+        {
+          "name": "relation",
+          "type": "string",
+          "required": true,
+          "enum": [
+            "depends_on",
+            "supersedes",
+            "relates_to"
+          ]
+        },
+        {
+          "name": "bidirectional",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "archive_artefact",
+      "summary": "Archive an artefact with a reason and optional superseding artefact reference.",
+      "params": [
+        {
+          "name": "artefact_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "superseded_by",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "op_id": "validate_payload",
+      "summary": "Validate an arbitrary payload against the authoritative schema for a given operation ID.",
+      "params": [
+        {
+          "name": "op_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "payload",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "strict",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

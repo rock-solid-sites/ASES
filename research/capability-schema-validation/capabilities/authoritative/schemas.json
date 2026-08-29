@@ -1,0 +1,659 @@
+{
+  "version": "0.1.0",
+  "generated_at": "2026-08-29T00:00:00Z",
+  "description": "Authoritative capability schemas for capability-schema-validation (14 ops, 6 categories, version 0.1.0). Canonical source for runtime validation.",
+  "json_schema_dialect": "http://json-schema.org/draft-07/schema#",
+  "capabilities": [
+    {
+      "op_id": "search_artefacts",
+      "title": "Search artefacts",
+      "description": "Search artefacts by free-text query with pagination. Returns matching artefacts, total count, and pagination cursor.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Free-text search query",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum results to return",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from previous response",
+            "pattern": "^cur_[a-z0-9]+$"
+          }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+                "title": { "type": "string" },
+                "type": { "type": "string", "enum": ["spec", "decision", "evidence", "review"] }
+              },
+              "required": ["id", "title", "type"]
+            }
+          },
+          "total": { "type": "integer", "minimum": 0 },
+          "cursor": { "type": "string", "pattern": "^cur_[a-z0-9]+$" },
+          "has_more": { "type": "boolean" }
+        },
+        "required": ["items", "total", "has_more"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "ValidationFailed", "description": "Query or pagination parameter violates schema constraints" },
+        { "code": "PolicyDenied", "description": "Caller lacks permission to search artefacts" }
+      ]
+    },
+    {
+      "op_id": "get_artefact",
+      "title": "Get artefact by ID",
+      "description": "Retrieve a single artefact by its stable identifier. Returns full artefact record.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Artefact stable identifier",
+            "pattern": "^art_[a-z0-9-]+$"
+          }
+        },
+        "required": ["id"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "type": { "type": "string", "enum": ["spec", "decision", "evidence", "review"] },
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "status": { "type": "string", "enum": ["draft", "active", "archived"] },
+          "created_at": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "type", "title", "status", "created_at"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "No artefact exists with the given id" },
+        { "code": "ValidationFailed", "description": "ID does not match required pattern" }
+      ]
+    },
+    {
+      "op_id": "create_artefact",
+      "title": "Create artefact",
+      "description": "Create a new artefact of a given type with title, optional body, and optional tags.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Artefact type",
+            "enum": ["spec", "decision", "evidence", "review"]
+          },
+          "title": {
+            "type": "string",
+            "description": "Human-readable title",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "body": {
+            "type": "string",
+            "description": "Artefact body content",
+            "maxLength": 5000
+          },
+          "tags": {
+            "type": "array",
+            "description": "Free-form tags",
+            "items": { "type": "string", "minLength": 1, "maxLength": 30 },
+            "maxItems": 10
+          }
+        },
+        "required": ["type", "title"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "type": { "type": "string", "enum": ["spec", "decision", "evidence", "review"] },
+          "title": { "type": "string" },
+          "status": { "type": "string", "const": "draft" }
+        },
+        "required": ["id", "type", "title", "status"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "ValidationFailed", "description": "Type/title/body/tags violate schema" },
+        { "code": "Conflict", "description": "Artefact with same title and type already exists" },
+        { "code": "PolicyDenied", "description": "Caller lacks create permission" }
+      ]
+    },
+    {
+      "op_id": "update_artefact_status",
+      "title": "Update artefact status",
+      "description": "Transition an artefact to a new lifecycle status with optional reason.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "active", "archived"]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": ["id", "status"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "previous_status": { "type": "string", "enum": ["draft", "active", "archived"] },
+          "new_status": { "type": "string", "enum": ["draft", "active", "archived"] }
+        },
+        "required": ["id", "previous_status", "new_status"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "Artefact not found" },
+        { "code": "ValidationFailed", "description": "Status value or reason violates schema" },
+        { "code": "Conflict", "description": "Illegal status transition" }
+      ]
+    },
+    {
+      "op_id": "create_review",
+      "title": "Create review",
+      "description": "Create a review verdict for an artefact with rationale and optional citations. Multi-parameter operation (5 params, mixed required/optional).",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "verdict": {
+            "type": "string",
+            "enum": ["approve", "request_changes", "reject"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 2000
+          },
+          "citations": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+            "maxItems": 10
+          }
+        },
+        "required": ["artefact_id", "verdict", "rationale"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "review_id": { "type": "string", "pattern": "^rev_[a-z0-9-]+$" },
+          "artefact_id": { "type": "string" },
+          "verdict": { "type": "string", "enum": ["approve", "request_changes", "reject"] },
+          "created_at": { "type": "string", "format": "date-time" }
+        },
+        "required": ["review_id", "artefact_id", "verdict", "created_at"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "Artefact not found" },
+        { "code": "ValidationFailed", "description": "Verdict/severity/rationale/citations violate schema" }
+      ]
+    },
+    {
+      "op_id": "set_severity",
+      "title": "Set severity",
+      "description": "Set the severity level for an artefact. Enum-constrained operation.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "level": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          }
+        },
+        "required": ["artefact_id", "level"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string" },
+          "previous_level": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "new_level": { "type": "string", "enum": ["critical", "high", "medium", "low"] }
+        },
+        "required": ["artefact_id", "previous_level", "new_level"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "Artefact not found" },
+        { "code": "ValidationFailed", "description": "Level is not a valid enum value" }
+      ]
+    },
+    {
+      "op_id": "set_artefact_state",
+      "title": "Set artefact state",
+      "description": "Set the lifecycle state for an artefact. Enum-constrained operation.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "state": {
+            "type": "string",
+            "enum": ["draft", "active", "archived"]
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 500
+          }
+        },
+        "required": ["artefact_id", "state"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string" },
+          "previous_state": { "type": "string", "enum": ["draft", "active", "archived"] },
+          "new_state": { "type": "string", "enum": ["draft", "active", "archived"] }
+        },
+        "required": ["artefact_id", "previous_state", "new_state"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "Artefact not found" },
+        { "code": "ValidationFailed", "description": "State value violates enum" },
+        { "code": "Conflict", "description": "Illegal state transition" }
+      ]
+    },
+    {
+      "op_id": "query_metrics",
+      "title": "Query metrics",
+      "description": "Query aggregate metrics with optional grouping and faceting. Structured-output operation with nested schema.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["spec", "decision", "evidence", "review"] },
+              "since": { "type": "string", "format": "date-time" },
+              "until": { "type": "string", "format": "date-time" }
+            },
+            "additionalProperties": false
+          },
+          "group_by": {
+            "type": "string",
+            "enum": ["type", "status", "severity"]
+          },
+          "include_facets": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": ["filter"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": { "type": "string" },
+                "count": { "type": "integer", "minimum": 0 },
+                "avg_score": { "type": "number", "minimum": 0, "maximum": 1 }
+              },
+              "required": ["key", "count"],
+              "additionalProperties": false
+            }
+          },
+          "total": { "type": "integer", "minimum": 0 },
+          "cursor": { "type": "string", "pattern": "^cur_[a-z0-9]+$" },
+          "facets": {
+            "type": "object",
+            "properties": {
+              "by_type": {
+                "type": "object",
+                "additionalProperties": { "type": "integer", "minimum": 0 }
+              },
+              "by_status": {
+                "type": "object",
+                "additionalProperties": { "type": "integer", "minimum": 0 }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": ["items", "total"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "ValidationFailed", "description": "Filter or grouping parameter violates schema" }
+      ]
+    },
+    {
+      "op_id": "list_reviews",
+      "title": "List reviews",
+      "description": "List reviews with optional filtering by artefact and verdict.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "verdict": { "type": "string", "enum": ["approve", "request_changes", "reject"] },
+          "limit": { "type": "integer", "minimum": 1, "maximum": 50, "default": 20 }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "reviews": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "review_id": { "type": "string", "pattern": "^rev_[a-z0-9-]+$" },
+                "artefact_id": { "type": "string" },
+                "verdict": { "type": "string", "enum": ["approve", "request_changes", "reject"] },
+                "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+                "created_at": { "type": "string", "format": "date-time" }
+              },
+              "required": ["review_id", "artefact_id", "verdict", "created_at"]
+            }
+          },
+          "total": { "type": "integer", "minimum": 0 },
+          "cursor": { "type": "string", "pattern": "^cur_[a-z0-9]+$" }
+        },
+        "required": ["reviews", "total"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "ValidationFailed", "description": "Filter parameter violates schema" }
+      ]
+    },
+    {
+      "op_id": "get_capability_schema",
+      "title": "Get capability schema",
+      "description": "Retrieve the authoritative schema for a capability by operation ID and optional version.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "op_id": { "type": "string", "minLength": 1, "maxLength": 64 },
+          "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" }
+        },
+        "required": ["op_id"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "op_id": { "type": "string" },
+          "version": { "type": "string" },
+          "schema": { "type": "object" }
+        },
+        "required": ["op_id", "version", "schema"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "No capability with that op_id" },
+        { "code": "ValidationFailed", "description": "op_id or version pattern violated" },
+        { "code": "VersionMismatch", "description": "Requested version does not match authoritative version" }
+      ]
+    },
+    {
+      "op_id": "submit_evidence",
+      "title": "Submit evidence",
+      "description": "Attach evidence items to an artefact. Array/nested operation with optional note.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "evidence_items": {
+            "type": "array",
+            "description": "One or more evidence records",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": { "type": "string", "minLength": 1, "maxLength": 100 },
+                "url": { "type": "string", "format": "uri", "maxLength": 500 },
+                "content": { "type": "string", "minLength": 1, "maxLength": 2000 },
+                "weight": { "type": "number", "minimum": 0, "maximum": 1 }
+              },
+              "required": ["source", "content"],
+              "additionalProperties": false
+            }
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 500
+          }
+        },
+        "required": ["artefact_id", "evidence_items"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string" },
+          "accepted_count": { "type": "integer", "minimum": 0 },
+          "evidence_ids": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^ev_[a-z0-9-]+$" }
+          }
+        },
+        "required": ["artefact_id", "accepted_count", "evidence_ids"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "Artefact not found" },
+        { "code": "ValidationFailed", "description": "Evidence item violates schema" }
+      ]
+    },
+    {
+      "op_id": "link_artefacts",
+      "title": "Link artefacts",
+      "description": "Create directed links between artefacts with a typed relation.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "source_id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "target_ids": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+            "minItems": 1,
+            "maxItems": 10
+          },
+          "relation": {
+            "type": "string",
+            "enum": ["depends_on", "supersedes", "relates_to"]
+          },
+          "bidirectional": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": ["source_id", "target_ids", "relation"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "source_id": { "type": "string" },
+          "linked": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "target_id": { "type": "string" },
+                "relation": { "type": "string", "enum": ["depends_on", "supersedes", "relates_to"] }
+              },
+              "required": ["target_id", "relation"]
+            }
+          },
+          "created": { "type": "integer", "minimum": 0 }
+        },
+        "required": ["source_id", "linked", "created"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "Source or target artefact not found" },
+        { "code": "ValidationFailed", "description": "Relation or ID pattern violated" },
+        { "code": "Conflict", "description": "Link already exists" }
+      ]
+    },
+    {
+      "op_id": "archive_artefact",
+      "title": "Archive artefact",
+      "description": "Archive an artefact with a reason and optional superseding artefact reference.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string", "pattern": "^art_[a-z0-9-]+$" },
+          "reason": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 500
+          },
+          "superseded_by": {
+            "type": "string",
+            "pattern": "^art_[a-z0-9-]+$"
+          }
+        },
+        "required": ["artefact_id", "reason"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "artefact_id": { "type": "string" },
+          "archived_at": { "type": "string", "format": "date-time" },
+          "previous_status": { "type": "string", "enum": ["draft", "active", "archived"] }
+        },
+        "required": ["artefact_id", "archived_at", "previous_status"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "NotFound", "description": "Artefact not found" },
+        { "code": "ValidationFailed", "description": "Reason or superseded_by violates schema" },
+        { "code": "Conflict", "description": "Artefact already archived" },
+        { "code": "PolicyDenied", "description": "Caller lacks archive permission" }
+      ]
+    },
+    {
+      "op_id": "validate_payload",
+      "title": "Validate payload",
+      "description": "Validate an arbitrary payload against the authoritative schema for a given operation ID. Returns validation outcome and normalized payload.",
+      "version": "0.1.0",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "op_id": { "type": "string", "minLength": 1, "maxLength": 64 },
+          "payload": { "type": "object" },
+          "strict": { "type": "boolean", "default": true }
+        },
+        "required": ["op_id", "payload"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "valid": { "type": "boolean" },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": { "type": "string" },
+                "code": { "type": "string" },
+                "constraint": { "type": "string" }
+              },
+              "required": ["field", "code"]
+            }
+          },
+          "normalized": { "type": "object" }
+        },
+        "required": ["valid"],
+        "additionalProperties": false
+      },
+      "errors": [
+        { "code": "ValidationFailed", "description": "Payload is not an object or op_id missing" },
+        { "code": "UnknownOperation", "description": "No capability with that op_id" }
+      ]
+    }
+  ]
+}
