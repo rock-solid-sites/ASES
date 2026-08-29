@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 3026,
+  "next_comment_id": 3027,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24756,7 +24756,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-28T22:24:27.231676501Z",
+      "updated_at": "2026-08-29T00:11:59.377651562Z",
       "labels": [
         "feature"
       ],
@@ -24925,6 +24925,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALAiuWGTOC7MkqNIQhQ8tm9g8C8DHlWdlyt4jbrKXOrSJuDoOv9C7tm4NsjPAS5MO+GOABW/lZCOvuHzM5BYFAw=="
+        },
+        "b8bd442b-5fdb-4e7d-8eba-6614f3cefe63": {
+          "display_id": 3026,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Kill 3 orphaned tmux sessions for #510 — pp3g-P47i/qe5t/OIN4-stop-button-3-way-a/b/c-phase-0-6-point-probe-idle-stream. VERIFIED orphaned: each pane shows 'Terminated' + dead shell prompt, pane shell has NO child processes, and their worktrees (stop-button-a/b/c) were already removed by prior cleanup (LsgC). KEEP: stop-button worktree at commit 90458364 (the 'keeper') + my own session (pp3g-pdgm-...). Also reap the 2 stale keeper watcher procs (PIDs 2515994 stop-button-b, 2539291 stop-button-c) — orphans for removed worktrees, NOT the protected keeper 90458364; they self-terminate once their tmux sessions die. Verify no live agent processes remain for these sessions. No git/code changes (ops cleanup only).",
+          "created_at": "2026-08-29T00:11:59.371746868Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA7lGyBRG2w/URAOMz2/cJl65vg5tOOxqJa0humxOQZUM4VL/qEBQ8zGcc4W5apUMp40yWvW/JpIFrRjpmEiMYAw=="
         },
         "bd1818a9-0c46-477f-b26d-16ced6159e71": {
           "display_id": 2903,
@@ -36524,8 +36533,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T00:11:35.281849037Z",
-    "agent_id": "pp3g-UFhR-track-c-gap-matrix-advisory-build-8x4-semantic-matrix",
-    "agent_seq": 3
+    "timestamp": "2026-08-29T00:11:59.377651562Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 23
   }
 }
