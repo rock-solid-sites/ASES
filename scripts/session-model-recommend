@@ -1,0 +1,814 @@
+#!/usr/bin/env python3
+"""
+session-model-recommend — cheapest suitable model recommender (advisory only).
+
+Joins live `opencode models` catalog (opencode + opencode-go) with
+docs/research/registry/Model-Routing-Matrix.md to emit per-task cheapest
+suitable model + runner-up + cost tier, plus staleness warnings.
+
+ADVISORY ONLY: never auto-selects or overrides an operator-named model
+(model-discipline rule #5). Operator choice remains authoritative.
+
+Usage:
+  scripts/session-model-recommend [--task-type <substr>] [--issue <num>]
+                                  [--actual-model <model-id>] [--json]
+                                  [--check-staleness-only] [--verbose]
+                                  [--matrix <path>]
+
+  --task-type <substr>   Filter routing table to task types matching substr
+                         (case-insensitive substring).
+  --issue <num>          Infer task type from issue labels (feature/research/
+                         bug/review etc). Requires crosslink CLI.
+  --actual-model <id>    Compare recommendation vs the model actually chosen
+                         (cheapest-test): prints ADVISORY / OVERRIDE note.
+  --json                 Machine-readable JSON output (still prints warnings).
+  --check-staleness-only Only emit staleness/forbidden warnings.
+  --verbose              Show catalog + matrix parse details.
+  --matrix <path>        Override matrix path (default:
+                         docs/research/registry/Model-Routing-Matrix.md).
+  --help                 Show this help.
+
+Examples:
+  scripts/session-model-recommend
+  scripts/session-model-recommend --task-type research --verbose
+  scripts/session-model-recommend --issue 516 --actual-model opencode-go/muse-spark-1.2-contributor
+  scripts/session-model-recommend --json | jq .
+
+Maintenance: routing matrix refresh cadence is weekly or when `opencode models`
+lists an ID not in the matrix (or vice versa). See Model-Routing-Matrix.md
+§ Maintenance and model-discipline.md. Filed under epic #255 OPERATIONAL DATA.
+
+Exit codes: 0 success (even with staleness warnings), 1 on catalog/matrix
+read failure, 2 on bad args.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+DEFAULT_MATRIX = "docs/research/registry/Model-Routing-Matrix.md"
+# Fallback cost tiers for models not in matrix (inferred from provider prefix)
+FALLBACK_TIER_FREE = 0
+FALLBACK_TIER_PAID_LOW = 2
+FALLBACK_TIER_PAID_MODERATE = 3
+
+# Curated cost-tier fallback for models NOT yet present in the Routing Matrix
+# (new catalog models are "suitability unknown" until evidenced there). When a
+# model IS in the matrix, its tier is parsed from the per-model "Token cost
+# profile" cell (see parse_cost_profiles / MATRIX_TIERS) — that is the primary
+# source. Lower tier = cheaper.
+COST_TIERS: dict[str, int] = {
+    # Tier 0 — free Zen (zero cash)
+    "opencode/big-pickle": 0,
+    "opencode/ling-3.0-flash-free": 0,
+    "opencode/laguna-s-2.1-free": 0,
+    "opencode/nemotron-3-ultra-free": 0,
+    "opencode/mimo-v2.5-free": 0,
+    "opencode/hy3-free": 0,
+    "opencode/muse-spark-1.2-contributor-free": 0,
+    "opencode/nemotron-3.5-lightning-free": 0,
+    # Tier 1 — very low paid / CI triage
+    "cohere/north-mini-code-1-0": 1,
+    # Tier 2 — low paid
+    "opencode-go/deepseek-v4-flash": 2,
+    "opencode-go/deepseek-v4-flash-vision-exp": 2,
+    "opencode-go/deepseek-v4-pro": 2,
+    "opencode/mimo-v2.5-free": 0,  # duplicate free variant already tier 0
+    # Tier 3 — moderate paid (hy3, glm, qwen, mimo paid, minimax)
+    "opencode-go/hy3": 3,
+    "opencode-go/hy3-preview": 3,
+    "opencode-go/hy4-preview": 3,
+    "opencode-go/glm-5": 3,
+    "opencode-go/glm-5.1": 3,
+    "opencode-go/glm-5.2": 3,
+    "opencode-go/glm-5.3": 3,
+    "opencode-go/glm-5.3-flash": 3,
+    "opencode-go/qwen3.5-plus": 3,
+    "opencode-go/qwen3.6-plus": 3,
+    "opencode-go/qwen3.7-plus": 3,
+    "opencode-go/qwen3.7-max": 3,
+    "opencode-go/qwen3.8-flash": 3,
+    "opencode-go/qwen3.8-max": 3,
+    "opencode-go/mimo-v2.5": 3,
+    "opencode-go/mimo-v2.5-pro": 3,
+    "opencode-go/mimo-v2-omni": 3,
+    "opencode-go/mimo-v2-pro": 3,
+    "opencode-go/minimax-m2.5": 3,
+    "opencode-go/minimax-m2.7": 3,
+    "opencode-go/minimax-m3": 3,
+    "opencode-go/longcat-2.0": 3,
+    "opencode-go/muse-spark-1.2-contributor": 2,  # observed 5-10m cheap, treat as low
+    "opencode-go/ox-alpha-free": 2,
+    # Tier 4 — higher/high paid
+    "opencode-go/gpt-5.6-luna": 4,
+    "google-vertex/gemini-3.1-pro-preview": 4,
+    "google-vertex/gemini-3.5-flash": 3,
+    "google-vertex/gemini-2.5-pro": 4,
+    # Tier 5 — extremely expensive (caution, not ban except grok)
+    "opencode-go/kimi-k3": 5,
+    "opencode/kimi-k3": 5,
+    "opencode-go/kimi-k2.5": 3,
+    "opencode-go/kimi-k2.6": 3,
+    "opencode-go/kimi-k2.7-code": 3,
+    "opencode/kimi-k2.7-code": 0,
+}
+
+TIER_LABELS: dict[int, str] = {
+    0: "FREE (Zen, zero cash)",
+    1: "VERY LOW (CI/triage)",
+    2: "LOW (paid, cheap)",
+    3: "MODERATE (paid)",
+    4: "HIGH (paid, deep)",
+    5: "VERY HIGH (expensive, caution)",
+}
+
+FORBIDDEN_PREFIXES = ("xai/", "grok", "opencode/grok", "opencode-go/grok")
+FORBIDDEN_EXACT = set()
+
+# Routing table fallback (mirrors matrix file, used if parse fails)
+FALLBACK_ROUTING: list[dict] = [
+    {"task": "Research / web investigation (cheap)", "recommended": "opencode-go/deepseek-v4-flash", "alternatives": ["opencode/muse-spark-1.2-contributor-free", "opencode-go/muse-spark-1.2-contributor"], "rationale": "Operator rule #147: preferred for research/web; cheap"},
+    {"task": "Deep source/mechanism investigation + controlled repro", "recommended": "opencode-go/deepseek-v4-flash", "alternatives": ["opencode-go/hy3"], "rationale": "Evidence-first method with verification tables"},
+    {"task": "Fork/plugin implementation with verification", "recommended": "opencode-go/deepseek-v4-flash", "alternatives": ["opencode-go/hy3"], "rationale": "Proven Rust + TS implementation with tests"},
+    {"task": "Design review: safety/state-machine/durability", "recommended": "opencode-go/gpt-5.6-luna", "alternatives": ["opencode/big-pickle", "opencode-go/hy3"], "rationale": "Systems/durability lens with named preconditions"},
+    {"task": "Fragile/emergency patch code review", "recommended": "opencode-go/gpt-5.6-luna", "alternatives": ["opencode-go/hy3"], "rationale": "MUST-FIX/SHOULD-CONSIDER taxonomy + long-horizon risk"},
+    {"task": "High-value adversarial review / audit", "recommended": "opencode-go/gpt-5.6-luna", "alternatives": ["opencode/big-pickle", "opencode-go/hy3"], "rationale": "Operator reservation for high-value work"},
+    {"task": "Deep adversarial review with live-system verification", "recommended": "opencode/big-pickle", "alternatives": ["opencode-go/gpt-5.6-luna", "opencode-go/hy3"], "rationale": "Breadth+adversarial, verified launch.rs live"},
+    {"task": "Permission/allowlist policy review", "recommended": "opencode/big-pickle", "alternatives": ["opencode-go/gpt-5.6-luna"], "rationale": "Exact prefix scoping + two-layer analysis"},
+    {"task": "Design review rounds (r1: edge cases, source verification)", "recommended": "opencode-go/hy3", "alternatives": ["opencode-go/gpt-5.6-luna", "opencode/big-pickle"], "rationale": "Finds what others miss; re-derives from source"},
+    {"task": "Implementation-readiness gate on patch code", "recommended": "opencode-go/hy3", "alternatives": ["opencode-go/gpt-5.6-luna"], "rationale": "Catches compile-level blockers (V1-V5)"},
+    {"task": "Fast independent review (minutes)", "recommended": "opencode/ling-3.0-flash-free", "alternatives": ["opencode/mimo-v2.5-free", "cohere/north-mini-code-1-0"], "rationale": "3-min patch review; category-structured"},
+    {"task": "Cheap free-tier triage", "recommended": "opencode/ling-3.0-flash-free", "alternatives": ["opencode/mimo-v2.5-free"], "rationale": "Fast, reliable, free"},
+    {"task": "Backup reviewer when primary hangs", "recommended": "opencode-go/deepseek-v4-flash", "alternatives": ["opencode-go/gpt-5.6-luna"], "rationale": "Paid fallback; nemotron free failed 2/2"},
+    {"task": "Fast design re-review PASS/CONDITIONAL gate", "recommended": "opencode/mimo-v2.5-free", "alternatives": ["opencode-go/hy3"], "rationale": "Structured findings-by-finding verification — pair with hy3"},
+    {"task": "Final architectural audit / sign-off", "recommended": "google-vertex/gemini-3.1-pro-preview", "alternatives": ["opencode-go/gpt-5.6-luna"], "rationale": "Comprehensive 6-category audit; budget >=3 min"},
+    {"task": "Open-ended architectural review (reject/replace verdict)", "recommended": "opencode-go/glm-5.2", "alternatives": ["opencode-go/qwen3.7-plus", "opencode/big-pickle"], "rationale": "Decisive Option-A verdicts with comparison tables"},
+    {"task": "Zero-context planning / plan remediation", "recommended": "opencode-go/deepseek-v4-flash", "alternatives": ["opencode-go/gpt-5.6-luna"], "rationale": "B1-B6 plan + C1-C4 revision, grounded on disk"},
+    {"task": "Large-document synthesis", "recommended": "opencode-go/deepseek-v4-flash", "alternatives": ["opencode-go/muse-spark-1.2-contributor", "opencode/muse-spark-1.2-contributor-free"], "rationale": "865-line synthesis of 7 one-shot reviews; muse-spark also proven 15-20m synthesis"},
+    {"task": "CI gate / implementation verification (fast)", "recommended": "cohere/north-mini-code-1-0", "alternatives": ["opencode/ling-3.0-flash-free"], "rationale": "~30s, zero false positives"},
+    {"task": "Two-tier review pipeline (triage -> deep)", "recommended": "cohere/north-mini-code-1-0", "alternatives": ["google-vertex/gemini-3.1-pro-preview"], "rationale": "Fast triage then deep audit"},
+]
+
+
+# Matrix-derived cost tiers (parsed from per-model "Token cost profile" cells).
+# PRIMARY source when a model is present in the matrix; COST_TIERS below is the
+# curated fallback for models not yet in the matrix (see the matrix Maintenance
+# section — new catalog models are "suitability unknown" until evidenced there).
+MATRIX_TIERS: dict[str, int] = {}
+
+
+def is_free_model(model_id: str) -> bool:
+    """A model is free (zero cash) if it is a Zen free variant or opencode/ (Zen)."""
+    return model_id.endswith("-free") or model_id.startswith("opencode/")
+
+
+def cost_label_to_tier(label: str, free: bool) -> int:
+    """Map a qualitative 'Token cost profile' cell to a numeric tier.
+
+    Free models are always tier 0 (zero cash) regardless of token volume — the
+    matrix itself notes free models are "zero cash" even when token-heavy.
+    Paid models map by keyword: VERY LOW=1, LOW/LOW-MODERATE=2, MODERATE=3,
+    HIGHER/HIGH=4, VERY HIGH=5; a bare 'Paid tier' defaults to MODERATE(3).
+    """
+    low = label.lower()
+    if free:
+        return 0
+    if "very low" in low:
+        return 1
+    if "low-moderate" in low or "low moderate" in low:
+        return 2
+    if "low" in low:
+        return 2
+    if "moderate" in low:
+        return 3
+    if "very high" in low:
+        return 5
+    if "higher" in low or "high" in low:
+        return 4
+    if "paid" in low:
+        return 3
+    return 3
+
+
+def parse_cost_profiles(text: str) -> dict[str, int]:
+    """Parse per-model 'Token cost profile' cells -> {model_id: tier}.
+
+    Each '### model-id' section's '| Token cost profile | <label> |' row is read.
+    Free/paid is resolved per model id (free variant or opencode/ = free) so a
+    combined 'free (Zen) / paid' heading tiers each variant correctly.
+    """
+    tiers: dict[str, int] = {}
+    sections = re.split(r"^###\s+", text, flags=re.MULTILINE)
+    for sec in sections[1:]:
+        lines = sec.splitlines()
+        if not lines:
+            continue
+        heading = lines[0].strip()
+        ids = re.findall(r"[a-zA-Z0-9_-]+/[a-zA-Z0-9._-]+", heading)
+        cost_label: str | None = None
+        for line in lines:
+            m = re.match(r"\|\s*Token cost profile\s*\|\s*(.+?)\s*\|", line)
+            if m:
+                cost_label = m.group(1).strip()
+                break
+        if cost_label is None:
+            continue
+        for mid in ids:
+            tiers[mid] = cost_label_to_tier(cost_label, is_free_model(mid))
+    return tiers
+
+
+def get_tier(model_id: str) -> int:
+    if MATRIX_TIERS and model_id in MATRIX_TIERS:
+        return MATRIX_TIERS[model_id]
+    if model_id in COST_TIERS:
+        return COST_TIERS[model_id]
+    if model_id.startswith("opencode/"):
+        return FALLBACK_TIER_FREE
+    if model_id.startswith("opencode-go/"):
+        # kimi-k3 already mapped; default paid moderate
+        return FALLBACK_TIER_PAID_MODERATE
+    if model_id.startswith("google-vertex/"):
+        return 4
+    if model_id.startswith("cohere/"):
+        return 1
+    return FALLBACK_TIER_PAID_MODERATE
+
+
+def tier_label(tier: int) -> str:
+    return TIER_LABELS.get(tier, f"TIER {tier}")
+
+
+def is_forbidden(model_id: str) -> bool:
+    lower = model_id.lower()
+    if lower in FORBIDDEN_EXACT:
+        return True
+    for prefix in FORBIDDEN_PREFIXES:
+        if lower.startswith(prefix) or f"/{prefix}" in lower or lower == prefix:
+            return True
+    if "grok" in lower or "xai" in lower:
+        return True
+    return False
+
+
+def run_opencode_models(provider: str) -> tuple[list[str], str | None]:
+    """Run `opencode models <provider>`, return (models, error)."""
+    try:
+        result = subprocess.run(
+            ["opencode", "models", provider],
+            capture_output=True, text=True, timeout=30,
+        )
+    except FileNotFoundError:
+        return [], "opencode binary not found"
+    except subprocess.TimeoutExpired:
+        return [], f"opencode models {provider} timed out after 30s"
+    if result.returncode != 0:
+        err = (result.stderr or result.stdout or "").strip().splitlines()
+        return [], err[0] if err else f"opencode models {provider} failed (exit {result.returncode})"
+    models = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    return models, None
+
+
+def parse_matrix(matrix_path: Path) -> tuple[list[dict], list[str], list[str]]:
+    """
+    Parse Model-Routing-Matrix.md.
+    Returns (routing_rows, per_model_ids, warnings).
+    routing_rows: list of {task, recommended, alternatives, rationale}
+    per_model_ids: model IDs from per-model profile headings.
+    warnings: parse warnings.
+    """
+    warnings: list[str] = []
+    if not matrix_path.exists():
+        warnings.append(f"Matrix not found at {matrix_path}; using fallback routing table")
+        return FALLBACK_ROUTING.copy(), [], warnings, {}
+
+    text = matrix_path.read_text(encoding="utf-8", errors="replace")
+
+    # Derive cost tiers from per-model "Token cost profile" cells (primary source).
+    cost_tiers = parse_cost_profiles(text)
+
+    # Extract per-model profile model IDs from headings like "### opencode-go/xxx (paid)"
+    per_model_ids: list[str] = []
+    for m in re.finditer(r"^###\s+([a-zA-Z0-9._/:-]+)", text, flags=re.MULTILINE):
+        mid = m.group(1).strip()
+        # Filter to plausible model IDs (contain slash)
+        if "/" in mid:
+            # Heading may be "opencode/mimo-v2.5-free (Zen) / opencode-go/mimo-v2.5 (paid)" — split
+            parts = re.split(r"\s*/\s*|\s+", mid)
+            # Simpler: extract all model-like tokens from heading line
+            line = text[m.start():text.find("\n", m.start())]
+            for token in re.findall(r"[a-zA-Z0-9_-]+/[a-zA-Z0-9._-]+", line):
+                if token not in per_model_ids:
+                    per_model_ids.append(token)
+            if mid not in per_model_ids and "/" in mid and " " not in mid:
+                per_model_ids.append(mid)
+
+    # Extract routing table: lines of form "| Task | Recommended | Rationale |"
+    routing_rows: list[dict] = []
+    in_routing = False
+    for line in text.splitlines():
+        if "## ROUTING TABLE" in line:
+            in_routing = True
+            continue
+        if in_routing:
+            if line.startswith("## "):
+                break  # next section
+            if not line.strip().startswith("|"):
+                continue
+            # Skip header and separator rows
+            if "Task / Review Need" in line or re.match(r"^\|\s*-+", line):
+                continue
+            # Split by |, drop empty first/last
+            cells = [c.strip() for c in line.split("|")]
+            # cells[0] is empty before first |, cells[-1] empty after last |
+            cells = [c for c in cells if c != ""]
+            if len(cells) < 3:
+                continue
+            task, recommended_raw, rationale = cells[0], cells[1], cells[2]
+            # Recommended may contain "or", commas, parentheses, "AVOID" etc.
+            # Extract model IDs from recommended_raw
+            model_tokens = re.findall(r"[a-zA-Z0-9_-]+/[a-zA-Z0-9._-]+", recommended_raw)
+            # Alias short names without provider prefix (e.g. "north-mini-code then gemini-3.1-pro")
+            if not model_tokens:
+                lower_raw = recommended_raw.lower()
+                alias_map = {
+                    "north-mini-code": "cohere/north-mini-code-1-0",
+                    "gemini-3.1-pro": "google-vertex/gemini-3.1-pro-preview",
+                    "gemini-3.5-flash": "google-vertex/gemini-3.5-flash",
+                }
+                for alias, full in alias_map.items():
+                    if alias in lower_raw:
+                        model_tokens.append(full)
+            if not model_tokens:
+                # Handle "AVOID ..." rows — keep task but mark no recommended model
+                routing_rows.append({
+                    "task": task,
+                    "recommended": "",
+                    "alternatives": [],
+                    "rationale": rationale,
+                    "raw_recommended": recommended_raw,
+                })
+                continue
+            recommended = model_tokens[0]
+            alternatives = model_tokens[1:]
+            # Also handle "A then B" patterns like "north-mini-code then gemini"
+            routing_rows.append({
+                "task": task,
+                "recommended": recommended,
+                "alternatives": alternatives,
+                "rationale": rationale,
+                "raw_recommended": recommended_raw,
+            })
+
+    if not routing_rows:
+        warnings.append("Failed to parse routing table; using fallback")
+        return FALLBACK_ROUTING.copy(), per_model_ids, warnings, {}
+
+    return routing_rows, per_model_ids, warnings, cost_tiers
+
+
+def infer_task_type_from_issue(issue_num: str) -> str | None:
+    """Infer task label from `crosslink issue show <num>` labels."""
+    try:
+        result = subprocess.run(
+            ["crosslink", "issue", "show", issue_num],
+            capture_output=True, text=True, timeout=15,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return None
+    if result.returncode != 0:
+        return None
+    text = result.stdout.lower()
+    # Look for Labels line
+    m = re.search(r"labels:\s*(.+)", text)
+    if not m:
+        return None
+    labels = m.group(1)
+    # Priority mapping
+    if "research" in labels:
+        return "research"
+    if "feature" in labels:
+        return "feature"
+    if "bug" in labels:
+        return "bug"
+    if "review" in labels:
+        return "review"
+    if "epic" in labels:
+        return "epic"
+    # Return first label as hint
+    first = labels.split(",")[0].strip().split()[0] if labels.strip() else None
+    return first
+
+
+def build_recommendations(
+    routing_rows: list[dict],
+    catalog_set: set[str],
+    task_filter: str | None,
+) -> list[dict]:
+    """For each routing row, emit cheapest suitable + runner-up + tier delta."""
+    output: list[dict] = []
+    for row in routing_rows:
+        task = row["task"]
+        if task_filter and task_filter.lower() not in task.lower():
+            continue
+
+        recommended = row.get("recommended", "")
+        alternatives: list[str] = row.get("alternatives", [])
+        rationale = row.get("rationale", "")
+        raw_rec = row.get("raw_recommended", recommended)
+
+        # Handle AVOID rows specially
+        if not recommended:
+            output.append({
+                "task": task,
+                "cheapest_suitable": None,
+                "cheapest_tier": None,
+                "cheapest_available": False,
+                "runner_up": None,
+                "runner_up_tier": None,
+                "tier_delta": None,
+                "rationale": rationale,
+                "raw_recommended": raw_rec,
+                "note": "AVOID — no model recommended for this risk class",
+                "available_candidates": [],
+                "unavailable": [],
+            })
+            continue
+
+        candidates = [recommended] + alternatives
+        # Rank by tier (cheapest first), stable by original order for ties
+        ranked = sorted(candidates, key=lambda m: (get_tier(m), candidates.index(m)))
+
+        available = [m for m in ranked if m in catalog_set]
+        unavailable = [m for m in ranked if m not in catalog_set]
+
+        if available:
+            cheapest = available[0]
+            cheapest_tier = get_tier(cheapest)
+            # Runner-up is next cheapest AVAILABLE distinct model, else next
+            # cheapest unavailable (to show what would be next if it were available)
+            runner_up: str | None = None
+            runner_up_tier: int | None = None
+            if len(available) > 1:
+                runner_up = available[1]
+                runner_up_tier = get_tier(runner_up)
+            elif unavailable:
+                runner_up = unavailable[0]
+                runner_up_tier = get_tier(runner_up)
+            tier_delta = None
+            if runner_up_tier is not None:
+                tier_delta = runner_up_tier - cheapest_tier  # type: ignore
+            output.append({
+                "task": task,
+                "cheapest_suitable": cheapest,
+                "cheapest_tier": cheapest_tier,
+                "cheapest_tier_label": tier_label(cheapest_tier),
+                "cheapest_available": True,
+                "runner_up": runner_up,
+                "runner_up_tier": runner_up_tier,
+                "runner_up_tier_label": tier_label(runner_up_tier) if runner_up_tier is not None else None,
+                "tier_delta": tier_delta,
+                "rationale": rationale,
+                "raw_recommended": raw_rec,
+                "available_candidates": available,
+                "unavailable": unavailable,
+            })
+        else:
+            # No candidate available in catalog — report the cheapest by tier anyway
+            cheapest = ranked[0] if ranked else recommended
+            cheapest_tier = get_tier(cheapest) if cheapest else None
+            runner_up = ranked[1] if len(ranked) > 1 else None
+            runner_up_tier = get_tier(runner_up) if runner_up else None
+            output.append({
+                "task": task,
+                "cheapest_suitable": cheapest,
+                "cheapest_tier": cheapest_tier,
+                "cheapest_tier_label": tier_label(cheapest_tier) if cheapest_tier is not None else None,
+                "cheapest_available": False,
+                "runner_up": runner_up,
+                "runner_up_tier": runner_up_tier,
+                "runner_up_tier_label": tier_label(runner_up_tier) if runner_up_tier is not None else None,
+                "tier_delta": None,
+                "rationale": rationale,
+                "raw_recommended": raw_rec,
+                "available_candidates": [],
+                "unavailable": unavailable or ranked,
+                "note": "No suitable model currently in live catalog — matrix recommends unavailable model",
+            })
+    return output
+
+
+def collect_staleness_warnings(
+    catalog_set: set[str],
+    per_model_ids: list[str],
+    routing_rows: list[dict],
+) -> tuple[list[str], list[str], list[str], list[str]]:
+    """
+    Returns (missing_in_catalog, new_in_catalog, forbidden, all_warnings_flat).
+    Grouped for compact display; flat list preserved for --json.
+    """
+    matrix_ids: set[str] = set(per_model_ids)
+    for row in routing_rows:
+        if row.get("recommended"):
+            matrix_ids.add(row["recommended"])
+        for alt in row.get("alternatives", []):
+            matrix_ids.add(alt)
+
+    missing_in_catalog: list[str] = []
+    for mid in sorted(matrix_ids):
+        if mid not in catalog_set:
+            if mid.startswith("opencode/") or mid.startswith("opencode-go/"):
+                missing_in_catalog.append(mid)
+
+    new_in_catalog: list[str] = []
+    for mid in sorted(catalog_set):
+        if mid not in matrix_ids:
+            if mid.startswith("opencode/") or mid.startswith("opencode-go/"):
+                new_in_catalog.append(mid)
+
+    forbidden: list[str] = []
+    for mid in sorted(catalog_set):
+        if is_forbidden(mid):
+            forbidden.append(mid)
+
+    flat: list[str] = []
+    for mid in missing_in_catalog:
+        flat.append(f"STALE MATRIX: '{mid}' in Routing Matrix but NOT in live catalog (removed or renamed?)")
+    for mid in new_in_catalog:
+        flat.append(f"STALE MATRIX: '{mid}' in live catalog but NOT in Routing Matrix (new model — suitability unknown, needs evidence)")
+    for mid in forbidden:
+        flat.append(f"FORBIDDEN: live catalog lists forbidden model '{mid}' — must be patched out (see model-discipline.md #347)")
+
+    return missing_in_catalog, new_in_catalog, forbidden, flat
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="session-model-recommend",
+        description="Cheapest suitable model recommender (advisory only). Joins live opencode models catalog with Model-Routing-Matrix.md.",
+        epilog="Advisory only: operator-named model is never overridden. Staleness warnings fire when catalog/matrix disagree.",
+    )
+    parser.add_argument("--task-type", metavar="SUBSTR", default=None, help="Filter to task types matching substring")
+    parser.add_argument("--issue", metavar="NUM", default=None, help="Infer task type from issue labels")
+    parser.add_argument("--actual-model", metavar="MODEL_ID", default=None, help="Model actually chosen (for cheapest-test comparison)")
+    parser.add_argument("--json", action="store_true", help="JSON output")
+    parser.add_argument("--check-staleness-only", action="store_true", help="Only emit staleness warnings")
+    parser.add_argument("--verbose", action="store_true", help="Verbose catalog/matrix details")
+    parser.add_argument("--matrix", metavar="PATH", default=DEFAULT_MATRIX, help=f"Matrix path (default: {DEFAULT_MATRIX})")
+
+    args = parser.parse_args(argv)
+
+    # Resolve matrix path relative to repo root (where script lives: scripts/ -> ../)
+    script_dir = Path(__file__).resolve().parent
+    repo_root = script_dir.parent
+    matrix_path = Path(args.matrix)
+    if not matrix_path.is_absolute():
+        # Try repo_root + matrix, then cwd + matrix
+        candidate = repo_root / args.matrix
+        if candidate.exists():
+            matrix_path = candidate
+        elif Path(args.matrix).exists():
+            matrix_path = Path(args.matrix)
+        else:
+            matrix_path = candidate  # will trigger not-found warning
+
+    # Task filter from --issue if not explicitly given
+    task_filter = args.task_type
+    inferred_from_issue: str | None = None
+    if args.issue and not task_filter:
+        inferred = infer_task_type_from_issue(args.issue)
+        if inferred:
+            inferred_from_issue = inferred
+            # Map label to routing task substrings
+            label_to_tasks = {
+                "research": "research",
+                "feature": "implementation",
+                "bug": "review",
+                "review": "review",
+                "epic": "research",
+            }
+            task_filter = label_to_tasks.get(inferred, inferred)
+
+    # Fetch live catalogs
+    catalog_opencode, err1 = run_opencode_models("opencode")
+    catalog_go, err2 = run_opencode_models("opencode-go")
+
+    catalog_errors: list[str] = []
+    if err1:
+        catalog_errors.append(f"opencode: {err1}")
+    if err2:
+        catalog_errors.append(f"opencode-go: {err2}")
+
+    # If both fail, treat as degraded but continue with empty catalog (will emit warnings)
+    catalog_all = catalog_opencode + catalog_go
+    catalog_set = set(catalog_all)
+
+    # Parse matrix
+    routing_rows, per_model_ids, parse_warnings, matrix_cost_tiers = parse_matrix(matrix_path)
+    MATRIX_TIERS.clear()
+    MATRIX_TIERS.update(matrix_cost_tiers)
+
+    # Cross-check: matrix-derived tier vs curated COST_TIERS (maintenance signal).
+    tier_discrepancies: list[tuple[str, int, int]] = []
+    for mid, mt in matrix_cost_tiers.items():
+        if mid in COST_TIERS and COST_TIERS[mid] != mt:
+            tier_discrepancies.append((mid, mt, COST_TIERS[mid]))
+
+    # Build recommendations
+    recommendations = build_recommendations(routing_rows, catalog_set, task_filter)
+
+    # Staleness warnings (grouped)
+    missing_in_catalog, new_in_catalog, forbidden, staleness_flat = collect_staleness_warnings(catalog_set, per_model_ids, routing_rows)
+
+    # --- Output ---
+    if args.json:
+        payload: dict = {
+            "advisory": "Operator choice is authoritative; this is advisory only — never overrides operator-named model.",
+            "catalog": {
+                "opencode": catalog_opencode,
+                "opencode_go": catalog_go,
+                "errors": catalog_errors,
+                "total": len(catalog_all),
+            },
+            "matrix": {
+                "path": str(matrix_path),
+                "per_model_ids": per_model_ids,
+                "routing_rows": len(routing_rows),
+                "parse_warnings": parse_warnings,
+            },
+            "filter": {
+                "task_type": task_filter,
+                "inferred_from_issue": inferred_from_issue,
+                "actual_model": args.actual_model,
+            },
+            "recommendations": recommendations,
+            "staleness_warnings": staleness_flat,
+            "staleness_grouped": {
+                "missing_in_catalog": missing_in_catalog,
+                "new_in_catalog": new_in_catalog,
+                "forbidden": forbidden,
+            },
+        }
+        # Add cheapest-test comparison if actual_model provided
+        if args.actual_model:
+            actual_tier = get_tier(args.actual_model)
+            payload["actual_model"] = {
+                "id": args.actual_model,
+                "tier": actual_tier,
+                "tier_label": tier_label(actual_tier),
+                "in_catalog": args.actual_model in catalog_set,
+                "is_forbidden": is_forbidden(args.actual_model),
+            }
+            # Find matching recommendation for comparison
+            if recommendations:
+                cheapest = recommendations[0].get("cheapest_suitable") if len(recommendations) == 1 else None
+                # For single filtered task, compare; for all tasks, compare per row
+                comparisons = []
+                for rec in recommendations:
+                    cs = rec.get("cheapest_suitable")
+                    if cs and args.actual_model != cs:
+                        comparisons.append({
+                            "task": rec["task"],
+                            "recommended_cheapest": cs,
+                            "actual": args.actual_model,
+                            "delta_tier": actual_tier - rec["cheapest_tier"] if rec.get("cheapest_tier") is not None else None,
+                            "note": "Actual differs from cheapest suitable — operator choice is authoritative; delta shown for cost awareness only.",
+                        })
+                    elif cs and args.actual_model == cs:
+                        comparisons.append({
+                            "task": rec["task"],
+                            "recommended_cheapest": cs,
+                            "actual": args.actual_model,
+                            "delta_tier": 0,
+                            "note": "Actual matches cheapest suitable recommendation.",
+                        })
+                payload["cheapest_test_comparison"] = comparisons
+        print(json.dumps(payload, indent=2))
+        return 0
+
+    # Human-readable output
+    if not args.check_staleness_only:
+        print("=" * 72)
+        print("MODEL RECOMMENDER — advisory only (never overrides operator)")
+        print("=" * 72)
+        print(f"Matrix: {matrix_path} ({len(routing_rows)} tasks, {len(per_model_ids)} per-model profiles)")
+        print(f"Catalog: {len(catalog_opencode)} opencode + {len(catalog_go)} opencode-go = {len(catalog_all)} total")
+        if catalog_errors:
+            for e in catalog_errors:
+                print(f"  CATALOG WARNING: {e}")
+        if parse_warnings:
+            for w in parse_warnings:
+                print(f"  MATRIX WARNING: {w}")
+        if inferred_from_issue:
+            print(f"Task filter: '{task_filter}' (inferred from issue #{args.issue} label '{inferred_from_issue}')")
+        elif task_filter:
+            print(f"Task filter: '{task_filter}'")
+        if args.actual_model:
+            in_cat = "in catalog" if args.actual_model in catalog_set else "NOT in catalog"
+            print(f"Actual model (for cheapest-test): {args.actual_model} [{tier_label(get_tier(args.actual_model))}, {in_cat}]")
+            if is_forbidden(args.actual_model):
+                print(f"  FORBIDDEN: actual model '{args.actual_model}' is forbidden (grok/xAI) — must not use")
+        print()
+
+        for rec in recommendations:
+            task = rec["task"]
+            cheapest = rec.get("cheapest_suitable")
+            cheapest_label = rec.get("cheapest_tier_label", "")
+            runner = rec.get("runner_up")
+            runner_label = rec.get("runner_up_tier_label", "")
+            delta = rec.get("tier_delta")
+            rationale = rec.get("rationale", "")
+            available = rec.get("cheapest_available", False)
+
+            if cheapest is None:
+                print(f"  TASK: {task}")
+                print(f"    NOTE: {rec.get('note','')}")
+                if rationale:
+                    print(f"    Rationale: {rationale}")
+                print()
+                continue
+
+            status = "AVAILABLE" if available else "UNAVAILABLE in catalog"
+            delta_str = f" (delta: +{delta} tier(s))" if delta is not None and delta != 0 else (" (same tier)" if delta == 0 else "")
+            print(f"  TASK: {task}")
+            print(f"    Cheapest suitable: {cheapest}  [{cheapest_label}]  {status}")
+            if runner:
+                avail_tag = "" if runner in catalog_set else " (not in catalog)"
+                print(f"    Runner-up:       {runner}  [{runner_label}]{avail_tag}{delta_str}")
+            else:
+                print(f"    Runner-up:       (none — single candidate)")
+            if rationale:
+                print(f"    Rationale: {rationale}")
+            if not available:
+                print(f"    NOTE: {rec.get('note','')}")
+            if args.verbose:
+                print(f"    Candidates: {', '.join(rec.get('available_candidates',[])) or '(none available)'}")
+                if rec.get("unavailable"):
+                    print(f"    Unavailable: {', '.join(rec['unavailable'])}")
+            # Cheapest-test per row if actual_model given
+            if args.actual_model and cheapest:
+                if args.actual_model == cheapest:
+                    print(f"    CHEAPEST-TEST: actual matches recommendation (delta 0)")
+                else:
+                    actual_tier = get_tier(args.actual_model)
+                    ct = rec.get("cheapest_tier")
+                    d = actual_tier - ct if ct is not None else None
+                    sign = f"+{d}" if d is not None and d > 0 else str(d)
+                    print(f"    CHEAPEST-TEST: actual={args.actual_model} vs recommended={cheapest} (tier delta {sign}) — operator choice authoritative")
+            print()
+
+        print("-" * 72)
+        print("COST TIERS: 0=FREE(Zen) < 1=VERY LOW < 2=LOW < 3=MODERATE < 4=HIGH < 5=VERY HIGH")
+        print("Advisory only — operator-named model is never overridden (model-discipline rule #5).")
+        print()
+
+    # Staleness warnings (grouped summary + details on --verbose)
+    has_staleness = bool(missing_in_catalog or new_in_catalog or forbidden)
+    if not args.check_staleness_only:
+        pass  # header already printed; summary below
+    if has_staleness:
+        print("STALENESS / CATALOG-MATRIX CHECK:")
+        if missing_in_catalog:
+            print(f"  WARNING: {len(missing_in_catalog)} model(s) in Routing Matrix but NOT in live catalog (removed/renamed):")
+            for mid in missing_in_catalog:
+                print(f"    - {mid}")
+        if new_in_catalog:
+            print(f"  WARNING: {len(new_in_catalog)} model(s) in live catalog but NOT in Routing Matrix (new — suitability unknown):")
+            if args.verbose:
+                for mid in new_in_catalog:
+                    print(f"    - {mid}  [{tier_label(get_tier(mid))}]")
+            else:
+                # Compact single line, verbose shows per-model
+                print(f"    {', '.join(new_in_catalog)}")
+                print(f"    (run with --verbose to see tiers, --json for full list)")
+        if forbidden:
+            for mid in forbidden:
+                print(f"  FORBIDDEN: live catalog lists forbidden model '{mid}' — must be patched out (see model-discipline.md #347)")
+        print()
+        print("  Action: refresh Model-Routing-Matrix.md when warnings appear.")
+        print("  Cadence: weekly or on any staleness warning (see matrix Maintenance).")
+        print()
+    else:
+        print("STALENESS CHECK: OK — catalog and matrix agree (no mismatches).")
+        print()
+
+    if args.verbose and not args.json:
+        print(f"Catalog opencode ({len(catalog_opencode)}): {', '.join(catalog_opencode) or '(none)'}")
+        print(f"Catalog opencode-go ({len(catalog_go)}): {', '.join(catalog_go) or '(none)'}")
+        print(f"Matrix per-model IDs ({len(per_model_ids)}): {', '.join(per_model_ids) or '(none)'}")
+        if tier_discrepancies:
+            print("TIER DISCREPANCIES (matrix cost profile vs curated COST_TIERS — reconcile in matrix):")
+            for mid, mt, ct in tier_discrepancies:
+                print(f"    - {mid}: matrix={mt}({tier_label(mt)}) curated={ct}({tier_label(ct)})")
+        print()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

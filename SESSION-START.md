@@ -8,6 +8,8 @@ resolve, see §5 — the doc is stale, not you.
 
 Model routing: before dispatching agents, consult the Model Routing Matrix (knowledge page: model-routing-matrix, or docs/research/registry/Model-Routing-Matrix.md) to pick the model by task type, review lens, and token cost.
 
+> **Advisory recommender (session-start, optional):** run `scripts/session-model-recommend` to join the LIVE catalog (`opencode models opencode` + `opencode-go`) with the Routing Matrix and emit per-task cheapest suitable + runner-up + cost tier. It prints a staleness warning when catalog/matrix disagree (new model unknown or removed/renamed) and never overrides an operator-named model (model-discipline rule #5 — operator choice is authoritative). Cheapest-test dry-run: `scripts/session-model-recommend --issue <num> --actual-model <model-id>` compares recommendation vs the model actually chosen.
+
 ## START-SEQUENCE
 
 - **Run `crosslink session last-handoff` on session start** — read the
@@ -85,6 +87,7 @@ are hard invariants, not suggestions:
   be ready to fall back to a paid Go model on any rate-limit symptom.
 - If a doc or agent definition names a model that `opencode models <provider>`
   does not list, that doc is stale (§5) — the live catalog is authoritative.
+- **Advisory recommender (cost-vs-suitability):** `scripts/session-model-recommend` automates the manual verification above — it queries the live catalog and joins it with the Routing Matrix to emit the cheapest SUITABLE model per task type (with runner-up + tier delta) and staleness warnings when catalog/matrix diverge. Output is advisory only; it never auto-selects or overrides an operator-named model.
 
 ## 2. The stack
 
