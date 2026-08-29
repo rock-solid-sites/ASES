@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3200,
+  "next_comment_id": 3201,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25717,7 +25717,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T16:10:26.057388220Z",
+      "updated_at": "2026-08-29T16:12:06.556950691Z",
       "labels": [
         "feature"
       ],
@@ -26381,6 +26381,15 @@
           "kind": "result",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM024ccvfx/f0pqYKjuYQ5kS+NDNelx8Er6lyJDM5tEdvVrNWWVLJlbV57eMxo6FnW4zO3GjJdr8YOvB3IXcQBw=="
+        },
+        "f327cea4-e72a-46e5-b553-f3d7ec04a8e3": {
+          "display_id": 3200,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Result: Phase3 wiring complete — shell interprets pure machine descriptor (issue #510, commit 8a1da278 on feature/stop-button).\n\nWHAT: fork/opencode-src/packages/tui/src/component/prompt/index.tsx now imports {isPermitted, nextState} from ./stop-button-machine (2 primitives: State + Permitted Transition). Added isConfirming signal + deriveStopState() (interrupting > confirming > running > idle) so statechart owns lifecycle, engine only schedules Fiber.interrupt. handleStopClick gate via machine: idle STOP_CLICK stays idle (toast 204 no-op), interrupting STOP_CLICK idempotent debounce, running STOP_CLICK -> confirming (dialog), confirming YES -> interrupting (sdk.client.v2.session.interrupt), NO/ESC/DISMISS -> running. ESC path session.interrupt: confirming ESC -> running dismiss, running ESC_ESC -> interrupting, idle ESC_ESC stays idle (204), with shell timing (1s lastInterruptAt, 800ms isInterrupting, 5s Esc window) not smuggled into machine. Log lines now include machine edges (cur->next).\n\nWHY: Verified Spec §4/§5 requires mechanical gating — prior imperative guards duplicated logic the machine already proves; shell-interprets-descriptor makes the gate checkable without mocking I/O and preserves reversed composition (statechart owns lifecycle).\n\nHOW CERTAIN: evidence-based. tui 203 pass 1 skip 613 expects (46 files), stop-button-machine 12 pass 153 expects, core session-run-coordinator 18 pass 30 expects, tui tsgo --noEmit clean. Machine keeps zero imports/I/O (pure total function arity 2).\n\nWHAT-NOT-TESTED: interactive TUI QA (click ■Stop -> Yes -> idle with live streaming model); full fork bun test --workspace not re-run; live 6-point probe stream/tool/429/no-orphan remain N/A on no-tool-child server (covered at coordinator seam by 2 placebo-kill tests at 78a02a8b).",
+          "created_at": "2026-08-29T16:12:06.550575905Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAUiMrc3xrVWt+kknFY8UoykJo9UGARDEc3uJTOppNYv9Ari80+BMhiXNkz1OpPGKDQnNDSMeIY2KtUaA8EqHCw=="
         },
         "f46212f0-18f8-4bc9-84a5-99361fd2c182": {
           "display_id": 2996,
@@ -38173,8 +38182,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T16:11:55.963525764Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2846
+    "timestamp": "2026-08-29T16:12:06.556950691Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 89
   }
 }
