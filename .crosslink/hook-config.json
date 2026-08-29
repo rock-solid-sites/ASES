@@ -90,7 +90,10 @@
           "npx ",
           "tsc",
           "node ",
-          "python "
+          "python ",
+          "rtk ",
+          "crosslink ",
+          "git status"
         ]
       },
       "reviewer": {
@@ -118,7 +121,34 @@
           "git branch -m",
           "git commit"
         ],
-        "gated_git_commands": []
+        "gated_git_commands": [],
+        "allowed_bash_prefixes": [
+          "crosslink ",
+          "git status",
+          "git diff",
+          "git log",
+          "git branch",
+          "git show",
+          "ls",
+          "cat ",
+          "head ",
+          "tail ",
+          "wc ",
+          "grep ",
+          "rg ",
+          "stat ",
+          "diff ",
+          "which ",
+          "env ",
+          "cargo test",
+          "cargo clippy",
+          "npm test",
+          "npx ",
+          "rtk ",
+          "rtk read ",
+          "rtk ls ",
+          "rtk grep "
+        ]
       },
       "auditor": {
         "blocked_git_commands": [
@@ -145,7 +175,29 @@
           "git branch -m",
           "git commit"
         ],
-        "gated_git_commands": []
+        "gated_git_commands": [],
+        "allowed_bash_prefixes": [
+          "crosslink ",
+          "git status",
+          "git diff",
+          "git log",
+          "git branch",
+          "git show",
+          "ls",
+          "cat ",
+          "head ",
+          "tail ",
+          "wc ",
+          "grep ",
+          "rg ",
+          "stat ",
+          "diff ",
+          "which ",
+          "env ",
+          "rtk ",
+          "rtk read ",
+          "rtk ls "
+        ]
       }
     },
     "tracking_mode": "relaxed"
@@ -217,8 +269,20 @@
     "crosslink swarm launch"
   ],
   "intervention_tracking": true,
+  "kickoff": {
+    "allowed_tools": [
+      "Bash(cargo *)",
+      "Bash(npm *)",
+      "Bash(crosslink *)",
+      "Bash(git *)",
+      "Bash(rtk *)"
+    ]
+  },
   "kickoff_verification": "local",
   "reminder_drift_threshold": 3,
+  "sandbox": {
+    "command": "bash {{worktree}}/.crosslink/sandbox/restrict.sh --worktree {{worktree}} --"
+  },
   "sentinel": {
     "default_agent": {
       "model": "opencode-go/deepseek-v4-pro",
