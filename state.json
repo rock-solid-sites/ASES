@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 3054,
+  "next_comment_id": 3055,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24887,7 +24887,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T01:39:43.022552547Z",
+      "updated_at": "2026-08-29T01:58:58.867807395Z",
       "labels": [
         "feature"
       ],
@@ -25056,6 +25056,15 @@
           "kind": "result",
           "signed_by": "SHA256:jWxqu7K0Euxeoq+3HoJ53jKB2NTPtY9Xp0/ZUu03KPI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtzpADia4GoApV4wjcvq9i8a6o0UvGU4lhC0i/9+AV2sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGyWW49iInNgVNkWcduFawN1fL2ZfLs3F1OmwHmlNKY9UprczWDrrlWIbIMSnTk8g63vMV4T1i56qNHlXFZ4oAA=="
+        },
+        "7387ed3c-671c-45b9-9c6b-7de095f1dc16": {
+          "display_id": 3054,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Add a focused unit test to packages/core/test/session-run-coordinator.test.ts that verifies the interrupt fence kills a RUNNING TOOL (a child fiber spawned inside the drain), not just the drain wrapper. This is the cheapest discriminating test for the #510 placebo concern (does interrupt truly kill a running fiber vs. a 204 no-op?). The handler session.interrupt -> SessionExecution.interrupt -> coordinator.interrupt -> Fiber.interrupt(entry.owner); testing coordinator.interrupt directly exercises the exact fence the handler triggers. Two cases: (1) interrupt propagates to a forkChild tool fiber (its exit is an interruption, owner interrupted, active cleared); (2) no orphan — after interrupt the key is free and a fresh run starts (tool child not leaked). Will run bun test to verify, then gated commit.",
+          "created_at": "2026-08-29T01:58:58.861452912Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyGnLmfhWhwFN5CyiJqSJiFea2Pld9tsf36Uavp7gCZCFySZTA7t5+L96/vV130erwgPKt+86kqqIQE9Jd+btAg=="
         },
         "8847aa67-1e09-4794-97d9-0c2ebf88e2d1": {
           "display_id": 2987,
@@ -36772,8 +36781,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T01:55:55.397685434Z",
+    "timestamp": "2026-08-29T01:58:58.867807395Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 41
+    "agent_seq": 42
   }
 }
