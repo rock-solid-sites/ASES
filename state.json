@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3171,
+  "next_comment_id": 3172,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -22119,7 +22119,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-27T04:58:04.090684663Z",
-      "updated_at": "2026-08-29T16:02:04.461460467Z",
+      "updated_at": "2026-08-29T16:02:40.179498561Z",
       "labels": [
         "research"
       ],
@@ -22384,6 +22384,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:+CCgRYhHhYOiJcKZ37i6qR2N5bJWrM3XJPoe360d6EY",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgl/uFCiG0dthdYoW/+ZgMIDr4X2ePz7zi7h2GGtpe/0YAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALoo3mcgyUk28X2vVXBHaOGzgob91kgH8pcz5wcBFYD9MgDzHCIuGb0ShjpD6HGBNP38qBtVNUBHrpVdQ6X4VAg=="
+        },
+        "c9535a8a-e312-436d-92c1-97ef8fbeb0aa": {
+          "display_id": 3171,
+          "author": "pp3g-VyzN-test-c-for-498-schema-drift-versioning-c1-c4-efb4",
+          "content": "Result: Test C — schema drift/versioning C1-C4 complete. 4 mutated schemas v0 0.1.0→v1 0.2.0 (C1 additive optional sort_order/priority, C2 tightened title/query maxLength+rationale minLength+relation enum+limit max, C3 output rename total→count/items→results+type change, C4 removal create_review + rename search_artefacts→search). Harness extended with Runtime.validate_output + search alias; run.py 21/21 PASS (C1 7, C2 6, C3 3, C4 5). Findings: C1 backward compat holds; C2 rejected before execution as ValidationFailed field+constraint; C3 output drift only caught by explicit output-schema validation (baseline harness silently returned stale shape — gap matching prior C2 output-drift finding); C4 exact-match UnknownOperation no fuzzy. VersionMismatch distinct when payload_version carried, inert otherwise. Logs under logs/test-c/, protocol+results+smas committed at baa35bf7. Harness smoke 12/12 PASS.",
+          "created_at": "2026-08-29T16:02:40.173174399Z",
+          "kind": "result",
+          "signed_by": "SHA256:SRO25sBMwOuYmvZ6j8tXrAT/e9oqsNiG0iX2gPivFtQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5VWA6c6lioZUiThN5FH7vLoEOp/+DucQzr+NWAoiqqYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8jzoR2Q4Epr7n5tufpdbU+/b8gd6I8sqcntxaPUxYNY6IR/bF/U/K4MtZ0kH6JQL+5Rhu1R6C9wTCxJQpvxoCw=="
         },
         "d05d776d-59b8-4c23-833c-0916c5c7ae44": {
           "display_id": 3142,
@@ -37912,8 +37921,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T16:02:04.461460467Z",
+    "timestamp": "2026-08-29T16:02:40.179498561Z",
     "agent_id": "pp3g-VyzN-test-c-for-498-schema-drift-versioning-c1-c4-efb4",
-    "agent_seq": 9
+    "agent_seq": 10
   }
 }
