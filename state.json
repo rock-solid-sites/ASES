@@ -1,5 +1,5 @@
 {
-  "next_display_id": 522,
+  "next_display_id": 523,
   "next_comment_id": 3226,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -240,6 +240,7 @@
     "75825be3-00cb-4954-9792-d9cc58924365": 303,
     "766ec246-f454-4f7e-9073-a499315e30f8": 88,
     "7685f56d-0404-4fb5-b0e7-867cfd3b0d8e": 59,
+    "769320f6-8576-43f2-8b42-bc14df9ab878": 522,
     "76b1c9c1-f08b-457b-8ffc-487b3c1c760a": 11,
     "76cae85c-544d-4fe6-9907-b1107c5c5f4e": 376,
     "77419f95-4e90-4fc5-8bbf-980e76e07b9a": 194,
@@ -17868,6 +17869,17 @@
       "labels": [
         "feature"
       ]
+    },
+    "769320f6-8576-43f2-8b42-bc14df9ab878": {
+      "uuid": "769320f6-8576-43f2-8b42-bc14df9ab878",
+      "display_id": 522,
+      "title": "ARCHIVE: 5 GB opencode sessions → Drive via tar cJf / zstd --long (deferred, existing tools)",
+      "description": "Goal: \n\nAcceptance criteria:\n- \n\nParent: #491 / #471\n\nPlan: Compress 5 GB old-session records (~/.local/share/opencode/sessions/, outside allowed tree) for 15 GB Drive.\n- tar cJf (xz -9e, same LZMA2 as 7z) → ~80% off (5GB→~1.0GB); tar --zstd -19 --long=30 → ~78-82% off (~0.95GB), 10× faster open; gzip → ~60% off — insufficient.\n- 7z → ~82% off (~0.9GB), only ~100-200 MB better than xz/zstd — not worth p7zip install on 72% full VPS.\n- Decision: DEFERRED per operator 2026-08-27 — use what you’ve got.\n\nHost commands (outside sandbox):\n  tar cJf ~/archive/opencode-sessions-2026-08-27.tar.xz ~/.local/share/opencode/sessions/\n  rclone copy ~/archive/*.tar.* gdrive:archive/ --progress\n\nStatus: Deferred, not forgotten — future agent can pick up without re-discovering ratio. Derived bulk (293MB) already local-only and ignored.",
+      "status": "open",
+      "priority": "medium",
+      "created_by": "OL2r",
+      "created_at": "2026-08-29T17:17:28.161845527Z",
+      "updated_at": "2026-08-29T17:17:28.161845527Z"
     },
     "76b1c9c1-f08b-457b-8ffc-487b3c1c760a": {
       "uuid": "76b1c9c1-f08b-457b-8ffc-487b3c1c760a",
@@ -38407,8 +38419,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T17:17:09.088692998Z",
+    "timestamp": "2026-08-29T17:17:28.161845527Z",
     "agent_id": "OL2r",
-    "agent_seq": 2861
+    "agent_seq": 2862
   }
 }
