@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3153,
+  "next_comment_id": 3154,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25384,7 +25384,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T13:42:32.965339121Z",
+      "updated_at": "2026-08-29T15:05:15.802239748Z",
       "labels": [
         "feature"
       ],
@@ -25913,6 +25913,15 @@
           "kind": "observation",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA21orKdPpeaXCYw36hizzh/LlbjFBzC/3Xvj2gstYpudtMrTZQCCAaqIJ7SeLeyiECOSnsEAyds9wqQHCZ08rCQ=="
+        },
+        "ec7f58b8-890a-4c54-91ba-891b06f12126": {
+          "display_id": 3153,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: VSDD Phase2 test-first for stop-button state-gated machine per Verified Spec §4/§5/§7. Two primitives only: State (idle/running/confirming/interrupting) + Permitted Transition (from,event)->to. Approach: (1) create pure machine at fork/opencode-src/packages/tui/src/component/prompt/stop-button-machine.ts with zero I/O (pure total function nextState + isPermitted + exhaustive transition map, timing/debounce stays in effectful shell). (2) Write failing model-based test at fork/.../test/prompt/stop-button-machine.test.ts covering all 12 primary transitions from §4.3 plus forbidden edges from §7 (idle->confirming, idle->interrupting, confirming->idle, interrupting->confirming, etc.) plus edge catalog E01-E13,E22-E25 for TUI scope; run bun test to show FAIL before code. (3) Implement minimal machine to make tests pass. (4) Verify via bun test (tui + core coordinator) and bun typecheck fork tui; note fallback to increase primitive count if timing must be modeled or debounce smuggled via layered states. Keep TUI handleStopClick unsullied for Phase3 wiring.",
+          "created_at": "2026-08-29T15:05:15.794276795Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABACPaZsbqtVhCuGsz85hLqcC2Ed49O262SNR+5mRLQWTE4Tg8dkDAVux92S3w8jzAdm4vBoeGkSjsLrPLrLGB1BQ=="
         },
         "ed247f72-646b-47db-ae90-77c9bf006cf9": {
           "display_id": 3104,
@@ -37750,8 +37759,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T15:03:31.945468335Z",
+    "timestamp": "2026-08-29T15:05:15.802239748Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 76
+    "agent_seq": 77
   }
 }
