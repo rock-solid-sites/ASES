@@ -1,0 +1,36 @@
+{
+  "capabilities": 14,
+  "version": "0.1.0",
+  "derived_from": "authoritative/schemas.json@0.1.0",
+  "generated_at": "2026-08-29T00:00:00Z",
+  "categories_covered": {
+    "read_query": ["search_artefacts", "get_artefact", "list_reviews", "get_capability_schema", "query_metrics"],
+    "state_changing": ["create_artefact", "update_artefact_status", "archive_artefact", "link_artefacts", "submit_evidence"],
+    "multi_param": ["create_review"],
+    "enum_constrained": ["set_severity", "set_artefact_state"],
+    "structured_output": ["query_metrics"],
+    "typed_errors": ["get_artefact", "create_artefact", "archive_artefact", "link_artefacts", "update_artefact_status", "set_artefact_state", "get_capability_schema", "validate_payload"]
+  },
+  "variants": {
+    "A": "derived/variant-a.json",
+    "B": "derived/variant-b.json",
+    "C": "derived/variant-c.json"
+  },
+  "token_measurement": {
+    "tokenizer": "heuristic char/4 (tiktoken cl100k_base pending in harness)",
+    "note": "Phase 0 reports heuristic; harness/run.py --measure-tokens will report both char count and cl100k_base if tiktoken installed, else heuristic",
+    "variant_A_chars": 31767,
+    "variant_B_chars": 9288,
+    "variant_C_chars": 7942,
+    "variant_A_approx_tokens": 7941,
+    "variant_B_approx_tokens": 2322,
+    "variant_C_approx_tokens": 1985,
+    "ratio_C_over_A": 0.25,
+    "ratio_B_over_A": 0.292
+  },
+  "additional_constraints": {
+    "optional_params": "search_artefacts.cursor, create_artefact.body/tags, create_review.severity/citations, set_artefact_state.comment, submit_evidence.note, link_artefacts.bidirectional",
+    "array_nested": "create_artefact.tags, create_review.citations, submit_evidence.evidence_items[], link_artefacts.target_ids[], query_metrics.facets{}",
+    "output_differs_from_input": "query_metrics (filter -> nested facets/items)"
+  }
+}
