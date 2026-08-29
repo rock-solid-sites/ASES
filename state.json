@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3127,
+  "next_comment_id": 3128,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25213,7 +25213,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T04:25:13.095806217Z",
+      "updated_at": "2026-08-29T13:38:47.390594489Z",
       "labels": [
         "feature"
       ],
@@ -25244,6 +25244,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA6q1FMhcO12gzJIFQ4KsPtHCc0AJjvuyv8UN794/Bgl+quIJ03y/d9k5m5WIn3JLtjTW+C2OUR9E/84/mJxg+Cw=="
+        },
+        "13276826-35d2-4301-b991-7066882c8648": {
+          "display_id": 3127,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Draft Verified Spec for stop-button as state-gated execution per VSDD 1a-1c + Execution Engine H1-H4. Approach: (1) survey current TUI prompt/index.tsx state (isRunning/isInterrupting/dialog) + SessionRunCoordinator fence (Fiber.interrupt) + Execution Engine Vision + VSDD phases + UI-design H1-H4 to ground spec in evidence. (2) Create docs/architecture/Stop-Button-Verified-Spec.md as canonical Verified Spec with YAML frontmatter (Documentation Standard) at Architecture layer, sections: VSDD 1a Behavioral Contract/Interface/Edge Catalog/NFRs, VSDD 1b Verification Architecture (Provable Properties, Purity Boundary Map, Tooling, Property Specs), Statechart (idle/running/confirming/interrupting + transitions table + XState sketch), Invariants (authoritative fence, no-placebo, no-orphan, idempotent, debounce), Purity Boundary (pure core vs effectful shell), exhaustive Edge Catalog (≥20 edges with expected + cheapest test), Execution Engine H1-H4 mapping, and Review Gate checklist. No stubs, traceable to #510 probe and coordinator tests.",
+          "created_at": "2026-08-29T13:38:47.382392461Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAEteV3N7ffTi7rRrb6te/dnzWIGq9KGdqzc0IQGxm0q1jeNN0XJgniJdmiIiF1WddHsLuzkaR42E9PnvzbHjBQ=="
         },
         "15d855ec-a8da-4baa-90a1-34ec364059af": {
           "display_id": 3051,
@@ -37516,8 +37525,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T13:36:52.501763651Z",
+    "timestamp": "2026-08-29T13:38:47.390594489Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 68
+    "agent_seq": 69
   }
 }
