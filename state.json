@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3098,
+  "next_comment_id": 3099,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25037,7 +25037,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T03:57:12.420438264Z",
+      "updated_at": "2026-08-29T04:11:09.613797336Z",
       "labels": [
         "feature"
       ],
@@ -25386,6 +25386,15 @@
           "kind": "plan",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAYZVJjhNOK8kFPGUw8789X/5wzdCt8QJQ63yzU5wDDpcvCoo+sAgQkHdhL/QBH7lnA4TeYE4h9xbNQwKryhpAQ=="
+        },
+        "c74596be-5209-4351-a1e0-26b390b96e1b": {
+          "display_id": 3098,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Add an 'opencode2' shell function to ~/.bash_aliases mirroring the existing 'opencode' function. It defaults to the keeper worktree (ASES_KEEPER_WT = feature/stop-button @ /home/claude-code/projects/ASES/.worktrees/stop-button) on login, with the same smart-default (respect current git project when cwd is inside one). The real 'opencode2' binary (official @opencode-ai/cli, found in nvm node bin) is invoked via 'command opencode2', preserving its behavior. Update the header comment to mention opencode2. Verify: bash -n syntax, function resolution via 'type', end-to-end 'opencode2 --version' (proves cd+launch chain), and a sentinel ASES_KEEPER_WT test (proves the function honors the keeper var). Deliverable lives in operator home, not the repo.",
+          "created_at": "2026-08-29T04:11:09.605412246Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOdV1Fst2Pqks3AE+QVKCK1pc8S+RUZ6eXlU754rpwx1eokvJnJ8M56zMNUsac+KrUiw4NpebBC0yP8kckj0TBw=="
         },
         "c8e033bc-c69e-48bf-a279-98b6990a0b94": {
           "display_id": 3058,
@@ -37259,8 +37268,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T04:10:46.866416867Z",
+    "timestamp": "2026-08-29T04:11:09.613797336Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 55
+    "agent_seq": 56
   }
 }
