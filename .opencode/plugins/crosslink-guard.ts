@@ -1326,6 +1326,31 @@ const crosslinkGuardPlugin: Plugin = async (pluginInput) => {
       const config = applyAgentTypeOverride(crosslinkDir, baseConfig, input.sessionID);
 
       // ------------------------------------------------------------------
+      // 2b. S2 read-only enforcement for reviewer/auditor + allowedTools audit (audit #505 §3.4, §3.1c)
+      // ------------------------------------------------------------------
+      // Reviewer/auditor are read-only on S2 fork (orchestrator-guard also blocks, this is defense-in-depth).
+      // Also log CROSSLINK_ALLOWED_TOOLS for audit trail — container mode enforces, local mode logs.
+      {
+        const allowedToolsEnv = process.env.CROSSLINK_ALLOWED_TOOLS;
+        if (allowedToolsEnv) {
+          log("AUDIT: CROSSLINK_ALLOWED_TOOLS present, len:", allowedToolsEnv.length, "preview:", allowedToolsEnv.slice(0, 120));
+        }
+        // Resolve effective agent for write check (same precedence as applyAgentTypeOverride)
+        const sessionAgentForWrite = input.sessionID ? runtimeAgentBySession.get(input.sessionID)?.agent : undefined;
+        const runtimeEnvAgent = process.env.CROSSLINK_AGENT_TYPE;
+        const effectiveAgent = sessionAgentForWrite || runtimeEnvAgent || resolveAgentType(crosslinkDir);
+        if ((toolLower === "write" || toolLower === "edit") && (effectiveAgent === "reviewer" || effectiveAgent === "auditor")) {
+          const filePath = (output.args as { filePath?: string } | undefined)?.filePath ?? "<unknown>";
+          log("BLOCK: S2 read-only —", effectiveAgent, "blocked", toolName, "for", filePath);
+          throw new Error(
+            `READ-ONLY BLOCK — ${effectiveAgent} agents cannot use '${toolName}' (S2 enforcement, audit #505 §3.4). ` +
+            `File: ${filePath}. This is NOT your role; reviewer/auditor is read-only. ` +
+            `If you need to write, you must be launched as builder.`
+          );
+        }
+      }
+
+      // ------------------------------------------------------------------
       // 3. Permanently blocked git commands
       // ------------------------------------------------------------------
       if (toolLower === "bash") {
