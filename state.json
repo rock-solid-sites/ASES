@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 3051,
+  "next_comment_id": 3052,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24878,7 +24878,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T01:20:47.833391911Z",
+      "updated_at": "2026-08-29T01:39:02.440892797Z",
       "labels": [
         "feature"
       ],
@@ -24891,6 +24891,15 @@
           "kind": "observation",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAdtSJ3kNxc+mONRG+q5yMCA8oFHODOwdzvcs6xlIHrEGlWo1DJkxSakRLcCrnA7uQfcGH3+RRXlJCXWtBdi1XAA=="
+        },
+        "15d855ec-a8da-4baa-90a1-34ec364059af": {
+          "display_id": 3051,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Result: stop-button TUI + live 6-point interrupt probe (issue #510, branch feature/stop-button)\n\n== TUI typecheck (fork/opencode-src/packages/tui) ==\n- bun run typecheck FAILED initially: 2x TS2339 'Property interrupt does not exist on type Session2' at src/component/prompt/index.tsx:289 and :498.\n- Root cause: sdk.client.session returns legacy Session2 (no interrupt). interrupt lives on sdk.client.v2.session (Session3; sdk.gen.ts:5782; getter at sdk.gen.ts:7007).\n- Fix: both calls -> sdk.client.v2.session.interrupt({sessionID}). Re-ran bun run typecheck -> PASS (exit 0). Committed.\n\n== Live 6-point probe (scripts/probe-stop-button-phase0.sh) ==\nTarget: authenticated opencode server :49374 (HTTP Basic auth; user 'opencode', password from ~/.config/opencode/service.json; also accepted as ?auth_token=base64(user:password)). Probe creates its OWN session, so it cannot affect operator/agent sessions.\n\nCorrected probe verdict (after fixing 3 probe bugs):\n1) idle interrupt -> 204 no-op, no crash  [PASS]\n2) stream killed -> session never observed running  [N/A]\n3) tool killed -> tool child 'sleep 42' never observed  [N/A]\n4) new prompt accepted after interrupt -> 200  [PASS]\n5) 401/429 parked retry cleared -> not auto-forcible  [N/A]\n6) no orphan after restart -> tool child not observed  [N/A]\nVERDICT: PASS on the 2 testable points; 4 N/A.\n\n== Honest conclusion (reasoning certainty) ==\nWHY: The probe's first run reported FAIL, but that was a FALSE POSITIVE from three probe bugs now fixed: (a) URL doubling of auth_token, (b) pgrep -f 'sleep 30' substring-collided with kickoff watchers whose cmdline contains 'sleep 300', (c) prompt body sent as {'prompt':{'text':...}} but server wants {'text':...} at root.\nWHAT: After fixes, the only live-verifiable behaviors are: idle interrupt returns 204 (no-op, no crash) and a post-interrupt prompt is admitted (200).\nHOW CERTAIN: Evidence-based for the 2 PASS points; the 4 N/A points are unverified, not disproven.\nWHAT-NOT-TESTED: The core #510 concern — whether interrupt truly kills a RUNNING generation/tool fiber vs. a placebo 204 — could NOT be verified on this server. The agent does not spawn shell-tool child processes from a prompt (no 'sleep 42' process appeared across 80s of polling), and generations complete in <2s so the 'running' state is not observable via polling. GET /api/session/:id has no status field; idle is derived from time.idle.\n\n== Recommendation ==\nTo actually verify the running-case fence, either (1) point the probe at a server/agent that runs tool children (so a 'sleep 42' process is observable and killable), or (2) add a unit/integration test of the interrupt handler asserting the generation/tool fiber is cancelled. The TUI code change itself is type-correct and safe; the endpoint behaves as a no-op fence on idle sessions and accepts new prompts afterward.\n\nCommitted: d8cd1535 (TUI v2.session.interrupt + probe auth/format/status fixes).",
+          "created_at": "2026-08-29T01:39:02.434701242Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABARJN/U+CmBIDTsV9spkb94+1X4cTb65RhEbn7f7CH+xaxWg3jxmL5JpqV6WC1gmqs/ADVBYmDMIMYhhAKYNOjAA=="
         },
         "18636705-d7ec-484c-96a5-7bc6dc414cfb": {
           "display_id": 2898,
@@ -36745,8 +36754,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T01:36:52.353725467Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2767
+    "timestamp": "2026-08-29T01:39:02.440892797Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 38
   }
 }
