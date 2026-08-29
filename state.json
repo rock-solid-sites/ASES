@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3069,
+  "next_comment_id": 3070,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -35524,7 +35524,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-29T02:02:12.485359323Z",
-      "updated_at": "2026-08-29T02:22:14.013013257Z",
+      "updated_at": "2026-08-29T02:24:13.774980499Z",
       "labels": [
         "feature"
       ],
@@ -35555,6 +35555,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZZOndq6+NwnxB+xpaelaGka+FW+r2r5cvbWInLJv+LwvSqbBQfqL6zbdeTk7FZuInVGnj6JgWHsk8iNWyhc1Aw=="
+        },
+        "65928351-37b3-4bf8-bfcf-dbe6f4aaac0c": {
+          "display_id": 3069,
+          "author": "ZRXU-JRrf-verify-dormant-reviewer-read-only-enforcement-post",
+          "content": "## Review Summary: CHANGES REQUESTED\n\n### MUST FIX (blocking)\n- `.crosslink/hook-config.json:262 — kickoff.allowed_tools missing rtk — branch at 96694b17 lacks second fix commit 16dbe151 which adds rtk to allowed_tools and reviewer/auditor allowed_bash for live verification. Without it, reviewer live kickoff cannot use rtk read/ls/grep during verification; dormant-activations branch already has fix, this verification branch does not. Fix: cherry-pick or re-apply 16dbe151 onto this branch (add \\\"Bash(rtk *)\\\" or specific rtk entries to kickoff.allowed_tools and to reviewer/auditor allowed_bash_prefixes).\n- `.opencode/agents/reviewer.md:3 — mode mismatch: frontmatter mode is primary but .opencode/opencode.json defines reviewer as subagent. Should be consistent (subagent) to avoid launch confusion; crosslink-guard resolves agent via chat.params/CROSSLINK_AGENT_TYPE, but mode primary may allow incorrect launch path.\n\n### SHOULD CONSIDER (non-blocking)\n- `.crosslink/hook-config.json:96-145 — reviewer allowed_bash still relies on relaxed tracking_mode fallback for rtk (since rtk not listed, but relaxed allows all). The second fix makes enforcement explicit; without it, enforcement is implicit via relaxed mode, which defeats the intended deny-by-default narrowing for reviewer. Apply fix to make explicit.\n- `.opencode/plugins/crosslink-guard.ts:section 2b — S2 read-only block logs CROSSLINK_ALLOWED_TOOLS preview (200 chars) but does not fail-closed if env missing in local mode; container mode enforces, local is audit-only. Document this explicitly in wrapper README and guard comment (already done) — consider adding explicit log when env unset to avoid silent pass.\n- `branch isolation (--base) — no config needed but not verified live; recommend adding one-line doc in .crosslink/knowledge or hook-config comment noting --base is CLI-only and verified via git diff main...branch.\n\n### NITS (optional)\n- `.crosslink/sandbox/restrict.sh:16 — WHAT-NOT-TESTED notes bwrap/firejail not tested on host; consider adding ci check that script is executable (chmod +x verified) and that sandbox.command template is valid bash.\n\n### NOTABLE POSITIVES\n- `.opencode/plugins/crosslink-guard.ts:2b and .opencode/plugins/orchestrator-guard.ts — defense-in-depth S2 read-only enforcement for reviewer/auditor Write/Edit correctly blocks with clear READ-ONLY BLOCK message (audit #505 §3.4); .kickoff-status exemption for liveness is correctly narrow.\n- `.crosslink/hook-config.json:96-120,146-170 — reviewer/auditor by_type correctly blocks git commit and narrows allowed_bash to read-only set (git status/diff/log/show/branch, ls/cat, crosslink comment/show, rtk proxies via frontmatter); builder retains gated commit.\n- `.crosslink/hook-config.json:272, .crosslink/sandbox/restrict.sh, .crosslink/wrapper/claude-wrapper.sh, .crosslink/wrapper/README.md — fix-then-activate for sandbox.command and wrapper --allowedTools/--permission-mode correctly preserves via CROSSLINK_* env and logs provenance; container vs local distinction documented.\n- `.opencode/agents/reviewer.md, auditor.md — deny-by-default bash with explicit allowlist correctly restricts to read-only git and crosslink observation surface; permissions.md snapshot accurately reflects live sources.\n\nVerification: commit 96694b17 (feat #517) present on this branch (git show --stat confirmed 5 files, 273 insertions); base main at ca35c1c lacks these; diff main...HEAD confirms dormant activations. Second fix commit 16dbe151 present on dormant-activations but not on this verification branch — needs sync.",
+          "created_at": "2026-08-29T02:24:13.766211527Z",
+          "kind": "observation",
+          "signed_by": "SHA256:hGNp4esgQqn09JjXOks5aa8N6QK7YUbaXjlDI1DYlJQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgXg86piO7VdatHzVswJsIa4uollT5yEL/dojXnhtV/6MAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANzXQ+GiCYGysazhK/xTIMRnLzkL0LQqIoYhrEWLnnUdcWFZsHnu4FrqUyzZDyOojiF6vgtZxUYpZJZ2VS4kxCQ=="
         },
         "8f39f99d-e250-46fc-aafd-1886de183d68": {
           "display_id": 3061,
@@ -36983,8 +36992,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T02:22:14.013013257Z",
-    "agent_id": "pp3g-8Ufm-implement-dormant-activations-that-work-today-per-750b",
-    "agent_seq": 20
+    "timestamp": "2026-08-29T02:24:13.774980499Z",
+    "agent_id": "ZRXU-JRrf-verify-dormant-reviewer-read-only-enforcement-post",
+    "agent_seq": 1
   }
 }
