@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3178,
+  "next_comment_id": 3179,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25546,7 +25546,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T15:09:31.880233286Z",
+      "updated_at": "2026-08-29T16:05:10.931181554Z",
       "labels": [
         "feature"
       ],
@@ -25841,6 +25841,15 @@
           "kind": "plan",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAyGnLmfhWhwFN5CyiJqSJiFea2Pld9tsf36Uavp7gCZCFySZTA7t5+L96/vV130erwgPKt+86kqqIQE9Jd+btAg=="
+        },
+        "780a770f-8bb7-4c88-8289-08025e5f4b56": {
+          "display_id": 3178,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Wire stop-button-machine into prompt/index.tsx — shell interprets pure descriptor. Add isConfirming signal + deriveStopState helper via isRunning/isInterrupting/isConfirming. Refactor handleStopClick to gate via isPermitted/nextState: idle STOP_CLICK stays idle (toast), running STOP_CLICK -> confirming (dialog), confirming YES -> interrupting (sdk.client.v2.session.interrupt), NO/ESC/DISMISS -> running, interrupting STOP_CLICK idempotent debounce. Wire ESC path session.interrupt double-Esc via isPermitted ESC_ESC (running->interrupting, idle no-op). Keep debounce 1s lastInterruptAt + 800ms cooldown + 5s Esc window in shell, zero timing in machine. Verify via bun typecheck + bun test (tui 203+ + machine 12 + core 18).",
+          "created_at": "2026-08-29T16:05:10.924561367Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALf0etohsz/t4c9CI96QUoRQQVnKpQNXu7Obu1tWhPuJqVXUYujgBHkWeBuYl86KZDIBHBYh+tYPTz4N9srbICQ=="
         },
         "8847aa67-1e09-4794-97d9-0c2ebf88e2d1": {
           "display_id": 2987,
@@ -37975,8 +37984,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T16:05:00.788402654Z",
-    "agent_id": "pp3g-d5tz-test-d-for-498-capability-authority-separation-d1-d4",
-    "agent_seq": 4
+    "timestamp": "2026-08-29T16:05:10.931181554Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 86
   }
 }
