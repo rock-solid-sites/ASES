@@ -1,6 +1,6 @@
 {
   "next_display_id": 518,
-  "next_comment_id": 3061,
+  "next_comment_id": 3062,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -35438,7 +35438,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-29T02:02:12.485359323Z",
-      "updated_at": "2026-08-29T02:08:46.728736277Z",
+      "updated_at": "2026-08-29T02:10:17.024032255Z",
       "labels": [
         "feature"
       ],
@@ -35460,6 +35460,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZZOndq6+NwnxB+xpaelaGka+FW+r2r5cvbWInLJv+LwvSqbBQfqL6zbdeTk7FZuInVGnj6JgWHsk8iNWyhc1Aw=="
+        },
+        "8f39f99d-e250-46fc-aafd-1886de183d68": {
+          "display_id": 3061,
+          "author": "pp3g-8Ufm-implement-dormant-activations-that-work-today-per-750b",
+          "content": "Plan: Implement dormant activations per audit #505 commit 5ce98c67 without new Engine code. Scope: (1) Audit hook-config vs deployed — activate kickoff.allowed_tools (container-only enforcement via explicit array + docs that --allowedTools only enforced under --container docker/podman), reviewer/auditor S2 read-only (by_type already present, verify guard enforcement + add allowed_bash narrowing + filesystem deny), branch isolation (--base, no config, doc & verify), lock serialisation (locks list/check, tracking_mode strict/relaxed split retained), tracking_mode/comment_discipline/signing_enforcement/sentinel flags (explicit values, keep current: strict/encouraged/audit/false). (2) Fix-then-activate: wrapper drop at ~/.local/bin/claude — fix --allowedTools and --permission-mode forwarding (currently shift 2 drops; will map to ARGS or env and preserve for container/local audit, verified against opencode run --help); sandbox.command — add .crosslink/sandbox/ wrapper + hook-config entry using container mount for file-path (docker bind-mount + fallback local path-check via guard). Leave dormant: true per-file-path allowlist without Engine (no new guard file-path key, document via knowledge page). Deliverable: hook-config.json updates + wrapper patch + guard plugins enhancement + sandbox script + live kickoff verification (dry-run + actual reviewer kickoff + container probe + workflow diff/trail/integrity checks). Verify: crosslink config list, workflow diff/trail, integrity hydration, locks, live kickoff --agent-type reviewer and --container docker.",
+          "created_at": "2026-08-29T02:10:17.017502277Z",
+          "kind": "plan",
+          "signed_by": "SHA256:TJKfCP0P2VICtyO2EbB1vFlZUx6N1stdeD4Ez0d3xow",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoh++xTi6XIJ8BGiWfucsQuyQZAlyRZNwqtjcETA57y4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0vCuEM03aIAurMY6hpWP5PLUPRf0X//h7IyqBfiInBpFjAOfiXJIwMiA0VEuX8bgapU+iZmmhnNU/X5yK/rPDg=="
         }
       }
     },
@@ -36852,8 +36861,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T02:08:46.728736277Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2773
+    "timestamp": "2026-08-29T02:10:17.024032255Z",
+    "agent_id": "pp3g-8Ufm-implement-dormant-activations-that-work-today-per-750b",
+    "agent_seq": 4
   }
 }
