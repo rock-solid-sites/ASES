@@ -1,6 +1,6 @@
 {
   "next_display_id": 523,
-  "next_comment_id": 3231,
+  "next_comment_id": 3232,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25966,7 +25966,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T17:17:09.088692998Z",
+      "updated_at": "2026-08-29T17:21:17.726693565Z",
       "labels": [
         "feature"
       ],
@@ -25988,6 +25988,15 @@
           "kind": "observation",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0JJ0zFcZWcF8wmM9bMCG6y7Lgur2OL+DBTPkObNHVyilGV/js2xF3mYneDkn3i1EONlf2TiagI4MwgeoaTk7Bg=="
+        },
+        "0f5d1e84-a1a9-475a-9d41-3192ba6c614a": {
+          "display_id": 3231,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Fix debounce orphan + concurrency/temporal/transport live verification per Universal Checklist §§14-16. Steps: (1) audit handleStopClick debounce orphan — lastInterruptAt set before dialog orphans retry after cancel; move gate to post-YES only and ensure isConfirming always cleared via finally + dialog onDismiss. (2) Extend 6-point probe to 9-point: add concurrent-interrupt idempotence, debounce coalescence, and transport semantics (204 vs 200 vs timeout) checks — update scripts/probe-stop-button-phase0.sh. (3) Add TUI unit coverage for debounce orphan (rapid Stop→No→Stop within 1s must reopen dialog) and concurrent STOP_CLICK while confirming forbidden. (4) Instantiate docs/conformance/Stop-Button-Conformance-Suite.md from Universal Checklist 36 dims, grounding §§14-16 concurrency/temporal/transport in the 4-state machine + coordinator fence + live probe evidence. Verify via bun typecheck (tui) + bun test (tui 203+ + core 18) and probe --help smoke.",
+          "created_at": "2026-08-29T17:21:17.717933548Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABACmsn+iIS+SAwsPdRe4RS3NFesnOn2+oK/oF72OwLclzsaRseSM6hJ1HBCWXrL9K+Z3G9weD89xZZBJyA54u/Cg=="
         },
         "1162fdf8-946e-48ee-a072-66ce281e7f03": {
           "display_id": 3154,
@@ -38467,8 +38476,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T17:19:34.973768378Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2868
+    "timestamp": "2026-08-29T17:21:17.726693565Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 95
   }
 }
