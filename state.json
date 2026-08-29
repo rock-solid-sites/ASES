@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 3045,
+  "next_comment_id": 3046,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24851,7 +24851,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T00:28:15.279256944Z",
+      "updated_at": "2026-08-29T01:11:32.980572252Z",
       "labels": [
         "feature"
       ],
@@ -25065,6 +25065,15 @@
           "kind": "approval",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHY1nxCYsJVysxH8XPJsCeRawLl2SYgySmxGQPGKQL6SdYFEDEmtk0mKgtegPHzSaQEqzcMB0Gjec9gWLZQb5AQ=="
+        },
+        "ac27dd94-c847-49a1-aedb-7704b22ddddb": {
+          "display_id": 3045,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: (1) bun install in fork/opencode-src workspace to populate node_modules (required for tsgo + workspace symlinks). (2) Run 'bun typecheck' (tsgo --noEmit) in fork/opencode-src/packages/tui; capture result, fix any type errors in the stop-button TUI change if present. (3) Live 6-point probe: identify a reachable live opencode server (host servers on :49374/:49152), verify API reachability + auth, then run scripts/probe-stop-button-phase0.sh against it (it creates its OWN probe session, so it cannot touch operator/agent sessions). Report PASS/FAIL/SKIP per point. If no server reachable, run in graceful SKIP mode and report. (4) Commit evidence (typecheck result + probe log) gated on #510.",
+          "created_at": "2026-08-29T01:11:32.974316555Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAf0JHut4ER6IJG6SMCAFAHOKlT4BW7uH8za6Ej6Vr8a2Hh23JqAD8zpHWczWzXUahO3XzqQ4OPlfef0gan0trCg=="
         },
         "b1978df3-608b-493a-a64c-7619ca11f3f7": {
           "display_id": 3002,
@@ -36691,8 +36700,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T01:09:35.221455730Z",
+    "timestamp": "2026-08-29T01:11:32.980572252Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 34
+    "agent_seq": 35
   }
 }
