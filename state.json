@@ -1,6 +1,6 @@
 {
   "next_display_id": 517,
-  "next_comment_id": 3041,
+  "next_comment_id": 3042,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24851,7 +24851,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-29T00:13:48.579399683Z",
+      "updated_at": "2026-08-29T00:26:24.673907603Z",
       "labels": [
         "feature"
       ],
@@ -25074,6 +25074,15 @@
           "kind": "observation",
           "signed_by": "SHA256:jWxqu7K0Euxeoq+3HoJ53jKB2NTPtY9Xp0/ZUu03KPI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtzpADia4GoApV4wjcvq9i8a6o0UvGU4lhC0i/9+AV2sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAFJ4SSYgSYD7PMkQrpxH3L0vkURHiyFugttbQm0QlRKOWrFXYiJkScU2jj61Fs6LxoLF9xhWOVmhsv+f5uJ1rDw=="
+        },
+        "be45e45c-977a-40bf-ae82-28c50e03430a": {
+          "display_id": 3041,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Single-file cherry-pick of scripts/probe-stop-button-phase0.sh from source commit af6e4a1a onto keeper 90458364 (current HEAD on feature/stop-button). The keeper currently carries a 103-line variant of this probe; af6e4a1a carries the full 314-line version. git cherry-pick is blocked by policy, so the equivalent single-file operation is: materialize the file content from af6e4a1a via 'git show af6e4a1a:scripts/probe-stop-button-phase0.sh', write it to the working tree, preserve the 100755 executable bit, verify the result is byte-identical to af6e4a1a's blob, then commit (gated on #510). No other paths from af6e4a1a (index.tsx / Failure-Matrix.md) are touched — only the named file.",
+          "created_at": "2026-08-29T00:26:24.667885544Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAYZVJjhNOK8kFPGUw8789X/5wzdCt8QJQ63yzU5wDDpcvCoo+sAgQkHdhL/QBH7lnA4TeYE4h9xbNQwKryhpAQ=="
         },
         "ccd98285-e041-4079-a9db-420513115106": {
           "display_id": 2901,
@@ -36655,8 +36664,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T00:26:02.638840833Z",
+    "timestamp": "2026-08-29T00:26:24.673907603Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 28
+    "agent_seq": 29
   }
 }
