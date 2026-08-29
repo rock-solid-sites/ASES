@@ -1,6 +1,6 @@
 {
   "next_display_id": 522,
-  "next_comment_id": 3165,
+  "next_comment_id": 3166,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -22119,7 +22119,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-27T04:58:04.090684663Z",
-      "updated_at": "2026-08-29T15:59:38.159353874Z",
+      "updated_at": "2026-08-29T15:59:48.589859839Z",
       "labels": [
         "research"
       ],
@@ -22384,6 +22384,15 @@
           "kind": "observation",
           "signed_by": "SHA256:SOy7VpeapG0iMixFjBjpoX2HyT/u973mG66FPjOqfno",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgiyNOCPxk2L+zZFXLcgDR9NWqwNRmJfN+hE+nr6Z0w6EAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABANHJ8plszd1WYUHTiACS6dCZWVpD/LuuhvtexjDeWTiJ1uZrc4tlwfuABqSAhtQrSy0mpB12HIjThS7Ri3d5JCQ=="
+        },
+        "eb457c78-aa95-4b10-be09-2c56af545042": {
+          "display_id": 3165,
+          "author": "pp3g-VyzN-test-c-for-498-schema-drift-versioning-c1-c4-efb4",
+          "content": "Plan: Test C — schema drift/versioning C1-C4 per design §5.4. Steps: (1) read Phase 0 artifacts (schemas v0, variant C, harness); (2) author protocol.md with 4 mutation cases + version-check + acceptance criteria + WHAT-NOT-TESTED; (3) generate mutated schemas v1 under schemas/{c1,c2,c3,c4} (C1 additive optional param, C2 incompatible tightening, C3 output shape change, C4 removal/rename); (4) implement tests/test-c/run.py harness that loads v0 variant description vs v1 authoritative schemas and submits v0-shaped calls, records validation_result/error_code/executed/latency/version; (5) execute runs, capture logs under logs/test-c/, (6) author results.md with per-case tables, version-check findings, failure-mode analysis for stable IDs, and WHAT-NOT-TESTED; (7) verify smoke and sync. No stubs; reuse harness sandbox→validation→policy→execution ordering.",
+          "created_at": "2026-08-29T15:59:48.582858185Z",
+          "kind": "plan",
+          "signed_by": "SHA256:SRO25sBMwOuYmvZ6j8tXrAT/e9oqsNiG0iX2gPivFtQ",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg5VWA6c6lioZUiThN5FH7vLoEOp/+DucQzr+NWAoiqqYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA1EeGni7niCgDmYpdOftyfpboZJhaX0cAIWwo0a8lZW7DF0O+VlaJNoCVSylyhEaUlueaQ1ipwWHKDO0XIDPCDg=="
         },
         "f093ef7b-b585-464d-a275-f0b991ca5613": {
           "display_id": 2865,
@@ -37858,8 +37867,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-29T15:59:38.159353874Z",
-    "agent_id": "pp3g-d5tz-test-d-for-498-capability-authority-separation-d1-d4",
-    "agent_seq": 2
+    "timestamp": "2026-08-29T15:59:48.589859839Z",
+    "agent_id": "pp3g-VyzN-test-c-for-498-schema-drift-versioning-c1-c4-efb4",
+    "agent_seq": 7
   }
 }
