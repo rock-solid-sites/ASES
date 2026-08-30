@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-18
+updated: 2026-08-30
 ---
 
 # Model Discipline
@@ -33,13 +33,14 @@ OpenCode has two distinct provider categories with different cost and reliabilit
 
    **Block signature:** `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`
 
-   **Required 4 steps before retry (cheaper-first):**
-   1. **question** — Ask the operator via the question tool: *Which model for this dispatch?* Prefer cheaper models that satisfy the task; frontier/expensive models require explicit approval on every launch — never select a frontier model over a cheaper option without operator approval.
+   **Required 3 steps before retry (cheaper-first):**
+   1. **question (verbal approval)** — Ask the operator via the question tool: *Which model for this dispatch?* The operator's verbal answer is the approval — required and sufficient. Prefer cheaper models that satisfy the task; frontier/expensive models require explicit approval on every launch — never select a frontier model over a cheaper option without operator approval.
    2. **opencode models** — Verify the exact ID: `opencode models <provider>` (e.g. `opencode models opencode-go`) — copy the ID exactly, never guess, shorten, or modify.
-   3. **approval comment** — Operator posts on the active issue: `crosslink issue comment <id> "Approved model: <exact model ID> verified via opencode models <provider>" --kind approval` — the gate checks the active issue has an `--kind approval` comment *containing the exact `--model` ID* from the launch command.
-   4. **retry** — Re-run the same launch; the gate allows it only when the active issue and approval are present. Each launch needs its own approval — a prior approval for a different model does not authorize a new model.
+   3. **retry** — Re-run the same launch. Each launch needs its own approval — a prior approval for a different model does not authorize a new model. Approval is per-launch unless the operator explicitly says it covers multiple phases.
 
-   Without an active issue the gate blocks with the same message; create/claim one first (`crosslink quick` / `crosslink session work <id>`) and post the approval before launching. The gate sits above the `crosslink`-prefix allowlist — being in `allowed_bash_prefixes` does NOT bypass the approval check.
+   **No Crosslink approval comment.** Approval is verbal via the question tool — never recorded as a `--kind approval` issue comment. Do not post one and do not wait for one: the operator never runs shell commands (AGENTS.md D1–D4), and a durable approval comment is pathological (a future agent would misread a transient approval as standing acceptance).
+
+   Without an active issue the gate blocks with the same message; create/claim one first (`crosslink quick` / `crosslink session work <id>`) before launching. The gate sits above the `crosslink`-prefix allowlist — being in `allowed_bash_prefixes` does NOT bypass the approval check.
 
 ## Standing Facts (Operator-Stated, 2026-08-18)
 

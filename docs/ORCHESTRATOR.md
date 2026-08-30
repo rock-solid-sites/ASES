@@ -586,13 +586,14 @@ Model launch is **operator-gated and mechanically enforced** — same tier as `g
 
 **Block signature if not approved:** `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`
 
-**Required 4 steps before retry:**
-1. **question** — Ask the operator via the question tool: Which model for this dispatch?
+**Required 3 steps before retry:**
+1. **question (verbal approval)** — Ask the operator via the question tool: Which model for this dispatch? The operator's verbal answer is the approval — required and sufficient.
 2. **opencode models** — Verify the exact ID: `opencode models <provider>` (e.g. `opencode models opencode-go`).
-3. **approval comment** — Operator posts on the active issue: `crosslink issue comment <id> "Approved model: <exact model ID> verified via opencode models <provider>" --kind approval` — the gate checks the active issue has an `--kind approval` comment containing the exact `--model` ID.
-4. **retry** — Re-run the same launch; the gate allows it only when approval is present. Each launch needs its own approval.
+3. **retry** — Re-run the same launch. Each launch needs its own approval; approval is per-launch unless the operator explicitly says it covers multiple phases.
 
-Without an active issue the gate also blocks; create/claim one first (`crosslink quick` / `crosslink session work <id>`) then post the approval. The gate sits above the `crosslink`-prefix allowlist — being in `allowed_bash_prefixes` does not bypass it.
+**No Crosslink approval comment** — do not post one and do not wait for one: the operator never runs shell commands (AGENTS.md D1–D4), and a durable approval comment is pathological (a future agent would misread a transient approval as standing acceptance).
+
+Without an active issue the gate also blocks; create/claim one first (`crosslink quick` / `crosslink session work <id>`). The gate sits above the `crosslink`-prefix allowlist — being in `allowed_bash_prefixes` does not bypass it.
 
 ---
 
