@@ -1,6 +1,6 @@
 {
   "next_display_id": 530,
-  "next_comment_id": 3379,
+  "next_comment_id": 3380,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26722,7 +26722,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-30T23:28:46.232170596Z",
+      "updated_at": "2026-08-30T23:29:30.255885533Z",
       "labels": [
         "feature"
       ],
@@ -27014,6 +27014,15 @@
           "kind": "observation",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAY0wC9E+gXjAzjL23TBP7hjWccfOUINfqumgRfkyBSu9YvWe34PwrnR0t2xfqqd7TAMMTlmlKGKkdmPFwSRu4BQ=="
+        },
+        "445f296c-8ad1-4067-a2a8-a51216aacf13": {
+          "display_id": 3379,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Result: Created zip archive of keeper at /tmp/stop-button-keeper.zip for reviewers.\n\nWHAT: git archive --format=zip --prefix=stop-button-keeper/ -o /tmp/stop-button-keeper.zip HEAD on feature/stop-button (commit dd70791b). Archive contains 8431 tracked files (137M uncompressed, 84M zip). Verified: unzip -t OK, sha256 bfa77c76bfb5f758d3816c6e5c436e4bba83b0c9b1c115c8fa676a4c29c77d77, contains fork/opencode-src/packages/tui/src/component/prompt/index.tsx + stop-button-machine.ts + stop-button-controller.ts + tests, docs/architecture/Stop-Button-Verified-Spec.md, docs/conformance/Stop-Button-Conformance-Suite.md, scripts/probe-stop-button-phase0.sh (9-point). Excludes gitignored node_modules/fork build artefacts and untracked .crosslink/sandbox per git archive semantics. Re-creatable via same git archive command.\n\nWHY: Reviewers need a self-contained snapshot of the keeper worktree without needing the worktree path or git fetch.\n\nHOW CERTAIN: evidence-based. ls -lh 84M, sha256 computed, unzip -l spot-checked, unzip -t No errors.\n\nWHAT-NOT-TESTED: untracked working-tree changes (.crosslink/.last-hydrated-ref, .opencode/agents/reviewer.md mode, .crosslink/sandbox/restrict.sh) not included — they are not part of committed keeper HEAD and are out-of-scope for review.",
+          "created_at": "2026-08-30T23:29:30.248329957Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALq9oS7l24PMY8ocrPsa1WHn479eY5QIjk1UlvxiWBKeC5arc1EibS8iaCCLUYUBeFJXOnrOg6+PzimDHWo1dCg=="
         },
         "4500204f-7bc6-4d64-8b93-5e51f0ebf297": {
           "display_id": 3156,
@@ -39912,8 +39921,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T23:28:46.232170596Z",
+    "timestamp": "2026-08-30T23:29:30.255885533Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 156
+    "agent_seq": 157
   }
 }
