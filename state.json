@@ -1,6 +1,6 @@
 {
   "next_display_id": 525,
-  "next_comment_id": 3273,
+  "next_comment_id": 3274,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26139,7 +26139,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-30T19:56:51.865082409Z",
+      "updated_at": "2026-08-30T19:58:06.079538641Z",
       "labels": [
         "feature"
       ],
@@ -26341,6 +26341,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAlQUToIU1H9U1J8IRsxQiOR914sGCBPCk2BH1iiJeQUEgmZsLNa4l5issZIhcbbsrcuezhO5pCvF9sMY+oHpZBA=="
+        },
+        "43d21e56-3e9e-41da-a98c-305abd03bebe": {
+          "display_id": 3273,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "[REVIEW] state=verifying completed=review of stop-button state machine + verification architecture vs Verified Spec §4/§5/§7 + Universal Checklist. 6 findings (2 model/spec contradictions, 1 architectural, 3 doc). Delegating safe fixes to Builder.\n\nFINDING F1 (HIGH, model↔spec contradiction): Machine forbids running:ESC, but Verified Spec §7 E11 requires running+ESC(single)→stay running. The test stop-button-machine.test.ts:86 *enshrines* running:ESC as forbidden — it is wrong vs the spec it claims to conform to. The TUI handles single-Esc by incrementing a counter outside the machine, so the machine cannot validate E11. FIX: add running:ESC→running to TRANSITIONS (pure self-transition); update test + conformance §5 counts (16→17 permitted, 28→27 forbidden).\n\nFINDING F2 (HIGH, architectural — headline): The machine is consulted only as a *static validation gate* (isPermitted/nextState), never as the system of record. deriveStopState() reconstructs state from 3 independent shell booleans (isRunning,isInterrupting,isConfirming) with a hardcoded priority order (interrupting>confirming>running>idle) that is itself an un-modeled guard. SETTLED is never dispatched into the machine; the machine's interrupting→idle edge is dead. Authoritative idle is the SSE status (time.idle), not the machine. This inverts Verified Spec §3b.2 ('statechart owns lifecycle, engine only schedules') and the conformance §5 claim that SETTLED 'maps to TUI 800ms cooldown as observed projection'. DECISION NEEDED: (a) make the machine the system of record (hold a state signal; dispatch PROMPT_SUBMIT/STOP_CLICK/YES/NO/DONE/ERROR/SETTLED from real sources incl. SSE settlement) OR (b) downgrade §3b.2 to 'machine is a validation gate; SSE is authoritative for lifecycle'. Recommend (a) for the 'no placebo' guarantee (I2) to be enforceable by the machine.\n\nFINDING F3 (MED, missing path): running:INTERRUPT_API (external concurrent interrupt from another client/API) is unmodeled — forbidden in machine and the TUI never subscribes to a server-pushed interrupt, so an external interrupt is silently invisible. Spec §7 has no running:INTERRUPT_API edge (E13 only covers interrupting:INTERRUPT_API). The authoritative POST /api/session/:id/interrupt is the whole point of the feature; a concurrent external one must also reach interrupting. FLAG: add running:INTERRUPT_API→interrupting to spec + machine + TUI subscription (not applied; spec gap).\n\nFINDING F4 (MED, UX/placebo-adjacent): confirming+DONE/ERROR race (drain completes while dialog open) — spec deliberately forbids confirming→idle, so the dialog lingers showing 'Stop agent?' after the agent already stopped; clicking Yes logs 'interrupt success' + toasts 'Interrupted' on a no-op (placebo-misleading, exactly the Failure-Matrix risk the feature exists to prevent). FIX (cheap, applied): capture wasRunning at interrupt issue; on 204 against an already-idle session, toast 'No active run' + log 'interrupt no-op (already idle)' instead of 'Interrupted'/'interrupt success'. Keep spec's no-auto-dismiss design.\n\nFINDING F5 (LOW, doc drift): Verified Spec §1.3/§3b.3 call the probe a '6-point probe'; the shipped scripts/probe-stop-button-phase0.sh has 9 points (concurrency/temporal/transport added, commit '9-point live probe'). Conformance §5 correctly says 9. FIX (applied): update spec wording 6→9.\n\nFINDING F6 (LOW, abstraction gap): (a) Spec §6.1 locates the machine at session-ui/src/v2/components/prompt-input/machine.ts but it is colocated as stop-button-machine.ts in prompt/ — acceptable but not per spec. (b) Spec §3b.2 says transitions emit a declarative effect descriptor (invokeInterrupt|openDialog|toast) the shell interprets; the machine only returns nextState — the shell re-derives effects via deriveStopState+routing, not via a machine-emitted descriptor. (c) confirming:YES guard !isInterrupting (spec §4.3) is correctly omitted from the *pure* machine (timing stays in shell per §3b.2 purity) but the spec table lists it as a machine guard — doc inconsistency, not a bug. (d) I6 raced wake/run (WAKE/RUN events) is not modelable in the machine (only PROMPT_SUBMIT exists); lives in coordinator only — consistent with purity boundary, note it.",
+          "created_at": "2026-08-30T19:58:06.072529760Z",
+          "kind": "observation",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAY0wC9E+gXjAzjL23TBP7hjWccfOUINfqumgRfkyBSu9YvWe34PwrnR0t2xfqqd7TAMMTlmlKGKkdmPFwSRu4BQ=="
         },
         "4500204f-7bc6-4d64-8b93-5e51f0ebf297": {
           "display_id": 3156,
@@ -38878,8 +38887,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T19:57:31.714378922Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2880
+    "timestamp": "2026-08-30T19:58:06.079538641Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 116
   }
 }
