@@ -1,6 +1,6 @@
 {
   "next_display_id": 525,
-  "next_comment_id": 3275,
+  "next_comment_id": 3276,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -29978,7 +29978,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-30T19:43:15.638186421Z",
-      "updated_at": "2026-08-30T19:57:01.724747750Z",
+      "updated_at": "2026-08-30T19:58:43.729379589Z",
       "comments": {
         "007c9e0c-ec91-4ffa-aa32-bc1568d37a87": {
           "display_id": 3258,
@@ -29997,6 +29997,15 @@
           "kind": "observation",
           "signed_by": "SHA256:114LrjMPMzb0zvrkAq9XyLWG1N5h5mVLOoirb2seIyo",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2N1Tgd+G7xdRtLFLxRe0EzRNYzc/XizWHuO/dF6SYyQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAox3I/e8lXF9CScbxOn+qsR+/1fcLG3TPbwu2cdzd8IXJ/f1T0LnbaeQmqV7IoSBanEUjrLN6OPhEj+yWMCHtCw=="
+        },
+        "5be6ad9a-380b-474c-973f-7977ba876d0e": {
+          "display_id": 3275,
+          "author": "pp3g-MA65-fix-agents-md-operator-gated-wording-verbal-approval",
+          "content": "Result: Corrected the Model Discipline — Operator-Gated wording per operator directive 2026-08-30. AGENTS.md 'Required 4 steps' bullet replaced with 'Required 3 steps': 1) question (verbal approval via question tool — required and sufficient), 2) opencode models verify exact ID, 3) retry. Added: No Crosslink approval comment (do not post or wait for one — operator never runs shell commands per D1–D4; durable approval is pathological: future agents would misread transient approval as standing acceptance). Added: approval is per-launch unless the operator explicitly says it covers multiple phases. All other bullets kept unchanged (mechanically-enforced gate description, cheaper-first, free-tier guidance, prefix note, model-discipline.md pointer, 2026-08-23 override).\n\nPROPAGATION (same conceptual change, separate commit 5c164fd): identical 4-step wording existed in three mirrors and was corrected consistently — .crosslink/knowledge/model-discipline.md §7 (the doc AGENTS.md designates as mandatory; frontmatter updated to 2026-08-30), docs/ORCHESTRATOR.md Model Selection section, and .design/capability-schema-validation.md §12 (fallback + swarm-launch rules). Verified via repo-wide search: zero stale 4-step / approval-comment mandates remain; every remaining mention is the new prohibitive wording.\n\nDISCOVERY — GUARD CODE NOW CONTRADICTS DOCS (reported, intentionally NOT fixed — out of scope): crosslink-guard.ts hasApprovalForModel (lines 843–869, invoked at 1479) and orchestrator-guard.ts (line 284) still hard-block gated launches unless issues.db contains an --kind approval comment with the exact --model ID, and the block messages still instruct posting one. Until a companion guard change lands, a compliant 3-step verbal-approval launch will block at retry. RECOMMENDATION: file a companion issue to align the gate — keep the active-issue check and block signature, drop the DB approval-comment check (verbal approval cannot be mechanically verified), and update both block messages to the 3-step verbal process.\n\nCommits: a0c6df3 (AGENTS.md, assigned scope), 5c164fd (propagation, independently revertable). WHAT-NOT-TESTED: no live gated launch was attempted (would require operator model approval and a guard change to pass); verification was textual (grep sweep + diff review). Guard .ts files untouched.",
+          "created_at": "2026-08-30T19:58:43.723309111Z",
+          "kind": "result",
+          "signed_by": "SHA256:114LrjMPMzb0zvrkAq9XyLWG1N5h5mVLOoirb2seIyo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2N1Tgd+G7xdRtLFLxRe0EzRNYzc/XizWHuO/dF6SYyQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA2895Z32znwni3BKh0T92EV31FUkwfuoVj+0huBeyWQ0lKwBch4YIpQBIAiIR2aI8tBJxBayEN/GsBxdegBMvAg=="
         },
         "95f391be-7f72-438f-b249-b006aeeb7258": {
           "display_id": 3271,
@@ -38896,8 +38905,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T19:58:16.365543679Z",
-    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 117
+    "timestamp": "2026-08-30T19:58:43.729379589Z",
+    "agent_id": "pp3g-MA65-fix-agents-md-operator-gated-wording-verbal-approval",
+    "agent_seq": 6
   }
 }
