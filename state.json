@@ -1,6 +1,6 @@
 {
   "next_display_id": 526,
-  "next_comment_id": 3292,
+  "next_comment_id": 3293,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -22357,7 +22357,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-27T04:58:04.090684663Z",
-      "updated_at": "2026-08-30T20:16:56.878181173Z",
+      "updated_at": "2026-08-30T20:22:36.056360855Z",
       "closed_at": "2026-08-30T19:49:40.856875973Z",
       "labels": [
         "research"
@@ -22425,6 +22425,15 @@
           "kind": "plan",
           "signed_by": "SHA256:8i0+VQwUrZrw89rOyQcvA+3gAxnLmALipqbLuEOzkmI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg16j+yaSNs/H/5YQ/V7cg/GEr9ACBUvwv6SHddMpcgdwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAwYrJF/qhbe/MmdSOSoy71C2p25Xh2LvM7dVX+fOGHc9DIMvy6kBuu3Ju4hkeAFcB7s/KY2wfdMRiblhG161xDg=="
+        },
+        "15e7e95d-7d7c-4838-ba71-29bc9ad296f4": {
+          "display_id": 3292,
+          "author": "pp3g-612l-live-model-replication-of-test-a-token-accuracy-on",
+          "content": "Plan: Live-model replication of Test A on Muse Spark free tier (fallback to Muse Spark Go). Reuse harness sandbox→validation→policy→execution (Draft-07) to score selection/argument correctness. Load variants A/B/C (tiktoken cl100k_base 0.14.0 for C/A 0.267 token ratio). Replay fixed 22-task set (21 valid +1 invalid, 3 reps per cell =198 calls) with natural-language prompts per task; temperature 0.7 with rep-index variation. For each call: build minimal capability block + task prompt + strict JSON output instruction, invoke via opencode run --pure --dir /tmp/minimal-opencode (free tier, go fallback on 403/429), parse op_id/arguments via JSON extraction, route through Harness for validation, log {variant,task,rep,op_id,args,validation_result,error,executed,latency,tokens}. For ValidationFailed: one typed-error retry (field/constraint) to measure recovery rate (60% threshold). Acceptance remains pre-registered 5pp on valid tasks (tasks 1-21). Compare live deltas to proxy 17ed2631 (C/A 0.267, arg C 0.984) and upgrade claim to proven if within tolerance. Artifacts: tests/test-a-live/{protocol.md,run.py,results.md} + logs/test-a-live/*.jsonl + README update, natural-language prose for model/file names.",
+          "created_at": "2026-08-30T20:22:36.047166627Z",
+          "kind": "plan",
+          "signed_by": "SHA256:cEw1XTztzl4h2nzSxHfQ9g8xKqTxyBeNcTXJxEttySY",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgebFbiFM7tcGwVkMFcPoIlgcwZVFuCZszYjLzHzhSywQAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAXS5qlT0SYvNahx6Tae2s/Y46B9MTtaV2S9A26mJPyIq8zxjL9u6bKrVPhuo0ghE/WlnKVmVh3CR7AcSS+OnlCQ=="
         },
         "1836d117-fdcb-4588-8477-00e144e2f782": {
           "display_id": 3185,
@@ -39061,8 +39070,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T20:19:51.072135327Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2891
+    "timestamp": "2026-08-30T20:22:36.056360855Z",
+    "agent_id": "pp3g-612l-live-model-replication-of-test-a-token-accuracy-on",
+    "agent_seq": 2
   }
 }
