@@ -584,7 +584,7 @@ Four independent tracks run in parallel. Each track owns its test directory and 
 
 ## 12. Model Routing and Fallback Chains
 
-Model selection is operator-gated and mechanically enforced (AGENTS.md §Model Discipline; `.crosslink/knowledge/model-discipline.md`). No launch may assume a model ID — verify live with `opencode models <provider>` before each launch. The fallback chains below are **ordered preferences**, not automatic fallbacks — each fallback requires a fresh operator approval comment on the active issue before retry.
+Model selection is operator-gated and mechanically enforced (AGENTS.md §Model Discipline; `.crosslink/knowledge/model-discipline.md`). No launch may assume a model ID — verify live with `opencode models <provider>` before each launch. The fallback chains below are **ordered preferences**, not automatic fallbacks — each fallback requires a fresh verbal operator approval (question tool) before retry; no Crosslink approval comment (2026-08-30 operator directive).
 
 | Role / phase | Primary (free-tier, where permitted) | First fallback (paid Go) | Second fallback / auditor |
 |---|---|---|---|
@@ -599,7 +599,7 @@ Model selection is operator-gated and mechanically enforced (AGENTS.md §Model D
 
 * Do **not** use free-tier (Zen) models for kickoff/swarm agents where rate limits have caused failures — the `opencode-go/*` fallback is the production path. Free-tier use is permitted only under auditor supervision per the 2026-08-23 operator override, and any 405 / `retry-after` / consent-gate signature in `opencode.log` triggers immediate fallback to the paid Go model from the same family.
 * Model IDs must be copied exactly from `opencode models <provider>` output — never guessed, shortened, or modified.
-* Each swarm launch (`crosslink kickoff run`, `crosslink swarm launch`) requires its **own** `--kind approval` comment from the operator containing the exact `--model` ID (enforced by `orchestrator-guard.ts`; block signature `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`).
+* Each swarm launch (`crosslink kickoff run`, `crosslink swarm launch`) requires its **own** per-launch verbal operator approval via the question tool (gate enforced by `orchestrator-guard.ts`; block signature `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`). **No `--kind approval` comment** — do not post one and do not wait for one (2026-08-30 operator directive: verbal approval is required and sufficient).
 
 ---
 
