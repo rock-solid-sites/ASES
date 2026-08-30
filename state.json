@@ -1,6 +1,6 @@
 {
   "next_display_id": 525,
-  "next_comment_id": 3263,
+  "next_comment_id": 3264,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26125,7 +26125,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-30T19:55:09.771342458Z",
+      "updated_at": "2026-08-30T19:55:48.412754792Z",
       "labels": [
         "feature"
       ],
@@ -26753,6 +26753,15 @@
           "kind": "observation",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAeRbNZAZJRfHvmzab9lgAWUJXBCCfCSpUVaZE4H/Pvgxe2qo/LOunDGJnUz38rYLad8IIIKxV4XvVtrK6RdjIDg=="
+        },
+        "cc67abf7-b7a7-4f1d-9b22-6392263063a3": {
+          "display_id": 3263,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "# Review: stop-button tests + implementation mapping (#510) — REVIEWER (read-only)\n\nScope: discriminating power of each test layer + bypass paths in the TUI wiring. No code changes.\n\n## VERDICT\nDiscriminating coverage is STRONG at the coordinator-fence unit level and at the transition-TABLE level, but the user-facing integration path (TUI button → SDK → HTTP handler → SessionExecution → coordinator) has NO executable discriminating test except the live probe, which SKIPs to BLOCKED when no server is up. The machine is used correctly in code, but nothing proves it is used — so a regression that removes the gate would pass CI.\n\n## Discriminating tests — per layer\n- session-run-coordinator.test.ts (18 pass, GREEN here): STRONG. \"kills a running tool child fiber when interrupted\" + \"does not leave the tool child running after interrupt (no orphan)\" genuinely fail if Fiber.interrupt were neutered. Best discriminating asset.\n- stop-button-machine.test.ts (44 pass, GREEN here): discriminating vs MUTATIONS OF THE TABLE only (exhaustive permitted/forbidden mirror). SHALLOW — it exercises nextState/isPermitted, never the shell. Removing the isPermitted gate from handleStopClick would NOT break these tests.\n- stop-button-identity-ownership-resource.test.ts (779 ln): coordinator-level discrimination, but the chain is SIMULATED — `const boundaryInterrupt = (id) => c.interrupt(id)` (line ~45). Real SDK→HTTP→handler→coordinator is not exercised; the doc admits \"handler integration only code-inspected (WHAT-NOT-TESTED)\".\n- live 9-point probe (scripts/probe-stop-button-phase0.sh): ONLY real end-to-end discriminating carrier (placebo 204-with-alive-fiber caught via pgrep/active). BUT exits SKIP→BLOCKED when server down, so it never runs in this worktree/CI. Discriminating power unrealized in automation.\n\n## GAP D1 (HIGH) — enforcement sites untested\nThe gate is enforced in code at two sites: handleStopClick (prompt/index.tsx:235, isPermitted at :247) and the `session.interrupt` command (index.tsx:537, isPermitted at :568). Neither is covered by any automated test. A mutation deleting the isPermitted check (e.g. firing sdk.client.v2.session.interrupt unconditionally on STOP_CLICK) passes every test in the repo. The machine is correct; its USE is unproven.\n\n## Bypass paths\n- B1 (HIGH, denial): deriveStopState() (index.tsx:223) and the ESC command's `enabled:` (index.tsx:536) gate on TUI-local `status().type`, NOT coordinator.active. Invariant I2 (\"isRunning ↔ key∈active\") is violated by the implementation. If status().type lags (fiber live but projection still \"idle\"), BOTH the Stop button (→204 no-op) and the ESC command (disabled) are dead → user cannot stop a live fiber via UI. Window exists between run start and SSE flip. Recommend gating on a more authoritative signal, or document the window as an accepted limitation.\n- B2 (LOW): 1s lastInterruptAt debounce silently drops a repeated Stop/ESC within 1s (log-only, no toast) — index.tsx:262, :336, :594. A legit new run <1s after a prior interrupt is unstoppable, silently.\n- B3 (MED): placebo (204 but fiber alive) is undetectable in the TUI — only the SKIPped live probe catches it. Inherent to TUI-not-owning-fiber, but the sole discriminating check is non-executing here.\n- B4 (by design, disclose): double-ESC fires interrupt with NO confirm dialog (E10 bypass, index.tsx:565-617). Operators should know double-ESC = unconfirmed fence.\n\n## What is solid\nCoordinator fence unit tests real+green; machine purity boundary holds (nextState arity 2, zero I/O imports); mouse path correctly gates via confirm dialog; idempotence + exhaustive forbidden set are correct and enforced by the shell's isPermitted check in both handlers.\n\n## Recommendation before merge\n1. Add a TUI-shell integration test mounting handleStopClick with a fake sdk.client.v2.session.interrupt asserting: idle→0 calls, running→confirming→YES→exactly 1 call, and a gate-removal regression fails. (Closes D1.)\n2. Run scripts/probe-stop-button-phase0.sh against a tool-child-capable server (doc §422) so the placebo/concurrency/temporal/transport discriminating checks actually execute; upload evidence bundle.\n3. Decide B1: gate button on coordinator.active (or document the lag window) so a live fiber is always reachable.",
+          "created_at": "2026-08-30T19:55:48.402452501Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABACkHrtAXMuZfxl55JI28/V5jSh0rOv3/3fL59brJ++VBl0oF+RzpMbTEaF70t/iMFL5iDl8mRw+PVJSgnF8A3CQ=="
         },
         "ccd98285-e041-4079-a9db-420513115106": {
           "display_id": 2901,
@@ -38792,8 +38801,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T19:55:09.771342458Z",
+    "timestamp": "2026-08-30T19:55:48.412754792Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 110
+    "agent_seq": 111
   }
 }
