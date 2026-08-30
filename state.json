@@ -1,5 +1,5 @@
 {
-  "next_display_id": 529,
+  "next_display_id": 530,
   "next_comment_id": 3370,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -110,6 +110,7 @@
     "3393c595-6687-4ed2-908d-6197e15705de": 393,
     "33c32ff9-7357-45d0-8c94-eaae6be908ec": 396,
     "33ca4b45-38c5-460c-a7ee-df00e4f6c186": 443,
+    "33e9c560-87bd-44cb-9f8b-660d9eb63510": 529,
     "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79": 38,
     "34039581-0656-4c92-94b6-9554f28e19c6": 116,
     "340ee84a-b4cb-4d2c-9f06-707c30eb6e5c": 99,
@@ -9640,6 +9641,17 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM1JsEqfN3z6HaG89EIVp9JKmbLqPDzySx22eVX4Xhn5xLc4b8cteH7HdfgGicN4icWzGaZac7DYm/DbEYlaCCA=="
         }
       }
+    },
+    "33e9c560-87bd-44cb-9f8b-660d9eb63510": {
+      "uuid": "33e9c560-87bd-44cb-9f8b-660d9eb63510",
+      "display_id": 529,
+      "title": "Docs: clarify RUNNING and pane line count are NOT liveness signals — document real verification",
+      "description": "Update SESSION-START.md, docs/ORCHESTRATOR.md, .crosslink/knowledge/agent-orchestration-playbook.md (§5.8, Startup Verification) and AGENTS.md to state explicitly: .kickoff-status RUNNING and a tmux capture-pane line count are NOT signals that an agent is live and working. Document the real verification sequence that must be used: launch -> sleep 30 -> tail opencode.log for creation line and absence of AI_APICallError/retry-after/consent-gate, plus .kickoff-status, plus plan comment and heartbeat, plus pane HALT check for CROSSLINK UNAVAILABLE. This was missed in recent status reports where RUNNING was reported as healthy while panes showed HALT since 22:42. Make the docs prevent that misreading.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-30T23:05:49.107854718Z",
+      "updated_at": "2026-08-30T23:05:49.107854718Z"
     },
     "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79": {
       "uuid": "33f7dbf1-cdb3-4840-8cd7-3772e8a54a79",
@@ -39811,8 +39823,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T23:05:17.644966700Z",
+    "timestamp": "2026-08-30T23:05:49.107854718Z",
     "agent_id": "OL2r",
-    "agent_seq": 2940
+    "agent_seq": 2941
   }
 }
