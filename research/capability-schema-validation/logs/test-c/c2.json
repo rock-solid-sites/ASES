@@ -1,0 +1,213 @@
+[
+  {
+    "case": "C2",
+    "label": "create_artefact title too long (60 > 50 new max)",
+    "op_id": "create_artefact",
+    "arguments": {
+      "type": "spec",
+      "title": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "payload_version": null,
+    "validation_result": "rejected:validation",
+    "error": {
+      "code": "ValidationFailed",
+      "field": "title",
+      "constraint": "maxLength",
+      "got": "\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"",
+      "message": "'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' is too long",
+      "schema_version": "0.2.0",
+      "op_id": "create_artefact",
+      "boundary": "runtime"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:rejected:ValidationFailed"
+    ],
+    "expect_executed": false,
+    "expect_code": "ValidationFailed",
+    "expect_field": "title",
+    "expect_constraint": "maxLength",
+    "pass": true,
+    "field_ok": true,
+    "constraint_ok": true
+  },
+  {
+    "case": "C2",
+    "label": "search_artefacts query too long (60 > 50 new max)",
+    "op_id": "search_artefacts",
+    "arguments": {
+      "query": "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
+    },
+    "payload_version": null,
+    "validation_result": "rejected:validation",
+    "error": {
+      "code": "ValidationFailed",
+      "field": "query",
+      "constraint": "maxLength",
+      "got": "\"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\"",
+      "message": "'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq' is too long",
+      "schema_version": "0.2.0",
+      "op_id": "search_artefacts",
+      "boundary": "runtime"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:rejected:ValidationFailed"
+    ],
+    "expect_executed": false,
+    "expect_code": "ValidationFailed",
+    "expect_field": "query",
+    "expect_constraint": "maxLength",
+    "pass": true,
+    "field_ok": true,
+    "constraint_ok": true
+  },
+  {
+    "case": "C2",
+    "label": "create_review rationale too short (20 < 100 new min)",
+    "op_id": "create_review",
+    "arguments": {
+      "artefact_id": "art_abc-123",
+      "verdict": "approve",
+      "rationale": "Short rationale 20ch."
+    },
+    "payload_version": null,
+    "validation_result": "rejected:validation",
+    "error": {
+      "code": "ValidationFailed",
+      "field": "rationale",
+      "constraint": "minLength",
+      "got": "\"Short rationale 20ch.\"",
+      "message": "'Short rationale 20ch.' is too short",
+      "schema_version": "0.2.0",
+      "op_id": "create_review",
+      "boundary": "runtime"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:rejected:ValidationFailed"
+    ],
+    "expect_executed": false,
+    "expect_code": "ValidationFailed",
+    "expect_field": "rationale",
+    "expect_constraint": "minLength",
+    "pass": true,
+    "field_ok": true,
+    "constraint_ok": true
+  },
+  {
+    "case": "C2",
+    "label": "link_artefacts removed enum relates_to",
+    "op_id": "link_artefacts",
+    "arguments": {
+      "source_id": "art_abc-123",
+      "target_ids": [
+        "art_def-456"
+      ],
+      "relation": "relates_to"
+    },
+    "payload_version": null,
+    "validation_result": "rejected:validation",
+    "error": {
+      "code": "ValidationFailed",
+      "field": "relation",
+      "constraint": "enum",
+      "got": "\"relates_to\"",
+      "message": "'relates_to' is not one of ['depends_on', 'supersedes']",
+      "schema_version": "0.2.0",
+      "op_id": "link_artefacts",
+      "boundary": "runtime"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:rejected:ValidationFailed"
+    ],
+    "expect_executed": false,
+    "expect_code": "ValidationFailed",
+    "expect_field": "relation",
+    "expect_constraint": "enum",
+    "pass": true,
+    "field_ok": true,
+    "constraint_ok": true
+  },
+  {
+    "case": "C2",
+    "label": "search_artefacts limit too high (50 > 20 new max)",
+    "op_id": "search_artefacts",
+    "arguments": {
+      "query": "hi",
+      "limit": 50
+    },
+    "payload_version": null,
+    "validation_result": "rejected:validation",
+    "error": {
+      "code": "ValidationFailed",
+      "field": "limit",
+      "constraint": "maximum",
+      "got": "50",
+      "message": "50 is greater than the maximum of 20",
+      "schema_version": "0.2.0",
+      "op_id": "search_artefacts",
+      "boundary": "runtime"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:rejected:ValidationFailed"
+    ],
+    "expect_executed": false,
+    "expect_code": "ValidationFailed",
+    "expect_field": "limit",
+    "expect_constraint": "maximum",
+    "pass": true,
+    "field_ok": true,
+    "constraint_ok": true
+  },
+  {
+    "case": "C2",
+    "label": "version check stale 0.1.0 vs 0.2.0",
+    "op_id": "create_artefact",
+    "arguments": {
+      "type": "spec",
+      "title": "hi"
+    },
+    "payload_version": "0.1.0",
+    "validation_result": "rejected:validation",
+    "error": {
+      "code": "VersionMismatch",
+      "op_id": "create_artefact",
+      "expected_version": "0.2.0",
+      "actual_version": "0.1.0",
+      "boundary": "runtime"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:rejected:VersionMismatch"
+    ],
+    "expect_code": "VersionMismatch",
+    "pass": true
+  }
+]

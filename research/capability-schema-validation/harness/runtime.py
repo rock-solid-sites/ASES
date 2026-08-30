@@ -160,6 +160,50 @@ class Runtime:
                             return False, {"code": "ValidationFailed", "field": f"{pname}[{idx}]", "constraint": "pattern", "got": item, "message": f"item does not match pattern", "schema_version": schema_version, "op_id": op_id, "boundary": "runtime"}
         return True, None
 
+    def validate_output(self, op_id: str, output: Dict[str, Any]) -> Tuple[bool, Optional[Dict[str, Any]]]:
+        """Validate output against authoritative outputSchema. Returns (ok, error)."""
+        if op_id not in self.capabilities:
+            return False, {
+                "code": "UnknownOperation",
+                "op_id": op_id,
+                "hint": "op_id not in authoritative registry (output validation)",
+                "boundary": "runtime:output",
+            }
+        cap = self.capabilities[op_id]
+        schema = cap.get("outputSchema")
+        if schema is None:
+            return True, None
+        if HAS_JSONSCHEMA:
+            validator = Draft7Validator(schema)
+            errors = sorted(validator.iter_errors(output), key=lambda e: list(e.path))
+            if errors:
+                e = errors[0]
+                field = ".".join(str(p) for p in e.path) if e.path else (" ".join(str(p) for p in e.absolute_path) if e.absolute_path else None)
+                constraint = e.validator
+                got = e.instance
+                try:
+                    got_repr = json.dumps(got)[:200]
+                except Exception:
+                    got_repr = str(got)[:200]
+                return False, {
+                    "code": "ValidationFailed",
+                    "field": field,
+                    "constraint": constraint,
+                    "got": got_repr,
+                    "message": e.message,
+                    "schema_version": cap.get("version", self.version),
+                    "op_id": op_id,
+                    "boundary": "runtime:output",
+                }
+            return True, None
+        else:
+            # fallback: check required + additionalProperties + type
+            required = schema.get("required", [])
+            for r in required:
+                if r not in output:
+                    return False, {"code": "ValidationFailed", "field": r, "constraint": "required", "got": None, "message": f"'{r}' is required in output", "schema_version": cap.get("version", self.version), "op_id": op_id, "boundary": "runtime:output"}
+            return True, None
+
     def policy_check(self, op_id: str, arguments: Dict[str, Any], policy: Optional[Dict[str, Any]] = None) -> Tuple[bool, Optional[Dict[str, Any]]]:
         """Policy boundary — only reached if validation passed.
 
@@ -199,7 +243,7 @@ class Runtime:
         # Minimal simulation: return canned shaped outputs matching outputSchema
         # for smoke tests; real logic not required for validation tests.
         now = "2026-08-29T00:00:00Z"
-        if op_id == "search_artefacts":
+        if op_id in ("search_artefacts", "search"):
             return True, {"items": [], "total": 0, "has_more": False}
         if op_id == "get_artefact":
             aid = arguments.get("id", "art_unknown")

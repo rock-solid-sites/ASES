@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-08-29T17:15:20Z",
+  "client_pid": 2992190,
+  "properties": {
+    "concurrent": {
+      "property": "concurrent",
+      "transport": "loopback-TCP",
+      "N": 8,
+      "iterations": 3,
+      "single_ms_baseline": 5,
+      "wall_ms_per_iter": [
+        205,
+        204,
+        209
+      ],
+      "pass": true,
+      "stdio_only": false
+    },
+    "correlation": {
+      "property": "correlation",
+      "transport": "loopback-TCP",
+      "N": 8,
+      "iterations": 3,
+      "pass": true,
+      "stdio_only": false
+    },
+    "remote_execution": {
+      "property": "remote_execution",
+      "transport": "loopback-TCP-subprocess",
+      "pass": true,
+      "stdio_only": false,
+      "client_pid": 2992190,
+      "orphan_check": true
+    },
+    "connection_loss_mid_request": {
+      "property": "connection_loss_mid_request",
+      "transport": "loopback-TCP",
+      "iterations": 3,
+      "pass": true,
+      "stdio_only": false
+    },
+    "connection_loss_mid_idle": {
+      "property": "connection_loss_mid_idle",
+      "transport": "loopback-TCP",
+      "iterations": 2,
+      "pass": true,
+      "stdio_only": false
+    },
+    "reconnect": {
+      "property": "reconnect",
+      "transport": "loopback-TCP",
+      "cycles": 2,
+      "pass": true,
+      "stdio_only": false,
+      "orphan_check": "subprocess handle polled \u2014 no orphans if PASS"
+    },
+    "timeout": {
+      "property": "timeout",
+      "transport": "loopback-TCP",
+      "iterations": 4,
+      "deadline_ms": 200,
+      "pass": true,
+      "stdio_only": false,
+      "note": "disposition: server continues unless cancelled \u2014 timeout is client-side enforcement, server not auto-cancelled (recorded as finding if inspected via durable fetch)"
+    },
+    "cancellation": {
+      "property": "cancellation",
+      "transport": "loopback-TCP",
+      "iterations": 4,
+      "pass": true,
+      "stdio_only": false
+    },
+    "streaming": {
+      "property": "streaming",
+      "transport": "loopback-TCP",
+      "required": false,
+      "excluded": true,
+      "transport_can": true,
+      "pass": true,
+      "stdio_only": false,
+      "reason": "EDASES control boundary is discrete artefact ops per capabilities/schemas.json (create/search/review/validate); no prior report (toolregistry-lazy-mcp, Tools Distribution Test Framework) evidences progressive/chunked results as boundary requirement. Transport CAN stream (probe passed) but boundary does NOT need it."
+    },
+    "durable": {
+      "property": "durable",
+      "transport": "loopback-TCP",
+      "required": false,
+      "excluded": true,
+      "transport_can": true,
+      "pass": true,
+      "stdio_only": false,
+      "reason": "EDASES ops are synchronous request/response within agent\u2192sandbox\u2192runtime (\u00a71.3 target architecture); no evidence in prior work that operation lifetime must exceed connection. Transport CAN support durable via correlation-id cache (probe) but boundary does NOT require it."
+    }
+  },
+  "overall_pass": true,
+  "required_pass": true,
+  "stdio_only_properties": []
+}

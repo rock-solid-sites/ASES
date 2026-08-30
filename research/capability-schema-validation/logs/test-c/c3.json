@@ -1,0 +1,113 @@
+[
+  {
+    "case": "C3",
+    "label": "query_metrics \u2014 v0 total shape vs v1 count shape",
+    "op_id": "query_metrics",
+    "arguments": {
+      "filter": {
+        "type": "spec"
+      }
+    },
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "items": [
+        {
+          "key": "all",
+          "count": 1,
+          "avg_score": 0.5
+        }
+      ],
+      "total": 1
+    },
+    "output_valid": false,
+    "output_error": {
+      "code": "ValidationFailed",
+      "field": null,
+      "constraint": "required",
+      "got": "{\"items\": [{\"key\": \"all\", \"count\": 1, \"avg_score\": 0.5}], \"total\": 1}",
+      "message": "'count' is a required property",
+      "schema_version": "0.2.0",
+      "op_id": "query_metrics",
+      "boundary": "runtime:output"
+    },
+    "catching_mechanism": "output_schema",
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_output_valid": false,
+    "pass": true
+  },
+  {
+    "case": "C3",
+    "label": "search_artefacts \u2014 v0 items shape vs v1 results shape",
+    "op_id": "search_artefacts",
+    "arguments": {
+      "query": "hello"
+    },
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "items": [],
+      "total": 0,
+      "has_more": false
+    },
+    "output_valid": false,
+    "output_error": {
+      "code": "ValidationFailed",
+      "field": null,
+      "constraint": "required",
+      "got": "{\"items\": [], \"total\": 0, \"has_more\": false}",
+      "message": "'results' is a required property",
+      "schema_version": "0.2.0",
+      "op_id": "search_artefacts",
+      "boundary": "runtime:output"
+    },
+    "catching_mechanism": "output_schema",
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_output_valid": false,
+    "pass": true
+  },
+  {
+    "case": "C3",
+    "label": "sanity: v1-shaped output passes v1 schema",
+    "op_id": "query_metrics",
+    "arguments": null,
+    "validation_result": "sanity",
+    "error": null,
+    "executed": null,
+    "result": {
+      "items": [
+        {
+          "key": "spec",
+          "count": "1"
+        }
+      ],
+      "count": 1
+    },
+    "output_valid": true,
+    "output_error": null,
+    "catching_mechanism": "none",
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [],
+    "expect_output_valid": true,
+    "pass": true
+  }
+]
