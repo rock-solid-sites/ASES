@@ -1,6 +1,6 @@
 {
   "next_display_id": 526,
-  "next_comment_id": 3297,
+  "next_comment_id": 3298,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -38358,7 +38358,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-30T20:19:51.072135327Z",
-      "updated_at": "2026-08-30T20:28:17.548911295Z",
+      "updated_at": "2026-08-30T20:29:11.967159224Z",
       "comments": {
         "649c07c0-c7ba-44e8-93df-6318fc62bb4a": {
           "display_id": 3296,
@@ -38377,6 +38377,15 @@
           "kind": "observation",
           "signed_by": "SHA256:hub0pHHzhw0s5sW6kHB8UyYEcLz9ZGOvQJTQDTfrDeM",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbc32w7yRWym5GPA+2V39QSmr4jn7hjMEvBeWeV1PIykAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALepV0nesyQ4eO9HcAF3OCUhI5uEzgS+8ygRs6t7BtnaMvjziUd9VNY8TlEESBDS8emiC6cLxN802oDX4M4w7Cw=="
+        },
+        "93a4f027-05c6-4617-abf9-97efaa3c3256": {
+          "display_id": 3297,
+          "author": "pp3g-vMlf-fix-crosslink-guard-make-verbal-approval-sufficient",
+          "content": "Result: Fixed Crosslink guard to make verbal approval sufficient (issue #525). Removed hasApprovalForModel DB check from crosslink-guard.ts (was L843-869, called at 1479) and orchestrator-guard.ts (L92-116, L284) — verbal approval via question tool is now required and sufficient per 2026-08-30 operator directive (AGENTS.md D1-D4); durable --kind approval comment is pathological (future agent would misread transient approval as standing acceptance, breaking per-launch scoping). Gate now only checks for active issue and keeps AGENT LAUNCH BLOCK signature. Updated both block messages from 4-step (with approval comment) to 3-step: 1) question (verbal approval, required and sufficient), 2) opencode models verify exact ID, 3) retry — plus No Crosslink approval comment paragraph and per-launch scoping. Kept hasApprovalForModel and build*NoApprovalMessage as legacy archeology (updated to verbal wording, not called). Also cherry-picked doc fixes from #524 (bc77aa7c, e09ec423) so branch is self-consistent: AGENTS.md, model-discipline.md (§7, frontmatter 2026-08-30), docs/ORCHESTRATOR.md, .design/capability-schema-validation.md now all state verbal-only, 3 steps. Verified: grep shows zero instructive 'approval comment'/'--kind approval' mandates remain in guards or docs — only prohibitive 'No Crosslink approval comment' and REMOVED comments. Commits: bc77aa7c, e09ec423 (docs), 662ee7cb (guard). WHAT-NOT-TESTED: no live gated launch was attempted (would require operator model approval); verification was static (grep sweep, syntax check via bun --check, diff review); runtime behavior of the native TS plugin under opencode Bun runtime not exercised.",
+          "created_at": "2026-08-30T20:29:11.960147227Z",
+          "kind": "result",
+          "signed_by": "SHA256:hub0pHHzhw0s5sW6kHB8UyYEcLz9ZGOvQJTQDTfrDeM",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbc32w7yRWym5GPA+2V39QSmr4jn7hjMEvBeWeV1PIykAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAB9UQbHpo2CaufY6dL/6HGChIbWSrOZxvDIFggiIBiD950Z3lYBeTIIxOJwVR9Ix5BgJtHB067ty0GrqDa97qAQ=="
         },
         "d0560a13-04b4-4ac7-9564-99f7e6755bb7": {
           "display_id": 3294,
@@ -39112,8 +39121,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T20:28:17.548911295Z",
+    "timestamp": "2026-08-30T20:29:11.967159224Z",
     "agent_id": "pp3g-vMlf-fix-crosslink-guard-make-verbal-approval-sufficient",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
