@@ -1,6 +1,6 @@
 {
   "next_display_id": 528,
-  "next_comment_id": 3355,
+  "next_comment_id": 3356,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26575,7 +26575,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-30T22:41:46.645504442Z",
+      "updated_at": "2026-08-30T22:42:14.348304370Z",
       "labels": [
         "feature"
       ],
@@ -27671,6 +27671,15 @@
           "kind": "result",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAM024ccvfx/f0pqYKjuYQ5kS+NDNelx8Er6lyJDM5tEdvVrNWWVLJlbV57eMxo6FnW4zO3GjJdr8YOvB3IXcQBw=="
+        },
+        "f0d0128a-4fec-406d-94e6-5f30a5f9f10a": {
+          "display_id": 3355,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "RESULT (reviewer): Spark's 067d39a9 verification of the stop-button controller + placebo detection is GENUINE and corroborated.\n\nWHY: Independent re-run + mutation analysis, since the kickoff brief asked to confirm the prior phase's verification was not a placebo.\nWHAT (evidence):\n- Controller suite: 18 pass (re-ran) = claim. Machine suite: 44 pass/723 expects (re-ran) = claim. tsc --noEmit (tui): clean, exit 0 = claim.\n- Placebo detection is REAL end-to-end, not a dead stub: controller.isActive -> sdk.client.v2.session.active() (packages/client/src/generated/client.ts:324, GET /api/session/active) -> server handler packages/server/src/handlers/session.ts:81 -> coordinator active map. All three layers exist and are wired.\n- Mutation analysis (Builder-delegated) proves tests are NOT placebo:\n  * Unconditional-fire/gate-removal mutant: 7/18 tests fail (D1 gate genuinely enforced).\n  * B3 placebo-branch removal: exactly the '204 with fiber still alive warns' test fails.\n  * B3 false-positive guard removal: exactly the 'new prompt started' test fails.\n- Spec 6->9-point drift: no residual '6-point' references (8 '9-point' refs) = doc fix complete/consistent.\n\nHOW CERTAIN: evidence-based.\nWHAT-NOT-TESTED / caveats (honest):\n- The 'interrupting click idempotent debounce' test is immune to the unconditional-fire mutant because requestInterrupt internally debounces when isInterrupting() is true; fence still covered by the debounce-window timing test, so no coverage lost. Not a defect.\n- Placebo detection is scoped to drains owned by THIS OpenCode process (session.active lists only local-process drains per protocol comment); a placebo with the fiber alive in a remote/different process is out of scope - matches architecture, flagged as boundary not bug.\n- Live 9-point probe vs tool-child-capable server not executed here (consistent with prior phase WHAT-NOT-TESTED; covered at coordinator seam).\n\nCONCLUSION: verification holds. No corrective action required for #510 on these artifacts.",
+          "created_at": "2026-08-30T22:42:14.342101502Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABApz6W0GJhMqVNH8iGiIukHTK6TwJWABE2aSrrt2NuMeOhcTOi26rCZoHv+Ycxd39aXa7dNOspx9hNG3snGEQQBg=="
         },
         "f1023ae3-ecbc-4d0a-a58b-c30bc07db464": {
           "display_id": 3242,
@@ -39662,8 +39671,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T22:41:46.645504442Z",
+    "timestamp": "2026-08-30T22:42:14.348304370Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 144
+    "agent_seq": 145
   }
 }
