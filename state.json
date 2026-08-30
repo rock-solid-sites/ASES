@@ -1,6 +1,6 @@
 {
   "next_display_id": 527,
-  "next_comment_id": 3348,
+  "next_comment_id": 3349,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26549,7 +26549,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-30T22:32:28.921750259Z",
+      "updated_at": "2026-08-30T22:32:39.854322593Z",
       "labels": [
         "feature"
       ],
@@ -26988,6 +26988,15 @@
           "kind": "plan",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALf0etohsz/t4c9CI96QUoRQQVnKpQNXu7Obu1tWhPuJqVXUYujgBHkWeBuYl86KZDIBHBYh+tYPTz4N9srbICQ=="
+        },
+        "7975416e-9228-4e23-80c5-09658185506d": {
+          "display_id": 3348,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Review of 067d39a9 (Spark verified fix — spec 6→9 drift + controller gate D1/B1/B3).\n\nVERDICT: APPROVE — fix is sound, doc-only as claimed, gate verified. One minor residual doc-drift follow-up (probe self-label) noted.\n\nEVIDENCE (re-run, not trusted from commit message):\n1. Spec drift fix COMPLETE within Verified Spec: 0 remaining \"6-point\" in docs/architecture/Stop-Button-Verified-Spec.md; 8 \"9-point\" references now present (§1.3, §1.4, NF1, NF3, §3b diagram, §11 D3). WHAT/WHY consistent.\n2. Controller gate verified as-is: bun test stop-button-controller.test.ts → 18 pass / 0 fail / 46 expect (matches commit \"controller 18/46\"). stop-button-machine.test.ts → 44 pass / 0 fail / 723 expect (matches \"machine 44/723\"). `bun typecheck` (tsgo --noEmit) clean for tui.\n3. Gate actually reached by real UI: index.tsx imports createStopController (:62), instantiates (:239), wired to button onMouseUp (:1589, :1702) and double-ESC path (:517). Both enforcement sites execute the real controller — not dead code.\n4. Mutation-relevant guards PRESENT: idle→0-call tests (controller.test.ts:112,143,205,221,235) fail an unconditional-fire (gate-removed) mutant; B1 reconciliation test (:194) fails a denial mutant. Author's \"gate-removal 4 fail / B1-denial 3 fail\" is consistent with the suite design. I did NOT run a mutation harness — treated as evidence-based per author, not independently re-verified.\n\nFINDING (minor, not in this commit): scripts/probe-stop-button-phase0.sh still self-labels \"6-point\" at lines 5 and 165, though it implements POINT 1–9 (concurrency/temporal/transport added in f19df87c). The Verified Spec now calls it the \"9-point probe\", so spec↔probe self-label STILL drifts. Doc-only, no functional impact. Recommend a 2-line header/echo fix in the probe script (separate from 067d39a9).\n\nCONCLUSION: 067d39a9 correctly closes the spec-to-implementation wording drift and the D1/B1/B3 gate it re-verifies is genuinely enforced and green. No code change needed for this commit.",
+          "created_at": "2026-08-30T22:32:39.847683429Z",
+          "kind": "result",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxiV6VI58ISBvkHxcKa2QRPR7rhDv0zJJLFhJi6U3Bvoim/mQoBs36yn32pga5cBi7cC438qZw2JoXOpimjuqCw=="
         },
         "7f05d244-7892-4d45-bfee-f9d3762d117c": {
           "display_id": 3291,
@@ -39591,8 +39600,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T22:32:28.921750259Z",
+    "timestamp": "2026-08-30T22:32:39.854322593Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
-    "agent_seq": 138
+    "agent_seq": 139
   }
 }
