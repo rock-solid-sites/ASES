@@ -1,0 +1,215 @@
+[
+  {
+    "case": "C1",
+    "label": "search_artefacts no new param",
+    "op_id": "search_artefacts",
+    "arguments": {
+      "query": "hello",
+      "limit": 5
+    },
+    "payload_version": null,
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "items": [],
+      "total": 0,
+      "has_more": false
+    },
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_validation": "executed:ok",
+    "pass": true
+  },
+  {
+    "case": "C1",
+    "label": "get_artefact normal",
+    "op_id": "get_artefact",
+    "arguments": {
+      "id": "art_abc-123"
+    },
+    "payload_version": null,
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "id": "art_abc-123",
+      "type": "spec",
+      "title": "Example",
+      "status": "draft",
+      "created_at": "2026-08-29T00:00:00Z"
+    },
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_validation": "executed:ok",
+    "pass": true
+  },
+  {
+    "case": "C1",
+    "label": "create_artefact without priority",
+    "op_id": "create_artefact",
+    "arguments": {
+      "type": "spec",
+      "title": "My Spec"
+    },
+    "payload_version": null,
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "id": "art_1e5c3ba1",
+      "type": "spec",
+      "title": "My Spec",
+      "status": "draft"
+    },
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_validation": "executed:ok",
+    "pass": true
+  },
+  {
+    "case": "C1",
+    "label": "query_metrics normal",
+    "op_id": "query_metrics",
+    "arguments": {
+      "filter": {
+        "type": "spec"
+      }
+    },
+    "payload_version": null,
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "items": [
+        {
+          "key": "all",
+          "count": 1,
+          "avg_score": 0.5
+        }
+      ],
+      "total": 1
+    },
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_validation": "executed:ok",
+    "pass": true
+  },
+  {
+    "case": "C1",
+    "label": "search_artefacts with new sort_order",
+    "op_id": "search_artefacts",
+    "arguments": {
+      "query": "hi",
+      "sort_order": "desc"
+    },
+    "payload_version": null,
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "items": [],
+      "total": 0,
+      "has_more": false
+    },
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_validation": "executed:ok",
+    "pass": true
+  },
+  {
+    "case": "C1",
+    "label": "create_artefact with new priority",
+    "op_id": "create_artefact",
+    "arguments": {
+      "type": "spec",
+      "title": "T2",
+      "priority": "high"
+    },
+    "payload_version": null,
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "id": "art_017f3159",
+      "type": "spec",
+      "title": "T2",
+      "status": "draft"
+    },
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_validation": "executed:ok",
+    "pass": true
+  },
+  {
+    "case": "C1",
+    "label": "version check stale 0.1.0 vs 0.2.0 mutated op",
+    "op_id": "search_artefacts",
+    "arguments": {
+      "query": "hi"
+    },
+    "payload_version": "0.1.0",
+    "validation_result": "rejected:validation",
+    "error": {
+      "code": "VersionMismatch",
+      "op_id": "search_artefacts",
+      "expected_version": "0.2.0",
+      "actual_version": "0.1.0",
+      "boundary": "runtime"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:rejected:VersionMismatch"
+    ],
+    "expect_executed": false,
+    "expect_validation": "rejected:validation",
+    "expect_code": "VersionMismatch",
+    "pass": true
+  }
+]

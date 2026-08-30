@@ -1,0 +1,134 @@
+[
+  {
+    "case": "C4",
+    "label": "removed operation create_review",
+    "op_id": "create_review",
+    "arguments": {
+      "artefact_id": "art_abc-123",
+      "verdict": "approve",
+      "rationale": "Rationale with enough length for validation"
+    },
+    "validation_result": "rejected:sandbox",
+    "error": {
+      "code": "UnknownOperation",
+      "op_id": "create_review",
+      "hint": "op_id not in preselected sandbox surface; no fuzzy matching",
+      "boundary": "sandbox"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:rejected:UnknownOperation"
+    ],
+    "expect_executed": false,
+    "expect_code": "UnknownOperation",
+    "pass": true
+  },
+  {
+    "case": "C4",
+    "label": "renamed old ID search_artefacts (now search)",
+    "op_id": "search_artefacts",
+    "arguments": {
+      "query": "hello"
+    },
+    "validation_result": "rejected:sandbox",
+    "error": {
+      "code": "UnknownOperation",
+      "op_id": "search_artefacts",
+      "hint": "op_id not in preselected sandbox surface; no fuzzy matching",
+      "boundary": "sandbox"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:rejected:UnknownOperation"
+    ],
+    "expect_executed": false,
+    "expect_code": "UnknownOperation",
+    "pass": true
+  },
+  {
+    "case": "C4",
+    "label": "new ID search succeeds",
+    "op_id": "search",
+    "arguments": {
+      "query": "hello"
+    },
+    "validation_result": "executed:ok",
+    "error": null,
+    "executed": true,
+    "result": {
+      "items": [],
+      "total": 0,
+      "has_more": false
+    },
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:allowed",
+      "validation:pass",
+      "policy:pass",
+      "execution:ok"
+    ],
+    "expect_executed": true,
+    "expect_code": null,
+    "pass": true
+  },
+  {
+    "case": "C4",
+    "label": "typo/casing Search_Artefacts must not fuzzy-match",
+    "op_id": "Search_Artefacts",
+    "arguments": {
+      "query": "hi"
+    },
+    "validation_result": "rejected:sandbox",
+    "error": {
+      "code": "UnknownOperation",
+      "op_id": "Search_Artefacts",
+      "hint": "op_id not in preselected sandbox surface; no fuzzy matching",
+      "boundary": "sandbox"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:rejected:UnknownOperation"
+    ],
+    "expect_executed": false,
+    "expect_code": "UnknownOperation",
+    "pass": true
+  },
+  {
+    "case": "C4",
+    "label": "removed op with stale payload_version still UnknownOperation",
+    "op_id": "create_review",
+    "arguments": {
+      "artefact_id": "art_abc-123",
+      "verdict": "approve",
+      "rationale": "Rationale with enough length for validation"
+    },
+    "payload_version": "0.1.0",
+    "validation_result": "rejected:sandbox",
+    "error": {
+      "code": "UnknownOperation",
+      "op_id": "create_review",
+      "hint": "op_id not in preselected sandbox surface; no fuzzy matching",
+      "boundary": "sandbox"
+    },
+    "executed": false,
+    "result": null,
+    "latency_ms": 0,
+    "schema_version": "0.2.0",
+    "trace": [
+      "sandbox:rejected:UnknownOperation"
+    ],
+    "expect_executed": false,
+    "expect_code": "UnknownOperation",
+    "pass": true
+  }
+]
