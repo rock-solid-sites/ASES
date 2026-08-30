@@ -1,6 +1,6 @@
 {
   "next_display_id": 526,
-  "next_comment_id": 3306,
+  "next_comment_id": 3307,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26296,7 +26296,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-30T20:17:50.695413546Z",
+      "updated_at": "2026-08-30T20:42:48.791775715Z",
       "labels": [
         "feature"
       ],
@@ -26762,6 +26762,15 @@
           "kind": "plan",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAmq11SJoiRNMoctE8j4L/XsBPf2sgmLG/su0ZfTkVaCApl9rcEfhTrGv1lFUv+NQtT7l7lhJGUyfSu45kwX5bCg=="
+        },
+        "8a66d7e4-a5eb-4c3e-a870-74745dea7343": {
+          "display_id": 3306,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Fix Hy3 review findings D1+B1+B3 on feature/stop-button. (D1) Extract the stop-click/ESC fence flow from prompt/index.tsx into a testable shell controller (fork/opencode-src/packages/tui/src/component/prompt/stop-button-controller.ts) with injected effects (readState, isActive, confirm, interrupt, toast, log, clock, timing) so the REAL gate code is mountable; both enforcement sites (handleStopClick isPermitted@247 + session.interrupt ESC_ESC isPermitted@568) delegate to it. New integration test fork/.../test/prompt/stop-button-controller.test.ts mounts the real controller with a fake sdk.client.v2.session.interrupt asserting: idle->0 calls, running->confirm->NO->0 calls, running->confirm->YES->exactly 1 call, interrupting idempotence->0 extra calls, debounce at fence, plus B1/B3 discriminators — a gate-removal mutant that fires unconditionally fails. (B1 status-lag denial) authoritativeState(): when the TUI-local projection says idle, reconcile once against GET /api/session/active (the coordinator active-map HTTP projection, protocol groups/session.ts:146, handler returns {data:{[sessionID]:{type:running}}}); if the session is active treat state as running. Applied in both the button path and the ESC double-ESC path; remove the ESC command enabled: status().type!=='idle' hard gate (machine + authoritative check handle idle) so ESC is always reachable. Fetch error falls back to local projection (never blocks UI). (B3 placebo detection) post-interrupt authoritative verification: after a 204, after settle window (cooldown 800ms + buffer), re-check the active map; if session still active AND no new user message since interrupt (baseline message-ID guard), log PLACEBO SUSPECT + warning toast — making 204-but-fiber-alive visible in the UI for the first time. Document the detection matrix (coordinator seam tests / live probe / new TUI reconciliation) in Verified Spec + conformance suite. Verify: bun test tui (machine 44 + new controller suite + full), bun typecheck tui (tsc fallback if tsgo OOMs), core coordinator 18/18 regression guard. Gated commit on #510.",
+          "created_at": "2026-08-30T20:42:48.784070324Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+LE/DfYkAtS1suXC4ov/xcXgNJncIHFFbdf4s09e2HgngBgnqnrTxI/jmyxcrKtonVvgOXKtI0VH29+hY2MABw=="
         },
         "908b5b67-3411-4acc-9c21-a53ca4acbad6": {
           "display_id": 2893,
@@ -39201,8 +39210,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T20:39:39.996718912Z",
-    "agent_id": "OL2r",
-    "agent_seq": 2899
+    "timestamp": "2026-08-30T20:42:48.791775715Z",
+    "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+    "agent_seq": 121
   }
 }
