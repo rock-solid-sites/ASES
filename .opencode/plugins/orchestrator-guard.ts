@@ -89,31 +89,15 @@ function getActiveIssueIdFromSentinel(crosslinkDir: string): number | null {
   }
 }
 
-function hasApprovalForModel(
-  crosslinkDir: string,
-  issueId: number,
-  modelId: string,
-): boolean {
-  const dbPath = path.join(crosslinkDir, "issues.db");
-  if (!fs.existsSync(dbPath)) return true;
-  try {
-    const db = new Database(dbPath, { readonly: true });
-    try {
-      const stmt = db.prepare(
-        "SELECT content FROM comments WHERE issue_id = ? AND kind = ?",
-      );
-      const rows = stmt.all(issueId, "approval") as { content: string }[];
-      for (const row of rows) {
-        if (row.content && row.content.includes(modelId)) return true;
-      }
-      return false;
-    } finally {
-      db.close();
-    }
-  } catch {
-    return true;
-  }
-}
+/**
+ * REMOVED — durable approval comment check (2026-08-30, issue #525).
+ * Previously: hasApprovalForModel checked issues.db for --kind approval
+ * comment containing exact model ID. Now: verbal approval via question
+ * tool is required and sufficient (AGENTS.md D1–D4). Durable storage is
+ * pathological (future agent would misread transient approval as standing
+ * acceptance, breaking per-launch scoping). Gate now only checks for
+ * active issue. Function deleted; call sites removed. Kept for archeology.
+ */
 
 function extractModelFromTaskArgs(args: unknown): string | null {
   if (!args || typeof args !== "object") return null;
@@ -153,16 +137,16 @@ function extractModelFromTaskArgs(args: unknown): string | null {
 }
 
 function buildTaskModelGateNoIssueMessage(modelId: string | null): string {
-  const modelPart = modelId ? ` (model: ${modelId})` : " (no model found in Task args)";
+  const modelPart = modelId ? ` (model: ${modelId})` : "";
   return (
     `AGENT LAUNCH BLOCK — Did your operator approve a model selection?${modelPart}\n\n` +
     "Model-gated launches via Task (orchestrator → builder/reviewer/auditor) " +
-    "require an active crosslink issue AND per-launch operator approval — same tier as git merge.\n\n" +
-    "You have no active issue. Required steps BEFORE retry:\n" +
-    "  1. question — Ask the operator via the question tool: Which model for this dispatch? (cheaper-first: prefer cheaper models that satisfy the task; frontier requires explicit approval every launch)\n" +
-    "  2. opencode models — Verify the exact ID: opencode models <provider>  (e.g. opencode models opencode-go) — copy the ID exactly, never guess\n" +
-    "  3. approval comment — Operator posts on the active issue: crosslink issue comment <id> \"Approved model: <exact model ID> verified via opencode models <provider>\" --kind approval\n" +
-    "  4. retry — Re-run the same Task; the gate checks the active issue has an --kind approval comment containing the exact model ID\n\n" +
+    "require an active crosslink issue AND per-launch verbal operator approval — same tier as git merge.\n\n" +
+    "You have no active issue. Required 3 steps BEFORE retry:\n" +
+    "  1. question (verbal approval) — Ask the operator via the question tool: Which model for this dispatch? The operator's verbal answer is the approval — required and sufficient. (cheaper-first: prefer cheaper models that satisfy the task; frontier requires explicit approval every launch)\n" +
+    "  2. opencode models — Verify the exact ID: opencode models <provider>  (e.g. opencode models opencode-go) — copy the ID exactly, never guess, shorten, or modify\n" +
+    "  3. retry — Re-run the same Task\n\n" +
+    "No Crosslink approval comment — do not post one and do not wait for one: the operator never runs shell commands (AGENTS.md D1–D4), and a durable approval comment is pathological (a future agent would misread a transient approval as standing acceptance). Approval is per-launch unless the operator explicitly says it covers multiple phases.\n\n" +
     "Cheaper-first: never select a frontier/expensive model over a cheaper option without operator approval.\n\n" +
     "Create/claim an issue first:\n" +
     '  crosslink quick "<describe the work>" -p <priority> -l <label>\n' +
@@ -170,22 +154,22 @@ function buildTaskModelGateNoIssueMessage(modelId: string | null): string {
   );
 }
 
-function buildTaskModelGateNoApprovalMessage(issueId: number, modelId: string | null): string {
+/**
+ * LEGACY — no longer called (gate no longer checks DB for approval comment).
+ * Kept for archeology; updated to 3-step verbal wording.
+ */
+function buildTaskModelGateNoApprovalMessage(_issueId: number, modelId: string | null): string {
   const modelPart = modelId ? `model: ${modelId}` : "no model found in Task args (all launches must specify a model)";
-  const approvalExample = modelId
-    ? `crosslink issue comment ${issueId} "Approved model: ${modelId} verified via opencode models <provider>" --kind approval`
-    : `crosslink issue comment ${issueId} "Approved model: <exact model ID> verified via opencode models <provider>" --kind approval`;
   return (
     `AGENT LAUNCH BLOCK — Did your operator approve a model selection? (${modelPart})\n\n` +
     "Model-gated launches via Task (orchestrator → builder/reviewer/auditor) " +
-    `require per-launch operator approval on issue #${issueId} — same tier as git merge.\n\n` +
-    `You attempted a Task launch with ${modelPart} but issue #${issueId} has no --kind approval comment containing the exact model ID.\n\n` +
-    "Required steps BEFORE retry:\n" +
-    "  1. question — Ask the operator via the question tool: Which model for this dispatch? (cheaper-first: prefer cheaper models that satisfy the task; frontier requires explicit approval every launch)\n" +
-    "  2. opencode models — Verify the exact ID: opencode models <provider>  (e.g. opencode models opencode-go) — copy the ID exactly, never guess\n" +
-    `  3. approval comment — Operator posts: ${approvalExample}\n` +
-    "  4. retry — Re-run the same Task; the gate checks the active issue has an --kind approval comment containing the exact model ID\n\n" +
-    "Cheaper-first: never select a frontier/expensive model over a cheaper option without operator approval. Each launch needs its own approval.\n"
+    "require per-launch verbal operator approval — same tier as git merge.\n\n" +
+    "Required 3 steps BEFORE retry:\n" +
+    "  1. question (verbal approval) — Ask the operator via the question tool: Which model for this dispatch? The operator's verbal answer is the approval — required and sufficient. (cheaper-first: prefer cheaper models that satisfy the task; frontier requires explicit approval every launch)\n" +
+    "  2. opencode models — Verify the exact ID: opencode models <provider>  (e.g. opencode models opencode-go) — copy the ID exactly, never guess, shorten, or modify\n" +
+    "  3. retry — Re-run the same Task\n\n" +
+    "No Crosslink approval comment — do not post one and do not wait for one: the operator never runs shell commands (AGENTS.md D1–D4), and a durable approval comment is pathological (a future agent would misread a transient approval as standing acceptance). Approval is per-launch unless the operator explicitly says it covers multiple phases.\n" +
+    "Cheaper-first: never select a frontier/expensive model over a cheaper option without operator approval.\n"
   );
 }
 
@@ -277,15 +261,11 @@ const orchestratorGuardPlugin: Plugin = async (pluginInput: PluginInput) => {
           log("BLOCK task: no active issue, model:", modelId);
           throw new Error(buildTaskModelGateNoIssueMessage(modelId));
         }
-        if (!modelId) {
-          log("BLOCK task: missing model, issue:", activeIssueId);
-          throw new Error(buildTaskModelGateNoApprovalMessage(activeIssueId, null));
-        }
-        if (!hasApprovalForModel(crosslinkDir, activeIssueId, modelId)) {
-          log("BLOCK task: no approval for model:", modelId, "issue:", activeIssueId);
-          throw new Error(buildTaskModelGateNoApprovalMessage(activeIssueId, modelId));
-        }
-        log("ALLOW task: approval ok for model:", modelId, "issue:", activeIssueId);
+        // Verbal approval (2026-08-30): no DB approval-comment check.
+        // Gate only requires an active issue; modelId is informational.
+        // hasApprovalForModel and buildTaskModelGateNoApprovalMessage are
+        // legacy (kept for archeology, not called). See issue #525.
+        log("ALLOW task: active issue ok, model:", modelId, "issue:", activeIssueId);
         return;
       }
 
