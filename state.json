@@ -1,6 +1,6 @@
 {
   "next_display_id": 525,
-  "next_comment_id": 3264,
+  "next_comment_id": 3265,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -26125,7 +26125,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-27T12:53:49.605977705Z",
-      "updated_at": "2026-08-30T19:55:48.412754792Z",
+      "updated_at": "2026-08-30T19:55:59.215868551Z",
       "labels": [
         "feature"
       ],
@@ -26291,6 +26291,15 @@
           "kind": "result",
           "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMFeZ0JaCbsz6TWkppCOoOo6iwXQaQYazzqNIOSCVtuWFHHIfS3elijV1JBl9lKm6PVet2nZUsH8WkZXlfiElDA=="
+        },
+        "3b8fbac2-60d7-49ca-88bb-424c47df90c1": {
+          "display_id": 3264,
+          "author": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
+          "content": "Plan: Review stop-button state machine + verification architecture vs Verified Spec §4/§5/§7 and Universal Checklist. Check missing states/events/guards/abstractions. Findings: (1) machine is a validation gate, not the authoritative lifecycle owner — SETTLED never fed from server, interrupting state is an 800ms cooldown projection, inverting spec §3b.2; (2) running:ESC and the external INTERRUPT_API path are forbidden in the machine though spec E11/external-interrupt require them; (3) confirming+DONE/ERROR race leaves a stale dialog (no transition + no shell effect); (4) confirming:YES guard !isInterrupting omitted from pure machine; (5) doc drift (spec says 6-point probe, shipped probe is 9-point). Will fix model-level gaps (add running:ESC self, confirming:DONE/ERROR→idle, dialog auto-dismiss effect) and emit a findings doc. Then run tui machine tests.",
+          "created_at": "2026-08-30T19:55:59.209322610Z",
+          "kind": "plan",
+          "signed_by": "SHA256:LKcxcY8ErII3ow2tdjEolL0oRExAkZLj6VIU4Cf0vsU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2i4aIKoWd/MjdlgxwIzpP8HLAqXTaHiEwqkQ2J/7hTUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMPSRwCIZm9b6ZrXxdmFsRanwJHIQfYI0gJY9SgGESOVFC+d+NfLR/RWrp6nPhS5F7LbZ6arIuofMDuPWgOzDAA=="
         },
         "3d041cdd-12ec-4091-aff2-8cc75a99b413": {
           "display_id": 3107,
@@ -38801,7 +38810,7 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T19:55:48.412754792Z",
+    "timestamp": "2026-08-30T19:55:59.215868551Z",
     "agent_id": "pp3g-LB3f-stop-button-phase-0-6-point-interrupt-probe-then-tiny",
     "agent_seq": 111
   }
