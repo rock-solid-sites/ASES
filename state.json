@@ -1,5 +1,5 @@
 {
-  "next_display_id": 528,
+  "next_display_id": 529,
   "next_comment_id": 3358,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -362,6 +362,7 @@
     "b1cfb0dd-a42b-4702-9500-73c36ffa31e9": 28,
     "b1dfdeb3-a85a-402c-b912-8b26718693f5": 510,
     "b22a89ff-e016-4eab-9282-4e69d8ca729f": 217,
+    "b2aef60e-ede3-4c2b-82c6-b0c280c739e2": 528,
     "b2de22a7-f0d4-47e9-9dc2-d4b5d7993a8f": 377,
     "b32b59a8-d6d9-4dd2-bc67-eda3507bc8f9": 325,
     "b3f17d6f-b76e-4208-9373-d4cf3b99c0b3": 405,
@@ -27839,6 +27840,17 @@
         }
       }
     },
+    "b2aef60e-ede3-4c2b-82c6-b0c280c739e2": {
+      "uuid": "b2aef60e-ede3-4c2b-82c6-b0c280c739e2",
+      "display_id": 528,
+      "title": "Fix crosslink-guard health check — crosslink --version fails in worktree sandbox blocking all tool calls",
+      "description": "Agent pp3g-TZc1 on #527 halted on every tool call: crosslink-guard health probe runs 'crosslink --version' inside the worktree's sandbox (.crosslink dir as cwd) and fails with exit=1 empty out, then HALTs all launches. Main has crosslink 0.9.0-beta.1, worktree has .crosslink/issues.db, but sandbox restrict.sh blocks /home/claude-code/.local/bin/crosslink (filesystem_get_file_info outside allowed directories) and PATH may not include it. Health check should tolerate worktree case like it tolerates missing .hub-cache, or use absolute path /home/claude-code/.local/bin/crosslink, or skip the CLI probe when in worktree and rely on DB/hub checks. This blocks the Observer conformance suite synthesis (#527) and will block any new builder until fixed. Fix health check to not require crosslink binary via sandbox-allowed path.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-08-30T22:49:17.884519943Z",
+      "updated_at": "2026-08-30T22:49:17.884519943Z"
+    },
     "b2de22a7-f0d4-47e9-9dc2-d4b5d7993a8f": {
       "uuid": "b2de22a7-f0d4-47e9-9dc2-d4b5d7993a8f",
       "display_id": 377,
@@ -39691,8 +39703,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T22:43:20.374720453Z",
+    "timestamp": "2026-08-30T22:49:17.884519943Z",
     "agent_id": "OL2r",
-    "agent_seq": 2933
+    "agent_seq": 2934
   }
 }
