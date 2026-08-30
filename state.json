@@ -1,6 +1,6 @@
 {
   "next_display_id": 529,
-  "next_comment_id": 3366,
+  "next_comment_id": 3367,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -22656,7 +22656,7 @@
       "parent_uuid": "44a2f894-85dc-4396-a3c6-66dbc327ec3b",
       "created_by": "OL2r",
       "created_at": "2026-08-27T04:58:04.090684663Z",
-      "updated_at": "2026-08-30T20:52:02.351689898Z",
+      "updated_at": "2026-08-30T23:02:22.941749317Z",
       "closed_at": "2026-08-30T19:49:40.856875973Z",
       "labels": [
         "research"
@@ -23372,6 +23372,15 @@
           "kind": "observation",
           "signed_by": "SHA256:o+HHtagdxbryQKYWHFUd8LPY8+Q3dRhAR/jKJwzJZJU",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg3yWnu+jEHM1grCFl7Paypxl+CjiXGuwu9WwO5cdTNyAAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAVkSIeT48CZyWzy1SZdADovcJ55mv1SqGJNQTEs9Nn5MDFqNbI1Lv1xN9vgvxXSN4DJ2mElf9D0I9EWyRnjZTDg=="
+        },
+        "de27cc00-356d-42f5-a88e-2251161e3abf": {
+          "display_id": 3366,
+          "author": "OL2r",
+          "content": "Builder pp3g-fAg0 Fix for live Test A write-up: previous live run pp3g-612l completed 198 live calls (run-a 69, run-b 66, run-c 66) but summary.json only contained variant B and write_results crashed with KeyError: C at line 707, plus every live call hit 60s ParseFailed timeout. Fix: (1) rescue logs via git checkout feature/pp3g-612l-live-model-replication-of-test-a-token-accuracy-on -- research/capability-schema-validation/logs/test-a-live/, (2) make run.py write_results handle missing variants gracefully, (3) make summary builder iterate all three variants robustly, (4) lower parse timeout and improve model prompt to reduce ParseFailed, (5) regenerate summary.json with A/B/C and results.md with natural-language prose, verify smoke and commit.",
+          "created_at": "2026-08-30T23:02:22.918125796Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA52W7vKlS31bEKK++k5Uo0uxqBP/FOmGtqQuuPLjuauCdwCIR+zF3vjnOCtgrRGdnsM/tJ/gDy64hMjcM8XIBDA=="
         },
         "dfc806dd-2fea-4d40-acfb-8566103b3b80": {
           "display_id": 3251,
@@ -39775,8 +39784,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-30T23:00:59.120764567Z",
+    "timestamp": "2026-08-30T23:02:22.941749317Z",
     "agent_id": "OL2r",
-    "agent_seq": 2936
+    "agent_seq": 2937
   }
 }
