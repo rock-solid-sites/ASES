@@ -968,7 +968,12 @@ async function checkCrosslinkHealth(
   const versionResult = await runCrosslink(shell, ["--version"], crosslinkDir);
   if (!versionResult || versionResult.exitCode !== 0) {
     const detail = versionResult ? `exit=${versionResult.exitCode} out=${versionResult.stdout.slice(0, 120)}` : "command failed (null)";
-    return { healthy: false, reason: `crosslink CLI unavailable — crosslink --version failed (${detail})` };
+    // Worktrees lack /home/claude-code/.local/bin on sandbox PATH and have no .hub-cache by design — tolerate like hub-cache, rely on DB checks
+    if (crosslinkDir && crosslinkDir.includes("/.worktrees/")) {
+      log(`Health: crosslink --version failed in worktree (${detail}) — tolerated, not halting`);
+    } else {
+      return { healthy: false, reason: `crosslink CLI unavailable — crosslink --version failed (${detail})` };
+    }
   }
   // Detect hydration / v2 warning leaked into version output (should not happen, but catch)
   const versionCombined = versionResult.stdout.toLowerCase();
