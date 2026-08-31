@@ -584,19 +584,15 @@ function isClaudeMemoryPath(filePath: string | undefined): boolean {
 // ---------------------------------------------------------------------------
 
 async function runCrosslink(
-  shell: PluginInput["$"],
+  _shell: PluginInput["$"],
   args: string[],
   cwd: string,
 ): Promise<{ stdout: string; exitCode: number } | null> {
   try {
-    // Construct the command string safely
-    const cmd = "crosslink " + args.map((a) => (a.includes(" ") ? `"${a}"` : a)).join(" ");
-    const proc = shell.cwd(cwd)`${cmd}`.nothrow().quiet();
-    const output = await proc;
-    return {
-      stdout: output.text().trim(),
-      exitCode: output.exitCode,
-    };
+    const bin = Bun.which("crosslink") ?? `${process.env.HOME ?? ""}/.cargo/bin/crosslink`;
+    if (!bin) return null;
+    const proc = Bun.spawnSync([bin, ...args], { cwd, stdout: "pipe", stderr: "pipe" });
+    return { stdout: new TextDecoder().decode(proc.stdout).trim(), exitCode: proc.exitCode ?? 1 };
   } catch (e) {
     log("runCrosslink error:", String(e));
     return null;
