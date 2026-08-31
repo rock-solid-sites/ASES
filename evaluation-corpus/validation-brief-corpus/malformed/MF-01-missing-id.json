@@ -1,0 +1,9 @@
+{
+  "version": "0.1.0",
+  "class": "AL",
+  "title": "Create artefact — but missing id field (malformed)",
+  "brief": "Create docs/architecture/decision-099-missing-id.md with required frontmatter. This brief intentionally omits its `id` field to test detection.",
+  "expected_recovery": "Reject with missing required field: id",
+  "why_malformed": "The `id` field is required for corpus tracking and manifest cross-reference. A missing id makes the brief untraceable.",
+  "_note": "This file is intentionally malformed — it lacks the `id` top-level key."
+}

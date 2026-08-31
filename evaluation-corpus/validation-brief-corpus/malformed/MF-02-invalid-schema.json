@@ -1,0 +1,13 @@
+{
+  "id": "MF-02",
+  "class": "PE",
+  "kind": "malformed",
+  "version": "0.1.0",
+  "title": "Link evidence — invalid schema (extra key, wrong enum)",
+  "brief": "Link evidence to findings/retry-backoff-finding.md. This brief has an extra top-level key `evil: true` and `how_certain: \"maybe\"` (invalid enum — allowed are guess/evidence-based/proven).",
+  "evil": true,
+  "how_certain": "maybe",
+  "expected_recovery": "Reject with schema validation error",
+  "why_malformed": "Extra keys and invalid enums must be rejected by schema validation (strict additionalProperties:false).",
+  "_note": "Intentionally malformed: extra key `evil` and invalid enum `maybe`."
+}
