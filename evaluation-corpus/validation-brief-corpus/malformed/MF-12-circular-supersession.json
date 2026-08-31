@@ -1,0 +1,13 @@
+{
+  "id": "MF-12",
+  "class": "AL",
+  "kind": "malformed",
+  "version": "0.1.0",
+  "title": "Circular supersession (malformed)",
+  "brief": "Create docs/architecture/decision-099-circular-a.md with supersedes: docs/architecture/decision-099-circular-b.md, and docs/architecture/decision-099-circular-b.md with supersedes: docs/architecture/decision-099-circular-a.md. This creates a cycle A→B→A.",
+  "supersedes": ["docs/architecture/decision-099-circular-b.md"],
+  "other": {"id": "MF-12-B", "supersedes": ["docs/architecture/decision-099-circular-a.md"]},
+  "expected_recovery": "Detect cycle, reject",
+  "why_malformed": "Supersession must be a DAG; a cycle makes history non-navigable and must be rejected.",
+  "_note": "Intentionally malformed: circular supersession A→B→A."
+}

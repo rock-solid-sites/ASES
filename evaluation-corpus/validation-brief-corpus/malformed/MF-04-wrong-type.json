@@ -1,0 +1,12 @@
+{
+  "id": "MF-04",
+  "class": "AL",
+  "kind": "malformed",
+  "version": "0.1.0",
+  "title": "Create artefact — wrong type for field",
+  "brief": "Create docs/architecture/decision-099-wrong-type.md. The `limit` field must be an integer, but this brief provides `limit: \"five\"` (string).",
+  "limit": "five",
+  "expected_recovery": "Type error, do not coerce",
+  "why_malformed": "The `limit` field is typed as integer in the schema. A string value must be rejected with a type error, not silently coerced.",
+  "_note": "Intentionally malformed: wrong type for `limit`."
+}
