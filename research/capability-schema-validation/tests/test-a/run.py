@@ -266,7 +266,7 @@ def simulate_model_call(task_id, variant, repetition, expected_op, expected_args
     return sel, args
 
 
-def run(repetitions=3, live=False, model_id=None):
+def run(repetitions=3, live=False, model_id=None, delay=0.0):
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     token_results, tokenizer_name, tiktoken_version = measure_variant_tokens()
 
@@ -406,6 +406,10 @@ def run(repetitions=3, live=False, model_id=None):
                 # Append to per-variant log immediately (durability)
                 with log_path.open("a") as f:
                     f.write(json.dumps(record) + "\n")
+
+                # Throttle live calls if requested
+                if live and delay > 0:
+                    time.sleep(delay)
 
                 # Recovery simulation for rejections
                 # Only task 11 rep2 C inject and task 22 all reps trigger rejection handling
@@ -808,6 +812,27 @@ if __name__ == "__main__":
     ap.add_argument("--repetitions", type=int, default=3)
     ap.add_argument("--live", action="store_true", help="Live model mode (respects PARSE_TIMEOUT_S and missing-variant handling)")
     ap.add_argument("--model", type=str, default=None, help="Model ID for live mode")
+    ap.add_argument("--delay", type=float, default=0.0, help="Delay between calls in seconds (live throttling)")
     args = ap.parse_args()
-    summary, token_results, tokenizer_name, ratio_b_a, ratio_c_a, tiktoken_version = run(repetitions=args.repetitions, live=args.live, model_id=args.model)
+    summary, token_results, tokenizer_name, ratio_b_a, ratio_c_a, tiktoken_version = run(repetitions=args.repetitions, live=args.live, model_id=args.model, delay=args.delay)
     write_results(summary, token_results, tokenizer_name, ratio_b_a, ratio_c_a, tiktoken_version)
+    # Live mode: also mirror logs/results to -live directories for live replication audit
+    if args.live:
+        import shutil
+        live_log_dir = CAP_ROOT / "logs" / "test-a-live"
+        live_log_dir.mkdir(parents=True, exist_ok=True)
+        # copy per-variant logs and combined
+        for p in LOG_DIR.glob("run*.jsonl"):
+            shutil.copy2(p, live_log_dir / p.name)
+        # also copy summary as json if we can generate
+        live_summary = live_log_dir / "summary.json"
+        live_summary.write_text(json.dumps(summary, indent=2))
+        # also generate run-all for live dir already copied
+        # mirror results.md to tests/test-a-live/
+        live_results_dir = CAP_ROOT / "tests" / "test-a-live"
+        live_results_dir.mkdir(parents=True, exist_ok=True)
+        src_results = HERE / "results.md"
+        if src_results.exists():
+            shutil.copy2(src_results, live_results_dir / "results.md")
+        src_summary_live = live_results_dir / "summary.json"
+        src_summary_live.write_text(json.dumps(summary, indent=2))
