@@ -18,7 +18,7 @@ related_documents:
   - Model Feedback (per-model registry entries)
 
 supersedes: []
-last_updated: 2026-08-15
+last_updated: 2026-08-31
 ---
 
 # Model Routing Matrix — DIMENSIONED
@@ -151,13 +151,23 @@ last_updated: 2026-08-15
 | Token cost profile | Paid tier (opencode-go) |
 | Confidence + evidence | Emerging; single session. Evidence: #370 |
 
+### opencode/muse-spark-1.2-contributor-free (Zen free) / opencode-go/muse-spark-1.2-contributor (paid)
+| Dimension | Value |
+|---|---|
+| Review Style / Lens | COST-EFFICIENT SYNTHESIS & ADVISORY: concise 5-10m (Zen) / 15-20m (Go) synthesis; structured 8×4 gap-matrix advisory with scoring + hookability mapping (#506); live-replication governance with typed ValidationFailed recovery |
+| Strengths by task-type | Large-document synthesis (15-20m Go proven, 5-10m Zen; recommender alternative for 865-line #373 synthesis); advisory matrix construction (8×4 + §14 scoring + hookability, #506 Track C where 3 predecessors froze pp3g-74M3/y5qq/OwID); capability-schema-validation harness + proxy governance (22 tasks ×3 reps ×3 variants, 198 calls +10 retries, C/A 0.267 = 73.3% saving, #498); live replication path ready (--live --model with 3× + 5pp tolerance, #530); Go key stale cheapest-test verification (ses_fbc24c189ffeH3um1r564nlFAW 15:33 UTC streaming, zero Monthly-limit errors) |
+| Blind spots | Limited deep adversarial review evidence vs hy3/big-pickle (no head-to-head on same diff with live-system verification #363/#182); single cost-vs-suitability data point (5-10m vs 15-20m) not yet multi-task curve |
+| Failure modes | None observed as model failure; DataPolicyError on stale workspace wrk_01KV6… is key-store divergence (env stale, DB fresh wrk_01KZF… sk-yvUg9…), not model fault (Failure-Matrix 2026-08-27 row) |
+| Token cost profile | LOW (Go tier 2 cheap, free tier 0) — observed 5-10m synthesis vs hy3 DEAD-UNMARKED silent loss (model-evidence-2026-08-27 lexicon) |
+| Confidence + evidence | Emerging-Moderate; 3+ sessions (advisory + harness proxy + live SSE verification). Evidence: #506 (gap-matrix), #498 Tests A-E design/harness (results.md/summary.json), ses_fbc24c189ffeH3um1r564nlFAW (model-discipline.md 15:33 UTC), recommender tier 2, Failure-Matrix 2026-08-27; feedback: model-feedback-muse-spark-1.2-contributor.md (#531) |
+
 ---
 
 ## ROUTING TABLE — task/review-need -> recommended model + rationale
 
 | Task / Review Need | Recommended Model | Rationale (one line) |
 |---|---|---|
-| Research / web investigation (cheap) | opencode-go/deepseek-v4-flash | Operator rule #147: preferred for research/web; cheap; deep investigation proven (#144) |
+| Research / web investigation (cheap) | opencode-go/deepseek-v4-flash (primary) or opencode/muse-spark-1.2-contributor-free / opencode-go/muse-spark-1.2-contributor (cheap tier-0/2 alternative, 5-10m) | Operator rule #147: preferred for research/web; cheap; deep investigation proven (#144); muse-spark 5-10m synthesis proven as cheap alternative (#506) |
 | Deep source/mechanism investigation + controlled repro | opencode-go/deepseek-v4-flash | Evidence-first method with verification tables (#144/#145) |
 | Fork/plugin implementation with verification | opencode-go/deepseek-v4-flash | Proven Rust + TS implementation with tests (#138/#173) |
 | Design review: safety/state-machine/durability | opencode-go/gpt-5.6-luna | Systems/durability lens with named preconditions (#136/#362) |
@@ -174,7 +184,7 @@ last_updated: 2026-08-15
 | Final architectural audit / sign-off | google-vertex/gemini-3.1-pro-preview | Comprehensive 6-category audit; 0 findings (existing doc) — budget >=3 min |
 | Open-ended architectural review (reject/replace verdict) | opencode-go/glm-5.2 or opencode-go/qwen3.7-plus | Decisive Option-A verdicts with comparison tables (#367/#370); big-pickle for most concrete three-class Option D (#371) |
 | Zero-context planning / plan remediation | opencode-go/deepseek-v4-flash | B1-B6 plan (#361) + C1-C4 revision (#365), grounded on disk |
-| Large-document synthesis | opencode-go/deepseek-v4-flash | 865-line synthesis of 7 one-shot reviews (#373) |
+| Large-document synthesis | opencode-go/deepseek-v4-flash (primary) or opencode-go/muse-spark-1.2-contributor (cheap tier-2 alternative, 15-20m) | 865-line synthesis of 7 one-shot reviews (#373); muse-spark proven 15-20m advisory + 5-10m Zen cost-vs-suitability (#506, 2026-08-27 lexicon) |
 | CI gate / implementation verification (fast) | cohere/north-mini-code-1-0 | ~30s, zero false positives (existing doc + project-completion-report) |
 | Two-tier review pipeline (triage -> deep) | north-mini-code then gemini-3.1-pro | Fast triage then deep audit (existing doc pattern) |
 | HIGH-RISK long unattended task (no watchdog) | AVOID free-tier + AVOID flash until #146 watcher lands | Silent-hang class (#129/#138/#142) unrecoverable without external kill |
@@ -237,9 +247,7 @@ matrix on 2026-08-15 but absent from the live catalog on 2026-08-28 — see
 recommender staleness output). File updates against epic #255 item (6)
 OPERATIONAL DATA and link to this section.
 
-**Evidence toi:** `model-evidence-2026-08-27-lexicon.md` + `model-evidence-brief-note.md`
-demonstrate cost-vs-suitability as a live decision axis (muse-spark Zen
-5-10 m synthesis vs hy3 DEAD-UNMARKED silent loss) — feed new evidence into
-per-model rows and the routing table rather than hard-coding it in the
-recommender.
+**Evidence toi — FED 2026-08-31 (#531):** `model-evidence-2026-08-27-lexicon.md` + `model-evidence-brief-note.md`
+demonstrated cost-vs-suitability as a live decision axis (muse-spark Zen
+5-10 m synthesis vs hy3 DEAD-UNMARKED silent loss) — **fed into per-model row** `opencode/muse-spark-1.2-contributor-free / opencode-go/muse-spark-1.2-contributor` and routing table (Large-document synthesis alternative, Research cheap alternative) and dedicated feedback record `model-feedback-muse-spark-1.2-contributor.md` (live-replication note for #498/#530: proxy 198 calls + 10 retries, C/A 0.267 within 5pp, live --live --model path with 3× + tiktoken cl100k_base 0.14.0) rather than hard-coding it in the recommender. Next: #530 live run at temperature >0 to promote Q2/Q3/Q5 from evidence-based to proven.
 
