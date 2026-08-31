@@ -1,6 +1,6 @@
 {
   "next_display_id": 531,
-  "next_comment_id": 3392,
+  "next_comment_id": 3393,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -34173,10 +34173,21 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-31T22:16:02.883815718Z",
-      "updated_at": "2026-08-31T22:16:12.535179676Z",
+      "updated_at": "2026-08-31T22:16:53.795683534Z",
       "labels": [
         "research"
-      ]
+      ],
+      "comments": {
+        "42f08874-7aa5-4797-b9aa-d4debd5b4aca": {
+          "display_id": 3392,
+          "author": "OL2r",
+          "content": "Validation Brief filed from chat 2026-08-31 — real-model minimal vs full schema A/B. Objective: close remaining empirical question — can a real model reliably select and construct tool calls from the reduced description while runtime retains complete schema? Previous round: 73.3% token reduction, 100% selection, 98.4% arg within 5pp, 20/20 malformed rejected, 20/20 scripted corrections from typed errors, enum literals must remain visible, output validation required. Remaining uncertainty: correction was scripted, not real model. Scope: model-facing contract only — not connector lifecycle, MCP transport, or EDASES state machine. Research question: does reduced interface preserve practical reliability while materially reducing context? Comparison A full schema baseline vs B minimal (stable op ID + concise description + param names/types + required/optional + enum literals). Authoritative runtime retains complete schema in both. Deliberately not yet EDASES-vs-Lexicon comparison — establish clean conventional baseline reusable verbatim for later A/B architecture comparison. Full experimental design, corpus (24 tasks in 6 classes of 4: simple scalars, enum-dependent, nested structures, required/optional ambiguity, semantically similar tools, constraint-sensitive), Test C 12 malformed recovery, Test D 4 adversarial boundary cases (UnknownOperation, ValidationFailed, PolicyDenied, OutputValidationFailed), success criteria (token reduction substantial, selection/argument/task success within 5pp, hidden constraints enforceable, recovery useful rate), required measurements (description tokens, total in/out, selection/argument/task success, validation failures, retries, latency p50/p95; recovery metrics), edge-case rules, deliverable (10-section report + machine-readable trial data, task definitions, schemas, prompts, outputs, errors, tokens, timing, classifications), interpretation outcomes, and stop condition are in the chat transcript and will be materialized as corpus files in research/capability-schema-validation/ for next session. Steps for next session: Steps 1 and 2 only now — file issue and lay out suite (corpus, prompts, schemas, measurements, failure taxonomy) without running live model; live A/B run deferred to fresh session.",
+          "created_at": "2026-08-31T22:16:53.789138306Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAPsd8GaACpbzZLcOFjUhlOEtObctDV5uA7WlxgB8lUJVj9KuHvqYPjwGXI0SV0LPPcHDBgcXGxGa4gzPqxDPECQ=="
+        }
+      }
     },
     "dfdb4a01-b729-401e-8abe-5ef45f8c32da": {
       "uuid": "dfdb4a01-b729-401e-8abe-5ef45f8c32da",
@@ -40043,8 +40054,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-08-31T22:16:28.238887079Z",
+    "timestamp": "2026-08-31T22:16:53.795683534Z",
     "agent_id": "OL2r",
-    "agent_seq": 2967
+    "agent_seq": 2968
   }
 }
