@@ -11,6 +11,7 @@ Usage:
 Notes:
 - --smoke runs valid->execute and malformed->rejected-before-execution gate (Phase 0).
 - Authoritative schema text is never printed to model path; variant files are the model-visible artifacts.
+- v2 fix: handles missing variants gracefully and enforces PARSE_TIMEOUT_S (lowered per #498).
 """
 
 from __future__ import annotations
@@ -18,22 +19,65 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import threading
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 DEFAULT_SCHEMAS = ROOT / "capabilities" / "authoritative" / "schemas.json"
 
+# v2 fix: lowered parse timeout per #498 — previously 10s, now 2s to bound
+# tail latency on malformed/oversized model outputs.
+PARSE_TIMEOUT_S = 2.0
+
+
+def parse_json_with_timeout(text: str, timeout_s: float = PARSE_TIMEOUT_S):
+    """Parse JSON with bounded timeout (daemon thread join).
+
+    Returns (ok, parsed_or_None, error_str_or_None). On timeout, ok=False,
+    error_str="ParseTimeout". Thread is daemon so it does not block process exit.
+    """
+    result: list[object | None] = [None]
+    error: list[str | None] = [None]
+    success: list[bool] = [False]
+
+    def _target():
+        try:
+            result[0] = json.loads(text)
+            success[0] = True
+        except Exception as e:
+            error[0] = f"{type(e).__name__}: {e}"
+            success[0] = False
+
+    t = threading.Thread(target=_target, daemon=True)
+    t.start()
+    t.join(timeout=timeout_s)
+    if t.is_alive():
+        return False, None, "ParseTimeout"
+    if success[0]:
+        return True, result[0], None
+    return False, None, error[0]
+
 
 def measure_tokens():
+    """Measure tokens for each derived variant, handling missing variants gracefully.
+
+    v2: missing variants are reported as warnings and skipped (not a crash);
+    variant JSON parsing is bounded by PARSE_TIMEOUT_S (lowered).
+    """
     derived = ROOT / "capabilities" / "derived"
     results = {}
     for variant in ("variant-a.json", "variant-b.json", "variant-c.json"):
         p = derived / variant
         if not p.exists():
-            print(f"missing {p}", file=sys.stderr)
+            print(f"missing {p} — skipping {variant} (v2 handles missing variants gracefully)", file=sys.stderr)
             continue
         text = p.read_text()
+        # Bound JSON parse to avoid hang on corrupted/large variant files
+        ok, parsed, err = parse_json_with_timeout(text, timeout_s=PARSE_TIMEOUT_S)
+        if not ok:
+            print(f"variant {variant} parse failed ({err}) — skipping", file=sys.stderr)
+            continue
         chars = len(text)
         approx = chars // 4
         # try tiktoken
@@ -58,6 +102,10 @@ def measure_tokens():
             print(f"ratio C/A = {c/a:.3f}")
         if a and b:
             print(f"ratio B/A = {b/a:.3f}")
+    elif len(results) == 0:
+        print("no variant files found — all missing (v2 reports gracefully)", file=sys.stderr)
+    else:
+        print(f"only {len(results)} variant(s) present — ratios incomplete (missing variants handled)", file=sys.stderr)
     return results
 
 
@@ -126,8 +174,17 @@ def smoke():
 def call_one(op_id: str, args_json: str, policy_json: str | None = None, version: str | None = None):
     Sandbox, Runtime, Harness = _imports()
 
-    args = json.loads(args_json)
-    policy = json.loads(policy_json) if policy_json else None
+    ok, args, err = parse_json_with_timeout(args_json, timeout_s=PARSE_TIMEOUT_S)
+    if not ok:
+        print(f"args JSON parse failed ({err}) — ParseTimeout or invalid JSON (timeout {PARSE_TIMEOUT_S}s)", file=sys.stderr)
+        sys.exit(2)
+    policy = None
+    if policy_json:
+        ok2, parsed, err2 = parse_json_with_timeout(policy_json, timeout_s=PARSE_TIMEOUT_S)
+        if not ok2:
+            print(f"policy JSON parse failed ({err2}) — timeout {PARSE_TIMEOUT_S}s", file=sys.stderr)
+            sys.exit(2)
+        policy = parsed
     harness = Harness(Sandbox(), Runtime())
     res = harness.call(op_id, args, payload_version=version, policy=policy)
     print(json.dumps(res, indent=2))
