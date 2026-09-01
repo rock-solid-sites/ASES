@@ -1,6 +1,6 @@
 {
   "next_display_id": 537,
-  "next_comment_id": 3509,
+  "next_comment_id": 3510,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24179,7 +24179,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-30T22:37:13.595461033Z",
-      "updated_at": "2026-09-01T12:07:19.542801602Z",
+      "updated_at": "2026-09-01T12:08:10.218143580Z",
       "comments": {
         "0136bd11-6224-441d-8777-52cb35be342a": {
           "display_id": 3502,
@@ -24369,6 +24369,15 @@
           "kind": "observation",
           "signed_by": "SHA256:jJIE6yuhcX/8IuWkNpZZAbuHlqBUwFuSxcK44O0j/F0",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnwoFwrL8eq3EMH5fNvbFC+ddnAm5MEmOAWT0XcLBq6EAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAAu5ypKaerPsuEpFZgV4HEFDoz8orHIGZDX8VaBeqYmdVcKU1y6rLheN8CJHACnmCGyMPp9DJTVGksSCws+m/Dw=="
+        },
+        "cbca12c3-dd30-4645-800a-0558df40b468": {
+          "display_id": 3509,
+          "author": "pp3g-enJQ-adversarial-review-of-refined-suite-v2-hy4-preview",
+          "content": "Completed: adversarial review of Observer Conformance Suite v2 (issue #527). Reviewed feR2 branch @65d9bb78 via git only. Delivered as hub comments: plan, [REVIEW-HIGH] (HY-1..HY-4), [REVIEW-MED/LOW] (HY-5..HY-10 + §30.1 gate discharge), [RESULT] (verdict, 29-entry attack log, adjudication requests, reproduction recipe, WHAT-NOT-TESTED). Verdict: REWORK, derived by v2's own §33.2 algebra over independently re-derived reviewer statuses (35/36 converge; §3 VERIFIED->PARTIAL diverges). 16 attacks defeated the suite, 12 held, 1 inconclusive. Headline findings: (HY-1) four prose/table divergences including §36 counting 23 PARTIAL against a table of 24 — the same defect class v2 registered as D19, in the paragraph that cites D19; (HY-2) the verdict algebra is not total — obligation/dimension/row status granularities are never projected, so the same rows yield REWORK or FAIL; (HY-3) criticality is defined twice with different extension and I8 is unclassified, escaping the mutation minimum; (HY-4) two of four baselines (VSDD.md, VSDD Adaptation Profile.md) are still absent from git, including the one §39's terms-of-art disposition rests on; (HY-5) §39's state machine cannot execute its own RF4 (no BGH->INVALIDATED edge), has an unnamed unreachable terminal state, no expiry-during-review edge, and no adjudication timeout; (HY-6) the §0.3 evidence floor has no carrier; (HY-7) §40.2 omits 4 corpus findings (Deepseek #11, Flash F7, Muse D4/D5) and its disposition arithmetic is wrong (21/7 stated vs 22/6 actual). Credited survivals: committing the canonical baseline (D18) paid for itself immediately by making the §29 miscount detectable; §33's algebra is robust on this table; §30.1's diligence gate forced this review to disclose its own non-discharge. CONSTRAINT LOGGED AS INTERVENTION (tool_blocked): this session is the reviewer agent type — edit=deny, all git writes blocked — so the review exists only as hub comments and the verifier only in /tmp; a Builder is needed if file artefacts are required. §30.3 halting rule NOT satisfied (did not attack all 25 Critical dimensions individually), so this review is not §30.1-discharged and cannot be consumed as the §30 gate result.",
+          "created_at": "2026-09-01T12:08:10.211726972Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:jJIE6yuhcX/8IuWkNpZZAbuHlqBUwFuSxcK44O0j/F0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnwoFwrL8eq3EMH5fNvbFC+ddnAm5MEmOAWT0XcLBq6EAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAJGD5t3wjiAvLLg9Ywb0HkGQv6+0GHWGhVMyu5xxOZbZFFlxhyYKx5IHJXESrpbQeviZ5SEg75pQj9E9uEcDUBA=="
         },
         "d1977431-9b38-4c5b-abb5-23064fbd284f": {
           "display_id": 3483,
@@ -41218,8 +41227,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-01T12:07:19.542801602Z",
+    "timestamp": "2026-09-01T12:08:10.218143580Z",
     "agent_id": "pp3g-enJQ-adversarial-review-of-refined-suite-v2-hy4-preview",
-    "agent_seq": 8
+    "agent_seq": 9
   }
 }
