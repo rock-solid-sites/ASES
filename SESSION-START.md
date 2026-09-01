@@ -20,6 +20,7 @@ Model routing: before dispatching agents, consult the Model Routing Matrix (know
   reports a stale lock, do **NOT** investigate it: proceed with the task. See
   the repo's knowledge pages for details. The lock system fix is tracked
   separately (#166/#173).
+- **Refresh live model catalog** — run `opencode models` (opencode / opencode-go / openrouter as needed) silently before first prompt to refresh stale cache; no ID dump (operator checks `/models` directly).
 
 ---
 
