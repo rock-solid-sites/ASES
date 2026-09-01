@@ -1,0 +1,96 @@
+{
+  "version": "0.1.0",
+  "description": "4 adversarial boundary cases D1-D4 for #530 \u2014 distinct codes, no execution (D4 no success return). D1 UnknownOperation, D2 ValidationFailed, D3 PolicyDenied, D4 OutputValidationFailed. All require code-distinguishable handling.",
+  "count": 4,
+  "cases": [
+    {
+      "id": "D1",
+      "code": "UnknownOperation",
+      "title": "D1 UnknownOperation \u2014 hallucinated / absent capability",
+      "op": "delete_artefact",
+      "args": {
+        "id": "art_abc-123"
+      },
+      "description": "Op not in authoritative registry nor sandbox preselected surface. Exact ID only; no fuzzy matching. Must be UnknownOperation at sandbox before validation/policy/execution, no side effects.",
+      "expected_boundary": "sandbox",
+      "expected_code": "UnknownOperation",
+      "no_execution": true,
+      "distinct_code": true,
+      "sandbox_allowed_example": [
+        "search_artefacts",
+        "get_artefact",
+        "create_artefact",
+        "search_users",
+        "search_groups",
+        "search_projects"
+      ],
+      "note": "Variants with typo/casing/prefix/path traversal all map to same code per failure-taxonomy.md"
+    },
+    {
+      "id": "D2",
+      "code": "ValidationFailed",
+      "title": "D2 ValidationFailed \u2014 malformed that would bypass if not caught",
+      "op": "create_artefact",
+      "args": {
+        "type": "spec",
+        "title": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "admin": true
+      },
+      "description": "Schema-valid op_id but payload violates hidden constraints: title maxLength 200 and additionalProperties:false (admin unknown). Even with valid op_id, runtime validation must catch before policy/execution; no bypass.",
+      "expected_boundary": "runtime",
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "maxLength / additionalProperties",
+      "no_execution": true,
+      "distinct_code": true
+    },
+    {
+      "id": "D3",
+      "code": "PolicyDenied",
+      "title": "D3 PolicyDenied \u2014 schema-valid but policy-denied",
+      "op": "search_artefacts",
+      "args": {
+        "query": "hello"
+      },
+      "description": "Call passes sandbox exact-ID and authoritative JSON Schema validation; runtime policy denies (deny list or resource deny). Must be PolicyDenied at policy boundary after validation:pass, distinguishable from ValidationFailed, no execution.",
+      "expected_boundary": "policy",
+      "expected_code": "PolicyDenied",
+      "no_execution": true,
+      "distinct_code": true,
+      "policy_example": {
+        "deny": [
+          "search_artefacts"
+        ]
+      },
+      "ordering": "trace == [sandbox:allowed, validation:pass, policy:rejected:PolicyDenied]"
+    },
+    {
+      "id": "D4",
+      "code": "OutputValidationFailed",
+      "title": "D4 OutputValidationFailed \u2014 output schema violation post-execution",
+      "op": "query_metrics",
+      "args": {
+        "filter": {
+          "type": "spec"
+        }
+      },
+      "description": "Input validates and executes, but runtime produces output that violates outputSchema (e.g., rename total\u2192count, items\u2192results, remove facets). Runtime.validate_output must catch before returning success; code OutputValidationFailed (mapped to ValidationFailed with boundary runtime:output) distinct from input ValidationFailed/UnknownOperation/PolicyDenied; no success returned.",
+      "expected_boundary": "runtime:output",
+      "expected_code": "OutputValidationFailed",
+      "no_execution": false,
+      "no_success_return": true,
+      "distinct_code": true,
+      "output_violation_example": {
+        "expected_output_fields": [
+          "items",
+          "total",
+          "has_more"
+        ],
+        "violated_output": {
+          "count": 5,
+          "results": []
+        }
+      },
+      "note": "In harness error-codes.md this is ValidationFailed with boundary runtime:output; failure-taxonomy.md records distinct logical code OutputValidationFailed for D4 reporting"
+    }
+  ]
+}

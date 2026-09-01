@@ -1,0 +1,22 @@
+{
+  "version": "0.1.0",
+  "description": "Prompt templates for #530 real-model A/B \u2014 reusable verbatim for EDASES comparison. Full vs minimal differ only in capability description block; user request, instructions, ordering, and harness path (sandbox\u2192validation\u2192policy\u2192execution) are identical.",
+  "prompts": [
+    {
+      "variant": "full",
+      "file": "prompts/prompt-full.md",
+      "template": "prompts/prompt-full.template.md",
+      "source_schemas": "schemas/full.json",
+      "tokenizer_scope": "capability-description block only"
+    },
+    {
+      "variant": "minimal",
+      "file": "prompts/prompt-minimal.md",
+      "template": "prompts/prompt-minimal.template.md",
+      "source_schemas": "schemas/minimal.json",
+      "tokenizer_scope": "capability-description block only"
+    }
+  ],
+  "invariants": "Stable op IDs identical across variants; param names/types identical; enum literals visible in both (minimal preserves them); hidden constraints (min/max, pattern, format, additionalProperties, mutually constrained) omitted from minimal only.",
+  "reuse_note": "Reusable verbatim for EDASES A/B: keep authoritative runtime schemas (schemas/authoritative.json) unchanged; swap only the model-facing description block (full.json vs minimal.json) and prompt template."
+}

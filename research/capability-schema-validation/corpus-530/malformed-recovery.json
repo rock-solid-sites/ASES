@@ -1,0 +1,328 @@
+{
+  "version": "0.1.0",
+  "description": "12 malformed recovery cases for #530 \u2014 missing required, wrong type, invalid enum, invalid nested field, missing nested required, hidden range violation, invalid combination, malformed array/object +4 balanced. All rejected ValidationFailed before execution; recovery via one-retry/multi-retry.",
+  "count": 12,
+  "cases": [
+    {
+      "id": "R01",
+      "category": "missing_required",
+      "title": "Missing required \u2014 query omitted",
+      "op": "search_artefacts",
+      "args": {},
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "required",
+      "expected_field": "query",
+      "recovery_action": "add query='hello'",
+      "corrected_args": {
+        "query": "hello"
+      },
+      "description": "Required field query missing; runtime ValidationFailed before execution; recovery adds required field",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R02",
+      "category": "wrong_type",
+      "title": "Wrong type \u2014 query is integer",
+      "op": "search_artefacts",
+      "args": {
+        "query": 123
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "type",
+      "expected_field": "query",
+      "recovery_action": "change query to string 'hello'",
+      "corrected_args": {
+        "query": "hello"
+      },
+      "description": "Type mismatch string vs integer",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R03",
+      "category": "invalid_enum",
+      "title": "Invalid enum \u2014 type is invalid literal",
+      "op": "create_artefact",
+      "args": {
+        "type": "invalid",
+        "title": "t"
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "enum",
+      "expected_field": "type",
+      "recovery_action": "change type to 'spec'",
+      "corrected_args": {
+        "type": "spec",
+        "title": "t"
+      },
+      "description": "Enum violation; literals must stay visible in minimal per spec",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R04",
+      "category": "invalid_nested_field",
+      "title": "Invalid nested field \u2014 filter string not object",
+      "op": "query_metrics",
+      "args": {
+        "filter": "spec"
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "type",
+      "expected_field": "filter",
+      "recovery_action": "change filter to {'type':'spec'}",
+      "corrected_args": {
+        "filter": {
+          "type": "spec"
+        }
+      },
+      "description": "Nested field wrong type",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R05",
+      "category": "missing_nested_required",
+      "title": "Missing nested required \u2014 evidence_items content missing",
+      "op": "submit_evidence",
+      "args": {
+        "artefact_id": "art_abc-123",
+        "evidence_items": [
+          {
+            "source": "paper"
+          }
+        ]
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "required",
+      "expected_field": "evidence_items[0].content",
+      "recovery_action": "add content='evidence text'",
+      "corrected_args": {
+        "artefact_id": "art_abc-123",
+        "evidence_items": [
+          {
+            "source": "paper",
+            "content": "evidence text"
+          }
+        ]
+      },
+      "description": "Nested required field missing",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R06",
+      "category": "hidden_range_violation",
+      "title": "Hidden range violation \u2014 limit 999 >100",
+      "op": "search_artefacts",
+      "args": {
+        "query": "hi",
+        "limit": 999
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "maximum",
+      "expected_field": "limit",
+      "recovery_action": "change limit to 20",
+      "corrected_args": {
+        "query": "hi",
+        "limit": 20
+      },
+      "description": "Hidden numeric range 1-100 not exposed in minimal; runtime ValidationFailed; tests constraint-sensitive hidden class",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R07",
+      "category": "invalid_combination",
+      "title": "Invalid combination \u2014 mutually constrained filter.type == group_by",
+      "op": "query_metrics",
+      "args": {
+        "filter": {
+          "type": "spec"
+        },
+        "group_by": "spec"
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "mutually_constrained",
+      "expected_field": "group_by",
+      "recovery_action": "change group_by to 'status'",
+      "corrected_args": {
+        "filter": {
+          "type": "spec"
+        },
+        "group_by": "status"
+      },
+      "description": "Hidden mutually constrained fields; minimal does not reveal constraint; runtime rejects",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R08",
+      "category": "malformed_array",
+      "title": "Malformed array \u2014 target_ids empty violates minItems 1",
+      "op": "link_artefacts",
+      "args": {
+        "source_id": "art_abc-123",
+        "target_ids": [],
+        "relation": "relates_to"
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "minItems",
+      "expected_field": "target_ids",
+      "recovery_action": "add target_ids=['art_def-456']",
+      "corrected_args": {
+        "source_id": "art_abc-123",
+        "target_ids": [
+          "art_def-456"
+        ],
+        "relation": "relates_to"
+      },
+      "description": "Malformed array (empty when minItems 1)",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R09",
+      "category": "malformed_object",
+      "title": "Malformed object \u2014 get_artefact extra unknown field",
+      "op": "get_artefact",
+      "args": {
+        "id": "art_abc-123",
+        "extra": "x"
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "additionalProperties",
+      "expected_field": "extra",
+      "recovery_action": "remove extra field",
+      "corrected_args": {
+        "id": "art_abc-123"
+      },
+      "description": "additionalProperties:false hidden schema constraint",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R10",
+      "category": "missing_required_balanced",
+      "title": "Missing required \u2014 create_review rationale omitted",
+      "op": "create_review",
+      "args": {
+        "artefact_id": "art_abc-123",
+        "verdict": "approve"
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "required",
+      "expected_field": "rationale",
+      "recovery_action": "add rationale='Rationale with enough length for validation'",
+      "corrected_args": {
+        "artefact_id": "art_abc-123",
+        "verdict": "approve",
+        "rationale": "Rationale with enough length for validation"
+      },
+      "description": "Balanced missing required variant",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R11",
+      "category": "invalid_enum_balanced",
+      "title": "Invalid enum \u2014 set_severity level urgent",
+      "op": "set_severity",
+      "args": {
+        "artefact_id": "art_abc-123",
+        "level": "urgent"
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "enum",
+      "expected_field": "level",
+      "recovery_action": "change level to 'high'",
+      "corrected_args": {
+        "artefact_id": "art_abc-123",
+        "level": "high"
+      },
+      "description": "Balanced invalid enum variant for enum-dependent coverage",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    },
+    {
+      "id": "R12",
+      "category": "hidden_pattern_violation_balanced",
+      "title": "Hidden pattern violation \u2014 get_artefact BAD_ID",
+      "op": "get_artefact",
+      "args": {
+        "id": "BAD_ID"
+      },
+      "expected_code": "ValidationFailed",
+      "expected_constraint": "pattern",
+      "expected_field": "id",
+      "recovery_action": "change id to 'art_abc-123'",
+      "corrected_args": {
+        "id": "art_abc-123"
+      },
+      "description": "Hidden string pattern ^art_[a-z0-9-]+$ not in minimal; balanced pattern violation",
+      "no_execution": true,
+      "expected_boundary": "runtime",
+      "recovery_metrics": [
+        "recovery_tokens",
+        "one_retry_success",
+        "multi_retry_success"
+      ]
+    }
+  ]
+}

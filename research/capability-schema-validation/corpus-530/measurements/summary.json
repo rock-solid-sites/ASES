@@ -1,0 +1,49 @@
+{
+  "corpus": "530",
+  "version": "0.1.0",
+  "status": "scaffolding — placeholders, filled by live A/B run",
+  "pinned_versions": {
+    "tokenizer": "tiktoken cl100k_base 0.14.0",
+    "jsonschema": "4.26.0",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0",
+    "harness_schemas_version": "0.1.0"
+  },
+  "description_tokens": {
+    "full": null,
+    "minimal": null,
+    "ratio_minimal_over_full": null,
+    "tokenizer": "tiktoken cl100k_base 0.14.0"
+  },
+  "success_rates": {
+    "selection_full": null,
+    "selection_minimal": null,
+    "argument_full": null,
+    "argument_minimal": null,
+    "task_full": null,
+    "task_minimal": null,
+    "delta_selection_within_5pp": null,
+    "delta_argument_within_5pp": null
+  },
+  "latency": {
+    "p50_full_ms": null,
+    "p95_full_ms": null,
+    "p50_minimal_ms": null,
+    "p95_minimal_ms": null
+  },
+  "recovery": {
+    "validation_failures": null,
+    "retries": null,
+    "one_retry_success_rate": null,
+    "multi_retry_success_rate": null,
+    "recovery_tokens": null
+  },
+  "adversarial": {
+    "D1_UnknownOperation": null,
+    "D2_ValidationFailed": null,
+    "D3_PolicyDenied": null,
+    "D4_OutputValidationFailed": null
+  },
+  "tolerance": "5pp — minimal acceptable if |sel_min - sel_full| <=0.05 AND |arg_min - arg_full| <=0.05",
+  "next_step": "Live session runs prompts/prompt-full.md vs prompts/prompt-minimal.md via harness (sandbox→validation→policy→execution) over 24+12+4 corpus; logs to measurements/logs/*.jsonl; this file then filled"
+}
