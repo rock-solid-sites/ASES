@@ -1,49 +1,1120 @@
 {
   "corpus": "530",
   "version": "0.1.0",
-  "status": "scaffolding — placeholders, filled by live A/B run",
+  "status": "live run completed",
+  "generated_at": "2026-09-01T12:14:47Z",
   "pinned_versions": {
+    "schemas_version": "0.1.0",
+    "harness_version": "0.1.0",
     "tokenizer": "tiktoken cl100k_base 0.14.0",
     "jsonschema": "4.26.0",
     "toolregistry": "0.15.0",
-    "mcp": "2.0.0",
-    "harness_schemas_version": "0.1.0"
+    "mcp": "2.0.0"
+  },
+  "tokenizer_version": "0.14.0",
+  "model": {
+    "id": "openai/gpt-4o-mini",
+    "provider": "openrouter",
+    "temperature": 0.0,
+    "seed": 42,
+    "tool_calling_config": "json_object mode, instructions demand JSON {op_id, arguments}, no function-calling API, parse with timeout 2s",
+    "system_prompt": "prompts/prompt-full.md vs prompt-minimal.md (stable op ID + concise \u226420w + names/types + required/optional + enum literals; hidden constraints not exposed)",
+    "live": true,
+    "fallback_reason": null
+  },
+  "harness": {
+    "version": "0.1.0",
+    "ordering": "sandbox\u2192validation\u2192policy\u2192execution",
+    "schemas_version": "0.1.0"
   },
   "description_tokens": {
-    "full": null,
-    "minimal": null,
-    "ratio_minimal_over_full": null,
+    "full": 8915,
+    "minimal": 2588,
+    "ratio_minimal_over_full": 0.2902972518227706,
     "tokenizer": "tiktoken cl100k_base 0.14.0"
   },
-  "success_rates": {
-    "selection_full": null,
-    "selection_minimal": null,
-    "argument_full": null,
-    "argument_minimal": null,
-    "task_full": null,
-    "task_minimal": null,
-    "delta_selection_within_5pp": null,
-    "delta_argument_within_5pp": null
-  },
-  "latency": {
-    "p50_full_ms": null,
-    "p95_full_ms": null,
-    "p50_minimal_ms": null,
-    "p95_minimal_ms": null
+  "ab": {
+    "full": {
+      "n": 24,
+      "selection_rate": 1.0,
+      "arg_rate": 0.9583333333333334,
+      "task_rate": 0.9583333333333334,
+      "selection_correct": 24,
+      "arg_correct": 23,
+      "task_correct": 23,
+      "validation_failures": 1,
+      "retries": 0,
+      "p50": 2246.5,
+      "p95": 3734,
+      "by_class": {
+        "1": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 0.75,
+          "task": 0.75
+        },
+        "2": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 1.0,
+          "task": 1.0
+        },
+        "3": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 1.0,
+          "task": 1.0
+        },
+        "4": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 1.0,
+          "task": 1.0
+        },
+        "5": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 1.0,
+          "task": 1.0
+        },
+        "6": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 1.0,
+          "task": 1.0
+        }
+      },
+      "lats": [
+        2145,
+        2488,
+        2198,
+        2465,
+        2217,
+        2258,
+        2728,
+        2600,
+        2065,
+        2235,
+        2107,
+        2770,
+        2511,
+        2190,
+        2104,
+        2001,
+        2407,
+        1933,
+        4412,
+        1874,
+        3734,
+        2973,
+        3271,
+        2167
+      ]
+    },
+    "minimal": {
+      "n": 24,
+      "selection_rate": 1.0,
+      "arg_rate": 0.8333333333333334,
+      "task_rate": 0.8333333333333334,
+      "selection_correct": 24,
+      "arg_correct": 20,
+      "task_correct": 20,
+      "validation_failures": 2,
+      "retries": 0,
+      "p50": 994.5,
+      "p95": 2869,
+      "by_class": {
+        "1": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 0.75,
+          "task": 0.75
+        },
+        "2": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 1.0,
+          "task": 1.0
+        },
+        "3": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 0.5,
+          "task": 0.5
+        },
+        "4": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 1.0,
+          "task": 1.0
+        },
+        "5": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 0.75,
+          "task": 0.75
+        },
+        "6": {
+          "n": 4,
+          "sel": 1.0,
+          "arg": 1.0,
+          "task": 1.0
+        }
+      },
+      "lats": [
+        1541,
+        1338,
+        960,
+        1287,
+        890,
+        900,
+        3584,
+        929,
+        1083,
+        857,
+        807,
+        1020,
+        917,
+        1320,
+        1068,
+        996,
+        2869,
+        940,
+        1536,
+        973,
+        885,
+        888,
+        993,
+        1167
+      ]
+    },
+    "delta_selection": 0.0,
+    "delta_argument": -0.125,
+    "delta_task": -0.125,
+    "within_5pp": false
   },
   "recovery": {
-    "validation_failures": null,
-    "retries": null,
-    "one_retry_success_rate": null,
-    "multi_retry_success_rate": null,
-    "recovery_tokens": null
+    "total": 12,
+    "success": 4,
+    "success_rate": 0.3333333333333333,
+    "one_retry_success_rate": 0.3333333333333333,
+    "multi_retry_success_rate": 0.3333333333333333,
+    "details": [
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R01",
+        "category": "missing_required",
+        "op": "search_artefacts",
+        "args_failed": {},
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": null,
+          "constraint": "required",
+          "got": "{}",
+          "message": "'query' is a required property",
+          "schema_version": "0.1.0",
+          "op_id": "search_artefacts",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": null,
+          "constraint": "required",
+          "got": "{}",
+          "message": "'query' is a required property",
+          "schema_version": "0.1.0",
+          "op_id": "search_artefacts",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1362,
+        "correction_output": "```json\n{\n  \"op_id\": \"search_artefacts\",\n  \"arguments\": {\n    \"query\": \"\"\n  }\n}\n```",
+        "parse_error": null,
+        "op_corrected": "search_artefacts",
+        "args_corrected": {
+          "query": ""
+        },
+        "expected_corrected": {
+          "query": "hello"
+        },
+        "correction_success": false,
+        "one_retry_success": false,
+        "multi_retry_success": false,
+        "correction_tokens": 29,
+        "total_tokens_incl_failed": 1467,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "rejected:validation",
+        "correction_error": {
+          "code": "ValidationFailed",
+          "field": "query",
+          "constraint": "minLength",
+          "got": "\"\"",
+          "message": "'' should be non-empty",
+          "schema_version": "0.1.0",
+          "op_id": "search_artefacts",
+          "boundary": "runtime"
+        },
+        "correction_executed": false,
+        "latency_ms": 1286,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R02",
+        "category": "wrong_type",
+        "op": "search_artefacts",
+        "args_failed": {
+          "query": 123
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "query",
+          "constraint": "type",
+          "got": "123",
+          "message": "123 is not of type 'string'",
+          "schema_version": "0.1.0",
+          "op_id": "search_artefacts",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "query",
+          "constraint": "type",
+          "got": "123",
+          "message": "123 is not of type 'string'",
+          "schema_version": "0.1.0",
+          "op_id": "search_artefacts",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1375,
+        "correction_output": "```json\n{\"op_id\":\"search_artefacts\",\"arguments\":{\"query\":\"123\"}}\n```",
+        "parse_error": null,
+        "op_corrected": "search_artefacts",
+        "args_corrected": {
+          "query": "123"
+        },
+        "expected_corrected": {
+          "query": "hello"
+        },
+        "correction_success": false,
+        "one_retry_success": false,
+        "multi_retry_success": false,
+        "correction_tokens": 20,
+        "total_tokens_incl_failed": 1478,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "executed:ok",
+        "correction_error": null,
+        "correction_executed": true,
+        "latency_ms": 1119,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R03",
+        "category": "invalid_enum",
+        "op": "create_artefact",
+        "args_failed": {
+          "type": "invalid",
+          "title": "t"
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "type",
+          "constraint": "enum",
+          "got": "\"invalid\"",
+          "message": "'invalid' is not one of ['spec', 'decision', 'evidence', 'review']",
+          "schema_version": "0.1.0",
+          "op_id": "create_artefact",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "type",
+          "constraint": "enum",
+          "got": "\"invalid\"",
+          "message": "'invalid' is not one of ['spec', 'decision', 'evidence', 'review']",
+          "schema_version": "0.1.0",
+          "op_id": "create_artefact",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1396,
+        "correction_output": "```json\n{\n  \"op_id\": \"create_artefact\",\n  \"arguments\": {\n    \"type\": \"spec\",\n    \"title\": \"t\"\n  }\n}\n```",
+        "parse_error": null,
+        "op_corrected": "create_artefact",
+        "args_corrected": {
+          "type": "spec",
+          "title": "t"
+        },
+        "expected_corrected": {
+          "type": "spec",
+          "title": "t"
+        },
+        "correction_success": true,
+        "one_retry_success": true,
+        "multi_retry_success": true,
+        "correction_tokens": 38,
+        "total_tokens_incl_failed": 1534,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "executed:ok",
+        "correction_error": null,
+        "correction_executed": true,
+        "latency_ms": 1177,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R04",
+        "category": "invalid_nested_field",
+        "op": "query_metrics",
+        "args_failed": {
+          "filter": "spec"
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "filter",
+          "constraint": "type",
+          "got": "\"spec\"",
+          "message": "'spec' is not of type 'object'",
+          "schema_version": "0.1.0",
+          "op_id": "query_metrics",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "filter",
+          "constraint": "type",
+          "got": "\"spec\"",
+          "message": "'spec' is not of type 'object'",
+          "schema_version": "0.1.0",
+          "op_id": "query_metrics",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1375,
+        "correction_output": "```json\n{\n  \"op_id\": \"query_metrics\",\n  \"arguments\": {\n    \"filter\": {\n      \"type\": \"spec\"\n    }\n  }\n}\n```",
+        "parse_error": null,
+        "op_corrected": "query_metrics",
+        "args_corrected": {
+          "filter": {
+            "type": "spec"
+          }
+        },
+        "expected_corrected": {
+          "filter": {
+            "type": "spec"
+          }
+        },
+        "correction_success": true,
+        "one_retry_success": true,
+        "multi_retry_success": true,
+        "correction_tokens": 36,
+        "total_tokens_incl_failed": 1491,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "executed:ok",
+        "correction_error": null,
+        "correction_executed": true,
+        "latency_ms": 1143,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R05",
+        "category": "missing_nested_required",
+        "op": "submit_evidence",
+        "args_failed": {
+          "artefact_id": "art_abc-123",
+          "evidence_items": [
+            {
+              "source": "paper"
+            }
+          ]
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "evidence_items.0",
+          "constraint": "required",
+          "got": "{\"source\": \"paper\"}",
+          "message": "'content' is a required property",
+          "schema_version": "0.1.0",
+          "op_id": "submit_evidence",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "evidence_items.0",
+          "constraint": "required",
+          "got": "{\"source\": \"paper\"}",
+          "message": "'content' is a required property",
+          "schema_version": "0.1.0",
+          "op_id": "submit_evidence",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1408,
+        "correction_output": "```json\n{\n  \"op_id\": \"submit_evidence\",\n  \"arguments\": {\n    \"artefact_id\": \"art_abc-123\",\n    \"evidence_items\": [\n      {\n        \"source\": \"paper\",\n        \"content\": \"\"\n      }\n    ]\n  }\n}\n```",
+        "parse_error": null,
+        "op_corrected": "submit_evidence",
+        "args_corrected": {
+          "artefact_id": "art_abc-123",
+          "evidence_items": [
+            {
+              "source": "paper",
+              "content": ""
+            }
+          ]
+        },
+        "expected_corrected": {
+          "artefact_id": "art_abc-123",
+          "evidence_items": [
+            {
+              "source": "paper",
+              "content": "evidence text"
+            }
+          ]
+        },
+        "correction_success": false,
+        "one_retry_success": false,
+        "multi_retry_success": false,
+        "correction_tokens": 61,
+        "total_tokens_incl_failed": 1577,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "rejected:validation",
+        "correction_error": {
+          "code": "ValidationFailed",
+          "field": "evidence_items.0.content",
+          "constraint": "minLength",
+          "got": "\"\"",
+          "message": "'' should be non-empty",
+          "schema_version": "0.1.0",
+          "op_id": "submit_evidence",
+          "boundary": "runtime"
+        },
+        "correction_executed": false,
+        "latency_ms": 1523,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R06",
+        "category": "hidden_range_violation",
+        "op": "search_artefacts",
+        "args_failed": {
+          "query": "hi",
+          "limit": 999
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "limit",
+          "constraint": "maximum",
+          "got": "999",
+          "message": "999 is greater than the maximum of 100",
+          "schema_version": "0.1.0",
+          "op_id": "search_artefacts",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "limit",
+          "constraint": "maximum",
+          "got": "999",
+          "message": "999 is greater than the maximum of 100",
+          "schema_version": "0.1.0",
+          "op_id": "search_artefacts",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1387,
+        "correction_output": "```json\n{\n  \"op_id\": \"search_artefacts\",\n  \"arguments\": {\n    \"query\": \"hi\",\n    \"limit\": 100\n  }\n}\n```",
+        "parse_error": null,
+        "op_corrected": "search_artefacts",
+        "args_corrected": {
+          "query": "hi",
+          "limit": 100
+        },
+        "expected_corrected": {
+          "query": "hi",
+          "limit": 20
+        },
+        "correction_success": false,
+        "one_retry_success": false,
+        "multi_retry_success": false,
+        "correction_tokens": 38,
+        "total_tokens_incl_failed": 1516,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "executed:ok",
+        "correction_error": null,
+        "correction_executed": true,
+        "latency_ms": 988,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R07",
+        "category": "invalid_combination",
+        "op": "query_metrics",
+        "args_failed": {
+          "filter": {
+            "type": "spec"
+          },
+          "group_by": "spec"
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "group_by",
+          "constraint": "enum",
+          "got": "\"spec\"",
+          "message": "'spec' is not one of ['type', 'status', 'severity']",
+          "schema_version": "0.1.0",
+          "op_id": "query_metrics",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "group_by",
+          "constraint": "enum",
+          "got": "\"spec\"",
+          "message": "'spec' is not one of ['type', 'status', 'severity']",
+          "schema_version": "0.1.0",
+          "op_id": "query_metrics",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1400,
+        "correction_output": "```json\n{\n  \"op_id\": \"query_metrics\",\n  \"arguments\": {\n    \"filter\": {\n      \"type\": \"spec\"\n    },\n    \"group_by\": \"type\"\n  }\n}\n```",
+        "parse_error": null,
+        "op_corrected": "query_metrics",
+        "args_corrected": {
+          "filter": {
+            "type": "spec"
+          },
+          "group_by": "type"
+        },
+        "expected_corrected": {
+          "filter": {
+            "type": "spec"
+          },
+          "group_by": "status"
+        },
+        "correction_success": false,
+        "one_retry_success": false,
+        "multi_retry_success": false,
+        "correction_tokens": 44,
+        "total_tokens_incl_failed": 1541,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "executed:ok",
+        "correction_error": null,
+        "correction_executed": true,
+        "latency_ms": 1118,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R08",
+        "category": "malformed_array",
+        "op": "link_artefacts",
+        "args_failed": {
+          "source_id": "art_abc-123",
+          "target_ids": [],
+          "relation": "relates_to"
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "target_ids",
+          "constraint": "minItems",
+          "got": "[]",
+          "message": "[] should be non-empty",
+          "schema_version": "0.1.0",
+          "op_id": "link_artefacts",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "target_ids",
+          "constraint": "minItems",
+          "got": "[]",
+          "message": "[] should be non-empty",
+          "schema_version": "0.1.0",
+          "op_id": "link_artefacts",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1401,
+        "correction_output": "```json\n{\n  \"op_id\": \"link_artefacts\",\n  \"arguments\": {\n    \"source_id\": \"art_abc-123\",\n    \"target_ids\": [\"art_def-456\"],\n    \"relation\": \"relates_to\"\n  }\n}\n```",
+        "parse_error": null,
+        "op_corrected": "link_artefacts",
+        "args_corrected": {
+          "source_id": "art_abc-123",
+          "target_ids": [
+            "art_def-456"
+          ],
+          "relation": "relates_to"
+        },
+        "expected_corrected": {
+          "source_id": "art_abc-123",
+          "target_ids": [
+            "art_def-456"
+          ],
+          "relation": "relates_to"
+        },
+        "correction_success": true,
+        "one_retry_success": true,
+        "multi_retry_success": true,
+        "correction_tokens": 56,
+        "total_tokens_incl_failed": 1558,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "executed:ok",
+        "correction_error": null,
+        "correction_executed": true,
+        "latency_ms": 1273,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R09",
+        "category": "malformed_object",
+        "op": "get_artefact",
+        "args_failed": {
+          "id": "art_abc-123",
+          "extra": "x"
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": null,
+          "constraint": "additionalProperties",
+          "got": "{\"id\": \"art_abc-123\", \"extra\": \"x\"}",
+          "message": "Additional properties are not allowed ('extra' was unexpected)",
+          "schema_version": "0.1.0",
+          "op_id": "get_artefact",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": null,
+          "constraint": "additionalProperties",
+          "got": "{\"id\": \"art_abc-123\", \"extra\": \"x\"}",
+          "message": "Additional properties are not allowed ('extra' was unexpected)",
+          "schema_version": "0.1.0",
+          "op_id": "get_artefact",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1408,
+        "correction_output": "```json\n{\"op_id\":\"get_artefact\",\"arguments\":{\"id\":\"art_abc-123\"}}\n```",
+        "parse_error": null,
+        "op_corrected": "get_artefact",
+        "args_corrected": {
+          "id": "art_abc-123"
+        },
+        "expected_corrected": {
+          "id": "art_abc-123"
+        },
+        "correction_success": true,
+        "one_retry_success": true,
+        "multi_retry_success": true,
+        "correction_tokens": 24,
+        "total_tokens_incl_failed": 1542,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "executed:ok",
+        "correction_error": null,
+        "correction_executed": true,
+        "latency_ms": 922,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R10",
+        "category": "missing_required_balanced",
+        "op": "create_review",
+        "args_failed": {
+          "artefact_id": "art_abc-123",
+          "verdict": "approve"
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": null,
+          "constraint": "required",
+          "got": "{\"artefact_id\": \"art_abc-123\", \"verdict\": \"approve\"}",
+          "message": "'rationale' is a required property",
+          "schema_version": "0.1.0",
+          "op_id": "create_review",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": null,
+          "constraint": "required",
+          "got": "{\"artefact_id\": \"art_abc-123\", \"verdict\": \"approve\"}",
+          "message": "'rationale' is a required property",
+          "schema_version": "0.1.0",
+          "op_id": "create_review",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1402,
+        "correction_output": "```json\n{\n  \"op_id\": \"create_review\",\n  \"arguments\": {\n    \"artefact_id\": \"art_abc-123\",\n    \"verdict\": \"approve\",\n    \"rationale\": \"\"\n  }\n}\n```",
+        "parse_error": null,
+        "op_corrected": "create_review",
+        "args_corrected": {
+          "artefact_id": "art_abc-123",
+          "verdict": "approve",
+          "rationale": ""
+        },
+        "expected_corrected": {
+          "artefact_id": "art_abc-123",
+          "verdict": "approve",
+          "rationale": "Rationale with enough length for validation"
+        },
+        "correction_success": false,
+        "one_retry_success": false,
+        "multi_retry_success": false,
+        "correction_tokens": 49,
+        "total_tokens_incl_failed": 1561,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "rejected:validation",
+        "correction_error": {
+          "code": "ValidationFailed",
+          "field": "rationale",
+          "constraint": "minLength",
+          "got": "\"\"",
+          "message": "'' is too short",
+          "schema_version": "0.1.0",
+          "op_id": "create_review",
+          "boundary": "runtime"
+        },
+        "correction_executed": false,
+        "latency_ms": 1008,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R11",
+        "category": "invalid_enum_balanced",
+        "op": "set_severity",
+        "args_failed": {
+          "artefact_id": "art_abc-123",
+          "level": "urgent"
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "level",
+          "constraint": "enum",
+          "got": "\"urgent\"",
+          "message": "'urgent' is not one of ['critical', 'high', 'medium', 'low']",
+          "schema_version": "0.1.0",
+          "op_id": "set_severity",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "level",
+          "constraint": "enum",
+          "got": "\"urgent\"",
+          "message": "'urgent' is not one of ['critical', 'high', 'medium', 'low']",
+          "schema_version": "0.1.0",
+          "op_id": "set_severity",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1400,
+        "correction_output": "```json\n{\"op_id\":\"set_severity\",\"arguments\":{\"artefact_id\":\"art_abc-123\",\"level\":\"medium\"}}\n```",
+        "parse_error": null,
+        "op_corrected": "set_severity",
+        "args_corrected": {
+          "artefact_id": "art_abc-123",
+          "level": "medium"
+        },
+        "expected_corrected": {
+          "artefact_id": "art_abc-123",
+          "level": "high"
+        },
+        "correction_success": false,
+        "one_retry_success": false,
+        "multi_retry_success": false,
+        "correction_tokens": 29,
+        "total_tokens_incl_failed": 1533,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "executed:ok",
+        "correction_error": null,
+        "correction_executed": true,
+        "latency_ms": 998,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      },
+      {
+        "corpus": "530",
+        "test": "C",
+        "id": "R12",
+        "category": "hidden_pattern_violation_balanced",
+        "op": "get_artefact",
+        "args_failed": {
+          "id": "BAD_ID"
+        },
+        "typed_error": {
+          "code": "ValidationFailed",
+          "field": "id",
+          "constraint": "pattern",
+          "got": "\"BAD_ID\"",
+          "message": "'BAD_ID' does not match '^art_[a-z0-9-]+$'",
+          "schema_version": "0.1.0",
+          "op_id": "get_artefact",
+          "boundary": "runtime"
+        },
+        "failed_validation_result": "rejected:validation",
+        "failed_error": {
+          "code": "ValidationFailed",
+          "field": "id",
+          "constraint": "pattern",
+          "got": "\"BAD_ID\"",
+          "message": "'BAD_ID' does not match '^art_[a-z0-9-]+$'",
+          "schema_version": "0.1.0",
+          "op_id": "get_artefact",
+          "boundary": "runtime"
+        },
+        "failed_executed": false,
+        "recovery_prompt_tokens": 1392,
+        "correction_output": "```json\n{\n  \"op_id\": \"get_artefact\",\n  \"arguments\": {\n    \"id\": \"art_valid_id\"  // Replace with a valid ID that matches the pattern\n  }\n}\n```",
+        "parse_error": "json parse failed Expecting ',' delimiter: line 4 column 27 (char 72): {\n  \"op_id\": \"get_artefact\",\n  \"arguments\": {\n    \"id\": \"art_valid_id\"  // Replace with a valid ID that matches the pattern\n  }\n}",
+        "op_corrected": null,
+        "args_corrected": null,
+        "expected_corrected": {
+          "id": "art_abc-123"
+        },
+        "correction_success": false,
+        "one_retry_success": false,
+        "multi_retry_success": false,
+        "correction_tokens": 46,
+        "total_tokens_incl_failed": 1532,
+        "invents_info": false,
+        "changes_unrelated": false,
+        "correction_validation_result": "rejected:parse",
+        "correction_error": {
+          "code": "ParseFailed",
+          "message": "json parse failed Expecting ',' delimiter: line 4 column 27 (char 72): {\n  \"op_id\": \"get_artefact\",\n  \"arguments\": {\n    \"id\": \"art_valid_id\"  // Replace with a valid ID that matches the pattern\n  }\n}",
+          "boundary": "client"
+        },
+        "correction_executed": false,
+        "latency_ms": 3176,
+        "model": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "temperature": 0.0,
+        "live": true
+      }
+    ]
   },
   "adversarial": {
-    "D1_UnknownOperation": null,
-    "D2_ValidationFailed": null,
-    "D3_PolicyDenied": null,
-    "D4_OutputValidationFailed": null
+    "total": 4,
+    "distinct": true,
+    "no_execution": true,
+    "cases": [
+      {
+        "corpus": "530",
+        "test": "D",
+        "id": "D1",
+        "code": "UnknownOperation",
+        "op": "delete_artefact",
+        "args": {
+          "id": "art_abc-123"
+        },
+        "policy": null,
+        "validation_result": "rejected:sandbox",
+        "error": {
+          "code": "UnknownOperation",
+          "op_id": "delete_artefact",
+          "hint": "op_id not in preselected sandbox surface; no fuzzy matching",
+          "boundary": "sandbox"
+        },
+        "code_returned": "UnknownOperation",
+        "boundary": "sandbox",
+        "expected_code": "UnknownOperation",
+        "expected_boundary": "sandbox",
+        "distinct": true,
+        "no_execution": true,
+        "trace": [
+          "sandbox:rejected:UnknownOperation"
+        ],
+        "live": false
+      },
+      {
+        "corpus": "530",
+        "test": "D",
+        "id": "D2",
+        "code": "ValidationFailed",
+        "op": "create_artefact",
+        "args": {
+          "type": "spec",
+          "title": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "admin": true
+        },
+        "policy": null,
+        "validation_result": "rejected:validation",
+        "error": {
+          "code": "ValidationFailed",
+          "field": null,
+          "constraint": "additionalProperties",
+          "got": "{\"type\": \"spec\", \"title\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "message": "Additional properties are not allowed ('admin' was unexpected)",
+          "schema_version": "0.1.0",
+          "op_id": "create_artefact",
+          "boundary": "runtime"
+        },
+        "code_returned": "ValidationFailed",
+        "boundary": "runtime",
+        "expected_code": "ValidationFailed",
+        "expected_boundary": "runtime",
+        "distinct": true,
+        "no_execution": true,
+        "trace": [
+          "sandbox:allowed",
+          "validation:rejected:ValidationFailed"
+        ],
+        "live": false
+      },
+      {
+        "corpus": "530",
+        "test": "D",
+        "id": "D3",
+        "code": "PolicyDenied",
+        "op": "search_artefacts",
+        "args": {
+          "query": "hello"
+        },
+        "policy": {
+          "deny": [
+            "search_artefacts"
+          ]
+        },
+        "validation_result": "rejected:policy",
+        "error": {
+          "code": "PolicyDenied",
+          "policy": "test-deny",
+          "reason": "op search_artefacts denied by policy",
+          "op_id": "search_artefacts",
+          "boundary": "policy"
+        },
+        "code_returned": "PolicyDenied",
+        "boundary": "policy",
+        "expected_code": "PolicyDenied",
+        "expected_boundary": "policy",
+        "distinct": true,
+        "no_execution": true,
+        "trace": [
+          "sandbox:allowed",
+          "validation:pass",
+          "policy:rejected:PolicyDenied"
+        ],
+        "live": false
+      },
+      {
+        "corpus": "530",
+        "test": "D",
+        "id": "D4",
+        "code": "OutputValidationFailed",
+        "op": "query_metrics",
+        "args": {
+          "filter": {
+            "type": "spec"
+          }
+        },
+        "input_validation_result": "executed:ok",
+        "input_executed": true,
+        "input_error": null,
+        "output": {
+          "count": 5,
+          "results": []
+        },
+        "output_validation_ok": false,
+        "output_error": {
+          "code": "ValidationFailed",
+          "field": null,
+          "constraint": "required",
+          "got": "{\"count\": 5, \"results\": []}",
+          "message": "'items' is a required property",
+          "schema_version": "0.1.0",
+          "op_id": "query_metrics",
+          "boundary": "runtime:output"
+        },
+        "expected_code": "OutputValidationFailed",
+        "expected_boundary": "runtime:output",
+        "distinct": true,
+        "no_execution_success": true,
+        "executed": false,
+        "trace": [
+          "sandbox:allowed",
+          "validation:pass",
+          "policy:pass",
+          "execution:ok"
+        ],
+        "live": false
+      }
+    ]
   },
-  "tolerance": "5pp — minimal acceptable if |sel_min - sel_full| <=0.05 AND |arg_min - arg_full| <=0.05",
-  "next_step": "Live session runs prompts/prompt-full.md vs prompts/prompt-minimal.md via harness (sandbox→validation→policy→execution) over 24+12+4 corpus; logs to measurements/logs/*.jsonl; this file then filled"
+  "tolerance": "5pp \u2014 minimal acceptable if |sel_min - sel_full| <=0.05 AND |arg_min - arg_full| <=0.05",
+  "notes": "Test A full vs B minimal same 24 instances, randomized order seed 42, single rep per variant (24 each, 48 total) + 12 recovery +4 adversarial =64 trials. Token reduction substantial if ratio <0.4. Live mode via OpenRouter if key present else simulation fallback (harness validation still authoritative)."
 }
