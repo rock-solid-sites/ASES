@@ -1,6 +1,6 @@
 {
   "next_display_id": 536,
-  "next_comment_id": 3493,
+  "next_comment_id": 3494,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24133,7 +24133,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-30T22:37:13.595461033Z",
-      "updated_at": "2026-09-01T01:43:20.349950756Z",
+      "updated_at": "2026-09-01T11:43:57.442979905Z",
       "comments": {
         "199f5ad7-cbc3-4b30-b08c-9083b3fb48e2": {
           "display_id": 3436,
@@ -24224,6 +24224,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMTDNamHZfibWGSpilV5MXXrCOFREVYJ4AuD7wqWDt/ZaiFiKN8dFMNU48yDBNPjwwFhJhbgd5OXQ5E3b2jEpBw=="
+        },
+        "9916986c-11e7-430b-903c-d8c647dd5150": {
+          "display_id": 3493,
+          "author": "pp3g-enJQ-adversarial-review-of-refined-suite-v2-hy4-preview",
+          "content": "Plan: Adversarial review of Observer Conformance Suite v2 (Hy4 Preview lens), reviewing branch feature/pp3g-feR2-... via git (no cross-worktree FS access).\n\nMETHOD (independent re-derivation, not acceptance of the synthesizer's self-assessment):\n1. Reconstruct v2 from git (git show feature/...:path) into /tmp for analysis; record exact commit SHA reviewed.\n2. Independently re-read all 7 meta-reviews and derive my own finding list BEFORE reading v2's own §40 disposition table — then diff my list against §40's claimed 21 ADDRESSED / 7 DECLARED / 4 UPWARD-FLAGGED / 4 REJECTED. Anchoring on the synthesizer's own summary is the main false-confidence risk.\n3. Mechanically re-verify v2's own verification claims with a committed script (not by eye): 36/36 dimension coverage, H2 count, table pipe balance, cross-reference resolution (§/D/I/F/T/RF/G), frontmatter validity, the 'v1 claimed eleven PARTIAL but actual is 23' claim (D-series), the §38 criticality column counts (claimed 25C/9M/2S), and whether §33.2's algebra actually derives the verdict stated in §33.6 when applied to §38.\n4. Attack the new machinery on its own terms: (a) §33 algebra — totality, determinism, does it reproduce §33.6, are edge cases exhaustive; (b) §39 review state machine — transition completeness, liveness, deadlock, does it model v2's OWN production history (4 dead predecessor agents); (c) §30 reviewer diligence gate — is it satisfiable by assertion, and does v2 itself pass it (self-referential test); (d) §0 evidence floor — does v2's own evidence satisfy the floor it imposes; (e) §26.1 exclusion list — does any exclusion retreat from a claim made elsewhere in v2; (f) §31.1 mutation set.\n5. Provenance/authenticity check on the newly committed canonical baseline to-file/ASES Universal Conformance Checklist.md (v1 cited it but it was never in git; v2 committed it) — is it the authentic external artefact or a reconstruction? This is the single highest-stakes claim in v2 because everything is graded against it.\n6. Abstraction-boundary check (AGENTS.md): does v2 instantiate at project layer or silently rewrite Methodology-layer content?\n\nDELIVERABLE: specifications/Observer Conformance Suite v2 - Adversarial Review (Hy4 Preview).md — severity-scaled findings (S1-S4), each with WHY/WHAT/certainty/WHAT-NOT-TESTED per AGENTS.md, plus a machine-checkable verification script committed alongside, plus v2 and the review corpus copied verbatim into this branch for self-containment. Findings are research outputs, not project direction (AGENTS.md).",
+          "created_at": "2026-09-01T11:43:57.436665880Z",
+          "kind": "plan",
+          "signed_by": "SHA256:jJIE6yuhcX/8IuWkNpZZAbuHlqBUwFuSxcK44O0j/F0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnwoFwrL8eq3EMH5fNvbFC+ddnAm5MEmOAWT0XcLBq6EAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAoJqYD0KZ6Q3MF1YlmckfSAj3v+c6iqUHXeK1EwB/u/FUGCBMP8L3chvL0A9Do29E3OdNedNRmwyObXvUr1CiCg=="
         },
         "9a0e9e6a-704f-4b81-bf47-b032452e047b": {
           "display_id": 3485,
@@ -41052,8 +41061,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-01T11:41:33.512394133Z",
+    "timestamp": "2026-09-01T11:43:57.442979905Z",
     "agent_id": "pp3g-enJQ-adversarial-review-of-refined-suite-v2-hy4-preview",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
