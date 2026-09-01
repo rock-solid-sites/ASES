@@ -32,7 +32,7 @@ active-issue-gated, not a hard block. Pushing remains operator-only everywhere.
 
 | Role | Responsibility | Forbidden |
 |------|---------------|-----------|
-| **Operator (Human)** | Directs, decides, approves, reviews results. **Operator profile (#462 D1-D4):** never runs shell commands, admin consoles, SSH sessions, or vendor consoles — all execution is agent work by default; surface is decisions/priorities/approvals/review plus at most ONE irreducible human-identity action presented as a single step; >1 such action = the workflow is wrong, re-plan for delegation. Secrets never enter chat: the operator places them on the machine themselves and agents learn only the location (path/env var), never the value. No launch is reported healthy at t=0: launch → sleep 30s → opencode.log tail + `.kickoff-status` check → then report | Never handed code to read/write, multi-step terminal sequences, menu navigation, port flags, config-file edits, or secret values |
+| **Operator (Human)** | Directs, decides, approves, reviews results. **Operator profile (#462 D1-D4):** never runs shell commands, admin consoles, SSH sessions, or vendor consoles — all execution is agent work by default; surface is decisions/priorities/approvals/review plus at most ONE irreducible human-identity action presented as a single step; >1 such action = the workflow is wrong, re-plan for delegation. Secrets never enter chat: the operator places them on the machine themselves and agents learn only the location (path/env var), never the value. **Startup verification — RUNNING and pane line count are NOT liveness:** `.kickoff-status` `RUNNING` and `tmux capture-pane` line counts are **NOT** liveness signals (`RUNNING` persists on dead processes; pane line count only proves text rendered — both were misread as healthy while panes showed `HALT` / `CROSSLINK UNAVAILABLE` since 22:42). No launch is reported healthy at t=0: launch → sleep 30s → tail `opencode.log` (creation line present, no `AI_APICallError` / `retry-after` / `consent-gate`, heartbeats advancing) → `.kickoff-status` → plan comment / heartbeat on working issue → pane `HALT` / `CROSSLINK UNAVAILABLE` check → then report (see §6.1) | Never handed code to read/write, multi-step terminal sequences, menu navigation, port flags, config-file edits, or secret values |
 | **Orchestrator (Main Session)** | Plans, delegates via kickoff/swarm, reviews at gates, handles structural tasks | Never implements, reviews own work, or silently takes over failed agents |
 | **Workers (Kickoff/Swarm Agents)** | Execute specific implementation tickets in isolated worktrees | Never plan, review, or merge to master |
 
@@ -512,21 +512,20 @@ commit's worth (§6.1 'the durable primitive is ground truth').
 
 ## 6. Monitoring and Verification
 
-### 6.1 Status Checks
+### 6.1 Status Checks — RUNNING and pane line count are NOT liveness
 
-- **Never trust status flags alone.** `RUNNING` persists on dead processes.
-  `DONE` may be missing from agents that committed successfully but exited
-  before writing the flag.
+- **Never trust status flags or pane line counts alone.** `RUNNING` in `.kickoff-status` persists on dead processes; `DONE` may be missing from agents that committed successfully but exited before writing the flag. A `tmux capture-pane` line count (e.g. "120 lines") only proves the pane rendered text — it is NOT proof the agent is computing. Both were misread as healthy while panes showed `HALT` / `CROSSLINK UNAVAILABLE` since 22:42 — the misreading this section prevents.
 - **The durable primitive is ground truth.** For builders, that is the
   commit; for read-only roles, it is the synced crosslink position
   (`comment + sync`, §5.4). Monitor by tracking expected commits (`[#N]`
-  references) and/or expected synced positions, not `.kickoff-status` flags.
+  references) and/or expected synced positions, not `.kickoff-status` flags or pane line counts.
+- **Real verification sequence (mandatory, no report at t=0):** launch → sleep 30s → tail `opencode.log` for the session (creation line present, no `AI_APICallError` / `retry-after` / `consent-gate`, heartbeats advancing) → check `.kickoff-status` (presence/structure, not proof of liveness) → check plan comment / heartbeat advancing on the working issue → capture pane and check for `HALT` / `CROSSLINK UNAVAILABLE` (HALT = dead regardless of `RUNNING` or line count) → only then report, citing evidence not just flag values. Seconds-scale `opencode.log` evidence is authoritative for launch-window checks (2026-08-24 forensics: consent-gate fatal ~6s; rate-limit parking within one cycle); 45–90 minute staleness budgets are superseded for this purpose (see `AGENTS.md` Startup Verification).
 - **Checkpoint comments are the progress signal.** A synced `--kind
   observation` checkpoint (see §5.4) proves the agent is alive and working. A
   missing checkpoint past the rate-clock interval (>2x the ~5-minute budget,
   §5.3) is a stalled-agent signal — investigate before the timeout.
 - **Distinguish STALLED from WORKING:** Read `ps -o pid,etime,time,stat -p
-  <pid>`. TIME climbing = computing; frozen + old heartbeat = stalled.
+  <pid>`. TIME climbing = computing; frozen + old heartbeat = stalled. A pane showing `HALT` is dead regardless of `RUNNING` or line count.
 
 ### 6.2 Output Verification
 
@@ -826,7 +825,7 @@ Before trusting such work:
 | Accepting empty review output | Crash disguised as pass | Halt immediately, report to operator |
 | Orchestrator implementing directly | Role breach, rubber-stamp review risk | Delegate to Builder agent |
 | Parallelizing unproven patterns | Six agents invent six wrong approaches | Prove serially on one case, then fan out |
-| Trusting `.kickoff-status` flags | Flags persist on dead processes | Verify against actual git commits |
+| Trusting `.kickoff-status` `RUNNING` or `tmux capture-pane` line counts as liveness | `RUNNING` persists on dead processes; pane line counts only prove text rendered — both were misread as healthy while panes showed `HALT` / `CROSSLINK UNAVAILABLE` since 22:42 | Verify via real sequence: `opencode.log` tail + `.kickoff-status` + plan/heartbeat + pane `HALT` check (see §6.1); durable primitive (commits / synced positions) is ground truth |
 | Waiting silently until timeout for progress | Wastes operator time, hides stalls | Watch checkpoint comments; escalate on missed check-ins (§5.4) |
 | Relying on session actions for operator visibility | Local metadata, invisible at hub | Use synced checkpoint comments; actions are supplementary |
 | Dispatching multiple reviewers on one thread | Later reviewers inherit earlier verdicts | Per-reviewer isolated sub-issues (§5.6) |

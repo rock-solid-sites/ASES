@@ -21,6 +21,22 @@ Model routing: before dispatching agents, consult the Model Routing Matrix (know
   the repo's knowledge pages for details. The lock system fix is tracked
   separately (#166/#173).
 
+## Startup Verification — RUNNING and pane line count are NOT liveness
+
+**`.kickoff-status` showing `RUNNING` and a `tmux capture-pane` line count are NOT signals that an agent is live and working.** `RUNNING` persists on dead processes; a non-zero pane line count only proves the pane rendered text, not that the agent is computing. Both were misread as healthy in recent status reports while panes had shown `HALT` / `CROSSLINK UNAVAILABLE` since 22:42 — the misreading this section prevents.
+
+No agent launch may be reported as healthy at t=0. Mandatory verification sequence for every launch:
+
+1. launch;
+2. sleep 30 seconds;
+3. check the `opencode.log` tail for the session — creation line present, no `AI_APICallError` / `retry-after` / `consent-gate` signature, tracking heartbeats advancing;
+4. check `.kickoff-status` (presence/structure, not proof of liveness);
+5. check the durable position stream — plan comment and heartbeat advancing on the working issue;
+6. capture the tmux pane and check for `HALT` / `CROSSLINK UNAVAILABLE` (a HALT banner means the agent is dead regardless of `RUNNING` or line count);
+7. only then report status — and report the evidence checked, not just the flag value.
+
+Seconds-scale `opencode.log` evidence is authoritative for launch-window checks (2026-08-24 forensics: consent-gate fatal ~6s; rate-limit parking within one cycle); 45–90 minute staleness budgets are superseded for this purpose until Observer F2 fast-path is live. See `AGENTS.md` Startup Verification and `agent-orchestration-playbook.md` §6.1 for the full procedure.
+
 ---
 
 ## 1. What this repo is

@@ -289,14 +289,19 @@ Where an irreducible operator action exists (e.g. a `git push` that triggers dep
 
 Agents NEVER ask the operator for codes, keys, tokens, or any secret inside the conversation. The operator-preferred pattern: the operator copies the secret into a shell command or file ON THE MACHINE themselves (so it is available to agents at runtime) without it entering chat context; agents are told only WHERE to find it (a path or variable name), never its value. Dispatch specs must name a secret-placement location (e.g. a file under `/tmp/opencode/secrets/` or an env var set by the operator) whenever external credentials are involved.
 
-## Startup Verification
+## Startup Verification — RUNNING and pane line count are NOT liveness
 
-No agent launch may be reported as healthy at t=0. Mandatory sequence for every launch:
+**`.kickoff-status` showing `RUNNING` and a `tmux capture-pane` line count are NOT signals that an agent is live and working.** `RUNNING` persists on dead processes; a non-zero pane line count only proves the pane rendered text, not that the agent is computing. Both were misread as healthy in recent status reports while panes had shown `HALT` / `CROSSLINK UNAVAILABLE` since 22:42 — the misreading this section prevents.
+
+No agent launch may be reported as healthy at t=0. Mandatory verification sequence for every launch:
 
 1. launch;
 2. sleep 30 seconds;
-3. check the opencode.log tail for the session — creation line present, no `AI_APICallError` / retry-after / consent-gate signature, tracking heartbeats advancing — AND check `.kickoff-status`;
-4. only then report status.
+3. check the `opencode.log` tail for the session — creation line present, no `AI_APICallError` / `retry-after` / `consent-gate` signature, tracking heartbeats advancing;
+4. check `.kickoff-status` (presence/structure, not proof of liveness);
+5. check the durable position stream — plan comment and heartbeat advancing on the working issue;
+6. capture the tmux pane and check for `HALT` / `CROSSLINK UNAVAILABLE` (a HALT banner means the agent is dead regardless of `RUNNING` or line count);
+7. only then report status — and report the evidence checked, not just the flag value.
 
 Evidence from the 2026-08-24 forensics shows agent death signatures appear in opencode.log within seconds of launch (consent-gate fatal ~6s; rate-limit parking within one cycle). Seconds-scale log evidence is therefore authoritative for launch-window checks; staleness thresholds referencing 45–90 minute budgets are SUPERSEDED for this purpose (interim procedure until Observer F2 fast-path is live).
 
