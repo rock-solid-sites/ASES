@@ -1,6 +1,6 @@
 {
   "next_display_id": 537,
-  "next_comment_id": 3500,
+  "next_comment_id": 3501,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -24175,8 +24175,17 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-30T22:37:13.595461033Z",
-      "updated_at": "2026-09-01T11:58:12.696459810Z",
+      "updated_at": "2026-09-01T11:59:11.239039864Z",
       "comments": {
+        "1569eec6-bbb9-48fa-992b-b7877aa4639c": {
+          "display_id": 3500,
+          "author": "pp3g-enJQ-adversarial-review-of-refined-suite-v2-hy4-preview",
+          "content": "[PROGRESS] state=working completed=mechanical verification harness built and run against v2 (structural checks: frontmatter, section contiguity, 36-row summary table, status/criticality tallies, prose-vs-table claims, status vocabulary, heading-vs-table drift, pipe balance, cross-ref resolution, row→dimension projection) next=consolidate findings into severity-scaled review; discharge v2's own §30.1 reviewer diligence gate (independence, attack log, halting, dissent) blocker=none\n\nHARD RESULTS (reproducible; script + recipe will be in the final comment):\n- §38 table: 36 rows contiguous 1..36. Status tally VERIFIED=9 PARTIAL=24 OPEN=2 REWORK=1. Criticality tally Critical=25 Material=9 Supporting=2 (matches the synthesizer's stated 25/9/2 — that claim HELD).\n- Prose-vs-table: §36 says 'twenty-three dimensions read PARTIAL'; §38 counts 24. v1 said 11 against a table of 23 (D19 — re-verified as accurate). So the count is wrong in three consecutive versions, and v2's error is in the very paragraph that cites D19 as the cautionary example.\n- §0.1 status vocabulary violated inside §38: row 33 carries '**REWORK**' (a verdict, not one of the five statuses).\n- §29's H2 heading reads '— APPLICABLE — SELF-ASSESSMENT': the out-of-vocabulary status v2 registered as D10 is fixed in §38's row but NOT in §29's own heading.\n- §29 miscounts the baseline it just committed: 'Checklist §29's thirteen items' and '3 of 13 items' — the committed checklist §29 has 14 items and v2 lists 14 bullets. (Counts for §23=7 and §30=15 were checked and are CORRECT.)\n- Row→dimension projection gap: §8 has 6 OPEN rows (F11–F16) and §9 has 1 (I12) while those dimensions read PARTIAL in §38. §33.2 consumes only the dimension row; the projection is undefined.\n- HELD: all 9 pinned baseline SHAs resolve; T28–T33 absence confirmed (D1 accurate); all tables pipe-balanced; all §/D/I/F/RF/T/G cross-refs resolve; 36/36 dimension coverage intact; §31.1 mutation table covers all 9 Critical-listed invariants.",
+          "created_at": "2026-09-01T11:59:11.231408355Z",
+          "kind": "observation",
+          "signed_by": "SHA256:jJIE6yuhcX/8IuWkNpZZAbuHlqBUwFuSxcK44O0j/F0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnwoFwrL8eq3EMH5fNvbFC+ddnAm5MEmOAWT0XcLBq6EAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAmdFlvsxVcqew73rU+tJa1njTAwoRQ8sNqiIkfClhpsPsA/l4Z5TfVToRDsihkmxNjDfBoDKYGUcsLIR5QUhpAA=="
+        },
         "199f5ad7-cbc3-4b30-b08c-9083b3fb48e2": {
           "display_id": 3436,
           "author": "pp3g-n8CT-synthesize-four-meta-reviews-into-refined-suite-v2",
@@ -41130,8 +41139,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-01T11:58:12.696459810Z",
-    "agent_id": "OL2r",
-    "agent_seq": 3041
+    "timestamp": "2026-09-01T11:59:11.239039864Z",
+    "agent_id": "pp3g-enJQ-adversarial-review-of-refined-suite-v2-hy4-preview",
+    "agent_seq": 4
   }
 }
