@@ -1,6 +1,6 @@
 {
   "next_display_id": 537,
-  "next_comment_id": 3533,
+  "next_comment_id": 3534,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -35109,7 +35109,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-31T22:16:02.883815718Z",
-      "updated_at": "2026-09-01T13:55:08.805682995Z",
+      "updated_at": "2026-09-01T14:14:33.787000716Z",
       "labels": [
         "research"
       ],
@@ -35329,6 +35329,15 @@
           "kind": "result",
           "signed_by": "SHA256:0oxsvspqH39+6q8E8GaFIXiLEeCQg0+30Sy8Og9Z4iw",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPOgP5KSATlA+cz4RPhU6l3OQQw7Dl/JmfLeQhMc/fuwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAGo5nOi9noudVOfmRwb99RmTgh9CCWDtxDGtPPPpAU61v2TZiOspOGYnQcowLpYKQLPPTniQtkIhnX3VlsNwRBg=="
+        },
+        "bbc896f2-5254-4c21-8b98-c1be31f20369": {
+          "display_id": 3533,
+          "author": "pp3g-uqy5-prepare-next-test-wave-for-530-corpus-530-scaffolding",
+          "content": "Plan: Next-wave scaffolding (no live run, freeze corpus). (1) Docs: multi-rep/multi-model plan under research/capability-schema-validation/corpus-530/next-wave/PLAN.md — 3 reps per variant per brief, 2 models (openai/gpt-4o-mini + open model via openrouter e.g. qwen/qwen-2.5-72b-instruct or minimax/minimax-m2.5 per session-model-recommend), seed-permuted order (seed 42 + rep offset), fixed prompts/schemas verbatim. (2) Second-retry harness: harness-bridge/second_retry.py + docs — on minLength/pattern empty-string failures, second retry with full constraint text (field+constraint+message+similar valid example from corpus) without exposing full schema; keep run.py unchanged except optional import. (3) EDASES A/B prep doc: ED-A-B.md — same corpus-530 17-op schemas full vs minimal reused verbatim against EDASES harness (state+permitted transitions) vs conventional harness — swap runtime only, harness-bridge/run.py unchanged. (4) Measurements scaffolding under next-wave/measurements/: multi_rep_summary.json template, model_comparison.md template, second_retry logs dir + schema. (5) Update pinned-versions/tolerance/no-modify-corpus notes. (6) Smoke verify 18/18 then commit.",
+          "created_at": "2026-09-01T14:14:33.780047027Z",
+          "kind": "plan",
+          "signed_by": "SHA256:op2BkNG8/P4Be2wwCKFmw5c4l4eybsvkbGWZIowQxIg",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgJRBkVFcYleW68CnEP6FYzbeiBfAklxyV1NVMCAump7gAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAqXmUQONIStOSiKobK5MoHl6lO8Ndt8MlY64f07IXKnUwHpkMXlKWjylvzke4BENFKGfZ8pykKpzImuijcBrfBA=="
         },
         "c45cd755-5320-42a5-894e-870c0bcb6084": {
           "display_id": 3398,
@@ -41436,8 +41445,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-01T14:13:21.982436938Z",
+    "timestamp": "2026-09-01T14:14:33.787000716Z",
     "agent_id": "pp3g-uqy5-prepare-next-test-wave-for-530-corpus-530-scaffolding",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
