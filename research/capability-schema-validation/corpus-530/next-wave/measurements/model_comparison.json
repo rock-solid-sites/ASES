@@ -1,0 +1,69 @@
+{
+  "corpus": "530",
+  "version": "0.1.0",
+  "status": "template — placeholder, filled by next live wave (no live calls in this scaffolding commit)",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "strict_no_modify_corpus": "research/capability-schema-validation/corpus-530/schemas/authoritative.json, schemas/full.json, schemas/minimal.json, tasks.json, malformed-recovery.json, adversarial.json, corpus.jsonl, prompts/prompt-full.md, prompts/prompt-minimal.md — frozen",
+  "pinned_versions": {
+    "schemas_version": "0.1.0",
+    "harness_version": "0.1.0",
+    "tokenizer": "tiktoken cl100k_base 0.14.0",
+    "tokenizer_version": "0.14.0",
+    "jsonschema": "4.26.0",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0"
+  },
+  "description_tokens": {
+    "full": 8915,
+    "minimal": 2588,
+    "ratio_minimal_over_full": 0.2902972518227706,
+    "tokenizer": "tiktoken cl100k_base 0.14.0"
+  },
+  "tolerance": "5pp per model, |sel_min-sel_full|≤0.05 AND |arg_min(harness)-arg_full(harness)|≤0.05 on 24 tasks ×3 reps; 2 models compared",
+  "models_compared": ["openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct"],
+  "model_comparison": {
+    "openai/gpt-4o-mini": {
+      "full_selection": null,
+      "minimal_selection": null,
+      "full_arg_harness": null,
+      "minimal_arg_harness": null,
+      "full_arg_strict": null,
+      "minimal_arg_strict": null,
+      "within_5pp_harness": null,
+      "p50_full": null,
+      "p50_minimal": null,
+      "recovery_first_retry_harness": null,
+      "recovery_second_retry_success": null
+    },
+    "qwen/qwen-2.5-72b-instruct": {
+      "full_selection": null,
+      "minimal_selection": null,
+      "full_arg_harness": null,
+      "minimal_arg_harness": null,
+      "full_arg_strict": null,
+      "minimal_arg_strict": null,
+      "within_5pp_harness": null,
+      "p50_full": null,
+      "p50_minimal": null,
+      "recovery_first_retry_harness": null,
+      "recovery_second_retry_success": null
+    }
+  },
+  "cross_model_delta": {
+    "selection_delta_between_models_full": null,
+    "selection_delta_between_models_minimal": null,
+    "arg_harness_delta_between_models_full": null,
+    "arg_harness_delta_between_models_minimal": null,
+    "minimal_sufficiency_consistent_across_models": null,
+    "note": "filled live: compare whether open model preserves same within_5pp conclusion as gpt-4o-mini"
+  },
+  "token_accuracy_curve": {
+    "x_ratio": 0.29,
+    "y_selection_per_model": {"openai/gpt-4o-mini": null, "qwen/qwen-2.5-72b-instruct": null},
+    "y_arg_harness_per_model": {"openai/gpt-4o-mini": null, "qwen/qwen-2.5-72b-instruct": null},
+    "note": "plot X=minimal/full description_tokens vs Y=selection/argument per model per variant"
+  },
+  "what_not_tested": "No live model in this scaffolding template — all rates/token/latency fields are null placeholders",
+  "edases_reuse_note": "Model comparison template also applies to EDASES A/B when that harness lands: same corpus, same token counts, add harness_variant conventional|edases column",
+  "source_summary": "next-wave/measurements/multi_rep_summary.json (3 reps per variant per model, seed-permuted order, fixed prompts/schemas verbatim)"
+}

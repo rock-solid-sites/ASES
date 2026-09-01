@@ -1,0 +1,186 @@
+{
+  "corpus": "530",
+  "version": "0.1.0",
+  "status": "template — placeholder, filled by next live wave (no live calls in this scaffolding commit)",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "strict_no_modify_corpus": "research/capability-schema-validation/corpus-530/schemas/authoritative.json, schemas/full.json, schemas/minimal.json, tasks.json, malformed-recovery.json, adversarial.json, corpus.jsonl, prompts/prompt-full.md, prompts/prompt-minimal.md — frozen; any edit requires new corpus version",
+  "pinned_versions": {
+    "schemas_version": "0.1.0",
+    "harness_version": "0.1.0",
+    "tokenizer": "tiktoken cl100k_base 0.14.0",
+    "tokenizer_version": "0.14.0",
+    "jsonschema": "4.26.0",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0"
+  },
+  "plan": {
+    "reps_per_variant_per_model": 3,
+    "variants": ["full", "minimal"],
+    "models": [
+      {
+        "id": "openai/gpt-4o-mini",
+        "provider": "openrouter",
+        "notes": "anchor — keep current model from 07dfab42"
+      },
+      {
+        "id": "qwen/qwen-2.5-72b-instruct",
+        "provider": "openrouter",
+        "notes": "open model via openrouter — operator may swap to minimax/minimax-m2.5 or other open instruct ≥7B; record exact id returned",
+        "alternative": "minimax/minimax-m2.5"
+      }
+    ],
+    "seed": "42 (+ rep offset 0/1/2 per rep, seed-permuted order)",
+    "temperature": 0.7,
+    "prompts": "fixed verbatim: ../prompts/prompt-full.md vs ../prompts/prompt-minimal.md ({{user_request}} substitution, not rewritten)",
+    "schemas": "fixed verbatim: ../schemas/full.json (8915 tok) vs ../schemas/minimal.json (2588 tok, ratio 0.290, saving 71.0% cl100k_base 0.14.0) — authoritative ../schemas/authoritative.json retained at runtime"
+  },
+  "description_tokens": {
+    "full": 8915,
+    "minimal": 2588,
+    "ratio_minimal_over_full": 0.2902972518227706,
+    "tokenizer": "tiktoken cl100k_base 0.14.0",
+    "note": "frozen; re-measured at live wave but not regenerated"
+  },
+  "tolerance": "5pp — per model, averaged over 3 reps, |sel_min-sel_full|≤0.05 AND |arg_min(harness)-arg_full(harness)|≤0.05 on 24 well-formed tasks; strict expected-equality secondary",
+  "models": {
+    "openai/gpt-4o-mini": {
+      "variant_summary": {
+        "full": {
+          "reps": 3,
+          "n_total": 72,
+          "selection_rate": null,
+          "arg_rate_harness": null,
+          "arg_rate_strict": null,
+          "task_rate_harness": null,
+          "validation_failures": null,
+          "p50_ms": null,
+          "p95_ms": null,
+          "by_class": {
+            "1": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "2": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "3": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "4": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "5": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "6": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null}
+          }
+        },
+        "minimal": {
+          "reps": 3,
+          "n_total": 72,
+          "selection_rate": null,
+          "arg_rate_harness": null,
+          "arg_rate_strict": null,
+          "task_rate_harness": null,
+          "validation_failures": null,
+          "p50_ms": null,
+          "p95_ms": null,
+          "by_class": {
+            "1": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "2": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "3": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "4": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "5": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "6": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null}
+          }
+        },
+        "delta_selection": null,
+        "delta_argument_harness": null,
+        "delta_argument_strict": null,
+        "delta_task_harness": null,
+        "within_5pp_harness": null,
+        "within_5pp_strict": null,
+        "note": "filled by live wave 3×2×24=144 A/B per model; seed-permuted order 42+r"
+      }
+    },
+    "qwen/qwen-2.5-72b-instruct": {
+      "variant_summary": {
+        "full": {
+          "reps": 3,
+          "n_total": 72,
+          "selection_rate": null,
+          "arg_rate_harness": null,
+          "arg_rate_strict": null,
+          "task_rate_harness": null,
+          "validation_failures": null,
+          "p50_ms": null,
+          "p95_ms": null,
+          "by_class": {
+            "1": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "2": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "3": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "4": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "5": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "6": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null}
+          }
+        },
+        "minimal": {
+          "reps": 3,
+          "n_total": 72,
+          "selection_rate": null,
+          "arg_rate_harness": null,
+          "arg_rate_strict": null,
+          "task_rate_harness": null,
+          "validation_failures": null,
+          "p50_ms": null,
+          "p95_ms": null,
+          "by_class": {
+            "1": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "2": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "3": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "4": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "5": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null},
+            "6": {"n": 12, "sel": null, "arg_harness": null, "arg_strict": null, "task": null}
+          }
+        },
+        "delta_selection": null,
+        "delta_argument_harness": null,
+        "delta_argument_strict": null,
+        "delta_task_harness": null,
+        "within_5pp_harness": null,
+        "within_5pp_strict": null,
+        "note": "filled by live wave; swap to minimax/minimax-m2.5 if operator prefers — schema identical"
+      }
+    }
+  },
+  "recovery": {
+    "per_model": {
+      "openai/gpt-4o-mini": {
+        "total_first_retry": 12,
+        "first_retry_success_harness": null,
+        "first_retry_success_strict": null,
+        "first_retry_success_rate_harness": null,
+        "second_retry_triggered": null,
+        "second_retry_success": null,
+        "second_retry_success_rate": null,
+        "multi_retry_success_2": null,
+        "invents_info": null,
+        "changes_unrelated": null,
+        "avg_correction_tokens": null,
+        "avg_total_tokens_incl_failed": null
+      },
+      "qwen/qwen-2.5-72b-instruct": {
+        "total_first_retry": 12,
+        "first_retry_success_harness": null,
+        "first_retry_success_strict": null,
+        "first_retry_success_rate_harness": null,
+        "second_retry_triggered": null,
+        "second_retry_success": null,
+        "second_retry_success_rate": null,
+        "multi_retry_success_2": null,
+        "invents_info": null,
+        "changes_unrelated": null,
+        "avg_correction_tokens": null,
+        "avg_total_tokens_incl_failed": null
+      }
+    },
+    "note": "second_retry only on minLength/pattern empty-string (got == '\"\"'), with full constraint text field+constraint+message+similar valid example without full schema — see SECOND_RETRY.md; bounded ≤24 second retries per wave"
+  },
+  "adversarial": {
+    "total": 4,
+    "distinct": null,
+    "no_execution": null,
+    "note": "harness-deterministic (no model), shared across models, distinct codes D1 UnknownOperation sandbox vs D2 ValidationFailed runtime vs D3 PolicyDenied policy vs D4 OutputValidationFailed runtime:output"
+  },
+  "edases_reuse_note": "Same corpus-530 (17-op schemas, full vs minimal prompts) reused verbatim for EDASES harness (state+permitted transitions) vs conventional harness — keep harness-bridge/run.py unchanged, just swap runtime (see EDASES_A_B.md); EDASES metrics use same definitions plus harness_variant tag",
+  "what_not_tested": "No live model in this scaffolding template — all rates/token/latency fields are null placeholders; single-rep 07dfab42 baseline retained separately under ../measurements/summary.json"
+}
