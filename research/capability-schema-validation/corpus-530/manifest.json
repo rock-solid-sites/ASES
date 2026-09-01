@@ -1,0 +1,135 @@
+{
+  "corpus": "530-tool-calling",
+  "version": "0.1.0",
+  "issue": 530,
+  "branch": "feature/pp3g-squu-phase-1-lay-out-correct-530-tool-calling-corpus-under",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "description": "Real-model minimal vs full tool-calling corpus \u2014 24 tasks in 6 classes of 4 + 12 malformed recovery + 4 adversarial D1-D4, reusable verbatim for EDASES A/B. Authoritative 17-op 0.1.0 extension (14 base + 3 search_users/groups/projects), minimal stable ID + \u226420w summary + names/types + required/optional + enum literals, hidden constraints enforced at runtime.",
+  "authoritative_schemas": "schemas/authoritative.json",
+  "full_variant": "schemas/full.json",
+  "minimal_variant": "schemas/minimal.json",
+  "derived_from": "research/capability-schema-validation/capabilities/authoritative/schemas.json@0.1.0",
+  "extends": "14-op set A-E (17ed2631 fbca4975 baa35bf7 b719ca30 dcf4f313)",
+  "counts": {
+    "well_formed": 24,
+    "malformed_recovery": 12,
+    "adversarial": 4,
+    "total": 40
+  },
+  "classes": {
+    "1": {
+      "name": "simple_scalars",
+      "count": 4,
+      "ids": [
+        "C1-T01",
+        "C1-T02",
+        "C1-T03",
+        "C1-T04"
+      ]
+    },
+    "2": {
+      "name": "enum_dependent",
+      "count": 4,
+      "ids": [
+        "C2-T05",
+        "C2-T06",
+        "C2-T07",
+        "C2-T08"
+      ],
+      "note": "required/optional/multiple/semantically similar; enum literals must stay visible"
+    },
+    "3": {
+      "name": "nested_structures",
+      "count": 4,
+      "ids": [
+        "C3-T09",
+        "C3-T10",
+        "C3-T11",
+        "C3-T12"
+      ],
+      "subtypes": [
+        "object",
+        "array-of-objects",
+        "nested optional",
+        "nested enum"
+      ]
+    },
+    "4": {
+      "name": "required_optional_ambiguity",
+      "count": 4,
+      "ids": [
+        "C4-T13",
+        "C4-T14",
+        "C4-T15",
+        "C4-T16"
+      ],
+      "note": "omit/supply/multiple/similar meanings"
+    },
+    "5": {
+      "name": "semantically_similar_tools",
+      "count": 4,
+      "ids": [
+        "C5-T17",
+        "C5-T18",
+        "C5-T19",
+        "C5-T20"
+      ],
+      "note": "search_users/groups/projects close descriptions, stable ID discriminates"
+    },
+    "6": {
+      "name": "constraint_sensitive_hidden",
+      "count": 4,
+      "ids": [
+        "C6-T21",
+        "C6-T22",
+        "C6-T23",
+        "C6-T24"
+      ],
+      "hidden": [
+        "numeric range 1-100",
+        "string pattern/format ^art_...",
+        "mutually constrained filter.type\u2194group_by",
+        "schema constraint additionalProperties:false/maxLength causing ValidationFailed without exposing to model"
+      ]
+    }
+  },
+  "prompts": [
+    "prompts/prompt-full.md",
+    "prompts/prompt-minimal.md",
+    "prompts/prompt-full.template.md",
+    "prompts/prompt-minimal.template.md"
+  ],
+  "failure_taxonomy": "failure-taxonomy.md",
+  "harness_reuse": "harness-reuse.md",
+  "measurements": {
+    "token_latency_scaffolding": "measurements/token-latency-scaffolding.md",
+    "summary_placeholder": "measurements/summary.json",
+    "compute_tokens": "measurements/compute_tokens.py",
+    "compute_latency": "measurements/compute_latency.py",
+    "logs_dir": "measurements/logs/"
+  },
+  "pinned_versions": {
+    "tokenizer": "tiktoken cl100k_base 0.14.0",
+    "jsonschema": "4.26.0",
+    "toolregistry": "0.15.0",
+    "mcp": "2.0.0",
+    "schemas_version": "0.1.0"
+  },
+  "tolerance": "5pp \u2014 minimal acceptable if |sel_min - sel_full| <=0.05 AND |arg_min - arg_full| <=0.05",
+  "reuse": "Reusable verbatim for EDASES comparison \u2014 keep authoritative.json unchanged, swap only model-facing description block (full.json vs minimal.json) and prompt template; harness ordering sandbox\u2192validation\u2192policy\u2192execution unchanged; no state-machine/policy/lifecycle/discovery/pooling/idle-timeout added",
+  "harness_bridge": "harness-bridge/run.py",
+  "corpus_files": [
+    "tasks.json",
+    "malformed-recovery.json",
+    "adversarial.json",
+    "corpus.jsonl"
+  ],
+  "validation": "corpus.jsonl has 40 lines (24+12+4) each with id and expected outcome; validate via harness-bridge/validate.py",
+  "commits": {
+    "A_test_a": "17ed2631",
+    "B_test_b": "fbca4975",
+    "C_test_c": "baa35bf7",
+    "D_test_d": "b719ca30",
+    "E_test_e": "dcf4f313"
+  }
+}

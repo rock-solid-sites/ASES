@@ -1,0 +1,460 @@
+{
+  "version": "0.1.0",
+  "description": "24 tasks in 6 classes of 4 for #530 tool-calling corpus \u2014 reusable verbatim for EDASES A/B",
+  "classes": {
+    "1": "simple_scalars",
+    "2": "enum_dependent",
+    "3": "nested_structures",
+    "4": "required_optional_ambiguity",
+    "5": "semantically_similar_tools",
+    "6": "constraint_sensitive_hidden"
+  },
+  "count": 24,
+  "tasks": [
+    {
+      "id": "C1-T01",
+      "class": 1,
+      "class_name": "simple_scalars",
+      "title": "Simple scalar \u2014 search users by query",
+      "description": "User asks to find users matching a simple query string. Single required scalar param.",
+      "prompt": "Find users matching 'alice'.",
+      "expected_op": "search_users",
+      "expected_args": {
+        "query": "alice"
+      },
+      "success_criteria": "op_id == search_users, query == 'alice', limit/cursor optional omitted, pattern/length constraints pass",
+      "hidden_constraint_exercised": "query maxLength 200, limit default 20 hidden; minimal shows name/type/required only",
+      "variant_sensitivity": "low"
+    },
+    {
+      "id": "C1-T02",
+      "class": 1,
+      "class_name": "simple_scalars",
+      "title": "Simple scalar \u2014 get artefact by ID",
+      "description": "Retrieve artefact by stable ID \u2014 single string scalar with hidden pattern.",
+      "prompt": "Get artefact art_abc-123.",
+      "expected_op": "get_artefact",
+      "expected_args": {
+        "id": "art_abc-123"
+      },
+      "success_criteria": "op_id == get_artefact, id pattern ^art_[a-z0-9-]+$ passes (hidden)",
+      "hidden_constraint_exercised": "pattern ^art_[a-z0-9-]+$ not in minimal",
+      "variant_sensitivity": "low"
+    },
+    {
+      "id": "C1-T03",
+      "class": 1,
+      "class_name": "simple_scalars",
+      "title": "Simple scalar \u2014 set severity level",
+      "description": "Set severity to a single enum scalar (enum visible in minimal).",
+      "prompt": "Set severity for art_abc-123 to high.",
+      "expected_op": "set_severity",
+      "expected_args": {
+        "artefact_id": "art_abc-123",
+        "level": "high"
+      },
+      "success_criteria": "level enum critical/high/medium/low visible in minimal; correct selection",
+      "hidden_constraint_exercised": "artefact_id pattern hidden",
+      "variant_sensitivity": "low"
+    },
+    {
+      "id": "C1-T04",
+      "class": 1,
+      "class_name": "simple_scalars",
+      "title": "Simple scalar \u2014 archive artefact with reason",
+      "description": "Archive with short string reason (hidden minLength 5).",
+      "prompt": "Archive art_abc-123 because it was superseded by the new design.",
+      "expected_op": "archive_artefact",
+      "expected_args": {
+        "artefact_id": "art_abc-123",
+        "reason": "superseded by new design for clarity"
+      },
+      "success_criteria": "reason length 5-500 passes; hidden minLength not shown in minimal",
+      "hidden_constraint_exercised": "reason minLength 5, maxLength 500",
+      "variant_sensitivity": "low"
+    },
+    {
+      "id": "C2-T05",
+      "class": 2,
+      "class_name": "enum_dependent",
+      "subtype": "required_enum",
+      "title": "Enum required \u2014 create artefact type",
+      "description": "Creation requires enum type; literal must be visible in minimal.",
+      "prompt": "Create a spec artefact titled 'My Spec'.",
+      "expected_op": "create_artefact",
+      "expected_args": {
+        "type": "spec",
+        "title": "My Spec"
+      },
+      "success_criteria": "type enum [spec/decision/evidence/review] visible; correct enum chosen",
+      "hidden_constraint_exercised": "title maxLength 200 hidden",
+      "enum_literals_visible": [
+        "spec",
+        "decision",
+        "evidence",
+        "review"
+      ],
+      "variant_sensitivity": "medium \u2014 enum must remain visible"
+    },
+    {
+      "id": "C2-T06",
+      "class": 2,
+      "class_name": "enum_dependent",
+      "subtype": "optional_enum",
+      "title": "Enum optional \u2014 create review with severity",
+      "description": "Optional enum severity; task requires choosing correct enum when supplied.",
+      "prompt": "Create a review for art_abc-123 verdict approve, rationale 'This rationale has enough length to pass hidden minLength ten', severity high.",
+      "expected_op": "create_review",
+      "expected_args": {
+        "artefact_id": "art_abc-123",
+        "verdict": "approve",
+        "rationale": "This rationale has enough length to pass hidden minLength ten",
+        "severity": "high"
+      },
+      "success_criteria": "verdict enum [approve/request_changes/reject], severity enum [critical/high/medium/low] visible; optional enum supplied correctly",
+      "enum_literals_visible": [
+        "approve",
+        "request_changes",
+        "reject",
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "hidden_constraint_exercised": "rationale minLength 10 hidden",
+      "variant_sensitivity": "medium"
+    },
+    {
+      "id": "C2-T07",
+      "class": 2,
+      "class_name": "enum_dependent",
+      "subtype": "multiple_enum",
+      "title": "Enum multiple \u2014 link artefacts relation",
+      "description": "Task requires choosing relation enum among multiple valid values.",
+      "prompt": "Link art_abc-123 to art_def-456 with relation depends_on.",
+      "expected_op": "link_artefacts",
+      "expected_args": {
+        "source_id": "art_abc-123",
+        "target_ids": [
+          "art_def-456"
+        ],
+        "relation": "depends_on"
+      },
+      "success_criteria": "relation enum [depends_on/supersedes/relates_to] visible; correct chosen",
+      "enum_literals_visible": [
+        "depends_on",
+        "supersedes",
+        "relates_to"
+      ],
+      "hidden_constraint_exercised": "source_id pattern hidden",
+      "variant_sensitivity": "medium"
+    },
+    {
+      "id": "C2-T08",
+      "class": 2,
+      "class_name": "enum_dependent",
+      "subtype": "semantically_similar_enum",
+      "title": "Enum semantically similar \u2014 set artefact state vs update status",
+      "description": "Two ops with similar state enums must be disambiguated; enum literals visible per op.",
+      "prompt": "Set artefact art_abc-123 state to active (lifecycle state, not review status).",
+      "expected_op": "set_artefact_state",
+      "expected_args": {
+        "artefact_id": "art_abc-123",
+        "state": "active"
+      },
+      "success_criteria": "state enum [draft/active/archived] visible and distinct from status enum [draft/active/archived] naming but op_id differs; model must select set_artefact_state not update_artefact_status",
+      "enum_literals_visible": [
+        "draft",
+        "active",
+        "archived"
+      ],
+      "hidden_constraint_exercised": "artefact_id pattern hidden; state enum visible",
+      "variant_sensitivity": "high \u2014 semantically similar enums"
+    },
+    {
+      "id": "C3-T09",
+      "class": 3,
+      "class_name": "nested_structures",
+      "subtype": "object",
+      "title": "Nested object \u2014 query_metrics filter",
+      "description": "Filter is a nested object with type field.",
+      "prompt": "Query metrics for type spec.",
+      "expected_op": "query_metrics",
+      "expected_args": {
+        "filter": {
+          "type": "spec"
+        }
+      },
+      "success_criteria": "filter object with nested enum type=spec; output facets not required",
+      "hidden_constraint_exercised": "filter.type enum hidden nested? actually nested enum visible via minimal nested_enums; filter.since date-time format hidden",
+      "variant_sensitivity": "high \u2014 nested object semantics weak in minimal"
+    },
+    {
+      "id": "C3-T10",
+      "class": 3,
+      "class_name": "nested_structures",
+      "subtype": "array_of_objects",
+      "title": "Array of objects \u2014 submit_evidence",
+      "description": "evidence_items is array<object> with required source/content.",
+      "prompt": "Attach evidence to art_abc-123: source paper, content 'evidence text from experiment'.",
+      "expected_op": "submit_evidence",
+      "expected_args": {
+        "artefact_id": "art_abc-123",
+        "evidence_items": [
+          {
+            "source": "paper",
+            "content": "evidence text from experiment"
+          }
+        ]
+      },
+      "success_criteria": "array minItems 1, nested content 1-2000, correct structure",
+      "hidden_constraint_exercised": "content minLength hidden, weight maximum 1 hidden",
+      "variant_sensitivity": "medium"
+    },
+    {
+      "id": "C3-T11",
+      "class": 3,
+      "class_name": "nested_structures",
+      "subtype": "nested_optional",
+      "title": "Nested optional \u2014 query_metrics with optional group_by and facets",
+      "description": "Optional nested grouping and faceting params.",
+      "prompt": "Query metrics for review artefacts since 2026-01-01, group by status and include facets.",
+      "expected_op": "query_metrics",
+      "expected_args": {
+        "filter": {
+          "type": "review",
+          "since": "2026-01-01T00:00:00Z"
+        },
+        "group_by": "status",
+        "include_facets": true
+      },
+      "success_criteria": "filter.since date-time format passes (hidden), group_by enum, include_facets boolean",
+      "hidden_constraint_exercised": "since format date-time hidden; mutually constrained filter.type \u2194 group_by hidden",
+      "variant_sensitivity": "high"
+    },
+    {
+      "id": "C3-T12",
+      "class": 3,
+      "class_name": "nested_structures",
+      "subtype": "nested_enum",
+      "title": "Nested enum \u2014 query_metrics filter with enum and group_by",
+      "description": "Enum lives inside nested object; minimal must preserve nested enum literals.",
+      "prompt": "Query metrics filter type decision, group by severity.",
+      "expected_op": "query_metrics",
+      "expected_args": {
+        "filter": {
+          "type": "decision"
+        },
+        "group_by": "severity"
+      },
+      "success_criteria": "nested enum visible in minimal via nested_enums; correct selection",
+      "hidden_constraint_exercised": "filter.type enum [spec/decision/evidence/review] hidden nested but preserved via nested_enums in minimal",
+      "variant_sensitivity": "high"
+    },
+    {
+      "id": "C4-T13",
+      "class": 4,
+      "class_name": "required_optional_ambiguity",
+      "subtype": "omit_optional",
+      "title": "R/O ambiguity \u2014 omit optional cursor",
+      "description": "Search without optional pagination cursor.",
+      "prompt": "Search artefacts for 'auth' (first page, no cursor).",
+      "expected_op": "search_artefacts",
+      "expected_args": {
+        "query": "auth"
+      },
+      "success_criteria": "cursor omitted correctly; required query present; no extraneous optional",
+      "hidden_constraint_exercised": "cursor pattern hidden, should not be invented when omitted",
+      "variant_sensitivity": "medium"
+    },
+    {
+      "id": "C4-T14",
+      "class": 4,
+      "class_name": "required_optional_ambiguity",
+      "subtype": "supply_optional",
+      "title": "R/O ambiguity \u2014 supply optional cursor",
+      "description": "Search with optional cursor supplied.",
+      "prompt": "Search artefacts for 'spec' page two, cursor cur_abc123, limit 5.",
+      "expected_op": "search_artefacts",
+      "expected_args": {
+        "query": "spec",
+        "limit": 5,
+        "cursor": "cur_abc123"
+      },
+      "success_criteria": "cursor pattern ^cur_[a-z0-9]+$ passes (hidden), limit within 1-100 (hidden)",
+      "hidden_constraint_exercised": "cursor pattern, limit range hidden",
+      "variant_sensitivity": "medium"
+    },
+    {
+      "id": "C4-T15",
+      "class": 4,
+      "class_name": "required_optional_ambiguity",
+      "subtype": "multiple_optionals",
+      "title": "R/O ambiguity \u2014 create artefact with optional body and tags",
+      "description": "Both body and tags optional; task supplies both.",
+      "prompt": "Create a decision artefact titled 'Trade-off', body 'We chose X over Y because...', tags ['arch','adr-12'].",
+      "expected_op": "create_artefact",
+      "expected_args": {
+        "type": "decision",
+        "title": "Trade-off",
+        "body": "We chose X over Y because...",
+        "tags": [
+          "arch",
+          "adr-12"
+        ]
+      },
+      "success_criteria": "optional body/tags correctly supplied; tags array \u226410 hidden",
+      "hidden_constraint_exercised": "tags maxItems 10 hidden, body maxLength 5000 hidden",
+      "variant_sensitivity": "medium"
+    },
+    {
+      "id": "C4-T16",
+      "class": 4,
+      "class_name": "required_optional_ambiguity",
+      "subtype": "similar_meanings",
+      "title": "R/O ambiguity \u2014 semantically similar optional fields",
+      "description": "Optional fields with similar meanings (comment vs note vs reason) must not be confused.",
+      "prompt": "Set artefact state for art_abc-123 to archived with comment 'superseded'.",
+      "expected_op": "set_artefact_state",
+      "expected_args": {
+        "artefact_id": "art_abc-123",
+        "state": "archived",
+        "comment": "superseded"
+      },
+      "success_criteria": "comment supplied to set_artefact_state, not reason (archive_artefact) or note (submit_evidence); optional disambiguation",
+      "hidden_constraint_exercised": "comment maxLength 500 hidden",
+      "variant_sensitivity": "high \u2014 similar optional names"
+    },
+    {
+      "id": "C5-T17",
+      "class": 5,
+      "class_name": "semantically_similar_tools",
+      "title": "Similar tools \u2014 search_users",
+      "description": "Among three near-identical search_* ops, pick users.",
+      "prompt": "Find the user named Alice in engineering.",
+      "expected_op": "search_users",
+      "expected_args": {
+        "query": "Alice",
+        "department": "engineering"
+      },
+      "success_criteria": "op_id == search_users (not search_groups/search_projects); description differs by one word (users/groups/projects) and stable ID must be used",
+      "hidden_constraint_exercised": "department enum visible, limit range hidden",
+      "variant_sensitivity": "high \u2014 description overlap high"
+    },
+    {
+      "id": "C5-T18",
+      "class": 5,
+      "class_name": "semantically_similar_tools",
+      "title": "Similar tools \u2014 search_groups",
+      "description": "Pick groups among similar tools.",
+      "prompt": "Search for the engineering group called platform.",
+      "expected_op": "search_groups",
+      "expected_args": {
+        "query": "platform"
+      },
+      "success_criteria": "op_id == search_groups; visibility optional not confused",
+      "hidden_constraint_exercised": "visibility enum visible",
+      "variant_sensitivity": "high"
+    },
+    {
+      "id": "C5-T19",
+      "class": 5,
+      "class_name": "semantically_similar_tools",
+      "title": "Similar tools \u2014 search_projects",
+      "description": "Pick projects among similar tools.",
+      "prompt": "Search projects for Atlas with status active.",
+      "expected_op": "search_projects",
+      "expected_args": {
+        "query": "Atlas",
+        "status": "active"
+      },
+      "success_criteria": "op_id == search_projects; status enum [active/archived/planning] visible",
+      "hidden_constraint_exercised": "status enum visible, limit hidden",
+      "variant_sensitivity": "high"
+    },
+    {
+      "id": "C5-T20",
+      "class": 5,
+      "class_name": "semantically_similar_tools",
+      "title": "Similar tools \u2014 disambiguate with overlapping terms",
+      "description": "Query contains team/group/project words; model must use stable ID not description keyword matching.",
+      "prompt": "Search for project team 'atlas-platform' \u2014 this is a project, not a user or group.",
+      "expected_op": "search_projects",
+      "expected_args": {
+        "query": "atlas-platform"
+      },
+      "success_criteria": "op_id == search_projects despite query containing 'team' and 'platform' that also match user/group vocab; stable ID is discriminating signal",
+      "hidden_constraint_exercised": "query maxLength 200 hidden; description tokens do not leak",
+      "variant_sensitivity": "high \u2014 adversarial overlap"
+    },
+    {
+      "id": "C6-T21",
+      "class": 6,
+      "class_name": "constraint_sensitive_hidden",
+      "subtype": "hidden_numeric_range",
+      "title": "Hidden constraint \u2014 numeric range limit 1-100",
+      "description": "Limit range is hidden from minimal; valid call within range should pass, values outside would be rejected.",
+      "prompt": "Search artefacts for 'test' with limit 20.",
+      "expected_op": "search_artefacts",
+      "expected_args": {
+        "query": "test",
+        "limit": 20
+      },
+      "success_criteria": "limit=20 within 1-100 passes; minimal does not show min/max but runtime enforces; selection must not invent out-of-range value",
+      "hidden_constraint_exercised": "limit minimum 1 maximum 100 \u2014 causes ValidationFailed if violated, not exposed to model",
+      "variant_sensitivity": "hidden \u2014 runtime only"
+    },
+    {
+      "id": "C6-T22",
+      "class": 6,
+      "class_name": "constraint_sensitive_hidden",
+      "subtype": "hidden_string_pattern_format",
+      "title": "Hidden constraint \u2014 string pattern ^art_[a-z0-9-]+$",
+      "description": "ID pattern is hidden; valid ID must be constructed correctly without seeing pattern.",
+      "prompt": "Get artefact art_valid-001.",
+      "expected_op": "get_artefact",
+      "expected_args": {
+        "id": "art_valid-001"
+      },
+      "success_criteria": "id matches ^art_[a-z0-9-]+$ (hidden); minimal shows type string required only",
+      "hidden_constraint_exercised": "pattern ^art_[a-z0-9-]+$ hidden; also cursor ^cur_[a-z0-9]+$, version semver hidden",
+      "variant_sensitivity": "hidden \u2014 runtime only"
+    },
+    {
+      "id": "C6-T23",
+      "class": 6,
+      "class_name": "constraint_sensitive_hidden",
+      "subtype": "hidden_mutually_constrained",
+      "title": "Hidden constraint \u2014 mutually constrained filter.type \u2194 group_by",
+      "description": "When filter.type is supplied, group_by must not equal filter.type (hidden mutual constraint).",
+      "prompt": "Query metrics for type spec, group by status.",
+      "expected_op": "query_metrics",
+      "expected_args": {
+        "filter": {
+          "type": "spec"
+        },
+        "group_by": "status"
+      },
+      "success_criteria": "valid combination passes; invalid would be group_by='spec' when filter.type='spec' -> hidden ValidationFailed; minimal shows names/types/enum but not constraint sentence",
+      "hidden_constraint_exercised": "mutually constrained: filter.type != group_by (runtime check beyond JSON Schema if/then, enforced as ValidationFailed)",
+      "variant_sensitivity": "hidden \u2014 runtime only"
+    },
+    {
+      "id": "C6-T24",
+      "class": 6,
+      "class_name": "constraint_sensitive_hidden",
+      "subtype": "hidden_schema_constraint",
+      "title": "Hidden constraint \u2014 additionalProperties:false and maxLength cause ValidationFailed",
+      "description": "Schema constraint hidden; task must not add extra field, and must respect maxLength.",
+      "prompt": "Create a spec artefact with title 'Short title' (no extra fields).",
+      "expected_op": "create_artefact",
+      "expected_args": {
+        "type": "spec",
+        "title": "Short title"
+      },
+      "success_criteria": "no unknown field (additionalProperties:false hidden), title within 1-200 hidden; valid call executes; malformed extra or long title would be ValidationFailed hidden",
+      "hidden_constraint_exercised": "additionalProperties:false, maxLength 200 hidden; violation surfaces as ValidationFailed ValidationFailed not exposed to model",
+      "variant_sensitivity": "hidden \u2014 runtime only"
+    }
+  ]
+}
