@@ -1,6 +1,6 @@
 {
   "next_display_id": 537,
-  "next_comment_id": 3506,
+  "next_comment_id": 3507,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -34942,7 +34942,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-08-31T22:16:02.883815718Z",
-      "updated_at": "2026-09-01T11:59:46.270941102Z",
+      "updated_at": "2026-09-01T12:06:35.731346410Z",
       "labels": [
         "research"
       ],
@@ -35045,6 +35045,15 @@
           "kind": "observation",
           "signed_by": "SHA256:0oxsvspqH39+6q8E8GaFIXiLEeCQg0+30Sy8Og9Z4iw",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPOgP5KSATlA+cz4RPhU6l3OQQw7Dl/JmfLeQhMc/fuwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAySLnsnhCZh1+DHrWPsO7eVNw1uRAgQ5PORyA0RrA4FbkVxA4IKMztIC+8pvE2tNwhwGiRWXB7d+wXt1FeHDKAQ=="
+        },
+        "8cc7d73e-2c00-4857-9a7c-10cbbb2fc299": {
+          "display_id": 3506,
+          "author": "pp3g-oDHL-live-model-comparison-tests-a-d-for-530-corpus-530",
+          "content": "Plan: Real-model A/B live run for corpus-530 (17-op 0.1.0). Steps: (1) build live runner harness-bridge/live_run.py using OpenRouter (openai/gpt-4o-mini fallback, temp 0, seed 42) due to opencode credits insufficient (document blocker), calling full vs minimal prompts (same 24 tasks, randomized order via fixed seed 42), harness sandbox→validation→policy→execution via authoritative.json. (2) Run Test A full (24) + Test B minimal (24) recording op selection, argument, task success, validation failures, retries, description tokens (tiktoken cl100k_base 0.14.0), total in/out tokens, latency p50/p95. (3) Run Test C 12 malformed recovery: minimal + failed call + typed ValidationFailed → corrected call, record correction success, one-retry/multi-retry, correction tokens, total incl failed, invent-info check. (4) Run Test D 4 adversarial D1-D4 via harness distinct codes no execution. (5) Pin versions (model/provider/temp/system prompt/tool config/harness 0.1.0/schemas 0.1.0/tiktoken 0.14.0/jsonschema 4.26.0). (6) Produce logs under measurements/logs/ and summary.json + 10-section report (env/versions, A vs B, token reduction, selection, argument by class, overall success, recovery, adversarial, taxonomy, conclusion 5pp). No corpus modification after results, no state-machine/policy/lifecycle.",
+          "created_at": "2026-09-01T12:06:35.725205465Z",
+          "kind": "plan",
+          "signed_by": "SHA256:36IBtr8yq3F98yb75L7LN9xLlA+KdcwliSN3PXSeFVM",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgayBSggQjl461JeijlVDMTZZurNp6+kiGycmWCMMVuj8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA60aOc2iJEjDFblGC7kBLVDW6NDJoAc8/CBaYTeD3fH19xSbstS7zjbaxGqgTvDS0NVapS7wr7k8H1qCljmkpCA=="
         },
         "91379369-9ff8-4007-befb-f3fb9838bd6c": {
           "display_id": 3474,
@@ -41188,8 +41197,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-01T12:06:24.624996219Z",
-    "agent_id": "pp3g-enJQ-adversarial-review-of-refined-suite-v2-hy4-preview",
-    "agent_seq": 7
+    "timestamp": "2026-09-01T12:06:35.731346410Z",
+    "agent_id": "pp3g-oDHL-live-model-comparison-tests-a-d-for-530-corpus-530",
+    "agent_seq": 2
   }
 }
