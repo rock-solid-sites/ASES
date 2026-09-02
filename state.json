@@ -1,6 +1,6 @@
 {
   "next_display_id": 543,
-  "next_comment_id": 3587,
+  "next_comment_id": 3588,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -41870,10 +41870,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-09-02T00:08:07.850109207Z",
-      "updated_at": "2026-09-02T00:08:22.888687281Z",
+      "updated_at": "2026-09-02T00:11:31.849127693Z",
       "labels": [
         "feature"
-      ]
+      ],
+      "comments": {
+        "c3926ffe-7e7a-4a85-b714-dd707a789bda": {
+          "display_id": 3587,
+          "author": "pp3g-PpTf-run-hardening-kani-proptest-and-xstate-test-harnesses",
+          "content": "Plan: Phase5 hardening — port stop-button files from feature/stop-button onto hardening branch, then add three harnesses: (1) xstate model-based exhaustive test via @xstate/test generating all state×event paths from the pure machine, (2) proptest/fast-check property harness asserting I1-I8 invariants over random event sequences (FenceKillsToolChild, NoOrphan, StateGating, Idempotence), (3) Kani-style Rust crate mirroring the pure transition function with Kani proof harnesses for the same invariants (executable via cargo kani or cargo test fallback). Also wire harnesses into conformance suite Phase5 and add verification docs.",
+          "created_at": "2026-09-02T00:11:31.842070527Z",
+          "kind": "plan",
+          "signed_by": "SHA256:wocQxZSBiTZGulGMjCgvoUncz8USwPh3R+OuwH1eupo",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgKCEfw+IIUSp5GgqFtJp1MwQjscVbfOQGvzki09wmn8sAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAKwPoK3mXyreZbR++LHqwbPmutbgR97AwbQIWhrDK9I/b+U09wzzsWZiVKIdmqq1SmQNW8YB12O2BajGX8mfSDA=="
+        }
+      }
     },
     "fdb2f319-fff7-4ff9-b305-5c20204372f8": {
       "uuid": "fdb2f319-fff7-4ff9-b305-5c20204372f8",
@@ -42025,8 +42036,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-02T00:10:29.134346399Z",
-    "agent_id": "pp3g-TfRh-run-live-probe-on-tool-child-capable-server-9-point",
-    "agent_seq": 1
+    "timestamp": "2026-09-02T00:11:31.849127693Z",
+    "agent_id": "pp3g-PpTf-run-hardening-kani-proptest-and-xstate-test-harnesses",
+    "agent_seq": 2
   }
 }
