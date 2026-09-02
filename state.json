@@ -1,6 +1,6 @@
 {
   "next_display_id": 543,
-  "next_comment_id": 3591,
+  "next_comment_id": 3592,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -41856,7 +41856,7 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-09-02T00:08:53.054777308Z",
-      "updated_at": "2026-09-02T00:13:34.072636234Z",
+      "updated_at": "2026-09-02T00:15:15.448472595Z",
       "labels": [
         "feature"
       ],
@@ -41869,6 +41869,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAXdlXcFBoPG/qFS7PcBhYPRC7DChWZPSu3ukQZSZXmysEebyAZosxRmuij/xgvSbEM1zPVan5L4Y8PKX6GXYLAQ=="
+        },
+        "fd5a5fb2-f1f2-4ebc-af7f-32a27034203e": {
+          "display_id": 3591,
+          "author": "pp3g-TfRh-run-live-probe-on-tool-child-capable-server-9-point",
+          "content": "Plan: Merge feature/stop-button (dd70791b) into this branch + run live 9-point probe on tool-child-capable server :49374 with muse-spark. Approach: (1) merge stop-button via git show materialization (cherry-pick blocked) for all stop-button paths (Verified Spec, Conformance Suite, machine/controller, probe, verification log). (2) Fix probe create_session to pass muse-spark model (otherwise defaults to broken google-vertex 403). (3) Run 9-point probe OPENCODE_URL=:49374 against live server that demonstrably spawns shell children (sleep 42 verified PID 2290465 killed via 204 fence). (4) Capture full verification log + typecheck/tests, commit evidence, post reasoning-certainty result.",
+          "created_at": "2026-09-02T00:15:15.440995464Z",
+          "kind": "plan",
+          "signed_by": "SHA256:yAthEz4zwBqjpkFrti4JrfXAnlp1SBbwAQimFvHdnQ0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgzQtB5hgdPoXyY9loLH4bRTIbnN1wQ7qjX3HcG0bgskEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA+BayxR0n5hKmV+7l3hVs+5D6IsaLUeEkvhQMV9als/h5WsKT3C0FmHPbuI8ND60TsGMqpKEL2o+dVNBwbpblBg=="
         }
       }
     },
@@ -42065,8 +42074,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-02T00:13:34.072636234Z",
-    "agent_id": "OL2r",
-    "agent_seq": 3100
+    "timestamp": "2026-09-02T00:15:15.448472595Z",
+    "agent_id": "pp3g-TfRh-run-live-probe-on-tool-child-capable-server-9-point",
+    "agent_seq": 2
   }
 }
