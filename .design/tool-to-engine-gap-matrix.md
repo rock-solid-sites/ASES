@@ -10,7 +10,7 @@ parent_issue: "#506"
 classification: Track C advisory — no engine build recommendation (parallel API-candidate branch owns that)
 related_documents:
   - docs/architecture/Execution Engine Vision.md
-  - to-file/Proposal: EDASES Execution Engine.md
+  - to-file/Proposal - EDASES Execution Engine.md
   - docs/research/registry/Hookability-Matrix.md
   - docs/research/agent-tooling-and-permission-enforcement-reviewed.md
   - .crosslink/knowledge/agent-orchestration-playbook.md
@@ -50,7 +50,7 @@ Track C collapses those into **8 engine-vision primitives** (rows) and **4 curre
 | # | Input | Role in this matrix |
 |---|-------|---------------------|
 | 1 | `docs/architecture/Execution Engine Vision.md` (canonical, `ases-engine` mirror, 2026-08-10) | Defines the 8 vision responsibilities; source of row names |
-| 2 | `to-file/Proposal: EDASES Execution Engine.md` (§§4–11, §14) | Defines §11 method (5-way cells) and §14 acceptance criteria (6 groups / 24 sub-criteria); source of scoring rubric |
+| 2 | `to-file/Proposal - EDASES Execution Engine.md` (§§4–11, §14) | Defines §11 method (5-way cells) and §14 acceptance criteria (6 groups / 24 sub-criteria); source of scoring rubric |
 | 3 | `docs/research/registry/Hookability-Matrix.md` (2026-08-24, #440 extended) | Defines §14 re-ranked top-13 hookable-but-not-yet-enforced priorities; source of priority mapping |
 | 4 | `docs/research/agent-tooling-and-permission-enforcement-reviewed.md` (2026-08-09, merged 8 reviews) | Calibrated picture of what guards actually enforce (vs. advertised); corrects overclaims about read-only, allowlists, and deployed-vs-source drift |
 

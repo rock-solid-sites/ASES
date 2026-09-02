@@ -237,6 +237,40 @@ else
   fail "Stub detection — $STUB_COUNT stub(s) found in diff"
 fi
 
+# 1f. Filename portability — project-agnostic early check for illegal chars (see #544)
+# Delegates to scripts/validate-filenames.sh which scans tracked files for
+# Windows-illegal / URL-breaking characters (colon caused 200 decode errors).
+# This check is project-agnostic: it scans the entire repo, not observer-specific paths.
+VALIDATOR="scripts/validate-filenames.sh"
+if [[ -n "$WORKTREE" ]]; then
+  VALIDATOR="$WORKTREE/scripts/validate-filenames.sh"
+fi
+if [[ -x "$VALIDATOR" ]]; then
+  if [[ -n "$WORKTREE" ]]; then
+    FNAME_OUTPUT="$("$VALIDATOR" --worktree "$WORKTREE" 2>&1)" || true
+    FNAME_RC=$?
+  else
+    FNAME_OUTPUT="$("$VALIDATOR" 2>&1)" || true
+    FNAME_RC=$?
+  fi
+  # validate-filenames.sh exits 1 on illegal names, 0 on clean
+  if [[ "${FNAME_RC:-0}" -eq 0 ]]; then
+    pass "Filename portability — no illegal characters in tracked files"
+  else
+    # Capture first few offending lines for context
+    FNAME_FIRST="$(echo "$FNAME_OUTPUT" | grep "FAIL" | head -n 5 | tr '\n' '; ')"
+    fail "Filename portability — illegal characters found: ${FNAME_FIRST:-see validate-filenames.sh output}"
+  fi
+else
+  # Fallback inline check if validator script is not present (e.g. shallow worktree)
+  FNAME_ILLEGAL="$(git "${GIT_ARGS[@]}" ls-files -z 2>/dev/null | tr '\0' '\n' | grep -E '[:<>\"|?*]' || true)"
+  if [[ -z "$FNAME_ILLEGAL" ]]; then
+    pass "Filename portability — no colon/illegal chars in tracked files (fallback)"
+  else
+    fail "Filename portability — illegal characters found (fallback): $(echo "$FNAME_ILLEGAL" | head -n 3 | tr '\n' '; ')"
+  fi
+fi
+
 # ══════════════════════════════════════════════
 # 2.  TASK VERIFICATION (configurable)
 # ══════════════════════════════════════════════
