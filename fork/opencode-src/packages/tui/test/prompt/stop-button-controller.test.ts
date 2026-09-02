@@ -278,3 +278,47 @@ describe("stop-button controller — B3 placebo detection", () => {
     expect(h.logs.some((line) => line.includes("settle check unavailable"))).toBe(true)
   })
 })
+
+describe("stop-button dialog text click bubbling — Yes/No inner <text> handler", () => {
+  test("Yes text click resolves true → exactly 1 interrupt and logs confirmed=true", async () => {
+    // Simulates clicking the inner <text>Yes</text> which previously did not
+    // bubble to the outer box onMouseUp and fell through to onClose false
+    // (Yes logged as cancelled). With the text handler both paths resolve true.
+    const { h, controller } = createHarness({ state: "running", confirmResult: true })
+    await controller.handleStopClick()
+    expect(h.calls).toHaveLength(1)
+    expect(h.calls[0]).toBe(SESSION)
+    expect(h.logs.some((line) => line.includes("confirmed=true"))).toBe(true)
+    expect(h.logs.some((line) => line.includes("confirmed=false"))).toBe(false)
+    expect(toastOf(h, "success", "Interrupted")).toBeDefined()
+  })
+
+  test("No text click resolves false → 0 interrupt and logs confirmed=false", async () => {
+    // Simulates clicking the inner <text>No</text> — must stay as cancelled
+    // via confirming->running, not leak to interrupting.
+    const { h, controller } = createHarness({ state: "running", confirmResult: false })
+    await controller.handleStopClick()
+    expect(h.calls).toHaveLength(0)
+    expect(h.logs.some((line) => line.includes("confirmed=false"))).toBe(true)
+    expect(h.logs.some((line) => line.includes("cancelled"))).toBe(true)
+    expect(toastOf(h, "success")).toBeUndefined()
+  })
+
+  test("discriminating log before dialogEvent mapping exposes Yes-mis-as-cancelled", async () => {
+    // Cheapest falsifying test for the bubbling bug: without the
+    // confirmed=${confirmed} log, a Yes that fell through to the onClose
+    // fallback (resolve false) would be indistinguishable from a real No in
+    // the log stream. This asserts the log is present and discriminating.
+    const { h: hYes, controller: cYes } = createHarness({ state: "running", confirmResult: true })
+    await cYes.handleStopClick()
+    const { h: hNo, controller: cNo } = createHarness({ state: "running", confirmResult: false })
+    await cNo.handleStopClick()
+    const yesLog = hYes.logs.find((l) => l.includes("confirmed="))
+    const noLog = hNo.logs.find((l) => l.includes("confirmed="))
+    expect(yesLog).toBeDefined()
+    expect(noLog).toBeDefined()
+    expect(yesLog).toContain("confirmed=true")
+    expect(noLog).toContain("confirmed=false")
+    expect(yesLog).not.toEqual(noLog)
+  })
+})

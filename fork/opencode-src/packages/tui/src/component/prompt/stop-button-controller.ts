@@ -203,6 +203,7 @@ export function createStopController(deps: StopControllerDeps) {
     } finally {
       deps.setConfirming(false)
     }
+    deps.log(`${ts()} stop-button dialog confirmed=${confirmed} session=${sessionID} machine=confirming`)
     // Shell interprets confirming -> YES/NO via pure machine.
     const dialogEvent = confirmed ? ("YES" as const) : ("NO" as const)
     if (!isPermitted("confirming", dialogEvent)) {

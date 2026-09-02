@@ -273,7 +273,15 @@ export function Prompt(props: PromptProps) {
                     resolve(false)
                   }}
                 >
-                  <text fg={theme.textMuted}>No</text>
+                  <text
+                    fg={theme.textMuted}
+                    onMouseUp={() => {
+                      dialog.clear()
+                      resolve(false)
+                    }}
+                  >
+                    No
+                  </text>
                 </box>
                 <box
                   paddingLeft={1}
@@ -284,7 +292,15 @@ export function Prompt(props: PromptProps) {
                     resolve(true)
                   }}
                 >
-                  <text fg={theme.selectedListItemText}>Yes</text>
+                  <text
+                    fg={theme.selectedListItemText}
+                    onMouseUp={() => {
+                      dialog.clear()
+                      resolve(true)
+                    }}
+                  >
+                    Yes
+                  </text>
                 </box>
               </box>
             </box>
