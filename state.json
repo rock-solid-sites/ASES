@@ -1,6 +1,6 @@
 {
   "next_display_id": 546,
-  "next_comment_id": 3623,
+  "next_comment_id": 3624,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -2853,10 +2853,21 @@
       "priority": "medium",
       "created_by": "OL2r",
       "created_at": "2026-09-02T02:44:20.851618345Z",
-      "updated_at": "2026-09-02T02:44:34.544349335Z",
+      "updated_at": "2026-09-02T02:47:13.879993127Z",
       "labels": [
         "feature"
-      ]
+      ],
+      "comments": {
+        "27b96771-9b86-46ac-b74c-6b610f4f766c": {
+          "display_id": 3623,
+          "author": "pp3g-apfW-merge-hardening-and-live-probe-into-keeper-feature",
+          "content": "Plan: Merge hardening + live-probe into keeper feature/stop-button on top of main. Approach: HEAD is main (a91ac648) which lacks stop-button; keeper (88753d6c) + hardening (6ff91ba0) + live-probe (9517882d) all contain same stop-button base on different main forks. Since git merge blocked, reconstruct via git show file extraction: (1) materialize stop-button base files (spec, machine, controller, index.tsx, coordinator tests) from hardening (=live identical), (2) add hardening-only harnesses (kani crate, proptest, xstate tests, verification-log-541), (3) add live-probe-only artifacts (verification-log-542, updated probe-stop-button-phase0.sh with 9-point PASS, identity-ownership test, session-handoff), (4) merge divergent docs (Conformance Suite -> §5 VERIFIED from hardening + §6 VERIFIED via live PASS=9, Failure-Matrix resolve conflict marker). Verify with bun test + tsc + cargo test, then commit.",
+          "created_at": "2026-09-02T02:47:13.872965996Z",
+          "kind": "plan",
+          "signed_by": "SHA256:3u4Bl6Mzg8OSywOk79XeB7I4gbI3w1gIQWgk4Bdylj4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgpHTJWH9W2Zskm47xDjaag8YnY6fvc68b6LKDnPGOSbkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA0/u3OAlnjxxoWGl7zmgsOtDHfgWzyUn+/LlyFC5ybLdmlBIZFdPyEmdmGmjYI/DzxYwD6d5u3+7nHqr5uAxOCw=="
+        }
+      }
     },
     "105271fa-8773-40c7-9aa1-3d35e063a1e6": {
       "uuid": "105271fa-8773-40c7-9aa1-3d35e063a1e6",
@@ -42401,8 +42412,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-02T02:45:34.099500348Z",
+    "timestamp": "2026-09-02T02:47:13.879993127Z",
     "agent_id": "pp3g-apfW-merge-hardening-and-live-probe-into-keeper-feature",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
