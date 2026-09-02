@@ -199,10 +199,16 @@ Model names must be verified before use. Never assume a model ID.
 
 # Repository Changes
 
-Builder agents should create a local commit approximately every five minutes
-as a liveness and recovery checkpoint. WIP/intermediate commits are acceptable
-and history neatness is secondary to preserving work. Pushes remain explicitly
-operator-gated and require approval immediately before each push.
+Builder agents must run in their own named branch and worktree. Reviewers must
+run in a detached, read-only worktree pinned to the exact commit under review;
+never review from a mutable shared checkout. Record both the requested commit
+and observed HEAD before reviewing, and do not allow concurrent actors to
+mutate a review worktree. Integrate reviewed builder commits to the main branch
+only after the review gate passes. Builder agents should create a local commit
+approximately every five minutes as a liveness and recovery checkpoint;
+WIP/intermediate commits are acceptable and history neatness is secondary to
+preserving work. Pushes remain explicitly operator-gated and require approval
+immediately before each push.
 
 Before introducing new documents:
 
