@@ -244,6 +244,95 @@ describe("SessionRunCoordinator", () => {
     ),
   )
 
+  // #510 placebo test: the stop button issues session.interrupt, which reaches the
+  // coordinator's `Fiber.interrupt(entry.owner)`. The real risk is a 204 that leaves a
+  // RUNNING tool (a child fiber spawned inside the drain) alive. This test proves the
+  // interrupt propagates to that child fiber, not just the drain wrapper.
+  //
+  // The tool child signals its own start (toolStarted) so the test only interrupts once the
+  // child is actually forked and running — otherwise the interrupt could land before the
+  // drain forks the tool, which would not exercise the fence.
+  it.effect("kills a running tool child fiber when interrupted", () =>
+    Effect.scoped(
+      Effect.gen(function* () {
+        const toolStarted = yield* Deferred.make<void>()
+        const toolExit = yield* Deferred.make<Exit.Exit<void, never>>()
+        const coordinator = yield* SessionRunCoordinator.make({
+          drain: () =>
+            Effect.gen(function* () {
+              // Simulate a tool running as a child fiber of the drain (e.g. a blocked
+              // subprocess). It will not return on its own; only interruption ends it.
+              const tool = yield* Effect.gen(function* () {
+                yield* Deferred.succeed(toolStarted, undefined)
+                yield* Effect.never
+              }).pipe(
+                Effect.onExit((exit) => Deferred.succeed(toolExit, exit)),
+                Effect.forkChild,
+              )
+              yield* Fiber.join(tool)
+            }),
+        })
+
+        const resumed = yield* coordinator.run("session").pipe(Effect.forkChild)
+        yield* Deferred.await(toolStarted)
+        yield* coordinator.interrupt("session")
+        const ownerExit = yield* Fiber.await(resumed)
+        const tool = yield* Deferred.await(toolExit)
+
+        expect(Exit.isFailure(ownerExit) && Cause.hasInterruptsOnly(ownerExit.cause)).toBeTrue()
+        expect(Exit.isFailure(tool) && Cause.hasInterruptsOnly(tool.cause)).toBeTrue()
+        expect(Array.from(yield* coordinator.active)).toEqual([])
+      }),
+    ),
+  )
+
+  // #510 no-orphan test: after interrupt kills the running tool, the key must be free so a
+  // fresh run can start. If the tool child leaked (survived interruption), it would still
+  // hold the session and the second run would never begin.
+  it.effect("does not leave the tool child running after interrupt (no orphan)", () =>
+    Effect.scoped(
+      Effect.gen(function* () {
+        const toolStarted = yield* Deferred.make<void>()
+        const toolInterrupted = yield* Deferred.make<void>()
+        const secondStarted = yield* Deferred.make<void>()
+        let runs = 0
+        const coordinator = yield* SessionRunCoordinator.make({
+          drain: () =>
+            Effect.gen(function* () {
+              const run = ++runs
+              if (run === 1) {
+                // The tool child signals its own start so the interrupt only lands once the
+                // child is actually forked and running.
+                const tool = yield* Effect.gen(function* () {
+                  yield* Deferred.succeed(toolStarted, undefined)
+                  yield* Effect.never
+                }).pipe(
+                  Effect.onInterrupt(() => Deferred.succeed(toolInterrupted, undefined)),
+                  Effect.forkChild,
+                )
+                yield* Fiber.join(tool)
+                return
+              }
+              yield* Deferred.succeed(secondStarted, undefined)
+            }),
+        })
+
+        const first = yield* coordinator.run("session").pipe(Effect.forkChild)
+        yield* Deferred.await(toolStarted)
+        yield* coordinator.interrupt("session")
+        yield* Deferred.await(toolInterrupted)
+        yield* Fiber.await(first)
+
+        const second = yield* coordinator.run("session").pipe(Effect.forkChild)
+        yield* Deferred.await(secondStarted)
+        yield* Fiber.await(second)
+
+        expect(runs).toBe(2)
+        expect(Array.from(yield* coordinator.active)).toEqual([])
+      }),
+    ),
+  )
+
   it.effect("runs a wake registered during interruption cleanup", () =>
     Effect.scoped(
       Effect.gen(function* () {

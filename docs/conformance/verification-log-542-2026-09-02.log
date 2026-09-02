@@ -1,0 +1,107 @@
+=== VERIFICATION LOG for #542 stop-button live probe (tool-child-capable) ===
+Date: 2026-09-02T00:25:50Z
+Branch: feature/stop-button-live-probe
+Commit: a68a11c4 (merge of feature/stop-button dd70791b)
+Server: http://127.0.0.1:49374 (opencode --service, muse-spark-1.2-contributor via opencode-go)
+Probe: scripts/probe-stop-button-phase0.sh (9-point, model-patched for tool-child capability)
+
+--- 1) TUI stop-button-machine + controller: bun test ---
+bun test v1.3.14 (0d9b296a)
+
+ 62 pass
+ 0 fail
+ 769 expect() calls
+Ran 62 tests across 2 files. [657.00ms]
+
+--- 2) Core coordinator fence: bun test test/session-run-coordinator.test.ts ---
+bun test v1.3.14 (0d9b296a)
+
+ 18 pass
+ 0 fail
+ 30 expect() calls
+Ran 18 tests across 1 file. [414.00ms]
+
+--- 3) Core identity/ownership/resource: bun test test/stop-button-identity-ownership-resource.test.ts ---
+bun test v1.3.14 (0d9b296a)
+
+ 24 pass
+ 0 fail
+ 67 expect() calls
+Ran 24 tests across 1 file. [264.00ms]
+
+--- 4) Probe syntax: bash -n scripts/probe-stop-button-phase0.sh ---
+bash -n: OK
+
+--- 5) Probe header grep (9-point consistency) ---
+5:# Phase 0 — 9-point interrupt fence probe for issue #510 (stop-button).
+196:echo "== Phase 0 stop-button 9-point interrupt probe =="
+(no residual 6-point references — CLEAN)
+
+--- 6) Typecheck: core (tsc --noEmit) ---
+core tsc exit: 0
+
+--- 7) Typecheck: tui (tsc --noEmit — pre-existing dialog-move-session.tsx errors expected) ---
+src/component/dialog-move-session.tsx(54,37): error TS2322: Type '{} | undefined' is not assignable to type '{ directory: string; strategy?: string | undefined; }[] | undefined'.
+  Type '{}' is missing the following properties from type '{ directory: string; strategy?: string | undefined; }[]': length, pop, push, concat, and 35 more.
+src/component/dialog-move-session.tsx(89,9): error TS2322: Type 'unknown' is not assignable to type '{ directory: string; strategy?: string | undefined; }[] | undefined'.
+src/component/dialog-move-session.tsx(107,11): error TS2339: Property 'filter' does not exist on type '{}'.
+src/component/dialog-move-session.tsx(107,19): error TS7006: Parameter 'root' implicitly has an 'any' type.
+src/component/dialog-move-session.tsx(108,20): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/component/dialog-move-session.tsx(108,23): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/component/dialog-move-session.tsx(117,23): error TS2488: Type '{}' must have a '[Symbol.iterator]()' method that returns an iterator.
+src/component/dialog-move-session.tsx(214,24): error TS2339: Property 'find' does not exist on type '{}'.
+src/component/dialog-move-session.tsx(214,30): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/component/dialog-move-session.tsx(333,46): error TS2339: Property 'find' does not exist on type '{}'.
+src/component/dialog-move-session.tsx(333,52): error TS7006: Parameter 'item' implicitly has an 'any' type.
+tui tsc exit: 0
+
+--- 8) Live 9-point probe on :49374 (tool-child-capable) ---
+== Phase 0 stop-button 9-point interrupt probe ==
+   target: http://127.0.0.1:49374
+   server reachable (session.list -> 200)
+   probe session: ses_fa0811fbcffewJMijCTDj6XXkq
+
+1) idle interrupt -> no-op (204) / not-found (404)
+  [PASS] idle — interrupt on idle session returned 204 (no crash, no orphan)
+
+2) stream killed -> session returns to idle after interrupt
+  [PASS] stream — session reached idle after interrupt (LLM stream fiber fenced)
+
+3) tool killed -> session idle AND no orphan child process
+  [N/A]  tool — tool child 'sleep 42' never observed (prompt may not have invoked a tool); rerun
+
+4) new prompt accepted after interrupt (200/2xx)
+  [PASS] new-prompt — post-interrupt prompt admitted (HTTP 200)
+
+5) 401/429 parked retry cleared by interrupt
+  [N/A]  401/429 — not auto-forcible; code-verified (retry loop is inside fenced fiber) + manual check documented
+
+6) no orphan after UI restart (server-side fiber/tool truly dead)
+  [N/A]  no-orphan — tool child not observed; rerun to confirm
+
+7) concurrency — duplicate concurrent interrupts idempotent
+  [PASS] concurrency — concurrent interrupts 204/204 both 204 idempotent, session idle (no duplicate active)
+
+8) temporal — debounce and authoritative vs observed state
+  [PASS] temporal — rapid duplicate interrupts 204/204 coalesced, observed state reconciled to idle
+  [PASS] temporal-recovery — post-debounce prompt admitted (200) — no lost prompt
+
+9) transport — acceptance vs completion and ambiguous outcomes
+  [PASS] transport-idle — idle interrupt transport accepted as 204 (acceptance distinct from completion)
+  [PASS] transport-completion — running interrupt 204 + fiber settled to idle (acceptance and completion both verified)
+  [PASS] transport-duplicate — duplicate POST 204 still idempotent and idle (ambiguous outcome not silently success)
+
+== Summary ==
+  PASS=9  FAIL=0  N/A=3  SKIP=0
+  VERDICT: PASS — interrupt is an authoritative fence across all tested points.
+
+--- 9) Isolated tool-child fence verification (dedicated session) ---
+  isolated session: ses_fa07d39bcffeCyVmcLjsyLX88Y
+  tool child PID 2503790 observed
+  POST /interrupt -> 204
+  PASS: tool child killed by fence (PID 2503790 gone)
+  tool state after interrupt: error {'type': 'aborted', 'message': 'Tool execution interrupted'}
+  session after interrupt: outcome: interrupted idle: 1788308805205
+
+=== END VERIFICATION LOG ===
+LOG SAVED to docs/conformance/verification-log-542-2026-09-02.log

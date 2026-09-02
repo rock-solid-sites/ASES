@@ -57,6 +57,9 @@ import { usePromptWorkspace } from "./workspace"
 import { usePromptMove } from "./move"
 import { readLocalAttachment } from "./local-attachment"
 import { useLocation } from "../../context/location"
+import { isPermitted } from "./stop-button-machine"
+import type { StopButtonState } from "./stop-button-machine"
+import { createStopController } from "./stop-button-controller"
 
 registerOpencodeSpinner()
 
@@ -212,6 +215,89 @@ export function Prompt(props: PromptProps) {
   const [cursorVersion, setCursorVersion] = createSignal(0)
   const currentProviderLabel = createMemo(() => local.model.parsed().provider)
   const hasRightContent = createMemo(() => Boolean(props.right))
+  const isRunning = createMemo(() => status().type !== "idle")
+  const [isInterrupting, setIsInterrupting] = createSignal(false)
+  const [isConfirming, setIsConfirming] = createSignal(false)
+
+  // Shell interprets pure machine descriptor — derived state is memo of shell signals.
+  function deriveStopState(): StopButtonState {
+    if (isInterrupting()) return "interrupting"
+    if (isConfirming()) return "confirming"
+    if (isRunning()) return "running"
+    return "idle"
+  }
+
+  async function appendStopLog(line: string) {
+    const { appendFile } = await import("node:fs/promises")
+    await appendFile("/tmp/stop-button.log", line + "\n").catch(() => {})
+  }
+
+  // Shell controller interprets the pure machine descriptor for both stop
+  // enforcement sites (■ Stop button + double-ESC). Effects are injected so the
+  // gate flow is mountable in tests (issue #510 D1) and the idle projection is
+  // reconciled against the authoritative coordinator active map (B1).
+  const stopController = createStopController({
+    sessionID: () => props.sessionID,
+    readState: deriveStopState,
+    isActive: async (sessionID) => {
+      const res = await sdk.client.v2.session.active()
+      const record = res.data?.data
+      return !!record && sessionID in record
+    },
+    isInterrupting,
+    setInterrupting: setIsInterrupting,
+    isConfirming,
+    setConfirming: setIsConfirming,
+    confirm: () =>
+      new Promise<boolean>((resolve) => {
+        dialog.replace(
+          () => (
+            <box paddingLeft={2} paddingRight={2} gap={1}>
+              <box flexDirection="row" justifyContent="space-between">
+                <text fg={theme.text}>Stop agent?</text>
+                <text fg={theme.textMuted} onMouseUp={() => dialog.clear()}>
+                  esc
+                </text>
+              </box>
+              <box paddingBottom={1}>
+                <text fg={theme.textMuted}>Stop the current agent? This will interrupt the model and running tools.</text>
+              </box>
+              <box flexDirection="row" justifyContent="flex-end" gap={1} paddingBottom={1}>
+                <box
+                  paddingLeft={1}
+                  paddingRight={1}
+                  backgroundColor={theme.backgroundElement}
+                  borderColor={theme.border}
+                  onMouseUp={() => {
+                    dialog.clear()
+                    resolve(false)
+                  }}
+                >
+                  <text fg={theme.textMuted}>No</text>
+                </box>
+                <box
+                  paddingLeft={1}
+                  paddingRight={1}
+                  backgroundColor={theme.error}
+                  onMouseUp={() => {
+                    dialog.clear()
+                    resolve(true)
+                  }}
+                >
+                  <text fg={theme.selectedListItemText}>Yes</text>
+                </box>
+              </box>
+            </box>
+          ),
+          () => resolve(false),
+        )
+      }),
+    interrupt: (sessionID) => sdk.client.v2.session.interrupt({ sessionID }),
+    latestMessageID: () => lastUserMessage()?.id,
+    toast: (variant, message, duration) => toast.show({ variant, message, duration }),
+    log: (line) => void appendStopLog(line),
+    now: Date.now,
+  })
 
   function promptModelWarning() {
     toast.show({
@@ -393,7 +479,9 @@ export function Prompt(props: PromptProps) {
         name: "session.interrupt",
         category: "Session",
         hidden: true,
-        enabled: status().type !== "idle",
+        // No `enabled` gate on the TUI-local status projection: a lagged
+        // "idle" must not deny ESC (issue #510 B1). The machine gate plus the
+        // controller's authoritative active-map reconciliation handle idle.
         run: () => {
           if (auto()?.visible) return
           if (!input.focused) return
@@ -404,6 +492,18 @@ export function Prompt(props: PromptProps) {
           }
           if (!props.sessionID) return
 
+          // Shell interprets pure machine for ESC path (timing 5s window stays in shell).
+          const curEsc = deriveStopState()
+          // If confirming dialog is open, single ESC dismisses via machine: confirming --ESC--> running
+          if (curEsc === "confirming") {
+            if (isPermitted("confirming", "ESC")) {
+              void appendStopLog(`[${new Date().toISOString()}] stop-button ESC dismiss session=${props.sessionID} machine=confirming->running`)
+              setIsConfirming(false)
+              dialog.clear()
+              return
+            }
+          }
+
           setStore("interrupt", store.interrupt + 1)
 
           setTimeout(() => {
@@ -411,10 +511,10 @@ export function Prompt(props: PromptProps) {
           }, 5000)
 
           if (store.interrupt >= 2) {
-            void sdk.client.session.abort({
-              sessionID: props.sessionID,
-            })
+            // Double-ESC fence: machine-gated (running --ESC_ESC--> interrupting,
+            // idle no-op) and authoritative-reconciled in the controller.
             setStore("interrupt", 0)
+            void stopController.handleEscapeInterrupt()
           }
           dialog.clear()
         },
@@ -1473,11 +1573,26 @@ export function Prompt(props: PromptProps) {
                   )}
                 </Show>
               </box>
-              <Show when={hasRightContent()}>
-                <box flexDirection="row" gap={1} alignItems="center">
-                  {props.right}
+              <box flexDirection="row" gap={1} alignItems="center">
+                <Show when={hasRightContent()}>
+                  <box flexDirection="row" gap={1} alignItems="center">
+                    {props.right}
+                  </box>
+                </Show>
+                <box
+                  flexDirection="row"
+                  alignItems="center"
+                  paddingLeft={1}
+                  paddingRight={1}
+                  backgroundColor={isRunning() ? theme.error : theme.backgroundElement}
+                  borderColor={isRunning() ? theme.error : theme.border}
+                  onMouseUp={() => void stopController.handleStopClick()}
+                >
+                  <text fg={isRunning() ? theme.selectedListItemText : theme.textMuted}>
+                    {isRunning() ? "■ Stop" : "↑ Send"}
+                  </text>
                 </box>
-              </Show>
+              </box>
             </box>
           </box>
         </box>
@@ -1581,12 +1696,23 @@ export function Prompt(props: PromptProps) {
                     })()}
                   </box>
                 </box>
-                <text fg={store.interrupt > 0 ? theme.primary : theme.text}>
-                  esc{" "}
-                  <span style={{ fg: store.interrupt > 0 ? theme.primary : theme.textMuted }}>
-                    {store.interrupt > 0 ? "again to interrupt" : "interrupt"}
-                  </span>
-                </text>
+                <box
+                  flexDirection="row"
+                  gap={1}
+                  onMouseUp={() => void stopController.handleStopClick()}
+                  backgroundColor={store.interrupt > 0 ? theme.primary : undefined}
+                  paddingLeft={1}
+                  paddingRight={1}
+                >
+                  <text fg={store.interrupt > 0 ? theme.selectedListItemText : theme.text}>
+                    esc{" "}
+                    <span style={{ fg: store.interrupt > 0 ? theme.selectedListItemText : theme.textMuted }}>
+                      {store.interrupt > 0 ? "again to interrupt" : "interrupt"}
+                    </span>
+                  </text>
+                  <text fg={store.interrupt > 0 ? theme.selectedListItemText : theme.textMuted}>·</text>
+                  <text fg={store.interrupt > 0 ? theme.selectedListItemText : theme.error}>■ Stop</text>
+                </box>
               </box>
             </Match>
             <Match when={workspace.notice()}>
