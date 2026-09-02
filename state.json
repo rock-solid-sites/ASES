@@ -1,6 +1,6 @@
 {
   "next_display_id": 549,
-  "next_comment_id": 3645,
+  "next_comment_id": 3646,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -33827,7 +33827,7 @@
       "priority": "low",
       "created_by": "OL2r",
       "created_at": "2026-09-02T00:44:34.139681118Z",
-      "updated_at": "2026-09-02T02:57:49.064903009Z",
+      "updated_at": "2026-09-02T03:12:40.729040391Z",
       "comments": {
         "20f4f8a3-1f67-481b-a522-29223523f8dc": {
           "display_id": 3617,
@@ -33882,6 +33882,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAq1ysyYtmCthisrbfo7qGqih5nAf/WHuLk00mrBXBqoxnuufuuZXAcW0zntMWjLLa0X67hK3WbnWxB+jJaotPAA=="
+        },
+        "b3a2e107-3dbf-40a5-874d-58513b15302f": {
+          "display_id": 3645,
+          "author": "pp3g-r0c5-fix-filename-with-colon-rename-via-go-muse-spark-b7db",
+          "content": "Plan: (1) Rename specifications/Adverarial Test Suite Reviews:.md -> specifications/Adverarial Test Suite Reviews.md via git mv to fix colon decode errors. (2) Add project-agnostic early filename validation: new script scripts/validate-filenames.sh that scans all git-tracked files for Windows-illegal/portability-breaking characters (colon and < > : \" | ? *, control chars, trailing space/dot) — runs on entire repo, not observer-specific. Integrate check into scripts/crosslink-verify.sh repository checks so it fails fast on any future colon filename. Verify with git ls-files, test file creation, and run crosslink-verify.sh dry.",
+          "created_at": "2026-09-02T03:12:40.704753898Z",
+          "kind": "plan",
+          "signed_by": "SHA256:vlK8Sq7a0e9cSkQE3UeEoq/4A5n7C9nW1B/NmLh5LO0",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgrqL1zizFksChOV/vUabyRQKcTzP/5JQe/Te8SgttmyUAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAf2fOp97c9fJ2Yjjk8FRkDjVHYYv2ADqYn8xzfKkNAxSSXp71jabQf+CzYOEIkKHgFjWLtnZlkw5yUQaRIBIVCg=="
         },
         "c04d5687-5c89-405e-ba4e-7145bc68561f": {
           "display_id": 3616,
@@ -42654,8 +42663,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-02T03:10:58.670895887Z",
+    "timestamp": "2026-09-02T03:12:40.729040391Z",
     "agent_id": "pp3g-r0c5-fix-filename-with-colon-rename-via-go-muse-spark-b7db",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
