@@ -218,9 +218,9 @@ Repository organisation should reflect conceptual organisation.
 # Shared AGENTS Hygiene Bridge (Temporary)
 
 Temporary scaffolding for the shared-policy rollout (ASES Crosslink issue
-#552; recon #551). Crosslink has no local issue for this bridge; ASES #552 is
-the authoritative tracker. It adds no new orchestration, merge, or policy-bundle
-semantics.
+#552; recon #551). The local Crosslink issue #552 carries the corresponding
+work in this repository; the ASES Crosslink issue #552 is the authoritative
+tracker. It adds no new orchestration, merge, or policy-bundle semantics.
 
 * **Canonical shared policy.** This file (`ASES/AGENTS.md`) is the canonical
   shared policy. Crosslink owns task identity, state, evidence, retries,
