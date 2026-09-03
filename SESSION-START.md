@@ -21,6 +21,7 @@ Model routing: before dispatching agents, consult the Model Routing Matrix (know
   the repo's knowledge pages for details. The lock system fix is tracked
   separately (#166/#173).
 - **Refresh live model catalog** — run `opencode models` (opencode / opencode-go / openrouter as needed) silently before first prompt to refresh stale cache; no ID dump (operator checks `/models` directly).
+- **Check shared-policy freshness** — run `crosslink agents-hygiene check` (remedy: `crosslink agents-hygiene sync`). A `STALE` warning in the startup context means local policy text is not current — do not treat it as current. `AGENTS.repo.md` is repo-local guidance and is never synced.
 
 ## Startup Verification — RUNNING and pane line count are NOT liveness
 
