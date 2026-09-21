@@ -43,8 +43,9 @@ Start with the smallest operation that fits. Current useful operations:
 - `recon` — inspect and return implementation-relevant facts without changing the target;
 - `implement` — make one bounded change and verify it;
 - `verify` — test an existing claim/change and correct concrete defects when authorized;
-- `adversarial-review` — try to falsify implementation/design claims using broad reviewer discretion;
-- `ontology-review` — compare conceptual structure against selected canonical context;
+- `pre-build-review` — explore and challenge a proposal before implementation; may be broad, speculative, directed, and iterative;
+- `post-build-review` — independently falsify a concrete claim/invariant in a finished artifact using clean-room context;
+- `ontology-review` — specialist review domain for conceptual identities, distinctions, boundaries, ownership, lifecycle, and relationships; combine with pre-build or post-build mode;
 - `synthesize` — reconcile already-independent findings into decisions or a correction brief.
 
 Add new named operations only after repeated use demonstrates a distinct reasoning mode.
@@ -181,39 +182,69 @@ State the desired state and governing acceptance evidence. Include exact impleme
 
 Start from the existing claim/change. Run the narrow checks that can establish or falsify it. Permit corrections only when the receiver is authorized. Record unresolved uncertainty rather than padding the prompt with predicted edge cases.
 
-### Adversarial review
+### Review modes
 
-Keep the framing aggressive and open:
+Review phase changes the prompt and context strategy.
 
-`Adversarially review <target> against <claim/spec>. Inspect all relevant code and dependencies and use whatever tests or experiments help falsify it. Look for incorrect behavior, hidden assumptions, shortcuts, regressions, and unjustified complexity.`
+#### Pre-build review
 
-Prefer free investigation over a long checklist. Known regressions belong in tests; the reviewer should search beyond them.
+Pre-build review tests an idea while the design is still fluid. It may be broad, speculative, directed, and iterative. Prompts such as "look for hidden assumptions", "find missing distinctions", "argue this mechanism should not exist", or a focused checklist can be useful when they enlarge the design search space.
 
-Useful result fields: severity, evidence, confidence, and whether the item is a confirmed defect or uncertainty.
+A proposal may legitimately cycle through review, revision, and reassessment. Accumulated design context can help because the objective is refinement rather than clean-room verification.
 
-Independent panel members should receive the same unanchored review target before synthesis. Panel composition and model routing belong in the orchestration layer, not each specialist prompt.
+Formal review evidence still requires a model family different from the family that produced the proposal. Same-family models often reproduce related architectural preferences and blind spots. Same-family acceptance/coordination checks are operationally useful but are not independent review evidence.
 
-Reviewer independence is a structural provenance rule:
+Pre-build review often benefits from larger and more diverse panels, including frontier models. Treat this as a routing hypothesis, not a permanent model assignment.
 
-- a model family must not review code produced by the same model family;
-- the same model family may act as an independent clean-room reviewer of code produced by a different model family;
-- multiple reviewers may share a model family when they are reviewing another family's artifact, provided their contexts are independently instantiated;
-- reviewers must not receive peer-review outputs before their independent pass; synthesis receives those outputs afterward;
-- enforce provenance, context isolation, and withheld peer outputs structurally through routing/session state rather than instructions such as "do not read the other reviewers' work."
+#### Post-build review
 
-Reviewer selection must never be left unspecified. The review-orchestrator prompt must either name the reviewer models or explicitly ask the orchestrator to recommend cost-efficient models suited to the task before launching them.
+Post-build review tests a frozen artifact and should be terse, specific, claim-focused, and clean-room.
 
-The reviewer prompt normally does not need the reviewer's model identity. The orchestration layer should decide eligibility from recorded artifact/model provenance.
+Preferred input:
+
+`artifact + claimed property/invariant + explicit assumptions/specification needed to define it`
+
+Do not include builder reasoning, previous defects, prior reviewer findings, implementation rationale, expected weak points, or peer outputs. "Zero context" means zero process-history contamination, not absence of task-defining evidence.
+
+Preferred prompt shapes:
+
+`This code claims X. Verify X.`
+
+`Prove invariant P holds under assumptions X, Y, Z.`
+
+`Code A should produce B. Break A so it produces not-B.`
+
+The reviewer chooses how to attack the proposition. Avoid broad checklists unless the checklist itself is the claim under test.
+
+Post-build formal reviewers must be from a different model family than the artifact-producing family. Independently instantiate reviewer contexts and withhold peer outputs until synthesis. Enforce these conditions structurally rather than by telling reviewers to ignore information.
+
+A small suite of two or three well-chosen reviewers is often sufficient; smaller systematic models may outperform stronger general models on exhaustive claim-by-claim rederivation. Treat this as an empirical routing hypothesis.
+
+#### Review provenance and model selection
+
+Reviewer selection must never be implicit. The review-orchestrator prompt must either name the reviewer models or explicitly ask the orchestrator to recommend a small, cost-efficient set suited to the review operation before launching them.
+
+Formal independent review evidence in either mode must come from a different model family than the artifact-producing family.
+
+A same-family orchestrator may inspect a same-family worker submission for practical task acceptance, but that result is an acceptance check, not independent judgement-only review evidence.
+
+The reviewer prompt normally does not need the reviewer's model identity. The orchestration layer should record provenance, decide eligibility, instantiate clean contexts where required, and control when peer outputs become visible.
 
 ### Ontology review
 
-Use the dedicated Ontology Reviewer role. Supply only the target plus relevant canonical context.
+Ontology review is a specialist domain, not a single epistemic mode.
 
-Minimal invocation:
+For exploratory pre-build ontology review, broader conceptual criticism is allowed: conflation, missing distinctions, boundary/ownership mistakes, semantic drift, unjustified concepts, hidden assumptions, and alternative decompositions.
 
-`Ontology-review <target> against the supplied canonical context. Report material conceptual inconsistencies only.`
+For post-build ontology conformance, canonical ontology is fixed input and the prompt should reduce to the artifact plus a concrete conceptual proposition and the minimum canonical definitions required to test it.
 
-The role definition supplies the reasoning domain and output shape; the task prompt should not reproduce its checklist.
+Examples:
+
+`This design introduces concept X. Review whether X is distinct, necessary, and correctly bounded against the supplied canonical neighborhood.`
+
+`This implementation claims A and B remain distinct under canonical definitions X and Y. Falsify the claim.`
+
+Use the dedicated Ontology Reviewer role for the reasoning domain; use the review mode to determine context, isolation, and prompt shape.
 
 ### Synthesize
 
