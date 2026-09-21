@@ -82,11 +82,13 @@ If required meaning is missing or contradictory, expose the gap instead of silen
 
 Include instructions that can legitimately change from invocation to invocation and are not yet mechanically enforced.
 
+Do not tell an orchestrator its own model identity by default. Model identity belongs in the prompt only when it materially changes execution policy or provenance — for example, when same-family builders generate code and later reviewer eligibility depends on which model family produced that artifact.
+
 Example:
 
-`Orchestrator: Terra Medium. Delegate bounded work to Luna Light; escalate a failed bounded task to Luna Medium on concrete evidence of capability failure.`
+`Delegate bounded work to Luna Light; escalate a failed bounded task to Luna Medium on concrete evidence of capability failure.`
 
-Do not move variable routing policy into permanent project documentation merely to shorten prompts.
+Do not move variable routing policy into permanent project documentation merely to shorten prompts. Prefer the runtime/orchestration layer to know model identity and enforce model-family constraints without making that identity part of the model-visible task unless the model must reason about it.
 
 ### 5. Remove redundant authority prose
 
@@ -183,7 +185,17 @@ Prefer free investigation over a long checklist. Known regressions belong in tes
 
 Useful result fields: severity, evidence, confidence, and whether the item is a confirmed defect or uncertainty.
 
-Independent panel members should receive the same unanchored review target before synthesis. Panel composition and model routing belong in the review-orchestrator prompt, not each specialist prompt.
+Independent panel members should receive the same unanchored review target before synthesis. Panel composition and model routing belong in the orchestration layer, not each specialist prompt.
+
+Reviewer independence is a structural provenance rule:
+
+- a model family must not review code produced by the same model family;
+- the same model family may act as an independent clean-room reviewer of code produced by a different model family;
+- multiple reviewers may share a model family when they are reviewing another family's artifact, provided their contexts are independently instantiated;
+- reviewers must not receive peer-review outputs before their independent pass; synthesis receives those outputs afterward;
+- enforce provenance, context isolation, and withheld peer outputs structurally through routing/session state rather than instructions such as "do not read the other reviewers' work."
+
+The reviewer prompt normally does not need the reviewer's model identity. The orchestration layer should decide eligibility from recorded artifact/model provenance.
 
 ### Ontology review
 
