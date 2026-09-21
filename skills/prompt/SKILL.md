@@ -161,6 +161,12 @@ Include:
 - Crosslink state location when relevant;
 - completion condition.
 
+For review orchestration, the prompt must either:
+- name the reviewer models to launch; or
+- ask the orchestrator to propose a small set of cost-efficient models suited to the review operation before launch.
+
+Do not leave reviewer selection implicit. Model choice is part of the review design because different models have materially different review behavior, cost, and strengths.
+
 Let the orchestrator decide decomposition within its allowed delegation surface.
 
 ### Recon
@@ -194,6 +200,8 @@ Reviewer independence is a structural provenance rule:
 - multiple reviewers may share a model family when they are reviewing another family's artifact, provided their contexts are independently instantiated;
 - reviewers must not receive peer-review outputs before their independent pass; synthesis receives those outputs afterward;
 - enforce provenance, context isolation, and withheld peer outputs structurally through routing/session state rather than instructions such as "do not read the other reviewers' work."
+
+Reviewer selection must never be left unspecified. The review-orchestrator prompt must either name the reviewer models or explicitly ask the orchestrator to recommend cost-efficient models suited to the task before launching them.
 
 The reviewer prompt normally does not need the reviewer's model identity. The orchestration layer should decide eligibility from recorded artifact/model provenance.
 
