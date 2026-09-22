@@ -1,6 +1,6 @@
 ---
 name: compact-prompt
-version: 0.1-draft
+version: 0.2-draft
 description: Construct compact agent prompts for ASES/T3 workflows. Use when preparing fresh-context prompts for orchestrators, builders, recon/verification agents, reviewers, ontology reviewers, or synthesis agents. Select only task-specific instructions, run-specific policy, relevant context, and an observable completion condition; omit project knowledge and restrictions already supplied or enforced elsewhere.
 ---
 
@@ -10,7 +10,9 @@ description: Construct compact agent prompts for ASES/T3 workflows. Use when pre
 
 Compile small, high-signal prompts for agents working in the current T3/Crosslink workflow. The skill reduces both token cost and semantic footprint: it should avoid introducing concepts the receiving agent does not need to reason about.
 
-This skill does not own project architecture, ontology, role authority, model inventory, or execution policy. It selects from those sources and expresses only the task delta needed by the receiving agent.
+This skill does not own project architecture, ontology, role authority, model inventory, execution policy, or build methodology. It selects from those sources and expresses only the task delta needed by the receiving agent.
+
+For bounded build preparation, the governing canonical method is `docs/methodology/ASES Bounded Project Build Method.md`. Use that document when compiling an Implementation Packet; this skill only selects context and renders the prompts around that method.
 
 ## Core rule
 
@@ -41,6 +43,7 @@ Start with the smallest operation that fits. Current useful operations:
 
 - `orchestrate` — decompose, delegate, inspect results, and drive a bounded objective to completion;
 - `recon` — inspect and return implementation-relevant facts without changing the target;
+- `compile-build` — apply `docs/methodology/ASES Bounded Project Build Method.md` to a bounded project or slice and emit a frozen Implementation Packet plus residual-task prompt;
 - `implement` — make one bounded change and verify it;
 - `verify` — test an existing claim/change and correct concrete defects when authorized;
 - `pre-build-review` — explore and challenge a proposal before implementation; may be broad, speculative, directed, and iterative;
@@ -78,6 +81,8 @@ Expansion order:
 4. broader context only when ambiguity remains material.
 
 Prefer references or retrievable sources over pasted explanations when the receiver can access them cheaply.
+
+If a frozen Implementation Packet governs the target, treat it as directly governing context. Prefer the packet and its referenced artifacts over reconstructing settled decisions from broader project material. Expand beyond it only when the packet references canonical context, is incomplete, or conflicts with current evidence.
 
 For ontology-sensitive work, select the relevant conceptual neighborhood rather than the whole corpus. Canonical terminology/registry entries establish identity and relationships; canonical specifications/architecture establish substantive meaning, invariants, ownership, and boundaries.
 
@@ -184,6 +189,8 @@ Ask for facts needed by a subsequent decision or implementation. Return exact ev
 
 State the desired state and governing acceptance evidence. Include exact implementation constraints only when established. Require the smallest appropriate verification.
 
+When a frozen Implementation Packet exists, the implementation prompt should normally contain only the target, packet reference, run-specific policy, and completion condition. Do not restate packet contents or ask the implementer to repeat research/design already compiled into it.
+
 ### Verify
 
 Start from the existing claim/change. Run the narrow checks that can establish or falsify it. Permit corrections only when the receiver is authorized. Record unresolved uncertainty rather than padding the prompt with predicted edge cases.
@@ -210,7 +217,7 @@ Preferred input:
 
 `artifact + claimed property/invariant + explicit assumptions/specification needed to define it`
 
-Do not include builder reasoning, previous defects, prior reviewer findings, implementation rationale, expected weak points, or peer outputs. "Zero context" means zero process-history contamination, not absence of task-defining evidence.
+Do not include builder reasoning, previous defects, prior reviewer findings, implementation rationale, expected weak points, peer outputs, or a pre-build Implementation Packet wholesale. "Zero context" means zero process-history contamination, not absence of task-defining evidence. Select only the packet-derived specification/assumptions that actually define the claim.
 
 Preferred prompt shapes:
 
