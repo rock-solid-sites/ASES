@@ -14,9 +14,10 @@ Current skills:
 
 - `prompt/SKILL.md` — compile compact, high-signal prompts and context selections.
 - `atproto-reader/SKILL.md` — retrieve readable public ATProto/Bluesky records through the Thread Reader Worker.
+- `compile-build/SKILL.md` — compile bounded software work into a frozen Implementation Packet and residual build prompt.
 
 Skill-related design notes, derivations, evaluations and evidence belong under `docs/research/`, not in `skills/`.
 
-Legacy standalone Claude skill/style files at the root of this directory are historical and should not be used as the pattern for new skills.
+Legacy Claude-era skill/style material is archived under `docs/historical/skills/` and is not active procedure.
 
 Add a new skill only when repeated use demonstrates a stable operational procedure distinct from canonical methodology or project knowledge.
