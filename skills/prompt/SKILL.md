@@ -50,7 +50,11 @@ Start with the smallest operation that fits. Current useful operations:
 
 Add new named operations only after repeated use demonstrates a distinct reasoning mode.
 
-### 2. Atomize the task
+### 2. Preserve task semantics
+
+Preserve task semantics before optimizing execution. Identify the user-selected target, required behavior, and settled constraints. Do not replace them with implementation conveniences or reopen them during planning unless evidence shows they are infeasible.
+
+### 3. Atomize the task
 
 Describe one independently reviewable transition, even though formal EDASES Work Units are not yet implemented.
 
@@ -62,7 +66,7 @@ Good task boundaries have:
 
 Split only when parts can be executed, restarted, or reviewed independently. Do not manufacture decomposition merely to create more agents.
 
-### 3. Select context
+### 4. Select context
 
 Use the minimum context that can change the answer.
 
@@ -79,7 +83,7 @@ For ontology-sensitive work, select the relevant conceptual neighborhood rather 
 
 If required meaning is missing or contradictory, expose the gap instead of silently expanding the prompt into an invented explanation.
 
-### 4. Preserve run-specific policy
+### 5. Preserve run-specific policy
 
 Include instructions that can legitimately change from invocation to invocation and are not yet mechanically enforced.
 
@@ -91,7 +95,7 @@ Example:
 
 Do not move variable routing policy into permanent project documentation merely to shorten prompts. Prefer the runtime/orchestration layer to know model identity and enforce model-family constraints without making that identity part of the model-visible task unless the model must reason about it.
 
-### 5. Remove redundant authority prose
+### 6. Remove redundant authority prose
 
 If a capability is structurally unavailable, do not spend prompt tokens forbidding it.
 
@@ -102,7 +106,7 @@ Examples:
 
 State an authority constraint only when the receiver could otherwise take the action and the distinction matters to this task.
 
-### 6. Prefer the permitted path over the forbidden space
+### 7. Prefer the permitted path over the forbidden space
 
 Describe what to do and where to operate. Use negative instructions only for a nearby, plausible action that cannot yet be prevented mechanically and would materially damage the task.
 
@@ -116,7 +120,7 @@ Better:
 
 The second prompt avoids introducing unrelated architectural possibilities into the model's search space.
 
-### 7. Avoid implementation anchoring unless it is evidence
+### 8. Avoid implementation anchoring unless it is evidence
 
 Distinguish known constraints from hypotheses.
 
@@ -124,7 +128,9 @@ Distinguish known constraints from hypotheses.
 - Otherwise give a starting point or acceptance condition and let the agent inspect the implementation.
 - Review prompts should not repeat the builder's implementation story unless that story itself is the claim being tested.
 
-### 8. Write an observable completion condition
+### 9. Write an observable completion condition
+
+Validate completion at the same abstraction level as the requirement. If the requirement is user-visible behavior, test the behavior; if it is an invariant, test the invariant; if it is a transformation, test the resulting artifact.
 
 Prefer mechanical or evidentiary stopping conditions:
 
@@ -137,7 +143,7 @@ Prefer mechanical or evidentiary stopping conditions:
 
 Avoid large completion-report schemas. Ask only for information not already retained in Crosslink or visible in the diff/test output.
 
-### 9. Compress the rendered prompt
+### 10. Compress the rendered prompt
 
 Delete anything that does not change execution.
 
