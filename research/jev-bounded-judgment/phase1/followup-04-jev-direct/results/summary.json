@@ -1,0 +1,852 @@
+{
+  "schema_version": "jevp1-jevdirect-summary-1.0",
+  "computed_at_utc": "2026-09-26T16:24:47Z",
+  "question": "At approximately matched semantic capability, does direct Jev (jev-1.13.0 over the TypeSafe API) materially improve latency, tail latency, throughput, reliability, probability availability or cost relative to the FROZEN MiMo V2.6 Flash measurements of followup-03? Jev side only; no consolidated Phase-1 verdict is produced here.",
+  "comparison_class": "CROSS-WINDOW. MiMo measured ~2026-09-26T13:40Z (followup-03 block `resume1`); Jev-direct measured in this run's window. Same host, same curl transport, different time window, different route for Jev.",
+  "measurement_block": "direct1",
+  "route": {
+    "endpoint": "https://api.typesafe.ai/v1/systemone",
+    "method": "POST",
+    "model_pinned": "jev-1.13.0",
+    "model_alias_note": "`jev-latest` resolves to this id; `jev-1.13` is rejected with 400. The pin is used verbatim and the response `model` field is asserted equal to it on every row.",
+    "change_vs_followup_03_jev_route": {
+      "followup_03": {
+        "endpoint": "https://opencode.ai/zen/v1/systemone",
+        "model": "jev-1.13-free",
+        "tier": "free",
+        "usable_answers": 0
+      },
+      "this_run": {
+        "endpoint": "https://api.typesafe.ai/v1/systemone",
+        "model": "jev-1.13.0",
+        "tier": "paid ($0.042/Mtok input, output free)"
+      },
+      "why_it_is_not_a_rerun": "a different host, a different model tag and a different price tier. These numbers do NOT fill in followup-03's UNRESOLVED free-tier cells; they are a new observation of a new path."
+    },
+    "response_model_field_seen": [
+      "jev-1.13.0"
+    ],
+    "n_rows_where_response_model_mismatched_pin": 0,
+    "n_rows_carrying_response_model_field": 238
+  },
+  "published_facts_not_used_to_support_any_measurement": {
+    "source": "docs published 2026-09-26",
+    "input_usd_per_mtok": 0.042,
+    "output_usd_per_mtok": 0.0,
+    "rate_limit_tokens_per_sec": 250000,
+    "rate_limit_requests_per_min": 1200,
+    "http_429_when": "rate limit exceeded",
+    "http_529_when": "service overloaded",
+    "context_window_tokens": 64000
+  },
+  "pricing": {
+    "input_usd_per_mtok": 0.042,
+    "output_usd_per_mtok": 0.0,
+    "derivation": "derived_cost_usd = input_tokens / 1e6 * 0.042; output is free on this route, so cost is driven entirely by input tokens",
+    "frozen_jev_route_price": "free tier, $0 (followup-03) — this is a PRICING AND ENTITLEMENT difference, not a structural one"
+  },
+  "frozen_inputs_verified": {
+    "cases.ndjson": {
+      "expected": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+      "actual": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+      "match": true
+    },
+    "results/jev_raw.ndjson": {
+      "expected": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+      "actual": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+      "match": true
+    },
+    "followup-03/subset.json": {
+      "expected": "58b855acefbd7cda2c35ad39988c930acf39d54ec658d88a62b04585bc71b8d3",
+      "actual": "58b855acefbd7cda2c35ad39988c930acf39d54ec658d88a62b04585bc71b8d3",
+      "match": true,
+      "read_only": true
+    },
+    "followup-03/results/mimo_ops_raw.ndjson": {
+      "expected": "40dbc56329dd2d5112cd92a14e9dddf7c5384356feaadd170e2b8ac575827cd8",
+      "actual": "40dbc56329dd2d5112cd92a14e9dddf7c5384356feaadd170e2b8ac575827cd8",
+      "match": true,
+      "read_only": true
+    }
+  },
+  "request_semantics": {
+    "only_field_changed": "model",
+    "n_cases": 16,
+    "n_equal_after_model_normalisation": 16,
+    "n_state_byte_identical": 16,
+    "n_questions_byte_identical": 16,
+    "model_from": [
+      "jev-1.13-free"
+    ],
+    "model_to": "jev-1.13.0",
+    "per_case_request_hashes": {
+      "a-h04": {
+        "frozen": "sha256:19b4c4d5fb6295cba308fa307678c973ea4a429fef1016d117e682f2964524f1",
+        "direct": "sha256:ef1961bed6146301ee75f809ba03a5108b31474cee7f39fcce0ca1970c4f2779",
+        "serialised_sha256_direct": "ef1961bed6146301ee75f809ba03a5108b31474cee7f39fcce0ca1970c4f2779"
+      },
+      "d-01": {
+        "frozen": "sha256:0c1fa062c428f4cb2eae16eeca9b83f030001f694d89e4d3767accdcfdbcf915",
+        "direct": "sha256:d990680df2030dbfb53628a32f079eebde487e0fef35b641f738b1a679d9541b",
+        "serialised_sha256_direct": "d990680df2030dbfb53628a32f079eebde487e0fef35b641f738b1a679d9541b"
+      },
+      "a-miss1": {
+        "frozen": "sha256:52e3ee0e84168d346cd4a60d266cb195c4907f1af6772b8bb6c90bd2636f124e",
+        "direct": "sha256:8839aaa4bb162b370599cd5d302c6fe307d3a0c37c5aaffe268a63f2d64e3f52",
+        "serialised_sha256_direct": "8839aaa4bb162b370599cd5d302c6fe307d3a0c37c5aaffe268a63f2d64e3f52"
+      },
+      "b-dist1": {
+        "frozen": "sha256:3cf2a59cc625efe10e6895b5055aa752479d6d797c8e3c3d73228d40b434265c",
+        "direct": "sha256:6bd4b76b4a5c4d5a284f8a16de92657c9647e814abb2c1f7307d5b581ffc84bf",
+        "serialised_sha256_direct": "6bd4b76b4a5c4d5a284f8a16de92657c9647e814abb2c1f7307d5b581ffc84bf"
+      },
+      "b-a01": {
+        "frozen": "sha256:b25308df5ad293951f09c60bb24b3b556006d3234a93556ab0034ddd514f22d0",
+        "direct": "sha256:9b5ae61e50ff5f8f72dade9a831d31536fe387ec70ac7749713aa346489154c7",
+        "serialised_sha256_direct": "9b5ae61e50ff5f8f72dade9a831d31536fe387ec70ac7749713aa346489154c7"
+      },
+      "a-dist1": {
+        "frozen": "sha256:71e030aa7f0668d1ae6fd0b21891d5434e90a2d68868afeb31e1c0e517e59baf",
+        "direct": "sha256:8366f6ab930178bbf3f3a1f07e5eb01680ff317b901ce564c78c8c9823a53972",
+        "serialised_sha256_direct": "8366f6ab930178bbf3f3a1f07e5eb01680ff317b901ce564c78c8c9823a53972"
+      },
+      "a-m07": {
+        "frozen": "sha256:27b14f59f45f5d34c5ac9ca817d755a2f33b1f41fa82896f5de6fb60a840c059",
+        "direct": "sha256:8d958ea06caabfab83ebee1e52cfa5618faa6726a55950670d81037f319e6143",
+        "serialised_sha256_direct": "8d958ea06caabfab83ebee1e52cfa5618faa6726a55950670d81037f319e6143"
+      },
+      "a-noise1": {
+        "frozen": "sha256:16d0b4fe9deee11dbd1c7bc13d1180b751a878ca451a131d21fe29c0cde51009",
+        "direct": "sha256:998d58ae8f2d587154ca8da0796780d6c21e7516bbe9b239c27d99e0ac1f62a2",
+        "serialised_sha256_direct": "998d58ae8f2d587154ca8da0796780d6c21e7516bbe9b239c27d99e0ac1f62a2"
+      },
+      "a-e01": {
+        "frozen": "sha256:e604fd0783c62824e9fdfcf7c455f1eb9340d79a6b8c9e1019654928418cedde",
+        "direct": "sha256:318c8c11246f1c2635f6580cea0c57fdfd97cad26bdc883100e271cf8abba691",
+        "serialised_sha256_direct": "318c8c11246f1c2635f6580cea0c57fdfd97cad26bdc883100e271cf8abba691"
+      },
+      "b-a02": {
+        "frozen": "sha256:ee040d0e124e5c0b98ddcb6f7460ff253205894d8adba1ee77d6c0d14fa24cb1",
+        "direct": "sha256:e6361bec22612e658668c653eb7f5dcdc2b36550ceef0d1c253a92acabdff6c6",
+        "serialised_sha256_direct": "e6361bec22612e658668c653eb7f5dcdc2b36550ceef0d1c253a92acabdff6c6"
+      },
+      "c-p1a": {
+        "frozen": "sha256:04ab4204f8e5ac851ff4354a74878fa9b9b602e0acec6da4f0f4ecb10a8b4079",
+        "direct": "sha256:380b7ee102f442b4c3fe8402f192f2f6b621da9380d8ec24dac936a6da8c25ae",
+        "serialised_sha256_direct": "380b7ee102f442b4c3fe8402f192f2f6b621da9380d8ec24dac936a6da8c25ae"
+      },
+      "d-02": {
+        "frozen": "sha256:3388e3f2f68cffff1ba969bc6027d40b349af2d40e271fe05f6c364a0f725038",
+        "direct": "sha256:954f20971661e46f691b092bc190f8809c06c022488d9c5cb652d74977866ed9",
+        "serialised_sha256_direct": "954f20971661e46f691b092bc190f8809c06c022488d9c5cb652d74977866ed9"
+      },
+      "a-e02": {
+        "frozen": "sha256:9be136aa8c154dbf58962ec050e2683b8f86fe1519aa79f9c6c6e4c2487c6f30",
+        "direct": "sha256:9a747b101f5caa6d2cd60197b657b5b2e02cdce121f3021a79ccbcf8d9018946",
+        "serialised_sha256_direct": "9a747b101f5caa6d2cd60197b657b5b2e02cdce121f3021a79ccbcf8d9018946"
+      },
+      "b-a03": {
+        "frozen": "sha256:90e188ecc37000bbdb0bdf2b99e8883a323d901bea0954af149fbd1cf72af510",
+        "direct": "sha256:7d9af462ab5f1f261b37120e13dc972c4d6efa10f05df44a041bd598ec20ad38",
+        "serialised_sha256_direct": "7d9af462ab5f1f261b37120e13dc972c4d6efa10f05df44a041bd598ec20ad38"
+      },
+      "c-p1b": {
+        "frozen": "sha256:0ccd3e83b7e15a8bfa045e8411cf5c5389e4c67495fff36df98b86993f6a1577",
+        "direct": "sha256:54e52e4085d6c37e04d373bb69b13bfdc411dc723e767f1a4057cce3aa090a6f",
+        "serialised_sha256_direct": "54e52e4085d6c37e04d373bb69b13bfdc411dc723e767f1a4057cce3aa090a6f"
+      },
+      "d-03": {
+        "frozen": "sha256:fbaf59c3102111f82b1177034b02f90ada72159d2ab1c12046415ae9d684521d",
+        "direct": "sha256:337a38b214ed1e24b0b9a072e0261ff7e8b6ff94729ace3eb85f7feba3ad66d1",
+        "serialised_sha256_direct": "337a38b214ed1e24b0b9a072e0261ff7e8b6ff94729ace3eb85f7feba3ad66d1"
+      }
+    }
+  },
+  "inputs": {
+    "raw_path": "results/jev_direct_raw.ndjson",
+    "n_rows_total": 238,
+    "rows_by_phase": {
+      "concurrency": 36,
+      "idle": 3,
+      "interface_probe": 1,
+      "route_probe": 1,
+      "warm": 192,
+      "warmup": 5
+    },
+    "rows_with_typed_error": 0,
+    "excluded_from_statistics": {}
+  },
+  "warm_latency": {
+    "rows": "phase=warm AND block=direct1 AND usable",
+    "n_rows_emitted": 192,
+    "n_usable": 192,
+    "latency_total_ms": {
+      "n": 192,
+      "unit": "ms",
+      "mean": 304.3341,
+      "median": 304.908,
+      "p90": 333.828,
+      "p95": 345.666,
+      "p99": 389.979,
+      "min": 254.261,
+      "max": 400.748,
+      "sum": 58432.154,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": 23.5553
+    },
+    "latency_first_byte_ms": {
+      "n": 192,
+      "unit": "ms",
+      "mean": 53.4119,
+      "median": 52.595,
+      "p90": 59.259,
+      "p95": 61.621,
+      "p99": 67.054,
+      "min": 48.397,
+      "max": 72.282,
+      "sum": 10255.081,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": 3.8178
+    },
+    "latency_tls_complete_ms": {
+      "n": 192,
+      "unit": "ms",
+      "mean": 53.2123,
+      "median": 52.284,
+      "p90": 59.004,
+      "p95": 61.429,
+      "p99": 66.732,
+      "min": 48.199,
+      "max": 72.043,
+      "sum": 10216.768,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": 3.7993
+    },
+    "latency_dns_ms": {
+      "n": 192,
+      "unit": "ms",
+      "mean": 1.0491,
+      "median": 0.987,
+      "p90": 1.179,
+      "p95": 1.296,
+      "p99": 1.466,
+      "min": 0.808,
+      "max": 7.845,
+      "sum": 201.421,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": 0.5079
+    },
+    "post_first_byte_residual_ms": {
+      "n": 192,
+      "unit": "ms",
+      "mean": 250.9223,
+      "median": 250.03,
+      "p90": 279.011,
+      "p95": 292.711,
+      "p99": 339.475,
+      "min": 203.791,
+      "max": 348.108,
+      "sum": 48177.073,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": 23.1964
+    },
+    "transport_share_of_total_mean": 0.1748,
+    "pearson_r_total_vs_output_tokens": -0.0125
+  },
+  "starttransfer_interpretation": {
+    "question": "does `time_starttransfer` track model work or only header/TLS completion for this endpoint?",
+    "answer": "ONLY HEADER/TLS COMPLETION — it is NOT a time-to-first-token signal on this endpoint.",
+    "mean_first_byte_ms": 53.4119,
+    "mean_tls_complete_ms": 53.2123,
+    "first_byte_minus_tls_ms": 0.1995,
+    "mean_total_ms": 304.3341,
+    "mean_post_first_byte_residual_ms": 250.9223,
+    "post_first_byte_share_of_total": 0.8245,
+    "first_byte_stdev_ms": 3.8178,
+    "total_stdev_ms": 23.5553,
+    "consequence": "the only defensible client-observed latency figure is `time_total`. `time_starttransfer` must not be read as model responsiveness, and the two must not be confused in a cross-mechanism table."
+  },
+  "sequential_throughput": {
+    "definition": "a strictly sequential client issues one call at a time, so elapsed time is the sum of per-call time_total; calls/sec is n_usable / that sum. EXCLUDES client think-time, so it is an upper bound on the attainable rate.",
+    "n_usable": 192,
+    "summed_time_total_s": 58.4322,
+    "calls_per_sec": 3.2859,
+    "calls_per_sec_including_process_spawn": 3.1592,
+    "control_correct_decisions": 108,
+    "control_opportunities": 108,
+    "control_correct_decisions_per_sec": 1.8483,
+    "scoring_definition": "semantic scoring is CONTROL ONLY, against the frozen ground truth with the F1 correction applied by followup-03's own function. An opportunity is one usable prediction on an ANSWERABLE control (variant_kind == base) case; an unanswerable case is not scored correct/incorrect here.",
+    "all_subset_correct_decisions": 132,
+    "all_subset_opportunities": 132,
+    "control_error_rate": 0.0
+  },
+  "concurrency": {
+    "1": {
+      "n_calls": 12,
+      "n_usable": 12,
+      "n_failed": 0,
+      "n_http_429": 0,
+      "n_http_529": 0,
+      "n_typed_errors": 0,
+      "http_status_counts": {
+        "200": 12
+      },
+      "typed_error_counts": {
+        "none": 12
+      },
+      "block_makespan_ms": 3878.3,
+      "throughput_calls_per_sec": 3.0941,
+      "throughput_definition": "usable calls / block makespan, where the makespan is wall time from first dispatch to last completion of that level's block",
+      "latency_total_ms": {
+        "n": 12,
+        "unit": "ms",
+        "mean": 309.8071,
+        "median": 302.428,
+        "p90": 340.426,
+        "p95": 363.777,
+        "p99": 363.777,
+        "min": 260.958,
+        "max": 363.777,
+        "sum": 3717.685,
+        "percentile_method": "nearest-rank, no interpolation",
+        "stdev": null,
+        "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+        "p99_is_thin": true
+      },
+      "latency_first_byte_ms": {
+        "n": 12,
+        "unit": "ms",
+        "mean": 54.9151,
+        "median": 52.786,
+        "p90": 60.017,
+        "p95": 66.158,
+        "p99": 66.158,
+        "min": 51.202,
+        "max": 66.158,
+        "sum": 658.981,
+        "percentile_method": "nearest-rank, no interpolation",
+        "stdev": null,
+        "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+        "p99_is_thin": true
+      },
+      "scaling_ratio_vs_c1": 1.0,
+      "p50_latency_ratio_vs_c1": 1.0
+    },
+    "4": {
+      "n_calls": 12,
+      "n_usable": 12,
+      "n_failed": 0,
+      "n_http_429": 0,
+      "n_http_529": 0,
+      "n_typed_errors": 0,
+      "http_status_counts": {
+        "200": 12
+      },
+      "typed_error_counts": {
+        "none": 12
+      },
+      "block_makespan_ms": 3720.2,
+      "throughput_calls_per_sec": 3.2256,
+      "throughput_definition": "usable calls / block makespan, where the makespan is wall time from first dispatch to last completion of that level's block",
+      "latency_total_ms": {
+        "n": 12,
+        "unit": "ms",
+        "mean": 301.893,
+        "median": 297.828,
+        "p90": 333.732,
+        "p95": 340.565,
+        "p99": 340.565,
+        "min": 281.469,
+        "max": 340.565,
+        "sum": 3622.716,
+        "percentile_method": "nearest-rank, no interpolation",
+        "stdev": null,
+        "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+        "p99_is_thin": true
+      },
+      "latency_first_byte_ms": {
+        "n": 12,
+        "unit": "ms",
+        "mean": 58.5514,
+        "median": 57.594,
+        "p90": 62.096,
+        "p95": 66.235,
+        "p99": 66.235,
+        "min": 53.127,
+        "max": 66.235,
+        "sum": 702.617,
+        "percentile_method": "nearest-rank, no interpolation",
+        "stdev": null,
+        "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+        "p99_is_thin": true
+      },
+      "scaling_ratio_vs_c1": 1.0425,
+      "p50_latency_ratio_vs_c1": 0.9848
+    },
+    "8": {
+      "n_calls": 12,
+      "n_usable": 12,
+      "n_failed": 0,
+      "n_http_429": 0,
+      "n_http_529": 0,
+      "n_typed_errors": 0,
+      "http_status_counts": {
+        "200": 12
+      },
+      "typed_error_counts": {
+        "none": 12
+      },
+      "block_makespan_ms": 3824.5,
+      "throughput_calls_per_sec": 3.1377,
+      "throughput_definition": "usable calls / block makespan, where the makespan is wall time from first dispatch to last completion of that level's block",
+      "latency_total_ms": {
+        "n": 12,
+        "unit": "ms",
+        "mean": 310.9716,
+        "median": 304.006,
+        "p90": 340.451,
+        "p95": 356.214,
+        "p99": 356.214,
+        "min": 277.879,
+        "max": 356.214,
+        "sum": 3731.659,
+        "percentile_method": "nearest-rank, no interpolation",
+        "stdev": null,
+        "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+        "p99_is_thin": true
+      },
+      "latency_first_byte_ms": {
+        "n": 12,
+        "unit": "ms",
+        "mean": 61.823,
+        "median": 55.22,
+        "p90": 88.124,
+        "p95": 91.489,
+        "p99": 91.489,
+        "min": 50.841,
+        "max": 91.489,
+        "sum": 741.876,
+        "percentile_method": "nearest-rank, no interpolation",
+        "stdev": null,
+        "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+        "p99_is_thin": true
+      },
+      "scaling_ratio_vs_c1": 1.0141,
+      "p50_latency_ratio_vs_c1": 1.0052
+    },
+    "scaling_definition": "throughput(C)/throughput(1). Ideal linear scaling at concurrency C would be C."
+  },
+  "idle_gap_proxy": {
+    "idle_seconds_before": 120,
+    "n_calls": 3,
+    "n_usable": 3,
+    "latency_total_ms": {
+      "n": 3,
+      "unit": "ms",
+      "mean": 293.6007,
+      "median": 279.602,
+      "p90": 333.115,
+      "p95": 333.115,
+      "p99": 333.115,
+      "min": 268.085,
+      "max": 333.115,
+      "sum": 880.802,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": null,
+      "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+      "p99_is_thin": true
+    },
+    "latency_first_byte_ms": {
+      "n": 3,
+      "unit": "ms",
+      "mean": 58.2667,
+      "median": 53.598,
+      "p90": 67.646,
+      "p95": 67.646,
+      "p99": 67.646,
+      "min": 53.556,
+      "max": 67.646,
+      "sum": 174.8,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": null,
+      "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+      "p99_is_thin": true
+    },
+    "per_call": [
+      {
+        "case_id": "a-h04",
+        "repeat": 1,
+        "http_status": 200,
+        "typed_error": null,
+        "time_total_ms": 333.115,
+        "time_starttransfer_ms": 67.646,
+        "input_tokens": 362,
+        "response_model_field": "jev-1.13.0"
+      },
+      {
+        "case_id": "d-01",
+        "repeat": 2,
+        "http_status": 200,
+        "typed_error": null,
+        "time_total_ms": 279.60200000000003,
+        "time_starttransfer_ms": 53.556,
+        "input_tokens": 493,
+        "response_model_field": "jev-1.13.0"
+      },
+      {
+        "case_id": "a-miss1",
+        "repeat": 3,
+        "http_status": 200,
+        "typed_error": null,
+        "time_total_ms": 268.08500000000004,
+        "time_starttransfer_ms": 53.598,
+        "input_tokens": 320,
+        "response_model_field": "jev-1.13.0"
+      }
+    ],
+    "claim_limit": "an idle-gap PROXY only. Per-call cold start is not directly observable on a shared stateless HTTPS endpoint and is NOT claimed to be observed."
+  },
+  "reliability": {
+    "n_rows_total": 238,
+    "n_typed_errors": 0,
+    "typed_error_counts_all_rows": {
+      "none": 238
+    },
+    "warm_n_emitted": 192,
+    "warm_n_usable": 192,
+    "warm_n_unusable": 0,
+    "warm_usable_rate": 1.0,
+    "warm_unusable_by_case": {},
+    "warm_unusable_detail": [],
+    "n_http_429_all_rows": 0,
+    "n_http_529_all_rows": 0,
+    "retries": 0,
+    "attempts_per_call": 1,
+    "retry_note": "N = 1 attempt, no retry path at any concurrency level. A retry on exactly the failing cells would convert an N=1 observation into a survivorship-biased one.",
+    "route_probe": [
+      {
+        "http_status": 200,
+        "response_model_field": "jev-1.13.0",
+        "response_model_matches_pin": true,
+        "typed_error": null
+      }
+    ]
+  },
+  "repeat_stability": {
+    "definition": "label flips and max-probability variance across the 12 warm repetitions of the SAME request, per case",
+    "n_cases_label_stable": 16,
+    "n_cases_label_unstable": 0,
+    "n_cases_with_max_prob_spread": 16,
+    "max_over_cases_of_max_prob_spread": 0.03,
+    "median_over_cases_of_max_prob_spread": 0.01,
+    "per_case": [
+      {
+        "case_id": "a-h04",
+        "n_usable": 12,
+        "distinct_labels": [
+          "low"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.96,
+        "max_prob_median": 0.96,
+        "max_prob_max": 0.97,
+        "max_prob_spread": 0.01,
+        "max_prob_stdev": 0.0051
+      },
+      {
+        "case_id": "d-01",
+        "n_usable": 12,
+        "distinct_labels": [
+          "build"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 1.0,
+        "max_prob_median": 1.0,
+        "max_prob_max": 1.0,
+        "max_prob_spread": 0.0,
+        "max_prob_stdev": 0.0
+      },
+      {
+        "case_id": "a-miss1",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.71,
+        "max_prob_median": 0.72,
+        "max_prob_max": 0.73,
+        "max_prob_spread": 0.02,
+        "max_prob_stdev": 0.0075
+      },
+      {
+        "case_id": "b-dist1",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.92,
+        "max_prob_median": 0.92,
+        "max_prob_max": 0.93,
+        "max_prob_spread": 0.01,
+        "max_prob_stdev": 0.0049
+      },
+      {
+        "case_id": "b-a01",
+        "n_usable": 12,
+        "distinct_labels": [
+          "yes"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.68,
+        "max_prob_median": 0.69,
+        "max_prob_max": 0.7,
+        "max_prob_spread": 0.02,
+        "max_prob_stdev": 0.0083
+      },
+      {
+        "case_id": "a-dist1",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.99,
+        "max_prob_median": 0.99,
+        "max_prob_max": 0.99,
+        "max_prob_spread": 0.0,
+        "max_prob_stdev": 0.0
+      },
+      {
+        "case_id": "a-m07",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.97,
+        "max_prob_median": 0.98,
+        "max_prob_max": 0.98,
+        "max_prob_spread": 0.01,
+        "max_prob_stdev": 0.0049
+      },
+      {
+        "case_id": "a-noise1",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.97,
+        "max_prob_median": 0.97,
+        "max_prob_max": 0.97,
+        "max_prob_spread": 0.0,
+        "max_prob_stdev": 0.0
+      },
+      {
+        "case_id": "a-e01",
+        "n_usable": 12,
+        "distinct_labels": [
+          "yes"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.91,
+        "max_prob_median": 0.91,
+        "max_prob_max": 0.92,
+        "max_prob_spread": 0.01,
+        "max_prob_stdev": 0.0049
+      },
+      {
+        "case_id": "b-a02",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.91,
+        "max_prob_median": 0.91,
+        "max_prob_max": 0.92,
+        "max_prob_spread": 0.01,
+        "max_prob_stdev": 0.0051
+      },
+      {
+        "case_id": "c-p1a",
+        "n_usable": 12,
+        "distinct_labels": [
+          "yes"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.71,
+        "max_prob_median": 0.72,
+        "max_prob_max": 0.74,
+        "max_prob_spread": 0.03,
+        "max_prob_stdev": 0.009
+      },
+      {
+        "case_id": "d-02",
+        "n_usable": 12,
+        "distinct_labels": [
+          "redesign"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 1.0,
+        "max_prob_median": 1.0,
+        "max_prob_max": 1.0,
+        "max_prob_spread": 0.0,
+        "max_prob_stdev": 0.0
+      },
+      {
+        "case_id": "a-e02",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.99,
+        "max_prob_median": 0.99,
+        "max_prob_max": 0.99,
+        "max_prob_spread": 0.0,
+        "max_prob_stdev": 0.0
+      },
+      {
+        "case_id": "b-a03",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.71,
+        "max_prob_median": 0.73,
+        "max_prob_max": 0.74,
+        "max_prob_spread": 0.03,
+        "max_prob_stdev": 0.0083
+      },
+      {
+        "case_id": "c-p1b",
+        "n_usable": 12,
+        "distinct_labels": [
+          "no"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 0.96,
+        "max_prob_median": 0.96,
+        "max_prob_max": 0.96,
+        "max_prob_spread": 0.0,
+        "max_prob_stdev": 0.0
+      },
+      {
+        "case_id": "d-03",
+        "n_usable": 12,
+        "distinct_labels": [
+          "investigate"
+        ],
+        "n_label_transitions": 0,
+        "label_stable": true,
+        "max_prob_min": 1.0,
+        "max_prob_median": 1.0,
+        "max_prob_max": 1.0,
+        "max_prob_spread": 0.0,
+        "max_prob_stdev": 0.0
+      }
+    ]
+  },
+  "usage_and_cost": {
+    "input_tokens": {
+      "n": 192,
+      "unit": "tokens",
+      "mean": 358.5,
+      "median": 323.0,
+      "p90": 493.0,
+      "p95": 493.0,
+      "p99": 493.0,
+      "min": 294.0,
+      "max": 493.0,
+      "sum": 68832.0,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": 68.151
+    },
+    "output_tokens": {
+      "n": 192,
+      "unit": "tokens",
+      "mean": 28.75,
+      "median": 20.0,
+      "p90": 68.0,
+      "p95": 69.0,
+      "p99": 69.0,
+      "min": 17.0,
+      "max": 69.0,
+      "sum": 5520.0,
+      "percentile_method": "nearest-rank, no interpolation",
+      "stdev": 18.7656
+    },
+    "total_input_tokens_warm": 68832,
+    "cost_per_call_usd_warm": 1.5057e-05,
+    "cost_per_call_usd_total_run": 1.49582e-05,
+    "total_run_derived_cost_usd": 0.003560046,
+    "derived_cost_per_correct_control_decision_usd": 2.6768e-05,
+    "correct_decisions_per_dollar": 37358.0395,
+    "input_tokens_are_the_whole_cost": "output is free on this route, so derived cost is exactly input_tokens x $0.042/Mtok",
+    "frozen_jev_route_cost_for_contrast": "0.0 (free tier) — a pricing and entitlement difference, not a structural one"
+  },
+  "probability_availability": {
+    "n_usable_warm": 192,
+    "n_with_probability_distribution": 192,
+    "probability_availability_rate": 1.0,
+    "n_with_reported_confidence_field": 48,
+    "n_with_computable_confidence_formula": 192,
+    "score_cases_with_full_distribution": 12,
+    "interface_probe": {
+      "n_rows": 1,
+      "http_status": [
+        200
+      ],
+      "response_model_field": [
+        "jev-1.13.0"
+      ],
+      "multi_question_key_accepted": true,
+      "per_key_labels": {
+        "noul": "no",
+        "choice": "review",
+        "score": "medium"
+      },
+      "per_key_availability": {
+        "noul": true,
+        "choice": true,
+        "score": true
+      },
+      "note": "one labelled call, outside the grid; latency and cost in no grid statistic; no answer is scored"
+    }
+  },
+  "not_measured": {
+    "sustained_multi_hour_throughput": "NOT MEASURED. Every figure here is a short burst window.",
+    "per_call_cold_start": "NOT DIRECTLY OBSERVABLE. The idle-gap probe is a proxy only.",
+    "server_side_queueing_or_batch_effects": "NOT OBSERVABLE from the client. The client cannot see whether the service batches, queues or contends.",
+    "followup_03_free_tier_jev_cells": "NOT FILLED. followup-03's Jev cells were properties of the free-tier route; this run observes a different route and model tag.",
+    "consolidated_phase_1_verdict": "OUT OF SCOPE for this run by brief.",
+    "rate_limit_envelope": "NOT TESTED. The published 250k tok/s and 1200 req/min ceilings were not approached by a short burst, so nothing here speaks to the ceiling or to sustained rate."
+  },
+  "determinism": {
+    "method": "every section is a pure function of results/jev_direct_raw.ndjson — no clock read, no randomness, no network access — with ONE declared exception: `computed_at_utc` is a clock read and is therefore volatile by construction. `check` compares the document with that one field removed and requires the rest to reproduce exactly.",
+    "volatile_fields_excluded_from_check": [
+      "computed_at_utc"
+    ],
+    "percentile_method": "nearest-rank, no interpolation (followup-03's `describe`, imported)",
+    "verify_with": "python3 harness/run_ops_jev_direct.py check"
+  }
+}

@@ -1773,16 +1773,22 @@ def cmd_summary(args):
                                    "ceiling or to sustained rate.",
         },
         "determinism": {
-            "method": "this document contains no clock read, no randomness and no "
-                      "network access; re-running `summary` on the same raw file "
-                      "reproduces it byte for byte",
+            "method": "every section is a pure function of "
+                      "results/jev_direct_raw.ndjson — no clock read, no "
+                      "randomness, no network access — with ONE declared "
+                      "exception: `computed_at_utc` is a clock read and is "
+                      "therefore volatile by construction. `check` compares "
+                      "the document with that one field removed and requires "
+                      "the rest to reproduce exactly.",
+            "volatile_fields_excluded_from_check": ["computed_at_utc"],
             "percentile_method": "nearest-rank, no interpolation (followup-03's "
                                  "`describe`, imported)",
             "verify_with": "python3 harness/run_ops_jev_direct.py check",
         },
     }
-    dump_json(SUMMARY_PATH, doc)
-    print(f"summary: -> {SUMMARY_PATH}")
+    dump_path = getattr(args, "_tmp", None) or SUMMARY_PATH
+    dump_json(dump_path, doc)
+    print(f"summary: -> {dump_path}")
     wl = doc["warm_latency"]
     print(f"  warm usable {wl['n_usable']}/{wl['n_rows_emitted']}  "
           f"total median {wl['latency_total_ms'].get('median')} ms  "
@@ -1796,7 +1802,12 @@ def cmd_summary(args):
 
 
 def cmd_check(args):
-    """Determinism check: recompute the summary and diff the documents."""
+    """Determinism check: recompute the summary and diff the documents.
+
+    The single declared volatile field (`computed_at_utc`, a clock read) is
+    removed from both sides before comparison. Everything else must reproduce
+    exactly from the same raw file.
+    """
     before = load_json(SUMMARY_PATH) if os.path.exists(SUMMARY_PATH) else None
     if before is None:
         print("check: no summary.json yet; run `summary` first.", file=sys.stderr)
@@ -1806,16 +1817,21 @@ def cmd_check(args):
     cmd_summary(args)
     after = load_json(tmp)
     os.remove(tmp)
-    a = json.dumps(before, sort_keys=True)
-    b = json.dumps(after, sort_keys=True)
+    volatile = ["computed_at_utc"]
+
+    def stable(doc):
+        return {k: v for k, v in doc.items() if k not in volatile}
+
+    a = json.dumps(stable(before), sort_keys=True)
+    b = json.dumps(stable(after), sort_keys=True)
     if a == b:
-        print("check: summary.json reproduces byte for byte from the same raw "
-              "file (PASS)")
+        print(f"check: summary.json reproduces exactly from the same raw file "
+              f"with {volatile} excluded (PASS)")
         return 0
     print("check: summary.json DIFFERS on recompute (FAIL)", file=sys.stderr)
     for k in sorted(set(before) | set(after)):
-        if json.dumps(before.get(k), sort_keys=True) != \
-                json.dumps(after.get(k), sort_keys=True):
+        if json.dumps(stable(before).get(k), sort_keys=True) != \
+                json.dumps(stable(after).get(k), sort_keys=True):
             print(f"  differing section: {k}", file=sys.stderr)
     return 1
 
