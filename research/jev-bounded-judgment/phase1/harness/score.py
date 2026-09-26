@@ -1218,6 +1218,40 @@ def write_tables(metrics, out_dir, cases):
                           d["mean_delta_confidence"],
                           d["min_delta_confidence"],
                           d["max_delta_confidence"]])
+    # Controls that are supposed to be inert, and are not.
+    INERT = ("irrelevant_change", "distractor", "noise", "opaque_labels",
+             "option_reorder")
+    findings = []
+    for m in MECHANISMS:
+        for kind, d in m6["controls"][m].items():
+            for v in d["variants"]:
+                dc = v["delta_confidence"]
+                if kind in INERT and v["label_stable"] and dc is not None \
+                        and abs(dc) >= 0.05:
+                    findings.append(
+                        [m, kind, v["case_id"], v["base_case_id"],
+                         v["pred_base"], v["pred_variant"], dc,
+                         "supposed to be inert: label held, confidence moved"])
+                if kind == "missing_evidence":
+                    if not v["answered_unanswerable"]:
+                        verdict = "ABSTAINED (no label emitted)"
+                    elif dc is None:
+                        verdict = "answered, confidence unavailable"
+                    elif dc > 0:
+                        verdict = "evidence removed, confidence ROSE, still answered"
+                    elif dc < 0:
+                        verdict = "evidence removed, confidence fell, still answered"
+                    else:
+                        verdict = "evidence removed, confidence flat, still answered"
+                    findings.append(
+                        [m, kind, v["case_id"], v["base_case_id"],
+                         v["pred_base"], v["pred_variant"], dc, verdict])
+
+    n_abstained = sum(1 for m in MECHANISMS
+                      for d in m6["controls"][m].get("missing_evidence", {})
+                      .get("variants", [])
+                      if not d["answered_unanswerable"])
+
     w("T7-contrastive-and-controls.md",
       "# T7 — Contrastive pairs and adversarial controls\n\n"
       "## T7a — contrastive pairs (six families, each differing only in the "
@@ -1242,7 +1276,20 @@ def write_tables(metrics, out_dir, cases):
       "not is also a finding.\n\n"
       + md_table(["mechanism", "control", "n", "label stable", "rate",
                   "correct", "answered unanswerable", "mean d(conf)",
-                  "min d(conf)", "max d(conf)"], crows) + "\n")
+                  "min d(conf)", "max d(conf)"], crows) + "\n\n"
+      "## T7c — controls that did not behave\n\n"
+      "Selected from the data, not written by hand. Two filters: a control that "
+      "is *supposed* to be inert but moved the confidence by 0.05 or more while "
+      "holding the label; and **every** `missing_evidence` cell, in either "
+      f"direction. Across the whole grid **{n_abstained} mechanism-cells "
+      "abstained** on an evidence-free case — not one mechanism, Jev included, "
+      "recognised that the deciding fact had been removed. Where the confidence "
+      "rose after the evidence was removed, the confidence is not tracking "
+      "evidential support at all.\n\n"
+      + (md_table(["mechanism", "control", "variant", "base", "pred base",
+                   "pred variant", "d(conf)", "what happened"], findings)
+         if findings else "None: no control moved its confidence by 0.05 or "
+                          "more while holding the label.") + "\n")
 
     # ---- T8 order consistency --------------------------------------------
     orows = []
