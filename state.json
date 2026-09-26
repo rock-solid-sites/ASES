@@ -1,5 +1,5 @@
 {
-  "next_display_id": 569,
+  "next_display_id": 570,
   "next_comment_id": 4017,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -247,6 +247,7 @@
     "6e3bc7f9-a469-48ea-bb12-05b6cb3e6f2d": 83,
     "6e961517-9924-48d8-abce-903c7e5b41ff": 347,
     "6ee747b1-6d9a-4290-bd0b-2b5326418847": 67,
+    "6f2b312d-1619-458c-98e5-b27848e25f0e": 569,
     "6fde663f-7657-45ad-89e8-f07ad31cebb9": 225,
     "7110ab53-18a5-44b3-ab87-c88da09c74ff": 559,
     "7151d7fe-6391-4162-8cdd-cb9f2a38e3a5": 484,
@@ -21991,6 +21992,17 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgNepTdCEAu7zV1sCh39B+Me9rSz2hE2trY8vxHgbK6YYAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5tAlH3d3nr0QxVg5g886X+IVm7yu51IyEfmxCN07dYBiDWV5alD4aJ2fjaVkwIoep3P3oE8UIwHRY5iJ6AiHAQ=="
         }
       }
+    },
+    "6f2b312d-1619-458c-98e5-b27848e25f0e": {
+      "uuid": "6f2b312d-1619-458c-98e5-b27848e25f0e",
+      "display_id": 569,
+      "title": "Jev bounded-judgment Phase 2: structure-vs-source representation benchmark on real coding decisions",
+      "description": "Question: \n\nContext: \n\nFindings: \n\nQuestion: does deterministic code-structure preprocessing (AST/symbol/call/dependency summary) materially improve the efficiency or reliability of Jev's bounded semantic judgments, compared with the relatively raw source context, on real coding decisions?\n\nEvidence base: research/jev-bounded-judgment/phase1/PHASE1-VERDICT.md, ERRATA.md, and issue #565. Phase 1 is NOT re-run or reconstructed.\n\nScope: a small, reproducible, frozen benchmark of real coding decisions over a pinned real Python library (vendored). Matched representations of the same decision: raw source vs deterministic structure extraction; structure+minimal-source only for statement-level families where structure alone cannot derive the answer. Jev subject: direct TypeSafe API, model pinned jev-1.13.0. Measures: correctness, input size, latency/tail, cost, probability behaviour, robustness to irrelevant context. Admissibility gate: ground truth independently defensible AND derivable from the model-visible representation, else recorded unanswerable (never scored as a model error); structural preprocessing must not leak the answer nor remove required evidence. All generation/extraction/scoring/analysis code committed before results are relied on. Independent cross-family verification + clean-clone reproduction before closeout.\n\nOut of scope: historical-session replay, EDASES architecture redesign, rerunning Phase 1, extending the Phase-1 synthetic corpus.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-09-26T17:53:39.437195071Z",
+      "updated_at": "2026-09-26T17:53:39.437195071Z"
     },
     "6fde663f-7657-45ad-89e8-f07ad31cebb9": {
       "uuid": "6fde663f-7657-45ad-89e8-f07ad31cebb9",
@@ -46404,8 +46416,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T17:51:20.192644817Z",
+    "timestamp": "2026-09-26T17:53:39.437195071Z",
     "agent_id": "OL2r",
-    "agent_seq": 3571
+    "agent_seq": 3572
   }
 }
