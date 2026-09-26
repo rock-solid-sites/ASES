@@ -1,6 +1,6 @@
 {
   "next_display_id": 567,
-  "next_comment_id": 4010,
+  "next_comment_id": 4011,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8866,7 +8866,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T15:41:00.386629774Z",
+      "updated_at": "2026-09-26T16:11:25.628810295Z",
       "labels": [
         "research"
       ],
@@ -8951,6 +8951,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABACOfue64M/K3sRncd+hqORLQr/nLg4L4uWPDGkMmxMic01196DqEut4f3UEol8199IEit0VdHyv+F3W7Th0/JCg=="
+        },
+        "44dca9db-4e8b-46b6-a267-2aebb7e2f419": {
+          "display_id": 4010,
+          "author": "OL2r",
+          "content": "Plan (builder, followup-04-jev-direct, bounded experiment):\n\nFROZEN INPUTS verified by sha256 before any call:\n- phase1/cases.ndjson = 7dd4698f...f558c MATCH\n- phase1/results/jev_raw.ndjson = e17ae014...d3bc MATCH\n- followup-03 subset.json (58b855ac) + mimo_ops_raw.ndjson (40dbc563) reused READ-ONLY.\n\nROUTE CHANGE (documented, not an identical rerun): POST https://api.typesafe.ai/v1/systemone, model pinned jev-1.13.0 (was jev-1.13-free via opencode.ai/zen). Credential read at runtime from ~/.secrets/typesafe.env, passed to curl via -K - stdin ONLY; only the source label secrets/typesafe.env#TYPESAFE_API_KEY is ever written. No value in argv, logs, artefacts, or errors.\n\nPLAN:\n1. harness/run_ops_jev_direct.py, frozen-gated (same digests, subset re-derivation, F1 correction, credential resolvability). Request bodies are the FROZEN phase1 jev_raw request_body for each of the 16 subset cases with ONLY model -> jev-1.13.0; per-case equality asserted after model normalisation; request hashes recorded. Transport curl, one process per call, no reuse, N=1 no retries, same -w phase template as followup-03.\n2. Schedule mirroring followup-03 exactly: 5 warmup (discarded) + 16x12 warm sequential (block direct1) + >=120s idle then 3 calls + C=1/4/8 on the fixed 6-case x 2-rep block + 1 labelled interface probe (mixed noul+choice+score). ~229 calls, budget ~250.\n3. Equivalence cross-check vs frozen jev-1.13-free rows BEFORE any comparative use: label agreement, noul drift, max |delta| on choice/score probabilities, per-case agreement across 12 warm reps. Recorded, not assumed.\n4. Measurements: warm latency distribution, TTFB vs total, curl phase decomposition (stating whether time_starttransfer tracks model work or only header/TLS), idle proxy, sequential calls/sec + correct-control-decisions/sec, C=1/4/8 makespan/throughput/latency/429/529, repeat stability, tokens, derived cost at $0.042/Mtok input with free output, probability availability.\n5. Comparison vs FROZEN MiMo resume1, labelled CROSS-WINDOW (MiMo ~13:40Z, Jev-direct now, same host), separating structural / transport / pricing. No MiMo rerun. No consolidated Phase-1 verdict.\n6. Artifacts: harness/, results/jev_direct_raw.ndjson, results/equivalence.json, results/summary.json, comparison.md, README.md. Commits end [#565], no push, .crosslink/ never staged.",
+          "created_at": "2026-09-26T16:11:25.621476434Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAOGHeonpspDgyFZWHoTSRJbRaitqkA3GKpTaugZgBZllN4Jl9ieistI9YbxV69yX4t9uMIskKjdrwKrKtiILNDQ=="
         },
         "45b38757-d3f0-47c0-b465-0eb99705b396": {
           "display_id": 3984,
@@ -46317,8 +46326,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T15:41:00.386629774Z",
+    "timestamp": "2026-09-26T16:11:25.628810295Z",
     "agent_id": "OL2r",
-    "agent_seq": 3558
+    "agent_seq": 3559
   }
 }
