@@ -42,8 +42,10 @@ The event alphabet must allow proposal, commit, deny or pending, authority updat
 | Reuse or replay old evidence after replacement | Old evidence remains invalid. If the old producer presents genuinely new valid evidence, physical exclusion needs the declared source-binding rule. |
 | Two writes each validated against `(0,0)` but together violating `d1+d2≤1` | At most one independent proposal commits. |
 | Three proposals with guard dependencies requiring `A<B<C<A` | All three cannot commit independently; pairwise consistency is insufficient. |
+| A revocation finishes and is acknowledged before an affected old-authority request begins | The later request cannot be ordered before the revocation to justify commitment. |
 | Executor loss between validation and effect, or effect and durable record | The authoritative view after recovery corresponds to whole allowed commitments at declared granularity; no accepted invalid partial state. |
 | A stale executor changes an accepted live external referent | Reject/prevent the change or fail the protected-meaning claim. Candidate material awaiting separate acceptance is a different case. |
+| Accept a reference/hash to bytes stored only with the executor; then lose that executor | If continuation needs the bytes, the reference does not preserve continuity. Retain accepted content or rely on a declared trusted holder before acceptance. |
 | Conflicting grants/revocations and an over-broad delegated grant | Every accepted order preserves configured rights and exclusivity. |
 | Authorization of an outside action before invalidation, with consequence afterward | Apply the declared authorization-point and cancellation contract; no universal outcome is inferred. |
 | Commit followed by lost acknowledgement and replay | Authoritative outcome remains definite. A repeated authorized request may commit again; exactly-once behavior needs separate declared semantics. |

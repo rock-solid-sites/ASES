@@ -16,6 +16,8 @@ This directory contains the active inputs for the Kernel-0 reasoning program.
 
 [Kernel-0 Verification Obligations](./Kernel-0-Verification-Obligations.md) separates abstract invariants, model adequacy, regression traces, realization correspondence, and trusted assumptions.
 
+[Kernel-0 Bounded Realization Comparison](./Kernel-0-Realization-Comparison.md) compares realization families against the frozen minimum semantics and states the next discriminating experiment.
+
 ## Relationship to older work
 
 Earlier EDASES kernel, Work Unit, state-machine, and formal-verification research remains provenance. The Evidence Packet consolidates the settled requirements needed for the current derivation without requiring the first frontier pass to ingest the historical implementation path.
