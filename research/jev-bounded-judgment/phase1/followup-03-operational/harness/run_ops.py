@@ -1375,9 +1375,22 @@ def curl_config(key):
 
 
 def curl_argv_for(mech, body):
-    """The exact argv `call_curl` builds, minus `--config -`, so a parallel
-    block spawns byte-identical requests. The credential arrives on stdin."""
-    args = ["curl", "--silent", "--show-error", "--max-time", str(TIMEOUT_SECONDS),
+    """The exact argv `call_curl` builds, so a parallel block spawns
+    byte-identical requests. The credential arrives on stdin.
+
+    `--config -` MUST be present, exactly as in `call_curl`. curl reads a
+    config from stdin ONLY when `--config -` names it; without that token the
+    piped `curl_config` bytes are silently discarded, the request goes out with
+    no `Authorization` header, and the route answers
+    `401 {"error":{"type":"AuthError","message":"Missing API key."}}`.
+    Every call still fails, `time_total` collapses to TLS+response time
+    (~0.2-0.3s), and the level looks FASTER than the sequential baseline -- a
+    failure that reads as a speedup. The token was dropped here once already
+    (36 rows, HTTP 401, preserved in
+    `results/concurrency_defect_401.ndjson`); do not remove it again.
+    """
+    args = ["curl", "--silent", "--show-error", "--config", "-",
+            "--max-time", str(TIMEOUT_SECONDS),
             "--write-out", CURL_WRITE_OUT,
             "--header", "Content-Type: application/json",
             "--header", "User-Agent: %s" % USER_AGENT]

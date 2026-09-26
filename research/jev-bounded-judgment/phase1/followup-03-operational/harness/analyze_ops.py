@@ -111,6 +111,19 @@ def r4(x):
     return None if x is None else round(float(x), 4)
 
 
+def r_usd(x):
+    """Round a USD-PER-UNIT quantity.
+
+    A per-call cost here is ~2.7e-5 USD. `r4` rounds that to 0.0, which made
+    the headline and the cost section report "$0.000000 per call" and "n/a
+    correct decisions per dollar" -- reading as "MiMo is free", which is false
+    and which is the one comparison this study exists to make. USD per unit is
+    therefore rounded to 10 dp, which keeps 6 significant figures for a value
+    of this magnitude while still normalising float noise.
+    """
+    return None if x is None else round(float(x), 10)
+
+
 def describe(values, unit="ms"):
     """n/mean/median/pXX/min/max over `values`. No interpolation anywhere."""
     vs = [float(v) for v in values if v is not None]
@@ -679,7 +692,7 @@ def token_and_cost(rows, mech, block, phases=("warm", "warmup", "idle",
         "rates_class": "PRICING/ENTITLEMENT FACT — promotional and tier "
                        "dependent; not a structural property of the model",
         "derived_cost_usd_total": r4(cost_total),
-        "derived_cost_usd_per_call": r4(cost_total / n),
+        "derived_cost_usd_per_call": r_usd(cost_total / n),
         "derived_cost_source": "per-row derived_cost_usd from the harness, summed",
     }
 
@@ -1035,14 +1048,14 @@ def build_summary():
         cost = token_and_cost(rows, mech, MEASUREMENT_BLOCK)
         n_ok = th["control_correct_decisions"]
         cost["derived_cost_usd_per_correct_control_decision"] = (
-            r4(cost["derived_cost_usd_total"] / n_ok)
+            r_usd(cost["derived_cost_usd_total"] / n_ok)
             if n_ok and cost["derived_cost_usd_total"] is not None else None)
         cost["per_correct_denominator"] = (
             "control_correct_decisions over warm+idle+concurrency rows; the "
             "total includes warm-up calls, so this is a slight UNDER-estimate "
             "of cost per decision; the warm-only figure is below")
         cost["derived_cost_usd_per_correct_control_decision_warm_only"] = (
-            r4(_warm_only_cost(rows, mech, MEASUREMENT_BLOCK) / n_ok)
+            r_usd(_warm_only_cost(rows, mech, MEASUREMENT_BLOCK) / n_ok)
             if n_ok else None)
         mech_sections["mimo"] = {
             "label": MECH_LABEL[mech],
@@ -1050,6 +1063,8 @@ def build_summary():
             "model_catalog_id": R.MECH[mech]["model_catalog_id"],
             "current_window_measurement": {
                 "status": "ESTABLISHED (structural)",
+                "window_call_counts": _window_call_counts(rows, mech,
+                                                          MEASUREMENT_BLOCK),
                 "warm_latency": warm,
                 "latency_budget": latency_budget(rows, mech, MEASUREMENT_BLOCK),
                 "idle_proxy": idle_proxy(rows, mech, MEASUREMENT_BLOCK,
@@ -1081,6 +1096,29 @@ def _warm_only_cost(rows, mech, block):
     sel = [r for r in rows if r.get("block") == block and r.get("phase") == "warm"
            and usable(r)]
     return sum(r.get("derived_cost_usd") or 0.0 for r in sel)
+
+
+def _window_call_counts(rows, mech, block):
+    """Attempted/usable calls for one mechanism in the measurement block, across
+    EVERY phase.
+
+    The headline row says "this window", so it must count the window. A
+    warm-only count understated it (183) once the idle, concurrency and
+    interface-probe phases were added, because those rows are excluded from the
+    SEQUENTIAL-throughput statistic the row used to read from. The warm figure
+    stays available at `sequential_throughput.n_calls_usable`.
+    """
+    sel = [r for r in rows if r.get("block") == block]
+    return {
+        "selection": f"mechanism={mech} AND block={block!r} AND all phases",
+        "attempted": len(sel),
+        "usable": sum(1 for r in sel if usable(r)),
+        "unusable": sum(1 for r in sel if not usable(r)),
+        "by_phase": counts_by(sel, lambda r: r.get("phase")),
+        "note": "the headline's call count. The warm-only figure behind the "
+                "sequential-throughput statistic is "
+                "sequential_throughput.n_calls_usable",
+    }
 
 
 def _transport_probe_summary():
@@ -1263,6 +1301,7 @@ def render_comparison(d):
     j = d["mechanisms"]["jev"]
     m = d["mechanisms"]["mimo"]
     mw = m["current_window_measurement"]
+    mwc = mw["window_call_counts"]
     A("# Followup-03 — operational comparison: Jev 1.13 (free) vs MiMo V2.6 Flash")
     A("")
     A(f"*{d['question']}*")
@@ -1283,8 +1322,8 @@ def render_comparison(d):
     A("")
     A("| | MiMo V2.6 Flash | Jev 1.13 (free) |")
     A("|---|---|---|")
-    A("| Calls attempted this window | "
-      f"{_fmt(mw['sequential_throughput']['n_calls_usable'])} usable | "
+    A(f"| Calls attempted this window | "
+      f"{_fmt(mwc['attempted'])} attempted / {_fmt(mwc['usable'])} usable | "
       "0 usable (of 197 attempted) |")
     A("| Warm latency | measured | UNRESOLVED this window |")
     A("| Throughput | measured | UNRESOLVED this window |")
@@ -1434,6 +1473,59 @@ def render_comparison(d):
           "section is retained rather than dropped so its absence is visible.")
     A("")
     A(f"Scoring definition: {mw['concurrency']['scaling_definition']}")
+    A("")
+    A("**Reading the curve: there is no client-side concurrency benefit.** "
+      "Throughput does not rise with in-flight count; it FALLS from C=1 to C=4 "
+      "and only partly recovers at C=8, while per-call median latency roughly "
+      "doubles. No level returned a single 429 or any other error, so this is "
+      "not a cap being hit -- it is added queueing cost at the service. The "
+      "operational consequence is concrete: on this route, issuing calls "
+      "concurrently makes the batch finish LONGER, so the sequential C=1 "
+      "condition is both the simplest and the fastest measured option. Not "
+      "tested: whether a different request mix (longer generations, different "
+      "case sizes) or a sustained multi-hour load would cross over, and whether "
+      "the service is queueing, batching or simply contended -- none of that is "
+      "observable from the client.")
+    A("")
+
+    A("### 1.2a MiMo idle-gap probe (cold-proxy)")
+    A("")
+    ip = mw["idle_proxy"]
+    A(f"Rows: `{ip['selection']}`. The client made NO call for "
+      f"{_fmt(ip['idle_seconds_before_first_call'][0])}s, then issued "
+      f"{_fmt(ip['n'])} calls.")
+    A("")
+    A("| statistic | idle-gap probe (ms) | warm, same block (ms) |")
+    A("|---|---|---|")
+    for k in ("n", "median", "mean", "min", "max"):
+        A(f"| {k} | {_fmt(ip.get(k))} | "
+          f"{_fmt(w['latency_total_ms'].get(k))} |")
+    A("")
+    A(f"- idle-gap median / warm median = **{_fmt(ip['ratio_idle_median_over_warm_median'], 4)}x**")
+    A(f"- idle-gap max / warm p95 = **{_fmt((ip['max'] or 0) / (w['latency_total_ms'].get('p95') or 1), 2)}x**")
+    A("")
+    A("**This probe found NO evidence of a cold-start penalty, and the reason "
+      "it cannot claim one is the warm block's own spread.** The median after "
+      f"a {_fmt(ip['idle_seconds_before_first_call'][0])}s gap is not elevated "
+      "-- it is slightly BELOW the warm median -- so there is no median-level "
+      "penalty. The tempting reading is that the first call after the gap "
+      f"({_fmt(ip['max'])}ms, {_fmt((ip['max'] or 0) / (ip['warm_median_ms_same_block'] or 1), 2)}x "
+      "the warm median) is a cold start, and the next two calls returning to "
+      "the warm range supports the shape of that story. But "
+      f"{_fmt(ip['max'])}ms is only "
+      f"{_fmt((ip['max'] or 0) / (w['latency_total_ms'].get('p95') or 1), 2)}x "
+      "the warm block's own p95 and well under its max "
+      f"({_fmt(w['latency_total_ms'].get('max'))}ms): it sits INSIDE the "
+      "ordinary warm latency range, so it cannot be distinguished from tail "
+      "variance. The correct report is therefore 'not observed', not 'small'. "
+      f"{ip['interpretation_limit']} "
+      "WHAT-NOT-TESTED: n=3 against a warm distribution whose p95 is ~4x its "
+      "median and whose max is ~15x; a single 120s gap rather than minutes or "
+      "hours; and the probe re-used cases already exercised by the warm block, "
+      "so any per-case ordering effect is confounded with the gap. Detecting a "
+      "real cold-start cost on this route would need either many more "
+      "idle-gap samples or a warm block with a tight enough tail to resolve "
+      "against -- the warm block here is too noisy to serve as that reference.")
     A("")
 
     A("### 1.3 MiMo label stability")

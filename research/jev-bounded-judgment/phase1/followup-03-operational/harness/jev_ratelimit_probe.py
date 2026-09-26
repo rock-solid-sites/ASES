@@ -108,22 +108,32 @@ def parse_existing(path):
 
 
 def error_surface(raw):
-    """Pull the error code/message out of an error body, if it is JSON."""
-    code = message = None
+    """Pull the error type/code/message out of an error body, if it is JSON.
+
+    This endpoint answers a usage-cap rejection as
+        {"type":"error","error":{"type":"FreeUsageLimitError","message":...}}
+    i.e. the discriminator is `error.type`, NOT `error.code`. Both are
+    captured, and `error.type` is reported as the error TYPE, because
+    "FreeUsageLimitError" is the free-tier cap speaking and a bare
+    "Rate limit exceeded" message would understate the finding.
+    """
+    code = etype = message = None
     if not raw:
-        return code, message
+        return code, etype, message
     try:
         doc = json.loads(raw)
     except ValueError:
-        return code, (raw[:EXCERPT_CHARS] or None)
+        return code, etype, (raw[:EXCERPT_CHARS] or None)
     err = doc.get("error") if isinstance(doc, dict) else None
     if isinstance(err, dict):
         code = err.get("code")
+        etype = err.get("type")
         message = err.get("message")
-    if code is None and message is None and isinstance(doc, dict):
-        code = doc.get("code")
-        message = doc.get("message")
-    return code, message
+    if isinstance(doc, dict):
+        code = code or doc.get("code")
+        etype = etype or doc.get("type")
+        message = message or doc.get("message")
+    return code, etype, message
 
 
 def one_probe(mech, case, index, prev_ts):
@@ -135,7 +145,7 @@ def one_probe(mech, case, index, prev_ts):
     row = R.run_one(mech, case, key, "probe_ratelimit", index, concurrency=1,
                     block="ratelimit_probe")
     tm = (row.get("curl_phases") or {})
-    code, message = error_surface(row.get("raw_response"))
+    code, etype, message = error_surface(row.get("raw_response"))
     usable = (row.get("http_status") == 200
               and not row.get("typed_error")
               and (row.get("parsed_label") is not None
@@ -160,6 +170,7 @@ def one_probe(mech, case, index, prev_ts):
         "http_status": row.get("http_status"),
         "typed_error": row.get("typed_error"),
         "error_detail": row.get("error_detail"),
+        "error_type": etype,
         "error_code": code,
         "error_message": message,
         "usable_answer": usable,
@@ -223,7 +234,8 @@ def main():
             print(f"probe {row['probe_index']} {row['timestamp_utc']} "
                   f"gap={row['seconds_since_previous_attempt']} "
                   f"case={cid} http={row['http_status']} "
-                  f"err={row['typed_error']} code={row['error_code']} "
+                  f"err={row['typed_error']} type={row['error_type']} "
+                  f"code={row['error_code']} "
                   f"usable={row['usable_answer']}", flush=True)
             if row["usable_answer"]:
                 n_ok += 1
