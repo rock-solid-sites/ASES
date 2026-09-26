@@ -1,6 +1,6 @@
 {
   "next_display_id": 570,
-  "next_comment_id": 4017,
+  "next_comment_id": 4018,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -22009,13 +22009,24 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T17:53:39.437195071Z",
-      "updated_at": "2026-09-26T17:54:29.035839303Z",
+      "updated_at": "2026-09-26T17:57:11.562106942Z",
       "labels": [
         "research"
       ],
       "related": [
         "129154a4-56b8-47a4-9d4f-de557c2cbd79"
-      ]
+      ],
+      "comments": {
+        "51cd7f22-3d75-4cb4-98b4-08482b0bcaef": {
+          "display_id": 4017,
+          "author": "OL2r",
+          "content": "[PLAN] Phase 2 (issue #569) — structure-vs-source representation benchmark.\n\nWHY: Phase 1 (#565) answered the capability and operational questions on a synthetic corpus but left the bounded-judgment hierarchy's structural-preprocessing question unmeasured: does deterministic code structure (AST/symbol/call/dependency) reduce the inference a bounded judgment actually needs, without losing the evidence that derives the answer? That is the cheapest remaining falsifiable test of whether a Jev tier has any purchase once a cheap general model ties it on accuracy.\n\nWHAT (fixed before measuring, full normative detail in /tmp/opencode/jev-phase2-brief.md, to be landed as phase2/DESIGN.md by W1):\n- Subject: direct TypeSafe API, model pinned jev-1.13.0; endpoint api.typesafe.ai/v1/systemone; credential at ~/.secrets/typesafe.env read at runtime, value never recorded; curl transport, N=1 attempt, no retries.\n- Fixture: pallets/click 8.1.7 @ 874ca2bc1c30d93a4ac6e36a15ed685eafe89097, vendored (sources + LICENSE + PIN.json with per-file sha256); no network after freeze.\n- 24 base cases across 6 deterministic-GT families: F1 reachability (5), F2 reference-outside-own-definition (5), F3 transitive import dependency (4), F4 multi-module callers (4), F5 signature-break at call sites (3), F6 unconditional call (3). Plus 8 distractor variants (irrelevant real modules appended).\n- Matched representations of each decision: R = raw named sources; S = deterministic ast structure summary (whitelisted node kinds only, no verdict fields); S+M = structure + minimal source slices, used ONLY for F5/F6 where a derivability solver proves S alone cannot derive the answer.\n- Admissibility per case x representation: GT dual-implementation agreement (gt.py vs an independently written gt2.py); derivability from the model-visible representation (else recorded UNANSWERABLE, never scored as model error); no-leak checks (key whitelist/denylist + value-vector test across cases); evidence checks (S must fail and S+M succeed where slices are used; slice <= 60% of raw).\n- Freeze: frozen/{cases,representations,admissibility,FROZEN}.json + PROMPTS.md with hashes of fixtures, extractor, GT, derive, and the call matrix; the runner refuses to call if any hash drifts. Extraction and cases are frozen before the measured run.\n- Run: 5 warmups (discarded) + 24x2x3 + 8x2x3 = 197 calls, ceiling 260; every call records raw request/response, usage, curl phase timings, representation sha256, extractor hash.\n- Measures: correctness, input bytes/tokens, latency p50/p95, cost, probability behaviour (P(yes) distribution, decisiveness, stability over 3 reps, correct-vs-incorrect separation), distractor robustness.\n- Pre-registered bars: E1 efficiency (median input tokens <= 0.50x R and correctness deficit <= 2), E2 reliability (S gain >= 3 with b >= 3, c <= 1), E3 structure hurts (S deficit >= 3), E4 robustness delta >= 2 cases; anything else UNRESOLVED.\n\nHOW CERTAIN: the design is frozen by hash, not by assertion; the gates are mechanical. The outcome is genuinely open — structure may help efficiency with no reliability effect, or may remove evidence and hurt (F5/F6 are where that shows).\n\nWHAT-NOT-TESTED: one repo/language/model/version; n=24; no significance claim; model familiarity with click is disclosed and not eliminated; noul only; one operationalisation of irrelevant context; no CodeGraph tool exists in this repo so stdlib ast is the structural tooling used.\n\nVERIFICATION (proposed before formal verification, per instruction; family independent of the space-bunny producer):\n- R1 transformations/admissibility: opencode/mimo-v2.6-flash-free (family mimo, free).\n- R2 statistics/clean-clone/findings audit: opencode-go/longcat-2.5-preview-free (family longcat, free).\n- Escalation allowlist on concrete capability failure only: opencode-go/mimo-v2.6-flash or opencode-go/deepseek-v4-flash (paid), recorded per task with producer provenance.\n\nWORKSTREAMS: W1 space-bunny freeze (NO Jev call) -> W2 space-bunny runner/scorer/run -> R1 + R2 independent verification -> W3 hy3 findings from verified artefacts. All commits on branch research/jev-phase2-569 based on research/jev-phase1-565 (bd2e5800). No push.\n\nBlocked by: operator model approval (question asked now).\nBlocking: none.",
+          "created_at": "2026-09-26T17:57:11.554941147Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAaaDhr2cDJC1ATlozI90eDyFSX24NVk5ZmlTTyG9A8BUWnJ7cm6AABum3F7t31d4/YliO3fH/iaPTAW8xyfcdCQ=="
+        }
+      }
     },
     "6fde663f-7657-45ad-89e8-f07ad31cebb9": {
       "uuid": "6fde663f-7657-45ad-89e8-f07ad31cebb9",
@@ -46429,8 +46440,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T17:54:46.647049197Z",
+    "timestamp": "2026-09-26T17:57:11.562106942Z",
     "agent_id": "OL2r",
-    "agent_seq": 3575
+    "agent_seq": 3576
   }
 }
