@@ -1,0 +1,65 @@
+# Crosslink #566 record — Atria attempt 2
+# captured with: crosslink issue show 566 | tail -60
+# utc=2026-09-26T17:31:32Z
+# posted with: crosslink issue comment 566 --kind observation "$(cat /tmp/atria-comment-2.txt)" -> "Added comment to issue #566"
+
+again no FALSIFIED / NOT FALSIFIED verdict, no model identifier, no response id,
+no usage, and no finish_reason. atria-response.md was not created. Exactly one
+request was made; it was not retried, and the retry authorization is now spent.
+The two 502s came from two genuinely separate server-side requests: the error
+bodies are byte-identical but the x-request-id header differs between them.
+
+HOW CERTAIN
+Certain that the request itself is sound and was sent once: the body is exactly
+{"model","messages"} with a single user message and no system message, serialized
+once and written to atria-request.json before sending, with the transmitted bytes
+matching that file. The packet (265ad3dd...) and prompt (0d68edaa...) digests are
+unchanged across both attempts, so nothing in the review input drifted between
+them. The failure is server-side per Atria's own error envelope, and the 502
+arrived at ~303 s, far inside the 900 s timeout, in both attempts. Uncertain
+whether the new credential actually reached the runner: ~/.secrets/atria.env
+was stat-identical before and after (mtime 2026-09-26 17:05:01Z, 58 bytes, mode
+600), not newer than 2026-09-26T17:05:02Z, so the claimed key replacement was
+not visible on disk.
+
+WHAT NOT TESTED
+The Kernel-0 claim itself was not tested by any reviewer — no falsification
+attempt occurred across either attempt. Whether a replacement key exists anywhere
+else on the machine was not sought; only the authorized path was used. Whether
+the 502 reflects an Atria inference outage or a credential-side problem cannot be
+distinguished client-side, because the error envelope returns no model field. The
+prior-review exclusion limitation from attempt 1 is unchanged: packet.md contains
+5 references to earlier review documents (Kernel-0-Reasoning-Phase-Result.md,
+Kernel-0-Realization-Comparison.md, Kernel-0-Realization-Experiment.md), all
+present in the pinned source at e2e3bc11 and not introduced by packet assembly.
+Truncation is not a concern: no content and no finish_reason were returned.
+
+Source commit: e2e3bc110b1370f3505aa0838990713520bf3f7c
+Model identifier returned by the API: none (error envelope, no model field)
+Packet SHA-256: 265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28
+Request SHA-256: 6632ce5aae18dc0c0d551c3c6d423f964fb99aabdb7cc4e19f1ffce190c7cae7
+Verdict: NONE — review blocked upstream on both attempts
+Strongest finding: none quotable, because no model content was returned. The
+reportable finding is the blocker — the Atria endpoint failed the authorized
+retry with upstream_unavailable exactly as it failed attempt 1, so the Kernel-0
+realization claim remains unreviewed by any external reviewer.
+
+Artifacts: docs/research/kernel-0/reviews/atria-dawn/ — top-level atria-request.json,
+atria-response.raw.json, atria-response-metadata.json are attempt 2 (canonical);
+attempt-1/ holds the attempt-1 request, 502 body, and metadata; checks/ holds
+attempt-2-run.log, attempt-2-hashes.txt, attempt-2-secret-scan.txt, and
+crosslink-comment-attempt2.txt
+Evidence commit: e54585b76f9f5e9e22dd7a6b8129787c33d2749b (docs(research): record Atria clean-room review attempt 2 evidence [#566])
+Remote push verification: git ls-remote origin refs/heads/codex/kernel-0-reasoning-566 = e54585b76f9f5e9e22dd7a6b8129787c33d2749b, equal to the local HEAD at push time; plain push 15f76b1f..e54585b7, no force, no rebase
+Clean-room isolation: PARTIAL (packet reconstructs byte-exact from the six pinned
+files and is byte-identical across both attempts; no prior-review or unrelated
+content added by assembly, but the pinned source itself names 5 prior-review
+artifacts)
+Secret handling: PASS (key never printed, echoed, logged, or placed in a command
+argument; only the path ~/.secrets/atria.env and the variable name ATRIA_API_KEY
+are referenced; 23-file and 6-commit-diff scans show 0 exact-value and 0
+token-pattern hits; the file is outside the repo and untracked)
+Atria output was not used to modify the implementation.
+
+Blocked by: (none)
+Blocking: (none)

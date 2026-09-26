@@ -239,8 +239,8 @@ atria-response.raw.json, atria-response-metadata.json are attempt 2 (canonical);
 attempt-1/ holds the attempt-1 request, 502 body, and metadata; checks/ holds
 attempt-2-run.log, attempt-2-hashes.txt, attempt-2-secret-scan.txt, and
 crosslink-comment-attempt2.txt
-Evidence commit: EVIDENCE_COMMIT_PLACEHOLDER
-Remote push verification: REMOTE_VERIFICATION_PLACEHOLDER
+Evidence commit: e54585b76f9f5e9e22dd7a6b8129787c33d2749b (docs(research): record Atria clean-room review attempt 2 evidence [#566])
+Remote push verification: git ls-remote origin refs/heads/codex/kernel-0-reasoning-566 = e54585b76f9f5e9e22dd7a6b8129787c33d2749b, equal to the local HEAD at push time; plain push 15f76b1f..e54585b7, no force, no rebase
 Clean-room isolation: PARTIAL (packet reconstructs byte-exact from the six pinned
 files and is byte-identical across both attempts; no prior-review or unrelated
 content added by assembly, but the pinned source itself names 5 prior-review
@@ -251,6 +251,44 @@ are referenced; 23-file and 6-commit-diff scans show 0 exact-value and 0
 token-pattern hits; the file is outside the repo and untracked)
 Atria output was not used to modify the implementation.
 ```
+
+### Attempt 2 commit, push, and Crosslink record
+
+- Pre-send checkpoint (attempt-1 evidence archived): `9a1ad453`
+- Evidence commit (all attempt-2 artifacts): `e54585b76f9f5e9e22dd7a6b8129787c33d2749b`
+- `git push origin codex/kernel-0-reasoning-566` (plain, no force, no rebase)
+  succeeded: `15f76b1f..e54585b7`
+- `git ls-remote origin refs/heads/codex/kernel-0-reasoning-566` =
+  `e54585b76f9f5e9e22dd7a6b8129787c33d2749b`, equal to the local HEAD at push
+  time.
+- Crosslink: exactly one comment posted to issue #566 with
+  `crosslink issue comment 566 --kind observation "$(cat /tmp/atria-comment-2.txt)"`,
+  which returned `Added comment to issue #566`. The posted text is the block
+  above verbatim, with the evidence-commit and remote-verification placeholders
+  resolved before posting. Capture:
+  `checks/crosslink-comment-attempt2.txt` (last 60 lines of
+  `crosslink issue show 566`).
+- A subsequent commit on the same branch carries this section and the Crosslink
+  capture, so the branch tip is one commit ahead of the cited evidence commit
+  `e54585b7`.
+- No authorization remains: the single retry has been spent and the blocker is
+  upstream-side. No further request is authorized.
+
+### Attempt 2 artifacts added
+
+- `attempt-1/atria-request.json` (attempt-1 request, 126,506 bytes)
+- `attempt-1/atria-response.raw.json` (attempt-1 502 body, 124 bytes)
+- `attempt-1/atria-response-metadata.json` (attempt-1 metadata)
+- `atria-request.json` (attempt-2 request, 126,506 bytes, canonical)
+- `atria-response.raw.json` (attempt-2 502 body, 124 bytes, canonical)
+- `atria-response-metadata.json` (attempt-2 metadata, canonical)
+- `checks/attempt-2-run.log` (verbatim runner output, exit code 3)
+- `checks/attempt-2-hashes.txt` (digests, cmp results, scope and secret-path checks)
+- `checks/attempt-2-secret-scan.txt` (secret scan over 23 files and 6 commit diffs)
+- `checks/crosslink-comment-attempt2.txt` (posted-comment capture)
+
+`atria-response.md` does not exist for either attempt: no string content was
+returned.
 
 ---
 
