@@ -1,6 +1,6 @@
 {
   "next_display_id": 567,
-  "next_comment_id": 4008,
+  "next_comment_id": 4009,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8866,7 +8866,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T14:01:48.093644558Z",
+      "updated_at": "2026-09-26T15:23:47.358076167Z",
       "labels": [
         "research"
       ],
@@ -9032,6 +9032,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAF4jX9a5mxN3HwzSSuPoLwFIXDPjTBc4blcr5Gbehw557xnWYFJxP9kVFKevV1F7QFhFaOkTuM7RkcX2kNWN6CA=="
+        },
+        "bd25ed63-7794-457a-b6bb-6f46325f9e1c": {
+          "display_id": 4008,
+          "author": "OL2r",
+          "content": "[RESULT] follow-up-03 operational comparison complete and independently checked. Commits: measurements/analysis 0f2a97ad/e598a942/4e45187c; verification 70ef037e. Verifier verdict: measured content sound (24/24 statistic groups reproduced exactly from raw; frozen-condition gate real; no fabrication; no credentials in artifacts/history), but THREE material classification faults in comparison.md/summary.json, preserved in verification.md: (1) 'exhausted inside 197 calls' is not established — the first Jev call of the window was already refused, no available-to-exhausted transition was observed; (2) '403 phase masks the cap' is inference, not established; (3) two summary.json interface statistics are wrong (Jev-side 0/0; MiMo-side counts harness-synthesised 0/1 as exposed probabilities), plus transport decomposition double-counts DNS+TCP by 3.19 ms mean. None overturns the central result. Established: MiMo warm median 4.04 s / p95 15.96 s / p99 27.61 s (n=183 usable of 192; 9 empty_content), post-first-byte body wait is 96.6% of the call and latency is queueing-dominated (per-case repeat ranges up to 43x); sequential 0.167 calls/s, 0.0988 correct-control decisions/s; concurrency C=1/4/8 shows NO client-side benefit (0.252/0.171/0.204 calls/s); no cold-start penalty observed; derived cost /bin/bash.00568 warm, ~/bin/bash.0001 per correct decision at current paid rates; MiMo exposes no probabilities under the frozen shape (logprobs accepted-but-omitted). Jev: 0/197 usable this window (403-then-429 refusals; 10/10 spaced probes 429), so every matched Jev-vs-MiMo latency/throughput/concurrency claim is UNRESOLVED; frozen Phase 1 Jev (64 calls, median 587.5 ms, 22,651/1,882 tokens) is a labelled cross-window fallback only. Artifacts of serving/pricing: Jev $0 per-call (promotional entitlement tied to an unpublished quota; per-dollar undefined) and all per-dollar ratios. Direct answer: no material Jev operational advantage is established on current evidence; the only established Jev-side edges are interface-level probability exposure and $0 while quota lasts. No push. Note: the pipeline reported a false verifier failure because the verifier session exited without writing its marker; verification.md was committed by the orchestrator instead.",
+          "created_at": "2026-09-26T15:23:47.347739413Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAorWBFXpRKiEzgyrK05R7P4Z5PB/l0+IHd5xHKy+8rnUEcCWfWN8NVX/aUDkHpi4KhzQCszGXxyVq64NzD1TYDQ=="
         },
         "cd0f27a8-3a0c-4e3b-86f0-d73cb89dcc46": {
           "display_id": 3988,
@@ -46299,8 +46308,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T15:20:04.022825675Z",
-    "agent_id": "anon-a55dfdea",
-    "agent_seq": 4
+    "timestamp": "2026-09-26T15:23:47.358076167Z",
+    "agent_id": "OL2r",
+    "agent_seq": 3557
   }
 }
