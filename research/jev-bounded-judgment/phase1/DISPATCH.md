@@ -222,3 +222,20 @@ Zen chat endpoint with the same model ID; the Go endpoint is a typed failure.
 - Status: pending D2
 - Deliverable: `findings.md` (supported / provisional / limitations /
   counterexamples / next-phase questions)
+
+## Closeout — 2026-09-26
+
+The "pending" statuses recorded during early dispatch are superseded; all
+stages completed and each was independently verified.
+
+| Stage | Result commits | Verification |
+|---|---|---|
+| D2 verifier | `4e50a936` | `verification.md` |
+| D3 analyst | `355ab6ad` | covered by D2 checks (see `findings.md` L13) |
+| Followup-01 (`space-bunny-free`) | `f4ad24ac`,`a15b0b97` | `b78bfca7` |
+| Followup-02 (`mimo-v2.6-flash`) | `e740fa41`,`6c7b05b7`,`c79bd621` | `a1a1c93a` |
+| Followup-03 (operational, free-tier Jev route) | `252a3009`,`e540d816`,`5b4921b1`,`0f2a97ad`,`e598a942`,`4e45187c` | `70ef037e` |
+| Followup-04 (direct `jev-1.13.0`) | `5da5872e`,`0c2afc3a`,`364ccb3d`,`4896cb10`,`311ae5dc` | `63aa33c5` |
+
+Consolidated verdict: `PHASE1-VERDICT.md`. Corrections reconciling prose with
+verifier evidence: `ERRATA.md`.

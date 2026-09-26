@@ -1,10 +1,11 @@
 # Jev Phase 1 Diagnostic — Bounded Judgment vs Cheaper Mechanisms
 
 **Crosslink issue:** #565
-**Status:** D1 complete (deliverables 1–5 and 8) — scoring, tables and runbook
-landed and clean-clone tested; `findings.md` (6) and `verification.md` (7) are
-D2/D3 and not started. Read `DISPATCH.md` for the result and
-`RUNBOOK.md` §5 for the verifier checklist.
+**Status:** Phase 1 complete (D1–D3 and followups 01–04). Consolidated verdict:
+`PHASE1-VERDICT.md`. Corrections where report prose conflicts with independent
+verification: `ERRATA.md`. Raw evidence, per-stage reports, and verifications
+remain in this directory and its `followup-0*` subdirectories. This README's
+original D1 status line is retained in git history.
 **Started:** 2026-09-26
 **Scope:** Phase 1 only. Stop after one reproducible ~60-case diagnostic run.
 
