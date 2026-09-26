@@ -69,6 +69,20 @@ RULE_HARD_CONF = 0.75
 RULE_SOFT_CONF = 0.55
 ROUTING_POLICY_CONF = 0.90
 
+# max_tokens for the general-model baseline.
+#
+# MEASURED, not guessed. At max_tokens=16 the first full run produced 14/64
+# rows with HTTP 200 but `finish_reason: "length"` and an EMPTY `content` field,
+# because the model is a reasoning model and spent the entire budget on
+# `reasoning_content`. A follow-up probe on three of the failing cases showed
+# the failure is not a clean threshold: the same request returned content at
+# max_tokens=16, '' at 64, and content at 256 on different sends, i.e. the
+# model's reasoning length is non-deterministic even at temperature 0. 256
+# cleared all three probe cases. The pre-fix run is preserved at
+# results/baselines_raw_prefix_max_tokens16.ndjson and the pre-fix failure count
+# is recorded in the manifest, so the change is auditable rather than silent.
+GENERAL_MAX_TOKENS = 256
+
 STOPWORDS = frozenset("""
 a an the is are was were be been being of to in on at by for with from as and or
 but if then than that this these those it its there here did do does done have
@@ -389,7 +403,7 @@ def build_general_request(case, model_id):
             {"role": "user", "content": user},
         ],
         "temperature": 0,
-        "max_tokens": 16,
+        "max_tokens": GENERAL_MAX_TOKENS,
     }
 
 
