@@ -1,0 +1,92 @@
+{
+  "P1_key_present": {
+    "env_var": "OPENCODE_GO_API_KEY",
+    "length": 67,
+    "present": true,
+    "value_recorded": false
+  },
+  "P2a_noul_pass_anchor": {
+    "http_status": 200,
+    "latency_ms": 701.7,
+    "raw": "{\"model\":\"jev-1.13-free\",\"answers\":{\"q\":{\"type\":\"noul\",\"noul\":0.99}},\"usage\":{\"input_tokens\":289,\"output_tokens\":20}}"
+  },
+  "P2b_noul_fail_anchor": {
+    "http_status": 200,
+    "latency_ms": 747.5,
+    "raw": "{\"model\":\"jev-1.13-free\",\"answers\":{\"q\":{\"type\":\"noul\",\"noul\":0.01}},\"usage\":{\"input_tokens\":291,\"output_tokens\":20}}"
+  },
+  "P2c_noul_ambiguous_anchor": {
+    "http_status": 200,
+    "latency_ms": 608.7,
+    "raw": "{\"model\":\"jev-1.13-free\",\"answers\":{\"q\":{\"type\":\"noul\",\"noul\":0.61}},\"usage\":{\"input_tokens\":320,\"output_tokens\":20}}"
+  },
+  "P2d_noul_missing_evidence_anchor": {
+    "http_status": 200,
+    "latency_ms": 520.2,
+    "raw": "{\"model\":\"jev-1.13-free\",\"answers\":{\"q\":{\"type\":\"noul\",\"noul\":0.47}},\"usage\":{\"input_tokens\":304,\"output_tokens\":20}}"
+  },
+  "P2e_noul_pass_anchor_repeat": {
+    "http_status": 200,
+    "latency_ms": 577.3,
+    "raw": "{\"model\":\"jev-1.13-free\",\"answers\":{\"q\":{\"type\":\"noul\",\"noul\":0.99}},\"usage\":{\"input_tokens\":289,\"output_tokens\":20}}"
+  },
+  "P3a_choice_criteria_as_dict": {
+    "http_status": 200,
+    "latency_ms": 860.3,
+    "raw": "{\"model\":\"jev-1.13-free\",\"answers\":{\"q\":{\"type\":\"choice\",\"choice\":\"escalate\",\"confidence\":0.13,\"probabilities\":{\"escalate\":0.27,\"review\":0.2,\"repair\":0.03,\"build\":0.01,\"investigate\":0.26,\"redesign\":0.23}}},\"usage\":{\"input_tokens\":402,\"output_tokens\":68}}"
+  },
+  "P3b_choice_criteria_as_list": {
+    "http_status": 422,
+    "latency_ms": 505.1,
+    "raw": "{\"detail\":[{\"type\":\"dict_type\",\"loc\":[\"body\",\"questions\",\"q\",\"choice\",\"criteria\"],\"msg\":\"Input should be a valid dictionary\",\"input\":[\"build\",\"review\",\"investigate\",\"repair\",\"redesign\",\"escalate\"]}]}",
+    "typed_error": "http_422"
+  },
+  "P3c_score_criteria_as_list": {
+    "http_status": 200,
+    "latency_ms": 723.8,
+    "raw": "{\"model\":\"jev-1.13-free\",\"answers\":{\"q\":{\"type\":\"score\",\"score\":1.62,\"confidence\":0.44,\"legend\":{\"0\":\"weak\",\"1\":\"moderate\",\"2\":\"strong\"},\"probabilities\":{\"0\":0,\"1\":0.37,\"2\":0.63}}},\"usage\":{\"input_tokens\":316,\"output_tokens\":17}}"
+  },
+  "P3d_score_criteria_as_dict": {
+    "http_status": 422,
+    "latency_ms": 539.3,
+    "raw": "{\"detail\":[{\"type\":\"list_type\",\"loc\":[\"body\",\"questions\",\"q\",\"score\",\"criteria\"],\"msg\":\"Input should be a valid list\",\"input\":{\"weak\":\"weak\",\"moderate\":\"moderate\",\"strong\":\"strong\"}}]}",
+    "typed_error": "http_422"
+  },
+  "P3e_choice_three_options": {
+    "http_status": 200,
+    "latency_ms": 655.2,
+    "raw": "{\"model\":\"jev-1.13-free\",\"answers\":{\"q\":{\"type\":\"choice\",\"choice\":\"build\",\"confidence\":0.43,\"probabilities\":{\"repair\":0.01,\"escalate\":0.37,\"build\":0.62}}},\"usage\":{\"input_tokens\":367,\"output_tokens\":40}}"
+  },
+  "P4a_go_chat_completions": {
+    "http_status": 403,
+    "latency_ms": 891.1,
+    "raw": "{\"error\":{\"type\":\"server_error\",\"message\":\"Upstream request failed: An active OpenCode Go subscription is required to use Go models.\"}}",
+    "typed_error": "http_403"
+  },
+  "P4b_zen_chat_completions_same_key": {
+    "http_status": 200,
+    "latency_ms": 1036.9,
+    "raw": "{\"id\":\"070662634abe733676c514ad5d307b6d\",\"object\":\"chat.completion\",\"created\":1790390115,\"model\":\"space-bunny-free\",\"choices\":[{\"index\":0,\"finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"YES\",\"name\":\"Space Bunny\"}}],\"usage\":{\"prompt_tokens\":192,\"completion_tokens\":2,\"total_tokens\":194,\"prompt_tokens_details\":{\"cached_tokens\":149}}}"
+  },
+  "P4c_zen_chat_completions_jev_model": {
+    "http_status": 403,
+    "latency_ms": 357.4,
+    "raw": "{\"type\":\"error\",\"error\":{\"type\":\"FreeTierError\",\"message\":\"OpenCode's free tier can only be used from within OpenCode\"}}",
+    "typed_error": "http_403"
+  },
+  "P5_default_ua_1010": {
+    "mitigation": "set User-Agent header explicitly",
+    "note": "urllib default User-Agent 'Python-urllib/3.10' is blocked by Cloudflare with 'error code: 1010' on both endpoints.",
+    "observed_http_status": 403,
+    "observed_raw": "error code: 1010\n"
+  },
+  "_meta": {
+    "branch": "research/jev-phase1-565",
+    "generator": "harness/preflight.py",
+    "git_commit_at_record": "70d50ce4846ebb2164614dc0c38637acd2dfc3b0",
+    "key_env_var": "OPENCODE_GO_API_KEY",
+    "key_value_recorded": false,
+    "note": "Verbatim HTTP status, client-side latency, and raw response body for every preflight probe. No secret material.",
+    "recorded_utc": "2026-09-26T02:35:33Z"
+  }
+}
