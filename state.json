@@ -1,6 +1,6 @@
 {
   "next_display_id": 566,
-  "next_comment_id": 3984,
+  "next_comment_id": 3985,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8861,7 +8861,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T05:10:38.730754652Z",
+      "updated_at": "2026-09-26T05:13:56.608634261Z",
       "labels": [
         "research"
       ],
@@ -8892,6 +8892,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAB5CpUZFJzWEVQztUZvzg/s3c/2x5IMporVjI+UqQqzHRJDrNzmVcTCWhlglziZdui2MXV6xIkjIjG8GsXhw+Aw=="
+        },
+        "45b38757-d3f0-47c0-b465-0eb99705b396": {
+          "display_id": 3984,
+          "author": "OL2r",
+          "content": "[PLAN] Operator directive: replace Space Bunny with the PAID MiMo 2.6 Flash as the cross-family general-model baseline. Rationale: space-bunny-free is the corpus author family (findings L1), so it cannot resolve Q1; MiMo (opencode-go/mimo-v2.6-flash) is a different family from BOTH Jev and the corpus author. Model verified via catalog refresh 2026-09-26: cost input 0.14 / output 0.28 / cache read 0.0028 per M, temperature supported, reasoning on, route https://opencode.ai/zen/go/v1/chat/completions. Status of the Space Bunny run: followup-01-spacebunny COMPLETED before the directive (commits f4ad24ac/a15b0b97/b78bfca7; 1/64 transport failure, raw 49/50 = 98.0%, F1-corrected 48/48 = 100.0%, paired b=0/c=0, band verdict REFUTES with a 2-cell/one-flip margin caveat). It is retained as a superseded same-family reference, not the decision run. followup-02-mimo-v2.6-flash now running under frozen conditions: same cases/prompts/parameters (max_tokens 256, temperature 0, one attempt, no retries), request-drift check vs the frozen general_model request normalised for model, transport failures separated, F1 correction applied, bands verbatim, sufficiency flag if <40 usable answerable, derived USD cost from actual usage. Durable chain: builder then independent verifier. No push.",
+          "created_at": "2026-09-26T05:13:56.598038763Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAtpVISzmC63vMRKSKrpxHareKwNmh/eIa6nN+GIu6KfQOP/WDM5+LnLuW7X3QP4SjFfGuwpHSPtRuvOF3j1PwAg=="
         },
         "4e17fd6b-ad15-4162-b493-79c7985bcdb8": {
           "display_id": 3981,
@@ -46035,8 +46044,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-26T05:10:38.730754652Z",
+    "timestamp": "2026-09-26T05:13:56.608634261Z",
     "agent_id": "OL2r",
-    "agent_seq": 3531
+    "agent_seq": 3532
   }
 }
