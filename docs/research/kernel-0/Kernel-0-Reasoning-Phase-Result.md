@@ -36,10 +36,12 @@ Durability here covers executor loss and replacement. No claim is made about arb
 
 Let `Σ` be the combined retained state on which an assurance claim depends. It includes authoritative state and any declared trusted external state needed by that claim; where the facts reside physically is not fixed. Let `q` be a proposed authoritative effect, including an authority change. Let `f` be a relevant externally supplied fact only when admission depends on it. An occurrence with no authoritative effect can appear in a trace without becoming a kernel transition. An occurrence that changes authoritative state must pass through the same guarded relation as any other proposal.
 
-`Step(σ, q, f, outcome, σ′)` has two outcomes:
+`Step(σ, q, f, outcome, σ′)` describes a **resolved** proposal and has two outcomes:
 
 - `commit`: the proposed effect, at its declared granularity, is applied as one authoritative change; its permission is valid at that commitment point and `σ′` satisfies the stated substrate invariants;
 - `deny`: `q` causes no authoritative change (`σ′ = σ` in the ordered model), with no substitute or partial effect. Other independently committed requests may still change observable state before a denial is reported.
+
+A proposal may remain pending without a resolved outcome; the packet does not promise eventual response or commitment. Denial is the semantic no-effect outcome when the boundary does resolve a request against it, not a requirement for a particular error message.
 
 For a testable instantiation, `permission valid` must be defined from the current combined state, request authority evidence, and any explicitly trusted facts. `invariant` must be an actual predicate over reachable states. These predicates are obligations of the instantiation, not unexplained Kernel-0 oracles. Rejection, commitment, and acknowledgement are different observations; only the first two define authoritative state. A lost acknowledgement does not undo a commit or establish that a retry is safe.
 
@@ -63,7 +65,6 @@ The state and interface are minimal only relative to required future behavior: t
 | Continuing work versus a new work identity | Replacement must preserve the same work and executor-facing position. | Replace an executor and recover the prior work and position without creating new work. |
 | Retained state versus executor lifetime | Executor death must not erase work information or current authority needed for continuation. | Remove the executor and check that continuation can still refer to the same work. |
 | Compatible versus incompatible commitments | Configuration must permit concurrency while excluding coexistence where exclusivity is required. | Commit two compatible requests; then attempt a pair whose resulting states are declared incompatible. |
-| Commitment versus acknowledgement | An executor may lose contact after an authoritative commit. | Drop the acknowledgement and check that authoritative state remains definite. |
 | External assertion versus trusted decision input | An outside fact may affect permission but its truth and freshness do not follow from its appearance in a request. | Vary the fact or its ordering against a commitment and state the assumption under which admission is sound. |
 
 These are necessary semantic distinctions in the combined trusted system. They are not arguments for kernel object types named Work Unit, Attachment Point, Execution, grant, epoch, resource, clock, or scheduler. The exact minimal state representation remains underdetermined until the required interaction vocabulary and observations are fixed.
@@ -143,6 +144,25 @@ Any later realization needs a stated mapping from its retained concrete state an
 ### Trusted assumptions outside a proof
 
 Claims must name the trustworthiness of request authority evidence, the consistency and durability of any external state relied on, the boundary that identifies a commitment, relevant external facts, and the availability/fairness assumptions behind progress. A proof cannot imply safety for unmediated effects or failures below its declared boundary. Semantic correctness of research, code, design, and other work products is outside this target.
+
+## Irreducibility review
+
+The core can be written as an admissible-history relation or as `Σ`, proposals, and guarded resolved transitions. `Σ` can itself be understood as equivalence classes of histories: histories are equivalent only if every required future permission and continuity observation is the same. These are alternative mathematical presentations of one candidate, not evidence for different kernel architectures. Transition notation is retained because it exposes the tests above.
+
+| Candidate element | Result of removal test |
+| --- | --- |
+| Retained authoritative distinctions `Σ` | Keep only as the minimal summary of behaviorally distinguishable histories. Without equivalent retained information, current authority or continuing work can be lost across executor replacement. No concrete state container follows. |
+| Proposal and declared effect `q` | Keep as an abstract input. Without the proposed effect and its granularity, the boundary cannot distinguish an authorized change from an unsolicited or partial mutation. Separate request and event primitives are unnecessary. |
+| Guarded commitment relation | Keep. Without it, a caller's action can become authoritative without a current permission and invariant check. |
+| Revocable authority | Keep as a property of changing eligibility under the relation. A grant, capability, epoch, owner, or role object is not forced. |
+| Authority-relevant order | Keep as a constraint on affected commitments and authority changes, derivable from the accepted history. A separately stored order, global clock, or universal total order is unnecessary. |
+| Distinguishable authority evidence | Keep as a conditional interface obligation where one producer must remain eligible while a superseded producer is denied. Its representation and placement are not fixed. |
+| External fact `f` | Make optional. It can be folded into a request or trusted state, but its truth, freshness, and ordering assumptions must remain explicit whenever permission depends on it. |
+| Invariants and incompatibility | Keep as explicit, instantiation-supplied predicates to test claims. They do not force an intrinsic conflict object or Work Unit type. |
+| Denial, acknowledgement, and pending | Denial is a no-effect resolved outcome; pending has no implied progress guarantee; acknowledgement is outside authoritative commitment. None requires a persistent kernel object. |
+| Executor-loss event and durability | Keep the preservation obligation for required `Σ` information. Loss is an environmental trace event, not necessarily a state variable or automatic revocation. |
+
+The resulting semantic minimum is therefore a **retained behavioral distinction, a proposed effect, and a guarded authoritative commitment**, with revocation and relevant ordering expressed as properties of that relation. This does not remove the obligation to specify policy, positive Work Unit behavior, or trusted composition before claiming adequacy. Local and external placement of retained authority facts remain semantically equivalent only if both satisfy the same observable contract; their different trusted assumptions matter in a later realization comparison.
 
 ## Open alternatives and discriminating questions
 
