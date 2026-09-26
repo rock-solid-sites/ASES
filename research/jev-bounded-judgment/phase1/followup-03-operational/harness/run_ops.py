@@ -1235,17 +1235,32 @@ def cmd_warm(args):
     # concurrency, block, probe), so a resumed run re-derives the same keys and
     # the appender silently refuses to double-count.
     plan = []
+    if args.reps < 1 or args.reps > WARM_REPS:
+        raise SystemExit(
+            f"REFUSING --reps {args.reps}: the frozen design is {WARM_REPS} warm "
+            "repetitions per case. A lower value is allowed only for an "
+            "explicitly reduced and labelled block; a higher value is never "
+            "allowed.")
+    if args.interval < 0:
+        raise SystemExit(f"REFUSING --interval {args.interval}: negative.")
+    if args.reps < WARM_REPS or args.interval > 0:
+        print(f"warm: REDUCED/PACED block by request: reps={args.reps} (design "
+              f"{WARM_REPS}), interval={args.interval}s (design 0.0). Rows are "
+              f"labelled block={args.block!r} and are NOT comparable to the "
+              "unpaced sequential throughput figure.", flush=True)
     if not args.skip_warmup:
         # Warm-up calls carry the FIRST WARMUP_CALLS canonical cases and are
         # labelled `warmup`. They are excluded from every statistic downstream.
         plan += [("warmup", i, ordered[i - 1]) for i in range(1, WARMUP_CALLS + 1)]
     for cid in ordered:
-        plan += [("warm", rep, cid) for rep in range(1, WARM_REPS + 1)]
+        plan += [("warm", rep, cid) for rep in range(1, args.reps + 1)]
 
     n_written, n_err = 0, 0
     for phase, repeat, cid in plan:
         row = run_one(mech, by_id[cid], key, phase, repeat, concurrency=1,
                       block=args.block)
+        row["paced_interval_seconds"] = args.interval
+        row["reduced_reps"] = (args.reps != WARM_REPS)
         if phase == "warmup":
             row["excluded_from_statistics"] = True
             row["warmup_note"] = ("discarded warm-up call; retained for audit "
@@ -1587,6 +1602,20 @@ def main():
                             "null so an earlier run is never rewritten")
         if name == "warm":
             p.add_argument("--skip-warmup", action="store_true")
+            p.add_argument("--reps", type=int, default=WARM_REPS,
+                           help="warm repetitions per case. The design value is "
+                                f"{WARM_REPS}; a LOWER value is permitted only "
+                                "for a documented reduced/paced block, which "
+                                "must be labelled with --block and reported as "
+                                "reduced. A higher value is refused.")
+            p.add_argument("--interval", type=float, default=0.0,
+                           help="seconds to wait AFTER each call, before the "
+                                "next one. 0 (the default) is the frozen "
+                                "sequential condition. A positive value paces "
+                                "the block; a paced block is NOT comparable "
+                                "to the unpaced sequential throughput figure "
+                                "and must be labelled with --block and reported "
+                                "as paced.")
     args = ap.parse_args()
     return {
         "subset": cmd_subset, "transport": cmd_transport, "verify": cmd_verify,
