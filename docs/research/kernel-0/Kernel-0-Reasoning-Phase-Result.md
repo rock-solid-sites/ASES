@@ -164,6 +164,22 @@ The core can be written as an admissible-history relation or as `Σ`, proposals,
 
 The resulting semantic minimum is therefore a **retained behavioral distinction, a proposed effect, and a guarded authoritative commitment**, with revocation and relevant ordering expressed as properties of that relation. This does not remove the obligation to specify policy, positive Work Unit behavior, or trusted composition before claiming adequacy. Local and external placement of retained authority facts remain semantically equivalent only if both satisfy the same observable contract; their different trusted assumptions matter in a later realization comparison.
 
+## Realization-independent requirements
+
+Any realization claiming the abstract guarantees must satisfy the following behavioral obligations. They do not select a software, hardware, storage, or proof mechanism.
+
+| Requirement | Guarantee it serves |
+| --- | --- |
+| Retain and recover every behaviorally necessary authority and continuity distinction across executor loss; keep inactive work and positions without a resident executor. | Work and position continuity, stale-execution exclusion after replacement. |
+| Give each resolved proposal a definite authoritative result at its declared effect granularity: the whole permitted effect or no effect attributable to the proposal. If admission evidence is unavailable, a commit is not justified; the request may remain pending or be denied. | No unauthorized, substitute, or partial authoritative mutation. |
+| Make permission-changing commitments and affected requests obey one coherent authority order, including concurrent and delayed requests. Check eligibility at the commitment point, not merely when the request was first seen. | Revocation safety and the stale-observation regression. |
+| Supply trustworthy, currently eligible authority evidence that can distinguish a replacement from a superseded producer when policy requires different outcomes; prevent the old producer from exercising the replacement's authority. | Replacement can proceed while stale execution is excluded. |
+| Enforce declared conflict and critical-invariant predicates for configured operations while allowing compatible concurrency through the same semantic interface. | Exclusivity without a special single- or multi-executor mode. |
+| Expose relevant outside facts to the admission model with their trust and freshness conditions. If an external effect is claimed as protected, mediate it or include an equivalent trusted enforcement contract. | No hidden nondeterminism or unsupported claim about unmediated resources. |
+| Provide a correspondence argument mapping concrete retained state, commitments, denial, authority updates, and relevant failure behavior to the abstract model. State the trusted components and assumptions on which it depends. | Model verification can transfer only to behavior that conforms to the model. |
+
+If authoritative-substrate crash or restart is added to the promised failure boundary, recovery must resolve interrupted changes to an abstractly permitted whole commitment or no attributable commitment, preserve the authority order, and restore the distinctions needed for continuation. Executor loss alone does not establish that broader durability promise. If eventual progress or safe retry is claimed, the realization needs additional outcome, availability, and scheduling conditions; neither follows from the safety model.
+
 ## Open alternatives and discriminating questions
 
 | Alternative or gap | Smallest discriminating question |
