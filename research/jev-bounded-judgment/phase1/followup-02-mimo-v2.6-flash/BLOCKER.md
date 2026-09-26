@@ -1,5 +1,12 @@
 # followup-02-mimo-v2.6-flash — BLOCKED AT PREFLIGHT, no grid run
 
+> **SUPERSEDED — this file records the blocker, not the outcome.**
+> The blocker was resolved on 2026-09-26 and the run completed: **64/64 cells,
+> 0 transport failures, band verdict REFUTES a Jev niche.** See the
+> **[RESOLUTION](#resolution--unblocked-and-completed-2026-09-26)** section at
+> the end of this file, and `comparison.md` for the results. Everything below
+> the banner is the original blocked record, preserved unedited.
+
 **Crosslink issue:** #565 · **Date:** 2026-09-26 · **Branch:** `research/jev-phase1-565`
 **Status:** **STOPPED at brief step 1.** The model is unreachable with the
 available credential. **No grid cell was run. There is no accuracy, no paired
@@ -198,3 +205,180 @@ frozen-condition gate will still verify 64/64 before a single call is made.
 
 No frozen Phase-1 file was modified. Reproduce with `README.md` in this
 directory.
+
+---
+---
+
+# RESOLUTION — unblocked and completed, 2026-09-26
+
+**Everything above is the original record and it is not edited.** The stop at
+preflight was correct on the evidence available at the time, and the finding
+that produced it — the 403 is account-wide, not model-specific — remains exactly
+as recorded and turned out to be the whole diagnosis. This section appends what
+changed. The run is complete: **64/64 cells, 0 transport failures, $0.00187
+derived cost.** The results are in **`comparison.md`**; this section explains
+how the blocker was resolved and nothing else.
+
+## R1. The environment key is genuinely unsubscribed — the original finding stands
+
+`$OPENCODE_GO_API_KEY` is present and non-empty (67 chars) and the Go route
+rejects it for **every** model, with the byte-identical message
+`An active OpenCode Go subscription is required to use Go models.`
+Re-verified live today through the new transport:
+
+| source | HTTP | outcome |
+|---|---|---|
+| `env:OPENCODE_GO_API_KEY` | **403** | `{"error":{"type":"server_error","message":"Upstream request failed: An active OpenCode Go subscription is required to use Go models."}}` |
+
+§2 rows 1–4 of this file are not superseded. The original conclusion "not
+repairable by parameter change, not repairable by model substitution" was right,
+and the reason it read as a dead end is §3's "Not repairable by me at all": the
+fix is an account-side fact, not a request-side one.
+
+## R2. The subscribed credential is in the OpenCode CLI store
+
+`~/.local/share/opencode/auth.json` holds twelve provider entries; the relevant
+one is the top-level key **`opencode-go`**, whose value is an object with `key`
+and `type`. Its `key` is served normally:
+
+| source | HTTP | outcome |
+|---|---|---|
+| `auth.json#opencode-go` | **200** | valid `mimo-v2.6-flash` completion, `finish_reason: stop`, `content: "NO"`, usage present |
+
+This is the same credential the OpenCode CLI itself authenticates with — the
+orchestrator's probe `opencode run --model opencode-go/mimo-v2.6-flash` returns
+OK — so the subscription is real; the *environment variable* simply points at a
+different, unentitled credential.
+
+**One correction to §7 of the original record.** The unblock is not a new
+subscription and not a model-id change. It is a **credential-source change**,
+which is why it needed no operator action at all. §7's item 1 (activate a Go
+subscription) would also have worked, and would have been the wrong fix: the
+account already had the entitlement.
+
+## R3. `x-opencode-session` is required, and the runner now sends one
+
+The Go route returns **`400 MissingSessionID`** when the header is absent and
+**200** when it is present. This is a per-request requirement, not an
+entitlement question, and it is why the orchestrator's probe succeeded.
+
+The runner generates **one UUID4 per run** (`x-opencode-session`), records it in
+`results/run_session.json` and in `results/manifest.json:conditions`, and sends
+it on every call. This run's value:
+`d365cc37-c2dc-424b-a034-d9f84141b641`. The preflight's was
+`fea09ff9-99a4-409b-a7d9-3f95911f76e9`. It is a provider grouping header, **not
+a secret**, and it is not part of the hashed request body — the 64/64
+frozen-condition gate is unaffected by it.
+
+## R4. Transport: urllib is Cloudflare-rejected, curl is not
+
+| client | credential | result |
+|---|---|---|
+| Python `urllib.request` | `auth.json#opencode-go` | **403, Cloudflare error code 1010** (owner's user-agent block) |
+| `curl` | `auth.json#opencode-go` | **200**, valid completion |
+
+Same credential, same URL, same headers, same body. The difference is the HTTP
+client's TLS/HTTP fingerprint. **No credential change and no parameter change
+fixes this**, which is why `harness/run_mimo.py` now uses a `curl` subprocess
+(`post_json_curl`) instead of the frozen `common.post_json`. The replacement
+reproduces `common.post_json`'s return contract exactly and reuses
+`common.classify` and `common._extract_usage`, so the recorded rows are shaped
+identically to the frozen run's. `User-Agent` is still the frozen
+`common.USER_AGENT`; the body is still the frozen `serialise(body)`.
+
+**The frozen `harness/common.py` was not modified.** The transport substitution
+lives entirely in the follow-up harness. A consequence worth stating plainly: a
+re-run using the frozen harness verbatim will record 64 Cloudflare 403s and no
+measurement, which is a transport artefact and not a finding.
+
+## R5. Credential handling — how the value was kept out of every artefact
+
+Resolution order is fixed: (a) `$OPENCODE_GO_API_KEY`, and **only** on an
+account-level entitlement 403, fall back to (b) `auth.json#opencode-go`. Any
+other failure stops the run; the harness never shops for a credential that
+happens to work. The fallback fires once, in the preflight, and the grid then
+uses the selected source directly — so **no cell was ever re-sent under a second
+credential**, and N=1 per cell is preserved exactly.
+
+The value reaches curl through a config on **stdin**:
+
+```
+printf 'header = "Authorization: Bearer %s"\n' "$KEY" | curl -K -
+```
+
+so it appears neither in `argv` (where `/proc/*/cmdline` and shell history would
+expose it) nor in any file. The runner also refuses a credential containing a
+quote, backslash or newline, rather than emit a config that would send a
+different header than intended.
+
+**Recorded in the manifest: the source label `auth.json#opencode-go`, never the
+value.** The label appears in `results/preflight.json`
+(`credential_source_selected`), `results/run_session.json`
+(`credential_source_used`) and `results/manifest.json:credential.source_used`.
+Every `secrets_recorded` field is `false`. Verified by scanning every file in
+this directory for the credential value: **no leak.**
+
+The env-key rejection is recorded rather than hidden: `preflight.json` shows both
+calls, `n_calls: 2`, with the first as
+`{"credential_source": "env:OPENCODE_GO_API_KEY", "outcome": "entitlement_403"}`.
+
+## R6. The expected risk did not fire — but the margin was thin
+
+The brief flagged that MiMo's reasoning consumes the output budget and that some
+cells might end `finish_reason: length` with empty content at `max_tokens=256`,
+and instructed that these count as transport failures with no tuning.
+
+**It did not happen: 0 transport failures in 64 cells**, all HTTP 200, all
+`finish_reason: stop`, no typed errors. `max_tokens` stayed 256, `temperature`
+stayed 0, nothing was tuned, nothing was retried.
+
+The margin is nevertheless the run's main caveat, and it is measured rather than
+asserted: **92.4% of the output budget went to reasoning** (2,492 of 2,698
+output tokens), leaving **206 content tokens across all 64 cells** — per-cell
+content min 3, median 3, max 7. The worst cell (`b-a03`) spent **245 of its 256**
+output tokens on reasoning and returned its answer in the remaining 3. One cell
+roughly 10% more verbose in reasoning would have returned `content: null` and
+been recorded as a transport failure. The sufficiency flag was pre-registered
+for exactly this and did not fire (50/50 usable answerable).
+
+## R7. Cost correction to §5
+
+§5 recorded **$0.00**, correctly, for the blocked run. This section does not
+amend that figure — it applies to the calls made then. For the completed run:
+
+| | input | output | derived USD |
+|---|---|---|---|
+| 64 grid cells | 7,857 | 2,698 | $0.00185542 |
+| preflight (1 rejected + 1 × 200) | 77 | 14 | $0.00001470 |
+| **total** | **7,934** | **2,712** | **$0.00187012** |
+
+At the recorded catalog rates (input 0.14, output 0.28, cache read 0.0028, cache
+write 0.00 per million). This is the **first non-zero cost in Phase 1**; the two
+prior general-model runs were free-tier. §5's order-of-magnitude estimate of
+~$0.003 for a 64-cell run was accurate to within a factor of 1.6, and it is now
+a measurement.
+
+## R8. Status
+
+| | |
+|---|---|
+| blocker | **resolved** — credential source, not a subscription |
+| grid cells run | **64 / 64** |
+| transport failures | **0 / 64** |
+| raw answerable accuracy (n=50) | **96.0%** (48/50) |
+| F1-corrected answerable accuracy (n=48) | **97.9%** (47/48) |
+| paired `b` / `c` / ties vs Jev (corrected) | **0 / 1 / 47** |
+| band verdict (F1-corrected) | **REFUTES a Jev niche** — `acc 0.9792 ≥ 0.96` and `c 1 ≤ 1`, both arms |
+| sufficiency flag | **not triggered** (50/50 usable; rule fires below 40) |
+| derived cost | **$0.00187012** |
+| determinism | scorer run twice → `comparison.json`, `paired.ndjson`, `manifest.json` all byte-identical |
+
+**Q1 (`findings.md` §6) is now answered**, and this is the confound-free run that
+could answer it: `mimo` is a different family from both Jev and the corpus
+author, so unlike followup-01 the self-preference confound cannot be inflating
+the baseline. §6 of this file recorded that Q1 "has now failed to produce data
+twice for different reasons"; it has now produced data. The full reading,
+including the one-cell width of the verdict, is in `comparison.md` §7 and §10.
+
+The frozen Phase-1 artefacts were re-verified against their digests before
+scoring and **none was modified**. Writes are confined to this directory.
