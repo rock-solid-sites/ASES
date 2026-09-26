@@ -1,6 +1,6 @@
 {
   "next_display_id": 567,
-  "next_comment_id": 4011,
+  "next_comment_id": 4012,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8866,7 +8866,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T16:11:25.628810295Z",
+      "updated_at": "2026-09-26T16:11:38.866288024Z",
       "labels": [
         "research"
       ],
@@ -9023,6 +9023,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABApF+5MSxuNmcBcJzUzK3gN+drqt3lg/cCpX33v64Ih7Af6o6jb8BXVvhb2xPovtw5ZpZB6czEpWUaDdYo5oqyBg=="
+        },
+        "a5a442c5-a6cd-4322-9fce-0cea5079c465": {
+          "display_id": 4011,
+          "author": "OL2r",
+          "content": "[PLAN] follow-up-04 launched: resolve the Jev side of followup-03 via the direct TypeSafe API. Route/model change documented (not an identical rerun): POST https://api.typesafe.ai/v1/systemone, model pinned jev-1.13.0 (accepted; jev-latest resolves to 1.13.0; jev-1.13 rejected 400). Credential read at runtime from ~/.secrets/typesafe.env and passed via stdin only; never printed, persisted, committed, or placed in argv. Published facts recorded: $0.042/Mtok input, output free; 250k tok/s and 1,200 req/min; 64k context. Reuse: followup-03 16-case subset, frozen request semantics (only the model field differs; per-case normalized-body equality checked), schedule 5 warmup + 192 warm + idle>=120s + C=1/4/8 fixed 12-call block + one interface probe; one attempt, no retries; curl phase timings. Semantic-equivalence cross-check against the frozen jev-1.13-free outputs on the shared cases runs BEFORE any comparative use, recording label/probability changes. Comparison against the frozen MiMo followup-03 block resume1 (no MiMo rerun), labelled cross-window; three-way separation model/service vs network transport vs serving/pricing; classification ESTABLISHED / UNRESOLVED / SERVING-OR-PRICING ARTIFACT; cost derived from input tokens. No consolidated Phase-1 verdict. Durable chain builder -> independent verifier. No push.",
+          "created_at": "2026-09-26T16:11:38.859848450Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAu81L/9w6lmkteF1Day0KuqIcAWmAE7u6cR4T8zhX/zy8KVODHTsZJhGDsBFdqG+GfS4CMplTPQGxNxza8PgrDw=="
         },
         "a5c32693-4afe-434f-8ab0-58461f8c46aa": {
           "display_id": 4001,
@@ -46326,8 +46335,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T16:11:25.628810295Z",
+    "timestamp": "2026-09-26T16:11:38.866288024Z",
     "agent_id": "OL2r",
-    "agent_seq": 3559
+    "agent_seq": 3560
   }
 }
