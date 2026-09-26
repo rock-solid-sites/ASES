@@ -43,3 +43,6 @@ assurance evidence; they do not silently revise the base semantic contract.
 [Protected external effects](./Kernel-0-External-Effects.md) defines the selected
 decision-authorized obligation profile, including its explicit duplicate-delivery
 and post-revocation visibility limits.
+
+[Multi-domain composition](./Kernel-0-Composition.md) records local independence,
+coupled admission and the compatible-recovery-cut requirement (bounded model only).

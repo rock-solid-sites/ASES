@@ -1,0 +1,706 @@
+{
+  "reference": {
+    "states": 432,
+    "edges": 17280,
+    "unordered_parallel_steps": 48,
+    "local_work_while_other_down": {
+      "before": {
+        "bits": [
+          1,
+          1
+        ],
+        "slots": [
+          1,
+          0
+        ],
+        "authority": [
+          -1,
+          1
+        ],
+        "live": [
+          false,
+          true
+        ]
+      },
+      "operation": {
+        "kind": "flip",
+        "domain": 1,
+        "evidence": 1,
+        "scope": 1,
+        "peer": 0
+      },
+      "after": {
+        "bits": [
+          1,
+          0
+        ],
+        "slots": [
+          1,
+          0
+        ],
+        "authority": [
+          -1,
+          1
+        ],
+        "live": [
+          false,
+          true
+        ]
+      }
+    }
+  },
+  "attacks": {
+    "detached_cross_domain_guard": {
+      "trace": [
+        "A reads slots 00",
+        "B reads slots 00",
+        "A commits its reservation",
+        "B commits its reservation"
+      ],
+      "final": {
+        "bits": [
+          0,
+          0
+        ],
+        "slots": [
+          1,
+          1
+        ],
+        "authority": [
+          0,
+          0
+        ],
+        "live": [
+          true,
+          true
+        ]
+      },
+      "disposition": "coupled admission needs one coherent view/order"
+    },
+    "coherent_reference": [
+      {
+        "operation": {
+          "kind": "reserve",
+          "domain": 0,
+          "evidence": 0,
+          "scope": 0,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            0,
+            0
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        },
+        "outcome": "commit",
+        "after": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            1,
+            0
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        }
+      },
+      {
+        "operation": {
+          "kind": "reserve",
+          "domain": 1,
+          "evidence": 0,
+          "scope": 1,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            1,
+            0
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        },
+        "outcome": "deny",
+        "after": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            1,
+            0
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        }
+      }
+    ],
+    "erased_authority_scope": {
+      "proposal": {
+        "kind": "flip",
+        "domain": 0,
+        "evidence": 0,
+        "scope": 1,
+        "peer": 0
+      },
+      "correct": "deny",
+      "weakened": "commit",
+      "after": {
+        "bits": [
+          1,
+          0
+        ],
+        "slots": [
+          0,
+          0
+        ],
+        "authority": [
+          0,
+          0
+        ],
+        "live": [
+          true,
+          true
+        ]
+      }
+    },
+    "accidental_global_requirement": {
+      "trace": [
+        "crash A",
+        "B local flip"
+      ],
+      "reference": "commit",
+      "global_gate": "pending",
+      "classification": "unnecessary availability dependency, not safety failure"
+    },
+    "partial_transfer_recovery": {
+      "trace": [
+        "reserve A",
+        "begin transfer A to B",
+        "durably clear A",
+        "crash before durably setting B",
+        "recover both rows"
+      ],
+      "before": {
+        "bits": [
+          0,
+          0
+        ],
+        "slots": [
+          1,
+          0
+        ],
+        "authority": [
+          0,
+          0
+        ],
+        "live": [
+          true,
+          true
+        ]
+      },
+      "partial": {
+        "bits": [
+          0,
+          0
+        ],
+        "slots": [
+          0,
+          0
+        ],
+        "authority": [
+          0,
+          0
+        ],
+        "live": [
+          true,
+          true
+        ]
+      },
+      "whole": {
+        "bits": [
+          0,
+          0
+        ],
+        "slots": [
+          0,
+          1
+        ],
+        "authority": [
+          0,
+          0
+        ],
+        "live": [
+          true,
+          true
+        ]
+      },
+      "disposition": "whole-effect obligation stronger than invariant alone"
+    },
+    "incompatible_joint_recovery": {
+      "before": {
+        "bits": [
+          0,
+          0
+        ],
+        "slots": [
+          1,
+          0
+        ],
+        "authority": [
+          0,
+          0
+        ],
+        "live": [
+          true,
+          true
+        ]
+      },
+      "committed": {
+        "bits": [
+          0,
+          0
+        ],
+        "slots": [
+          0,
+          1
+        ],
+        "authority": [
+          0,
+          0
+        ],
+        "live": [
+          true,
+          true
+        ]
+      },
+      "recover_A_from_pre_transfer": {
+        "bits": [
+          0,
+          0
+        ],
+        "slots": [
+          1,
+          1
+        ],
+        "authority": [
+          0,
+          0
+        ],
+        "live": [
+          true,
+          true
+        ]
+      },
+      "disposition": "joint effect constrains compatible recovery cuts"
+    },
+    "successful_coupling_local_recovery_and_replacement": [
+      {
+        "operation": {
+          "kind": "reserve",
+          "domain": 0,
+          "evidence": 0,
+          "scope": 0,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            0,
+            0
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        },
+        "outcome": "commit",
+        "after": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            1,
+            0
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        }
+      },
+      {
+        "operation": {
+          "kind": "move",
+          "domain": 0,
+          "evidence": 0,
+          "scope": 0,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            1,
+            0
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        },
+        "outcome": "commit",
+        "after": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        }
+      },
+      {
+        "operation": {
+          "kind": "crash",
+          "domain": 0,
+          "evidence": 0,
+          "scope": 0,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        },
+        "outcome": "lifecycle",
+        "after": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "operation": {
+          "kind": "flip",
+          "domain": 1,
+          "evidence": 0,
+          "scope": 1,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            0
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            false,
+            true
+          ]
+        },
+        "outcome": "commit",
+        "after": {
+          "bits": [
+            0,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "operation": {
+          "kind": "recover",
+          "domain": 0,
+          "evidence": 0,
+          "scope": 0,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            false,
+            true
+          ]
+        },
+        "outcome": "lifecycle",
+        "after": {
+          "bits": [
+            0,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        }
+      },
+      {
+        "operation": {
+          "kind": "replace",
+          "domain": 0,
+          "evidence": 0,
+          "scope": 0,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            0,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        },
+        "outcome": "commit",
+        "after": {
+          "bits": [
+            0,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            1,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        }
+      },
+      {
+        "operation": {
+          "kind": "flip",
+          "domain": 0,
+          "evidence": 0,
+          "scope": 0,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            1,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        },
+        "outcome": "deny",
+        "after": {
+          "bits": [
+            0,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            1,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        }
+      },
+      {
+        "operation": {
+          "kind": "flip",
+          "domain": 0,
+          "evidence": 1,
+          "scope": 0,
+          "peer": 0
+        },
+        "before": {
+          "bits": [
+            0,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            1,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        },
+        "outcome": "commit",
+        "after": {
+          "bits": [
+            1,
+            1
+          ],
+          "slots": [
+            0,
+            1
+          ],
+          "authority": [
+            1,
+            0
+          ],
+          "live": [
+            true,
+            true
+          ]
+        }
+      }
+    ]
+  },
+  "bounds": "two domains; two local bits; one reserved resource; two contexts per domain; no depth cutoff",
+  "source_sha256": "35ce1a3ec958187c1b01d74fd43b4c72843b28c85ee37fc1d1dee2372cb917ba"
+}
