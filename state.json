@@ -1,6 +1,6 @@
 {
   "next_display_id": 566,
-  "next_comment_id": 3979,
+  "next_comment_id": 3980,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8861,7 +8861,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T04:13:22.147117917Z",
+      "updated_at": "2026-09-26T04:34:13.877431246Z",
       "labels": [
         "research"
       ],
@@ -8901,6 +8901,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAkqElDk0QZ9bJAAnikgMbouHWo2alLwSoUM4mXgOwQa6Nxpu8M/8++xg0QPqtlE+SRhKiBttlYCitWavII3MLCA=="
+        },
+        "fe43e3bc-70a6-43f9-ae8a-b4ebe2bd0556": {
+          "display_id": 3979,
+          "author": "OL2r",
+          "content": "[RESULT] Phase 1 diagnostic complete. D2 verification (commit 4e50a936): PASS WITH FINDINGS — 2,315 independent field comparisons, 0 disagreements; 17 live Jev re-runs (71 calls), 0 label flips; deterministic baselines byte-identical; controls real; no leakage/fabrication. Material: F1 cp4 ground truth not derivable from model-visible text (correcting it removes Jev's only answerable error, 49/49, and lifts false-confidence to 16/16); F2 the \"abstained\" flag is a harness tautology (hard-coded false), though 69/70 unanswerable cells demonstrably emitted a label; F3 general_model empty_content ~11% (4/35) at max_tokens=256 — committed 1/64 was a lucky draw; F4 RUNBOOK stale hashes + nonexistent flag (2/12 clean-clone checks fail); F6 secret scan omits preflight_evidence.json (key length only); F8 confound — corpus author, harness, general_model baseline and verifier are all space-bunny-free, weakening the \"free general model matches Jev\" claim. D3 findings (commit 355ab6ad): 10 supported / 6 provisional / 14 limitations / 12 negative results. Headline: Jev 49/50 on justified answerable cases; beats lexical +40pp (c=0 in all scopes); ties the free general model (its only margin cell is the defective one); escalation gate 0.90 = 59.4% coverage at 0 errors on a LOCALLY DERIVED confidence (API publishes none for noul, 50/64); 0/320 cells could abstain by construction. Smallest justified next experiment: add exactly one cross-family general-model baseline to the unchanged corpus/prompt/scorer; pre-fixed bands (<=90% or c>=3 supports a Jev niche; >=96% and c<=1 refutes; 92-94% inconclusive). Model choice is operator-gated — awaiting decision. Artifacts on branch research/jev-phase1-565; no push.",
+          "created_at": "2026-09-26T04:34:13.865787560Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASa8/RG5FxkQtNbImUw/T1G6VnNjlzy6nubObjPu3AfDkZhXkF+jm4iEHm/JgFRxUIM7BBHKD5/Fqljj8PCF2Cw=="
         },
         "fed2dcab-3017-465e-b365-95d48c31625f": {
           "display_id": 3978,
@@ -45990,8 +45999,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-26T04:13:22.147117917Z",
+    "timestamp": "2026-09-26T04:34:13.877431246Z",
     "agent_id": "OL2r",
-    "agent_seq": 3526
+    "agent_seq": 3527
   }
 }
