@@ -1,0 +1,93 @@
+{
+  "commit": "f4ad24acf6c6a2467445ba8d242aaf0895594769",
+  "conditions": {
+    "attempts_per_cell": 1,
+    "frozen_condition_check": "all 64 rebuilt requests hash-equal and body-equal to the frozen general_model rows; enforced as a pre-call gate",
+    "gen_sys": "imported from frozen harness/run_baselines.py",
+    "max_tokens": 256,
+    "n_cases": 64,
+    "retries": 0,
+    "session_header": "jev-phase1-followup-01-spacebunny-20260926",
+    "temperature": 0,
+    "transport_note": "the x-opencode-session provenance header is the only transport-level difference from the frozen run; it is not part of the hashed body"
+  },
+  "crosslink_issue": 565,
+  "error_counts": {
+    "general_model": {
+      "None": 63,
+      "empty_content": 1
+    },
+    "jev": {
+      "None": 64
+    },
+    "spacebunny": {
+      "None": 63,
+      "empty_content": 1
+    }
+  },
+  "followup": "followup-01-spacebunny",
+  "frozen_inputs": {
+    "cases.ndjson": {
+      "actual": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+      "expected": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+      "match": true
+    },
+    "results/baselines_raw.ndjson": {
+      "actual": "42f37690ec7ebbca75293ab0a690dc8efd8d5ef8a6a663db632bb05d682bf7ba",
+      "expected": "42f37690ec7ebbca75293ab0a690dc8efd8d5ef8a6a663db632bb05d682bf7ba",
+      "match": true
+    },
+    "results/jev_raw.ndjson": {
+      "actual": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+      "expected": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+      "match": true
+    }
+  },
+  "generated_utc": "2026-09-26T04:58:49Z",
+  "model": {
+    "catalog_id": "opencode-go/space-bunny-free",
+    "catalog_refreshed": "2026-09-26",
+    "context": 1048576,
+    "cost": {
+      "cache_read": 0,
+      "cache_write": 0,
+      "input": 0,
+      "output": 0
+    },
+    "endpoint": "https://opencode.ai/zen/v1/chat/completions",
+    "family": "SAME family as the corpus author, harness author, GEN_SYS author and verifier (findings.md §4 L1). This run is a same-family REPLICATE of general_model, not the cross-family test Q1 calls for.",
+    "mechanism_label": "spacebunny",
+    "model_id": "space-bunny-free",
+    "provider": "OpenCode Go model, served on the OpenCode Zen route",
+    "route_note": "the disclosed Zen route, identical to the frozen general_model route. A route change, not a model substitution (see phase1 manifest.models.general_model.endpoint_note)."
+  },
+  "outputs_sha256": {
+    "comparison.json": "c180819971abbc2c79619eae125764aee715f2a7be023e9dc09049995308bcad",
+    "paired.ndjson": "23c016f5d2be3b9bd83daa490f2100c8a22bd8de6ee8efdf2e02ff8c0155c113",
+    "spacebunny_raw.ndjson": "b52ba540f766237a2a697f72e6a968380912655093ebd73f5108a69e5acd917d"
+  },
+  "raw_run_window_utc": [
+    "2026-09-26T04:54:19Z",
+    "2026-09-26T04:55:50Z"
+  ],
+  "runner": {
+    "path": "followup-01-spacebunny/harness/run_spacebunny.py",
+    "version": "1.0.0"
+  },
+  "schema_version": "jevp1-followup-comparison-1.0",
+  "scorer": {
+    "path": "followup-01-spacebunny/harness/score_followup.py",
+    "python": "3.10",
+    "reuses": [
+      "common.py",
+      "score.py"
+    ],
+    "stdlib_only": true,
+    "version": "1.0.0"
+  },
+  "secrets": {
+    "api_key_env": "OPENCODE_GO_API_KEY",
+    "secrets_recorded_field": false,
+    "value_recorded": false
+  }
+}

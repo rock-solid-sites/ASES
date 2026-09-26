@@ -58,6 +58,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -103,7 +104,6 @@ FROZEN_INPUTS = {
 
 
 def sha256_file(path):
-    import hashlib
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 16), b""):
@@ -181,6 +181,10 @@ def preflight(check_only=False):
     gates["conditions"] = {
         "model_id": GENERAL_MODEL,
         "endpoint": ZEN_CHAT_URL,
+        # The prompt is not re-implemented; it is imported. Pinning its digest
+        # here makes the "same GEN_SYS" claim checkable by a reader instead of
+        # a claim they have to take on trust.
+        "gen_sys_sha256": hashlib.sha256(GEN_SYS.encode("utf-8")).hexdigest(),
         "gen_sys_source": "frozen harness/run_baselines.py:GEN_SYS (imported, not copied)",
         "max_tokens": GENERAL_MAX_TOKENS,
         "temperature": 0,
