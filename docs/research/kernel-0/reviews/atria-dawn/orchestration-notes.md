@@ -1,6 +1,57 @@
 # Atria Dawn Clean-Room Review — Execution Notes
 
-Status: blocked — no verdict obtained
+Status: attempt 2 in progress (see "Attempt 2" below) — attempt 1 blocked, no
+verdict obtained
+
+---
+
+# ATTEMPT 2 — operator-authorized single retry
+
+## Attempt 2 dispatch metadata
+
+- Authorization: operator authorized exactly one retry after attempt 1
+  ("Try again. It's a brand new API key.").
+- Attempt 2 status: in progress
+- Dispatch time (attempt 2 preflight): 2026-09-26T18:0xZ — see Log below
+- Source commit: e2e3bc110b1370f3505aa0838990713520bf3f7c
+- Endpoint: https://api.atria-asi.ai/v1/chat/completions
+- Requested model: Atria-Dawn-Preview
+- Method: single POST, no retries, no model/provider substitution
+- Worktree: /tmp/ases-kernel0-preflight
+- Branch: codex/kernel-0-reasoning-566
+- Expected pre-attempt-2 HEAD: 15f76b1f5097a871abcde202891c872d3a83c93e
+  (equal to `origin/codex/kernel-0-reasoning-566` after `git fetch origin`;
+  the remote branch had not moved)
+
+## Attempt 2 Step 0 — environment observations
+
+- Secret file observation (no value read or printed):
+  `mtime=2026-09-26 17:05:01.774150662 +0000 size=58 mode=600`
+  — identical to the attempt-1 observation, so the operator's claimed key
+  replacement was **not** reflected in the file at the time of the attempt-2
+  preflight. The mtime is not newer than 2026-09-26T17:05:02Z.
+- Key load: `KEY_LOADED` (loaded in a subshell from ~/.secrets/atria.env; the
+  value was never printed, echoed, logged, or placed in a command argument).
+  No shell-history restore was performed for attempt 2; the file was present
+  and used as-is.
+- Clean-room digest check before sending (all three matched):
+  - packet.md `265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28`
+  - review-prompt.md `0d68edaa987066e736eaaa9e8e06ff2dba8faa85fa28ba999b8f1265b83be2ee`
+  - attempt-1 atria-request.json `6632ce5aae18dc0c0d551c3c6d423f964fb99aabdb7cc4e19f1ffce190c7cae7`
+
+## Attempt 2 evidence layout
+
+Top-level `atria-request.json`, `atria-response.raw.json`,
+`atria-response-metadata.json`, and (when content is a string)
+`atria-response.md` hold **attempt 2** and are the canonical attempt-2 evidence.
+`attempt-1/` holds the blocked attempt-1 evidence unchanged: the 126,506-byte
+request, the 124-byte HTTP 502 error body, and its metadata. The packet, prompt,
+runner, and scanners were byte-identical to the committed attempt-1 versions and
+were not edited.
+
+---
+
+# ATTEMPT 1 — original single authorized request (superseded, blocked)
 
 ## Outcome summary
 
@@ -217,4 +268,5 @@ Atria output was not used to modify the implementation.
   branch tip may be one commit ahead of the cited evidence commit.
 
 Next step: none available under the single-request rule. A new single-request
-authorization is required to obtain a verdict.
+authorization is required to obtain a verdict. (That authorization was granted by
+the operator and is recorded as Attempt 2 above.)
