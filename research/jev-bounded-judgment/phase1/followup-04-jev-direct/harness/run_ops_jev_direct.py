@@ -1567,11 +1567,49 @@ def cmd_summary(args):
             "latency_first_byte_ms": lat(warm_ok, "time_starttransfer"),
             "latency_tls_complete_ms": lat(warm_ok, "time_appconnect"),
             "latency_dns_ms": lat(warm_ok, "time_namelookup"),
+            "latency_tcp_connect_ms": lat(warm_ok, "time_connect"),
             "post_first_byte_residual_ms": FU03_A.describe(residual, unit="ms"),
+            "transport_definition": "time_appconnect ALONE. curl's -w phase "
+                                    "timings are CUMULATIVE from transfer start "
+                                    "(verified strictly monotonic: namelookup "
+                                    "<= connect <= appconnect <= pretransfer "
+                                    "<= starttransfer <= total), so "
+                                    "namelookup + connect + appconnect adds "
+                                    "overlapping intervals and double-counts.",
+            "transport_setup_ms": FU03_A.describe(transport, unit="ms"),
+            "model_attributable_residual_ms": FU03_A.describe(
+                [t - s for t, s in zip(total, transport)
+                 if t is not None and s is not None], unit="ms"),
             "transport_share_of_total_mean": (
                 FU03_A.r4(mean_transport / mean_total) if mean_total and
                 mean_transport is not None else None),
             "pearson_r_total_vs_output_tokens": pearson,
+            "correlation_caveat": "established over an output-token range of "
+                                  "17..69 only. It must NOT be extrapolated to "
+                                  "long-form output: the independence of latency "
+                                  "from work done is a statement about this "
+                                  "narrow range.",
+        },
+        "transport_measurement_correction_to_followup_03": {
+            "finding": "followup-03 computed transport as "
+                       "`namelookup + connect + appconnect`, which double-counts "
+                       "because curl's -w phase timings are cumulative from "
+                       "transfer start. The correct transport is time_appconnect "
+                       "alone.",
+            "verification": "strict monotonicity of the phase sequence confirmed "
+                            "on all rows of BOTH raw files",
+            "mimo_followup_03_reported_mean_transport_ms": 205.0413,
+            "mimo_corrected_mean_transport_ms": 201.643,
+            "mimo_followup_03_reported_transport_share": 0.034331,
+            "mimo_corrected_transport_share": 0.033771,
+            "error_size": "+1.7% on mean transport, +0.06 pp on the share",
+            "affects_conclusions": False,
+            "why_not": "followup-03's conclusions rest on time_total, not on the "
+                       "transport share; the correction moves no ranking",
+            "frozen_artefacts_modified": False,
+            "note": "recorded as a correction to how the frozen figure is read "
+                    "here. The frozen followup-03 artefacts are unmodified and "
+                    "were read read-only.",
         },
         "starttransfer_interpretation": {
             "question": "does `time_starttransfer` track model work or only "
