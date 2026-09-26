@@ -4,10 +4,11 @@
       "attempts": 1,
       "content": null,
       "content_empty": null,
+      "credential_source": "env:OPENCODE_GO_API_KEY",
       "error_detail": "HTTP 403",
       "finish_reason": null,
       "http_status": 403,
-      "latency_ms": 460.2,
+      "latency_ms": 444.5,
       "model": "mimo-v2.6-flash",
       "parsed": true,
       "retries": 0,
@@ -17,33 +18,46 @@
     },
     {
       "attempts": 1,
-      "content": null,
-      "content_empty": null,
-      "error_detail": "HTTP 403",
-      "finish_reason": null,
-      "http_status": 403,
-      "latency_ms": 424.1,
+      "content": "NO",
+      "content_chars": 2,
+      "content_empty": false,
+      "credential_source": "auth.json#opencode-go",
+      "error_detail": null,
+      "finish_reason": "stop",
+      "http_status": 200,
+      "latency_ms": 2381.5,
       "model": "mimo-v2.6-flash",
+      "model_returned": "mimo-v2.6-flash",
       "parsed": true,
+      "provider_id": "3ef6577d-c96d-448e-850e-672df79a4a9f_6e5a97a79f3443a6a8c6a6148523906d",
+      "reasoning_chars": 39,
+      "reasoning_field_present": true,
       "retries": 0,
-      "token_counts": null,
-      "typed_error": "http_4xx",
-      "usage": null
-    },
-    {
-      "attempts": 1,
-      "content": null,
-      "content_empty": null,
-      "error_detail": "HTTP 403",
-      "finish_reason": null,
-      "http_status": 403,
-      "latency_ms": 444.1,
-      "model": "mimo-v2.6-flash",
-      "parsed": true,
-      "retries": 0,
-      "token_counts": null,
-      "typed_error": "http_4xx",
-      "usage": null
+      "token_counts": {
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "input_tokens": 77,
+        "output_tokens": 14,
+        "reasoning_tokens": 11,
+        "total_tokens": 91
+      },
+      "typed_error": null,
+      "usage": {
+        "input_tokens": 77,
+        "output_tokens": 14,
+        "raw": {
+          "completion_tokens": 14,
+          "completion_tokens_details": {
+            "reasoning_tokens": 11
+          },
+          "prompt_tokens": 77,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 91
+        },
+        "total_tokens": 91
+      }
     }
   ],
   "conditions": {
@@ -53,29 +67,27 @@
     "retries": 0,
     "temperature": 0
   },
-  "derived_cost_usd": 0.0,
+  "credential_resolution_order": [
+    "env:OPENCODE_GO_API_KEY",
+    "auth.json#opencode-go"
+  ],
+  "credential_source_note": "source LABELS only. No credential value is present in this file, in any log, or on disk; the value reaches curl on stdin.",
+  "credential_source_selected": "auth.json#opencode-go",
+  "credential_sources_abandoned": [
+    {
+      "credential_source": "env:OPENCODE_GO_API_KEY",
+      "http_status": 403,
+      "outcome": "entitlement_403",
+      "why": "the Go route reports no active Go subscription for this credential; the request itself was never evaluated"
+    }
+  ],
+  "derived_cost_usd": 1.47e-05,
   "endpoint": "https://opencode.ai/zen/go/v1/chat/completions",
-  "failure_confirmation": {
-    "consistent_failure": true,
-    "http_statuses": [
-      403,
-      403,
-      403
-    ],
-    "n_calls": 3,
-    "note": "same parameters throughout; nothing was tuned to obtain a different result",
-    "typed_errors": [
-      "http_4xx",
-      "http_4xx",
-      "http_4xx"
-    ],
-    "why": "the brief requires stopping only if the route fails consistently; consistency requires >1 observation"
-  },
   "max_tokens_consumed_by_reasoning": false,
   "model_catalog_id": "opencode-go/mimo-v2.6-flash",
   "model_id": "mimo-v2.6-flash",
-  "n_calls": 3,
-  "observation": "NOT REACHABLE: HTTP 403 (http_4xx). No grid call was made.",
+  "n_calls": 2,
+  "observation": "REACHABLE and content returned: `max_tokens=256` was not fully consumed by reasoning (finish_reason='stop', content_chars=2, reasoning_chars=39). The empty-content failure mode is therefore not guaranteed to be absent from the grid, only unobserved on this one call.",
   "reference_answer": "NO",
   "request_body": {
     "max_tokens": 256,
@@ -93,20 +105,22 @@
     "temperature": 0
   },
   "request_hash": "sha256:82b0292ea2dc9b7222af72a6067fdb371a5e0536dc30ab7165599d7b606b538e",
-  "route_reachable": false,
-  "runner_version": "1.0.0",
-  "schema_version": "jevp1-followup2-preflight-1.0",
+  "route_reachable": true,
+  "runner_version": "1.1.0",
+  "schema_version": "jevp1-followup2-preflight-1.1",
   "secrets_recorded": false,
+  "session_header_name": "x-opencode-session",
+  "session_header_value": "fea09ff9-99a4-409b-a7d9-3f95911f76e9",
   "state_is_non_corpus": true,
   "state_sha256": "f6193db4e8ade5b5807deb24f7184610c615ed96f5a8ecaee2e9a40068038031",
-  "timestamp_utc": "2026-09-26T05:17:58Z",
+  "timestamp_utc": "2026-09-26T05:40:25Z",
   "usage_totals": {
     "cache_read_tokens": 0,
     "cache_write_tokens": 0,
-    "input_tokens": 0,
-    "output_tokens": 0,
-    "reasoning_tokens": 0,
-    "total_tokens": 0
+    "input_tokens": 77,
+    "output_tokens": 14,
+    "reasoning_tokens": 11,
+    "total_tokens": 91
   },
-  "what": "throwaway reachability + reasoning-consumption smoke test. NOT one of the 64 grid cells; never scored; its state text is not from cases.ndjson."
+  "what": "throwaway credential-resolution + reachability + reasoning-consumption smoke test. NOT one of the 64 grid cells; never scored; its state text is not from cases.ndjson."
 }

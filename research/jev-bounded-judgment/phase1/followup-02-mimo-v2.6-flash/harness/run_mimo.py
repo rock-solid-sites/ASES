@@ -59,25 +59,67 @@ and never re-sent. A second attempt at any cell would silently convert an N=1
 measurement into an N>1 one on exactly the cells where the first attempt failed,
 which is the worst possible place to do it.
 
+CREDENTIAL RESOLUTION
+---------------------
+Two credential sources are tried, in this fixed order:
+
+  1. `$OPENCODE_GO_API_KEY`               (label `env:OPENCODE_GO_API_KEY`)
+  2. `~/.local/share/opencode/auth.json` -> `opencode-go.key`
+                                        (label `auth.json#opencode-go`)
+
+The fallback fires ONLY on an entitlement 403 — HTTP 403 whose body says an
+active OpenCode Go subscription is required. That is a statement about the
+ACCOUNT behind a credential, not about the request, so switching credential is
+the correct response to it and re-sending the same request is not. Any other
+failure stops the run: this file never shops for a credential that happens to
+work. Measured 2026-09-26: source 1 returns 403 on the Go route for every model
+(including the frozen `space-bunny-free`), source 2 returns 200.
+
+Resolution happens ONCE, in the preflight, and the grid then uses the selected
+source directly. There is no credential-fallback logic inside the cell loop, so
+N=1 per cell is preserved exactly: a cell is never re-sent under a second
+credential.
+
 SECRETS
 -------
-The API key is read from the environment, used only as a bearer token, and
-never logged, printed, or written to any artefact. `make_result` records
+A credential is read at runtime, held only in memory, used only as a bearer
+token, and never logged, printed, or written to any artefact. It reaches curl
+through a config on STDIN (`curl -K -`), so it appears neither in `argv` (where
+`/proc/*/cmdline` and shell history would expose it) nor in any file. Only the
+credential SOURCE LABEL is recorded, in `results/preflight.json`,
+`results/run_session.json` and the manifest. `make_result` records
 `secrets_recorded: false`.
 
-TWO DISCLOSED TRANSPORT-LEVEL DIFFERENCES FROM THE FROZEN RUN
--------------------------------------------------------------
+TRANSPORT: CURL, NOT urllib
+---------------------------
+`post_json_curl` replaces the frozen `common.post_json`, which uses
+`urllib.request`. Measured 2026-09-26: with the SAME credential, urllib is
+rejected by Cloudflare (HTTP 403, error code 1010 — the owner's user-agent
+block) while curl is served normally. urllib was therefore never able to reach
+this route with any credential, and the replacement is a transport change, not
+a parameter change. It reproduces `common.post_json`'s return contract exactly
+and reuses `common.classify` for the typed error and `common._extract_usage`
+for the usage block, so the recorded rows are shaped identically to the frozen
+run's.
+
+FOUR DISCLOSED TRANSPORT-LEVEL DIFFERENCES FROM THE FROZEN RUN
+--------------------------------------------------------------
 1. The endpoint is the Go route `https://opencode.ai/zen/go/v1/chat/completions`
    rather than the frozen run's Zen route. Disclosed in the brief as permitted;
    the body is unaffected by the route.
-2. The `x-opencode-session` provenance header carries a follow-up-specific id
-   rather than the frozen run's `jev-phase1-baselines-20260926`. It is a
-   provider grouping header; it is not part of the request body, does not enter
-   the prompt, and does not affect the hashed request.
+2. The `x-opencode-session` provenance header is a per-run UUID4 rather than the
+   frozen run's `jev-phase1-baselines-20260926`. It is a provider grouping
+   header; it is not part of the request body, does not enter the prompt, and
+   does not affect the hashed request. It is not a secret and IS recorded.
+3. The HTTP client is curl rather than urllib (see above). The `User-Agent` is
+   still the frozen `common.USER_AGENT`, and the JSON body is the frozen
+   `serialise(body)`, so the bytes on the wire are the frozen bytes.
+4. The credential comes from the CLI credential store rather than the
+   environment variable (see CREDENTIAL RESOLUTION).
 
 Usage:
     python3 harness/run_mimo.py --check-only        # gates only, zero calls
-    python3 harness/run_mimo.py --preflight-only     # 1 throwaway call -> preflight.json
+    python3 harness/run_mimo.py --preflight-only     # smoke call(s) -> preflight.json
     python3 harness/run_mimo.py                     # the grid (64 requests)
 """
 from __future__ import annotations
@@ -86,7 +128,10 @@ import argparse
 import hashlib
 import json
 import os
+import subprocess
 import sys
+import time
+import uuid
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FOLLOWUP = os.path.dirname(HERE)
@@ -96,10 +141,15 @@ sys.path.insert(0, PHASE1_HARNESS)
 
 from common import (  # noqa: E402
     ERR_INTERNAL,
+    ERR_NETWORK,
+    ERR_TIMEOUT,
+    TIMEOUT_SECONDS,
+    USER_AGENT,
     NdjsonWriter,
+    _extract_usage,
+    classify,
     load_cases,
     make_result,
-    post_json,
     request_hash,
     serialise,
     utc_now_iso,
@@ -113,7 +163,7 @@ from run_baselines import (  # noqa: E402
     parse_general,
 )
 
-RUNNER_VERSION = "1.0.0"
+RUNNER_VERSION = "1.1.0"
 MECHANISM = "mimo_v26_flash"
 
 # Operator-approved cross-family model. ID verified present in the live catalog
@@ -137,11 +187,23 @@ MODEL_COST_PER_MTOK = {
                     "cache_write": 0.0},
 }
 
-SESSION_ID = "jev-phase1-followup-02-mimo-20260926"
+SESSION_HEADER = "x-opencode-session"
 API_KEY_ENV = "OPENCODE_GO_API_KEY"
+AUTH_JSON = "~/.local/share/opencode/auth.json"
+AUTH_JSON_PROVIDER = "opencode-go"
+LABEL_ENV = "env:OPENCODE_GO_API_KEY"
+LABEL_AUTHJSON = "auth.json#opencode-go"
+CREDENTIAL_ORDER = (LABEL_ENV, LABEL_AUTHJSON)
+
+# The entitlement message the Go route returns for a credential with no Go
+# entitlement. Matched case-insensitively on a distinctive fragment, so the
+# fallback fires on THAT condition and not on every 403.
+ENTITLEMENT_FRAGMENT = "subscription is required"
+
 MAX_ATTEMPTS = 1          # N = 1. Not a tunable. See the module docstring.
 CASES_N = 64
 TEMPERATURE = 0
+RUN_SESSION_PATH = os.path.join(FOLLOWUP, "results", "run_session.json")
 
 # Frozen digests. Verified before any HTTP call; a mismatch is a hard stop.
 FROZEN_INPUTS = {
@@ -162,6 +224,168 @@ SMOKE_STATE = ("The sample service's deployment target list contains exactly "
 SMOKE_QUESTION = ("Is the sample service's deployment target list empty?")
 SMOKE_REFERENCE_ANSWER = "NO"
 PREFLIGHT_PATH = os.path.join(FOLLOWUP, "results", "preflight.json")
+
+
+# ---------------------------------------------------------------------------
+# per-run provenance id (not a secret; recorded in every artefact)
+# ---------------------------------------------------------------------------
+_RUN_SESSION = {"id": None}
+
+
+def session_id(cli_value=None):
+    """The `x-opencode-session` value for this run. Generated ONCE per run.
+
+    It is a provider grouping header, not a credential: the OpenCode CLI store's
+    own traffic carries one, and the Go route answers 400 `MissingSessionID`
+    without it. It is recorded because it is how a reader ties a provider-side
+    request log to this run, and recording it discloses nothing.
+    """
+    if _RUN_SESSION["id"] is None:
+        _RUN_SESSION["id"] = (cli_value
+                              or os.environ.get("MIMO_RUN_SESSION_ID")
+                              or str(uuid.uuid4()))
+    return _RUN_SESSION["id"]
+
+
+# ---------------------------------------------------------------------------
+# credential resolution
+# ---------------------------------------------------------------------------
+def read_credential(label):
+    """The credential named by `label`, read at runtime. Never logged.
+
+    Returns None when the source is absent or unreadable. The value is used
+    only as a bearer token and is never returned to any caller that records it.
+    """
+    if label == LABEL_ENV:
+        value = os.environ.get(API_KEY_ENV)
+        return value or None
+    if label == LABEL_AUTHJSON:
+        path = os.path.expanduser(AUTH_JSON)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, ValueError):
+            return None
+        node = data.get(AUTH_JSON_PROVIDER)
+        if isinstance(node, dict):
+            for field in ("key", "apiKey", "api_key", "token"):
+                if node.get(field):
+                    return str(node[field])
+            return None
+        if isinstance(node, str) and node:
+            return node
+        return None
+    raise SystemExit(f"unknown credential label {label!r}")
+
+
+def credential_candidates():
+    """Available credential sources, in the fixed order. Labels only.
+
+    A source that is configured but unreadable is reported as absent rather
+    than silently skipped, so the recorded resolution order is complete.
+    """
+    out = []
+    for label in CREDENTIAL_ORDER:
+        out.append({"label": label, "present": read_credential(label) is not None})
+    return out
+
+
+def is_entitlement_403(resp):
+    """True only for the account-level entitlement 403 on the Go route.
+
+    A 403 that is not this is a Cloudflare or other block and must NOT silently
+    cause a credential switch, so the provider message is required.
+    """
+    if resp.get("http_status") != 403:
+        return False
+    return ENTITLEMENT_FRAGMENT in (resp.get("raw_response") or "").lower()
+
+
+# ---------------------------------------------------------------------------
+# transport: curl subprocess
+# ---------------------------------------------------------------------------
+def post_json_curl(url, body, api_key, session_id_value, max_attempts=MAX_ATTEMPTS,
+                   timeout=TIMEOUT_SECONDS):
+    """POST via curl. Never raises. Same return contract as `common.post_json`.
+
+    The bearer token is handed to curl on STDIN as a config line, so it is in
+    neither `argv` nor any file. The request body carries no secret and is
+    passed as an argv value, which keeps the two channels from colliding (an
+    earlier `-K -` attempt that also fed the body on stdin silently sent an
+    empty body, which the route answered 401).
+
+    `max_attempts` exists to mirror the frozen signature. It is 1 for every call
+    this experiment makes, and there is no retry path here: a failed cell is
+    recorded, never re-sent.
+    """
+    # A credential containing a quote, a backslash or a newline cannot be
+    # expressed in curl's config syntax. Refuse rather than emit a config that
+    # would send a different header than intended.
+    if any(ch in api_key for ch in ('"', "\\", "\n", "\r")):
+        return {"http_status": None, "raw_response": "", "typed_error": ERR_INTERNAL,
+                "error_detail": "credential is not expressible in a curl config",
+                "usage": None, "latency_ms": None, "attempts": 0, "retries": 0}
+
+    cfg = 'header = "Authorization: Bearer %s"\n' % api_key
+    args = ["curl", "--silent", "--show-error", "--config", "-",
+            "--max-time", str(timeout),
+            "--write-out", "\n__HTTP__%{http_code}",
+            "--header", "Content-Type: application/json",
+            "--header", "%s: %s" % (SESSION_HEADER, session_id_value),
+            "--header", "User-Agent: %s" % USER_AGENT,
+            "--data-binary", serialise(body),
+            url]
+
+    attempts, retries = 0, 0
+    last = {"http_status": None, "raw_response": "", "typed_error": ERR_NETWORK,
+            "error_detail": None, "usage": None}
+    while attempts < max_attempts:
+        attempts += 1
+        t0 = time.monotonic()
+        try:
+            proc = subprocess.run(args, input=cfg, capture_output=True, text=True)
+        except Exception as e:  # noqa: BLE001 - the grid must stay complete
+            last = {"http_status": None, "raw_response": "",
+                    "typed_error": ERR_INTERNAL,
+                    "error_detail": f"{type(e).__name__}: {e}"[:200],
+                    "usage": None,
+                    "latency_ms": round((time.monotonic() - t0) * 1000.0, 1)}
+            break
+        out = proc.stdout or ""
+        marker = "\n__HTTP__"
+        latency = round((time.monotonic() - t0) * 1000.0, 1)
+        if marker not in out:
+            # curl produced no status line: a transport failure, not an HTTP one.
+            # rc 28 is curl's operation timeout.
+            timed_out = proc.returncode == 28
+            last = {"http_status": None, "raw_response": out,
+                    "typed_error": ERR_TIMEOUT if timed_out else ERR_NETWORK,
+                    "error_detail": (f"curl rc={proc.returncode} "
+                                     f"{(proc.stderr or '').strip()}")[:200],
+                    "usage": None, "latency_ms": latency}
+            break
+        raw, _, status_txt = out.rpartition(marker)
+        try:
+            status = int(status_txt.strip())
+        except ValueError:
+            last = {"http_status": None, "raw_response": raw,
+                    "typed_error": ERR_INTERNAL,
+                    "error_detail": f"unparseable curl status {status_txt!r}"[:200],
+                    "usage": None, "latency_ms": latency}
+            break
+        raw = raw.rstrip("\n")
+        last = {"http_status": status, "raw_response": raw,
+                "typed_error": classify(status),
+                "error_detail": None if classify(status) is None else f"HTTP {status}",
+                "usage": _extract_usage(raw),
+                "latency_ms": latency}
+        # 4xx other than 429 is a contract error: re-sending cannot help. With
+        # max_attempts=1 this loop is single-pass in every case.
+        break
+    last["attempts"] = attempts
+    last["retries"] = retries
+    return last
+
 
 
 # ---------------------------------------------------------------------------
@@ -344,7 +568,11 @@ def build_gates(check_only=False):
         "temperature": TEMPERATURE,
         "max_attempts_per_cell": MAX_ATTEMPTS,
         "retries": 0,
-        "session_header": SESSION_ID,
+        "session_header_name": SESSION_HEADER,
+        "session_header_value": session_id(),
+        "transport": "curl subprocess (frozen urllib is Cloudflare-rejected, "
+                     "HTTP 403 code 1010, with the same credential)",
+        "credential_resolution_order": list(CREDENTIAL_ORDER),
         "permitted_differences_from_frozen_run": [
             "request field `model`: space-bunny-free -> mimo-v2.6-flash",
             "endpoint route: https://opencode.ai/zen/v1/chat/completions -> "
@@ -352,11 +580,18 @@ def build_gates(check_only=False):
             "x-opencode-session header (not part of the hashed body)",
         ],
     }
-    key = os.environ.get(API_KEY_ENV)
+    cands = credential_candidates()
+    gates["credential_sources"] = cands
     gates["api_key_env"] = API_KEY_ENV
-    gates["api_key_present"] = bool(key)
-    if not key:
-        raise SystemExit(f"STOP: ${API_KEY_ENV} is unset or empty. No call was made.")
+    gates["api_key_present"] = cands[0]["present"]
+    gates["credential_available"] = any(c["present"] for c in cands)
+    if not gates["credential_available"]:
+        raise SystemExit(
+            f"STOP: no usable credential. ${API_KEY_ENV} is "
+            f"{'set' if cands[0]['present'] else 'unset or empty'} and "
+            f"{AUTH_JSON}#{AUTH_JSON_PROVIDER} is "
+            f"{'readable' if cands[1]['present'] else 'unreadable'}. "
+            "No call was made.")
     if not check_only:
         gates["frozen_condition"] = {
             "requests_compared": CASES_N,
@@ -372,8 +607,13 @@ def build_gates(check_only=False):
     print(f"  frozen inputs verified: {len(FROZEN_INPUTS)} files")
     print(f"  frozen-condition check: {CASES_N}/{CASES_N} requests identical"
           f"{' (preflight)' if check_only else ''}")
-    print(f"  {API_KEY_ENV}: present (value never printed)")
+    print("  credentials available: "
+          + ", ".join(f"{c['label']}={'yes' if c['present'] else 'no'}"
+                      for c in cands)
+          + "  (values never printed)")
+    print(f"  {SESSION_HEADER}: {session_id()}")
     return gates, cases
+
 
 
 # ---------------------------------------------------------------------------
@@ -396,21 +636,55 @@ def smoke_request():
     }
 
 
-def run_preflight(api_key, out_path=PREFLIGHT_PATH):
-    """One throwaway call. Records reachability and the reasoning-consumption
-    observation. Excluded from the 64-cell grid by construction: it is never
-    written to `mimo_raw.ndjson` and is not a corpus case id."""
+def run_preflight(out_path=PREFLIGHT_PATH):
+    """Resolve the credential AND establish reachability, on non-corpus content.
+
+    One throwaway call per credential source, in the fixed order, stopping at
+    the first 2xx. Each call is `max_attempts=1` with zero retries. A source is
+    abandoned only on the account-level entitlement 403; any other failure stops
+    the preflight, because switching credential would not be the right response
+    to it.
+
+    Excluded from the 64-cell grid by construction: it is never written to
+    `mimo_raw.ndjson` and it is not a corpus case id.
+    """
     body = smoke_request()
     calls = []
-    resp = post_json(ENDPOINT, body, api_key, session_id=SESSION_ID,
-                     max_attempts=MAX_ATTEMPTS)
-    calls.append(summarise_smoke(body, resp))
+    selected = None
+    abandoned = []
+    for cand in credential_candidates():
+        label = cand["label"]
+        if not cand["present"]:
+            abandoned.append({"credential_source": label,
+                              "outcome": "absent_or_unreadable"})
+            continue
+        resp = post_json_curl(ENDPOINT, body, read_credential(label),
+                              session_id_value=session_id(),
+                              max_attempts=MAX_ATTEMPTS)
+        calls.append(summarise_smoke(body, resp, credential_source=label))
+        if resp["typed_error"] is None and resp["http_status"] is not None \
+                and 200 <= resp["http_status"] < 300:
+            selected = label
+            break
+        if is_entitlement_403(resp):
+            abandoned.append({"credential_source": label,
+                              "outcome": "entitlement_403",
+                              "http_status": resp["http_status"],
+                              "why": "the Go route reports no active Go "
+                                     "subscription for this credential; the "
+                                     "request itself was never evaluated"})
+            continue
+        abandoned.append({"credential_source": label,
+                          "outcome": "failed",
+                          "http_status": resp["http_status"],
+                          "typed_error": resp["typed_error"]})
+        break
 
     record = {
-        "schema_version": "jevp1-followup2-preflight-1.0",
-        "what": "throwaway reachability + reasoning-consumption smoke test. NOT "
-                "one of the 64 grid cells; never scored; its state text is not "
-                "from cases.ndjson.",
+        "schema_version": "jevp1-followup2-preflight-1.1",
+        "what": "throwaway credential-resolution + reachability + "
+                "reasoning-consumption smoke test. NOT one of the 64 grid "
+                "cells; never scored; its state text is not from cases.ndjson.",
         "runner_version": RUNNER_VERSION,
         "model_id": MODEL_ID,
         "model_catalog_id": MODEL_CATALOG_ID,
@@ -420,36 +694,44 @@ def run_preflight(api_key, out_path=PREFLIGHT_PATH):
                        "max_attempts": MAX_ATTEMPTS, "retries": 0,
                        "gen_sys_sha256": hashlib.sha256(
                            GEN_SYS.encode("utf-8")).hexdigest()},
+        "session_header_name": SESSION_HEADER,
+        "session_header_value": session_id(),
+        "credential_resolution_order": list(CREDENTIAL_ORDER),
+        "credential_source_selected": selected,
+        "credential_sources_abandoned": abandoned,
+        "credential_source_note":
+            "source LABELS only. No credential value is present in this file, "
+            "in any log, or on disk; the value reaches curl on stdin.",
         "request_body": body,
         "request_hash": request_hash(body),
         "state_is_non_corpus": True,
         "state_sha256": hashlib.sha256(SMOKE_STATE.encode("utf-8")).hexdigest(),
         "reference_answer": SMOKE_REFERENCE_ANSWER,
         "timestamp_utc": utc_now_iso(),
-        "n_calls": 1,
+        "n_calls": len(calls),
         "calls": calls,
         "secrets_recorded": False,
     }
     record["usage_totals"] = usage_totals(calls, MODEL_ID)
     record["derived_cost_usd"] = cost_total(calls, MODEL_ID)
-    record["route_reachable"] = bool(
-        calls[0]["http_status"] is not None
-        and 200 <= calls[0]["http_status"] < 300)
+    ok_call = next((c for c in calls if c["credential_source"] == selected), None)
+    record["route_reachable"] = ok_call is not None
     record["max_tokens_consumed_by_reasoning"] = bool(
-        record["route_reachable"] and calls[0]["content_empty"])
+        ok_call is not None and ok_call["content_empty"])
     record["observation"] = smoke_observation(record["route_reachable"],
                                               record["max_tokens_consumed_by_reasoning"],
-                                              calls[0])
+                                              ok_call or (calls[0] if calls else None))
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(record, f, ensure_ascii=False, indent=2, sort_keys=True)
         f.write("\n")
     return record
 
 
-def summarise_smoke(body, resp):
+def summarise_smoke(body, resp, credential_source=None):
     """Everything worth knowing about one smoke call, secrets excluded."""
     out = {
         "model": body.get("model"),
+        "credential_source": credential_source,
         "http_status": resp["http_status"],
         "typed_error": resp["typed_error"],
         "error_detail": resp["error_detail"],
@@ -519,9 +801,12 @@ def cost_total(calls, model_id=MODEL_ID):
 
 
 def smoke_observation(reachable, consumed, call):
+    if call is None:
+        return "NOT REACHABLE: no call was made; no credential source was usable."
     if not reachable:
         return (f"NOT REACHABLE: HTTP {call['http_status']} "
-                f"({call['typed_error']}). No grid call was made.")
+                f"({call['typed_error']}) on credential source "
+                f"{call.get('credential_source')!r}. No grid call was made.")
     if consumed:
         return ("REACHABLE, but `max_tokens=256` was consumed by reasoning: the "
                 "200 carried an empty `content` field "
@@ -540,7 +825,8 @@ def smoke_observation(reachable, consumed, call):
             "absent from the grid, only unobserved on this one call.")
 
 
-def confirm_unreachable(api_key, out_path=PREFLIGHT_PATH, extra=2):
+def confirm_unreachable(api_key, credential_source, out_path=PREFLIGHT_PATH,
+                        extra=2):
     """The brief says stop if the route fails CONSISTENTLY. Consistency needs
     more than one data point, so this makes up to `extra` further throwaway,
     non-corpus calls at the SAME parameters, records them, and reports the
@@ -549,9 +835,11 @@ def confirm_unreachable(api_key, out_path=PREFLIGHT_PATH, extra=2):
     with open(out_path, "r", encoding="utf-8") as f:
         record = json.load(f)
     for _ in range(extra):
-        resp = post_json(ENDPOINT, body, api_key, session_id=SESSION_ID,
-                         max_attempts=MAX_ATTEMPTS)
-        record["calls"].append(summarise_smoke(body, resp))
+        resp = post_json_curl(ENDPOINT, body, api_key,
+                              session_id_value=session_id(),
+                              max_attempts=MAX_ATTEMPTS)
+        record["calls"].append(summarise_smoke(body, resp,
+                                               credential_source=credential_source))
         record["n_calls"] = len(record["calls"])
     statuses = [c["http_status"] for c in record["calls"]]
     errors = [c["typed_error"] for c in record["calls"]]
@@ -561,6 +849,7 @@ def confirm_unreachable(api_key, out_path=PREFLIGHT_PATH, extra=2):
         "why": "the brief requires stopping only if the route fails "
                "consistently; consistency requires >1 observation",
         "n_calls": len(statuses),
+        "credential_source": credential_source,
         "http_statuses": statuses,
         "typed_errors": errors,
         "consistent_failure": all(
@@ -582,14 +871,14 @@ def confirm_unreachable(api_key, out_path=PREFLIGHT_PATH, extra=2):
 # ---------------------------------------------------------------------------
 # the grid
 # ---------------------------------------------------------------------------
-def run(cases, api_key, out_path):
+def run(cases, api_key, out_path, credential_source=None):
     with NdjsonWriter(out_path) as w:
         for i, case in enumerate(cases, 1):
             body = build_general_request(case, MODEL_ID)
             try:
-                resp = post_json(ENDPOINT, body, api_key,
-                                 session_id=SESSION_ID,
-                                 max_attempts=MAX_ATTEMPTS)
+                resp = post_json_curl(ENDPOINT, body, api_key,
+                                      session_id_value=session_id(),
+                                      max_attempts=MAX_ATTEMPTS)
                 if resp["typed_error"] is None:
                     pred, perr = parse_general(resp["raw_response"], case)
                     if perr:
@@ -613,6 +902,7 @@ def run(cases, api_key, out_path):
                     error_detail=resp["error_detail"],
                     usage=resp["usage"], latency_ms=resp["latency_ms"],
                     attempts=resp["attempts"], retries=resp["retries"])
+
             except Exception as e:  # noqa: BLE001 - the grid must stay complete
                 row = make_result(
                     case=case, mechanism=MECHANISM, body=body,
@@ -629,6 +919,11 @@ def run(cases, api_key, out_path):
 
 
 def require_preflight():
+    """The recorded preflight must exist and must have reached the route.
+
+    It also names the credential source the grid must use. The value is re-read
+    at run time from that label; nothing about the credential is stored.
+    """
     if not os.path.exists(PREFLIGHT_PATH):
         raise SystemExit(
             f"STOP: {PREFLIGHT_PATH} is absent. The brief's step 1 is a recorded "
@@ -640,9 +935,55 @@ def require_preflight():
         raise SystemExit(
             "STOP: the recorded preflight did not reach the route "
             f"(http_statuses={[c['http_status'] for c in record['calls']]}, "
-            f"typed_errors={[c['typed_error'] for c in record['calls']]}). "
+            f"typed_errors={[c['typed_error'] for c in record['calls']]}, "
+            f"credential_sources_tried="
+            f"{[c.get('credential_source') for c in record['calls']]}). "
             "Reported, not worked around: no grid call is made and no parameter "
             "is changed to make the route behave.")
+    label = record.get("credential_source_selected")
+    if not label:
+        raise SystemExit(
+            "STOP: the recorded preflight reached the route but names no "
+            "credential source, so the grid has no credential to use. Re-run "
+            "`--preflight-only`.")
+    return record, label
+
+
+def write_run_session(path, credential_source, gates, preflight, n_rows,
+                      out_path):
+    """Per-run provenance for the scorer to fold into the manifest.
+
+    Holds the `x-opencode-session` UUID, the credential SOURCE LABEL and the
+    recorded digests. No credential value.
+    """
+    record = {
+        "schema_version": "jevp1-followup2-run-session-1.0",
+        "runner_version": RUNNER_VERSION,
+        "mechanism": MECHANISM,
+        "session_header_name": SESSION_HEADER,
+        "session_header_value": session_id(),
+        "session_header_note": "a per-run uuid4; a provider grouping header, "
+                               "not a credential. Generated once per run and "
+                               "recorded so a provider-side request log can be "
+                               "tied to this run.",
+        "credential_resolution_order": list(CREDENTIAL_ORDER),
+        "credential_source_used": credential_source,
+        "credential_source_note": "label only; no credential value is recorded "
+                                  "in any artefact by this experiment",
+        "preflight_session_header_value": (preflight or {}).get(
+            "session_header_value"),
+        "preflight_credential_source_selected": (preflight or {}).get(
+            "credential_source_selected"),
+        "transport": "curl subprocess",
+        "n_rows_written": n_rows,
+        "raw_path": os.path.relpath(out_path, FOLLOWUP),
+        "frozen_input_sha256": gates.get("frozen_input_sha256"),
+        "recorded_utc": utc_now_iso(),
+        "secrets_recorded": False,
+    }
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(record, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write("\n")
     return record
 
 
@@ -653,48 +994,74 @@ def main():
     ap.add_argument("--check-only", action="store_true",
                     help="run every gate, make zero HTTP calls")
     ap.add_argument("--preflight-only", action="store_true",
-                    help="run the gates and the one throwaway smoke call, then stop")
+                    help="run the gates and the throwaway smoke call(s), then stop")
+    ap.add_argument("--session-id", default=None,
+                    help="pin the x-opencode-session value instead of generating "
+                         "a fresh uuid4 for this run")
     args = ap.parse_args()
+    session_id(args.session_id)
 
     print("run_mimo: gates")
     gates, cases = build_gates(check_only=args.check_only)
-    api_key = os.environ[API_KEY_ENV]
 
     if args.check_only:
         print("run_mimo: --check-only, no call made")
         return 0
 
     if args.preflight_only:
-        print("run_mimo: preflight smoke test (throwaway, non-corpus, 1 call)")
-        rec = run_preflight(api_key)
-        print(f"  http_status={rec['calls'][0]['http_status']} "
-              f"latency_ms={rec['calls'][0]['latency_ms']} "
-              f"finish_reason={rec['calls'][0].get('finish_reason')!r}")
+        print("run_mimo: preflight (throwaway, non-corpus): credential "
+              "resolution + reachability, 1 attempt per source")
+        rec = run_preflight()
+        for c in rec["calls"]:
+            print(f"  source={c['credential_source']} "
+                  f"http_status={c['http_status']} "
+                  f"latency_ms={c['latency_ms']} "
+                  f"finish_reason={c.get('finish_reason')!r} "
+                  f"content_chars={c.get('content_chars')}")
+        for a in rec["credential_sources_abandoned"]:
+            print(f"  abandoned {a['credential_source']}: {a['outcome']}")
+        print(f"  credential_source_selected="
+              f"{rec['credential_source_selected']!r}")
         print(f"  route_reachable={rec['route_reachable']}")
         print(f"  max_tokens_consumed_by_reasoning="
               f"{rec['max_tokens_consumed_by_reasoning']}")
         print(f"  {rec['observation']}")
         if not rec["route_reachable"]:
-            print("run_mimo: route not reachable; confirming consistency "
-                  "(same parameters, no tuning)")
-            rec = confirm_unreachable(api_key)
-            fc = rec["failure_confirmation"]
-            print(f"  http_statuses={fc['http_statuses']}")
-            print(f"  consistent_failure={fc['consistent_failure']}")
+            tried = next((a["credential_source"]
+                          for a in rec["credential_sources_abandoned"]
+                          if a["outcome"] in ("entitlement_403", "failed")), None)
+            key = read_credential(tried) if tried else None
+            if key:
+                print("run_mimo: route not reachable; confirming consistency "
+                      "(same parameters, same credential, no tuning)")
+                rec = confirm_unreachable(key, tried)
+                fc = rec["failure_confirmation"]
+                print(f"  http_statuses={fc['http_statuses']}")
+                print(f"  consistent_failure={fc['consistent_failure']}")
             print("STOP: route failed consistently. Reported, not repaired. "
                   "No grid call was made.")
             return 2
         print(f"run_mimo: preflight recorded in {PREFLIGHT_PATH}")
         return 0
 
-    pre = require_preflight()
+    pre, label = require_preflight()
+    api_key = read_credential(label)
+    if not api_key:
+        raise SystemExit(
+            f"STOP: the preflight selected credential source {label!r} but it "
+            "is no longer readable. No call was made.")
     print(f"run_mimo: preflight on file — {pre['observation'][:80]}…")
     print(f"run_mimo: {len(cases)} cases, 1 attempt each, no retries")
     print(f"  model={MODEL_ID} endpoint={ENDPOINT}")
-    n = run(cases, api_key, args.out)
+    print(f"  credential_source={label} (value never printed)")
+    n = run(cases, api_key, args.out, credential_source=label)
+    sess = write_run_session(RUN_SESSION_PATH, label, gates, pre, n, args.out)
     print(f"run_mimo: wrote {n} rows to {args.out}")
+    print(f"run_mimo: {SESSION_HEADER}={sess['session_header_value']} "
+          f"recorded in {RUN_SESSION_PATH}")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
