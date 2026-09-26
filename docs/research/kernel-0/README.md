@@ -50,3 +50,6 @@ coupled admission and the compatible-recovery-cut requirement (bounded model onl
 [Generalization](./Kernel-0-Generalization.md) separates conditional parametric
 arguments from finite evidence and preserves wraparound, longer-cycle and
 delegation-depth counterexamples.
+
+[Whole-history refinement](./Kernel-0-Refinement-Assurance.md) checks whether
+complete observed concurrent/crash histories admit one permitted abstract order.
