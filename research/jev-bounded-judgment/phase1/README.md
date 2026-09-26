@@ -1,7 +1,10 @@
 # Jev Phase 1 Diagnostic — Bounded Judgment vs Cheaper Mechanisms
 
 **Crosslink issue:** #565
-**Status:** in progress — dispatched to builder (see `DISPATCH.md`)
+**Status:** D1 complete (deliverables 1–5 and 8) — scoring, tables and runbook
+landed and clean-clone tested; `findings.md` (6) and `verification.md` (7) are
+D2/D3 and not started. Read `DISPATCH.md` for the result and
+`RUNBOOK.md` §5 for the verifier checklist.
 **Started:** 2026-09-26
 **Scope:** Phase 1 only. Stop after one reproducible ~60-case diagnostic run.
 
@@ -40,6 +43,29 @@ Neither a positive nor a negative conclusion is assumed.
    next-phase questions.
 7. `verification.md` — independent re-run verdict (separate agent).
 8. `RUNBOOK.md` — exact reproduction commands.
+
+## Read this before quoting any number from this directory
+
+- **Jev reports no `confidence` and no `probabilities` for `noul` questions**,
+  and 50 of the 64 cases are `noul`. Every escalation/coverage number for Jev
+  therefore rests on a **locally derived** confidence for those 50 cells.
+  `tables/T5-coverage-error.md` §T5c reports the curve under each convention.
+- **Jev answered all 14 unanswerable cases, and no mechanism in the grid ever
+  abstained.** Of the 70 unanswerable cells (14 cases x 5 mechanisms), 69
+  received a label and 0 of 320 cells set the `abstained` flag; the one cell
+  that emitted no label failed in transport, not in judgement. On one
+  evidence-removal control Jev's confidence *rose* 0.38. High answerable-only
+  accuracy is not evidence that Jev can support escalation.
+- **The `rule` and `lexical` cue lexicons were hand-authored by the corpus
+  author with the corpus vocabulary in view.** They are hand-built baselines;
+  their accuracy is an upper bound on a generic cue engine, not a measurement
+  of one.
+- **`rule` on area D is a tautology** — it evaluates the same
+  `routing_policy` that defines the expected role.
+- **`general_model` is hard-decoded**, so its confidence is identically 1.0 and
+  its threshold coverage is an encoding artefact, not a measurement.
+- **n=64 synthetic cases. No significance test is claimed anywhere**
+  (`schema.md` §5).
 
 ## Established interface facts (recon 2026-09-26)
 

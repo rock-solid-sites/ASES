@@ -51,7 +51,9 @@
 
 ## T7c — controls that did not behave
 
-Selected from the data, not written by hand. Two filters: a control that is *supposed* to be inert but moved the confidence by 0.05 or more while holding the label; and **every** `missing_evidence` cell, in either direction. Across the whole grid **0 mechanism-cells abstained** on an evidence-free case — not one mechanism, Jev included, recognised that the deciding fact had been removed. Where the confidence rose after the evidence was removed, the confidence is not tracking evidential support at all.
+Selected from the data, not written by hand. Two filters: a control that is *supposed* to be inert but moved the confidence by 0.05 or more while holding the label; and **every** `missing_evidence` cell, in either direction.
+
+Grid-wide abstention picture: the corpus contains 70 unanswerable cells (14 unanswerable cases x 5 mechanisms). **69 of them received a label**, and **0 of 320 cells set the `abstained` flag**. The 1 cell(s) that emitted no label did so because the transport failed, not because the mechanism judged the question unanswerable: that is a missing answer, not an abstention. No mechanism in this grid recognised that a deciding fact had been removed. Where the confidence rose after the evidence was removed, the confidence is not tracking evidential support at all.
 
 | mechanism | control | variant | base | pred base | pred variant | d(conf) | what happened |
 |---|---|---|---|---|---|---|---|

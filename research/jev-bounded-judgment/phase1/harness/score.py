@@ -359,6 +359,11 @@ def _acc(scope):
         "false_confidence_rate": frac(sum(1 for c in unans
                                           if c["unanswerable_but_answered"]),
                                       len(unans)),
+        # A deliberate abstention is the cell setting `abstained`, which is
+        # distinct from emitting no label because the transport failed.
+        "n_abstained_flag": sum(1 for c in scope if c["abstained"]),
+        "n_unanswerable_no_label": sum(1 for c in unans
+                                       if not c["unanswerable_but_answered"]),
     }
 
 
@@ -1012,14 +1017,15 @@ def write_tables(metrics, out_dir, cases):
     # ---- T1 accuracy ------------------------------------------------------
     hdr = (["mechanism", "cells", "answerable", "unanswerable", "usable",
             "acc answerable-only", "acc mixed", "answered unanswerable",
-            "false-confidence rate"])
+            "false-confidence rate", "abstained flag"])
     rows = [[m, m1["overall"][m]["n_cells"], m1["overall"][m]["n_answerable"],
              m1["overall"][m]["n_unanswerable"], m1["overall"][m]["n_usable"],
              pct(m1["overall"][m]["acc_answerable"]),
              pct(m1["overall"][m]["acc_mixed"]),
              f'{m1["overall"][m]["n_answered_unanswerable"]}'
              f'/{m1["overall"][m]["n_unanswerable"]}',
-             pct(m1["overall"][m]["false_confidence_rate"])]
+             pct(m1["overall"][m]["false_confidence_rate"]),
+             m1["overall"][m]["n_abstained_flag"]]
             for m in MECHANISMS]
     w("T1-accuracy-overall.md",
       "# T1 — Accuracy per mechanism (whole grid)\n\n"
@@ -1033,7 +1039,9 @@ def write_tables(metrics, out_dir, cases):
       "unanswerable case as an error. Answers *is this safe to run?*\n"
       "- **false-confidence rate** = answered / all 14 unanswerable cases. This "
       "is the abstention metric, and it is the column that decides whether the "
-      "high answerable-only accuracy means anything.\n\n"
+      "high answerable-only accuracy means anything.\n"
+      "- **abstained flag** = cells where the mechanism itself recorded a "
+      "deliberate abstention. Zero everywhere; see `T7` §T7c.\n\n"
       + md_table(hdr, rows) + "\n")
 
     # ---- T2 per-area ------------------------------------------------------
@@ -1252,6 +1260,18 @@ def write_tables(metrics, out_dir, cases):
                       .get("variants", [])
                       if not d["answered_unanswerable"])
 
+    # The grid-wide abstention picture, over every unanswerable cell rather than
+    # just the missing_evidence controls. A cell that emitted no label because
+    # the transport failed is counted separately: that is a missing answer, not
+    # a judgement that the question could not be answered.
+    un_cells = sum(m1["overall"][m]["n_unanswerable"] for m in MECHANISMS)
+    answered = sum(m1["overall"][m]["n_answered_unanswerable"]
+                   for m in MECHANISMS)
+    no_label = sum(m1["overall"][m]["n_unanswerable_no_label"]
+                   for m in MECHANISMS)
+    flag_set = sum(m1["overall"][m]["n_abstained_flag"] for m in MECHANISMS)
+    total_cells = sum(m1["overall"][m]["n_cells"] for m in MECHANISMS)
+
     w("T7-contrastive-and-controls.md",
       "# T7 — Contrastive pairs and adversarial controls\n\n"
       "## T7a — contrastive pairs (six families, each differing only in the "
@@ -1281,11 +1301,17 @@ def write_tables(metrics, out_dir, cases):
       "Selected from the data, not written by hand. Two filters: a control that "
       "is *supposed* to be inert but moved the confidence by 0.05 or more while "
       "holding the label; and **every** `missing_evidence` cell, in either "
-      f"direction. Across the whole grid **{n_abstained} mechanism-cells "
-      "abstained** on an evidence-free case — not one mechanism, Jev included, "
-      "recognised that the deciding fact had been removed. Where the confidence "
-      "rose after the evidence was removed, the confidence is not tracking "
-      "evidential support at all.\n\n"
+      "direction.\n\n"
+      f"Grid-wide abstention picture: the corpus contains {un_cells} "
+      f"unanswerable cells (14 unanswerable cases x 5 mechanisms). "
+      f"**{answered} of them received a label**, and **{flag_set} of "
+      f"{total_cells} cells set the `abstained` flag**. The {no_label} cell(s) "
+      "that emitted no label did so because the transport failed, not because "
+      "the mechanism judged the question unanswerable: that is a missing "
+      "answer, not an abstention. No mechanism in this grid recognised that a "
+      "deciding fact had been removed. Where the confidence rose after the "
+      "evidence was removed, the confidence is not tracking evidential support "
+      "at all.\n\n"
       + (md_table(["mechanism", "control", "variant", "base", "pred base",
                    "pred variant", "d(conf)", "what happened"], findings)
          if findings else "None: no control moved its confidence by 0.05 or "

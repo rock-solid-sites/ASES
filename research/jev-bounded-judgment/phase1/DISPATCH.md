@@ -13,9 +13,111 @@ by git commits in this worktree (`research/jev-phase1-565`). No pushes.
 - Reasoning: on; tool calling: on; context 1,048,576
 - Catalog refreshed: 2026-09-26 ~02:31Z
 - Assigned paths: `research/jev-bounded-judgment/phase1/**` only
-- Status: dispatched 2026-09-26
+- Status: **complete 2026-09-26** — deliverables 1–5 and 8 of README landed
 - Deliverable: deliverables 1–5 and 8 of README, raw run complete, committed
-- Result: (pending)
+
+### D1 result — 2026-09-26
+
+Grid 64 cases x 5 mechanisms = **320/320 cells**, no missing, duplicate or
+unknown-case cell. Deliverables 1–5 and 8 landed on branch
+`research/jev-phase1-565`. D2 (verifier) and D3 (analyst) not started.
+
+| Deliverable | Artefact | State |
+|---|---|---|
+| 1 schema | `schema.md` | landed |
+| 2 cases | `cases.ndjson` (64, validator 29/29 PASS) | landed |
+| 3 harness | `harness/` — `validate_cases.py`, `gen_cases.py`, `preflight.py`, `common.py`, `routing_policy.py`, `run_jev.py`, `run_baselines.py`, `score.py` | landed |
+| 4 results | `results/` — `jev_raw.ndjson` (64), `baselines_raw.ndjson` (256), the preserved pre-fix `baselines_raw_prefix_max_tokens16.ndjson`, `scored.ndjson` (320), `metrics.json`, `manifest.json` | landed |
+| 5 tables | `tables/` — `INDEX.md` + T1..T11, all generated | landed |
+| 8 runbook | `RUNBOOK.md`, clean-clone tested | landed |
+| 6 findings | `findings.md` | **not started** — D3 |
+| 7 verification | `verification.md` | **not started** — D2 |
+
+**Answerable-only accuracy** (50 answerable cases; the honest comparator set
+is T3b, not T3a):
+
+| mechanism | acc answerable-only | false-confidence on the 14 unanswerable | Brier |
+|---|---|---|---|
+| prior | 44.0% | 14/14 | 0.6673 |
+| rule | 78.0% | 14/14 | 0.2820 |
+| lexical | 58.0% | 14/14 | 0.5636 |
+| **jev** | **98.0%** | **14/14** | **0.0355** |
+| general_model | 100.0% | 13/14 | 0.0 (hard-label floor) |
+
+**Incremental gain.** Chain order is normative (`schema.md` 3.1), so Jev's
+cheapest preceding mechanism is `lexical`: **+40.0pp** (b=20, c=0). Against
+every other incumbent: vs prior +54.0pp, vs rule +20.0pp, vs lexical +40.0pp,
+**vs the free general model −2.0pp (b=0, c=1)**.
+
+**Two findings that govern how the rest must be read.**
+
+1. **Jev's escalation story rests on a confidence the API never sent.** Jev
+   returns no `confidence` and no `probabilities` field for `noul` questions,
+   and 50 of 64 cases are `noul`. Under the reported-only convention the
+   actionable pool is 14 cells (20.3% coverage, 0 errors); under the locally
+   derived convention, 50 cells (54.7% at 0.70, 39.1% at 0.90 with 0 errors).
+   Jev emitted a confident label on **14/14 unanswerable cases** and on
+   `b-miss1` its confidence *rose* 0.38 when the deciding fact was deleted.
+   Grid-wide: of the 70 unanswerable cells (14 cases x 5 mechanisms), **69
+   received a label and 0 of 320 cells set the `abstained` flag** — the single
+   cell that emitted no label (`b-i03`) did so because the transport failed,
+   not because the mechanism judged the question unanswerable. High
+   answerable-only accuracy is therefore not evidence that Jev supports
+   escalation.
+2. **A free chat model matched Jev.** `space-bunny-free` on the Zen chat route
+   scored 100.0% on the answerable cases and matched the expected routing role
+   12/12. On this corpus Jev's advantage is over hand-built cues, not over a
+   free general model.
+
+**Interface fact confirmed empirically:** `confidence = (n*max(p)−1)/(n−1)`,
+on the 14 Jev cells that report one (mean abs residual 0.0005, max 0.005,
+13/14 exact at 2dp) versus `max(p)` (mean 0.0071, max 0.08). 50/50 `noul`
+cells are untestable because the API publishes no confidence there. Every
+stored `confidence_formula` was re-derived from the stored probabilities: 0
+mismatches / 319.
+
+**Failures, preserved not hidden.** 0 jev cells failed. 1 `general_model`
+cell (`b-i03`) is `empty_content` at HTTP 200 — a non-deterministic
+`max_tokens` interaction with the reasoning channel, documented in
+`results/baselines_raw_prefix_max_tokens16.ndjson` (14 such failures pre-fix)
+and in `run_baselines.py`. 0 retries anywhere; max attempt 1. Routing legality
+recomputed from signals: 0 mismatches / 60 area-D cells.
+
+**Corrections made during scoring.** (a) The earlier read-only analysis
+(`/tmp/opencode/jev-phase1/`) reproduced exactly — `scored_rows.json`
+`sha256 579c4589...` and a byte-identical 352-line metrics dump — so its
+numbers were adopted after independent re-derivation. (b) Its `inverted`
+contrastive counter was a dead branch: it accumulated the unsatisfiable
+conjunction `a_correct and not b_correct and b_correct and not a_correct`, so
+the `0 inverted` it reported for every mechanism measured nothing. Replaced by
+a four-valued confidence verdict (`correct_order` / `inverted` / `tied` /
+`n/a`); under the corrected metric **no mechanism inverts the confidence
+ranking** — `prior` is tied on 6/6 pairs, `rule` 2 correct-order / 3 tied, and
+Jev's one half-right pair (cp4) still ranked the correct member higher, 0.14 vs
+0.10. (c) No harness mechanism was re-run and no raw file was rewritten; every
+raw artefact is as committed at `09df1e07`.
+
+**Honesty notes carried in every table.** The `rule` and `lexical` cue
+lexicons were hand-authored by the corpus author with the corpus vocabulary in
+view — hand-built baselines, upper bounds, not discovered ones. `rule` on
+area D evaluates the same policy that defines the expected role, so its 12/12
+is a tautology. `general_model` is hard-decoded, so its confidence is
+identically 1.0 and its threshold coverage is an encoding artefact. n=64, no
+significance test claimed anywhere.
+
+### Infrastructure note — D1 guard incident (2026-09-26, not a data finding)
+
+The first attempt at this task was launched with the agent name `build` and was
+blocked from every write by `.opencode/plugins/orchestrator-guard.ts`, whose
+`ALLOWED_AGENTS` admits only the literal `builder`. It completed the scoring
+analysis read-only and preserved it under `/tmp/opencode/jev-phase1/`. The
+re-run under the `builder` agent had the write path and landed everything.
+**No result in this record depends on the incident** and no raw measurement was
+taken under either session; it is recorded here only so the preserved
+`/tmp/opencode/jev-phase1/` analysis is traceable to this commit. The
+allow-list drift is an operator decision about the permission boundary and is
+out of scope for #565 — see `BLOCKER.txt` in that directory for the proposed
+one-line fix.
 
 ### D1 preflight — 2026-09-26, OBSERVED
 
