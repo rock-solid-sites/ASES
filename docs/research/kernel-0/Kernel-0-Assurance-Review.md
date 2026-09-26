@@ -43,3 +43,18 @@ what was actually tested. No passing self-review is independent evidence.
 WHY: storage/binding mediation remain assurance-sensitive. WHAT: exact source and
 evidence tree above. HOW CERTAIN: packet ready, review not performed.
 WHAT-NOT-TESTED: independent judgment and whole-stack formal refinement.
+
+
+# Frozen Phase 2 packet
+
+Exact tree: `788c34ae267d4f274e06150610924deac24bf437`. Include base semantics/obligations, Phase 1 profile and
+all source files named by `Kernel-0-External-Effects-experiment-results.json`,
+plus `Kernel-0-External-Effects.md`, `kernel0_effect_model.py`, its model results
+and `kernel0_effect_experiment.py`. This is a packet, not a review verdict.
+
+Review prompt: Try to cause a sink consequence without a committed matching
+obligation, lose a committed obligation across declared failures, or authorize
+an old-evidence decision after revocation. Challenge the monotone-slot assumption,
+mediator trust, temporal witnesses, and interpretation of irreversible acceptance
+versus visibility. Do not assess it against an unclaimed exactly-once or
+sink-current contract; explain separately which stronger claims its traces refute.

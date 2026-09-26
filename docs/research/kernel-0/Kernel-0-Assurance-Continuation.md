@@ -53,19 +53,18 @@ Untested: SQLite I/O-path crash coverage, power loss, corruption, hostile rollba
 supervisor loss, unbounded contexts, physical source binding after new-evidence
 transfer, progress, exactly-once, and independent review of these new artifacts.
 
-**Phase 2 is internally checked as A2; publication checkpoint pending.**
-2,715 model states / 9,924 edges; six weakened variants; real source/sink crashes.
-The sink lost-acknowledgement retry produces two permitted effects. The durable
-obligation is monotone; revoked producer authority cannot create a new decision.
-The Phase 1 suite was rerun after the consumer extension point was introduced.
+**Completed Phase 2 — A2**, selected decision-authorized obligation profile.
+Governing evidence commit: `788c34ae267d4f274e06150610924deac24bf437`, pushed and remote SHA verified.
+2,715 model states / 9,924 edges; six detected weakenings; seven pinned histories;
+five source and two sink crash cuts plus revocation/overwrite tests. A sink effect
+with lost acknowledgement is repeated by retry. This is permitted, not exactly-once.
+The obligation survives producer revocation; sink-current authority and cancellation
+remain unclaimed. Phase 1 reran successfully after adding the consumer extension.
 
-**Next after Phase 2 publication: Phase 3.** First concrete action: derive two
-independent domains with local authority and an explicit coupled admission rule.
-The prior Phase 2 first action was: derive a selected external-effect profile
-by separating current authority at durable decision from current authority at sink
-acceptance; build the smallest finite sink model and test revocation/crash/retry.
-Do not silently require exactly-once or revoke previously accepted obligations.
-Frozen Phase 1 independent-review packet is indexed in `Kernel-0-Assurance-Review.md`.
+**Next: Phase 3.** First concrete action: construct two continuing domains with
+local authority and independent work fields, plus coupled admission/resource
+transfer; test local commutativity and stale cross-domain snapshots separately.
+Independent review packets are frozen in `Kernel-0-Assurance-Review.md`.
 
 ## Required execution order
 
