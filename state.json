@@ -1,6 +1,6 @@
 {
   "next_display_id": 567,
-  "next_comment_id": 4000,
+  "next_comment_id": 4001,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8866,7 +8866,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T06:34:28.425931177Z",
+      "updated_at": "2026-09-26T13:08:00.577123873Z",
       "labels": [
         "research"
       ],
@@ -8951,6 +8951,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAF/A7vpzOdnI312B4GWYQlhM8E00BPXqa1xhj7Fs6waRCiAyXQpiZRk+7XQnQ9O7fOixjeHsXwUbdZUlWcZAdBQ=="
+        },
+        "51a3d004-0e74-4faf-8315-a3ddb90ec7c3": {
+          "display_id": 4000,
+          "author": "OL2r",
+          "content": "[ANOMALY+RECOVERY] followup-03 first attempt died on infrastructure, evidence preserved. (1) The builder ran a long phase in the foreground with buffered output and OpenCode killed the turn as stalled (>300s no stream event). (2) Jev rate-limited: all 197 rapid Jev calls in the null block failed (HTTP 403 \"Upstream response was not valid JSON\") and spaced probes now return 429 FreeUsageLimitError even after 3 minutes idle; MiMo remained healthy (HTTP 200) throughout. Recovery launched: evidence committed first; all long phases now run detached with a 20s heartbeat monitor; MiMo completes under labelled block resume1 (warm 16x12, idle, concurrency C=1/4/8, probes); Jev gets a bounded spaced probe series (>=60s apart, <=10) and either a paced reduced block (16x5, >=2s interval, one C=4 attempt) if the limit resets, or frozen Phase 1 Jev per-call latency/usage (64 successful calls, labelled different window/transport) with current-window Jev latency/throughput marked unresolved. The free-tier rate cap is treated as an operational finding (availability/throughput), not hidden. Builder then independent verifier, as before. No push.",
+          "created_at": "2026-09-26T13:08:00.566069582Z",
+          "kind": "note",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA/U0dHv5cYH6Zpy8R7AYCm6amyEOWlJ6xxm/2J0gCz+bWf8VrnQdCuoLiBSkz8r9SDcxE3tI5SJgk1RGT2/PHAA=="
         },
         "551cce86-d9ba-49fe-a5f6-485361a25e70": {
           "display_id": 3983,
@@ -46215,8 +46224,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T07:07:24.281569160Z",
+    "timestamp": "2026-09-26T13:08:00.577123873Z",
     "agent_id": "OL2r",
-    "agent_seq": 3552
+    "agent_seq": 3553
   }
 }
