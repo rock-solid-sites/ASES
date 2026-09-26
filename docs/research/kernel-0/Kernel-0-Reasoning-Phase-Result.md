@@ -24,6 +24,8 @@ Kernel-0 is provisionally a **durable conditional transition boundary with revoc
 
 The current [abstract semantics](./Kernel-0-Abstract-Semantics.md) incorporates the protected-effect, authority-distinguishability, and executor-loss boundaries derived in this cycle. The schematic model below records the reasoning path and must be read with that later specification.
 
+The [verification obligations](./Kernel-0-Verification-Obligations.md) state the current minimum checking target independently of a proof tool.
+
 The core retains the information necessary to distinguish future permission and continuity outcomes, accepts proposed effects only through a guarded whole commitment, and makes revoked authority unusable at commitment. Every dependency relevant to admission or an invariant is evaluated from a coherent current view for that commitment; unrelated changes need no global order or one physical arbiter. The model below states the exact abstract obligations. A concrete instantiation must supply policy, protected effects, critical invariants, and trusted assumptions; the generic relation alone proves none of them.
 
 ## Minimal testable semantic model
