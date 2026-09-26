@@ -1,6 +1,6 @@
 {
   "next_display_id": 566,
-  "next_comment_id": 3980,
+  "next_comment_id": 3981,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8861,11 +8861,20 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T04:34:13.877431246Z",
+      "updated_at": "2026-09-26T04:52:07.148181540Z",
       "labels": [
         "research"
       ],
       "comments": {
+        "0d4dfb4b-af1a-4067-8b73-177968fd6b67": {
+          "display_id": 3980,
+          "author": "OL2r",
+          "content": "[PLAN] Follow-up-01 launched: Space Bunny (space-bunny-free) as the single general-model baseline against the frozen Phase 1 corpus, prompts and scoring. Frozen hashes verified (cases 7dd4698f, jev raw e17ae014, baselines 42f37690); runner reuses the existing general_model request shape byte-for-byte (max_tokens/temperature unchanged, one attempt per cell, no retries); 64 cells; transport failures recorded separately. Scoring: raw (n=50) and F1-corrected (cp4 members unanswerable per verification.md §2 F1; n=48) semantic accuracy, per-scope, paired b/c vs frozen Jev, decision bands applied verbatim (supports <=90% or c>=3; refutes >=96% and c<=1; 92-94% uninformative; outside bands reported as-is). Durable nohup chain: builder then independent verifier; artifacts under phase1/followup-01-spacebunny/. Model approval: operator instruction 2026-09-26 (free Spacebunny), cost 0/0/0, catalog refreshed. Note: space-bunny-free is a different family from Jev but the same family as the corpus author/harness/verifier (findings L1), so this re-measures the comparator under frozen conditions; it cannot by itself remove the author confound. No push.",
+          "created_at": "2026-09-26T04:52:07.137849680Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA24VIm8dxYIseAb1ZcUlrfTXXRq448ALUVLElUkZpCqmPF98FtR1dswdZl4EeIg4X5Bu0doF/k78+zgoYlF2ICQ=="
+        },
         "1a9d36db-6cac-4907-a80c-acdeaed4e4a0": {
           "display_id": 3977,
           "author": "OL2r",
@@ -45999,8 +46008,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-26T04:34:13.877431246Z",
+    "timestamp": "2026-09-26T04:52:07.148181540Z",
     "agent_id": "OL2r",
-    "agent_seq": 3527
+    "agent_seq": 3528
   }
 }
