@@ -6,7 +6,9 @@ document_type: Conformance Suite
 status: Draft
 authority: Derived
 canonical_repository: edases
-crosslink_issue: 523
+crosslink_issue: 527
+suite_version: "2.0"
+canonical_baseline: to-file/ASES Universal Conformance Checklist.md (2026-08-29 revision)
 
 depends_on:
   - to-file/ASES Universal Conformance Checklist.md (2026-08-29)
@@ -16,11 +18,12 @@ depends_on:
   - .crosslink/knowledge/agent-orchestration-playbook.md (§5.4, §5.8, §5.8.1)
   - server-memory-management knowledge page (2026-08-25 revision)
   - docs/standards/Documentation Standard.md
+  - specifications/Adverarial Test Suite Reviews:.md (seven meta-reviews synthesized into this v2; see §40)
 
 consumed_by:
   - Observer Swarm v1.1 phase gates (P1-GATE, P2-GATE, P3-GATE)
   - VSDD Phases 2–6 gates (lite adoption)
-  - Adversarial reviewer gate (pedantic frontier review, issue #523 purpose)
+  - Adversarial reviewer gate (Hy4 Preview adversarial review, issues #523/#527)
   - Builder completion gate
 
 related_documents:
@@ -33,12 +36,13 @@ related_documents:
 implements:
   - ASES Universal Conformance Checklist instantiation (§§1–36)
 
-supersedes: []
+supersedes:
+  - Observer Conformance Suite v1.0 (2026-08-30, issue #523 lineage; preserved in git history)
 superseded_by: []
-last_updated: 2026-08-30
+last_updated: 2026-09-01
 ---
 
-# Observer Conformance Suite — Universal Checklist §§1–36 vs Observer Swarm v1.1
+# Observer Conformance Suite — Universal Checklist §§1–36 vs Observer Swarm v1.1 (v2)
 
 > **Scope:** Project-specific instantiation of the 36-dimension ASES Universal
 > Conformance Checklist for the Observer Swarm v1.1 resilience hardening
@@ -59,11 +63,62 @@ last_updated: 2026-08-30
 
 ---
 
-## 0. Reading Guide and Evidence-Grading Discipline
+## 0. Reading Guide and Evidence-Grading Discipline (v2)
 
-**Status vocabulary** (Checklist §3): `[ ] OPEN`, `[x] VERIFIED`, `[~] PARTIAL`,
-`[!] FAILED`. **Applicability vocabulary**: `APPLICABLE`,
-`NOT APPLICABLE`, `OUT OF SCOPE`, `BLOCKED`. `BLOCKED` is not `VERIFIED`.
+### 0.1 Status vocabulary (dimension level)
+
+**Status vocabulary** (Checklist §3, extended at project layer — a
+strengthening, declared §35(6)): `[ ] OPEN`, `[x] VERIFIED`, `[~] PARTIAL`,
+`[!] FAILED`, and — new in v2 — `[⏸] BLOCKED` **as a dimension-level
+status**. Applicability vocabulary: `APPLICABLE`, `NOT APPLICABLE`,
+`OUT OF SCOPE`, `BLOCKED (applicability)`. `BLOCKED` is not `VERIFIED` —
+and v2 makes that enforceable rather than admonitory (§0.4, §0.6).
+
+v1 used `BLOCKED` only as an applicability label and an overall-verdict
+option, while §32 of v1 already needed to say "treat affected dimensions as
+BLOCKED" — a dimension status the vocabulary did not define. That gap is
+closed here (meta-review finding: Deepseek #1, GLM-5.3-Flash F3.2, Muse D2).
+
+**Precise dimension-status semantics** (disambiguating what v1 left
+implicit — meta-review finding: GLM-5.3 D16):
+
+| Status | Meaning | Entry condition | Exit condition |
+|--------|---------|-----------------|----------------|
+| `OPEN` | Not yet assessed (or assessment not started). No claim either way. | Default at instantiation. | Any assessment progress re-grades it. |
+| `PARTIAL` | The obligation is **partially met and/or partially verified**, and the record states **which part is met, which is not, and what remains**. A bare PARTIAL with no remainder statement is malformed. | Assessment produced mixed results. | Remainder verified → VERIFIED; remainder shown violated → FAILED. |
+| `VERIFIED` | The obligation is met AND verified with evidence satisfying the **evidence-class floor** (§0.5). | Full assessment + floor met. | Invalidation (§0.7) re-opens it. |
+| `FAILED` | The obligation is assessed and **not met** (or its verification demonstrates violation). | Assessment demonstrates violation. | Fix + re-verification. |
+| `BLOCKED` | A **necessary verification cannot currently be performed** because required evidence, infrastructure, or external capability is unavailable. Distinct from OPEN (not yet assessed) and PARTIAL (partially assessed): the *blocking* is itself an assessed fact. | Missing capability identified + acquisition attempts recorded (§0.4). | Evidence arrives → re-grade; capability declared out of scope → applicability re-graded with §35 declaration; escalation resolves. |
+
+**Applicability vocabulary, disambiguated** (meta-review finding: Sonnet
+D5, GLM-5.3 D15 — v1 carried two labels with no stated criterion):
+
+- `NOT APPLICABLE` — the dimension's *subject matter does not exist* in the
+  governed artefact (e.g. Concurrency against a genuinely single-threaded,
+  single-actor artefact). The dimension is inapplicable **as a matter of
+  fact about the artefact**.
+- `OUT OF SCOPE` — the subject matter exists but is **deliberately excluded
+  from this suite's claim** by a declared exclusion (§26 exclusion list).
+  The dimension is inapplicable **as a matter of declared claim boundary**.
+- Criterion of choice: ask "would this dimension apply to a future revision
+  that grew the excluded behaviour?" If yes (the subject could appear) →
+  `OUT OF SCOPE`. If no (the artefact's class cannot have the subject) →
+  `NOT APPLICABLE`. Both require a one-line justification in the dimension
+  record; an unjustified either is treated as a discrepancy (§37).
+- `BLOCKED (applicability)` — applicability itself cannot be decided
+  because the artefact information needed to decide is unavailable. Subject
+  to the same acquisition-attempt discipline as status-BLOCKED (§0.4).
+
+**Gate-state vocabulary** (distinct from dimension status — meta-review
+finding: GLM-5.3-Flash F3.1, GLM-5.3 D3: v1's §29 used `SELF-ASSESSED`,
+which was not in the vocabulary): `SELF-ASSESSED` is a **gate-state**,
+defined here: the named gate has been discharged by the party whose work is
+under assessment, without independent verification. A gate-state never
+propagates as a dimension status: §29's SELF-ASSESSED feeds §30, whose
+output is the reviewer's own graded statuses. Builder self-assessment is
+gate input, not conformance evidence (Checklist §29 closing rule).
+
+### 0.2 Evidence classes
 
 **Evidence classes** (Checklist §4 / Profile §15): MODEL, CONFORMANCE, UNIT,
 PROPERTY, MODEL-BASED, INTEGRATION, RESOURCE, OBSERVATION, MUTATION,
@@ -80,7 +135,92 @@ particular, throughout this suite:
   on demand and is labelled as such.
 - **OPERATIONAL** = the harness itself running green (see §32 for its limits).
 
-**Honesty rules enforced in this suite:**
+**Class-overlap disambiguation rule** (meta-review finding: Qwen D4, GLM-5.3
+D12 — UNIT vs PROPERTY overlap; CONFORMANCE purpose-defined overlap): the
+class set is **closed** — these eleven, no more. When one artefact of
+evidence spans multiple classes (e.g. a property-based test is both UNIT and
+PROPERTY), the evidence row labels **all** classes it spans, and the claim
+it supports is **bounded by the weakest class in the span**. Classification
+precedence: classify by the primary property the evidence establishes, not
+by the tool that produced it. A claim that seems to need a twelfth class is
+recorded as a discrepancy (§37), never silently shoehorned into an existing
+label.
+
+### 0.3 Evidence-strength floor (claim type → minimum evidence class)
+
+Meta-review finding: Deepseek #9, GLM-5.3-Flash hardening #2, Muse D1,
+GLM-5.3 C3/D5. v1 stated evidence rules as prose addressed to a vigilant
+reviewer; v2 makes the floor mechanical and checkable per row.
+
+| Claim type (as used in this suite) | Minimum evidence class for VERIFIED | Weaker evidence caps status at |
+|------------------------------------|--------------------------------------|-------------------------------|
+| Implementation-conformance claim ("the code does X") | UNIT / INTEGRATION / PROPERTY (executable, against the real artefact) | MODEL-only → PARTIAL; INSPECTION-only → PARTIAL unless the claim is structural (see below) |
+| Absence claim ("no bypass path exists", "no forbidden transition reachable") | Negative test (attempted trigger, observed refusal) or bounded reachability argument **plus** INSPECTION of the entry surface | Assertion-only → OPEN |
+| Structural claim (subprocess construction, file layout — not behavioural) | INSPECTION with function/line pointer | MODEL-only → PARTIAL |
+| Design-existence claim ("the design says X") | MODEL (this is the only claim MODEL can verify) | — |
+| Resource-lifecycle claim (cleanup, backup, watermark) | RESOURCE (test exercising the lifecycle) | MODEL/INSPECTION-only → PARTIAL |
+| Historical-behaviour claim ("it behaved thus in the incident") | OBSERVATION, labelled historical, never presented as reproducible | — (cannot reach VERIFIED for a current-behaviour claim) |
+
+**The floor rule:** a dimension status of `VERIFIED` requires **at least one
+evidence row of a class at or above the floor for its claim type, with an
+artifact locator** (test ID, file:line, commit, or log path). MODEL-only
+evidence caps the status at `PARTIAL` — mechanically, not by reviewer
+discipline. Every VERIFIED status in this suite is auditable against this
+table; a reviewer finding a VERIFIED below floor records it as an S2
+discrepancy (§37 severity scale).
+
+### 0.4 BLOCKED discipline (dimension level)
+
+`BLOCKED` is the most gameable status in any review vocabulary — it can
+launder an avoided FAIL into an indefinite pause (meta-review finding:
+GLM-5.3-Flash F5). v2 discipline, binding on every BLOCKED dimension row:
+
+1. **Acquisition-attempt record (mandatory):** the row states (a) *what*
+   is missing (evidence, infrastructure, or external capability); (b) *what
+   acquisition was attempted* — at least one concrete attempt, or a reasoned
+   statement of why no attempt is possible; (c) *who owns the escalation*
+   and where it is recorded; (d) whether the missing capability is inside or
+   outside the declared scope (§26).
+2. **BLOCKED is not a FAIL shelter:** if the underlying obligation would
+   grade FAILED if assessed with available evidence, the reviewer MUST grade
+   FAILED, not BLOCKED. BLOCKED is only available when the *verification
+   itself* — not an unfavourable result — is what cannot proceed.
+3. **Forbidden transitions (review-process level, §39):** BLOCKED → VERIFIED
+   without citing the new evidence that unblocked it; BLOCKED held on a
+   Critical dimension (§33.1) without escalation beyond one review cycle.
+4. **Escalation:** BLOCKED on a Critical dimension escalates immediately to
+   the orchestrator (for this project: a blocker comment on the commissioning
+   issue). BLOCKED on a Material/Supporting dimension is recorded and
+   reviewed at the next gate.
+
+### 0.5 Stopping rules for closed enumerations
+
+Meta-review finding: Sonnet D3 (no stopping rule for dimension, evidence-
+class, or mutation enumeration), Qwen D2 (no halting condition for the
+adversarial review itself). v1 demanded falsifiable completeness of the
+governed artefact while leaving its own enumerations open-ended — trying one
+trivial mutation technically satisfied §31 as written. v2 closes each
+enumeration:
+
+1. **Dimensions (§1):** the dimension set is **closed at exactly the
+   canonical checklist's 36**. Coverage is checkable by count and by
+   checklist-mapping (§1's baseline block). Candidate 37th dimensions are
+   handled by the declared exclusion list (§26) and the meta-lifecycle
+   (§40.3), never by silent addition.
+2. **Evidence classes (§0.2):** closed at the canonical eleven; a claimed
+   need for a twelfth is a discrepancy, not an extension.
+3. **Mutations (§31):** minimum set = **one plausible violating mutation per
+   Critical invariant** (§33.1's critical set), generated by the named
+   strategy ("mutate the mechanism that enforces the invariant, at its
+   implementation site"). The enumeration stops when every Critical
+   invariant has ≥1 mutation row. Additional mutations are optional, not
+   required for discharge.
+4. **Adversarial review (§30):** the review halts when the attack log
+   (§30.2) covers all mandatory items AND the halting criterion of §30.3 is
+   met. Unbounded attack generation is not required, and demanding it is
+   itself a process defect.
+
+### 0.6 Honesty rules (v1 rules retained, v2 additions marked)
 
 1. A dimension whose only evidence is the design document is graded at best
    `PARTIAL` (design exists, implementation unproven), and `OPEN` where the
@@ -93,10 +233,69 @@ particular, throughout this suite:
    the harness ends at T27. This is treated as a stale pointer and recorded
    (§37 D1); evidence pointers in this suite cite the tests that actually
    exist.
+4. **(v2) Underclaiming is policed symmetrically with overclaiming**
+   (meta-review finding: GLM-5.3 attack-surface "asymmetric evasion"):
+   downgrading a claim ("exhaustive exploration is infeasible", "this
+   dimension is OUT OF SCOPE") to escape verification burden is treated
+   exactly like an unsupported upgrade — it requires a §35 declaration or a
+   §26 exclusion entry, and an unjustified downgrade is an S2 discrepancy.
+5. **(v2) Freshness has consequences, not just disclosure** (meta-review
+   finding: GLM-5.3-Flash F8, GLM-5.3 C4/D4, Kimi D6): every evidence row
+   carries a locator pinned to a revision (commit hash for code, date for
+   runs). Evidence older than the governed artefact's current revision does
+   not support VERIFIED — it supports at best PARTIAL with a staleness
+   note, and the affected dimension re-enters assessment. Verdict
+   invalidation on artefact change is modelled in §39.6, not left to
+   reviewer vigilance.
+6. **(v2) An empty Discrepancy Register must be earned** (meta-review
+   finding: Sonnet D4 — "an empty register is treated as compatible with
+   PASS when it is at least as likely to mean nobody looked hard enough"):
+   a review concluding with an empty register must cite, from the attack log
+   (§30.2), the attacks that were attempted and held. An empty register
+   without an attack log is graded as "no adversarial effort", not as
+   "no findings".
+
+### 0.7 Terms of art
+
+Terms used with specific meaning in this suite (meta-review finding:
+GLM-5.3 D13 — undefined terms of art): **guard** = a predicate that must
+hold for a transition to fire; **effect** = an action performed as a
+consequence of a transition; **barrier** = the authoritative mechanism that
+makes a forbidden transition impossible or refused; **discriminating
+evidence** = evidence that could have come out differently if the obligation
+were violated (a test that cannot fail is not discriminating); **tractable**
+(§9 scope statements) = the enumeration's state space is small enough to
+exhaust on this host within one harness run — used only where the suite
+claims it and otherwise declared as bounded/sampled; **settlement** = the
+act of recording a terminal outcome in durable state. Where a term is used
+in the canonical checklist's sense, the checklist (2026-08-29) is the
+glossary of record.
 
 ---
 
 ## 1. Canonicality — APPLICABLE — VERIFIED
+
+### 1.1 Version and canonical baseline (v2)
+
+Meta-review finding: Deepseek #7, GLM-5.3 D1 — v1 was unversioned and cited
+no baseline, making reviews non-reproducible and silent weakening
+undetectable. v2 states both:
+
+- **This suite's version:** 2.0 (frontmatter `suite_version`), 2026-09-01.
+  v1.0 (2026-08-30, issue #523 lineage) is superseded by this file; v1 is
+  preserved in git history and remains the record of what the v1-era
+  statuses were graded against.
+- **Canonical baseline:** `to-file/ASES Universal Conformance Checklist.md`,
+  **2026-08-29 revision** — this is the universal instrument this suite
+  instantiates, by revision. A revision of the checklist invalidates this
+  baseline: the instantiation must be re-diffed against the new revision
+  before any of its verdicts are consumed (§39.6 invalidation triggers).
+- **Changelog:** v1→v2 changes are itemised with per-finding traceability in
+  the Synthesis Record (§40). No obligation was silently rewritten between
+  versions; every v2 change is traceable to a meta-review finding ID or a
+  synthesis-discovered gap (§40.2).
+
+### 1.2 Dimension-set closure (stopping rule, §0.5(1) instantiated)
 
 The Universal Checklist remains domain-independent; this file carries all
 project-specific states, events, resources, tests, and assumptions. No
@@ -106,8 +305,18 @@ adoption (design Appendix A) deliberately thins a universal obligation
 mandatory mutation-testing CI gate), the thinning is **declared in §35
 adaptations** with the design's rationale, not smuggled in.
 
+The dimension set is **closed at exactly the canonical 36** (§§1–36 here map
+one-to-one to Checklist §§1–36). This suite's coverage claim is bounded to
+that set plus the declared project additions (§0, §37, §39, §40 — additions
+strengthen, never replace). Behaviour classes with no corresponding
+dimension (threat model, capacity, specification quality, migration/
+composition, deployed-artefact identity) are handled by the declared
+exclusion list in §26 — making the coverage claim falsifiable rather than
+vacuously universal (meta-review finding: GLM-5.3-Flash F1, Kimi D1).
+
 Evidence: this file exists; the Universal Checklist is quoted by dimension
-number throughout; adaptations are itemised in §35. Status: VERIFIED.
+number throughout; adaptations are itemised in §35; the baseline revision is
+named above and re-checkable. Status: VERIFIED.
 
 ---
 
@@ -131,10 +340,18 @@ in this file and summarised in the chain table at §28.
 
 ## 3. Checklist Semantics — APPLICABLE — VERIFIED
 
-Convention adopted verbatim: `[ ] OPEN`, `[x] VERIFIED`, `[~] PARTIAL`,
-`[!] FAILED`; applicability `APPLICABLE / NOT APPLICABLE / OUT OF SCOPE /
-BLOCKED`; `BLOCKED` is not `VERIFIED`. Every dimension below carries both an
-applicability and a status. No dimension is left unstated.
+Convention adopted verbatim at universal level and **extended at project
+layer** (declared §35(6)): dimension statuses `[ ] OPEN`, `[x] VERIFIED`,
+`[~] PARTIAL`, `[!] FAILED`, `[⏸] BLOCKED` (v2 addition, §0.1); applicability
+`APPLICABLE / NOT APPLICABLE / OUT OF SCOPE / BLOCKED (applicability)` with
+the NA-vs-OOS criterion of §0.1; `BLOCKED` is not `VERIFIED`, enforced by the
+§0.4 discipline and the §39.4 forbidden-transition register rather than by
+admonition. Every dimension below carries both an applicability and a status;
+no dimension is left unstated. Gate-states (`SELF-ASSESSED`) are defined and
+kept distinct from dimension statuses (§0.1). Status: VERIFIED (the v2
+vocabulary is self-consistent by §40.2's inspection checks; the v1
+violations — undefined SELF-ASSESSED, undefined dimension-BLOCKED — are
+closed in this version).
 
 ---
 
@@ -153,6 +370,19 @@ Classes used in this suite, with their actual sources:
 | MUTATION | Mutation-*detection* properties embedded in tests (T25 gate-held under repeated pane silence; T21 garbage-mode → observe; T22/T23 owner downgrades); systematic mutation testing is deferred per VSDD-lite A.2 (declared §35) |
 | INSPECTION | Function-level code pointers in this suite (all `observer.sh` line numbers cited at @68750f28 working tree) |
 | OPERATIONAL | Harness execution itself — fresh run during this suite's production: `RESULT: 181 passed, 0 failed` (T1–T27 incl. sub-checks, 2026-08-30, log retained at `/tmp/opencode/observer-tests-run.log`); see §32 for why a green harness is weaker evidence than it looks |
+
+**Class-set closure and overlap handling (v2):** the class set is closed at
+the canonical eleven (§0.2). Known overlaps in this suite, disambiguated by
+the §0.2 rule (label all spanned classes; claim bounded by the weakest):
+T21–T26 rows are labelled UNIT and PROPERTY (they are executable tests of
+invariant-shaped properties — the PROPERTY label adds the invariant-scoped
+reading, the UNIT label the executable one; neither may be cited alone for a
+claim the other cannot support). CONFORMANCE rows in this suite are
+purpose-defined (evidence of conformance produced by the VSDD process
+itself); where a CONFORMANCE row exists it names its underlying class too,
+so double-counting one artefact as two independent evidence rows is
+detectable. A claim needing a class outside the eleven is a §37
+discrepancy, not a new label.
 
 ---
 
@@ -985,8 +1215,32 @@ Significant claims and their explicit scopes:
   cleans; termination records name exactly what was executed vs downgraded
   (chain fields, lines 1721–1735). Verified (T1/T3/T18/T27).
 
+### 26.1 Declared exclusion list (v2)
+
+Meta-review finding: GLM-5.3-Flash F1, Kimi D1 — an undeclared-exclusion
+universality claim is unfalsifiable: any gap can be reclassified post hoc as
+"not state-based". v2 declares the exclusion list, making the coverage claim
+falsifiable. Behaviour classes **outside this suite's claim** (each either
+genuinely absent from the governed artefact's class, or deliberately
+excluded — with the §0.1 criterion applied):
+
+| Excluded area | Why excluded | NOT APPLICABLE or OUT OF SCOPE | Re-entry trigger |
+|---------------|--------------|-------------------------------|------------------|
+| Adversarial-input / threat model (injection, hostile input to the Observer itself) | The Observer's inputs are the operator's own host surfaces (logs, tmux, hub); a threat-model dimension does not exist in the canonical 36 and is not added at project layer | OUT OF SCOPE (the subject could exist in a future revision that parses untrusted input) | Any revision that parses externally-controlled input |
+| Capacity / quantitative obligations (latency, throughput, degradation under load) | The Observer is a periodic batch scanner; its cycle interval is a declared calibration knob, not a guarantee | OUT OF SCOPE | Any revision with a latency/throughput SLO |
+| Specification quality (attacking the design document itself) | Partially covered: D3 (§37) is a spec-quality catch (letter-vs-intent divergence); a full ambiguity/contradiction scan of the design is not a checklist dimension | OUT OF SCOPE (partially exercised via §21/§37) | Commissioning of a design-review gate |
+| Data integrity across model versions (restart into states persisted by an earlier model version; schema evolution) | manager-state.json schema is single-version today; no migration exists to verify | OUT OF SCOPE | Any schema change to persisted state |
+| Composition (two independently reviewed components holding incompatible assumptions) | The Observer composes with crosslink CLI + tmux + git; boundary assumptions are inventoried (§13) but cross-component assumption auditing is not a checklist dimension | OUT OF SCOPE | Any second supervised component with its own suite |
+| Deployed-artefact identity (binding reviewed revision to what runs) | Partially covered: evidence is pinned to @68750f28 and the §0.6(5) freshness rule invalidates on revision change; the Observer does not yet self-report its running revision | OUT OF SCOPE (partially exercised via §0.6(5)/§39.6) | Any deployment where the running revision can drift from the reviewed one |
+
+This list is part of the suite's claim boundary: a reviewer may challenge an
+exclusion (via §30/§37) but may not treat an unlisted area as covered by
+implication. Status contribution: the exclusions are declared, which is what
+§26 requires; the underlying dimension status remains PARTIAL for the
+implemented-claims scoping above.
+
 **Status: PARTIAL** (implemented claims scoped and verified; design-level
-claims not made).
+claims not made; exclusion list declared in §26.1).
 
 ---
 
@@ -1079,11 +1333,59 @@ Per Checklist §29's thirteen items, assessed for THIS suite's production
   evidenced by dry-run records.
 
 Builder completion is an evidence claim, not the final verdict (Checklist
-§29 closing rule). Status: SELF-ASSESSED — gate input for §30.
+§29 closing rule). Status: SELF-ASSESSED (gate-state, defined §0.1) — gate
+input for §30, never conformance evidence by itself.
 
 ---
 
 ## 30. Adversarial Reviewer Gate — APPLICABLE — OPEN
+
+### 30.1 Reviewer diligence requirements (v2 — mirrors the builder gate)
+
+Meta-review finding: Sonnet D4, GLM-5.3-Flash F6, GLM-5.3 C5/D6 — v1's
+builder gate was carefully flagged non-authoritative, but nothing checked
+*reviewer* diligence: a rubber-stamp review was structurally
+indistinguishable from a rigorous one, and nothing required reviewer
+independence. v2 imposes on the reviewer the same class of discipline the
+builder gate imposes on the builder:
+
+1. **Identity and independence attestation (mandatory, before verdict
+   acceptance):** the reviewer records who they are (agent identity or
+   name), attests they are not the builder of the governed artefact or the
+   author of this suite, and discloses any conflict of interest. A review
+   without the attestation is not accepted as gate output — self-review
+   laundered through adversarial vocabulary is the exact "prior approval is
+   not correctness evidence" failure, one level up.
+2. **Attack log (mandatory sink, distinct from §37):** every attack is
+   recorded with: ID, target obligation (by § reference), attempted
+   input/method, expected-safe behaviour, observed behaviour, evidence
+   pointer, and outcome — `HELD` (barrier held), `BREACHED` (→ §37 entry),
+   or `NOT-ATTEMPTED` (with reason). v1 commanded attacks but had no record
+   sink: a barrier attacked-and-held was indistinguishable from a barrier
+   never attacked (meta-review finding: GLM-5.3 D8, Deepseek #6, Kimi §30).
+   The attack log is the fix: attempted-and-held becomes visible evidence.
+3. **Beyond-the-list attacks (minimum 3):** the pre-staged list below is
+   public and enumerable, which permits anticipatory hardening — a builder
+   can pre-harden exactly the listed attacks (meta-review finding:
+   GLM-5.3-Flash F6). The reviewer must derive and log **at least three
+   attacks not on the pre-staged list** before the gate can discharge.
+4. **Empty-register rule:** if the review concludes with no new §37
+   entries, the verdict must cite the attack-log `HELD` rows that justify
+   it (§0.6(6)). An empty register without an attack log is graded "no
+   adversarial effort".
+5. **Calibration requirement (declared, not yet built):** the full form of
+   this check is a calibration harness — a sample instantiation with N
+   seeded defects of known types (MODEL-only evidence marked VERIFIED, an
+   untested forbidden transition, a BLOCKED-avoided FAIL), with reviewer
+   acceptance gated on detecting a threshold (meta-review finding:
+   GLM-5.3-Flash F6's constructive flip; GLM-5.3 C8/D9 positive-control).
+   **The harness does not exist yet.** This is declared here and recorded
+   as §37 D12; until it exists, requirements 1–4 are the interim diligence
+   check, and the suite's own verdict is capped at REWORK by §33.3 rule 3
+   (open S2 entry). Building the harness is a follow-on obligation, not a
+   silent omission.
+
+### 30.2 Pre-staged attack surface
 
 Pre-staged attack surface for the reviewer (Checklist §30's fifteen items,
 with the smallest plausible counterexample per critical obligation):
@@ -1119,7 +1421,35 @@ with the smallest plausible counterexample per critical obligation):
 15. **Blocked/partial evidence honest?** §37 is the disclosure register —
     attack it for completeness.
 
-Status: OPEN — this gate is the issue's purpose and has not run.
+### 30.3 Halting rule (stopping rule for the review itself)
+
+Meta-review finding: Qwen D2 — v1 mandated exhaustive adversarial attack
+with no termination condition, risking infinite review loops. The review
+halts when **all** of:
+
+1. every §30.2 item has an attack-log entry (`HELD`, `BREACHED`, or
+   justified `NOT-ATTEMPTED`);
+2. the §30.1(3) minimum of three beyond-the-list attacks is logged;
+3. the **stability criterion** holds: the last five logged attacks produced
+   no new §37 entry (five is the declared stability window — large enough
+   to outlast clustering of easy findings, small enough to bound the review);
+4. the reviewer states the halting basis in the verdict (which items, how
+   many attacks, when the stability window closed).
+
+Halting is a floor, not a ceiling: a reviewer may continue, but no
+consumer may demand unbounded attack generation as a gate condition.
+
+### 30.4 Dissent and adjudication
+
+Reviewer disagreements with builder-graded statuses, and reviewer/builder
+deadlocks, are recorded as §37 entries with severity per the §37 scale and
+escalated to the adjudicator named in §33.4 (the human orchestrator, via
+the commissioning issue). The verdict re-derives after adjudication
+(§33.3); it is never negotiated between the parties.
+
+Status: OPEN — this gate is the issue's purpose and has not run. The v2
+diligence requirements (§30.1) are part of the gate's acceptance criteria
+for the Hy4 Preview review.
 
 ---
 
@@ -1128,6 +1458,19 @@ Status: OPEN — this gate is the issue's purpose and has not run.
 Per Checklist §31, with VSDD-lite's declared deferral of systematic mutation
 testing (design A.2: mutmut/Stryker class tools "overkill for a swarm whose
 dominant failure mode is admission + attribution + filing durability"):
+
+**Minimum set and generation strategy (v2 stopping rule, §0.5(3)
+instantiated):** meta-review finding: Sonnet D3 — v1 asked reviewers to
+"identify plausible violating mutations" with no minimum count or strategy,
+so one trivial mutation technically satisfied the instruction. v2 fixes the
+minimum set: **one plausible violating mutation per Critical invariant**
+(§33.1's Critical set: I1–I5, I7, I9), generated by the named strategy —
+*mutate the mechanism that enforces the invariant, at its implementation
+site*. The enumeration stops when every Critical invariant has ≥1 row;
+additional rows (e.g. I11 below, a Material invariant) are optional
+strengthening. The table below meets the minimum: I1, I2, I3, I4, I5, I7,
+I9 each have a row; I6/I8/I10/I12/I13 are Material/OPEN and outside the
+minimum set.
 
 | Critical property | Plausible violating mutation | Introduced at | Detected by |
 |-------------------|------------------------------|---------------|-------------|
@@ -1138,7 +1481,7 @@ dominant failure mode is admission + attribution + filing durability"):
 | I5 park-extension | expiry kill without re-scan | lines 1840–1865 | T5 (extension event asserted) |
 | I7 loud deny | early-return without event (the ORIGINAL #460 bug) | kickoff_cleanup | T20a (deny event asserted) |
 | I9 single instance | lockfile check removed | 3185–3236 | T19 |
-| I11 watermark hold | advance watermark on RED | backup pass | T15 |
+| I11 watermark hold *(optional — Material invariant)* | advance watermark on RED | backup pass | T15 |
 
 - **Mutations introduced at the relevant implementation/boundary:** the
   table names the exact sites.
@@ -1149,9 +1492,18 @@ dominant failure mode is admission + attribution + filing durability"):
   deferral).
 - **Surviving mutations trigger review:** rule stated (Checklist §31);
   no mutation campaign has run, so no survivors exist to review.
+- **Deferral is verdict-visible (v2):** meta-review finding: Deepseek #3 —
+  v1's language prevented false mutation *claims* but left the loophole
+  that zero mutation campaigns still permitted PASS via the undefined
+  critical-obligations rule. v2 closes it: §33.3 rule 4 makes physical
+  discharge of the minimum set a PASS precondition, and rule 3 caps any
+  declared deferral at REWORK. The deferral cannot be argued around; it can
+  only be discharged (run the campaign) or re-declared with a fresh §35
+  rationale that the reviewer may attack.
 
-**Status: PARTIAL** (detection properties designed and mapped; physical
-mutation campaign deferred per design A.2 — declared adaptation §35).
+**Status: PARTIAL** (minimum set designed, strategy named, and mapped;
+physical mutation campaign deferred per design A.2 — declared adaptation
+§35(2), verdict-visible per §33.3).
 
 ---
 
@@ -1188,27 +1540,129 @@ from the harness itself).
 
 ---
 
-## 33. Verdict — APPLICABLE — REWORK (current state)
+## 33. Verdict — APPLICABLE — REWORK (current state, derived by §33.3 algebra)
 
-Applying Checklist §33's four verdicts to the governed artefact as it
-stands:
+### 33.1 Criticality taxonomy (defines "critical obligation")
 
-- **PASS** — not available: Phase 1 and Phase 2 obligations are unimplemented;
-  earlyoom attribution (a P3 AC) is unimplemented.
-- **REWORK** — **current verdict.** The architecture remains potentially
-  viable and the implemented core (Layers B/C/D) is strongly verified
-  (T1–T27, invariants I1–I11, forbidden transitions F1–F10); but material
-  obligations (Phase 1 launch gate, Phase 2 filing/messaging, earlyoom
-  attribution, P3-AC8 /tmp-wipe test) are incomplete, and the phase-gate
-  forbidden transitions (F11–F16) exist only as prose.
-- **FAIL** — not warranted: no critical obligation is *violated*, no
-  forbidden transition is *reachable* in the implemented core, and
-  authority/identity/ownership hold where implemented.
-- **BLOCKED** — not warranted as a whole: nothing prevents the missing work
-  from being implemented and verified on this host.
+Meta-review finding: Deepseek #2 ("the single most exploitable gap"),
+Qwen D1, GLM-5.3-Flash F2, GLM-5.3 C6/D7 — v1's verdict turned on
+"critical obligations" that were never defined, letting a reviewer mark
+failures non-critical and reach PASS. v2 defines criticality by derivation,
+not by reviewer judgement:
 
-This verdict is the suite's honest output for the adversarial gate: the
-reviewer should treat REWORK as the claim under test.
+**Derivation rule:** an obligation of this suite is **Critical** iff
+violating it falsifies a registered §26 guarantee or defeats a core purpose
+of the governed artefact (the Observer's reason to exist: supervise without
+becoming the hazard it supervises). It is **Material** iff violating it
+materially weakens enforcement or the evidence claim without falsifying a
+§26 guarantee. It is **Supporting** otherwise (structural hygiene).
+
+Applied to this suite's obligation set:
+
+| Criticality | Obligations (by suite reference) | Rationale |
+|-------------|----------------------------------|-----------|
+| **Critical** | Invariants I1–I5, I7, I9 (lethality control: mode, identity, ownership, convergent gate, park, breaker, single-instance); forbidden transitions F1–F10 (each is the reachable form of a lethality hazard); §17's observation-cannot-authorize claim; §11 ownership fail-closed; §10 identity non-aliasing | Violating any of these = the Observer kills or mutates without authority — falsifies "the Observer never kills on silence alone" and the ownership/mode guarantees (§26) |
+| **Material** | I6, I8, I10–I13; F11–F16 (design-only phase-gate barriers); §5.1 Layer A implementation; §22 test-first discipline; §28 traceability completeness; §12 resource inventory; §13 boundary semantics; §15 freshness; §16 transport; §18 recovery; §20 purity; §32 environment integrity | Violating weakens durability, traceability, or disclosure but does not create unauthorised lethality |
+| **Supporting** | §23 tooling selection; §25 abstraction documentation; §34 minimality mechanics; §35 adaptation declarations; §0 vocabulary hygiene | Violating degrades review quality, not the artefact's guarantees |
+
+The assignment is itself reviewable: a reviewer who disputes a criticality
+assignment raises it as a dissent (§30.4); the adjudication rule is §33.4.
+Criticality re-derivation is required when §26's claims change.
+
+### 33.2 Verdict inputs
+
+The algebra consumes, and only consumes:
+
+1. The §38 summary table: every dimension's applicability, status, and
+   criticality class (per §33.1, for the obligations each dimension carries).
+2. The §37 Discrepancy Register with severities per the §37 scale, each
+   entry adjudicated or open.
+3. The §30 gate outputs: attack log completeness (§30.2) and halting
+   criterion (§30.3).
+4. The §31 mutation table discharge state (minimum set met or declared
+   deferral standing).
+
+### 33.3 Aggregation algebra (deterministic, first match wins)
+
+Meta-review finding: Sonnet D2, Kimi (§33 finding), Deepseek #2/#3, Qwen D1,
+GLM-5.3-Flash F3, GLM-5.3 C6 — two honest reviewers holding an identical
+filled-out suite could issue opposite verdicts. v2 replaces prose with an
+ordered rule set; the reviewer's role is to challenge *statuses* (via
+§30/§37), never to override the derivation:
+
+1. **FAIL** — if ANY APPLICABLE **Critical** obligation is `FAILED`; or any
+   forbidden transition F1–F10 is demonstrated reachable in the implemented
+   core; or authority/identity/ownership is broken where implemented.
+2. **BLOCKED** — else, if verification of ANY APPLICABLE **Critical**
+   obligation is `BLOCKED` (status-level, §0.4) with acquisition attempts
+   recorded and the capability inside declared scope. BLOCKED on a Critical
+   obligation blocks the verdict — it does not downgrade to REWORK and never
+   rounds up to PASS.
+3. **REWORK** — else, if ANY APPLICABLE **Critical** or **Material**
+   obligation is not `VERIFIED` (i.e. `OPEN`, `PARTIAL`, or `BLOCKED` where
+   the §0.4 discipline shows acquisition is still possible), or the §37
+   register holds any open S1/S2 entry, or the §30 attack log is incomplete,
+   or the §31 minimum mutation set stands only as a declared deferral.
+4. **PASS** — else (all of): every APPLICABLE **Critical** obligation
+   `VERIFIED` with the §0.3 floor met; every APPLICABLE **Material**
+   obligation `VERIFIED` or `PARTIAL` with an explicit accepted-limitation
+   declaration naming what remains and why it is accepted; no APPLICABLE
+   dimension `OPEN` or `BLOCKED`; §37 holds no open S1/S2 entries; §30
+   attack log complete with halting criterion met; §31 minimum set
+   physically discharged (a declared deferral caps at REWORK — rule 3).
+   `Supporting` obligations may be PARTIAL under PASS only with a
+   one-line accepted-limitation note each.
+
+**Properties of the algebra:** monotone (improving a status never worsens
+the verdict); no rounding (PARTIAL never counts as VERIFIED; BLOCKED never
+counts as anything but blocked); verdict-relevant and verdict-irrelevant
+findings are distinguished by criticality, not by reviewer discretion; the
+derivation is reproducible by any reviewer from the §38 table alone.
+
+### 33.4 Disputes, tie-breaks, and adjudication
+
+- A reviewer disputing a *status* or a *criticality assignment* files a
+  §37 entry (or §30.4 dissent) naming the row; the verdict is then
+  **re-derived**, never negotiated.
+- Builder/reviewer deadlock (same evidence, contested grade) goes to the
+  **adjudicator**: for this project, the human orchestrator (the operator),
+  via the commissioning issue. The adjudicator's ruling is recorded in §37
+  and the algebra re-runs.
+- FAIL-vs-REWORK boundary cases are decided by the algebra, not by
+  judgement: if rule 1's conditions literally hold, FAIL; otherwise REWORK.
+  (Meta-review finding: GLM-5.3-Flash F3(4) — v1 could not adjudicate its
+  own FAIL-vs-REWORK boundary; v2 makes the boundary mechanical.)
+
+### 33.5 Verdict expiry and invalidation
+
+A verdict is bound to the evidence revisions it was derived from (§0.6(5)).
+Invalidation triggers (modelled as §39.6 transitions, not reviewer
+vigilance): governed-artefact revision change (any code commit touching
+observer.sh or run-tests.sh after the evidence-pinning revision); canonical
+baseline revision change (§1.1); a §37 S1 entry opened after verdict
+issuance. Invalidation re-opens the affected dimensions and forces
+re-derivation; the expired verdict is marked superseded in §39's state
+record, never silently retained.
+
+### 33.6 Current verdict (v2, derived)
+
+Applying §33.3 to the §38 table as of this revision:
+
+- Rule 1 (FAIL): not triggered — no Critical obligation is FAILED; F1–F10
+  all VERIFIED-barriered; no reachable forbidden transition demonstrated.
+- Rule 2 (BLOCKED): not triggered — no Critical obligation is BLOCKED
+  (I12 is OPEN, not BLOCKED: nothing prevents implementing P3-AC8).
+- Rule 3 (REWORK): **triggered** — Critical obligations I12 (evidence
+  durability, OPEN) and I13-messaging (PARTIAL) are not VERIFIED; Material
+  obligations §5.1 Layer A (unimplemented), F11–F16 (design-only), §22
+  test-first (D5), §28 (PARTIAL) are not VERIFIED; §31 stands as declared
+  deferral; §30 attack log does not yet exist (gate not run).
+- Rule 4 (PASS): therefore unreachable.
+
+**Verdict: REWORK** — identical to v1's verdict but now *derived*, not
+asserted: the reviewer can re-run the algebra from §38 and must get the
+same answer. This verdict is the suite's honest output for the adversarial
+gate: the reviewer should treat REWORK as the claim under test.
 
 ---
 
@@ -1224,6 +1678,14 @@ discriminating-mechanisms:
 - Known duplication, declared: §6 (state conformance) and §7 (transition
   conformance) necessarily overlap on the same tests — the Checklist's own
   dimensions demand both views. No *test* duplication exists.
+
+**Cross-reference mechanics (v2):** meta-review finding: GLM-5.3-Flash F4,
+Qwen D5 — duplicated evidence rows drift apart unnoticed. v2 rule: whenever
+two sections cite the same test for overlapping obligations (e.g. §6 and §7
+both citing T25), the row must cross-reference the other section
+("same evidence as §7 row X"). If one copy is later re-graded, the
+cross-reference forces the other copy to be re-checked — divergence between
+copies becomes detectable instead of silent.
 
 Status: VERIFIED.
 
@@ -1255,6 +1717,21 @@ challengeable):
    (§5), the discrepancy register (§37), and the pre-staged attack surface
    (§30) are project additions that strengthen, never weaken, universal
    obligations.
+6. **(v2) Extended status vocabulary** — dimension-level `BLOCKED` status,
+   NA-vs-OOS criterion, gate-state `SELF-ASSESSED`, evidence-class floor,
+   evidence-strength table, stopping rules, freshness consequences, and
+   underclaiming policing (all §0). These **strengthen** universal
+   obligations (Checklist §3/§4/§31/§32), never weaken them. Rationale:
+   close gaps flagged by seven independent meta-reviews (§40).
+7. **(v2) Reviewer diligence gate (§30.1)** — identity/independence
+   attestation, attack log, beyond-the-list attacks, halting rule,
+   dissent/adjudication. Project addition strengthening Checklist §30.
+8. **(v2) Verdict aggregation algebra (§33)** — criticality taxonomy +
+   deterministic status→verdict mapping. Project addition strengthening
+   Checklist §33.
+9. **(v2) Review-process state model (§39)** — project addition; the
+   canonical checklist has no state model for the review process itself
+   (flagged upward, see §40.3).
 
 No universal obligation is silently rewritten. Status: VERIFIED.
 
@@ -1271,8 +1748,10 @@ No universal obligation is silently rewritten. Status: VERIFIED.
 This file is the instantiation; §5 is the behavioural structure; the status
 columns are the evidence verdicts. The suite's own honesty rules (§0) bind
 it to the principle's last sentence: evidence, not assertion, establishes
-satisfaction — which is why eleven dimensions read PARTIAL and two read OPEN
-rather than a comfortable uniform VERIFIED.
+satisfaction — which is why twenty-three dimensions read PARTIAL and two
+read OPEN rather than a comfortable uniform VERIFIED. (v2 correction: v1's
+§36 claimed "eleven dimensions read PARTIAL", contradicting v1's own §38
+table — recorded as §40.4(6).)
 
 ---
 
@@ -1282,64 +1761,269 @@ Every design-vs-implementation or issue-vs-repository divergence found
 during instantiation. This register is the reviewer's index; each entry
 names the affected dimensions.
 
+**Severity scale (v2 — defined; meta-review finding: GLM-5.3 D17):**
+
+- **S1 (Critical)** — defeats a core purpose of the governed artefact or
+  falsifies a §26 guarantee. Blocks PASS permanently until resolved.
+- **S2 (High)** — materially weakens enforcement or the evidence claim.
+  Blocks PASS while open (§33.3 rule 3/4).
+- **S3 (Medium)** — inconsistency, redundancy, or documentation drift.
+  Does not block PASS but must be adjudicated before gate closure.
+- **S4 (Low)** — cosmetic, stale pointers, rot. Recorded for completeness.
+
 | ID | Discrepancy | Evidence | Affects | Severity for review |
 |----|-------------|----------|---------|--------------------|
-| D1 | Issue #523 names `run-tests.sh T28-T33` as evidence; **no T28–T33 exist on any branch** — harness ends at T27 (verified across all feature branches) | `git log --all` + branch greps (this session) | §0, §22, §28 | Low (stale pointer) — but the reviewer must not accept phantom test references |
-| D2 | Design Phases 1 and 2 (P1-AC1..7, P2-AC1..7, P2-MSG1..10) have **no implementation** anywhere in the repo (zero hits: `free -m` gate, `launch-deferred-memory`, `agent-communication`, `operator-report`, `execution-engine-backlog`, `WAITING_FOR_ORCHESTRATOR`) | repo-wide search (this session) | §5.1, §8 F11–F16, §21, §28, §33 | High — the swarm's phase-gate structure is prose-only today |
-| D3 | P3-AC4's letter ("pane-hash AND commit-age stale AND log-quiet AND hub-position static") vs implementation (any-one-of {hub-static, commit-stale, process-exit, resume-expired} + log-quiet veto; pane-hash excluded entirely) — implementation is *stronger* than the design's letter but does not match it | design line 645 vs observer.sh 1613–1671 | §9 I4, §21 | Medium — rule whether stronger-than-design is conformance |
-| D4 | P3-AC2/AC3 earlyoom attribution (`journalctl -u earlyoom`, machine `attribution` field, explicit negative check) — **unimplemented**; zero `journalctl` references in observer.sh | grep (this session) | §13, §19, §21, §28, §33 | High — FAILED/KILLED discrimination is a stated P3 gate criterion |
-| D5 | VSDD test-first red-gate discipline unevidenced: test+implementation land in the same commits (2e690049, 1050447c, 2fa5a189, c5eb6e72) | git history | §2, §22 | Medium |
-| D6 | Instance lock lives under OBSERVER_STATE_DIR — two Observers with *different* state dirs supervising the same fleet would not exclude each other | lines 242, 3195 | §14, §30(8) | Medium — deployment-discipline assumption, undocumented as such |
-| D7 | Evidence bundles live under the state dir (tmp-backed); hub comment carries the ref + sha256, but if the comment post fails (`notified=false`) the bundle exists only in /tmp — I12's own defect rule | lines 679–681, 1756 | §9 I12, §30(9) | Medium — the failure path of the durability mechanism is itself the durability gap |
-| D8 | Harness lacks BLOCKED semantics; `check` uses `grep -q … 2>/dev/null` tolerance, so some environment failures can masquerade as PASS | run-tests.sh 32–45 | §32 | Low-Medium |
-| D9 | `server-memory-management.md` is cited by the design as `.crosslink/knowledge/server-memory-management.md` but exists in git history at repo root (commit 9786d560) and is not present in this worktree's knowledge dir — pointer rot in the design's depends_on | git show 9786d560 (this session) | §13, frontmatter | Low |
+| D1 | Issue #523 names `run-tests.sh T28-T33` as evidence; **no T28–T33 exist on any branch** — harness ends at T27 (verified across all feature branches) | `git log --all` + branch greps (this session) | §0, §22, §28 | S4 (stale pointer) — but the reviewer must not accept phantom test references |
+| D2 | Design Phases 1 and 2 (P1-AC1..7, P2-AC1..7, P2-MSG1..10) have **no implementation** anywhere in the repo (zero hits: `free -m` gate, `launch-deferred-memory`, `agent-communication`, `operator-report`, `execution-engine-backlog`, `WAITING_FOR_ORCHESTRATOR`) | repo-wide search (this session) | §5.1, §8 F11–F16, §21, §28, §33 | S2 — the swarm's phase-gate structure is prose-only today |
+| D3 | P3-AC4's letter ("pane-hash AND commit-age stale AND log-quiet AND hub-position static") vs implementation (any-one-of {hub-static, commit-stale, process-exit, resume-expired} + log-quiet veto; pane-hash excluded entirely) — implementation is *stronger* than the design's letter but does not match it | design line 645 vs observer.sh 1613–1671 | §9 I4, §21 | S3 — rule whether stronger-than-design is conformance |
+| D4 | P3-AC2/AC3 earlyoom attribution (`journalctl -u earlyoom`, machine `attribution` field, explicit negative check) — **unimplemented**; zero `journalctl` references in observer.sh | grep (this session) | §13, §19, §21, §28, §33 | S2 — FAILED/KILLED discrimination is a stated P3 gate criterion |
+| D5 | VSDD test-first red-gate discipline unevidenced: test+implementation land in the same commits (2e690049, 1050447c, 2fa5a189, c5eb6e72) | git history | §2, §22 | S3 |
+| D6 | Instance lock lives under OBSERVER_STATE_DIR — two Observers with *different* state dirs supervising the same fleet would not exclude each other | lines 242, 3195 | §14, §30(8) | S3 — deployment-discipline assumption, undocumented as such |
+| D7 | Evidence bundles live under the state dir (tmp-backed); hub comment carries the ref + sha256, but if the comment post fails (`notified=false`) the bundle exists only in /tmp — I12's own defect rule | lines 679–681, 1756 | §9 I12, §30(9) | S3 — the failure path of the durability mechanism is itself the durability gap |
+| D8 | Harness lacks BLOCKED semantics; `check` uses `grep -q … 2>/dev/null` tolerance, so some environment failures can masquerade as PASS | run-tests.sh 32–45 | §32 | S3 |
+| D9 | `server-memory-management.md` is cited by the design as `.crosslink/knowledge/server-memory-management.md` but exists in git history at repo root (commit 9786d560) and is not present in this worktree's knowledge dir — pointer rot in the design's depends_on | git show 9786d560 (this session) | §13, frontmatter | S4 |
+| D10 | **(v2 synthesis)** Calibration harness for reviewer diligence (§30.1(5)) does not exist — reviewer competence remains an untested trust assumption | §30.1(5) | §30, §33 | S2 — caps suite verdict at REWORK until built or formally waived |
+| D11 | **(v2 synthesis)** v1 statuses were graded before the §0.3 evidence floor existed; re-audit during synthesis confirmed all carried-over VERIFIED rows meet the floor (UNIT/INSPECTION-with-locator for implementation claims, MODEL for design-existence claims), but the floor itself has never been enforced mechanically | §0.3 audit (this session) | §0, §4, §38 | S3 — reviewer should spot-check §38 rows against the floor table |
+| D12 | **(v2 synthesis)** The Observer does not self-report its running revision — deployed-artefact identity relies on external pinning (@68750f28) and the §39.6 invalidation trigger | §26.1 exclusion table | §10, §26.1 | S3 — declared exclusion; re-entry trigger documented |
 
 ---
 
 ## 38. Summary Status Table
 
-| Checklist § | Dimension | Applicability | Status |
-|-------------|-----------|---------------|--------|
-| 1 | Canonicality | APPLICABLE | VERIFIED |
-| 2 | Lifecycle Integration | APPLICABLE | PARTIAL |
-| 3 | Checklist Semantics | APPLICABLE | VERIFIED |
-| 4 | Evidence Classes | APPLICABLE | VERIFIED |
-| 5 | State Model Completeness | APPLICABLE | PARTIAL |
-| 6 | State Conformance | APPLICABLE | PARTIAL |
-| 7 | Transition Conformance | APPLICABLE | PARTIAL |
-| 8 | Forbidden Transitions | APPLICABLE | PARTIAL |
-| 9 | Invariant Conformance | APPLICABLE | PARTIAL |
-| 10 | Identity Conformance | APPLICABLE | PARTIAL |
-| 11 | Ownership Conformance | APPLICABLE | VERIFIED |
-| 12 | Resource Conformance | APPLICABLE | PARTIAL |
-| 13 | External Boundary Conformance | APPLICABLE | PARTIAL |
-| 14 | Concurrency Conformance | APPLICABLE | PARTIAL |
-| 15 | Temporal/Asynchronous Conformance | APPLICABLE | PARTIAL |
-| 16 | Transport Conformance | APPLICABLE | PARTIAL |
-| 17 | Observation and Projection | APPLICABLE | PARTIAL |
-| 18 | Recovery | APPLICABLE | PARTIAL |
-| 19 | Alternative Control Paths | APPLICABLE | PARTIAL |
-| 20 | Purity Boundary Audit | APPLICABLE | PARTIAL |
-| 21 | Model→Implementation Conformance | APPLICABLE | PARTIAL |
-| 22 | Model-Derived Tests | APPLICABLE | PARTIAL |
-| 23 | Verification Tooling | APPLICABLE | VERIFIED |
-| 24 | Adversarial Verification | APPLICABLE | OPEN |
-| 25 | Abstraction Conformance | APPLICABLE | PARTIAL |
-| 26 | Scope and Guarantee Conformance | APPLICABLE | PARTIAL |
-| 27 | Recovery and Refinement | APPLICABLE | VERIFIED |
-| 28 | Contract Chain and Traceability | APPLICABLE | PARTIAL |
-| 29 | Builder Completion Gate | APPLICABLE | SELF-ASSESSED |
-| 30 | Adversarial Reviewer Gate | APPLICABLE | OPEN |
-| 31 | Mutation Verification | APPLICABLE | PARTIAL |
-| 32 | Test Environment Integrity | APPLICABLE | PARTIAL |
-| 33 | Verdict | APPLICABLE | **REWORK** |
-| 34 | Minimality | APPLICABLE | VERIFIED |
-| 35 | Universal Adaptation Rule | APPLICABLE | VERIFIED |
-| 36 | Governing Principle | APPLICABLE | VERIFIED |
+| Checklist § | Dimension | Applicability | Criticality (§33.1) | Status |
+|-------------|-----------|---------------|--------------------|--------|
+| 1 | Canonicality | APPLICABLE | Supporting | VERIFIED |
+| 2 | Lifecycle Integration | APPLICABLE | Material | PARTIAL |
+| 3 | Checklist Semantics | APPLICABLE | Supporting | VERIFIED |
+| 4 | Evidence Classes | APPLICABLE | Supporting | VERIFIED |
+| 5 | State Model Completeness | APPLICABLE | Material | PARTIAL |
+| 6 | State Conformance | APPLICABLE | Material | PARTIAL |
+| 7 | Transition Conformance | APPLICABLE | Material | PARTIAL |
+| 8 | Forbidden Transitions | APPLICABLE | Critical | PARTIAL |
+| 9 | Invariant Conformance | APPLICABLE | Critical | PARTIAL |
+| 10 | Identity Conformance | APPLICABLE | Critical | PARTIAL |
+| 11 | Ownership Conformance | APPLICABLE | Critical | VERIFIED |
+| 12 | Resource Conformance | APPLICABLE | Material | PARTIAL |
+| 13 | External Boundary Conformance | APPLICABLE | Material | PARTIAL |
+| 14 | Concurrency Conformance | APPLICABLE | Material | PARTIAL |
+| 15 | Temporal/Asynchronous Conformance | APPLICABLE | Material | PARTIAL |
+| 16 | Transport Conformance | APPLICABLE | Material | PARTIAL |
+| 17 | Observation and Projection | APPLICABLE | Critical | PARTIAL |
+| 18 | Recovery | APPLICABLE | Material | PARTIAL |
+| 19 | Alternative Control Paths | APPLICABLE | Material | PARTIAL |
+| 20 | Purity Boundary Audit | APPLICABLE | Material | PARTIAL |
+| 21 | Model→Implementation Conformance | APPLICABLE | Material | PARTIAL |
+| 22 | Model-Derived Tests | APPLICABLE | Material | PARTIAL |
+| 23 | Verification Tooling | APPLICABLE | Supporting | VERIFIED |
+| 24 | Adversarial Verification | APPLICABLE | Material | OPEN |
+| 25 | Abstraction Conformance | APPLICABLE | Supporting | PARTIAL |
+| 26 | Scope and Guarantee Conformance | APPLICABLE | Material | PARTIAL |
+| 27 | Recovery and Refinement | APPLICABLE | Material | VERIFIED |
+| 28 | Contract Chain and Traceability | APPLICABLE | Material | PARTIAL |
+| 29 | Builder Completion Gate | APPLICABLE | Material | SELF-ASSESSED |
+| 30 | Adversarial Reviewer Gate | APPLICABLE | Material | OPEN |
+| 31 | Mutation Verification | APPLICABLE | Material | PARTIAL |
+| 32 | Test Environment Integrity | APPLICABLE | Material | PARTIAL |
+| 33 | Verdict | APPLICABLE | — | **REWORK** |
+| 34 | Minimality | APPLICABLE | Supporting | VERIFIED |
+| 35 | Universal Adaptation Rule | APPLICABLE | Supporting | VERIFIED |
+| 36 | Governing Principle | APPLICABLE | Supporting | VERIFIED |
 
-**Overall: REWORK** — implemented core strongly verified; Phase 1/2 and
-earlyoom attribution unimplemented; adversarial gate is the next action and
-this suite is its input.
+**Overall: REWORK (derived by §33.3, reproducible from this table)** —
+implemented core strongly verified; Phase 1/2 and earlyoom attribution
+unimplemented; adversarial gate is the next action and this suite is its
+input. Criticality column is the §33.1 assignment per dimension's dominant
+obligations; a dimension can carry obligations of mixed criticality — the
+verdict algebra (§33.3) consumes the obligation-level classes, this column
+is the reviewer's index.
+
+---
+
+## 39. Review-Process State Model (v2 project addition)
+
+Meta-review finding: Kimi D2/D5/D10, Qwen D6, Muse D3, GLM-5.3 C4 — the
+checklist demands a state model of every governed system while the review
+process itself had none: no states, no guards, no recovery from a wrong
+verdict, no concurrency rules, no freshness/invalidation semantics. v2
+models the review itself. This is a project addition that strengthens
+Checklist §5/§18 applied reflexively (flagged upward for the universal
+layer, §40.3).
+
+### 39.1 States (one review instance)
+
+`DRAFT` → `IN_REVIEW` → {`BLOCKED`, `NEEDS_REWORK`} → `VERDICT_ISSUED` →
+{`ACCEPTED`, `REOPENED`, `EXPIRED`}.
+
+- **DRAFT** — suite instantiated, statuses being graded. Not gate input.
+- **IN_REVIEW** — adversarial gate active (§30). Attack log open.
+- **BLOCKED** — ≥1 Critical obligation status-BLOCKED (§0.4). Verdict
+  derivation is suspended, not issued (§33.3 rule 2).
+- **NEEDS_REWORK** — algebra derived REWORK; builder remediation in flight.
+- **VERDICT_ISSUED** — algebra run, verdict recorded with its inputs
+  (§38 table snapshot + §37 register state + attack log ref).
+- **ACCEPTED** — verdict consumed by the commissioning decision.
+- **REOPENED** — a §33.5 invalidation trigger fired or adjudication
+  overturned a status; affected dimensions re-enter assessment.
+- **EXPIRED** — evidence revisions drifted past the §0.6(5) freshness rule
+  without a re-derivation; verdict is retained as historical record only.
+
+### 39.2 Identity of a review instance
+
+A review instance = (suite version, canonical-baseline revision, governed-
+artefact revision, reviewer identity, start date). Resumption after a pause
+is the **same** review iff the governed-artefact revision is unchanged; any
+revision change starts a new review (the old one EXPIRED). Reviewer
+substitution mid-review is permitted only with a recorded reason and does
+not alias the instance — the new reviewer re-attests independence (§30.1(1))
+and inherits the attack log.
+
+### 39.3 Ownership
+
+- The **reviewer** owns the attack log and their graded statuses.
+- The **builder** owns remediation of NEEDS_REWORK items.
+- The **orchestrator** (adjudicator, §33.4) owns disputes, reviewer
+  replacement, and ACCEPTED.
+- The verdict itself is owned by no party: it is derived, and any owner
+  triggering an invalidation re-derives it. A verdict cannot be disowned
+  silently — supersession is recorded (§39.6).
+
+### 39.4 Forbidden transitions (review process)
+
+| Forbidden transition | Barrier |
+|----------------------|---------|
+| BLOCKED → VERDICT_ISSUED (any verdict) | §33.3 rule 2 — BLOCKED on Critical suspends derivation |
+| BLOCKED → VERIFIED (dimension) without new evidence cited | §0.4(3) |
+| VERDICT_ISSUED → ACCEPTED with open S1/S2 §37 entries | §33.3 rule 4 |
+| Any state → PASS derivation skipping the algebra | §33.3 is the only derivation path |
+| Reviewer issuing a verdict without independence attestation | §30.1(1) |
+| Verdict accepted while attack log incomplete | §30.3 halting rule |
+
+### 39.5 Concurrency
+
+Multiple reviewers: findings merge through the adjudicator; **last-write-
+wins on a graded status is forbidden** — conflicting grades become §37
+entries and re-derive. A builder running a parallel "friendly" review does
+not dilute this gate: only reviews meeting §30.1 (attestation + attack log)
+count as gate input. The system under review changing mid-review is the
+EXPIRED trigger, not a race to be won.
+
+### 39.6 Recovery and invalidation
+
+- **Wrong verdict** (new counterexample post-issuance): REOPENED with a
+  scoped re-review (affected dimensions only, attack log appended). The
+  superseded verdict stays on record with a pointer to its replacement.
+- **Reviewer capture/conflict revealed:** reviewer replaced (§39.2);
+  all their statuses re-graded by the replacement.
+- **Evidence proven fraudulent:** affected dimensions → FAILED, §37 S1
+  entry, full re-derivation.
+- **Invalidation triggers (automatic):** governed-artefact revision change;
+  canonical-baseline revision change (§1.1); post-issuance S1 entry. Each
+  fires EXPIRED/REOPENED — freshness is a modeled transition, not reviewer
+  vigilance (§0.6(5)).
+
+---
+
+## 40. Synthesis Record (v2 — meta-reviews → this suite)
+
+### 40.1 Inputs
+
+`specifications/Adverarial Test Suite Reviews:.md` — **seven** meta-reviews
+(the issue named four; the file grew): Claude Sonnet 5 High, Kimi K2.6
+Instant, Deepseek V4 Pro, Qwen3.8-Pro, Muse Spark 1.2, GLM-5.3-Flash,
+GLM-5.3. All seven reviewed the *generic instrument* (the Universal
+Conformance Checklist); their findings apply to this instantiation mutatis
+mutandis. All four named reviewers issued REWORK; the three later ones
+concurred.
+
+### 40.2 Finding → disposition map
+
+Every flagged gap, with where v2 addresses it. "UP" = flagged upward to the
+Methodology layer (the universal checklist itself needs the fix; this suite
+can only instantiate a strengthening, not rewrite the canon).
+
+| Gap (flagged by) | v2 disposition |
+|------------------|----------------|
+| No verdict aggregation rule; two honest reviewers can diverge (Sonnet D2, Kimi, Deepseek #2, Qwen D1, Muse, GLM-Flash F3, GLM C6) | **ADDRESSED** — §33.3 deterministic algebra; §33.4 adjudication; §33.6 derivation shown |
+| "Critical obligations" undefined — most exploitable gap (Deepseek #2, Qwen D1, GLM-Flash F2, GLM D7) | **ADDRESSED** — §33.1 derivation rule + applied taxonomy; §38 criticality column |
+| BLOCKED not a dimension status (Deepseek #1, GLM-Flash F3.2, Muse D2) | **ADDRESSED** — §0.1 dimension-BLOCKED + §0.4 discipline (v1 already used it informally in §32) |
+| BLOCKED as FAIL-shelter, no arbiter/escalation (GLM-Flash F5) | **ADDRESSED** — §0.4(2) BLOCKED-is-not-a-FAIL-shelter + (4) escalation |
+| No stopping rules: dimensions/evidence/mutations (Sonnet D3) | **ADDRESSED** — §0.5 closed enumerations; §31 minimum mutation set + strategy |
+| No halting condition for the review (Qwen D2) | **ADDRESSED** — §30.3 halting rule + stability window |
+| Reviewer diligence unchecked; rubber-stamp invisible (Sonnet D4, GLM-Flash F6, GLM C5) | **ADDRESSED** — §30.1 diligence gate; §0.6(6) empty-register rule; §39.5 concurrency |
+| No reviewer independence/attestation (GLM C5/D6, Kimi D10/D11) | **ADDRESSED** — §30.1(1); §39.2 identity; §39.5 friendly-review rule |
+| No attack log; held attacks invisible (GLM D8, Deepseek #6/#7, Kimi §30) | **ADDRESSED** — §30.1(2) attack log as mandatory sink |
+| Anticipatory hardening vs public attack list (GLM-Flash F6) | **ADDRESSED** — §30.1(3) ≥3 beyond-the-list attacks |
+| Reviewer calibration harness / positive control (GLM-Flash F6 flip, GLM C8/D9) | **DECLARED, NOT BUILT** — §30.1(5) + §37 D10 (S2, verdict-visible) |
+| Unversioned, no canonical baseline (Deepseek #7, GLM D1) | **ADDRESSED** — frontmatter suite_version + §1.1 baseline block |
+| NA vs OUT OF SCOPE undefined (Sonnet D5, GLM D15) | **ADDRESSED** — §0.1 criterion |
+| SELF-ASSESSED outside status vocabulary (GLM-Flash F3.1, GLM D3) | **ADDRESSED** — §0.1 gate-state definition (v1's own §29 violation) |
+| PARTIAL semantics ambiguous (GLM D16) | **ADDRESSED** — §0.1 status table (remainder must be stated) |
+| Evidence-class floor; MODEL-only VERIFIED (Muse D1, GLM-Flash hardening #2, GLM C3/D5) | **ADDRESSED** — §0.3 floor table + §0.6(1) retained |
+| Evidence-strength table claim→class (Deepseek #9) | **ADDRESSED** — §0.3 |
+| UNIT/PROPERTY + CONFORMANCE overlap (Qwen D4, GLM D12) | **ADDRESSED** — §0.2 disambiguation + §4 instantiation |
+| No freshness consequence / verdict expiry (Kimi D6, GLM-Flash F8, GLM C4/D4) | **ADDRESSED** — §0.6(5) + §33.5 + §39.6 triggers |
+| No STALE/reopen states (GLM C4) | **ADDRESSED** — §39.1 REOPENED/EXPIRED |
+| No review-process state model (Kimi D2, Qwen D6, Muse D3, GLM C4) | **ADDRESSED** — §39 (new) |
+| No recovery from wrong verdict (Kimi D10) | **ADDRESSED** — §39.6 |
+| Review identity/ownership (Kimi D10/D11, Muse D4) | **ADDRESSED** — §39.2/§39.3 |
+| Chain of custody / evidence transport (Kimi D9) | **PARTIAL** — §0.3 locators + §39.6 fraud path; full custody chain is UP (needs universal evidence-provenance class, Qwen D4's META-VERIFICATION) |
+| Mutation testing effectively optional (Deepseek #3) | **ADDRESSED** — §31 verdict-visible deferral; §33.3 rules 3/4 |
+| Exhaustive verification only "recorded" (Deepseek #3) | **PARTIAL** — §0.7 defines tractable; mandatory-when-tractable is UP (universal §9 wording) |
+| "Absence of bypass paths" unverifiable (Deepseek #4) | **ADDRESSED** — §0.3 absence-claim row (negative test + inspection) |
+| Forbidden-transition "tested barrier" undefined (Deepseek #5) | **PARTIAL** — §0.7 barrier definition; per-barrier test taxonomy is UP |
+| Universality unscoped; no exclusion list (GLM-Flash F1, Kimi D1) | **ADDRESSED** — §26.1 declared exclusion list with re-entry triggers |
+| Missing coverage: threat model, capacity, spec quality, migration, composition, deployed identity (GLM-Flash F1) | **ADDRESSED as declared exclusions** — §26.1 (adding dimensions is UP; two partially covered: D3 spec-quality catch, §0.6(5) deployed-identity pinning) |
+| Spec-quality gate (GLM-Flash hardening #7) | **UP** — new universal dimension required; D3 shows the suite already catches this class |
+| Minimality: duplicated evidence drifts (GLM-Flash F4, Qwen D5, GLM D11) | **ADDRESSED** — §34 cross-reference mechanics |
+| Severity scale undefined in registers (GLM D17) | **ADDRESSED** — §37 S1–S4 scale |
+| Underclaiming not policed (GLM attack surface) | **ADDRESSED** — §0.6(4) |
+| Terms of art undefined (GLM D13) | **ADDRESSED** — §0.7 |
+| Meta-lifecycle: checklist consuming its own findings (Qwen D3, Kimi feedback gap) | **PARTIAL** — §40 is the consumption record; a standing revision procedure is UP |
+| Applicability decisions reviewed not just declared (Deepseek #10, Kimi) | **ADDRESSED** — §0.1 justification requirement + §30.2(15) attack item |
+| Test environment: reproducibility check required (Deepseek #11) | **PARTIAL** — §32 mitigation retained; harness BLOCKED-semantics fix is §37 D8 (code change, out of doc scope) |
+| Instrument self-validation (Kimi D7, GLM D9) | **DECLARED** — §37 D10; the Hy4 Preview review itself is the first live validation run |
+| Redundant dimension clusters in the canon (Qwen D5, GLM D11) | **UP** — universal-layer consolidation |
+
+### 40.3 Upward flags (Methodology layer — for the orchestrator to file)
+
+These gaps live in `to-file/ASES Universal Conformance Checklist.md`
+(2026-08-29) itself and cannot be fixed from an Implementation-layer suite
+without weakening/rewriting canon, which §35 forbids. Recommended: one
+Methodology-layer issue covering (1) verdict aggregation rule in Checklist
+§33, (2) dimension-level BLOCKED in §3, (3) criticality definition, (4)
+stopping rules §1/§4/§31, (5) reviewer-diligence + independence in §30,
+(6) evidence-provenance class in §4, (7) declared-exclusion requirement in
+§26, (8) review-process state model as a universal reflexive obligation,
+(9) redundancy consolidation (§1/§3, §24/§30). This suite's §0/§30/§33/§39
+mechanisms are written to be lifted into the canon nearly verbatim.
+
+### 40.4 Additional gaps found during synthesis (beyond those flagged)
+
+1. v1 §32 used dimension-level BLOCKED informally while §0 didn't define it
+   — internal inconsistency of the exact class the meta-reviews flagged.
+2. v1 §37 severities ("Low-Medium") had no scale — fixed with S1–S4.
+3. v1's §38 verdict was asserted, not derived — even though v1's own §33
+   prose contained enough signal to derive it. Fixed by §33.6 showing the
+   derivation.
+4. The evidence floor re-audit (§37 D11): all carried-over VERIFIED rows
+   meet §0.3 — checked during synthesis, not assumed.
+5. The suite's §30 pre-staged list is itself an anticipatory-hardening
+   surface for the *Observer's* builder — mitigated by §30.1(3), but a
+   reviewer should treat the published list as the minimum, not the menu.
+6. v1's §36 claimed "eleven dimensions read PARTIAL" while v1's own §38
+   table showed twenty-three — a self-contradiction of the class the
+   meta-reviews flagged. Corrected in v2 (§36).
+
+### 40.5 What v2 does NOT claim
+
+- No claim that the aggregation algebra has been exercised by two
+  independent reviewers yet — the Hy4 Preview review is its first run.
+- No claim that the §39 state model is enforced by tooling — it is
+  procedure, recorded in the commissioning issue.
+- No claim that the calibration harness exists (§37 D10).
+- The seven meta-reviews are INSPECTION-class evidence about the canon;
+  this synthesis is likewise INSPECTION-class about v2. Per the suite's own
+  §36 principle, v2's conformance claim awaits the adversarial gate.
 
 ---
 
@@ -1347,15 +2031,18 @@ this suite is its input.
 
 This suite's own claims, with explicit negative-space disclosure:
 
-- **WHY** — issue #523 requires a per-dimension conformance instantiation as
-  the input to a pedantic adversarial review; honest status grading is the
-  deliverable's core value.
+- **WHY** — issues #523/#527 require a per-dimension conformance
+  instantiation as the input to a pedantic adversarial review; honest status
+  grading is the deliverable's core value. v2 additionally synthesizes the
+  seven meta-reviews (§40) into enforceable mechanisms.
 - **WHAT** — every status is grounded in: the design document @3fc3c60a;
   observer.sh and run-tests.sh @68750f28 (line numbers pinned); repo-wide
   greps for Phase 1/2 implementation markers; git history across all
   branches for T28–T33 and the fix lineage; the Universal Checklist and
   VSDD Adaptation Profile texts; the server-memory-management knowledge
-  page (2026-08-25 revision, from git).
+  page (2026-08-25 revision, from git); the seven meta-reviews in
+  `specifications/Adverarial Test Suite Reviews:.md` (read in full, all
+  findings mapped in §40).
 - **HOW CERTAIN** — evidence-based for all VERIFIED/PARTIAL/OPEN gradings
   that cite tests or code; evidence-based-strong for the absence claims
   (D2, D4) which used multiple independent search patterns; the harness
@@ -1377,3 +2064,13 @@ This suite's own claims, with explicit negative-space disclosure:
      not experimentally demonstrated.
   5. Line numbers are pinned to @68750f28 and will drift on rebase; the
      reviewer must re-pin before relying on them.
+  6. **(v2)** The §33.3 verdict algebra, §0.3 evidence floor, §0.4 BLOCKED
+     discipline, §30.1 diligence gate, and §39 state model are new
+     mechanisms with zero runtime history — they have never gated a real
+     review. The Hy4 Preview adversarial review is their first exercise;
+     treat their behavior under attack as unproven.
+  7. **(v2)** The §33.1 criticality assignments are the synthesizer's
+     derivation from §26's guarantees — a reviewer may reasonably assign
+     differently; disputes route through §33.4 adjudication.
+  8. **(v2)** The seven meta-reviews were read and mapped (§40), but no
+     reviewer was contacted to confirm interpretation of their findings.
