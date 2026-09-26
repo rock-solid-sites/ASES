@@ -69,3 +69,13 @@ cross-domain guard/invariant dependency; attack domain scope, parallel-step
 commutativity and recovery after a joint commitment. Distinguish invariant
 preservation from exact whole-effect refinement. The result is model-only;
 physical split-store recovery is explicitly unproved.
+
+
+# Frozen Phase 4 packet
+
+Exact tree: `771af312a481c32520b6165cb1a5bb1af84b4048`. Include all phase specifications, `Kernel-0-Generalization.md`,
+`kernel0_generalization_checks.py` and its result JSON. Review prompt: challenge
+every hypothesis of P1–P4, especially completeness of read/anti-dependency edges,
+invariant support, snapshot currentness, and the scope of label distinguishability.
+Find a countermodel before accepting any conditional hand proof. No machine proof
+or concrete unbounded conformance is claimed.

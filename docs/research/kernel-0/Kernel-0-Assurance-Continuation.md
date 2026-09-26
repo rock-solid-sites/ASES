@@ -69,10 +69,20 @@ recovery cut. A half-transfer recovers `(0,0)`, satisfying exclusion but losing
 the whole declared effect. No physical multi-holder recovery implementation is
 claimed. No new Kernel-0 primitive or canonical definition changed.
 
-**Next: Phase 4.** First concrete action: derive conditional parametric arguments
-for non-resurrection, arbitrary-field whole effects, locality and ordering, then
-identify where finite observations cannot establish a cutoff or unbounded proof.
-Independent review packets are frozen in `Kernel-0-Assurance-Review.md`.
+**Completed Phase 4 — conditional parametric arguments; no cutoff theorem.**
+Governing commit `771af312a481c32520b6165cb1a5bb1af84b4048`, pushed and remote SHA verified. P1 non-resurrection,
+P2 arbitrary-field whole-effect refinement, P3 complete acyclic dependency orders,
+and P4 disjoint-footprint locality have explicit hand arguments. Their concrete
+premises remain unproved. Negative families: label reuse, four-cycle invisible to
+all triples, and naive one-hop delegation extension. 444 finite commutation sanity
+checks do not substitute for the argument.
+
+**Next: Phase 5.** First concrete action: implement a separate whole-trace
+refinement search that handles overlapping invocations/responses, crash boundaries,
+unknown outcomes and recovered views; drive actual authority-holder histories and
+reject deliberately inconsistent histories. Do not call algorithmic separation
+an independent reviewer or whole-stack proof. SQLite I/O crash consistency remains
+an explicit substrate gap for Phase 7.
 
 ## Required execution order
 
