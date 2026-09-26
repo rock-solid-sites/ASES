@@ -14,7 +14,7 @@ crosslink_issue: 566
 
 ## Scope and evidence
 
-This record reports the open derivation, Sol reconciliation, Work Unit adequacy test, and one falsification/reduction pass directed under Crosslink issue #566. The first Astra 6 Medium pass received only the [Evidence Packet](./Kernel-0-Evidence-Packet.md) and the task stated for that pass. The later Astra 6 High pass received the reconciled candidate and an open request to falsify, reduce, or expose missing assumptions. Neither pass selected a realization. This record is a research result, not a change to the Evidence Packet's established requirements.
+This record reports the open derivation, Sol reconciliation, Work Unit adequacy and verification tests, irreducibility review, and two falsification/reduction passes directed under Crosslink issue #566. The first Astra 6 Medium pass received only the [Evidence Packet](./Kernel-0-Evidence-Packet.md) and the task stated for that pass. Each Astra 6 High pass received a compact current candidate and an open challenge. No pass selected a realization. This record is a provisional research result, not a change to the Evidence Packet's established requirements.
 
 The Evidence Packet is internally coherent enough for this derivation: its authority, continuity, minimality, and verification clauses can be interpreted together without selecting an implementation. Its references to source work were not independently audited in this bounded session. The packet deliberately leaves policy, failure coverage, continuity criteria, and the scope of external effects underdetermined.
 
@@ -22,15 +22,7 @@ The Evidence Packet is internally coherent enough for this derivation: its autho
 
 Kernel-0 is provisionally a **durable conditional transition boundary with revocable authority**. This is a semantic candidate, not a claim that one physical component or location is necessary.
 
-Let `s` denote retained authoritative distinctions, `q` a proposed change, and `x` explicit external inputs on which permission depends. A commitment relation permits `s --(q,x)--> s'` only when the request is authorized by conditions current at commitment, the resulting state preserves substrate-critical invariants, and the whole proposed authoritative change takes effect. Otherwise the request is rejected with no authoritative mutation attributable to it. Authority-changing requests use the same guarded boundary. An accepted commitment need not imply that its caller received an acknowledgement.
-
-The admission rule cannot be an unexplained oracle. Each instantiation must state its authority policy, protected state, critical invariants, external-input assumptions, and the granularity of a proposed change. The boundary must retain, either directly or through a declared trusted component, every distinction needed for future admission and required continuity. Histories requiring different future permission or continuation behavior cannot be collapsed into the same combined trusted state.
-
-This parametric relation is a specification frame, not a proof by itself. A model claiming assurance must represent successful and forbidden transitions, relevant orderings, and external inputs before exploration or exhaustiveness can establish anything. A later realization must separately establish correspondence with that model.
-
-Conflicting authority changes and affected commitments require a **common ordering contract**: a commitment cannot use authority superseded before that commitment. A truthful earlier read of authority is insufficient. Independent changes need no stipulated global order. This contract may be realized by local state, coordinated external state, fencing, or another mechanism with equivalent semantics; the candidate selects none.
-
-Durability here covers executor loss and replacement. No claim is made about arbitrary storage, network, machine, or site failure. External actions are covered only when the stated authoritative boundary mediates them or a trusted component enforces an equivalent contract.
+The core retains the information necessary to distinguish future permission and continuity outcomes, accepts proposed effects only through a guarded whole commitment, and makes revoked authority unusable at commitment. Its authority order covers affected commitments, without requiring a global order or one physical arbiter. The model below states the exact abstract obligations. A concrete instantiation must supply policy, protected effects, critical invariants, and trusted assumptions; the generic relation alone proves none of them.
 
 ## Minimal testable semantic model
 
@@ -81,9 +73,19 @@ The Work Unit / Attachment Point / Execution architecture is a consumer of the c
 
 Generic protected state and policy can express these histories without promoting the three architectural concepts to Kernel-0 primitives. That is an **adequacy sketch**, not a proof of a concrete Work Unit design: the Evidence Packet does not fully define work continuity, attachment continuity, resource enforcement, or the positive operations an instantiation must provide. If continuity data or authority lives outside the kernel, its holder joins the trusted composition for the corresponding guarantee. Merely calling that holder external does not reduce the trusted obligation.
 
-As a witness at the Work Unit layer, interpret protected information as a continuing `work–position` association, current `position–execution` authority, and the work state needed for continuation. Replacement changes current authority while retaining the association and work state; the old and new requests are then judged against the ordered authority change. These names describe the consumer's interpretation of generic protected information, not Kernel-0 object types.
+For a **small falsifiable Work Unit instance**, let the consumer interpret `Σ` as three finite relations: `C`, a continuing work-to-position association; `A`, currently eligible authority evidence for each position; and `D`, the minimal retained work value. Use one work handle, one position, two distinct authority contexts, and two possible values. The following are consumer-level proposed effects, all resolved through the same guarded commitment relation:
 
-The safety candidate by itself can reject every request. The positive histories above exclude that vacuous result for a Work Unit instantiation. Whether conditional progress belongs to Kernel-0 itself or to its instantiation remains open. Any progress claim needs explicit availability and scheduling assumptions.
+| Proposed effect | Guard and authoritative result |
+| --- | --- |
+| `establish(w,p)` | Trusted initial management authority permits creation when `w,p` are unused; commit adds `C(w,p)` and initializes `D(w)`. |
+| `authorize(p,a)` or `withdraw(p,a)` | Current management authority permits the change; commit updates `A` while preserving `C,D` and the configured exclusivity invariant. |
+| `replace(p,a0,a1)` | Current management authority permits a whole update that withdraws `a0` and authorizes distinguishable `a1`, preserving `C,D`. Separate withdrawal and authorization are also possible if an interval with no executor is allowed. |
+| `change(p,a,v)` | Commit changes `D(w)` only if `C(w,p)` holds, the request is trustworthily bound to currently eligible `a`, and the proposed value satisfies the stated work-state invariant; otherwise deny without changing `D`. |
+| `lose-executor(e)` | Environmental event leaves `C,D` intact. It changes `A` only if a separately specified trusted observation triggers a guarded authority transition. |
+
+This finite instance can enumerate both orders of `replace` and an old `change`, death followed by replacement, and compatible or incompatible authority configurations. For the whole-effect test, submit one composite proposal containing an admissible `D` change and an inadmissible `A` change; it must deny as a whole. The instance excludes the shared-credential counterexample only if the declared evidence-binding assumption is true; without that assumption it must fail the supersession test. The seeded management authority is an explicit initial-state assumption, not an unguarded exception for later authority changes. The instance is a falsification witness for the generic model, not proof of general Work Unit adequacy or a Kernel-0 ontology.
+
+The safety candidate by itself can reject every request. The positive histories above exclude that vacuous result for a Work Unit instantiation. Eventual progress is not currently assigned to Kernel-0; any later progress claim needs explicit availability and scheduling assumptions.
 
 ### Guarantee-by-guarantee composition test
 
@@ -143,7 +145,7 @@ Any later realization needs a stated mapping from its retained concrete state an
 
 ### Trusted assumptions outside a proof
 
-Claims must name the trustworthiness of request authority evidence, the consistency and durability of any external state relied on, the boundary that identifies a commitment, relevant external facts, and the availability/fairness assumptions behind progress. A proof cannot imply safety for unmediated effects or failures below its declared boundary. Semantic correctness of research, code, design, and other work products is outside this target.
+Claims must name the origin of initial authority, the trustworthiness of subsequent request authority evidence, the consistency and durability of any external state relied on, the boundary that identifies a commitment, relevant external facts, and the availability/fairness assumptions behind progress. A proof cannot imply safety for unmediated effects or failures below its declared boundary. Semantic correctness of research, code, design, and other work products is outside this target.
 
 ## Irreducibility review
 
@@ -186,18 +188,26 @@ If authoritative-substrate crash or restart is added to the promised failure bou
 | --- | --- |
 | Authority state local to the boundary, in a trusted external component, or enforced by an equivalent fencing contract | Can a replacement and an old request be ordered so that no old request commits afterward, including delayed and concurrent requests? State the trusted assumptions for each arrangement. |
 | Continuity information inside protected kernel state or in a trusted external store | Which exact future Work Unit behaviors must remain distinguishable after executor loss, and who guarantees the information survives? |
-| Progress as a Kernel-0 obligation or as a Work Unit instantiation obligation | Is the kernel required to permit eventual authorized continuation, or only to make safety-preserving continuation expressible? Under what availability assumptions? |
+| Progress beyond positive Work Unit reachability | The present evidence supports safety-preserving, non-vacuous Work Unit operations but assigns no eventual scheduling/availability guarantee to Kernel-0. Specify one only if a later consumer requires it. |
 | Authoritative state limited to internal records or extending to external resource effects | Which external actions must a stale executor be unable to perform, and where is their mediation contract? |
-| Different minimal representations | Define required successful and forbidden interaction histories, then compare representations by the retained distinctions and trusted assumptions they require. |
+| Executor loss alone or authoritative-substrate restart as the failure boundary | Must work and authority survive the substrate's own interrupted commitment and restart, or only loss of a replaceable executor? |
+| Work Unit continuity details | Which work and position observations must remain the same after executor replacement, beyond identity and the minimum continuation state? |
+| Different minimal representations | The state-transition and admissible-history formulations are equivalent relative to fixed observations. Physical placement remains for realization comparison, with its trusted assumptions counted. |
 
-The next narrow reasoning step is to define a small set of mandatory successful and forbidden histories for Work Unit continuity and authority replacement. Those histories can discriminate among the alternatives without choosing a language, state-machine formalism, storage engine, or hardware realization.
+The successful and forbidden histories above fix the minimum authority and continuity behavior for a falsifiable Work Unit witness. They do not settle the protected-effect scope, stronger failure boundary, or full meaning of work and position continuity. Those are requirements questions, not a reason to select a language, state-machine formalism, storage engine, or hardware realization.
+
+## Decision gate
+
+**State C — missing semantic requirement.** The guarded transition core and its conditional Work Unit witness are stable enough to state verification and realization obligations. They are not sufficient to choose or compare realizations fairly while the protected-effect scope, authoritative-substrate restart promise, and full Work Unit continuity observations remain unstated. Local versus external placement of authority is a realization partition under the same semantic contract, not evidence for competing Kernel-0 ontologies. No settled Work Unit guarantee has been shown impossible, so state D is not supported.
+
+The smallest discriminating next input is a bounded set of required traces: (1) after supersession, identify whether an old executor's external resource action is within the forbidden effects; (2) during an interrupted authoritative-substrate restart, identify which work, position, and authority observations must survive; and (3) give one permitted post-replacement continuation using the same work and position. The first two determine the trust and failure boundary; the third fixes the minimum positive continuity claim. Until those are established, preserving the alternatives is more accurate than choosing a realization or enlarging Kernel-0 by preference.
 
 ## Claim boundary
 
 **WHY:** The retained distinctions answer explicit packet requirements; the ordering correction follows from a stale-authority interleaving, and the positive histories prevent a vacuous always-rejecting instantiation.
 
-**WHAT:** The Evidence Packet, one open Astra 6 Medium derivation, Sol reconciliation and Work Unit trace test, and one Astra 6 High falsification/reduction pass.
+**WHAT:** The Evidence Packet, one open Astra 6 Medium derivation, Sol reconciliation and Work Unit trace test, two Astra 6 High falsification/reduction passes, and a minimal semantic, adequacy, verification, and irreducibility review.
 
-**HOW CERTAIN:** Evidence-based semantic candidate. The stale-observation counterexample is decisive for the unconstrained external-authority alternative. Minimality and full Work Unit adequacy are not proven.
+**HOW CERTAIN:** Evidence-based semantic candidate. The stale-observation and indistinguishable-replacement counterexamples are decisive for the unconstrained alternatives they attack. Unique minimality, full Work Unit adequacy, and realization conformance are not proven.
 
-**WHAT-NOT-TESTED:** No formal model, implementation correspondence, concrete authority protocol, storage or external-effect mediation, broader failure model, or liveness proof was tested. The packet's underlying source provenance was not re-audited in this bounded session.
+**WHAT-NOT-TESTED:** The finite abstract instance was specified but not machine-checked. No implementation correspondence, concrete authority protocol, storage or external-effect mediation, broader failure model, or liveness proof was tested. The packet's underlying source provenance was not re-audited in this bounded session.
