@@ -1,0 +1,1877 @@
+{
+  "_design_note": "These bands were pre-registered in findings.md §6 for a CROSS-FAMILY model (Q1). This run uses mimo-v2.6-flash, family `mimo`, which is a different family from Jev (jev-1.13-free) and from the corpus author (space-bunny-free), so the confound that disqualified followup-01's verdict does not apply here. The band verdict below is the answer to Q1, subject to the run-level caveats in `_read_before_quoting`.",
+  "_read_before_quoting": [
+    "n=64. No significance test is claimed anywhere (schema.md §5).",
+    "One run, one attempt per cell, zero retries, one unpinned paid endpoint (findings.md §4 L3).",
+    "MiMo is a reasoning model: 92%+ of its output budget went to reasoning inside the frozen max_tokens=256. Every cell returned content at N=1, but the margin against the empty-content failure mode was small. See usage_and_cost.reasoning."
+  ],
+  "accuracy_cross_check": {
+    "f1_corrected_gt": {
+      "general_model": {
+        "acc_answerable": 1.0,
+        "agrees_with_frozen__acc": true,
+        "n_answerable": 48,
+        "n_correct": 48,
+        "n_usable_in_answerable": 48
+      },
+      "jev": {
+        "acc_answerable": 1.0,
+        "agrees_with_frozen__acc": true,
+        "n_answerable": 48,
+        "n_correct": 48,
+        "n_usable_in_answerable": 48
+      },
+      "mimo_v26_flash": {
+        "acc_answerable": 0.9792,
+        "agrees_with_frozen__acc": true,
+        "n_answerable": 48,
+        "n_correct": 47,
+        "n_usable_in_answerable": 48
+      }
+    },
+    "raw_gt": {
+      "general_model": {
+        "acc_answerable": 1.0,
+        "agrees_with_frozen__acc": true,
+        "n_answerable": 50,
+        "n_correct": 50,
+        "n_usable_in_answerable": 50
+      },
+      "jev": {
+        "acc_answerable": 0.98,
+        "agrees_with_frozen__acc": true,
+        "n_answerable": 50,
+        "n_correct": 49,
+        "n_usable_in_answerable": 50
+      },
+      "mimo_v26_flash": {
+        "acc_answerable": 0.96,
+        "agrees_with_frozen__acc": true,
+        "n_answerable": 50,
+        "n_correct": 48,
+        "n_usable_in_answerable": 50
+      }
+    }
+  },
+  "band_evaluation": {
+    "bands_source": "findings.md §6 (pre-registered before this run)",
+    "primary": {
+      "acc_used": 0.9792,
+      "bands_verbatim": {
+        "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+        "refutes": "acc >= 0.96 AND c <= 1",
+        "supports": "acc <= 0.9 OR c >= 3",
+        "uninformative": "0.92 <= acc <= 0.94"
+      },
+      "c_source": "paired c on the F1-corrected answerable set (consistent with the corrected accuracy the band is applied to)",
+      "c_used": 1,
+      "conditions_fired": [
+        "acc 0.9792 >= 0.96 (refute arm 1)",
+        "c 1 <= 1 (refute arm 2)"
+      ],
+      "evaluation_order": "support evaluated before refute, as pre-registered",
+      "verdict": "REFUTES a Jev niche"
+    },
+    "transport_failure_sensitivity": {
+      "counted_as_correct": {
+        "acc_used": 0.9792,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "c unchanged: transport failures never enter a paired cell",
+        "c_used": 1,
+        "conditions_fired": [
+          "acc 0.9792 >= 0.96 (refute arm 1)",
+          "c 1 <= 1 (refute arm 2)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "REFUTES a Jev niche"
+      },
+      "counted_as_error": {
+        "acc_used": 0.9792,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "c unchanged: transport failures never enter a paired cell",
+        "c_used": 1,
+        "conditions_fired": [
+          "acc 0.9792 >= 0.96 (refute arm 1)",
+          "c 1 <= 1 (refute arm 2)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "REFUTES a Jev niche"
+      },
+      "note": "bounded sensitivity only: the same bands applied if the transport failures were counted as errors, and as correct. The point estimate excludes them."
+    },
+    "variant_raw_gt_c": {
+      "acc_used": 0.96,
+      "bands_verbatim": {
+        "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+        "refutes": "acc >= 0.96 AND c <= 1",
+        "supports": "acc <= 0.9 OR c >= 3",
+        "uninformative": "0.92 <= acc <= 0.94"
+      },
+      "c_source": "paired c on the raw (committed) answerable set",
+      "c_used": 1,
+      "conditions_fired": [
+        "acc 0.96 >= 0.96 (refute arm 1)",
+        "c 1 <= 1 (refute arm 2)"
+      ],
+      "evaluation_order": "support evaluated before refute, as pre-registered",
+      "verdict": "REFUTES a Jev niche"
+    }
+  },
+  "band_flip_margin": {
+    "denominator_n_answerable_corrected": 48,
+    "first_k_that_changes_the_verdict": 2,
+    "note": "the pre-registered bands re-applied verbatim at k additional answerable errors, each taken on a cell Jev also got right so that c rises with k. This measures how much of the verdict rests on single cells; it introduces no new threshold.",
+    "observed_k": 1,
+    "verdict_by_k": {
+      "0": {
+        "acc_used": 1.0,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "modelled: k=0 extra answerable errors, c = 1 + 0",
+        "c_used": 1,
+        "conditions_fired": [
+          "acc 1.0 >= 0.96 (refute arm 1)",
+          "c 1 <= 1 (refute arm 2)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "REFUTES a Jev niche"
+      },
+      "1": {
+        "acc_used": 0.9792,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "modelled: k=1 extra answerable errors, c = 1 + 1",
+        "c_used": 2,
+        "conditions_fired": [
+          "acc 0.9792 >= 0.96 (refute arm 1)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "REFUTES a Jev niche"
+      },
+      "2": {
+        "acc_used": 0.9583,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "modelled: k=2 extra answerable errors, c = 1 + 2",
+        "c_used": 3,
+        "conditions_fired": [
+          "c 3 >= 3 (support arm 2)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "supports a Jev niche"
+      },
+      "3": {
+        "acc_used": 0.9375,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "modelled: k=3 extra answerable errors, c = 1 + 3",
+        "c_used": 4,
+        "conditions_fired": [
+          "c 4 >= 3 (support arm 2)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "supports a Jev niche"
+      },
+      "4": {
+        "acc_used": 0.9167,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "modelled: k=4 extra answerable errors, c = 1 + 4",
+        "c_used": 5,
+        "conditions_fired": [
+          "c 5 >= 3 (support arm 2)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "supports a Jev niche"
+      },
+      "5": {
+        "acc_used": 0.8958,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "modelled: k=5 extra answerable errors, c = 1 + 5",
+        "c_used": 6,
+        "conditions_fired": [
+          "acc 0.8958 <= 0.9 (support arm 1)",
+          "c 6 >= 3 (support arm 2)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "supports a Jev niche"
+      },
+      "6": {
+        "acc_used": 0.875,
+        "bands_verbatim": {
+          "otherwise": "OUTSIDE the defined bands; no new threshold is invented",
+          "refutes": "acc >= 0.96 AND c <= 1",
+          "supports": "acc <= 0.9 OR c >= 3",
+          "uninformative": "0.92 <= acc <= 0.94"
+        },
+        "c_source": "modelled: k=6 extra answerable errors, c = 1 + 6",
+        "c_used": 7,
+        "conditions_fired": [
+          "acc 0.875 <= 0.9 (support arm 1)",
+          "c 7 >= 3 (support arm 2)"
+        ],
+        "evaluation_order": "support evaluated before refute, as pre-registered",
+        "verdict": "supports a Jev niche"
+      }
+    }
+  },
+  "definitions": {
+    "acc_answerable": "correct / usable, over answerable cells only. Transport failures (no label emitted) are excluded from the denominator and reported separately, per the brief.",
+    "b": "cells where mimo is right and jev is wrong",
+    "c": "cells where jev is right and mimo is wrong",
+    "f1_correction": "verification.md §2 F1: c-p4a and c-p4b reclassified unanswerable, applied identically to all three mechanisms",
+    "no_significance_test": "n=64 (n=50 answerable raw, n=48 corrected). No p-value is claimed (schema.md §5).",
+    "pairing": "answerable cells (in the view's ground truth) where BOTH mechanisms emitted a usable label",
+    "ties": "both right or both wrong, on paired cells"
+  },
+  "f1_corrected_gt": {
+    "general_model": {
+      "by_area": {
+        "A": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 22,
+          "n_answered_unanswerable": 1,
+          "n_correct": 22,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 1,
+          "n_usable_in_answerable": 22,
+          "scope": "area A",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "B": {
+          "acc_answerable": null,
+          "acc_pct": "n/a",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 0.9231,
+          "n_answerable": 0,
+          "n_answered_unanswerable": 12,
+          "n_correct": 0,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 13,
+          "n_usable_in_answerable": 0,
+          "scope": "area B",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": null,
+            "if_transport_counted_as_correct_pct": "n/a",
+            "if_transport_counted_as_error": null,
+            "if_transport_counted_as_error_pct": "n/a"
+          }
+        },
+        "C": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 14,
+          "n_answered_unanswerable": 2,
+          "n_correct": 14,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 2,
+          "n_usable_in_answerable": 14,
+          "scope": "area C",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "D": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "area D",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_question_type": {
+        "choice": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "qtype choice",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "noul": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 0.9375,
+          "n_answerable": 34,
+          "n_answered_unanswerable": 15,
+          "n_correct": 34,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 16,
+          "n_usable_in_answerable": 34,
+          "scope": "qtype noul",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "score": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 2,
+          "n_answered_unanswerable": 0,
+          "n_correct": 2,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 2,
+          "scope": "qtype score",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_split": {
+        "dev": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 0.875,
+          "n_answerable": 13,
+          "n_answered_unanswerable": 7,
+          "n_correct": 13,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 8,
+          "n_usable_in_answerable": 13,
+          "scope": "split dev",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "test": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 17,
+          "n_answered_unanswerable": 5,
+          "n_correct": 17,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 5,
+          "n_usable_in_answerable": 17,
+          "scope": "split test",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "train": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 18,
+          "n_answered_unanswerable": 3,
+          "n_correct": 18,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 3,
+          "n_usable_in_answerable": 18,
+          "scope": "split train",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "overall": {
+        "acc_answerable": 1.0,
+        "acc_pct": "100.0%",
+        "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+        "false_confidence_rate": 0.9375,
+        "n_answerable": 48,
+        "n_answered_unanswerable": 15,
+        "n_correct": 48,
+        "n_semantic_errors": 0,
+        "n_transport_failures_in_answerable": 0,
+        "n_unanswerable": 16,
+        "n_usable_in_answerable": 48,
+        "scope": "ALL",
+        "transport_sensitivity": {
+          "if_transport_counted_as_correct": 1.0,
+          "if_transport_counted_as_correct_pct": "100.0%",
+          "if_transport_counted_as_error": 1.0,
+          "if_transport_counted_as_error_pct": "100.0%"
+        }
+      }
+    },
+    "jev": {
+      "by_area": {
+        "A": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 22,
+          "n_answered_unanswerable": 1,
+          "n_correct": 22,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 1,
+          "n_usable_in_answerable": 22,
+          "scope": "area A",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "B": {
+          "acc_answerable": null,
+          "acc_pct": "n/a",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 0,
+          "n_answered_unanswerable": 13,
+          "n_correct": 0,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 13,
+          "n_usable_in_answerable": 0,
+          "scope": "area B",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": null,
+            "if_transport_counted_as_correct_pct": "n/a",
+            "if_transport_counted_as_error": null,
+            "if_transport_counted_as_error_pct": "n/a"
+          }
+        },
+        "C": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 14,
+          "n_answered_unanswerable": 2,
+          "n_correct": 14,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 2,
+          "n_usable_in_answerable": 14,
+          "scope": "area C",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "D": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "area D",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_question_type": {
+        "choice": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "qtype choice",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "noul": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 34,
+          "n_answered_unanswerable": 16,
+          "n_correct": 34,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 16,
+          "n_usable_in_answerable": 34,
+          "scope": "qtype noul",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "score": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 2,
+          "n_answered_unanswerable": 0,
+          "n_correct": 2,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 2,
+          "scope": "qtype score",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_split": {
+        "dev": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 13,
+          "n_answered_unanswerable": 8,
+          "n_correct": 13,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 8,
+          "n_usable_in_answerable": 13,
+          "scope": "split dev",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "test": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 17,
+          "n_answered_unanswerable": 5,
+          "n_correct": 17,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 5,
+          "n_usable_in_answerable": 17,
+          "scope": "split test",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "train": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 18,
+          "n_answered_unanswerable": 3,
+          "n_correct": 18,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 3,
+          "n_usable_in_answerable": 18,
+          "scope": "split train",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "overall": {
+        "acc_answerable": 1.0,
+        "acc_pct": "100.0%",
+        "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+        "false_confidence_rate": 1.0,
+        "n_answerable": 48,
+        "n_answered_unanswerable": 16,
+        "n_correct": 48,
+        "n_semantic_errors": 0,
+        "n_transport_failures_in_answerable": 0,
+        "n_unanswerable": 16,
+        "n_usable_in_answerable": 48,
+        "scope": "ALL",
+        "transport_sensitivity": {
+          "if_transport_counted_as_correct": 1.0,
+          "if_transport_counted_as_correct_pct": "100.0%",
+          "if_transport_counted_as_error": 1.0,
+          "if_transport_counted_as_error_pct": "100.0%"
+        }
+      }
+    },
+    "mimo_v26_flash": {
+      "by_area": {
+        "A": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 22,
+          "n_answered_unanswerable": 1,
+          "n_correct": 22,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 1,
+          "n_usable_in_answerable": 22,
+          "scope": "area A",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "B": {
+          "acc_answerable": null,
+          "acc_pct": "n/a",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 0,
+          "n_answered_unanswerable": 13,
+          "n_correct": 0,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 13,
+          "n_usable_in_answerable": 0,
+          "scope": "area B",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": null,
+            "if_transport_counted_as_correct_pct": "n/a",
+            "if_transport_counted_as_error": null,
+            "if_transport_counted_as_error_pct": "n/a"
+          }
+        },
+        "C": {
+          "acc_answerable": 0.9286,
+          "acc_pct": "92.9%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 14,
+          "n_answered_unanswerable": 2,
+          "n_correct": 13,
+          "n_semantic_errors": 1,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 2,
+          "n_usable_in_answerable": 14,
+          "scope": "area C",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9286,
+            "if_transport_counted_as_correct_pct": "92.9%",
+            "if_transport_counted_as_error": 0.9286,
+            "if_transport_counted_as_error_pct": "92.9%"
+          }
+        },
+        "D": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "area D",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_question_type": {
+        "choice": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "qtype choice",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "noul": {
+          "acc_answerable": 0.9706,
+          "acc_pct": "97.1%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 34,
+          "n_answered_unanswerable": 16,
+          "n_correct": 33,
+          "n_semantic_errors": 1,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 16,
+          "n_usable_in_answerable": 34,
+          "scope": "qtype noul",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9706,
+            "if_transport_counted_as_correct_pct": "97.1%",
+            "if_transport_counted_as_error": 0.9706,
+            "if_transport_counted_as_error_pct": "97.1%"
+          }
+        },
+        "score": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 2,
+          "n_answered_unanswerable": 0,
+          "n_correct": 2,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 2,
+          "scope": "qtype score",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_split": {
+        "dev": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 13,
+          "n_answered_unanswerable": 8,
+          "n_correct": 13,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 8,
+          "n_usable_in_answerable": 13,
+          "scope": "split dev",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "test": {
+          "acc_answerable": 0.9412,
+          "acc_pct": "94.1%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 17,
+          "n_answered_unanswerable": 5,
+          "n_correct": 16,
+          "n_semantic_errors": 1,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 5,
+          "n_usable_in_answerable": 17,
+          "scope": "split test",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9412,
+            "if_transport_counted_as_correct_pct": "94.1%",
+            "if_transport_counted_as_error": 0.9412,
+            "if_transport_counted_as_error_pct": "94.1%"
+          }
+        },
+        "train": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 18,
+          "n_answered_unanswerable": 3,
+          "n_correct": 18,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 3,
+          "n_usable_in_answerable": 18,
+          "scope": "split train",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "overall": {
+        "acc_answerable": 0.9792,
+        "acc_pct": "97.9%",
+        "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+        "false_confidence_rate": 1.0,
+        "n_answerable": 48,
+        "n_answered_unanswerable": 16,
+        "n_correct": 47,
+        "n_semantic_errors": 1,
+        "n_transport_failures_in_answerable": 0,
+        "n_unanswerable": 16,
+        "n_usable_in_answerable": 48,
+        "scope": "ALL",
+        "transport_sensitivity": {
+          "if_transport_counted_as_correct": 0.9792,
+          "if_transport_counted_as_correct_pct": "97.9%",
+          "if_transport_counted_as_error": 0.9792,
+          "if_transport_counted_as_error_pct": "97.9%"
+        }
+      }
+    }
+  },
+  "f1_correction": {
+    "case_ids": [
+      "c-p4a",
+      "c-p4b"
+    ],
+    "committed_answerable": 50,
+    "committed_unanswerable": 14,
+    "corrected_answerable": 48,
+    "corrected_unanswerable": 16,
+    "pair_id": "cp4",
+    "source": "verification.md §2 F1"
+  },
+  "free_rider_n6": {
+    "n_cells": 64,
+    "n_cells_with_typed_error": 0,
+    "typed_error_counts": {
+      "None": 64
+    },
+    "what": "the cross-family model's own typed-error count over its own 64 cells, same conditions, N=1 per cell. findings.md §6 item 4 called this the free rider: it replaces the frozen run's lucky 1/64 (N6) with a same-conditions measurement."
+  },
+  "frozen_general_model_reference": {
+    "acc_f1_corrected_gt": {
+      "acc_answerable": 1.0,
+      "acc_pct": "100.0%",
+      "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+      "false_confidence_rate": 0.9375,
+      "n_answerable": 48,
+      "n_answered_unanswerable": 15,
+      "n_correct": 48,
+      "n_semantic_errors": 0,
+      "n_transport_failures_in_answerable": 0,
+      "n_unanswerable": 16,
+      "n_usable_in_answerable": 48,
+      "scope": "ALL",
+      "transport_sensitivity": {
+        "if_transport_counted_as_correct": 1.0,
+        "if_transport_counted_as_correct_pct": "100.0%",
+        "if_transport_counted_as_error": 1.0,
+        "if_transport_counted_as_error_pct": "100.0%"
+      }
+    },
+    "acc_raw_gt": {
+      "acc_answerable": 1.0,
+      "acc_pct": "100.0%",
+      "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+      "false_confidence_rate": 0.9286,
+      "n_answerable": 50,
+      "n_answered_unanswerable": 13,
+      "n_correct": 50,
+      "n_semantic_errors": 0,
+      "n_transport_failures_in_answerable": 0,
+      "n_unanswerable": 14,
+      "n_usable_in_answerable": 50,
+      "scope": "ALL",
+      "transport_sensitivity": {
+        "if_transport_counted_as_correct": 1.0,
+        "if_transport_counted_as_correct_pct": "100.0%",
+        "if_transport_counted_as_error": 1.0,
+        "if_transport_counted_as_error_pct": "100.0%"
+      }
+    },
+    "note": "the frozen general_model run (space-bunny-free, same-family with the corpus author per findings.md §4 L1); reported under both views for context, not as a subject of the paired test"
+  },
+  "inputs": {
+    "frozen_sha256": {
+      "cases.ndjson": {
+        "actual": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+        "expected": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+        "match": true
+      },
+      "results/baselines_raw.ndjson": {
+        "actual": "42f37690ec7ebbca75293ab0a690dc8efd8d5ef8a6a663db632bb05d682bf7ba",
+        "expected": "42f37690ec7ebbca75293ab0a690dc8efd8d5ef8a6a663db632bb05d682bf7ba",
+        "match": true
+      },
+      "results/jev_raw.ndjson": {
+        "actual": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+        "expected": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+        "match": true
+      }
+    },
+    "new_run_rows": 64,
+    "new_run_sha256": "c1f3b34eb06778fadb9f4aa5ad348c004d407e5b331a76863b446e737f73be90"
+  },
+  "paired_cross_check": {
+    "f1_corrected_gt": {
+      "agrees_with_frozen_paired_gain": true,
+      "available": true,
+      "discordant_b": 0,
+      "discordant_c": 1,
+      "n_paired": 48
+    },
+    "raw_gt": {
+      "agrees_with_frozen_paired_gain": true,
+      "available": true,
+      "discordant_b": 0,
+      "discordant_c": 1,
+      "n_paired": 50
+    }
+  },
+  "paired_vs_jev": {
+    "f1_corrected_gt": {
+      "acc_jev": 1.0,
+      "acc_jev_pct": "100.0%",
+      "acc_mimo": 0.9792,
+      "acc_mimo_pct": "97.9%",
+      "delta_mimo_minus_jev": -0.0208,
+      "delta_pp": "-2.1pp",
+      "discordant_b_mimo_right_jev_wrong": 0,
+      "discordant_c_jev_right_mimo_wrong": 1,
+      "discordant_case_ids": {
+        "b": [],
+        "c": [
+          "c-p6a"
+        ]
+      },
+      "label": "mimo_v26_flash vs frozen jev",
+      "n_excluded_but_unusable": 0,
+      "n_excluded_unanswerable": 16,
+      "n_paired": 48,
+      "ties_both_right": 47,
+      "ties_both_wrong": 0,
+      "ties_total": 47,
+      "view": "f1_corrected_gt"
+    },
+    "raw_gt": {
+      "acc_jev": 0.98,
+      "acc_jev_pct": "98.0%",
+      "acc_mimo": 0.96,
+      "acc_mimo_pct": "96.0%",
+      "delta_mimo_minus_jev": -0.02,
+      "delta_pp": "-2.0pp",
+      "discordant_b_mimo_right_jev_wrong": 0,
+      "discordant_c_jev_right_mimo_wrong": 1,
+      "discordant_case_ids": {
+        "b": [],
+        "c": [
+          "c-p6a"
+        ]
+      },
+      "label": "mimo_v26_flash vs frozen jev",
+      "n_excluded_but_unusable": 0,
+      "n_excluded_unanswerable": 14,
+      "n_paired": 50,
+      "ties_both_right": 48,
+      "ties_both_wrong": 1,
+      "ties_total": 49,
+      "view": "raw_gt"
+    }
+  },
+  "question": "followup-02: does a cross-family general model (mimo-v2.6-flash) match the frozen Jev results, and where does the pre-registered band land? This is the confound-free test findings.md §6 Q1 asks for.",
+  "raw_gt": {
+    "general_model": {
+      "by_area": {
+        "A": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 22,
+          "n_answered_unanswerable": 1,
+          "n_correct": 22,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 1,
+          "n_usable_in_answerable": 22,
+          "scope": "area A",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "B": {
+          "acc_answerable": null,
+          "acc_pct": "n/a",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 0.9231,
+          "n_answerable": 0,
+          "n_answered_unanswerable": 12,
+          "n_correct": 0,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 13,
+          "n_usable_in_answerable": 0,
+          "scope": "area B",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": null,
+            "if_transport_counted_as_correct_pct": "n/a",
+            "if_transport_counted_as_error": null,
+            "if_transport_counted_as_error_pct": "n/a"
+          }
+        },
+        "C": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 16,
+          "n_answered_unanswerable": 0,
+          "n_correct": 16,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 16,
+          "scope": "area C",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "D": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "area D",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_question_type": {
+        "choice": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "qtype choice",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "noul": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 0.9286,
+          "n_answerable": 36,
+          "n_answered_unanswerable": 13,
+          "n_correct": 36,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 14,
+          "n_usable_in_answerable": 36,
+          "scope": "qtype noul",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "score": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 2,
+          "n_answered_unanswerable": 0,
+          "n_correct": 2,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 2,
+          "scope": "qtype score",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_split": {
+        "dev": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 0.8333,
+          "n_answerable": 15,
+          "n_answered_unanswerable": 5,
+          "n_correct": 15,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 6,
+          "n_usable_in_answerable": 15,
+          "scope": "split dev",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "test": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 17,
+          "n_answered_unanswerable": 5,
+          "n_correct": 17,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 5,
+          "n_usable_in_answerable": 17,
+          "scope": "split test",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "train": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 18,
+          "n_answered_unanswerable": 3,
+          "n_correct": 18,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 3,
+          "n_usable_in_answerable": 18,
+          "scope": "split train",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "overall": {
+        "acc_answerable": 1.0,
+        "acc_pct": "100.0%",
+        "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+        "false_confidence_rate": 0.9286,
+        "n_answerable": 50,
+        "n_answered_unanswerable": 13,
+        "n_correct": 50,
+        "n_semantic_errors": 0,
+        "n_transport_failures_in_answerable": 0,
+        "n_unanswerable": 14,
+        "n_usable_in_answerable": 50,
+        "scope": "ALL",
+        "transport_sensitivity": {
+          "if_transport_counted_as_correct": 1.0,
+          "if_transport_counted_as_correct_pct": "100.0%",
+          "if_transport_counted_as_error": 1.0,
+          "if_transport_counted_as_error_pct": "100.0%"
+        }
+      }
+    },
+    "jev": {
+      "by_area": {
+        "A": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 22,
+          "n_answered_unanswerable": 1,
+          "n_correct": 22,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 1,
+          "n_usable_in_answerable": 22,
+          "scope": "area A",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "B": {
+          "acc_answerable": null,
+          "acc_pct": "n/a",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 0,
+          "n_answered_unanswerable": 13,
+          "n_correct": 0,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 13,
+          "n_usable_in_answerable": 0,
+          "scope": "area B",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": null,
+            "if_transport_counted_as_correct_pct": "n/a",
+            "if_transport_counted_as_error": null,
+            "if_transport_counted_as_error_pct": "n/a"
+          }
+        },
+        "C": {
+          "acc_answerable": 0.9375,
+          "acc_pct": "93.8%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 16,
+          "n_answered_unanswerable": 0,
+          "n_correct": 15,
+          "n_semantic_errors": 1,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 16,
+          "scope": "area C",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9375,
+            "if_transport_counted_as_correct_pct": "93.8%",
+            "if_transport_counted_as_error": 0.9375,
+            "if_transport_counted_as_error_pct": "93.8%"
+          }
+        },
+        "D": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "area D",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_question_type": {
+        "choice": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "qtype choice",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "noul": {
+          "acc_answerable": 0.9722,
+          "acc_pct": "97.2%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 36,
+          "n_answered_unanswerable": 14,
+          "n_correct": 35,
+          "n_semantic_errors": 1,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 14,
+          "n_usable_in_answerable": 36,
+          "scope": "qtype noul",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9722,
+            "if_transport_counted_as_correct_pct": "97.2%",
+            "if_transport_counted_as_error": 0.9722,
+            "if_transport_counted_as_error_pct": "97.2%"
+          }
+        },
+        "score": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 2,
+          "n_answered_unanswerable": 0,
+          "n_correct": 2,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 2,
+          "scope": "qtype score",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_split": {
+        "dev": {
+          "acc_answerable": 0.9333,
+          "acc_pct": "93.3%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 15,
+          "n_answered_unanswerable": 6,
+          "n_correct": 14,
+          "n_semantic_errors": 1,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 6,
+          "n_usable_in_answerable": 15,
+          "scope": "split dev",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9333,
+            "if_transport_counted_as_correct_pct": "93.3%",
+            "if_transport_counted_as_error": 0.9333,
+            "if_transport_counted_as_error_pct": "93.3%"
+          }
+        },
+        "test": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 17,
+          "n_answered_unanswerable": 5,
+          "n_correct": 17,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 5,
+          "n_usable_in_answerable": 17,
+          "scope": "split test",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "train": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 18,
+          "n_answered_unanswerable": 3,
+          "n_correct": 18,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 3,
+          "n_usable_in_answerable": 18,
+          "scope": "split train",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "overall": {
+        "acc_answerable": 0.98,
+        "acc_pct": "98.0%",
+        "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+        "false_confidence_rate": 1.0,
+        "n_answerable": 50,
+        "n_answered_unanswerable": 14,
+        "n_correct": 49,
+        "n_semantic_errors": 1,
+        "n_transport_failures_in_answerable": 0,
+        "n_unanswerable": 14,
+        "n_usable_in_answerable": 50,
+        "scope": "ALL",
+        "transport_sensitivity": {
+          "if_transport_counted_as_correct": 0.98,
+          "if_transport_counted_as_correct_pct": "98.0%",
+          "if_transport_counted_as_error": 0.98,
+          "if_transport_counted_as_error_pct": "98.0%"
+        }
+      }
+    },
+    "mimo_v26_flash": {
+      "by_area": {
+        "A": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 22,
+          "n_answered_unanswerable": 1,
+          "n_correct": 22,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 1,
+          "n_usable_in_answerable": 22,
+          "scope": "area A",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "B": {
+          "acc_answerable": null,
+          "acc_pct": "n/a",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 0,
+          "n_answered_unanswerable": 13,
+          "n_correct": 0,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 13,
+          "n_usable_in_answerable": 0,
+          "scope": "area B",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": null,
+            "if_transport_counted_as_correct_pct": "n/a",
+            "if_transport_counted_as_error": null,
+            "if_transport_counted_as_error_pct": "n/a"
+          }
+        },
+        "C": {
+          "acc_answerable": 0.875,
+          "acc_pct": "87.5%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 16,
+          "n_answered_unanswerable": 0,
+          "n_correct": 14,
+          "n_semantic_errors": 2,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 16,
+          "scope": "area C",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.875,
+            "if_transport_counted_as_correct_pct": "87.5%",
+            "if_transport_counted_as_error": 0.875,
+            "if_transport_counted_as_error_pct": "87.5%"
+          }
+        },
+        "D": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "area D",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_question_type": {
+        "choice": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 12,
+          "n_answered_unanswerable": 0,
+          "n_correct": 12,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 12,
+          "scope": "qtype choice",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        },
+        "noul": {
+          "acc_answerable": 0.9444,
+          "acc_pct": "94.4%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 36,
+          "n_answered_unanswerable": 14,
+          "n_correct": 34,
+          "n_semantic_errors": 2,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 14,
+          "n_usable_in_answerable": 36,
+          "scope": "qtype noul",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9444,
+            "if_transport_counted_as_correct_pct": "94.4%",
+            "if_transport_counted_as_error": 0.9444,
+            "if_transport_counted_as_error_pct": "94.4%"
+          }
+        },
+        "score": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": null,
+          "n_answerable": 2,
+          "n_answered_unanswerable": 0,
+          "n_correct": 2,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 0,
+          "n_usable_in_answerable": 2,
+          "scope": "qtype score",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "by_split": {
+        "dev": {
+          "acc_answerable": 0.9333,
+          "acc_pct": "93.3%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 15,
+          "n_answered_unanswerable": 6,
+          "n_correct": 14,
+          "n_semantic_errors": 1,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 6,
+          "n_usable_in_answerable": 15,
+          "scope": "split dev",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9333,
+            "if_transport_counted_as_correct_pct": "93.3%",
+            "if_transport_counted_as_error": 0.9333,
+            "if_transport_counted_as_error_pct": "93.3%"
+          }
+        },
+        "test": {
+          "acc_answerable": 0.9412,
+          "acc_pct": "94.1%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 17,
+          "n_answered_unanswerable": 5,
+          "n_correct": 16,
+          "n_semantic_errors": 1,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 5,
+          "n_usable_in_answerable": 17,
+          "scope": "split test",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 0.9412,
+            "if_transport_counted_as_correct_pct": "94.1%",
+            "if_transport_counted_as_error": 0.9412,
+            "if_transport_counted_as_error_pct": "94.1%"
+          }
+        },
+        "train": {
+          "acc_answerable": 1.0,
+          "acc_pct": "100.0%",
+          "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+          "false_confidence_rate": 1.0,
+          "n_answerable": 18,
+          "n_answered_unanswerable": 3,
+          "n_correct": 18,
+          "n_semantic_errors": 0,
+          "n_transport_failures_in_answerable": 0,
+          "n_unanswerable": 3,
+          "n_usable_in_answerable": 18,
+          "scope": "split train",
+          "transport_sensitivity": {
+            "if_transport_counted_as_correct": 1.0,
+            "if_transport_counted_as_correct_pct": "100.0%",
+            "if_transport_counted_as_error": 1.0,
+            "if_transport_counted_as_error_pct": "100.0%"
+          }
+        }
+      },
+      "overall": {
+        "acc_answerable": 0.96,
+        "acc_pct": "96.0%",
+        "denominator": "usable answerable cells (transport failures excluded and reported separately)",
+        "false_confidence_rate": 1.0,
+        "n_answerable": 50,
+        "n_answered_unanswerable": 14,
+        "n_correct": 48,
+        "n_semantic_errors": 2,
+        "n_transport_failures_in_answerable": 0,
+        "n_unanswerable": 14,
+        "n_usable_in_answerable": 50,
+        "scope": "ALL",
+        "transport_sensitivity": {
+          "if_transport_counted_as_correct": 0.96,
+          "if_transport_counted_as_correct_pct": "96.0%",
+          "if_transport_counted_as_error": 0.96,
+          "if_transport_counted_as_error_pct": "96.0%"
+        }
+      }
+    }
+  },
+  "schema_version": "jevp1-followup2-comparison-1.0",
+  "scorer_version": "1.0.0",
+  "sufficiency": {
+    "f1_corrected_gt": {
+      "n_answerable_expected": 48,
+      "n_transport_failures_in_answerable": 0,
+      "n_usable_in_answerable": 48,
+      "reading": "The grid carried enough usable answerable cells for the accuracy to be a statement about the model's judgement.",
+      "rule": "pre-registered for followup-02: fewer than 40 usable cells of the 50 answerable cells means transport failures dominate the run and the band verdict is not a statement about the model's judgement",
+      "sufficient": true,
+      "threshold": ">= 40 usable of 48 answerable"
+    },
+    "gate": "the flag is the raw_gt row, because the brief states the rule on the 50 answerable cells; the corrected row is reported alongside it",
+    "raw_gt": {
+      "n_answerable_expected": 50,
+      "n_transport_failures_in_answerable": 0,
+      "n_usable_in_answerable": 50,
+      "reading": "The grid carried enough usable answerable cells for the accuracy to be a statement about the model's judgement.",
+      "rule": "pre-registered for followup-02: fewer than 40 usable cells of the 50 answerable cells means transport failures dominate the run and the band verdict is not a statement about the model's judgement",
+      "sufficient": true,
+      "threshold": ">= 40 usable of 50 answerable"
+    }
+  },
+  "transport": {
+    "_note": "A transport failure on an unanswerable case is excluded from every semantic answerable denominator, so counting it as an error and counting it as correct give the SAME accuracy. The sensitivity analysis is only informative when a failure lands on an answerable case.",
+    "general_model": {
+      "failed_case_ids": [
+        "b-i03"
+      ],
+      "failed_cases_answerable": [],
+      "failed_cases_unanswerable": [
+        "b-i03"
+      ],
+      "n_cells": 64,
+      "n_transport_failures": 1,
+      "n_usable": 63,
+      "typed_error_counts": {
+        "empty_content": 1
+      }
+    },
+    "jev": {
+      "failed_case_ids": [],
+      "failed_cases_answerable": [],
+      "failed_cases_unanswerable": [],
+      "n_cells": 64,
+      "n_transport_failures": 0,
+      "n_usable": 64,
+      "typed_error_counts": {}
+    },
+    "mimo_v26_flash": {
+      "failed_case_ids": [],
+      "failed_cases_answerable": [],
+      "failed_cases_unanswerable": [],
+      "n_cells": 64,
+      "n_transport_failures": 0,
+      "n_usable": 64,
+      "typed_error_counts": {}
+    }
+  },
+  "usage_and_cost": {
+    "derived_cost_usd": 0.00185542,
+    "model_id": "mimo-v2.6-flash",
+    "n_cells": 64,
+    "n_cells_with_usage": 64,
+    "rates_usd_per_mtok": {
+      "cache_read": 0.0028,
+      "cache_write": 0.0,
+      "input": 0.14,
+      "output": 0.28
+    },
+    "reasoning": {
+      "content_tokens_total": 206,
+      "frozen_max_tokens": 256,
+      "note": "MiMo is a reasoning model: `reasoning_content` is billed and counted inside the same output budget as `content`. The per-cell content minimum is the margin the run had left against the empty-content transport failure that forced the frozen run from max_tokens=16 to 256.",
+      "per_cell_content_tokens_max": 7,
+      "per_cell_content_tokens_median": 3,
+      "per_cell_content_tokens_min": 3,
+      "per_cell_reasoning_tokens_max": 245,
+      "reasoning_share_of_output": 0.9236,
+      "reasoning_share_of_output_pct": "92.4%",
+      "total_output_tokens": 2698,
+      "total_reasoning_tokens": 2492
+    },
+    "token_totals": {
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "input_tokens": 7857,
+      "output_tokens": 2698,
+      "reasoning_tokens": 2492,
+      "total_tokens": 10555
+    }
+  }
+}

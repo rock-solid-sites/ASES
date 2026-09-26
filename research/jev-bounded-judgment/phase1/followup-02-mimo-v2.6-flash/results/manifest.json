@@ -1,0 +1,106 @@
+{
+  "commit": "e740fa419d0702cfb6c503eee085a06624835027",
+  "conditions": {
+    "attempts_per_cell": 1,
+    "frozen_condition_check": "all 64 rebuilt requests hash-equal and body-equal to the frozen general_model rows; enforced as a pre-call gate",
+    "gen_sys": "imported from frozen harness/run_baselines.py",
+    "max_tokens": 256,
+    "n_cases": 64,
+    "retries": 0,
+    "session_header_name": "x-opencode-session",
+    "session_header_note": "a per-run uuid4; a provider grouping header, not a credential. Generated once per run and recorded so a provider-side request log can be tied to this run.",
+    "session_header_value": "d365cc37-c2dc-424b-a034-d9f84141b641",
+    "temperature": 0,
+    "transport_note": "curl subprocess. The frozen urllib transport is Cloudflare-rejected (403, code 1010) with the same credential. The x-opencode-session provenance header is a per-run uuid4, not part of the hashed body."
+  },
+  "credential": {
+    "note": "the $OPENCODE_GO_API_KEY credential is returned 403 \"An active OpenCode Go subscription is required\" by the Go route for every model; the subscribed credential in the OpenCode CLI credential store is served normally. Only the source LABEL is recorded. The value reaches curl on stdin via `curl -K -`, so it is in neither argv nor any file.",
+    "resolution_order": [
+      "env:OPENCODE_GO_API_KEY",
+      "auth.json#opencode-go"
+    ],
+    "source_used": "auth.json#opencode-go",
+    "value_recorded": false
+  },
+  "crosslink_issue": 565,
+  "error_counts": {
+    "general_model": {
+      "None": 63,
+      "empty_content": 1
+    },
+    "jev": {
+      "None": 64
+    },
+    "mimo_v26_flash": {
+      "None": 64
+    }
+  },
+  "followup": "followup-02-mimo-v2.6-flash",
+  "frozen_inputs": {
+    "cases.ndjson": {
+      "actual": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+      "expected": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+      "match": true
+    },
+    "results/baselines_raw.ndjson": {
+      "actual": "42f37690ec7ebbca75293ab0a690dc8efd8d5ef8a6a663db632bb05d682bf7ba",
+      "expected": "42f37690ec7ebbca75293ab0a690dc8efd8d5ef8a6a663db632bb05d682bf7ba",
+      "match": true
+    },
+    "results/jev_raw.ndjson": {
+      "actual": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+      "expected": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+      "match": true
+    }
+  },
+  "generated_utc": "2026-09-26T05:46:09Z",
+  "model": {
+    "catalog_id": "opencode-go/mimo-v2.6-flash",
+    "catalog_refreshed": "2026-09-26",
+    "context": 1048576,
+    "cost": {
+      "cache_read": 0.0028,
+      "cache_write": 0.0,
+      "input": 0.14,
+      "output": 0.28
+    },
+    "endpoint": "https://opencode.ai/zen/go/v1/chat/completions",
+    "family": "DIFFERENT family from Jev and from the corpus author (findings.md §4 L1). This run is the cross-family test Q1 calls for; followup-01 was disqualified as same-family.",
+    "mechanism_label": "mimo_v26_flash",
+    "model_id": "mimo-v2.6-flash",
+    "provider": "OpenCode Go model, served on the OpenCode Go route",
+    "route_note": "the operator-stated Go route. The Zen route the frozen general_model used does not host this model (400 Model is unavailable), so the route change is forced by the model, not chosen."
+  },
+  "outputs_sha256": {
+    "comparison.json": "ac6dd9ff14e707f044d9b70f01f1c532a5c72a5bc1f49ad1adf90f618fc577bd",
+    "mimo_raw.ndjson": "c1f3b34eb06778fadb9f4aa5ad348c004d407e5b331a76863b446e737f73be90",
+    "paired.ndjson": "1c7417de7d6b1b4667671dee5e7146d7aa19f1b1bc0bfe2f5c5a83b72e398dfd"
+  },
+  "raw_run_window_utc": [
+    "2026-09-26T05:41:08Z",
+    "2026-09-26T05:44:56Z"
+  ],
+  "runner": {
+    "path": "followup-02-mimo-v2.6-flash/harness/run_mimo.py",
+    "version": "1.1.0"
+  },
+  "schema_version": "jevp1-followup2-comparison-1.0",
+  "scorer": {
+    "path": "followup-02-mimo-v2.6-flash/harness/score_mimo.py",
+    "python": "3.10",
+    "reuses": [
+      "common.py",
+      "score.py"
+    ],
+    "stdlib_only": true,
+    "version": "1.0.0"
+  },
+  "secrets": {
+    "credential_sources": [
+      "env:OPENCODE_GO_API_KEY",
+      "auth.json#opencode-go"
+    ],
+    "secrets_recorded_field": false,
+    "value_recorded": false
+  }
+}
