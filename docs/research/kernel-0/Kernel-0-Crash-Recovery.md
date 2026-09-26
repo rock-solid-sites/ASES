@@ -184,3 +184,62 @@ Prepared image, commit entry, commit return, publication and acknowledgement wil
 have separate test-only pause points. Their pipes are never issued to producers.
 An independent checker maps recovered concrete state back to the original model;
 no test oracle state is used to initialize recovery.
+
+## Result A1: bounded holder crash/recovery realization survives
+
+`kernel0_recovery_service.py` retains the unchanged concrete policy core.
+`kernel0_recovery_check.py` independently maps observations to the unchanged
+abstract reducer. Source hashes and runtime provenance are in the two generated
+`Kernel-0-Crash-Recovery-*-results.json` files. Reproduce with Python 3.10+ without
+`-O`, running each checker with `--output PATH`. The process suite needs Unix
+socket/process permissions; its initial sandbox run was blocked at socket send,
+then rerun with approved permissions. No dependency was installed.
+
+Evidence: 36 deterministic holder SIGKILL cuts (four effect classes × nine points,
+including confirmed partial ingress and received, validated, prepared, commit
+entry, durable, published, before-ack, acknowledged cuts); both content-retaining
+recovery modes; actual surviving worker processes reattached through the trusted
+supervisor; stale ingress/replay after completed replacement; conflicting field
+requests; a denied whole composite; and lost-reply retry that changes a bit twice.
+Eighteen additional timed commit-call races permit only old/new whole outcomes
+and require new after a success reply. They do **not** establish kills inside
+SQLite's I/O implementation. Deterministic before/after gates discriminate both
+sides without relying on timed race coverage. Wrong root, wrong policy, and
+missing database all refuse startup; missing state is not recreated.
+
+**Strongest confirmed counterexample:** save an old same-root store; acknowledge
+revocation; terminate holder; restore old store; restart; old-authority `flip`
+commits. This is a concrete negative result against freshness-by-root-ID, not an
+in-profile service-loss failure. It explicitly delimits A1: the surviving storage
+must not roll back beneath the declared boundary. A root/hash/version within the
+same restored image would not repair it. The minimum response is a stronger
+trusted freshness fact or refusal to promise that stronger failure class.
+
+### Adversarial conformance review (same-session, not independent)
+
+| Obligation | Enforcement / remaining assumption |
+| --- | --- |
+| Every protected change crosses current guard | Sole request ingress uses original strict decoder; endpoint association is outside JSON. `BEGIN IMMEDIATE`, current read, guard, complete serialized update and commit share one lock. |
+| No partial committed view | One transaction contains one complete view, including content/authority/no-reuse state. SQLite atomicity is a trusted substrate contract, not proved by these process tests. |
+| No volatile success or accepted read | Replies follow commit; reads reload only existing committed state. Gate pipes cannot modify it. Commit uncertainty never returns a fabricated denial. |
+| Continuing evidence after restart | Supervisor retains immutable context association only. Rights, consumed labels, work and bytes reload from storage; old evidence is not remapped to current position. |
+| Cold continuation | Old workers/endpoints disappear; management replaces the orphaned context, then a fresh worker consumes retained bytes. Automatic authority revocation at crash was unnecessary. |
+| No bootstrap confusion | Existing-only open and root/profile/schema checks. The configured location and initial management association remain trusted. Same-root rollback is deliberately demonstrated as unprotected. |
+| No hidden oracle recovery | Model truth exists only in the checker; service imports only concrete policy. Restart configuration contains path/root/policy/endpoints, never a state snapshot. |
+| Observation versus outcome | Lost-reply whole commit survives; repeat `flip` commits again. No deduplication claim. |
+
+Review repaired non-vacuity, the initially masked reuse attack, and an initial
+partial-ingress harness race (parent now waits for the worker's sent marker).
+Prepared-image kills do not prove recovery from every partially overwritten disk
+page: the small update may still be in SQLite memory. No result about OS crash,
+power loss, malicious same-user processes, supervisor loss, independent authority
+binding reconstruction without its survivor, unlimited contexts, deadlines or
+full-stack correctness is implied.
+
+**WHY:** each retained distinction has a discriminating failure; the mapped
+concrete projection survives actual holder loss at declared cuts. **WHAT:** finite
+fixture closure, minimized mutant traces, process evidence and the conformance
+review above. **HOW CERTAIN:** evidence-based **A1**, bounded and conditional on
+explicit trust; not an unbounded or independent formal proof. **WHAT-NOT-TESTED:**
+all exclusions above, general external effects and multi-domain composition.
+No Kernel-0 semantic primitive or canonical definition changed. Proceed to Phase 2.

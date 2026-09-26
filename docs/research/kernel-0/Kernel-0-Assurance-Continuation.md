@@ -33,10 +33,12 @@ the repository, not that temporary pathname, is the durable carrier.
 
 ## Current position
 
-No stronger phase is complete. Phase 1A derivation is in progress in
-`Kernel-0-Crash-Recovery.md`. First concrete action: build the finite recovery
-projection and deliberately weaken each necessary distinction before selecting
-or implementing a persistence mechanism. No Phase 2 work has begun.
+No stronger phase is complete. Phase 1A/1B are internally checked: 7,502 states,
+12,457 edges across 24 fixture closures; ten intended weakened variants fail.
+Governing source/evidence checkpoint: `15d6f48722eec238f1d928b00a75237496abf5d7`.
+Initial derivation checkpoint: `5d5ff7e1b220d348e0a0d2e9f6244ed6dbbc9509`. Phase 1C real process experiment is
+running. First concrete action: inspect its result, challenge adequacy and
+conformance, then freeze A1/B1/C1/D1. No Phase 2 work has begun.
 
 Unresolved: recovery evidence must distinguish the current whole commitment from
 an authentic but obsolete image; continuing recovery additionally needs authentic

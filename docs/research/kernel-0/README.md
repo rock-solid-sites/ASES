@@ -31,3 +31,11 @@ Historical material should be pulled back in only when the current reasoning pro
 ## Current objective
 
 Test the candidate through bounded model and realization correspondence, preserving the distinction between research evidence and production architecture. The realization experiment identifies the next discriminating assurance step; it does not authorize architectural expansion.
+
+## Stronger assurance program
+
+[Assurance continuation](./Kernel-0-Assurance-Continuation.md) is the compact
+restart cursor for the operator-authorized ordered program (Crosslink #567,
+child of #566). [Authority-service crash/recovery](./Kernel-0-Crash-Recovery.md)
+derives and tests the stronger failure profile. These findings extend the
+assurance evidence; they do not silently revise the base semantic contract.

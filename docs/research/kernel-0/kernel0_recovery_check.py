@@ -18,6 +18,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+import time
 
 import kernel0_finite_model as m
 import kernel0_service as core
@@ -134,6 +135,8 @@ def worker_main(fd):
             raw = packet(request['obj'])
             try:
                 conn.sendall(raw[:len(raw)//2] if request['partial'] else raw)
+                if request['partial']:
+                    control.send(json.dumps({'stage': 'partial-sent'}).encode())
                 reply = receive(conn)
             except (EOFError, BrokenPipeError, ConnectionResetError):
                 reply = {'outcome': 'unknown'}
@@ -228,6 +231,8 @@ def crash_cuts(directory):
             worker.attach(h.clients[CONTEXTS.index(q.evidence)])
             worker.submit(wire(q), partial=stage == 'partial_ingress')
             reply = None
+            if stage == 'partial_ingress':
+                assert worker.result() == {'stage': 'partial-sent'}
             if stage == 'acknowledged':
                 reply = worker.result()
                 assert reply['outcome'] == 'commit'
@@ -380,12 +385,68 @@ def root_and_limit(directory):
         'observed': reply, 'disposition': 'trusted-current-storage assumption is necessary'}}
 
 
+def commit_races(directory):
+    results = []
+    for n in range(18):
+        path = directory / f'commit-race-{n}.db'
+        before = setup(path)
+        q = m.Request('pair', 0, value=3)
+        expected, _ = m.resolve(before, q, m.Profile('independent'))
+        h = Holder(path, gate={'lane': 1, 'kind': 'pair', 'stage': 'commit_enter'})
+        worker = Worker()
+        worker.attach(h.clients[1])
+        worker.submit(wire(q))
+        h.gated()
+        h.release_gate()
+        delay = (0, 0.0001, 0.001)[n % 3]
+        if delay:
+            time.sleep(delay)
+        h.kill()
+        reply = worker.result()
+        h = Holder(path)
+        recovered = h.read()
+        assert recovered in (before, expected)
+        if reply['outcome'] == 'commit':
+            assert recovered == expected
+        results.append({'delay_seconds': delay, 'reply': reply['outcome'],
+                        'recovered': 'new' if recovered == expected else 'old'})
+        worker.close()
+        h.kill()
+    return {'qualification': 'race around commit call; no claim to instruction-level or SQLite I/O coverage',
+            'runs': results}
+
+
+def lost_ack_retry(directory):
+    path = directory / 'retry.db'
+    setup(path)
+    h = Holder(path, gate={'lane': 1, 'kind': 'flip', 'stage': 'durable'})
+    worker = Worker()
+    worker.attach(h.clients[1])
+    q = m.Request('flip', 0)
+    worker.submit(wire(q))
+    h.gated()
+    h.kill()
+    assert worker.result()['outcome'] == 'unknown'
+    h = Holder(path)
+    assert h.read().data[0] == 1
+    worker.attach(h.clients[1])
+    reply = worker.request(q)
+    assert reply['outcome'] == 'commit' and reply['state']['data'][0] == 0
+    denied = worker.request(m.Request('mixed', 0))
+    assert denied['outcome'] == 'deny' and denied['state'] == reply['state']
+    worker.close()
+    h.kill()
+    return {'durable_with_lost_reply': 1, 'after_authorized_retry': 0,
+            'exactly_once': False, 'partial_composite_denial': 'no effect'}
+
+
 def run(output):
     with tempfile.TemporaryDirectory(prefix='kernel0-recovery-') as temp:
         directory = Path(temp)
         result = {'failure_class': 'actual SIGKILL of separate authority process; OS/storage stay live',
                   'cuts': crash_cuts(directory), 'recovery_modes': continuing_and_cold(directory),
-                  'ordering': order_and_replay(directory), 'root_and_limit': root_and_limit(directory)}
+                  'ordering': order_and_replay(directory), 'root_and_limit': root_and_limit(directory),
+                  'commit_races': commit_races(directory), 'lost_ack_retry': lost_ack_retry(directory)}
     result['runtime'] = {'python': platform.python_version(), 'sqlite': sqlite3.sqlite_version,
                          'platform': platform.platform()}
     result['sources'] = {p.name: sha256(p.read_bytes()).hexdigest() for p in
