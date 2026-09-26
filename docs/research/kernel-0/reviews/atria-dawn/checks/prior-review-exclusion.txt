@@ -1,0 +1,46 @@
+# Prior-review exclusion check (Step 4)
+
+Command: grep -nE 'Kernel-0-Realization-Experiment|Kernel-0-Reasoning-Phase-Result|Realization-Comparison|Kernel-0-Realization-Conformance|Kernel-0-Evidence-Packet|\.design/reviews' packet.md
+
+## Per-token counts: packet.md vs the six pinned source files at e2e3bc110b1370f3505aa0838990713520bf3f7c
+
+TOKEN                                    PACKET         PINNED_SOURCE
+Kernel-0-Realization-Experiment          1              1
+Kernel-0-Realization-Conformance         0              0
+Kernel-0-Reasoning-Phase-Result          2              2
+Kernel-0-Evidence-Packet                 0              0
+Realization-Comparison                   2              2
+.design/reviews                          0              0
+
+## The 5 hit sites, in their source files (exact source text)
+
+Kernel-0-Abstract-Semantics.md:15
+This is a realization-neutral candidate contract. It defines the smallest presently justified authoritative boundary, not a physical component, data schema, proof tool, or canonical Work Unit ontology. The [reasoning record](./Kernel-0-Reasoning-Phase-Result.md) gives its evidence and unresolved questions.
+
+Kernel-0-Finite-Model.md:15-16 (document list)
+  - Kernel-0-Verification-Obligations.md
+related_documents:
+  - Kernel-0-Reasoning-Phase-Result.md
+  - Kernel-0-Realization-Comparison.md
+consumed_by:
+
+Kernel-0-Finite-Model.md:175
+The [existing comparison](./Kernel-0-Realization-Comparison.md) still justifies the tiny **still-live in-memory authority-service experiment as a falsification experiment**. No tested semantic premise invalidates that choice. Its benefit is that one retained boundary can hold the complete finite view and accepted bytes while executors are independently terminated. This remains an inference about e
+
+kernel0_service.py:2 (module docstring)
+#!/usr/bin/env python3
+"""Still-live finite research service. See Kernel-0-Realization-Experiment.md.
+
+
+RESULT: PRIOR_REVIEW_EXCLUSION=FAIL (5 hits)
+
+Every hit originates in the pinned source files themselves, not in any text added to
+packet.md. packet.md is proven byte-identical to those six files (see
+checks/packet-reconstruction.txt, PACKET_RECONSTRUCTION=PASS). The pinned artifact is
+therefore not itself free of references to earlier review documents: 3 are bare
+markdown links / file-list entries, 1 is a substantive cross-reference asserting that a prior
+comparison justifies the chosen design, and 1 is a service module docstring pointer.
+
+This check cannot be made to pass without either editing the pinned implementation/spec
+files (out of scope) or altering packet.md away from the commit bytes (would break
+byte-exact reconstruction). Recorded as a limitation on clean-room isolation, not remediated.
