@@ -215,6 +215,35 @@ Repository organisation should reflect conceptual organisation.
 
 ---
 
+# Shared AGENTS Hygiene Bridge (Temporary)
+
+Temporary scaffolding for the shared-policy rollout (ASES Crosslink issue
+#552; recon #551). The local Crosslink issue #552 carries the corresponding
+work in this repository; the ASES Crosslink issue #552 is the authoritative
+tracker. It adds no new orchestration, merge, or policy-bundle semantics.
+
+* **Canonical shared policy.** This file (`ASES/AGENTS.md`) is the canonical
+  shared policy. Crosslink owns task identity, state, evidence, retries,
+  handoff association, and closure for bridge work.
+* **Active corresponding issue.** Substantive delegation (worker launches,
+  commits) requires an active corresponding Crosslink issue: bind with
+  `crosslink session work <id>` or launch with `kickoff --issue <id>`.
+  Read-only recon without an issue is permitted but must not delegate.
+* **Freshness check.** Verify the canonical snapshot with
+  `crosslink agents-hygiene check`; refresh it with
+  `crosslink agents-hygiene sync` (records hash/version metadata in
+  `.crosslink/agents-hygiene.json`). Session startup surfaces a loud
+  `STALE` warning when the snapshot is stale or missing — stale shared
+  policy must never silently pass.
+* **Repo-local guidance.** `AGENTS.repo.md`, where present, stays in place
+  and readable. Sync never overwrites, reads, or incorporates it into
+  shared policy.
+* **Recovery.** Worker recovery keeps the existing carriers only: milestone
+  `[PROGRESS]` checkpoint comments on the corresponding issue, session
+  handoff notes, and `.kickoff-status` — then `crosslink sync`.
+
+---
+
 # Adversarial Review
 
 Adversarial findings are research outputs.
