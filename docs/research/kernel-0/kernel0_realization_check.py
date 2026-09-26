@@ -19,7 +19,7 @@ import sys
 import threading
 import time
 
-from hypothesis import given, settings, strategies as st, find
+from hypothesis import given, settings, strategies as st, find, example
 import hypothesis
 import kernel0_finite_model as m
 import kernel0_service as c
@@ -69,7 +69,7 @@ def receive(conn):
 
 class Service:
     # Three independent endpoints denote a0; none can upgrade itself to manager.
-    CONTEXTS = (-1, 0, 1, 2, 3, 0, 0)
+    CONTEXTS = (-1, 0, 1, 2, 3, 0, 0, -1)
 
     def __init__(self, profile='independent', gate=None):
         pairs = [socket.socketpair() for _ in self.CONTEXTS]
@@ -86,7 +86,8 @@ class Service:
             config['gate'] = dict(gate, event_fd=event_write, release_fd=release_read)
             inherited += [event_write, release_read]
         self.process = subprocess.Popen([sys.executable, str(HERE / 'kernel0_service.py'), json.dumps(config)],
-                                        pass_fds=inherited, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                                        pass_fds=inherited, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                        bufsize=0)
         for _, server in pairs:
             server.close()
         os.close(event_write)
@@ -124,17 +125,21 @@ class Service:
         proc = subprocess.Popen([sys.executable, str(Path(__file__).resolve()), '--worker',
                                  str(self.clients[lane].fileno()), mode, json.dumps(obj)],
                                 pass_fds=[self.clients[lane].fileno()], stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
+                                stderr=subprocess.PIPE, bufsize=0)
         self.children.append(proc)
         assert select.select([proc.stdout], [], [], 10)[0]
         assert proc.stdout.readline() == b'private-ready\n'
         return proc
 
     def close(self):
+        worker_errors = []
         for proc in self.children:
             if proc.poll() is None:
                 proc.kill()
             proc.wait(timeout=10)
+            error = proc.stderr.read().decode()
+            if error or proc.returncode > 0:
+                worker_errors.append((proc.returncode, error))
             proc.stdout.close()
             proc.stderr.close()
         for conn in self.clients:
@@ -148,6 +153,7 @@ class Service:
         self.process.stdout.close()
         self.process.stderr.close()
         assert not errors, errors
+        assert not worker_errors, worker_errors
 
     def __enter__(self):
         return self
@@ -158,7 +164,11 @@ class Service:
 
 def worker_main(fd, mode, obj):
     # Candidate bytes and the serialized proposal exist in this process before loss.
-    conn = socket.socket(fileno=fd)
+    os.dup2(fd, 64)  # Deliberately identical descriptor label in every executor.
+    if fd != 64:
+        os.close(fd)
+    conn = socket.socket(fileno=64)
+    conn.settimeout(10)  # Match inherited O_NONBLOCK to Python's timeout wrapper.
     raw = packet(obj)
     print('private-ready', flush=True)
     if mode == 'before':
@@ -167,10 +177,16 @@ def worker_main(fd, mode, obj):
         conn.sendall(raw[:len(raw)//2])
         print('partial-sent', flush=True)
         threading.Event().wait()
+    if mode == 'resume':
+        conn.sendall(packet({'kind': 'read'}))
+        retained = receive(conn)['state']['content']
+        raw = packet(dict(kind='resume', target=0, value=retained, other=0))
     conn.sendall(raw)
     if mode == 'no-ack':
         threading.Event().wait()
     print(json.dumps(receive(conn)), flush=True)
+    if mode == 'ack-stay':
+        threading.Event().wait()
 
 
 def check_one(service, s, q, p):
@@ -297,6 +313,15 @@ def authority_and_bypass():
         s = check_one(service, s, m.Request('flip', 2), p)
         assert abstract(service.read()) == s
     EVIDENCE['authority_and_bypass'] = 'pass: both replacement orders, same payload/different endpoint, forgery, copies, mixed denial, replay'
+    with Service() as service:
+        service.setup((0, 7))
+        assert service.request(m.Request('replace', target=0, other=1))['outcome'] == 'commit'
+        for lane, outcome in ((1, 'deny'), (2, 'commit')):
+            proc = service.worker(lane, wire(m.Request('set', 0, value=1)))
+            assert select.select([proc.stdout], [], [], 10)[0]
+            assert json.loads(proc.stdout.readline())['outcome'] == outcome
+            proc.wait(timeout=10)
+    EVIDENCE['confusable_descriptor_label'] = 'old and replacement both use local fd 64 and identical JSON; old denied, replacement committed'
 
 
 def kill(proc):
@@ -362,14 +387,13 @@ def loss_cuts():
     # Accepted bytes survive the sole producing process. Replacement consumes them.
     with Service() as service:
         service.setup((0, 7))
-        proc = service.worker(1, wire(m.Request('accept', 0, value=1)))
+        proc = service.worker(1, wire(m.Request('accept', 0, value=1)), 'ack-stay')
         assert select.select([proc.stdout], [], [], 10)[0]
         assert json.loads(proc.stdout.readline())['outcome'] == 'commit'
-        proc.wait(timeout=10)
+        kill(proc)
         service.clients[1].close()
         assert service.request(m.Request('replace', target=0, other=1))['outcome'] == 'commit'
-        content = service.read(2)['content']
-        replacement = service.worker(2, dict(kind='resume', target=0, value=content, other=0))
+        replacement = service.worker(2, {}, 'resume')
         assert select.select([replacement.stdout], [], [], 10)[0]
         assert json.loads(replacement.stdout.readline())['state']['data'] == [1, 0]
         replacement.wait(timeout=10)
@@ -411,7 +435,10 @@ def concurrent(service, requests):
         end = time.monotonic_ns()
         return start, end, response
     with ThreadPoolExecutor(max_workers=len(requests)) as pool:
-        return list(pool.map(issue, requests))
+        events = list(pool.map(issue, requests))
+    if any(a[0] < b[1] and b[0] < a[1] for i, a in enumerate(events) for b in events[i+1:]):
+        METRICS['observed_overlapping_histories'] += 1
+    return events
 
 
 def whole_history(initial, qs, events, profile, final):
@@ -438,23 +465,26 @@ def concurrency_attacks():
             if p.exclusive:
                 initial = service.setup()
                 qs = [m.Request('grant', target=0, value=1), m.Request('grant', target=3, value=2)]
-                # An a0 endpoint cannot manage; two manager handles are needed for
-                # an exclusive-grant race, supplied by a trusted bootstrap fixture.
-                # Exercise competing issuance serially here; generated histories
-                # cover management interleaved with independently routed workers.
-                outcomes = [service.request(q)['outcome'] for q in qs]
-                assert outcomes == ['commit', 'deny']
-                results.append({'profile': p.name, 'outcomes': outcomes, 'concurrent': False})
-                continue
-            initial = service.setup((0, 7), (3, 2))
-            qs = [m.Request('set', 0, 0, 1), m.Request('set', 3, 1, 1)]
-            assert service.read(1)['data'] == service.read(4)['data'] == [0, 0]
-            events = concurrent(service, [(1, wire(qs[0])), (4, wire(qs[1]))])
+                lanes = (0, 7)
+            else:
+                initial = service.setup((0, 7), (3, 2))
+                qs = [m.Request('set', 0, 0, 1), m.Request('set', 3, 1, 1)]
+                lanes = (1, 4)
+                assert service.read(1)['data'] == service.read(4)['data'] == [0, 0]
+            events = concurrent(service, [(lane, wire(q)) for lane, q in zip(lanes, qs)])
             outcomes = [event[2]['outcome'] for event in events]
             witness = whole_history(initial, qs, events, p, abstract(service.read()))
             assert witness is not None
-            assert outcomes.count('commit') == (1 if p.coupled else 2)
+            assert outcomes.count('commit') == (1 if p.coupled or p.exclusive else 2)
             results.append({'profile': p.name, 'outcomes': outcomes, 'witness': witness, 'concurrent': True})
+    with Service() as service:
+        initial = service.setup((0, 7))
+        qs = [m.Request('delegate', 0, 3, 2), m.Request('restrict', target=0, value=1)]
+        events = concurrent(service, [(1, wire(qs[0])), (0, wire(qs[1]))])
+        final = abstract(service.read())
+        witness = whole_history(initial, qs, events, PROFILES[0], final)
+        assert witness is not None and final.rights == (1, 0, 0, 0)
+        results.append({'profile': 'delegation/restriction', 'witness': witness, 'concurrent': True})
     # Same live commit boundary, separate three-bit model extension; all attempts
     # observed 000, but each current guard is re-evaluated under the real lock.
     for order in permutations(range(3)):
@@ -477,6 +507,7 @@ def concurrency_attacks():
 
 @settings(max_examples=200, deadline=None, derandomize=True, database=None)
 @given(st.sampled_from(PROFILES), st.lists(st.integers(0, 4095), min_size=1, max_size=50))
+@example(PROFILES[0], [1477, 2670, 705, 1, 1, 1, 1])
 def generated_sequences(profile, choices):
     with Service(profile.name) as service:
         state = m.State()
@@ -485,6 +516,8 @@ def generated_sequences(profile, choices):
             # Three quarters of choices select model-enabled operations. The rest
             # attack stale or otherwise inadmissible proposals. No assume/filter.
             pool = [q for q in CATALOG if m.resolve(state, q, profile)[1] == 'commit'] if choice % 4 else CATALOG
+            if not pool:
+                pool = CATALOG  # Exhausted authority permits only denial; no liveness promise.
             q = pool[(choice // 4) % len(pool)]
             if choice % 17 == 0:
                 q = replace(q, authentic=False)
@@ -615,6 +648,7 @@ def run(output, graph=True):
         print('passed:', test.__name__, flush=True)
     required = {'establish', 'grant', 'restrict', 'replace', 'delegate', 'set', 'flip', 'pair', 'accept', 'resume'}
     assert all(METRICS['kind_' + kind + '_commit'] > 0 for kind in required)
+    assert METRICS['observed_overlapping_histories'] > 0
     EVIDENCE['metrics'] = dict(METRICS)
     EVIDENCE['source_sha256'] = {name: sha256((HERE / name).read_bytes()).hexdigest() for name in
         ('kernel0_service.py', 'kernel0_realization_check.py', 'kernel0_finite_model.py')}
