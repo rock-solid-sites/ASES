@@ -61,9 +61,17 @@ with lost acknowledgement is repeated by retry. This is permitted, not exactly-o
 The obligation survives producer revocation; sink-current authority and cancellation
 remain unclaimed. Phase 1 reran successfully after adding the consumer extension.
 
-**Next: Phase 3.** First concrete action: construct two continuing domains with
-local authority and independent work fields, plus coupled admission/resource
-transfer; test local commutativity and stale cross-domain snapshots separately.
+**Completed Phase 3 — A3 (bounded model only).** Governing commit:
+`018fc72daa9a5b902f1b6140fbf5e033aee85ac5`, pushed and remote SHA verified. 432 states / 17,280 edges;
+48 unordered independent-step checks. Scoped evidence and local availability
+compose; reservation/transfer requires a joint coherent view and compatible
+recovery cut. A half-transfer recovers `(0,0)`, satisfying exclusion but losing
+the whole declared effect. No physical multi-holder recovery implementation is
+claimed. No new Kernel-0 primitive or canonical definition changed.
+
+**Next: Phase 4.** First concrete action: derive conditional parametric arguments
+for non-resurrection, arbitrary-field whole effects, locality and ordering, then
+identify where finite observations cannot establish a cutoff or unbounded proof.
 Independent review packets are frozen in `Kernel-0-Assurance-Review.md`.
 
 ## Required execution order
