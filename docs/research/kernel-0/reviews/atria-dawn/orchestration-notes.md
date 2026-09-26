@@ -203,5 +203,18 @@ Secret handling: PASS (key never printed or committed; scans clean)
 Atria output was not used to modify the implementation.
 ```
 
+## Commit and push record
+
+- Stub checkpoint: `5d5b0a14d4853f2678d8b5070d8573a5bb4132f0`
+- Pre-request checkpoint: `a9f8be8b9ff150daf17f02b0c87e7b0697b48311`
+- Evidence commit (all review artifacts): `664fd9fcce51131446c0c27a4313908078d28277`
+- `git push origin codex/kernel-0-reasoning-566` (plain, no force) succeeded:
+  `e2e3bc11..664fd9fc`
+- `git ls-remote origin refs/heads/codex/kernel-0-reasoning-566` =
+  `664fd9fcce51131446c0c27a4313908078d28277`, equal to the local HEAD at push time.
+- The Crosslink comment cites `664fd9fc`, the commit that carries every review
+  artifact. A subsequent commit on the same branch records this section, so the
+  branch tip may be one commit ahead of the cited evidence commit.
+
 Next step: none available under the single-request rule. A new single-request
 authorization is required to obtain a verdict.
