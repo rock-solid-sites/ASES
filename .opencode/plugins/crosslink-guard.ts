@@ -583,19 +583,54 @@ function isClaudeMemoryPath(filePath: string | undefined): boolean {
 // Crosslink CLI interaction via BunShell
 // ---------------------------------------------------------------------------
 
+// Binary resolution (#514 follow-up, see BLOCKED-crosslink-guard-halt-report-v2.md):
+// the Bun Shell template previously used in runCrosslink could not resolve
+// `crosslink` in worktree sandboxes (PATH lacks ~/.local/bin and ~/.cargo/bin),
+// so every CLI probe failed with exit=1 + empty stdout and the fail-closed
+// health check bricked every worktree session. Resolve the binary absolutely
+// and spawn it directly — the pattern already proven by rtk-guard.ts
+// resolveBinary() in this environment.
+const CROSSLINK_FALLBACK = path.join(os.homedir(), ".cargo/bin/crosslink");
+let crosslinkBinaryLogged = false;
+
+function resolveCrosslinkBinary(): string | null {
+  const env = process.env.CROSSLINK_BINARY;
+  if (env && fs.existsSync(env)) return env;
+  try {
+    const p = Bun.spawnSync(["which", "crosslink"], { timeout: 1000 });
+    const out = (p.stdout?.toString() ?? "").trim();
+    if (out && fs.existsSync(out)) return out;
+  } catch {
+    // `which` unavailable — fall through to fallback below
+  }
+  if (fs.existsSync(CROSSLINK_FALLBACK)) return CROSSLINK_FALLBACK;
+  return null;
+}
+
 async function runCrosslink(
-  shell: PluginInput["$"],
+  _shell: PluginInput["$"],
   args: string[],
   cwd: string,
 ): Promise<{ stdout: string; exitCode: number } | null> {
   try {
-    // Construct the command string safely
-    const cmd = "crosslink " + args.map((a) => (a.includes(" ") ? `"${a}"` : a)).join(" ");
-    const proc = shell.cwd(cwd)`${cmd}`.nothrow().quiet();
-    const output = await proc;
+    const bin = resolveCrosslinkBinary();
+    if (!bin) {
+      log("runCrosslink: crosslink binary not resolved (which + fallback miss)");
+      return null;
+    }
+    if (!crosslinkBinaryLogged) {
+      log(`crosslink binary resolved: ${bin}`);
+      crosslinkBinaryLogged = true;
+    }
+    const proc = Bun.spawnSync([bin, ...args], {
+      cwd,
+      stdout: "pipe",
+      stderr: "pipe",
+      timeout: 10000,
+    });
     return {
-      stdout: output.text().trim(),
-      exitCode: output.exitCode,
+      stdout: (proc.stdout?.toString() ?? "").trim(),
+      exitCode: proc.exitCode ?? 1,
     };
   } catch (e) {
     log("runCrosslink error:", String(e));
@@ -1077,6 +1112,14 @@ async function checkCrosslinkHealth(
     // Check stderr-like markers for lock/busy
     if (combined.includes("database is locked") || combined.includes("busy") || combined.includes("locked")) {
       return { healthy: false, reason: `DB lock — crosslink session status reports lock/busy (${statusResult.stdout.slice(0, 160)})` };
+    }
+    // Worktrees: the CLI probe can fail for environment reasons (sandbox PATH,
+    // hub-cache layout) even when the DB is healthy — step 4 already verified
+    // the DB via bun:sqlite. Degrade to a warning like the --version probe
+    // (line ~972) instead of bricking every worktree session (#514 follow-up).
+    if (crosslinkDir && crosslinkDir.includes("/.worktrees/")) {
+      log(`Health: session status failed in worktree (exit=${statusResult.exitCode} out=${statusResult.stdout.slice(0, 120)}) — tolerated, not halting`);
+      return { healthy: true, reason: "" };
     }
     return { healthy: false, reason: `crosslink CLI/DB unavailable — crosslink session status exit=${statusResult.exitCode} (${statusResult.stdout.slice(0, 160)})` };
   }
