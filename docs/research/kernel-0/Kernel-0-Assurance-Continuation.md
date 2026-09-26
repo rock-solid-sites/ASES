@@ -85,10 +85,17 @@ Algorithmic separation is not independent review. Unknown outcomes are scoped to
 holder loss, not arbitrary network loss. SQLite I/O crash placement remains the
 largest tractable substrate gap.
 
-**Next: Phase 6.** First concrete action: classify every retained distinction and
-mechanism as intrinsic / optional profile / trusted substrate / realization choice,
-then try removal again using preserved counterexamples. Do not expand the kernel
-because storage or sink implementation became more elaborate.
+**Completed Phase 6 — no new Kernel-0 primitive justified.** Governing commit:
+`9b325b617e633b73f8c150b858e290417194aa92`, pushed and remote SHA verified. The removal audit classifies all
+retained distinctions/mechanisms as intrinsic, optional-profile, substrate or
+realization. Stronger claims parameterize σ, guarded whole commitment, authority,
+order, failure projection and mediation. Canonical semantics remain unchanged.
+
+**Next: Phase 7.** First concrete action: assess the bounded discriminator of
+killing the existing transactional holder at actual storage write/synchronization/
+journal-removal calls, using test-only instrumentation and the same whole-state
+oracle. If feasible, implement it; do not build a production storage engine or
+claim power-loss/storage-fault proof from live-OS process termination.
 
 ## Required execution order
 

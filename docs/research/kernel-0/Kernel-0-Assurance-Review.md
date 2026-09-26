@@ -90,3 +90,12 @@ search, especially replies buffered across a crash, snapshot capture versus
 response time, abandoned unknown calls, and whether the recorder narrows real-time
 intervals incorrectly. Try a trace accepted without any legal abstract history,
 or rejected despite one. No independent review has yet occurred.
+
+
+# Frozen Phase 6 packet
+
+Exact tree: `9b325b617e633b73f8c150b858e290417194aa92`. Review `Kernel-0-Re-Minimization.md` against the exact
+Phase 1–5 reports and preserved counterexamples. Try to find a retained mechanism
+misclassified as intrinsic, a necessary distinction discarded without a valid
+projection, or hidden trust outside the named authority service. The conclusion
+is provisional evidence-based reduction, not unique universal minimality.
