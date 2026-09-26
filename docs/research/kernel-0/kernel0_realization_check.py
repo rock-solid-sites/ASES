@@ -604,14 +604,14 @@ def mutation_checks():
             'amplify': [m.Request('restrict', target=0, value=1), m.Request('delegate', 0, 3, 7)],
             'stale_view': [m.Request('restrict', target=0), m.Request('set', 0, value=1)],
         }[name]
-        def diverges(indices):
+        def mismatch(indices):
             expected, actual = base, concrete(base)
             for index in indices:
                 q = operations[index]
                 expected, result = m.resolve(expected, q, PROFILES[0])
                 decoded, actor = c.decode(packet(wire(q))), q.evidence
                 source = actual
-                if name == 'reuse' and q.kind == 'grant':
+                if name == 'reuse' and q.kind == 'grant' and not source.rights[q.target]:
                     source = replace(source, issued=source.issued & ~(1 << q.target))
                 if name == 'confusion' and actor == 0 and not source.rights[0]:
                     actor = next((i for i in range(3) if source.rights[i]), actor)
@@ -622,19 +622,26 @@ def mutation_checks():
                 out = c.candidate(source, actor, decoded, 'independent')
                 commit = out is not None and c.valid(out, 'independent')
                 if commit:
-                    if name == 'stale_view':
+                    if name == 'stale_view' and q.kind == 'set':
                         out = replace(out, rights=actual.rights)
-                    if name == 'amplify':
+                    if name == 'amplify' and q.kind == 'delegate':
                         out = replace(out, rights=(actual.rights[0],) + out.rights[1:])
                     actual = out
                 if name == 'partial' and q.kind == 'mixed':
                     actual = replace(actual, data=(1, actual.data[1]))
                 if (actual, 'commit' if commit else 'deny') != (concrete(expected), result):
-                    return True
-            return False
-        minimized = find(st.lists(st.integers(0, len(operations)-1), min_size=1, max_size=8), diverges,
+                    return {'at_request': asdict(q), 'expected_state': asdict(expected),
+                            'actual_state': asdict(actual), 'expected_outcome': result,
+                            'actual_outcome': 'commit' if commit else 'deny'}
+            return None
+        minimized = find(st.lists(st.integers(0, len(operations)-1), min_size=1, max_size=8),
+                         lambda indices: mismatch(indices) is not None,
                          settings=settings(max_examples=1000, deadline=None, derandomize=True, database=None))
-        witnesses[name] = [asdict(operations[i]) for i in minimized]
+        counterexample = mismatch(minimized)
+        assert counterexample['at_request']['kind'] == {
+            'reuse': 'grant', 'confusion': 'set', 'partial': 'mixed',
+            'amplify': 'delegate', 'stale_view': 'set'}[name]
+        witnesses[name] = dict(trace=[asdict(operations[i]) for i in minimized], **counterexample)
     EVIDENCE['deliberate_concrete_mutants'] = witnesses
 
 

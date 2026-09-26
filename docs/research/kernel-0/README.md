@@ -18,6 +18,10 @@ This directory contains the active inputs for the Kernel-0 reasoning program.
 
 [Kernel-0 Bounded Realization Comparison](./Kernel-0-Realization-Comparison.md) compares realization families against the frozen minimum semantics and states the next discriminating experiment.
 
+[Kernel-0 Finite Model](./Kernel-0-Finite-Model.md) records the bounded model result and its unchanged executable evidence.
+
+[Kernel-0 Still-Live Realization Experiment](./Kernel-0-Realization-Experiment.md) records the subsequent concrete experiment, its pre-implementation correspondence, tests, findings and claim boundary. The [conformance review](./Kernel-0-Realization-Conformance.md) traces the relevant semantic obligations through the service.
+
 ## Relationship to older work
 
 Earlier EDASES kernel, Work Unit, state-machine, and formal-verification research remains provenance. The Evidence Packet consolidates the settled requirements needed for the current derivation without requiring the first frontier pass to ingest the historical implementation path.
@@ -26,4 +30,4 @@ Historical material should be pulled back in only when the current reasoning pro
 
 ## Current objective
 
-Derive the smallest defensible Kernel-0 consistent with the evidence, test it as the authority substrate needed by the Work Unit architecture, and defer realization selection until the semantic candidate survives adequacy and adversarial reasoning.
+Test the candidate through bounded model and realization correspondence, preserving the distinction between research evidence and production architecture. The realization experiment identifies the next discriminating assurance step; it does not authorize architectural expansion.
