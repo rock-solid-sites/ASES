@@ -1,0 +1,50 @@
+substituting a substitute reviewer.
+
+WHAT
+HTTP 502 from https://api.atria-asi.ai/v1/chat/completions after 303.155 s, with
+error code upstream_unavailable and the message "Inference service is
+temporarily unavailable." No completion content, so there is no
+FALSIFIED / NOT FALSIFIED verdict and no model identifier was returned. The
+request was not retried, per the single-request rule. The 502 arrived well inside
+the 900 s timeout, so it is not a client-side timeout.
+
+HOW CERTAIN
+Certain that the request was well-formed and transmitted once: the body is
+exactly {"model","messages"} with a single user message and no system message,
+serialized once to 126,506 bytes, written to atria-request.json before sending,
+and the transmitted bytes match that file (sha256 6632ce5a...). The failure is
+server-side, corroborated by the Atria error envelope naming its own upstream as
+unavailable. Uncertain only as to when the service recovers; a fresh single
+request is required to obtain any verdict.
+
+WHAT NOT TESTED
+The Kernel-0 claim itself was not tested by any reviewer — no falsification
+attempt occurred. Prior-review exclusion FAILED: packet.md contains 5 references
+to earlier review documents (Kernel-0-Reasoning-Phase-Result.md,
+Kernel-0-Realization-Comparison.md, Kernel-0-Realization-Experiment.md). All five
+are present in the pinned source files at e2e3bc11 and were not introduced by
+packet assembly; packet.md is byte-identical to the six pinned files. The pinned
+artifact is therefore not itself free of pointers to prior work, though the
+reviewer would not have received their contents or conclusions.
+
+Source commit: e2e3bc110b1370f3505aa0838990713520bf3f7c
+Model identifier returned by the API: none (error envelope, no model field)
+Packet SHA-256: 265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28
+Verdict: NONE — review blocked upstream
+Strongest finding: the Atria endpoint failed the single authorized request with
+"upstream_unavailable", so the Kernel-0 realization claim remains unreviewed by
+any external reviewer.
+
+Artifacts: docs/research/kernel-0/reviews/atria-dawn/ (orchestration-notes.md,
+packet.md, packet.sha256, review-prompt.md, atria-request.json,
+atria-response.raw.json, atria-response-metadata.json, checks/)
+Final commit: 664fd9fcce51131446c0c27a4313908078d28277 (artifacts); branch tip be5df66b4a7e6973e4571890c316a4f933222712
+Remote push verification: git ls-remote origin refs/heads/codex/kernel-0-reasoning-566 = be5df66b4a7e6973e4571890c316a4f933222712, equal to local HEAD after a plain (non-forced) push of e2e3bc11..664fd9fc and the provenance follow-up.
+Clean-room isolation: PARTIAL (packet reconstructs byte-exact from the six pinned
+files; no prior-review or unrelated content added by assembly, but the pinned
+source itself names 5 prior-review artifacts)
+Secret handling: PASS (key never printed or committed; scans clean)
+Atria output was not used to modify the implementation.
+
+Blocked by: (none)
+Blocking: (none)
