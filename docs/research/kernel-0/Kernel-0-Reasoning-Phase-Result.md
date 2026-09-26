@@ -155,19 +155,23 @@ The first two are generic boundary properties once eligibility and effect granul
 
 ### Model adequacy and discriminating traces
 
-Exploring every encoded transition is insufficient if the encoding omits a relevant state or order. At minimum, the model must distinguish:
+Exploring every encoded transition is insufficient if the encoding omits a relevant state or order. The compact regression set below separates missing semantics from implementation correspondence and claims the packet does not make:
 
-| Trace | Expected observation |
+| Adversarial trace | Required result or classification |
 | --- | --- |
-| Authorized whole change; then a change with one invalid part | The first can commit; the second cannot produce a substitute or partial authoritative mutation. |
-| Old request observes valid authority; authority is withdrawn; old request then attempts commitment | The truthful stale observation cannot authorize the later commitment. This is the explicit stale-authority regression. |
-| Replacement and old request overlap, in both resolved orders | Commitment before supersession may stand; commitment after supersession is denied. The model must represent both orderings. |
-| Old and replacement executions submit with the same principal and credential | If old must be denied while replacement proceeds, the instantiation must add trustworthy distinguishability or fail the adequacy claim. |
-| Executor disappears; work and position remain; replacement continues | The same continuing work and position are recoverable without treating replacement as new work. |
-| Compatible concurrent requests and configured incompatible requests | Compatible requests can commit; incompatible authoritative states never coexist. |
-| Commitment succeeds but acknowledgement is lost | Authoritative state remains definite; no retry guarantee is inferred unless separately specified. |
+| Read valid authority; withdraw it; then attempt the old commitment | Deny. A truthful stale observation is insufficient; relevant authority order is a **model distinction**. |
+| Race replacement with an old request in both resolved orders | Before supersession the old change may commit; afterward it must deny. Both orders must be represented. |
+| Old and replacement executions present identical trusted evidence, or an old authority label is reused | If one must proceed and the other fail, the model is **inadequate** without non-confusable evidence or trusted source attribution. |
+| Lose an executor; restart another with the same work and position; replay old evidence | Continuity survives and old authority is denied after replacement. Losing co-located authority state would be a **conformance failure**. |
+| Validate, then lose the executor or revoke authority before the effect | A later protected commit needs current permission. An interrupted request may remain pending; no invalid partial effect is accepted. |
+| Apply a protected effect, then lose the executor before its durable record | The authoritative view must still correspond to a whole allowed commitment or no effect at the declared granularity. A split effect/record is a **conformance failure** within the claimed failure class. |
+| Accept a live reference to external `L`; a stale execution overwrites `L` | The overwrite changes authoritative meaning and is a **protected effect** unless trusted immutability or separate current-authority acceptance prevents it. |
+| Authorize an external action, revoke authority, then observe its delayed consequence | The result depends on the declared authorization point and whether revocation cancels outstanding authority. This is an **optional external-action contract**, not an automatic kernel primitive. |
+| Race conflicting grants, revocations, and work changes; attempt an over-broad delegated grant | The configured conflict and attenuation predicates must hold in every resolved order. Parent-revocation effects on a child grant require explicit policy. |
+| Change an external fact used by admission without representing its source or timing | A model that assumes the old fact remains valid is **inadequate**; fact trust and ordering must be exposed. |
+| Commit, lose the acknowledgement, and replay while the same authority is still valid | Authoritative outcome remains definite, but exactly-once behavior is **not established**; request identity or deduplication is required only if later claimed. |
 
-If permission depends on an external fact, add the two orders in which that fact changes before or after commitment, plus the fact's trust/freshness assumption. If substrate restart or external-resource control is claimed, add failure and effect traces for that declared boundary. These are claim-specific additions, not universal Kernel-0 primitives.
+Independent authority-service restart and storage corruption require additional traces only if included in the declared failure profile. The listed cases do not justify a new Kernel-0 object merely because a concrete protocol must handle them.
 
 ### Realization correspondence
 
