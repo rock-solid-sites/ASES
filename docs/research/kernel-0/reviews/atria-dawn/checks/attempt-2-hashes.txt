@@ -1,0 +1,41 @@
+attempt-2 hash and integrity checks
+utc=2026-09-26T17:30:13Z
+
+--- sha256sum ---
+265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28  docs/research/kernel-0/reviews/atria-dawn/packet.md
+0d68edaa987066e736eaaa9e8e06ff2dba8faa85fa28ba999b8f1265b83be2ee  docs/research/kernel-0/reviews/atria-dawn/review-prompt.md
+6632ce5aae18dc0c0d551c3c6d423f964fb99aabdb7cc4e19f1ffce190c7cae7  docs/research/kernel-0/reviews/atria-dawn/atria-request.json
+b5dcfafb573d8519b4c56e827aa4f869d91b8a30ac7ac8b520a4a4ccf343398b  docs/research/kernel-0/reviews/atria-dawn/atria-response.raw.json
+6632ce5aae18dc0c0d551c3c6d423f964fb99aabdb7cc4e19f1ffce190c7cae7  docs/research/kernel-0/reviews/atria-dawn/attempt-1/atria-request.json
+b5dcfafb573d8519b4c56e827aa4f869d91b8a30ac7ac8b520a4a4ccf343398b  docs/research/kernel-0/reviews/atria-dawn/attempt-1/atria-response.raw.json
+
+--- expected vs actual ---
+packet.md          expected=265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28 actual=265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28
+review-prompt.md   expected=0d68edaa987066e736eaaa9e8e06ff2dba8faa85fa28ba999b8f1265b83be2ee actual=0d68edaa987066e736eaaa9e8e06ff2dba8faa85fa28ba999b8f1265b83be2ee
+atria-request.json expected=6632ce5aae18dc0c0d551c3c6d423f964fb99aabdb7cc4e19f1ffce190c7cae7 actual=6632ce5aae18dc0c0d551c3c6d423f964fb99aabdb7cc4e19f1ffce190c7cae7
+
+--- cmp attempt-2 request vs attempt-1 request ---
+IDENTICAL (byte-for-byte, no difference)
+
+--- cmp attempt-2 raw response vs attempt-1 raw response ---
+IDENTICAL (byte-for-byte)
+
+--- immutable files unmodified vs HEAD (git status) ---
+(empty above = all unmodified)
+
+--- git status --porcelain (all) ---
+?? docs/research/kernel-0/reviews/atria-dawn/atria-request.json
+?? docs/research/kernel-0/reviews/atria-dawn/atria-response-metadata.json
+?? docs/research/kernel-0/reviews/atria-dawn/atria-response.raw.json
+?? docs/research/kernel-0/reviews/atria-dawn/checks/attempt-2-hashes.txt
+?? docs/research/kernel-0/reviews/atria-dawn/checks/attempt-2-run.log
+
+--- paths outside ED ---
+outside_ED_count=0
+
+--- ~/.secrets location ---
+secret_real_path=/home/claude-code/.secrets/atria.env
+repo_root=/tmp/ases-kernel0-preflight
+secret_inside_repo=False
+tracked_.secrets_paths=0
+check_stale=~/.secrets/atria.env mtime=2026-09-26 17:05:01.774150662 +0000 size=58 mode=600 (identical before and after the attempt-2 request -> key NOT replaced on disk)

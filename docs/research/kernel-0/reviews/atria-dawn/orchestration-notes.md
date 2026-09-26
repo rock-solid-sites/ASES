@@ -1,7 +1,7 @@
 # Atria Dawn Clean-Room Review — Execution Notes
 
-Status: attempt 2 in progress (see "Attempt 2" below) — attempt 1 blocked, no
-verdict obtained
+Status: BLOCKED — attempt 2 also returned HTTP 502 `upstream_unavailable`.
+No FALSIFIED / NOT FALSIFIED verdict exists. No retry remains authorized.
 
 ---
 
@@ -11,8 +11,10 @@ verdict obtained
 
 - Authorization: operator authorized exactly one retry after attempt 1
   ("Try again. It's a brand new API key.").
-- Attempt 2 status: in progress
-- Dispatch time (attempt 2 preflight): 2026-09-26T18:0xZ — see Log below
+- Attempt 2 status: blocked — HTTP 502 `upstream_unavailable`, no content, no
+  verdict. The retry was not retried; the one-retry authorization is now spent.
+- Dispatch/preflight time: 2026-09-26T17:24:57Z
+- Checkpoint commit before sending: `9a1ad453`
 - Source commit: e2e3bc110b1370f3505aa0838990713520bf3f7c
 - Endpoint: https://api.atria-asi.ai/v1/chat/completions
 - Requested model: Atria-Dawn-Preview
@@ -48,6 +50,207 @@ Top-level `atria-request.json`, `atria-response.raw.json`,
 request, the 124-byte HTTP 502 error body, and its metadata. The packet, prompt,
 runner, and scanners were byte-identical to the committed attempt-1 versions and
 were not edited.
+
+## Attempt 2 result — BLOCKED
+
+The single authorized retry was sent with the committed runner, unmodified, and
+returned **HTTP 502** with the same error envelope as attempt 1:
+
+```
+{"error":{"message":"Inference service is temporarily unavailable.","type":"atria_api_error","code":"upstream_unavailable"}}
+```
+
+Runner output (verbatim, `checks/attempt-2-run.log`):
+
+```
+HTTP_STATUS=502
+RESPONSE_MODEL=None
+FINISH_REASON=None
+ELAPSED_SECONDS=303.239
+RAW_RESPONSE_BYTES=124
+REASONING_FIELD_PRESENT=no
+RESPONSE_MD_BYTES=0
+RESULT=BLOCKER_NON_2XX_OR_MISSING_STRING_CONTENT
+RUNNER_EXIT_CODE=3
+```
+
+- HTTP status: **502**
+- Response model id: **none** (error envelope, no `model` field)
+- Response `id`: **none**
+- `usage`: **none**
+- `finish_reason`: **none** — so no truncation/`length` concern arises; there was
+  no content at all
+- Verdict: **none — no FALSIFIED / NOT FALSIFIED verdict exists**
+- Strongest finding: none can be quoted, because no model content was returned.
+  The reportable finding is the blocker itself: the Atria endpoint returned
+  `upstream_unavailable` for the retry as well, so the Kernel-0 realization claim
+  remains unreviewed by any external reviewer after two independent authorized
+  requests.
+- `atria-response.md` was **not** created (no string content). Raw model output,
+  had any existed, is kept only in `atria-response.md` / `atria-response.raw.json`.
+
+### Attempt 2 timestamps (UTC)
+
+- Preflight: 2026-09-26T17:24:51Z–17:24:57Z
+- Checkpoint commit before sending: 2026-09-26T17:24:52Z
+- Request started: 2026-09-26T17:24:59Z
+- Request ended: 2026-09-26T17:30:02Z
+- Elapsed: 303.239 s (again far under the 900 s timeout, so not a client timeout;
+  the 502 came from the service after holding the connection for ~303 s)
+
+### Attempt 2 identifiers
+
+- Packet SHA-256: `265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28`
+- Prompt SHA-256: `0d68edaa987066e736eaaa9e8e06ff2dba8faa85fa28ba999b8f1265b83be2ee`
+- Request SHA-256: `6632ce5aae18dc0c0d551c3c6d423f964fb99aabdb7cc4e19f1ffce190c7cae7`
+- Raw response SHA-256: `b5dcfafb573d8519b4c56e827aa4f869d91b8a30ac7ac8b520a4a4ccf343398b`
+- Runner SHA-256: `59a6c3402f074acc1f22e41fac658c820a22959d8d412ab85c2c262563900c8c`
+- Model identifier returned by the API: **none**
+
+### Key observation: attempt 2 was byte-identical to attempt 1
+
+- `cmp atria-request.json attempt-1/atria-request.json` → identical, byte for
+  byte. The retry transmitted the exact same 126,506-byte body
+  (`6632ce5a...`) as attempt 1; no request-side difference exists between the
+  two attempts, so the operator's new key cannot be distinguished from the old
+  one by the request bytes, and the packet/prompt bytes were provably unchanged.
+- `cmp atria-response.raw.json attempt-1/atria-response.raw.json` → identical,
+  byte for byte (`b5dcfafb...`). The two error bodies are the same 124 bytes;
+  only the per-request `x-request-id` header differs
+  (attempt 1 `3bb0fcf3-956c-4b66-8157-075f4b33a35d`, attempt 2
+  `32456931-82cd-45f0-8d51-0df025a845ea`), confirming two genuinely separate
+  server-side requests rather than a replayed cached body.
+
+### Attempt 2 checks summary
+
+| Check | Result | Evidence |
+|---|---|---|
+| Preflight HEAD == origin (remote had not moved) | PASS (`15f76b1f` both) | Step-0 log |
+| Secret file mtime/size/mode observed, no value read | PASS | Step-0 log |
+| Key loaded from ~/.secrets/atria.env | PASS (`KEY_LOADED`) | Step-0 log |
+| Packet digest unchanged | PASS (`265ad3dd...`) | `checks/attempt-2-hashes.txt` |
+| Prompt digest unchanged | PASS (`0d68edaa...`) | `checks/attempt-2-hashes.txt` |
+| Request digest == `6632ce5a...` and == attempt-1 request | PASS (identical) | `checks/attempt-2-hashes.txt` |
+| packet.sha256 / review-prompt.md / run_review.py / build_packet.py / verify_packet.py / scan_secrets.py unmodified | PASS (`git status` empty) | `checks/attempt-2-hashes.txt` |
+| Secret scan (23 files, 6 commit diffs, staged diff) | PASS (0 exact hits, 0 token-pattern hits) | `checks/attempt-2-secret-scan.txt` |
+| Working tree confined to ED | PASS (`outside_ED=0`) | `checks/attempt-2-hashes.txt`, `checks/attempt-2-secret-scan.txt` |
+| `~/.secrets` outside repo, untracked | PASS (0 tracked `.secrets` paths) | `checks/attempt-2-hashes.txt`, `checks/attempt-2-secret-scan.txt` |
+| Exactly one chat-completion request | PASS (one `run_review.py` invocation, exit 3, no retry) | `checks/attempt-2-run.log` |
+| Atria request | **BLOCKED** — HTTP 502 `upstream_unavailable` | `atria-response-metadata.json` |
+
+### Attempt 2 unresolved uncertainty
+
+- The operator reported a brand new API key, but the file at
+  `~/.secrets/atria.env` was byte-stat-identical before and after
+  (`mtime=2026-09-26 17:05:01.774150662 +0000 size=58 mode=600`) and was not
+  newer than 2026-09-26T17:05:02Z. Attempt 2 therefore appears to have reused the
+  attempt-1 credential. Whether a replacement exists elsewhere on the machine is
+  **not tested** and was not sought outside the authorized path.
+- Because the 502 error envelope carries no `model` field, the API returned no
+  model identifier, so "the API is down" and "this credential is rejected"
+  cannot be distinguished from the client side. The error code is explicitly
+  `upstream_unavailable` with message "Inference service is temporarily
+  unavailable.", which names the fault as Atria's inference upstream rather than
+  as authentication, and the response arrived after a ~303 s hold — consistent
+  with a slow upstream failing, not with a rejected key (which would normally
+  fail fast). This is an inference, not a verified fact.
+- No falsification attempt occurred. The Kernel-0 realization claim is still
+  untested by any external reviewer.
+- Prior-review exclusion remains FAIL for the same reason recorded under
+  attempt 1: the pinned source at `e2e3bc11` names 5 prior-review artifacts.
+
+## Attempt 2 log
+
+- 2026-09-26T17:24:51Z — Step-0 preflight: HEAD == origin == `15f76b1f`, clean
+  tree; secret file stat recorded (unchanged since 17:05:01Z).
+- 2026-09-26T17:24:52Z — `KEY_LOADED`; pre-send digests verified.
+- 2026-09-26T17:24:52Z — checkpoint `9a1ad453` committed (attempt-1 evidence
+  archived to `attempt-1/`, Attempt 2 section added, no request sent yet).
+- 2026-09-26T17:24:59Z — single authorized request sent.
+- 2026-09-26T17:30:02Z — HTTP 502 `upstream_unavailable`, 124-byte error body, no
+  content. Not retried; the one-retry authorization is spent.
+- 2026-09-26T17:30:13Z — post-run digests PASS; secret scan PASS (23 files,
+  0 hits); `~/.secrets` stat unchanged (still 17:05:01Z).
+- 2026-09-26T17:30Z — this section finalized, evidence committed and pushed, and
+  the Crosslink #566 record posted.
+
+## Crosslink comment text posted to issue #566 for attempt 2
+
+```
+[Atria clean-room review — attempt 2]
+
+WHY
+The Kernel-0 realization claim was to be falsification-tested by an external
+reviewer with no visibility into prior work. Attempt 1's single authorized Atria
+request was blocked by HTTP 502 upstream_unavailable, so no verdict was obtained.
+The operator authorized exactly one retry, stated a brand new API key was in
+place, and this comment records that retry's outcome with full evidence rather
+than substituting a different reviewer.
+
+WHAT
+The retry was sent with the same committed, unmodified runner and the same
+byte-identical 126,506-byte request body (sha256 6632ce5a..., cmp-identical to
+the attempt-1 request) and again returned HTTP 502 after 303.239 s, with the same
+124-byte error envelope: code upstream_unavailable, message "Inference service
+is temporarily unavailable." No completion content was returned, so there is
+again no FALSIFIED / NOT FALSIFIED verdict, no model identifier, no response id,
+no usage, and no finish_reason. atria-response.md was not created. Exactly one
+request was made; it was not retried, and the retry authorization is now spent.
+The two 502s came from two genuinely separate server-side requests: the error
+bodies are byte-identical but the x-request-id header differs between them.
+
+HOW CERTAIN
+Certain that the request itself is sound and was sent once: the body is exactly
+{"model","messages"} with a single user message and no system message, serialized
+once and written to atria-request.json before sending, with the transmitted bytes
+matching that file. The packet (265ad3dd...) and prompt (0d68edaa...) digests are
+unchanged across both attempts, so nothing in the review input drifted between
+them. The failure is server-side per Atria's own error envelope, and the 502
+arrived at ~303 s, far inside the 900 s timeout, in both attempts. Uncertain
+whether the new credential actually reached the runner: ~/.secrets/atria.env
+was stat-identical before and after (mtime 2026-09-26 17:05:01Z, 58 bytes, mode
+600), not newer than 2026-09-26T17:05:02Z, so the claimed key replacement was
+not visible on disk.
+
+WHAT NOT TESTED
+The Kernel-0 claim itself was not tested by any reviewer — no falsification
+attempt occurred across either attempt. Whether a replacement key exists anywhere
+else on the machine was not sought; only the authorized path was used. Whether
+the 502 reflects an Atria inference outage or a credential-side problem cannot be
+distinguished client-side, because the error envelope returns no model field. The
+prior-review exclusion limitation from attempt 1 is unchanged: packet.md contains
+5 references to earlier review documents (Kernel-0-Reasoning-Phase-Result.md,
+Kernel-0-Realization-Comparison.md, Kernel-0-Realization-Experiment.md), all
+present in the pinned source at e2e3bc11 and not introduced by packet assembly.
+Truncation is not a concern: no content and no finish_reason were returned.
+
+Source commit: e2e3bc110b1370f3505aa0838990713520bf3f7c
+Model identifier returned by the API: none (error envelope, no model field)
+Packet SHA-256: 265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28
+Request SHA-256: 6632ce5aae18dc0c0d551c3c6d423f964fb99aabdb7cc4e19f1ffce190c7cae7
+Verdict: NONE — review blocked upstream on both attempts
+Strongest finding: none quotable, because no model content was returned. The
+reportable finding is the blocker — the Atria endpoint failed the authorized
+retry with upstream_unavailable exactly as it failed attempt 1, so the Kernel-0
+realization claim remains unreviewed by any external reviewer.
+
+Artifacts: docs/research/kernel-0/reviews/atria-dawn/ — top-level atria-request.json,
+atria-response.raw.json, atria-response-metadata.json are attempt 2 (canonical);
+attempt-1/ holds the attempt-1 request, 502 body, and metadata; checks/ holds
+attempt-2-run.log, attempt-2-hashes.txt, attempt-2-secret-scan.txt, and
+crosslink-comment-attempt2.txt
+Evidence commit: EVIDENCE_COMMIT_PLACEHOLDER
+Remote push verification: REMOTE_VERIFICATION_PLACEHOLDER
+Clean-room isolation: PARTIAL (packet reconstructs byte-exact from the six pinned
+files and is byte-identical across both attempts; no prior-review or unrelated
+content added by assembly, but the pinned source itself names 5 prior-review
+artifacts)
+Secret handling: PASS (key never printed, echoed, logged, or placed in a command
+argument; only the path ~/.secrets/atria.env and the variable name ATRIA_API_KEY
+are referenced; 23-file and 6-commit-diff scans show 0 exact-value and 0
+token-pattern hits; the file is outside the repo and untracked)
+Atria output was not used to modify the implementation.
+```
 
 ---
 
