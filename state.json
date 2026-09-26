@@ -1,6 +1,6 @@
 {
   "next_display_id": 566,
-  "next_comment_id": 3989,
+  "next_comment_id": 3990,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8861,7 +8861,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T05:36:36.401914325Z",
+      "updated_at": "2026-09-26T05:40:32.752188206Z",
       "labels": [
         "research"
       ],
@@ -8874,6 +8874,15 @@
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA8ihNWQl1H7Kyepqzo0beK551z/Gx+W2LHEJPOcjNHpfdYlgd/+p9sYgjm8e5vuwVjVe9LDuPJ1NCqe6bv+J0Ag=="
+        },
+        "0ae70af6-abb1-4481-bcb7-3f8ce295f2d4": {
+          "display_id": 3989,
+          "author": "OL2r",
+          "content": "Plan: followup-02 resumed after the orchestrator probe resolved the entitlement blocker. (1) harness/run_mimo.py: credential resolution env -> auth.json#opencode-go, firing only on the entitlement-403 (verified live: env key 403, store key 200); curl subprocess transport because urllib is Cloudflare-rejected 403/1010 with the same credential; per-run uuid4 x-opencode-session recorded in results/run_session.json; token passed via curl -K - on stdin so it is never in argv or on disk. Everything else frozen: 64/64 frozen-condition gate passes, max_tokens=256, temperature=0, 1 attempt, 0 retries, no tuning. (2) preflight re-run: HTTP 200, route_reachable=true, credential_source_selected=auth.json#opencode-go, content returned (no reasoning-budget exhaustion on this call). (3) Then 64 cells, scorer reused from followup-01 with the mechanism swapped, bands verbatim, cost from recorded usage.",
+          "created_at": "2026-09-26T05:40:32.744518938Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAeH0P8pVXun1VUSbJNsM1fYgztABnRi+K1pJMqHQym9jKElQASB5DbRhhIZbmTmE/0WmRt68zh07ca/d92PhJCw=="
         },
         "0d4dfb4b-af1a-4067-8b73-177968fd6b67": {
           "display_id": 3980,
@@ -46083,8 +46092,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-26T05:36:36.401914325Z",
+    "timestamp": "2026-09-26T05:40:32.752188206Z",
     "agent_id": "OL2r",
-    "agent_seq": 3538
+    "agent_seq": 3539
   }
 }
