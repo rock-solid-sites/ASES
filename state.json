@@ -1,5 +1,5 @@
 {
-  "next_display_id": 565,
+  "next_display_id": 566,
   "next_comment_id": 3974,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -46,6 +46,7 @@
     "1119c189-2781-4d21-bbc7-53157a03d0c2": 460,
     "1271064a-566c-45d7-b5df-a1914284fc78": 392,
     "127c51e6-570e-4781-b963-343925d15557": 531,
+    "129154a4-56b8-47a4-9d4f-de557c2cbd79": 565,
     "14c5bf9c-c3d4-4bfd-b1e3-02b0e3e15d17": 287,
     "1566dff5-d465-4b23-a4bb-3f12073a22df": 313,
     "159b5a1f-7e30-46ad-bfa0-c231d190fbd9": 274,
@@ -8846,6 +8847,17 @@
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABALj6b8QIOu9ijZkio+nu30Z0zAWZpS0Ok7sJA3B/6A4SoySFYiVcbMSCMunEi4PHDITWm2/cxKrBJoOfXwOJWAg=="
         }
       }
+    },
+    "129154a4-56b8-47a4-9d4f-de557c2cbd79": {
+      "uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
+      "display_id": 565,
+      "title": "Jev bounded-judgment evaluation: Phase 1 diagnostic on EDASES-style agent decisions",
+      "description": "Question: \n\nContext: \n\nFindings: \n\nEmpirical reconnaissance on whether Jev (TypeSafe AI System One, jev-1.13-free via OpenCode Zen /zen/v1/systemone) is worth a bounded-judgment tier in the EDASES decision hierarchy: reuse -> deterministic computation -> specialized reflex -> generic bounded judgment -> cheap general inference -> stronger inference.\n\nPHASE 1 ONLY (60 cases, 4 areas):\nA. Cheap-baseline comparison (measured prior/majority -> deterministic rule -> lexical baseline -> Jev -> cheap general model). Metric = incremental gain over cheapest preceding mechanism.\nB. Abstention/escalation: coverage vs error at thresholds 0.70/0.80/0.90/0.95; coverage at 1/5/10% error budgets.\nC. Contrastive/causal perturbations: paired cases differing only in the deciding fact, plus irrelevant-change controls.\nD. Workflow routing: Foreman-like states over build/review/investigate/repair/redesign/escalate with deterministic legality computed BEFORE Jev sees the problem.\n\nAdversarial controls: option reorder, opaque label rename, distractor text, evidence removal, noise injection.\n\nDeliverables: raw NDJSON (never reduced to pass/fail), benchmark description, summary tables, findings doc separating supported / provisional / limitations / counterexamples / next-phase questions. Reusable case+result schema for Phases 2-4.\n\nKey interface facts established during recon (2026-09-26):\n- Jev is NOT a chat model. Endpoint: POST https://opencode.ai/zen/v1/systemone, AI SDK package: none. opencode run --model opencode/jev-1.13-free fails with UnknownError by design.\n- Request: {model, state, questions:{qid:{type:noul|choice|score, instructions, criteria}}}. state may be str or object; instructions may be str/object/array.\n- noul -> {noul: P(yes) in [0,1]}, no separate confidence (2-outcome distribution fully described).\n- choice -> {choice, probabilities:{k:p}, confidence}. score -> {score, confidence, legend, probabilities}.\n- confidence is DERIVED from the probability vector (~(n*max(p)-1)/(n-1)), so it is NOT independent evidence vs max-probability; must be verified empirically and reported.\n- Response also carries usage.input_tokens / usage.output_tokens. Observed latency ~0.6s, flat in question count.\n- Free tier: jev-1.13-free is Free/Unlimited-tier; NOT in the opencode-go model list, and direct calls to /chat/completions return 403 FreeTierError, but the systemone endpoint accepts the opencode-go bearer key directly (HTTP 200). No OpenCode client needed - ideal for a deterministic harness.\n- Local catalog omits jev (dynamic-models plugin whitelist excludes it, and the plugin is currently broken: dynamic-models.js imports a missing ./time.js). A temporary hand-registration was tested and REVERTED; jev is not usable via the chat path at all.\n\nConstraints: deterministic tooling for construction/execution/scoring/logging; do not optimize toward Jev looking good; preserve negative and failed results; no extrapolation beyond sample support; no secrets or personal content (Phase 1 is fully synthetic); separate train/dev/test and keep contrastive families in one split.",
+      "status": "open",
+      "priority": "high",
+      "created_by": "OL2r",
+      "created_at": "2026-09-26T02:29:25.112652503Z",
+      "updated_at": "2026-09-26T02:29:25.112652503Z"
     },
     "14c5bf9c-c3d4-4bfd-b1e3-02b0e3e15d17": {
       "uuid": "14c5bf9c-c3d4-4bfd-b1e3-02b0e3e15d17",
@@ -45924,8 +45936,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-21T03:37:24.089092361Z",
+    "timestamp": "2026-09-26T02:29:25.112652503Z",
     "agent_id": "OL2r",
-    "agent_seq": 3518
+    "agent_seq": 3519
   }
 }
