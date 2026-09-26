@@ -1,0 +1,1887 @@
+{
+  "blocks": {
+    "measurement_block": "resume1",
+    "null_block_rows": "the aborted first attempt, retained verbatim; excluded from warm statistics and reported separately under jev.free_tier_cap and mimo.aborted_first_block"
+  },
+  "determinism": {
+    "method": "this document contains no clock read, no randomness and no network access; two runs over the same inputs are byte-identical",
+    "percentile_method": "nearest-rank, no interpolation",
+    "verify_with": "python3 harness/analyze_ops.py --check"
+  },
+  "frozen_inputs_verified": {
+    "cases.ndjson": {
+      "matches": true,
+      "sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c"
+    },
+    "results/jev_raw.ndjson": {
+      "matches": true,
+      "sha256": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc"
+    }
+  },
+  "inputs": {
+    "jev": {
+      "blocks": {
+        "None": 197
+      },
+      "n_rows": 197,
+      "path": "results/jev_ops_raw.ndjson",
+      "phases": {
+        "warm": 192,
+        "warmup": 5
+      },
+      "sha256": "36634f4550a0a77e6867d8b30a0c73806a03ecda5804c508c673d675a9adfade"
+    },
+    "mimo_v26_flash": {
+      "blocks": {
+        "None": 11,
+        "resume1": 232
+      },
+      "n_rows": 243,
+      "path": "results/mimo_ops_raw.ndjson",
+      "phases": {
+        "concurrency": 36,
+        "idle": 3,
+        "interface_probe": 1,
+        "warm": 198,
+        "warmup": 5
+      },
+      "sha256": "40dbc56329dd2d5112cd92a14e9dddf7c5384356feaadd170e2b8ac575827cd8"
+    }
+  },
+  "interface_probe": {
+    "jev": {
+      "note": "Jev's distribution availability is read from the FROZEN responses (see frozen_jev_window.probability_availability) rather than from new calls: a noul question returns the scalar `noul` and choice/score return full distributions, so a new probe call would have added cost and rate-limit pressure for no new information.",
+      "probe_cost_calls": 0,
+      "probe_rows": 0
+    },
+    "mimo": {
+      "logprobs_requested_and_returned": [
+        {
+          "case_id": "a-miss1",
+          "http_status": 200,
+          "logprobs_present_in_response": false,
+          "request_fields": [
+            "logprobs",
+            "max_tokens",
+            "messages",
+            "model",
+            "temperature"
+          ],
+          "typed_error": null
+        }
+      ],
+      "note": "the frozen request shape does not request logprobs, so a null probabilities field under frozen conditions is a property of the REQUEST, not proof the API cannot return probabilities. The labelled interface probe is what tests the latter.",
+      "probabilities_exposed_under_frozen_conditions": 234,
+      "probe_rows": 1,
+      "reasoning_content_exposed": 234
+    }
+  },
+  "mechanisms": {
+    "jev": {
+      "aborted_first_block": {
+        "n_rows": 197,
+        "note": "all rows are failures; nothing here is a measurement"
+      },
+      "availability_probes": {
+        "all_gaps_at_or_above_floor": true,
+        "error_type_counts": {
+          "FreeUsageLimitError": 10
+        },
+        "file": "results/jev_ratelimit_probes.ndjson",
+        "first_utc": "2026-09-26T13:09:42Z",
+        "http_status_counts": {
+          "429": 10
+        },
+        "last_utc": "2026-09-26T13:19:11Z",
+        "min_gap_observed_s": 60.0,
+        "n_probes": 10,
+        "n_usable_answers": 0,
+        "probes": [
+          {
+            "case_id": "a-h04",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 1,
+            "seconds_since_previous_attempt": null,
+            "timestamp_utc": "2026-09-26T13:09:42Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "d-01",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 2,
+            "seconds_since_previous_attempt": 60.0,
+            "timestamp_utc": "2026-09-26T13:10:42Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "a-miss1",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 3,
+            "seconds_since_previous_attempt": 85.0,
+            "timestamp_utc": "2026-09-26T13:12:07Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "b-dist1",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 4,
+            "seconds_since_previous_attempt": 60.0,
+            "timestamp_utc": "2026-09-26T13:13:08Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "b-a01",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 5,
+            "seconds_since_previous_attempt": 60.0,
+            "timestamp_utc": "2026-09-26T13:14:08Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "a-dist1",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 6,
+            "seconds_since_previous_attempt": 60.0,
+            "timestamp_utc": "2026-09-26T13:15:09Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "a-m07",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 7,
+            "seconds_since_previous_attempt": 60.0,
+            "timestamp_utc": "2026-09-26T13:16:09Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "a-noise1",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 8,
+            "seconds_since_previous_attempt": 60.0,
+            "timestamp_utc": "2026-09-26T13:17:10Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "a-e01",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 9,
+            "seconds_since_previous_attempt": 60.0,
+            "timestamp_utc": "2026-09-26T13:18:11Z",
+            "usable_answer": false
+          },
+          {
+            "case_id": "b-a02",
+            "error_message": "Rate limit exceeded. Please try again later.",
+            "error_type": "FreeUsageLimitError",
+            "http_status": 429,
+            "probe_index": 10,
+            "seconds_since_previous_attempt": 60.0,
+            "timestamp_utc": "2026-09-26T13:19:11Z",
+            "usable_answer": false
+          }
+        ],
+        "protocol": {
+          "attempts_per_probe": 1,
+          "max_probes": 10,
+          "min_gap_seconds": 60,
+          "rationale": "probing a rate-limited endpoint more tightly, or retrying, would manufacture load and destroy the signal the series exists to measure",
+          "retries": 0,
+          "stop_early_on_first_success": true
+        },
+        "what_this_is": "A bounded AVAILABILITY series against the Jev free tier, not a measurement phase. No statistic in this document consumes a probe row."
+      },
+      "cost": {
+        "derived_cost_usd_per_call": 0.0,
+        "derived_cost_usd_total": 0.0,
+        "per_dollar_ratio": null,
+        "per_dollar_status": "UNDEFINED at $0 — correct decisions per dollar requires dividing by a non-zero price, and the free tier's price is exactly zero. Reporting a number here would be a division by zero dressed as a result.",
+        "pricing_dependency": "every cost comparison against Jev is conditional on a free-tier entitlement that is (a) promotional, (b) revocable, and (c) empirically already exhausted within 197 calls in this very study. Jev is therefore $0 per call only while quota exists; the observed service level is a SERVING artefact, not a price."
+      },
+      "current_window_measurement": {
+        "concurrency": null,
+        "idle_proxy": null,
+        "latency_budget": null,
+        "reason": "zero usable calls in this window: the free tier rejected every call (see free_tier_cap)",
+        "stability": null,
+        "status": "UNRESOLVED",
+        "throughput": null,
+        "warm_latency": null
+      },
+      "failures": {
+        "by_phase": {
+          "warm": {
+            "attempts_total": 192,
+            "http_status_counts": {
+              "403": 120,
+              "429": 72
+            },
+            "max_attempts_any_call": 1,
+            "n_rows": 192,
+            "n_typed_errors": 192,
+            "retries_total": 0,
+            "typed_error_counts": {
+              "http_429": 72,
+              "http_4xx": 120
+            }
+          },
+          "warmup": {
+            "attempts_total": 5,
+            "http_status_counts": {
+              "403": 5
+            },
+            "max_attempts_any_call": 1,
+            "n_rows": 5,
+            "n_typed_errors": 5,
+            "retries_total": 0,
+            "typed_error_counts": {
+              "http_4xx": 5
+            }
+          }
+        },
+        "retry_policy": "N = 1 attempt per call, 0 retries, everywhere, by design. A retry would make an availability failure invisible, so it is not permitted in a measurement phase.",
+        "selection": "mechanism=jev AND all blocks"
+      },
+      "free_tier_cap": {
+        "error_detail_first": "HTTP 403",
+        "first_utc": "2026-09-26T06:34:53Z",
+        "interpretation": "The 403 phase masks the cap behind an upstream parse error, so a client that only inspects http_status would read it as a server fault, not an entitlement wall. The 429 phase names it: FreeUsageLimitError.",
+        "last_utc": "2026-09-26T06:36:35Z",
+        "n_calls": 197,
+        "n_usable": 0,
+        "selection": "mechanism=jev AND block=null AND phase IN (warmup, warm)",
+        "tokens_consumed": 0,
+        "tokens_consumed_note": "zero: every call was rejected before inference, so this window yields NO latency, throughput, token or cost statistic",
+        "transition": [
+          {
+            "first_utc": "2026-09-26T06:34:53Z",
+            "http_status_counts": {
+              "403": 125
+            },
+            "last_utc": "2026-09-26T06:36:01Z",
+            "n_calls": 125,
+            "segment": "before_first_429"
+          },
+          {
+            "first_utc": "2026-09-26T06:36:02Z",
+            "http_status_counts": {
+              "429": 72
+            },
+            "last_utc": "2026-09-26T06:36:35Z",
+            "n_calls": 72,
+            "segment": "from_first_429_onward"
+          }
+        ]
+      },
+      "frozen_window": {
+        "derived_cost_usd_total": 0.0,
+        "file": "../results/jev_raw.ndjson",
+        "latency_ms": {
+          "max": 763.5,
+          "mean": 593.8344,
+          "median": 586.8,
+          "min": 525.3,
+          "n": 64,
+          "p90": 668.1,
+          "p95": 685.1,
+          "p99": 763.5,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": 48.2874,
+          "sum": 38005.4,
+          "unit": "ms"
+        },
+        "mean_input_tokens_per_call": 353.9219,
+        "mean_output_tokens_per_call": 29.4062,
+        "n_calls": 64,
+        "n_usable": 64,
+        "probability_availability": {
+          "choice_distribution": 0,
+          "choice_total": 0,
+          "noul_scalar": 0,
+          "noul_total": 0,
+          "score_distribution": 0,
+          "score_total": 0
+        },
+        "sha256": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+        "tokens_input": {
+          "max": 508.0,
+          "mean": 353.9219,
+          "median": 322.0,
+          "min": 294.0,
+          "n": 64,
+          "p90": 491.0,
+          "p95": 493.0,
+          "p99": 508.0,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": 67.3537,
+          "sum": 22651.0,
+          "unit": "tokens"
+        },
+        "tokens_output": {
+          "max": 87.0,
+          "mean": 29.4062,
+          "median": 20.0,
+          "min": 17.0,
+          "n": 64,
+          "p90": 68.0,
+          "p95": 69.0,
+          "p99": 87.0,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": 20.2427,
+          "sum": 1882.0,
+          "unit": "tokens"
+        },
+        "window": {
+          "first_utc": "2026-09-26T02:46:53Z",
+          "last_utc": "2026-09-26T02:47:30Z",
+          "tier_state": "free tier, inside quota at that time",
+          "transport": "python urllib (the frozen Phase-1 transport), NOT curl; the current window uses curl. Client-side process-spawn and curl-instrumented phase timings are therefore NOT available for these rows.",
+          "why_used": "the current window produced zero usable Jev calls, so this is the only Jev latency/usage/stability evidence that exists. Using it is honest; treating it as current-window data would not be."
+        }
+      },
+      "label": "Jev 1.13 (free tier)",
+      "model_id": "jev-1.13-free"
+    },
+    "mimo": {
+      "aborted_first_block": {
+        "excluded_from_statistics": true,
+        "n_rows": 11,
+        "reason": "an aborted 11-row first attempt; the complete grid lives in block=resume1 and pooling a partial block with a complete one would misstate the denominator"
+      },
+      "current_window_measurement": {
+        "concurrency": {
+          "by_level": {
+            "1": {
+              "block_makespan_ms": 47718.8,
+              "http_status_counts": {
+                "200": 12
+              },
+              "latency_total_ms": {
+                "max": 10277.782,
+                "mean": 3963.7523,
+                "median": 2758.927,
+                "min": 1789.489,
+                "n": 12,
+                "p90": 7296.698,
+                "p95": 10277.782,
+                "p99": 10277.782,
+                "p99_is_thin": true,
+                "percentile_method": "nearest-rank, no interpolation",
+                "stdev": null,
+                "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+                "sum": 47565.027,
+                "unit": "ms"
+              },
+              "n_calls": 12,
+              "n_failed": 0,
+              "n_http_429": 0,
+              "n_typed_errors": 0,
+              "n_usable": 12,
+              "throughput_calls_per_sec": 0.2515,
+              "throughput_definition": "usable calls / block makespan, where the makespan is wall time from first dispatch to last completion of that level's block"
+            },
+            "4": {
+              "block_makespan_ms": 70279.3,
+              "http_status_counts": {
+                "200": 12
+              },
+              "latency_total_ms": {
+                "max": 8598.994,
+                "mean": 5848.2685,
+                "median": 5681.477,
+                "min": 3047.178,
+                "n": 12,
+                "p90": 7956.239,
+                "p95": 8598.994,
+                "p99": 8598.994,
+                "p99_is_thin": true,
+                "percentile_method": "nearest-rank, no interpolation",
+                "stdev": null,
+                "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+                "sum": 70179.222,
+                "unit": "ms"
+              },
+              "n_calls": 12,
+              "n_failed": 0,
+              "n_http_429": 0,
+              "n_typed_errors": 0,
+              "n_usable": 12,
+              "throughput_calls_per_sec": 0.1707,
+              "throughput_definition": "usable calls / block makespan, where the makespan is wall time from first dispatch to last completion of that level's block"
+            },
+            "8": {
+              "block_makespan_ms": 58915.4,
+              "http_status_counts": {
+                "200": 12
+              },
+              "latency_total_ms": {
+                "max": 8958.655,
+                "mean": 4901.3033,
+                "median": 4951.268,
+                "min": 1543.272,
+                "n": 12,
+                "p90": 6310.933,
+                "p95": 8958.655,
+                "p99": 8958.655,
+                "p99_is_thin": true,
+                "percentile_method": "nearest-rank, no interpolation",
+                "stdev": null,
+                "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+                "sum": 58815.639,
+                "unit": "ms"
+              },
+              "n_calls": 12,
+              "n_failed": 0,
+              "n_http_429": 0,
+              "n_typed_errors": 0,
+              "n_usable": 12,
+              "throughput_calls_per_sec": 0.2037,
+              "throughput_definition": "usable calls / block makespan, where the makespan is wall time from first dispatch to last completion of that level's block"
+            }
+          },
+          "scaling": {
+            "1": {
+              "p50_over_C1_latency_ratio": 1.0,
+              "scaling_ratio_vs_C1": 1.0,
+              "throughput_calls_per_sec": 0.2515
+            },
+            "4": {
+              "p50_over_C1_latency_ratio": 2.0593,
+              "scaling_ratio_vs_C1": 0.6787,
+              "throughput_calls_per_sec": 0.1707
+            },
+            "8": {
+              "p50_over_C1_latency_ratio": 1.7946,
+              "scaling_ratio_vs_C1": 0.8099,
+              "throughput_calls_per_sec": 0.2037
+            }
+          },
+          "scaling_definition": "throughput(C)/throughput(1). Ideal linear scaling at concurrency C would be C.",
+          "selection": "mechanism=mimo_v26_flash AND phase=concurrency AND block='resume1'"
+        },
+        "idle_proxy": {
+          "idle_seconds_before_first_call": [
+            120
+          ],
+          "interpretation_limit": "This is an observable cold-ish PROXY only. Per-call cold start is NOT directly observable here: the endpoint is shared, any edge cache or connection-reuse state on the server side is unobserved, and the client opens a fresh connection per call by design. A difference here cannot be attributed to per-call model cold start.",
+          "max": 6715.751,
+          "mean": 4139.62,
+          "median": 3357.016,
+          "min": 2346.093,
+          "n": 3,
+          "n_rows_available": 3,
+          "p90": 6715.751,
+          "p95": 6715.751,
+          "p99": 6715.751,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "ratio_idle_median_over_warm_median": 0.8319,
+          "selection": "mechanism=mimo_v26_flash AND phase=idle AND block='resume1' AND no typed_error",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 12418.86,
+          "unit": "ms",
+          "warm_median_ms_same_block": 4035.47
+        },
+        "latency_budget": {
+          "accounting": {
+            "brief_two_component_note": "this is the brief's transport + (starttransfer - connect). It is reported for fidelity to the design and it does NOT account for the total; the post-first-byte wait is the missing term and is the larger one.",
+            "brief_two_component_sum_ms": 404.7729,
+            "identity": "total = setup(DNS+TCP+TLS) + post_first_byte_body_wait",
+            "mean_post_first_byte_share_pct": 96.6204,
+            "mean_post_first_byte_wait_ms": 5770.6702,
+            "mean_setup_ms": 205.0413,
+            "mean_setup_share_pct": 3.4331,
+            "mean_total_ms": 5972.517
+          },
+          "first_byte_is_not_a_model_signal": {
+            "consequence": "the only defensible client-observed latency figure is time_total.",
+            "finding": "time_starttransfer is within a few ms of TLS handshake completion and varies far less than the total, so the endpoint emits response headers before the model has produced anything. time_starttransfer is therefore NOT a time-to-first-token measurement and must not be read as model responsiveness.",
+            "median_starttransfer_ms": 198.491,
+            "median_tls_complete_ms": 198.29,
+            "stdev_starttransfer_ms": 12.4932,
+            "stdev_total_ms": 6402.992
+          },
+          "latency_total_ms": {
+            "max": 60607.853,
+            "mean": 5972.517,
+            "median": 4035.47,
+            "min": 1217.15,
+            "n": 183,
+            "p90": 12473.074,
+            "p95": 15955.571,
+            "p99": 27609.554,
+            "percentile_method": "nearest-rank, no interpolation",
+            "stdev": 6402.992,
+            "sum": 1092970.61,
+            "unit": "ms"
+          },
+          "max_within_case_range_over_median_range": {
+            "max_range_ms": 59209.437,
+            "min_range_ms": 3629.657,
+            "n_cases": 16,
+            "reading": "repeating the SAME request moves latency by this much, so a single-call latency figure is a sample from a wide distribution rather than a property of the request"
+          },
+          "n": 183,
+          "post_first_byte_body_wait_ms": {
+            "max": 60400.844,
+            "mean": 5770.6702,
+            "median": 3825.691,
+            "min": 1024.003,
+            "n": 183,
+            "p90": 12262.116,
+            "p95": 15752.941,
+            "p99": 27413.686,
+            "percentile_method": "nearest-rank, no interpolation",
+            "stdev": 6402.0807,
+            "sum": 1056032.648,
+            "unit": "ms"
+          },
+          "selection": "mechanism=mimo_v26_flash AND phase=warm AND block='resume1' AND no typed_error",
+          "setup_before_first_byte_ms": {
+            "max": 305.349,
+            "mean": 205.0413,
+            "median": 201.776,
+            "min": 191.756,
+            "n": 183,
+            "p90": 220.71,
+            "p95": 224.777,
+            "p99": 257.627,
+            "percentile_method": "nearest-rank, no interpolation",
+            "stdev": 12.8641,
+            "sum": 37522.554,
+            "unit": "ms"
+          },
+          "setup_to_tls_complete_ms": {
+            "max": 299.685,
+            "mean": 201.6431,
+            "median": 198.29,
+            "min": 189.193,
+            "n": 183,
+            "p90": 215.084,
+            "p95": 220.665,
+            "p99": 254.151,
+            "percentile_method": "nearest-rank, no interpolation",
+            "stdev": 12.4899,
+            "sum": 36900.686,
+            "unit": "ms"
+          },
+          "time_to_first_byte_ms": {
+            "max": 299.887,
+            "mean": 201.8468,
+            "median": 198.491,
+            "min": 189.364,
+            "n": 183,
+            "p90": 215.281,
+            "p95": 220.848,
+            "p99": 254.323,
+            "percentile_method": "nearest-rank, no interpolation",
+            "stdev": 12.4932,
+            "sum": 36937.962,
+            "unit": "ms"
+          },
+          "token_latency_correlation": {
+            "pearson_r_total_vs_output_tokens": 0.3935,
+            "reading": "a moderate correlation means token count explains part of the latency and leaves a large serving-side residual. A value near 1.0 would mean the endpoint simply streams at a fixed token rate; a value near 0 would mean latency is independent of the work done."
+          },
+          "within_case_spread_ms": {
+            "a-dist1": {
+              "max": 8464.928,
+              "max_over_min": 5.0398,
+              "median": 4228.908,
+              "min": 1679.613,
+              "n": 12,
+              "range": 6785.315
+            },
+            "a-e01": {
+              "max": 4994.826,
+              "max_over_min": 3.6588,
+              "median": 2436.275,
+              "min": 1365.169,
+              "n": 12,
+              "range": 3629.657
+            },
+            "a-e02": {
+              "max": 6392.01,
+              "max_over_min": 4.9561,
+              "median": 2212.24,
+              "min": 1289.729,
+              "n": 12,
+              "range": 5102.281
+            },
+            "a-h04": {
+              "max": 8263.591,
+              "max_over_min": 4.72,
+              "median": 2699.235,
+              "min": 1750.754,
+              "n": 12,
+              "range": 6512.837
+            },
+            "a-m07": {
+              "max": 13699.07,
+              "max_over_min": 8.3656,
+              "median": 4084.294,
+              "min": 1637.549,
+              "n": 12,
+              "range": 12061.521
+            },
+            "a-miss1": {
+              "max": 18393.611,
+              "max_over_min": 5.3456,
+              "median": 8251.333,
+              "min": 3440.864,
+              "n": 12,
+              "range": 14952.747
+            },
+            "a-noise1": {
+              "max": 8689.71,
+              "max_over_min": 3.7661,
+              "median": 3234.817,
+              "min": 2307.321,
+              "n": 12,
+              "range": 6382.389
+            },
+            "b-a01": {
+              "max": 27609.554,
+              "max_over_min": 20.2775,
+              "median": 3325.904,
+              "min": 1361.588,
+              "n": 12,
+              "range": 26247.966
+            },
+            "b-a02": {
+              "max": 60607.853,
+              "max_over_min": 43.3404,
+              "median": 3022.333,
+              "min": 1398.416,
+              "n": 12,
+              "range": 59209.437
+            },
+            "b-a03": {
+              "max": 26538.98,
+              "max_over_min": 3.1061,
+              "median": 15766.741,
+              "min": 8544.162,
+              "n": 3,
+              "range": 17994.818
+            },
+            "b-dist1": {
+              "max": 12960.314,
+              "max_over_min": 9.383,
+              "median": 4664.321,
+              "min": 1381.248,
+              "n": 12,
+              "range": 11579.066
+            },
+            "c-p1a": {
+              "max": 17257.851,
+              "max_over_min": 13.0322,
+              "median": 3431.169,
+              "min": 1324.247,
+              "n": 12,
+              "range": 15933.604
+            },
+            "c-p1b": {
+              "max": 6450.909,
+              "max_over_min": 5.3,
+              "median": 2519.122,
+              "min": 1217.15,
+              "n": 12,
+              "range": 5233.759
+            },
+            "d-01": {
+              "max": 12262.889,
+              "max_over_min": 4.1106,
+              "median": 5172.725,
+              "min": 2983.206,
+              "n": 12,
+              "range": 9279.683
+            },
+            "d-02": {
+              "max": 8699.167,
+              "max_over_min": 5.252,
+              "median": 2572.068,
+              "min": 1656.354,
+              "n": 12,
+              "range": 7042.813
+            },
+            "d-03": {
+              "max": 17406.546,
+              "max_over_min": 6.577,
+              "median": 5531.389,
+              "min": 2646.572,
+              "n": 12,
+              "range": 14759.974
+            }
+          }
+        },
+        "sequential_throughput": {
+          "all_subset_case_ids": [
+            "a-dist1",
+            "a-e01",
+            "a-e02",
+            "a-h04",
+            "a-m07",
+            "a-noise1",
+            "c-p1a",
+            "c-p1b",
+            "d-01",
+            "d-02",
+            "d-03"
+          ],
+          "all_subset_correct_decisions": 132,
+          "all_subset_correct_per_sec": 0.1208,
+          "all_subset_opportunities": 132,
+          "control_case_count": 9,
+          "control_case_ids": [
+            "a-e01",
+            "a-e02",
+            "a-h04",
+            "a-m07",
+            "c-p1a",
+            "c-p1b",
+            "d-01",
+            "d-02",
+            "d-03"
+          ],
+          "control_correct_decisions": 108,
+          "control_correct_per_sec": 0.0988,
+          "control_opportunities": 108,
+          "correctness_definition": "CONTROL-only: an opportunity is one usable prediction on an ANSWERABLE control case (control.variant_kind == 'base'). An unanswerable case is never scored correct/incorrect by this metric; answering at all on one is a different failure mode.",
+          "definition": "a strictly sequential client issues one call at a time, so elapsed time is the sum of per-call time_total; calls/sec is n_calls_usable / that sum. This EXCLUDES any client think-time and is an upper bound on the attainable rate.",
+          "n_calls_failed": 9,
+          "n_calls_issued": 192,
+          "n_calls_usable": 183,
+          "selection": "mechanism=mimo_v26_flash AND phase=warm AND block='resume1' AND no typed_error",
+          "sequential_calls_per_sec": 0.1674,
+          "sequential_calls_per_sec_including_process_spawn": 0.167,
+          "sum_time_total_ms": 1092970.61,
+          "sum_wall_ms_including_process_spawn": 1095803.8,
+          "timestamp_span_coarse_check": {
+            "first_utc": "2026-09-26T13:09:42Z",
+            "last_utc": "2026-09-26T13:32:54Z",
+            "n_timestamps": 192,
+            "note": "timestamps have 1-second resolution, so the wall-clock span is a coarse bound (+/-1s per end) and is reported only as a sanity check on the per-call sum, never as the throughput figure."
+          }
+        },
+        "stability": {
+          "flip_rate_definition": "per case, (reps - modal_label_reps) / reps; 0 means the same label every rep, 1.0 would mean no label is modal",
+          "max_flip_rate": 0.3333,
+          "mean_flip_rate": 0.0208,
+          "mean_modal_frequency": 0.9792,
+          "n_cases": 16,
+          "n_cases_fully_stable": 15,
+          "n_observations": 183,
+          "per_case": [
+            {
+              "case_id": "a-dist1",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "no": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "no",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 16,
+                "mean": 10.6667,
+                "min": 2,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 4.5193
+              }
+            },
+            {
+              "case_id": "a-e01",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "yes": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "yes",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 40,
+                "mean": 16.5,
+                "min": 11,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 8.1072
+              }
+            },
+            {
+              "case_id": "a-e02",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "no": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "no",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 18,
+                "mean": 9.4167,
+                "min": 4,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 4.1442
+              }
+            },
+            {
+              "case_id": "a-h04",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "low": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "low",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "high": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "low": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "medium": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "score",
+              "reasoning_tokens": {
+                "max": 63,
+                "mean": 33.75,
+                "min": 25,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 12.7145
+              }
+            },
+            {
+              "case_id": "a-m07",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "no": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "no",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 35,
+                "mean": 24.75,
+                "min": 20,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 3.9109
+              }
+            },
+            {
+              "case_id": "a-miss1",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "no": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "no",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 154,
+                "mean": 68.9167,
+                "min": 28,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 36.1524
+              }
+            },
+            {
+              "case_id": "a-noise1",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "no": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "no",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 40,
+                "mean": 26.4167,
+                "min": 19,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 5.7439
+              }
+            },
+            {
+              "case_id": "b-a01",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "yes": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "yes",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 147,
+                "mean": 58.5833,
+                "min": 16,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 51.1494
+              }
+            },
+            {
+              "case_id": "b-a02",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "no": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "no",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 51,
+                "mean": 27.4167,
+                "min": 15,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 9.3853
+              }
+            },
+            {
+              "case_id": "b-a03",
+              "distinct_labels": 2,
+              "flip_rate": 0.3333,
+              "label_counts": {
+                "no": 1,
+                "yes": 2
+              },
+              "modal_frequency": 0.6667,
+              "modal_label": "yes",
+              "n_reps": 3,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 0.0,
+                  "n": 3,
+                  "range": 1.0,
+                  "stdev": 0.5774
+                },
+                "yes": {
+                  "max": 1.0,
+                  "min": 0.0,
+                  "n": 3,
+                  "range": 1.0,
+                  "stdev": 0.5774
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 224,
+                "mean": 209.0,
+                "min": 187,
+                "n": 3,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 19.4679
+              }
+            },
+            {
+              "case_id": "b-dist1",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "no": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "no",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 44,
+                "mean": 24.8333,
+                "min": 16,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 6.9129
+              }
+            },
+            {
+              "case_id": "c-p1a",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "yes": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "yes",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 53,
+                "mean": 23.75,
+                "min": 17,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 9.5834
+              }
+            },
+            {
+              "case_id": "c-p1b",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "no": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "no",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "no": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "yes": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "noul",
+              "reasoning_tokens": {
+                "max": 18,
+                "mean": 13.25,
+                "min": 5,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 4.2453
+              }
+            },
+            {
+              "case_id": "d-01",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "build": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "build",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "build": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "escalate": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "investigate": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "redesign": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "repair": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "review": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "choice",
+              "reasoning_tokens": {
+                "max": 35,
+                "mean": 16.3333,
+                "min": 11,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 7.4995
+              }
+            },
+            {
+              "case_id": "d-02",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "redesign": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "redesign",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "build": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "escalate": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "investigate": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "redesign": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "repair": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "review": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "choice",
+              "reasoning_tokens": {
+                "max": 19,
+                "mean": 11.5833,
+                "min": 8,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 4.295
+              }
+            },
+            {
+              "case_id": "d-03",
+              "distinct_labels": 1,
+              "flip_rate": 0.0,
+              "label_counts": {
+                "investigate": 12
+              },
+              "modal_frequency": 1.0,
+              "modal_label": "investigate",
+              "n_reps": 12,
+              "probability_spread_across_reps": {
+                "build": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "escalate": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "investigate": {
+                  "max": 1.0,
+                  "min": 1.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "redesign": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "repair": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                },
+                "review": {
+                  "max": 0.0,
+                  "min": 0.0,
+                  "n": 12,
+                  "range": 0.0,
+                  "stdev": 0.0
+                }
+              },
+              "question_type": "choice",
+              "reasoning_tokens": {
+                "max": 20,
+                "mean": 16.4167,
+                "min": 15,
+                "n": 12,
+                "note": "reasoning tokens are a property of MiMo's own output and are reported as token use, never folded into a latency claim without saying so",
+                "stdev": 1.2401
+              }
+            }
+          ],
+          "selection": "mechanism=mimo_v26_flash AND phase=warm AND block='resume1' AND no typed_error"
+        },
+        "status": "ESTABLISHED (structural)",
+        "tokens_and_cost": {
+          "denominator_note": "tokens_per_call divides by n_calls, which INCLUDES warm-up calls when warmup_included_in_cost_total is true; set it false for a warm-only figure",
+          "derived_cost_source": "per-row derived_cost_usd from the harness, summed",
+          "derived_cost_usd_per_call": 2.64266e-05,
+          "derived_cost_usd_per_correct_control_decision": 5.46296e-05,
+          "derived_cost_usd_per_correct_control_decision_warm_only": 4.54793e-05,
+          "derived_cost_usd_total": 0.0059,
+          "n_calls": 222,
+          "per_correct_denominator": "control_correct_decisions over warm+idle+concurrency rows; the total includes warm-up calls, so this is a slight UNDER-estimate of cost per decision; the warm-only figure is below",
+          "rates_class": "PRICING/ENTITLEMENT FACT — promotional and tier dependent; not a structural property of the model",
+          "rates_usd_per_million": {
+            "cache_read": 0.0028,
+            "cache_write": 0.0,
+            "input": 0.14,
+            "output": 0.28
+          },
+          "selection": "mechanism=mimo_v26_flash AND block='resume1' AND phase IN ['warm', 'warmup', 'idle', 'concurrency'] AND no typed_error",
+          "tokens_per_call": {
+            "cache_read_tokens": 0.0,
+            "cache_write_tokens": 0.0,
+            "input_tokens": 125.9144,
+            "output_tokens": 31.4234,
+            "reasoning_tokens": 28.3153,
+            "total_tokens": 157.3378
+          },
+          "tokens_total": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 27953,
+            "output_tokens": 6976,
+            "reasoning_tokens": 6286,
+            "total_tokens": 34929
+          },
+          "warmup_included_in_cost_total": true
+        },
+        "warm_latency": {
+          "client_wall_ms_including_process_spawn": {
+            "max": 60627.4,
+            "mean": 5987.9989,
+            "median": 4048.6,
+            "min": 1230.5,
+            "n": 183,
+            "p90": 12490.2,
+            "p95": 15982.9,
+            "p99": 27625.4,
+            "percentile_method": "nearest-rank, no interpolation",
+            "stdev": 6404.9449,
+            "sum": 1095803.8,
+            "unit": "ms"
+          },
+          "correctness": {
+            "all_subset_case_ids": [
+              "a-dist1",
+              "a-e01",
+              "a-e02",
+              "a-h04",
+              "a-m07",
+              "a-noise1",
+              "c-p1a",
+              "c-p1b",
+              "d-01",
+              "d-02",
+              "d-03"
+            ],
+            "all_subset_correct": 132,
+            "all_subset_opportunities": 132,
+            "control_case_ids": [
+              "a-e01",
+              "a-e02",
+              "a-h04",
+              "a-m07",
+              "c-p1a",
+              "c-p1b",
+              "d-01",
+              "d-02",
+              "d-03"
+            ],
+            "control_correct": 108,
+            "control_opportunities": 108
+          },
+          "latency_time_to_first_byte_ms": {
+            "max": 299.887,
+            "mean": 201.8468,
+            "median": 198.491,
+            "min": 189.364,
+            "n": 183,
+            "p90": 215.281,
+            "p95": 220.848,
+            "p99": 254.323,
+            "percentile_method": "nearest-rank, no interpolation",
+            "stdev": 12.4932,
+            "sum": 36937.962,
+            "unit": "ms"
+          },
+          "latency_total_ms": {
+            "max": 60607.853,
+            "mean": 5972.517,
+            "median": 4035.47,
+            "min": 1217.15,
+            "n": 183,
+            "p90": 12473.074,
+            "p95": 15955.571,
+            "p99": 27609.554,
+            "percentile_method": "nearest-rank, no interpolation",
+            "stdev": 6402.992,
+            "sum": 1092970.61,
+            "unit": "ms"
+          },
+          "n_rows_available": 192,
+          "n_rows_used": 183,
+          "phase_decomposition_ms": {
+            "definition_service_transfer": "time_starttransfer - time_connect (the brief's decomposition)",
+            "definition_transport": "namelookup + connect + appconnect (DNS, TCP, TLS)",
+            "mean_share_of_total_pct": 3.4331,
+            "service_transfer": {
+              "max": 296.378,
+              "mean": 199.7316,
+              "median": 195.989,
+              "min": 187.718,
+              "n": 183,
+              "p90": 212.83,
+              "p95": 219.153,
+              "p99": 252.116,
+              "percentile_method": "nearest-rank, no interpolation",
+              "stdev": 12.4134,
+              "sum": 36550.891,
+              "unit": "ms"
+            },
+            "transport": {
+              "max": 305.349,
+              "mean": 205.0413,
+              "median": 201.776,
+              "min": 191.756,
+              "n": 183,
+              "p90": 220.71,
+              "p95": 224.777,
+              "p99": 257.627,
+              "percentile_method": "nearest-rank, no interpolation",
+              "stdev": 12.8641,
+              "sum": 37522.554,
+              "unit": "ms"
+            }
+          },
+          "rows_dropped_unusable": 9,
+          "selection": "mechanism=mimo_v26_flash AND phase=warm AND block='resume1' AND no typed_error AND a parseable label/score"
+        },
+        "window_call_counts": {
+          "attempted": 232,
+          "by_phase": {
+            "concurrency": 36,
+            "idle": 3,
+            "interface_probe": 1,
+            "warm": 192
+          },
+          "note": "the headline's call count. The warm-only figure behind the sequential-throughput statistic is sequential_throughput.n_calls_usable",
+          "selection": "mechanism=mimo_v26_flash AND block='resume1' AND all phases",
+          "unusable": 9,
+          "usable": 223
+        }
+      },
+      "failures": {
+        "by_phase": {
+          "concurrency": {
+            "attempts_total": 36,
+            "http_status_counts": {
+              "200": 36
+            },
+            "max_attempts_any_call": 1,
+            "n_rows": 36,
+            "n_typed_errors": 0,
+            "retries_total": 0,
+            "typed_error_counts": {
+              "None": 36
+            }
+          },
+          "idle": {
+            "attempts_total": 3,
+            "http_status_counts": {
+              "200": 3
+            },
+            "max_attempts_any_call": 1,
+            "n_rows": 3,
+            "n_typed_errors": 0,
+            "retries_total": 0,
+            "typed_error_counts": {
+              "None": 3
+            }
+          },
+          "interface_probe": {
+            "attempts_total": 1,
+            "http_status_counts": {
+              "200": 1
+            },
+            "max_attempts_any_call": 1,
+            "n_rows": 1,
+            "n_typed_errors": 0,
+            "retries_total": 0,
+            "typed_error_counts": {
+              "None": 1
+            }
+          },
+          "warm": {
+            "attempts_total": 198,
+            "http_status_counts": {
+              "200": 198
+            },
+            "max_attempts_any_call": 1,
+            "n_rows": 198,
+            "n_typed_errors": 9,
+            "retries_total": 0,
+            "typed_error_counts": {
+              "None": 189,
+              "empty_content": 9
+            }
+          },
+          "warmup": {
+            "attempts_total": 5,
+            "http_status_counts": {
+              "200": 5
+            },
+            "max_attempts_any_call": 1,
+            "n_rows": 5,
+            "n_typed_errors": 0,
+            "retries_total": 0,
+            "typed_error_counts": {
+              "None": 5
+            }
+          }
+        },
+        "retry_policy": "N = 1 attempt per call, 0 retries, everywhere, by design. A retry would make an availability failure invisible, so it is not permitted in a measurement phase.",
+        "selection": "mechanism=mimo_v26_flash AND all blocks"
+      },
+      "label": "MiMo V2.6 Flash (paid)",
+      "model_catalog_id": "opencode-go/mimo-v2.6-flash",
+      "model_id": "mimo-v2.6-flash"
+    }
+  },
+  "not_measured": {
+    "jev_current_window_concurrency": "UNRESOLVED — not attempted; issuing a concurrency block against an endpoint that has already refused 197 of 197 calls would have produced 12 more refusals, not a scaling curve",
+    "jev_current_window_curl_phase_decomposition": "UNRESOLVED — no usable curl response to decompose; only the rejection timings exist",
+    "jev_current_window_idle_cold_proxy": "UNRESOLVED — not attempted",
+    "jev_current_window_latency": "UNRESOLVED — 0 usable calls",
+    "jev_current_window_stability": "UNRESOLVED in this window; the frozen window gives 1 call per case, so a repeat-to-repeat flip rate is NOT computable from it either",
+    "jev_current_window_throughput": "UNRESOLVED — 0 usable calls",
+    "jev_paced_reduced_block": "NOT RUN — its precondition (a probe returning a usable answer) never held",
+    "per_call_cold_start": "NOT DIRECTLY OBSERVABLE for either mechanism — an idle-gap proxy is all the design can see",
+    "price_elasticity_or_paid_jev_tier": "NOT MEASURED — out of scope and not priced",
+    "server_side_queueing_or_batch_effects": "NOT OBSERVABLE from the client; the client cannot see whether the service batched or queued a request",
+    "sustained_multi_hour_throughput": "NOT MEASURED for either mechanism; every figure here is a short burst-window measurement"
+  },
+  "question": "given roughly matched bounded-decision accuracy on the frozen corpus, does Jev provide a material LATENCY, THROUGHPUT, COST or OPERATIONAL advantage over MiMo V2.6 Flash?",
+  "ratios": {
+    "cost": {
+      "jev_correct_decisions_per_dollar": null,
+      "jev_per_dollar_classification": "UNDEFINED at $0. Not 'infinite' and not 'best': the ratio has no value because its denominator is zero. The honest statement is the conditional one — while quota exists Jev costs $0 per call, and this study measured quota exhausting inside 197 calls.",
+      "jev_usd_per_call": 0.0,
+      "jev_usd_per_correct_control_decision": 0.0,
+      "matched_error_level_note": "A matched-error comparison requires a per-dollar or per-latency figure at the SAME observed error level. Jev's error level in this window is undefined in the operational sense: 0 of 197 calls returned an answer, so its decision error rate is not measurable at all. No matched-error ratio is therefore reported, and none should be inferred from Jev's $0 cost.",
+      "miMo_rates_class": "PRICING/ENTITLEMENT FACT: input $0.14/Mtok, output $0.28/Mtok, cache read $0.0028/Mtok from the current catalog. Promotional and tier-dependent.",
+      "mimo_control_error_rate": 0.0,
+      "mimo_control_error_rate_denominator": "108 usable predictions on ANSWERABLE control (variant_kind=base) subset cases in the warm block",
+      "mimo_correct_decisions_per_dollar": 21988.0253,
+      "mimo_usd_per_call": 2.64266e-05,
+      "mimo_usd_per_correct_control_decision": 4.54793e-05
+    },
+    "measurement_boundary": "MIMO figures are from THIS window (curl, block=resume1). Jev figures are from the FROZEN window (python urllib, 02:46-02:50Z) because this window produced no usable Jev call. Every Jev/MiMo ratio below is therefore a CROSS-WINDOW ratio across two transports and two tier states. It is reported because it is the only Jev evidence that exists, and flagged because it is not a matched pair.",
+    "structural": {
+      "denominators": {
+        "jev": "n=64 frozen calls, median over 1-second-rounded latency_ms",
+        "mimo": "n=183 warm calls in block=resume1"
+      },
+      "tokens_per_call_input_ratio_jev_over_mimo": 2.8108,
+      "tokens_per_call_output_ratio_jev_over_mimo": 0.9358,
+      "warm_median_latency_ratio_jev_over_mimo": 0.1454
+    }
+  },
+  "schema_version": "jevp1-ops-summary-1.0",
+  "study": "followup-03 operational comparison, issue #565",
+  "transport_probe": {
+    "by_mechanism": {
+      "jev": {
+        "n": 3,
+        "time_appconnect_tls_s": {
+          "max": 0.2113,
+          "mean": 0.1994,
+          "median": 0.1959,
+          "min": 0.1911,
+          "n": 3,
+          "p90": 0.2113,
+          "p95": 0.2113,
+          "p99": 0.2113,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 0.5983,
+          "unit": "s"
+        },
+        "time_connect_s": {
+          "max": 0.0074,
+          "mean": 0.0037,
+          "median": 0.0022,
+          "min": 0.0015,
+          "n": 3,
+          "p90": 0.0074,
+          "p95": 0.0074,
+          "p99": 0.0074,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 0.0111,
+          "unit": "s"
+        },
+        "time_namelookup_s": {
+          "max": 0.0065,
+          "mean": 0.0029,
+          "median": 0.0012,
+          "min": 0.001,
+          "n": 3,
+          "p90": 0.0065,
+          "p95": 0.0065,
+          "p99": 0.0065,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 0.0087,
+          "unit": "s"
+        },
+        "time_total_s": {
+          "max": 0.346,
+          "mean": 0.3267,
+          "median": 0.3202,
+          "min": 0.3138,
+          "n": 3,
+          "p90": 0.346,
+          "p95": 0.346,
+          "p99": 0.346,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 0.98,
+          "unit": "s"
+        }
+      },
+      "mimo_v26_flash": {
+        "n": 3,
+        "time_appconnect_tls_s": {
+          "max": 0.2381,
+          "mean": 0.2235,
+          "median": 0.22,
+          "min": 0.2123,
+          "n": 3,
+          "p90": 0.2381,
+          "p95": 0.2381,
+          "p99": 0.2381,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 0.6704,
+          "unit": "s"
+        },
+        "time_connect_s": {
+          "max": 0.0058,
+          "mean": 0.0031,
+          "median": 0.0019,
+          "min": 0.0015,
+          "n": 3,
+          "p90": 0.0058,
+          "p95": 0.0058,
+          "p99": 0.0058,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 0.0092,
+          "unit": "s"
+        },
+        "time_namelookup_s": {
+          "max": 0.001,
+          "mean": 0.001,
+          "median": 0.001,
+          "min": 0.001,
+          "n": 3,
+          "p90": 0.001,
+          "p95": 0.001,
+          "p99": 0.001,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 0.003,
+          "unit": "s"
+        },
+        "time_total_s": {
+          "max": 0.393,
+          "mean": 0.3681,
+          "median": 0.3599,
+          "min": 0.3514,
+          "n": 3,
+          "p90": 0.393,
+          "p95": 0.393,
+          "p99": 0.393,
+          "p99_is_thin": true,
+          "percentile_method": "nearest-rank, no interpolation",
+          "stdev": null,
+          "stdev_note": "omitted: sample < 30, a sample SD would be noise",
+          "sum": 1.1043,
+          "unit": "s"
+        }
+      }
+    },
+    "file": "results/transport_probe.json",
+    "guard": "A difference here is a property of the network path and the CDN edge, NOT of either model, and cannot be attributed to Jev or to MiMo.",
+    "never_folded_into_model_latency": true
+  }
+}
