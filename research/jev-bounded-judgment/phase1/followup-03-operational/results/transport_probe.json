@@ -1,0 +1,130 @@
+{
+  "schema_version": "jevp1-ops-transport-probe-1.0",
+  "probed_at_utc": "2026-09-26T06:34:50Z",
+  "what_this_is": "Connect-only reachability. curl performs the DNS, TCP and TLS handshake and then the request is abandoned without an HTTP request line and WITHOUT inference, so this measures network/transport overhead only.",
+  "never_folded_into_model_latency": true,
+  "calls": 6,
+  "probes": [
+    {
+      "mechanism": "jev",
+      "endpoint": "https://opencode.ai/zen/v1/systemone",
+      "probe": "connect_only_no_inference",
+      "repeat": 1,
+      "http_status": 404,
+      "bytes": 0,
+      "curl_phases": {
+        "time_namelookup": 0.006491,
+        "time_connect": 0.007364,
+        "time_appconnect": 0.211338,
+        "time_pretransfer": 0.211592,
+        "time_total": 0.34602,
+        "num_connects": 1
+      },
+      "typed_error": null,
+      "error_detail": null,
+      "timestamp_utc": "2026-09-26T06:34:48Z",
+      "credential_source": "env:OPENCODE_GO_API_KEY"
+    },
+    {
+      "mechanism": "jev",
+      "endpoint": "https://opencode.ai/zen/v1/systemone",
+      "probe": "connect_only_no_inference",
+      "repeat": 2,
+      "http_status": 404,
+      "bytes": 0,
+      "curl_phases": {
+        "time_namelookup": 0.001227,
+        "time_connect": 0.002199,
+        "time_appconnect": 0.191066,
+        "time_pretransfer": 0.19122,
+        "time_total": 0.313784,
+        "num_connects": 1
+      },
+      "typed_error": null,
+      "error_detail": null,
+      "timestamp_utc": "2026-09-26T06:34:48Z",
+      "credential_source": "env:OPENCODE_GO_API_KEY"
+    },
+    {
+      "mechanism": "jev",
+      "endpoint": "https://opencode.ai/zen/v1/systemone",
+      "probe": "connect_only_no_inference",
+      "repeat": 3,
+      "http_status": 404,
+      "bytes": 0,
+      "curl_phases": {
+        "time_namelookup": 0.000972,
+        "time_connect": 0.00153,
+        "time_appconnect": 0.195901,
+        "time_pretransfer": 0.19609,
+        "time_total": 0.320169,
+        "num_connects": 1
+      },
+      "typed_error": null,
+      "error_detail": null,
+      "timestamp_utc": "2026-09-26T06:34:49Z",
+      "credential_source": "env:OPENCODE_GO_API_KEY"
+    },
+    {
+      "mechanism": "mimo_v26_flash",
+      "endpoint": "https://opencode.ai/zen/go/v1/chat/completions",
+      "probe": "connect_only_no_inference",
+      "repeat": 1,
+      "http_status": 404,
+      "bytes": 0,
+      "curl_phases": {
+        "time_namelookup": 0.001006,
+        "time_connect": 0.005828,
+        "time_appconnect": 0.238118,
+        "time_pretransfer": 0.238291,
+        "time_total": 0.392965,
+        "num_connects": 1
+      },
+      "typed_error": null,
+      "error_detail": null,
+      "timestamp_utc": "2026-09-26T06:34:49Z",
+      "credential_source": "auth.json#opencode-go"
+    },
+    {
+      "mechanism": "mimo_v26_flash",
+      "endpoint": "https://opencode.ai/zen/go/v1/chat/completions",
+      "probe": "connect_only_no_inference",
+      "repeat": 2,
+      "http_status": 404,
+      "bytes": 0,
+      "curl_phases": {
+        "time_namelookup": 0.001,
+        "time_connect": 0.001873,
+        "time_appconnect": 0.212267,
+        "time_pretransfer": 0.212458,
+        "time_total": 0.351383,
+        "num_connects": 1
+      },
+      "typed_error": null,
+      "error_detail": null,
+      "timestamp_utc": "2026-09-26T06:34:50Z",
+      "credential_source": "auth.json#opencode-go"
+    },
+    {
+      "mechanism": "mimo_v26_flash",
+      "endpoint": "https://opencode.ai/zen/go/v1/chat/completions",
+      "probe": "connect_only_no_inference",
+      "repeat": 3,
+      "http_status": 404,
+      "bytes": 0,
+      "curl_phases": {
+        "time_namelookup": 0.000955,
+        "time_connect": 0.001523,
+        "time_appconnect": 0.219977,
+        "time_pretransfer": 0.220194,
+        "time_total": 0.359905,
+        "num_connects": 1
+      },
+      "typed_error": null,
+      "error_detail": null,
+      "timestamp_utc": "2026-09-26T06:34:50Z",
+      "credential_source": "auth.json#opencode-go"
+    }
+  ],
+  "interpretation_guard": "A difference here is a property of the network path and the CDN edge, NOT of either model, and cannot be attributed to Jev or to MiMo."
+}
