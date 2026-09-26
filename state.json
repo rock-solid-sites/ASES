@@ -1,6 +1,6 @@
 {
   "next_display_id": 567,
-  "next_comment_id": 4012,
+  "next_comment_id": 4013,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -37016,7 +37016,7 @@
       "priority": "high",
       "created_by": "anon-a8164eca",
       "created_at": "2026-09-26T06:41:11.743764214Z",
-      "updated_at": "2026-09-26T15:20:04.022825675Z",
+      "updated_at": "2026-09-26T17:14:37.109435764Z",
       "labels": [
         "research"
       ],
@@ -37059,6 +37059,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5XMQ7yU2SKh2ZiTqad9oB+s6V1KgN0JTYFwpd+TgqTaAGJEDjdQIPsvvWIF0L10pyvI/sNED8Jgstqg6M7YQBw=="
+        },
+        "f2624f20-f188-4c3d-ae8b-27978e0409bd": {
+          "display_id": 4012,
+          "author": "OL2r",
+          "content": "[Atria clean-room review]\n\nWHY\nThe Kernel-0 realization claim was to be falsification-tested by an external\nreviewer with no knowledge of the project's prior reviews. The single authorized\nAtria request was built and sent, and the service returned an upstream error, so\nno verdict was obtained. Reporting the blocker with full evidence rather than\nsubstituting a substitute reviewer.\n\nWHAT\nHTTP 502 from https://api.atria-asi.ai/v1/chat/completions after 303.155 s, with\nerror code upstream_unavailable and the message \"Inference service is\ntemporarily unavailable.\" No completion content, so there is no\nFALSIFIED / NOT FALSIFIED verdict and no model identifier was returned. The\nrequest was not retried, per the single-request rule. The 502 arrived well inside\nthe 900 s timeout, so it is not a client-side timeout.\n\nHOW CERTAIN\nCertain that the request was well-formed and transmitted once: the body is\nexactly {\"model\",\"messages\"} with a single user message and no system message,\nserialized once to 126,506 bytes, written to atria-request.json before sending,\nand the transmitted bytes match that file (sha256 6632ce5a...). The failure is\nserver-side, corroborated by the Atria error envelope naming its own upstream as\nunavailable. Uncertain only as to when the service recovers; a fresh single\nrequest is required to obtain any verdict.\n\nWHAT NOT TESTED\nThe Kernel-0 claim itself was not tested by any reviewer — no falsification\nattempt occurred. Prior-review exclusion FAILED: packet.md contains 5 references\nto earlier review documents (Kernel-0-Reasoning-Phase-Result.md,\nKernel-0-Realization-Comparison.md, Kernel-0-Realization-Experiment.md). All five\nare present in the pinned source files at e2e3bc11 and were not introduced by\npacket assembly; packet.md is byte-identical to the six pinned files. The pinned\nartifact is therefore not itself free of pointers to prior work, though the\nreviewer would not have received their contents or conclusions.\n\nSource commit: e2e3bc110b1370f3505aa0838990713520bf3f7c\nModel identifier returned by the API: none (error envelope, no model field)\nPacket SHA-256: 265ad3ddc37773969d64fb78f7ea05a2176741ef426ccb8d29eb04c0ce74fd28\nVerdict: NONE — review blocked upstream\nStrongest finding: the Atria endpoint failed the single authorized request with\n\"upstream_unavailable\", so the Kernel-0 realization claim remains unreviewed by\nany external reviewer.\n\nArtifacts: docs/research/kernel-0/reviews/atria-dawn/ (orchestration-notes.md,\npacket.md, packet.sha256, review-prompt.md, atria-request.json,\natria-response.raw.json, atria-response-metadata.json, checks/)\nFinal commit: 664fd9fcce51131446c0c27a4313908078d28277 (artifacts); branch tip be5df66b4a7e6973e4571890c316a4f933222712\nRemote push verification: git ls-remote origin refs/heads/codex/kernel-0-reasoning-566 = be5df66b4a7e6973e4571890c316a4f933222712, equal to local HEAD after a plain (non-forced) push of e2e3bc11..664fd9fc and the provenance follow-up.\nClean-room isolation: PARTIAL (packet reconstructs byte-exact from the six pinned\nfiles; no prior-review or unrelated content added by assembly, but the pinned\nsource itself names 5 prior-review artifacts)\nSecret handling: PASS (key never printed or committed; scans clean)\nAtria output was not used to modify the implementation.",
+          "created_at": "2026-09-26T17:14:37.097539982Z",
+          "kind": "observation",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4KqChR/fiG0ziWOwBkXnwa3wTijxqgMX6EPgoH8O+CQyFWe7KwrChua/CP1oJMMu9Dhl9BSLIFfWqlTv3hvGDg=="
         },
         "ff27e28c-606f-4377-9b2c-2057dd296f5a": {
           "display_id": 4002,
@@ -46335,8 +46344,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T16:11:38.866288024Z",
+    "timestamp": "2026-09-26T17:14:37.109435764Z",
     "agent_id": "OL2r",
-    "agent_seq": 3560
+    "agent_seq": 3561
   }
 }
