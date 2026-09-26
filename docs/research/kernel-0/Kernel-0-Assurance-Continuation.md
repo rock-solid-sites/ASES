@@ -77,12 +77,18 @@ premises remain unproved. Negative families: label reuse, four-cycle invisible t
 all triples, and naive one-hop delegation extension. 444 finite commutation sanity
 checks do not substitute for the argument.
 
-**Next: Phase 5.** First concrete action: implement a separate whole-trace
-refinement search that handles overlapping invocations/responses, crash boundaries,
-unknown outcomes and recovered views; drive actual authority-holder histories and
-reject deliberately inconsistent histories. Do not call algorithmic separation
-an independent reviewer or whole-stack proof. SQLite I/O crash consistency remains
-an explicit substrate gap for Phase 7.
+**Completed Phase 5 — bounded whole-history refinement evidence.**
+Governing commit `ef1f49c0deee068c85cadc2c05ea76c15f1c5478`, pushed and remote SHA verified. Fifteen actual
+concurrent/crash histories have coherent explanations; four inconsistent histories
+are rejected; both old/new outcomes of an unanswered operation remain possible.
+Algorithmic separation is not independent review. Unknown outcomes are scoped to
+holder loss, not arbitrary network loss. SQLite I/O crash placement remains the
+largest tractable substrate gap.
+
+**Next: Phase 6.** First concrete action: classify every retained distinction and
+mechanism as intrinsic / optional profile / trusted substrate / realization choice,
+then try removal again using preserved counterexamples. Do not expand the kernel
+because storage or sink implementation became more elaborate.
 
 ## Required execution order
 

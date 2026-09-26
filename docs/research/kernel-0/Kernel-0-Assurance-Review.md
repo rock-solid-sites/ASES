@@ -79,3 +79,14 @@ every hypothesis of P1–P4, especially completeness of read/anti-dependency edg
 invariant support, snapshot currentness, and the scope of label distinguishability.
 Find a countermodel before accepting any conditional hand proof. No machine proof
 or concrete unbounded conformance is claimed.
+
+
+# Frozen Phase 5 packet
+
+Exact tree: `ef1f49c0deee068c85cadc2c05ea76c15f1c5478`. Include base semantics/model, recovery sources/profile,
+`Kernel-0-Refinement-Assurance.md`, `kernel0_trace_refinement.py` and its result
+JSON. Review prompt: attack soundness/completeness of the finite explanation
+search, especially replies buffered across a crash, snapshot capture versus
+response time, abandoned unknown calls, and whether the recorder narrows real-time
+intervals incorrectly. Try a trace accepted without any legal abstract history,
+or rejected despite one. No independent review has yet occurred.
