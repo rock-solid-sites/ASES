@@ -106,3 +106,81 @@ future permissions. WHAT: current abstract semantics plus the explicit stronger
 failure projection and counterhistories above. HOW CERTAIN: conditional semantic
 argument; model and concrete evidence pending. WHAT-NOT-TESTED: storage, runtime,
 physical source binding, independent review and unbounded refinement.
+
+## Phase 1B result and adequacy attack
+
+The finite projection in `kernel0_recovery_model.py` explores **7,502 states and
+12,457 edges to closure in 24 fixtures** (12 scenarios × two recovery profiles,
+at most two crashes and three requests). The original finite policy remains
+unchanged and supplies a separately implemented transition oracle. Ghost committed
+state checks the projection and is never supplied to recovery. All ten weakened
+variants fail; BFS retains shortest traces within each fixture, plus explicitly
+acknowledged variants where applicable. These are fixture minima, not global
+counterexample-minimality or cutoff claims.
+
+The ten removals cover early success, same-root rollback, torn composite, absent
+accepted bytes, work/authority mixed cut, producer association confusion,
+forgetting unacknowledged commitment, wrong root, detached validation, and loss
+of consumed authority distinctions. Non-vacuity now requires content 1 accepted
+*before* a crash to be consumed after recovery. The first draft admitted a weaker
+witness with all useful work after recovery; self-review repaired that test.
+A first no-reuse attack was masked by the consumer's exclusivity guard; changing
+its prefix from replacement to revocation exposes reuse for its intended reason.
+These harness corrections are not counterexamples to Kernel-0.
+
+Adequacy limits: the model starts from established work and one grant; bootstrap
+origin is an external assumption. Fixture closure is not the full product of all
+148 original requests. No byte-level storage behavior, arbitrary repeated crashes,
+all observer schedules, hostile roots, or arbitrary policy is exhaustively tested.
+Two-field coupling and concurrent pending requests expose detached whole-view
+validation; original three-way order evidence remains the baseline. No safety
+property is inferred from always-deny behavior.
+
+## Phase 1C: realization selection and pre-implementation correspondence
+
+Only now select a mechanism. A whole-image replace file is small in source but
+requires a bespoke contract for write completion, replacement, directory state,
+recovery of interrupted preparation, and errors. An append-only record stream
+requires valid-prefix recognition and a current-root rule. A single-row embedded
+transactional store already supplies the needed all-or-nothing replacement and
+restart boundary. Choose **SQLite rollback journal, synchronous FULL, one complete
+serialized view per commitment**, with no WAL, replication, delivery IDs or queue.
+This is an assurance experiment, not a kernel requirement or a storage proof.
+SQLite documents its atomic-commit algorithm and its OS/storage assumptions:
+[atomic commit](https://sqlite.org/atomiccommit.html),
+[synchronous setting](https://sqlite.org/pragma.html#pragma_synchronous).
+
+- **Commit point:** an actual successful transaction commit, before any success
+  reply or authoritative publication. A kill inside the commit call may recover
+  old or new whole state; absence of a reply cannot decide which.
+- **Currentness:** one protected configured database and its journal remain intact;
+  no actor restores an obsolete copy. Root/profile checks reject the wrong store
+  but do not authenticate freshness of an old same-root copy.
+- **Whole view:** one serialized value contains established work, fields, full
+  accepted string, issued-context set, rights and parent relation. Recoverable
+  state is always read within the same serialized boundary used for admission.
+- **Content:** retain the actual bounded string. No executor-held referent.
+- **Continuing binding:** a trusted surviving supervisor knows fixed endpoint-to-
+  context associations (not current rights) and hands reconnected descriptors to
+  the corresponding surviving producer. That supervisor, its association and
+  bootstrap root/profile are explicitly outside service loss. The restarted
+  service never reconstructs current rights from the supervisor or producer.
+- **Cold binding:** old endpoints close; the supervisor does not reissue them.
+  Management replaces the orphaned current context with an unused one and gives
+  fresh execution its endpoint. The same stored whole state is recovered first.
+- **Recovery:** open an existing store, allow substrate rollback recovery, verify
+  root/profile/schema and semantic validity, then admit traffic. Initialization
+  is a separate trusted operation; missing/mismatched state fails closed.
+- **Ordering:** one in-process lock and one transaction encompass current read,
+  validation and replacement. This intentionally serializes more than necessary.
+  The supervisor guarantees the old service has terminated before restarting it.
+- **Trust:** supervisor/descriptor isolation, source and finite policy, Python,
+  SQLite and its VFS, Unix locking/filesystem/process semantics, and the surviving
+  storage image. The experiment kills a process with SIGKILL while OS/storage stay
+  alive. It does not establish power-loss durability, disk corruption tolerance,
+  malicious rollback resistance, or crash consistency of every SQLite I/O path.
+
+Prepared image, commit entry, commit return, publication and acknowledgement will
+have separate test-only pause points. Their pipes are never issued to producers.
+An independent checker maps recovered concrete state back to the original model;
+no test oracle state is used to initialize recovery.
