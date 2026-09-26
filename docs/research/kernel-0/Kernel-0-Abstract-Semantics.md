@@ -26,6 +26,8 @@ An instantiation declares:
 
 `σ` is the combined state of whatever trusted components the claim actually relies on. Locating a distinction outside one proposed kernel component does not remove it from the trusted assurance boundary. Two histories may share the same abstract `σ` only if every required future permission and continuity observation is equivalent.
 
+`G`, `E`, and `I` are a checkable decomposition of one admissible-transition relation, not three required kernel APIs or stored objects. The optional fact `f` can be carried in a request or trusted state if its source and timing remain explicit.
+
 ## Resolved transition relation
 
 For an initial state, `I(σ₀)` holds. A resolved proposal has one of these outcomes:

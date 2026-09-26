@@ -208,6 +208,22 @@ The core can be written as an admissible-history relation or as `Σ`, proposals,
 
 The resulting semantic minimum is therefore a **retained behavioral distinction, a proposed effect, and a guarded authoritative commitment**, with revocation and relevant ordering expressed as properties of that relation. This does not remove the obligation to specify policy, positive Work Unit behavior, or trusted composition before claiming adequacy. Local and external placement of retained authority facts remain semantically equivalent only if both satisfy the same observable contract; their different trusted assumptions matter in a later realization comparison.
 
+### Destructive reduction after the new counterexamples
+
+| Candidate item | Retain, derive, or move outward | Removal witness |
+| --- | --- | --- |
+| Authoritative view, including live dependencies | Retain semantically; represent it as behaviorally distinguishable histories, not a mandated data structure. | A stale overwrite of an accepted live referent changes authoritative meaning if this closure is omitted. |
+| Proposed whole effect and affected domain | Retain as a request description; no fixed request type or event taxonomy. | Without declared effect granularity, invalid partial mutation is indistinguishable from an allowed smaller request. |
+| Guard, effect relation, invariant | Derive as a checkable decomposition of one admissible-transition relation; no separate kernel APIs. | Hiding these checks in an unconstrained predicate makes authorization and critical-invariant claims untestable. |
+| Authority and identity | Current eligibility is a relation over authoritative view and trustworthy attempt evidence. No role, owner, Work Unit, Attachment Point, or Execution identity is forced into the generic boundary. | Identical trusted observations cannot support required different outcomes for old and replacement attempts. |
+| Acyclic relevant order | Derive from independently accepted transition history; no clock or stored global sequence. | The three-request guard cycle admits pairwise orders but no coherent accepted history. |
+| External fact | Optional input or trusted-state component, with source and timing disclosed. | An unmodeled changing fact can silently alter admissibility. |
+| Executor-loss durability | Retain as a property across the declared failure event, not a storage primitive. Independent substrate restart is a stronger profile. | Co-locating all authority state with a lost executor destroys required continuation. |
+| Protected effect | Derive from changes to accepted authoritative meaning. Other external actions require an expressly declared authority contract. | A mutable live dependency can bypass a guard on nominal records. |
+| Denial, pending, acknowledgement | Denial is no attributable commitment; pending and acknowledgement are observations, with no general liveness or exactly-once claim. | Treating a lost acknowledgement as a lost commit can duplicate work without any semantic basis. |
+
+The state-transition and admissible-history presentations remain equivalent under the same declared observations. Execution-relative attribution and authority-relative admission are also observationally equivalent for the minimum stale-grant claim when their trusted premises hold; physical-producer exclusion, broader external actions, and independent substrate restart are stronger profiles whose costs must be counted in realization comparison. No further Kernel-0 primitive survived the removal test.
+
 ## Realization-independent requirements
 
 Any realization claiming the abstract guarantees must satisfy the following behavioral obligations. They do not select a software, hardware, storage, or proof mechanism.
