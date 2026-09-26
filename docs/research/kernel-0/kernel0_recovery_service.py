@@ -64,6 +64,9 @@ class Boundary:
         self.profile = config['profile']
         self.lock = threading.Lock()
 
+    def propose(self, current, context, q):
+        return core.candidate(current, context, q, self.profile)
+
     def resolve(self, context, q, gate):
         with self.lock:
             db = self.store.db
@@ -73,7 +76,7 @@ class Boundary:
                 if q is None or q.kind == 'read':
                     db.execute('ROLLBACK')
                     return {'outcome': 'deny' if q is None else 'read', 'state': asdict(current)}
-                candidate = core.candidate(current, context, q, self.profile)
+                candidate = self.propose(current, context, q)
                 admitted = candidate is not None and core.valid(candidate, self.profile)
                 gate('validated')
                 if admitted:
@@ -94,8 +97,8 @@ class Boundary:
         return result
 
 
-def serve(config):
-    boundary = Boundary(config)
+def serve(config, boundary=None):
+    boundary = Boundary(config) if boundary is None else boundary
     schedule = config.get('gate')
     used = threading.Event()
 

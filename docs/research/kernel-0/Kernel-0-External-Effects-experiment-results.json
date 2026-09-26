@@ -1,0 +1,50 @@
+{
+  "profile": "one monotone durable intent; duplicate effects allowed; trusted mediator ingress",
+  "experiments": {
+    "source_received": {
+      "sent": false,
+      "effects": 0
+    },
+    "source_validated": {
+      "sent": false,
+      "effects": 0
+    },
+    "source_prepared": {
+      "sent": false,
+      "effects": 0
+    },
+    "source_durable": {
+      "sent": true,
+      "effects": 1
+    },
+    "source_before_ack": {
+      "sent": true,
+      "effects": 1
+    },
+    "sink_prepared_then_retry": {
+      "before_retry": 0,
+      "after_retry": 1
+    },
+    "sink_accepted_then_retry": {
+      "before_retry": 1,
+      "after_retry": 2
+    },
+    "decision_before_revocation_effect_after": {
+      "effects": 1,
+      "permitted_by_profile": true,
+      "new_decision_with_old_evidence": "deny",
+      "overwrite_obligation": "deny"
+    }
+  },
+  "sources": {
+    "kernel0_effect_experiment.py": "0182935650f08f2781230c05b610e101fa0687dab269b33e3136ec567ee6de38",
+    "kernel0_recovery_service.py": "f5fd5e1118046dd8fd6d3357d56f9bcad91e8fe572f5bf4706dc7c8fd0b3ff13",
+    "kernel0_recovery_check.py": "970f674ebb45e8f281a31eb3315247e4dad5286cab7876a0709b8e2cdaf6d349",
+    "kernel0_service.py": "f11c54b9318a54512487d087b10aeb2878a111bffe8cc8fa58391f4e716c2084",
+    "kernel0_finite_model.py": "c9c429b0400df6e044d30b71befaeb810657430372fb1088f9e62631c8965083"
+  },
+  "runtime": {
+    "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+    "sqlite": "3.37.2"
+  }
+}

@@ -39,3 +39,7 @@ restart cursor for the operator-authorized ordered program (Crosslink #567,
 child of #566). [Authority-service crash/recovery](./Kernel-0-Crash-Recovery.md)
 derives and tests the stronger failure profile. These findings extend the
 assurance evidence; they do not silently revise the base semantic contract.
+
+[Protected external effects](./Kernel-0-External-Effects.md) defines the selected
+decision-authorized obligation profile, including its explicit duplicate-delivery
+and post-revocation visibility limits.

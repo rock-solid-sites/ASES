@@ -53,7 +53,15 @@ Untested: SQLite I/O-path crash coverage, power loss, corruption, hostile rollba
 supervisor loss, unbounded contexts, physical source binding after new-evidence
 transfer, progress, exactly-once, and independent review of these new artifacts.
 
-**Next: Phase 2.** First concrete action: derive a selected external-effect profile
+**Phase 2 is internally checked as A2; publication checkpoint pending.**
+2,715 model states / 9,924 edges; six weakened variants; real source/sink crashes.
+The sink lost-acknowledgement retry produces two permitted effects. The durable
+obligation is monotone; revoked producer authority cannot create a new decision.
+The Phase 1 suite was rerun after the consumer extension point was introduced.
+
+**Next after Phase 2 publication: Phase 3.** First concrete action: derive two
+independent domains with local authority and an explicit coupled admission rule.
+The prior Phase 2 first action was: derive a selected external-effect profile
 by separating current authority at durable decision from current authority at sink
 acceptance; build the smallest finite sink model and test revocation/crash/retry.
 Do not silently require exactly-once or revoke previously accepted obligations.

@@ -144,7 +144,7 @@ def worker_main(fd):
 
 
 class Holder:
-    def __init__(self, path, profile='independent', root='work', gate=None):
+    def __init__(self, path, profile='independent', root='work', gate=None, service_path=None):
         pairs = [socket.socketpair() for _ in CONTEXTS]
         self.clients = [p[0] for p in pairs]
         for conn in self.clients:
@@ -157,7 +157,7 @@ class Holder:
         if gate:
             config['gate'] = dict(gate, event_fd=event_write, release_fd=release_read)
             fds += [event_write, release_read]
-        self.proc = subprocess.Popen([sys.executable, str(HERE / 'kernel0_recovery_service.py'), json.dumps(config)],
+        self.proc = subprocess.Popen([sys.executable, str(service_path or HERE / 'kernel0_recovery_service.py'), json.dumps(config)],
                                      pass_fds=fds, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=0)
         CHILDREN.append(self.proc)
         for _, server in pairs:

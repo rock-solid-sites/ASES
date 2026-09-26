@@ -1,0 +1,2067 @@
+{
+  "reference": {
+    "weakness": "",
+    "states": 2715,
+    "edges": 9924,
+    "counterexample": null,
+    "witnesses": {
+      "delayed_after_revoke": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "revoke producer",
+          "after": {
+            "current": false,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "send obligation to sink",
+          "after": {
+            "current": false,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink irrevocably accepts",
+          "after": {
+            "current": false,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 1,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        }
+      ],
+      "crash_recovered_delivery": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "send obligation to sink",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "source crash (message survives)",
+          "after": {
+            "current": true,
+            "observed_permission": null,
+            "phase": 5,
+            "intent": true,
+            "committed": true,
+            "source_live": false,
+            "source_crashes": 1,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink irrevocably accepts",
+          "after": {
+            "current": true,
+            "observed_permission": null,
+            "phase": 5,
+            "intent": true,
+            "committed": true,
+            "source_live": false,
+            "source_crashes": 1,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 1,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        }
+      ],
+      "sink_survives_lost_ack": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "send obligation to sink",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink irrevocably accepts",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 1,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink crash",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": false,
+            "sink_crashes": 1,
+            "wire": false,
+            "accepted": 1,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        }
+      ],
+      "duplicates_allowed": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "send obligation to sink",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink irrevocably accepts",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 1,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "send obligation to sink",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 1,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink irrevocably accepts",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 2,
+            "irrevocable": 2,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        }
+      ]
+    }
+  },
+  "weakened": [
+    {
+      "weakness": "stale_authorization",
+      "states": 42,
+      "edges": 64,
+      "counterexample": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "revoke producer",
+          "after": {
+            "current": false,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": false,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": false,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": true
+          },
+          "violation": "stale authority at decision"
+        }
+      ]
+    },
+    {
+      "weakness": "volatile_intent",
+      "states": 86,
+      "edges": 144,
+      "counterexample": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "source crash",
+          "after": {
+            "current": true,
+            "observed_permission": null,
+            "phase": 5,
+            "intent": false,
+            "committed": true,
+            "source_live": false,
+            "source_crashes": 1,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "source recovery",
+          "after": {
+            "current": true,
+            "observed_permission": null,
+            "phase": 5,
+            "intent": false,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 1,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          },
+          "violation": "committed obligation lost"
+        }
+      ]
+    },
+    {
+      "weakness": "send_tentative",
+      "states": 54,
+      "edges": 83,
+      "counterexample": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "send obligation to sink",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink irrevocably accepts",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 1,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          },
+          "violation": "irreversible effect without authoritative commitment"
+        }
+      ]
+    },
+    {
+      "weakness": "forget_on_send",
+      "states": 150,
+      "edges": 266,
+      "counterexample": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "send obligation to sink",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": false,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "source crash",
+          "after": {
+            "current": true,
+            "observed_permission": null,
+            "phase": 5,
+            "intent": false,
+            "committed": true,
+            "source_live": false,
+            "source_crashes": 1,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "source recovery",
+          "after": {
+            "current": true,
+            "observed_permission": null,
+            "phase": 5,
+            "intent": false,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 1,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          },
+          "violation": "committed obligation lost"
+        }
+      ]
+    },
+    {
+      "weakness": "volatile_sink",
+      "states": 233,
+      "edges": 472,
+      "counterexample": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "send obligation to sink",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": true,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink irrevocably accepts",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 1,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink crash",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": false,
+            "sink_crashes": 1,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "sink recovery",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 1,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 1,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          },
+          "violation": "accepted consequence disappeared"
+        }
+      ]
+    },
+    {
+      "weakness": "cancel_on_revoke",
+      "states": 83,
+      "edges": 140,
+      "counterexample": [
+        {
+          "event": "submit and observe permission",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 1,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "prepare intent",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 2,
+            "intent": false,
+            "committed": false,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "durable guarded decision",
+          "after": {
+            "current": true,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "revoke producer",
+          "after": {
+            "current": false,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": true,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          }
+        },
+        {
+          "event": "discard obligation because producer revoked",
+          "after": {
+            "current": false,
+            "observed_permission": true,
+            "phase": 3,
+            "intent": false,
+            "committed": true,
+            "source_live": true,
+            "source_crashes": 0,
+            "sink_live": true,
+            "sink_crashes": 0,
+            "wire": false,
+            "accepted": 0,
+            "irrevocable": 0,
+            "visible": 0,
+            "ack": false,
+            "revoked_at_decision": false
+          },
+          "violation": "committed required consequence no longer recoverable"
+        }
+      ]
+    }
+  ],
+  "pinned_histories": {
+    "revocation_before_decision": [
+      {
+        "event": "submit and observe permission",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 1,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "revoke producer",
+        "after": {
+          "current": false,
+          "observed_permission": true,
+          "phase": 1,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "deny revoked decision",
+        "after": {
+          "current": false,
+          "observed_permission": true,
+          "phase": 5,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      }
+    ],
+    "authorized_before_revoke_accepted_after": [
+      {
+        "event": "submit and observe permission",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 1,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "prepare intent",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 2,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "durable guarded decision",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "revoke producer",
+        "after": {
+          "current": false,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "send obligation to sink",
+        "after": {
+          "current": false,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": true,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "sink irrevocably accepts",
+        "after": {
+          "current": false,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "external observation",
+        "after": {
+          "current": false,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 1,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      }
+    ],
+    "accepted_before_revoke_visible_after": [
+      {
+        "event": "submit and observe permission",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 1,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "prepare intent",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 2,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "durable guarded decision",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "send obligation to sink",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": true,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "sink irrevocably accepts",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "revoke producer",
+        "after": {
+          "current": false,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "external observation",
+        "after": {
+          "current": false,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 1,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      }
+    ],
+    "crash_before_intent": [
+      {
+        "event": "submit and observe permission",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 1,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "prepare intent",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 2,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "source crash",
+        "after": {
+          "current": true,
+          "observed_permission": null,
+          "phase": 5,
+          "intent": false,
+          "committed": false,
+          "source_live": false,
+          "source_crashes": 1,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "source recovery",
+        "after": {
+          "current": true,
+          "observed_permission": null,
+          "phase": 5,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 1,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      }
+    ],
+    "crash_after_intent": [
+      {
+        "event": "submit and observe permission",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 1,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "prepare intent",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 2,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "durable guarded decision",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "source crash",
+        "after": {
+          "current": true,
+          "observed_permission": null,
+          "phase": 5,
+          "intent": true,
+          "committed": true,
+          "source_live": false,
+          "source_crashes": 1,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "source recovery",
+        "after": {
+          "current": true,
+          "observed_permission": null,
+          "phase": 5,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 1,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "send obligation to sink",
+        "after": {
+          "current": true,
+          "observed_permission": null,
+          "phase": 5,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 1,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": true,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "sink irrevocably accepts",
+        "after": {
+          "current": true,
+          "observed_permission": null,
+          "phase": 5,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 1,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      }
+    ],
+    "inflight_survives_source_crash": [
+      {
+        "event": "submit and observe permission",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 1,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "prepare intent",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 2,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "durable guarded decision",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "send obligation to sink",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": true,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "source crash (message survives)",
+        "after": {
+          "current": true,
+          "observed_permission": null,
+          "phase": 5,
+          "intent": true,
+          "committed": true,
+          "source_live": false,
+          "source_crashes": 1,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": true,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "sink irrevocably accepts",
+        "after": {
+          "current": true,
+          "observed_permission": null,
+          "phase": 5,
+          "intent": true,
+          "committed": true,
+          "source_live": false,
+          "source_crashes": 1,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      }
+    ],
+    "sink_accept_lost_ack_retry": [
+      {
+        "event": "submit and observe permission",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 1,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "prepare intent",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 2,
+          "intent": false,
+          "committed": false,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "durable guarded decision",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "send obligation to sink",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": true,
+          "accepted": 0,
+          "irrevocable": 0,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "sink irrevocably accepts",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 0,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "sink crash",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": false,
+          "sink_crashes": 1,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "sink recovery",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 1,
+          "wire": false,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "send obligation to sink",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 1,
+          "wire": true,
+          "accepted": 1,
+          "irrevocable": 1,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      },
+      {
+        "event": "sink irrevocably accepts",
+        "after": {
+          "current": true,
+          "observed_permission": true,
+          "phase": 3,
+          "intent": true,
+          "committed": true,
+          "source_live": true,
+          "source_crashes": 0,
+          "sink_live": true,
+          "sink_crashes": 1,
+          "wire": false,
+          "accepted": 2,
+          "irrevocable": 2,
+          "visible": 0,
+          "ack": false,
+          "revoked_at_decision": false
+        }
+      }
+    ]
+  },
+  "source_sha256": "98b87b9ae33d07adb92cf42714e2ca146dc37f8a29e5772fe53cfac15da67b46",
+  "bounds": "one monotone intent, one payload, two effects, two crashes per process",
+  "claim": "fixture closure, safety and existential successes; no fairness or cutoff theorem"
+}
