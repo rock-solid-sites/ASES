@@ -1,6 +1,6 @@
 {
   "next_display_id": 566,
-  "next_comment_id": 3981,
+  "next_comment_id": 3982,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8861,7 +8861,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T04:52:07.148181540Z",
+      "updated_at": "2026-09-26T04:53:15.628630884Z",
       "labels": [
         "research"
       ],
@@ -8883,6 +8883,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAB5CpUZFJzWEVQztUZvzg/s3c/2x5IMporVjI+UqQqzHRJDrNzmVcTCWhlglziZdui2MXV6xIkjIjG8GsXhw+Aw=="
+        },
+        "4e17fd6b-ad15-4162-b493-79c7985bcdb8": {
+          "display_id": 3981,
+          "author": "OL2r",
+          "content": "Plan: followup-01-spacebunny — one bounded add-one-baseline experiment.\n\nWHAT: run exactly one new baseline, mechanism label `spacebunny`, model `space-bunny-free`, over the UNCHANGED frozen 64-case corpus, then compare to the frozen Jev run.\n\nGATES (all must pass before any call):\n1. sha256 of cases.ndjson / jev_raw.ndjson / baselines_raw_ndjson match the three frozen digests. VERIFIED PASS 2026-09-26 (all three exact).\n2. Frozen-condition: for every case, the serialized request must hash EQUAL to the frozen `general_model` row's request_hash, and the request_body must be identical. Any mismatch = stop, report, no redesign.\n3. $OPENCODE_GO_API_KEY non-empty. VERIFIED (len=67, value never printed).\n4. Catalog: opencode-go/space-bunny-free, cost 0/0/0/0, context 1048576 (given 2026-09-26). Route = the disclosed Zen route https://opencode.ai/zen/v1/chat/completions, identical to harness/run_baselines.py general_model. Same GEN_SYS, max_tokens 256, temperature 0, ONE attempt per cell, NO retries.\n\nEXECUTION: 64 requests, N=1. Transport failures recorded verbatim, never retried, never silently dropped.\n\nSCORING (stdlib only, reuses common.py + score.py helpers):\n- semantic correctness vs frozen GT; transport failures counted SEPARATELY and excluded from semantic denominators (every denominator stated).\n- raw accuracy (committed answerable n=50) AND F1-corrected accuracy (c-p4a + c-p4b -> unanswerable, per verification.md 2 F1; corrected answerable n=48), applied to BOTH mechanisms.\n- overall + existing scope axes only (A/B/C/D, train/dev/test, question types).\n- paired vs frozen Jev: b = Spacebunny right & Jev wrong, c = reverse, plus ties, on cells where both produced a usable label. Raw and corrected.\n\nBANDS (verbatim from findings.md 6, applied to F1-corrected accuracy): support if acc<=0.90 OR c>=3; refute if acc>=0.96 AND c<=1; uninformative if 0.92<=acc<=0.94; else OUTSIDE. Support evaluated before refute. Sensitivity of transport failures bounded and clearly labelled.\n\nDESIGN CAVEAT TO BE REPORTED, NOT WORKED AROUND: findings.md 6 pre-registered this experiment for a CROSS-FAMILY model (Q1). The assigned model is space-bunny-free, which per findings.md 4 L1 is the SAME family as the corpus author, harness author, prompt template author, and verifier. So this run is a same-family REPLICATE of general_model, not the cross-family test; the self-preference confound can only inflate this baseline, and it does not resolve Q1. The band verdict is reported as instructed and explicitly labelled as a band pre-registered for a different model class.\n\nARTIFACTS: followup-01-spacebunny/{{results/spacebunny_raw.ndjson, results/paired.ndjson, results/comparison.json, results/manifest.json}, comparison.md, README.md}. No frozen file touched. No push. Scorer run twice -> identical hash.",
+          "created_at": "2026-09-26T04:53:15.621076918Z",
+          "kind": "plan",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAF/A7vpzOdnI312B4GWYQlhM8E00BPXqa1xhj7Fs6waRCiAyXQpiZRk+7XQnQ9O7fOixjeHsXwUbdZUlWcZAdBQ=="
         },
         "79a77ace-088d-408a-a9a5-cebf218913b9": {
           "display_id": 3976,
@@ -46008,8 +46017,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-26T04:52:07.148181540Z",
+    "timestamp": "2026-09-26T04:53:15.628630884Z",
     "agent_id": "OL2r",
-    "agent_seq": 3528
+    "agent_seq": 3529
   }
 }
