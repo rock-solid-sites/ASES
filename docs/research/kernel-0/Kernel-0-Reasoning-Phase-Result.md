@@ -22,6 +22,8 @@ The Evidence Packet is internally coherent enough for this derivation: its autho
 
 Kernel-0 is provisionally a **durable conditional transition boundary with revocable authority**. This is a semantic candidate, not a claim that one physical component or location is necessary.
 
+The current [abstract semantics](./Kernel-0-Abstract-Semantics.md) incorporates the protected-effect, authority-distinguishability, and executor-loss boundaries derived in this cycle. The schematic model below records the reasoning path and must be read with that later specification.
+
 The core retains the information necessary to distinguish future permission and continuity outcomes, accepts proposed effects only through a guarded whole commitment, and makes revoked authority unusable at commitment. Its authority order covers affected commitments, without requiring a global order or one physical arbiter. The model below states the exact abstract obligations. A concrete instantiation must supply policy, protected effects, critical invariants, and trusted assumptions; the generic relation alone proves none of them.
 
 ## Minimal testable semantic model

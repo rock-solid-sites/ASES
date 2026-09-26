@@ -12,6 +12,8 @@ This directory contains the active inputs for the Kernel-0 reasoning program.
 
 [Kernel-0 Reasoning Phase Result](./Kernel-0-Reasoning-Phase-Result.md) records the open derivation, Work Unit adequacy test, falsification pass, retained semantic candidate, and unresolved alternatives for Crosslink issue #566.
 
+[Kernel-0 Abstract Semantics](./Kernel-0-Abstract-Semantics.md) states the current provisional realization-neutral candidate and its guarantee boundary.
+
 ## Relationship to older work
 
 Earlier EDASES kernel, Work Unit, state-machine, and formal-verification research remains provenance. The Evidence Packet consolidates the settled requirements needed for the current derivation without requiring the first frontier pass to ingest the historical implementation path.
