@@ -1,6 +1,6 @@
 {
   "next_display_id": 566,
-  "next_comment_id": 3991,
+  "next_comment_id": 3992,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8861,7 +8861,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T05:48:30.368842977Z",
+      "updated_at": "2026-09-26T05:49:43.976214408Z",
       "labels": [
         "research"
       ],
@@ -8985,6 +8985,15 @@
           "driver_key_fingerprint": "SHA256:zGzmtgnoZhXU4eO6KSQsgBUaiDEkB/tJTAYgLkcxm+w",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAu3NS+jsugkyhocZNytWP1+1ABdumqreGMhRyLp4jCBtH5v4Q7AOvhms/53gqYm87zkoYJSKp27hyo7wDlsTNBQ=="
+        },
+        "d4c40f3b-b619-4dca-a120-506b6e95bbf9": {
+          "display_id": 3991,
+          "author": "OL2r",
+          "content": "Result: followup-02 complete. The blocker was a credential-source problem, not a missing subscription and not a model-id problem, so it needed no operator action. Fixed in harness/run_mimo.py: resolve $OPENCODE_GO_API_KEY first and fall back ONLY on the account-level entitlement 403 to the subscribed credential in the OpenCode CLI store (~/.local/share/opencode/auth.json -> opencode-go.key); send a per-run uuid4 x-opencode-session (the route 400s as MissingSessionID without it); use a curl subprocess because urllib is Cloudflare-rejected 403/1010 with the same credential. Token passed via curl -K - on stdin, so it is in neither argv nor any file; only the source label auth.json#opencode-go is recorded, and a scan of every artefact for the value found no leak. Frozen conditions unchanged and re-verified: 64/64 frozen-condition gate, max_tokens=256, temperature=0, N=1 per cell, 0 retries, no tuning, no cell re-sent. Grid 64/64, 0 transport failures (all HTTP 200, finish_reason stop). Raw 48/50=96.0%; F1-corrected 47/48=97.9%; paired b/c/ties 0/1/47 corrected, the single c cell being c-p6a; band verdict REFUTES a Jev niche with both arms firing (acc 0.9792>=0.96 AND c 1<=1); sufficiency flag not triggered (50/50 usable, rule fires below 40); derived cost $0.00187012 including preflight. Q1 is answered: a cross-family cheap general model matched Jev on this corpus, so per findings.md §6 the next step is to drop the Jev tier from the hypothesis and spend budget on Q4, not Q2. Two caveats recorded rather than smoothed: the verdict is one cell wide (k=2 flips it; raw 96.0% sits exactly on the refute floor), and 92.4% of the output budget went to reasoning with the worst cell answering in 3 of 256 tokens, so the empty-content failure mode was a near miss and is a live replication risk. The abstention failure mode is untouched: 14/14 and 16/16 answered-unanswerable, false-confidence rate 1.00, so Q6 stands. Artefacts: results/mimo_raw.ndjson, paired.ndjson, comparison.json, manifest.json, run_session.json, comparison.md, README.md, and BLOCKER.md with an appended Resolution (original record preserved unedited). Scorer verified deterministic - two passes plus an independent re-run reproduce comparison.json and paired.ndjson byte-for-byte. No frozen Phase-1 file modified; the three frozen digests re-verified. No push.",
+          "created_at": "2026-09-26T05:49:43.969358349Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZfJmWZBz9lMCcnKjJxIGkEW6eLjGzie7BpiwToXg3IYwBzwECsKs36zJCWAm8NYF+++YhX85TySwBydrv5liAg=="
         },
         "f3bc920d-abcf-4e83-86ce-fc88d22a71c0": {
           "display_id": 3987,
@@ -46101,8 +46110,8 @@
   ],
   "next_milestone_id": 1,
   "watermark": {
-    "timestamp": "2026-09-26T05:48:30.368842977Z",
+    "timestamp": "2026-09-26T05:49:43.976214408Z",
     "agent_id": "OL2r",
-    "agent_seq": 3540
+    "agent_seq": 3541
   }
 }
