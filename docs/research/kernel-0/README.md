@@ -53,3 +53,6 @@ delegation-depth counterexamples.
 
 [Whole-history refinement](./Kernel-0-Refinement-Assurance.md) checks whether
 complete observed concurrent/crash histories admit one permitted abstract order.
+
+[Re-minimization](./Kernel-0-Re-Minimization.md) classifies retained distinctions,
+optional profiles, trusted assumptions and mechanisms; no new primitive is justified.
