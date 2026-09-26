@@ -46,3 +46,7 @@ and post-revocation visibility limits.
 
 [Multi-domain composition](./Kernel-0-Composition.md) records local independence,
 coupled admission and the compatible-recovery-cut requirement (bounded model only).
+
+[Generalization](./Kernel-0-Generalization.md) separates conditional parametric
+arguments from finite evidence and preserves wraparound, longer-cycle and
+delegation-depth counterexamples.
