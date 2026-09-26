@@ -580,6 +580,66 @@ function isClaudeMemoryPath(filePath: string | undefined): boolean {
 }
 
 // ---------------------------------------------------------------------------
+// Crosslink binary resolution (issue #528)
+// ---------------------------------------------------------------------------
+
+/**
+ * Resolve the crosslink binary to an absolute path.
+ *
+ * WHY: every CLI interaction previously invoked bare `crosslink`, which
+ * depends on the launching shell's PATH. Sandboxed launches (kickoff
+ * worktrees, systemd-run scopes) do not always inherit the interactive login
+ * PATH, so `crosslink` may fail to resolve even though the binary is
+ * installed at a known location — the health check then HALTs every tool
+ * call in the worktree and the agent cannot even run `crosslink sync` to
+ * recover (#528).
+ *
+ * Resolution order (cheapest discriminating test first):
+ *   1. Bun.which("crosslink") — direct PATH scan, no subprocess.
+ *   2. ~/.cargo/bin/crosslink — cargo-installed fork CLI (documented deploy
+ *      path, see docs/research/crosslink-gates/gates-verified-facts.md).
+ *   3. ~/.local/bin/crosslink — alternative deploy path.
+ *
+ * The result is cached for the process lifetime (PATH does not change
+ * mid-process). Returns null when no executable binary is found — the
+ * caller decides whether that is a HALT.
+ */
+let cachedCrosslinkBinary: string | null | undefined;
+
+function resolveCrosslinkBinary(): string | null {
+  if (cachedCrosslinkBinary !== undefined) return cachedCrosslinkBinary;
+  let resolved: string | null = null;
+  try {
+    resolved = Bun.which("crosslink");
+  } catch {
+    resolved = null;
+  }
+  if (!resolved) {
+    const home = os.homedir();
+    const candidates = [
+      path.join(home, ".cargo", "bin", "crosslink"),
+      path.join(home, ".local", "bin", "crosslink"),
+    ];
+    for (const candidate of candidates) {
+      try {
+        fs.accessSync(candidate, fs.constants.X_OK);
+        resolved = candidate;
+        break;
+      } catch {
+        // Not present or not executable — try the next candidate.
+      }
+    }
+  }
+  cachedCrosslinkBinary = resolved !== null && fs.existsSync(resolved) ? resolved : null;
+  if (cachedCrosslinkBinary === null) {
+    log("crosslink binary NOT resolved — not on PATH and no known-location fallback exists");
+  } else {
+    log("crosslink binary resolved:", cachedCrosslinkBinary);
+  }
+  return cachedCrosslinkBinary;
+}
+
+// ---------------------------------------------------------------------------
 // Crosslink CLI interaction via BunShell
 // ---------------------------------------------------------------------------
 
@@ -589,8 +649,13 @@ async function runCrosslink(
   cwd: string,
 ): Promise<{ stdout: string; exitCode: number } | null> {
   try {
+    // Prefer the resolved absolute binary path (#528) so CLI invocations do
+    // not depend on the launching shell's PATH; fall back to the bare name
+    // when resolution failed (preserves prior behaviour in that case).
+    const resolvedBin = resolveCrosslinkBinary() ?? "crosslink";
+    const bin = resolvedBin.includes(" ") ? `"${resolvedBin}"` : resolvedBin;
     // Construct the command string safely
-    const cmd = "crosslink " + args.map((a) => (a.includes(" ") ? `"${a}"` : a)).join(" ");
+    const cmd = bin + " " + args.map((a) => (a.includes(" ") ? `"${a}"` : a)).join(" ");
     const proc = shell.cwd(cwd)`${cmd}`.nothrow().quiet();
     const output = await proc;
     return {
@@ -920,7 +985,7 @@ function buildCrosslinkUnavailableMessage(reason: string, crosslinkDir: string |
     "  3. check opencode.log for hydration: grep -n \"hydration\\|v2 file-path\\|auto-hydration\" ~/.local/share/opencode/log/opencode.log | tail\n" +
     "  4. check issues.db: ls -lh .crosslink/issues.db && sqlite3 .crosslink/issues.db \"SELECT count(*) FROM issues;\"\n" +
     "  5. check hub-cache: ls -la .crosslink/.hub-cache && cat .crosslink/.last-hydrated-ref\n" +
-    "  6. check crosslink CLI: which crosslink && crosslink --version\n" +
+    "  6. check crosslink CLI: which crosslink; also verify ~/.cargo/bin/crosslink or ~/.local/bin/crosslink exists and is executable (the guard resolves the binary from PATH first, then these known locations — #528)\n" +
     "\nDo NOT proceed with wait-and-retry. Fix the underlying Crosslink issue first.\n" +
     "\n--- INTERVENTION LOGGING ---\n" +
     "If you observe this block, log it:\n" +
@@ -963,17 +1028,55 @@ async function checkCrosslinkHealth(
     return { healthy: false, reason: `hook-config.json invalid JSON — ${String(e).slice(0, 120)}` };
   }
 
-  // 2. crosslink CLI must be executable (which + --version)
-  // which check is cheap file check; --version is subprocess probe.
-  const versionResult = await runCrosslink(shell, ["--version"], crosslinkDir);
-  if (!versionResult || versionResult.exitCode !== 0) {
-    const detail = versionResult ? `exit=${versionResult.exitCode} out=${versionResult.stdout.slice(0, 120)}` : "command failed (null)";
-    return { healthy: false, reason: `crosslink CLI unavailable — crosslink --version failed (${detail})` };
+  // 2. crosslink CLI must be executable (binary resolution + --version probe)
+  //
+  // #528: the probe is corroborating evidence, NOT the availability verdict.
+  // A failed probe with the binary present is retried once (transient spawn
+  // failures have been observed in sandboxed launches — guard log 2026-08-30:
+  // the same process failed the probe at 20:55:09 and passed at 20:55:16),
+  // then degrades to a warning instead of HALTing. Rationale: the DB checks
+  // below are the authoritative availability signal and remain hard gates;
+  // a hard HALT on a probe false-positive bricks the agent with no recovery
+  // path (even `crosslink sync` is blocked), which is strictly worse than
+  // degraded operation. A genuinely missing binary still HALTs.
+  const crosslinkBin = resolveCrosslinkBinary();
+  if (!crosslinkBin) {
+    return {
+      healthy: false,
+      reason:
+        "crosslink CLI unavailable — no executable crosslink binary on PATH or at known locations (~/.cargo/bin/crosslink, ~/.local/bin/crosslink)",
+    };
   }
-  // Detect hydration / v2 warning leaked into version output (should not happen, but catch)
-  const versionCombined = versionResult.stdout.toLowerCase();
-  if (versionCombined.includes("auto-hydration skipped") || versionCombined.includes("v2 file-path")) {
-    return { healthy: false, reason: `crosslink CLI reports auto-hydration skipped / v2 file-path warning — ${versionResult.stdout.slice(0, 160)}` };
+  let versionResult = await runCrosslink(shell, ["--version"], crosslinkDir);
+  if (!versionResult || versionResult.exitCode !== 0) {
+    // Single immediate retry — catches sub-second transient spawn failures.
+    // This is NOT a wait-and-retry loop (#514 forbids those); one retry,
+    // then the decision falls through to the DB-authoritative degrade below.
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    versionResult = await runCrosslink(shell, ["--version"], crosslinkDir);
+  }
+  let cliProbeOk: boolean;
+  if (!versionResult || versionResult.exitCode !== 0) {
+    const detail = versionResult
+      ? `exit=${versionResult.exitCode} out=${versionResult.stdout.slice(0, 120)}`
+      : "command failed (null)";
+    log(
+      "Health: --version probe failed twice (binary present at " +
+        crosslinkBin +
+        ") — degrading to warning, DB checks remain authoritative (" +
+        detail +
+        ")",
+    );
+    cliProbeOk = false;
+  } else {
+    cliProbeOk = true;
+    // Detect hydration / v2 warning leaked into version output (should not happen, but catch).
+    // This branch only runs when the CLI genuinely answered — a real answer
+    // with a hydration warning is still a hard halt (#514 semantics kept).
+    const versionCombined = versionResult.stdout.toLowerCase();
+    if (versionCombined.includes("auto-hydration skipped") || versionCombined.includes("v2 file-path")) {
+      return { healthy: false, reason: `crosslink CLI reports auto-hydration skipped / v2 file-path warning — ${versionResult.stdout.slice(0, 160)}` };
+    }
   }
 
   // 3. hub-cache — check if present; missing hub-cache in worktrees is
@@ -1055,6 +1158,13 @@ async function checkCrosslinkHealth(
 
   // 5. Probe crosslink session status for auto-hydration skipped / v2 file-path / stale warnings
   // Cheap subprocess that also validates CLI+DB+hub path together.
+  // #528: skipped when the --version probe failed transiently — the CLI is
+  // unresponsive in this process right now, so there is nothing to probe;
+  // the DB checks above already passed and remain the authoritative signal.
+  if (!cliProbeOk) {
+    log("Health: session status probe skipped — CLI probe failed transiently; binary + DB healthy, degrading to warning");
+    return { healthy: true, reason: "" };
+  }
   const statusResult = await runCrosslink(shell, ["session", "status"], crosslinkDir);
   if (!statusResult) {
     return { healthy: false, reason: "crosslink CLI unavailable — crosslink session status failed (null)" };
