@@ -1,0 +1,235 @@
+{
+  "conditions": {
+    "max_attempts": 1,
+    "max_tokens": 256,
+    "retries": 0,
+    "state_is_non_corpus": true,
+    "temperature": 0
+  },
+  "cost_note": "Costs are attributed per model, and only to calls that actually returned a completion. Every mimo-v2.6-flash call in this experiment was rejected (403/400) and carried no usage, so the derived cost attributable to the MiMo baseline is exactly $0.00. The 216 input / 2 output tokens in this file were consumed by the free space-bunny-free control probe on the Zen route, which is a 0/0/0/0 model and is charged at its own rates, not MiMo's.",
+  "derived_cost_usd_by_model": {
+    "mimo-v2.6-flash": 0.0,
+    "opencode-go/mimo-v2.6-flash": 0.0,
+    "space-bunny-free": 0.0
+  },
+  "derived_cost_usd_total": 0.0,
+  "frozen_model_id_control": "space-bunny-free",
+  "model_catalog_id": "opencode-go/mimo-v2.6-flash",
+  "model_id_under_test": "mimo-v2.6-flash",
+  "n_probes": 6,
+  "probes": [
+    {
+      "attempts": 1,
+      "content": null,
+      "decides": "the operator-stated endpoint with the operator-stated model: is the brief's step-1 smoke test reachable at all?",
+      "derived_cost_usd": null,
+      "error_detail": "HTTP 403",
+      "finish_reason": null,
+      "http_status": 403,
+      "latency_ms": 462.6,
+      "model": "mimo-v2.6-flash",
+      "outcome": "client_error",
+      "probe": "go_route_operator_model",
+      "provider_error": "Upstream request failed: An active OpenCode Go subscription is required to use Go models.",
+      "retries": 0,
+      "route": "https://opencode.ai/zen/go/v1/chat/completions",
+      "token_counts": null,
+      "typed_error": "http_4xx",
+      "usage": null
+    },
+    {
+      "attempts": 1,
+      "content": null,
+      "decides": "control: is the Go-route 403 specific to mimo-v2.6-flash, or does it block EVERY model for this key? 200/403 here is the whole diagnosis.",
+      "derived_cost_usd": null,
+      "error_detail": "HTTP 403",
+      "finish_reason": null,
+      "http_status": 403,
+      "latency_ms": 411.8,
+      "model": "space-bunny-free",
+      "outcome": "client_error",
+      "probe": "go_route_frozen_model",
+      "provider_error": "Upstream request failed: An active OpenCode Go subscription is required to use Go models.",
+      "retries": 0,
+      "route": "https://opencode.ai/zen/go/v1/chat/completions",
+      "token_counts": null,
+      "typed_error": "http_4xx",
+      "usage": null
+    },
+    {
+      "attempts": 1,
+      "content": null,
+      "decides": "does the fully-qualified catalog id resolve on the Go route?",
+      "derived_cost_usd": null,
+      "error_detail": "HTTP 400",
+      "finish_reason": null,
+      "http_status": 400,
+      "latency_ms": 470.5,
+      "model": "opencode-go/mimo-v2.6-flash",
+      "outcome": "client_error",
+      "probe": "go_route_prefixed_id",
+      "provider_error": "Upstream request failed: Model is unavailable.",
+      "retries": 0,
+      "route": "https://opencode.ai/zen/go/v1/chat/completions",
+      "token_counts": null,
+      "typed_error": "http_4xx",
+      "usage": null
+    },
+    {
+      "attempts": 1,
+      "content": "NO",
+      "decides": "control: is this key valid on the Zen route at all? this is the exact route+model combination the FROZEN general_model run used successfully.",
+      "derived_cost_usd": 0.0,
+      "error_detail": null,
+      "finish_reason": "stop",
+      "http_status": 200,
+      "latency_ms": 1214.6,
+      "model": "space-bunny-free",
+      "outcome": "reachable",
+      "probe": "zen_route_frozen_model",
+      "provider_error": null,
+      "reasoning_chars": 0,
+      "reasoning_field_present": false,
+      "retries": 0,
+      "route": "https://opencode.ai/zen/v1/chat/completions",
+      "token_counts": {
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "input_tokens": 216,
+        "output_tokens": 2,
+        "reasoning_tokens": 0,
+        "total_tokens": 218
+      },
+      "typed_error": null,
+      "usage": {
+        "input_tokens": 216,
+        "output_tokens": 2,
+        "raw": {
+          "completion_tokens": 2,
+          "prompt_tokens": 216,
+          "prompt_tokens_details": {
+            "cached_tokens": 141
+          },
+          "total_tokens": 218
+        },
+        "total_tokens": 218
+      }
+    },
+    {
+      "attempts": 1,
+      "content": null,
+      "decides": "does the Zen route serve mimo-v2.6-flash, even though it is not the operator-stated endpoint?",
+      "derived_cost_usd": null,
+      "error_detail": "HTTP 400",
+      "finish_reason": null,
+      "http_status": 400,
+      "latency_ms": 410.4,
+      "model": "mimo-v2.6-flash",
+      "outcome": "client_error",
+      "probe": "zen_route_operator_model",
+      "provider_error": "Upstream request failed: Model is unavailable.",
+      "retries": 0,
+      "route": "https://opencode.ai/zen/v1/chat/completions",
+      "token_counts": null,
+      "typed_error": "http_4xx",
+      "usage": null
+    },
+    {
+      "attempts": 1,
+      "content": null,
+      "decides": "does the fully-qualified catalog id resolve on the Zen route?",
+      "derived_cost_usd": null,
+      "error_detail": "HTTP 400",
+      "finish_reason": null,
+      "http_status": 400,
+      "latency_ms": 378.8,
+      "model": "opencode-go/mimo-v2.6-flash",
+      "outcome": "client_error",
+      "probe": "zen_route_prefixed_id",
+      "provider_error": "Upstream request failed: Model is unavailable.",
+      "retries": 0,
+      "route": "https://opencode.ai/zen/v1/chat/completions",
+      "token_counts": null,
+      "typed_error": "http_4xx",
+      "usage": null
+    }
+  ],
+  "routes_tested": {
+    "go_operator_stated": "https://opencode.ai/zen/go/v1/chat/completions",
+    "zen_frozen": "https://opencode.ai/zen/v1/chat/completions"
+  },
+  "runner_version": "1.0.0",
+  "schema_version": "jevp1-followup2-route-diagnostics-1.0",
+  "secrets_recorded": false,
+  "timestamp_utc": "2026-09-26T05:17:53Z",
+  "usage_totals": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "total_tokens": 0
+  },
+  "usage_totals_by_model": {
+    "mimo-v2.6-flash": {
+      "derived_cost_usd": 0.0,
+      "n_calls": 2,
+      "n_calls_with_usage": 0,
+      "rates_per_mtok": {
+        "cache_read": 0.0028,
+        "cache_write": 0.0,
+        "input": 0.14,
+        "output": 0.28
+      },
+      "usage_totals": {
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "opencode-go/mimo-v2.6-flash": {
+      "derived_cost_usd": 0.0,
+      "n_calls": 2,
+      "n_calls_with_usage": 0,
+      "rates_per_mtok": null,
+      "usage_totals": {
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "space-bunny-free": {
+      "derived_cost_usd": 0.0,
+      "n_calls": 2,
+      "n_calls_with_usage": 1,
+      "rates_per_mtok": {
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "input": 0.0,
+        "output": 0.0
+      },
+      "usage_totals": {
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "input_tokens": 216,
+        "output_tokens": 2,
+        "reasoning_tokens": 0,
+        "total_tokens": 218
+      }
+    }
+  },
+  "verdict": {
+    "blocker": "UNREACHABLE CREDENTIAL/ENTITLEMENT, not a parameter problem. The Go route returns 403 'An active OpenCode Go subscription is required to use Go models' for the frozen model AND for mimo-v2.6-flash, so the block is account-wide and no model selection avoids it. The Zen route — the route the frozen general_model run used successfully with this same key — does not host mimo-v2.6-flash at all (400 'Model is unavailable').",
+    "go_route_403_is_account_wide_not_model_specific": true,
+    "key_is_valid_on_zen_route": true,
+    "model_reachable_on_any_tested_route": false,
+    "zen_route_serves_the_operator_model": false
+  },
+  "what": "throwaway route/model reachability probes on a NON-CORPUS state. No corpus text, no grid cell, nothing scored. Frozen parameters (temperature, max_tokens, prompt, 1 attempt) are identical across every probe; only the route and the model id vary, which are the two differences the brief permits."
+}

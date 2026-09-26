@@ -1,0 +1,112 @@
+{
+  "calls": [
+    {
+      "attempts": 1,
+      "content": null,
+      "content_empty": null,
+      "error_detail": "HTTP 403",
+      "finish_reason": null,
+      "http_status": 403,
+      "latency_ms": 460.2,
+      "model": "mimo-v2.6-flash",
+      "parsed": true,
+      "retries": 0,
+      "token_counts": null,
+      "typed_error": "http_4xx",
+      "usage": null
+    },
+    {
+      "attempts": 1,
+      "content": null,
+      "content_empty": null,
+      "error_detail": "HTTP 403",
+      "finish_reason": null,
+      "http_status": 403,
+      "latency_ms": 424.1,
+      "model": "mimo-v2.6-flash",
+      "parsed": true,
+      "retries": 0,
+      "token_counts": null,
+      "typed_error": "http_4xx",
+      "usage": null
+    },
+    {
+      "attempts": 1,
+      "content": null,
+      "content_empty": null,
+      "error_detail": "HTTP 403",
+      "finish_reason": null,
+      "http_status": 403,
+      "latency_ms": 444.1,
+      "model": "mimo-v2.6-flash",
+      "parsed": true,
+      "retries": 0,
+      "token_counts": null,
+      "typed_error": "http_4xx",
+      "usage": null
+    }
+  ],
+  "conditions": {
+    "gen_sys_sha256": "0113d0a9a790e93ddf80c9ed3b4bee17cdb6b5151849bf48f8633dbbc4ac6b6c",
+    "max_attempts": 1,
+    "max_tokens": 256,
+    "retries": 0,
+    "temperature": 0
+  },
+  "derived_cost_usd": 0.0,
+  "endpoint": "https://opencode.ai/zen/go/v1/chat/completions",
+  "failure_confirmation": {
+    "consistent_failure": true,
+    "http_statuses": [
+      403,
+      403,
+      403
+    ],
+    "n_calls": 3,
+    "note": "same parameters throughout; nothing was tuned to obtain a different result",
+    "typed_errors": [
+      "http_4xx",
+      "http_4xx",
+      "http_4xx"
+    ],
+    "why": "the brief requires stopping only if the route fails consistently; consistency requires >1 observation"
+  },
+  "max_tokens_consumed_by_reasoning": false,
+  "model_catalog_id": "opencode-go/mimo-v2.6-flash",
+  "model_id": "mimo-v2.6-flash",
+  "n_calls": 3,
+  "observation": "NOT REACHABLE: HTTP 403 (http_4xx). No grid call was made.",
+  "reference_answer": "NO",
+  "request_body": {
+    "max_tokens": 256,
+    "messages": [
+      {
+        "content": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+        "role": "system"
+      },
+      {
+        "content": "State:\nThe sample service's deployment target list contains exactly two entries: staging-eu and staging-us.\n\nQuestion: Is the sample service's deployment target list empty?\n\nReply with exactly one word: YES or NO.",
+        "role": "user"
+      }
+    ],
+    "model": "mimo-v2.6-flash",
+    "temperature": 0
+  },
+  "request_hash": "sha256:82b0292ea2dc9b7222af72a6067fdb371a5e0536dc30ab7165599d7b606b538e",
+  "route_reachable": false,
+  "runner_version": "1.0.0",
+  "schema_version": "jevp1-followup2-preflight-1.0",
+  "secrets_recorded": false,
+  "state_is_non_corpus": true,
+  "state_sha256": "f6193db4e8ade5b5807deb24f7184610c615ed96f5a8ecaee2e9a40068038031",
+  "timestamp_utc": "2026-09-26T05:17:58Z",
+  "usage_totals": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "total_tokens": 0
+  },
+  "what": "throwaway reachability + reasoning-consumption smoke test. NOT one of the 64 grid cells; never scored; its state text is not from cases.ndjson."
+}
