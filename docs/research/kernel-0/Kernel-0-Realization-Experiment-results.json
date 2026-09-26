@@ -1,0 +1,751 @@
+{
+  "authority_and_bypass": "pass: both replacement orders, same payload/different endpoint, forgery, copies, mixed denial, replay",
+  "concurrent_attacks": [
+    {
+      "concurrent": true,
+      "outcomes": [
+        "commit",
+        "commit"
+      ],
+      "profile": "independent",
+      "witness": [
+        1,
+        0
+      ]
+    },
+    {
+      "concurrent": true,
+      "outcomes": [
+        "deny",
+        "commit"
+      ],
+      "profile": "coupled",
+      "witness": [
+        1,
+        0
+      ]
+    },
+    {
+      "concurrent": true,
+      "outcomes": [
+        "deny",
+        "commit"
+      ],
+      "profile": "exclusive",
+      "witness": [
+        1,
+        0
+      ]
+    },
+    {
+      "concurrent": true,
+      "profile": "delegation/restriction",
+      "witness": [
+        1,
+        0
+      ]
+    },
+    {
+      "accepted": [
+        0,
+        1
+      ],
+      "final": [
+        1,
+        1,
+        0
+      ],
+      "profile": "cycle",
+      "submission_labels": [
+        0,
+        1,
+        2
+      ],
+      "witness": [
+        0,
+        1
+      ]
+    },
+    {
+      "accepted": [
+        2,
+        1
+      ],
+      "final": [
+        0,
+        1,
+        1
+      ],
+      "profile": "cycle",
+      "submission_labels": [
+        0,
+        2,
+        1
+      ],
+      "witness": [
+        1,
+        2
+      ]
+    },
+    {
+      "accepted": [
+        0,
+        2
+      ],
+      "final": [
+        1,
+        0,
+        1
+      ],
+      "profile": "cycle",
+      "submission_labels": [
+        1,
+        0,
+        2
+      ],
+      "witness": [
+        2,
+        0
+      ]
+    },
+    {
+      "accepted": [
+        1,
+        2
+      ],
+      "final": [
+        0,
+        1,
+        1
+      ],
+      "profile": "cycle",
+      "submission_labels": [
+        1,
+        2,
+        0
+      ],
+      "witness": [
+        1,
+        2
+      ]
+    },
+    {
+      "accepted": [
+        2,
+        1
+      ],
+      "final": [
+        0,
+        1,
+        1
+      ],
+      "profile": "cycle",
+      "submission_labels": [
+        2,
+        0,
+        1
+      ],
+      "witness": [
+        1,
+        2
+      ]
+    },
+    {
+      "accepted": [
+        2,
+        0
+      ],
+      "final": [
+        1,
+        0,
+        1
+      ],
+      "profile": "cycle",
+      "submission_labels": [
+        2,
+        1,
+        0
+      ],
+      "witness": [
+        2,
+        0
+      ]
+    }
+  ],
+  "confusable_descriptor_label": "old and replacement both use local fd 64 and identical JSON; old denied, replacement committed",
+  "content_continuation_and_lost_ack_replay": "pass",
+  "deliberate_concrete_mutants": {
+    "amplify": {
+      "actual_outcome": "commit",
+      "actual_state": {
+        "content": "accepted\u0000zero\n",
+        "cycle": [
+          0,
+          0,
+          0
+        ],
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 9,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          0
+        ],
+        "rights": [
+          1,
+          0,
+          0,
+          7
+        ]
+      },
+      "at_request": {
+        "authentic": true,
+        "evidence": 0,
+        "kind": "delegate",
+        "other": 0,
+        "target": 3,
+        "value": 7
+      },
+      "expected_outcome": "deny",
+      "expected_state": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "trace": [
+        {
+          "authentic": true,
+          "evidence": -1,
+          "kind": "restrict",
+          "other": 0,
+          "target": 0,
+          "value": 1
+        },
+        {
+          "authentic": true,
+          "evidence": 0,
+          "kind": "delegate",
+          "other": 0,
+          "target": 3,
+          "value": 7
+        }
+      ]
+    },
+    "confusion": {
+      "actual_outcome": "commit",
+      "actual_state": {
+        "content": "accepted\u0000zero\n",
+        "cycle": [
+          0,
+          0,
+          0
+        ],
+        "data": [
+          1,
+          0
+        ],
+        "established": true,
+        "issued": 3,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          0,
+          7,
+          0,
+          0
+        ]
+      },
+      "at_request": {
+        "authentic": true,
+        "evidence": 0,
+        "kind": "set",
+        "other": 0,
+        "target": 0,
+        "value": 1
+      },
+      "expected_outcome": "deny",
+      "expected_state": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 3,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          0,
+          7,
+          0,
+          0
+        ]
+      },
+      "trace": [
+        {
+          "authentic": true,
+          "evidence": -1,
+          "kind": "replace",
+          "other": 1,
+          "target": 0,
+          "value": 0
+        },
+        {
+          "authentic": true,
+          "evidence": 0,
+          "kind": "set",
+          "other": 0,
+          "target": 0,
+          "value": 1
+        }
+      ]
+    },
+    "partial": {
+      "actual_outcome": "deny",
+      "actual_state": {
+        "content": "accepted\u0000zero\n",
+        "cycle": [
+          0,
+          0,
+          0
+        ],
+        "data": [
+          1,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "at_request": {
+        "authentic": true,
+        "evidence": 0,
+        "kind": "mixed",
+        "other": 0,
+        "target": 0,
+        "value": 0
+      },
+      "expected_outcome": "deny",
+      "expected_state": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "trace": [
+        {
+          "authentic": true,
+          "evidence": 0,
+          "kind": "mixed",
+          "other": 0,
+          "target": 0,
+          "value": 0
+        }
+      ]
+    },
+    "reuse": {
+      "actual_outcome": "commit",
+      "actual_state": {
+        "content": "accepted\u0000zero\n",
+        "cycle": [
+          0,
+          0,
+          0
+        ],
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "at_request": {
+        "authentic": true,
+        "evidence": -1,
+        "kind": "grant",
+        "other": 0,
+        "target": 0,
+        "value": 7
+      },
+      "expected_outcome": "deny",
+      "expected_state": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "trace": [
+        {
+          "authentic": true,
+          "evidence": -1,
+          "kind": "restrict",
+          "other": 0,
+          "target": 0,
+          "value": 0
+        },
+        {
+          "authentic": true,
+          "evidence": -1,
+          "kind": "grant",
+          "other": 0,
+          "target": 0,
+          "value": 7
+        }
+      ]
+    },
+    "stale_view": {
+      "actual_outcome": "commit",
+      "actual_state": {
+        "content": "accepted\u0000zero\n",
+        "cycle": [
+          0,
+          0,
+          0
+        ],
+        "data": [
+          1,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "at_request": {
+        "authentic": true,
+        "evidence": 0,
+        "kind": "set",
+        "other": 0,
+        "target": 0,
+        "value": 1
+      },
+      "expected_outcome": "deny",
+      "expected_state": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "trace": [
+        {
+          "authentic": true,
+          "evidence": -1,
+          "kind": "restrict",
+          "other": 0,
+          "target": 0,
+          "value": 0
+        },
+        {
+          "authentic": true,
+          "evidence": 0,
+          "kind": "set",
+          "other": 0,
+          "target": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  "differential_graphs": [
+    {
+      "commit": 172349,
+      "deny": 1077067,
+      "edges": 1249416,
+      "profile": "independent",
+      "states": 8442
+    },
+    {
+      "commit": 116249,
+      "deny": 820887,
+      "edges": 937136,
+      "profile": "coupled",
+      "states": 6332
+    },
+    {
+      "commit": 20861,
+      "deny": 262411,
+      "edges": 283272,
+      "profile": "exclusive",
+      "states": 1914
+    }
+  ],
+  "executor_loss": [
+    {
+      "after": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "cut": "before",
+      "executor_returncode": -9
+    },
+    {
+      "after": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "cut": "partial",
+      "executor_returncode": -9
+    },
+    {
+      "after": {
+        "content": 0,
+        "data": [
+          1,
+          1
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "cut": "received",
+      "executor_returncode": -9
+    },
+    {
+      "after": {
+        "content": 0,
+        "data": [
+          1,
+          1
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "cut": "validated",
+      "executor_returncode": -9
+    },
+    {
+      "after": {
+        "content": 0,
+        "data": [
+          1,
+          1
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "cut": "published",
+      "executor_returncode": -9
+    }
+  ],
+  "malformed_ingress_cases": 12,
+  "metrics": {
+    "generated_bypass_envelopes": 150,
+    "generated_concurrent_histories": 100,
+    "generated_executor_losses": 59,
+    "generated_sequences": 201,
+    "kind_accept_commit": 84,
+    "kind_accept_deny": 8,
+    "kind_delegate_commit": 9,
+    "kind_delegate_deny": 103,
+    "kind_establish_commit": 202,
+    "kind_establish_deny": 44,
+    "kind_flip_commit": 85,
+    "kind_flip_deny": 25,
+    "kind_grant_commit": 358,
+    "kind_grant_deny": 81,
+    "kind_mixed_deny": 10,
+    "kind_pair_commit": 25,
+    "kind_pair_deny": 55,
+    "kind_replace_commit": 80,
+    "kind_replace_deny": 6,
+    "kind_restrict_commit": 333,
+    "kind_restrict_deny": 98,
+    "kind_resume_commit": 63,
+    "kind_resume_deny": 48,
+    "kind_set_commit": 163,
+    "kind_set_deny": 41,
+    "live_commit": 1402,
+    "live_deny": 519,
+    "live_requests": 1921,
+    "observed_overlapping_histories": 110
+  },
+  "recorded_trace_groups": 13,
+  "runtime": {
+    "hypothesis": "6.168.1",
+    "platform": "linux",
+    "python": "3.11.15 (main, Jun 11 2026, 04:03:40) [Clang 22.1.3 ]"
+  },
+  "source_sha256": {
+    "kernel0_finite_model.py": "c9c429b0400df6e044d30b71befaeb810657430372fb1088f9e62631c8965083",
+    "kernel0_realization_check.py": "1d6c30c6d91eb01d573ba6741caf155647576977831b7af9141ded12a0ff4571",
+    "kernel0_service.py": "f11c54b9318a54512487d087b10aeb2878a111bffe8cc8fa58391f4e716c2084"
+  },
+  "stale_read_and_completed_change": "pass: ingress held across acknowledged revocation/replacement",
+  "status": "all requested checks passed"
+}
