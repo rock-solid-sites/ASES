@@ -1,6 +1,6 @@
 {
   "next_display_id": 567,
-  "next_comment_id": 4014,
+  "next_comment_id": 4015,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8866,7 +8866,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T16:11:38.866288024Z",
+      "updated_at": "2026-09-26T17:33:21.695470327Z",
       "labels": [
         "research"
       ],
@@ -8924,6 +8924,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAB5CpUZFJzWEVQztUZvzg/s3c/2x5IMporVjI+UqQqzHRJDrNzmVcTCWhlglziZdui2MXV6xIkjIjG8GsXhw+Aw=="
+        },
+        "24f1adde-074d-438e-866f-b46b18474eed": {
+          "display_id": 4014,
+          "author": "OL2r",
+          "content": "[RESULT] follow-up-04 complete and independently verified (verification commit 63aa33c5; pipeline complete). Verifier: PASS WITH FINDINGS — every latency/throughput/concurrency/stability/reliability/usage/cost figure reproduced to the last printed digit from raw NDJSON; frozen inputs untouched; credential discipline held under adversarial scan; 16-case semantic-equivalence check reproduced. 2 material findings, both narrowing probability claims: (G1) all 3 choice cases returned degenerate one-hot distributions with confidence exactly 1.0 on 36/36 calls; (G2) \"a calibrated probability per option is available\" is unsupported and contradicts the report own calibration-NOT-MEASURED list. 13 minor (incl. like-for-like input-token penalty 2.79x not 2.85x; cost conclusion unchanged). ESTABLISHED: direct Jev jev-1.13.0 vs frozen MiMo at matched control accuracy (108/108 both): median 305 ms vs 4,035 ms (13.2x), p95 346 vs 15,956 (46x), p99 390 vs 27,610 (70.8x), tail p99/median 1.28x vs 6.84x; sequential 3.286 vs 0.167 calls/s (19.6x); concurrency C=1/4/8 flat 1.00/1.04/1.01x vs MiMo 1.00/0.68/0.81x; 238/238 vs 183/192 usable; 16/16 label-stable across 12 reps; noul drift <=0.04; probability drift <=0.01; cost $1.51e-5 vs $2.68e-5 per call (1.70x cheaper per correct decision) — tariff-driven ($0.042/Mtok input, output free), not efficiency; 16/16 label agreement with frozen jev-1.13-free, 0 answer changes (equivalence not claimed; route/tag change documented). UNRESOLVED: sustained throughput, rate-limit envelope (0x429; published 250k tok/s / 1,200 rpm never approached), 529 path, cold start (proxy only), server-side queueing, calibration, confidence-field meaning, batched multi-question economics, C>8; followup-03 free-tier cells remain a fact about that route and are not filled. PRICING/SERVING ARTIFACTS: TTFB = TLS completion on both routes (not model latency); Jev transport share rising = smaller total; cost advantage = tariff; followup-03 probabilities_exposed=234 is a parser artefact (defensible MiMo figure 0); cross-window single-host comparison. BOUNDED CHANGE TO EARLIER PICTURE: followup-03 \"no Jev operational advantage established\" is superseded on these operational axes by the direct route; semantic tie (followup-02) stands. No consolidated Phase-1 verdict. No push.",
+          "created_at": "2026-09-26T17:33:21.687486066Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA93/OYJ8D7S26RmPwmQLZoGgl5sLbSV9gKjuTbCpay9JmC3pktvHl+u5kjJfbwiFiVc8xoL3WA7O1CkANqkIHDQ=="
         },
         "2ecff377-1ec5-4a22-a331-064c491bb86e": {
           "display_id": 3994,
@@ -46353,8 +46362,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T17:31:16.984125289Z",
+    "timestamp": "2026-09-26T17:33:21.695470327Z",
     "agent_id": "OL2r",
-    "agent_seq": 3562
+    "agent_seq": 3563
   }
 }
