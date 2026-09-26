@@ -240,32 +240,32 @@ Any realization claiming the abstract guarantees must satisfy the following beha
 
 If authoritative-substrate crash or restart is added to the promised failure boundary, recovery must resolve interrupted changes to an abstractly permitted whole commitment or no attributable commitment, preserve the authority order, and restore the distinctions needed for continuation. Executor loss alone does not establish that broader durability promise. If eventual progress or safe retry is claimed, the realization needs additional outcome, availability, and scheduling conditions; neither follows from the safety model.
 
-## Open alternatives and discriminating questions
+## Remaining profiles and placement alternatives
 
 | Alternative or gap | Smallest discriminating question |
 | --- | --- |
-| Authority state local to the boundary, in a trusted external component, or enforced by an equivalent fencing contract | Can a replacement and an old request be ordered so that no old request commits afterward, including delayed and concurrent requests? State the trusted assumptions for each arrangement. |
-| Continuity information inside protected kernel state or in a trusted external store | Which exact future Work Unit behaviors must remain distinguishable after executor loss, and who guarantees the information survives? |
+| Authority state local to the boundary, in a trusted external component, or enforced by an equivalent fencing contract | Compare their actual trusted assumptions and conformance burden against the same abstract commitment contract. |
+| Continuity information inside protected kernel state or in a trusted external store | Either may satisfy the minimum if accepted meaning and current authority survive executor loss; count the external holder in the trusted boundary. |
 | Progress beyond positive Work Unit reachability | The present evidence supports safety-preserving, non-vacuous Work Unit operations but assigns no eventual scheduling/availability guarantee to Kernel-0. Specify one only if a later consumer requires it. |
-| Authoritative state limited to internal records or extending to external resource effects | Which external actions must a stale executor be unable to perform, and where is their mediation contract? |
-| Executor loss alone or authoritative-substrate restart as the failure boundary | Must work and authority survive the substrate's own interrupted commitment and restart, or only loss of a replaceable executor? |
-| Work Unit continuity details | Which work and position observations must remain the same after executor replacement, beyond identity and the minimum continuation state? |
+| Additional externally governed actions | The mandatory boundary includes every change to accepted authoritative meaning. Any broader external-action promise must declare its authorization point and delayed-effect rule. |
+| Independent authoritative-substrate restart | Executor loss is covered, including co-located authority state. Independent service restart is a stronger profile requiring an explicit recovery promise. |
+| Richer Work Unit continuity | The finite witness fixes identity, position association, current authority, and necessary work state. Additional Work Unit observations belong to a later consumer-specific claim. |
 | Different minimal representations | The state-transition and admissible-history formulations are equivalent relative to fixed observations. Physical placement remains for realization comparison, with its trusted assumptions counted. |
 
-The successful and forbidden histories above fix the minimum authority and continuity behavior for a falsifiable Work Unit witness. They do not settle the protected-effect scope, stronger failure boundary, or full meaning of work and position continuity. Those are requirements questions, not a reason to select a language, state-machine formalism, storage engine, or hardware realization.
+The successful and forbidden histories fix a bounded comparison profile. Broader external actions, stronger failure coverage, and richer Work Unit content can be compared as extensions without silently adding them to Kernel-0's minimum guarantee.
 
 ## Decision gate
 
-**State C — missing semantic requirement.** The guarded transition core and its conditional Work Unit witness are stable enough to state verification and realization obligations. They are not sufficient to choose or compare realizations fairly while the protected-effect scope, authoritative-substrate restart promise, and full Work Unit continuity observations remain unstated. Local versus external placement of authority is a realization partition under the same semantic contract, not evidence for competing Kernel-0 ontologies. No settled Work Unit guarantee has been shown impossible, so state D is not supported.
+**State A — bounded semantic convergence.** The [abstract semantics](./Kernel-0-Abstract-Semantics.md), [verification obligations](./Kernel-0-Verification-Obligations.md), and two-position Work Unit witness are sufficient to compare realizations for the *first minimal substrate experiment*. Its profile protects authoritative work/position data, current authority, and any live data on which accepted meaning depends; it claims survival of executor loss but not independent authority-service restart; and it uses non-confusable current authority evidence, with source binding if physical old-executor exclusion is claimed. It requires whole guarded commitments and one acyclic order across each interacting set. Unclaimed external actions and general work-product correctness remain outside the comparison.
 
-The smallest discriminating next input is a bounded set of required traces: (1) after supersession, identify whether an old executor's external resource action is within the forbidden effects; (2) during an interrupted authoritative-substrate restart, identify which work, position, and authority observations must survive; and (3) give one permitted post-replacement continuation using the same work and position. The first two determine the trust and failure boundary; the third fixes the minimum positive continuity claim. Until those are established, preserving the alternatives is more accurate than choosing a realization or enlarging Kernel-0 by preference.
+This is convergence of the minimum semantic contract, not a proof of a unique representation or a complete EDASES harness. The stronger profiles above remain explicit comparison criteria. Local versus external placement of authority is a realization partition under the same semantic contract, not a competing Kernel-0 ontology. No settled Work Unit guarantee has been shown impossible.
 
 ## Claim boundary
 
 **WHY:** The retained distinctions answer explicit packet requirements; the ordering correction follows from a stale-authority interleaving, and the positive histories prevent a vacuous always-rejecting instantiation.
 
-**WHAT:** The Evidence Packet, one open Astra 6 Medium derivation, Sol reconciliation and Work Unit trace test, two Astra 6 High falsification/reduction passes, and a minimal semantic, adequacy, verification, and irreducibility review.
+**WHAT:** The Evidence Packet, open Astra derivation, focused frontier reasoning on effect/failure/continuity boundaries, two fresh Astra falsification passes, Sol reconciliation, a finite Work Unit adequacy attempt, verification specification, and destructive reduction.
 
-**HOW CERTAIN:** Evidence-based semantic candidate. The stale-observation and indistinguishable-replacement counterexamples are decisive for the unconstrained alternatives they attack. Unique minimality, full Work Unit adequacy, and realization conformance are not proven.
+**HOW CERTAIN:** Evidence-based bounded semantic candidate. The stale-observation, indistinguishable-replacement, stale-validation, and conflict-cycle counterexamples decisively reject the weaker models they attack. Unique minimality, machine-checked Work Unit adequacy, and realization conformance are not proven.
 
 **WHAT-NOT-TESTED:** The finite abstract instance was specified but not machine-checked. No implementation correspondence, concrete authority protocol, storage or external-effect mediation, broader failure model, or liveness proof was tested. The packet's underlying source provenance was not re-audited in this bounded session.
