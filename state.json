@@ -1,6 +1,6 @@
 {
   "next_display_id": 567,
-  "next_comment_id": 4003,
+  "next_comment_id": 4004,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8866,7 +8866,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T13:49:15.649370385Z",
+      "updated_at": "2026-09-26T14:01:28.773230923Z",
       "labels": [
         "research"
       ],
@@ -8906,6 +8906,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA24VIm8dxYIseAb1ZcUlrfTXXRq448ALUVLElUkZpCqmPF98FtR1dswdZl4EeIg4X5Bu0doF/k78+zgoYlF2ICQ=="
+        },
+        "14e110a7-73a5-495b-b507-81e9edb83baf": {
+          "display_id": 4003,
+          "author": "OL2r",
+          "content": "Result: all three missing MiMo phases completed and committed (3 commits, local only, no push). 40 new rows, all block=resume1, 1 attempt/call, 0 retries, 40/40 usable. Derived spend for the new rows $0.000978.\n\nFINDINGS\n- Concurrency: no client-side benefit. Throughput FALLS with in-flight count (0.252 -> 0.171 -> 0.204 usable calls/sec at C=1/4/8) while median latency rises 2.76s -> 5.68s -> 4.95s. Zero 429s across 36 calls, so this is added queueing cost, not a cap. Sequential C=1 is the fastest measured option.\n- Idle-gap (120s): no cold-start penalty observed. Post-gap median 0.83x warm median; the one candidate signal (first call 6,716ms) is 0.42x the warm block's own p95, i.e. inside ordinary warm variance. Reported as 'not observed', not 'small' -- n=3 against a warm tail with p95 ~4x median cannot resolve a cold-start cost.\n- Interface probe: logprobs:true accepted with HTTP 200 and logprobs NOT returned. The Go route silently omits token-level distributions.\n\nTWO HARNESS DEFECTS FOUND AND FIXED (both misreported a measurement rather than failing loudly)\n1. run_ops.py curl_argv_for dropped '--config -', so the parallel path sent no Authorization header: 36/36 HTTP 401 AuthError. Read as a SPEEDUP -- time_total collapsed to ~0.3s and C=1 'finished' in 4.3s vs 47.7s. One-token fix; re-run 36/36 HTTP 200. The 36 defective rows are preserved verbatim in results/concurrency_defect_401.ndjson ($0.00, no tokens -- no inference occurred) and held out of the measurement store because they measure the harness, not the route.\n2. analyze_ops.py rounded USD-per-unit to 4dp, returning exactly 0.0 for a ~2.7e-5 per-call cost, so the headline read 'Cost per call $0.000000' and 'correct decisions per dollar: n/a' -- reading as both mechanisms being free, in the one comparison this study exists to make. Now $0.000026/call, $0.000045/correct control decision, 21,988 per dollar. Also fixed the headline call count (was warm-only 183; now the window: 232 attempted / 223 usable).\n\nOne label set after the fact and documented: the interface-probe row was written block=null because cmd_probe does not forward --block, which in this file asserts 'aborted first attempt' and would have split the resume1 window. No measured value touched.\n\nJev: not probed again. The 10/10 HTTP 429 series stands; frozen Phase-1 Jev window remains the labelled fallback. ESTABLISHED / UNRESOLVED / SERVING-OR-PRICING ARTIFACT classifications, the rate-cap finding and the 9 warm empty_content rows are unchanged. analyze_ops.py --check passes and reproduces byte-identical output from the committed tree (summary.json 0236086c2823b575, comparison.md e95fe967e4357c9c). Secrets check: 0 leaks, source labels only.",
+          "created_at": "2026-09-26T14:01:28.765874652Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAnmKNsgO7iBDOF/sJ1oZPLigeuAbEq4//pNy4+vwwCWl0TJ1arSi7LGlEa4mSbkqrjQp40yxAjqu8KmJma3itAw=="
         },
         "1a9d36db-6cac-4907-a80c-acdeaed4e4a0": {
           "display_id": 3977,
@@ -46245,8 +46254,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T13:56:34.693541901Z",
-    "agent_id": "anon-a55dfdea",
-    "agent_seq": 1
+    "timestamp": "2026-09-26T14:01:28.773230923Z",
+    "agent_id": "OL2r",
+    "agent_seq": 3555
   }
 }
