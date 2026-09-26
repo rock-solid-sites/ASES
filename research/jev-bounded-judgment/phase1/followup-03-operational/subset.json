@@ -1,0 +1,541 @@
+{
+  "schema_version": "jevp1-ops-subset-1.0",
+  "frozen_at_utc": "2026-09-26T06:34:18Z",
+  "written_before_any_measurement": true,
+  "statement": "The id list, the rule that produced it and the rationale are fixed here BEFORE any HTTP call is made. No measurement informed any part of this selection.",
+  "gate_at_freeze": {
+    "digests": {
+      "cases.ndjson": {
+        "expected": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+        "actual": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+        "match": true
+      },
+      "results/jev_raw.ndjson": {
+        "expected": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+        "actual": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc",
+        "match": true
+      }
+    },
+    "jev_request_gate": {
+      "n_cases": 64,
+      "n_identical": 64,
+      "checks": [
+        "request_body structural equality",
+        "request_hash == sha256(serialise(body))"
+      ],
+      "builder": "frozen harness/run_jev.build_request (imported, not re-typed)"
+    },
+    "general_request_gate": {
+      "n_cases": 64,
+      "n_identical": 64,
+      "checks": [
+        "request_body structural equality",
+        "request_hash == sha256(serialise(body))"
+      ],
+      "frozen_model_id": "space-bunny-free",
+      "permitted_difference": "the `model` field, swapped to 'mimo-v2.6-flash' (the brief's one change)",
+      "inherited_conditions": {
+        "system_prompt": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+        "max_tokens": 256,
+        "temperature": 0,
+        "attempts": 1
+      },
+      "builder": "frozen harness/run_baselines.build_general_request (imported, not re-typed)"
+    },
+    "f1": {
+      "pair_id": "cp4",
+      "case_ids": [
+        "c-p4a",
+        "c-p4b"
+      ],
+      "source": "verification.md §2 F1",
+      "derivation": "derived from control.pair_id, then checked against the documented ids"
+    },
+    "credentials": {
+      "env:OPENCODE_GO_API_KEY": {
+        "resolvable": true
+      },
+      "auth.json#opencode-go": {
+        "resolvable": true
+      }
+    }
+  },
+  "selection_rule": {
+    "id": "STRAT-OPS-v1",
+    "inputs": "frozen cases.ndjson only",
+    "candidate_order": "ascending case id (byte order)",
+    "real_contrastive_pair": "a control.pair_id with exactly 2 members",
+    "area_default_stratum": {
+      "A": {
+        "answerable": true,
+        "variant_kind": "base"
+      },
+      "B": {
+        "answerable": false,
+        "variant_kind": "base"
+      },
+      "C": {
+        "answerable": true,
+        "variant_kind": "base"
+      },
+      "D": {
+        "answerable": true,
+        "variant_kind": "base"
+      }
+    },
+    "area_default_stratum_why": "Each area's MODAL (area, answerable, variant_kind) cell. B contains no answerable case at all (all 13 are unanswerable), so a single global 'answerable base' stratum would have made area B unrepresentable and silently dropped the area with the most unanswerable cases.",
+    "steps": [
+      "S0 sort all 64 candidates by ascending case id",
+      "S1 seed qtype=score: lowest id with question_type == 'score'",
+      "S2 seed qtype=choice, control base: lowest id with question_type == 'choice' AND variant_kind == 'base'",
+      "S3 seed unanswerable in area A: lowest id, area A, not answerable",
+      "S4 seed unanswerable control variant: lowest id, area B, not answerable, variant_kind != 'base'",
+      "S5 seed unanswerable control base: lowest id, area B, not answerable, variant_kind == 'base'",
+      "S6 seed answerable control variant: lowest id, area A, answerable, variant_kind != 'base'",
+      "S7 seed contrastive pair: among REAL pairs (exactly 2 members) with both members answerable, sorted by pair_id ascending, take the first pair with NEITHER member already selected; add both members",
+      "S8 fill: round-robin over areas A,B,C,D in that fixed order; in each round take each area's lowest-id untaken case from that area's default stratum; stop at SUBSET_N",
+      "S9 verify every required constraint; any violation is a hard stop"
+    ],
+    "required_constraints": {
+      "n_between": [
+        12,
+        16
+      ],
+      "areas_all_of": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "qtypes_at_least": {
+        "noul": 1,
+        "choice": 1,
+        "score": 1
+      },
+      "unanswerable_at_least": 3,
+      "control_variant_at_least": 1,
+      "both_members_of_one_contrastive_pair": 1
+    },
+    "not_used_for_selection": [
+      "any latency, token, cost or stability measurement",
+      "any correctness or error rate",
+      "any Jev or MiMo response"
+    ]
+  },
+  "selection_trace": [
+    {
+      "step": "S1 qtype=score",
+      "case_id": "a-h04"
+    },
+    {
+      "step": "S2 qtype=choice control base",
+      "case_id": "d-01"
+    },
+    {
+      "step": "S3 unanswerable in area A",
+      "case_id": "a-miss1"
+    },
+    {
+      "step": "S4 unanswerable control variant",
+      "case_id": "b-dist1"
+    },
+    {
+      "step": "S5 unanswerable control base",
+      "case_id": "b-a01"
+    },
+    {
+      "step": "S6 answerable control variant",
+      "case_id": "a-dist1"
+    },
+    {
+      "step": "S7 contrastive pair a-m07 member 1",
+      "case_id": "a-m07"
+    },
+    {
+      "step": "S7 contrastive pair a-m07 member 2",
+      "case_id": "a-noise1"
+    },
+    {
+      "step": "S8 area round 1 fill (A default stratum)",
+      "case_id": "a-e01"
+    },
+    {
+      "step": "S8 area round 1 fill (B default stratum)",
+      "case_id": "b-a02"
+    },
+    {
+      "step": "S8 area round 1 fill (C default stratum)",
+      "case_id": "c-p1a"
+    },
+    {
+      "step": "S8 area round 1 fill (D default stratum)",
+      "case_id": "d-02"
+    },
+    {
+      "step": "S8 area round 2 fill (A default stratum)",
+      "case_id": "a-e02"
+    },
+    {
+      "step": "S8 area round 2 fill (B default stratum)",
+      "case_id": "b-a03"
+    },
+    {
+      "step": "S8 area round 2 fill (C default stratum)",
+      "case_id": "c-p1b"
+    },
+    {
+      "step": "S8 area round 2 fill (D default stratum)",
+      "case_id": "d-03"
+    }
+  ],
+  "contrastive_pair_selected": "a-m07",
+  "area_fill_rounds": 2,
+  "n": 16,
+  "case_ids_in_selection_order": [
+    "a-h04",
+    "d-01",
+    "a-miss1",
+    "b-dist1",
+    "b-a01",
+    "a-dist1",
+    "a-m07",
+    "a-noise1",
+    "a-e01",
+    "b-a02",
+    "c-p1a",
+    "d-02",
+    "a-e02",
+    "b-a03",
+    "c-p1b",
+    "d-03"
+  ],
+  "case_ids_canonical_order": [
+    "a-dist1",
+    "a-e01",
+    "a-e02",
+    "a-h04",
+    "a-m07",
+    "a-miss1",
+    "a-noise1",
+    "b-a01",
+    "b-a02",
+    "b-a03",
+    "b-dist1",
+    "c-p1a",
+    "c-p1b",
+    "d-01",
+    "d-02",
+    "d-03"
+  ],
+  "case_ids_sorted_ascending": [
+    "a-h04",
+    "d-01",
+    "a-miss1",
+    "b-dist1",
+    "b-a01",
+    "a-dist1",
+    "a-m07",
+    "a-noise1",
+    "a-e01",
+    "b-a02",
+    "c-p1a",
+    "d-02",
+    "a-e02",
+    "b-a03",
+    "c-p1b",
+    "d-03"
+  ],
+  "cases": [
+    {
+      "id": "a-h04",
+      "area": "A",
+      "split": "test",
+      "difficulty": "hard",
+      "question_type": "score",
+      "answerable_frozen": true,
+      "gt_answer": "low",
+      "control_pair_id": "a-h04",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "low"
+    },
+    {
+      "id": "d-01",
+      "area": "D",
+      "split": "train",
+      "difficulty": "hard",
+      "question_type": "choice",
+      "answerable_frozen": true,
+      "gt_answer": "build",
+      "control_pair_id": "d-01",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "build"
+    },
+    {
+      "id": "a-miss1",
+      "area": "A",
+      "split": "test",
+      "difficulty": "hard",
+      "question_type": "noul",
+      "answerable_frozen": false,
+      "gt_answer": null,
+      "control_pair_id": "a-h01",
+      "control_variant_kind": "missing_evidence",
+      "control_base_case_id": "a-h01",
+      "answerable_after_f1": false,
+      "gt_answer_after_f1": null
+    },
+    {
+      "id": "b-dist1",
+      "area": "B",
+      "split": "dev",
+      "difficulty": "hard",
+      "question_type": "noul",
+      "answerable_frozen": false,
+      "gt_answer": null,
+      "control_pair_id": "b-a02",
+      "control_variant_kind": "distractor",
+      "control_base_case_id": "b-a02",
+      "answerable_after_f1": false,
+      "gt_answer_after_f1": null
+    },
+    {
+      "id": "b-a01",
+      "area": "B",
+      "split": "train",
+      "difficulty": "hard",
+      "question_type": "noul",
+      "answerable_frozen": false,
+      "gt_answer": null,
+      "control_pair_id": "b-a01",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": false,
+      "gt_answer_after_f1": null
+    },
+    {
+      "id": "a-dist1",
+      "area": "A",
+      "split": "train",
+      "difficulty": "easy",
+      "question_type": "noul",
+      "answerable_frozen": true,
+      "gt_answer": "no",
+      "control_pair_id": "a-m01",
+      "control_variant_kind": "distractor",
+      "control_base_case_id": "a-m01",
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "no"
+    },
+    {
+      "id": "a-m07",
+      "area": "A",
+      "split": "dev",
+      "difficulty": "medium",
+      "question_type": "noul",
+      "answerable_frozen": true,
+      "gt_answer": "no",
+      "control_pair_id": "a-m07",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "no"
+    },
+    {
+      "id": "a-noise1",
+      "area": "A",
+      "split": "dev",
+      "difficulty": "medium",
+      "question_type": "noul",
+      "answerable_frozen": true,
+      "gt_answer": "no",
+      "control_pair_id": "a-m07",
+      "control_variant_kind": "noise",
+      "control_base_case_id": "a-m07",
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "no"
+    },
+    {
+      "id": "a-e01",
+      "area": "A",
+      "split": "train",
+      "difficulty": "easy",
+      "question_type": "noul",
+      "answerable_frozen": true,
+      "gt_answer": "yes",
+      "control_pair_id": "a-e01",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "yes"
+    },
+    {
+      "id": "b-a02",
+      "area": "B",
+      "split": "dev",
+      "difficulty": "hard",
+      "question_type": "noul",
+      "answerable_frozen": false,
+      "gt_answer": null,
+      "control_pair_id": "b-a02",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": false,
+      "gt_answer_after_f1": null
+    },
+    {
+      "id": "c-p1a",
+      "area": "C",
+      "split": "train",
+      "difficulty": "hard",
+      "question_type": "noul",
+      "answerable_frozen": true,
+      "gt_answer": "yes",
+      "control_pair_id": "cp1",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "yes"
+    },
+    {
+      "id": "d-02",
+      "area": "D",
+      "split": "train",
+      "difficulty": "hard",
+      "question_type": "choice",
+      "answerable_frozen": true,
+      "gt_answer": "redesign",
+      "control_pair_id": "d-02",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "redesign"
+    },
+    {
+      "id": "a-e02",
+      "area": "A",
+      "split": "train",
+      "difficulty": "easy",
+      "question_type": "noul",
+      "answerable_frozen": true,
+      "gt_answer": "no",
+      "control_pair_id": "a-e02",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "no"
+    },
+    {
+      "id": "b-a03",
+      "area": "B",
+      "split": "dev",
+      "difficulty": "hard",
+      "question_type": "noul",
+      "answerable_frozen": false,
+      "gt_answer": null,
+      "control_pair_id": "b-a03",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": false,
+      "gt_answer_after_f1": null
+    },
+    {
+      "id": "c-p1b",
+      "area": "C",
+      "split": "train",
+      "difficulty": "hard",
+      "question_type": "noul",
+      "answerable_frozen": true,
+      "gt_answer": "no",
+      "control_pair_id": "cp1",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "no"
+    },
+    {
+      "id": "d-03",
+      "area": "D",
+      "split": "dev",
+      "difficulty": "hard",
+      "question_type": "choice",
+      "answerable_frozen": true,
+      "gt_answer": "investigate",
+      "control_pair_id": "d-03",
+      "control_variant_kind": "base",
+      "control_base_case_id": null,
+      "answerable_after_f1": true,
+      "gt_answer_after_f1": "investigate"
+    }
+  ],
+  "coverage": {
+    "n": 16,
+    "areas": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "by_area": {
+      "A": 7,
+      "B": 4,
+      "C": 2,
+      "D": 3
+    },
+    "by_question_type": {
+      "noul": 12,
+      "choice": 3,
+      "score": 1
+    },
+    "n_unanswerable": 5,
+    "n_control_variants": 4,
+    "complete_contrastive_pairs": [
+      "a-m07",
+      "b-a02",
+      "cp1"
+    ],
+    "all_constraints_satisfied": true
+  },
+  "f1_correction_on_this_subset": {
+    "pair_id": "cp4",
+    "member_ids": [
+      "c-p4a",
+      "c-p4b"
+    ],
+    "members_in_subset": [],
+    "effect_on_subset": "none — verified no-op, because the rule selected no cp4 member",
+    "applied_consistently": "the same derivation and the same hard-stop check as followup-02 / verification.md §2 F1; it happens to change no ground truth in this subset, which is recorded rather than left implicit"
+  },
+  "design_constants": {
+    "warm_reps_per_case": 12,
+    "warmup_calls_discarded": 5,
+    "idle_seconds_before_probe": 120,
+    "idle_calls": 3,
+    "concurrency_block_cases": 6,
+    "concurrency_block_reps": 2,
+    "concurrency_levels": [
+      1,
+      4,
+      8
+    ],
+    "attempts_per_call": 1,
+    "retries": 0,
+    "sequential_order": "case-major (all reps of case 1, then case 2, ...) in ascending case id",
+    "concurrency_order": "case-major over the first 6 canonical case ids, reps 1..2, dispatched in that order"
+  },
+  "planned_calls": {
+    "jev": 236,
+    "mimo_v26_flash": 237,
+    "note": "Jev's interface probe costs 0 calls: distribution availability is read from the FROZEN responses, not from new ones. MiMo's interface probe costs 1 labelled call."
+  },
+  "rationale": [
+    "Operational latency is a property of the (case, mechanism) pair, not of the case's difficulty as a question. A spread of areas and question types is needed so the latency distribution is not an artefact of one prompt shape, not so that accuracy is measured.",
+    "The unanswerable cases are kept because they are the majority shape of the corpus (50 of 64 are noul, 14 unanswerable) and excluding them would bias the token-use and latency distribution toward longer prompts.",
+    "One `score` case is the minimum the interface probe needs: it is the only question type where Jev returns a full distribution with a legend, and a single case is enough to establish availability. A larger score sample would buy accuracy precision, which is not this run's question.",
+    "Both members of one contrastive pair are kept so a stability comparison can be read pair-wise (same prompt, different deciding fact) rather than only case-wise.",
+    "The area fill is round-robin from each area's MODAL stratum so no area's latency profile is carried entirely by its rarest case shape. B has no answerable case, so its default stratum is the unanswerable one."
+  ]
+}
