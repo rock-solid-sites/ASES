@@ -33,18 +33,31 @@ the repository, not that temporary pathname, is the durable carrier.
 
 ## Current position
 
-No stronger phase is complete. Phase 1A/1B are internally checked: 7,502 states,
-12,457 edges across 24 fixture closures; ten intended weakened variants fail.
-Governing source/evidence checkpoint: `15d6f48722eec238f1d928b00a75237496abf5d7`.
-Initial derivation checkpoint: `5d5ff7e1b220d348e0a0d2e9f6244ed6dbbc9509`. Phase 1C real process experiment is
-running. First concrete action: inspect its result, challenge adequacy and
-conformance, then freeze A1/B1/C1/D1. No Phase 2 work has begun.
+**Completed Phase 1 — A1**, bounded holder SIGKILL/restart recovery.
+Governing evidence commit: `1149fb124d7306f834fb7e9383ccaf7c79c5b7fa`.
+It was pushed and remote SHA verified on 2026-09-26 before Phase 2 work.
+Sources/results: `Kernel-0-Crash-Recovery.md`, `kernel0_recovery_model.py`,
+`kernel0_recovery_service.py`, `kernel0_recovery_check.py`, and the two generated
+Crash-Recovery result JSON files. Finite: 7,502 states / 12,457 edges / 24 fixtures /
+10 detected mutants. Concrete: 36 cut cases, 18 timed races, two successful
+content-preserving recovery profiles, order/replay and startup attacks.
 
-Unresolved: recovery evidence must distinguish the current whole commitment from
-an authentic but obsolete image; continuing recovery additionally needs authentic
-producer-to-authority association. Physical-producer exclusion after transfer of
-new evidence, power failure, media corruption, progress, and exactly-once remain
-unclaimed.
+Strongest counterexample: restoring an old same-root image after acknowledged
+revocation resurrects old authority. Disposition: confirmed negative against
+freshness-by-root-ID; excluded by the explicit current-storage trust boundary.
+No canonical semantics changed. Cold and continuing recovery have different
+attachment obligations. Continuing mode trusts a surviving supervisor's immutable
+producer/context mapping, never supervisor-supplied current rights.
+
+Untested: SQLite I/O-path crash coverage, power loss, corruption, hostile rollback,
+supervisor loss, unbounded contexts, physical source binding after new-evidence
+transfer, progress, exactly-once, and independent review of these new artifacts.
+
+**Next: Phase 2.** First concrete action: derive a selected external-effect profile
+by separating current authority at durable decision from current authority at sink
+acceptance; build the smallest finite sink model and test revocation/crash/retry.
+Do not silently require exactly-once or revoke previously accepted obligations.
+Frozen Phase 1 independent-review packet is indexed in `Kernel-0-Assurance-Review.md`.
 
 ## Required execution order
 
