@@ -107,6 +107,43 @@ It also reduced the candidate's description: the essential boundary is a conditi
 
 A later open Astra 6 High challenge exposed **supersession without distinguishable authority**. If old and replacement executions share a principal and credential, current permission for that principal, valid request provenance, ordering, and atomic commitment can all hold while the old execution still mutates state. The minimal correction is the distinguishable authority-evidence condition above whenever policy requires the replacement to proceed while excluding the old execution. Kernel-0 can expose this as a generic admission condition; the Work Unit instantiation must demonstrate that the condition is actually supplied and enforced. The packet does not decide its representation or placement.
 
+## Minimum verification target
+
+### Model properties
+
+The abstract model must define initial states, the guarded commitment relation, denial, authority updates, and the exact critical invariants for each claimed instantiation. The smallest useful property set is:
+
+1. **Guarded whole effect:** every committed request was eligible under authority current at its commitment point and its declared whole effect preserves the invariants; a denied request has no attributable authoritative effect.
+2. **Revocation safety:** after an authority-withdrawing change precedes an affected request in the common order, that request cannot commit by relying on the withdrawn authority. Re-granting authority cannot make a superseded execution eligible merely by reusing an indistinguishable representation.
+3. **Exclusivity:** no reachable state contains a configured incompatible authoritative combination. Compatible commitments remain representable without a special mode.
+4. **Continuity across executor loss:** losing an executor does not erase the retained work and position information needed for the declared continuation behavior. Replacement preserves the continuing identity.
+
+The first two are generic boundary properties once eligibility and effect granularity are supplied. The latter two are parameterized by the consumer's conflict and continuity definitions. Successful creation, authorized change, replacement, and continuation traces are required to rule out an always-denying model. Eventual completion is not a safety invariant and needs separate availability/fairness assumptions if later claimed.
+
+### Model adequacy and discriminating traces
+
+Exploring every encoded transition is insufficient if the encoding omits a relevant state or order. At minimum, the model must distinguish:
+
+| Trace | Expected observation |
+| --- | --- |
+| Authorized whole change; then a change with one invalid part | The first can commit; the second cannot produce a substitute or partial authoritative mutation. |
+| Old request observes valid authority; authority is withdrawn; old request then attempts commitment | The truthful stale observation cannot authorize the later commitment. This is the explicit stale-authority regression. |
+| Replacement and old request overlap, in both resolved orders | Commitment before supersession may stand; commitment after supersession is denied. The model must represent both orderings. |
+| Old and replacement executions submit with the same principal and credential | If old must be denied while replacement proceeds, the instantiation must add trustworthy distinguishability or fail the adequacy claim. |
+| Executor disappears; work and position remain; replacement continues | The same continuing work and position are recoverable without treating replacement as new work. |
+| Compatible concurrent requests and configured incompatible requests | Compatible requests can commit; incompatible authoritative states never coexist. |
+| Commitment succeeds but acknowledgement is lost | Authoritative state remains definite; no retry guarantee is inferred unless separately specified. |
+
+If permission depends on an external fact, add the two orders in which that fact changes before or after commitment, plus the fact's trust/freshness assumption. If substrate restart or external-resource control is claimed, add failure and effect traces for that declared boundary. These are claim-specific additions, not universal Kernel-0 primitives.
+
+### Realization correspondence
+
+Any later realization needs a stated mapping from its retained concrete state and trusted external state to `Σ`, and from its observable operations to abstract outcomes. Every concrete authoritative commit must map to a permitted whole transition; denial must map to no attributable mutation; authority invalidation and affected commitments must obey the modeled order. Recovery must preserve the abstract distinctions promised by its failure boundary. Mechanisms that emit protected external effects need an equivalent mediation or ordering argument. Model verification alone establishes none of this correspondence.
+
+### Trusted assumptions outside a proof
+
+Claims must name the trustworthiness of request authority evidence, the consistency and durability of any external state relied on, the boundary that identifies a commitment, relevant external facts, and the availability/fairness assumptions behind progress. A proof cannot imply safety for unmediated effects or failures below its declared boundary. Semantic correctness of research, code, design, and other work products is outside this target.
+
 ## Open alternatives and discriminating questions
 
 | Alternative or gap | Smallest discriminating question |
