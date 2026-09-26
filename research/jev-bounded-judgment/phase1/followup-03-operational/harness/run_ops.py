@@ -1244,7 +1244,8 @@ def cmd_warm(args):
 
     n_written, n_err = 0, 0
     for phase, repeat, cid in plan:
-        row = run_one(mech, by_id[cid], key, phase, repeat, concurrency=1)
+        row = run_one(mech, by_id[cid], key, phase, repeat, concurrency=1,
+                      block=args.block)
         if phase == "warmup":
             row["excluded_from_statistics"] = True
             row["warmup_note"] = ("discarded warm-up call; retained for audit "
@@ -1270,8 +1271,10 @@ def cmd_idle(args):
     if not key:
         raise SystemExit("FATAL: credential did not resolve at call time.")
     app, path = open_appender(mech)
-    if any(r.get("phase") == "idle" for r in load_ndjson(path)):
-        print(f"idle: {mech} already has idle rows; refusing to double the probe.")
+    if any(r.get("phase") == "idle" and r.get("block") == args.block
+           for r in load_ndjson(path)):
+        print(f"idle: {mech} block={args.block} already has idle rows; refusing "
+              f"to double the probe.")
         return 0
     print(f"idle: {mech} idling {IDLE_SECONDS}s before the probe "
           f"(no calls in this window by design).", flush=True)
@@ -1279,7 +1282,8 @@ def cmd_idle(args):
     n = 0
     for i in range(1, IDLE_CALLS + 1):
         case = {c["id"]: c for c in cases}[ordered[i - 1]]
-        row = run_one(mech, case, key, "idle", i, concurrency=1)
+        row = run_one(mech, case, key, "idle", i, concurrency=1,
+                      block=args.block)
         row["idle_seconds_before"] = IDLE_SECONDS
         if app.write(row):
             n += 1
@@ -1307,15 +1311,17 @@ def cmd_concurrency(args):
     by_id = {c["id"]: c for c in cases}
     block_cases = sorted(ordered)[:CONC_CASES]
     cfg = curl_config(key)
-    existing = {(r.get("concurrency"), r.get("case_id"), r.get("repeat"))
+    existing = {(r.get("block"), r.get("concurrency"), r.get("case_id"),
+                 r.get("repeat"))
                 for r in load_ndjson(path) if r.get("phase") == "concurrency"}
 
     for c in CONC_LEVELS:
         jobs = [(cid, rep) for cid in block_cases
                 for rep in range(1, CONC_REPS + 1)]
-        todo = [j for j in jobs if (c, j[0], j[1]) not in existing]
+        todo = [j for j in jobs if (args.block, c, j[0], j[1]) not in existing]
         if not todo:
-            print(f"concurrency: {mech} C={c} already fully recorded; skipping.")
+            print(f"concurrency: {mech} C={c} block={args.block} already fully "
+                  f"recorded; skipping.")
             continue
         rows, running, t0 = [], [], time.monotonic()
         queue = list(todo)
@@ -1328,15 +1334,14 @@ def cmd_concurrency(args):
                                      stdout=subprocess.PIPE,
                                      stderr=subprocess.PIPE, text=True)
                 running.append((p, cid, rep, body))
-            done_row = running.pop(0)
-            p, cid, rep, body = done_row
+            p, cid, rep, body = running.pop(0)
             out, errout = p.communicate(input=cfg)
             rows.append((cid, rep, body, out, errout, p.returncode))
         makespan = round((time.monotonic() - t0) * 1000.0, 1)
         n_429 = n_err = n_2xx = 0
         for cid, rep, body, out, errout, rc in rows:
             row = parse_parallel_row(mech, by_id[cid], body, out, errout, rc,
-                                     c, rep, makespan)
+                                     c, rep, makespan, args.block)
             if row["http_status"] == 429:
                 n_429 += 1
             elif row["http_status"] and 200 <= row["http_status"] < 300:
@@ -1344,7 +1349,7 @@ def cmd_concurrency(args):
             if row["typed_error"]:
                 n_err += 1
             app.write(row)
-        print(f"concurrency: {mech} C={c} calls={len(rows)} "
+        print(f"concurrency: {mech} C={c} block={args.block} calls={len(rows)} "
               f"makespan_ms={makespan} 2xx={n_2xx} http429={n_429} "
               f"errors={n_err}", flush=True)
     return 0
@@ -1371,9 +1376,10 @@ def curl_argv_for(mech, body):
 
 
 def parse_parallel_row(mech, case, body, out, errout, rc, concurrency, repeat,
-                       makespan):
+                       makespan, block=None):
     """Reconstruct a row from an already-finished parallel curl process."""
-    row = base_row(mech, case, "concurrency", repeat, concurrency, "fixed6x2", None)
+    row = base_row(mech, case, "concurrency", repeat, concurrency, block, "fixed6x2")
+    row["probe"] = None
     row["block_makespan_ms"] = makespan
     marker = "\n__OPS__"
     if marker not in (out or ""):
@@ -1575,6 +1581,10 @@ def main():
     for name in ("warm", "idle", "concurrency", "probe"):
         p = sub.add_parser(name)
         p.add_argument("--mechanism", choices=list(MECHANISMS), required=True)
+        p.add_argument("--block", default=None,
+                       help="label distinguishing a re-run block from an earlier "
+                            "one in the same raw file; the first block is left "
+                            "null so an earlier run is never rewritten")
         if name == "warm":
             p.add_argument("--skip-warmup", action="store_true")
     args = ap.parse_args()
