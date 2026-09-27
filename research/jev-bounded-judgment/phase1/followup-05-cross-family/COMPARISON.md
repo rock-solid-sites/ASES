@@ -48,8 +48,13 @@ answers, then asserted compliance it did not achieve:
 
 > *"The NDJSON output is complete with all 8 cases answered…"* — chunk 05
 
-Zero parseable `{"case_id", "content"}` objects existed in any text block of
-any failing chunk. Chunk 03's prose covered only 6 of 8 cases.
+No **single-line** NDJSON-parseable `{"case_id", "content"}` object existed in
+any text block of any failing chunk. Chunk 03's prose covered all 8 of its
+cases. Chunk 04 is the one nuance: its text block *does* contain 8 JSON
+objects, but pretty-printed across multiple lines, so no single line parses and
+the strict extractor correctly rejects the chunk. Valid NDJSON for chunks
+03/05/06 exists only in bash-tool fields, which the frozen extractor does not
+read.
 
 **A prose parser was deliberately not written.** Extracting `→ **NO**` from
 markdown would have been a parsing surface invented *after* seeing which chunks
@@ -147,26 +152,40 @@ reported rather than resolved by privileging the arm that did score.
 **Arm-level, for `big-pickle` alone: Jev's tier UNSUPPORTED** on the
 pre-registered bands — 0.980 accuracy, `c=0`.
 
-**Direction of evidence.** Four independent comparisons now point the same way:
+**Direction of evidence — corrected by independent verification (F1).** An
+earlier version of this section claimed "four *independent* comparisons", "four
+measurements of a *tie*", and "not one of them has produced a cell where Jev is
+right and a free cross-family general model is wrong, at any point". **All three
+statements were wrong and are withdrawn.** The verifier established:
+
+- **Not independent.** followup-02-direct and followup-05-agent are the *same
+  model* on two transports, and followup-01 is the declared weaker same-family
+  reference. Only `big-pickle` is a new independent datum.
+- **Not four ties.** followup-02-direct is 48/50 with `c=1` — a one-cell
+  deficit, not a tie.
+- **"Not one at any point" is falsified** by followup-02's own `c-p6a`, which is
+  recorded in the table below and was contradicted by my own sentence.
+
+What survives is weaker but sound: the *direction* converges, and three of the
+four runs are ties. The table is the evidence; the withdrawn prose is not.
 
 | comparison | family relation | result |
 |---|---|---|
-| followup-01 `space-bunny-free` | corpus-author family (weaker test) | 49/50 raw, 48/48 corrected, b=0/c=0 |
-| followup-02 `mimo-v2.6-flash` | cross-family, direct HTTP | 48/50 raw, 47/48 corrected, c=1 |
-| followup-05 `mimo-v2.6-flash` | cross-family, agent route | 49/50, b=0/c=0 |
-| followup-05 `big-pickle` | cross-family, agent route | 49/50, b=0/c=0 |
+| followup-01 `space-bunny-free` | corpus-author family (weaker test) | 49/50 raw, 48/48 corrected, b=0/c=0 — tie |
+| followup-02 `mimo-v2.6-flash` | cross-family, direct HTTP | 48/50 raw, 47/48 corrected, **c=1** — one-cell deficit |
+| followup-05 `mimo-v2.6-flash` | **same model**, agent route | 49/50, b=0/c=0 — tie |
+| followup-05 `big-pickle` | cross-family, agent route | 49/50, b=0/c=0 — tie |
 
-Not one of them has produced a cell where Jev is right and a free cross-family
-general model is wrong, at any point in this programme. That convergence is
-worth stating — while being clear that it is four measurements of a *tie*, not
-four measurements of Jev's inferiority.
+So: **one genuinely new independent comparison, plus a same-model transport
+replication, plus a weaker same-family reference.** That is a much smaller
+evidentiary base than the withdrawn claim implied, and the programme-level
+INCONCLUSIVE verdict above is the correct guardrail on it.
 
-**The brief's original question is now answered in the negative, with the
-qualifier that it was answered on a synthetic template corpus.** Phase 1 left
-it "untested" because the single comparator was confounded and the decisive
-margin was one cell. The confound is now removed (a genuinely cross-family
-arm), the margin is now 50/50 agreement rather than one cell, and the
-convergence across four comparisons is consistent.
+**The brief's original question is answered in the negative for the one
+scorable cross-family arm, on a synthetic template corpus, at n=50, with family
+variance uncharacterised.** The verifier judged the phrasing "answered in the
+negative" to carry a thin qualifier for those limits. The INCONCLUSIVE
+programme verdict, not this sentence, is the finding of record.
 
 **This does not establish that Jev has no place in the hierarchy.** The
 operational case from followup-04 — 13.2× median latency, 70.8× p99, flat
@@ -219,8 +238,34 @@ addressed here.
 | mimo 49/50 agent route | `out/band-mimo.json`, `staging/mimo/results/{scored.ndjson,metrics.json}` |
 | transport effect 1/64 | `followup-02-mimo-v2.6-flash/results/mimo_raw.ndjson` vs `staging/mimo/results/scored.ndjson` |
 | 16-vs-8 byte-identical | `out-chunk16-record/answers-big-pickle.ndjson` vs `out/answers-big-pickle.ndjson` |
-| 0 credential hits | 139-file scan, 14 values × 3 variants, 0 hits |
+| 0 credential hits | 139-file scan, 14 values × 3 variants, 0 hits (verifier re-counted 151 files; delta is 5 untracked files created after this scan, 0 credential values either way) |
+| independent verification, PASS WITH FINDINGS | `verification.md` (verifier: `opencode/muse-spark-1.3-contributor-free`) |
 
 Raw model answers, per-chunk event streams, run logs, and both complete
 per-arm grids are retained in this directory. Nothing was reduced to pass/fail
 and no failed result was discarded.
+
+## 9. Corrections applied after independent verification
+
+`verification.md` returned **PASS WITH FINDINGS**: all twelve claims C1–C12
+reproduce from raw evidence, none failed, and the `c-p6a` claim (C8) — the
+sharpest and most falsifiable assertion in this document — was confirmed
+against followup-02's own verification §3.5. The verifier also judged the
+`c-p6a` fragility argument sound and correctly hedged, the per-arm grid staging
+legitimate and openly declared, and the refusal to write a prose parser for
+`ling` correct.
+
+Three errors of mine were found and are corrected above:
+
+1. **§6 overstated the evidence (material, F1).** "Four independent
+   comparisons", "four measurements of a tie" and "not one … at any point"
+   are **withdrawn**. Two of the four runs are the same model on two
+   transports, followup-02 was a one-cell deficit rather than a tie, and
+   followup-02's `c-p6a` falsifies "not one at any point". My own §6 table
+   contradicted my own sentence.
+2. **§3 understated `ling` chunk 03.** The prose covered all 8 cases, not 6.
+   My first read was truncated at 900 characters.
+3. **§3 overstated the `ling` parse failure.** "Zero parseable objects" holds
+   only for *single-line* NDJSON. Chunk 04 does contain 8 JSON objects,
+   pretty-printed across multiple lines, which the strict extractor correctly
+   rejects.
