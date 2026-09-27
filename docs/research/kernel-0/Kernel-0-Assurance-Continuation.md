@@ -16,105 +16,76 @@ consumed_by:
 
 # Restart cursor
 
-Branch: `codex/kernel-0-reasoning-566`. Issue #567 (child of #566) covers the
-operator-authorized seven-phase assurance program. Work only under this directory.
-The original checkout on `main` contains unrelated operator changes; do not use it
-for source changes. Current working checkout: `/tmp/ases-kernel0-preflight`;
-the repository, not that temporary pathname, is the durable carrier.
+All seven operator-authorized phases are complete within their recorded bounds.
+The branch is `codex/kernel-0-reasoning-566`; run `git status`, confirm the
+branch/remote, then continue from this cursor. The earlier executor-loss result
+`e2e3bc110b1370f3505aa0838990713520bf3f7c` remains accepted bounded evidence.
+Do not reconstruct the reasoning from session logs. Crosslink #567 is the active
+child of #566. The original `/home/claude-code/projects/ASES` checkout is on
+`main` and has unrelated operator changes; use the dedicated Kernel-0 branch.
 
-## Governing baseline
+## Completed gates and governing evidence commits
 
-- Accepted bounded executor-loss result: `e2e3bc110b1370f3505aa0838990713520bf3f7c`.
-- Starting branch tip: `19a1860934a2467c29c3b1c0d52fcd203098e703`, verified against
-  `git ls-remote origin refs/heads/codex/kernel-0-reasoning-566` on 2026-09-26.
-- Fresh reasoning session read current specifications and experiment boundaries;
-  no new independent reviewer has been launched. Prior result is accepted as the
-  operator's bounded premise, not promoted to an unbounded proof.
+| Phase | Result | Commit pushed and remote SHA verified | Core finding |
+| --- | --- | --- | --- |
+| 1 | **A1** bounded authority-service process recovery | `1149fb124d7306f834fb7e9383ccaf7c79c5b7fa` | 7,502 model states / 12,457 edges / 24 fixtures; 10 weakened variants fail; 36 actual process cuts. Cold and continuing recovery both retain pre-crash accepted content. |
+| 2 | **A2** selected decision-authorized external effect | `788c34ae267d4f274e06150610924deac24bf437` | 2,715 states / 9,924 edges; 6 weakened variants fail; separate source/sink crashes. Lost sink acknowledgement plus retry causes two effects. |
+| 3 | **A3, bounded model only** composition | `018fc72daa9a5b902f1b6140fbf5e033aee85ac5` | 432 states / 17,280 edges / 48 independent unordered steps; coupled transfer and compatible recovery cut required. |
+| 4 | Conditional parametric arguments; no cutoff theorem | `771af312a481c32520b6165cb1a5bb1af84b4048` | Non-resurrection, arbitrary-field whole effect, complete acyclic ordering and locality arguments state their premises. Longer cycles and label reuse remain limitations. |
+| 5 | Bounded whole-history refinement | `ef1f49c0deee068c85cadc2c05ea76c15f1c5478` | 15 actual concurrent/crash histories explained; 4 inconsistent histories rejected; no-reply old/new ambiguity preserved. Same-session evidence, not independent review. |
+| 6 | Re-minimization; no new Kernel-0 primitive justified | `9b325b617e633b73f8c150b858e290417194aa92` | Stronger claims parameterize the existing authoritative view, guarded whole commitment, authority, order, failure projection and trusted mediation. |
+| 7 | Bounded storage-call/partial-write realization survives | `81957b7dd6aec7e551232c654b091fa484436074` | 90 real holder kills at observed write/sync/journal-removal boundaries; 12 deliberately split writes; all recover a permitted whole endpoint. |
 
-## Current position
+Each phase-result commit was followed by a cursor/review-packet commit and a plain
+push. Verify each historical SHA using `git ls-remote` when needed. The Phase 7 evidence commit is pushed and remote-verified. Push this final cursor
+publication and compare its exact SHA with the remote before reporting completion.
 
-**Completed Phase 1 — A1**, bounded holder SIGKILL/restart recovery.
-Governing evidence commit: `1149fb124d7306f834fb7e9383ccaf7c79c5b7fa`.
-It was pushed and remote SHA verified on 2026-09-26 before Phase 2 work.
-Sources/results: `Kernel-0-Crash-Recovery.md`, `kernel0_recovery_model.py`,
-`kernel0_recovery_service.py`, `kernel0_recovery_check.py`, and the two generated
-Crash-Recovery result JSON files. Finite: 7,502 states / 12,457 edges / 24 fixtures /
-10 detected mutants. Concrete: 36 cut cases, 18 timed races, two successful
-content-preserving recovery profiles, order/replay and startup attacks.
+## Strongest counterexample and disposition
 
-Strongest counterexample: restoring an old same-root image after acknowledged
-revocation resurrects old authority. Disposition: confirmed negative against
-freshness-by-root-ID; excluded by the explicit current-storage trust boundary.
-No canonical semantics changed. Cold and continuing recovery have different
-attachment obligations. Continuing mode trusts a surviving supervisor's immutable
-producer/context mapping, never supervisor-supplied current rights.
+Restoring an authentic old database image with the same configured root after an
+acknowledged revocation lets old authority act after restart. A root ID/version
+stored in the image cannot establish that the image is current. This is a confirmed
+failure of freshness-by-root-ID, outside the tested live-OS process-loss boundary;
+the supported recovery claim trusts current surviving storage. A second confirmed
+negative is that sink acceptance followed by lost acknowledgement and retry can
+produce a duplicate external effect under the selected A2 profile. A split
+cross-domain transfer can recover an invariant-valid state that loses the whole
+effect. All remain preserved with their stated scope.
 
-Untested: SQLite I/O-path crash coverage, power loss, corruption, hostile rollback,
-supervisor loss, unbounded contexts, physical source binding after new-evidence
-transfer, progress, exactly-once, and independent review of these new artifacts.
+No canonical Kernel-0 semantics changed and no new primitive was justified. A3
+is model-only. A4 is not a formal proof or cutoff. Phase 5's checker is not an
+independent reviewer. The finite process and storage tests do not prove arbitrary
+OS/VFS behavior, power-loss durability, media integrity, resistance to hostile
+same-root rollback, supervisor survival, unbounded policies or implementation
+correctness in general.
 
-**Completed Phase 2 — A2**, selected decision-authorized obligation profile.
-Governing evidence commit: `788c34ae267d4f274e06150610924deac24bf437`, pushed and remote SHA verified.
-2,715 model states / 9,924 edges; six detected weakenings; seven pinned histories;
-five source and two sink crash cuts plus revocation/overwrite tests. A sink effect
-with lost acknowledgement is repeated by retry. This is permitted, not exactly-once.
-The obligation survives producer revocation; sink-current authority and cancellation
-remain unclaimed. Phase 1 reran successfully after adding the consumer extension.
+## Minimal trusted boundary evidenced
 
-**Completed Phase 3 — A3 (bounded model only).** Governing commit:
-`018fc72daa9a5b902f1b6140fbf5e033aee85ac5`, pushed and remote SHA verified. 432 states / 17,280 edges;
-48 unordered independent-step checks. Scoped evidence and local availability
-compose; reservation/transfer requires a joint coherent view and compatible
-recovery cut. A half-transfer recovers `(0,0)`, satisfying exclusion but losing
-the whole declared effect. No physical multi-holder recovery implementation is
-claimed. No new Kernel-0 primitive or canonical definition changed.
+For Phase 1 recovery: correct finite consumer policy and guarded transition path;
+trusted initialization/root; surviving supervisor and immutable producer/context
+associations in continuing mode; current complete storage; SQLite transaction/VFS
+behavior; Python, Unix process/descriptor, filesystem and locking behavior. Cold
+recovery drops old bearers. Phase 2 additionally trusts the mediator and configured
+source/sink association plus the sink acceptance/retention contract. Phase 3
+assumes a compatible whole recovery cut and has no physical multi-holder proof.
+The separate boundary document classifies every other mechanism and optional
+profile: `Kernel-0-Re-Minimization.md`.
 
-**Completed Phase 4 — conditional parametric arguments; no cutoff theorem.**
-Governing commit `771af312a481c32520b6165cb1a5bb1af84b4048`, pushed and remote SHA verified. P1 non-resurrection,
-P2 arbitrary-field whole-effect refinement, P3 complete acyclic dependency orders,
-and P4 disjoint-footprint locality have explicit hand arguments. Their concrete
-premises remain unproved. Negative families: label reuse, four-cycle invisible to
-all triples, and naive one-hop delegation extension. 444 finite commutation sanity
-checks do not substitute for the argument.
+## Next action
 
-**Completed Phase 5 — bounded whole-history refinement evidence.**
-Governing commit `ef1f49c0deee068c85cadc2c05ea76c15f1c5478`, pushed and remote SHA verified. Fifteen actual
-concurrent/crash histories have coherent explanations; four inconsistent histories
-are rejected; both old/new outcomes of an unanswered operation remain possible.
-Algorithmic separation is not independent review. Unknown outcomes are scoped to
-holder loss, not arbitrary network loss. SQLite I/O crash placement remains the
-largest tractable substrate gap.
+The seven-phase program is complete. The Phase 7 evidence commit is
+`81957b7dd6aec7e551232c654b091fa484436074`; it is pushed and the remote branch
+resolves to the same SHA. The prepared review packet is
+`Kernel-0-Assurance-Review.md`, frozen at that commit. The next research action is
+an independent adversarial review of its source/evidence tree, targeting storage
+currentness, bearer reconstruction, trace-checker soundness and measurement
+coverage. Do not wait for or assume a verdict that has not arrived. If a later
+operator-selected claim includes failed writes, interrupted recovery, power loss
+or hostile rollback, first write its exact failure contract and cheapest
+counterexample test. No production architecture, verified-source rewrite or
+universal storage guarantee is authorized by the evidence here.
 
-**Completed Phase 6 — no new Kernel-0 primitive justified.** Governing commit:
-`9b325b617e633b73f8c150b858e290417194aa92`, pushed and remote SHA verified. The removal audit classifies all
-retained distinctions/mechanisms as intrinsic, optional-profile, substrate or
-realization. Stronger claims parameterize σ, guarded whole commitment, authority,
-order, failure projection and mediation. Canonical semantics remain unchanged.
-
-**Next: Phase 7.** First concrete action: assess the bounded discriminator of
-killing the existing transactional holder at actual storage write/synchronization/
-journal-removal calls, using test-only instrumentation and the same whole-state
-oracle. If feasible, implement it; do not build a production storage engine or
-claim power-loss/storage-fault proof from live-OS process termination.
-
-## Required execution order
-
-1. Authority-service crash/recovery: semantic derivation, finite model, concrete
-   process kill/restart experiment; gate A1/B1/C1/D1.
-2. Selected protected external-effect contract; A2/B2/C2/D2.
-3. Two independent domains and an explicit coupled operation; A3/B3/C3/D3.
-4. Narrow parametric arguments or explicit finite-only limits.
-5. Additional formal/refinement assurance only against a concrete remaining gap.
-6. Re-minimize: intrinsic distinction / optional profile / substrate / mechanism.
-7. Stronger bounded realization direction or precise production-scope gate.
-
-Before advancing, internally attack, document, commit, push, and verify the remote
-SHA. Then record the governing evidence commit here and push this cursor update.
-The operator explicitly authorized these phase pushes in this request. No merge,
-reviewer/model launch, or production deployment follows from that authorization.
-Do not wait for external reviewers; freeze a packet when useful and accurately
-label self-review. Preserve counterexamples and source-hashed generated results.
-
-WHY: interruption must not erase completed reasoning. WHAT: operator program and
-current repository evidence. HOW CERTAIN: plan only. WHAT-NOT-TESTED: all stronger
-profiles remain pending. Resume by reading this file and taking its next action.
+WHY: a fresh session needs one durable restart point. WHAT: the pushed phase
+artifacts listed above. HOW CERTAIN: each gate has its own bounded claim. WHAT-NOT-TESTED: independent
+review of the new packets and the exclusions explicitly listed here and in phase
+reports. Resume with this file and take the next action above.
