@@ -1,0 +1,1421 @@
+[
+ {
+  "case_id": "shlex.direct_call.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [_print_tokens, print]",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "callee": "print",
+   "caller": "_print_tokens"
+  },
+  "question": "In this module, does `_print_tokens` directly call `print`?",
+  "raw_evidence": "`_print_tokens` is a function defined in the source, so whether it calls `print` is decidable by reading its body.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.direct_call.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [_print_tokens, repr]",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "callee": "repr",
+   "caller": "_print_tokens"
+  },
+  "question": "In this module, does `_print_tokens` directly call `repr`?",
+  "raw_evidence": "`_print_tokens` is a function defined in the source, so whether it calls `repr` is decidable by reading its body.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.direct_call.003",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [join, join]",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "callee": "join",
+   "caller": "join"
+  },
+  "question": "In this module, does `join` directly call `join`?",
+  "raw_evidence": "`join` is a function defined in the source, so whether it calls `join` is decidable by reading its body.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.direct_call.004",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [_print_tokens, StringIO]; `StringIO` is called by ['shlex.__init__', 'shlex.push_source'], so its absence here is a real negative",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "callee": "StringIO",
+   "caller": "_print_tokens"
+  },
+  "question": "In this module, does `_print_tokens` directly call `StringIO`?",
+  "raw_evidence": "`_print_tokens` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.direct_call.005",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [join, StringIO]; `StringIO` is called by ['shlex.__init__', 'shlex.push_source'], so its absence here is a real negative",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "callee": "StringIO",
+   "caller": "join"
+  },
+  "question": "In this module, does `join` directly call `StringIO`?",
+  "raw_evidence": "`join` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.call_path2.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "call_path2",
+  "evidence_predicate": "ev_path2",
+  "ground_truth": "yes",
+  "gt_basis": "edge [join,quote] and edge [quote,_find_unsafe]",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "dst": "_find_unsafe",
+   "mid": "quote",
+   "src": "join"
+  },
+  "question": "In this module, is there a function that `join` calls, which in turn calls `_find_unsafe`?",
+  "raw_evidence": "both `join` and `_find_unsafe` are defined in the source, so the chain is decidable.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.call_path2.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "call_path2",
+  "evidence_predicate": "ev_path2",
+  "ground_truth": "yes",
+  "gt_basis": "edge [join,quote] and edge [quote,s.replace]",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "dst": "s.replace",
+   "mid": "quote",
+   "src": "join"
+  },
+  "question": "In this module, is there a function that `join` calls, which in turn calls `s.replace`?",
+  "raw_evidence": "both `join` and `s.replace` are defined in the source, so the chain is decidable.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.param_rebound.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains lexer=True; assigned_locals contains lexer=False",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "fn": "_print_tokens",
+   "param": "lexer"
+  },
+  "question": "In `_print_tokens`, is the parameter `lexer` rebound by an assignment to `lexer` inside the function body?",
+  "raw_evidence": "`_print_tokens` is defined in the source with body visible.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.param_rebound.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains split_command=True; assigned_locals contains split_command=False",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "fn": "join",
+   "param": "split_command"
+  },
+  "question": "In `join`, is the parameter `split_command` rebound by an assignment to `split_command` inside the function body?",
+  "raw_evidence": "`join` is defined in the source with body visible.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.unused_import.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "unused_import",
+  "evidence_predicate": "ev_unused_import",
+  "ground_truth": "no",
+  "gt_basis": "unused_imports() contains collections.deque = False",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "mod": "collections.deque"
+  },
+  "question": "Is `collections.deque` imported in this module but never referenced by name anywhere in the module's code?",
+  "raw_evidence": "the import statement and all name usages are in the source.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.nesting_conjunction.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "nesting_conjunction",
+  "evidence_predicate": "ev_nesting_conjunction",
+  "ground_truth": "yes",
+  "gt_basis": "`shlex.get_token` max_nesting=3 > 2 is True; it calls print = True",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "params": {
+   "callee": "print",
+   "target": "shlex.get_token",
+   "threshold": 2
+  },
+  "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `print`?",
+  "raw_evidence": "the function and its body are present in the source.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.string_literal_probe.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "unanswerable"
+  },
+  "ctype": "string_literal_probe",
+  "evidence_predicate": "ev_string_literal",
+  "ground_truth": "yes",
+  "gt_basis": "literal substring test against the recorded source of `_print_tokens` (lines 337-342)",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "note": "Structure carries no string literals by design, so this case is UNANSWERABLE under struct. It is retained to measure evidence removal, not to score a model error.",
+  "params": {
+   "fn": "_print_tokens",
+   "literal": "Token: "
+  },
+  "question": "Does the body of `_print_tokens` contain the string literal 'Token: '?",
+  "raw_evidence": "the function body is present verbatim in the raw source.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.unanswerable_semantic.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_semantic",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Thread safety is a semantic property; neither the source nor the extracted structure establishes it.",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "note": "Admissible as an unanswerable cell only. Used to compare answering/confidence behaviour across representations, never to score accuracy.",
+  "params": {
+   "fn": "shlex.get_token"
+  },
+  "question": "Is `shlex.get_token` safe to call concurrently from multiple threads?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "shlex.unanswerable_runtime.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_runtime",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Runtime call frequency is a runtime property; no static representation establishes it.",
+  "module": "shlex",
+  "module_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+  "note": "Admissible as an unanswerable cell only.",
+  "params": {
+   "fn": "shlex.get_token"
+  },
+  "question": "At runtime, how many times is `shlex.get_token` called per request?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "30b5bbb7dbeda4c9613efda0ca0551855612d15b70074e1301976a6a252d4425",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.direct_call.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [JSONEncoder.default, TypeError]",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "callee": "TypeError",
+   "caller": "JSONEncoder.default"
+  },
+  "question": "In this module, does `JSONEncoder.default` directly call `TypeError`?",
+  "raw_evidence": "`JSONEncoder.default` is a function defined in the source, so whether it calls `TypeError` is decidable by reading its body.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.direct_call.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [JSONEncoder.encode, encode_basestring]",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "callee": "encode_basestring",
+   "caller": "JSONEncoder.encode"
+  },
+  "question": "In this module, does `JSONEncoder.encode` directly call `encode_basestring`?",
+  "raw_evidence": "`JSONEncoder.encode` is a function defined in the source, so whether it calls `encode_basestring` is decidable by reading its body.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.direct_call.003",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [JSONEncoder.encode, encode_basestring_ascii]",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "callee": "encode_basestring_ascii",
+   "caller": "JSONEncoder.encode"
+  },
+  "question": "In this module, does `JSONEncoder.encode` directly call `encode_basestring_ascii`?",
+  "raw_evidence": "`JSONEncoder.encode` is a function defined in the source, so whether it calls `encode_basestring_ascii` is decidable by reading its body.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.direct_call.004",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [JSONEncoder.__init__, TypeError]; `TypeError` is called by ['JSONEncoder.default', '_make_iterencode._iterencode_dict'], so its absence here is a real negative",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "callee": "TypeError",
+   "caller": "JSONEncoder.__init__"
+  },
+  "question": "In this module, does `JSONEncoder.__init__` directly call `TypeError`?",
+  "raw_evidence": "`JSONEncoder.__init__` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.direct_call.005",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [JSONEncoder.encode, TypeError]; `TypeError` is called by ['JSONEncoder.default', '_make_iterencode._iterencode_dict'], so its absence here is a real negative",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "callee": "TypeError",
+   "caller": "JSONEncoder.encode"
+  },
+  "question": "In this module, does `JSONEncoder.encode` directly call `TypeError`?",
+  "raw_evidence": "`JSONEncoder.encode` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.call_path2.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "call_path2",
+  "evidence_predicate": "ev_path2",
+  "ground_truth": "yes",
+  "gt_basis": "edge [JSONEncoder.iterencode,_make_iterencode] and edge [_make_iterencode,isinstance]",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "dst": "isinstance",
+   "mid": "_make_iterencode",
+   "src": "JSONEncoder.iterencode"
+  },
+  "question": "In this module, is there a function that `JSONEncoder.iterencode` calls, which in turn calls `isinstance`?",
+  "raw_evidence": "both `JSONEncoder.iterencode` and `isinstance` are defined in the source, so the chain is decidable.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.param_rebound.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains allow_nan=True; assigned_locals contains allow_nan=False",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "fn": "JSONEncoder.__init__",
+   "param": "allow_nan"
+  },
+  "question": "In `JSONEncoder.__init__`, is the parameter `allow_nan` rebound by an assignment to `allow_nan` inside the function body?",
+  "raw_evidence": "`JSONEncoder.__init__` is defined in the source with body visible.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.param_rebound.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains check_circular=True; assigned_locals contains check_circular=False",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "fn": "JSONEncoder.__init__",
+   "param": "check_circular"
+  },
+  "question": "In `JSONEncoder.__init__`, is the parameter `check_circular` rebound by an assignment to `check_circular` inside the function body?",
+  "raw_evidence": "`JSONEncoder.__init__` is defined in the source with body visible.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.unused_import.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "unused_import",
+  "evidence_predicate": "ev_unused_import",
+  "ground_truth": "no",
+  "gt_basis": "unused_imports() contains re = False",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "mod": "re"
+  },
+  "question": "Is `re` imported in this module but never referenced by name anywhere in the module's code?",
+  "raw_evidence": "the import statement and all name usages are in the source.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.nesting_conjunction.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "nesting_conjunction",
+  "evidence_predicate": "ev_nesting_conjunction",
+  "ground_truth": "yes",
+  "gt_basis": "`JSONEncoder.iterencode` max_nesting=4 > 3 is True; it calls _iterencode = True",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "params": {
+   "callee": "_iterencode",
+   "target": "JSONEncoder.iterencode",
+   "threshold": 3
+  },
+  "question": "Does any function in this module have maximum control-flow nesting deeper than 3 AND also call `_iterencode`?",
+  "raw_evidence": "the function and its body are present in the source.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.string_literal_probe.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "unanswerable"
+  },
+  "ctype": "string_literal_probe",
+  "evidence_predicate": "ev_string_literal",
+  "ground_truth": "yes",
+  "gt_basis": "literal substring test against the recorded source of `JSONEncoder.__init__` (lines 104-158)",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "note": "Structure carries no string literals by design, so this case is UNANSWERABLE under struct. It is retained to measure evidence removal, not to score a model error.",
+  "params": {
+   "fn": "JSONEncoder.__init__",
+   "literal": "-Infinity"
+  },
+  "question": "Does the body of `JSONEncoder.__init__` contain the string literal '-Infinity'?",
+  "raw_evidence": "the function body is present verbatim in the raw source.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.unanswerable_semantic.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_semantic",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Thread safety is a semantic property; neither the source nor the extracted structure establishes it.",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "note": "Admissible as an unanswerable cell only. Used to compare answering/confidence behaviour across representations, never to score accuracy.",
+  "params": {
+   "fn": "_make_iterencode._iterencode_dict"
+  },
+  "question": "Is `_make_iterencode._iterencode_dict` safe to call concurrently from multiple threads?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "json_encoder.unanswerable_runtime.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_runtime",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Runtime call frequency is a runtime property; no static representation establishes it.",
+  "module": "json_encoder",
+  "module_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+  "note": "Admissible as an unanswerable cell only.",
+  "params": {
+   "fn": "_make_iterencode._iterencode_dict"
+  },
+  "question": "At runtime, how many times is `_make_iterencode._iterencode_dict` called per request?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "34bb231a9f3f88e6738ab837338604bb441264436127bb20ade24e38fb9f9df6",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.direct_call.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [TextWrapper._fix_sentence_endings, len]",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "callee": "len",
+   "caller": "TextWrapper._fix_sentence_endings"
+  },
+  "question": "In this module, does `TextWrapper._fix_sentence_endings` directly call `len`?",
+  "raw_evidence": "`TextWrapper._fix_sentence_endings` is a function defined in the source, so whether it calls `len` is decidable by reading its body.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.direct_call.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [TextWrapper._fix_sentence_endings, patsearch]",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "callee": "patsearch",
+   "caller": "TextWrapper._fix_sentence_endings"
+  },
+  "question": "In this module, does `TextWrapper._fix_sentence_endings` directly call `patsearch`?",
+  "raw_evidence": "`TextWrapper._fix_sentence_endings` is a function defined in the source, so whether it calls `patsearch` is decidable by reading its body.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.direct_call.003",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [TextWrapper._handle_long_word, any]",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "callee": "any",
+   "caller": "TextWrapper._handle_long_word"
+  },
+  "question": "In this module, does `TextWrapper._handle_long_word` directly call `any`?",
+  "raw_evidence": "`TextWrapper._handle_long_word` is a function defined in the source, so whether it calls `any` is decidable by reading its body.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.direct_call.004",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [dedent, TextWrapper]; `TextWrapper` is called by ['fill', 'shorten', 'wrap'], so its absence here is a real negative",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "callee": "TextWrapper",
+   "caller": "dedent"
+  },
+  "question": "In this module, does `dedent` directly call `TextWrapper`?",
+  "raw_evidence": "`dedent` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.direct_call.005",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [indent, TextWrapper]; `TextWrapper` is called by ['fill', 'shorten', 'wrap'], so its absence here is a real negative",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "callee": "TextWrapper",
+   "caller": "indent"
+  },
+  "question": "In this module, does `indent` directly call `TextWrapper`?",
+  "raw_evidence": "`indent` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.param_rebound.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains break_long_words=True; assigned_locals contains break_long_words=False",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "fn": "TextWrapper.__init__",
+   "param": "break_long_words"
+  },
+  "question": "In `TextWrapper.__init__`, is the parameter `break_long_words` rebound by an assignment to `break_long_words` inside the function body?",
+  "raw_evidence": "`TextWrapper.__init__` is defined in the source with body visible.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.param_rebound.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains break_on_hyphens=True; assigned_locals contains break_on_hyphens=False",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "fn": "TextWrapper.__init__",
+   "param": "break_on_hyphens"
+  },
+  "question": "In `TextWrapper.__init__`, is the parameter `break_on_hyphens` rebound by an assignment to `break_on_hyphens` inside the function body?",
+  "raw_evidence": "`TextWrapper.__init__` is defined in the source with body visible.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.unused_import.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "unused_import",
+  "evidence_predicate": "ev_unused_import",
+  "ground_truth": "no",
+  "gt_basis": "unused_imports() contains re = False",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "mod": "re"
+  },
+  "question": "Is `re` imported in this module but never referenced by name anywhere in the module's code?",
+  "raw_evidence": "the import statement and all name usages are in the source.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.nesting_conjunction.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "nesting_conjunction",
+  "evidence_predicate": "ev_nesting_conjunction",
+  "ground_truth": "yes",
+  "gt_basis": "`TextWrapper._handle_long_word` max_nesting=3 > 2 is True; it calls any = True",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "params": {
+   "callee": "any",
+   "target": "TextWrapper._handle_long_word",
+   "threshold": 2
+  },
+  "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `any`?",
+  "raw_evidence": "the function and its body are present in the source.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.string_literal_probe.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "unanswerable"
+  },
+  "ctype": "string_literal_probe",
+  "evidence_predicate": "ev_string_literal",
+  "ground_truth": "yes",
+  "gt_basis": "literal substring test against the recorded source of `TextWrapper.__init__` (lines 115-140)",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "note": "Structure carries no string literals by design, so this case is UNANSWERABLE under struct. It is retained to measure evidence removal, not to score a model error.",
+  "params": {
+   "fn": "TextWrapper.__init__",
+   "literal": " [...]"
+  },
+  "question": "Does the body of `TextWrapper.__init__` contain the string literal ' [...]'?",
+  "raw_evidence": "the function body is present verbatim in the raw source.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.unanswerable_semantic.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_semantic",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Thread safety is a semantic property; neither the source nor the extracted structure establishes it.",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "note": "Admissible as an unanswerable cell only. Used to compare answering/confidence behaviour across representations, never to score accuracy.",
+  "params": {
+   "fn": "TextWrapper.fill"
+  },
+  "question": "Is `TextWrapper.fill` safe to call concurrently from multiple threads?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "textwrap.unanswerable_runtime.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_runtime",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Runtime call frequency is a runtime property; no static representation establishes it.",
+  "module": "textwrap",
+  "module_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+  "note": "Admissible as an unanswerable cell only.",
+  "params": {
+   "fn": "TextWrapper.fill"
+  },
+  "question": "At runtime, how many times is `TextWrapper.fill` called per request?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "ca8fde30644dfc5a97fd0dd891bc70f26e3d6aeefc8f5883755d84c10370af95",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.direct_call.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [Field.__set_name__, func]",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "callee": "func",
+   "caller": "Field.__set_name__"
+  },
+  "question": "In this module, does `Field.__set_name__` directly call `func`?",
+  "raw_evidence": "`Field.__set_name__` is a function defined in the source, so whether it calls `func` is decidable by reading its body.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.direct_call.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [Field.__set_name__, getattr]",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "callee": "getattr",
+   "caller": "Field.__set_name__"
+  },
+  "question": "In this module, does `Field.__set_name__` directly call `getattr`?",
+  "raw_evidence": "`Field.__set_name__` is a function defined in the source, so whether it calls `getattr` is decidable by reading its body.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.direct_call.003",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [Field.__set_name__, type]",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "callee": "type",
+   "caller": "Field.__set_name__"
+  },
+  "question": "In this module, does `Field.__set_name__` directly call `type`?",
+  "raw_evidence": "`Field.__set_name__` is a function defined in the source, so whether it calls `type` is decidable by reading its body.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.direct_call.004",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [InitVar.__class_getitem__, Field]; `Field` is called by ['field'], so its absence here is a real negative",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "callee": "Field",
+   "caller": "InitVar.__class_getitem__"
+  },
+  "question": "In this module, does `InitVar.__class_getitem__` directly call `Field`?",
+  "raw_evidence": "`InitVar.__class_getitem__` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.direct_call.005",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [InitVar.__init__, Field]; `Field` is called by ['field'], so its absence here is a real negative",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "callee": "Field",
+   "caller": "InitVar.__init__"
+  },
+  "question": "In this module, does `InitVar.__init__` directly call `Field`?",
+  "raw_evidence": "`InitVar.__init__` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.call_path2.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "call_path2",
+  "evidence_predicate": "ev_path2",
+  "ground_truth": "yes",
+  "gt_basis": "edge [_add_slots,fields] and edge [fields,TypeError]",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "dst": "TypeError",
+   "mid": "fields",
+   "src": "_add_slots"
+  },
+  "question": "In this module, is there a function that `_add_slots` calls, which in turn calls `TypeError`?",
+  "raw_evidence": "both `_add_slots` and `TypeError` are defined in the source, so the chain is decidable.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.call_path2.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "call_path2",
+  "evidence_predicate": "ev_path2",
+  "ground_truth": "yes",
+  "gt_basis": "edge [_add_slots,fields] and edge [fields,fields.values]",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "dst": "fields.values",
+   "mid": "fields",
+   "src": "_add_slots"
+  },
+  "question": "In this module, is there a function that `_add_slots` calls, which in turn calls `fields.values`?",
+  "raw_evidence": "both `_add_slots` and `fields.values` are defined in the source, so the chain is decidable.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.param_rebound.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains compare=True; assigned_locals contains compare=False",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "fn": "Field.__init__",
+   "param": "compare"
+  },
+  "question": "In `Field.__init__`, is the parameter `compare` rebound by an assignment to `compare` inside the function body?",
+  "raw_evidence": "`Field.__init__` is defined in the source with body visible.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.param_rebound.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains default=True; assigned_locals contains default=False",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "fn": "Field.__init__",
+   "param": "default"
+  },
+  "question": "In `Field.__init__`, is the parameter `default` rebound by an assignment to `default` inside the function body?",
+  "raw_evidence": "`Field.__init__` is defined in the source with body visible.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.unused_import.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "unused_import",
+  "evidence_predicate": "ev_unused_import",
+  "ground_truth": "no",
+  "gt_basis": "unused_imports() contains _thread = False",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "mod": "_thread"
+  },
+  "question": "Is `_thread` imported in this module but never referenced by name anywhere in the module's code?",
+  "raw_evidence": "the import statement and all name usages are in the source.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.nesting_conjunction.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "nesting_conjunction",
+  "evidence_predicate": "ev_nesting_conjunction",
+  "ground_truth": "yes",
+  "gt_basis": "`_asdict_inner` max_nesting=4 > 3 is True; it calls _asdict_inner = True",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "params": {
+   "callee": "_asdict_inner",
+   "target": "_asdict_inner",
+   "threshold": 3
+  },
+  "question": "Does any function in this module have maximum control-flow nesting deeper than 3 AND also call `_asdict_inner`?",
+  "raw_evidence": "the function and its body are present in the source.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.string_literal_probe.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "unanswerable"
+  },
+  "ctype": "string_literal_probe",
+  "evidence_predicate": "ev_string_literal",
+  "ground_truth": "yes",
+  "gt_basis": "literal substring test against the recorded source of `Field.__init__` (lines 286-300)",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "note": "Structure carries no string literals by design, so this case is UNANSWERABLE under struct. It is retained to measure evidence removal, not to score a model error.",
+  "params": {
+   "fn": "Field.__init__",
+   "literal": " def "
+  },
+  "question": "Does the body of `Field.__init__` contain the string literal ' def '?",
+  "raw_evidence": "the function body is present verbatim in the raw source.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.unanswerable_semantic.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_semantic",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Thread safety is a semantic property; neither the source nor the extracted structure establishes it.",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "note": "Admissible as an unanswerable cell only. Used to compare answering/confidence behaviour across representations, never to score accuracy.",
+  "params": {
+   "fn": "_hash_fn"
+  },
+  "question": "Is `_hash_fn` safe to call concurrently from multiple threads?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "dataclasses.unanswerable_runtime.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_runtime",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Runtime call frequency is a runtime property; no static representation establishes it.",
+  "module": "dataclasses",
+  "module_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+  "note": "Admissible as an unanswerable cell only.",
+  "params": {
+   "fn": "_hash_fn"
+  },
+  "question": "At runtime, how many times is `_hash_fn` called per request?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "a51b57a4744404faa1f66bbe9cc96fad4e1b3b9afb432aeb42384dbaf4f179b9",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.direct_call.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [BasicInterpolation._interpolate_some, InterpolationDepthError]",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "callee": "InterpolationDepthError",
+   "caller": "BasicInterpolation._interpolate_some"
+  },
+  "question": "In this module, does `BasicInterpolation._interpolate_some` directly call `InterpolationDepthError`?",
+  "raw_evidence": "`BasicInterpolation._interpolate_some` is a function defined in the source, so whether it calls `InterpolationDepthError` is decidable by reading its body.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.direct_call.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [BasicInterpolation._interpolate_some, InterpolationMissingOptionError]",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "callee": "InterpolationMissingOptionError",
+   "caller": "BasicInterpolation._interpolate_some"
+  },
+  "question": "In this module, does `BasicInterpolation._interpolate_some` directly call `InterpolationMissingOptionError`?",
+  "raw_evidence": "`BasicInterpolation._interpolate_some` is a function defined in the source, so whether it calls `InterpolationMissingOptionError` is decidable by reading its body.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.direct_call.003",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "yes",
+  "gt_basis": "call_edges contains [BasicInterpolation._interpolate_some, InterpolationSyntaxError]",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "callee": "InterpolationSyntaxError",
+   "caller": "BasicInterpolation._interpolate_some"
+  },
+  "question": "In this module, does `BasicInterpolation._interpolate_some` directly call `InterpolationSyntaxError`?",
+  "raw_evidence": "`BasicInterpolation._interpolate_some` is a function defined in the source, so whether it calls `InterpolationSyntaxError` is decidable by reading its body.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.direct_call.004",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [BasicInterpolation._interpolate_some, ConverterMapping]; `ConverterMapping` is called by ['RawConfigParser.__init__'], so its absence here is a real negative",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "callee": "ConverterMapping",
+   "caller": "BasicInterpolation._interpolate_some"
+  },
+  "question": "In this module, does `BasicInterpolation._interpolate_some` directly call `ConverterMapping`?",
+  "raw_evidence": "`BasicInterpolation._interpolate_some` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.direct_call.005",
+  "classification": {
+   "raw": "judgment",
+   "struct": "lookup"
+  },
+  "ctype": "direct_call",
+  "evidence_predicate": "ev_direct_call",
+  "ground_truth": "no",
+  "gt_basis": "call_edges has no [BasicInterpolation.before_get, ConverterMapping]; `ConverterMapping` is called by ['RawConfigParser.__init__'], so its absence here is a real negative",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "callee": "ConverterMapping",
+   "caller": "BasicInterpolation.before_get"
+  },
+  "question": "In this module, does `BasicInterpolation.before_get` directly call `ConverterMapping`?",
+  "raw_evidence": "`BasicInterpolation.before_get` is a function defined in the source, so its calls are decidable by reading its body.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.call_path2.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "call_path2",
+  "evidence_predicate": "ev_path2",
+  "ground_truth": "yes",
+  "gt_basis": "edge [DuplicateOptionError.__init__,Error.__init__] and edge [Error.__init__,Exception.__init__]",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "dst": "Exception.__init__",
+   "mid": "Error.__init__",
+   "src": "DuplicateOptionError.__init__"
+  },
+  "question": "In this module, is there a function that `DuplicateOptionError.__init__` calls, which in turn calls `Exception.__init__`?",
+  "raw_evidence": "both `DuplicateOptionError.__init__` and `Exception.__init__` are defined in the source, so the chain is decidable.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.call_path2.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "call_path2",
+  "evidence_predicate": "ev_path2",
+  "ground_truth": "yes",
+  "gt_basis": "edge [DuplicateSectionError.__init__,Error.__init__] and edge [Error.__init__,Exception.__init__]",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "dst": "Exception.__init__",
+   "mid": "Error.__init__",
+   "src": "DuplicateSectionError.__init__"
+  },
+  "question": "In this module, is there a function that `DuplicateSectionError.__init__` calls, which in turn calls `Exception.__init__`?",
+  "raw_evidence": "both `DuplicateSectionError.__init__` and `Exception.__init__` are defined in the source, so the chain is decidable.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.param_rebound.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains accum=True; assigned_locals contains accum=False",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "fn": "BasicInterpolation._interpolate_some",
+   "param": "accum"
+  },
+  "question": "In `BasicInterpolation._interpolate_some`, is the parameter `accum` rebound by an assignment to `accum` inside the function body?",
+  "raw_evidence": "`BasicInterpolation._interpolate_some` is defined in the source with body visible.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.param_rebound.002",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "param_rebound",
+  "evidence_predicate": "ev_param_rebound",
+  "ground_truth": "no",
+  "gt_basis": "params contains depth=True; assigned_locals contains depth=False",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "fn": "BasicInterpolation._interpolate_some",
+   "param": "depth"
+  },
+  "question": "In `BasicInterpolation._interpolate_some`, is the parameter `depth` rebound by an assignment to `depth` inside the function body?",
+  "raw_evidence": "`BasicInterpolation._interpolate_some` is defined in the source with body visible.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.unused_import.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "unused_import",
+  "evidence_predicate": "ev_unused_import",
+  "ground_truth": "yes",
+  "gt_basis": "unused_imports() contains collections.ChainMap = True",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "mod": "collections.ChainMap"
+  },
+  "question": "Is `collections.ChainMap` imported in this module but never referenced by name anywhere in the module's code?",
+  "raw_evidence": "the import statement and all name usages are in the source.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.nesting_conjunction.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "judgment"
+  },
+  "ctype": "nesting_conjunction",
+  "evidence_predicate": "ev_nesting_conjunction",
+  "ground_truth": "yes",
+  "gt_basis": "`BasicInterpolation._interpolate_some` max_nesting=5 > 4 is True; it calls InterpolationDepthError = True",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "params": {
+   "callee": "InterpolationDepthError",
+   "target": "BasicInterpolation._interpolate_some",
+   "threshold": 4
+  },
+  "question": "Does any function in this module have maximum control-flow nesting deeper than 4 AND also call `InterpolationDepthError`?",
+  "raw_evidence": "the function and its body are present in the source.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.string_literal_probe.001",
+  "classification": {
+   "raw": "judgment",
+   "struct": "unanswerable"
+  },
+  "ctype": "string_literal_probe",
+  "evidence_predicate": "ev_string_literal",
+  "ground_truth": "yes",
+  "gt_basis": "literal substring test against the recorded source of `BasicInterpolation._interpolate_some` (lines 407-446)",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "note": "Structure carries no string literals by design, so this case is UNANSWERABLE under struct. It is retained to measure evidence removal, not to score a model error.",
+  "params": {
+   "fn": "BasicInterpolation._interpolate_some",
+   "literal": "Interpolation"
+  },
+  "question": "Does the body of `BasicInterpolation._interpolate_some` contain the string literal 'Interpolation'?",
+  "raw_evidence": "the function body is present verbatim in the raw source.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.unanswerable_semantic.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_semantic",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Thread safety is a semantic property; neither the source nor the extracted structure establishes it.",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "note": "Admissible as an unanswerable cell only. Used to compare answering/confidence behaviour across representations, never to score accuracy.",
+  "params": {
+   "fn": "RawConfigParser._get_conv"
+  },
+  "question": "Is `RawConfigParser._get_conv` safe to call concurrently from multiple threads?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ },
+ {
+  "case_id": "configparser.unanswerable_runtime.001",
+  "classification": {
+   "raw": "unanswerable",
+   "struct": "unanswerable"
+  },
+  "ctype": "unanswerable_runtime",
+  "evidence_predicate": "ev_none",
+  "ground_truth": null,
+  "gt_basis": "NOT DERIVABLE. Runtime call frequency is a runtime property; no static representation establishes it.",
+  "module": "configparser",
+  "module_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+  "note": "Admissible as an unanswerable cell only.",
+  "params": {
+   "fn": "RawConfigParser._get_conv"
+  },
+  "question": "At runtime, how many times is `RawConfigParser._get_conv` called per request?",
+  "raw_evidence": "none; the property is not in the representation.",
+  "struct_sha256": "ad508164699d8c2081dfdc6c6eccbf86b264c7c68c963fe296bc8fe0c2b1e5aa",
+  "type": "noul"
+ }
+]
