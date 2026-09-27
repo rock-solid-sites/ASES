@@ -1,0 +1,66 @@
+{
+ "corpus_sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+ "model_id": "opencode/muse-spark-1.3-contributor-free",
+ "n_cases": 6,
+ "cases": [
+  {
+   "case_id": "a-dist1",
+   "question_type": "noul",
+   "instructions": "Are all nodes running release 4.7?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThree of the five canary nodes were upgraded to release 4.7. The rollout was paused by the operator at 12:20 UTC and was never resumed. The remaining two nodes are still running release 4.6.\n\nUnrelated context: the team also owns two other services that have no dependency on this change. The on-call rota for the following week was rearranged for reasons unrelated to the work described here. A quarterly headcount plan is circulating and is not yet approved.\n\nQuestion: Are all nodes running release 4.7?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "d-01",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nWork item ENG-2201 has been agreed and its specification is complete: scope, acceptance criteria, and interfaces are all written and approved. No implementation work has started. No defect is known, no failure is unexplained, and no governing assumption is known to be invalid. The work is fully within the team's own remit and needs no decision from an owner.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "a-h04",
+   "question_type": "score",
+   "instructions": "What is the current residual risk from the unremediated finding?",
+   "criteria": [
+    "low",
+    "medium",
+    "high"
+   ],
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe compliance audit reported 3 policy violations. Two were remediated the same day and independently re-verified. The third concerns a service that was decommissioned four months ago and has no live data path; it is tracked in open ticket OPS-4412.\n\nQuestion: What is the current residual risk from the unremediated finding?\n\nAllowed labels: low, medium, high\n\nReply with exactly one label and nothing else."
+  },
+  {
+   "case_id": "a-e01",
+   "question_type": "noul",
+   "instructions": "Did the checkout service deploy succeed?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe checkout service deployed build 812 to production at 14:02 UTC. The post-deploy health check returned HTTP 200 for all three probes. No rollback was recorded in the following 30 minutes.\n\nQuestion: Did the checkout service deploy succeed?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p4b",
+   "question_type": "noul",
+   "instructions": "Is build 903 reproducible from the recorded commit?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nBuild 903 was produced during the nightly window. The archived build manifest states: 'The recorded build manifest lists commit 9f0e44 as the source.'.\n\nQuestion: Is build 903 reproducible from the recorded commit?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p6a",
+   "question_type": "noul",
+   "instructions": "Is ledger-ingest healthy?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nService 'ledger-ingest' runs in namespace prod. The monitoring summary for the last 30 minutes states: 'All readiness probes have returned HTTP 200 continuously for 30 minutes.'.\n\nQuestion: Is ledger-ingest healthy?\n\nReply with exactly one word: YES or NO."
+  }
+ ]
+}
