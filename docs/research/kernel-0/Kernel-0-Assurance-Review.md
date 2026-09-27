@@ -99,3 +99,16 @@ Phase 1–5 reports and preserved counterexamples. Try to find a retained mechan
 misclassified as intrinsic, a necessary distinction discarded without a valid
 projection, or hidden trust outside the named authority service. The conclusion
 is provisional evidence-based reduction, not unique universal minimality.
+
+
+# Frozen Phase 7 packet
+
+The Phase 7 evidence commit contains `Kernel-0-Stronger-Realization.md`,
+`kernel0_io_interposer.c`, `kernel0_io_check.py`, and
+`Kernel-0-Storage-Cuts-results.json`. Review that exact commit and its manifest.
+Challenge which actual interfaces were intercepted, event-prefix equivalence,
+process-kill timing, old/new recovery classifications, and whether the induced
+partial writes support the stated result. Check that the 10/12 physically mixed
+images are distinguished from the two unchanged-endpoint images. Try to falsify
+currentness under the declared live-OS boundary separately from hostile store
+rollback. This packet does not claim power loss or arbitrary VFS coverage.
