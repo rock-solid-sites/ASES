@@ -1,6 +1,6 @@
 {
   "next_display_id": 570,
-  "next_comment_id": 4023,
+  "next_comment_id": 4024,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8785,7 +8785,7 @@
       "parent_uuid": "cca0e71b-2535-4a05-9111-65165d3d6334",
       "created_by": "OL2r",
       "created_at": "2026-09-26T17:43:23.235409169Z",
-      "updated_at": "2026-09-26T18:21:36.978029014Z",
+      "updated_at": "2026-09-27T14:20:46.042233802Z",
       "labels": [
         "research"
       ],
@@ -8843,6 +8843,13 @@
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAfGzN4/P22ewAAejL1pP00/ZETYiCINYcn95X8mzuu8e/shcEjt0CtLSY9i0NBFaCu0lAyl5vaD8qzmFoaBkxAw=="
+        },
+        "fc9c44f8-3bee-4a09-b0dd-8f28b97086fe": {
+          "display_id": 4023,
+          "author": "anon-a55dfdea",
+          "content": "WHY: The seven-phase Kernel-0 assurance continuation is complete through bounded real-I/O storage-cut testing; the results are now reviewable on the authorized branch.\nWHAT: A1–A7 results and the frozen review packet/index are published. A7 observed actual SQLite positional writes, fdatasync, and journal unlink, then killed the holder at 90 before/after I/O points; all 29 non-final cuts per operation recovered the old endpoint and each final journal-removal cut recovered the new endpoint. Twelve deliberate split-write cases recovered the old endpoint; raw bytes differed from both endpoints in 10/12. A1’s strongest counterexample remains same-root stale database restoration after acknowledged revocation, which can resurrect authority and is outside the declared storage-failure boundary. A2 also confirms that lost sink acknowledgement plus retry can duplicate an irreversible effect. These are profile/boundary findings; no Kernel-0 semantic change or new primitive was justified. The final continuation points at review index commit ef180ef28ee692a845507a4ace02bd3fa1f10d18. Final cursor commit fef63c4d16423b089207b774c5ad1f6435bb6b19 is on codex/kernel-0-reasoning-566, and the remote branch ref was verified equal to that full SHA.\nHOW CERTAIN: Evidence-based for the bounded models, executable histories, and tested Linux x86-64/glibc 2.35, Python 3.10.12, SQLite 3.37.2, GCC 11.4.0 runtime. The realization experiment uses an LD_PRELOAD interposer at actual pwrite64/fdatasync/unlink calls and SIGKILL; it is not a filesystem or SQLite proof.\nWHAT NOT TESTED: No power loss, hardware torn-sector behavior, failing sync device, arbitrary VFS, malicious rollback, or independent adversarial review. The same-root restore demonstrates the currentness gap; preventing it needs a trustworthy non-rollback freshness anchor or an explicit narrower storage premise. Next action: independent adversarial review against the frozen packet.",
+          "created_at": "2026-09-27T14:20:46.042164946Z",
+          "kind": "result"
         }
       }
     },
@@ -46482,11 +46489,16 @@
       "agent_id": "anon-a55dfdea",
       "agent_seq": 4,
       "timestamp": "2026-09-26T15:20:04.022825675Z"
+    },
+    {
+      "agent_id": "anon-a55dfdea",
+      "agent_seq": 5,
+      "timestamp": "2026-09-27T14:20:46.042233802Z"
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-26T18:21:36.978029014Z",
-    "agent_id": "OL2r",
-    "agent_seq": 3581
+    "timestamp": "2026-09-27T14:20:46.042233802Z",
+    "agent_id": "anon-a55dfdea",
+    "agent_seq": 5
   }
 }
