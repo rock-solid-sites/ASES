@@ -1,6 +1,6 @@
 {
   "next_display_id": 570,
-  "next_comment_id": 4025,
+  "next_comment_id": 4026,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8955,7 +8955,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-27T15:46:14.458315040Z",
+      "updated_at": "2026-09-27T17:06:34.088533103Z",
       "labels": [
         "research"
       ],
@@ -9124,6 +9124,15 @@
           "kind": "note",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABApF+5MSxuNmcBcJzUzK3gN+drqt3lg/cCpX33v64Ih7Af6o6jb8BXVvhb2xPovtw5ZpZB6czEpWUaDdYo5oqyBg=="
+        },
+        "86ab0bb4-300b-4690-9dea-51e3dd9ade9c": {
+          "display_id": 4025,
+          "author": "OL2r",
+          "content": "[result] followup-05 independently verified: PASS WITH FINDINGS (6bca31c5). No push.\n\nVerifier: opencode/muse-spark-1.3-contributor-free (family muse-free, distinct from both the author and the arm under test). Operated blind: forbidden from reading COMPARISON.md, SMOKE.md, RECON.md, out/band-*.json and findings.md section 6 until it had derived every number itself. Read-only apart from its deliverable.\n\nVERDICT: PASS WITH FINDINGS. All twelve claims C1-C12 reproduce from raw evidence; none failed. C8, the sharpest and most falsifiable claim, was CONFIRMED against followup-02 verification.md section 3.5. The verifier independently re-ran the frozen scorer: 320/320 cells, unchanged scored.ndjson and metrics.json hashes, empty git diff on harness/, corpus sha256 intact, 0 credential values.\n\nAdversarial judgements, all in the author's favour on substance: the c-p6a fragility argument is sound and correctly hedged (the band needed acc>=96% AND c<=1, and followup-02 met both on a one-cell margin); per-arm grid staging is a legitimate, openly declared substitution rather than a quiet change of instrument; refusing a prose parser for ling was correct; the followup-04 operational case is not overturned and is correctly scoped.\n\nTHREE ERRORS OF THE AUTHOR FOUND AND CORRECTED:\n1. MATERIAL (F1). Section 6 claimed \"four independent comparisons\", \"four measurements of a tie\", and \"not one of them has produced a cell where Jev is right and a free cross-family general model is wrong, at any point\". All three are withdrawn. followup-02-direct and followup-05-agent are the SAME MODEL on two transports; followup-01 is the weaker same-family reference; followup-02 was 48/50 with c=1, a one-cell deficit, not a tie; and its c-p6a falsifies \"not one at any point\". The author's own table contradicted the author's own sentence. Only big-pickle is a new independent datum, so the evidentiary base is much smaller than claimed. The programme-level INCONCLUSIVE verdict is the correct guardrail and stands unchanged.\n2. Section 3 understated ling chunk 03: the prose covered all 8 cases, not 6. The first read was truncated at 900 characters.\n3. Section 3 overstated the ling parse failure: \"zero parseable objects\" holds only for single-line NDJSON. Chunk 04 does contain 8 JSON objects, pretty-printed across multiple lines, which the strict extractor correctly rejects.\n\nInformational: the credential scan reported 139 files, the verifier counted 151; delta is 5 untracked files created after that scan. 0 credential values either way.\n\nThe verifier disclosed that re-running score.py dirties two staging manifest.json (git.commit and scoring.generated_utc only) and restored them; scored.ndjson and metrics.json are unaffected. Tree confirmed clean. Final scan: 154 files, 0 hits.\n\nSTATE OF ISSUE 565: Phase 1 complete and verified. followup-05 complete and verified. The bounded-judgment capability question is answered in the negative for the single scorable cross-family arm, on a synthetic template corpus at n=50, with family variance uncharacterised. The INCONCLUSIVE programme verdict is the finding of record. The followup-04 operational case (latency, tail, throughput, reliability, cost) remains the only established positive for a Jev tier and is untouched. Q4 (non-synthetic corpus) is the binding limitation for any next step.\n\nNot done: no push. Operator push approval required. No follow-up experiment commissioned; Q2/Q3/Q4/Q6 remain open and Phase 2 design is undecided.",
+          "created_at": "2026-09-27T17:06:34.080171461Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAT06UOIIvMZh/xVxQY9KgVQrHGRc3bO9mqekz4aZZATovbqrhUJBbAFV7soOnxtVlwVuMwk2BZs5XDpLy+iJcCA=="
         },
         "a5a442c5-a6cd-4322-9fce-0cea5079c465": {
           "display_id": 4011,
@@ -46506,8 +46515,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-27T15:46:14.458315040Z",
+    "timestamp": "2026-09-27T17:06:34.088533103Z",
     "agent_id": "OL2r",
-    "agent_seq": 3582
+    "agent_seq": 3583
   }
 }
