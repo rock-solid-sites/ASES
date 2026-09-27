@@ -121,3 +121,90 @@ Line numbers are 1-based in the frozen corpus files.
   mechanical comparison). WHAT-NOT-TESTED in Step 1: only these six pairs;
   the rest of the corpus, `render_struct` byte output, and frozen digests are
   Step 4 material.
+
+---
+
+## BLOCKER — appended by the ORCHESTRATOR, not by the verifier
+
+**This section is orchestrator-authored and is NOT verifier evidence.** It is
+recorded here so the blocker survives on disk in the designated artifact rather
+than only in chat. Nothing above or below this line was written by the verifier
+family except Step 1.
+
+- **Recorded:** 2026-09-27T21:42Z
+- **Blocks:** Step 2 (independent reproduction of the final statistics) and
+  Step 3 (adversarial judgement of the material claims)
+
+### Both designated verifiers are rate-limited
+
+From `~/.local/share/opencode/opencode.log`:
+
+```
+21:34:20Z  ERROR  providerID=opencode modelID=muse-spark-1.3-contributor-free
+                   agent=build error.error="AI_APICallError: Rate limit exceeded.
+                   Please try again later."
+21:34:20Z  WARN   message=retry provider=opencode attempt=1
+                   code="Rate limit exceeded. Please try again later."
+                   nextDelay=8740000
+21:34:25Z  ERROR  "AI_RetryError: Failed after 3 attempts. Last error:
+                   Rate limit exceeded. Please try again later."
+
+21:39:03Z  ERROR  providerID=opencode modelID=mimo-v2.6-flash-free
+                   agent=build error.error="AI_APICallError: Rate limit exceeded.
+                   Please try again later."
+21:39:03Z  WARN   message=retry provider=opencode attempt=1
+                   code="Rate limit exceeded. Please try again later."
+                   nextDelay=8457000
+21:39:07Z  ERROR  "AI_RetryError: Failed after 3 attempts. Last error:
+                   Rate limit exceeded. Please try again later."
+```
+
+| model | role | limit observed at | nextDelay | clears (approx) |
+|---|---|---|---|---|
+| `opencode/muse-spark-1.3-contributor-free` | designated verifier, completed Step 1 | 21:34:20Z | 8,740,000 ms ≈ 2.43 h | ~23:59Z |
+| `opencode/mimo-v2.6-flash-free` | second designated verifier | 21:39:03Z | 8,457,000 ms ≈ 2.35 h | ~23:58Z |
+
+Both free-tier Zen models exhausted at effectively the same moment, which
+indicates an account-level free-tier quota rather than a per-model fault. This
+is the third distinct free-model failure mode recorded in this programme, after
+`longcat` (no Go entitlement) and MiMo's earlier task-completion failures.
+
+A liveness probe of `muse-spark-1.3-contributor-free` at 21:34Z returned no
+text and no error event, consistent with the limit being in force. The MiMo
+dispatch produced a 0-byte event stream and no file.
+
+### What was NOT done, and why
+
+- The orchestrator did **not** take the verification verdict itself. The
+  orchestrator authored the harness, ran the measurement and wrote
+  `harness/crosscheck_stats.py`, so any verdict it produced would be
+  same-family and therefore operational only.
+- The orchestrator did **not** substitute an undesignated model. Per
+  `model-discipline.md`, if an approved model is unreachable the correct action
+  is to stop and report, not to shortlist a replacement.
+
+### Free-tier availability probe (reconnaissance only, no dispatch)
+
+| model | state | designated? |
+|---|---|---|
+| `opencode/nemotron-3-ultra-free` | **ALIVE** | no |
+| `opencode/nemotron-3.5-lightning-free` | **ALIVE** | no |
+| `opencode/big-pickle` | proven working earlier on 2026-09-27 (64/64 twice, byte-identical across chunkings) | no |
+| `opencode/ling-3.0-flash-fin-free` | silent fail on probe; also failed the output contract during setup | no |
+
+Live, undesignated, cross-family models therefore exist. Using one as the formal
+verifier is an operator decision, not an orchestrator decision.
+
+### How to discharge the gate
+
+1. **Wait for the limit to clear** (~23:58Z) and re-run
+   `VERIFY-BRIEF-2.md` on `opencode/muse-spark-1.3-contributor-free`. It is
+   written to append to this file and to skip Step 1. This preserves the
+   original verifier family and its already-recorded Step 1.
+2. **Or** the operator designates one of the live undesignated models above as
+   the verifier, in which case `VERIFY-BRIEF-3.md` is ready to run on it. It
+   enforces derive-before-compare, forbids use of `crosscheck_stats.py` as a
+   source of truth, and mandates four incremental write checkpoints.
+
+Until one of those happens, Step 2 and Step 3 remain OUTSTANDING and Phase 2
+remains partially verified.

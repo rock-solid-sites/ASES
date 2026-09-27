@@ -76,6 +76,33 @@ level=ERROR ... "AI_RetryError: Failed after 3 attempts. Last error:
 `nextDelay=15780000` ms is **≈ 4.4 hours**. A subsequent liveness probe returned
 no text and no error event, consistent with the limit still being in force.
 
+**Update 21:42Z — the blocker widened.** A second attempt to place the
+verification on the *other* designated model, `opencode/mimo-v2.6-flash-free`,
+also failed:
+
+```
+21:39:03Z ERROR providerID=opencode modelID=mimo-v2.6-flash-free agent=build
+  error.error="AI_APICallError: Rate limit exceeded. Please try again later."
+21:39:03Z WARN  message=retry attempt=1 nextDelay=8457000
+```
+
+Both designated verifiers are therefore blocked, clearing at approximately the
+same moment (muse ~23:59Z, mimo ~23:58Z), which points to an account-level
+free-tier quota rather than a per-model fault. This is the third distinct
+free-model failure mode in this programme, after `longcat` (no Go entitlement)
+and MiMo's earlier task-completion failures.
+
+Two live, undesignated, cross-family free models were confirmed available by
+liveness probe: `opencode/nemotron-3-ultra-free` and
+`opencode/nemotron-3.5-lightning-free`. The orchestrator did **not** use either.
+Using an undesignated model as the formal verifier is an operator decision; per
+`model-discipline.md` the correct response to an unreachable approved model is to
+stop and report, not to shortlist a replacement.
+
+The full blocker record, with log signatures and both retry delays, is appended
+to `verification.md` under a heading that marks it as orchestrator-authored, so
+it cannot be mistaken for verifier evidence.
+
 **Paid escalation is not available.** `model-discipline.md` permits escalation
 after a concrete capability failure, but the `opencode-go/` route returns
 `403 "An active OpenCode Go subscription is required"` on this account, so
