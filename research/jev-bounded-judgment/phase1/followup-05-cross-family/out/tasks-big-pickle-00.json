@@ -1,0 +1,71 @@
+{
+ "corpus_sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+ "model_id": "opencode/big-pickle",
+ "n_cases": 8,
+ "cases": [
+  {
+   "case_id": "a-dist1",
+   "question_type": "noul",
+   "instructions": "Are all nodes running release 4.7?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThree of the five canary nodes were upgraded to release 4.7. The rollout was paused by the operator at 12:20 UTC and was never resumed. The remaining two nodes are still running release 4.6.\n\nUnrelated context: the team also owns two other services that have no dependency on this change. The on-call rota for the following week was rearranged for reasons unrelated to the work described here. A quarterly headcount plan is circulating and is not yet approved.\n\nQuestion: Are all nodes running release 4.7?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-e01",
+   "question_type": "noul",
+   "instructions": "Did the checkout service deploy succeed?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe checkout service deployed build 812 to production at 14:02 UTC. The post-deploy health check returned HTTP 200 for all three probes. No rollback was recorded in the following 30 minutes.\n\nQuestion: Did the checkout service deploy succeed?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-e02",
+   "question_type": "noul",
+   "instructions": "Did the test suite pass?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe test suite ran and 7 of 42 tests failed. The runner exited with code 1.\n\nQuestion: Did the test suite pass?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-e03",
+   "question_type": "noul",
+   "instructions": "Was the migration applied to the database?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe schema validation step rejected the migration script. The migration was aborted before any row was written and the schema version is unchanged.\n\nQuestion: Was the migration applied to the database?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-e04",
+   "question_type": "noul",
+   "instructions": "Did the release meet its acceptance criteria?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe release candidate recorded 18 acceptance checks and all 18 are marked PASS in the acceptance report. The report is signed by two independent reviewers.\n\nQuestion: Did the release meet its acceptance criteria?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-e05",
+   "question_type": "noul",
+   "instructions": "Did the build succeed?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe build log for run 4411 ends with the line 'BUILD FAILED: exit code 2' and no artefact was published to the registry.\n\nQuestion: Did the build succeed?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-e06",
+   "question_type": "noul",
+   "instructions": "Did the pipeline run for commit 5c1a0d2?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nCommit 5c1a0d2 was pushed to the integration branch. The pipeline configuration disables continuous integration for that path, so no job was triggered and no pipeline record exists for the commit.\n\nQuestion: Did the pipeline run for commit 5c1a0d2?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-e07",
+   "question_type": "noul",
+   "instructions": "Was the incident resolved?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nIncident INC-2291 was declared resolved at 09:41 UTC and the follow-up page was closed at 10:02 UTC by the incident commander.\n\nQuestion: Was the incident resolved?\n\nReply with exactly one word: YES or NO."
+  }
+ ]
+}

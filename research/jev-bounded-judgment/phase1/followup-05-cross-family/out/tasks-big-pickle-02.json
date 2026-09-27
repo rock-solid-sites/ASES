@@ -1,0 +1,75 @@
+{
+ "corpus_sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+ "model_id": "opencode/big-pickle",
+ "n_cases": 8,
+ "cases": [
+  {
+   "case_id": "a-m04",
+   "question_type": "noul",
+   "instructions": "Was the incident fully resolved including data correctness?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe service was rolled back to the previous release. Separately, the manual data fix was applied afterwards and a reconciliation report then showed 0 missing rows and 0 duplicate rows.\n\nQuestion: Was the incident fully resolved including data correctness?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-m05",
+   "question_type": "noul",
+   "instructions": "Was reviewer 3's objection resolved?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nDesign DOC-118 was circulated for review. Reviewer 1 and reviewer 2 both approved. Reviewer 3 recorded an objection about the retry policy, and the meeting minutes record that the objection was resolved by adopting the bounded-retry variant.\n\nQuestion: Was reviewer 3's objection resolved?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-m06",
+   "question_type": "score",
+   "instructions": "What is the current severity of the message-queue backlog?",
+   "criteria": [
+    "none",
+    "low",
+    "high"
+   ],
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe message queue drained to zero at 02:14 UTC and has remained at zero for 6 hours. The producer was scaled to 0 replicas at 02:20 UTC and no consumer has reported an error since.\n\nQuestion: What is the current severity of the message-queue backlog?\n\nAllowed labels: none, low, high\n\nReply with exactly one label and nothing else."
+  },
+  {
+   "case_id": "a-m07",
+   "question_type": "noul",
+   "instructions": "Did the build use a version other than the 2.4.0 pin?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe dependency specifier was pinned to 2.4.0. The resolver output for run 4412 lists exactly one resolved version for that package: 2.4.0.\n\nQuestion: Did the build use a version other than the 2.4.0 pin?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-m08",
+   "question_type": "noul",
+   "instructions": "Will the certificate remain valid indefinitely?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe TLS certificate for the internal endpoint expires in 3 days. An automated renewal job is configured but has not executed in the last 90 days; the last run logged 'skipped: lock held'.\n\nQuestion: Will the certificate remain valid indefinitely?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-miss1",
+   "question_type": "noul",
+   "instructions": "Did the flagged cohort meet the stated 0.5% error budget?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nFeature flag 'new-checkout' was enabled for 5% of traffic. The flag was disabled the following morning. The cohort was not re-measured after the flag was disabled.\n\nQuestion: Did the flagged cohort meet the stated 0.5% error budget?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-noise1",
+   "question_type": "noul",
+   "instructions": "Did the build use a version other than the 2.4.0 pin?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nTHE THE dependency specifier specifier was pinned to 2.4.0.\nThe resolver output for run 4412 lists exactly one resolved version for that package: 2.4.0.\n\nQuestion: Did the build use a version other than the 2.4.0 pin?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "b-a01",
+   "question_type": "noul",
+   "instructions": "Did the nightly job pass?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nContinuous integration reported FAIL on job 'nightly' at 03:12 UTC. The same job reported PASS at 03:13 UTC. The excerpt does not record why the two runs disagree, and no rerun has been performed.\n\nQuestion: Did the nightly job pass?\n\nReply with exactly one word: YES or NO."
+  }
+ ]
+}

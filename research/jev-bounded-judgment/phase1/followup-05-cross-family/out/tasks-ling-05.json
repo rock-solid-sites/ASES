@@ -1,0 +1,71 @@
+{
+ "corpus_sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+ "model_id": "opencode/ling-3.0-flash-fin-free",
+ "n_cases": 8,
+ "cases": [
+  {
+   "case_id": "c-p1a",
+   "question_type": "noul",
+   "instructions": "Is the change ready to merge?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe change under review modifies the request validation path. The pull request is open. The reviewer note states: 'All required reviewers have approved and the continuous integration gate is green.'.\n\nQuestion: Is the change ready to merge?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p1b",
+   "question_type": "noul",
+   "instructions": "Is the change ready to merge?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe change under review modifies the request validation path. The pull request is open. The reviewer note states: 'The continuous integration gate is red because the new validation test fails.'.\n\nQuestion: Is the change ready to merge?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p2a",
+   "question_type": "noul",
+   "instructions": "Is the audit trail for account AC-77 complete?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nCustomer account AC-77 was updated at 09:14 UTC. The audit subsystem recorded the following: 'The audit log records the change, the actor, and the timestamp.'.\n\nQuestion: Is the audit trail for account AC-77 complete?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p2b",
+   "question_type": "noul",
+   "instructions": "Is the audit trail for account AC-77 complete?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nCustomer account AC-77 was updated at 09:14 UTC. The audit subsystem recorded the following: 'The audit log records the change and the timestamp but the actor field is empty.'.\n\nQuestion: Is the audit trail for account AC-77 complete?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p3a",
+   "question_type": "noul",
+   "instructions": "Is the fast-path change fully rolled out?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nFeature flag 'fast-path-v2' is enabled in production. The rollout record states: 'The rollout plan targets 100% and the current traffic share is 100%.'.\n\nQuestion: Is the fast-path change fully rolled out?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p3b",
+   "question_type": "noul",
+   "instructions": "Is the fast-path change fully rolled out?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nFeature flag 'fast-path-v2' is enabled in production. The rollout record states: 'The rollout plan targets 100% and the current traffic share is 12%.'.\n\nQuestion: Is the fast-path change fully rolled out?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p4a",
+   "question_type": "noul",
+   "instructions": "Is build 903 reproducible from the recorded commit?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nBuild 903 was produced during the nightly window. The archived build manifest states: 'The recorded build manifest lists commit 7a11c2 as the source.'.\n\nQuestion: Is build 903 reproducible from the recorded commit?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p4b",
+   "question_type": "noul",
+   "instructions": "Is build 903 reproducible from the recorded commit?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nBuild 903 was produced during the nightly window. The archived build manifest states: 'The recorded build manifest lists commit 9f0e44 as the source.'.\n\nQuestion: Is build 903 reproducible from the recorded commit?\n\nReply with exactly one word: YES or NO."
+  }
+ ]
+}

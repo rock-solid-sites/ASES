@@ -1,0 +1,127 @@
+{
+ "corpus_sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+ "model_id": "opencode/big-pickle",
+ "n_cases": 8,
+ "cases": [
+  {
+   "case_id": "d-05",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nEngineering finding EF-77 concluded that the current 'search-indexer' design cannot meet the 200 ms p99 target under the forecast data volume, because its partitioning assumption is invalid. The finding invalidates a governing assumption in the design. No single defect is localised and no specific failure is unexplained.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-06",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nWork item ENG-2201 was implemented and merged yesterday. The change is complete and sitting in the staging environment awaiting an independent check before release. No defect is known, no failure is unexplained, no governing assumption is known to be invalid, and no decision from an owner is required.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-07",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nA newly deployed feature behaves incorrectly in production. The cause is not known. Separately, the behaviour violates a published interface contract, so any continuation requires a decision by the owning team about whether the contract or the feature changes. No root cause has been identified and no defect has been localised.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-08",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nWork item ENG-2310 has a confirmed root cause: the retry budget was set to zero in a configuration change. The obvious fix would restore the previous value, but that value violates a published interface contract that external consumers depend on. Continuing requires an owner decision about the contract. The root cause itself is fully understood.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-l01",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "opt_k7a1": "Build new work whose specification is complete",
+    "opt_m2b9": "Escalate because a decision or authority exceeds local remit",
+    "opt_r4c3": "Investigate an unexplained failure to find a root cause",
+    "opt_t8d5": "Redesign because a governing assumption is invalid",
+    "opt_w1e6": "Repair a defect whose root cause is already known",
+    "opt_y5f2": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe 'search-indexer' failure has been traced: a configuration change at 07:55 UTC set the shard count to zero, which is the confirmed root cause, and the fix is to restore the previous value. There is nothing left unexplained. The fix is within the team's own remit.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nopt_k7a1: Build new work whose specification is complete\nopt_m2b9: Escalate because a decision or authority exceeds local remit\nopt_r4c3: Investigate an unexplained failure to find a root cause\nopt_t8d5: Redesign because a governing assumption is invalid\nopt_w1e6: Repair a defect whose root cause is already known\nopt_y5f2: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-l02",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "opt_k7a1": "Build new work whose specification is complete",
+    "opt_m2b9": "Escalate because a decision or authority exceeds local remit",
+    "opt_r4c3": "Investigate an unexplained failure to find a root cause",
+    "opt_t8d5": "Redesign because a governing assumption is invalid",
+    "opt_w1e6": "Repair a defect whose root cause is already known",
+    "opt_y5f2": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nEngineering finding EF-77 concluded that the current 'search-indexer' design cannot meet the 200 ms p99 target under the forecast data volume, because its partitioning assumption is invalid. The finding invalidates a governing assumption in the design. No single defect is localised and no specific failure is unexplained.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nopt_k7a1: Build new work whose specification is complete\nopt_m2b9: Escalate because a decision or authority exceeds local remit\nopt_r4c3: Investigate an unexplained failure to find a root cause\nopt_t8d5: Redesign because a governing assumption is invalid\nopt_w1e6: Repair a defect whose root cause is already known\nopt_y5f2: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-r01",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "review": "Review completed work that still needs an independent check",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "build": "Build new work whose specification is complete",
+    "repair": "Repair a defect whose root cause is already known",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nIn production, the 'search-indexer' service began returning errors at 07:58 UTC. No root cause has been identified, no defect has been localised, and no hypothesis has been confirmed. The on-call engineer has recorded that they do not know why it started. No work item specification is affected and the situation is within the team's remit.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nreview: Review completed work that still needs an independent check\nescalate: Escalate because a decision or authority exceeds local remit\nbuild: Build new work whose specification is complete\nrepair: Repair a defect whose root cause is already known\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-r02",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "repair": "Repair a defect whose root cause is already known",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "review": "Review completed work that still needs an independent check",
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nWork item ENG-2201 was implemented and merged yesterday. The change is complete and sitting in the staging environment awaiting an independent check before release. No defect is known, no failure is unexplained, no governing assumption is known to be invalid, and no decision from an owner is required.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nrepair: Repair a defect whose root cause is already known\nredesign: Redesign because a governing assumption is invalid\nreview: Review completed work that still needs an independent check\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\n\nReply with exactly one option key and nothing else."
+  }
+ ]
+}

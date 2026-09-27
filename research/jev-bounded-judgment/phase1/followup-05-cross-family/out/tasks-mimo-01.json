@@ -1,0 +1,75 @@
+{
+ "corpus_sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+ "model_id": "opencode/mimo-v2.6-flash-free",
+ "n_cases": 8,
+ "cases": [
+  {
+   "case_id": "a-h01",
+   "question_type": "noul",
+   "instructions": "Did the flagged cohort meet the stated 0.5% error budget?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nFeature flag 'new-checkout' was enabled for 5% of traffic. Orders from the flagged cohort showed a 3.1% error rate over 24 hours; unflagged traffic showed 0.4%. The team's stated error budget for this cohort is 0.5%. The flag was disabled the following morning. The cohort was not re-measured after the flag was disabled.\n\nQuestion: Did the flagged cohort meet the stated 0.5% error budget?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-h02",
+   "question_type": "noul",
+   "instructions": "Did the application exceed its configured staleness tolerance?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe read replica lagged by up to 4 minutes during the migration window. The application's configured read-staleness tolerance is 5 minutes, and the observed lag never exceeded that tolerance.\n\nQuestion: Did the application exceed its configured staleness tolerance?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-h03",
+   "question_type": "noul",
+   "instructions": "Is the currently running version the version from deploy A?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nDeploy A at 10:00 failed its health check and was rolled back. Deploy B at 10:40 used a different image tag and passed all checks. No further deploys were executed that day and the rollback of deploy A was not undone.\n\nQuestion: Is the currently running version the version from deploy A?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-h04",
+   "question_type": "score",
+   "instructions": "What is the current residual risk from the unremediated finding?",
+   "criteria": [
+    "low",
+    "medium",
+    "high"
+   ],
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe compliance audit reported 3 policy violations. Two were remediated the same day and independently re-verified. The third concerns a service that was decommissioned four months ago and has no live data path; it is tracked in open ticket OPS-4412.\n\nQuestion: What is the current residual risk from the unremediated finding?\n\nAllowed labels: low, medium, high\n\nReply with exactly one label and nothing else."
+  },
+  {
+   "case_id": "a-h05",
+   "question_type": "noul",
+   "instructions": "Did the system exceed its predicted peak capacity?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe capacity model predicted 1,200 requests per second at peak. The load test sustained 1,450 requests per second for 10 minutes with no errors and no queue growth.\n\nQuestion: Did the system exceed its predicted peak capacity?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-m01",
+   "question_type": "noul",
+   "instructions": "Are all nodes running release 4.7?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThree of the five canary nodes were upgraded to release 4.7. The rollout was paused by the operator at 12:20 UTC and was never resumed. The remaining two nodes are still running release 4.6.\n\nQuestion: Are all nodes running release 4.7?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-m02",
+   "question_type": "noul",
+   "instructions": "Did migration 0031 complete without error?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nMigration 0031 ran for 40 minutes against the replica and reported 'completed successfully' with 0 errors. A separate disk incident four hours later caused an unrelated rollback of migration 0037.\n\nQuestion: Did migration 0031 complete without error?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "a-m03",
+   "question_type": "noul",
+   "instructions": "Did the lint gate fail?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe linter reported 214 warnings and 0 errors. The continuous integration gate is configured with --max-warnings unset and --max-errors 0, so the gate is evaluated on errors only.\n\nQuestion: Did the lint gate fail?\n\nReply with exactly one word: YES or NO."
+  }
+ ]
+}

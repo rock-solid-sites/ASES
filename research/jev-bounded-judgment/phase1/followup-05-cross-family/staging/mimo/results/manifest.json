@@ -1,0 +1,151 @@
+{
+  "crosslink_issue": 565,
+  "endpoints": [
+    "https://opencode.ai/zen/v1/systemone",
+    "opencode-agent-route (opencode run --format json); NOT a direct HTTP call"
+  ],
+  "error_counts": {
+    "general_model": {
+      "None": 64
+    },
+    "jev": {
+      "None": 64
+    },
+    "lexical": {
+      "None": 64
+    },
+    "prior": {
+      "None": 64
+    },
+    "rule": {
+      "None": 64
+    }
+  },
+  "git": {
+    "branch": "research/jev-phase1-565",
+    "commit": "0f25e4926a61b88f7b1725bcc4c2d91badc42da7",
+    "remote": "git@github.com:rock-solid-sites/ASES.git"
+  },
+  "grid": {
+    "cells_complete": true,
+    "n_cases": 64,
+    "n_cells": 320,
+    "n_mechanisms": 5
+  },
+  "inputs": {
+    "cases.ndjson": {
+      "sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c"
+    },
+    "raw_results": {
+      "baselines_raw.ndjson": {
+        "bytes": 261254,
+        "n_lines": 256,
+        "sha256": "ae4f0a36dcc2249ba351cb853d676edbcc4c3d1a59575e576ca18755688666f7"
+      },
+      "jev_raw.ndjson": {
+        "bytes": 98281,
+        "n_lines": 64,
+        "sha256": "e17ae014f0fc6cc311646dbfd98d5115d41854ddfcb98cfb41268f2da482d3bc"
+      }
+    },
+    "superseded_raw_results": {}
+  },
+  "max_attempt_per_mechanism": {
+    "general_model": 1,
+    "jev": 1,
+    "lexical": 0,
+    "prior": 0,
+    "rule": 0
+  },
+  "models": {
+    "general_model": {
+      "catalog_id": "opencode-go/space-bunny-free",
+      "endpoint_note": "the Go route returns HTTP 403 with this credential (preflight P4a); the same model ID is reachable on the Zen route (P4b). Route change, NOT a model substitution.",
+      "endpoint_rejected": "https://opencode.ai/zen/go/v1/chat/completions",
+      "endpoints_observed": [
+        "opencode-agent-route (opencode run --format json); NOT a direct HTTP call"
+      ],
+      "max_tokens": 256,
+      "model_id": "opencode/mimo-v2.6-flash-free",
+      "temperature": 0,
+      "tier": "Free (0/0 cost fields at dispatch)"
+    },
+    "jev": {
+      "endpoints_observed": [
+        "https://opencode.ai/zen/v1/systemone"
+      ],
+      "model_id": "jev-1.13-free",
+      "n_cells": 64,
+      "provider": "TypeSafe AI System One via OpenCode Zen",
+      "tier": "Free / Unlimited"
+    },
+    "model_ids_per_mechanism": {
+      "general_model": [
+        "opencode/mimo-v2.6-flash-free"
+      ],
+      "jev": [
+        "jev-1.13-free"
+      ],
+      "lexical": [
+        "lexical"
+      ],
+      "prior": [
+        "prior"
+      ],
+      "rule": [
+        "rule"
+      ]
+    },
+    "offline_mechanisms": [
+      "prior",
+      "rule",
+      "lexical"
+    ]
+  },
+  "outputs": [
+    "results/manifest.json",
+    "results/metrics.json",
+    "results/scored.ndjson"
+  ],
+  "outputs_sha256": {
+    "results/metrics.json": "9773e8e6bbc74416179c5d3ee79fed4cd5b40b4d49a4ea5fca15d539d2339a13",
+    "results/scored.ndjson": "933d8d486e22c932678691391467e5d8fba064b2dde4bb74dedb56c3979ab3ac"
+  },
+  "raw_run_window_utc": {
+    "first_cell": "2026-09-26T02:46:53Z",
+    "last_cell": "2026-09-26T02:50:43Z"
+  },
+  "retry_counts": {
+    "general_model": 0,
+    "jev": 0,
+    "lexical": 0,
+    "prior": 0,
+    "rule": 0
+  },
+  "schema_version": "jevp1-manifest-1.0",
+  "scoring": {
+    "determinism_note": "results/scored.ndjson and results/metrics.json are pure functions of the raw files. The ONLY wall-clock value in any emitted artefact is scoring.generated_utc here; pin it with --generated-utc to diff the whole tree.",
+    "deterministic": true,
+    "generated_utc": "2026-09-27T15:43:51Z",
+    "platform": "Linux-5.15.0-184-generic-x86_64-with-glibc2.35",
+    "python_implementation": "CPython",
+    "python_version": "3.10.12",
+    "scorer": "harness/score.py",
+    "scorer_version": "1.0.0",
+    "self_check_passed": false,
+    "stdlib_only": true,
+    "third_party_imports": []
+  },
+  "secrets": {
+    "api_key_env": "OPENCODE_GO_API_KEY",
+    "note": "scoring is offline and never reads the key. No credential, and no length-bearing substring of one, is recorded in any artefact. `secrets_recorded` is false on every raw and scored row.",
+    "recorded_anywhere": false,
+    "required_for_scoring": false,
+    "scan": {
+      "files_scanned": 2,
+      "hit_files": [],
+      "hits": 0,
+      "performed": true
+    }
+  }
+}

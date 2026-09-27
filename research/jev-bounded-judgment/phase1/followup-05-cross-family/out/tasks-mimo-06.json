@@ -1,0 +1,99 @@
+{
+ "corpus_sha256": "7dd4698f4614eee928a1a93cb0e9d33fd77a5c64963593d97b2678cdf5af558c",
+ "model_id": "opencode/mimo-v2.6-flash-free",
+ "n_cases": 8,
+ "cases": [
+  {
+   "case_id": "c-p5a",
+   "question_type": "noul",
+   "instructions": "Was migration 0042 applied cleanly?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nMigration 0042 was applied to the primary database. The migration log ends with: 'applied cleanly, reporting 0 warnings.'.\n\nQuestion: Was migration 0042 applied cleanly?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p5b",
+   "question_type": "noul",
+   "instructions": "Was migration 0042 applied cleanly?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nMigration 0042 was applied to the primary database. The migration log ends with: 'applied with 3 warnings, one of which is a data-truncation warning.'.\n\nQuestion: Was migration 0042 applied cleanly?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p6a",
+   "question_type": "noul",
+   "instructions": "Is ledger-ingest healthy?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nService 'ledger-ingest' runs in namespace prod. The monitoring summary for the last 30 minutes states: 'All readiness probes have returned HTTP 200 continuously for 30 minutes.'.\n\nQuestion: Is ledger-ingest healthy?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "c-p6b",
+   "question_type": "noul",
+   "instructions": "Is ledger-ingest healthy?",
+   "criteria": null,
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nService 'ledger-ingest' runs in namespace prod. The monitoring summary for the last 30 minutes states: 'Readiness probes have been failing with connection refused continuously for 30 minutes.'.\n\nQuestion: Is ledger-ingest healthy?\n\nReply with exactly one word: YES or NO."
+  },
+  {
+   "case_id": "d-01",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nWork item ENG-2201 has been agreed and its specification is complete: scope, acceptance criteria, and interfaces are all written and approved. No implementation work has started. No defect is known, no failure is unexplained, and no governing assumption is known to be invalid. The work is fully within the team's own remit and needs no decision from an owner.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-02",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nWork item ENG-2244 cannot be estimated because its specification rests on the assumption that the legacy 'orders' table will still exist in two years. That assumption was shown last week to be false: the table is being retired within eighteen months. No defect is known, no failure is unexplained, and the item is within the team's own remit.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-03",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nIn production, the 'search-indexer' service began returning errors at 07:58 UTC. No root cause has been identified, no defect has been localised, and no hypothesis has been confirmed. The on-call engineer has recorded that they do not know why it started. No work item specification is affected and the situation is within the team's remit.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  },
+  {
+   "case_id": "d-04",
+   "question_type": "choice",
+   "instructions": "Which workflow role should handle this state next?",
+   "criteria": {
+    "build": "Build new work whose specification is complete",
+    "escalate": "Escalate because a decision or authority exceeds local remit",
+    "investigate": "Investigate an unexplained failure to find a root cause",
+    "redesign": "Redesign because a governing assumption is invalid",
+    "repair": "Repair a defect whose root cause is already known",
+    "review": "Review completed work that still needs an independent check"
+   },
+   "system_prompt_frozen": "You are a deterministic classifier. Reply with the single required token and nothing else. Never explain. Never add punctuation.",
+   "user_message": "State:\nThe 'search-indexer' failure has been traced: a configuration change at 07:55 UTC set the shard count to zero, which is the confirmed root cause, and the fix is to restore the previous value. There is nothing left unexplained. The fix is within the team's own remit.\n\nQuestion: Which workflow role should handle this state next?\n\nOptions:\nbuild: Build new work whose specification is complete\nescalate: Escalate because a decision or authority exceeds local remit\ninvestigate: Investigate an unexplained failure to find a root cause\nredesign: Redesign because a governing assumption is invalid\nrepair: Repair a defect whose root cause is already known\nreview: Review completed work that still needs an independent check\n\nReply with exactly one option key and nothing else."
+  }
+ ]
+}
