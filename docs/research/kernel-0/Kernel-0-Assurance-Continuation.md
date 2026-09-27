@@ -75,8 +75,9 @@ profile: `Kernel-0-Re-Minimization.md`.
 
 The seven-phase program is complete. The Phase 7 evidence commit is
 `81957b7dd6aec7e551232c654b091fa484436074`; it is pushed and the remote branch
-resolves to the same SHA. The prepared review packet is
-`Kernel-0-Assurance-Review.md`, frozen at that commit. The next research action is
+resolves to the same SHA. The prepared review packet index is `Kernel-0-Assurance-Review.md`; its published
+commit is `ef180ef28ee692a845507a4ace02bd3fa1f10d18`. It points to the frozen
+Phase 7 evidence tree at `81957b7dd6aec7e551232c654b091fa484436074`. The next research action is
 an independent adversarial review of its source/evidence tree, targeting storage
 currentness, bearer reconstruction, trace-checker soundness and measurement
 coverage. Do not wait for or assume a verdict that has not arrived. If a later
