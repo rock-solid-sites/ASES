@@ -165,6 +165,13 @@ capabilities, optional agent association and interpretable boundary state. Those
 informational obligations remain part of the specification even where they are
 not necessary to the security reduction.
 
+The stronger continuity claim includes **continuing confinement**, not just
+surviving bytes. If losing the engine leaves an old route able to expose those
+bytes without current authorization, retaining a perfect boundary record does
+not satisfy W.C/E/F. Enforcement that survives or fails closed under the declared
+loss belongs in the trusted realization boundary; the Kernel experiments do not
+establish it for arbitrary Work Unit contents.
+
 ### 3.2 A non-vacuous instantiation, without a schema
 
 The authoritative view must distinguish the bounded objects that exist; their
@@ -203,7 +210,7 @@ expressible. Erase confinement, exposure, currentness, or whole disposition
 instead, and the counterhistories below fail a required property. Thus the
 semantic obligations survive; the named object decomposition is not forced.
 
-**Finding F1 — no new primitive. WHY:** each requirement has a stated dependency,
+**Finding F1 — no new primitive.** **WHY:** each requirement has a stated dependency,
 guard/effect/invariant or failure-profile interpretation, with successful histories.
 **WHAT:** W.A–L mapped to K/V and M's removal audit. **HOW CERTAIN:** evidence-based
 reduction, not a uniqueness or universal minimality proof. **WHAT-NOT-TESTED:** a
@@ -233,6 +240,10 @@ including its destination, quantity and scope. It is not a common token spelling
 or a new primitive. Path selection and all predicates are evaluated in one
 coherent current view. “Relevant” is determined by actual effect and containment
 dependencies, never selected by the requester to omit an inconvenient ancestor.
+Absence of an explicit denial is not permission: the applicable outer boundary
+must have Kernel-authorized support for the effect. Thus “parent lacks network”
+continues to exclude child network use through that containment. A parent's own
+internally callable interface is not, by itself, the child's authorization.
 
 For an action reaching outside the outermost container, all enclosing boundaries
 constrain it. A relationship to something inside an ancestor still obeys that
@@ -391,7 +402,7 @@ does not prove that recovered contents, parentage or dispositions are current.
 Nor can cold recovery's rejection of old bearers recover lost accepted content.
 The current cut and the engine's present authority are both needed for W.E/F.
 
-**Finding F3 — make currentness explicit across EDASES recovery contracts. WHY:**
+**Finding F3 — make currentness explicit across EDASES recovery contracts.** **WHY:**
 T6 shows that intrinsic authenticity cannot supply the required discrimination.
 **WHAT:** W.D–F, K's trustworthy-observation and failure parameters, C's actual
 same-root counterexample, A/M/S and J. **HOW CERTAIN:** the impossibility is proven
@@ -491,7 +502,7 @@ compatible recovery cut cover all coupled effects, even across physical holders.
 **T10 — stale final-removal check.** A destroyer observes W empty. Before removal,
 another authorized operation commits a new durable child C in W. The destroyer
 then removes W using its earlier observation. C loses required containment.
-Completed-before-initiated precedence and coherent guards prevent treating the
+Coherent guards and a common order of dependent commitments prevent treating the
 old emptiness check as permission for the later removal. This uses K's ordinary
 conflict ordering; it does not require globally ordering unrelated Work Units.
 
