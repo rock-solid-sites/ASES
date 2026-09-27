@@ -56,3 +56,7 @@ complete observed concurrent/crash histories admit one permitted abstract order.
 
 [Re-minimization](./Kernel-0-Re-Minimization.md) classifies retained distinctions,
 optional profiles, trusted assumptions and mechanisms; no new primitive is justified.
+
+[Stronger realization direction](./Kernel-0-Stronger-Realization.md) retains the
+small transactional reference and records real storage-call/partial-write crash
+experiments, with explicit limits on power loss and trusted storage currentness.

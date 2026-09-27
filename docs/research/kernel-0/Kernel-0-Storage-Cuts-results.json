@@ -1,0 +1,4530 @@
+{
+  "profile": "SIGKILL at observed storage-call boundaries; OS/storage remain live",
+  "control_only": false,
+  "cases": [
+    {
+      "operation": {
+        "kind": "pair",
+        "evidence": 0,
+        "target": 0,
+        "value": 3,
+        "other": 0,
+        "authentic": true
+      },
+      "control_trace": [
+        {
+          "index": 1,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 512,
+          "result": -999
+        },
+        {
+          "index": 2,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 512,
+          "result": 512
+        },
+        {
+          "index": 3,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 512,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 4,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 512,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 5,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 516,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 6,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 516,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 7,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4612,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 8,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4612,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 9,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4616,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 10,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4616,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 11,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4620,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 12,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4620,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 13,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 8716,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 14,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 8716,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 15,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 16,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 17,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": ".",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 18,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": ".",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 19,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 12,
+          "result": -999
+        },
+        {
+          "index": 20,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 12,
+          "result": 12
+        },
+        {
+          "index": 21,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 22,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 23,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 24,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 25,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 4096,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 26,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 4096,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 27,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 28,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 29,
+          "op": "unlink",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 30,
+          "op": "unlink",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        }
+      ],
+      "cuts": [
+        {
+          "cut": {
+            "index": 1,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 512,
+            "result": -999
+          },
+          "observed_prefix_length": 1,
+          "killed_pid": 3318972,
+          "restarted_pid": 3318980,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 2,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 512,
+            "result": 512
+          },
+          "observed_prefix_length": 2,
+          "killed_pid": 3318994,
+          "restarted_pid": 3319002,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 3,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 512,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 3,
+          "killed_pid": 3319016,
+          "restarted_pid": 3319024,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 4,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 512,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 4,
+          "killed_pid": 3319038,
+          "restarted_pid": 3319046,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 5,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 516,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 5,
+          "killed_pid": 3319060,
+          "restarted_pid": 3319068,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 6,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 516,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 6,
+          "killed_pid": 3319082,
+          "restarted_pid": 3319090,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 7,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4612,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 7,
+          "killed_pid": 3319104,
+          "restarted_pid": 3319112,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 8,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4612,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 8,
+          "killed_pid": 3319126,
+          "restarted_pid": 3319134,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 9,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4616,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 9,
+          "killed_pid": 3319148,
+          "restarted_pid": 3319156,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 10,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4616,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 10,
+          "killed_pid": 3319170,
+          "restarted_pid": 3319178,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 11,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4620,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 11,
+          "killed_pid": 3319192,
+          "restarted_pid": 3319200,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 12,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4620,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 12,
+          "killed_pid": 3319214,
+          "restarted_pid": 3319222,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 13,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 8716,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 13,
+          "killed_pid": 3319236,
+          "restarted_pid": 3319244,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 14,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 8716,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 14,
+          "killed_pid": 3319258,
+          "restarted_pid": 3319266,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 15,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 15,
+          "killed_pid": 3319280,
+          "restarted_pid": 3319288,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 16,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 16,
+          "killed_pid": 3319302,
+          "restarted_pid": 3319310,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 17,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": ".",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 17,
+          "killed_pid": 3319324,
+          "restarted_pid": 3319332,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 18,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": ".",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 18,
+          "killed_pid": 3319346,
+          "restarted_pid": 3319354,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 19,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 12,
+            "result": -999
+          },
+          "observed_prefix_length": 19,
+          "killed_pid": 3319368,
+          "restarted_pid": 3319376,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 20,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 12,
+            "result": 12
+          },
+          "observed_prefix_length": 20,
+          "killed_pid": 3319390,
+          "restarted_pid": 3319398,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 21,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 21,
+          "killed_pid": 3319412,
+          "restarted_pid": 3319420,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 22,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 22,
+          "killed_pid": 3319434,
+          "restarted_pid": 3319442,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 23,
+          "killed_pid": 3319456,
+          "restarted_pid": 3319464,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 24,
+          "killed_pid": 3319478,
+          "restarted_pid": 3319486,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 25,
+          "killed_pid": 3319500,
+          "restarted_pid": 3319508,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 26,
+          "killed_pid": 3319522,
+          "restarted_pid": 3319530,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 27,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 27,
+          "killed_pid": 3319544,
+          "restarted_pid": 3319552,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 28,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 28,
+          "killed_pid": 3319566,
+          "restarted_pid": 3319574,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 29,
+            "op": "unlink",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 29,
+          "killed_pid": 3319588,
+          "restarted_pid": 3319596,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 30,
+            "op": "unlink",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 30,
+          "killed_pid": 3319610,
+          "restarted_pid": 3319618,
+          "recovered_endpoint": "new",
+          "recovered": {
+            "established": true,
+            "data": [
+              1,
+              1
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        }
+      ],
+      "torn_writes": [
+        {
+          "interrupted_write": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 2048,
+            "result": 2048
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "121371dd0850a27ecd1d9e6848e0940e525cb65660727c33bc1881b2ce6c91d6",
+          "mixed_image_sha256": "749981df4ad6412ac1e212ca43de1327e0709e3caeb741bdd70f1edbeb53baf7",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4080,
+            "result": 4080
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "121371dd0850a27ecd1d9e6848e0940e525cb65660727c33bc1881b2ce6c91d6",
+          "mixed_image_sha256": "749981df4ad6412ac1e212ca43de1327e0709e3caeb741bdd70f1edbeb53baf7",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 2048,
+            "result": 2048
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "121371dd0850a27ecd1d9e6848e0940e525cb65660727c33bc1881b2ce6c91d6",
+          "mixed_image_sha256": "749981df4ad6412ac1e212ca43de1327e0709e3caeb741bdd70f1edbeb53baf7",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4080,
+            "result": 4080
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "121371dd0850a27ecd1d9e6848e0940e525cb65660727c33bc1881b2ce6c91d6",
+          "mixed_image_sha256": "121371dd0850a27ecd1d9e6848e0940e525cb65660727c33bc1881b2ce6c91d6",
+          "physically_mixed": false,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        }
+      ]
+    },
+    {
+      "operation": {
+        "kind": "accept",
+        "evidence": 0,
+        "target": 0,
+        "value": 1,
+        "other": 0,
+        "authentic": true
+      },
+      "control_trace": [
+        {
+          "index": 1,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 512,
+          "result": -999
+        },
+        {
+          "index": 2,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 512,
+          "result": 512
+        },
+        {
+          "index": 3,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 512,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 4,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 512,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 5,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 516,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 6,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 516,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 7,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4612,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 8,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4612,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 9,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4616,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 10,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4616,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 11,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4620,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 12,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4620,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 13,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 8716,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 14,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 8716,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 15,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 16,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 17,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": ".",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 18,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": ".",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 19,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 12,
+          "result": -999
+        },
+        {
+          "index": 20,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 12,
+          "result": 12
+        },
+        {
+          "index": 21,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 22,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 23,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 24,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 25,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 4096,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 26,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 4096,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 27,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 28,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 29,
+          "op": "unlink",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 30,
+          "op": "unlink",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        }
+      ],
+      "cuts": [
+        {
+          "cut": {
+            "index": 1,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 512,
+            "result": -999
+          },
+          "observed_prefix_length": 1,
+          "killed_pid": 3319742,
+          "restarted_pid": 3319750,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 2,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 512,
+            "result": 512
+          },
+          "observed_prefix_length": 2,
+          "killed_pid": 3319764,
+          "restarted_pid": 3319772,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 3,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 512,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 3,
+          "killed_pid": 3319786,
+          "restarted_pid": 3319794,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 4,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 512,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 4,
+          "killed_pid": 3319808,
+          "restarted_pid": 3319816,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 5,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 516,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 5,
+          "killed_pid": 3319830,
+          "restarted_pid": 3319838,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 6,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 516,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 6,
+          "killed_pid": 3319852,
+          "restarted_pid": 3319860,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 7,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4612,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 7,
+          "killed_pid": 3319874,
+          "restarted_pid": 3319882,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 8,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4612,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 8,
+          "killed_pid": 3319896,
+          "restarted_pid": 3319904,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 9,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4616,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 9,
+          "killed_pid": 3319918,
+          "restarted_pid": 3319926,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 10,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4616,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 10,
+          "killed_pid": 3319940,
+          "restarted_pid": 3319948,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 11,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4620,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 11,
+          "killed_pid": 3319962,
+          "restarted_pid": 3319970,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 12,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4620,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 12,
+          "killed_pid": 3319984,
+          "restarted_pid": 3319992,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 13,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 8716,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 13,
+          "killed_pid": 3320006,
+          "restarted_pid": 3320014,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 14,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 8716,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 14,
+          "killed_pid": 3320028,
+          "restarted_pid": 3320036,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 15,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 15,
+          "killed_pid": 3320050,
+          "restarted_pid": 3320058,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 16,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 16,
+          "killed_pid": 3320072,
+          "restarted_pid": 3320080,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 17,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": ".",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 17,
+          "killed_pid": 3320094,
+          "restarted_pid": 3320102,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 18,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": ".",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 18,
+          "killed_pid": 3320116,
+          "restarted_pid": 3320124,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 19,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 12,
+            "result": -999
+          },
+          "observed_prefix_length": 19,
+          "killed_pid": 3320138,
+          "restarted_pid": 3320146,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 20,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 12,
+            "result": 12
+          },
+          "observed_prefix_length": 20,
+          "killed_pid": 3320160,
+          "restarted_pid": 3320168,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 21,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 21,
+          "killed_pid": 3320182,
+          "restarted_pid": 3320190,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 22,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 22,
+          "killed_pid": 3320204,
+          "restarted_pid": 3320212,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 23,
+          "killed_pid": 3320226,
+          "restarted_pid": 3320234,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 24,
+          "killed_pid": 3320248,
+          "restarted_pid": 3320256,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 25,
+          "killed_pid": 3320270,
+          "restarted_pid": 3320278,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 26,
+          "killed_pid": 3320292,
+          "restarted_pid": 3320300,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 27,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 27,
+          "killed_pid": 3320314,
+          "restarted_pid": 3320322,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 28,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 28,
+          "killed_pid": 3320336,
+          "restarted_pid": 3320344,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 29,
+            "op": "unlink",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 29,
+          "killed_pid": 3320358,
+          "restarted_pid": 3320366,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 30,
+            "op": "unlink",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 30,
+          "killed_pid": 3320380,
+          "restarted_pid": 3320388,
+          "recovered_endpoint": "new",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 1,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        }
+      ],
+      "torn_writes": [
+        {
+          "interrupted_write": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 2048,
+            "result": 2048
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "0e25d124716ca95d5094f5b2ae93df14814244d58f73b57ecc3f099a01c88aa3",
+          "mixed_image_sha256": "749981df4ad6412ac1e212ca43de1327e0709e3caeb741bdd70f1edbeb53baf7",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4080,
+            "result": 4080
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "0e25d124716ca95d5094f5b2ae93df14814244d58f73b57ecc3f099a01c88aa3",
+          "mixed_image_sha256": "749981df4ad6412ac1e212ca43de1327e0709e3caeb741bdd70f1edbeb53baf7",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 2048,
+            "result": 2048
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "0e25d124716ca95d5094f5b2ae93df14814244d58f73b57ecc3f099a01c88aa3",
+          "mixed_image_sha256": "1bf61accba936f8ab66a08f426b4b8dc1515193bbdedb9f71e6da622494ae59b",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4080,
+            "result": 4080
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "0e25d124716ca95d5094f5b2ae93df14814244d58f73b57ecc3f099a01c88aa3",
+          "mixed_image_sha256": "0e25d124716ca95d5094f5b2ae93df14814244d58f73b57ecc3f099a01c88aa3",
+          "physically_mixed": false,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        }
+      ]
+    },
+    {
+      "operation": {
+        "kind": "replace",
+        "evidence": -1,
+        "target": 0,
+        "value": 0,
+        "other": 1,
+        "authentic": true
+      },
+      "control_trace": [
+        {
+          "index": 1,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 512,
+          "result": -999
+        },
+        {
+          "index": 2,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 512,
+          "result": 512
+        },
+        {
+          "index": 3,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 512,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 4,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 512,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 5,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 516,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 6,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 516,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 7,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4612,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 8,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4612,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 9,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4616,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 10,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4616,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 11,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 4620,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 12,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 4620,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 13,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 8716,
+          "size": 4,
+          "result": -999
+        },
+        {
+          "index": 14,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 8716,
+          "size": 4,
+          "result": 4
+        },
+        {
+          "index": 15,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 16,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 17,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": ".",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 18,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": ".",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 19,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 12,
+          "result": -999
+        },
+        {
+          "index": 20,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 12,
+          "result": 12
+        },
+        {
+          "index": 21,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 22,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 23,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 24,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 25,
+          "op": "pwrite64",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 4096,
+          "size": 4096,
+          "result": -999
+        },
+        {
+          "index": 26,
+          "op": "pwrite64",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 4096,
+          "size": 4096,
+          "result": 4096
+        },
+        {
+          "index": 27,
+          "op": "fdatasync",
+          "phase": "before",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 28,
+          "op": "fdatasync",
+          "phase": "after",
+          "file": "authority.db",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        },
+        {
+          "index": 29,
+          "op": "unlink",
+          "phase": "before",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": -999
+        },
+        {
+          "index": 30,
+          "op": "unlink",
+          "phase": "after",
+          "file": "authority.db-journal",
+          "offset": 0,
+          "size": 0,
+          "result": 0
+        }
+      ],
+      "cuts": [
+        {
+          "cut": {
+            "index": 1,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 512,
+            "result": -999
+          },
+          "observed_prefix_length": 1,
+          "killed_pid": 3320512,
+          "restarted_pid": 3320520,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 2,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 512,
+            "result": 512
+          },
+          "observed_prefix_length": 2,
+          "killed_pid": 3320534,
+          "restarted_pid": 3320542,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 3,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 512,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 3,
+          "killed_pid": 3320556,
+          "restarted_pid": 3320564,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 4,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 512,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 4,
+          "killed_pid": 3320578,
+          "restarted_pid": 3320586,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 5,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 516,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 5,
+          "killed_pid": 3320600,
+          "restarted_pid": 3320608,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 6,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 516,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 6,
+          "killed_pid": 3320622,
+          "restarted_pid": 3320630,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 7,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4612,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 7,
+          "killed_pid": 3320644,
+          "restarted_pid": 3320652,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 8,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4612,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 8,
+          "killed_pid": 3320666,
+          "restarted_pid": 3320674,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 9,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4616,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 9,
+          "killed_pid": 3320688,
+          "restarted_pid": 3320696,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 10,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4616,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 10,
+          "killed_pid": 3320710,
+          "restarted_pid": 3320718,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 11,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 4620,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 11,
+          "killed_pid": 3320732,
+          "restarted_pid": 3320740,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 12,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 4620,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 12,
+          "killed_pid": 3320754,
+          "restarted_pid": 3320762,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 13,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 8716,
+            "size": 4,
+            "result": -999
+          },
+          "observed_prefix_length": 13,
+          "killed_pid": 3320776,
+          "restarted_pid": 3320784,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 14,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 8716,
+            "size": 4,
+            "result": 4
+          },
+          "observed_prefix_length": 14,
+          "killed_pid": 3320798,
+          "restarted_pid": 3320806,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 15,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 15,
+          "killed_pid": 3320820,
+          "restarted_pid": 3320828,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 16,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 16,
+          "killed_pid": 3320842,
+          "restarted_pid": 3320850,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 17,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": ".",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 17,
+          "killed_pid": 3320864,
+          "restarted_pid": 3320872,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 18,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": ".",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 18,
+          "killed_pid": 3320886,
+          "restarted_pid": 3320894,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 19,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 12,
+            "result": -999
+          },
+          "observed_prefix_length": 19,
+          "killed_pid": 3320908,
+          "restarted_pid": 3320916,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 20,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 12,
+            "result": 12
+          },
+          "observed_prefix_length": 20,
+          "killed_pid": 3320930,
+          "restarted_pid": 3320938,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 21,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 21,
+          "killed_pid": 3320952,
+          "restarted_pid": 3320960,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 22,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 22,
+          "killed_pid": 3320974,
+          "restarted_pid": 3320982,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 23,
+          "killed_pid": 3320996,
+          "restarted_pid": 3321004,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 24,
+          "killed_pid": 3321018,
+          "restarted_pid": 3321026,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "observed_prefix_length": 25,
+          "killed_pid": 3321040,
+          "restarted_pid": 3321048,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": 4096
+          },
+          "observed_prefix_length": 26,
+          "killed_pid": 3321062,
+          "restarted_pid": 3321070,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 27,
+            "op": "fdatasync",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 27,
+          "killed_pid": 3321084,
+          "restarted_pid": 3321092,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 28,
+            "op": "fdatasync",
+            "phase": "after",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 28,
+          "killed_pid": 3321106,
+          "restarted_pid": 3321114,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 29,
+            "op": "unlink",
+            "phase": "before",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": -999
+          },
+          "observed_prefix_length": 29,
+          "killed_pid": 3321128,
+          "restarted_pid": 3321136,
+          "recovered_endpoint": "old",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 1,
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "commit"
+        },
+        {
+          "cut": {
+            "index": 30,
+            "op": "unlink",
+            "phase": "after",
+            "file": "authority.db-journal",
+            "offset": 0,
+            "size": 0,
+            "result": 0
+          },
+          "observed_prefix_length": 30,
+          "killed_pid": 3321150,
+          "restarted_pid": 3321158,
+          "recovered_endpoint": "new",
+          "recovered": {
+            "established": true,
+            "data": [
+              0,
+              0
+            ],
+            "content": 0,
+            "issued": 3,
+            "rights": [
+              0,
+              7,
+              0,
+              0
+            ],
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ]
+          },
+          "old_evidence_replay": "deny"
+        }
+      ],
+      "torn_writes": [
+        {
+          "interrupted_write": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 2048,
+            "result": 2048
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "6092f1dd0b3902ef865f37ff1de1f01fd692a013404f09944753d39653bfae17",
+          "mixed_image_sha256": "749981df4ad6412ac1e212ca43de1327e0709e3caeb741bdd70f1edbeb53baf7",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 23,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 24,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 0,
+            "size": 4080,
+            "result": 4080
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "6092f1dd0b3902ef865f37ff1de1f01fd692a013404f09944753d39653bfae17",
+          "mixed_image_sha256": "749981df4ad6412ac1e212ca43de1327e0709e3caeb741bdd70f1edbeb53baf7",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 2048,
+            "result": 2048
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "6092f1dd0b3902ef865f37ff1de1f01fd692a013404f09944753d39653bfae17",
+          "mixed_image_sha256": "749981df4ad6412ac1e212ca43de1327e0709e3caeb741bdd70f1edbeb53baf7",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        },
+        {
+          "interrupted_write": {
+            "index": 25,
+            "op": "pwrite64",
+            "phase": "before",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4096,
+            "result": -999
+          },
+          "partial_write": {
+            "index": 26,
+            "op": "pwrite64",
+            "phase": "partial",
+            "file": "authority.db",
+            "offset": 4096,
+            "size": 4080,
+            "result": 4080
+          },
+          "old_image_sha256": "1bfbe6386a8f91b2276fe669a7fd28d718cc4094ba7bdac817f363f11c94a823",
+          "complete_image_sha256": "6092f1dd0b3902ef865f37ff1de1f01fd692a013404f09944753d39653bfae17",
+          "mixed_image_sha256": "06c91129007319aed3654e97a1e16d8fc2119d6019242a89d93c080c13c3599d",
+          "physically_mixed": true,
+          "recovered_endpoint": "old",
+          "qualification": "test library splits a write then holder is actually killed"
+        }
+      ]
+    }
+  ],
+  "runtime": {
+    "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+    "sqlite": "3.37.2",
+    "platform": "Linux-5.15.0-184-generic-x86_64-with-glibc2.35",
+    "compiler": "cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0"
+  },
+  "library_sha256": "9014d5f8078c2765379e0913295a256495b8f1eddef68c558e50f3cc5f44db84",
+  "compile_flags": [
+    "-shared",
+    "-fPIC",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ldl"
+  ],
+  "sources": {
+    "kernel0_io_check.py": "58e63dc544401575251e0824f13181f012f8d966a2a6fe0c2775ef4407d94e39",
+    "kernel0_io_interposer.c": "8131cf1195a57076101bc17adcba800b6ee4c989ea2080f15392351e8f7c8fe2",
+    "kernel0_recovery_service.py": "f5fd5e1118046dd8fd6d3357d56f9bcad91e8fe572f5bf4706dc7c8fd0b3ff13",
+    "kernel0_recovery_check.py": "970f674ebb45e8f281a31eb3315247e4dad5286cab7876a0709b8e2cdaf6d349",
+    "kernel0_service.py": "f11c54b9318a54512487d087b10aeb2878a111bffe8cc8fa58391f4e716c2084",
+    "kernel0_finite_model.py": "c9c429b0400df6e044d30b71befaeb810657430372fb1088f9e62631c8965083"
+  }
+}
