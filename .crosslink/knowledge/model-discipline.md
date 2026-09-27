@@ -52,6 +52,20 @@ OpenCode has two distinct provider categories with different cost and reliabilit
 
 **NOTE:** `opencode models` refreshes from models.dev, which LAGS BEHIND the Zen API. Absence of a model from `opencode models` output does NOT mean the model is unavailable on Zen — the Zen catalog API is authoritative for Zen availability.
 
+## Standing Facts (Operator-Stated, 2026-09-27)
+
+1. **The main models going forward are `opencode/muse-spark-1.3-contributor-free` (family `muse-free`) and `opencode/mimo-v2.6-flash-free` (family `mimo`).** Both are Zen-route (`opencode/`), cost 0/0/0. Prefer these for agent work, review and verification unless the operator names a different model for a specific dispatch.
+
+2. **Only OpenCode providers are in scope.** The operator explicitly ruled out every non-OpenCode provider. Do NOT propose, dispatch, or reason about `sambanova/`, `cohere/`, `novita/`, `mistral/`, `ollama-cloud/`, or `openrouter/` routes, even where the local catalog lists them at cost 0/0/0 and even where a credential exists in the CLI store.
+
+3. **The `opencode-go/` route is NOT available on this account.** Despite `opencode models` listing `opencode-go/space-bunny-free` and `opencode-go/longcat-2.5-preview-free` as `status=active, cost 0/0/0`, both return a non-retryable `403 "An active OpenCode Go subscription is required to use Go models."` **Any subagent bound to an `opencode-go/` model is therefore dead** — this includes the `space-bunny` subagent, which is bound to `opencode-go/space-bunny-free` even though the same model name is reachable on the Zen route. Verify the *provider binding* of a subagent, not just the model family, before relying on it.
+
+4. **Catalog presence is not entitlement.** A model listed `active` at `0/0/0` may still be unreachable. Two independent instances on 2026-09-27: the two `opencode-go/` models above (no subscription), and `opencode/space-bunny-free` (absent from the refreshed local catalog, and the server rejects it as unresolvable). Probe reachability; do not infer access from a cost field.
+
+5. **Free-tier data terms are accepted as a non-issue for this workspace.** The operator's position is that all these free models train on prompts regardless of what vendor docs state, and that this is acceptable because the work is open-source development. Do NOT re-raise vendor retention/training terms as an objection. This supersedes the caution recorded in `research/jev-bounded-judgment/phase1/handoff/RECONNAISSANCE.md` §5.4 for workspace practice; keep the vendor-documented terms in the research record as fact, but do not treat them as a blocker.
+
+6. **Never substitute or shortlist a model on your own initiative.** If an approved model is unreachable, or a task needs a model the operator has not named, STOP and report. Do not probe alternates, do not pick a "closest available" replacement, and do not treat an availability check as licence to try other models. This was violated on 2026-09-27 and corrected by the operator.
+
 ## Forbidden and Restricted Models
 
 - **xAI / Grok — STRICTLY AND PERMANENTLY FORBIDDEN.** xAI models (grok-4.5
