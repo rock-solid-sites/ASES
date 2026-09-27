@@ -1,6 +1,6 @@
 {
   "next_display_id": 570,
-  "next_comment_id": 4024,
+  "next_comment_id": 4025,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -8955,7 +8955,7 @@
       "priority": "high",
       "created_by": "OL2r",
       "created_at": "2026-09-26T02:29:25.112652503Z",
-      "updated_at": "2026-09-26T17:54:29.035839303Z",
+      "updated_at": "2026-09-27T15:46:14.458315040Z",
       "labels": [
         "research"
       ],
@@ -9151,6 +9151,15 @@
           "kind": "plan",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAF4jX9a5mxN3HwzSSuPoLwFIXDPjTBc4blcr5Gbehw557xnWYFJxP9kVFKevV1F7QFhFaOkTuM7RkcX2kNWN6CA=="
+        },
+        "b63e08e8-b909-4011-9e95-9de46f6eb913": {
+          "display_id": 4024,
+          "author": "OL2r",
+          "content": "[PROGRESS] followup-05 cross-family general-model arms complete (commits 219b8a3e, 0f25e492, 55d52526). Branch research/jev-phase1-565, worktree .worktrees/jev-phase1. No push.\n\nPre-dispatch recon (219b8a3e) recorded a premise change: the Zen chat route now returns 403 FreeTierError for every free Zen model from a harness process, on both the env key and the CLI-store credential followup-02 used, across four header variants. Free Zen models remain reachable only from inside OpenCode, so the arms had to be agent-routed. That forfeits byte-level request equivalence with the frozen followup-02 cells; it is declared, not glossed, and a transport control was added to measure it.\n\nOperator selected four arms, all verified active at 0/0/0: big-pickle, ling-3.0-flash-fin-free, mimo-v2.6-flash-free, longcat-2.5-preview-free.\n\nSmoke (0f25e492): longcat fails 0/64 with a non-retryable 403, \"an active OpenCode Go subscription is required to use Go models\". Reproduced twice. The account has no Go entitlement, so the catalog's 0/0/0 cost does not reflect access. Second instance in this followup of catalog presence not implying entitlement. Arm dropped, not substituted.\n\nResult (55d52526), scored with harness/score.py UNMODIFIED via --phase1-dir, 320/320 cells complete per arm, 0 routing mismatches, 0 confidence mismatches, 0 secret-scan hits. Corpus asserted unmodified at 7dd4698f before and after every run.\n\n- big-pickle (cross-family): 49/50 answerable = 0.980, paired McNemar vs jev b=0 c=0 ties=50. Identical labels to Jev on all 50 answerable cases. Sole error is c-p4b, the known D2 ground-truth defect. 0 unusable cells, 0 typed errors. Pre-registered band: Jev's tier UNSUPPORTED.\n- mimo (transport control): 49/50 agent-routed vs 48/50 direct-HTTP in followup-02. Exactly 1 label flip in 64, favouring the agent route. The pre-declared framing confound is therefore ~1/64 and does not plausibly manufacture the big-pickle result.\n- ling (cross-family): 24/64. Chunks 3-7 exited 0 with prose answers plus a false self-claim of NDJSON compliance; zero parseable objects existed. A prose parser was deliberately not written, since that surface would have been invented after seeing which chunks failed and would convert a compliance failure into a pass. Cells left unscored as a reported shortfall; score.py correctly refuses partial grids.\n\nFragility the control exposed: the one flipped cell, c-p6a, is also the single discordant cell that produced followup-02's c=1, half of that run's refutation band. The band was met by a one-cell margin on a cell that is not transport-stable. Evidence-based for that cell; a guess for any general rate.\n\nVerdict: programme-level INCONCLUSIVE by construction, because the two-arm agreement rule cannot be satisfied with one scorable cross-family arm. Reported rather than resolved in favour of the arm that scored. Arm-level for big-pickle: UNSUPPORTED.\n\nFour comparisons now converge on a tie (followup-01, followup-02, followup-05 mimo, followup-05 big-pickle). None has ever produced a cell where Jev is right and a free cross-family general model is wrong. This does NOT overturn the followup-04 operational case (latency, tail, throughput, reliability, cost), which is a separate claim and untouched. The brief's original bounded-judgment-tier question is answered in the negative on a synthetic template corpus, with Q4 now the binding limitation.\n\nNot done: independent verification of followup-05. COMPARISON.md makes material claims and requires a cross-family verdict from a model family other than the author before it is treated as established. Operator gating applies to that launch.",
+          "created_at": "2026-09-27T15:46:14.448379416Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAz3yg+M67bsyfgbk64TJ6LuBqlHRF4qj57jpkrC3kIW71bT8KPe9NdfByfC530ECO5YdgskZURT1LdHIhM32CCQ=="
         },
         "bd25ed63-7794-457a-b6bb-6f46325f9e1c": {
           "display_id": 4008,
@@ -46497,8 +46506,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-27T14:20:46.042233802Z",
-    "agent_id": "anon-a55dfdea",
-    "agent_seq": 5
+    "timestamp": "2026-09-27T15:46:14.458315040Z",
+    "agent_id": "OL2r",
+    "agent_seq": 3582
   }
 }
