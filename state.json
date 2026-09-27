@@ -1,5 +1,5 @@
 {
-  "next_display_id": 570,
+  "next_display_id": 571,
   "next_comment_id": 4026,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
@@ -309,6 +309,7 @@
     "8a376aeb-52ea-493f-908d-8ff7e3256b3d": 190,
     "8ac5bbab-9af4-45bb-ad22-0ade03101617": 85,
     "8b93eae0-363c-4820-8a88-730af11389bc": 258,
+    "8bb599dc-86a7-4ad3-a81d-207d7f33b174": 570,
     "8bcd9b03-5c30-4db2-b7c8-95a842ec9a79": 317,
     "8bf6662b-afe9-49ba-ab5a-17394445d17d": 208,
     "8cda3348-0d9e-4809-b7da-afcddda27804": 342,
@@ -25470,6 +25471,18 @@
         }
       }
     },
+    "8bb599dc-86a7-4ad3-a81d-207d7f33b174": {
+      "uuid": "8bb599dc-86a7-4ad3-a81d-207d7f33b174",
+      "display_id": 570,
+      "title": "Jev bounded-judgment Phase 2: does deterministic code structure improve bounded semantic judgment?",
+      "description": "Question: \n\nContext: \n\nFindings: \n\nPhase 2 of the Jev bounded-judgment evaluation. Linked to and downstream of #565 (Phase 1, verified).\n\nQUESTION\nDoes deterministic code structure materially improve the efficiency or reliability of bounded semantic judgments?\n\nPhase 1 established the capability baseline and is CANONICAL. Do not reconstruct or rerun it. Phase 1's verified findings carry forward:\n- No semantic-capability niche demonstrated for Jev over a cheap free general model (pre-registered band REFUTED; verified PASS in followup-05).\n- Operational advantages of direct jev-1.13.0 are real and separate: latency, tail, concurrency, reliability, cost.\n- confidence is a derived function of the probability vector, not independent evidence.\n- Nothing abstains: every mechanism answered 14/14 unanswerable cases; area B is unmeasurable by construction.\n- Q4 (does any of this survive outside a template-generated synthetic corpus) is the BINDING limitation.\n- Case authoring by the same family that judges is a known confound (L1/A4). Ground-truth defects that are not derivable from model-visible text are a known failure class (D2 F1, c-p4b).\n\nHYPOTHESIS UNDER TEST\nMatched representations of the SAME problem:\n  R1 raw          relatively raw source/context\n  R2 structure    deterministically extracted structure (AST, symbol, caller/callee, dependency, scope)\n  R3 structure+minimal-source   ONLY where it materially tests the hypothesis\nNot a generic-classification study. The comparison is representation-vs-representation on identical underlying code.\n\nDESIGN REQUIREMENTS\n- Small, reproducible benchmark of REAL coding decisions.\n- Freeze cases AND extraction logic before the measured run.\n- Admissibility: a case is scored only if its ground truth is independently defensible AND derivable from the model-visible representation. Otherwise classify UNANSWERABLE, never a model error. Per-condition derivability must be recorded.\n- Verify structural preprocessing neither LEAKS the answer nor REMOVES evidence required to derive it.\n- Ground truth computed deterministically from source, never asserted by a model. This structurally removes the Phase-1 self-preference confound rather than relying on policy.\n- Prefer existing structural tooling over new infrastructure.\n- Measure the smallest sufficient set: correctness, input size, latency/tail, cost, probability behavior, robustness to irrelevant context.\n- Preserve raw requests/responses and representation provenance.\n\nEXECUTION\n- Subject: direct TypeSafe jev-1.13.0 (api.typesafe.ai/v1/systemone), confirmed live 2026-09-27.\n- Comparator arm required: a cheap free general model, per Phase 1's lesson that a Jev-only measurement cannot decide this.\n- Models: only the designated OpenCode routes in .crosslink/knowledge/model-discipline.md. No autonomous substitution. Go route unavailable, so paid escalation is not actually available; capability failure must be reported, not escalated around.\n- Formal independent verification must use a different model family from the artifact producer. Same-family checks are operational only.\n\nGATES\n1. All benchmark-generation, extraction, scoring and analysis code committed BEFORE results are relied on.\n2. Formal verification must reproduce representative source->structure transformations AND the final reported statistics.\n3. Clean-clone reproduction path provided and VERIFIED before closeout.\n\nOUT OF SCOPE\nHistorical-session replay. EDASES architecture redesign.\n\nSTOP CONDITION\nBenchmark frozen, executed, independently verified, reproducible from committed material, and sufficient to state where structural preprocessing helps, hurts, or remains unresolved. Deliver supported findings, limitations, failures, and the smallest justified next experiment.",
+      "status": "open",
+      "priority": "high",
+      "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
+      "created_by": "OL2r",
+      "created_at": "2026-09-27T18:44:34.063315030Z",
+      "updated_at": "2026-09-27T18:44:34.063315030Z"
+    },
     "8bcd9b03-5c30-4db2-b7c8-95a842ec9a79": {
       "uuid": "8bcd9b03-5c30-4db2-b7c8-95a842ec9a79",
       "display_id": 317,
@@ -46515,8 +46528,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-27T17:06:34.088533103Z",
+    "timestamp": "2026-09-27T18:44:34.063315030Z",
     "agent_id": "OL2r",
-    "agent_seq": 3583
+    "agent_seq": 3584
   }
 }
