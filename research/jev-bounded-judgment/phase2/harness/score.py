@@ -44,6 +44,29 @@ def pct(xs, q):
     return xs[lo] + (xs[hi] - xs[lo]) * (k - lo)
 
 
+def case_group(case):
+    """Intrinsic group for a case, independent of which condition is shown.
+
+    The per-condition `classification` is deliberately condition-relative -- a
+    direct_call case genuinely IS a lookup under struct and a judgment under raw
+    -- so pairing on it would silently drop every converted case, which is
+    exactly the comparison that matters. Grouping is therefore done on the
+    case's intrinsic shape:
+
+      lookup_under_struct  the case is a field lookup once structure is shown
+                          (structure may have converted a judgment to a lookup)
+      judgment_under_both  requires composition under BOTH representations
+      raw_only             not answerable from structure at all
+    """
+    cl = case.get("classification", {})
+    s, r = cl.get("struct"), cl.get("raw")
+    if s == "lookup":
+        return "lookup_under_struct"
+    if r == "unanswerable" or s == "unanswerable":
+        return "raw_only"
+    return "judgment_under_both"
+
+
 def summarise(rows, keyfn):
     groups = defaultdict(list)
     for r in rows:
@@ -126,6 +149,16 @@ def main():
     rows = []
     for p in args.raw:
         rows += load_ndjson(p)
+    # Intrinsic per-case classification comes from the FROZEN case set, not
+    # from the result rows: run_jev.py stores the condition-relative value
+    # (a string), which is the thing that must not be used for grouping.
+    cases_path = os.path.join(PHASE2, "frozen", "cases.json")
+    cls_by_id = {c["case_id"]: c["classification"]
+                 for c in json.load(open(cases_path, encoding="utf-8"))}
+    for r in rows:
+        r["intrinsic_classification"] = cls_by_id.get(r["case_id"], {})
+        r["case_group"] = case_group(
+            {"classification": r["intrinsic_classification"]})
 
     os.makedirs(args.outdir, exist_ok=True)
     tables = os.path.join(PHASE2, "tables")
@@ -164,16 +197,19 @@ def main():
     ]
     metrics["paired"] = [p for p in pairs if p["n_shared_admissible"]]
 
-    # split paired comparisons by classification -- the decisive cut
+    # split paired comparisons by the case's INTRINSIC group. This is the
+    # decisive cut: it keeps the judgment->lookup converted cases visible
+    # instead of dropping them, which a condition-relative split would do.
     cls_pairs = []
-    for cls in ("lookup", "judgment"):
-        a = [r for r in by_cond.get("raw", []) if r["classification"] == cls]
-        b = [r for r in by_cond.get("struct", []) if r["classification"] == cls]
+    groups = sorted({r.get("case_group") for r in rows if r.get("case_group")})
+    for grp in groups:
+        a = [r for r in by_cond.get("raw", []) if r.get("case_group") == grp]
+        b = [r for r in by_cond.get("struct", []) if r.get("case_group") == grp]
         p = paired(a, b, "raw", "struct")
         if p["n_shared_admissible"]:
-            p["classification"] = cls
+            p["case_group"] = grp
             cls_pairs.append(p)
-    metrics["paired_by_classification"] = cls_pairs
+    metrics["paired_by_case_group"] = cls_pairs
 
     mp = os.path.join(args.outdir, "metrics.json")
     json.dump(metrics, open(mp, "w", encoding="utf-8"), indent=1)
@@ -202,11 +238,16 @@ def main():
               f"{m['state_bytes_mean']:9.0f} {m['input_tokens_mean'] or 0:8.0f} "
               f"{m['latency_ms_median'] or 0:8.1f} {m['latency_ms_p95'] or 0:8.1f} "
               f"{m['cost_usd_total'] or 0:10.6f}")
-    print("\nby classification (raw vs struct):")
-    for p in metrics["paired_by_classification"]:
-        print(f"  [{p['classification']:8s}] n={p['n_shared_admissible']:3d} "
+    print("\npaired raw vs struct, by intrinsic case group:")
+    for p in metrics["paired_by_case_group"]:
+        print(f"  [{p['case_group']:20s}] n={p['n_shared_admissible']:3d} "
               f"raw_acc={p['acc_a']} struct_acc={p['acc_b']} "
-              f"only_raw={p['only_raw_correct']} only_struct={p['only_struct_correct']}")
+              f"only_raw={p['only_raw_correct']} only_struct={p['only_struct_correct']} "
+              f"both={p['both_correct']} neither={p['neither_correct']}")
+    print("\npaired (all groups):")
+    for p in metrics["paired"]:
+        print(f"  {p['comparison']:22s} n={p['n_shared_admissible']:3d} "
+              f"a={p['acc_a']} b={p['acc_b']}")
     print(f"\nmetrics -> {mp}")
     return 0
 

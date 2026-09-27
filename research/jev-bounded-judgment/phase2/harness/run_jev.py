@@ -172,6 +172,12 @@ def main():
     ap.add_argument("--conditions", default=",".join(represent.CONDITIONS))
     ap.add_argument("--sleep", type=float, default=0.0)
     ap.add_argument("--preflight", action="store_true")
+    ap.add_argument("--send-unanswerable", action="store_true",
+                    help="OBSERVATION ONLY. Send cases with no ground truth so "
+                         "answering/confidence behaviour can be compared across "
+                         "representations. They remain admissible=False and are "
+                         "NEVER scored: ground_truth is None, so score.py "
+                         "cannot mark them correct or incorrect.")
     args = ap.parse_args()
 
     key = load_key()
@@ -244,7 +250,9 @@ def main():
                            sort_keys=True, separators=(",", ":")
                            ).encode()).hexdigest()
 
-            if not derivable:
+            rec["observation_only"] = bool(
+                args.send_unanswerable and case["ground_truth"] is None)
+            if not derivable and not rec["observation_only"]:
                 # Recorded as an unanswerable cell. NOT sent, because sending
                 # it would invite the model to answer a question the
                 # representation cannot support, and the answer could not be
@@ -255,6 +263,11 @@ def main():
                 rows.append(rec)
                 n += 1
                 continue
+            if not derivable:
+                rec["admissibility_basis"] = (
+                    "required-evidence predicate NOT satisfied -> unanswerable "
+                    "for this condition; sent for BEHAVIOUR OBSERVATION ONLY and "
+                    "never scored")
 
             t0 = time.time()
             st, raw, _ = post(rec["request"], key)
