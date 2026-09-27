@@ -1,6 +1,6 @@
 {
   "next_display_id": 571,
-  "next_comment_id": 4026,
+  "next_comment_id": 4027,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25485,10 +25485,21 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-27T18:44:34.063315030Z",
-      "updated_at": "2026-09-27T18:44:44.245311089Z",
+      "updated_at": "2026-09-27T19:42:09.879104376Z",
       "labels": [
         "research"
-      ]
+      ],
+      "comments": {
+        "e198df82-d478-4305-983f-4cf2aa0606d8": {
+          "display_id": 4026,
+          "author": "OL2r",
+          "content": "[result] Phase 2 executed and measured; verification PARTIAL, one gate outstanding [#570]. No push.\n\nLink to #565. Phase 1 treated as canonical and not re-run. Phase 2 targets Q4, the binding limitation, by replacing synthetic templates with real code and real coding decisions.\n\nDESIGN. Matched representations over identical code: R1 raw source, R2 structure from stdlib ast, plus irrelevant-context variants of both. Corpus is five vendored CPython stdlib modules plus one distractor, each sha256-recorded, so reproduction depends on committed material and not a host interpreter. The distractor was chosen for ZERO symbol overlap with the 240 symbols of the five subject modules. tree-sitter, ast-grep, networkx and ctags are absent on this host and the sg on PATH is shadow-utils newgrp, so stdlib is both the preference and the only option. Ground truth is COMPUTED from the AST and never asserted by a model, which structurally removes the Phase-1 self-preference confound rather than relying on policy. The structure emits facts and never a fact about a proposition any case asks about: params and assigned_locals separately, imports and names_loaded separately, edges as unresolved name pairs, so intersection and composition stay judgments rather than collapsing to lookups.\n\nFREEZE GATE. All generation, extraction, representation, execution and scoring code committed before any result was relied on; frozen/MANIFEST.md records every digest. The admissibility gate caught three defects before any run: 10 wrong ground truths (direct_call FALSE cases built by enumerating existing edges and labelling them \"no\"); struct admissibility of 0/67 because predicates read c[\"caller\"] while the schema nests under c[\"params\"], which would have produced a benchmark with NO comparable cases; and nested-function edges attributed to the enclosing method.\n\nRESULT, 218 scored cells plus 40 observation-only unanswerable cells against direct jev-1.13.0, 0 transport and 0 parse errors. HEADLINE: structure's clear measurable benefit is EFFICIENCY, not accuracy. Exact and noise-free: 1.92x smaller state, 1.49x fewer input tokens, 1.63x cheaper, 1.04x faster median, 1.12x better p95. Accuracy is directionally positive and NOT statistically supported: exact McNemar p = 0.6875, 0.0654, 0.1250, 1.0000 across four comparisons, zero significant. No claim of improved accuracy is made.\n\nThe design's lookup concern did not fire: lookup_under_struct gained +4.0pp and judgment_under_both +3.7pp, so the gain is not concentrated in trivialised cases. But with 6 discordant cells total this cannot distinguish better judgment from better lookup from nothing happening, and the document calls it a NON-RESULT, which is the right call.\n\nWHERE STRUCTURE HURTS. The designed evidence-removal probe fired: string_literal_probe is 0.40 under raw and UNANSWERABLE under structure, so preprocessing makes that question class unaskable rather than faster. unused_import is worse under structure (0.6 vs 0.8) with the representation faithful, so a more compact surface made the intersection harder. call_path2 is flat or worse everywhere (0.571-0.714): structure supplies facts, not reasoning over them.\n\nUNANSWERABLE BEHAVIOUR replicates Phase 1 and adds a finding: 40/40 answered, zero abstentions, and uncertainty is CLASS-DEPENDENT. Runtime-frequency questions get a calibrated-looking ~0.5 with 0 of 5 decided; thread-safety questions get confident answers, 2-3 of 5 decided. So neither probability nor the derived confidence tracks DERIVABILITY from the given representation, and a confidence gate needs an explicit derivability check.\n\nVERIFICATION IS PARTIAL AND THIS IS NOT A CLOSEOUT. Independent verifier opencode/muse-spark-1.3-contributor-free, a different family from the producer. DONE independently: verification.md Step 1 reproduces representative source->structure transformations; six pairs read directly from the corpus and judged independently, 6/6 confirmed correct, with the verifier recording that every first-pass disagreement resolved in the extractor's favour and declining to manufacture faults. OUTSTANDING: independent reproduction of the final statistics and the adversarial judgement. The verifier was stopped by an external rate limit after Step 1: AI_APICallError Rate limit exceeded, nextDelay 15780000 ms, about 4.4 hours, confirmed by a liveness probe. Paid escalation is unavailable because opencode-go 403s on this account, so the failure is reported rather than routed around. VERIFY-BRIEF-2.md is committed and appends to the existing file, skipping Step 1, so the gate can be discharged when the limit clears.\n\nIn the meantime harness/crosscheck_stats.py re-derives every reported statistic WITHOUT importing harness/score.py: 64 checks, 0 mismatches. This is explicitly an ORCHESTRATOR cross-check, NOT independent verification, because the same orchestrator wrote both sides.\n\nCLEAN-CLONE REPRODUCTION VERIFIED in a fresh git clone: both frozen digests regenerate exactly and metrics.json reproduces byte-identically from committed raw results.\n\nTWO CONCRETE CAPABILITY FAILURES recorded. mimo-v2.6-flash-free could not complete a bounded six-function reading task in two attempts and produced no output at all on a single-function task. Both designated free models showed the same failure mode of announcing a next step and ending the turn without writing; hardening the brief to append each step to disk immediately converted a zero-byte outcome into a complete Step 1. Also: a clean clone is not a valid Crosslink worktree, so crosslink-guard HALTs bash inside it.\n\nSMALLEST JUSTIFIED NEXT EXPERIMENT: enlarge n to ~300 on the two underpowered questions, add one second bounded-judgment mechanism so the claim is not about jev-1.13.0 alone, and FIRST settle whether the intended pattern is structure PAIRED WITH ITS EVIDENCE given the string-literal result. Deliberately not proposed: building R3 before accuracy is resolved, historical-session replay, or EDASES architecture changes.\n\nCredential scan: 0 hits. Commits d37c59d4, 1dd546b1, ef4dc698, c542897a, 0cf5f4f2. Nothing pushed.",
+          "created_at": "2026-09-27T19:42:09.867700453Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAukXX7tf6eVYlFykpeuK7TOYxVJPbxVHxbR+mHwQrs1ZYjw18jFVT+HtxQE9EyMKNaQ6QdwhOM4utNRpLxyjFDw=="
+        }
+      }
     },
     "8bcd9b03-5c30-4db2-b7c8-95a842ec9a79": {
       "uuid": "8bcd9b03-5c30-4db2-b7c8-95a842ec9a79",
@@ -46535,8 +46546,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-27T18:45:01.767014355Z",
+    "timestamp": "2026-09-27T19:42:09.879104376Z",
     "agent_id": "OL2r",
-    "agent_seq": 3586
+    "agent_seq": 3587
   }
 }
