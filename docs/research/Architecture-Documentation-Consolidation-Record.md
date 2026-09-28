@@ -1158,3 +1158,79 @@ The same investigation confirms that several Stage 3.2 outliers should **not** b
 - `docs/research/ases-stage3-crossref.md`, `other-stage3-crossref.md`, and `tripn-stage3-crossref.md` identify themselves as generated cross-reference outputs; they are evidence artifacts, not maintained canonical documents.
 
 These files remain unchanged. Their lack of canonical YAML is not treated as the same defect as missing metadata on a Canonical document.
+
+
+### Stage 3.2 checkpoint 7 — ambiguous-record classification and live staging hazards
+
+**Status: classification pass complete; unsafe moves deferred.**
+
+#### Generated and template artifacts — exempt from hand-authored canonical metadata repair
+
+Primary-source inspection confirms these families are evidence/templates rather than maintained canonical documents:
+
+- `docs/research/harness-evaluations/Microsoft-AutoGen.md.trace.md` — explicitly auto-generated and marked “Do not hand-edit.”
+- `docs/research/harness-evaluations/_template.md` and `docs/research/selection-rationale/_template.md` — reusable templates.
+- `docs/final-report-template.md` — reusable reporting template.
+- `docs/research/ases-stage3-crossref.md`, `other-stage3-crossref.md`, and `tripn-stage3-crossref.md` — generated cross-reference outputs.
+- `docs/research/session-audit-stage2-summary.md`, `session-audit-stage3-summary.md`, `stage4-orphaned-audit.md`, and `stage4-partial-audit.md` — bounded audit/result artifacts derived from the session-audit programme.
+
+Their lack of full canonical document metadata is not treated as equivalent to a malformed Canonical document. No hand edits were made.
+
+#### Maintained Research records still needing semantic metadata work
+
+Two no-frontmatter files are clearly substantive Research records rather than generated/template artifacts, but their exact identity/authority cannot be filled mechanically from the current header alone:
+
+- `docs/research/hms-postmortem-claims-assessment.md` — identifies itself as a “Research / retrospective assessment,” tied to ASES #385, assessing historical HMS evidence.
+- `docs/research/research-git-notes.md` — web-grounded Git Notes research produced by a background agent during the earlier decisional-provenance programme.
+
+These remain in the semantic-review set. In particular, the Git Notes record may belong to the historical decisional-provenance lineage; that requires lineage/reference evidence rather than a metadata-only patch.
+
+#### Atomized source-section family
+
+Issue #429 source records are internally inconsistent in metadata shape:
+
+- source 1 and source 2 are `Research Record / Experimental`;
+- source 4 is `Report / Experimental`;
+- source 5 is `Source Section / Derived`;
+- source 3 carries source-fetch metadata but omits the project identity fields entirely.
+
+Commit provenance confirms source 3 and source 5 were both atomized source-worker outputs for #429. Because sibling records disagree on `document_type` and `authority`, source 3 must not be normalized by copying one sibling arbitrarily. This family needs an explicit source-record schema decision before repair.
+
+#### Raw adversarial review under `specifications/`
+
+`specifications/Adverarial Test Suite Reviews:.md` is not a specification. Its body is raw adversarial review output against the ASES Universal Conformance Checklist. Its only path-history commit is the generic 2026-09-01 `chore: commit staged specs to unblock merge [#530]`; no document-specific filing decision is recorded.
+
+The live checklist survives separately as `to-file/ASES Universal Conformance Checklist.md`. The review artifact is therefore a clear filing hazard, but movement is deferred until a branch-local reference check is completed; this avoids breaking an unknown review-evidence consumer.
+
+#### Live `to-file/` methodology dependency with broken upstream references
+
+A higher-priority retrieval defect was discovered:
+
+- `to-file/ASES Universal Conformance Checklist.md` is a live `layer: Methodology`, `document_type: Universal Conformance Checklist`, `authority: Derived` document.
+- `specifications/observer-conformance-suite.md` depends on it directly and calls it the universal source for the project-specific suite.
+- the Checklist itself depends on `VSDD Adaptation Profile — State-Based Specifications` and `to-file/VSDD.md`.
+- the Observer suite also depends on `to-file/VSDD Adaptation Profile.md` and `to-file/VSDD.md`.
+- neither VSDD file exists anywhere in the current repository tree, and Git history for those exact `to-file/` paths returns no committed record.
+- the surviving `findings/vsdd-archaeology-report.md` and `findings/vsdd-73921ac-surgical-read.md` are research analyses of an external VSDD codebase/fork baseline; they are not replacements for the missing methodology documents.
+
+This means the live Checklist and Observer suite currently contain broken methodology dependencies. Moving the Checklist out of `to-file/` before resolving those missing sources would improve path aesthetics while leaving the more serious authority/retrieval defect intact. **No move is performed yet.** This becomes a priority Stage 3 dependency-repair task.
+
+#### Root Crosslink orchestration guide is live but internally stale
+
+The current `.crosslink/knowledge/agent-orchestration-playbook.md` explicitly refers readers to `crosslink-subagent-orchestration.md` for Sentinel details. The only surviving file with that name is `docs/crosslink-subagent-orchestration.md`, so the root guide remains a live retrieval target rather than an archive candidate.
+
+However, the root guide contains operational claims that conflict with the current playbook, including a default `--model opus`, a blanket 1h kickoff timeout, and older wrapper/default-model behavior. The current playbook instead states that every kickoff/swarm must pass an explicitly verified model, omission/default Anthropic names hard-fail, task-matched timeouts are required, and deprecated wrappers must not be used.
+
+Therefore the root Crosslink guide cannot be safely archived or promoted as-is. It requires a semantic split/currentness repair: preserve any still-needed Sentinel-specific content, remove or supersede stale kickoff/swarm/model guidance, and repair the playbook's ambiguous bare-file reference to the chosen current home.
+
+### Stage 3.2 position after checkpoint 7
+
+The remaining metadata problem is no longer primarily bulk schema normalization. The high-value remainder is now:
+
+1. repair broken live dependencies around the Universal Conformance Checklist / missing VSDD methodology inputs;
+2. resolve currentness and filing of the Crosslink orchestration/review guides;
+3. classify the raw checklist-review artifact before moving it from `specifications/`;
+4. decide a uniform schema for the #429 atomized source-section family;
+5. semantically classify the HMS postmortem assessment and old Git Notes research record.
+
+The Canonical standards family has already been repaired in commit `6b6ca2fb21ec93a09834a0d49ac1c8c36c96562b`.
