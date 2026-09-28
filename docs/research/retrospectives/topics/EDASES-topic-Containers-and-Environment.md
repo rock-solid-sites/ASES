@@ -18,6 +18,8 @@ consumed_by:
   - Execution engine research programme
   - ASES methodology development
 
+implements: []
+implemented_by: []
 last_updated: 2026-08-10
 ---
 

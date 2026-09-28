@@ -1046,3 +1046,24 @@ Edited:
 
 Skipped:
 
+
+
+### Stage 3.2 checkpoint 4d — safe Research normalization, retrospective-topic tranche
+
+**Status: 9 documents normalized; 0 skipped.**
+
+Applied only the checkpoint-3 empty `implements` / `implemented_by` rule.
+
+Edited:
+- `docs/research/retrospectives/topics/EDASES-topic-Containers-and-Environment.md`
+- `docs/research/retrospectives/topics/EDASES-topic-Git-Based-Engineering-Systems.md`
+- `docs/research/retrospectives/topics/EDASES-topic-Harness-Evaluation.md`
+- `docs/research/retrospectives/topics/EDASES-topic-Memory-Research.md`
+- `docs/research/retrospectives/topics/EDASES-topic-Methodology-Research.md`
+- `docs/research/retrospectives/topics/EDASES-topic-Model-Capability-16-Review-Wave.md`
+- `docs/research/retrospectives/topics/EDASES-topic-UI-design.md`
+- `docs/research/retrospectives/topics/EDASES-topic-microVMs.md`
+- `docs/research/selection-rationale/2026-06-22-microsoft-autogen.md`
+
+Skipped:
+

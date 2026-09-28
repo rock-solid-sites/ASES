@@ -18,6 +18,8 @@ related_documents:
 consumed_by:
   - ASES methodology development
 
+implements: []
+implemented_by: []
 supersedes: []
 
 superseded_by: []

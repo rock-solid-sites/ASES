@@ -18,6 +18,8 @@ consumed_by:
   - ASES knowledge architecture
   - knowledge-architecture-research/
 
+implements: []
+implemented_by: []
 last_updated: 2026-08-10
 ---
 

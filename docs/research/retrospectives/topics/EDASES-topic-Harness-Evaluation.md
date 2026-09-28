@@ -18,6 +18,8 @@ consumed_by:
   - docs/research/registry/Harness-Capability-Matrix.md
   - ASES methodology development
 
+implements: []
+implemented_by: []
 last_updated: 2026-08-10
 ---
 

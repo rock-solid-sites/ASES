@@ -25,6 +25,8 @@ consumed_by:
   - EDASES Model Data Collection epic (#255)
   - Model feedback registry (#181)
 
+implements: []
+implemented_by: []
 last_updated: 2026-08-10
 ---
 
