@@ -1,0 +1,46 @@
+{
+  "format": "ases-chatgpt-plugin-record-v1",
+  "name": "Strategy Code Graph",
+  "namespace": "Strategy_Code_Graph",
+  "purpose": "Read-only structural code intelligence over explicitly indexed GitNexus repositories.",
+  "connection": {
+    "mode": "OpenAI Secure MCP Tunnel",
+    "chatgpt_side_auth": "none",
+    "upstream_auth": "bearer injected by tunnel-client",
+    "tunnel_id": "environment-specific; do not commit",
+    "runtime_api_key": "secret; do not commit",
+    "upstream_endpoint": "loopback GitNexus MCP endpoint defined by the host deployment"
+  },
+  "backend": {
+    "engine": "GitNexus",
+    "mode": "read-only",
+    "repository_scope": "explicitly configured/allowlisted indexed repositories",
+    "notes": [
+      "Existing production deployment retained as an independent control/fallback for cgrmcp.",
+      "Raw Cypher, mutation, and group routing are excluded from the ChatGPT-facing read-only surface."
+    ]
+  },
+  "tools": [
+    "list_repos",
+    "query",
+    "context",
+    "detect_changes",
+    "check",
+    "impact",
+    "explain",
+    "pdg_query",
+    "route_map",
+    "tool_map",
+    "shape_check",
+    "api_impact",
+    "trace"
+  ],
+  "reconstruction": [
+    "Run the existing GitNexus MCP service on its private loopback endpoint with read-only mode and repository allowlisting.",
+    "Run tunnel-client as a separate persistent service and inject the GitNexus bearer token upstream.",
+    "Create a private ChatGPT plugin using Connection: Tunnel and bind it to that tunnel.",
+    "Use no ChatGPT-side OAuth/API-key auth when the tunnel handles the upstream bearer.",
+    "Verify the expected read-only tool surface before use."
+  ],
+  "secrets_policy": "Never commit tunnel IDs, OpenAI runtime keys, GitNexus bearer values, or credential file contents."
+}
