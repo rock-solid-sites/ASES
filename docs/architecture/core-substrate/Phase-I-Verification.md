@@ -38,9 +38,9 @@ are reusable evidence/fixtures within their bounds, not completed Work Unit chec
 
 Perform F1–F5 with deterministic tools and ordinary implementation/test work.
 Escalate architectural reasoning only when a required history violates the frozen
-contract, a proposed implementation cannot discharge a trust assumption without
-new semantics, or the canonical decision on Q1's strong reading is taken and its
-consequences require new semantics. A failed implementation is not automatically a
+contract or a proposed implementation cannot discharge a trust assumption without
+new semantics. The Q1 semantic choice is already resolved; selecting an optional
+D3 quiescence profile does not by itself reopen the core. A failed implementation is not automatically a
 new primitive. Try the simplest correction within the existing guard/effect/
 currentness contract first.
 
@@ -92,12 +92,13 @@ observations, and successful witnesses are checked. Report state/transition boun
 search completeness within those bounds, excluded combinations, and every trusted
 premise. At least one accepted x must be used after losing the activity and authority
 process that first accepted it. Checking x accepted only after restart is invalid.
-Q1 is represented as the D1/D2/D3 split with the quiescence window as an explicit
-parameter, not as one undifferentiated "execution disabled" event. D1 and D2 must
-hold on every modelled path. D3 must hold with no interval on the authorized-seal
-path, and on the engine-death path only to the extent the named enforcement point
-is modelled; it must be left unproved beyond that. See the
-[Q1 reduction](./Phase-I-Revocation-and-Q1.md) Part B.
+Represent engine loss with the resolved D1/D2 baseline rather than one
+undifferentiated "execution disabled" event. D1 (affected capability admission/use
+disabled) and D2 (affected protected outward effects disabled) must hold on every
+modelled path. Internal resource-backed computation may continue after engine loss.
+D3 (execution quiescence) is modelled only when the test explicitly selects that
+stronger profile. See the preserved
+[Q1 reduction](./Phase-I-Revocation-and-Q1.md) Part B and its later disposition.
 
 A finite result is not an unbounded proof. Supply separate inductive obligations:
 initial invariants; preservation under each admitted transition; preservation and
@@ -119,7 +120,7 @@ mutation rejected before reaching its intended fault is not a valid discriminato
 | T02 — replacement race and replay | Old request may commit before replacement; it must fail afterward. Completed replacement precedes later initiated old use. New valid ingress successfully continues x. |
 | T03 — source impersonation and reuse | Old producer claiming new position/generation fails. Reuse of a still-reachable old representation fails. Record whether the physical-source binding or bearer-secrecy claim was tested. |
 | T04 — conflicting capacity and three-way guards | At most one of two unit-capacity reservations succeeds. No three separately validated commitments with cyclic required order all succeed. An independent change remains possible. |
-| T05 — engine loss with retained routes | Kill authority while old activity retains file/socket/process references. No new protected use succeeds; accepted contents stay bounded. Separately measure execution disable for Q1. A sealed flag alone is not an oracle. |
+| T05 — engine loss with retained routes | Kill the engine mediator while old activity retains file/socket/process references. No new affected capability use succeeds and accepted contents stay bounded. Keep a CPU-only internal computation running as a positive control showing that baseline sealing does not require computation to stop. A sealed flag alone is not an oracle. |
 | T06 — exact content | Swap candidate path/content after validation; accept only the exact checked retained bytes or reject. Lose candidate producer after acceptance; required bytes still usable from the trusted holder. |
 | T07 — whole commitment and no early success | Interrupt before/after preparation, commitment and response. Only permitted whole endpoints recover. Every acknowledged/irrevocably committed value survives. No-reply is not forced to mean no-commit. |
 | T08 — current versus historical recovery | Restore an old authentic image after accepted y/revocation. The baseline must label this outside its current-storage premise; a claimed rollback-resistant extension must distinguish/refuse it. Fresh credentials alone may not label old x current. |
@@ -199,15 +200,16 @@ independent observations of confinement and actual retained bytes throughout.
 A useful external effect must have an explicit profile and its positive/negative
 witnesses; arbitrary external correctness is not required.
 
-Report the Q1 measurements as the D1/D2/D3 split. D1 and D2 must be demonstrated.
-For D3, demonstrate zero interval on the authorized-seal path. On the engine-death
-path, name the enforcement point, measure the quiescence window, and state whether
-it is bounded by a declared `δ`, unbounded, or not applicable to this realization.
-If the enforcement point is the engine itself, that is not a demonstration: the
-strong reading then requires the canonical decision in closure §8, and until it is
-taken report D3 on that path as **unverified** rather than as an implementation
-success or failure. A watchdog that merely proposes a replacement transition
-inherits no D3 evidence.
+Report the resolved D1/D2 engine-loss behavior explicitly. Demonstrate that
+affected capability admission/use and protected outward effects fail closed after
+engine loss while a CPU-only internal computation may continue within surviving
+resource grants. This continued computation is a positive baseline witness, not a
+failure.
+
+Measure D3 only if a bounded-quiescence stronger profile is deliberately selected.
+In that case name the independent enforcement point, liveness signal and timer,
+measure the quiescence window, and state the declared bound. A watchdog that merely
+proposes a replacement transition inherits no D3 evidence.
 
 ## 5. F4 — failure injection and whole-history refinement
 
@@ -242,7 +244,8 @@ correctness or arbitrary failure schedules.
 Give an independent reviewer the source contracts, pinned implementation/model,
 assumptions, raw counterexamples and acceptance criteria. Ask for its own verdict
 before it consumes the synthesis's conclusions. Review should specifically attack
-closure §8's five propositions, AC/C13, and the D1/D2/D3 reduction. Cross-family
+closure §8's propositions, AC/C13, and the resolved D1/D2 baseline, including the
+claim that continued internal computation does not by itself violate sealing. Cross-family
 agreement is evidence, not canonical authority. Do not assert review happened until
 a delivered result exists.
 
@@ -273,7 +276,7 @@ No automatic adoption of these extensions follows from this table.
 | Roadmap exit aspect | This investigation establishes | Evidence still owed |
 | --- | --- | --- |
 | Frozen abstract core | Operations, C1–C13, information admission and removal results. | Formal model/induction and independent review. |
-| Explicit trusted/failure boundary | Process-loss/current-storage comparator; concrete-effect and route obligations; AC policy-ordering obligation. | Actual TCB/attachment/policy conformance, and the D3 measurement plus its canonical decision. |
+| Explicit trusted/failure boundary | Process-loss/current-storage comparator; concrete-effect and route obligations; AC policy-ordering obligation. | Actual TCB/attachment/policy conformance for D1/D2; D3 evidence only if that stronger profile is selected. |
 | Mechanical replacement | Exact old/new authority and pending-effect contract. | Real ingress/route exclusion under loss and replay. |
 | Authoritative information | Truth versus applicability, scoped judgments, completeness and unknown behavior. | Implemented evaluator/verifier and tests. |
 | Processorless sufficiency | Finite comparator and fifteen targeted attempts; conditional elimination. | Model/realization refinement and independent falsification. |
@@ -282,7 +285,7 @@ No automatic adoption of these extensions follows from this table.
 
 **WHY:** implementation agents need fixed observables and pass/fail conditions,
 not architectural choices disguised as test tasks. **WHAT:** closure C1–C13,
-H1–H14, Processor P1–P15, Work Unit A–L, and the AC/D1-D2-D3 additions. **HOW
+H1–H14, Processor P1–P15, Work Unit A–L, and the AC plus resolved D1/D2 additions. **HOW
 CERTAIN:** evidence-based work specification, not completed verification.
 **WHAT-NOT-TESTED:** all F1–F5 work and stronger-profile extensions; no new
 runtime/model tests were run in this session.
