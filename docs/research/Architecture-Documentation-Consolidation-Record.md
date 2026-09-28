@@ -333,3 +333,27 @@ The safest next action is two separate atomic move commits:
 2. **2B.1d:** move the two reusable research documents into `docs/research/decisional-provenance/`, then repair only the metadata/related-document links needed to classify them correctly.
 
 The two groups should not be combined because archival relocation and current-research recategorization have different semantic consequences.
+
+
+## Stage 2B.1c — archive historical authored decisional-provenance lineage
+
+**Status: completed.**
+
+Moved the six authored historical lineage documents identified in 2B.1b into:
+
+`docs/historical/decisional-provenance/`
+
+Files moved byte-for-byte, with filenames unchanged:
+
+- `architectural-brief-documentation-process.md`
+- `architectural-reviews-synthesis.md`
+- `documentation-process-refactor.md`
+- `dual-architecture-orchestration-spec.md`
+- `sqlite-native-refactor-proposal.md`
+- `adversarial-reviewers-analysis.md`
+
+No semantic edits, metadata normalization, or retroactive status rewriting were performed in this move. Their historical claims remain exactly as written.
+
+This keeps authored proposals/syntheses separate from the raw model-review archive at `docs/historical/decisional-provenance-reviews/`.
+
+The reusable supporting research files `research-git-notes.md` and `research-hybrid-cache.md` remain in `.design/` pending the separate 2B.1d research recategorization step.
