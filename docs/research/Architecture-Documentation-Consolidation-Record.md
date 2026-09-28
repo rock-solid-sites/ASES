@@ -143,3 +143,87 @@ This pass inspected only files directly under `docs/`. It intentionally did not 
 No file has been moved or semantically rewritten yet.
 
 The next bounded operation for these eight files should be a **move/reclassification batch only after dependency/reference checks**. In particular, `ORCHESTRATOR.md` must be reconciled against the current Authority Ontology before it is retained as a current operational role guide; it must not silently redefine Orchestrator authority.
+
+
+## Stage 2A.2 — `.design/` filing inventory
+
+**Status: inventory complete; no moves performed in this substep.**
+
+This pass inspected every current file directly under `.design/`. The directory is not a single documentation class. It mixes research evidence, raw model review transcripts, historical architecture proposals, implementation designs, swarm plans, experiments, and operational audits.
+
+The classification below is therefore a filing proposal, not a semantic promotion.
+
+### A. Research, review, and evidence records
+
+| Current path | Candidate classification / destination | Confidence | Notes |
+| --- | --- | --- | --- |
+| `.design/adversarial-reviewers-analysis.md` | Research Synthesis / model-evaluation evidence under `docs/research/` or a model-evaluation subdirectory | High | Completed 2026-06-24 synthesis of reviewer behavior; historical evidence rather than current architecture. |
+| `.design/architectural-brief-documentation-process.md` | Historical Research Brief under `docs/research/` or `docs/historical/` | High | Snapshot of an earlier decisional-provenance problem space; useful lineage, not current specification. |
+| `.design/architectural-reviews-synthesis.md` | Research Synthesis under `docs/research/syntheses/` | High | Synthesizes multiple adversarial reviews and competing architectures. |
+| `.design/capability-schema-validation.md` | Research/Experiment Design under `docs/research/` | High | Already declares `layer: Research`; `.design/` location conflicts with its metadata. |
+| `.design/chatgpt-execution-classification.md` | External Review / Research Record under `docs/research/review-inbox/` or dedicated external-review location | High | Declares external, unverified provenance; should not sit beside authoritative designs. |
+| `.design/crosslink-dormant-capability-audit.md` | Research Audit / Tooling Evaluation under `docs/research/` | High | Evidence-heavy deployed/source audit of Crosslink capabilities; not a design document. |
+| `.design/prior-art-brief.md` | Research Brief under `docs/research/` | High | Already calls itself a prior-art research brief despite `layer: Implementation`; metadata itself likely needs correction. |
+| `.design/research-git-notes.md` | Research Record under `docs/research/` | High | Explicit external/prior-art research. |
+| `.design/research-hybrid-cache.md` | Research Record / Architecture Research under `docs/research/` | High | Investigates CQRS/event-sourcing pattern and prior art; not implementation design. |
+| `.design/tool-to-engine-gap-matrix.md` | Research Advisory under `docs/research/` | High | Already declares `layer: Research`; evaluates current tooling against engine concepts. |
+
+### B. Raw model-review lineage
+
+These files are mostly review payloads/responses rather than maintained specifications. They should remain preserved, but under a review/evidence location rather than `.design/`.
+
+| Current path | Candidate classification / destination | Confidence |
+| --- | --- | --- |
+| `.design/reframe-chatgpt.md` | Historical external model review / `docs/research/review-inbox/` or historical review archive | High |
+| `.design/reframe-claude.md` | Historical external model review / review archive | High |
+| `.design/reframe-deepseekpro.md` | Historical external model review / review archive | High |
+| `.design/reframe-glm52.md` | Historical external model review / review archive | High |
+| `.design/reframe-redirect.md` | Multi-model review/recommendation record / review archive | High |
+| `.design/reviews-2.md` | Historical adversarial review bundle / review archive | High |
+| `.design/reviews-3.md` | Historical adversarial review bundle / review archive | High |
+| `.design/reviews-4.md` | Historical adversarial review bundle / review archive | High |
+| `.design/reviews-5-gemini.md` | Historical adversarial review / review archive | High |
+| `.design/reviews-5.md` | Historical multi-model review bundle / review archive | High |
+| `.design/reviews-6.md` | Historical adversarial review / review archive | High |
+| `.design/reviews-7-synthesis-gemini.md` | Historical adversarial review / review archive | High |
+| `.design/v7-reviews.md` | Historical adversarial review bundle / review archive | High |
+
+The numbered/reframe files form a recognizable **decisional-provenance architecture review lineage**. They should likely move as one preserved set so chronology is not lost.
+
+### C. Implementation designs, experiments, and execution plans
+
+| Current path | Candidate classification / destination | Confidence | Notes |
+| --- | --- | --- | --- |
+| `.design/documentation-process-refactor.md` | Historical Implementation Design or Design Record | High | “Final audited” design for a superseded documentation/telemetry architecture; should not appear current merely because it says final. |
+| `.design/dual-architecture-orchestration-spec.md` | Historical Architecture/Design Record | High | Explicitly says adversarial-review phase and not ready for selection; belongs with its review lineage. |
+| `.design/epic-423-swarm-plan.md` | Historical/Operational Execution Plan | High | Ticket-specific swarm execution plan, not durable architecture. |
+| `.design/epic-423-swarm-replan.md` | Historical/Operational Implementation Design | High | Declares `layer: Implementation`; tied to EPIC #423 and its companion plan. |
+| `.design/lifecycle-manager-design.md` | Historical or Experimental Implementation Design | High | Concrete agent lifecycle design; depends on old session tooling and predates current Work Unit/authority consolidation. |
+| `.design/observer-swarm-v1.1-resilience.md` | Historical/Experimental Implementation Design | High | Swarm hardening design tied to older Observer implementation assumptions; not the current Phase II Observer architecture. |
+| `.design/rpc-enforcement-prototype.md` | Experiment Design under `docs/research/` or `docs/implementation/` if that location is introduced | High | Explicitly says it is an experiment, not an architectural commitment. |
+| `.design/rtk-guard.md` | Tooling Implementation Design | High | Concrete OpenCode plugin design; useful implementation record and efficiency evidence, not EDASES architecture. |
+| `.design/sqlite-native-refactor-proposal.md` | Historical Architecture Proposal | High | Earlier proposal whose guarantees were subsequently attacked by the adjacent review lineage. |
+| `.design/v2-guard-rewrite-design.md` | Tooling Implementation Design | High | Concrete guard rewrite for a particular OpenCode/Crosslink generation. |
+
+### Retrieval hazards identified in `.design/`
+
+1. **“Final” and “watertight” historical proposals look current.** In particular, `documentation-process-refactor.md` and the SQLite/provenance proposals can be retrieved as settled architecture even though their own review lineage later falsified major claims.
+2. **Raw model reviews are mixed with authored specifications.** A search can return one model's adversarial opinion beside a project design without an obvious authority distinction.
+3. **Metadata/path disagreement is common.** Several documents declare `layer: Research` or `layer: Implementation` while living in the generic `.design/` bucket.
+4. **Old Execution Engine ontology remains discoverable.** `lifecycle-manager-design.md`, `observer-swarm-v1.1-resilience.md`, `rpc-enforcement-prototype.md`, and `tool-to-engine-gap-matrix.md` encode pre-Kernel-0/Work-Unit-0 assumptions. They remain useful evidence but should not silently define current primitives.
+5. **The old decisional-provenance program is overrepresented in search.** More than a dozen files are successive proposals/reviews of the same historical architecture problem. Preserving them as a grouped lineage will reduce retrieval noise without deleting evidence.
+6. **Operational plans are mixed with durable knowledge.** EPIC-specific swarm plans should not have the same retrieval status as architecture/research findings.
+7. **Useful guard evidence should be retained but re-scoped.** The RTK, V2 guard, Crosslink capability audit, and RPC prototype remain valuable evidence for capability mediation and fail-open/fail-closed distinctions, but are implementation/tooling artifacts rather than authority definitions.
+
+### Stage 2A.2 disposition
+
+No `.design/` file has been moved, renamed, or semantically rewritten.
+
+The safest move sequence is not alphabetical. The next move/reclassification work should proceed in small dependency-checked families:
+
+1. **historical decisional-provenance review lineage** — proposals + numbered/reframe reviews;
+2. **EPIC #423 operational designs/plans**;
+3. **current-use tooling/guard evidence**;
+4. **standalone research briefs/audits**.
+
+Each family should first receive a repository-wide reference check so moves do not create broken dependencies.
