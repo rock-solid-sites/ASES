@@ -45,6 +45,16 @@ contract Q1 in its §8. This document does two things and nothing else:
 Neither part proposes a new primitive, a new subsystem, or a change to the six
 retained Kernel distinctions.
 
+> **Consolidation disposition — 2026-09-28**
+>
+> The source-verification result in Part A remains current. The semantic ambiguity
+> that motivated Part B has since been resolved in the canonical Work Unit
+> specification: sealing disables protected outward capability use but does not
+> inherently stop interior computation using still-valid resource grants. Part B
+> is retained because its D1/D2/D3 decomposition explains the distinction and the
+> mechanism requirements for an optional quiescence profile. Its former residual
+> "canonical wording decision" is no longer open.
+
 ---
 
 # Part A — the revocation question, settled against my own claim
@@ -162,45 +172,24 @@ ordering requirement applied to a second class of protected change. It belongs i
 the effect-correspondence rules of the closure record, and it adds a **route class**
 that §2 currently does not list.
 
-## A5. A second source claim, also over-stated: "sealed does not mean frozen"
+## A5. Historical wording conflict and its disposition
 
-A concurrent [Authority Ontology](../EDASES-Authority-Ontology.md) (commit
-`2bcad274`) asserts at §11, flatly:
+At the time of this analysis, the concurrent
+[Authority Ontology](../EDASES-Authority-Ontology.md) asserted that sealing did not
+require interior computation to stop, while the canonical Work Unit H glossary
+still said that "active execution" was disabled. That was a real documentation
+conflict and correctly blocked a builder from claiming full conformance from either
+reading alone.
 
-> **Sealed does not mean frozen.** A Work Unit may be sealed from protected
-> external effects while computation continues internally.
+The consolidation pass resolved the conflict at the canonical Work Unit source.
+The current meaning is:
 
-and its `Execution-neutral invariant` generalizes this: "internal computation is
-not itself an authority-bearing act unless it crosses a protected boundary or
-changes authoritative meaning".
+> **Sealed disables protected outward capability use. It does not inherently stop
+> internal computation using still-valid resource grants.**
 
-The authority half of that is right, and is the position the closure record already
-took: D1 and D2 concern admission and protected effects, and `Execution-neutral` is
-a fair restatement. The difficulty is that "sealed" in the canonical Work Unit
-glossary is defined as "the durable bounded object remains, but **active
-execution**/outward capability use is disabled", so the ontology asserts the
-opposite of that phrase for the same word. A Work Unit cannot satisfy both, and
-the ontology's §1 declares itself a working base that "should constrain future
-reasoning".
-
-This is the one place where the **specification** and the **derived** records now
-disagree. It is a wording conflict, not a design conflict: `Execution-neutral` is
-the stronger and more defensible formulation, because "internal computation" and
-"active execution" are different things and only the second is what the glossary
-names. The recommended repair is to qualify the ontology rather than the glossary:
-
-> Sealing disables admission and protected effects (D1, D2). Whether it must also
-> stop interior execution is a separate claim (D3) with its own path-dependent
-> realization, and is not settled by the fact that interior computation is not
-> itself authority-bearing.
-
-Read as written, the ontology forecloses a question that remains open, and would
-let a builder report "sealed" against closure's Q1 without having measured
-anything. Recorded rather than applied, because the ontology is a provisional
-working document on a different issue and the operator may prefer to keep it
-unqualified. The safest interim rule for any downstream builder is: report D1 and
-D2 as verified, and report D3 as unverified unless the enforcement point and
-quiescence window have been measured.
+The Authority Ontology's substantive distinction therefore survives. The earlier
+conflict is preserved here as reasoning provenance because it explains why D1,
+D2, and D3 were separated rather than collapsed into one vague word.
 
 ---
 
@@ -284,45 +273,46 @@ convenience and inherits no safety property; only one that *enforces* fail-close
 termination discharges Δ. The distinction is worth stating because the two are easy
 to conflate in an implementation.
 
-## B5. The residual, stated precisely
+## B5. Current disposition
 
-Q1 is therefore not an open architectural question. What remains is listed below,
-with one added blocker: the first item is now gated on reconciling two records that
-currently assert opposite things about the same word, not on new evidence (A5).
+The canonical wording residual is closed.
 
-| Residual | Why reasoning cannot settle it | What settles it |
-| --- | --- | --- |
-| Which reading the Work Unit specification intends for D3 on the engine-death path | It is a canonical wording decision about one glossary phrase, not a derivable result. Two readings are defensible. | An explicit canonical clarification of the H glossary and E, stating whether D3 is claimed on engine death. Until then, report the profile as meeting D1+D2 and leave D3 **unverified** on that path. This decision is now additionally blocked on reconciling two records, since the concurrent Authority Ontology asserts the opposite of the glossary (A5). |
-| The achievable value of Δ on a chosen substrate | A property of a specific host, kernel, LSM configuration and watchdog design. | Measure it: kill the engine with an interior CPU-only activity running, and record the interval until last execution stops, with the enforcement point named. |
-| Whether the enforcement point is in the trust boundary and who can change it | Same class as A4 clause 3. | Disclose it, and apply AC. |
+For the baseline Work Unit contract:
 
-The discriminating test for the first residual is concrete: an implementation that
-claims the strong reading must show that the *engine itself* is the sole execution
-supervisor and that its death is synchronous with the death of everything it
-supervised. No ordinary substrate provides that, so the strong reading reduces in
-practice to "there is always a surviving enforcement point", which is a claim about
-architecture, not about the specification. An implementation that claims the weak
-reading must show only D1 and D2 and must not describe a still-running interior as
-"sealed" in prose.
+- D1 (admission disabled) is required;
+- D2 (protected effect/capability use disabled) is required;
+- D3 (interior execution stopped) is **not** required.
 
-## B6. Why this closes Phase I's frontier work
+The quiescence window `Δ` remains a useful measurement only when a stronger
+profile explicitly promises bounded or immediate cessation after engine loss.
+Such a profile must still name the engine-independent enforcement point, trusted
+liveness signal, timing assumption, and trust boundary described above.
 
-Q1 was the only item the closure record described as an unresolved *core* contract.
-It reduces to: one canonical wording decision, one disclosure parameter, one trust
-disclosure, and one measurement. None of these can be settled by further frontier
-reasoning about the architecture, and none of them can require a new primitive
-unless the strong reading is adopted — in which case the consequence is a named
-surviving enforcement component, which is a realization obligation already
-implied by the closure property.
+No lease, heartbeat, watchdog, or process-fate mechanism is therefore required by
+the baseline solely to stop computation. Those mechanisms may still be justified
+by a stronger quiescence or timed-authority requirement.
 
-**WHY:** the source read is decisive against my own claim and implies a stricter
-ordering obligation; the D1/D2/D3 split is exhaustive and its support in the
-repository text is asymmetric. **WHAT:** the pinned `selinux_file_permission`
-source, the Work Unit C/E/H/K and glossary text, and the closure record's own
-§2/§4/§8/§10. **HOW CERTAIN:** A2 is verified primary source; B2–B4 are
-evidence-based reductions over the pinned contracts; the residual is one canonical
-decision and one empirical measurement. **WHAT-NOT-TESTED:** no host, kernel, LSM
-configuration, policy sequence change, watchdog or process-teardown experiment was
+## B6. Consequence for Phase I
+
+Q1 no longer reopens frontier architecture work. The remaining Phase I work is
+bounded realization and verification:
+
+- make capability deactivation real at the effect boundary;
+- show that stale mediator instances and retained capability handles cannot produce
+  protected effects;
+- permit continued internal computation only within still-valid resource bounds;
+- test bounded quiescence separately if a deployment elects to claim it.
+
+The D1/D2/D3 reduction remains useful because it prevents a future implementation
+from confusing capability revocation with process termination.
+
+**WHY:** the canonical Work Unit specification now supplies the missing semantic
+decision. **WHAT:** the Work Unit B/E/H clarification plus the earlier source-level
+revocation analysis in this document. **HOW CERTAIN:** baseline semantics are
+settled for the current architecture; concrete route enforcement remains
+unverified. **WHAT-NOT-TESTED:** no host, kernel, LSM, credential broker,
+descriptor-revocation, or optional quiescence mechanism is proven by this
+clarification.configuration, policy sequence change, watchdog or process-teardown experiment was
 run; whether a given administrative action increments the policy sequence number is
 unverified here; mappings, device `ioctl` and asynchronous completion are outside
 the hook that was read.
