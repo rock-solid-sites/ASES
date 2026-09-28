@@ -503,3 +503,30 @@ Five already have recorded dispositions or deferrals from Stages 2B.2–2B.3. Th
 - `.design/observer-swarm-v1.1-resilience.md`
 
 After those are resolved, the batch will decide whether enough evidence now exists to establish a common home/lifecycle rule for the remaining active or unresolved Implementation-layer records without guessing.
+
+
+### Stage 2B.5a — lifecycle-manager supersession filing
+
+**Status: completed.**
+
+Primary-source lineage:
+
+- `.design/lifecycle-manager-design.md` is a Proposed/Derived Implementation design introduced for EPIC #423 on 2026-08-24.
+- `.design/observer-swarm-v1.1-resilience.md` (2026-08-27) explicitly lists the lifecycle-manager design under `supersedes` as **partially superseded**, retaining only the lifecycle-state semantics, post-transition action-table shape, and SC1–SC5 validation intent while replacing its resilience, filing, and traceability assumptions.
+- `specifications/observer-conformance-suite.md` (2026-08-30) independently repeats that status: the lifecycle-manager design is “superseded in part; lifecycle-semantics baseline,” while the Observer v1.1 design is the behavioural contract and `scripts/observer/observer.sh` the implementation.
+
+Action:
+
+- moved `.design/lifecycle-manager-design.md` byte-for-byte to `docs/historical/lifecycle-manager-design.md`;
+- updated the four verified path references in the current Observer v1.1 behavioural contract to the historical location;
+- updated the verified path reference in the Observer conformance suite to the historical location.
+
+The GitHub connector provides default-branch code search only, not branch-scoped search. These reference repairs therefore cover the branch-local primary consumers directly verified in this consolidation; the move is not represented as an exhaustive branch-wide grep.
+
+No historical content was rewritten.
+
+### Observer v1.1 disposition
+
+`.design/observer-swarm-v1.1-resilience.md` remains a Draft/Derived Implementation design rather than a historical record. The 2026-08-30 conformance suite explicitly treats it as the behavioural contract, records `scripts/observer/observer.sh` as the implementation, and grades portions of the design as implemented/verified and other portions as still open. No later superseding primary source was found in this bounded check.
+
+Its filing therefore remains coupled to the unresolved repository-home question for active Implementation-layer designs; no move is performed here.

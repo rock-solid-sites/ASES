@@ -20,7 +20,7 @@ consumed_by:
   - docs/ORCHESTRATOR.md
   - .crosslink/knowledge/agent-orchestration-playbook.md (next revision)
 related_documents:
-  - .design/lifecycle-manager-design.md
+  - docs/historical/lifecycle-manager-design.md
   - .design/epic-423-swarm-plan.md
   - issue #460
   - issue #483
@@ -32,7 +32,7 @@ related_documents:
   - issue #488 — swarm design for execution-engine vision (#460-lineage)
   - issue #490 — EPIC Observer Centralized Operator Reports (Hybrid F)
 supersedes:
-  - .design/lifecycle-manager-design.md (partially — lifecycle semantics retained, resilience + filing + traceability added)
+  - docs/historical/lifecycle-manager-design.md (partially — lifecycle semantics retained, resilience + filing + traceability added)
   - prior observer swarm assumptions that treated launch as infallible and filing as per-issue comments only
   - to-file/messaging.md as standalone draft — superseded as integrated Phase 2 expansion (no new broker/MCP; watermark watcher + blocking semantics + 10 acceptance tests now live in this design)
   - prior assumption that Builder->Orchestrator questions required a new protocol — replaced by Crosslink agent-communication convention forwarded via existing Observer->Orchestrator path (see Phase 2 §2e)
@@ -111,7 +111,7 @@ methodology operating system rather than a fragile monitor.
 
 ### Informational
 
-- `.design/lifecycle-manager-design.md` (superseded in part, retained as
+- `docs/historical/lifecycle-manager-design.md` (superseded in part, retained as
   lifecycle-semantics baseline; see Supersessions)
 - `docs/research/Workflow Topology Design and Reasoning Record.md` (position
   store, staleness trigger, AUDITOR two-phase)
@@ -123,7 +123,7 @@ methodology operating system rather than a fragile monitor.
 
 | Superseded / Partially Superseded | What changes | What is retained |
 |---|---|---|
-| `.design/lifecycle-manager-design.md` | Treated launch as infallible; filing as per-issue comments; no earlyoom attribution; no D1-D4/Secrets/Startup-Verification wiring | Agent lifecycle states (LAUNCHED->RUNNING->COMPLETED|FAILED|KILLED|PARKED|FROZEN), post-transition action table shape, SC1-SC5 validation intent |
+| `docs/historical/lifecycle-manager-design.md` | Treated launch as infallible; filing as per-issue comments; no earlyoom attribution; no D1-D4/Secrets/Startup-Verification wiring | Agent lifecycle states (LAUNCHED->RUNNING->COMPLETED|FAILED|KILLED|PARKED|FROZEN), post-transition action table shape, SC1-SC5 validation intent |
 | Any prior assumption that `journalctl -k` suffices for OOM forensics | Replaced by `journalctl -u earlyoom --since <window>` (may require sudo) per server-memory-management | — |
 | Scattered operator-report filing (ad-hoc comments across issues) | Replaced by Hybrid F centralized epic + dual labels + sentinel sweep (§ Phase 2) | Per-transition evidence emission still originates at the Builder/Observer; only the durable index is centralized |
 | `to-file/messaging.md` as a standalone draft requiring a new protocol | Integrated as Phase 2 §2e: Crosslink convention (`type: agent-communication`, `blocking`, `message`) + watermark watcher + existing notification path; no broker/MCP; deferred sandbox hook documented as future optimization only | Semantic contract (blocking vs non-blocking), Builder convention, 10 acceptance tests (preserved verbatim as P2-MSG1..10), failure/recovery requirements |

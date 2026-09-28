@@ -26,7 +26,7 @@ consumed_by:
 related_documents:
   - scripts/observer/observer.sh
   - scripts/observer/tests/run-tests.sh
-  - .design/lifecycle-manager-design.md (superseded in part; lifecycle-semantics baseline)
+  - docs/historical/lifecycle-manager-design.md (superseded in part; lifecycle-semantics baseline)
   - docs/research/Workflow Topology Design and Reasoning Record.md
   - docs/conformance/Stop-Button-Conformance-Suite.md (sibling instantiation, format precedent)
 
