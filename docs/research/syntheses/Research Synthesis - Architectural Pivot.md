@@ -21,6 +21,8 @@ consumed_by:
   - AGENTS.md
   - Execution Engine Vision
 
+implements: []
+implemented_by: []
 supersedes: []
 last_updated: 2026-06-29
 ---

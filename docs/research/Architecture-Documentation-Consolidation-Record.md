@@ -1087,3 +1087,27 @@ Skipped:
 - `docs/research/session-audit-stage4-summary.md`
 - `docs/research/stage4-orphaned-audit.md`
 - `docs/research/stage4-partial-audit.md`
+
+
+### Stage 3.2 checkpoint 4f — safe Research normalization, final tranche
+
+**Status: 5 documents normalized; 4 skipped.**
+
+Applied only the checkpoint-3 empty `implements` / `implemented_by` rule.
+
+Edited:
+- `docs/research/sections/source-1-mast.md`
+- `docs/research/sections/source-2-adamast.md`
+- `docs/research/syntheses/Research Synthesis - Architectural Pivot.md`
+- `docs/research/tool-to-engine-gap-matrix.md`
+- `docs/research/tools-distribution-architecture-review-input.md`
+
+Skipped:
+- `docs/research/structural-change/EDASES-Bounded-Structural-Transitions.md`
+- `docs/research/syntheses/adversarial-reviewers-analysis.md`
+- `docs/research/tripn-stage3-crossref.md`
+- `docs/research/work-unit-0/Work-Unit-0-Foundational-Reduction.md`
+
+### Stage 3.2 normalization run summary
+
+Across checkpoints 4a–4f, the repository was updated only where the Standard and current exemplars made the change mechanically safe: existing `layer: Research` frontmatter missing `implements` and/or `implemented_by` received explicit empty arrays. Ineligible templates, traces, no-frontmatter records, differently layered documents, and already-complete documents were left untouched.

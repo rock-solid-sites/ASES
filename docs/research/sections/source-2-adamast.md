@@ -15,6 +15,8 @@ depends_on: []
 related_documents:
   - "docs/research/sections/source-1-mast.md"
   - "docs/research/sections/source-3-atlas.md"
+implements: []
+implemented_by: []
 supersedes: []
 last_updated: 2026-08-24
 ---

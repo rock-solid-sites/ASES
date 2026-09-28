@@ -19,6 +19,8 @@ depends_on:
   - Concept: Levels of Abstraction
   - AI Orchestration Guide
 labels: [gap-matrix, advisory, execution-engine]
+implements: []
+implemented_by: []
 last_updated: 2026-08-29
 ---
 
