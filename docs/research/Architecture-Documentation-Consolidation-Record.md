@@ -576,3 +576,26 @@ Cumulative reliable scan results after 50 files:
 
 - Observer v1.1 has two confirmed live consumers so far: `docs/research/capability-schema-validation.md` and `specifications/observer-conformance-suite.md`;
 - no branch-local exact-path reference has yet been found for the EPIC #423 plan/replan pair, RPC enforcement prototype, RTK guard design, or V2 guard rewrite design.
+
+
+### Stage 2B.5d — branch-local reference scan checkpoint 3
+
+**Status: 26 additional operational/canonical files scanned; 76 total in reliable scan.**
+
+This tranche covered every textual file under:
+
+- `.crosslink/knowledge/`;
+- root-level `docs/`;
+- `docs/methodology/`;
+- `docs/requirements/`;
+- `docs/roles/`;
+- `docs/standards/`.
+
+Result: no additional exact-path references to any of the six remaining `.design/` targets.
+
+Cumulative confirmed references remain:
+
+- `docs/research/capability-schema-validation.md` → `.design/observer-swarm-v1.1-resilience.md`;
+- `specifications/observer-conformance-suite.md` → `.design/observer-swarm-v1.1-resilience.md`.
+
+No confirmed branch-local references have been found for the EPIC #423 plan/replan pair, RPC enforcement prototype, RTK guard design, or V2 guard rewrite design in the 76 reliably scanned live documentation/knowledge files.
