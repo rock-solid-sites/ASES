@@ -357,3 +357,39 @@ No semantic edits, metadata normalization, or retroactive status rewriting were 
 This keeps authored proposals/syntheses separate from the raw model-review archive at `docs/historical/decisional-provenance-reviews/`.
 
 The reusable supporting research files `research-git-notes.md` and `research-hybrid-cache.md` remain in `.design/` pending the separate 2B.1d research recategorization step.
+
+
+
+## Stage 2B.1d — recategorize reusable decisional-provenance research
+
+**Status: completed.**
+
+Moved the two reusable research records identified in 2B.1b out of the generic `.design/` bucket and into:
+
+`docs/research/decisional-provenance/`
+
+Moves:
+
+- `.design/research-git-notes.md` → `docs/research/decisional-provenance/research-git-notes.md`
+- `.design/research-hybrid-cache.md` → `docs/research/decisional-provenance/research-hybrid-cache.md`
+
+The research bodies were preserved exactly. The only document-content changes were the addition of standard classification metadata and explicit `related_documents` links.
+
+Both records are classified as:
+
+- `program: EDASES`
+- `layer: Research`
+- `document_type: Research Record`
+- `status: Active`
+- `authority: Derived`
+- `canonical_repository: edases`
+
+Neither record is Canonical and neither establishes project policy or architecture.
+
+`research-git-notes.md` is related to the hybrid-cache research and this consolidation record. `research-hybrid-cache.md` is related to the Git Notes research, this consolidation record, and the current Experimental/Derived `EDASES Efficiency Architecture`; this is a non-hierarchical research relationship, not an architecture dependency or promotion of the older decisional-provenance program.
+
+### Next bounded step
+
+The historical decisional-provenance family is now separated into raw reviews, authored historical lineage, and reusable current research.
+
+Per the Stage 2A.2 move sequence, the next family is **EPIC #423 operational designs/plans**. The next operation should therefore be a reference check of `.design/epic-423-swarm-plan.md` and `.design/epic-423-swarm-replan.md` before either file is moved or reclassified.

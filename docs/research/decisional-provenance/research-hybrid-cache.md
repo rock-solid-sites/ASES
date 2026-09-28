@@ -1,3 +1,28 @@
+---
+title: "Research: Hybrid Cache Model / Event Sourcing with Git"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Derived
+canonical_repository: edases
+
+depends_on: []
+consumed_by: []
+
+related_documents:
+  - "Research: Git Notes for Software Engineering Decisional Provenance & Metadata"
+  - EDASES Efficiency Architecture
+  - Architecture Documentation Consolidation Record
+
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+
+last_updated: 2026-09-28
+---
+
 # Research: Hybrid Cache Model / Event Sourcing with Git
 
 ## Table of Contents
