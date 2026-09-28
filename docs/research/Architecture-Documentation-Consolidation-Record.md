@@ -260,3 +260,76 @@ Destination:
 The historical filenames are retained unchanged so chronology and existing human references remain recognizable.
 
 No authored synthesis, proposal, research brief, implementation design, or current-use tooling record was moved in this substep.
+
+
+## Stage 2B.1b — authored decisional-provenance lineage reference check
+
+**Status: reference check complete; no moves performed in this substep.**
+
+This substep checked the authored decisional-provenance proposals, syntheses, and supporting research that remained in `.design/` after the raw review archive move.
+
+Files checked:
+
+- `.design/architectural-brief-documentation-process.md`
+- `.design/architectural-reviews-synthesis.md`
+- `.design/documentation-process-refactor.md`
+- `.design/dual-architecture-orchestration-spec.md`
+- `.design/sqlite-native-refactor-proposal.md`
+- `.design/research-git-notes.md`
+- `.design/research-hybrid-cache.md`
+- `.design/adversarial-reviewers-analysis.md`
+
+### Reference-check result
+
+The check used three layers:
+
+1. GitHub code search on the default branch for exact filenames and `.design/` path forms;
+2. exact current-branch reads across the remaining `.design/` set, current project-level architecture files, registry/provenance records, and selected current research/methodology/tooling documents;
+3. internal filename-reference checks among the eight candidate documents themselves.
+
+No current filename/path dependency was found outside this consolidation record.
+
+This is **not** a proof that no prose-only conceptual reference exists anywhere in the repository. It is sufficient evidence that these files are not acting as mechanically referenced current inputs in the inspected architecture/research surfaces. Moves should still preserve filenames and lineage.
+
+### Disposition split
+
+The reference check exposed an important classification difference.
+
+#### Historical authored decisional-provenance lineage
+
+These documents belong with the archived review lineage because they describe superseded proposals, intermediate architecture states, or completed synthesis of that historical design program:
+
+- `architectural-brief-documentation-process.md` — historical research brief;
+- `architectural-reviews-synthesis.md` — historical research synthesis;
+- `documentation-process-refactor.md` — historical implementation/design specification;
+- `dual-architecture-orchestration-spec.md` — historical competing-architecture specification;
+- `sqlite-native-refactor-proposal.md` — historical architecture proposal later challenged by the preserved reviews;
+- `adversarial-reviewers-analysis.md` — completed model/reviewer analysis from that program.
+
+Candidate destination:
+
+`docs/historical/decisional-provenance/`
+
+The raw review archive at `docs/historical/decisional-provenance-reviews/` remains separate so authored synthesis/design records are distinguishable from reviewer transcripts.
+
+#### Reusable supporting research
+
+These two files should **not** be archived merely because they originated in the same design program:
+
+- `research-git-notes.md` — reusable Git Notes research;
+- `research-hybrid-cache.md` — reusable research on Git-backed event sourcing, CQRS, disposable projections, cache rebuilding and invalidation.
+
+Candidate destination:
+
+`docs/research/decisional-provenance/`
+
+The hybrid-cache research is especially relevant to later Processor/efficiency work because the current Efficiency Architecture independently favors authoritative base state plus disposable/derived projections. Moving it into Research preserves it as evidence without treating the old decisional-provenance architecture as current.
+
+### Next bounded move
+
+The safest next action is two separate atomic move commits:
+
+1. **2B.1c:** move the six historical authored lineage documents into `docs/historical/decisional-provenance/`, byte-for-byte;
+2. **2B.1d:** move the two reusable research documents into `docs/research/decisional-provenance/`, then repair only the metadata/related-document links needed to classify them correctly.
+
+The two groups should not be combined because archival relocation and current-research recategorization have different semantic consequences.
