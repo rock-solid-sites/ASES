@@ -660,3 +660,24 @@ Action:
 - no live references required repair.
 
 This removes a conflicting Proposed design from the active-looking generic `.design/` surface without rewriting its historical content.
+
+
+### Stage 2B.5h — remaining `.design/` disposition
+
+**Status: remaining design batch complete.**
+
+The canonical Documentation Standard recognizes `Implementation` as an abstraction layer but explicitly states that repository location should not determine document identity. Neither the Standard nor the Taxonomy mandates a `docs/implementation/` directory. Creating one solely to empty `.design/` would therefore be an aesthetic repository reorganization rather than a source-backed filing correction.
+
+After the completed lineage checks and a reliable exact-path scan of 147 live documentation/configuration/implementation files, `.design/` contains five records:
+
+1. `epic-423-swarm-plan.md` — operational Implementation plan. Historical/closed status not established; retained.
+2. `epic-423-swarm-replan.md` — Proposed/Derived Implementation replan paired with the plan. Historical/closed status not established; retained.
+3. `observer-swarm-v1.1-resilience.md` — Draft/Derived Implementation design. A later conformance suite explicitly treats it as the behavioural contract and records mixed implemented/open status; retained as active design evidence.
+4. `rpc-enforcement-prototype.md` — Proposed/Derived Experimental Implementation design. Explicitly not an architectural commitment; completion/abandonment/supersession not established; retained.
+5. `v2-guard-rewrite-design.md` — Draft/Derived Implementation design. Later guard implementation changed after its snapshot, making it a retrieval hazard, but no primary source establishes closure or a specific superseding design; retained with that warning.
+
+Files removed from the active-looking `.design/` surface during this stage were only those with positive evidence for another classification/home: historical decisional-provenance lineage, Research records/syntheses/reviews, the superseded lifecycle-manager design, and the superseded generic RTK proposal.
+
+**No new `docs/implementation/` subtree is created.** The five retained files are intentional exceptions pending lifecycle evidence or a future canonical filing rule for implementation design records.
+
+This closes the `.design/` portion of Stage 2. Stage 2 itself remains open because the previously inventoried root-level `docs/` drift family still requires disposition.
