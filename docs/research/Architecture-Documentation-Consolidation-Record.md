@@ -227,3 +227,36 @@ The safest move sequence is not alphabetical. The next move/reclassification wor
 4. **standalone research briefs/audits**.
 
 Each family should first receive a repository-wide reference check so moves do not create broken dependencies.
+
+
+## Stage 2B.1a — raw decisional-provenance review archive move
+
+**Status: completed.**
+
+The first move family consists only of raw or near-raw model-review records from the historical decisional-provenance architecture sequence.
+
+Repository code search found no current references by exact filename or `.design/reframe-*` / `.design/reviews-*` path pattern. This check uses GitHub code search and therefore is strongest for the indexed/default branch; no branch-local reference was identified in the inspected current documentation. Because the moved files are preserved byte-for-byte and are historical evidence rather than current dependencies, this family is low risk.
+
+Moved without semantic edits:
+
+- `.design/reframe-chatgpt.md`
+- `.design/reframe-claude.md`
+- `.design/reframe-deepseekpro.md`
+- `.design/reframe-glm52.md`
+- `.design/reframe-redirect.md`
+- `.design/reviews-2.md`
+- `.design/reviews-3.md`
+- `.design/reviews-4.md`
+- `.design/reviews-5-gemini.md`
+- `.design/reviews-5.md`
+- `.design/reviews-6.md`
+- `.design/reviews-7-synthesis-gemini.md`
+- `.design/v7-reviews.md`
+
+Destination:
+
+`docs/historical/decisional-provenance-reviews/`
+
+The historical filenames are retained unchanged so chronology and existing human references remain recognizable.
+
+No authored synthesis, proposal, research brief, implementation design, or current-use tooling record was moved in this substep.
