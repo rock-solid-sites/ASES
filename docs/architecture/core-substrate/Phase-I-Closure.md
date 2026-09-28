@@ -21,6 +21,9 @@ consumed_by:
   - Work Unit Prototype Testing
   - Phase I architectural closure review
 related_documents:
+  - Phase I Information Boundary and Processorless Core
+  - Phase I Contract and Verification
+  - Phase I Synthesis
   - Kernel-0 Assurance Continuation
   - Kernel-0 Re-Minimization After Stronger Profiles
   - Kernel-0 Protected External Effects
@@ -49,10 +52,23 @@ This is a derived architectural candidate, not a canonical methodology revision.
 The intended freeze concerns what downstream builders must implement or verify
 for this candidate. It is not a declaration that a deployed core already exists.
 
-**Checkpoint 1:** baseline and coupled failure boundary established. Continue
-with information admission, targeted processorless falsification, a removal audit,
-and exact downstream acceptance conditions. No runtime implementation is required
-by this investigation.
+Documents in this directory split by the roadmap's own core targets:
+
+| Document | Roadmap target |
+| --- | --- |
+| this file | A — concrete realization, trusted base, closure |
+| [Information Boundary and Processorless Core](./Phase-I-Information-Boundary-and-Processorless-Core.md) | D — authoritative-information boundary; E — processorless-core hypothesis |
+| [Contract and Verification](./Phase-I-Contract-and-Verification.md) | B — durable state and recovery; C — replaceable execution; F — assurance and downstream work |
+| [Synthesis](./Phase-I-Synthesis.md) | the Phase I result in one place |
+
+**Checkpoint 1 (superseded by this revision):** baseline and coupled failure
+boundary established. It contained one incorrect claim, corrected in §3.3 below.
+
+**Checkpoint 2 (this revision):** the closure obligation is stated, its two
+admissible realization families are separated, and a host-capability limit is
+recorded that changes one Work Unit reading and one Kernel clause. Continue with
+the information boundary and the processorless falsification program, then the
+frozen contract and downstream work.
 
 ## Evidence used and why
 
@@ -64,6 +80,7 @@ by this investigation.
 | [Currentness assurance](../../research/currentness/EDASES-Currentness-Recovery-Assurance.md), especially §3 | Which indistinguishable histories require withholding a claim, and which still permit common safe continuation? |
 | [Protected external effects](../../research/kernel-0/Kernel-0-External-Effects.md) | Why decision, irreversible acceptance, later visibility, and knowledge of outcome must be distinguished. |
 | [Bounded structural transitions](../../research/structural-change/EDASES-Bounded-Structural-Transitions.md) | Whole disposition, no latent widening, and compatible recovery cuts already reduce to the existing semantics. |
+| Linux `capabilities(7)`, `unix(7)`, `seccomp_unotify(2)`, `landlock(7)` (man-pages 6.19) | Whether Work Unit boundary closure is realizable on a mainstream host, and by which mechanism. |
 
 The roadmap names *EDASES Boundary-Composed Authority*, but no separately titled
 file was found in this tree. The substantive boundary rule is available in the
@@ -80,7 +97,7 @@ require different outcomes; a coherent view/common acyclic order for interacting
 commitments; and continuing information independent of executor lifetime.
 
 The least demanding useful realization target is one **logical authoritative
-commitment boundary**, retained accepted contents, and completely mediated
+commitment boundary**, retained accepted contents, and boundary-mediated
 selected attachments. A single serialized holder is a sufficient comparator;
 multiple holders are not needed to demonstrate the core. This is not a
 requirement for one physical process, a database product, or one global clock.
@@ -95,24 +112,7 @@ histories, not merely an empty object and universal denial. A finite-capacity
 implementation may refuse new work before exceeding its declared limits; it
 cannot erase required accepted work to make room.
 
-### 1.1 Failure profile to implement first
-
-| Event | Required result in this candidate | Assumption or boundary |
-| --- | --- | --- |
-| Executor or attachment process disappears | Preserve the Work Unit, accepted contents, and current authoritative relationships; replacement is a guarded event. | Neither executor-local bytes nor executor assertions are a trusted continuation store. |
-| Engine/authority process stops while host protection and storage survive | Disable active routes; retain bounded objects and committed contents; recover cold and sealed before explicit activation. | A surviving/fail-closed protection mechanism is part of the TCB. Its realization must be tested, not inferred from a metadata flag. |
-| Loss during commitment, including lost reply | Recover a permitted whole endpoint; preserve irrevocably committed effects even if unacknowledged. | Current retained storage supplies a coherent recoverable cut. No automatic retry or exactly-once promise follows. |
-| Transient loss of contact with authority | Withhold affected new commitments; an isolated executor cannot confer authority on itself. | No partitioned multi-writer availability guarantee, timeout election, or takeover by suspicion. |
-| Missing, unreadable, or detected-inconsistent recovery material | Keep affected objects bounded and inactive; do not silently bootstrap an empty replacement. | Preservation/availability may be lost. Refusal is not successful recovery. |
-| Machine restart, power loss, failed writes, rollback, media corruption | Do not inherit a positive recovery guarantee from the process-loss experiments. | A stronger profile needs its own storage/protection evidence. Silent rollback or corruption cannot be promised detectable under the baseline. |
-
-These are *selected assurance bounds*, not permission to weaken Work Unit's
-abstraction. Engine loss cannot release its contents. Power-loss durability,
-rollback-resistant successful recovery, and physical erasure remain explicit
-stronger claims. An implementation must disclose which failures its evidence
-covers; unsupported failures cannot be reported as passing this profile.
-
-### 1.2 First coupled removal tests
+### 1.1 First coupled removal tests
 
 **H1 — a seal bit does not revoke a route.** Grant an executor a direct handle to
 accepted bytes. Replace it or lose the engine. The old process writes through the
@@ -147,349 +147,266 @@ profile must identify the authorization event and cancellation behavior before
 such an attachment can be granted. A later denial or compensation cannot undo an
 unauthorized irreversible consequence.
 
-**WHY:** H1–H4 distinguish actual failure behavior from valid-looking records.
-**WHAT:** Work Unit C/E–K, Kernel's effect/failure parameters, and the existing
-external-effect/currentness counterexamples. **HOW CERTAIN:** evidence-based
-architectural constraints; the two-history information limit is conditional logic.
-**WHAT-NOT-TESTED:** a Work Unit confinement substrate, engine-death teardown,
-partitioned takeover, host restart, or arbitrary external sinks.
+**H5 — the orphaned child is outside the revocation model.** An executor inside
+`W` starts a background process `b` and then dies. `b` holds a network socket and
+read access to `W`'s contents. A guarded revocation of `W`'s network attachment
+changes authoritative records, and `b` is not named in any of them. `b` then
+sends `W`'s accepted content out. Required repair: either every process that can
+act inside `W` is reachable by the boundary's revocation model, or `W`'s
+interior holds nothing whose loss or egress is claimed. This is H1 with a
+concrete holder that the boundary does not track. It is not repaired by a
+Work Unit record, a heartbeat, or a Processor.
 
-## 2. Trusted realization: enforce effects, not component names
+### 1.2 The closure obligation
 
-The following are trusted **functions**, not a compulsory service decomposition.
-They may share one implementation. Moving a function into an adapter does not
-remove it from the assurance boundary.
+H1, H2 and H5 have the same shape: a Kernel record is correct while a path around
+it remains. The prior work states the required outcome (Work Unit A–L K3, K5, K13,
+H) but not the substrate obligation that would actually produce it. Phase I
+states it, because an implementation cannot be tested for conformance without it.
 
-| Trusted function | Smallest obligation | Removal witness |
+> **CP — Closure Property.** For a bounded object `W`, let `X(W)` be the set of
+> capabilities and channels through which activity inside `W` can affect anything
+> outside `W`, or through which anything outside can acquire actionable access
+> inside `W`. For every `x ∈ X(W)`: (i) `x` is exercisable only while a current
+> Kernel-authorized relation covering it is in force; (ii) revoking that relation
+> makes `x` non-exercisable, by a mechanism that acts on the **holder** of `x`,
+> not only on the record; and (iii) the mechanism is inside the declared trusted
+> boundary and fails closed on its own loss.
+
+CP is a Work Unit external-effect claim expressed through Kernel-0's existing
+"boundary of external action claims" clause: Work Unit claims that *no* actionable
+crossing is permitted, so *every* crossing is a claimed protected external action,
+and each needs a named authorization point and revocation enforcement point. CP
+adds no Kernel primitive. It does change what a Work Unit realization must
+evidence.
+
+**CP′ — the narrowed form that makes CP reachable.** Requiring every internal
+write to be mediated is a cost requirement, not a guarantee requirement. The
+guarantee is about *accepted meaning* and *egress*:
+
+> **CP′.** Every crossing that changes accepted authoritative meaning, and every
+> crossing that carries anything out of the boundary, satisfies CP. Writes
+> confined to a **declared candidate area** inside the boundary need not be
+> mediated, provided no authoritative record designates that area as accepted
+> content and no separate guarded acceptance is implied by the write itself.
+
+Removal witnesses: drop the accepted-meaning clause and a stale executor
+overwrites accepted content while every record stays valid; drop the egress clause
+and a sealed object's bytes leave while every record stays valid; drop the
+candidate-area allowance and the only defence is mediating every keystroke, which
+no required guarantee asked for. This is Kernel-0's existing
+"candidate material versus accepted meaning" distinction applied to a filesystem
+layout, and it is what makes the property realizable at acceptable cost.
+
+### 1.3 What CP is not
+
+CP does not require a capability system, a sandbox, a namespace, a specific
+language, or a mediator process. It requires that the *chosen* realization name
+the holder of each route and the enforcement point for its revocation, and that
+the name be testable. It is also not satisfied by an access-control *decision*:
+a decision made at `open` time does not bind a descriptor already held.
+
+## 2. Two admissible realization families
+
+CP cannot be realized on a mainstream host by any single mechanism, and the
+tempting candidates each fail for a specific recorded reason. This was checked
+against primary sources rather than assumed.
+
+| Candidate mechanism | What it actually guarantees | Why it is not CP |
 | --- | --- | --- |
-| Admission and interpretation | Evaluate the supported policy against the actual current dependencies; interpret operations and their exact whole effects consistently. | A correct transition store running the wrong policy authorizes forbidden work. |
-| Complete mediation and confinement | Every claimed actionable crossing and mutation of accepted meaning passes an authorized route; inactive objects retain protection. | H1, including inbound attachment creation and retained descriptors. |
-| Recoverable commitment and content retention | Acknowledged/irrevocable commitments and required bytes survive the selected loss together, or through a declared equivalent retained representation. | H3; reference survives but bytes do not; metadata and contents from different cuts. |
-| Authority ingress and engine activation | Establish bootstrap/current management, bind request evidence to its permitted origin/scope where required, and exclude superseded holders. | H2; an old caller claims the replacement's position. |
-| Attachment conformance | Map the proposed resource, destination, quantity and operation to the concrete effect and its authorization event. | A granted read is translated into a write, or a path is retargeted after validation. |
-| Observation/derivation validation, when used | Establish exactly the premises a guard relies on, bound to current inputs and declared semantics. | A signed but false or stale computed result passes admission. |
+| Linux capabilities, irreversible bounding-set drop (`capabilities(7)`, `prctl(PR_CAPBSET_DROP)`) | A thread's bounding set can only be narrowed, never restored, and ambient capabilities fall with permitted/inheritable sets. | `prctl` acts on the **calling** thread. No outside process can narrow a live executor's set, and capabilities gate privileged operations, not ordinary file or socket use. |
+| Landlock (`landlock(7)`, Linux 5.13+, ABI-gated, boot-time LSM) | Unprivileged, stackable, self-applied, inherited by children, irreversible; access is denied unless every enforced layer grants it. | Restriction is set by the process on itself and "there is no way to remove its security policy". "Files or directories opened before the sandboxing are not subject to these restrictions", so an already-held descriptor is unaffected. Certain calls (`chdir`, `stat`, `chmod`, `chown`, `setxattr`, `utime`, `fcntl`, `access`) are not restrictable at all. |
+| seccomp user-space notification (`seccomp_unotify(2)`) | A user-space supervisor sees and can veto or emulate individual syscalls. | The kernel states it "must not be used to make security policy decisions about the system call": a notifier is bypassable if a filter of higher precedence is installable, and `SECCOMP_USER_NOTIF_FLAG_CONTINUE` has a time-of-check/time-of-use race on the arguments. This is exactly the detached-validation-then-use failure the currentness result already names, reproduced in the operating system. |
+| `SO_PEERCRED` / `SCM_CREDENTIALS` (`unix(7)`) | The kernel checks and returns the connecting peer's pid, uid and gid; an unprivileged peer cannot forge them. | Excellent for *admission discrimination* (below), and useless for revocation: it tells you who is calling, and gives no lever over what they already hold. `SCM_RIGHTS` also lets a peer hand its descriptor to another process, so a descriptor is not a per-attempt bearer. |
+| Process termination (cgroup, `pidfd`, signals) | Removes everything the process holds. | Destroys the executor's volatile work with it, so it is a replacement mechanism, not a sealing mechanism, unless the work is already in the boundary's custody. |
 
-The supporting host/OS, runtime/compiler, storage, access-control configuration,
-trusted manager and any selected sink contract remain explicit assumptions. The
-baseline does not resist a malicious host, compromised manager, arbitrary hardware
-fault, covert channel, or all information-flow leakage. Work Unit's physical trust
-boundary is not a proof of those properties.
+The resulting limit is a real architectural constraint, not an implementation
+difficulty:
 
-### Effect correspondence rules
+> **L1 — live revocation limit.** On a mainstream host, effective filesystem and
+> network restriction of a process is fixed when that process is created, is
+> self-applied and irreversible thereafter, and binds path resolution rather than
+> already-open descriptors. A separate authority process can therefore narrow a
+> live executor only by terminating it.
+> **Consequence:** any Work Unit claim of the form "revoking attachment `x`
+> immediately removes `x`'s exercisability by a live executor" is realizable only
+> if `x` was never held by that executor in the first place.
 
-1. A candidate executor may compute and edit private scratch material through its
-   granted resources. That does not modify accepted contents. Acceptance pins the
-   **actual bytes/meaning consumed**, not merely a name, mutable path or supplied
-   digest. It establishes their protection and retention before authoritative
-   publication. Immutable references require trusted immutable retained referents.
-2. An operation descriptor must have a supported semantic meaning at every
-   relevant boundary. Unsupported restrictions, ambiguous resource resolution,
-   or inability to enforce a requested narrowing mean refusal. A generic shell
-   or network attachment cannot advertise finer confinement than it enforces.
-3. The affected validation view and committed whole effect must have a common
-   order including relevant ancestor changes, accepted-content changes and
-   resource use. A serialized holder may enforce a stronger total order. A
-   requester-supplied dependency list cannot omit a relevant boundary.
-4. Concrete preparation is permissible before commitment only while it has no
-   protected effect attributed to the proposed change, remains properly bounded,
-   and cannot be mistaken for accepted state. If preparation itself exposes
-   protected data or consumes a governed external resource, that action needs its
-   own authorization. Calling an effect preparation does not exempt it.
-5. If one promised whole effect cannot be implemented atomically across actual
-   sinks, refuse that promise. Use separate commitments only when their bounded
-   intermediate states are expressly part of the operation contract. Do not
-   redefine a torn transfer after observing the failure.
-6. Reports distinguish committed, denied-with-no-effect, and unresolved knowledge.
-   A failure after irreversible commitment is not a denial. A final success reply
-   cannot precede the profile's recoverable commitment point.
+This has a direct reading consequence. Work Unit A–L B states that "removing an
+attachment removes that internally available avenue of external influence". Under
+L1 the operational reading must be fixed as:
 
-**H5 — verified object, substituted object.** Validate candidate x through path p;
-the executor replaces p with y; acceptance records "x validated" but retains y.
-A digest label, a Processor cache, and a new generation all leave the mismatch.
-The minimum repair is binding validation, retained content and accepted meaning
-to the same stable input. A trusted copy followed by validation of that copy, or
-a pinned immutable holder, suffices. No general content-addressing subsystem is
-forced. Mutable accepted content would need separately guarded mutations.
+> Removing an attachment (i) prevents any **new** acquisition of that avenue, and
+> (ii) stops **boundary-mediated** exercisability of it, and (iii) terminates any
+> holder for which removal is claimed as immediate. It does **not** retroactively
+> remove a capability the executor already holds.
 
-**H6 — support lost during use.** Check a read permission, then revoke the ancestor,
-then issue a new read through an open session. Checking only when the session was
-created fails a per-read promise. Either order each protected read with revocation
-or declare a genuinely bounded, previously committed read/export obligation.
-Already delivered bytes cannot be made unknown to a recipient by revocation.
-Neither "no later acceptance" nor "no later visibility" follows from deleting a
-local attachment record.
+This is the concrete realization constraint the roadmap's Core target A asks
+about, and it forces a change to Work Unit semantics. It is a narrowing of an
+ambiguous sentence, not a new obligation.
 
-### Engine death and the meaning of sealed
+### 2.1 The two families
 
-The baseline cannot implement sealed merely as "do not accept future results."
-Work Unit H also disables active execution/outward use. A concrete engine-loss
-claim must identify the trusted event that disables execution and the routes
-whose use ends there. At a minimum, no new protected admission can occur through
-a dead or superseded authority holder. Any process termination/fate-sharing
-mechanism needed for the stronger execution-disable claim belongs in the TCB.
+Given L1, exactly two families remain, and they are distinguished by who holds
+the route.
 
-There is a real specification edge: process death, detection of death, termination
-of another process, and disappearance of a host are different events. Work Unit
-E/H does not specify their allowed interval. This investigation does **not**
-quietly reinterpret it as indefinite computation inside an isolated object. The
-prototype must either demonstrate a trusted joint disable boundary or explicitly
-report this gap; the precise temporal claim is unresolved in §8. A heartbeat or
-lease cannot prove instantaneous death detection. Pure in-flight computation,
-new boundary use, and previously committed external consequences must be tested
-separately.
+**R-A — capability-request.** Nothing inside the boundary holds a host capability
+that outlives a request. Every effect is a request to the boundary, which holds
+the capability and can stop serving. Revocation is immediate and complete; engine
+loss destroys every route because the routes are the engine's. CP holds directly.
+The cost is that executors cannot act on the host directly: no real shell, no
+direct file editing, no pipes. The boundary needs a rich, well-specified effect
+vocabulary or useful work becomes impossible.
 
-**WHY:** a record-only model can satisfy every local invariant while a concrete
-route violates the claimed effect or confinement. **WHAT:** H1/H2/H5/H6 and Work
-Unit C/E/H/K. **HOW CERTAIN:** evidence-based realization constraints; platform
-sufficiency is unverified. **WHAT-NOT-TESTED:** host isolation, descriptor revocation,
-process fate sharing, actual path resolution, or a whole-effect implementation.
+**R-B — host-sandboxed executor.** Executors are created inside a host
+confinement chosen at creation (namespace, Landlock, seccomp-BPF, `chroot`,
+resource limits), holding real host capabilities. Revocation is: never grant it,
+or terminate the holder. Under R-B "sealed" means *no new grant, and no
+boundary-mediated exercisability* — not *existing host access removed*. CP holds
+only for the routes the boundary itself holds.
 
-## 3. Durable information and recovery without a second state owner
+R-B becomes workable through one design move, and this move is a real Work Unit
+obligation rather than an implementation hint:
 
-Retain information exactly when deleting it makes two histories with different
-required future observations indistinguishable. An alternative sufficient
-representation is allowed; a fixed schema, full log, and every past value are not
-required. The recovery implementation must not use a test oracle's hidden history.
+> **Custody rule.** For a Work Unit that claims accepted content, the boundary
+> holds the accepted-content paths and the egress channels. The executor's
+> confinement is scoped to what it needs, and its outbound access, if any, is a
+> boundary proxy rather than a raw host capability.
 
-| Information that must remain available | Why it survives deletion attempts | What may disappear/recompute |
+With custody, R-B satisfies CP for everything a Work Unit actually claims: egress
+is a boundary route that can be stopped, and accepted content is boundary-held so
+that losing or killing the executor loses no required content. What R-B cannot
+deliver, and must not claim, is *immediate* removal of a raw filesystem or
+network capability from a live executor. Where a consumer needs that, it must
+select R-A or add a stronger host mechanism.
+
+**Neither family is selected here.** The core semantics are identical in both;
+only the trusted boundary and the excluded claims differ. Phase I freezes the
+contract each family must satisfy and the tests each must pass, and leaves the
+choice to the realization, with §2.3 recording the evidence a choice needs.
+
+### 2.2 Why this is a Kernel-0 change and not only a Work Unit change
+
+Kernel-0's external-action clause already says an outside action is protected when
+its occurrence changes the authoritative view, and otherwise only when an
+instantiation expressly claims it. CP is an instance of that clause, so no
+semantic change is required. What *is* required is a sharpening of one sentence:
+CP (i) binds the *holder* of a route, not only the record of the relation. The
+existing clause says revocation must be enforced "at the effect sink or an
+equivalent cancellation contract", which is a temporal statement and can be read
+as satisfied by refusing to act. It cannot be read as satisfied by refusing to
+act when the effect is already in the holder's hands. Phase I's freeze therefore
+adds the holder-binding requirement to the Kernel verification obligations, not to
+the abstract semantics.
+
+### 2.3 What a family choice still needs
+
+| Question | Why reasoning cannot settle it | Cheapest discriminating evidence |
 | --- | --- | --- |
-| Work Unit identity/genesis, created-by, project and other W.D observations | W.D expressly requires them even when they are not admission dependencies. Source provenance is not current authority. | Formatting, indexes and UI views. |
-| Current governing relationships, restrictions, containment and any conserved quantities | Determine legal future transitions and protection of survivors. | Effective permissions and totals, recomputed from complete current inputs. |
-| Accepted contents and required continuity/evidence | A reference to absent bytes cannot support continuation. Consumer-required decision/evidence records are accepted contents, not disposable caches. | Unaccepted scratch work and executor conversation unless separately accepted/required. |
-| Sufficient meaning of the policy and representation | The same bytes interpreted under changed rules can authorize a different action. | A policy version label if a fixed, trusted compatible interpreter already supplies the distinction. |
-| Enough authority distinctions to reject still-possible stale use | Reuse of a representation must not revive invalidated authority. | Bearers and endpoint instances in cold recovery; old distinction records only after no admissible old observation can collide. |
-| Any committed obligation whose outstanding status changes required continuation | An accepted external consequence cannot silently cease to be owed, or be retried as though never accepted under a stronger retry contract. | Pending proposals; acknowledgements/delivery history when the chosen contract does not depend on them. |
-| A trustworthy whole current cut, or information reconstructing an equivalent cut | Genuine but incompatible fragments fail whole effect and continuity. | Complete event replay when the remaining representation already meets all observations. |
+| Is R-A's effect vocabulary expressive enough for real agent work (build, test, patch, inspect)? | It is an empirical property of a future effect set, not a semantic one. | Implement one real work item end to end through R-A; count the effects that cannot be expressed and the latency of those that can. |
+| Does R-B's confinement plus custody actually hold on the target host and kernel? | Landlock, namespace and cgroup availability and semantics are platform facts; `landlock(7)` records boot-time LSM enablement and ABI gating, and OverlayFS layering is a known gap for lower-layer rules. | One executor inside the chosen confinement: attempt each excluded access, then attempt it again after the boundary stopped serving, then kill the executor and attempt once more. Record the host, kernel version and Landlock ABI. |
+| Can a route be made revocable without terminating a live executor on this host? | Determines whether a third family exists. | Probe for any mechanism that narrows a *running* process's already-held filesystem or network access, other than termination. Landlock and `prctl` are self-directed; `seccomp_unotify` is documented as unsuitable. Record the result either way. |
 
-This is not an obligatory collection of extra records. For example, retention
-can be inline, or supplied by a trusted holder whose lifetime and integrity cover
-the selected failures. A snapshot can incorporate current values and accepted
-provenance without preserving an engine event log. Conversely, the higher-level
-[requirements for evidence and traceability](../../requirements/Methodology%20to%20Requirements%20Mapping%20Specification.md)
-forbid discarding the evidence those consumers need merely because the core's
-permission predicate no longer reads it. Phase I supports those records as
-protected accepted content; it does not design their ontology.
+**WHY:** H1/H2/H5 distinguish valid records from valid behaviour, and L1 shows
+that the distinction is not closable by record-keeping or by any single host
+mechanism. **WHAT:** Work Unit A–L B/C/H/K, Kernel-0's external-action clause, and
+the four primary sources named above, read for the specific mechanism each
+provides. **HOW CERTAIN:** the requirement analysis and the mechanism limits are
+evidence-based against primary documentation; no kernel or host was exercised and
+no C code was written. **WHAT-NOT-TESTED:** real confinement, engine-death
+teardown, partitioned takeover, R-A effect expressiveness, and whether some other
+host mechanism provides live revocation.
 
-### Recovery procedure and its evidence
+## 3. Coupled failure boundary, corrected
 
-Establish current management and exclude unauthorized authority holders before
-activation. Discover/interpret boundary records without executing interiors;
-validate the current whole cut and required content under the declared profile;
-reconstruct containment and grants while inactive; then activate only explicitly
-authorized fresh routes. Any changes to eligibility during recovery are themselves
-guarded, ordered changes. A historical read is not a perpetual activation permit.
+The prior checkpoint's failure table is retained except for the second row, which
+is wrong as stated. It claimed that when the engine/authority process stops, the
+system can "disable active routes ... recover cold and sealed". Under L1 an engine
+cannot disable routes it does not hold, so under R-B engine loss terminates
+nothing, and "recover sealed" asserts a route property from a record property. The
+corrected table separates the two families.
 
-Cold recovery deliberately discards all old channels. This can eliminate durable
-session objects and continuing bearer reconstruction **only if every route carrying
-old authority is actually excluded**. Pending messages at a mediator or sink are
-routes too. The baseline does not promise that a client will learn an operation's
-pre-crash result. Repeated recovery must not bootstrap new authority or repeat a
-protected effect simply because the previous recovery lost its reply.
+| Event | R-A required result | R-B required result | Assumption or boundary |
+| --- | --- | --- | --- |
+| Executor or attachment process disappears | Preserve the Work Unit, accepted contents and current authoritative relationships; replacement is a guarded event. | Same. | Neither executor-local bytes nor executor assertions are a trusted continuation store. |
+| Engine/authority process stops | All routes die with it; nothing is exercisable. Recover cold and sealed. | Routes held by surviving executors persist. The Work Unit is *inactive*, not *sealed*, until custody is confirmed or holders are terminated. | Under R-B, custody is the only thing making "sealed" true. Verify it; do not infer it from a record. |
+| Loss during commitment, including lost reply | Recover a permitted whole endpoint; preserve irrevocably committed effects even if unacknowledged. | Same. | Current retained storage supplies a coherent recoverable cut. No automatic retry or exactly-once promise follows. |
+| Transient loss of contact with authority | Withhold affected new commitments; an isolated executor cannot confer authority on itself. | Same. | No partitioned multi-writer availability guarantee, timeout election, or takeover by suspicion. |
+| Missing, unreadable, or detected-inconsistent recovery material | Keep affected objects bounded and inactive; do not silently bootstrap an empty replacement. | Same. | Preservation/availability may be lost. Refusal is not successful recovery. |
+| Machine restart, power loss, failed writes, rollback, media corruption | Do not inherit a positive recovery guarantee from the process-loss experiments. | Same. | A stronger profile needs its own storage/protection evidence. Silent rollback or corruption cannot be promised detectable under the baseline. |
 
-Recovery of interacting components needs a compatible whole cut. Unrelated objects
-can recover separately when no promised effect, ancestor restriction, conserved
-quantity or accepted dependency couples them. A global freshness service and a
-global snapshot are therefore unnecessary as semantic requirements. The one-holder
-prototype simplifies this obligation without proving distributed recovery.
+These are *selected assurance bounds*, not permission to weaken Work Unit's
+abstraction. Engine loss cannot release contents — under either family. Power-loss
+durability, rollback-resistant successful recovery, and physical erasure remain
+explicit stronger claims. An implementation must disclose which family it
+implements and which failures its evidence covers; unsupported failures cannot be
+reported as passing this profile.
 
-### Retention, compaction, and interpretation attacks
+## 4. The two exclusion obligations
 
-**H7 — policy drift.** A record with permission value r meant read-only under P0;
-a restarted binary interprets r as read/write under P1. Storage is current and all
-signatures pass. This is still a change of authority. Recovery must use a compatible
-interpretation or remain sealed; a semantic migration needs a guarded transition
-and its own conformance argument. A stored version without the corresponding
-meaning does not repair it. The initial prototype can pin one supported policy
-and refuse incompatible images. A migration subsystem is not required.
+CP and Kernel-0's "trustworthy distinction among attempts" look like one
+requirement and are two. Separating them is necessary, because a realization can
+satisfy one and fail the other while passing every abstract test.
 
-**H8 — deletion of the only distinguishing evidence.** A grant is revoked, or
-accepted evidence is withdrawn. Compact away the revocation/current selector and
-retain the earlier valid record; a delayed message now succeeds. Compaction is
-safe only if retained information and interpretation exclude every required stale
-continuation. Keeping a current folded result, cutting off all old ingress, or
-retaining the relevant fact can supply that distinction. Blind tombstone expiry
-by elapsed time cannot. No universal tombstone, log or infinite history is forced.
+> **AR — admission discrimination.** When policy requires a replacement attempt to
+> proceed while a superseded attempt is excluded, their submissions must differ in
+> something admission can trust, and the superseded attempt must be unable to
+> acquire new authority. Subject: the *proposal*.
+>
+> **RR — route revocation.** When a claim says an effect avenue is no longer
+> exercisable, the mechanism must act on the *holder* of that avenue. Subject: the
+> *capability*.
 
-**H9 — destructive recovery fallback.** A required content holder is unavailable;
-recovery substitutes an empty object and calls it successfully recovered. This
-fails continuity even if no stale grant activates. Preserve the object as
-unresolved and protected; a separately authorized reset changes the promise and
-must be reported as reset, not recovered acceptance. This keeps safety and
-successful recovery distinct.
+They are independent. AR without RR is H1/H5: records are right, egress continues.
+RR without AR is the reverse: the old avenue is gone, but the old process obtains
+fresh authority by position, because "whoever is attached to position `p` may
+write" is not a distinction between two live attempts. Neither implies the other,
+so both must be tested.
 
-**WHY:** deleting required information or its interpretation merges histories
-whose permissions, contents or audit observations differ. **WHAT:** H3/H7–H9 and
-the existing currentness/composition arguments. **HOW CERTAIN:** evidence-based
-minimum semantic information; not a minimal-byte representation proof.
-**WHAT-NOT-TESTED:** compaction, policy migration, repeated crash recovery, media
-fault handling, or a Work Unit content-retention implementation.
+**AR has a realization that needs no durable counter.** The obligation is that an
+admission observation is never reissued. Two realizers discharge it:
 
-## 4. Replaceable execution and external outcomes
+1. a **monotone issued-observation namespace** kept in the authoritative view, so
+   that reissuing a consumed label is impossible; and
+2. a **host-attested live attempt**: the boundary owns the endpoint, binds
+   authority to the connection object it established, and identifies the peer by
+   the kernel-checked credential rather than by a recorded value.
 
-The durable Work Unit does not need a durable Execution object. A current
-relationship plus trustworthy request ingress must distinguish old and replacement
-attempts wherever policy demands different answers. A caller-provided generation,
-a process ID, or shared principal name is not that trustworthy distinction.
+`unix(7)` records that the kernel validates `SCM_CREDENTIALS` claims and rejects
+mismatches absent `CAP_SETUID`/`CAP_SETGID`/`CAP_SYS_ADMIN`, and that `SO_PEERCRED`
+is available on connected `AF_UNIX` sockets. So on an unprivileged host the
+boundary can tell live attempts apart without any persisted generation number.
+The same source records `SCM_RIGHTS` descriptor passing, which is why the
+boundary must own the endpoint: handing the executor a reusable bearer would let
+a different process present the old attempt's evidence. Binding to the connection
+rather than to a stored pid also disposes of the identifier-reuse race, because no
+recorded identifier is ever consulted after the connection is established.
 
-Replacement is a guarded whole change of the relevant authority relationship(s).
-It preserves required accepted content and bounded identity. A pre-replacement
-proposal may commit only if its actual commitment orders before replacement. A
-pre-replacement *read of permission* cannot justify a later commitment. Concurrent
-requests may order either way; completed replacement precedes later initiated use.
+This retires **generation counters, epochs, leases, heartbeats and fencing tokens
+as core candidates** for the selected profile, and records why:
 
-| Mechanism candidate | What the baseline actually needs |
-| --- | --- |
-| Generation/counter/nonce/token | Any non-confusable current authority representation. No particular numeric identity is required. Finite exhaustion must refuse safely, not wrap into a reachable old identity. |
-| Source binding | Required if old physical participants must be excluded even when they acquire current evidence. The prototype should use trusted, non-transferable ingress associations and test impersonation. If relying on bearer secrecy instead, state the weaker physical-exclusion claim. |
-| Durable issued-token set | Only if otherwise an old usable representation can collide after a covered failure. Cold recovery plus proven elimination of old routes can remove this representation, not the non-resurrection obligation. |
-| Lease/heartbeat | Not required for safety. Detection may trigger a replacement proposal; timeout alone grants nothing. Any claimed timed expiry needs trusted time and use-point enforcement. |
-| Sink fencing | A semantic requirement only for a profile that needs current authority at that sink; an integer is one possible realization. Every affected sink must enforce the same relevant authority order. |
-| Request identity/deduplication | Required only when a promised result/retry/at-most-once observation depends on distinguishing repeats. Not inferred from disposable execution. |
-| Durable retry queue | Not needed for baseline safety. A retained accepted obligation plus explicit invocation can be sufficient; no automatic delivery or scheduling guarantee is claimed. |
-
-Three external-effect contracts must stay distinct:
-
-- **At a mediated use:** check current authority at the concrete protected
-  acceptance event. Revocation must order with that event. A sink accepting new
-  uses on an old unchecked handle is incompatible.
-- **A committed exact obligation:** check authority when the exact bounded effect
-  is committed. Its later completion is governed by the obligation's own declared
-  policy. In the existing Kernel experiment it is not cancelled by producer
-  revocation and duplicates are allowed. That is useful bounded evidence, not a
-  safe default for arbitrary effects or an unlimited capability.
-- **A stronger cancellation/retry promise:** no post-revocation sink acceptance,
-  at-most-once acceptance, or exactly-once eventual delivery requires the relevant
-  sink order/outcome contract. The core must refuse an unsupported promise.
-  Compensation is a subsequent effect and does not make a forbidden history valid.
-
-**H10 — two indistinguishable lost replies.** In history a, the sink accepts effect
-q and the reply disappears. In history b, q never reaches the sink. The source's
-remaining observations are identical. Retrying can duplicate a; never retrying
-can fail required delivery in b. A local Processor, durable source request ID,
-clock or higher confidence cannot distinguish them. A trusted outcome query,
-sink deduplication/idempotence contract, or weaker explicitly selected guarantee
-is necessary. Source-side persistence alone cannot promise both eventual delivery
-and at-most-once effect. No such stronger promise is smuggled into the baseline.
-
-For local state, lost replies have the same knowledge distinction. Read back
-current accepted state and formulate a fresh, currently guarded proposal. Do not
-infer from no reply that the earlier transition was denied. Comparing present
-values is adequate only if the requested observation does not require identifying
-which historical request produced them.
-
-**WHY:** authority and outcome are properties of the relevant accepted event, not
-of an executor's apparent liveness or memory. **WHAT:** H2/H4/H6/H8/H10 and Kernel's
-current-authority/order/external-action clauses. **HOW CERTAIN:** evidence-based
-contract reduction; H10 is a conditional indistinguishability argument.
-**WHAT-NOT-TESTED:** distributed fencing, at-most-once sinks, timed revocation,
-physical-source exclusion, or a concrete replacement implementation.
-
-## 5. Authoritative information is a use contract
-
-An information category is not an authority rank. An accepted statement that a
-model reported confidence 0.99 can be authoritative **as a record of that report**
-without making its proposition true. Conversely, a transient calculation may
-legitimately supply a guard premise if its truth and applicability are established
-within the current commitment. Do not implement promotion-to-authority by a label,
-a confidence threshold, a signature alone, or persistence alone.
-
-| Information | Permitted participation in a guard | Required limitation |
+| Candidate | Status | Reason |
 | --- | --- | --- |
-| Current authoritative state | Direct input under the declared policy and coherent view. | Recovered/cached copies need the same currentness and interpretation basis. |
-| Trusted observation | Input for exactly the proposition its source and acquisition contract establish. | Authenticate source/scope, bind subject and observation event, establish timing/order and the limitations of the observation. |
-| Deterministic derived fact | Input after trusted evaluation or sound verification for the actual inputs and semantics used at commitment. | Deterministic does not mean correctly computed, complete, current, or relevant. |
-| Candidate proposal | Requests a transition or offers evidence. | Never supplies its own permission or proves its own preconditions by assertion. |
-| Evidence and provenance | Supports the claim its content, provenance and accepted applicability justify. | Historical validation is not current permission; provenance does not prove truth or completeness. |
-| Bounded probabilistic judgment | May meet an explicitly declared policy condition such as an authorized review/decision record. | The enforced claim is that the qualified judgment/approval occurred and applies, not certainty of the underlying semantic proposition. |
-| Open semantic reasoning | May produce proposals, challenges, explanations and requests for authorized decisions. | No implicit power to amend policy or bypass unknown premises. |
-| Unknown/unresolved | Prevents a positive claim that needs the missing proposition. May allow an action safe under every relevant alternative. | Absence of evidence, elapsed time, silence, and numerical confidence do not resolve it. |
+| Generation / epoch counter in `σ` | Optional realizer of AR | Needed only if the host cannot attest a live attempt, or if a claim must survive the peer's death without re-establishing a connection. |
+| Lease | Not required | Nothing in the selected profile requires automatic revocation on unexplained death. Automatic revocation would seal the Work Unit on executor loss, which is safe but reduces availability and is not a claimed guarantee. |
+| Heartbeat / liveness monitor | Not required | It would be a *trigger* for the same automatic revocation. A detection delay is an availability question, not a safety one, under this profile. |
+| Fencing token | Not required as a separate object | The token's only job is AR's non-reissuability, which a connection binding or a monotone namespace already supplies. |
+| Durable request ID / deduplication | Not required | Prior work already separates commitment from knowledge of commitment. Adopt only if a consumer claims at-most-once effects. |
 
-### Minimum admission rule for a fact
+The prior finite-representation limit still binds whichever realizer is chosen: if
+only `M` distinguishable observations exist and every superseded holder can still
+present one, the `(M+1)`-th issuance must reuse, and the safe outcome is exhaustion
+by denial. Host-attested live attempts do not escape this — they escape it by never
+relying on a *recorded* value at all, so exhaustion is not reached for live peers.
+Both statements should be stated together; either alone invites a builder to
+assume indefinite replacement progress.
 
-For every fact on which the guard relies, identify (in the semantics, not
-necessarily in a record with these field names): the proposition; subject and
-scope; source/derivation and trust; input/policy interpretation; applicable
-observation or commitment point; and the changes that could invalidate it.
-Then discharge **both** correctness of the fact and applicability to this use.
-A trusted source can be wrong outside its scope; a correct old result can be
-inapplicable now. The relevant observation can be carried by a request, retained
-accepted evidence, or a trusted synchronous computation. No general fact store
-is forced.
-
-For stable facts about retained immutable inputs, validity can survive unrelated
-state changes. For mutable predicates, checking a result and later committing
-must not permit an intervening invalidating event. A coarse complete-state
-comparison is a sufficient first comparator. Dependency tracking may later avoid
-unnecessary retries, but correctness never relies on a requester's incomplete
-list of dependencies. Semantic input binding includes policy/algorithm meaning,
-configuration and any external facts used, not merely the bytes of one file.
-
-**H11 — stale derivation with genuine provenance.** Compute allowed(C, write) from
-a valid child grant and permissive ancestor. Revoke the ancestor. Submit the exact
-old inputs, result and valid provenance. They establish a historical calculation,
-not current permission. Recompute the relevant guard or validate a sound witness
-against a coherent current view. A persistent invalidation registry is unnecessary
-when current admission performs this check; an asynchronous invalidation message
-is insufficient when admission does not.
-
-**H12 — an authentic observation of the wrong proposition.** A test service
-reports that immutable candidate x passed suite t at time u. That can establish
-the trusted test outcome for x/t under its contract. It does not establish that x
-is now selected, that suite t proves a requested safety property, that no later
-withdrawal exists, or that the service's external world is unchanged. Those are
-separate premises. An external property required *at sink use* needs use-point
-ordering/control or an explicitly weaker observation-based policy. Constant
-monitoring cannot repair an uncontrolled check/use gap by itself.
-
-**H13 — false negative by omission.** A worker supplies a dependency graph missing
-one child and derives "no dependents remain." Every included edge is correct.
-Destroying the boundary releases the omitted child. No proof over the supplied
-subset establishes completeness. The prototype evaluates absence over its own
-complete finite current containment domain; an external proof must be bound to
-an equally complete trusted domain. This requires a sound negative-fact check,
-not a persistent graph-building subsystem.
-
-### Unknown is a constraint on assertions and actions
-
-Let H(o) be the histories compatible with the trusted observations and selected
-failure contract. A fact may be asserted only if justified across the remaining
-relevant alternatives. An action/continuation must be permitted across all of
-them; choosing a new authority event must itself have supported preconditions.
-This is the currentness record's intersection-of-acceptable-strategies rule.
-Implementations need not enumerate H(o): a sound conservative predicate can
-establish the required permission. Failure to establish it yields pending,
-refusal, restricted operation or an authorized reconciliation proposal.
-
-For example, an uncertain delivery of an irreversible effect blocks blind retry
-under an at-most-once contract, but can leave a separate immutable read usable.
-An uncertain ancestor restriction blocks the descendants and effects that depend
-on it, not automatically every Work Unit. Where object-wide current authority
-cannot be established, Work Unit recovery remains sealed. Later evidence must
-be validated; escalation to a human does not itself create missing truth.
-
-Do not invent a required Unknown object or persist every uncertain request. A
-knowledge distinction needs durable representation only if losing it would allow
-a forbidden future claim or action, or would lose a promised continuation. A
-client-side timeout alone may leave the authority holder's state perfectly definite.
-
-**WHY:** H11–H13 allow false admission despite authentic provenance or deterministic
-computation. **WHAT:** Kernel's f/G/current-view semantics and the scoped
-currentness rule, applied to derived and semantic information. **HOW CERTAIN:**
-evidence-based admission contract. **WHAT-NOT-TESTED:** a proof verifier, observation
-service, semantic-review policy, external-world freshness, or an implementation
-of unknown-state handling.
-
-## 6. Processorless result
-
-The [targeted falsification record](./Phase-I-Processorless-Falsification.md)
-contains the reduction and strongest counterhistories. The surviving claim is:
-
-> For the declared finite Work Unit policy and failure/effect profile, persistent
-> derivation state and a separately authoritative Processor lifecycle are not
-> necessary. Trusted guard evaluation/verification, retained authoritative inputs
-> and accepted contents, and concrete enforcement remain necessary.
-
-This is not a claim that all deterministic computation can be untrusted or kept
-outside the TCB. Nor is it a universal theorem for arbitrary consumer programs,
-real-time workloads, or all future EDASES semantics. Those stronger claims are
-unsupported. No attempted history in the record requires a new Kernel primitive.
+**WHY:** H5 and its mirror show the record/execution split, and the four sources
+show which host mechanisms can actually act on a holder. **WHAT:** the AR/RR
+definitions, the mechanism table, and the primary-source limits already cited.
+**HOW CERTAIN:** evidence-based requirement analysis; the AR realizer is argued
+from documented kernel behaviour and has not been implemented or exercised.
+**WHAT-NOT-TESTED:** no fork/exec, socket, namespace, Landlock, cgroup or
+revocation experiment was run. In particular, the claim that a live attempt can be
+distinguished by kernel-attested peer credentials on an unprivileged host is
+documented, not measured.
