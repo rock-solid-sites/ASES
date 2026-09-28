@@ -410,3 +410,205 @@ from documented kernel behaviour and has not been implemented or exercised.
 revocation experiment was run. In particular, the claim that a live attempt can be
 distinguished by kernel-attested peer credentials on an unprivileged host is
 documented, not measured.
+
+## 7. Frozen semantic target for downstream work
+
+This section fixes the **candidate's implementation/verification target**. It does
+not promote this derived record to canonical policy. Builders may select a
+representation but must not silently alter these observations, effects or limits.
+The [verification plan](./Phase-I-Verification.md) assigns the remaining bounded
+work and acceptance conditions.
+
+### Required operations and policy
+
+All operations use current, explicitly authorized management or execution ingress,
+relevant containment boundaries and resource constraints. Being creator, parent,
+project member, a process, or a holder of candidate bytes grants no implicit right.
+Initial management is a declared trusted initialization premise; ordinary recovery
+is not bootstrap. The supported policy/encoding is fixed for the first prototype.
+
+| Operation | Whole semantic result and additional guard |
+| --- | --- |
+| Establish an empty Work Unit | A bounded, inactive object with the W.D boundary observations; no inherited grants or authority. Its identity cannot be confused with a still-reachable prior object. |
+| Grant/expose a relationship | Only currently governing authority may establish the explicitly scoped relationship. Supporting allocations do not become callable interfaces merely by existing. Attachments are the exposed subset. Every actual use remains subject to its declared effect contract. |
+| Narrow/revoke/seal | An authorized whole restriction with concrete route exclusion at the specified event. Preserve accepted contents and all dependent confinement. Ancestor restrictions constrain descendants; a child's own restriction need not disable its ancestors. Sealed/revoked/destroyed remain distinct. |
+| Accept content or evidence | Accept the exact validated/proposed meaning under the applicable acceptance policy, with required bytes and provenance retained and bounded. Content acceptance alone is not publication or proof of semantic truth. |
+| Replace execution ingress | Invalidate the old relationship and establish the authorized new one at one declared whole commitment when replacement promises both. Preserve work identity and accepted content. No stale request can commit after this using old evidence. |
+| Recover | Establish an equivalent current whole view and present authority; reject stale bearers; recover bounded and sealed before activation. Include all coupled commitments and required contents. Unsupported/ambiguous recovery does not become a new empty Work Unit. |
+| Move a sealed child | Validate both containment contexts and governing permissions; avoid cycles/dangling relations; retain bounded contents and descendant protection; preserve or narrow the child's latent permissible authority under the changed path. Move cannot grant new rights. Drop unsupported grants in the whole move or deny it. |
+| Activate | A separate current authorized event creates only supported, currently allowed routes. Recompute full-path constraints after a move/recovery. Historical grants, old observations or a permissive destination are insufficient. |
+| Dispose accepted contents | An explicit authorized disposition under the declared logical-storage guarantee. Revoke actionable access as required; preserve other survivors. No secure physical erasure is implied. |
+| Remove a Work Unit | Current complete dependency check establishes all durable dependents safely dispositioned and no surviving object loses protection. Concurrent creation/acceptance must order with removal. Recursive disposal may have separately accepted bounded prefixes; final removal cannot tear a promised whole move. |
+| Use a protected external attachment | Apply the selected authorization event, exact-effect correspondence, trust and outcome policy in §4. Unsupported cancellation, atomicity or retry guarantees must be refused before the effect. |
+
+For moves, comparing **currently enabled** actions of two sealed states is
+insufficient: both sets are empty. Compare the retained restrictions and permitted
+activation/use they would allow, including descendants, applicable resources and
+management dependencies. A child whose write was blocked only by its old parent
+must not gain write when later activated under a permissive parent. If a supported
+policy cannot represent the old restriction at the new location, narrow the grant
+or refuse the move; a second persistent authority system is unnecessary.
+
+### Exact invariant and trace target
+
+The formal target includes Kernel verification invariants 1–6 unchanged and the
+following Work Unit/profile instantiation. These are predicates/trace properties,
+not mandatory records or individually deployed components.
+
+| ID | Required invariant or history property |
+| --- | --- |
+| C1 | Every protected concrete effect is explained by a currently admissible whole commitment with the exact promised meaning; denial has no protected effect attributable to that proposal. |
+| C2 | One coherent view and one common acyclic order explain all interacting commitments, including completed-before-initiated precedence and negative/range dependencies. Invariant validity alone does not establish whole-effect fidelity. |
+| C3 | Boundary crossings require explicit current local authorization plus every relevant enclosing restriction and resource constraint. Management does not follow from containment; resource allocation alone is not exposure. |
+| C4 | All existing Work Units, including empty/inactive ones, have interpretable trusted boundary observations; containment is well-founded and non-dangling; authoritative metadata agrees with the committed relationships. |
+| C5 | Required contents and every survivor remain bounded across executor loss, engine loss, partial disposition and covered recovery. Sealing/revocation does not delete, export or unbound them. The execution-disable timing is subject to Q1 below, not silently omitted. |
+| C6 | Replacement/invalidation excludes old authority at the specified event; representation reuse, restart and reparenting cannot resurrect it. Physical-producer exclusion additionally meets the declared source-binding premise. |
+| C7 | A covered recovery retains all required accepted/irrevocable commitments and contents through an observationally equivalent current compatible cut; no torn coupling, fictitious bootstrap or historical image asserted as current. |
+| C8 | Reparenting does not silently widen latent authority, including descendants and later activation. Final destruction has a current complete disposition precondition and never weakens surviving protection. |
+| C9 | Every guard premise has adequate truth/authority and current applicability for its stated proposition. Unknown cannot satisfy a required positive premise. A model judgment remains qualified by what policy actually authorizes it to establish. |
+| C10 | Every external effect obeys its declared decision/use/acceptance/visibility and failure contract. Replacement does not silently cancel a committed obligation or retrospectively authorize an invalid effect. |
+| C11 | Required identity, provenance, project and retained consumer evidence remain observable across covered loss, even where not needed for current admission. Derived views may be rebuilt; required observations may not disappear. |
+| C12 | Successful acknowledgements/publications follow recoverable commitment. Lost replies preserve uncertainty about an otherwise definite local outcome; they do not undo effects or authorize retries. |
+
+A no-effect denial can itself have separately declared diagnostic/audit consequences
+under policy, but must not partially execute the denied protected proposal. A
+resource whose consumption is governed cannot be consumed secretly in a "failed"
+preparation step. The model must make such auxiliary effects explicit if included.
+
+### Non-vacuity and bounded progress
+
+Under a healthy declared substrate, valid finite inputs, available supported
+resources, no competing invalidation and execution of the invoked handler, the
+prototype must complete its supported successful operations. No request can be
+left forever unknown merely to avoid implementing a required guard. This is a
+bounded test acceptance condition; no autonomous scheduler, availability under
+partition, hard deadline, or fairness of an external service is inferred.
+
+At least one successful witness must cross each of these boundaries: acceptance
+**before** loss followed by actual use **after** recovery; replacement followed by
+continued accepted work; sealed restricted relocation followed by valid use and
+continued denial of the old forbidden action; partial disposition/recovery followed
+by completion; and a chosen external effect consistent with its explicit contract.
+These witnesses accompany hostile tests. Passing deny-all tests is insufficient.
+
+## 8. Remaining architectural uncertainty and review propositions
+
+The repeated reduction has reached a useful stopping boundary: the known required
+histories specify a finite policy/realization contract. More general model building,
+implementation, fault injection and product comparisons should not consume further
+frontier reasoning without a failed obligation. The surviving uncertainty is small
+and concrete; broader unselected guarantees are not mislabeled unfinished Phase I.
+
+### Q1 — when must engine loss disable still-running computation?
+
+**Conflicting readings:** Work Unit E says objects remain sealed while the engine
+is not running; H includes disabling active execution. Merely denying later
+boundary effects permits still-running internal computation and is therefore not
+obviously equivalent. Immediate global physical cessation at the instant of
+remote engine death is stronger than any evidence in the repository.
+
+**Distinguishing history:** authorize a bounded CPU-only activity; kill the engine
+while the host and activity survive; allow no boundary crossings; observe activity
+between engine death, trusted loss detection and termination. One reading accepts
+that interval as implementation quiescence; another forbids it. A partition can
+make loss detection itself uncertain while the activity remains alive.
+
+**Missing evidence:** an explicit semantic authorization/disable event for
+execution itself, the permitted quiescence interval (if any), and a concrete
+substrate's fate-sharing guarantee. This is the single unresolved core temporal
+contract, not a missing Processor. A prototype must expose the events and report
+which reading it meets. It may proceed with fail-closed protected admission and
+cold recovery while keeping the broader sealed-execution claim **unverified**.
+It may not call indefinite interior activity fully sealed or use a heartbeat as
+proof of synchronous shutdown. Canonical clarification is required before claiming
+full W.E/H conformance where the readings differ.
+
+**WHY:** H1 separates effect exclusion from process lifetime; E/H adds an execution
+condition. **WHAT:** the concrete interval above and Work Unit C/E/H/K. **HOW
+CERTAIN:** evidence-based ambiguity and assurance gap. **WHAT-NOT-TESTED:** any
+platform timing, process-tree teardown or shared fate mechanism.
+
+### Unselected stronger profiles, not hidden architecture tasks
+
+Rollback-resistant successful recovery, machine/power-loss durability, physical
+secure erasure, distributed available takeover, continuing bearer recovery,
+at-most-once arbitrary sinks, irreversible multi-sink atomicity and real-time
+computation deadlines have no unconditional Phase I promise here. They have
+specific discrimination tests in the verification plan if selected. Refusing to
+claim them is not evidence that a later subsystem solves them. A requirement
+making one mandatory must first identify its permitted histories and success
+condition; then reopen only the affected trust/failure/effect contract.
+
+### Propositions for independent cross-family review
+
+No independent review was launched in this task. Reviewers should form their own
+judgment from the pinned source contracts and histories, not from model consensus.
+The highest-value challenges are:
+
+1. **Processor elimination is not relabeling.** Attack P1/P6/P8/P9: find required
+   independent deterministic state/machinery that cannot be reduced to the finite
+   guard and retained authoritative information without changing an observation.
+2. **The failure target is non-vacuous and adequate.** Challenge whether engine-loss
+   confinement and Work Unit E/H can actually be met by the declared surviving TCB,
+   especially Q1, retained handles and delayed pre-crash requests.
+3. **Fact admission includes completeness.** Challenge H11–H13/P3/P4 with omitted
+   dependencies, negative facts, changed policy, mutable external facts and races
+   between proof checking and use. A correct proof about the wrong domain fails.
+4. **No authority hides in a mediator.** Challenge H2/H4/H6/H10: find a concrete
+   route or effect event that escapes the declared commitment/authority order,
+   including recovery of the mediator and reuse of ingress identities.
+5. **Persistence is sufficient without indiscriminate history.** Challenge H3/H7–H9
+   and C7/C11 using required provenance, unacknowledged commitments, rollback or
+   coupled restoration. Distinguish unsupported failures from violations within
+   the selected profile.
+
+## 9. Concise synthesis and handoff
+
+**Surviving core:** Kernel's existing guarded current whole transitions and
+continuity, instantiated with Work Unit's bounded-object/containment/disposition
+policy; retained accepted information; trusted complete mediation and authority
+ingress; compatible current recovery; and trusted evaluation/verification of
+actual guard premises. None requires a new named Kernel primitive, persistent
+Execution object, independent Processor, Observer, Orchestrator, tracker or
+scheduler. A logical single-holder prototype is sufficient to test this candidate.
+
+**Trust/failure assumptions:** known initial/current management; correct supported
+policy and interpretation; a host/protection boundary that survives or fails
+closed through the claimed process loss; current complete retained storage and
+contents; non-confusable request ingress; and explicitly scoped observations/sink
+contracts. No host-compromise, silent rollback/corruption, power-loss, partitioned
+availability, or arbitrary exactly-once guarantee is inferred.
+
+**Semantic changes:** none to Kernel-0. Work Unit A–L is retained. Required profile
+clarifications concern exact effect events, recovered-current meaning, policy/input
+binding and lost-outcome behavior; they instantiate existing parameters. Q1 needs
+an explicit Work Unit temporal clarification before a full sealed-execution claim.
+Canonical documents are not silently rewritten by this derived investigation.
+
+**Processorless outcome:** survives fifteen targeted attempts for the finite
+profile. The stronger claim that no trusted deterministic guard computation is
+needed is false. Complete inputs, interpretation, accepted historical information
+and exact content retention are necessary; persistent derivation management is
+not justified by the histories tested.
+
+**Remaining work:** formalize the finite target and its observation/refinement
+relation; execute positive/hostile traces and removal mutations; implement and
+fault-test one real mediated boundary and cold recovery; verify content/metadata
+coupling and stale-ingress exclusion; resolve Q1; and seek the independent review
+above. [Acceptance conditions](./Phase-I-Verification.md) bound each task. No
+external literature, live-model experiment, runtime implementation or new formal
+proof was performed in this investigation.
+
+**Completion status:** architectural investigation complete enough for bounded
+downstream work with Q1 explicitly open. Roadmap Phase I's implementation/formal/
+hostile-test exit evidence is **not yet complete**. Further frontier work is gated
+on Q1's missing contract/evidence or a concrete failed invariant/required history,
+not on another broad survey or restatement of the current design.
+
+**WHY:** all surviving additions have a removal witness; known attacks reduce to
+existing semantic parameters or an explicitly unsupported stronger claim.
+**WHAT:** pinned baseline, H1–H13, P1–P15, C1–C12 and the downstream acceptance plan.
+**HOW CERTAIN:** evidence-based scoped architectural closure, not universal
+minimality, full realization conformance or independent consensus.
+**WHAT-NOT-TESTED:** all new model/realization obligations in that plan, Q1's timing,
+and independent review; inherited Kernel evidence keeps its original bounds.
