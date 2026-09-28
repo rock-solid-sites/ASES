@@ -530,3 +530,29 @@ No historical content was rewritten.
 `.design/observer-swarm-v1.1-resilience.md` remains a Draft/Derived Implementation design rather than a historical record. The 2026-08-30 conformance suite explicitly treats it as the behavioural contract, records `scripts/observer/observer.sh` as the implementation, and grades portions of the design as implemented/verified and other portions as still open. No later superseding primary source was found in this bounded check.
 
 Its filing therefore remains coupled to the unresolved repository-home question for active Implementation-layer designs; no move is performed here.
+
+
+### Stage 2B.5b — branch-local reference scan checkpoint 1
+
+**Status: 30 live documentation files scanned.**
+
+Completed exact-path checks across:
+
+- all 10 files under `docs/architecture/` and `docs/architecture/core-substrate/`;
+- 20 current top-level Research documents under `docs/research/`.
+
+Targets checked:
+
+- `.design/epic-423-swarm-plan.md`
+- `.design/epic-423-swarm-replan.md`
+- `.design/observer-swarm-v1.1-resilience.md`
+- `.design/rpc-enforcement-prototype.md`
+- `.design/rtk-guard.md`
+- `.design/v2-guard-rewrite-design.md`
+
+Result:
+
+- one branch-local reference found: `docs/research/capability-schema-validation.md` → `.design/observer-swarm-v1.1-resilience.md`;
+- no references to the other five targets were found in these 30 files.
+
+Two earlier oversized scan attempts exceeded the connector's per-call tool limit and are explicitly excluded from evidence. The reliable scan unit is now 10 files per call.
