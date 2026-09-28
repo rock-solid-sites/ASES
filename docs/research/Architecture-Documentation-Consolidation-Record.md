@@ -638,3 +638,25 @@ Additional filing evidence discovered during the tranche:
 - therefore `.design/rtk-guard.md` must be evaluated as a possible duplicate/superseded implementation design rather than automatically moved into a new generic Implementation directory.
 
 The archived `docs/research/Proposed Implementation Layer - Decision Record.md` was also inspected. Its own status note says issue #341 superseded its conclusion, so it is not used as authority for creating a new `docs/implementation/` subtree.
+
+
+### Stage 2B.5g — RTK guard duplicate/supersession resolution
+
+**Status: completed.**
+
+`.design/rtk-guard.md` is not the current RTK implementation design:
+
+- `.opencode/design/rtk-guard-plugin-design.md` existed in the same 2026-07-17 snapshot and explicitly declares its canonical location as `.opencode/design/rtk-guard-plugin-design.md`, targeting `.opencode/plugins/rtk-guard.ts`;
+- `.opencode/design/rtk-guard-final-synthesis.md` likewise existed in that snapshot, declares `Status: Canonical — to be implemented`, and targets the same plugin;
+- the generic `.design/rtk-guard.md` remained `Status: Proposed` and materially conflicts with the final synthesis by recommending a static-pattern fallback;
+- the implemented `.opencode/plugins/rtk-guard.ts` follows the final synthesis instead: live `rtk rewrite`, a validated v1 allowlist, a 15 ms latency gate, and fail-to-`no-op` behavior;
+- commit `c66fd8beaa3b` in August did not promote or re-author the generic design; it only repaired its companion research-analysis path during the harness-evaluation relocation;
+- the completed reliable exact-path scan found no consumer of `.design/rtk-guard.md` in the 147 live documentation/configuration/implementation files checked.
+
+Action:
+
+- moved `.design/rtk-guard.md` byte-for-byte to `docs/historical/rtk-guard.md`;
+- retained the canonical RTK design/synthesis beside the implementation under `.opencode/design/`;
+- no live references required repair.
+
+This removes a conflicting Proposed design from the active-looking generic `.design/` surface without rewriting its historical content.
