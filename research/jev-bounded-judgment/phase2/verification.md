@@ -1223,3 +1223,27 @@ the second-mechanism route.
   then every append is verified by content-hash match plus read-back before
   continuing. The current file hash is reported by the proxy below and was
   re-checked by the verifier.
+---
+
+## Addendum 2026-09-28 — post-verification edits to findings.md (outside verified scope)
+
+After this continuation's Steps 2-4 were derived, the working tree gained
+commits `fe7d5a6e` (records verification COMPLETE) and `11a7986d`, the latter
+adding findings §12 "Errata" plus new harness/results scaffolding (`freeze.py`,
+`FREEZE.json`, `results/jev_v2/`, `results/jev_v3/`, enlarged `score.py` with
+an `AnalysisFailure` guard). This verification pins the PRE-§12 document; the
+§12 text and any v2/v3 data are NOT verified here.
+
+- §12 E1 actions my F1 (cost denominator mixing) with the same 1.4888 matched
+  ratio I derived — convergence recorded.
+- OPEN CHECK (not a finding against the verified version): §12 E1's matched-52
+  per-case absolutes ($0.00034775 raw, $0.00023355 struct) do NOT reproduce
+  from `results/jev_raw.ndjson`, from which I derive exactly $0.00033355 /
+  $0.00022404 (raw shared-52 total 412966 tokens; struct 277388; ratio 1.4888
+  both ways). The ratio matches; the absolutes differ ~4% on both sides, so
+  this is not a rounding choice on my side. Either the §12 figures come from
+  newer (v2/v3) data not named in §12, or they are an arithmetic slip. Whoever
+  owns §12 should re-derive those two cells from a named source; the 1.4888
+  headline needs no change either way.
+- My verdict, F2, and F3 above are unaffected (they concern the verified
+  version's §5.2 sentence, §9 item 9, and statistics all present pre-§12).

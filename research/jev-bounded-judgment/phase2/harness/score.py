@@ -306,6 +306,8 @@ def main():
     ap.add_argument("--raw", nargs="+", required=True)
     ap.add_argument("--outdir", required=True)
     ap.add_argument("--label", default="jev_direct")
+    ap.add_argument("--exp1", default=None,
+                    help="raw NDJSON for Experiment 1; adds the exp1 summary")
     ap.add_argument("--reported-metrics", default=None,
                     help="a metrics.json to verify the reported cost figures "
                          "against; enables the non-vacuous consistency check")
@@ -459,8 +461,275 @@ def main():
               f"cost_ratio={v['cost_ratio_of_totals']}  "
               f"token_ratio={v['token_ratio_of_totals']}  "
               f"rejected: {v['why_rejected']}")
+    if args.exp1:
+        e1rows = load_ndjson(args.exp1)
+        summ = summarise_exp1(e1rows, label="exp1")
+        head = exp1_headline(summ)
+        summ["headline"] = head
+        json.dump(summ, open(os.path.join(args.outdir, "exp1_summary.json"),
+                             "w", encoding="utf-8"), indent=1)
+        mm = summ["SEPARATE MEASURES"]
+        print("\n=== EXPERIMENT 1 ===")
+        print(f"  matched cases {summ['n_matched_cases']} "
+              f"(answerable {summ['n_matched_answerable']}, "
+              f"unanswerable {summ['n_matched_unanswerable']})")
+        for arm in ("arm_a_forced", "arm_b_explicit_unknown"):
+            ca = mm["correctness_on_answerable"][arm]
+            print(f"  {arm:26s} answerable acc {ca['accuracy']} "
+                  f"({ca['n_correct']}/{ca['n']})")
+        for arm in ("arm_a_forced", "arm_b_explicit_unknown"):
+            ud = mm["unknown_detection_on_unanswerable"][arm]
+            fu = mm["false_unknown_on_answerable"][arm]
+            print(f"  {arm:26s} unknown-detection {ud['rate']}  "
+                  f"false-unknown {fu['rate']}")
+        print("  arm C best unanswerable abstention: "
+              f"{head['best_external_threshold_unanswerable_abstention']} "
+              f"at tau={head['best_external_threshold']}")
+        print(f"  VERDICT: {head['verdict']}")
+
     print(f"\nmetrics -> {mp}")
     return 0
+
+
+
+
+# ===========================================================================
+# Experiment 1 — explicit unknown vs external probability gating
+# ===========================================================================
+# Probability, provider confidence, measured calibration, correctness and
+# abstention are kept in SEPARATE tables and never combined into a composite.
+# Arm C has no requests: it is arm A's own distribution under a threshold, so it
+# is free by construction and any A-vs-C difference is attributable to the
+# threshold alone.
+THRESHOLDS = [round(0.50 + 0.05 * i, 2) for i in range(10)]
+
+
+def _exp1_cells(rows):
+    out = {}
+    for r in rows:
+        if r.get("typed_error") or not r.get("parsed"):
+            continue
+        out.setdefault(r["arm"], {})[r["case_id"]] = r
+    return out
+
+
+def summarise_exp1(rows, label="exp1"):
+    arms = _exp1_cells(rows)
+    a, b = arms.get("arm_a_forced", {}), arms.get("arm_b_explicit_unknown", {})
+
+    # matched cell sets: only cases answered in BOTH arms
+    matched = sorted(set(a) & set(b))
+    matched_ans = [c for c in matched if a[c]["ground_truth"] is not None]
+    matched_unans = [c for c in matched if a[c]["ground_truth"] is None]
+
+    def sel(row):
+        return row["parsed"]["selected"]
+
+    def correct(row):
+        gt = row["ground_truth"]
+        return gt is not None and sel(row) == gt
+
+    out = {
+        "label": label,
+        "n_matched_cases": len(matched),
+        "n_matched_answerable": len(matched_ans),
+        "n_matched_unanswerable": len(matched_unans),
+        "matched_denominator_policy": (
+            "only cases answered in BOTH arms enter any cross-arm comparison; "
+            "answerable and unanswerable are reported on their own matched sets "
+            "and never pooled"),
+        "SEPARATE MEASURES": {},
+    }
+    m = out["SEPARATE MEASURES"]
+
+    # 1. correctness on answerable (arm A, arm B)
+    m["correctness_on_answerable"] = {
+        "arm_a_forced": {
+            "n": len(matched_ans),
+            "n_correct": sum(1 for c in matched_ans if correct(a[c])),
+            "accuracy": round(sum(1 for c in matched_ans if correct(a[c]))
+                              / len(matched_ans), 4) if matched_ans else None},
+        "arm_b_explicit_unknown": {
+            "n": len(matched_ans),
+            "n_correct": sum(1 for c in matched_ans if correct(b[c])),
+            "accuracy": round(sum(1 for c in matched_ans if correct(b[c]))
+                              / len(matched_ans), 4) if matched_ans else None,
+            "note": "selecting insufficient_evidence on an answerable case is "
+                    "WRONG, not partial credit"},
+    }
+
+    # 2. explicit-unknown detection on unanswerable
+    def insuf(row):
+        return sel(row) == "insufficient_evidence"
+    m["unknown_detection_on_unanswerable"] = {
+        "arm_a_forced": {"n": len(matched_unans),
+                         "n_detected": 0, "rate": 0.0,
+                         "note": "cannot express abstention; 0 BY CONSTRUCTION"},
+        "arm_b_explicit_unknown": {
+            "n": len(matched_unans),
+            "n_detected": sum(1 for c in matched_unans if insuf(b[c])),
+            "rate": round(sum(1 for c in matched_unans if insuf(b[c]))
+                          / len(matched_unans), 4) if matched_unans else None},
+    }
+
+    # 3. false-unknown rate on answerable
+    m["false_unknown_on_answerable"] = {
+        "arm_a_forced": {"n": len(matched_ans),
+                         "n_false_unknown": 0, "rate": 0.0,
+                         "note": "cannot express abstention; 0 BY CONSTRUCTION"},
+        "arm_b_explicit_unknown": {
+            "n": len(matched_ans),
+            "n_false_unknown": sum(1 for c in matched_ans if insuf(b[c])),
+            "rate": round(sum(1 for c in matched_ans if insuf(b[c]))
+                          / len(matched_ans), 4) if matched_ans else None},
+    }
+
+    # 4. false-confidence: emitting a positive label on an unanswerable case
+    def confident(row):
+        return sel(row) in ("yes", "no")
+    m["false_confidence_on_unanswerable"] = {
+        arm: {"n": len(matched_unans),
+              "n_false_confident": sum(1 for c in matched_unans
+                                       if confident(arms[arm][c])),
+              "rate": round(sum(1 for c in matched_unans
+                                if confident(arms[arm][c]))
+                            / len(matched_unans), 4) if matched_unans else None}
+        for arm in arms if set(arms[arm]) & set(matched_unans)}
+
+    # 5a. arm C: external threshold over arm A's own distribution
+    sweep_c = []
+    for t in THRESHOLDS:
+        acted_ans = acted_ok = abst_ans = 0
+        for c in matched_ans:
+            p = a[c]["parsed"]["probabilities"].get(a[c]["ground_truth"], 0.0)
+            if p >= t:
+                acted_ans += 1
+                acted_ok += 1 if sel(a[c]) == a[c]["ground_truth"] else 0
+            else:
+                abst_ans += 1
+        # on unanswerable, abstention requires a LOW probability on either label
+        abst_un = sum(1 for c in matched_unans
+                      if max(a[c]["parsed"]["probabilities"].get("yes", 0),
+                             a[c]["parsed"]["probabilities"].get("no", 0)) < t)
+        sweep_c.append({
+            "threshold": t,
+            "coverage_answerable": round(acted_ans / len(matched_ans), 4)
+            if matched_ans else None,
+            "accuracy_when_acting": round(acted_ok / acted_ans, 4)
+            if acted_ans else None,
+            "error_rate_when_acting": round(1 - acted_ok / acted_ans, 4)
+            if acted_ans else None,
+            "abstain_answerable": abst_ans,
+            "abstain_unanswerable": abst_un,
+            "unanswerable_abstention_rate": round(abst_un / len(matched_unans), 4)
+            if matched_unans else None,
+        })
+    m["arm_C_external_threshold_sweep"] = {
+        "definition": "act iff p(ground-truth option) >= threshold; arm A's own "
+                      "requests, no new API calls",
+        "sweep": sweep_c}
+
+    # 5b. arm B: the like-for-like operating curve over p(insufficient_evidence)
+    sweep_b = []
+    for t in THRESHOLDS:
+        abst_ans = sum(1 for c in matched_ans
+                       if b[c]["parsed"]["probabilities"].get(
+                           "insufficient_evidence", 0.0) >= t)
+        det_un = sum(1 for c in matched_unans
+                     if b[c]["parsed"]["probabilities"].get(
+                         "insufficient_evidence", 0.0) >= t)
+        acted_ans = len(matched_ans) - abst_ans
+        ok_ans = sum(1 for c in matched_ans
+                     if b[c]["parsed"]["probabilities"].get(
+                         "insufficient_evidence", 0.0) < t
+                     and sel(b[c]) == b[c]["ground_truth"])
+        sweep_b.append({
+            "threshold": t,
+            "abstain_answerable": abst_ans,
+            "false_unknown_rate": round(abst_ans / len(matched_ans), 4)
+            if matched_ans else None,
+            "coverage_answerable": round(acted_ans / len(matched_ans), 4)
+            if matched_ans else None,
+            "accuracy_when_acting": round(ok_ans / acted_ans, 4)
+            if acted_ans else None,
+            "unknown_detection_rate": round(det_un / len(matched_unans), 4)
+            if matched_unans else None,
+        })
+    m["arm_B_explicit_unknown_sweep"] = {
+        "definition": "abstain iff p(insufficient_evidence) >= threshold; the "
+                      "like-for-like operating curve against arm C",
+        "sweep": sweep_b}
+
+    # 6. probability and provider confidence, reported raw and separate
+    for arm, cells_ in arms.items():
+        ps = [r["parsed"]["probabilities"] for r in cells_.values()]
+        flat = [v for p in ps for v in p.values()]
+        conf_diff = [abs((r["parsed"]["provider_confidence"] or 0)
+                        - r["parsed"]["derived_confidence"])
+                     for r in cells_.values()
+                     if r["parsed"].get("provider_confidence") is not None]
+        m.setdefault("probability_and_confidence", {})[arm] = {
+            "prob_min": round(min(flat), 4) if flat else None,
+            "prob_max": round(max(flat), 4) if flat else None,
+            "prob_mean": round(sum(flat) / len(flat), 4) if flat else None,
+            "n_one_hot_rows": sum(
+                1 for p in ps
+                if all(v >= 0.999 for v in p.values())) if ps else 0,
+            "n_rows": len(ps),
+            "provider_confidence_vs_derived_max_abs_diff":
+                round(max(conf_diff), 4) if conf_diff else None,
+            "note": "provider confidence is a DERIVED function of the "
+                    "probability vector (Phase 1 INSTRUMENT-VALIDATION) and is "
+                    "not independent evidence",
+        }
+
+    # 7. measured calibration, descriptive only, clearly not the provider's claim
+    cal = {}
+    for arm, cells_ in arms.items():
+        buckets = {}
+        for c in matched_ans:
+            row = cells_[c]
+            p = row["parsed"]["probabilities"].get(row["ground_truth"], 0.0)
+            hit = sel(row) == row["ground_truth"]
+            b_ = min(int(p * 5), 4)
+            d = buckets.setdefault(b_, {"n": 0, "hit": 0})
+            d["n"] += 1
+            d["hit"] += 1 if hit else 0
+        cal[arm] = {str(k): {"n": v["n"], "mean_p": None,
+                             "observed_rate": round(v["hit"] / v["n"], 4)}
+                    for k, v in sorted(buckets.items())}
+    m["measured_calibration_descriptive"] = {
+        "buckets": cal,
+        "claim": "NONE. n is far too small for a reliability claim; this is a "
+                 "descriptive binning computed by us, not the provider's, and it "
+                 "is not evidence that Jev is calibrated.",
+    }
+    return out
+
+
+def exp1_headline(s):
+    """The question, answered in one line, with the number that answers it."""
+    m = s["SEPARATE MEASURES"]
+    best_c = max((r for r in m["arm_C_external_threshold_sweep"]["sweep"]
+                  if r["unanswerable_abstention_rate"] is not None),
+                 key=lambda r: r["unanswerable_abstention_rate"], default=None)
+    det_b = m["unknown_detection_on_unanswerable"]["arm_b_explicit_unknown"]
+    return {
+        "explicit_unknown_detection_rate": det_b["rate"],
+        "false_unknown_rate":
+            m["false_unknown_on_answerable"]["arm_b_explicit_unknown"]["rate"],
+        "accuracy_answerable_arm_A":
+            m["correctness_on_answerable"]["arm_a_forced"]["accuracy"],
+        "accuracy_answerable_arm_B":
+            m["correctness_on_answerable"]["arm_b_explicit_unknown"]["accuracy"],
+        "best_external_threshold_unanswerable_abstention":
+            (best_c or {}).get("unanswerable_abstention_rate"),
+        "best_external_threshold": (best_c or {}).get("threshold"),
+        "verdict": ("explicit unknown detects missing evidence at "
+                    f"{det_b['rate']}, while an external probability threshold "
+                    f"reaches at most "
+                    f"{(best_c or {}).get('unanswerable_abstention_rate')}"),
+    }
 
 
 if __name__ == "__main__":

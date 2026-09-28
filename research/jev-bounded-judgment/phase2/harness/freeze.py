@@ -73,6 +73,12 @@ COMPONENTS = {
         "analyses computed from the scored output; these do not touch the API",
         ["harness/crosscheck_stats.py"],
     ),
+    "experiment_design": (
+        "the experiment designs and the frozen packets they define; changing a "
+        "question, an option set or a case selection changes the experiment",
+        ["exp1/DESIGN.md", "exp1/build_packet.py", "exp1/frozen/packet.json",
+         "exp2/DESIGN.md", "exp2/build_packet.py", "exp2/frozen/packet.json"],
+    ),
     "freeze_control": (
         "the freeze machinery itself; a change here can silently weaken every "
         "other guarantee",

@@ -1,0 +1,1251 @@
+{
+ "arm_c": {
+  "definition": "arm A's own returned distribution under an external threshold; no new API calls",
+  "requests": 0
+ },
+ "condition": "raw",
+ "condition_rationale": "Experiment 1 fixes the representation to the raw source: it is the Phase 2 condition under which the most cases are admissible, and the question here is about unanswerability, not representation. Representation effects are Phase 2's subject and are not re-litigated.",
+ "encoding_checks": {
+  "E1_instruction_is_per_arm": true,
+  "E2_no_probability_token_in_unknown_arm": true,
+  "E3_evidence_guard_present": true,
+  "E4_arms_differ_only_by_option_and_paragraph": true,
+  "E5_state_matches_phase2": true,
+  "E6_rendered_instruction_contains_case_question": true
+ },
+ "endpoint": "https://api.typesafe.ai/v1/systemone",
+ "experiment": "exp1-explicit-unknown-vs-external-gating",
+ "n_answerable_admissible": 57,
+ "n_cases": 67,
+ "n_unanswerable_admissible": 10,
+ "plan": {
+  "arm_a_forced": {
+   "instructions": "Answer with exactly one of: `yes`, `no`.\nChoose using only the material above.",
+   "options": [
+    "yes",
+    "no"
+   ],
+   "type": "choice"
+  },
+  "arm_b_explicit_unknown": {
+   "instructions": "Answer with exactly one of: `yes`, `no`, `insufficient_evidence`.\nChoose `insufficient_evidence` only if the material above does not contain the information needed to decide - for example because the fact is absent, or because the material is ambiguous or self-contradictory.\nDo not choose `insufficient_evidence` merely because you are unsure or because the question is difficult. If the material contains enough to decide, you must choose `yes` or `no`.\nChoose using only the material above.",
+   "options": [
+    "yes",
+    "no",
+    "insufficient_evidence"
+   ],
+   "type": "choice"
+  }
+ },
+ "planned_requests": 134,
+ "rows": [
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.direct_call.001",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "shlex",
+   "question": "In this module, does `_print_tokens` directly call `print`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.direct_call.002",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "shlex",
+   "question": "In this module, does `_print_tokens` directly call `repr`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.direct_call.003",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "shlex",
+   "question": "In this module, does `join` directly call `join`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.direct_call.004",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "shlex",
+   "question": "In this module, does `_print_tokens` directly call `StringIO`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.direct_call.005",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "shlex",
+   "question": "In this module, does `join` directly call `StringIO`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.call_path2.001",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "module": "shlex",
+   "question": "In this module, is there a function that `join` calls, which in turn calls `_find_unsafe`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.call_path2.002",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "module": "shlex",
+   "question": "In this module, is there a function that `join` calls, which in turn calls `s.replace`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.param_rebound.001",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "shlex",
+   "question": "In `_print_tokens`, is the parameter `lexer` rebound by an assignment to `lexer` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.param_rebound.002",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "shlex",
+   "question": "In `join`, is the parameter `split_command` rebound by an assignment to `split_command` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.unused_import.001",
+   "condition": "raw",
+   "ctype": "unused_import",
+   "ground_truth": "no",
+   "module": "shlex",
+   "question": "Is `collections.deque` imported in this module but never referenced by name anywhere in the module's code?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.nesting_conjunction.001",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "yes",
+   "module": "shlex",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `print`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.string_literal_probe.001",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "yes",
+   "module": "shlex",
+   "question": "Does the body of `_print_tokens` contain the string literal 'Token: '?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.unanswerable_semantic.001",
+   "condition": "raw",
+   "ctype": "unanswerable_semantic",
+   "ground_truth": null,
+   "module": "shlex",
+   "question": "Is `shlex.get_token` safe to call concurrently from multiple threads?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "shlex.unanswerable_runtime.001",
+   "condition": "raw",
+   "ctype": "unanswerable_runtime",
+   "ground_truth": null,
+   "module": "shlex",
+   "question": "At runtime, how many times is `shlex.get_token` called per request?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.direct_call.001",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "json_encoder",
+   "question": "In this module, does `JSONEncoder.default` directly call `TypeError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.direct_call.002",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "json_encoder",
+   "question": "In this module, does `JSONEncoder.encode` directly call `encode_basestring`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.direct_call.003",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "json_encoder",
+   "question": "In this module, does `JSONEncoder.encode` directly call `encode_basestring_ascii`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.direct_call.004",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "json_encoder",
+   "question": "In this module, does `JSONEncoder.__init__` directly call `TypeError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.direct_call.005",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "json_encoder",
+   "question": "In this module, does `JSONEncoder.encode` directly call `TypeError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.call_path2.001",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "module": "json_encoder",
+   "question": "In this module, is there a function that `JSONEncoder.iterencode` calls, which in turn calls `isinstance`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.param_rebound.001",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "json_encoder",
+   "question": "In `JSONEncoder.__init__`, is the parameter `allow_nan` rebound by an assignment to `allow_nan` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.param_rebound.002",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "json_encoder",
+   "question": "In `JSONEncoder.__init__`, is the parameter `check_circular` rebound by an assignment to `check_circular` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.unused_import.001",
+   "condition": "raw",
+   "ctype": "unused_import",
+   "ground_truth": "no",
+   "module": "json_encoder",
+   "question": "Is `re` imported in this module but never referenced by name anywhere in the module's code?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.nesting_conjunction.001",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "yes",
+   "module": "json_encoder",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 3 AND also call `_iterencode`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.string_literal_probe.001",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "yes",
+   "module": "json_encoder",
+   "question": "Does the body of `JSONEncoder.__init__` contain the string literal '-Infinity'?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.unanswerable_semantic.001",
+   "condition": "raw",
+   "ctype": "unanswerable_semantic",
+   "ground_truth": null,
+   "module": "json_encoder",
+   "question": "Is `_make_iterencode._iterencode_dict` safe to call concurrently from multiple threads?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "json_encoder.unanswerable_runtime.001",
+   "condition": "raw",
+   "ctype": "unanswerable_runtime",
+   "ground_truth": null,
+   "module": "json_encoder",
+   "question": "At runtime, how many times is `_make_iterencode._iterencode_dict` called per request?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.direct_call.001",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "textwrap",
+   "question": "In this module, does `TextWrapper._fix_sentence_endings` directly call `len`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.direct_call.002",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "textwrap",
+   "question": "In this module, does `TextWrapper._fix_sentence_endings` directly call `patsearch`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.direct_call.003",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "textwrap",
+   "question": "In this module, does `TextWrapper._handle_long_word` directly call `any`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.direct_call.004",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "textwrap",
+   "question": "In this module, does `dedent` directly call `TextWrapper`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.direct_call.005",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "textwrap",
+   "question": "In this module, does `indent` directly call `TextWrapper`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.param_rebound.001",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "textwrap",
+   "question": "In `TextWrapper.__init__`, is the parameter `break_long_words` rebound by an assignment to `break_long_words` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.param_rebound.002",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "textwrap",
+   "question": "In `TextWrapper.__init__`, is the parameter `break_on_hyphens` rebound by an assignment to `break_on_hyphens` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.unused_import.001",
+   "condition": "raw",
+   "ctype": "unused_import",
+   "ground_truth": "no",
+   "module": "textwrap",
+   "question": "Is `re` imported in this module but never referenced by name anywhere in the module's code?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.nesting_conjunction.001",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "yes",
+   "module": "textwrap",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `any`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.string_literal_probe.001",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "yes",
+   "module": "textwrap",
+   "question": "Does the body of `TextWrapper.__init__` contain the string literal ' [...]'?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.unanswerable_semantic.001",
+   "condition": "raw",
+   "ctype": "unanswerable_semantic",
+   "ground_truth": null,
+   "module": "textwrap",
+   "question": "Is `TextWrapper.fill` safe to call concurrently from multiple threads?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "textwrap.unanswerable_runtime.001",
+   "condition": "raw",
+   "ctype": "unanswerable_runtime",
+   "ground_truth": null,
+   "module": "textwrap",
+   "question": "At runtime, how many times is `TextWrapper.fill` called per request?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.direct_call.001",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "dataclasses",
+   "question": "In this module, does `Field.__set_name__` directly call `func`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.direct_call.002",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "dataclasses",
+   "question": "In this module, does `Field.__set_name__` directly call `getattr`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.direct_call.003",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "dataclasses",
+   "question": "In this module, does `Field.__set_name__` directly call `type`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.direct_call.004",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "dataclasses",
+   "question": "In this module, does `InitVar.__class_getitem__` directly call `Field`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.direct_call.005",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "dataclasses",
+   "question": "In this module, does `InitVar.__init__` directly call `Field`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.call_path2.001",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "module": "dataclasses",
+   "question": "In this module, is there a function that `_add_slots` calls, which in turn calls `TypeError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.call_path2.002",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "module": "dataclasses",
+   "question": "In this module, is there a function that `_add_slots` calls, which in turn calls `fields.values`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.param_rebound.001",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "dataclasses",
+   "question": "In `Field.__init__`, is the parameter `compare` rebound by an assignment to `compare` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.param_rebound.002",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "dataclasses",
+   "question": "In `Field.__init__`, is the parameter `default` rebound by an assignment to `default` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.unused_import.001",
+   "condition": "raw",
+   "ctype": "unused_import",
+   "ground_truth": "no",
+   "module": "dataclasses",
+   "question": "Is `_thread` imported in this module but never referenced by name anywhere in the module's code?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.nesting_conjunction.001",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "yes",
+   "module": "dataclasses",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 3 AND also call `_asdict_inner`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.string_literal_probe.001",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "yes",
+   "module": "dataclasses",
+   "question": "Does the body of `Field.__init__` contain the string literal ' def '?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.unanswerable_semantic.001",
+   "condition": "raw",
+   "ctype": "unanswerable_semantic",
+   "ground_truth": null,
+   "module": "dataclasses",
+   "question": "Is `_hash_fn` safe to call concurrently from multiple threads?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "dataclasses.unanswerable_runtime.001",
+   "condition": "raw",
+   "ctype": "unanswerable_runtime",
+   "ground_truth": null,
+   "module": "dataclasses",
+   "question": "At runtime, how many times is `_hash_fn` called per request?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.direct_call.001",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "configparser",
+   "question": "In this module, does `BasicInterpolation._interpolate_some` directly call `InterpolationDepthError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.direct_call.002",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "configparser",
+   "question": "In this module, does `BasicInterpolation._interpolate_some` directly call `InterpolationMissingOptionError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.direct_call.003",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "module": "configparser",
+   "question": "In this module, does `BasicInterpolation._interpolate_some` directly call `InterpolationSyntaxError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.direct_call.004",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "configparser",
+   "question": "In this module, does `BasicInterpolation._interpolate_some` directly call `ConverterMapping`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.direct_call.005",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "module": "configparser",
+   "question": "In this module, does `BasicInterpolation.before_get` directly call `ConverterMapping`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.call_path2.001",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "module": "configparser",
+   "question": "In this module, is there a function that `DuplicateOptionError.__init__` calls, which in turn calls `Exception.__init__`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.call_path2.002",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "module": "configparser",
+   "question": "In this module, is there a function that `DuplicateSectionError.__init__` calls, which in turn calls `Exception.__init__`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.param_rebound.001",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "configparser",
+   "question": "In `BasicInterpolation._interpolate_some`, is the parameter `accum` rebound by an assignment to `accum` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.param_rebound.002",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "module": "configparser",
+   "question": "In `BasicInterpolation._interpolate_some`, is the parameter `depth` rebound by an assignment to `depth` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.unused_import.001",
+   "condition": "raw",
+   "ctype": "unused_import",
+   "ground_truth": "yes",
+   "module": "configparser",
+   "question": "Is `collections.ChainMap` imported in this module but never referenced by name anywhere in the module's code?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.nesting_conjunction.001",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "yes",
+   "module": "configparser",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 4 AND also call `InterpolationDepthError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": true,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.string_literal_probe.001",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "yes",
+   "module": "configparser",
+   "question": "Does the body of `BasicInterpolation._interpolate_some` contain the string literal 'Interpolation'?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.unanswerable_semantic.001",
+   "condition": "raw",
+   "ctype": "unanswerable_semantic",
+   "ground_truth": null,
+   "module": "configparser",
+   "question": "Is `RawConfigParser._get_conv` safe to call concurrently from multiple threads?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": true
+  },
+  {
+   "admissible_raw": false,
+   "arms": [
+    "arm_a_forced",
+    "arm_b_explicit_unknown"
+   ],
+   "case_id": "configparser.unanswerable_runtime.001",
+   "condition": "raw",
+   "ctype": "unanswerable_runtime",
+   "ground_truth": null,
+   "module": "configparser",
+   "question": "At runtime, how many times is `RawConfigParser._get_conv` called per request?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": true
+  }
+ ],
+ "send_vs_score_policy": "Unanswerable cases are SENT (both arms) so that unknown detection and false-confidence can be measured, and are NEVER scored for correctness, because no correct answer exists. Answerable cases are sent and scored. The two flags are separate fields so the distinction cannot be lost downstream.",
+ "subject_model": "jev-1.13.0"
+}

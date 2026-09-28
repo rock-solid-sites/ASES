@@ -55,6 +55,9 @@ SCHEMA = {
                                      "(no ground truth exists to score against)"},
     "observation_only": {"required": False, "nullable": False, "type": bool,
                         "null_when": "field absent on scored runs"},
+    "arm": {"required": False, "nullable": False, "type": str,
+            "null_when": "field absent on the Phase 2 single-noul run, which "
+                         "predates the question-plan capability"},
 
     "representation":  {"required": True,  "nullable": False, "type": dict,
                         "null_when": "never"},
@@ -117,6 +120,12 @@ INVARIANTS = [
     ("condition_enum",
      "condition must be one of the four declared representations",
      lambda r: r["condition"] in ("raw", "struct", "raw_ic", "struct_ic")),
+    ("choice_answers_are_graded",
+     "a choice arm must return a probability per option, not a one-hot vector; "
+     "a one-hot result is recorded as a finding, not silently accepted",
+     lambda r: (r.get("parsed") or {}).get("primitive") != "choice"
+     or len([1 for v in ((r["parsed"].get("probabilities") or {}).values())
+             if v >= 0.999]) < len(r["parsed"].get("probabilities") or {})),
     ("no_credential_value_in_source",
      "credential_source must be a label, and must not look like a key",
      lambda r: "=" not in r["credential_source"]
