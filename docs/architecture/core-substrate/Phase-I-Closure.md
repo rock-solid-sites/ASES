@@ -55,14 +55,17 @@ for this candidate. It is not a declaration that a deployed core already exists.
 
 **Result:** a scoped Kernel + Work Unit core survives the attacks without a new
 primitive or persistent Processor. Trusted guard computation remains necessary.
-The sole unresolved core temporal question is Q1 (engine-loss execution disable).
-The [synthesis](#9-concise-synthesis-and-handoff) states the conclusion and limits;
+The former Q1 ambiguity is resolved by the canonical Work Unit clarification:
+engine loss disables protected capability use but does not itself require interior
+computation using still-valid resources to stop. Bounded quiescence is a stronger,
+optional profile rather than a baseline correctness obligation. The
+[synthesis](#9-concise-synthesis-and-handoff) states the conclusion and limits;
 the [falsification record](./Phase-I-Processorless-Falsification.md) preserves
 fifteen Processor attacks; the [verification plan](./Phase-I-Verification.md)
 assigns the remaining bounded formalization, implementation and hostile testing.
 
-**Restart cursor:** the architectural investigation is complete, with Q1 open;
-start downstream work at verification F1/F3. No prototype, new model check or
+**Restart cursor:** the architectural investigation is complete at the semantic
+level; start downstream work at verification F1/F3. No prototype, new model check or
 independent review has been completed. Concurrent commits `76a38fb7`/`8bebb403`
 introduced an alternative realization argument into the same file; its preserved
 [proposal](./Phase-I-Closure-Realization-Boundary.md) and the [disposition](#10-disposition-of-the-concurrent-realization-proposal)
@@ -114,7 +117,7 @@ cannot erase required accepted work to make room.
 | Event | Required result in this candidate | Assumption or boundary |
 | --- | --- | --- |
 | Executor or attachment process disappears | Preserve the Work Unit, accepted contents, and current authoritative relationships; replacement is a guarded event. | Neither executor-local bytes nor executor assertions are a trusted continuation store. |
-| Engine/authority process stops while host protection and storage survive | Prevent new protected admission through lost authority; retain bounded objects and committed contents; recover cold and sealed before explicit activation. Execution-disable timing is Q1; prior exact obligations retain their declared outcome contract. | A surviving/fail-closed protection mechanism is part of the TCB. Its realization must be tested, not inferred from a metadata flag. |
+| Engine mediation process stops while host protection and storage survive | Prevent new protected admission and protected capability use through the lost mediator; retain bounded objects and committed contents; preserve surviving resource grants where valid; recover cold and sealed before fresh capability activation. Interior computation may continue using surviving resources. | A surviving/fail-closed protection mechanism must make capability loss real at the effect boundary. Its realization must be tested, not inferred from a metadata flag. |
 | Loss during commitment, including lost reply | Recover a permitted whole endpoint; preserve irrevocably committed effects even if unacknowledged. | Current retained storage supplies a coherent recoverable cut. No automatic retry or exactly-once promise follows. |
 | Transient loss of contact with authority | Withhold affected new commitments; an isolated executor cannot confer authority on itself. | No partitioned multi-writer availability guarantee, timeout election, or takeover by suspicion. |
 | Missing, unreadable, or detected-inconsistent recovery material | Keep affected objects bounded and inactive; do not silently bootstrap an empty replacement. | Preservation/availability may be lost. Refusal is not successful recovery. |
@@ -242,32 +245,42 @@ local attachment record.
 
 ### Engine death and the meaning of sealed
 
-The baseline cannot implement sealed merely as "do not accept future results."
-Work Unit H also disables active execution/outward use. A concrete engine-loss
-claim must identify the trusted event that disables execution and the routes
-whose use ends there. At a minimum, no new protected admission can occur through
-a dead or superseded authority holder. Any process termination/fate-sharing
-mechanism needed for the stronger execution-disable claim belongs in the TCB.
+The canonical Work Unit definition now resolves the earlier wording ambiguity.
+A sealed Work Unit remains bounded and cannot exercise protected outward capability
+attachments, but internal computation may continue using still-valid granted
+resources unless a separate policy pauses, terminates, or revokes those resources.
 
-There is a real specification edge: process death, detection of death, termination
-of another process, and disappearance of a host are different events. Work Unit
-E/H does not specify their allowed interval. This investigation does **not**
-quietly reinterpret it as indefinite computation inside an isolated object. The
-prototype must report three separately measured facts — admission disabled, effect
-disabled, and the quiescence window for interior execution — as set out in
-[Part B](./Phase-I-Revocation-and-Q1.md). The first two are always claimed and
-always achievable; the third is achievable with no interval on the authorized-seal
-path, and on the engine-death path only against a named engine-independent
-enforcement point. A heartbeat or lease cannot prove instantaneous death
-detection, and a watchdog that merely proposes a transition discharges nothing.
-Pure in-flight computation, new boundary use, and previously committed external
-consequences must be tested separately.
+For the baseline Phase I profile, engine loss therefore requires two things:
 
-**WHY:** a record-only model can satisfy every local invariant while a concrete
-route violates the claimed effect or confinement. **WHAT:** H1/H2/H5/H6 and Work
-Unit C/E/H/K. **HOW CERTAIN:** evidence-based realization constraints; platform
-sufficiency is unverified. **WHAT-NOT-TESTED:** host isolation, descriptor revocation,
-process fate sharing, actual path resolution, or a whole-effect implementation.
+1. **admission/effect closure** — no new protected admission or protected capability
+   use may be accepted through the lost or stale engine mediator; and
+2. **route closure** — previously exposed capability paths must become unusable at
+   the actual effect boundary, including retained handles or credentials within the
+   declared realization scope.
+
+It does **not** require general process quiescence. A bounded quiescence window after
+engine loss is a stronger optional profile and may require an engine-independent
+enforcement point, trusted liveness detection, and timing machinery. That question
+remains useful for realization research but is no longer part of baseline Work Unit
+conformance.
+
+The important separation is now:
+
+```text
+engine loss
+    ├─ capability attachments: inactive / fail closed
+    ├─ protected effects: unavailable
+    └─ still-valid resources: may continue to support internal computation
+```
+
+Pure internal computation, new boundary use, and previously committed external
+consequences must still be tested separately.
+
+**WHY:** the Work Unit canonical source now distinguishes resource grants from
+capability attachments at failure time. **WHAT:** H1/H2/H5/H6 plus Work Unit
+B/C/E/H/K. **HOW CERTAIN:** canonical semantic clarification; platform sufficiency
+remains unverified. **WHAT-NOT-TESTED:** host isolation, descriptor revocation,
+credential invalidation, actual path mediation, or any optional quiescence bound.
 
 ## 3. Durable information and recovery without a second state owner
 
@@ -385,7 +398,7 @@ requests may order either way; completed replacement precedes later initiated us
 | Generation/counter/nonce/token | Any non-confusable current authority representation. No particular numeric identity is required. Finite exhaustion must refuse safely, not wrap into a reachable old identity. |
 | Source binding | Required if old physical participants must be excluded even when they acquire current evidence. The prototype should use trusted, non-transferable ingress associations and test impersonation. If relying on bearer secrecy instead, state the weaker physical-exclusion claim. |
 | Durable issued-token set | Only if otherwise an old usable representation can collide after a covered failure. Cold recovery plus proven elimination of old routes can remove this representation, not the non-resurrection obligation. |
-| Lease/heartbeat | Not required for safety, and not required for replacement. Detection may trigger a replacement proposal; a timeout that only proposes grants nothing. Required in exactly one Phase I case: a claimed **bound on the interval between engine death and the end of interior execution** (D3 on the engine-death path). That needs a trusted liveness signal and a timer acting fail-closed on a named enforcement point independent of the engine. Any claimed timed **authority expiry** additionally needs trusted time and use-point enforcement, and is a different requirement. See [Part B](./Phase-I-Revocation-and-Q1.md). |
+| Lease/heartbeat | Not required for baseline safety or replacement. Detection may trigger a replacement proposal; a timeout that only proposes grants nothing. A lease/heartbeat-class mechanism becomes relevant only for an explicitly stronger claim such as bounded quiescence after engine loss or timed authority expiry. Those claims require their own trusted liveness/time and enforcement assumptions. See [Part B](./Phase-I-Revocation-and-Q1.md) for the historical reduction that exposed this distinction. |
 | Sink fencing | A semantic requirement only for a profile that needs current authority at that sink; an integer is one possible realization. Every affected sink must enforce the same relevant authority order. |
 | Request identity/deduplication | Required only when a promised result/retry/at-most-once observation depends on distinguishing repeats. Not inferred from disposable execution. |
 | Durable retry queue | Not needed for baseline safety. A retained accepted obligation plus explicit invocation can be sufficient; no automatic delivery or scheduling guarantee is claimed. |
@@ -626,52 +639,30 @@ implementation, fault injection and product comparisons should not consume furth
 frontier reasoning without a failed obligation. The surviving uncertainty is small
 and concrete; broader unselected guarantees are not mislabeled unfinished Phase I.
 
-### Q1 — when must engine loss disable still-running computation?
+### Q1 — resolved: engine loss does not require baseline quiescence
 
-**Conflicting readings:** Work Unit E says objects remain sealed while the engine
-is not running; H includes disabling active execution. Merely denying later
-boundary effects permits still-running internal computation and is therefore not
-obviously equivalent. Immediate global physical cessation at the instant of
-remote engine death is stronger than any evidence in the repository.
+The earlier Q1 existed because Work Unit E/H could be read as requiring both
+capability closure and cessation of interior execution. The canonical Work Unit
+glossary has now been clarified: **sealed** means that protected outward capability
+use is disabled while the durable bounded object remains. Internal computation may
+continue using still-valid resource grants unless a separate policy requires
+quiescence.
 
-**Distinguishing history:** authorize a bounded CPU-only activity; kill the engine
-while the host and activity survive; allow no boundary crossings; observe activity
-between engine death, trusted loss detection and termination. One reading accepts
-that interval as implementation quiescence; another forbids it. A partition can
-make loss detection itself uncertain while the activity remains alive.
+The previous D1/D2/D3 decomposition remains useful as analysis:
 
-**Missing evidence:** an explicit semantic authorization/disable event for
-execution itself, the permitted quiescence interval (if any), and a concrete
-substrate's fate-sharing guarantee. This is the single unresolved core temporal
-contract, not a missing Processor. A prototype must expose the events and report
-which reading it meets. It may proceed with fail-closed protected admission and
-cold recovery while keeping the broader sealed-execution claim **unverified**.
-It may not call indefinite interior activity fully sealed or use a heartbeat as
-proof of synchronous shutdown. Canonical clarification is required before claiming
-full W.E/H conformance where the readings differ.
+- **D1 — admission disabled:** required by the baseline.
+- **D2 — protected effect/capability use disabled:** required by the baseline.
+- **D3 — interior execution stopped:** not a baseline requirement.
 
-**Reduction status (added after independent review).** Q1 is no longer an open
-core contract. "Disabled" splits into three claims with asymmetric support:
-**D1 admission disabled** and **D2 effect disabled** are claimed by E and H and
-are achievable on every path; **D3 execution stopped** rests on one glossary
-phrase inside a taxonomy bullet, is achievable with no interval on the
-authorized-seal path, and on the engine-death path reduces exactly to a bound on
-the quiescence window `Δ` between the authority holder ceasing to serve and the
-last interior process ceasing to execute. Producing `Δ ≤ δ` requires a named
-engine-independent enforcement point plus a trusted liveness signal and timer —
-which is the **only** condition in Phase I under which a lease/heartbeat-class
-mechanism becomes necessary, and it is a realization component in the TCB, not a
-Kernel primitive. What remains is one canonical wording decision, one disclosure
-parameter, one trust disclosure, and one measurement. Full derivation, including
-the falsifier for the strong reading:
-[Phase I Revocation Verification and Q1 Reduction](./Phase-I-Revocation-and-Q1.md)
-Part B.
+D3 is now an explicitly stronger profile. If a product or deployment wants
+bounded or immediate quiescence after engine loss, it must name and test the
+engine-independent enforcement and liveness/timing mechanism that supplies that
+guarantee. No new Kernel primitive follows automatically.
 
-**WHY:** H1 separates effect exclusion from process lifetime; E/H adds an execution
-condition. **WHAT:** the concrete interval above and Work Unit C/E/H/K. **HOW
-CERTAIN:** evidence-based ambiguity, now reduced to a disclosure and a measurement
-by the linked record. **WHAT-NOT-TESTED:** any platform timing, process-tree
-teardown or shared fate mechanism.
+The historical derivation and the source-level revocation correction are retained
+in [Phase I Revocation Verification and Q1 Reduction](./Phase-I-Revocation-and-Q1.md).
+Its former "canonical wording decision" residual is closed by the Work Unit
+clarification made during the documentation consolidation pass.
 
 ### Unselected stronger profiles, not hidden architecture tasks
 
@@ -713,13 +704,13 @@ The highest-value challenges are:
    which a correctly recorded Kernel revocation is defeated by policy that the
    Kernel does not control, and try to find a legitimate revocation that AC's
    ordering and fail-closed clauses would wrongly forbid.
-7. **The D1/D2/D3 split is exhaustive and correctly assigned.** Try to find a
-   fourth distinct sense of "sealed" that the split omits, and try to show that D2
-   is not achievable on some path where D1 is. Also test the interaction with the
-   concurrent [Authority Ontology](../EDASES-Authority-Ontology.md), whose
-   "sealed does not mean frozen" claim conflicts with the Work Unit H glossary —
-   see the analysis in
-   [Part A5](./Phase-I-Revocation-and-Q1.md).
+7. **Capability closure is correctly separated from optional quiescence.** Try to
+   find a required protected effect that can still occur after the capability
+   attachment is inactive, including retained handles, credentials, asynchronous
+   completion, or mediator recovery. Separately test that permitting CPU-only
+   interior computation after engine loss does not itself create a protected
+   effect. Bounded quiescence is reviewed only when that stronger profile is
+   explicitly claimed.
 
 ## 9. Concise synthesis and handoff
 
@@ -728,8 +719,10 @@ continuity, instantiated with Work Unit's bounded-object/containment/disposition
 policy; retained accepted information; trusted complete mediation and authority
 ingress; compatible current recovery; and trusted evaluation/verification of
 actual guard premises. None requires a new named Kernel primitive, persistent
-Execution object, independent Processor, Observer, Orchestrator, tracker or
-scheduler. A logical single-holder prototype is sufficient to test this candidate.
+Execution object, independent Processor, Observer, tracker or scheduler, nor does
+Kernel correctness require an Orchestrator agent. The intended product model may
+still use an Orchestrator as the normal user-facing agent. A logical single-holder
+prototype is sufficient to test this candidate.
 
 **Trust/failure assumptions:** known initial/current management; correct supported
 policy and interpretation; a host/protection boundary that survives or fails
