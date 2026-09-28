@@ -293,3 +293,24 @@ Destination:
 The files are preserved byte-for-byte. No internal status wording, architectural claim, benchmark statement, or historical recommendation was modernized. Their historical classification is established by repository placement and this consolidation ledger, not by rewriting the evidence itself.
 
 This move does not promote any conclusion from the historical decisional-provenance program into current EDASES architecture.
+
+
+## Stage 2B.2a — EPIC #423 operational plan reference check
+
+**Status: deferred; no move performed.**
+
+Files checked:
+
+- `.design/epic-423-swarm-plan.md`
+- `.design/epic-423-swarm-replan.md`
+
+Primary-source findings:
+
+- the plan is explicitly an executable swarm plan for EPIC #423;
+- the re-plan declares `layer: Implementation`, `document_type: Design`, `status: Proposed`, and `authority: Derived`, and identifies the plan as its executable companion;
+- the pair cross-reference one another and are operational/ticket-scoped rather than project-level architecture;
+- repository code search found no exact-basename references to either file in the indexed repository.
+
+The consolidation inventory classified these files as likely Historical/Operational records, but that classification requires evidence that EPIC #423 is no longer active or that the plans were superseded. The GitHub issue endpoint for #423 was unavailable through the current connector, and no accessible closeout or superseding primary source was found in this bounded check.
+
+Therefore no historical move is justified in this substep. The pair remains in place until project-state evidence establishes whether it is active implementation planning or historical execution evidence.
