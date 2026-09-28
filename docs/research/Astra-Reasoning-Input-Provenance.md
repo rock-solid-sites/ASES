@@ -91,11 +91,38 @@ After the Astra checkpoint, the branch received additional work including:
 
 These later records are valuable evidence but are not retroactive inputs to the original Astra Phase I reasoning.
 
-## Consolidated Astra packet
+## Consolidated Astra packet — Stage 1 documentation repair
 
-A later section will record the exact blob SHAs of the consolidated, explicitly non-authoritative architecture packet supplied to the next Astra reasoning pass.
+The first documentation-consolidation stage froze the next Astra working packet at pre-manifest branch head:
 
-The packet may contain project-critical Draft, Experimental, or Derived documents. Inclusion in an Astra packet does not promote a document to Canonical authority.
+`8d158e3e82d5811e420c80cc6c9664d3ae4a6088`
+
+The following exact blobs form the consolidated working set. Several are intentionally Draft, Experimental, or Derived. Inclusion here does **not** promote their authority.
+
+| Document | Path | Blob SHA | Intended role for Astra |
+| --- | --- | --- | --- |
+| Work Unit Component Design | `docs/architecture/EDASES Work Unit Component Design.md` | `22c98dbabdaed7f41d656209a6ce96269dde8390` | Current canonical Work Unit semantics, including resolved sealing/recovery wording |
+| Authority Ontology | `docs/architecture/EDASES-Authority-Ontology.md` | `170016e0d8cfcb72bbe51f5cad230bf53192aa02` | Project-critical Draft/Derived authority model for falsification and refinement |
+| Efficiency Architecture | `docs/architecture/EDASES-Efficiency-Architecture.md` | `349eee3b51171a9365201eff5d2bd10d8cbfa719` | Experimental/Derived efficiency baseline; substantial research remains |
+| Execution Engine Roadmap | `docs/architecture/EDASES-Execution-Engine-Roadmap.md` | `a82d8a3fc54fd075fd6a20cf9e64ce560313f87c` | Current sequencing and reopening rules |
+| Phase I Core Substrate Closure | `docs/architecture/core-substrate/Phase-I-Closure.md` | `a82482b1718a652a39a5a2bb179797f92908380d` | Reconciled Phase I candidate and adversarial closure record |
+| Processorless Falsification | `docs/architecture/core-substrate/Phase-I-Processorless-Falsification.md` | `33ff65100cbb10c107337e0f325d1db023e8ffe1` | Processor necessity attacks and conditional elimination evidence |
+| Revocation/Q1 Record | `docs/architecture/core-substrate/Phase-I-Revocation-and-Q1.md` | `4103042649e07b7fd4d6bb1c0f4cf30a01bcc9a9` | Preserved reasoning record with explicit post-investigation disposition |
+| Phase I Verification Plan | `docs/architecture/core-substrate/Phase-I-Verification.md` | `ca378a16e31128d6ed11d5472d83253340802253` | Downstream formalization/realization acceptance gates |
+| Kernel-0 Abstract Semantics | `docs/research/kernel-0/Kernel-0-Abstract-Semantics.md` | `fd2a485dba3805884fc394b093a61daa60719072` | Provisional Kernel semantic contract used by both Astra passes |
+| Kernel-0 Verification Obligations | `docs/research/kernel-0/Kernel-0-Verification-Obligations.md` | `7c1d9b198b34c360dd6e8d7d4795704811cfdfa3` | Provisional Kernel assurance target |
+| Concepts and Topics Registry | `docs/research/registry/Concepts and Topics Registry.md` | `6b7ddf737c14a3853e9be2e64b4417c013ee9c96` | Identity/lineage/navigation only; not substantive architectural authority |
+
+### Stage-1 semantic changes relative to the prior Astra checkpoint
+
+The next Astra pass must not treat these as conclusions Astra had already reached at `cff5f57c`. They are new working inputs:
+
+1. root authority belongs to the user; the engine represents/mediates/enforces user-derived authority rather than owning it;
+2. the Orchestrator is expected to be the normal user-facing LLM agent but possesses exactly the authority currently delegated by the user; Kernel correctness does not require an Orchestrator agent;
+3. baseline sealing disables affected capability admission/use and protected outward effects but does not inherently stop already-granted resource-backed internal computation;
+4. pre-crash capability attachments are retained as historical recovery context only and require fresh authorized reassessment before reattachment, normally by the Orchestrator;
+5. the efficiency architecture is now consolidated as an Experimental/Derived baseline rather than scattered across Work Unit history, roadmap targets, and processorless research;
+6. the Concepts Registry no longer points active concepts at the nonexistent `EDASES Minimal Execution Substrate Architecture` document.
 
 The invariant is:
 
