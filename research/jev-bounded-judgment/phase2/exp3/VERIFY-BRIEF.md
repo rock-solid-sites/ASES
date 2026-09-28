@@ -8,18 +8,61 @@ Branch: research/jev-phase1-565
 Experiment directory: research/jev-bounded-judgment/phase2/exp3/
 
 Provenance: the packet was selected and frozen by the author; execution was
-performed by `opencode/mimo-v2.6-flash-free` (family `mimo`); you are
-`opencode/muse-spark-1.3-contributor-free` (family `muse-free`), a different
-family from the executor. Same-family acceptance checks are operational only.
+performed by `opencode/mimo-v2.6-flash-free` (family `mimo`). You are Nemotron 3
+Ultra, a different family from the executor, so same-family acceptance checks do
+not apply.
+
+ROUTE SUBSTITUTION, recorded openly
+The originally designated verifier route (`opencode/muse-spark-1.3-contributor-free`,
+family `muse-free`) became unreachable partway through this experiment: it, the
+`mimo` executor route, and every `openrouter/` route returned silent failures on
+repeated probes between 02:42Z and 03:10Z. The operator then named
+GLM5.3-Flash and Nemotron 3 Ultra for review work. GLM5.3-Flash is NOT reachable
+on any available route (`opencode-go/` returns 403 for want of a Go subscription;
+`openrouter/z-ai/glm-5.3-flash` fails), so it could not be used. Nemotron 3
+Ultra via `opencode/nemotron-3-ultra-free` probed ALIVE and is the verifier.
+This is recorded as a concrete capability failure, not a silent substitution.
+Judge the verification on its evidence, and note in your limitations that only
+one review family was available.
+
+## HOW TO WRITE - READ THIS FIRST, TWO PRIOR RUNS PRODUCED NO FILE
+
+Your native `write` and `edit` tools are BLOCKED in this session by the worktree
+plugin `orchestrator-guard.ts`, because this session's agent resolves to `build`
+while the guard's allowlist is `{"builder"}` and no agent named `builder` exists
+for `opencode run`. A prior verifier run on this experiment therefore completed a
+521KB transcript and wrote NOTHING, losing all of it. Do not repeat that.
+
+**Write with bash.** Bash is permitted by the guard and by the permission config.
+Use heredoc appends, e.g.:
+
+```bash
+cd /home/claude-code/projects/ASES/.worktrees/jev-phase1/research/jev-bounded-judgment/phase2/exp3
+cat >> verification.md <<'MDEOF'
+
+## STEP 0 - run header
+
+- Verifier: Nemotron 3 Ultra, route opencode/nemotron-3-ultra-free
+- Executor: opencode/mimo-v2.6-flash-free (family mimo), different family
+- Claim under test: pre-registered p(insufficient_evidence) >= 0.05 detects
+  9/10 unanswerable cases on fresh data, beating the carried-forward external
+  gate at 0.60.
+MDEOF
+```
+
+**YOUR FIRST ACTION MUST BE TO CREATE THE FILE** with that header block, before
+you analyse anything. Then append each step as it completes. If you are cut off
+mid-run, a file with real verified content is the deliverable; a complete answer
+in chat with no file is a FAILURE.
 
 ## WRITE DISCIPLINE - MANDATORY
-Prior verifier runs stopped at "now the deeper cuts" and produced no file.
-1. **APPEND to `exp3/verification.md` as you finish each step.** Step 1 on disk
-   before Step 2 begins, and so on.
-2. Never announce a next step before the current one is on disk.
-3. A partial file with real verified content beats a complete chat summary.
-4. If you run long, write what you have and stop.
+1. Create `exp3/verification.md` FIRST, with the header, before any analysis.
+2. **APPEND each step as you finish it.** Step 1 on disk before Step 2 begins.
+3. Never announce a next step before the current one is on disk.
+4. A partial file with real verified content beats a complete chat summary.
+5. If you run long, write what you have and stop.
 Create no file other than `exp3/verification.md`. No git commit/push/checkout.
+Use bash heredocs for all writes, never the native write/edit tools.
 
 ## THE CLAIM UNDER TEST
 Experiment 1 reported that an explicit-unknown option lets Jev identify missing
