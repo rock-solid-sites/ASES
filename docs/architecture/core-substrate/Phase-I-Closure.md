@@ -383,3 +383,113 @@ current-authority/order/external-action clauses. **HOW CERTAIN:** evidence-based
 contract reduction; H10 is a conditional indistinguishability argument.
 **WHAT-NOT-TESTED:** distributed fencing, at-most-once sinks, timed revocation,
 physical-source exclusion, or a concrete replacement implementation.
+
+## 5. Authoritative information is a use contract
+
+An information category is not an authority rank. An accepted statement that a
+model reported confidence 0.99 can be authoritative **as a record of that report**
+without making its proposition true. Conversely, a transient calculation may
+legitimately supply a guard premise if its truth and applicability are established
+within the current commitment. Do not implement promotion-to-authority by a label,
+a confidence threshold, a signature alone, or persistence alone.
+
+| Information | Permitted participation in a guard | Required limitation |
+| --- | --- | --- |
+| Current authoritative state | Direct input under the declared policy and coherent view. | Recovered/cached copies need the same currentness and interpretation basis. |
+| Trusted observation | Input for exactly the proposition its source and acquisition contract establish. | Authenticate source/scope, bind subject and observation event, establish timing/order and the limitations of the observation. |
+| Deterministic derived fact | Input after trusted evaluation or sound verification for the actual inputs and semantics used at commitment. | Deterministic does not mean correctly computed, complete, current, or relevant. |
+| Candidate proposal | Requests a transition or offers evidence. | Never supplies its own permission or proves its own preconditions by assertion. |
+| Evidence and provenance | Supports the claim its content, provenance and accepted applicability justify. | Historical validation is not current permission; provenance does not prove truth or completeness. |
+| Bounded probabilistic judgment | May meet an explicitly declared policy condition such as an authorized review/decision record. | The enforced claim is that the qualified judgment/approval occurred and applies, not certainty of the underlying semantic proposition. |
+| Open semantic reasoning | May produce proposals, challenges, explanations and requests for authorized decisions. | No implicit power to amend policy or bypass unknown premises. |
+| Unknown/unresolved | Prevents a positive claim that needs the missing proposition. May allow an action safe under every relevant alternative. | Absence of evidence, elapsed time, silence, and numerical confidence do not resolve it. |
+
+### Minimum admission rule for a fact
+
+For every fact on which the guard relies, identify (in the semantics, not
+necessarily in a record with these field names): the proposition; subject and
+scope; source/derivation and trust; input/policy interpretation; applicable
+observation or commitment point; and the changes that could invalidate it.
+Then discharge **both** correctness of the fact and applicability to this use.
+A trusted source can be wrong outside its scope; a correct old result can be
+inapplicable now. The relevant observation can be carried by a request, retained
+accepted evidence, or a trusted synchronous computation. No general fact store
+is forced.
+
+For stable facts about retained immutable inputs, validity can survive unrelated
+state changes. For mutable predicates, checking a result and later committing
+must not permit an intervening invalidating event. A coarse complete-state
+comparison is a sufficient first comparator. Dependency tracking may later avoid
+unnecessary retries, but correctness never relies on a requester's incomplete
+list of dependencies. Semantic input binding includes policy/algorithm meaning,
+configuration and any external facts used, not merely the bytes of one file.
+
+**H11 — stale derivation with genuine provenance.** Compute allowed(C, write) from
+a valid child grant and permissive ancestor. Revoke the ancestor. Submit the exact
+old inputs, result and valid provenance. They establish a historical calculation,
+not current permission. Recompute the relevant guard or validate a sound witness
+against a coherent current view. A persistent invalidation registry is unnecessary
+when current admission performs this check; an asynchronous invalidation message
+is insufficient when admission does not.
+
+**H12 — an authentic observation of the wrong proposition.** A test service
+reports that immutable candidate x passed suite t at time u. That can establish
+the trusted test outcome for x/t under its contract. It does not establish that x
+is now selected, that suite t proves a requested safety property, that no later
+withdrawal exists, or that the service's external world is unchanged. Those are
+separate premises. An external property required *at sink use* needs use-point
+ordering/control or an explicitly weaker observation-based policy. Constant
+monitoring cannot repair an uncontrolled check/use gap by itself.
+
+**H13 — false negative by omission.** A worker supplies a dependency graph missing
+one child and derives "no dependents remain." Every included edge is correct.
+Destroying the boundary releases the omitted child. No proof over the supplied
+subset establishes completeness. The prototype evaluates absence over its own
+complete finite current containment domain; an external proof must be bound to
+an equally complete trusted domain. This requires a sound negative-fact check,
+not a persistent graph-building subsystem.
+
+### Unknown is a constraint on assertions and actions
+
+Let H(o) be the histories compatible with the trusted observations and selected
+failure contract. A fact may be asserted only if justified across the remaining
+relevant alternatives. An action/continuation must be permitted across all of
+them; choosing a new authority event must itself have supported preconditions.
+This is the currentness record's intersection-of-acceptable-strategies rule.
+Implementations need not enumerate H(o): a sound conservative predicate can
+establish the required permission. Failure to establish it yields pending,
+refusal, restricted operation or an authorized reconciliation proposal.
+
+For example, an uncertain delivery of an irreversible effect blocks blind retry
+under an at-most-once contract, but can leave a separate immutable read usable.
+An uncertain ancestor restriction blocks the descendants and effects that depend
+on it, not automatically every Work Unit. Where object-wide current authority
+cannot be established, Work Unit recovery remains sealed. Later evidence must
+be validated; escalation to a human does not itself create missing truth.
+
+Do not invent a required Unknown object or persist every uncertain request. A
+knowledge distinction needs durable representation only if losing it would allow
+a forbidden future claim or action, or would lose a promised continuation. A
+client-side timeout alone may leave the authority holder's state perfectly definite.
+
+**WHY:** H11–H13 allow false admission despite authentic provenance or deterministic
+computation. **WHAT:** Kernel's f/G/current-view semantics and the scoped
+currentness rule, applied to derived and semantic information. **HOW CERTAIN:**
+evidence-based admission contract. **WHAT-NOT-TESTED:** a proof verifier, observation
+service, semantic-review policy, external-world freshness, or an implementation
+of unknown-state handling.
+
+## 6. Processorless result
+
+The [targeted falsification record](./Phase-I-Processorless-Falsification.md)
+contains the reduction and strongest counterhistories. The surviving claim is:
+
+> For the declared finite Work Unit policy and failure/effect profile, persistent
+> derivation state and a separately authoritative Processor lifecycle are not
+> necessary. Trusted guard evaluation/verification, retained authoritative inputs
+> and accepted contents, and concrete enforcement remain necessary.
+
+This is not a claim that all deterministic computation can be untrusted or kept
+outside the TCB. Nor is it a universal theorem for arbitrary consumer programs,
+real-time workloads, or all future EDASES semantics. Those stronger claims are
+unsupported. No attempted history in the record requires a new Kernel primitive.
