@@ -970,3 +970,23 @@ The next useful step is therefore to inspect the Documentation Standard's requir
 ### Turn workload
 
 This turn inspected **45 Research documents** and completed without streaming/tool-limit failure.
+
+
+### Stage 3.2 checkpoint 3 — metadata contract resolution
+
+**Status: one mechanically safe normalization class established.**
+
+Primary-source basis:
+
+- the canonical Documentation Standard's metadata example includes explicit relationship fields even when empty;
+- the Standard defines `implements` as an Implementation-document relationship and states: **“Research documents should normally leave this empty”**;
+- the Standard defines `implemented_by` for Methodology and Requirements documents;
+- current fully populated Derived/Research and Derived/Architecture exemplars encode non-applicable relationships as empty arrays, e.g. `implements: []` and `implemented_by: []`.
+
+Safe normalization rule for this stage:
+
+> For a document that already has structured frontmatter and explicitly declares `layer: Research`, a missing `implements` and/or `implemented_by` field may be added as an explicit empty array without inventing a relationship.
+
+This rule does **not** authorize inference of `depends_on`, `consumed_by`, `related_documents`, `supersedes`, `superseded_by`, identity, status, authority, or classification. Those remain evidence-dependent.
+
+The Standard's wording (“Every canonical document should begin with structured metadata”) is narrower than a universal all-document mandate. Therefore this consolidation will not automatically force complete canonical metadata onto External/Generated/trace/template records merely because they live under `docs/`.
