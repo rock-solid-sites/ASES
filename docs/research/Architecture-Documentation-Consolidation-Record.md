@@ -681,3 +681,24 @@ Files removed from the active-looking `.design/` surface during this stage were 
 **No new `docs/implementation/` subtree is created.** The five retained files are intentional exceptions pending lifecycle evidence or a future canonical filing rule for implementation design records.
 
 This closes the `.design/` portion of Stage 2. Stage 2 itself remains open because the previously inventoried root-level `docs/` drift family still requires disposition.
+
+
+## Stage 2C.1 — root-level completed records
+
+**Status: completed.**
+
+The Documentation Taxonomy restricts top-level repository documents to repository entry/navigation roles. Three root-level `docs/` files are instead bounded records of completed past work:
+
+- `mirror-sync-259-tripn-astro.md` — one-off mirror/staging correction record dated 2026-08-08;
+- `project-completion-report-crosslink-model-agnostic.md` — completion report for the 2026-07-11 Crosslink model-agnostic implementation session;
+- `sentinel-model-triage-scope.md` — implementation scope marked “Implemented (2026-07-11),” with history limited to the model-agnostic feature landing/update.
+
+Indexed repository search found no exact-path or basename consumers for any of the three.
+
+Moved byte-for-byte:
+
+- `docs/mirror-sync-259-tripn-astro.md` → `docs/historical/mirror-sync-259-tripn-astro.md`
+- `docs/project-completion-report-crosslink-model-agnostic.md` → `docs/historical/project-completion-report-crosslink-model-agnostic.md`
+- `docs/sentinel-model-triage-scope.md` → `docs/historical/sentinel-model-triage-scope.md`
+
+No content was modernized or rewritten.
