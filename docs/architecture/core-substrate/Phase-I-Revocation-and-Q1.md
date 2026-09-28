@@ -164,7 +164,7 @@ that §2 currently does not list.
 
 ## A5. A second source claim, also over-stated: "sealed does not mean frozen"
 
-A concurrent [Authority Ontology](../../EDASES-Authority-Ontology.md) (commit
+A concurrent [Authority Ontology](../EDASES-Authority-Ontology.md) (commit
 `2bcad274`) asserts at §11, flatly:
 
 > **Sealed does not mean frozen.** A Work Unit may be sealed from protected
