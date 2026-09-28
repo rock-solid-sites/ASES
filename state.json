@@ -1,6 +1,6 @@
 {
   "next_display_id": 571,
-  "next_comment_id": 4030,
+  "next_comment_id": 4031,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25503,7 +25503,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-27T18:44:34.063315030Z",
-      "updated_at": "2026-09-28T00:16:24.354645661Z",
+      "updated_at": "2026-09-28T00:30:47.366151485Z",
       "labels": [
         "research"
       ],
@@ -25516,6 +25516,15 @@
           "kind": "result",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4sEsllDhHOk7pLuVqJszoZh++BRdUcNHNEYITZD2amHdDsBhjF/qNMWa1SXG3DWxf8ns+xMc4kvN0lbnKKEpBw=="
+        },
+        "a124c936-74b6-4f82-8b52-39c173e73fb7": {
+          "display_id": 4030,
+          "author": "OL2r",
+          "content": "[result] Phase 2 process controls implemented and each proven non-vacuous by negative test [#570]. Pushed fe7d5a6e..11a7986d.\n\nNo new API spend was required: the controls re-derive the report from the already-frozen raw records.\n\n1. VERIFIED FREEZE, COMPLETE COVERAGE. harness/freeze.py hashes every executable component that can affect a result and assigns each a role, so a change to any one invalidates exactly what it should: corpus 7 files, frozen_input 2, representation 2, request 1, schema_validation 2, scoring 1, derived_analysis 1, freeze_control 1 = 17 components across 8 roles. The first Phase 2 freeze was incomplete, which is precisely the defect errata E2 records. run_jev.py verifies the freeze BEFORE planning and again AFTER the run, and refuses to execute on mismatch. Proven by tamper-and-restore: a one-line change to the frozen score.py makes verify exit 1 and the runner exit 6 with an explicit ABORT and NO output file, so zero API calls are spent. Freeze version auto-increments, so a new freeze after a change is recorded rather than assumed.\n\n2. RAW-RECORD SCHEMA VALIDATED BEFORE ANY API CALL. harness/record_schema.py declares per field whether it is required and whether it is nullable, and for each nullable field states the reason null is permitted, so nullable cannot quietly become a hole. Seven cross-field invariants cover the defect classes actually seen in this programme, including that an inadmissible row is never sent and an unanswerable case is never marked correct. run_jev.py was restructured into PHASE A (construct and validate the entire planned batch, spending nothing) and PHASE B (send). The gate immediately caught a real bug in my own record contract, an invariant that did not allow for the planned state where a not-yet-sent record legitimately has both parsed and typed_error null, and aborted with zero tokens spent. Fixing it changed a frozen component, so verify correctly refused and a new freeze had to be declared. That is the specified process working, observed rather than asserted. The 268 committed records validate with 0 violations and every null is accounted for by a declared reason: 50 never-sent, 40 unanswerable, 218 with no error.\n\n3. MATCHED DENOMINATORS FOR ALL COMPARATIVE EFFICIENCY. The retracted 1.63x figure compared totals across 57 and 52 scored questions. score.py now computes efficiency only over an explicitly matched cell set and records the naive unequal-n ratio solely to document its rejection. Corrected figure: 1.4888x cheaper per case over the matched 52-cell set. findings.md section 12 E1 now shows all three candidate ratios and states which is legitimate.\n\n4. COST/TOKEN CONSISTENCY ENFORCED, WITH A CORRECTED CHECK. Pricing is a fixed linear function of input tokens, so the cost ratio must equal the token ratio over the matched set. My first implementation of this check was VACUOUS: it derived cost from the same token sum it compared against, so the ratios were identical by construction and could never disagree. A negative test caught that. The check is now non-vacuous because the two sides come from different places, the reported figures under test versus a fresh recomputation from the raw records, and it raises AnalysisFailure on either per-condition inconsistency or cross-condition disagreement. Tested three ways: honest metrics pass; replaying the retracted 1.62856 is rejected; breaking the per-condition identity is rejected. Tolerance is about seven orders of magnitude tighter than the nine-percent divergence a real denominator mistake produces.\n\nReproduction updated to run the freeze gate, the schema gate, the regeneration digests, the metrics reproduction and the cost consistency check, and to print the rejected unequal-n ratios. Full tier-1 reproduction passes. Credential scan including NVIDIA_API_KEY: 0 real hits across 57 files.\n\nFreeze v4 declared and is the freeze of record. It supersedes v1-v3 and the version counter records that four declarations have occurred.\n\nNOTE ON FREEZE HISTORY: frozen/FREEZE.json holds the current declared freeze only. Earlier declarations are not retained in the file, so the manifest is a statement of the current freeze of record rather than an append-only ledger. If an auditable history is wanted, the git history of this file plus the commit messages carry it.",
+          "created_at": "2026-09-28T00:30:47.358132756Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAxySt4DIcBkpJN1bxhjbp2WNhfhik6A1DefUa101gSWRu7nKY3VnUk68mI4h0Krxo/Zi4SaOzo/WVr8vVwKzmBA=="
         },
         "e198df82-d478-4305-983f-4cf2aa0606d8": {
           "display_id": 4026,
@@ -46573,8 +46582,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-28T00:16:37.519212709Z",
+    "timestamp": "2026-09-28T00:30:47.366151485Z",
     "agent_id": "OL2r",
-    "agent_seq": 3590
+    "agent_seq": 3591
   }
 }
