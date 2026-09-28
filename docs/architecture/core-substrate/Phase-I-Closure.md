@@ -21,6 +21,10 @@ consumed_by:
   - Work Unit Prototype Testing
   - Phase I architectural closure review
 related_documents:
+  - Phase I Processorless Core Falsification
+  - Phase I Core Substrate Verification Work
+  - Phase I Revocation Verification and Q1 Reduction
+  - Phase I Concurrent Realization Proposal
   - Kernel-0 Assurance Continuation
   - Kernel-0 Re-Minimization After Stronger Profiles
   - Kernel-0 Protected External Effects
@@ -212,6 +216,13 @@ boundary is not a proof of those properties.
 6. Reports distinguish committed, denied-with-no-effect, and unresolved knowledge.
    A failure after irreversible commitment is not a denial. A final success reply
    cannot precede the profile's recoverable commitment point.
+7. **Access-control policy is an authoritative resource.** A concrete policy
+   change alters what already-running authorized work may do. It is ordered with
+   the Kernel's authority change on the same footing as a sink acceptance point,
+   it fails closed on partial or rejected application, and the realization
+   discloses which policy changes are inside the trust boundary. A host
+   administrator able to broaden policy can otherwise restore access the Kernel
+   records as revoked. See [AC](./Phase-I-Revocation-and-Q1.md) Part A.
 
 **H5 — verified object, substituted object.** Validate candidate x through path p;
 the executor replaces p with y; acceptance records "x validated" but retains y.
@@ -580,6 +591,7 @@ not mandatory records or individually deployed components.
 | C10 | Every external effect obeys its declared decision/use/acceptance/visibility and failure contract. Replacement does not silently cancel a committed obligation or retrospectively authorize an invalid effect. |
 | C11 | Required identity, provenance, project and retained consumer evidence remain observable across covered loss, even where not needed for current admission. Derived views may be rebuilt; required observations may not disappear. |
 | C12 | Successful acknowledgements/publications follow recoverable commitment. Lost replies preserve uncertainty about an otherwise definite local outcome; they do not undo effects or authorize retries. |
+| C13 | Any concrete access-control policy that governs what already-running work may do is ordered with the Kernel's authority change, fails closed on partial application, and is disclosed as inside or outside the trusted boundary. A revocation the Kernel records is not treated as an exclusion unless the enforcing policy is itself in the boundary (AC). |
 
 A no-effect denial can itself have separately declared diagnostic/audit consequences
 under policy, but must not partially execute the denied protected proposal. A
@@ -634,10 +646,28 @@ It may not call indefinite interior activity fully sealed or use a heartbeat as
 proof of synchronous shutdown. Canonical clarification is required before claiming
 full W.E/H conformance where the readings differ.
 
+**Reduction status (added after independent review).** Q1 is no longer an open
+core contract. "Disabled" splits into three claims with asymmetric support:
+**D1 admission disabled** and **D2 effect disabled** are claimed by E and H and
+are achievable on every path; **D3 execution stopped** rests on one glossary
+phrase inside a taxonomy bullet, is achievable with no interval on the
+authorized-seal path, and on the engine-death path reduces exactly to a bound on
+the quiescence window `Δ` between the authority holder ceasing to serve and the
+last interior process ceasing to execute. Producing `Δ ≤ δ` requires a named
+engine-independent enforcement point plus a trusted liveness signal and timer —
+which is the **only** condition in Phase I under which a lease/heartbeat-class
+mechanism becomes necessary, and it is a realization component in the TCB, not a
+Kernel primitive. What remains is one canonical wording decision, one disclosure
+parameter, one trust disclosure, and one measurement. Full derivation, including
+the falsifier for the strong reading:
+[Phase I Revocation Verification and Q1 Reduction](./Phase-I-Revocation-and-Q1.md)
+Part B.
+
 **WHY:** H1 separates effect exclusion from process lifetime; E/H adds an execution
 condition. **WHAT:** the concrete interval above and Work Unit C/E/H/K. **HOW
-CERTAIN:** evidence-based ambiguity and assurance gap. **WHAT-NOT-TESTED:** any
-platform timing, process-tree teardown or shared fate mechanism.
+CERTAIN:** evidence-based ambiguity, now reduced to a disclosure and a measurement
+by the linked record. **WHAT-NOT-TESTED:** any platform timing, process-tree
+teardown or shared fate mechanism.
 
 ### Unselected stronger profiles, not hidden architecture tasks
 
@@ -705,16 +735,25 @@ not justified by the histories tested.
 **Remaining work:** formalize the finite target and its observation/refinement
 relation; execute positive/hostile traces and removal mutations; implement and
 fault-test one real mediated boundary and cold recovery; verify content/metadata
-coupling and stale-ingress exclusion; resolve Q1; and seek the independent review
-above. [Acceptance conditions](./Phase-I-Verification.md) bound each task. A narrow primary-source check was needed to assess the concurrent host-limit
-claim (§10). No broad literature survey, live-model experiment, runtime
-implementation or new formal proof was performed in this investigation.
+coupling and stale-ingress exclusion; obtain AC/C13 conformance evidence for the
+chosen access-control policy, including whether a given administrative revocation
+actually invalidates already-open access; make the canonical decision on Q1's
+strong reading and measure the quiescence window; and seek the independent review
+above. [Acceptance conditions](./Phase-I-Verification.md) bound each task. Two
+narrow primary-source checks were needed: to assess the concurrent host-limit claim
+(§10) and to verify the counterexample that rejects it
+([Part A](./Phase-I-Revocation-and-Q1.md)). No broad literature survey,
+live-model experiment, runtime implementation or new formal proof was performed in
+this investigation.
 
 **Completion status:** architectural investigation complete enough for bounded
-downstream work with Q1 explicitly open. Roadmap Phase I's implementation/formal/
+downstream work. Q1 was subsequently reduced from an open core contract to a named
+disclosure, a named enforcement point, one canonical wording decision and one
+measurement, with no new primitive. Roadmap Phase I's implementation/formal/
 hostile-test exit evidence is **not yet complete**. Further frontier work is gated
-on Q1's missing contract/evidence or a concrete failed invariant/required history,
-not on another broad survey or restatement of the current design.
+on a concrete failed invariant/required history, on the canonical decision that
+Q1's strong reading is intended, or on a new selected failure/effect profile — not
+on another broad survey or restatement of the current design.
 
 **WHY:** all surviving additions have a removal witness; known attacks reduce to
 existing semantic parameters or an explicitly unsupported stronger claim.
@@ -749,6 +788,23 @@ subject, object and policy sequence, and otherwise revalidates permission for an
 already-open file. This defeats the claim that host access enforcement is
 universally fixed at open/creation time. It does not prove complete revocation
 for mappings, all sinks or this host. [Pinned Linux source](https://github.com/torvalds/linux/blob/v6.12/security/selinux/hooks.c#L3418-L3436).
+
+**Independent verification (added later).** The pinned source was read directly and
+the rejection is **confirmed**: `selinux_file_permission` returns early only when
+the subject context, the inode context and `avc_policy_seqno()` all match what was
+recorded at `file_open`, and otherwise calls `selinux_revalidate_file_permission`,
+which re-evaluates the inode permission at the moment of use. An already-open
+descriptor is therefore re-checked whenever the policy sequence number changes.
+L1 was wrong in its universal form. Two limits on the correction are recorded
+rather than assumed: it does not establish that a given administrative revocation
+actually increments the policy sequence number, and the hook does not govern
+already-mapped memory, device `ioctl` or asynchronous completion. Because the
+counterexample relocates rather than removes the obligation, it yields the
+stricter requirement recorded as rule 7 in §2 and invariant C13: concrete
+access-control policy is an authoritative resource whose change must be ordered
+with the Kernel's authority change, fail closed, and be disclosed as inside or
+outside the trust boundary. Detail in [Phase I Revocation Verification and Q1
+Reduction](./Phase-I-Revocation-and-Q1.md) Part A.
 
 Landlock's documented self-restriction and descriptor limits support the narrower
 warning that applying a new rule cannot be assumed to revoke existing handles.
