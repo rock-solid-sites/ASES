@@ -366,3 +366,305 @@ Ontology §§6/11–13, Work Unit E/F/H, Kernel currentness and closure H2/H3/C6
 HOW CERTAIN: evidence-based refinement obligations with explicit counterhistories.
 WHAT-NOT-TESTED: crash detection, attachment teardown, stale-route exclusion,
 repeated recovery or reassessment persistence in a concrete realization.
+
+## 6. Live sealed computation: follow the consequences to their boundary
+
+### R8 — private progress cannot mutate accepted meaning
+
+**History.** W accepts x through a reference to mutable interior bytes. Mediation
+is lost; W is sealed but its computation continues and overwrites those bytes
+with y. The engine later recovers the same reference and calls y the accepted x.
+No new attachment was used. D1/D2 flags alone therefore fail Kernel protected-meaning
+closure and accepted-work continuity.
+
+**Required result:** accepted meaning is fixed to protected retained bytes, or
+its mutation is itself a supported guarded effect. A live private candidate may
+evolve from x to y, but the change is not an accepted update. Reassessment can
+inspect only the exact stable candidate state it actually assessed; a content
+selection or copy must bind inspection, validation and later acceptance. Continued
+private computation is allowed while such a stable observation is retained.
+
+**Positive discriminator:** accept x, lose mediation, compute private y, recover
+and read accepted x, then separately authorize acceptance of y through a fresh
+route. This tests useful surviving computation and retained accepted work together.
+No need to preserve or replay every speculative computational step follows.
+
+The old H1/H5 already prohibit aliases that mutate accepted meaning. Stage 1 makes
+this a baseline live-computation case, rather than a test accidentally passed by
+terminating every actor. An Orchestrator's reassessment does not sanitize aliased
+storage. A per-computation durable Execution identity would not protect the bytes.
+
+### R9 — sealing is not a stable destruction precondition
+
+**Minimal history.** W is sealed with surviving private writable storage and
+computation. A destruction handler correctly finds no durable dependent at t1.
+At t2 the computation creates private durable z. At t3 the handler removes W's
+boundary using the t1 inventory; z becomes exposed or loses its only protection.
+There is no new capability activation in this history. Even if z is never
+accepted, Work Unit I and closure H14/C8 fail.
+
+**Necessary property:** final removal must establish both (a) valid disposition
+of every existing dependent and (b) exclusion of a later dependent appearing
+under the removed boundary. A negative inventory is not stable merely because
+attachments are disabled. Every concrete producer that could defeat that property
+must either lose that avenue before removal, or remain under an independently
+valid bounded destination with the relevant continuing activity/resources covered.
+
+This does not require the Kernel to enumerate every private byte or syscall. A
+trusted enclosing allocation can itself be the dependent to transfer or logically
+dispose as a whole. Private writes inside that still-bounded allocation can then
+be abstract stuttering without changing the complete set of owned allocations.
+Alternatively a realization can order each relevant creation with disposition.
+The abstraction must prove its choice; an untrusted worker's object list is
+insufficient. Accepted-content disposition obligations also continue to apply.
+
+**Minimum successful path:** seal; keep the bounding allocation intact while
+private activity continues; perform authorized disposition that closes its future
+write/creation avenue and disposes its dependent contents under the declared
+storage guarantee; only then remove the now-unneeded boundary. If activity is to
+continue after removal, explicitly retain/reassign every protection dependency
+it still needs. Refuse removal if neither can be established.
+
+Quiescing a particular writer can be a realization's way of closing that avenue;
+it is not a newly mandatory global D3 guarantee on every engine loss. Stopping
+all computation alone is also insufficient: pre-existing z still needs disposition.
+Conversely the seal itself need not stop computation when an enclosing allocation
+continues to protect everything. This rejects both “sealed implies empty/safe to
+destroy” and “safe destruction always requires globally inert Work Units.”
+
+**Reduction:** Work Unit I's no-weaker-containment precondition and Kernel's
+coherent whole effect already cover this history. Closure H13/H14, P4 and removal
+ordering remain valid, but the downstream event alphabet must include relevant
+private creation, not only explicit Kernel child creation/acceptance. A model
+that omits this concrete producer can falsely pass. No independent scheduler,
+execution lifecycle, or persistent dependency Processor is forced. Complete
+protection at the disposition event is trusted; inventory display and progress
+reporting can remain derived.
+
+### R10 — inactive attachments do not release surviving capacity
+
+**History.** Capacity is one. W holds a reservation of one and computes using it.
+Mediation is lost. Recovery marks W's attachments inactive and treats all its
+resource reservations as zero. It then grants one to V while W still uses its
+surviving allocation. The promised capacity invariant is broken without any
+forbidden outward capability use by W.
+
+**Required result:** account for the actual surviving allocation under its own
+validity and resource contract. An inactive attachment is not evidence of release.
+A reservation may be released only when the protected allocation/reclamation
+transition has the promised effect. Missing evidence of release cannot justify
+new allocation that would exceed the bound in a compatible surviving history.
+The healthy positive control releases or safely transfers W's reservation and
+then admits V; indefinite refusal is not its expected result.
+
+The unit-capacity example concerns reservations, not a claim about measured CPU
+usage, energy, or exact spend. A resource with expiry or a cumulative consumption
+budget needs enforcement for that separately declared condition even while engine
+mediation is unavailable. It is not a “surviving valid resource” if its own condition
+has failed. No trusted clock/meter is required for a fixed reservation merely
+because a timed budget is possible; conversely declaring a timed budget would
+not make its enforcement an optional optimization.
+
+**Reduction:** closure C2/C3, P14 and Verification F1 already require conserved
+quantities and allocation/consumption separation. Stage 1 requires the model to
+retain this state through engine loss while attachments become inactive.
+Computed totals can be rebuilt from complete current allocations. A resource
+manager chosen in a realization is part of the TCB for its claimed enforcement,
+not proof that a first-class Processor is needed.
+
+### R11 — a resource label cannot hide a callable escape route
+
+**History.** A provider session, shared writable mapping, or filesystem handle is
+called a “resource.” It survives engine loss and activity uses it to perform a
+new protected external operation or change accepted state. The system claims only
+attachments needed disabling.
+
+**Required result:** classify by the relationship's actual effects across the
+logical Work Unit boundary, not a physical object's name or location. Passive
+support/allocation and a callable cross-boundary route may coexist in one physical
+realization but have distinct permissions and loss conditions. Shared accepted
+bytes are not private scratch. A remote API call is not automatically exempt just
+because it supplies computation. A separately committed bounded remote operation
+must instead meet its explicit obligation/effect contract in R12.
+
+A local computation may mutate private memory/storage within a granted bounded
+allocation without each internal instruction becoming an attachment operation.
+That is compatible only while it changes no accepted meaning, exceeds no enforced
+resource condition and defeats no protection/disposition obligation. Baseline
+physical trust and excluded covert-channel/information-flow claims are unchanged;
+“no influence on the outside” does not here become a newly claimed absence of
+all timing, heat or shared-hardware effects.
+
+**Reduction:** Work Unit B calls resource/attachment an operational distinction
+within grants. The delta requires different validity treatment, not disjoint new
+ontological primitives. Effect correspondence and protected-meaning closure are
+the discriminator. A route that cannot satisfy the attachment promise is unsupported,
+not repaired by relabeling it as a resource.
+
+**Claim disclosure — R8–R11.** WHY: the constructed histories violate accepted
+meaning, safe destruction or capacity while the simplistic seal flag is true.
+WHAT: Work Unit B/E/H/I/K, Kernel protected-meaning/order semantics, closure
+H1/H5/H13/H14/C3/C5/C8 and Processor P4/P14. HOW CERTAIN: evidence-based necessity
+of the distinctions, with a conditional reduction to existing policy/effects.
+WHAT-NOT-TESTED: snapshot isolation, live private-storage disposition, memory/handle
+revocation, capacity enforcement, resource metering/expiry, host or remote-provider
+behavior. These are not empirical counterexamples to a running implementation.
+
+## 7. In-flight effects, containment and scope of loss
+
+### R12 — loss cannot reclassify a pending request as a committed obligation
+
+Use three distinct events: authoritative decision D, irreversible sink acceptance
+S, and later visibility V. A selected attachment must say at which event authority
+is required and which invalidations cancel or preserve an exact prior obligation.
+
+| History | Required interpretation |
+| --- | --- |
+| Propose q; lose required mediation; deliver old pending q | Historical queue membership is not authority. No new use can be admitted through the invalid relationship. |
+| Commit a specific bounded obligation q under a declared decision-authorized, loss-surviving contract; lose producer mediation; complete q later | May be allowed by that contract. It does not resurrect the general capability or permit q' substituted by a live old computation. |
+| Check permission; lose mediation; sink accepts under a promise requiring current permission at S | Forbidden without an admissible current authorization at S. An earlier read or a local “committed” label does not satisfy this different contract. |
+| Sink irrevocably accepts q while authorized; lose mediation; consequence becomes visible later | Later visibility alone is not a fresh exercise of the inactive attachment. Revocation cannot be represented as undoing the irreversible acceptance. |
+
+A surviving exact obligation must be retained with its precise meaning and
+validity/outcome contract. It is not the historical attachment set. If further
+protected dispatch is needed, its actual route must satisfy that contract; the
+old producer's invalid general-purpose channel cannot do it. An in-flight message
+already irrevocably committed can complete under the declared profile. A dispatch
+needing unavailable mediation must wait for authorized recovery. No universal
+right to continue all buffered commands, automatic cancellation, or exactly-once
+retry follows.
+
+This is a clarification required where Stage-1 summaries say “protected outward
+effects disabled.” Read that as excluding affected new use at the contract's
+protected event; reading it as “no later physical consequence of any earlier
+commitment” contradicts Kernel-0 and closure H4/C10. The packet already distinguishes
+these cases. No effect profile is silently changed here. The first mediated-use
+fixture should test the first/third rows; a separate exact-obligation fixture
+must test the second/fourth, including substitution and lost replies.
+
+### R13 — sealing and moving must preserve latent restrictions
+
+**History.** P restricts child C to read; C remembers a broader historical attachment
+set and has surviving computation. After loss, C is moved sealed under permissive
+Q. A reassessor restores C's historical set using Q's permissiveness. C gains write
+without any specifically authorized widening. D1/D2 held throughout the move but
+the later activation violates no-accidental-widening.
+
+**Required result:** the whole move preserves or narrows the relevant retained
+restriction on C and its descendants, and reattachment checks that resulting
+state plus present management authority. A fresh assessment is not automatically
+authority to widen. A separately authorized root/delegate widening is a different
+allowed event, not an accident to prohibit. Surviving resource reservations must
+also be accounted for under the new supply/containment contract; relabeling parentage
+cannot produce more capacity or leave protection assigned to neither parent.
+
+**Positive discriminator:** move sealed read-only C with private computation and
+accepted x; reattach current read; read x succeeds and write remains denied;
+then a separately authorized widening can allow write. Test one descendant and
+an unaffected sibling to avoid both a one-object abstraction and gratuitous
+system-wide sealing.
+
+**Reduction:** closure §7 already tests latent authority, including resources
+and management dependencies. Stage 1 strengthens the recovery fixture: remembered
+attachments are candidates, and active private computation is not mistaken for
+active external permission. This is C3/C8 plus R5/R10, not a new transfer primitive.
+
+### R14 — stale mediation survives a process label change
+
+**History.** A loses contact with the authoritative domain but can still reach a
+sink; B restarts and passes a user-root authentication check. B reassesses W and
+creates fresh attachments, while A continues using its old ones.
+
+**Required result:** B's genuine user-derived mandate is not sufficient evidence
+that A has lost effective access. The realization must exclude stale A at every
+affected protected event before conflicting B activity is admitted. If it cannot,
+activation remains unavailable. Unaffected domains may proceed when independence
+is established. The conceptual persistence of user sovereignty supplies neither
+failure detection nor a second current view.
+
+**Reduction:** H2/C6/C13 already require exclusion and policy ordering. The delta
+removes a misleading “transfer of sovereignty” story without removing any concrete
+currentness obligation. No generation, lease, election, clock, or process identity
+is thereby selected. A genuinely new authorized grant to the old physical producer
+is a separate event; permanent exclusion of that producer needs the additional
+source-binding policy already distinguished by Kernel-0.
+
+**Claim disclosure — R12–R14.** WHY: a blanket loss rule either revives pending
+capabilities or rejects permitted prior consequences; fresh approval or new
+parentage alone cannot exclude stale routes or authorize widening. WHAT: Kernel
+external-action/order clauses, Work Unit G/J, Ontology §§9/12/13 and closure
+H2/H4/H6/C6/C8/C10/C13. HOW CERTAIN: evidence-based contract reconciliation, not
+universal cancellation or takeover assurance. WHAT-NOT-TESTED: actual sinks,
+pending-message exclusion, overlapping mediators, coupled moves or physical-source
+binding.
+
+## 8. Reduction test: no new primitive demonstrated
+
+The claim is deliberately scoped to the finite Phase-I comparator. It is not made
+true by allowing an unspecified guard to hide arbitrary new services. Extend its
+explicit retained policy/state only with the information exercised above:
+
+- trusted user-root ingress and current bounded management permissions, including
+  operation/target scope and declared continuing support;
+- current authoritative Work Unit forest, restrictions and conserved allocations;
+- exact accepted bytes/decisions/required provenance and retained historical
+  attachment descriptions;
+- usable versus unavailable current mediation/attachment relationships, with
+  non-confusable old/new admission observations;
+- any selected exact obligations and their required continuation/outcome information;
+- protection dependencies sufficient for safe disposition, represented either
+  individually or by a trusted enclosing allocation.
+
+The finite evaluator checks root/delegated scope, current declared support,
+whole-path restrictions, capacity, exact input/effect applicability, absence of
+unaccounted protection dependencies, and invariant-preserving whole effects.
+Recovery additionally establishes the declared current cut and disabled old routes
+before admitting current reattachment. These are explicit checks over supported
+finite state and trusted predicates, not an arbitrary policy-language interpreter,
+semantic truth solver, autonomous planner or derivation lifecycle.
+
+Private evolution may be abstract stuttering only while it preserves all required
+permission/continuity/protection observations. R8/R9 show the proof obligation for
+that assertion. Loss that changes attachment eligibility is a represented event;
+the surviving enforcement that makes it true is part of the declared realization,
+not a guard evaluating a fictitious always-correct liveness bit.
+
+| Proposed addition/distinction | Required guarantee and delta exposure | Existing representation / trusted placement | Necessity verdict and discriminator |
+| --- | --- | --- | --- |
+| User-origin and bounded management scope | Prevent O/engine self-authorization; Stage 1 fixes the source explicitly. | Initial-state premise plus guarded authority changes; ingress and evaluator trusted, semantic planner outside. | Correctness distinction, no new primitive; R1. |
+| Issuance versus continuing support | Do not guess what management revocation invalidates; exposed by treating O as delegate. | Supported grant validity in current state/G, provenance retained separately where required. | Correctness information, no mandatory lineage service; R2 paired histories. |
+| Current recovery reassessment | No automatic reactivation of remembered capabilities; direct Stage-1 requirement. | Ordinary current management proposal/commit with scoped assessment evidence. | Correctness event, no mandatory agent or durable reassessment workflow; R3/R5/R6. |
+| Separate resource validity and capability activity | Preserve/limit continued allocations while losing outward authority. | Existing grants plus distinct predicates and quantity accounting; enforcement trusted. | Correctness distinction, not two new grant primitives; R10/R11. |
+| Protection against live candidate mutation/creation | Accepted meaning and safe disposition despite continued computation. | Protected accepted bytes, whole disposition of complete domain/enclosing allocation; concrete protection trusted. | Correctness, not global freeze or Execution object; R8/R9. |
+| Reassessment input/interpretation binding | A current decision cannot authorize substituted or changed state. | Existing scoped fact/decision admission and current-view order. | Correctness; R4/R6, with unchanged-input positive control. |
+| Loss-surviving exact obligations | Preserve contracted effects without reopening general capability. | Existing declared effect semantics and retained accepted obligation state. | Required only for selected profile, not a generic queue; R12. |
+| Latent rights and allocation preservation on move | Prevent recovery from widening or double-supplying rights/resources. | Existing whole move and activation guards. | Correctness; R13. |
+| Independent Processor, Observer, Orchestrator, scheduler | None of these histories demands a separate authoritative lifecycle. | Bounded evaluation, explicit invocation and retained inputs/accepted choices suffice conditionally. | Not established as necessary; remove optional subsystems and run the successful histories in §10. |
+
+**Processor challenge followed through.** Fresh reassessment might appear to
+require replaying an unavailable semantic decision, maintaining a persistent
+invalidation graph, or running an always-present Orchestrator. None follows.
+A prior accepted decision whose scope still matters is retained information,
+not a disposable derived value. A new qualified decision can be supplied through
+a current authorized ingress. Applicability of either can be checked from retained
+current premises; missing semantic permission leaves the affected proposal pending
+without inventing truth. Finite current support/path checks can be recomputed.
+If a required premise is an external fact, its trusted observation contract remains
+necessary; naming its supplier Observer does not eliminate that obligation.
+
+The Phase-I conditional elimination argument still applies to genuinely derived
+values. It does not license deletion of the newly explicit authority decisions,
+resource allocations or protection facts. No mandatory response deadline or
+irreproducible required computation lifecycle has appeared in the Stage-1 delta.
+Efficiency's event-driven/demand-driven preference remains subordinate to actual
+fail-closed mediation; delayed invalidation notifications alone cannot authorize
+use. A separate cache or view can remain outside the TCB only if its loss or error
+cannot change protected admissions without trusted checking.
+
+**WHY:** every retained distinction has a failing collapse history and a bounded
+instantiation using existing semantic parameters; no tested requirement demands
+a second authoritative lifecycle. **WHAT:** R1–R14 and the frozen Processor
+comparator/elimination premises. **HOW CERTAIN:** evidence-based scoped survival,
+not an exhaustive proof of all architectures or a demonstrated host realization.
+**WHAT-NOT-TESTED:** formal product/induction, concrete refinement, timing bounds,
+arbitrary grant languages, arbitrary semantic correctness, independent review.
