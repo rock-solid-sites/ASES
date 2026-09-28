@@ -30,6 +30,15 @@ last_updated: 2026-09-28
 
 # Phase I — revocation verification and the Q1 reduction
 
+> **Post-investigation disposition — 2026-09-28**
+>
+> The later Work Unit clarification resolves the semantic choice left open by Part B. In the current working architecture, **sealed does not mean computationally stopped**. Engine loss must disable affected capability admission/use and protected outward effects, but already-granted resource-backed internal computation may continue unless separately paused, terminated, or deprived of those resources.
+>
+> Therefore D1/D2 remain core obligations. D3 (bounded or immediate quiescence after engine loss) is **not part of the baseline sealed semantics** and no longer gates Phase I closure. D3 remains a selectable stronger realization profile if a future requirement calls for it.
+>
+> This disposition does not rewrite the investigation below. Parts A and B are preserved as the reasoning record that exposed the ambiguity and reduced the alternatives before the semantic choice was made.
+
+
 ## 0. Why this document exists
 
 [Phase I Core Substrate Closure](./Phase-I-Closure.md) closed with two items it
