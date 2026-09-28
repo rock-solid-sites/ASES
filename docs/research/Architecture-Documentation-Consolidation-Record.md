@@ -616,3 +616,25 @@ Generated measurement JSON, schemas, and corpus fixtures were excluded because t
 Result: no additional exact-path references to any of the six remaining `.design/` targets.
 
 Cumulative confirmed references remain limited to the two Observer v1.1 consumers already recorded.
+
+
+### Stage 2B.5f — implementation/configuration reference scan checkpoint
+
+**Status: 21 implementation/configuration files scanned; 147 total files in reliable exact-path scan.**
+
+This tranche covered:
+
+- `.opencode/` agent/configuration/plugin/design files relevant to guards;
+- `.crosslink/hook-config.json`, sandbox/wrapper support files;
+- liveness and Observer scripts/tests;
+- `tools/kickoff-notify.py`.
+
+Result: no exact-path references to any of the six remaining `.design/` targets.
+
+Additional filing evidence discovered during the tranche:
+
+- `.opencode/design/rtk-guard-plugin-design.md` declares **Canonical Location: `.opencode/design/rtk-guard-plugin-design.md`** and targets `.opencode/plugins/rtk-guard.ts`;
+- `.opencode/design/rtk-guard-final-synthesis.md` declares itself **Canonical — to be implemented** and targets the same plugin;
+- therefore `.design/rtk-guard.md` must be evaluated as a possible duplicate/superseded implementation design rather than automatically moved into a new generic Implementation directory.
+
+The archived `docs/research/Proposed Implementation Layer - Decision Record.md` was also inspected. Its own status note says issue #341 superseded its conclusion, so it is not used as authority for creating a new `docs/implementation/` subtree.
