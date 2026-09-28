@@ -376,3 +376,42 @@ Moved byte-for-byte:
 - `.design/crosslink-dormant-capability-audit.md` → `docs/research/crosslink-dormant-capability-audit.md`
 
 No claim, recommendation, version string, or historical source citation inside the audit was rewritten.
+
+
+### Stage 2B.3c — tooling/guard family closeout
+
+**Status: batch complete.**
+
+Remaining family findings:
+
+#### `.design/rtk-guard.md`
+
+- The document is an Implementation/Execution design for `.opencode/plugins/rtk-guard.ts`.
+- The implementation file still exists at `.opencode/plugins/rtk-guard.ts` and the active `.opencode/opencode.json` explicitly loads `./plugins/rtk-guard.ts` alongside the orchestrator and Crosslink guards.
+- Git history shows the design and plugin entered the repository together in the 2026-07-17 pre-consolidation snapshot; no later document supersedes the design by exact path/basename search.
+
+**Disposition:** current-use Implementation design/evidence, not Research and not justified as Historical. No move performed. Its eventual filing depends on establishing a repository home for active Implementation-layer designs.
+
+#### `.design/v2-guard-rewrite-design.md`
+
+- Metadata declares `layer: Implementation`, `document_type: Design`, `status: Draft`, `authority: Derived`, issue `#504`, and branch `feature/v2-guard-rewrite`.
+- The file was introduced on 2026-08-28 specifically as the V2 guard rewrite design for #504.
+- Current `crosslink-guard.ts` remains active, but its history contains multiple later semantic changes after the design snapshot, including #517, #525, #527/#528/#529-related guard fixes through 2026-08-31.
+- No exact-path or basename reference to the design was found in indexed repository code.
+
+The design is therefore a dated Draft/Derived Implementation record whose embedded “current” source observations are no longer safe to treat as current runtime truth. However, no primary source available in this bounded check proves #504 was closed, abandoned, or fully superseded by a specific successor document or implementation.
+
+**Disposition:** leave in place for now; flag as a retrieval hazard, but do not promote, rewrite, or archive without stronger lifecycle evidence. It belongs with the later decision about the home/lifecycle rules for Implementation-layer design records.
+
+#### `.design/rpc-enforcement-prototype.md`
+
+Disposition remains as recorded in Stage 2B.3a: Experimental/Implementation design; move deferred pending historical-status evidence or an established Implementation-layer home.
+
+### Batch result
+
+- **Moved to Research:** 1 file — `crosslink-dormant-capability-audit.md`.
+- **Retained pending Implementation-layer filing decision:** 3 files — `rpc-enforcement-prototype.md`, `rtk-guard.md`, `v2-guard-rewrite-design.md`.
+- **Semantic rewrites:** none.
+- **Unsupported historical promotions:** none.
+
+This batch also establishes a broader filing issue for Stage 2: the Documentation Standard recognizes `Implementation` as an abstraction layer, but this repository currently has no `docs/implementation/` subtree. That structural question should be resolved once enough Implementation-layer records have been classified to justify a repository-level filing decision rather than creating a directory opportunistically for a single document.
