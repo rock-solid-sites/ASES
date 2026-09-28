@@ -64,7 +64,7 @@ Within the EDASES policy boundary, the **user/operator** is the root authority s
 
 The execution engine does not possess an independent sovereign authority. It is the trusted mechanism through which user-originating authority is represented in authoritative state, transformed into bounded grants, and enforced at protected boundaries.
 
-The Orchestrator is not the user and is not the Kernel. It is a replaceable semantic decision-making role that may receive bounded management or selection authority from the user. Its judgments are proposals or authorized choices only within that delegated envelope.
+The Orchestrator is not the user and is not the Kernel. It is the **expected primary user-facing agent role** in normal EDASES operation: the familiar conversational interface through which most users will direct the system, interpret results, and delegate work. Its authority is not intrinsic to the role. An Orchestrator agent may receive anything from extremely narrow advisory authority to very broad operational authority, but only to the extent currently granted by the user, and that authority may be widened, narrowed, suspended, or revoked at any time.
 
 A Work Unit is a bounded Kernel-governed object that may receive resources and capability attachments.
 
@@ -92,7 +92,7 @@ authoritative representation, mediation, enforcement
                                                   currently attached surface
 ```
 
-The user may interact through the Orchestrator, directly through an engine interface, or through another authorized control surface. Choosing the Orchestrator as the normal point of contact does not make the Orchestrator equivalent to the user.
+The expected operating model is user ↔ Orchestrator agent ↔ execution engine. The system remains coherent in principle without an Orchestrator agent, because the user may control it directly or through another authorized control surface, but direct low-level user operation is not the primary UX direction. Choosing the Orchestrator as the normal point of contact does not make the Orchestrator equivalent to the user or a root source of authority.
 
 ---
 
@@ -375,9 +375,13 @@ Narrowing should be representable independently from destruction. A Work Unit ma
 
 ## 10. The Orchestrator's authority
 
-The Orchestrator is a semantic reasoning and coordination role, normally the user's main conversational point of contact when the user chooses to use one.
+The Orchestrator is a semantic reasoning and coordination role and the **normal user-facing agent interface** envisioned for EDASES.
 
-It is intentionally **not** a root authority and should not possess arbitrary execution capability.
+The role exists as a convenience and safety boundary for delegation: it allows the user to interact with a familiar LLM chat agent while limiting that agent to the authority the user actually chose to delegate. The role may be occupied by different agents over time, and the user may change its authority at any time.
+
+The Kernel does not require an Orchestrator agent for correctness. A user can in principle operate the system directly. This is an architectural fallback and test of clean authority separation, not the intended dominant interaction model.
+
+The Orchestrator is intentionally **not** a root authority. It may nevertheless possess broad execution-management authority when the user explicitly grants it.
 
 The Orchestrator may:
 
@@ -466,14 +470,14 @@ On recovery:
 1. a current engine realization establishes a trustworthy current authoritative view under the declared recovery model;
 2. the Work Unit is discovered in a sealed state;
 3. its previous capability attachments are treated as historical candidates, not live permissions;
-4. the Orchestrator reassesses those previous capabilities against:
+4. a currently authorized decision-maker reassesses those previous capabilities against:
    - current user intent;
    - current user policy and standing grants;
    - current Work Unit purpose and state;
    - changed external conditions known to matter;
-5. the Orchestrator proposes reattachment, narrowing, replacement, or omission;
-6. the Kernel permits only those new or reactivated attachments that fall within current authority;
-7. anything outside the Orchestrator's delegated envelope is escalated to the user.
+5. in normal EDASES operation this decision-maker is the Orchestrator agent, which proposes reattachment, narrowing, replacement, or omission within its delegated authority; if no Orchestrator agent is active, the user may perform the reassessment directly;
+6. the Kernel permits only those new or reactivated attachments that fall within current authority; and
+7. anything outside the acting decision-maker's delegated authority returns to the user.
 
 Conceptually:
 
@@ -493,7 +497,8 @@ recovery:
     historical set {A, B, C}
             |
             v
-    Orchestrator reassesses against current user intent
+    authorized reassessment against current user intent
+    (normally by the Orchestrator)
             |
       +-----+-----+
       |     |     |
@@ -622,7 +627,7 @@ This ontology does not yet freeze:
 - the exact semantics of resource expiry and forced resource reclamation;
 - how fine-grained capability validity should be;
 - whether some capability classes require stronger source binding than others;
-- how Orchestrator reassessment after recovery should be represented and audited;
+- how authorized reassessment after recovery should be represented and audited, with the Orchestrator as the normal user-facing path;
 - which user approvals are single-use, time-scoped, task-scoped, or standing policy;
 - the minimal realization needed to prove that no unmediated effect path bypasses Kernel authority.
 
