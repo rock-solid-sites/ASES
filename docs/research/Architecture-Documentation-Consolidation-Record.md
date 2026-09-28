@@ -820,3 +820,20 @@ Covered in full:
 Result: **0 occurrences of `docs/historical/` in all 37 documents.**
 
 Cumulative Stage 3.1 result remains: no forbidden Historical → current upstream dependency found. The only historical citations found so far are explicit lineage/evidence references, not `depends_on` relationships.
+
+
+### Stage 3.1 checkpoint 5 — Kernel-0 anchor documents
+
+**Status: 3 additional current documents scanned; 110 total in Stage 3.1.**
+
+Checked:
+
+- `docs/research/kernel-0/README.md`
+- `docs/research/kernel-0/Kernel-0-Evidence-Packet.md`
+- `docs/research/kernel-0/Kernel-0-Reasoning-Phase-Result.md`
+
+Search condition: exact occurrence of `docs/historical/`.
+
+Result: **0 historical-path references in all three documents.**
+
+Cumulative Stage 3.1 result remains unchanged: no forbidden Historical → current upstream dependency found. Existing historical citations discovered in earlier checkpoints are explicit lineage/evidence references, not `depends_on` relationships.
