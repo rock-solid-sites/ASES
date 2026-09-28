@@ -55,14 +55,13 @@ for this candidate. It is not a declaration that a deployed core already exists.
 
 **Result:** a scoped Kernel + Work Unit core survives the attacks without a new
 primitive or persistent Processor. Trusted guard computation remains necessary.
-The sole unresolved core temporal question is Q1 (engine-loss execution disable).
+Q1 has now been semantically resolved: engine loss disables affected capability admission/use and protected outward effects, but does not by itself require already-granted resource-backed internal computation to stop. Bounded quiescence remains an optional stronger profile, not a baseline core obligation.
 The [synthesis](#9-concise-synthesis-and-handoff) states the conclusion and limits;
 the [falsification record](./Phase-I-Processorless-Falsification.md) preserves
 fifteen Processor attacks; the [verification plan](./Phase-I-Verification.md)
 assigns the remaining bounded formalization, implementation and hostile testing.
 
-**Restart cursor:** the architectural investigation is complete, with Q1 open;
-start downstream work at verification F1/F3. No prototype, new model check or
+**Restart cursor:** the architectural investigation is complete enough to start downstream work at verification F1/F3. The later Work Unit clarification resolves Q1's semantic choice; implementation must now distinguish baseline capability sealing from any separately selected execution-quiescence profile. No prototype, new model check or
 independent review has been completed. Concurrent commits `76a38fb7`/`8bebb403`
 introduced an alternative realization argument into the same file; its preserved
 [proposal](./Phase-I-Closure-Realization-Boundary.md) and the [disposition](#10-disposition-of-the-concurrent-realization-proposal)
@@ -114,7 +113,7 @@ cannot erase required accepted work to make room.
 | Event | Required result in this candidate | Assumption or boundary |
 | --- | --- | --- |
 | Executor or attachment process disappears | Preserve the Work Unit, accepted contents, and current authoritative relationships; replacement is a guarded event. | Neither executor-local bytes nor executor assertions are a trusted continuation store. |
-| Engine/authority process stops while host protection and storage survive | Prevent new protected admission through lost authority; retain bounded objects and committed contents; recover cold and sealed before explicit activation. Execution-disable timing is Q1; prior exact obligations retain their declared outcome contract. | A surviving/fail-closed protection mechanism is part of the TCB. Its realization must be tested, not inferred from a metadata flag. |
+| Engine/authority process stops while host protection and storage survive | Prevent new affected capability admission/use and protected outward effects through lost mediation; retain bounded objects and committed contents; recover cold and sealed before capability reactivation. Already-granted internal resource-backed computation may continue if its realization survives. | A surviving/fail-closed capability-protection mechanism is part of the TCB. Its realization must be tested, not inferred from a metadata flag. Bounded execution quiescence is an optional stronger profile. |
 | Loss during commitment, including lost reply | Recover a permitted whole endpoint; preserve irrevocably committed effects even if unacknowledged. | Current retained storage supplies a coherent recoverable cut. No automatic retry or exactly-once promise follows. |
 | Transient loss of contact with authority | Withhold affected new commitments; an isolated executor cannot confer authority on itself. | No partitioned multi-writer availability guarantee, timeout election, or takeover by suspicion. |
 | Missing, unreadable, or detected-inconsistent recovery material | Keep affected objects bounded and inactive; do not silently bootstrap an empty replacement. | Preservation/availability may be lost. Refusal is not successful recovery. |
@@ -242,26 +241,20 @@ local attachment record.
 
 ### Engine death and the meaning of sealed
 
-The baseline cannot implement sealed merely as "do not accept future results."
-Work Unit H also disables active execution/outward use. A concrete engine-loss
-claim must identify the trusted event that disables execution and the routes
-whose use ends there. At a minimum, no new protected admission can occur through
-a dead or superseded authority holder. Any process termination/fate-sharing
-mechanism needed for the stronger execution-disable claim belongs in the TCB.
+The baseline cannot implement sealed merely as a metadata flag. A concrete
+engine-loss claim must identify the trusted event and mechanism that make affected
+capability attachments unusable and prevent new protected outward effects. At a
+minimum, no new protected admission or capability use can occur through a dead or
+superseded mediator.
 
-There is a real specification edge: process death, detection of death, termination
-of another process, and disappearance of a host are different events. Work Unit
-E/H does not specify their allowed interval. This investigation does **not**
-quietly reinterpret it as indefinite computation inside an isolated object. The
-prototype must report three separately measured facts — admission disabled, effect
-disabled, and the quiescence window for interior execution — as set out in
-[Part B](./Phase-I-Revocation-and-Q1.md). The first two are always claimed and
-always achievable; the third is achievable with no interval on the authorized-seal
-path, and on the engine-death path only against a named engine-independent
-enforcement point. A heartbeat or lease cannot prove instantaneous death
-detection, and a watchdog that merely proposes a transition discharges nothing.
+The later Work Unit clarification resolves the earlier Q1 wording conflict:
+**sealed does not mean computationally frozen**. Interior computation may continue
+using already-granted resources whose realization survives. Process termination,
+fate sharing, and bounded quiescence are therefore separate stronger-profile
+claims rather than baseline sealed semantics. A heartbeat, lease, watchdog, or
+other timing mechanism is required only if such a stronger profile is selected.
 Pure in-flight computation, new boundary use, and previously committed external
-consequences must be tested separately.
+consequences must still be tested separately.
 
 **WHY:** a record-only model can satisfy every local invariant while a concrete
 route violates the claimed effect or confinement. **WHAT:** H1/H2/H5/H6 and Work
@@ -587,7 +580,7 @@ not mandatory records or individually deployed components.
 | C2 | One coherent view and one common acyclic order explain all interacting commitments, including completed-before-initiated precedence and negative/range dependencies. Invariant validity alone does not establish whole-effect fidelity. |
 | C3 | Boundary crossings require explicit current local authorization plus every relevant enclosing restriction and resource constraint. Management does not follow from containment; resource allocation alone is not exposure. |
 | C4 | All existing Work Units, including empty/inactive ones, have interpretable trusted boundary observations; containment is well-founded and non-dangling; authoritative metadata agrees with the committed relationships. |
-| C5 | Required contents and every survivor remain bounded across executor loss, engine loss, partial disposition and covered recovery. Sealing/revocation does not delete, export or unbound them. The execution-disable timing is subject to Q1 below, not silently omitted. |
+| C5 | Required contents and every survivor remain bounded across executor loss, engine loss, partial disposition and covered recovery. Sealing/revocation does not delete, export or unbound them. Baseline sealing disables affected outward capability use without requiring internal computation to stop. |
 | C6 | Replacement/invalidation excludes old authority at the specified event; representation reuse, restart and reparenting cannot resurrect it. Physical-producer exclusion additionally meets the declared source-binding premise. |
 | C7 | A covered recovery retains all required accepted/irrevocable commitments and contents through an observationally equivalent current compatible cut; no torn coupling, fictitious bootstrap or historical image asserted as current. |
 | C8 | Reparenting does not silently widen latent authority, including descendants and later activation. Final destruction has a current complete disposition precondition and never weakens surviving protection. |
@@ -626,52 +619,41 @@ implementation, fault injection and product comparisons should not consume furth
 frontier reasoning without a failed obligation. The surviving uncertainty is small
 and concrete; broader unselected guarantees are not mislabeled unfinished Phase I.
 
-### Q1 — when must engine loss disable still-running computation?
+### Q1 — resolved engine-loss semantics
 
-**Conflicting readings:** Work Unit E says objects remain sealed while the engine
-is not running; H includes disabling active execution. Merely denying later
-boundary effects permits still-running internal computation and is therefore not
-obviously equivalent. Immediate global physical cessation at the instant of
-remote engine death is stronger than any evidence in the repository.
+The earlier closure and the later revocation/Q1 investigation exposed a real
+ambiguity in the Work Unit glossary: whether `sealed` required all interior
+execution to stop or only required capability admission/use and protected outward
+effects to stop.
 
-**Distinguishing history:** authorize a bounded CPU-only activity; kill the engine
-while the host and activity survive; allow no boundary crossings; observe activity
-between engine death, trusted loss detection and termination. One reading accepts
-that interval as implementation quiescence; another forbids it. A partition can
-make loss detection itself uncertain while the activity remains alive.
+That semantic choice is now resolved in the Work Unit component design:
 
-**Missing evidence:** an explicit semantic authorization/disable event for
-execution itself, the permitted quiescence interval (if any), and a concrete
-substrate's fate-sharing guarantee. This is the single unresolved core temporal
-contract, not a missing Processor. A prototype must expose the events and report
-which reading it meets. It may proceed with fail-closed protected admission and
-cold recovery while keeping the broader sealed-execution claim **unverified**.
-It may not call indefinite interior activity fully sealed or use a heartbeat as
-proof of synchronous shutdown. Canonical clarification is required before claiming
-full W.E/H conformance where the readings differ.
+- **D1 — affected capability admission disabled:** required;
+- **D2 — affected protected outward effect disabled:** required;
+- **D3 — interior execution stopped:** not part of baseline sealing.
 
-**Reduction status (added after independent review).** Q1 is no longer an open
-core contract. "Disabled" splits into three claims with asymmetric support:
-**D1 admission disabled** and **D2 effect disabled** are claimed by E and H and
-are achievable on every path; **D3 execution stopped** rests on one glossary
-phrase inside a taxonomy bullet, is achievable with no interval on the
-authorized-seal path, and on the engine-death path reduces exactly to a bound on
-the quiescence window `Δ` between the authority holder ceasing to serve and the
-last interior process ceasing to execute. Producing `Δ ≤ δ` requires a named
-engine-independent enforcement point plus a trusted liveness signal and timer —
-which is the **only** condition in Phase I under which a lease/heartbeat-class
-mechanism becomes necessary, and it is a realization component in the TCB, not a
-Kernel primitive. What remains is one canonical wording decision, one disclosure
-parameter, one trust disclosure, and one measurement. Full derivation, including
-the falsifier for the strong reading:
-[Phase I Revocation Verification and Q1 Reduction](./Phase-I-Revocation-and-Q1.md)
-Part B.
+Already-granted resource-backed internal computation may continue after engine loss
+if the resource realization survives and no separate policy pauses, terminates, or
+removes those resources.
 
-**WHY:** H1 separates effect exclusion from process lifetime; E/H adds an execution
-condition. **WHAT:** the concrete interval above and Work Unit C/E/H/K. **HOW
-CERTAIN:** evidence-based ambiguity, now reduced to a disclosure and a measurement
-by the linked record. **WHAT-NOT-TESTED:** any platform timing, process-tree
-teardown or shared fate mechanism.
+The pre-resolution reasoning is preserved in
+[Phase I Revocation Verification and Q1 Reduction](./Phase-I-Revocation-and-Q1.md).
+Its D1/D2/D3 reduction remains useful, but the residual "canonical wording decision"
+has been made: the weak reading is the baseline architecture.
+
+A bounded or immediate quiescence guarantee remains a valid **optional stronger
+profile**. If selected, it requires its own named engine-independent enforcement
+point, trusted liveness/timing assumptions, measurement, and trust-boundary
+disclosure. No such mechanism is required merely to satisfy baseline sealed
+semantics.
+
+**WHY:** authority and capability use are distinct from computation itself.
+**WHAT:** Work Unit E/F/H as clarified after the Q1 reduction, plus the preserved
+Part B analysis.
+**HOW CERTAIN:** explicit working-architecture decision; realization evidence for
+D1/D2 remains outstanding.
+**WHAT-NOT-TESTED:** host capability revocation, stale-route exclusion, or any
+optional D3 timing profile.
 
 ### Unselected stronger profiles, not hidden architecture tasks
 
@@ -694,8 +676,9 @@ The highest-value challenges are:
    independent deterministic state/machinery that cannot be reduced to the finite
    guard and retained authoritative information without changing an observation.
 2. **The failure target is non-vacuous and adequate.** Challenge whether engine-loss
-   confinement and Work Unit E/H can actually be met by the declared surviving TCB,
-   especially Q1, retained handles and delayed pre-crash requests.
+   capability confinement and Work Unit E/H can actually be met by the declared
+   surviving TCB, especially retained handles, delayed pre-crash requests, and
+   continued internal computation while outward capabilities are sealed.
 3. **Fact admission includes completeness.** Challenge H11–H13/P3/P4 with omitted
    dependencies, negative facts, changed policy, mutable external facts and races
    between proof checking and use. A correct proof about the wrong domain fails.
@@ -713,13 +696,11 @@ The highest-value challenges are:
    which a correctly recorded Kernel revocation is defeated by policy that the
    Kernel does not control, and try to find a legitimate revocation that AC's
    ordering and fail-closed clauses would wrongly forbid.
-7. **The D1/D2/D3 split is exhaustive and correctly assigned.** Try to find a
-   fourth distinct sense of "sealed" that the split omits, and try to show that D2
-   is not achievable on some path where D1 is. Also test the interaction with the
-   concurrent [Authority Ontology](../EDASES-Authority-Ontology.md), whose
-   "sealed does not mean frozen" claim conflicts with the Work Unit H glossary —
-   see the analysis in
-   [Part A5](./Phase-I-Revocation-and-Q1.md).
+7. **The resolved D1/D2 baseline is sufficient.** Try to find a required protected
+   history in which capability admission/use and protected outward effects are
+   correctly disabled but continued resource-backed internal computation still
+   violates a baseline Work Unit guarantee. Treat D3 only as a separately selected
+   stronger profile.
 
 ## 9. Concise synthesis and handoff
 
@@ -740,8 +721,9 @@ availability, or arbitrary exactly-once guarantee is inferred.
 
 **Semantic changes:** none to Kernel-0. Work Unit A–L is retained. Required profile
 clarifications concern exact effect events, recovered-current meaning, policy/input
-binding and lost-outcome behavior; they instantiate existing parameters. Q1 needs
-an explicit Work Unit temporal clarification before a full sealed-execution claim.
+binding and lost-outcome behavior; they instantiate existing parameters. The Work
+Unit temporal clarification now defines baseline sealing as capability/effect
+disable without mandatory execution quiescence.
 Canonical documents are not silently rewritten by this derived investigation.
 
 **Processorless outcome:** survives fifteen targeted attempts for the finite
@@ -755,8 +737,9 @@ relation; execute positive/hostile traces and removal mutations; implement and
 fault-test one real mediated boundary and cold recovery; verify content/metadata
 coupling and stale-ingress exclusion; obtain AC/C13 conformance evidence for the
 chosen access-control policy, including whether a given administrative revocation
-actually invalidates already-open access; make the canonical decision on Q1's
-strong reading and measure the quiescence window; and seek the independent review
+actually invalidates already-open access; verify the resolved D1/D2 engine-loss
+behavior while allowing continued resource-backed internal computation; and seek
+the independent review
 above. [Acceptance conditions](./Phase-I-Verification.md) bound each task. Two
 narrow primary-source checks were needed: to assess the concurrent host-limit claim
 (§10) and to verify the counterexample that rejects it
@@ -765,21 +748,21 @@ live-model experiment, runtime implementation or new formal proof was performed 
 this investigation.
 
 **Completion status:** architectural investigation complete enough for bounded
-downstream work. Q1 was subsequently reduced from an open core contract to a named
-disclosure, a named enforcement point, one canonical wording decision and one
-measurement, with no new primitive. Roadmap Phase I's implementation/formal/
-hostile-test exit evidence is **not yet complete**. Further frontier work is gated
-on a concrete failed invariant/required history, on the canonical decision that
-Q1's strong reading is intended, or on a new selected failure/effect profile — not
-on another broad survey or restatement of the current design.
+downstream work. The Q1 semantic choice is resolved with no new primitive: D1/D2
+belong to baseline sealing; D3 is optional stronger-profile behavior. Roadmap
+Phase I's implementation/formal/hostile-test exit evidence is **not yet complete**.
+Further frontier work is gated on a concrete failed invariant/required history or
+on a newly selected stronger failure/effect profile — not on another broad survey
+or restatement of the current design.
 
 **WHY:** all surviving additions have a removal witness; known attacks reduce to
 existing semantic parameters or an explicitly unsupported stronger claim.
 **WHAT:** pinned baseline, H1–H14, P1–P15, C1–C12 and the downstream acceptance plan.
 **HOW CERTAIN:** evidence-based scoped architectural closure, not universal
 minimality, full realization conformance or independent consensus.
-**WHAT-NOT-TESTED:** all new model/realization obligations in that plan, Q1's timing,
-and independent review; inherited Kernel evidence keeps its original bounds.
+**WHAT-NOT-TESTED:** all new model/realization obligations in that plan, concrete
+D1/D2 capability-sealing realization, optional D3 timing profiles, and independent
+review; inherited Kernel evidence keeps its original bounds.
 
 ## 10. Disposition of the concurrent realization proposal
 
@@ -837,7 +820,7 @@ Further concrete reductions reject the claimed forced semantic change:
 
 | Proposal claim | Disposition and discriminating reason |
 | --- | --- |
-| A failing direct-handle realization forces narrowing Work Unit B/K.5. | H1 already rejects that realization. A trusted mediator or an actually enforceable substrate route remains allowed. Unsupported attachments must be refused; weakening the canonical promise to fit the chosen host is unjustified. Q1 remains a different unresolved timing question. |
+| A failing direct-handle realization forces narrowing Work Unit B/K.5. | H1 already rejects that realization. A trusted mediator or an actually enforceable substrate route remains allowed. Unsupported attachments must be refused; weakening the canonical promise to fit the chosen host is unjustified. Optional D3 execution-quiescence timing remains a separate stronger-profile question. |
 | Route exclusion must act on the holder itself. | Refusal at a trusted sink/mediator can make new use ineffective without changing the holder. The obligation is exclusion at the declared effect event across all routes, not one mandatory physical location of enforcement. |
 | Every route dies when the engine owns it. | A previously sent request, buffered message or sink-accepted consequence can survive engine death. H4/H10 require the chosen effect contract even in an all-mediated design. Ownership does not erase in-flight effects. |
 | Currentness must hold for every later consequence of a route. | A committed exact obligation can remain valid after producer revocation. The proposal's universal CP would exclude the supplied Kernel effect profile unless separately qualified by the authorization event. Retain §4's distinction. |
@@ -848,7 +831,7 @@ Further concrete reductions reject the claimed forced semantic change:
 The original process-loss table was a **required result under an explicit
 surviving/fail-closed protection assumption**, not a report that an arbitrary
 engine already supplies it. Its wording is sharpened above to separate new
-admission, execution disable/Q1 and previously committed consequences. No tested
+admission, capability/effect disable and optional execution-quiescence claims, plus previously committed consequences. No tested
 host capability establishes full confinement here. R-A/R-B remain possible
 implementation sketches with gaps; neither is selected or treated as exhaustive.
 
