@@ -21,6 +21,8 @@ related_documents:
   - docs/research/agent-tooling-and-permission-enforcement-reviewed.md
   - docs/ORCHESTRATOR.md
 
+implements: []
+implemented_by: []
 supersedes: []
 
 last_updated: 2026-08-10

@@ -20,6 +20,8 @@ related_documents:
 consumed_by:
   - EDASES Phase 5 Retrospective
 
+implements: []
+implemented_by: []
 supersedes:
   - EDASES Phase 3 Retrospective
 

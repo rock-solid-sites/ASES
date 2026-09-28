@@ -16,6 +16,8 @@ related_documents:
 consumed_by:
   - docs/research/registry/Model-Routing-Matrix.md
 
+implements: []
+implemented_by: []
 supersedes:
   - EDASES Phase 4 Retrospective
 

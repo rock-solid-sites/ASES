@@ -1025,3 +1025,24 @@ Edited:
 
 Skipped (not eligible or already complete):
 
+
+
+### Stage 3.2 checkpoint 4c — safe Research normalization, read-only/retrospective tranche
+
+**Status: 9 documents normalized; 0 skipped.**
+
+Applied only the checkpoint-3 empty `implements` / `implemented_by` rule.
+
+Edited:
+- `docs/research/read-only-boundary-as-methodology.md`
+- `docs/research/read-only-role-crosslink-allowlist.md`
+- `docs/research/regression-testing-orchestrator-compliance.md`
+- `docs/research/research-addendum-epistemic-validation.md`
+- `docs/research/retrospectives/phases/Phase 1.md`
+- `docs/research/retrospectives/phases/Phase 2.md`
+- `docs/research/retrospectives/phases/Phase 3.md`
+- `docs/research/retrospectives/phases/Phase 4.md`
+- `docs/research/retrospectives/phases/Phase 5.md`
+
+Skipped:
+

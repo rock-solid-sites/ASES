@@ -20,6 +20,8 @@ consumed_by:
   - Future agent sessions
   - Session handoff analysis
 
+implements: []
+implemented_by: []
 supersedes: []
 
 superseded_by: []

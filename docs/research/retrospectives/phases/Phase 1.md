@@ -21,6 +21,8 @@ related_documents:
 consumed_by:
   - EDASES Phase 2 Retrospective
 
+implements: []
+implemented_by: []
 supersedes: []
 
 superseded_by:
