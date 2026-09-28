@@ -599,3 +599,20 @@ Cumulative confirmed references remain:
 - `specifications/observer-conformance-suite.md` → `.design/observer-swarm-v1.1-resilience.md`.
 
 No confirmed branch-local references have been found for the EPIC #423 plan/replan pair, RPC enforcement prototype, RTK guard design, or V2 guard rewrite design in the 76 reliably scanned live documentation/knowledge files.
+
+
+### Stage 2B.5e — branch-local reference scan checkpoint 4
+
+**Status: 50 additional high-value research/proposal documents scanned; 126 total in reliable scan.**
+
+This tranche covered:
+
+- 10 capability-schema-validation research reports/READMEs;
+- 20 execution-engine UI reports and the synthesis;
+- 20 execution-engine proposal/review/research-classification documents under `to-file/`.
+
+Generated measurement JSON, schemas, and corpus fixtures were excluded because they are data artifacts rather than documentation consumers; this exclusion is explicit rather than treated as a successful scan.
+
+Result: no additional exact-path references to any of the six remaining `.design/` targets.
+
+Cumulative confirmed references remain limited to the two Observer v1.1 consumers already recorded.
