@@ -27,7 +27,7 @@ implemented_by: []
 supersedes: []
 superseded_by: []
 
-last_updated: 2026-09-27
+last_updated: 2026-09-28
 ---
 
 # EDASES Work Unit — Component Design
@@ -145,9 +145,9 @@ trusted currentness / authority evidence
     determines whether those relationships may be treated as current
 ```
 
-If the engine crashes or is not running, durable Work Units remain sealed bounded objects. A later compatible engine instance may recover them only by establishing the authority required to mediate those objects under the declared currentness/failure model. The process instance that originally created a Work Unit has no permanent special privilege merely because it was the creator.
+If the engine crashes or is not running, durable Work Units remain sealed bounded objects. The user's root authority is not lost with the engine process, but the engine-mediated capability relationships are no longer current merely because they were current before the crash. A later compatible engine instance may recover the Work Unit only after establishing a trustworthy current authoritative view and becoming the current mediator for the relevant user-derived authority domain. The process instance that originally created a Work Unit has no permanent special privilege merely because it was the creator.
 
-If the Work Unit is found but current governing authority cannot be established, it remains sealed rather than becoming unbounded or automatically reactivated.
+The boundary record must retain enough information to identify the Work Unit's **last recorded capability attachments** for provenance and recovery. Those remembered attachments are historical candidates, not live permissions. If current governing authority cannot be established, the Work Unit remains sealed rather than becoming unbounded or automatically reactivated.
 
 Full historical event replay is not intrinsically required. Recovery requires a trustworthy current authoritative cut, or sufficient surviving information to reconstruct an observationally equivalent current state under the declared failure assumptions.
 
@@ -157,15 +157,17 @@ The execution-engine process is disposable relative to durable Work Units.
 
 On restart, the safe conceptual sequence is:
 
-1. establish the engine's current authority to mediate Work Units;
+1. establish a trustworthy current authoritative view and a current engine mediation role for the relevant user-derived authority domain;
 2. discover durable Work Unit objects and their intrinsic boundary records;
-3. reconstruct the containment topology and last-recorded grants without activating them;
-4. validate current authority/currentness under the declared recovery boundary;
-5. register valid Work Units with the Kernel in a sealed/inactive state;
-6. reconstruct only those attachments and grants that are currently authorized;
-7. resume execution only through explicit authorized relationships.
+3. reconstruct the containment topology, resource state, and last-recorded capability attachments without treating remembered capability state as current;
+4. validate currentness and the authority needed for any proposed transition under the declared recovery boundary;
+5. register valid Work Units with the Kernel in a sealed recovery state;
+6. reassess the remembered capability set against current user intent and policy through a currently authorized decision-maker — normally the Orchestrator in the intended operating model, or the user directly if no Orchestrator agent is active;
+7. create or reactivate only fresh capability attachments that the Kernel can admit under current authority.
 
-Transient sockets, model sessions, shell processes, network connections, and similar realizations do not need to survive merely because the durable attachment relationship may be recoverable.
+Internal computation that continued using still-valid resource grants does not need to be restarted merely because the engine was lost. Protected external effects remain unavailable until fresh current capability attachments exist.
+
+Transient sockets, model sessions, shell processes, network connections, and similar realizations do not become valid merely because a previous attachment relationship is remembered. Their reconstruction, if any, is a new current authorization event.
 
 ## G. Containment and nested Work Units
 
@@ -214,7 +216,7 @@ Conversely, a nested Work Unit may be independently revoked without revoking or 
 
 The words `sealed`, `revoked`, and `destroyed` describe different facts:
 
-- **sealed**: the durable bounded object remains, but active execution/outward capability use is disabled;
+- **sealed**: the durable bounded object remains and protected outward capability use is disabled; internal computation may continue using still-valid granted resources unless it is separately paused, terminated, or deprived of those resources;
 - **revoked**: some governing authority or grant has been withdrawn; the Work Unit remains bounded and may thereby be sealed;
 - **destroyed**: the Work Unit itself ceases to exist only after its contents have been safely dispositioned.
 
