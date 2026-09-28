@@ -1,0 +1,1153 @@
+{
+ "condition": "raw",
+ "counts": {
+  "answerable_no": 21,
+  "answerable_yes": 20,
+  "arms": 2,
+  "planned_requests": 102,
+  "total_cases": 51,
+  "unanswerable": 10
+ },
+ "endpoint": "https://api.typesafe.ai/v1/systemone",
+ "experiment": "exp3-preregistered-explicit-unknown-confirmation",
+ "freshness": {
+  "exp1_unanswerable_subjects": 5,
+  "exp3_unanswerable_subjects": 10,
+  "reused_case_ids": 0,
+  "reused_selections": 0
+ },
+ "plan": {
+  "arm_a_forced": {
+   "instructions": "Answer with exactly one of: `yes`, `no`.\nChoose using only the material above.",
+   "options": [
+    "yes",
+    "no"
+   ],
+   "type": "choice"
+  },
+  "arm_b_explicit_unknown": {
+   "instructions": "Answer with exactly one of: `yes`, `no`, `insufficient_evidence`.\nChoose `insufficient_evidence` only if the material above does not contain the information needed to decide - for example because the fact is absent, or because the material is ambiguous or self-contradictory.\nDo not choose `insufficient_evidence` merely because you are unsure or because the question is difficult. If the material contains enough to decide, you must choose `yes` or `no`.\nChoose using only the material above.",
+   "options": [
+    "yes",
+    "no",
+    "insufficient_evidence"
+   ],
+   "type": "choice"
+  }
+ },
+ "plan_provenance": "read from exp1/frozen/packet.json so the arm instruction text is byte-identical to Experiment 1",
+ "preregistered_rules": {
+  "explicit_unknown": {
+   "rule": "p(insufficient_evidence) >= 0.05",
+   "source": "operator-specified; fixed before execution; NOT tuned"
+  },
+  "external_gate": {
+   "rule": "act iff p(ground_truth_option) >= 0.86; abstain on an unanswerable case iff max(p(yes),p(no)) < 0.86",
+   "source": "carried from Experiment 1, where 0.86 was the best point on that grid; applied OUT OF SAMPLE here and NOT re-tuned"
+  }
+ },
+ "rows": [
+  {
+   "case_id": "configparser.call_path2.exp3.000",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "dst": "BasicInterpolation._interpolate_some",
+    "mid": null,
+    "neg_basis": "no 2-hop chain exists",
+    "src": "BasicInterpolation.before_get"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, is there a function that `BasicInterpolation.before_get` calls, which in turn calls `BasicInterpolation._interpolate_some`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.call_path2.exp3.001",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "dst": "Error.__init__",
+    "mid": "InterpolationError.__init__",
+    "src": "InterpolationDepthError.__init__"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, is there a function that `InterpolationDepthError.__init__` calls, which in turn calls `Error.__init__`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.call_path2.exp3.002",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "dst": "Error.__init__",
+    "mid": "InterpolationError.__init__",
+    "src": "InterpolationMissingOptionError.__init__"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, is there a function that `InterpolationMissingOptionError.__init__` calls, which in turn calls `Error.__init__`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.call_path2.exp3.003",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "dst": "Field.__init__",
+    "mid": null,
+    "neg_basis": "no 2-hop chain exists",
+    "src": "Field.__set_name__"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, is there a function that `Field.__set_name__` calls, which in turn calls `Field.__init__`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.call_path2.exp3.004",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "dst": "_add_slots",
+    "mid": "_process_class",
+    "src": "dataclass.wrap"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, is there a function that `dataclass.wrap` calls, which in turn calls `_add_slots`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.call_path2.exp3.005",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "dst": "_asdict_inner",
+    "mid": "_asdict_inner",
+    "src": "asdict"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, is there a function that `asdict` calls, which in turn calls `_asdict_inner`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.call_path2.exp3.006",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "dst": "JSONEncoder.__init__",
+    "mid": null,
+    "neg_basis": "no 2-hop chain exists",
+    "src": "JSONEncoder.default"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, is there a function that `JSONEncoder.default` calls, which in turn calls `JSONEncoder.__init__`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "shlex.call_path2.exp3.007",
+   "condition": "raw",
+   "ctype": "call_path2",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "shlex",
+   "params": {
+    "dst": "_print_tokens",
+    "mid": null,
+    "neg_basis": "no 2-hop chain exists",
+    "src": "join"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, is there a function that `join` calls, which in turn calls `_print_tokens`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.direct_call.exp3.008",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "called_elsewhere_by": [
+     "BasicInterpolation._interpolate_some",
+     "ExtendedInterpolation._interpolate_some",
+     "LegacyInterpolation.before_get"
+    ],
+    "callee": "InterpolationDepthError",
+    "caller": "BasicInterpolation.before_get"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, does `BasicInterpolation.before_get` directly call `InterpolationDepthError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.direct_call.exp3.009",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "callee": "ConverterMapping",
+    "caller": "RawConfigParser.__init__"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, does `RawConfigParser.__init__` directly call `ConverterMapping`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.direct_call.exp3.010",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "called_elsewhere_by": [
+     "Field.__set_name__",
+     "_add_slots",
+     "_asdict_inner",
+     "_astuple_inner",
+     "_dataclass_getstate",
+     "_get_field",
+     "_process_class",
+     "fields",
+     "replace"
+    ],
+    "callee": "getattr",
+    "caller": "Field.__init__"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, does `Field.__init__` directly call `getattr`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.direct_call.exp3.011",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "callee": "Field",
+    "caller": "field"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, does `field` directly call `Field`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.direct_call.exp3.012",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "called_elsewhere_by": [
+     "JSONEncoder.default",
+     "_make_iterencode._iterencode_dict"
+    ],
+    "callee": "TypeError",
+    "caller": "JSONEncoder.iterencode"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, does `JSONEncoder.iterencode` directly call `TypeError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.direct_call.exp3.013",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "callee": "TypeError",
+    "caller": "_make_iterencode._iterencode_dict"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, does `_make_iterencode._iterencode_dict` directly call `TypeError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "shlex.direct_call.exp3.014",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "shlex",
+   "params": {
+    "called_elsewhere_by": [
+     "_print_tokens",
+     "shlex.get_token",
+     "shlex.pop_source",
+     "shlex.push_source",
+     "shlex.push_token",
+     "shlex.read_token"
+    ],
+    "callee": "print",
+    "caller": "join"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, does `join` directly call `print`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "shlex.direct_call.exp3.015",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "shlex",
+   "params": {
+    "callee": "StringIO",
+    "caller": "shlex.__init__"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, does `shlex.__init__` directly call `StringIO`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "textwrap.direct_call.exp3.016",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "textwrap",
+   "params": {
+    "called_elsewhere_by": [
+     "TextWrapper._fix_sentence_endings",
+     "TextWrapper._handle_long_word",
+     "TextWrapper._wrap_chunks"
+    ],
+    "callee": "len",
+    "caller": "TextWrapper.__init__"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In this module, does `TextWrapper.__init__` directly call `len`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "textwrap.direct_call.exp3.017",
+   "condition": "raw",
+   "ctype": "direct_call",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "textwrap",
+   "params": {
+    "callee": "TextWrapper",
+    "caller": "fill"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In this module, does `fill` directly call `TextWrapper`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.nesting_conjunction.exp3.018",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "callee": "ConverterMapping",
+    "neg_basis": "no function with max_nesting > 2 calls `ConverterMapping`",
+    "target": null,
+    "threshold": 2
+   },
+   "pool_polarity_hint": "no",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `ConverterMapping`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.nesting_conjunction.exp3.019",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "callee": "DuplicateOptionError",
+    "target": "RawConfigParser._read",
+    "threshold": 2
+   },
+   "pool_polarity_hint": "yes",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `DuplicateOptionError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.nesting_conjunction.exp3.020",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "callee": "Field",
+    "neg_basis": "no function with max_nesting > 2 calls `Field`",
+    "target": null,
+    "threshold": 2
+   },
+   "pool_polarity_hint": "no",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `Field`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.nesting_conjunction.exp3.021",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "callee": "TypeError",
+    "target": "_init_fn",
+    "threshold": 2
+   },
+   "pool_polarity_hint": "yes",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `TypeError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.nesting_conjunction.exp3.022",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "callee": "TypeError",
+    "target": "_make_iterencode._iterencode_dict",
+    "threshold": 2
+   },
+   "pool_polarity_hint": "yes",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `TypeError`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.nesting_conjunction.exp3.023",
+   "condition": "raw",
+   "ctype": "nesting_conjunction",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "callee": "encode_basestring",
+    "neg_basis": "no function with max_nesting > 2 calls `encode_basestring`",
+    "target": null,
+    "threshold": 2
+   },
+   "pool_polarity_hint": "no",
+   "question": "Does any function in this module have maximum control-flow nesting deeper than 2 AND also call `encode_basestring`?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.param_rebound.exp3.024",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "fn": "BasicInterpolation._interpolate_some",
+    "param": "map"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In `BasicInterpolation._interpolate_some`, is the parameter `map` rebound by an assignment to `map` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.param_rebound.exp3.025",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "fn": "BasicInterpolation._interpolate_some",
+    "param": "rest"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In `BasicInterpolation._interpolate_some`, is the parameter `rest` rebound by an assignment to `rest` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.param_rebound.exp3.026",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "fn": "Field.__init__",
+    "param": "default_factory"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In `Field.__init__`, is the parameter `default_factory` rebound by an assignment to `default_factory` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.param_rebound.exp3.027",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "fn": "_add_slots",
+    "param": "cls"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In `_add_slots`, is the parameter `cls` rebound by an assignment to `cls` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.param_rebound.exp3.028",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "fn": "JSONEncoder.__init__",
+    "param": "default"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In `JSONEncoder.__init__`, is the parameter `default` rebound by an assignment to `default` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.param_rebound.exp3.029",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "fn": "_make_iterencode",
+    "param": "_indent"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In `_make_iterencode`, is the parameter `_indent` rebound by an assignment to `_indent` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "shlex.param_rebound.exp3.030",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "shlex",
+   "params": {
+    "fn": "quote",
+    "param": "s"
+   },
+   "pool_polarity_hint": "no",
+   "question": "In `quote`, is the parameter `s` rebound by an assignment to `s` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "shlex.param_rebound.exp3.031",
+   "condition": "raw",
+   "ctype": "param_rebound",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "shlex",
+   "params": {
+    "fn": "shlex.__init__",
+    "param": "instream"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "In `shlex.__init__`, is the parameter `instream` rebound by an assignment to `instream` inside the function body?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "configparser.string_literal_probe.exp3.032",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "fn": "SectionProxy.parser",
+    "literal": " [line {0:2d}]"
+   },
+   "pool_polarity_hint": "no",
+   "question": "Does the body of `SectionProxy.parser` contain the string literal ' [line {0:2d}]'?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.string_literal_probe.exp3.033",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "fn": "replace",
+    "literal": " -> None"
+   },
+   "pool_polarity_hint": "no",
+   "question": "Does the body of `replace` contain the string literal ' -> None'?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.string_literal_probe.exp3.034",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "fn": "replace",
+    "literal": " return "
+   },
+   "pool_polarity_hint": "yes",
+   "question": "Does the body of `replace` contain the string literal ' return '?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.string_literal_probe.exp3.035",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "fn": "py_encode_basestring_ascii.replace",
+    "literal": " is not JSON serializable"
+   },
+   "pool_polarity_hint": "no",
+   "question": "Does the body of `py_encode_basestring_ascii.replace` contain the string literal ' is not JSON serializable'?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "json_encoder.string_literal_probe.exp3.036",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "fn": "py_encode_basestring_ascii.replace",
+    "literal": "\\u{0:04x}"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "Does the body of `py_encode_basestring_ascii.replace` contain the string literal '\\\\u{0:04x}'?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "shlex.string_literal_probe.exp3.037",
+   "condition": "raw",
+   "ctype": "string_literal_probe",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "shlex",
+   "params": {
+    "fn": "split",
+    "literal": "shlex"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "Does the body of `split` contain the string literal 'shlex'?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.unanswerable_intent.exp3.038",
+   "condition": "raw",
+   "ctype": "unanswerable_intent",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "fn": "Field.__set_name__",
+    "unans_class": "unanswerable_intent"
+   },
+   "pool_polarity_hint": null,
+   "question": "Why was `Field.__set_name__` written — what problem was it introduced to solve?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_intent"
+  },
+  {
+   "case_id": "json_encoder.unanswerable_intent.exp3.039",
+   "condition": "raw",
+   "ctype": "unanswerable_intent",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "fn": "JSONEncoder.encode",
+    "unans_class": "unanswerable_intent"
+   },
+   "pool_polarity_hint": null,
+   "question": "Why was `JSONEncoder.encode` written — what problem was it introduced to solve?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_intent"
+  },
+  {
+   "case_id": "configparser.unanswerable_runtime.exp3.040",
+   "condition": "raw",
+   "ctype": "unanswerable_runtime",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "fn": "BasicInterpolation.before_get",
+    "unans_class": "unanswerable_runtime"
+   },
+   "pool_polarity_hint": null,
+   "question": "At runtime, how many times is `BasicInterpolation.before_get` called per request?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_runtime"
+  },
+  {
+   "case_id": "shlex.unanswerable_runtime.exp3.041",
+   "condition": "raw",
+   "ctype": "unanswerable_runtime",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "shlex",
+   "params": {
+    "fn": "join",
+    "unans_class": "unanswerable_runtime"
+   },
+   "pool_polarity_hint": null,
+   "question": "At runtime, how many times is `join` called per request?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_runtime"
+  },
+  {
+   "case_id": "textwrap.unanswerable_runtime.exp3.042",
+   "condition": "raw",
+   "ctype": "unanswerable_runtime",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "textwrap",
+   "params": {
+    "fn": "TextWrapper._handle_long_word",
+    "unans_class": "unanswerable_runtime"
+   },
+   "pool_polarity_hint": null,
+   "question": "At runtime, how many times is `TextWrapper._handle_long_word` called per request?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_runtime"
+  },
+  {
+   "case_id": "configparser.unanswerable_semantic.exp3.043",
+   "condition": "raw",
+   "ctype": "unanswerable_semantic",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "fn": "BasicInterpolation._interpolate_some",
+    "unans_class": "unanswerable_semantic"
+   },
+   "pool_polarity_hint": null,
+   "question": "Is `BasicInterpolation._interpolate_some` safe to call concurrently from multiple threads?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_semantic"
+  },
+  {
+   "case_id": "shlex.unanswerable_semantic.exp3.044",
+   "condition": "raw",
+   "ctype": "unanswerable_semantic",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "shlex",
+   "params": {
+    "fn": "_print_tokens",
+    "unans_class": "unanswerable_semantic"
+   },
+   "pool_polarity_hint": null,
+   "question": "Is `_print_tokens` safe to call concurrently from multiple threads?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 13501,
+   "state_sha256": "42ab6060f316e121e374e6621d8c1c98b8db323903c3df289a810c45a8ae46a7",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_semantic"
+  },
+  {
+   "case_id": "textwrap.unanswerable_semantic.exp3.045",
+   "condition": "raw",
+   "ctype": "unanswerable_semantic",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "textwrap",
+   "params": {
+    "fn": "TextWrapper._fix_sentence_endings",
+    "unans_class": "unanswerable_semantic"
+   },
+   "pool_polarity_hint": null,
+   "question": "Is `TextWrapper._fix_sentence_endings` safe to call concurrently from multiple threads?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 19772,
+   "state_sha256": "e1541a31ac906294f915cadd0d780e1e5b256dc1897b560cdaf3fbf46d104cf0",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_semantic"
+  },
+  {
+   "case_id": "dataclasses.unanswerable_version.exp3.046",
+   "condition": "raw",
+   "ctype": "unanswerable_version",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "fn": "Field.__repr__",
+    "unans_class": "unanswerable_version"
+   },
+   "pool_polarity_hint": null,
+   "question": "Which exact version of the library this module imports must be present for `Field.__repr__` to behave as written?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_version"
+  },
+  {
+   "case_id": "json_encoder.unanswerable_version.exp3.047",
+   "condition": "raw",
+   "ctype": "unanswerable_version",
+   "ground_truth": null,
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "json_encoder",
+   "params": {
+    "fn": "JSONEncoder.default",
+    "unans_class": "unanswerable_version"
+   },
+   "pool_polarity_hint": null,
+   "question": "Which exact version of the library this module imports must be present for `JSONEncoder.default` to behave as written?",
+   "score_for_correctness": false,
+   "send": true,
+   "state_bytes": 16074,
+   "state_sha256": "06b881b824f71e95d72af4ab865de4c35553e791b6d959a125caac61401cc350",
+   "unanswerable": true,
+   "unanswerable_class": "unanswerable_version"
+  },
+  {
+   "case_id": "configparser.unused_import.exp3.048",
+   "condition": "raw",
+   "ctype": "unused_import",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "configparser",
+   "params": {
+    "mod": "collections.abc.MutableMapping"
+   },
+   "pool_polarity_hint": "no",
+   "question": "Is `collections.abc.MutableMapping` imported in this module but never referenced by name anywhere in the module's code?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 54612,
+   "state_sha256": "df56496e25906c42f7599e7237b1c8e33eb6e9a9a5590cad55e2907492bba88a",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.unused_import.exp3.049",
+   "condition": "raw",
+   "ctype": "unused_import",
+   "ground_truth": "no",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "mod": "abc"
+   },
+   "pool_polarity_hint": "no",
+   "question": "Is `abc` imported in this module but never referenced by name anywhere in the module's code?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  },
+  {
+   "case_id": "dataclasses.unused_import.exp3.050",
+   "condition": "raw",
+   "ctype": "unused_import",
+   "ground_truth": "yes",
+   "ground_truth_source": "recomputed independently in build_packet.py from extract.py; the pool polarity is a selection hint only, never an authority",
+   "module": "dataclasses",
+   "params": {
+    "mod": "builtins"
+   },
+   "pool_polarity_hint": "yes",
+   "question": "Is `builtins` imported in this module but never referenced by name anywhere in the module's code?",
+   "score_for_correctness": true,
+   "send": true,
+   "state_bytes": 56390,
+   "state_sha256": "fa2e3728d8184954479c6fcd17015a5e0c176850f18f119f5c548fca49019441",
+   "unanswerable": false,
+   "unanswerable_class": null
+  }
+ ],
+ "selection_rule": {
+  "fixed": "before any API call",
+  "method": "round-robin across modules, sorted by params, deterministic",
+  "quota": {
+   "call_path2": [
+    4,
+    4
+   ],
+   "direct_call": [
+    5,
+    5
+   ],
+   "nesting_conjunction": [
+    3,
+    3
+   ],
+   "param_rebound": [
+    4,
+    4
+   ],
+   "string_literal_probe": [
+    3,
+    3
+   ],
+   "unused_import": [
+    1,
+    2
+   ]
+  }
+ },
+ "subject_model": "jev-1.13.0"
+}
