@@ -1,7 +1,7 @@
 ---
 title: Prior Art Brief - EPIC 423 Support Systems
 program: EDASES
-layer: Implementation
+layer: Research
 document_type: Research Brief
 status: Active
 authority: Derived

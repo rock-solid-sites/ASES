@@ -450,3 +450,34 @@ Moved byte-for-byte:
 - `.design/tool-to-engine-gap-matrix.md` → `docs/research/tool-to-engine-gap-matrix.md`. Its metadata declares `layer: Research`, `document_type: Advisory`, `status: Draft`, and `authority: Derived`; the body explicitly says it is advisory only and does not make the build-vs-buy decision.
 
 No internal content or metadata was rewritten in this substep. Metadata contradictions preserved in historical/external material remain visible rather than being silently normalized.
+
+
+### Stage 2B.4b — EPIC #423 prior-art brief classification correction
+
+**Status: completed.**
+
+`.design/prior-art-brief.md` contained an internal classification contradiction:
+
+- title: “Prior Art Brief - EPIC 423 Support Systems”;
+- `document_type: Research Brief`;
+- purpose: “Operator-conducted external prior-art scan”;
+- body: “This brief exists so the OPERATOR can check existing tools before we build”;
+- introduction commit `7f41a08ea477` is titled `docs(design): prior-art research brief for EPIC 423 support systems - operator-conducted external scan [#423][#441]`;
+- but metadata declared `layer: Implementation`.
+
+Under the canonical Documentation Taxonomy, a prior-art investigation that gathers external evidence before implementation is Research-layer material. No primary source found in this check supports the Implementation-layer classification.
+
+Action:
+
+- moved `.design/prior-art-brief.md` → `docs/research/prior-art-brief.md`;
+- corrected only the contradictory metadata field from `layer: Implementation` to `layer: Research`;
+- preserved all research content, status, authority, parent-epic, and purpose fields unchanged.
+
+### Stage 2B.4 batch result
+
+- **Moved to Research / Research Synthesis / Review Inbox:** 6 files.
+- **Moved to Historical decisional-provenance lineage:** 1 file.
+- **Metadata correction:** 1 field in `prior-art-brief.md` (`Implementation` → `Research`), directly supported by its title, document type, purpose, body, commit provenance, and the Documentation Taxonomy.
+- **Files left unresolved in this batch:** none.
+
+The standalone research/review family is complete.
