@@ -1,6 +1,6 @@
 {
   "next_display_id": 571,
-  "next_comment_id": 4028,
+  "next_comment_id": 4029,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -25494,11 +25494,20 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-27T18:44:34.063315030Z",
-      "updated_at": "2026-09-27T19:42:09.879104376Z",
+      "updated_at": "2026-09-28T00:16:24.354645661Z",
       "labels": [
         "research"
       ],
       "comments": {
+        "64f24873-61c5-4f12-af37-fff4c45ccc43": {
+          "display_id": 4028,
+          "author": "OL2r",
+          "content": "[result] Phase 2 independent verification COMPLETE — PASS WITH FINDINGS, one material error corrected [#570]. No push.\n\nThe outstanding gate is discharged. The gate was blocked for ~2.5h by an account-level free-tier quota on both designated verifiers, recorded on disk at the time. Attempts to route around it, and their exact outcomes, are recorded in findings/verification-status.md and in the BLOCKER section of verification.md.\n\nVerifier: opencode/muse-spark-1.3-contributor-free, family muse-free, a different model family from the artefact producer, resuming the SAME lineage that produced Step 1. verification.md is now 66KB with Steps 1-4 and an overall verdict.\n\nVERDICT: PASS WITH FINDINGS. Every load-bearing number reproduces exactly from raw evidence: 6/6 extractor pairs, 9/9 statistics groups, all four exact McNemar p-values, 40/40 unanswerable behaviour, byte-identical Tier-1 clean-clone reproduction.\n\nONE MATERIAL ERROR FOUND IN OUR OWN DOCUMENT, NOW CORRECTED. The headline claimed structure is 1.63x cheaper. That compared TOTAL cost of the raw run (57 admissible cells) against TOTAL cost of the struct run (52 admissible cells). Because five string_literal_probe cases are unanswerable under structure, the denominators differ, so the ratio charged structure for fewer questions than it was credited with solving, and flattered it. The like-for-like figure is 1.49x cheaper PER CASE: raw $0.00033286 vs struct $0.00022404, ratio 1.4857. That is identical to the input-tokens-per-case ratio of 1.4857, as it must be since cost is linear in input tokens at a fixed tariff, and the identity is a useful consistency check. Direction unchanged, magnitude reduced. Corrected in findings.md sections 0, 2 and 8, and recorded as errata E1. This is the verification having caught a real error in the analysis it was commissioned to check.\n\nTWO DOCUMENTATION-GRADE DEFECTS FOUND. E2: harness/score.py and harness/run_jev.py were modified AFTER the freeze commit and MANIFEST.md was not updated, so its digests no longer described the code that produced the results. This means the scorer changed after the measured run. Disclosed rather than smoothed: the freeze gate is satisfied for generation, extraction and representation code, and only PARTIALLY satisfied for scoring code. The mitigating fact is that the verifier re-derived every reported statistic from the raw NDJSON WITHOUT importing score.py, so the reported numbers do not rest on the changed scorer. Digests updated, post-freeze section added. E3: run_jev.py records classification via case[\"classification\"].get(cond) but the dict only carries raw and struct keys, so all 67 raw_ic and struct_ic rows record classification null. No effect on any reported number, but the raw records are incomplete for the two distractor conditions; left as recorded rather than rewritten after the fact.\n\nTHE VERIFIER ALSO CONFIRMED OUR RESTRAINT WAS CORRECT RATHER THAN OVER-MODEST. At n=52 with 6 total discordant cells, even a 4-0 shutout gives exact p=0.125, and the most generous legal sign test across all four comparisons gives p=0.0625, still above 0.05. Refusing to claim an accuracy gain is therefore statistically forced, not modesty. It confirmed that calling the lookup result a NON-RESULT is the right call, that the robustness signal is not oversold, and that the evidence-removal finding is correctly characterised as structure HURTING rather than a scoping decision.\n\nThe file carries two Step 2 sections from a concurrent verifier pass. Both agree on all numbers, which is independent convergence rather than disagreement, and the verifier flagged this itself.\n\nREPRODUCIBILITY RE-VERIFIED after the corrections: both frozen digests and metrics.json reproduce byte-identically in the clean clone. Credential scan: 0 real hits across 48 files. An initial scan reported 11 hits, all of which proved to be a false positive matching \"sk-completion\" inside the phrase \"task-completion\"; re-scanned with a word-boundary pattern and with NVIDIA_API_KEY included, 0 real hits.\n\nCORRECTED HEADLINE FOR #570: structure is 1.92x smaller in state bytes, 1.49x fewer input tokens and 1.49x cheaper per case, with accuracy directionally positive but not statistically supported (four comparisons, zero significant), and with real costs: it removes evidence a question class needs and does not help compositional reasoning.\n\nSTATUS: benchmark frozen, executed, independently verified, reproducible from committed material, and sufficient to state where structural preprocessing helps, hurts, and remains unresolved. Stop condition met. Nothing pushed; push remains operator-gated.",
+          "created_at": "2026-09-28T00:16:24.342015056Z",
+          "kind": "result",
+          "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA4sEsllDhHOk7pLuVqJszoZh++BRdUcNHNEYITZD2amHdDsBhjF/qNMWa1SXG3DWxf8ns+xMc4kvN0lbnKKEpBw=="
+        },
         "e198df82-d478-4305-983f-4cf2aa0606d8": {
           "display_id": 4026,
           "author": "OL2r",
@@ -46555,8 +46564,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-27T19:42:21.973757482Z",
+    "timestamp": "2026-09-28T00:16:24.354645661Z",
     "agent_id": "OL2r",
-    "agent_seq": 3588
+    "agent_seq": 3589
   }
 }
