@@ -253,11 +253,15 @@ There is a real specification edge: process death, detection of death, terminati
 of another process, and disappearance of a host are different events. Work Unit
 E/H does not specify their allowed interval. This investigation does **not**
 quietly reinterpret it as indefinite computation inside an isolated object. The
-prototype must either demonstrate a trusted joint disable boundary or explicitly
-report this gap; the precise temporal claim is unresolved in §8. A heartbeat or
-lease cannot prove instantaneous death detection. Pure in-flight computation,
-new boundary use, and previously committed external consequences must be tested
-separately.
+prototype must report three separately measured facts — admission disabled, effect
+disabled, and the quiescence window for interior execution — as set out in
+[Part B](./Phase-I-Revocation-and-Q1.md). The first two are always claimed and
+always achievable; the third is achievable with no interval on the authorized-seal
+path, and on the engine-death path only against a named engine-independent
+enforcement point. A heartbeat or lease cannot prove instantaneous death
+detection, and a watchdog that merely proposes a transition discharges nothing.
+Pure in-flight computation, new boundary use, and previously committed external
+consequences must be tested separately.
 
 **WHY:** a record-only model can satisfy every local invariant while a concrete
 route violates the claimed effect or confinement. **WHAT:** H1/H2/H5/H6 and Work
@@ -381,7 +385,7 @@ requests may order either way; completed replacement precedes later initiated us
 | Generation/counter/nonce/token | Any non-confusable current authority representation. No particular numeric identity is required. Finite exhaustion must refuse safely, not wrap into a reachable old identity. |
 | Source binding | Required if old physical participants must be excluded even when they acquire current evidence. The prototype should use trusted, non-transferable ingress associations and test impersonation. If relying on bearer secrecy instead, state the weaker physical-exclusion claim. |
 | Durable issued-token set | Only if otherwise an old usable representation can collide after a covered failure. Cold recovery plus proven elimination of old routes can remove this representation, not the non-resurrection obligation. |
-| Lease/heartbeat | Not required for safety. Detection may trigger a replacement proposal; timeout alone grants nothing. Any claimed timed expiry needs trusted time and use-point enforcement. |
+| Lease/heartbeat | Not required for safety, and not required for replacement. Detection may trigger a replacement proposal; a timeout that only proposes grants nothing. Required in exactly one Phase I case: a claimed **bound on the interval between engine death and the end of interior execution** (D3 on the engine-death path). That needs a trusted liveness signal and a timer acting fail-closed on a named enforcement point independent of the engine. Any claimed timed **authority expiry** additionally needs trusted time and use-point enforcement, and is a different requirement. See [Part B](./Phase-I-Revocation-and-Q1.md). |
 | Sink fencing | A semantic requirement only for a profile that needs current authority at that sink; an integer is one possible realization. Every affected sink must enforce the same relevant authority order. |
 | Request identity/deduplication | Required only when a promised result/retry/at-most-once observation depends on distinguishing repeats. Not inferred from disposable execution. |
 | Durable retry queue | Not needed for baseline safety. A retained accepted obligation plus explicit invocation can be sufficient; no automatic delivery or scheduling guarantee is claimed. |
