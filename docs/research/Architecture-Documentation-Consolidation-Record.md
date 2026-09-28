@@ -798,3 +798,25 @@ One historical citation was found:
 This is not an upstream dependency. The file's frontmatter `depends_on` contains only the current AI Capability Registry Specification and Agent Orchestration Playbook; historical material is explicitly evidence provenance in the body.
 
 Result: **no forbidden Historical → current upstream dependency found in 70 current documents checked so far.**
+
+
+### Stage 3.1 checkpoint 4 — maintained research subtrees
+
+**Status: 37 additional maintained Research documents scanned; 107 total in Stage 3.1.**
+
+Covered in full:
+
+- `docs/research/crosslink-gates/`
+- `docs/research/pre-build-compilation/`
+- `docs/research/prompting/`
+- maintained retrospective phase/topic documents
+- `docs/research/review-inbox/`
+- `docs/research/sections/`
+- `docs/research/selection-rationale/`
+- `docs/research/structural-change/`
+- `docs/research/syntheses/`
+- `docs/research/work-unit-0/`
+
+Result: **0 occurrences of `docs/historical/` in all 37 documents.**
+
+Cumulative Stage 3.1 result remains: no forbidden Historical → current upstream dependency found. The only historical citations found so far are explicit lineage/evidence references, not `depends_on` relationships.
