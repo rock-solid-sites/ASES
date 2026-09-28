@@ -556,3 +556,23 @@ Result:
 - no references to the other five targets were found in these 30 files.
 
 Two earlier oversized scan attempts exceeded the connector's per-call tool limit and are explicitly excluded from evidence. The reliable scan unit is now 10 files per call.
+
+
+### Stage 2B.5c — branch-local reference scan checkpoint 2
+
+**Status: 20 additional files scanned; 50 total in reliable scan.**
+
+This tranche covered:
+
+- `specifications/observer-conformance-suite.md` and the other files under `specifications/`;
+- the main research registry documents and ten model-feedback registry records.
+
+Result:
+
+- `specifications/observer-conformance-suite.md` references `.design/observer-swarm-v1.1-resilience.md` as its behavioural contract;
+- no references to the other five remaining target paths were found in this tranche.
+
+Cumulative reliable scan results after 50 files:
+
+- Observer v1.1 has two confirmed live consumers so far: `docs/research/capability-schema-validation.md` and `specifications/observer-conformance-suite.md`;
+- no branch-local exact-path reference has yet been found for the EPIC #423 plan/replan pair, RPC enforcement prototype, RTK guard design, or V2 guard rewrite design.
