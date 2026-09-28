@@ -314,3 +314,31 @@ Primary-source findings:
 The consolidation inventory classified these files as likely Historical/Operational records, but that classification requires evidence that EPIC #423 is no longer active or that the plans were superseded. The GitHub issue endpoint for #423 was unavailable through the current connector, and no accessible closeout or superseding primary source was found in this bounded check.
 
 Therefore no historical move is justified in this substep. The pair remains in place until project-state evidence establishes whether it is active implementation planning or historical execution evidence.
+
+
+## Stage 2B.3a — RPC enforcement prototype classification
+
+**Status: classified; move deferred.**
+
+File checked:
+
+- `.design/rpc-enforcement-prototype.md`
+
+Primary-source findings:
+
+- metadata declares `layer: Implementation`, `document_type: Experiment Design`, `status: Proposed`, and `authority: Derived`;
+- the body explicitly states: “This is an experiment, not an architectural commitment”;
+- its success criterion says a successful result would establish only a viable execution-authority substrate, not the final EDASES architecture;
+- Git history shows one introduction commit, `f0453d9e4fe2` (2026-08-24), whose commit message identifies it as the “RPC enforcement prototype - v2-integration successor to ases-tools thin CLI [#441]”;
+- repository code search found no exact-path, basename, title, or `parent_epic: "#441"` references elsewhere in the indexed repository.
+
+Disposition:
+
+The file is an **experimental Implementation-layer design**, not current architecture and not Canonical authority. However, no primary source found in this bounded check establishes that experiment #441 was completed, abandoned, or superseded, so classifying it as Historical would be unsupported.
+
+The repository currently has no `docs/implementation/` home. Creating a new implementation subtree solely for this file would exceed this atomic filing step and would violate the consolidation rule against opportunistic repository reorganization. Therefore the file remains in `.design/` pending either:
+
+1. evidence establishing historical/superseded status; or
+2. a later bounded decision establishing the repository home for active Implementation-layer experiment/design records.
+
+No semantic edit or move was performed.
