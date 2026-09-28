@@ -14,7 +14,7 @@ depends_on:
   - Work Unit Component Design
   - Work Unit-0 Foundational Reduction
   - EDASES Currentness and Recovery Assurance
-  - EDASES Boundary-Composed Authority
+  - EDASES Authority Ontology
   - EDASES Bounded Structural Transitions
 
 consumed_by:
@@ -27,6 +27,7 @@ related_documents:
   - Concepts and Topics Registry
   - EDASES Future Topics Register
   - Execution Engine Vision
+  - EDASES Efficiency Architecture
 
 implements: []
 implemented_by: []
@@ -68,11 +69,15 @@ must justify itself against the simpler system available before it.
 
 The current minimal-substrate hypothesis is:
 
-- **Kernel** owns authoritative state-transition and authority enforcement;
+- the **user/operator** is the root source of authority within EDASES;
+- **Kernel** owns authoritative state-transition, represents user-derived grants,
+  and mechanically enforces authority at protected boundaries;
 - **Work Unit** is the durable bounded unit of work governed by the Kernel;
 - execution activity is replaceable and is not the durable center of the system;
-- the core must remain usable without Observer, Processor, autonomous
-  Orchestrator, work-topology machinery, or a generalized coordination system.
+- the core must remain correct without Observer, Processor, an Orchestrator agent,
+  work-topology machinery, or a generalized coordination system, even though the
+  intended normal product experience uses an Orchestrator agent as the primary
+  user-facing interface.
 
 The recent Kernel-0 and Work Unit-0 investigations have strengthened rather than
 expanded this baseline:
@@ -116,13 +121,14 @@ Phase I is the current priority.
 The [Phase I closure investigation](./core-substrate/Phase-I-Closure.md) records a
 scoped architectural candidate, fifteen Processor falsification attempts, and
 [bounded verification work](./core-substrate/Phase-I-Verification.md). No new
-Kernel primitive or persistent Processor is currently justified. The one remaining
-temporal question — when engine loss must stop still-running computation — has
-been [reduced to a named enforcement point, a disclosure parameter and one
-measurement](./core-substrate/Phase-I-Revocation-and-Q1.md), with a canonical
-wording decision still outstanding. This is architectural readiness for
-implementation and verification, not completion of the prototype, formal assurance
-or hostile-test exit evidence below.
+Kernel primitive or persistent Processor is currently justified. The former Q1
+wording ambiguity is now resolved by the canonical Work Unit clarification:
+engine loss must deactivate protected capability attachments but does not itself
+require interior computation using still-valid resources to stop. Bounded
+quiescence remains an optional stronger profile documented in
+[the Q1 reasoning record](./core-substrate/Phase-I-Revocation-and-Q1.md). This is
+architectural readiness for implementation and verification, not completion of the
+prototype, formal assurance or hostile-test exit evidence below.
 
 Its purpose is to turn the abstract Kernel + Work Unit model into a trustworthy,
 bounded execution substrate and then attempt to falsify its sufficiency.
@@ -442,6 +448,12 @@ baseline using real workloads and measurements.
 A useful Processor does not retroactively become part of the trusted execution
 core unless a later correctness counterexample proves that it must.
 
+The experimental [EDASES Efficiency Architecture](./EDASES-Efficiency-Architecture.md)
+collects the current cross-cutting efficiency baseline — derived views, cheap
+inactive Work Units, recomputation, deterministic reuse, incremental computation,
+partial evaluation, approximation, and persistence tests — without treating those
+research directions as settled architecture.
+
 ---
 
 # Phase IV — Orchestrator mechanism
@@ -475,8 +487,16 @@ Investigate:
 - how Orchestrator proposals are converted into Kernel-authorized transitions
   without giving reasoning itself authority.
 
-The Orchestrator mechanism may be manual, automated, hybrid, or replaceable. The
-Kernel should not depend on a specific model family or autonomous controller.
+The Orchestrator is expected to be the normal user-facing agent role: in ordinary
+use the user directs EDASES through an LLM chat interface whose agent interprets
+intent, coordinates work, and exercises the authority the user has delegated to
+that role. Its authority may be narrow or broad and can be changed or revoked at
+any time.
+
+The Kernel must nevertheless remain correct without an Orchestrator agent. Direct
+user control is possible in principle, and Orchestrator identity itself grants no
+authority. The Kernel should not depend on a specific model family or autonomous
+controller.
 
 ---
 
