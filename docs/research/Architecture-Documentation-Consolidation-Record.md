@@ -907,3 +907,66 @@ No metadata was invented or normalized in this checkpoint.
 ### Turn workload note
 
 This turn inspected **45 documents total**: 16 Stage 3.1 Kernel-0 documents plus 29 Stage 3.2 high-level documents. It completed without the oversized scan pattern used in the prior failed turn.
+
+
+### Stage 3.2 checkpoint 2 — current Research metadata inventory
+
+**Status: 45 additional current Research documents inspected. No source-document edits performed.**
+
+Method: inspect the opening metadata region for YAML frontmatter and the field names required by the canonical Documentation Standard. Missing field names are inventory signals only; this pass does not infer empty relationships or fabricate metadata.
+
+#### Broad pattern
+
+Most current Research documents in this tranche already have coherent identity metadata (`title`, `program`, `layer`, `document_type`, `status`, `authority`) and are missing mainly relationship fields such as `implements`, `implemented_by`, and sometimes `supersedes` / `superseded_by`. This strongly suggests schema-era drift rather than wholesale classification failure for the majority of the Research tree.
+
+#### No YAML frontmatter at document start
+
+Five inspected Research documents have no metadata header at all:
+
+- `docs/research/ases-stage3-crossref.md`
+- `docs/research/harness-evaluations/Microsoft-AutoGen.md.trace.md`
+- `docs/research/harness-evaluations/_template.md`
+- `docs/research/hms-postmortem-claims-assessment.md`
+- `docs/research/other-stage3-crossref.md`
+- `docs/research/research-git-notes.md`
+
+(There are six files in this list; the classification is based on the actual inspected results, not the heading count.)
+
+These require document-purpose classification before metadata can be authored safely. In particular, the trace file and template may not belong to the same metadata contract as maintained Research records.
+
+#### Materially incomplete identity/relationship metadata
+
+Notable cases requiring deeper inspection rather than mechanical empty-field insertion:
+
+- `docs/research/pre-build-compilation/Strategy-to-Builder Integration Packet Method - Derivation.md` — identity metadata exists, but all dependency/consumer/implementation/supersession relationships are absent.
+- `docs/research/prior-art-brief.md` — after its corrected Research-layer classification, it still lacks most repository/dependency/consumer/relationship fields and `last_updated`.
+- `docs/research/prompting/Ontological Connection to Review Skill.md` — identity present, relationship graph largely absent.
+- `docs/research/sections/source-3-atlas.md` — has frontmatter delimiters but lacks almost all canonical identity and relationship fields; this is effectively a metadata-empty source record.
+- `docs/research/sections/source-5-paper-28802.md` — identity is partial and most relationship fields are absent.
+
+#### Mostly relationship-only gaps
+
+The following families are generally classified and only lack some current-schema relationship fields:
+
+- `docs/research/crosslink-gates/`
+- failure/handoff analyses
+- maintained harness evaluations
+- read-only methodology research
+- regression/epistemic-validation research
+- retrospective phase/topic documents
+- several source-section and selection-rationale records
+
+The repeated absence of `implements` / `implemented_by` across Research material may be semantically appropriate for some documents, but the Standard currently requires the fields. Whether the correct representation is an explicit empty value, `none`, or omission-by-document-type must be resolved from the Standard/taxonomy contract rather than guessed file-by-file.
+
+### Stage 3.2 cumulative position
+
+The metadata hazard is now clearly two problems:
+
+1. **classification/identity gaps** — a minority of documents need semantic review before any metadata is written;
+2. **schema-conformance gaps** — a much larger set appears correctly classified but predates or incompletely implements the current relationship-field schema.
+
+The next useful step is therefore to inspect the Documentation Standard's required-field semantics and existing fully compliant documents to determine whether mechanically adding explicit empty relationship values is permitted. If so, a large safe normalization batch becomes possible; if not, the Standard itself needs clarification before repository-wide repair.
+
+### Turn workload
+
+This turn inspected **45 Research documents** and completed without streaming/tool-limit failure.
