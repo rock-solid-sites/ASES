@@ -850,3 +850,60 @@ Search condition: exact occurrence of `docs/historical/`.
 Result: **0 historical-path references in all 16 documents.**
 
 Cumulative Stage 3.1 result remains unchanged: no forbidden Historical → current upstream dependency has been found. The only historical references found in the 126 current documents checked are explicit lineage/evidence citations, not `depends_on` relationships.
+
+
+## Stage 3.2 — canonical-looking prose without complete metadata
+
+### Stage 3.2 checkpoint 1 — high-level current-document inventory
+
+**Status: 29 high-level current documents inspected. No edits performed.**
+
+Method: inspect the opening 80 lines of each file for YAML frontmatter and the field names required by the canonical Documentation Standard. This is an inventory pass only: a missing field-name result is a retrieval hazard to inspect, not automatic authority to synthesize metadata.
+
+Coverage:
+
+- all 10 current Architecture/core-substrate documents;
+- methodology, requirements, role, and Standards documents;
+- the five retained root-level `docs/` utilities;
+- all three files under `specifications/`.
+
+#### Files with no YAML frontmatter at the document start
+
+Seven high-level documents currently present authoritative-looking prose without a metadata header:
+
+- `docs/standards/Documentation Standard.md`
+- `docs/ORCHESTRATOR.md`
+- `docs/crosslink-adversarial-review.md`
+- `docs/crosslink-subagent-orchestration.md`
+- `docs/final-report-template.md`
+- `specifications/Adverarial Test Suite Reviews:.md`
+- `specifications/Hospitality Management Suite Specification.md`
+
+The Documentation Standard itself is therefore part of the metadata-conformance hazard set; field names appearing in its explanatory body must not be mistaken for document metadata.
+
+#### Frontmatter present but required-field names incomplete in the opening metadata region
+
+Notable cases:
+
+- `docs/architecture/Execution Engine Vision.md` — lacks field names for `consumed_by`, `implements`, `implemented_by`, and `superseded_by` in the inspected header region.
+- older methodology/core-prompt documents generally lack some combination of `implements`, `implemented_by`, `supersedes`, and/or `superseded_by`.
+- `docs/roles/Ontology-Reviewer.md` has frontmatter but lacks most of the canonical identity/relationship fields, including `program`, `layer`, `document_type`, `canonical_repository`, and dependency/consumer/relationship fields.
+- `docs/standards/Canonical Terminology.md`, `Concept - Levels of Abstraction.md`, and `Documentation Taxonomy.md` lack several relationship fields and `last_updated` in the inspected header region.
+- `docs/SESSION-END.md` lacks several implementation/supersession relationship fields.
+- `specifications/observer-conformance-suite.md` is nearly complete but lacks an `implemented_by` field name in the inspected header region.
+
+By contrast, the newer EDASES architecture/core-substrate documents are largely fully populated under the current metadata schema.
+
+### Interpretation
+
+This confirms a Stage 3 retrieval hazard rather than a blanket repair instruction: metadata completeness correlates strongly with document generation era, while some high-authority older documents predate the current schema entirely. The next step should distinguish:
+
+1. documents that should receive mechanically obvious metadata completion;
+2. documents whose classification/authority must be resolved before metadata can be authored safely;
+3. templates/specifications that may need a taxonomy/home decision rather than fabricated canonical metadata.
+
+No metadata was invented or normalized in this checkpoint.
+
+### Turn workload note
+
+This turn inspected **45 documents total**: 16 Stage 3.1 Kernel-0 documents plus 29 Stage 3.2 high-level documents. It completed without the oversized scan pattern used in the prior failed turn.
