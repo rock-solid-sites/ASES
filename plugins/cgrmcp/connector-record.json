@@ -1,0 +1,46 @@
+{
+  "format": "ases-chatgpt-plugin-record-v1",
+  "name": "cgrmcp",
+  "namespace": "cgrmcp",
+  "purpose": "Read-only repository research over immutable public Git snapshots using CodeGraph-backed structural exploration.",
+  "connection": {
+    "mode": "OpenAI Secure MCP Tunnel",
+    "chatgpt_side_auth": "none",
+    "upstream_auth": "bearer protected local MCP endpoint; tunnel-client forwards to it",
+    "tunnel_id": "environment-specific; do not commit",
+    "runtime_api_key": "secret; do not commit",
+    "upstream_endpoint": "http://127.0.0.1:3012/mcp"
+  },
+  "backend": {
+    "service": "cgrmcp 1.0.0",
+    "engine": "@colbymchenry/codegraph@1.6.0",
+    "mode": "stateless read-only Streamable HTTP MCP",
+    "repository_scope": "public HTTPS Git repositories accepted by the service allowlist, opened as immutable commit-pinned research snapshots",
+    "snapshot_storage": "service-managed host storage; environment-specific"
+  },
+  "tools": [
+    "repo_open",
+    "repo_explore",
+    "repo_status",
+    "repo_read"
+  ],
+  "skill": "../../skills/cgrmcp/SKILL.md",
+  "verified_acceptance": [
+    "ChatGPT discovered exactly the four expected tools.",
+    "Public repository import and exact commit pinning succeeded.",
+    "Snapshot reuse succeeded.",
+    "Structural exploration succeeded on an indexable repository.",
+    "Bounded raw-file fallback succeeded.",
+    "Traversal and non-HTTPS import attempts failed closed.",
+    "Host attribution confirmed cgrmcp journal activity increased while GitNexus remained unchanged."
+  ],
+  "reconstruction": [
+    "Run the reviewed cgrmcp service on 127.0.0.1:3012 with its bearer boundary intact.",
+    "Run a separate tunnel-client profile/service bound only to the cgrmcp MCP endpoint.",
+    "Create a private ChatGPT plugin using Connection: Tunnel and bind it to the cgrmcp tunnel.",
+    "Use no ChatGPT-side OAuth/API-key auth when the tunnel path already enforces the local bearer boundary.",
+    "Verify exactly repo_open, repo_explore, repo_status, and repo_read are exposed.",
+    "Install/use the cgrmcp repository-research skill where the ChatGPT surface supports model-visible custom skills."
+  ],
+  "secrets_policy": "Never commit tunnel IDs, OpenAI runtime keys, local bearer values, or credential file contents."
+}
