@@ -898,3 +898,328 @@ rows; scripts used stdlib only). WHAT-NOT-TESTED in Step 2: per-case
 classification shapes taken from frozen cases as given (not re-audited);
 `render_struct` full-corpus byte output not re-hashed (6-function spot check
 is Step 1); power calculations behind §11.1 not re-derived.
+
+---
+
+## Close-out — second verifier, independent adjudication (appended 2026-09-28)
+
+Why this section exists: this file carries work from more than one verifier
+family (Step 2 at lines 214 and 717, Step 3/Step 4/verdict at 518-577, my Step
+2 at 355 and my Step 3 at 578). This section does NOT re-argue what is settled.
+It records (a) my Step 4 checks, all run independently 2026-09-28; (b) my
+adjudication of the three novel findings raised by the concurrent variant
+(F1/F2/F3), each re-derived by me rather than trusted; (c) my verdict.
+
+### My Step 4 checks (independent, read-only except the designed reproduce run)
+
+- Evidence files byte-identical to `ef4dc698`: `git diff ef4dc698 --stat` over
+  `corpus/`, `frozen/` returned EMPTY; the four committed data artefacts
+  (`jev_raw.ndjson`, `jev_unanswerable_obs.ndjson`, `jev/metrics.json`,
+  `jev/scored.ndjson`) likewise unmodified. Post-measurement additions only
+  (`harness/crosscheck_stats.py`, `mimo-mini-check.md`, `verify-*.jsonl/.err`,
+  `autoretry.log`, this file) — additive, none in the evidence chain.
+- Manifest digests: 10/12 match on disk (corpus ×6, frozen ×2, four of six
+  harness files). `score.py` (02fad774→412fec14) and `run_jev.py`
+  (5364858e→888aa3b8) differ because both were fixed between freeze
+  (`1dd546b1`) and measurement (`ef4dc698`) — the §10-disclosed scorer fix
+  plus the observation-only send. Wart in manifest wording, not a measurement
+  failure; the fix direction keeps converted cases visible.
+- `bash reproduce.sh` (Tier 1, offline, run by me): cases digest OK,
+  admissibility digest OK, metrics re-score byte-identical —
+  `REPRODUCTION OK (tier 1)`. Tier 2 skipped (no credential).
+- Credentials: only the NAME `TYPESAFE_API_KEY` and the label
+  `secrets/typesafe.env#TYPESAFE_API_KEY` (268/268 rows) occur in `phase2/`;
+  zero key-shaped values, zero `authorization`/`bearer` occurrences. Clean.
+- Request integrity: 268/268 requests carry exactly one question (key `q`,
+  type `noul`); all 67 `raw_ic` states startswith their `raw` state and all 67
+  `struct_ic` states startswith their `struct` state (distractor appended, no
+  two-scenario concatenation).
+
+### Adjudication of F1/F2/F3 (each re-derived by me)
+
+- **F1 (cost-ratio denominator mixing) — CONFIRMED, and I adopt it as my
+  sharpest qualification.** My paired-set derivation: raw mean 7941.7 vs
+  struct mean 5334.4 input tokens → ratio 1.4888 → **1.49x**, not the
+  headlined 1.63x (totals over 57 vs 52 cells). Cost is linear in input
+  tokens, so paired cost ratio == paired token ratio necessarily. Direction
+  exact, magnitude slightly overstated as framed; one-sentence fix (report
+  paired 1.49x alongside). HOW CERTAIN: proven.
+- **F2 (`unused_import` "under both" prose) — CONFIRMED, a genuine (minor)
+  doc error I failed to catch.** My own §2.3 table gives struct_ic 4/5 = 0.8,
+  which contradicts the §5.2 sentence "Raw 0.8, struct 0.6 under both clean
+  and distractor conditions". The §4 TABLE row (0.8/0.6/0.8/0.8) is correct;
+  the PROSE sentence is wrong. Touches no number in any table; a reader
+  trusting only the prose would misstate struct_ic. I record this as a miss
+  in my Step 3 §3.5, which quoted the sentence without checking struct_ic.
+  HOW CERTAIN: proven (my Step 2 table vs the sentence).
+- **F3 ("no repeats" limitation false) — CONFIRMED, the most load-bearing of
+  the three.** My derivation: 218 cells have `parsed` in BOTH raw and obs
+  files; label agreement 215/218 = **98.6%** (3 flips:
+  json_encoder.param_rebound.001/raw,
+  json_encoder.param_rebound.002/raw_ic,
+  configparser.nesting_conjunction.001/raw_ic), while noul values are
+  identical in only 95/218 — so the obs file is a genuine RE-RUN with
+  endpoint nondeterminism, not a copy. Doc §9 item 9 ("Single run per cell,
+  no repeats ... cell-level nondeterminism is unquantified") is factually
+  wrong: repeat stability IS quantifiable here at 98.6%, and the finding
+  strengthens (not weakens) confidence in the headline accuracies. The fault
+  is the limitation text, not the data. HOW CERTAIN: proven.
+  WHAT-NOT-TESTED: which file is temporally "run 1" (immaterial to the point).
+
+### My verdict
+
+**PASS WITH FINDINGS.** Every load-bearing number in `findings/findings.md`
+reproduced exactly under my independent re-derivation (my Step 2, lines
+355-517: 9/9 groups confirmed, converging with the concurrent variant on all
+numbers); the document's restrained readings are the right calls at this n
+(my Step 3, lines 578-716). The findings that stand: F1 (paired cost 1.49x,
+not headlined 1.63x), F2 (§5.2 prose misstates struct_ic), F3 (§9.9 "no
+repeats" contradicted by the obs-file re-run at 98.6% agreement), plus two
+documentation-grade notes (two stale MANIFEST rows; obs-file sourcing and
+`_ic`-row `classification:null` worth one line each). None touches a scored
+result; F3 actively strengthens the accuracy readings.
+
+### Limitations of MY verification (what I could not check and why)
+
+- No Tier-2 live re-run (no credential in this session); the committed raw
+  rows are taken as the endpoint record.
+- The "~300 cases" power claim behind §11.1 was not recomputed.
+- The 88-functions/260-edges configparser scale figures were not recounted.
+- F2/F3 were adjudicated from the committed files only; I did not audit how
+  the obs-file re-run came to exist (run_jev `--send-unanswerable` history is
+  orchestrator-side).
+- This file now carries overlapping sections from concurrent verifiers; I
+  verified mine are intact (Step 2 at 355, Step 3 at 578) and adjudicated the
+  points of difference rather than rewriting them. A reader should treat the
+  concurrent Step 2s as independent convergence (they agree on all numbers)
+  and this close-out as the tie-break record for F1/F2/F3.
+---
+## Step 3 — adversarial judgement (this continuation; my Step 2 is the block above, not the earlier variants)
+
+Provenance: lines 214-714 hold two Step 2 variants, a Step 3, a Step 4 and a
+verdict from prior/concurrent runs plus the orchestrator blocker. I did not
+write those and do not alter them. I argue each brief question below from MY
+re-derivation (the Step 2 block immediately above), with WHY / WHAT /
+HOW CERTAIN (guess | evidence-based | proven) / WHAT-NOT-TESTED. Where I
+independently converge with the existing Step 3 I say so in one line; where I
+dissent (F2, F3) I show my numbers.
+
+### 3.1 Is "efficiency, not accuracy" the correct headline, or under-claiming?
+
+Correct headline; refusing the accuracy claim is statistically forced, not
+modesty. WHY: the best single comparison (raw_ic vs struct_ic, p=0.0654) is
+above 0.05, and no multiplicity adjustment over four comparisons can help a
+ headline: even the most generous aggregation — a two-sided sign test on
+"structure at-or-above in all 4 comparisons" under the global null — gives
+2*(1/2)^4 = 0.125 (my arithmetic), still above 0.05. Presenting +3.8pp as
+"structure helps accuracy" would repeat exactly the Phase 1 lesson the
+document cites (consistent direction on a small sample is not a finding).
+WHAT: my §2.2 (all four exact p-values re-derived). HOW CERTAIN: proven.
+WHAT-NOT-TESTED: whether larger n converts the direction (that is §11's job).
+
+### 3.2 Is the "no lookup concentration" reading sound, or a non-result dressed as a finding?
+
+The document calls it a non-result, and that is the right call. WHY: the
+whole group comparison rests on 6 discordant cells split 1-vs-2 and 1-vs-2
+(my §2.5); the "+4.0pp vs +3.7pp same size" is one net cell per group — moving
+a single cell erases or doubles either effect. "Helps judgment", "helps
+lookup" and "nothing happened" all predict these counts about equally well.
+A dressed finding would claim the equal gains as positive evidence; the
+document instead calls it "the strongest argument for a larger n".
+Converges with the existing §3.2. HOW CERTAIN: evidence-based.
+WHAT-NOT-TESTED: group-specific effects at larger n.
+
+### 3.3 Is the robustness signal (raw 4-0 vs struct 1-2, p=0.125) sold too strongly?
+
+No. WHY: the document labels it "suggestive sign pattern, NOT a supported
+result", keeps p=0.125 visible in both §4 and the §8 verdict table, and flags
+n=5 per type. The gap arithmetic (+3.8pp clean, +13.5pp distracted) follows
+from the paired counts (my §2.2). The per-type mechanism exhibit
+(nesting_conjunction raw 0.8->0.4 while struct holds 0.8) is exactly two cells
+flipping: `json_encoder.nesting_conjunction.001` and
+`textwrap.nesting_conjunction.001` (both in my §2.4 raw lost-list) — fragile,
+and the document says the sample is too small to carry it. Converges with the
+existing §3.3. HOW CERTAIN: evidence-based (cell-level flip inspection).
+WHAT-NOT-TESTED: replication of those two flips.
+
+### 3.4 Evidence-removal: correctly "structure HURTING", or a defensible scoping decision?
+
+Correctly characterised as hurting *under the replacement pattern*, and the
+scoping reframe fails. WHY: the adversarial reframe ("structure never
+promised literals, so unanswerability is scope, not harm") dies on the
+document's own terms — the hazard exists exactly when preprocessing is
+deployed as a replacement, and then silent evidence-dropping is a correctness
+hazard regardless of intent. The probe measured it (5/5 struct cells
+inadmissible by the gate, my §2.3) rather than hypothesising it, and the
+document volunteers the defence's best fact (raw itself only 0.40, so the
+question is hard even with evidence). The prescription (pair structure with
+its evidence, §11.3) follows. Converges with the existing §3.4.
+HOW CERTAIN: evidence-based. WHAT-NOT-TESTED: whether a
+literals-preserving structure keeps the efficiency win.
+
+### 3.5 `unused_import` worse under structure (0.6 vs 0.8): cost or noise? — FLAG CORRECT, SENTENCE WRONG (F2)
+
+The "flag for enlargement, not a claim" handling is right (the gap is one
+cell, 3/5 vs 4/5), BUT findings §5.2 writes "Raw 0.8, struct 0.6 under both
+clean and distractor conditions," and that sentence is factually wrong: struct
+under distraction is 4/5 = 0.8 (my §2.3 table), recovering via
+`configparser.unused_import.001` (in my §2.4 struct gain-list). So the
+"compact representation made the composition harder" mechanism has a
+counterexample in the same table: under distraction the effect disappears.
+DISSENT from the existing §3.5, which endorses the handling without catching
+the sentence. The correction is one sentence ("struct 0.6 clean, 0.8
+distracted"); the flag itself stays a flag. WHY/WHAT: my §§2.3-2.4 counts.
+HOW CERTAIN: proven for the numbers; guess for any mechanism attribution.
+WHAT-NOT-TESTED: enlarged-n replication.
+
+### 3.6 Cost model: tariff validity and the 1.63x computation (F1)
+
+Tariff sourcing is defensible; the 1.63x is arithmetically exact but framed
+against the wrong denominator. WHY: $0.042/1M input with free output is
+confirmed in `phase1/followup-04-jev-direct/README.md` (TypeSafe docs fetched
+2026-09-26, one day before the Phase 2 run; that README itself warns both
+tariffs are promotional and tier-dependent). Treating it as valid across the
+run window is defensible, findings §9.8 discloses the dependence, and output
+tokens (~20/cell) could not move any ratio. Computation: 0.018973/0.011650 =
+1.6286 -> 1.63x exact. BUT it is the ratio of condition totals over 57 vs 52
+cells: 1.4888 (per-case token saving) x 57/52 (admissibility gap) = 1.6320
+(my §2.9 decomposition). On the shared 52 — the only set the document's own
+§1 calls interpretable — cost ratio = token ratio = 1.49x, necessarily, since
+cost is linear in input tokens. So §2's "exact counts over the same 52
+comparable cases" is FALSE for the cost column as headlined, and a reader
+comparing "1.63x cheaper" with the paired +3.8pp accuracy gap mixes a totals
+ratio with a paired gap. The tariff-proof headline number is 1.49x fewer
+input tokens. Fix: report paired cost 1.49x alongside; nothing about the
+efficiency conclusion changes. Converges with the existing §3.1 (same
+decomposition). HOW CERTAIN: proven. WHAT-NOT-TESTED: live tariff re-fetch
+(irrelevant to the shared-52 ratio, which is tariff-invariant).
+
+### 3.7 Overstated / understated / beyond-sample / missing-limitations sweep
+
+- Overstated: F1 (cost framing) and F2 (unused_import sentence) above, both
+  small. Every accuracy-adjacent statement I checked carries its p-value or
+  an explicit unresolved/non-result/suggestive label — the §8 verdict table
+  rows match their section evidence.
+- Understated, if anything: the §10 caught-bugs (scorer condition-relative
+  split dropping all 25 converted cases; gate catching 10 wrong ground
+  truths) are load-bearing honesty results given one paragraph each; they
+  strengthen trust in the 218 scored cells.
+- Beyond-sample: the §7 EDASES gate prescription ("needs an explicit
+  derivability check") generalises from 10 unanswerable cases on one
+  mechanism; acceptable as a flagged consequence (its one-mechanism
+  inheritance is covered by §9.2 itself).
+- Missing from §9: (a) F3 below — the big one; (b) the obs-file sourcing for
+  §7 behaviour data (names the file; currently takes two-file comparison to
+  discover); (c) endpoint non-frozenness for future live re-runs.
+  HOW CERTAIN: evidence-based (text-vs-evidence comparison).
+
+### 3.8 Are the limitations honest? — YES EXCEPT ITEM 9 (F3)
+
+Items 1-8 check out against artefacts I inspected (single model/endpoint
+`jev-1.13.0`/`jev_direct` in 268/268 rows per my §2.11; whole-module states;
+5 vendored stdlib subject modules; single uuid distractor; tariff string;
+template phrasing). Item 9 ("Single run per cell, no repeats ... so
+cell-level nondeterminism is unquantified") is FALSE. WHY: the observation
+file re-sent all 258 sendable cells (0/218 scored cells share the main run's
+latency despite identical request_shas; my §2.10): label agreement 215/218
+(98.6%; 3 flips named in §2.10), run-2 accuracies 0.7895/0.7368/0.8846/0.9038
+vs run-1 0.8070/0.7368/0.8846/0.9038 — within one cell everywhere. DISSENT
+from the existing §3.7 item 9 (which "confirmed" no-repeats by counting
+duplicate pairs within one file — the repeat is ACROSS the two files). The
+scored results are unaffected (scored.ndjson is byte-identical to run 1).
+The fault is a false limitation that conceals stability evidence which
+actually SUPPORTS the report. HOW CERTAIN: proven (cross-file measurement).
+WHAT-NOT-TESTED: the cause of inter-run flips (endpoint nondeterminism;
+untestable offline).
+
+### 3.9 Is the smallest next experiment actually the smallest? — YES
+
+Each prong answers a question this phase opened and nothing else: (1) ~300
+cases keeps the pre-registered McNemar read with falsifiability stated
+("if it does not survive, that is a real negative"); (2) one second mechanism
+with the followup-05 transport control mandatory, answering generalisability;
+(3) the literals design decision BEFORE scaling, else the scale-up measures a
+representation already slated for redesign (cheapest-test-first ordering).
+The NOT-list (no R3, no session replay, no architecture) refuses exactly the
+unopened spends. Two additions from my findings: bank the existing run-2
+stability (98.6% label agreement) instead of budgeting fresh repeat
+measurement, and note the ~300 power curve is taken as stated (I did not
+re-derive it either). Converges with the existing §3.8. HOW CERTAIN:
+evidence-based (design-logic check). WHAT-NOT-TESTED: budget feasibility of
+the second-mechanism route.
+
+---
+
+## Step 4 — integrity and reproduction (this continuation)
+
+- **Harness/corpus/frozen vs commit ef4dc698:** `git status --porcelain` over
+  `harness/`, `corpus/`, `frozen/` is CLEAN (no working-tree modifications);
+  `git diff ef4dc698 --` over the same paths shows only two ADDED files
+  (`harness/crosscheck_stats.py`, `harness/mimo-mini-check.md` — later
+  committed additions; I did not use crosscheck_stats.py as a source of
+  truth). I ran no git commit, push, or checkout.
+- **Concurrent-harness caveat:** during this session `results/` was being
+  mutated by the repo's own verification auto-retry process
+  (`results/autoretry.log`, `results/verify-muse*.jsonl` modified;
+  `results/verify-muse4.*` untracked). None of that is mine; I created and
+  touched only `verification.md`, and my Step 2 used only the frozen
+  measurement files (`jev_raw`, obs, `jev/metrics.json`, `scored.ndjson`,
+  `frozen/`).
+- **Frozen digests vs `frozen/MANIFEST.md`:** corpus 6/6 match; `frozen/
+  cases.json` + `admissibility.json` match; harness 4/6 match (extract,
+  gen_cases, represent, validate_cases). `harness/run_jev.py` and
+  `harness/score.py` DIFFER from their manifest rows — post-freeze fixes
+  disclosed in findings §10 (observation-only send; intrinsic case_group).
+  The working tree matches ef4dc698/HEAD, so this predates me; it is a
+  manifest-documentation wart (two stale rows), not a measurement integrity
+  failure. Converges with the existing Step 4 archaeology.
+- **Re-run:** `bash reproduce.sh` (offline tier) prints `REPRODUCTION OK
+  (tier 1)`, exit 0 — cases.json digest OK, admissibility.json digest OK,
+  metrics.json re-score byte-identical (sha256 2ce8ac4e…); the script removed
+  `results/reproduce_check`; frozen/ untouched. Tier 2 skipped (no --live).
+- **Credential scan of phase2/:** only NAME/label mentions
+  (`harness/run_jev.py` env-file parser + `CRED_LABEL`;
+  `reproduce.sh`; brief docs). `credential_source` is the label
+  `secrets/typesafe.env#TYPESAFE_API_KEY` on all 268 rows — a pointer, not a
+  value. No `TYPESAFE_API_KEY=` assignment anywhere (the single
+  `startswith` line is parser code). One grep hit for a key-like pattern
+  (`findings/verification-status.md:93`) is the substring "sk-c" in
+  "task-completion" — false positive. NO CREDENTIAL VALUES in phase2/.
+  Values live outside the repo (`~/.secrets/typesafe.env` present).
+- **No silent `noul` coercion:** 1 question per request in all 218 sent cells;
+  state is a single string whose UTF-8 byte length equals
+  `representation.state_bytes` (0 mismatches); 218 unique request_shas;
+  single model/endpoint/schema triple. Inadmissible cells were never sent in
+  the scored run (all 40 `ground_truth is None` rows in `scored.ndjson` have
+  `correct is None`).
+
+---
+
+## Verdict
+
+**PASS WITH FINDINGS** — every reported number re-derives exactly from the raw evidence (extraction concurred on 6/6 pairs, all §§0/1/3/4/6/7 statistics matched to display precision, Tier-1 reproduction byte-identical), and the headline "efficiency, not accuracy" with its refused accuracy claims is the only reading the arithmetic permits; the single most important qualification is that the headlined "1.63× cheaper" cost ratio mixes denominators (57 vs 52 cells) while the paired-comparable figure per the document's own §1 rule is 1.49× — accompanied by a false "struct 0.6 under both conditions" sentence and a false "no repeats" limitation that conceals a supporting full second run at 98.6% label agreement.
+
+---
+
+## Limitations of this verification (this continuation)
+
+- Step 1 on disk predates this continuation; I re-derived all six pairs
+  independently (stdlib `ast` reasoning + `extract.load_module`, before
+  reading any conclusion document) and concur — including a cosmetic erratum
+  I leave untouched (duplicated max_nesting row in the §6 table).
+- Lines 214-714 (two Step 2 variants, Step 3, Step 4, verdict) are
+  prior/concurrent runs' work. I rely only on my own Step 2/3/4 above;
+  convergences are noted, never used as evidence. (Triple agreement on every
+  number is recorded as an observation, not a proof.)
+- A concurrent auto-retry harness mutated `results/*.jsonl` during this
+  session; my evidence uses only the frozen measurement files (and I
+  re-verified hashes after each append).
+- No Tier-2 live re-run; tariff not re-fetched live (shared-52 ratios are
+  tariff-invariant); the ~300-case power curve not re-derived; per-case
+  intrinsic classifications taken as given; `render_struct` not fully
+  re-hashed beyond the six-pair spot check.
+- One delegated file-append earlier in this session returned a success claim
+  for a write that provably did not happen (mtime/HEAD-hash unchanged); since
+  then every append is verified by content-hash match plus read-back before
+  continuing. The current file hash is reported by the proxy below and was
+  re-checked by the verifier.

@@ -35,6 +35,8 @@ PHASE2 = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
 import represent  # noqa: E402
+import freeze as freeze_ctl  # noqa: E402
+import record_schema as rschema  # noqa: E402
 
 ENDPOINT = "https://api.typesafe.ai/v1/systemone"
 MODEL = "jev-1.13.0"
@@ -172,6 +174,9 @@ def main():
     ap.add_argument("--conditions", default=",".join(represent.CONDITIONS))
     ap.add_argument("--sleep", type=float, default=0.0)
     ap.add_argument("--preflight", action="store_true")
+    ap.add_argument("--no-freeze-check", action="store_true",
+                    help="escape hatch for inspecting a run whose freeze has "
+                         "been broken; recorded in the output as a violation")
     ap.add_argument("--send-unanswerable", action="store_true",
                     help="OBSERVATION ONLY. Send cases with no ground truth so "
                          "answering/confidence behaviour can be compared across "
@@ -185,6 +190,18 @@ def main():
         print("FATAL: TYPESAFE_API_KEY not resolvable from "
               "~/.secrets/typesafe.env", file=sys.stderr)
         return 4
+
+    # ---- FREEZE GATE (pre) -------------------------------------------------
+    # Nothing is planned, built, sent or scored until every frozen component is
+    # confirmed byte-identical. A changed component requires a NEW declared
+    # freeze; continuing silently would invalidate every number downstream.
+    if not args.no_freeze_check:
+        rc = freeze_ctl.verify("pre-run")
+        if rc != 0:
+            print("ABORT: frozen components changed. Declare a new freeze with "
+                  "`python3 harness/freeze.py declare` before any measured "
+                  "execution.", file=sys.stderr)
+            return 6
 
     cases = json.load(open(args.cases, encoding="utf-8"))
     adm = {r["case_id"]: r for r in
@@ -202,8 +219,12 @@ def main():
         print(f"preflight http={st} raw={raw[:220]}")
         return 0 if st == 200 else 5
 
-    rows = []
-    n = 0
+    case_by_id = {c["case_id"]: c for c in cases}
+
+    # ---- PHASE A: construct every record, spend nothing -------------------
+    # The whole batch is built and schema-validated BEFORE the first request.
+    # A schema defect therefore costs zero API calls instead of a whole run.
+    planned = []
     for case in cases:
         for cond in conditions:
             row = adm.get(case["case_id"])
@@ -260,15 +281,42 @@ def main():
                 rec["typed_error"] = "not_admissible"
                 rec["error_detail"] = ("case unanswerable under this "
                                        "condition by construction")
-                rows.append(rec)
-                n += 1
+                planned.append(rec)
                 continue
             if not derivable:
                 rec["admissibility_basis"] = (
                     "required-evidence predicate NOT satisfied -> unanswerable "
                     "for this condition; sent for BEHAVIOUR OBSERVATION ONLY and "
                     "never scored")
+            planned.append(rec)
+        if args.limit and len(planned) >= args.limit:
+            break
+    if args.limit:
+        planned = planned[:args.limit]
 
+    # ---- SCHEMA GATE ------------------------------------------------------
+    # Zero API spend so far. Validate the entire planned batch now.
+    violations = rschema.validate_batch(planned, label="planned")
+    planned_sent = sum(1 for r in planned
+                       if r["typed_error"] != "not_admissible")
+    print(f"schema gate: {len(planned)} records planned, "
+          f"{planned_sent} to be sent, {len(violations)} violation(s)")
+    if violations:
+        for v in violations[:30]:
+            print("  " + v, file=sys.stderr)
+        print("ABORT: raw-record schema violated before any API call was "
+              "spent. No request was made.", file=sys.stderr)
+        return 7
+
+    # ---- PHASE B: send ----------------------------------------------------
+    rows = []
+    n = 0
+    for rec in planned:
+            case = case_by_id[rec["case_id"]]
+            if rec["typed_error"] == "not_admissible":
+                rows.append(rec)
+                n += 1
+                continue
             t0 = time.time()
             st, raw, _ = post(rec["request"], key)
             rec["http_status"] = st
@@ -286,12 +334,16 @@ def main():
                     rec["error_detail"] = raw[:300]
             rows.append(rec)
             n += 1
-            if args.limit and n >= args.limit:
-                break
             if args.sleep:
                 time.sleep(args.sleep)
-        if args.limit and n >= args.limit:
-            break
+
+    # ---- FREEZE GATE (post) ----------------------------------------------
+    # Confirms nothing mutated a frozen component during the run.
+    if not args.no_freeze_check:
+        rc = freeze_ctl.verify("post-run")
+        if rc != 0:
+            print("WARNING: frozen components changed DURING the run; results "
+                  "are not attributable to the declared freeze.", file=sys.stderr)
 
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w", encoding="utf-8", newline="\n") as fh:

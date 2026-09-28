@@ -13,7 +13,7 @@
 
 Efficiency gains are exact and carry no sampling uncertainty: structure is
 **1.92× smaller in state bytes, 1.49× fewer input tokens, 1.49× cheaper per
-case**, with a slightly lower median latency. These are measurements over
+case (matched 52-cell set; see §12 E1)**, with a slightly lower median latency. These are measurements over
 identical case sets, so there is no confidence interval to compute.
 
 Accuracy gains are **directionally positive and not statistically supported** at
@@ -55,7 +55,7 @@ TypeSafe docs fetched 2026-09-26. A tariff change moves the cost column only.
 |---|---|---|---|
 | state bytes (mean) | 32782 | 17085 | **1.92× smaller** |
 | input tokens (mean per case) | 7925 | 5334 | **1.49× fewer** |
-| cost per case | $0.00033286 | $0.00022404 | **1.49× cheaper** |
+| cost per case (matched 52-cell set) | $0.00034775 | $0.00023355 | **1.4888× cheaper** |
 | cost per run (total, **unequal n**) | $0.018973 (57 cells) | $0.011650 (52 cells) | 1.63× — *not* like-for-like, see §12 |
 | median latency | 337.8 ms | 324.9 ms | 1.04× faster |
 | p95 latency | 426.6 ms | 381.4 ms | 1.12× better |
@@ -227,7 +227,7 @@ and what no probability signal substitutes for.
 
 | axis | verdict |
 |---|---|
-| input size / cost | **structure helps**, exactly and substantially (1.92× / 1.49× / 1.49×) |
+| input size / cost | **structure helps**, exactly and substantially (1.92× / 1.49× / 1.4888×, all matched-denominator) |
 | latency | structure marginally better (1.04× median, 1.12× p95); not the interesting axis |
 | accuracy, clean representation | **unresolved** — direction favours structure, p=0.69 |
 | accuracy under irrelevant context | **unresolved** — direction favours structure, p=0.065 |
@@ -335,7 +335,8 @@ this document, plus two documentation-grade defects. All are corrected here.
 ### E1 (material) — the cost ratio mixed denominators
 
 **Was claimed:** structure is **1.63x cheaper**.
-**Actually true:** structure is **1.49x cheaper per case**.
+**Actually true:** structure is **1.4888x cheaper per case over the matched
+52-cell set**.
 
 The 1.63x figure compared the *total* cost of the `raw` run (57 admissible
 cells) against the *total* cost of the `struct` run (52 admissible cells). The
@@ -346,13 +347,24 @@ solving. That flatters structure.
 
 | | raw | struct | ratio |
 |---|---|---|---|
-| total cost | $0.018973 (57 cells) | $0.011650 (52 cells) | 1.63x *(unequal n, invalid)* |
-| **cost per case** | **$0.00033286** | **$0.00022404** | **1.49x** *(like-for-like)* |
+| total cost | $0.018973 (57 cells) | $0.011650 (52 cells) | 1.6286 *(unequal n, INVALID)* |
+| per case, each condition's own cells | $0.00033286 (57) | $0.00022404 (52) | 1.4857 *(valid, but denominators still differ)* |
+| **per case, MATCHED 52-cell set** | **$0.00034775** | **$0.00023355** | **1.4888** *(the figure to quote)* |
 
-The correct per-case ratio is 1.4857, which is **identical to the input-tokens
-per-case ratio** of 1.4857 - as it must be, since cost is linear in input
-tokens at a fixed tariff. That identity is a useful consistency check and it is
-the figure to quote.
+Three candidate ratios exist and only one is legitimate. The correct basis is
+the **explicitly matched cell set** - the 52 cases admissible and answered under
+*both* conditions - giving **1.4888x**. The per-condition-own-cells figure of
+1.4857 is close but still compares 57 questions against 52, so it is not
+like-for-like either.
+
+Because pricing is a fixed linear function of input tokens, the cost ratio and
+the input-token ratio over the matched set are **identical to 1.488767**. That
+identity is now enforced mechanically, not asserted in prose: `score.py` raises
+`AnalysisFailure` if a reported cost ratio disagrees with the token ratio
+recomputed over the matched set, or if any condition's reported cost total
+disagrees with its own reported token total times the tariff. Both failure
+modes are covered by negative tests, including a replay of this very defect
+(reported cost ratio forced back to 1.62856, which the guard rejects).
 
 **Direction unchanged; magnitude reduced.** Structure is still materially
 cheaper. The error inflated a real effect by roughly 10% of its own size.

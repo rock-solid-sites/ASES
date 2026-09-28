@@ -28,6 +28,23 @@ COST_PER_MTOK_INPUT = 0.042
 COST_TARIFF_SOURCE = ("followup-04-jev-direct/README.md, TypeSafe docs "
                       "models.md fetched 2026-09-26")
 
+# Analysis failure threshold for the cost/token consistency check. Pricing is a
+# fixed linear function of input tokens, so the cost ratio between two
+# conditions MUST equal the input-token ratio between the same two conditions
+# over the same cell set. Any disagreement beyond this tolerance means the two
+# numbers were computed over different denominators or different cell sets, and
+# is an analysis failure rather than a rounding artefact.
+COST_TOKEN_RTOL = 1e-6
+# Absolute tolerance for the per-condition identity cost == tokens * rate.
+# Cost is stored rounded to 10 decimal places, so 5e-11 is the rounding bound;
+# 1e-9 leaves headroom while remaining ~7 orders of magnitude tighter than the
+# ~9% divergence a real denominator mismatch produces.
+COST_IDENTITY_ATOL = 1e-9
+
+
+class AnalysisFailure(RuntimeError):
+    """Raised when reported statistics are mutually inconsistent."""
+
 
 def load_ndjson(p):
     return [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()]
@@ -67,6 +84,148 @@ def case_group(case):
     return "judgment_under_both"
 
 
+
+
+def matched_set(rows, conditions):
+    """Case ids admissible AND answered in EVERY listed condition.
+
+    This is the only legitimate basis for comparing aggregate cost or token
+    totals across conditions, because it guarantees an identical cell set.
+    """
+    sets = []
+    for cond in conditions:
+        sets.append({r["case_id"] for r in rows
+                     if r["condition"] == cond and r["admissible"]
+                     and r["parsed"]})
+    if not sets:
+        return set()
+    inter = set.intersection(*sets)
+    return inter
+
+
+def efficiency_over_matched_set(rows, conditions):
+    """Per-case and total efficiency over an explicitly identical cell set."""
+    ids = matched_set(rows, conditions)
+    out = {"conditions": list(conditions), "n_matched_cases": len(ids),
+           "case_ids_sha_note": "explicitly identical cell set across conditions"}
+    per = {}
+    for cond in conditions:
+        sel = [r for r in rows if r["case_id"] in ids and r["condition"] == cond]
+        tok = sum((r.get("usage") or {}).get("input_tokens", 0) for r in sel)
+        sb = sum(r["representation"]["state_bytes"] for r in sel)
+        cost = tok / 1_000_000.0 * COST_PER_MTOK_INPUT
+        per[cond] = {
+            "n_cells": len(sel),
+            "input_tokens_total": tok,
+            "input_tokens_per_case": round(tok / len(sel), 4) if sel else None,
+            "state_bytes_total": sb,
+            "state_bytes_per_case": round(sb / len(sel), 2) if sel else None,
+            "cost_usd_total": round(cost, 10),
+            "cost_usd_per_case": round(cost / len(sel), 12) if sel else None,
+        }
+    out["per_condition"] = per
+    if len(conditions) == 2:
+        a, b = conditions
+        ta = per[a]["input_tokens_per_case"]
+        tb = per[b]["input_tokens_per_case"]
+        ca = per[a]["cost_usd_per_case"]
+        cb = per[b]["cost_usd_per_case"]
+        out["token_ratio_a_over_b"] = round(ta / tb, 6) if ta and tb else None
+        out["cost_ratio_a_over_b"] = round(ca / cb, 6) if ca and cb else None
+    return out
+
+
+def assert_cost_token_consistency(rows, conditions, label="", reported=None):
+    """Verify a REPORTED cost ratio against a freshly computed token ratio.
+
+    The first version of this check was VACUOUS: it derived cost from the same
+    token sum it then compared against, so the two ratios were identical by
+    construction and could never disagree. A negative test caught that. This
+    version is non-vacuous because the two sides are computed from different
+    places:
+
+      * the reported side comes from the document / metrics under test
+      * the fresh side is recomputed from the raw records
+
+    Two failure modes are checked:
+
+    1. PER-CONDITION. A reported cost total must equal its own reported input
+       token total times the tariff. Disagreement means the cost figure was
+       computed over a different cell set from the token figure.
+    2. CROSS-CONDITION. A reported cost ratio must equal the token ratio over
+       the MATCHED cell set. Disagreement means the ratio compared unequal
+       denominators, which is exactly the retracted 1.63x claim (errata E1).
+
+    Disagreement raises AnalysisFailure.
+    """
+    rep = efficiency_over_matched_set(rows, conditions)
+    a, b = (conditions + [None, None])[:2] if len(conditions) < 2 else conditions[:2]
+    tr = rep.get("token_ratio_a_over_b")
+
+    out = {"label": label, "conditions": list(conditions),
+           "n_matched_cases": rep["n_matched_cases"],
+           "fresh_token_ratio_matched": tr,
+           "checks": []}
+
+    # 1. per-condition: reported cost == reported tokens * rate
+    if reported:
+        for cond in conditions:
+            rc = (reported.get("by_condition", {}).get(cond) or {})
+            ct, ctok = rc.get("cost_usd_total"), rc.get("input_tokens_total")
+            if ct is not None and ctok is not None:
+                expect = ctok / 1_000_000.0 * COST_PER_MTOK_INPUT
+                ok = abs(ct - expect) <= COST_IDENTITY_ATOL
+                out["checks"].append({
+                    "check": "reported_cost_equals_reported_tokens_times_rate",
+                    "condition": cond, "reported_cost": ct,
+                    "reported_tokens": ctok, "expected_cost": expect,
+                    "ok": ok})
+                if not ok:
+                    raise AnalysisFailure(
+                        f"{label}: reported cost {ct} for {cond} does not equal "
+                        f"its own reported token total {ctok} x "
+                        f"{COST_PER_MTOK_INPUT}/Mtok = {expect}. The cost and "
+                        f"token figures were computed over different cell sets. "
+                        f"Investigate before reporting.")
+        # 2. cross-condition: reported cost ratio == fresh matched token ratio
+        rr = reported.get("efficiency_matched_set", {}).get(
+            "|".join(conditions[:2]) if len(conditions) == 2 else "", {})
+        rcr = rr.get("cost_ratio_a_over_b")
+        if rcr is not None and tr is not None:
+            ok = abs(rcr - tr) <= COST_TOKEN_RTOL * max(abs(tr), 1.0)
+            out["checks"].append({
+                "check": "reported_cost_ratio_equals_matched_token_ratio",
+                "reported_cost_ratio": rcr, "fresh_matched_token_ratio": tr,
+                "ok": ok})
+            if not ok:
+                raise AnalysisFailure(
+                    f"{label}: reported cost ratio {rcr} disagrees with the "
+                    f"input-token ratio {tr} recomputed over the matched cell "
+                    f"set (n={rep['n_matched_cases']}). Pricing is a fixed "
+                    f"linear function of input tokens, so these MUST agree. "
+                    f"Disagreement means the reported ratio compared unequal "
+                    f"denominators. Investigate before reporting.")
+    out["consistent"] = all(c["ok"] for c in out["checks"]) if out["checks"] \
+        else None
+    return rep, out
+
+
+def naive_total_ratio(rows, a, b):
+    """The WRONG way, computed only so the report can show it being rejected."""
+    def tot(cond):
+        sel = [r for r in rows if r["condition"] == cond and r["admissible"]]
+        tok = sum((r.get("usage") or {}).get("input_tokens", 0) for r in sel)
+        return len(sel), tok, tok / 1_000_000.0 * COST_PER_MTOK_INPUT
+    na, ta, ca = tot(a)
+    nb, tb, cb = tot(b)
+    return {"a": a, "b": b, "n_a": na, "n_b": nb,
+            "cost_ratio_of_totals": round(ca / cb, 6) if cb else None,
+            "token_ratio_of_totals": round(ta / tb, 6) if tb else None,
+            "n_equal": na == nb,
+            "why_rejected": ("unequal scored-question counts"
+                             if na != nb else "n/a (equal n)")}
+
+
 def summarise(rows, keyfn):
     groups = defaultdict(list)
     for r in rows:
@@ -97,7 +256,10 @@ def summarise(rows, keyfn):
             "state_bytes_total": sum(state_b),
             "input_tokens_mean": round(statistics.mean(in_tok), 1) if in_tok else None,
             "input_tokens_total": sum(in_tok),
-            "cost_usd_total": round(cost, 8) if cost is not None else None,
+            "cost_usd_total": round(cost, 10) if cost is not None else None,
+            "cost_usd_per_case": (round(cost / n, 12)
+                                  if cost is not None and n else None),
+            "n_scored_questions": n,
             "latency_ms_median": round(statistics.median(lat), 2) if lat else None,
             "latency_ms_p95": round(pct(lat, 0.95), 2) if lat else None,
             "latency_ms_max": round(max(lat), 2) if lat else None,
@@ -144,6 +306,9 @@ def main():
     ap.add_argument("--raw", nargs="+", required=True)
     ap.add_argument("--outdir", required=True)
     ap.add_argument("--label", default="jev_direct")
+    ap.add_argument("--reported-metrics", default=None,
+                    help="a metrics.json to verify the reported cost figures "
+                         "against; enables the non-vacuous consistency check")
     args = ap.parse_args()
 
     rows = []
@@ -211,6 +376,38 @@ def main():
             cls_pairs.append(p)
     metrics["paired_by_case_group"] = cls_pairs
 
+    # ---- MATCHED-DENOMINATOR EFFICIENCY ---------------------------------
+    # Aggregate cost/token totals are only comparable over an IDENTICAL cell
+    # set. Every reported efficiency figure below is per-case over a matched
+    # set, and the naive unequal-n ratio is recorded solely to show it rejected.
+    reported = None
+    if args.reported_metrics and os.path.exists(args.reported_metrics):
+        reported = json.load(open(args.reported_metrics, encoding="utf-8"))
+        print(f"verifying REPORTED aggregates from {args.reported_metrics}")
+    matched = {}
+    consistency = {}
+    for a, b in (("raw", "struct"), ("raw_ic", "struct_ic"),
+                 ("raw", "raw_ic"), ("struct", "struct_ic")):
+        key = f"{a}|{b}"
+        rep, cons = assert_cost_token_consistency(rows, [a, b], label=key,
+                                                  reported=reported)
+        matched[key] = rep
+        if cons and cons.get("checks"):
+            consistency[key] = cons
+    metrics["efficiency_matched_set"] = matched
+    metrics["cost_token_consistency"] = consistency
+    metrics["rejected_unequal_n_ratios"] = {
+        k: naive_total_ratio(rows, *k.split("|"))
+        for k in ("raw|struct", "raw_ic|struct_ic")}
+    metrics["efficiency_policy"] = (
+        "All comparative efficiency statistics are per-case over an explicitly "
+        "identical cell set. Aggregate totals across conditions with different "
+        "scored-question counts are NOT comparable and are recorded under "
+        "rejected_unequal_n_ratios only to document their rejection. Because "
+        "pricing is a fixed linear function of input tokens, the cost ratio and "
+        "the input-token ratio must agree over the matched set; disagreement "
+        "raises AnalysisFailure.")
+
     mp = os.path.join(args.outdir, "metrics.json")
     json.dump(metrics, open(mp, "w", encoding="utf-8"), indent=1)
 
@@ -248,6 +445,20 @@ def main():
     for p in metrics["paired"]:
         print(f"  {p['comparison']:22s} n={p['n_shared_admissible']:3d} "
               f"a={p['acc_a']} b={p['acc_b']}")
+    print("\nefficiency over MATCHED cell sets (per case):")
+    for k, rep in metrics["efficiency_matched_set"].items():
+        cons = metrics["cost_token_consistency"].get(k, {})
+        print(f"  {k:22s} n={rep['n_matched_cases']:3d} "
+              f"fresh_matched_token_ratio={cons.get('fresh_token_ratio_matched')} "
+              f"checks={len(cons.get('checks') or [])} "
+              f"consistent={cons.get('consistent')}")
+    rej = metrics["rejected_unequal_n_ratios"]
+    print("\nrejected unequal-n aggregate ratios (recorded, not used):")
+    for k, v in rej.items():
+        print(f"  {k:22s} n {v['n_a']} vs {v['n_b']}  "
+              f"cost_ratio={v['cost_ratio_of_totals']}  "
+              f"token_ratio={v['token_ratio_of_totals']}  "
+              f"rejected: {v['why_rejected']}")
     print(f"\nmetrics -> {mp}")
     return 0
 
