@@ -132,6 +132,7 @@ mutation rejected before reaching its intended fault is not a valid discriminato
 | T20 — engine overlap | Isolate holder A, attempt B activation, then resume A with old requests. No two eligible authority holders can cause conflicting protected acceptance. Refuse takeover if exclusion cannot be established. |
 | T21 — derivation restart and deletion | Delete all optional caches and kill a half-completed derivation. Recompute guard from retained state; no partial output becomes authoritative; accepted historical output/evidence remains available. |
 | T22 — boundary metadata and information flow | Interior edits cannot alter identity/parent/grants or create an exposed route. Completion alone cannot export x. Created-by/project do not confer management; parent code cannot administer C solely by containment. |
+| T23 — unaccepted durable contents | Leave durable candidate z unaccepted, then request final boundary removal. Retain its confinement until valid disposition; checking only the accepted-content list must fail the completeness obligation. Test declared ephemeral scratch teardown separately. |
 
 **Destructive controls:** independently weaken current-view checking, ancestor
 checking, source binding, recoverable-before-ack ordering, content retention,
@@ -159,7 +160,8 @@ If it bypasses the claim, fix the route or narrow the supported attachment befor
 building a scheduler, Observer, Processor, general API or UI.
 
 Deliver a concrete inventory of every actionable route in the selected profile:
-filesystem names and open handles, process/child creation and inherited authority,
+filesystem names and open handles (including descriptor passing), process/child
+creation and inherited authority,
 network/external-service ingress, credentials, shared resources and inbound
 attachments. State which are absent/disabled, completely mediated, or outside the
 physical trust assumptions. Include a bypass attempt for every enabled route.
@@ -176,7 +178,7 @@ without executing the interior. Pin compatible policy meaning for the prototype;
 refuse unsupported interpretation rather than implementing a speculative migration
 framework.
 
-**Acceptance:** execute the relevant T01–T22 traces plus a live successful sequence:
+**Acceptance:** execute the relevant T01–T23 traces plus a live successful sequence:
 create empty P/C; explicitly grant supported read/write with attenuation; accept x;
 replace activity and use x; kill authority; recover x cold and sealed; activate a
 fresh authorized route; accept y; move C sealed to Q without latent widening;
@@ -260,6 +262,6 @@ No automatic adoption of these extensions follows from this table.
 
 **WHY:** implementation agents need fixed observables and pass/fail conditions,
 not architectural choices disguised as test tasks. **WHAT:** closure C1–C12,
-H1–H13, Processor P1–P15 and Work Unit A–L. **HOW CERTAIN:** evidence-based work
+H1–H14, Processor P1–P15 and Work Unit A–L. **HOW CERTAIN:** evidence-based work
 specification, not completed verification. **WHAT-NOT-TESTED:** all F1–F5 work and
 stronger-profile extensions; no new runtime/model tests were run in this session.

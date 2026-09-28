@@ -113,6 +113,14 @@ the correctness of the minimal execution substrate.
 
 Phase I is the current priority.
 
+The [Phase I closure investigation](./core-substrate/Phase-I-Closure.md) records a
+scoped architectural candidate, fifteen Processor falsification attempts, and
+[bounded verification work](./core-substrate/Phase-I-Verification.md). No new
+Kernel primitive or persistent Processor is currently justified. One temporal
+question remains about disabling execution after engine loss. This is architectural
+readiness for implementation and verification, not completion of the prototype,
+formal assurance or hostile-test exit evidence below.
+
 Its purpose is to turn the abstract Kernel + Work Unit model into a trustworthy,
 bounded execution substrate and then attempt to falsify its sufficiency.
 
