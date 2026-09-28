@@ -747,3 +747,25 @@ Completed outcomes include:
 - current root utilities explicitly classified as Stage 3 hazards rather than silently rewritten.
 
 Stage 3 now begins from a bounded hazard set plus the deeper-search categories already defined above: misplaced design records outside obvious folders, current research under historical/addenda locations, architecture claims in operational notes, canonical-looking prose without metadata, duplicate homes, broken canonical references, abstraction conflicts, historical upstream dependencies, orphaned syntheses/reviews, generated truth masquerading as maintained truth, and repository-level documents redefining canonical concepts.
+
+
+## Stage 3.1 — historical-upstream dependency search
+
+**Status: in progress. Recovery checkpoint 1.**
+
+Stage 3 begins with the highest-risk latent retrieval error defined by the Taxonomy: historical documents acting as upstream dependencies.
+
+Inventory:
+
+- `docs/historical/` currently contains 28 Markdown records, including decisional-provenance review/design lineage, superseded implementation designs, completed operation/project records, and legacy skills.
+
+Completed first scan tranche:
+
+- all 10 current architecture/core-substrate documents;
+- current methodology, requirements, role, standards documents, plus `docs/ORCHESTRATOR.md` (10 files).
+
+Search condition: exact occurrence of `docs/historical/` in current document content/frontmatter.
+
+Result: **0 historical-path references in 20 high-level current documents.** No forbidden Historical → current upstream dependency was found in this tranche.
+
+This is a bounded string-level dependency check; it does not yet rule out references by bare title/basename or copied historical content without a path. Those are later Stage 3 checks.
