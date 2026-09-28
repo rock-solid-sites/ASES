@@ -16,6 +16,8 @@ consumed_by:
 related_documents:
   - Harness Evaluation: Microsoft Agent Framework
 
+implements: []
+implemented_by: []
 supersedes: []
 last_updated: 2026-08-10
 ---

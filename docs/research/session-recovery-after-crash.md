@@ -23,6 +23,8 @@ related_documents:
 * docs/research/crosslink-gates/server-crash-postmortem.md
 * docs/research/handoff-failure-analysis.md
 
+implements: []
+implemented_by: []
 supersedes: []
 
 last_updated: 2026-07-20

@@ -22,6 +22,8 @@ related_documents:
 * docs/research/session-recovery-after-crash.md
 * docs/research/crosslink-gates/server-crash-postmortem.md
 
+implements: []
+implemented_by: []
 supersedes: []
 
 last_updated: 2026-07-20

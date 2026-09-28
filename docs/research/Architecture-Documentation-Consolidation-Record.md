@@ -1067,3 +1067,23 @@ Edited:
 
 Skipped:
 
+
+
+### Stage 3.2 checkpoint 4e — safe Research normalization, session/audit tranche
+
+**Status: 3 documents normalized; 6 skipped.**
+
+Applied only the checkpoint-3 empty `implements` / `implemented_by` rule.
+
+Edited:
+- `docs/research/selection-rationale/2026-06-23-microsoft-agent-framework.md`
+- `docs/research/session-audit-plan.md`
+- `docs/research/session-recovery-after-crash.md`
+
+Skipped:
+- `docs/research/selection-rationale/_template.md`
+- `docs/research/session-audit-stage2-summary.md`
+- `docs/research/session-audit-stage3-summary.md`
+- `docs/research/session-audit-stage4-summary.md`
+- `docs/research/stage4-orphaned-audit.md`
+- `docs/research/stage4-partial-audit.md`
