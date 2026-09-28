@@ -38,9 +38,9 @@ are reusable evidence/fixtures within their bounds, not completed Work Unit chec
 
 Perform F1–F5 with deterministic tools and ordinary implementation/test work.
 Escalate architectural reasoning only when a required history violates the frozen
-contract, a proposed implementation cannot discharge a trust assumption without
-new semantics, or the canonical decision on Q1's strong reading is taken and its
-consequences require new semantics. A failed implementation is not automatically a
+contract or a proposed implementation cannot discharge a trust assumption without
+new semantics. The former Q1 wording ambiguity is resolved; bounded quiescence is
+now an optional stronger profile rather than a baseline reopening condition. A failed implementation is not automatically a
 new primitive. Try the simplest correction within the existing guard/effect/
 currentness contract first.
 
@@ -92,11 +92,12 @@ observations, and successful witnesses are checked. Report state/transition boun
 search completeness within those bounds, excluded combinations, and every trusted
 premise. At least one accepted x must be used after losing the activity and authority
 process that first accepted it. Checking x accepted only after restart is invalid.
-Q1 is represented as the D1/D2/D3 split with the quiescence window as an explicit
-parameter, not as one undifferentiated "execution disabled" event. D1 and D2 must
-hold on every modelled path. D3 must hold with no interval on the authorized-seal
-path, and on the engine-death path only to the extent the named enforcement point
-is modelled; it must be left unproved beyond that. See the
+Represent engine loss by separating capability closure from computation. D1
+(admission disabled) and D2 (protected effect/capability use disabled) must hold on
+every modelled path. D3 (interior execution stopped) is not a baseline invariant.
+The model should permit a CPU-only/private computation to continue after engine
+loss while every protected capability use fails. Model D3 only when explicitly
+testing the stronger bounded-quiescence profile. See the historical
 [Q1 reduction](./Phase-I-Revocation-and-Q1.md) Part B.
 
 A finite result is not an unbounded proof. Supply separate inductive obligations:
@@ -119,7 +120,7 @@ mutation rejected before reaching its intended fault is not a valid discriminato
 | T02 — replacement race and replay | Old request may commit before replacement; it must fail afterward. Completed replacement precedes later initiated old use. New valid ingress successfully continues x. |
 | T03 — source impersonation and reuse | Old producer claiming new position/generation fails. Reuse of a still-reachable old representation fails. Record whether the physical-source binding or bearer-secrecy claim was tested. |
 | T04 — conflicting capacity and three-way guards | At most one of two unit-capacity reservations succeeds. No three separately validated commitments with cyclic required order all succeed. An independent change remains possible. |
-| T05 — engine loss with retained routes | Kill authority while old activity retains file/socket/process references. No new protected use succeeds; accepted contents stay bounded. Separately measure execution disable for Q1. A sealed flag alone is not an oracle. |
+| T05 — engine loss with retained routes | Kill the current engine mediator while old activity retains file/socket/process references. No protected capability use succeeds; accepted contents stay bounded. A CPU-only/private computation may continue within surviving resource grants. The last capability set remains recovery history only, not live authority. A sealed flag alone is not an oracle. |
 | T06 — exact content | Swap candidate path/content after validation; accept only the exact checked retained bytes or reject. Lose candidate producer after acceptance; required bytes still usable from the trusted holder. |
 | T07 — whole commitment and no early success | Interrupt before/after preparation, commitment and response. Only permitted whole endpoints recover. Every acknowledged/irrevocably committed value survives. No-reply is not forced to mean no-commit. |
 | T08 — current versus historical recovery | Restore an old authentic image after accepted y/revocation. The baseline must label this outside its current-storage premise; a claimed rollback-resistant extension must distinguish/refuse it. Fresh credentials alone may not label old x current. |
@@ -192,22 +193,23 @@ framework.
 
 **Acceptance:** execute the relevant T01–T24 traces plus a live successful sequence:
 create empty P/C; explicitly grant supported read/write with attenuation; accept x;
-replace activity and use x; kill authority; recover x cold and sealed; activate a
-fresh authorized route; accept y; move C sealed to Q without latent widening;
-activate and read; dispose dependents and remove the empty boundary. Preserve
+replace activity and use x; lose the current engine mediator while a CPU-only/private
+activity remains possible; verify all protected capability use fails closed; recover
+x cold and sealed with the pre-crash capability set preserved only as history;
+perform authorized reassessment (normally by the Orchestrator in the intended
+operating model); create a fresh authorized route; accept y; move C sealed to Q
+without latent widening; activate and read; dispose dependents and remove the empty
+boundary. Preserve
 independent observations of confinement and actual retained bytes throughout.
 A useful external effect must have an explicit profile and its positive/negative
 witnesses; arbitrary external correctness is not required.
 
-Report the Q1 measurements as the D1/D2/D3 split. D1 and D2 must be demonstrated.
-For D3, demonstrate zero interval on the authorized-seal path. On the engine-death
-path, name the enforcement point, measure the quiescence window, and state whether
-it is bounded by a declared `δ`, unbounded, or not applicable to this realization.
-If the enforcement point is the engine itself, that is not a demonstration: the
-strong reading then requires the canonical decision in closure §8, and until it is
-taken report D3 on that path as **unverified** rather than as an implementation
-success or failure. A watchdog that merely proposes a replacement transition
-inherits no D3 evidence.
+Report D1 and D2 separately and demonstrate both. Also demonstrate the complementary
+baseline behavior: interior computation that uses only still-valid resources may
+continue without gaining any protected capability. Do **not** require or score D3
+(process quiescence) unless the realization explicitly elects the stronger bounded-
+quiescence profile. For that optional profile, name the enforcement point and
+measure the quiescence window against its declared `δ`.
 
 ## 5. F4 — failure injection and whole-history refinement
 
@@ -242,7 +244,8 @@ correctness or arbitrary failure schedules.
 Give an independent reviewer the source contracts, pinned implementation/model,
 assumptions, raw counterexamples and acceptance criteria. Ask for its own verdict
 before it consumes the synthesis's conclusions. Review should specifically attack
-closure §8's five propositions, AC/C13, and the D1/D2/D3 reduction. Cross-family
+closure §8's propositions, AC/C13, the D1/D2 capability-closure obligations, and
+the claim that D3/quiescence is unnecessary for the baseline. Cross-family
 agreement is evidence, not canonical authority. Do not assert review happened until
 a delivered result exists.
 
@@ -273,16 +276,16 @@ No automatic adoption of these extensions follows from this table.
 | Roadmap exit aspect | This investigation establishes | Evidence still owed |
 | --- | --- | --- |
 | Frozen abstract core | Operations, C1–C13, information admission and removal results. | Formal model/induction and independent review. |
-| Explicit trusted/failure boundary | Process-loss/current-storage comparator; concrete-effect and route obligations; AC policy-ordering obligation. | Actual TCB/attachment/policy conformance, and the D3 measurement plus its canonical decision. |
+| Explicit trusted/failure boundary | Process-loss/current-storage comparator; concrete-effect and route obligations; AC policy-ordering obligation. | Actual TCB/attachment/policy conformance. Optional D3/quiescence evidence is owed only if that stronger profile is claimed. |
 | Mechanical replacement | Exact old/new authority and pending-effect contract. | Real ingress/route exclusion under loss and replay. |
 | Authoritative information | Truth versus applicability, scoped judgments, completeness and unknown behavior. | Implemented evaluator/verifier and tests. |
 | Processorless sufficiency | Finite comparator and fifteen targeted attempts; conditional elimination. | Model/realization refinement and independent falsification. |
 | Hostile-testable prototype | Defined positive traces, destructive controls and fault/refinement criteria. | Build and execute F1–F4. |
-| No hidden later subsystem | No required Observer/Processor/Orchestrator/tracker/scheduler dependency identified. | Reopen only on concrete contrary evidence. |
+| No hidden later subsystem | No required Observer/Processor/tracker/scheduler dependency, nor Orchestrator-agent correctness dependency, identified for the minimal core. | Reopen only on concrete contrary evidence; this does not change the intended product model in which an Orchestrator is normally the user-facing agent. |
 
 **WHY:** implementation agents need fixed observables and pass/fail conditions,
 not architectural choices disguised as test tasks. **WHAT:** closure C1–C13,
-H1–H14, Processor P1–P15, Work Unit A–L, and the AC/D1-D2-D3 additions. **HOW
+H1–H14, Processor P1–P15, Work Unit A–L, and the AC plus D1/D2 capability-closure additions. **HOW
 CERTAIN:** evidence-based work specification, not completed verification.
 **WHAT-NOT-TESTED:** all F1–F5 work and stronger-profile extensions; no new
 runtime/model tests were run in this session.
