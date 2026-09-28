@@ -25,10 +25,12 @@ concepts:
   name: Kernel
   aliases: []
   status: active
-  summary: Authority layer that determines which state transitions and actions are permitted.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  summary: Trusted authority mechanism that represents and enforces admissible state transitions and user-derived grants; it does not originate root authority.
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - Kernel-0 Abstract Semantics
+  - Kernel-0 Verification Obligations
+  - EDASES Authority Ontology
   relationships:
   - type: governs
     target: concept:work-unit
@@ -68,10 +70,11 @@ concepts:
   name: Observer
   aliases: []
   status: active
-  summary: Optional subsystem responsible for observing runtime, system, external state, liveness, and time-related facts.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  summary: Optional subsystem responsible for observing runtime, system, external state, liveness, and time-related facts without owning Kernel authority.
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Execution Engine Roadmap
+  - EDASES Efficiency Architecture
   relationships:
   - type: provides_to
     target: concept:processor
@@ -84,9 +87,11 @@ concepts:
   aliases: []
   status: active
   summary: Optional deterministic derivation layer that computes reusable consequences from known state without owning authority or semantic judgment.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Execution Engine Roadmap
+  - Phase I Processorless Core Falsification
+  - EDASES Efficiency Architecture
   relationships:
   - type: consumes_from
     target: concept:observer
@@ -100,10 +105,11 @@ concepts:
   name: Orchestrator
   aliases: []
   status: active
-  summary: Replaceable semantic decision-making role that decides what should be done and may be fulfilled by a human or model.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  summary: Expected primary user-facing agent role for semantic judgment, planning and delegation; it receives exactly the authority currently delegated by the user and is not required for Kernel correctness.
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Authority Ontology
+  - EDASES Execution Engine Roadmap
   relationships:
   - type: consumes_from
     target: concept:processor
@@ -116,10 +122,10 @@ concepts:
   name: API Capability Surface
   aliases: []
   status: active
-  summary: Thin agent-facing interface through which outcomes are requested without exposing internal Observer, Processor, or cache mechanics.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  summary: Thin externally actionable surface exposed to activity through current Work Unit attachments without requiring direct knowledge of internal higher-level machinery.
+  canonical_home: EDASES Work Unit Component Design
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Authority Ontology
   relationships:
   - type: related_to
     target: concept:orchestrator
@@ -264,9 +270,10 @@ concepts:
   - Formal verification boundary
   status: active
   summary: Critical substrate invariants and transition-correctness properties selected for formal verification; semantic correctness is excluded.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - Kernel-0 Verification Obligations
+  - EDASES Phase I Core Substrate Closure
   relationships:
   - type: constrains
     target: concept:kernel
@@ -281,9 +288,10 @@ concepts:
   aliases: []
   status: active
   summary: External or domain-specific evaluation of whether work meaningfully satisfies intent; explicitly outside the formally verified substrate.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Authority Ontology
+  - EDASES Execution Engine Roadmap
   relationships:
   - type: alternative_to
     target: concept:formal-state-invariants
@@ -296,7 +304,8 @@ concepts:
   summary: Reuse of deterministic computation through cheap applicability checks, provenance, invalidation, and recomputation only when needed.
   canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Efficiency Architecture
+  - Phase I Processorless Core Falsification
   relationships:
   - type: part_of
     target: concept:processor
@@ -335,10 +344,12 @@ concepts:
   name: Minimal Prototype
   aliases: []
   status: active
-  summary: Initial experiment containing only a formally specified Kernel, minimal durable Work Unit, and crude telemetry sufficient to test substrate behavior.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  summary: Initial experiment containing only a bounded Kernel/Work Unit realization and enough observation to test substrate behavior without assuming later optional subsystems.
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Execution Engine Roadmap
+  - EDASES Phase I Core Substrate Closure
+  - Phase I Core Substrate Verification Work
   relationships:
   - type: contains
     target: concept:kernel
@@ -477,7 +488,7 @@ topics:
   - type: related_to
     target: topic:scaled-orchestration
   future_work: []
-last_updated: '2026-09-27'
+last_updated: '2026-09-28'
 ---
 
 # Concepts and Topics Registry
@@ -515,6 +526,8 @@ For the first build, implementations should preserve these conceptual boundaries
 - the Work Unit boundary record is intrinsic Kernel-maintained metadata, not ordinary mutable interior content; at minimum it tracks resources granted, capabilities attached, created-by provenance, agent attachment, and associated project, updating when the Kernel changes the relevant relationship;
 - boundary metadata assists discovery and recovery but cannot establish its own currentness against rollback;
 - a restarted compatible engine may mediate a durable Work Unit only by re-establishing current authority; engine-process identity is not permanent ownership;
+- the last-recorded capability attachments are retained as recovery context but are not current after engine loss; they require fresh authorized reassessment before reattachment, normally through the Orchestrator in the expected user-facing operating model;
+- sealing disables affected outward capability use but does not inherently stop resource-backed internal computation;
 - reparenting is permitted in principle and may move a sealed Work Unit into another Work Unit before reactivation under a newly valid set of resources and capabilities;
 - completion of work does not itself export its products across the boundary.
 
