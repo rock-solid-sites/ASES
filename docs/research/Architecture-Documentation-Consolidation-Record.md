@@ -1004,3 +1004,24 @@ Applied only the checkpoint-3 rule: existing `layer: Research` frontmatter recei
 - `docs/research/crosslink-gates/server-crash-postmortem.md`
 - `docs/research/crosslink-gates/updated-evidence-based-gates.md`
 - `docs/research/failed-conversation.md`
+
+
+### Stage 3.2 checkpoint 4b — safe Research normalization, evaluation/method tranche
+
+**Status: 9 documents normalized; 0 skipped.**
+
+Applied only the checkpoint-3 empty `implements` / `implemented_by` rule to existing `layer: Research` frontmatter.
+
+Edited:
+- `docs/research/frameworks/Evaluation Framework.md`
+- `docs/research/handoff-failure-analysis.md`
+- `docs/research/harness-evaluations/2026-07-12-rtk-opencode-gap-analysis.md`
+- `docs/research/harness-evaluations/Microsoft-Agent-Framework.md`
+- `docs/research/harness-evaluations/Microsoft-AutoGen.md`
+- `docs/research/pre-build-compilation/Strategy-to-Builder Integration Packet Method - Derivation.md`
+- `docs/research/prior-art-brief.md`
+- `docs/research/prompting/Ontological Connection to Review Skill.md`
+- `docs/research/protocols/AI Evaluation Protocol.md`
+
+Skipped (not eligible or already complete):
+

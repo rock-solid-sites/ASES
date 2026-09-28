@@ -7,6 +7,8 @@ status: Active
 authority: Derived
 parent_epic: "#423"
 purpose: Operator-conducted external prior-art scan; agents must not duplicate this research via webfetch
+implements: []
+implemented_by: []
 ---
 
 # Purpose

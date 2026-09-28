@@ -6,6 +6,8 @@ document_type: Design Note
 status: Proposed
 authority: Derived
 canonical_repository: ases
+implements: []
+implemented_by: []
 last_updated: 2026-09-22
 ---
 

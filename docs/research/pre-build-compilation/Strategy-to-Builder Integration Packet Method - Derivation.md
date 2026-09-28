@@ -9,6 +9,8 @@ canonical_repository: ases
 related_documents:
   - docs/methodology/ASES Bounded Project Build Method.md
   - skills/prompt/SKILL.md
+implements: []
+implemented_by: []
 last_updated: 2026-09-22
 ---
 
