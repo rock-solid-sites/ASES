@@ -36,6 +36,17 @@ last_updated: 2026-09-28
 
 # Phase I — preserved concurrent realization proposal
 
+> **Follow-up 1 — L1 is refuted, L1' is adopted.** The universal inference in
+> **L1** ("an authority process can narrow a live executor only by terminating it")
+> was independently checked against Linux v6.12 `selinux_file_permission` and is
+> **false**: the fast path requires an unchanged subject context, inode context
+> *and* policy sequence number, so an already-open file is revalidated when policy
+> changes. The useful finding from this proposal is retained in a corrected,
+> weaker form as **L1'** in §2.3 below, and is carried into the canonical record as
+> effect-correspondence rule 7 and invariant C13 (access-control policy is an
+> authoritative resource). See [Phase I Revocation Verification and Q1
+> Reduction](./Phase-I-Revocation-and-Q1.md) Part A.
+
 > **Evidence status — 2026-09-28:** preserved from concurrent commits
 > `76a38fb7` and `8bebb403`; this is an unadopted proposal, not the current Phase I
 > contract. Its L1 universal host limit, exhaustive two-family classification,
@@ -230,30 +241,48 @@ against primary sources rather than assumed.
 | `SO_PEERCRED` / `SCM_CREDENTIALS` (`unix(7)`) | The kernel checks and returns the connecting peer's pid, uid and gid; an unprivileged peer cannot forge them. | Excellent for *admission discrimination* (below), and useless for revocation: it tells you who is calling, and gives no lever over what they already hold. `SCM_RIGHTS` also lets a peer hand its descriptor to another process, so a descriptor is not a per-attempt bearer. |
 | Process termination (cgroup, `pidfd`, signals) | Removes everything the process holds. | Destroys the executor's volatile work with it, so it is a replacement mechanism, not a sealing mechanism, unless the work is already in the boundary's custody. |
 
-The resulting limit is a real architectural constraint, not an implementation
-difficulty:
+The universal inference drawn from that table was **refuted on independent
+verification** and must not be used. The original claim was:
 
-> **L1 — live revocation limit.** On a mainstream host, effective filesystem and
+> ~~**L1 — live revocation limit.** On a mainstream host, effective filesystem and
 > network restriction of a process is fixed when that process is created, is
 > self-applied and irreversible thereafter, and binds path resolution rather than
 > already-open descriptors. A separate authority process can therefore narrow a
-> live executor only by terminating it.
-> **Consequence:** any Work Unit claim of the form "revoking attachment `x`
-> immediately removes `x`'s exercisability by a live executor" is realizable only
-> if `x` was never held by that executor in the first place.
+> live executor only by terminating it.~~
 
-This has a direct reading consequence. Work Unit A–L B states that "removing an
-attachment removes that internally available avenue of external influence". Under
-L1 the operational reading must be fixed as:
+Linux v6.12's `selinux_file_permission` revalidates an **already-open** file's
+permission whenever the subject context, inode context or **policy sequence
+number** changes, so a policy change can revoke access a live process already
+holds. The per-mechanism facts in the table above remain accurate and are the part
+worth keeping. The version that survives is narrower and mechanism-relative:
 
-> Removing an attachment (i) prevents any **new** acquisition of that avenue, and
-> (ii) stops **boundary-mediated** exercisability of it, and (iii) terminates any
-> holder for which removal is claimed as immediate. It does **not** retroactively
-> remove a capability the executor already holds.
+> **L1′ — mechanism-relative revocation.** Whether revoking a Kernel relationship
+> also removes access the holder already has depends on the **specific enforcement
+> point**, not on the host in general. A mechanism that binds decisions to
+> path resolution or `open` time (Landlock, capability bounding sets) will not
+> revoke a held descriptor; a use-time revalidating access-control layer can. So:
+>
+> - a builder may **not assume** that because a route is mediated, revoking the
+>   Kernel-side record revokes the holder. This is the useful part of the original
+>   claim and it is a per-mechanism obligation, not a host impossibility result;
+> - a Work Unit claim that a route is *no longer exercisable* requires the
+>   realization to demonstrate that at its chosen enforcement point, or to grant
+>   the route only through the boundary;
+> - and the concrete access-control policy becomes part of the trusted boundary
+>   that must be ordered, fail-closed, and disclosed — carried into the canonical
+>   record as rule 7 and invariant C13.
 
-This is the concrete realization constraint the roadmap's Core target A asks
-about, and it forces a change to Work Unit semantics. It is a narrowing of an
-ambiguous sentence, not a new obligation.
+The Work Unit A–L B reading change proposed here — that removal prevents new
+acquisition, stops boundary-mediated exercisability, and terminates holders where
+immediate removal is claimed — was **not adopted**, for a reason worth preserving:
+canonical Work Unit semantics should not be weakened to fit a realization that
+cannot meet them. H1 already rejects such a realization. Unsupported attachments are
+refused, or an enforceable route is supplied. The narrowing survives as a
+*realization disclosure* rather than as an amendment to A–L.
+
+The R-A/R-B families below were likewise not adopted as an exhaustive partition.
+They remain useful implementation sketches; closure §10 records that better
+mechanisms exist and that neither family is selected or treated as complete.
 
 ### 2.1 The two families
 

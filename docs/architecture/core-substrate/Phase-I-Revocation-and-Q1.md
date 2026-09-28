@@ -162,6 +162,46 @@ ordering requirement applied to a second class of protected change. It belongs i
 the effect-correspondence rules of the closure record, and it adds a **route class**
 that §2 currently does not list.
 
+## A5. A second source claim, also over-stated: "sealed does not mean frozen"
+
+A concurrent [Authority Ontology](../../EDASES-Authority-Ontology.md) (commit
+`2bcad274`) asserts at §11, flatly:
+
+> **Sealed does not mean frozen.** A Work Unit may be sealed from protected
+> external effects while computation continues internally.
+
+and its `Execution-neutral invariant` generalizes this: "internal computation is
+not itself an authority-bearing act unless it crosses a protected boundary or
+changes authoritative meaning".
+
+The authority half of that is right, and is the position the closure record already
+took: D1 and D2 concern admission and protected effects, and `Execution-neutral` is
+a fair restatement. The difficulty is that "sealed" in the canonical Work Unit
+glossary is defined as "the durable bounded object remains, but **active
+execution**/outward capability use is disabled", so the ontology asserts the
+opposite of that phrase for the same word. A Work Unit cannot satisfy both, and
+the ontology's §1 declares itself a working base that "should constrain future
+reasoning".
+
+This is the one place where the **specification** and the **derived** records now
+disagree. It is a wording conflict, not a design conflict: `Execution-neutral` is
+the stronger and more defensible formulation, because "internal computation" and
+"active execution" are different things and only the second is what the glossary
+names. The recommended repair is to qualify the ontology rather than the glossary:
+
+> Sealing disables admission and protected effects (D1, D2). Whether it must also
+> stop interior execution is a separate claim (D3) with its own path-dependent
+> realization, and is not settled by the fact that interior computation is not
+> itself authority-bearing.
+
+Read as written, the ontology forecloses a question that remains open, and would
+let a builder report "sealed" against closure's Q1 without having measured
+anything. Recorded rather than applied, because the ontology is a provisional
+working document on a different issue and the operator may prefer to keep it
+unqualified. The safest interim rule for any downstream builder is: report D1 and
+D2 as verified, and report D3 as unverified unless the enforcement point and
+quiescence window have been measured.
+
 ---
 
 # Part B — Q1 reduced to a disclosure and a measurement
@@ -246,11 +286,13 @@ to conflate in an implementation.
 
 ## B5. The residual, stated precisely
 
-Q1 is therefore not an open architectural question. What remains is:
+Q1 is therefore not an open architectural question. What remains is listed below,
+with one added blocker: the first item is now gated on reconciling two records that
+currently assert opposite things about the same word, not on new evidence (A5).
 
 | Residual | Why reasoning cannot settle it | What settles it |
 | --- | --- | --- |
-| Which reading the Work Unit specification intends for D3 on the engine-death path | It is a canonical wording decision about one glossary phrase, not a derivable result. Two readings are defensible. | An explicit canonical clarification of the H glossary and E, stating whether D3 is claimed on engine death. Until then, report the profile as meeting D1+D2 and leave D3 **unverified** on that path. |
+| Which reading the Work Unit specification intends for D3 on the engine-death path | It is a canonical wording decision about one glossary phrase, not a derivable result. Two readings are defensible. | An explicit canonical clarification of the H glossary and E, stating whether D3 is claimed on engine death. Until then, report the profile as meeting D1+D2 and leave D3 **unverified** on that path. This decision is now additionally blocked on reconciling two records, since the concurrent Authority Ontology asserts the opposite of the glossary (A5). |
 | The achievable value of Δ on a chosen substrate | A property of a specific host, kernel, LSM configuration and watchdog design. | Measure it: kill the engine with an interior CPU-only activity running, and record the interval until last execution stops, with the enforcement point named. |
 | Whether the enforcement point is in the trust boundary and who can change it | Same class as A4 clause 3. | Disclose it, and apply AC. |
 

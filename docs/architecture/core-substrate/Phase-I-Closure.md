@@ -713,6 +713,13 @@ The highest-value challenges are:
    which a correctly recorded Kernel revocation is defeated by policy that the
    Kernel does not control, and try to find a legitimate revocation that AC's
    ordering and fail-closed clauses would wrongly forbid.
+7. **The D1/D2/D3 split is exhaustive and correctly assigned.** Try to find a
+   fourth distinct sense of "sealed" that the split omits, and try to show that D2
+   is not achievable on some path where D1 is. Also test the interaction with the
+   concurrent [Authority Ontology](../EDASES-Authority-Ontology.md), whose
+   "sealed does not mean frozen" claim conflicts with the Work Unit H glossary —
+   see the analysis in
+   [Part A5](./Phase-I-Revocation-and-Q1.md).
 
 ## 9. Concise synthesis and handoff
 
