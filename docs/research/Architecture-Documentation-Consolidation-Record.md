@@ -260,3 +260,36 @@ Destination:
 The historical filenames are retained unchanged so chronology and existing human references remain recognizable.
 
 No authored synthesis, proposal, research brief, implementation design, or current-use tooling record was moved in this substep.
+
+
+## Stage 2B.1b — authored decisional-provenance lineage archive move
+
+**Status: completed.**
+
+This substep covers the authored synthesis, proposals, and supporting research material that accompanied the raw review sequence archived in Stage 2B.1a.
+
+Primary-source classification check:
+
+- `.design/architectural-reviews-synthesis.md` identifies itself as a synthesis of the historical decisional-provenance architecture review sequence and says it is ready for further review or selection rather than settled project architecture.
+- `.design/documentation-process-refactor.md` is an authored implementation/design plan from the earlier decisional-provenance program. Its “Final Production Version” wording is preserved as historical evidence, but the current Documentation Taxonomy does not make that wording Canonical authority.
+- `.design/dual-architecture-orchestration-spec.md` explicitly states that it is in adversarial review and “NOT ready for Swarm Selection.”
+- `.design/sqlite-native-refactor-proposal.md` explicitly identifies itself as a draft proposal pending review.
+- `.design/research-hybrid-cache.md` is supporting architecture research into the Git/event-sourcing/SQLite hybrid used by the same historical design sequence.
+
+Repository code search found no exact-path or exact-basename references to any of these five files in the indexed repository. As in Stage 2B.1a, this is strongest for the indexed/default branch; the continuation tree itself was also inspected before the move. None of the five is a current upstream dependency recorded by the active documentation graph inspected for this consolidation.
+
+Moved without semantic edits:
+
+- `.design/architectural-reviews-synthesis.md`
+- `.design/documentation-process-refactor.md`
+- `.design/dual-architecture-orchestration-spec.md`
+- `.design/sqlite-native-refactor-proposal.md`
+- `.design/research-hybrid-cache.md`
+
+Destination:
+
+`docs/historical/decisional-provenance/`
+
+The files are preserved byte-for-byte. No internal status wording, architectural claim, benchmark statement, or historical recommendation was modernized. Their historical classification is established by repository placement and this consolidation ledger, not by rewriting the evidence itself.
+
+This move does not promote any conclusion from the historical decisional-provenance program into current EDASES architecture.
