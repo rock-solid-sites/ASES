@@ -25,10 +25,12 @@ concepts:
   name: Kernel
   aliases: []
   status: active
-  summary: Authority layer that determines which state transitions and actions are permitted.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  summary: Trusted authoritative state-transition and enforcement mechanism that represents and mediates user-derived authority; it is not the root source of that authority.
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - Kernel-0 Abstract Semantics
+  - Kernel-0 Verification Obligations
+  - EDASES Authority Ontology
   relationships:
   - type: governs
     target: concept:work-unit
@@ -69,9 +71,9 @@ concepts:
   aliases: []
   status: active
   summary: Optional subsystem responsible for observing runtime, system, external state, liveness, and time-related facts.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Execution Engine Roadmap
   relationships:
   - type: provides_to
     target: concept:processor
@@ -84,9 +86,11 @@ concepts:
   aliases: []
   status: active
   summary: Optional deterministic derivation layer that computes reusable consequences from known state without owning authority or semantic judgment.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Execution Engine Roadmap
+  - EDASES Efficiency Architecture
+  - Phase I Processorless Core Falsification
   relationships:
   - type: consumes_from
     target: concept:observer
@@ -100,10 +104,11 @@ concepts:
   name: Orchestrator
   aliases: []
   status: active
-  summary: Replaceable semantic decision-making role that decides what should be done and may be fulfilled by a human or model.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  summary: Expected primary user-facing agent role for semantic interpretation and coordination; an agent occupying it has only the authority currently delegated by the user, and Kernel correctness does not require the role to be occupied.
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Authority Ontology
+  - EDASES Execution Engine Roadmap
   relationships:
   - type: consumes_from
     target: concept:processor
@@ -117,9 +122,10 @@ concepts:
   aliases: []
   status: active
   summary: Thin agent-facing interface through which outcomes are requested without exposing internal Observer, Processor, or cache mechanics.
-  canonical_home: EDASES Minimal Execution Substrate Architecture
+  canonical_home: null
   reasoning_records:
-  - EDASES Minimal Execution Substrate — Design and Reasoning Record
+  - EDASES Work Unit Component Design
+  - EDASES Authority Ontology
   relationships:
   - type: related_to
     target: concept:orchestrator
@@ -514,7 +520,9 @@ For the first build, implementations should preserve these conceptual boundaries
 - destruction cannot make contained objects unbounded: durable contents must be transferred into another bounded location or deleted, and nested Work Units must be transferred/reparented or recursively destroyed before the containing Work Unit ceases to exist;
 - the Work Unit boundary record is intrinsic Kernel-maintained metadata, not ordinary mutable interior content; at minimum it tracks resources granted, capabilities attached, created-by provenance, agent attachment, and associated project, updating when the Kernel changes the relevant relationship;
 - boundary metadata assists discovery and recovery but cannot establish its own currentness against rollback;
-- a restarted compatible engine may mediate a durable Work Unit only by re-establishing current authority; engine-process identity is not permanent ownership;
+- the user is the root source of authority; a restarted compatible engine process resumes a current mediation/enforcement role rather than acquiring sovereignty from the process that died;
+- the boundary record retains the last recorded capability set for recovery provenance, but those remembered attachments are not live authority after engine loss and must be reassessed before fresh capability activation;
+- sealing disables protected outward capability use but does not inherently stop internal computation using still-valid resource grants;
 - reparenting is permitted in principle and may move a sealed Work Unit into another Work Unit before reactivation under a newly valid set of resources and capabilities;
 - completion of work does not itself export its products across the boundary.
 
