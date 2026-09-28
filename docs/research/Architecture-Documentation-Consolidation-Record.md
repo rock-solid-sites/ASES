@@ -111,3 +111,35 @@ The goal is to find **latent retrieval errors**, not merely tidy filenames.
 8. Do not let repository path alone determine document identity.
 9. Treat unresolved contradictions as research questions, not cleanup opportunities.
 10. Run mechanical relationship/reference checks after each consolidation stage where tooling permits.
+
+
+## Stage 2A — obvious root-level `docs/` filing drift
+
+**Status: inventory complete; no moves performed in this substep.**
+
+This pass inspected only files directly under `docs/`. It intentionally did not inspect or move the larger `.design/` corpus.
+
+| Current path | Current apparent role | Candidate classification / destination | Confidence | Reason |
+| --- | --- | --- | --- | --- |
+| `docs/ORCHESTRATOR.md` | Project-specific operating contract for the Orchestrator and specialist roles | Role/operational guide; likely `docs/roles/` after reconciliation with the current Authority Ontology and orchestration playbook | High that root placement is wrong; medium on exact final form | It defines an operational role contract, contains current deployment details, and currently lacks standard metadata. It should not be confused with the architectural Orchestrator ontology. |
+| `docs/SESSION-END.md` | Session handoff procedure/router | Guide or operational convention rather than a Derived “Standard”; candidate relocation with other workflow guides after checking its paired `SESSION-START.md` source | High on classification mismatch; medium on destination | Its body is instructional and task-oriented. The Documentation Taxonomy describes this as Guide-like, while current metadata says `document_type: Standard` and `authority: Derived`. |
+| `docs/crosslink-adversarial-review.md` | Crosslink workflow/knowledge guide | Tooling/workflow Guide; should live with Crosslink operational knowledge rather than project-root docs | High | It explicitly identifies itself as a Crosslink knowledge page and documents use of a concrete workflow. |
+| `docs/crosslink-subagent-orchestration.md` | Crosslink CLI/workflow guide | Tooling/workflow Guide; should live with Crosslink operational knowledge rather than project-root docs | High | It is an instructional description of kickoff/swarm/sentinel/Task behavior, not project architecture. |
+| `docs/final-report-template.md` | Reusable project-completion template | Template/reference support document; candidate dedicated templates location or methodology support location | High that root placement is poor; medium on exact destination | It is neither a substantive project finding nor architecture. A dedicated template category/path may be warranted if other templates exist. |
+| `docs/mirror-sync-259-tripn-astro.md` | Historical operational synchronization record for another repo | Historical/implementation record; candidate `docs/historical/` or a scoped historical operations subdirectory | High | It records a completed dated mirror operation and explicitly describes staged state in `tripn-astro`; it should not appear as current project-level guidance. |
+| `docs/project-completion-report-crosslink-model-agnostic.md` | Completed project report / retrospective evidence | Research Record or Historical project report; candidate historical/research project-record location | High | It is a dated completion report with findings, model evaluation, and retrospective material. It is useful evidence, not a current root-level specification. |
+| `docs/sentinel-model-triage-scope.md` | Completed Crosslink implementation scope/design record | Implementation or Historical implementation record, probably grouped with Crosslink records | High | It documents concrete Rust files/line numbers and an already implemented Sentinel change. It is implementation evidence rather than current project architecture. |
+
+### Root-level hazards identified
+
+1. **Role-name collision:** `docs/ORCHESTRATOR.md` can be retrieved as though it defines the architectural Orchestrator, but it is actually a project-specific operational contract and predates the clarified authority ontology.
+2. **Classification mismatch:** `SESSION-END.md` is structurally a guide but declares itself a Derived Standard.
+3. **Tooling leakage into project root:** two Crosslink workflow guides and one Sentinel implementation record occupy the same root namespace as project-level documentation.
+4. **Historical records look current:** the TripN mirror-sync record and completed Crosslink project report have no path-level indication that they are historical evidence.
+5. **Template ambiguity:** the final-report template has no dedicated classification/home.
+
+### Stage 2A disposition
+
+No file has been moved or semantically rewritten yet.
+
+The next bounded operation for these eight files should be a **move/reclassification batch only after dependency/reference checks**. In particular, `ORCHESTRATOR.md` must be reconciled against the current Authority Ontology before it is retained as a current operational role guide; it must not silently redefine Orchestrator authority.
