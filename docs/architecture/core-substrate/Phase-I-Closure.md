@@ -702,6 +702,13 @@ The highest-value challenges are:
    and C7/C11 using required provenance, unacknowledged commitments, rollback or
    coupled restoration. Distinguish unsupported failures from violations within
    the selected profile.
+6. **AC is correctly scoped and sufficient.** Added after independent source
+   verification. Challenge rule 7 and C13: is treating the concrete access-control
+   policy as an authoritative resource complete, or does it smuggle in a
+   requirement the specifications do not make? Specifically, try to find a route by
+   which a correctly recorded Kernel revocation is defeated by policy that the
+   Kernel does not control, and try to find a legitimate revocation that AC's
+   ordering and fail-closed clauses would wrongly forbid.
 
 ## 9. Concise synthesis and handoff
 

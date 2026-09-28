@@ -28,8 +28,8 @@ last_updated: 2026-09-28
 
 # Work remaining after architectural closure
 
-The [closure record](./Phase-I-Closure.md) fixes the candidate, its C1–C12 target,
-profile, Q1 and claim limits. The [Processor falsification](./Phase-I-Processorless-Falsification.md)
+The [closure record](./Phase-I-Closure.md) fixes the candidate, its C1–C13 target,
+profile, Q1 reduction and claim limits. The [Processor falsification](./Phase-I-Processorless-Falsification.md)
 fixes the finite comparator. This plan specifies downstream work; none of the new
 checks below has been executed in this investigation. Existing Kernel experiments
 are reusable evidence/fixtures within their bounds, not completed Work Unit checks.
@@ -39,9 +39,10 @@ are reusable evidence/fixtures within their bounds, not completed Work Unit chec
 Perform F1–F5 with deterministic tools and ordinary implementation/test work.
 Escalate architectural reasoning only when a required history violates the frozen
 contract, a proposed implementation cannot discharge a trust assumption without
-new semantics, or Q1's concrete evidence requires a contract decision. A failed
-implementation is not automatically a new primitive. Try the simplest correction
-within the existing guard/effect/currentness contract first.
+new semantics, or the canonical decision on Q1's strong reading is taken and its
+consequences require new semantics. A failed implementation is not automatically a
+new primitive. Try the simplest correction within the existing guard/effect/
+currentness contract first.
 
 No agent launch, model choice or push is authorized by this plan. Follow the
 repository's operational approval rules when downstream work actually starts.
@@ -51,7 +52,7 @@ listed in closure §8 rather than presented as agreement already obtained.
 ## 2. F1 — formalize the policy and observation relation
 
 **Deliverables:** a finite transition model; a readable mapping of each state
-variable/event to C1–C12 and Work Unit K.1–20; trusted/failure premises; positive
+variable/event to C1–C13 and Work Unit K.1–20; trusted/failure premises; positive
 witnesses; and an abstraction/observation definition. Language and proof tool are
 implementation choices. Do not promote model variables into ontology by naming them.
 
@@ -86,13 +87,17 @@ permitted exchanges. Failure injections include correct current storage and
 explicitly outside-profile obsolete/corrupt material so claim boundaries remain
 visible; the latter must not be counted as successful covered recovery.
 
-**Acceptance:** all C1–C12 properties within the represented profile, all Work Unit
+**Acceptance:** all C1–C13 properties within the represented profile, all Work Unit
 observations, and successful witnesses are checked. Report state/transition bounds,
 search completeness within those bounds, excluded combinations, and every trusted
 premise. At least one accepted x must be used after losing the activity and authority
 process that first accepted it. Checking x accepted only after restart is invalid.
-Q1 must be represented as an explicit parameter/event relation and left unproved
-where its temporal contract remains unresolved.
+Q1 is represented as the D1/D2/D3 split with the quiescence window as an explicit
+parameter, not as one undifferentiated "execution disabled" event. D1 and D2 must
+hold on every modelled path. D3 must hold with no interval on the authorized-seal
+path, and on the engine-death path only to the extent the named enforcement point
+is modelled; it must be left unproved beyond that. See the
+[Q1 reduction](./Phase-I-Revocation-and-Q1.md) Part B.
 
 A finite result is not an unbounded proof. Supply separate inductive obligations:
 initial invariants; preservation under each admitted transition; preservation and
@@ -133,12 +138,14 @@ mutation rejected before reaching its intended fault is not a valid discriminato
 | T21 — derivation restart and deletion | Delete all optional caches and kill a half-completed derivation. Recompute guard from retained state; no partial output becomes authoritative; accepted historical output/evidence remains available. |
 | T22 — boundary metadata and information flow | Interior edits cannot alter identity/parent/grants or create an exposed route. Completion alone cannot export x. Created-by/project do not confer management; parent code cannot administer C solely by containment. |
 | T23 — unaccepted durable contents | Leave durable candidate z unaccepted, then request final boundary removal. Retain its confinement until valid disposition; checking only the accepted-content list must fail the completeness obligation. Test declared ephemeral scratch teardown separately. |
+| T24 — access-control policy is authoritative (AC/C13) | Revoke a boundary's authority, then change the concrete access-control policy. The policy change must be ordered with the Kernel change: a revocation acknowledged before a later use cannot be justified by the earlier permission. A rejected or partial policy application must not leave access in force while the Kernel records the relationship revoked. Attempt a policy broadening the Kernel never authorised and show it is either inside the disclosed trust boundary or blocks the revocation claim. Record whether the chosen administrative action actually invalidates already-open access, and report the result even if it does not. |
 
 **Destructive controls:** independently weaken current-view checking, ancestor
 checking, source binding, recoverable-before-ack ordering, content retention,
-whole-effect recovery, complete-domain checking, latent-rights preservation and
-concrete route mediation. Each weakening must produce its intended failing trace.
-Do not count one bug with multiple names as multiple independent obligations.
+whole-effect recovery, complete-domain checking, latent-rights preservation,
+concrete route mediation and access-control policy ordering. Each weakening must
+produce its intended failing trace. Do not count one bug with multiple names as
+multiple independent obligations.
 
 **Acceptance:** the strong model/implementation rejects every forbidden history
 within its declared profile, accepts the listed useful controls, and detects all
@@ -163,11 +170,16 @@ Deliver a concrete inventory of every actionable route in the selected profile:
 filesystem names and open handles (including descriptor passing), process/child
 creation and inherited authority,
 network/external-service ingress, credentials, shared resources and inbound
-attachments. State which are absent/disabled, completely mediated, or outside the
+attachments, and **the concrete access-control policy that decides what already-running
+work may do**. State which are absent/disabled, completely mediated, or outside the
 physical trust assumptions. Include a bypass attempt for every enabled route.
 Never infer resource isolation merely from a record limiting its nominal capacity.
 A trusted adapter carrying credentials must enforce its own current scope and
 cannot let the untrusted interior obtain reusable ambient credentials.
+For the access-control policy, record who may change it, whether that actor is
+inside the trust boundary, how a change is ordered with the Kernel's authority
+change, and whether a partial application fails closed. A revocation the Kernel
+records is not an exclusion until this is answered.
 
 For every concrete state/effect, supply a mapping to the authoritative view, the
 point that establishes its whole recoverable commitment, and which concrete
@@ -178,7 +190,7 @@ without executing the interior. Pin compatible policy meaning for the prototype;
 refuse unsupported interpretation rather than implementing a speculative migration
 framework.
 
-**Acceptance:** execute the relevant T01–T23 traces plus a live successful sequence:
+**Acceptance:** execute the relevant T01–T24 traces plus a live successful sequence:
 create empty P/C; explicitly grant supported read/write with attenuation; accept x;
 replace activity and use x; kill authority; recover x cold and sealed; activate a
 fresh authorized route; accept y; move C sealed to Q without latent widening;
@@ -187,9 +199,15 @@ independent observations of confinement and actual retained bytes throughout.
 A useful external effect must have an explicit profile and its positive/negative
 witnesses; arbitrary external correctness is not required.
 
-No full Work Unit sealed-execution claim passes until Q1 is resolved or the actual
-realization demonstrates the stronger joint disable interpretation. Report the
-narrower verified facts without presenting that gap as an implementation success.
+Report the Q1 measurements as the D1/D2/D3 split. D1 and D2 must be demonstrated.
+For D3, demonstrate zero interval on the authorized-seal path. On the engine-death
+path, name the enforcement point, measure the quiescence window, and state whether
+it is bounded by a declared `δ`, unbounded, or not applicable to this realization.
+If the enforcement point is the engine itself, that is not a demonstration: the
+strong reading then requires the canonical decision in closure §8, and until it is
+taken report D3 on that path as **unverified** rather than as an implementation
+success or failure. A watchdog that merely proposes a replacement transition
+inherits no D3 evidence.
 
 ## 5. F4 — failure injection and whole-history refinement
 
@@ -224,15 +242,16 @@ correctness or arbitrary failure schedules.
 Give an independent reviewer the source contracts, pinned implementation/model,
 assumptions, raw counterexamples and acceptance criteria. Ask for its own verdict
 before it consumes the synthesis's conclusions. Review should specifically attack
-closure §8's five propositions and Q1. Cross-family agreement is evidence, not
-canonical authority. Do not assert review happened until a delivered result exists.
+closure §8's five propositions, AC/C13, and the D1/D2/D3 reduction. Cross-family
+agreement is evidence, not canonical authority. Do not assert review happened until
+a delivered result exists.
 
 **Acceptance:** each finding has a required history or explicit missing assumption,
 its smallest proposed repair, and a disposition: implementation defect, model
 adequacy defect, missing profile evidence, consumer-policy clarification, or new
-architectural counterexample. Only the last class, or Q1, reopens frontier work.
-A new primitive needs a failed reduction to existing semantics, not reviewer
-preference. Preserve disagreement and what was not tested.
+architectural counterexample. Only the last class reopens frontier work. A new
+primitive needs a failed reduction to existing semantics, not reviewer preference.
+Preserve disagreement and what was not tested.
 
 ## 7. Stronger profiles only when requested by a real requirement
 
@@ -244,6 +263,7 @@ preference. Preserve disagreement and what was not tested.
 | At-most-once plus eventual sink delivery | Accept at sink, lose reply, retry; also lose request before acceptance. | Selected sink identity/outcome semantics distinguish/suppress duplicates and progress assumptions support delivery. No local-only assertion suffices. |
 | Sink-current cancellation | Delay pre-revocation request, complete revocation, deliver it. | Sink acceptance orders with revocation or a proven equivalent exclusion; any allowed later visibility is stated separately. |
 | Time-bounded safe continuation | Identify required deadline, supported workload and a lower bound that defeats recomputation. | Measured/proven bound and failure assumptions meet the deadline. Only then assess necessary persistent precomputation. |
+| Bounded quiescence after engine loss (D3 on the engine-death path) | Kill the engine with a named interior activity running; record the interval until last execution stops and name the enforcement point that caused it. | A surviving engine-independent enforcement point plus a trusted liveness signal and timer, with a declared `δ` that the measurement meets. A watchdog that only proposes a transition, or an engine that is itself the enforcement point, discharges nothing. |
 | Physical erasure | Retain covered backup/snapshot/reference, logically dispose object, attempt recovery. | Erasure claim names covered media/copies and establishes removal under that scope. Logical disposal alone fails. |
 
 No automatic adoption of these extensions follows from this table.
@@ -252,8 +272,8 @@ No automatic adoption of these extensions follows from this table.
 
 | Roadmap exit aspect | This investigation establishes | Evidence still owed |
 | --- | --- | --- |
-| Frozen abstract core | Operations, C1–C12, information admission and removal results. | Formal model/induction and independent review. |
-| Explicit trusted/failure boundary | Process-loss/current-storage comparator; concrete-effect and route obligations. | Actual TCB/attachment conformance and Q1. |
+| Frozen abstract core | Operations, C1–C13, information admission and removal results. | Formal model/induction and independent review. |
+| Explicit trusted/failure boundary | Process-loss/current-storage comparator; concrete-effect and route obligations; AC policy-ordering obligation. | Actual TCB/attachment/policy conformance, and the D3 measurement plus its canonical decision. |
 | Mechanical replacement | Exact old/new authority and pending-effect contract. | Real ingress/route exclusion under loss and replay. |
 | Authoritative information | Truth versus applicability, scoped judgments, completeness and unknown behavior. | Implemented evaluator/verifier and tests. |
 | Processorless sufficiency | Finite comparator and fifteen targeted attempts; conditional elimination. | Model/realization refinement and independent falsification. |
@@ -261,7 +281,8 @@ No automatic adoption of these extensions follows from this table.
 | No hidden later subsystem | No required Observer/Processor/Orchestrator/tracker/scheduler dependency identified. | Reopen only on concrete contrary evidence. |
 
 **WHY:** implementation agents need fixed observables and pass/fail conditions,
-not architectural choices disguised as test tasks. **WHAT:** closure C1–C12,
-H1–H14, Processor P1–P15 and Work Unit A–L. **HOW CERTAIN:** evidence-based work
-specification, not completed verification. **WHAT-NOT-TESTED:** all F1–F5 work and
-stronger-profile extensions; no new runtime/model tests were run in this session.
+not architectural choices disguised as test tasks. **WHAT:** closure C1–C13,
+H1–H14, Processor P1–P15, Work Unit A–L, and the AC/D1-D2-D3 additions. **HOW
+CERTAIN:** evidence-based work specification, not completed verification.
+**WHAT-NOT-TESTED:** all F1–F5 work and stronger-profile extensions; no new
+runtime/model tests were run in this session.
