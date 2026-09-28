@@ -306,6 +306,11 @@ def main():
     ap.add_argument("--raw", nargs="+", required=True)
     ap.add_argument("--outdir", required=True)
     ap.add_argument("--label", default="jev_direct")
+    ap.add_argument("--exp3", default=None,
+                    help="raw NDJSON for Experiment 3")
+    ap.add_argument("--exp3-packet", default=None,
+                    help="frozen Exp 3 packet; supplies the PRE-REGISTERED "
+                         "thresholds the scorer must use")
     ap.add_argument("--exp1", default=None,
                     help="raw NDJSON for Experiment 1; adds the exp1 summary")
     ap.add_argument("--reported-metrics", default=None,
@@ -461,6 +466,44 @@ def main():
               f"cost_ratio={v['cost_ratio_of_totals']}  "
               f"token_ratio={v['token_ratio_of_totals']}  "
               f"rejected: {v['why_rejected']}")
+    if args.exp3:
+        if not args.exp3_packet:
+            raise SystemExit("FATAL: --exp3 requires --exp3-packet so the "
+                             "thresholds come from the frozen pre-registration")
+        e3rows = load_ndjson(args.exp3)
+        e3pk = json.load(open(args.exp3_packet, encoding="utf-8"))
+        s3 = summarise_exp3(e3rows, e3pk, label="exp3")
+        json.dump(s3, open(os.path.join(args.outdir, "exp3_summary.json"),
+                           "w", encoding="utf-8"), indent=1)
+        q = s3["SEPARATE MEASURES"]
+        print("\n=== EXPERIMENT 3 (pre-registered confirmation) ===")
+        t = s3["pre_registered_thresholds"]
+        print(f"  pre-registered: explicit-unknown p>={t['explicit_unknown']}  "
+              f"external gate p>={t['external_gate']}")
+        print(f"  matched cases {s3['n_matched_cases']} "
+              f"(answerable {s3['n_matched_answerable']}, "
+              f"unanswerable {s3['n_matched_unanswerable']})")
+        d = q["explicit_unknown_detection_primary"]
+        f = q["false_unknown"]
+        am = q["argmax_selected_insufficient"]
+        print(f"  explicit-unknown DETECTION  {d['rate']} "
+              f"({d['n_detected']}/{d['n']})   <- primary, probability-based")
+        print(f"  explicit-unknown FALSE-UNKNOWN {f['rate']} "
+              f"({f['n_false_unknown']}/{f['n']})")
+        print(f"  argmax-selected-insufficient {am['rate']} "
+              f"({am['n_argmax']}/{am['n']})   <- distinct measurement")
+        for arm in ("arm_a_forced", "arm_b_explicit_unknown"):
+            c = q["normal_answer_correct"][arm]
+            print(f"  {arm:26s} answerable acc {c['accuracy']} "
+                  f"({c['n_correct']}/{c['n']})")
+        eg = q["external_gate_preregistered"]
+        print(f"  external gate: unanswerable abstention "
+              f"{eg['unanswerable_abstention_rate']} "
+              f"({eg['n_abstained_unanswerable']}/{s3['n_matched_unanswerable']})"
+              f", coverage {eg['coverage_answerable']}, "
+              f"accuracy-when-acting {eg['accuracy_when_acting']}")
+        print(f"  VERDICT: {q['PRIMARY_ANSWER']['verdict']}")
+
     if args.exp1:
         e1rows = load_ndjson(args.exp1)
         summ = summarise_exp1(e1rows, label="exp1")
@@ -791,3 +834,206 @@ def exp1_headline(s):
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+# ===========================================================================
+# Experiment 3 — pre-registered confirmation of the explicit-unknown signal
+# ===========================================================================
+# The thresholds are READ FROM THE FROZEN PACKET, never hardcoded here, so the
+# scorer cannot drift from the pre-registration. `no_retuning` below is a
+# recorded fact about the analysis, not an aspiration: the only threshold used
+# for a reported decision is the pre-registered one.
+#
+# The five recorded quantities are DISTINCT and are never substituted for one
+# another. Experiment 1 showed they diverge sharply: the model selected
+# `insufficient_evidence` on 0.30 of unanswerable cases while its probability
+# separated 1.00. Reporting one as the other is the specific error this
+# experiment is built to avoid.
+
+
+def _exp3_thresholds(packet):
+    pre = packet.get("preregistered_rules", {})
+    eu = pre["explicit_unknown"]["rule"]
+    eg = pre["external_gate"]["rule"]
+    t_eu = float(eu.split(">=")[1].strip().rstrip(".").strip())
+    t_eg = float(eg.split(">=")[1].split(";")[0].strip().rstrip(".").strip())
+    return t_eu, t_eg
+
+
+def summarise_exp3(rows, packet, label="exp3"):
+    t_eu, t_eg = _exp3_thresholds(packet)
+    cells = {}
+    for r in rows:
+        if r.get("typed_error") or not r.get("parsed"):
+            continue
+        cells.setdefault(r["arm"], {})[r["case_id"]] = r
+    a = cells.get("arm_a_forced", {})
+    b = cells.get("arm_b_explicit_unknown", {})
+
+    matched = sorted(set(a) & set(b))
+    ans = [c for c in matched if b[c]["ground_truth"] is not None]
+    unans = [c for c in matched if b[c]["ground_truth"] is None]
+
+    def probs(row):
+        return row["parsed"].get("probabilities") or {}
+
+    def sel(row):
+        return row["parsed"].get("selected")
+
+    def p_ins(row):
+        return probs(row).get("insufficient_evidence", 0.0)
+
+    out = {
+        "label": label,
+        "pre_registered_thresholds": {
+            "explicit_unknown": t_eu, "external_gate": t_eg,
+            "source": "read from frozen packet preregistered_rules; not "
+                      "hardcoded in the scorer and not retuned",
+        },
+        "n_matched_cases": len(matched),
+        "n_matched_answerable": len(ans),
+        "n_matched_unanswerable": len(unans),
+        "matched_denominator_policy":
+            "only cases answered in BOTH arms enter any cross-arm comparison; "
+            "answerable and unanswerable are never pooled",
+        "SEPARATE MEASURES": {},
+    }
+    m = out["SEPARATE MEASURES"]
+
+    def rate(num, den):
+        return round(num / den, 4) if den else None
+
+    # 1. normal answer correctness, answerable only
+    m["normal_answer_correct"] = {
+        "arm_a_forced": {
+            "n": len(ans),
+            "n_correct": sum(1 for c in ans if sel(a[c]) == a[c]["ground_truth"]),
+            "accuracy": rate(sum(1 for c in ans
+                                 if sel(a[c]) == a[c]["ground_truth"]), len(ans))},
+        "arm_b_explicit_unknown": {
+            "n": len(ans),
+            "n_correct": sum(1 for c in ans if sel(b[c]) == b[c]["ground_truth"]),
+            "accuracy": rate(sum(1 for c in ans
+                                 if sel(b[c]) == b[c]["ground_truth"]), len(ans)),
+            "note": "selecting insufficient_evidence on an answerable case is "
+                    "WRONG, not partial credit"},
+    }
+
+    # 2. PRIMARY: explicit-unknown detection at the pre-registered threshold
+    det = sum(1 for c in unans if p_ins(b[c]) >= t_eu)
+    m["explicit_unknown_detection_primary"] = {
+        "rule": f"p(insufficient_evidence) >= {t_eu}",
+        "n": len(unans), "n_detected": det, "rate": rate(det, len(unans)),
+        "note": "this is the PRIMARY measurement and the pre-registered test",
+    }
+
+    # 3. false-unknown at the same threshold, on answerable cases
+    fu = sum(1 for c in ans if p_ins(b[c]) >= t_eu)
+    m["false_unknown"] = {
+        "rule": f"p(insufficient_evidence) >= {t_eu}",
+        "n": len(ans), "n_false_unknown": fu, "rate": rate(fu, len(ans)),
+    }
+
+    # 4. false confidence: arm B emits a positive label on an unanswerable case
+    fcn = sum(1 for c in unans if sel(b[c]) in ("yes", "no"))
+    m["false_confidence"] = {
+        "arm_a_forced": {
+            "n": len(unans),
+            "n_false_confident": sum(1 for c in unans
+                                     if sel(a[c]) in ("yes", "no")),
+            "rate": rate(sum(1 for c in unans
+                             if sel(a[c]) in ("yes", "no")), len(unans))},
+        "arm_b_explicit_unknown": {
+            "n": len(unans),
+            "n_false_confident": fcn, "rate": rate(fcn, len(unans)),
+        },
+    }
+
+    # 5. argmax selection -- DISTINCT from (2), never a substitute for it
+    am = sum(1 for c in unans if sel(b[c]) == "insufficient_evidence")
+    m["argmax_selected_insufficient"] = {
+        "n": len(unans), "n_argmax": am, "rate": rate(am, len(unans)),
+        "distinction": "this is how often the model CHOOSES the option. The "
+                       "primary rate in (2) is what its PROBABILITY supports. "
+                       "Experiment 1 measured 0.30 here against 1.00 there; the "
+                       "two must never be reported interchangeably.",
+    }
+
+    # 6. the pre-registered generic external gate, no retuning
+    cov = sum(1 for c in ans
+              if probs(a[c]).get(a[c]["ground_truth"], 0.0) >= t_eg)
+    ok = sum(1 for c in ans
+             if probs(a[c]).get(a[c]["ground_truth"], 0.0) >= t_eg
+             and sel(a[c]) == a[c]["ground_truth"])
+    abst_un = sum(1 for c in unans
+                  if max(probs(a[c]).get("yes", 0.0),
+                         probs(a[c]).get("no", 0.0)) < t_eg)
+    m["external_gate_preregistered"] = {
+        "rule": f"act iff p(ground_truth_option) >= {t_eg}; abstain on an "
+                f"unanswerable case iff max(p(yes),p(no)) < {t_eg}",
+        "threshold_provenance": "carried from Experiment 1, where 0.86 was the "
+                                "best point on that grid; applied out of sample "
+                                "and NOT re-tuned here",
+        "coverage_answerable": rate(cov, len(ans)),
+        "n_coverage": cov, "n_answerable": len(ans),
+        "accuracy_when_acting": rate(ok, cov),
+        "unanswerable_abstention_rate": rate(abst_un, len(unans)),
+        "n_abstained_unanswerable": abst_un,
+    }
+
+    # 7. descriptive separation, reported but NOT used to choose a threshold
+    pa = [p_ins(b[c]) for c in ans]
+    pu = [p_ins(b[c]) for c in unans]
+    m["probability_separation_DESCRIPTIVE_ONLY"] = {
+        "max_p_insufficient_on_answerable": round(max(pa), 4) if pa else None,
+        "min_p_insufficient_on_unanswerable": round(min(pu), 4) if pu else None,
+        "perfectly_separating_at_t_eu": bool(
+            pa and pu and max(pa) < min(pu) and t_eu > max(pa) and t_eu <= min(pu)),
+        "warning": "descriptive only. This does NOT license moving the "
+                   "threshold, which stays pre-registered at "
+                   f"{t_eu} regardless of what it shows.",
+    }
+
+    # 8. provider confidence kept separate from probability
+    for arm, cs in sorted(cells.items()):
+        diffs = [abs((r["parsed"].get("provider_confidence") or 0)
+                     - r["parsed"].get("derived_confidence", 0))
+                 for r in cs.values()
+                 if r["parsed"].get("provider_confidence") is not None]
+        ps = [v for r in cs.values() for v in probs(r).values()]
+        m.setdefault("probability_and_confidence", {})[arm] = {
+            "n_rows": len(cs),
+            "prob_min": round(min(ps), 4) if ps else None,
+            "prob_max": round(max(ps), 4) if ps else None,
+            "n_one_hot_rows": sum(1 for r in cs.values()
+                                  if all(v >= 0.999 for v in probs(r).values())),
+            "provider_confidence_vs_derived_max_abs_diff":
+                round(max(diffs), 4) if diffs else None,
+            "note": "provider confidence is a DERIVED function of the "
+                    "probability vector (Phase 1 INSTRUMENT-VALIDATION) and is "
+                    "not independent evidence",
+        }
+
+    # 9. the primary question, answered
+    eu_det = m["explicit_unknown_detection_primary"]["rate"]
+    eg_det = m["external_gate_preregistered"]["unanswerable_abstention_rate"]
+    m["PRIMARY_ANSWER"] = {
+        "explicit_unknown_detection": eu_det,
+        "external_gate_unanswerable_abstention": eg_det,
+        "explicit_unknown_false_unknown": m["false_unknown"]["rate"],
+        "explicit_unknown_outperforms_external_gate":
+            (eu_det is not None and eg_det is not None and eu_det > eg_det),
+        "false_unknowns_increased_materially": None,
+        "verdict": None,
+    }
+    pa_ = m["PRIMARY_ANSWER"]
+    if eu_det is not None and eg_det is not None:
+        pa_["verdict"] = (
+            f"explicit unknown detects {eu_det} of unanswerable cases at the "
+            f"pre-registered p>={t_eu}, against the pre-registered external "
+            f"gate's {eg_det} abstention. "
+            + ("EXPLICIT UNKNOWN WINS."
+               if eu_det > eg_det else
+               "EXTERNAL GATE WINS OR TIES." if eu_det < eg_det else
+               "EXACT TIE."))
+    return out

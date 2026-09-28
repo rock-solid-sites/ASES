@@ -328,14 +328,46 @@ def main():
     packet_send = {}
     packet_score = {}
     if isinstance(pk_cache.get("rows"), list):
-        # An experiment packet carries its own send/score decision, which is
-        # NOT the Phase 2 admissibility gate: Exp 1 must send cases that have
-        # no ground truth in order to measure unknown detection.
+        # An experiment packet is the SINGLE SOURCE OF TRUTH for its own cases,
+        # send decision and score decision.
+        #
+        # Two defects are fixed together here, and they are coupled:
+        #  1. this used to INTERSECT the packet's ids against `args.cases`, the
+        #     Phase 2 frozen case file. A fresh-case experiment packet (Exp 3)
+        #     has ids that by design appear in no earlier case file, so the
+        #     intersection came out empty and the run reported `cases=0` and
+        #     sent nothing -- silently, with exit status 0.
+        #  2. the per-case loop skips any case with no Phase 2 admissibility
+        #     row, so a fresh case was dropped a second time even had it
+        #     survived (1).
         packet_send = {r["case_id"]: bool(r.get("send", True))
                        for r in pk_cache["rows"]}
         packet_score = {r["case_id"]: bool(r.get("score_for_correctness", True))
                         for r in pk_cache["rows"]}
-        cases = [c for c in cases if packet_send.get(c["case_id"], False)]
+        # Merge the packet row OVER the Phase 2 base case where one exists. A
+        # packet that reuses Phase 2 case ids (Experiment 1) then keeps every
+        # field the base provides -- notably `classification`, which the record
+        # builder indexes -- while a packet of genuinely fresh cases (Experiment
+        # 3) is taken wholly from the packet.
+        base = {c["case_id"]: c for c in cases}
+        cases = []
+        for r in pk_cache["rows"]:
+            if not r.get("send", True):
+                continue
+            merged = dict(base.get(r["case_id"], {}))
+            merged.update(r)
+            cases.append(merged)
+        for c in cases:
+            adm.setdefault(c["case_id"], {
+                "case_id": c["case_id"],
+                "derivable": {cond: True for cond in conditions},
+                "provenance": "experiment packet supplies its own case; the "
+                              "Phase 2 admissibility gate does not apply",
+            })
+        print(f"packet supplies {len(cases)} case(s) directly "
+              f"({len(cases) - sum(1 for c in cases if c['case_id'] in base)} "
+              f"fresh, not in the Phase 2 case file); the Phase 2 admissibility "
+              f"gate is bypassed for this experiment")
     elif args.packet:
         keep = set(pk["case_ids"]) if isinstance(pk, dict) else set(pk)
         cases = [c for c in cases if c["case_id"] in keep]
@@ -393,7 +425,11 @@ def main():
                                         "required-evidence predicate NOT "
                                         "satisfied -> unanswerable for this "
                                         "condition, not a model error"),
-                "classification": case["classification"].get(cond),
+                # A fresh-case packet need not carry `classification`; it is
+                # Phase 2 metadata about the ctype, not a fact about the case.
+                # Read it defensively so a packet-provided case does not crash
+                # the record builder.
+                "classification": (case.get("classification") or {}).get(cond),
                 "ground_truth": case["ground_truth"],
                 "representation": prov,
                 "arm": arm,
