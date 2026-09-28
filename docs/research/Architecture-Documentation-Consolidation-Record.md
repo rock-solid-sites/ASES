@@ -769,3 +769,17 @@ Search condition: exact occurrence of `docs/historical/` in current document con
 Result: **0 historical-path references in 20 high-level current documents.** No forbidden Historical → current upstream dependency was found in this tranche.
 
 This is a bounded string-level dependency check; it does not yet rule out references by bare title/basename or copied historical content without a path. Those are later Stage 3 checks.
+
+
+### Stage 3.1 checkpoint 2 — current Research/conformance
+
+**Status: 20 additional current documents scanned; 40 total in Stage 3.1.**
+
+Result:
+
+- 19 documents contain no `docs/historical/` path reference;
+- `specifications/observer-conformance-suite.md` contains one historical path: `docs/historical/lifecycle-manager-design.md`.
+
+That reference is **not an upstream dependency**. It appears under `related_documents`, not `depends_on`, and is explicitly annotated `superseded in part; lifecycle-semantics baseline`. This is an intentional historical lineage citation and does not violate the Taxonomy rule that Historical documents must not become upstream dependencies.
+
+No forbidden historical upstream dependency has been found in the first 40 current high-value documents checked.
