@@ -342,3 +342,19 @@ The repository currently has no `docs/implementation/` home. Creating a new impl
 2. a later bounded decision establishing the repository home for active Implementation-layer experiment/design records.
 
 No semantic edit or move was performed.
+
+
+## Stage 2B.3 — current-use tooling/guard evidence batch
+
+**Status: in progress. Recovery checkpoint.**
+
+Batch scope:
+
+- `.design/rpc-enforcement-prototype.md`
+- `.design/rtk-guard.md`
+- `.design/v2-guard-rewrite-design.md`
+- `.design/crosslink-dormant-capability-audit.md`
+
+The RPC prototype was classified in Stage 2B.3a as an Experimental/Implementation design whose move remains deferred pending either historical-status evidence or an established Implementation-layer home.
+
+This checkpoint records the remaining family before further reference/dependency checks so interrupted work can resume from the exact bounded set without reconstructing scope.
