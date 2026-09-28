@@ -145,9 +145,9 @@ trusted currentness / authority evidence
     determines whether those relationships may be treated as current
 ```
 
-If the engine crashes or is not running, durable Work Units remain sealed bounded objects. A later compatible engine instance may recover them only by establishing the authority required to mediate those objects under the declared currentness/failure model. The process instance that originally created a Work Unit has no permanent special privilege merely because it was the creator.
+If the engine crashes or is not running, durable Work Units remain sealed bounded objects. **Sealed does not imply computationally frozen**: internal activity may continue using already-granted resources whose own realization and validity survive the engine loss, but engine-dependent outward capability attachments cannot be exercised while their mediation relationship is unavailable. A later compatible engine instance may recover the Work Unit only by establishing the authority required to mediate those objects under the declared currentness/failure model. The process instance that originally created a Work Unit has no permanent special privilege merely because it was the creator.
 
-If the Work Unit is found but current governing authority cannot be established, it remains sealed rather than becoming unbounded or automatically reactivated.
+If the Work Unit is found but current governing authority cannot be established, it remains sealed rather than becoming unbounded or automatically regaining outward capabilities.
 
 Full historical event replay is not intrinsically required. Recovery requires a trustworthy current authoritative cut, or sufficient surviving information to reconstruct an observationally equivalent current state under the declared failure assumptions.
 
@@ -214,8 +214,8 @@ Conversely, a nested Work Unit may be independently revoked without revoking or 
 
 The words `sealed`, `revoked`, and `destroyed` describe different facts:
 
-- **sealed**: the durable bounded object remains, but active execution/outward capability use is disabled;
-- **revoked**: some governing authority or grant has been withdrawn; the Work Unit remains bounded and may thereby be sealed;
+- **sealed**: the durable bounded object remains and engine-dependent outward capability use is disabled; internal computation may continue within already-granted resources unless separately paused, terminated, or deprived of those resources;
+- **revoked**: some governing authority or grant has been withdrawn; the Work Unit remains bounded and may thereby become sealed from affected outward capabilities;
 - **destroyed**: the Work Unit itself ceases to exist only after its contents have been safely dispositioned.
 
 Exact implementation state names may differ. The semantic distinctions must remain.
@@ -242,7 +242,9 @@ Active W
   ↓
 Seal W
   ↓
-revoke/disable active attachments
+revoke/disable outward capability attachments
+  │
+  └── internal computation may continue within surviving resource grants
   ↓
 disposition owned durable contents
     ├── transfer/reparent to another bounded destination
