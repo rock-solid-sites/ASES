@@ -27,6 +27,8 @@ related_documents:
   - Concepts and Topics Registry
   - EDASES Future Topics Register
   - Execution Engine Vision
+  - EDASES Authority Ontology
+  - EDASES Efficiency Architecture
 
 implements: []
 implemented_by: []
@@ -71,8 +73,11 @@ The current minimal-substrate hypothesis is:
 - **Kernel** owns authoritative state-transition and authority enforcement;
 - **Work Unit** is the durable bounded unit of work governed by the Kernel;
 - execution activity is replaceable and is not the durable center of the system;
-- the core must remain usable without Observer, Processor, autonomous
-  Orchestrator, work-topology machinery, or a generalized coordination system.
+- core correctness must remain usable without Observer, Processor, an active
+  Orchestrator agent, work-topology machinery, or a generalized coordination
+  system. This is a substrate property, not the intended normal UX: the expected
+  user-facing operating model uses an Orchestrator agent with explicitly delegated
+  authority.
 
 The recent Kernel-0 and Work Unit-0 investigations have strengthened rather than
 expanded this baseline:
@@ -116,11 +121,12 @@ Phase I is the current priority.
 The [Phase I closure investigation](./core-substrate/Phase-I-Closure.md) records a
 scoped architectural candidate, fifteen Processor falsification attempts, and
 [bounded verification work](./core-substrate/Phase-I-Verification.md). No new
-Kernel primitive or persistent Processor is currently justified. The one remaining
-temporal question — when engine loss must stop still-running computation — has
-been [reduced to a named enforcement point, a disclosure parameter and one
-measurement](./core-substrate/Phase-I-Revocation-and-Q1.md), with a canonical
-wording decision still outstanding. This is architectural readiness for
+Kernel primitive or persistent Processor is currently justified. The prior
+engine-loss ambiguity has been resolved: baseline sealing disables affected
+capability admission/use and protected outward effects but does not require
+already-granted resource-backed internal computation to stop. The preserved
+[Q1 reduction](./core-substrate/Phase-I-Revocation-and-Q1.md) now treats bounded
+execution quiescence as an optional stronger profile rather than a baseline gate. This is architectural readiness for
 implementation and verification, not completion of the prototype, formal assurance
 or hostile-test exit evidence below.
 
@@ -446,8 +452,14 @@ core unless a later correctness counterexample proves that it must.
 
 # Phase IV — Orchestrator mechanism
 
-Only after the deterministic substrate and derivation layer are sufficiently clear
-should the project settle the semantic-control mechanism.
+The **Orchestrator role already has an architectural place**: it is expected to be
+the normal user-facing LLM agent, with exactly the authority currently delegated by
+the user. Core correctness does not depend on an Orchestrator agent being present.
+
+Phase IV is therefore not the point at which EDASES decides whether to have an
+Orchestrator. It is where the project settles the deeper semantic-control,
+routing, escalation, context, and decision mechanisms once the deterministic
+substrate and derivation layer are sufficiently clear.
 
 The central question is:
 
@@ -475,8 +487,11 @@ Investigate:
 - how Orchestrator proposals are converted into Kernel-authorized transitions
   without giving reasoning itself authority.
 
-The Orchestrator mechanism may be manual, automated, hybrid, or replaceable. The
-Kernel should not depend on a specific model family or autonomous controller.
+The Orchestrator mechanism may be manually occupied by the user, automated by an
+agent, hybrid, or replaceable. In normal use an agent is expected to occupy the
+role. The Kernel should not depend on a specific model family, agent instance, or
+autonomous controller, and the role itself confers no authority beyond current
+user-derived grants.
 
 ---
 
@@ -570,10 +585,12 @@ II. OBSERVER
                  ▼
 III. PROCESSOR
    deterministic derivation, reuse, invalidation, computation elimination
+   evaluated against the experimental Efficiency Architecture
                  │
                  ▼
-IV. ORCHESTRATOR
-   semantic judgment, escalation, delegation, and decision control
+IV. ORCHESTRATOR MECHANISM
+   expected primary user-facing agent role; semantic judgment,
+   escalation, delegation, routing, and decision control
                  │
                  ▼
 V. WORK TRACKER / COORDINATION
