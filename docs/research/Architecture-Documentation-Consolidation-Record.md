@@ -358,3 +358,21 @@ Batch scope:
 The RPC prototype was classified in Stage 2B.3a as an Experimental/Implementation design whose move remains deferred pending either historical-status evidence or an established Implementation-layer home.
 
 This checkpoint records the remaining family before further reference/dependency checks so interrupted work can resume from the exact bounded set without reconstructing scope.
+
+
+### Stage 2B.3b — Crosslink dormant-capability audit
+
+**Status: moved as research evidence.**
+
+Primary-source findings:
+
+- `.design/crosslink-dormant-capability-audit.md` identifies itself as “ASES / EDASES Research,” is dated 2026-08-28, and records a deployed/source audit rather than proposing project architecture;
+- its evidence is explicitly tied to deployed Crosslink `0.9.0-beta.1+37789b51-dirty` and the then-current source tree, making it a dated Research Record rather than a durable implementation specification;
+- repository code search found no exact-basename reference to the file;
+- commit `96694b17ec49` on 2026-08-29 is titled `feat(#517): activate dormant crosslink features per audit #505` and directly cites audit #505 in the resulting implementation comments, establishing the audit as upstream research evidence consumed by later implementation.
+
+Moved byte-for-byte:
+
+- `.design/crosslink-dormant-capability-audit.md` → `docs/research/crosslink-dormant-capability-audit.md`
+
+No claim, recommendation, version string, or historical source citation inside the audit was rewritten.
