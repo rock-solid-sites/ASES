@@ -64,7 +64,11 @@ Within the EDASES policy boundary, the **user/operator** is the root authority s
 
 The execution engine does not possess an independent sovereign authority. It is the trusted mechanism through which user-originating authority is represented in authoritative state, transformed into bounded grants, and enforced at protected boundaries.
 
-The Orchestrator is not the user and is not the Kernel. It is a replaceable semantic decision-making role that may receive bounded management or selection authority from the user. Its judgments are proposals or authorized choices only within that delegated envelope.
+The **Orchestrator Role** is the expected primary user-facing agent role in ordinary EDASES operation. It preserves the familiar LLM-chat interaction model: the user normally talks to an Orchestrator agent, which interprets intent, coordinates work, and exercises whatever authority the user has delegated to it.
+
+The role is nevertheless not a root authority and is not required for Kernel correctness. An Orchestrator agent may be granted extremely narrow authority, broad operational authority, or effectively all authority the user chooses to delegate, and that delegation may be widened, narrowed, suspended, replaced, or revoked at any time. The system remains coherent in principle if the user controls it directly with no LLM occupying the Orchestrator Role, but direct low-level control is a fallback capability rather than the intended normal UX.
+
+The Orchestrator Role is therefore best understood as a **user-facing semantic role plus a capability/authority package**. Being called the Orchestrator creates no authority by itself.
 
 A Work Unit is a bounded Kernel-governed object that may receive resources and capability attachments.
 
@@ -92,7 +96,19 @@ authoritative representation, mediation, enforcement
                                                   currently attached surface
 ```
 
-The user may interact through the Orchestrator, directly through an engine interface, or through another authorized control surface. Choosing the Orchestrator as the normal point of contact does not make the Orchestrator equivalent to the user.
+The intended operating model is normally:
+
+```text
+USER
+  ↕
+ORCHESTRATOR AGENT
+  ↕
+KERNEL / EXECUTION ENGINE
+  ↕
+WORK UNITS / CAPABILITY ATTACHMENTS / OTHER AGENTS
+```
+
+The authority direction is different from the conversational direction: authority originates with the user and is delegated downward through Kernel-enforced grants. The user may instead interact directly through an engine interface or another authorized control surface. This architectural fallback prevents the Orchestrator agent from becoming a correctness dependency without making direct low-level control the primary product design.
 
 ---
 
@@ -268,9 +284,9 @@ This requirement does not imply a particular lease, token, fencing, proxy, broke
 
 Some authority permits changing other grants rather than directly exercising an external tool.
 
-The Orchestrator is the primary example.
+The Orchestrator Role is the primary expected example. Its authority envelope is not fixed by the role: it contains exactly the management, selection, and other capabilities that the user currently grants to the agent occupying it.
 
-An Orchestrator may be delegated authority to:
+An Orchestrator may therefore be delegated authority to:
 
 - create or propose Work Units;
 - choose among permitted models;
@@ -282,7 +298,7 @@ An Orchestrator may be delegated authority to:
 
 This is distinct from direct data-plane capability.
 
-The Orchestrator should not require arbitrary shell, filesystem, network, credential, or external-service access merely because it can reason about those things.
+No arbitrary shell, filesystem, network, credential, or external-service access follows merely from occupying the Orchestrator Role. Those powers may be granted when the user wants them, including very broad grants, but they must be explicit current authority rather than ambient consequences of being the primary chat agent.
 
 Conceptually:
 
@@ -375,9 +391,13 @@ Narrowing should be representable independently from destruction. A Work Unit ma
 
 ## 10. The Orchestrator's authority
 
-The Orchestrator is a semantic reasoning and coordination role, normally the user's main conversational point of contact when the user chooses to use one.
+The Orchestrator is the expected primary conversational role through which most users will direct EDASES. It is a convenience layer for the user, not an independent authority source.
 
-It is intentionally **not** a root authority and should not possess arbitrary execution capability.
+An agent occupying the Orchestrator Role has **exactly as much authority as the user currently grants it**. That may range from an advisory-only role to broad operational control. The user may change or revoke that authority at any time.
+
+The Kernel does not require an Orchestrator agent for correctness. In principle the user can operate the system directly. This is an architectural property, not the design direction of the user experience: normal operation is expected to use an LLM agent as Orchestrator.
+
+The Orchestrator Role itself is therefore a semantic role plus a capability package whose purpose includes preventing the primary conversational agent from exercising authority the user did not grant.
 
 The Orchestrator may:
 
@@ -466,14 +486,15 @@ On recovery:
 1. a current engine realization establishes a trustworthy current authoritative view under the declared recovery model;
 2. the Work Unit is discovered in a sealed state;
 3. its previous capability attachments are treated as historical candidates, not live permissions;
-4. the Orchestrator reassesses those previous capabilities against:
+4. a currently authorized semantic decision-maker reassesses those previous capabilities against:
    - current user intent;
    - current user policy and standing grants;
    - current Work Unit purpose and state;
    - changed external conditions known to matter;
-5. the Orchestrator proposes reattachment, narrowing, replacement, or omission;
-6. the Kernel permits only those new or reactivated attachments that fall within current authority;
-7. anything outside the Orchestrator's delegated envelope is escalated to the user.
+5. in the intended operating model, this decision-maker is the Orchestrator agent; if no Orchestrator agent is active, the user may perform the reassessment directly or may have explicitly authorized another policy/mechanism to make the bounded decision;
+6. the decision-maker proposes reattachment, narrowing, replacement, or omission;
+7. the Kernel permits only those fresh attachments that fall within current authority;
+8. anything outside the decision-maker's delegated envelope is escalated to the user.
 
 Conceptually:
 
@@ -493,7 +514,9 @@ recovery:
     historical set {A, B, C}
             |
             v
-    Orchestrator reassesses against current user intent
+    authorized reassessment
+    (normally Orchestrator)
+    against current user intent
             |
       +-----+-----+
       |     |     |
@@ -601,7 +624,7 @@ The following are the current authority invariants for further research and form
 7. **Resource/capability separation invariant** — loss of capability mediation does not inherently revoke already-granted computation resources.
 8. **Capability-liveness invariant** — capability attachments become unusable when their required engine-mediated authorization relationship is unavailable.
 9. **Recovery non-resurrection invariant** — remembered pre-crash capability attachments are candidates for reassessment, never automatically current after recovery.
-10. **Orchestrator-bound invariant** — Orchestrator judgment can directly authorize only what lies within the Orchestrator's current delegated management envelope.
+10. **Orchestrator-bound invariant** — occupying the Orchestrator Role grants no intrinsic authority; an Orchestrator agent may directly authorize only what lies within its current user-delegated envelope, which may be narrow or broad and may change or be revoked at any time.
 11. **Containment invariant** — nested Work Units gain nothing automatically and cannot escape restrictions imposed by their containment chain.
 12. **Effect invariant** — denial or revocation must prevent future protected effects at the actual effect boundary, not merely change descriptive metadata.
 13. **Engine-identity invariant** — engine process identity does not own authority; restart is current mediator recovery, not sovereignty transfer.
