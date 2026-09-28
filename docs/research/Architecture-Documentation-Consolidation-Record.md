@@ -1111,3 +1111,18 @@ Skipped:
 ### Stage 3.2 normalization run summary
 
 Across checkpoints 4a–4f, the repository was updated only where the Standard and current exemplars made the change mechanically safe: existing `layer: Research` frontmatter missing `implements` and/or `implemented_by` received explicit empty arrays. Ineligible templates, traces, no-frontmatter records, differently layered documents, and already-complete documents were left untouched.
+
+
+### Stage 3.2 checkpoint 5 — ambiguous metadata/classification remainder
+
+**Status: in progress. Recovery checkpoint.**
+
+The mechanically safe Research normalization is complete. This substage now focuses only on documents that were intentionally skipped because metadata completion would require a semantic decision rather than empty-field insertion.
+
+Primary hazard families for this pass:
+
+1. **No-frontmatter current documents** — root utilities, specifications, cross-reference records, traces/templates, and research records whose identity is not mechanically encoded.
+2. **Frontmatter present but identity materially incomplete** — e.g. Ontology Reviewer, source-section records, prior-art/prompting derivations, and other documents missing program/layer/type/authority or most graph relationships.
+3. **Skipped because layer/purpose differs from ordinary Research** — templates, trace files, structural-change/work-unit records, historical syntheses, and stage crossrefs.
+
+Goal: classify each file or family from its own purpose/provenance and only write metadata where the identity is already established by primary sources. Templates, traces, generated evidence, or documents whose authority remains ambiguous will not be forced into the canonical document schema.
