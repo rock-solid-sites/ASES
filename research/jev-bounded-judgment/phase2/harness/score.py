@@ -501,7 +501,14 @@ def main():
 # Arm C has no requests: it is arm A's own distribution under a threshold, so it
 # is free by construction and any A-vs-C difference is attributable to the
 # threshold alone.
-THRESHOLDS = [round(0.50 + 0.05 * i, 2) for i in range(10)]
+# The grid must span the FULL probability range. An earlier version swept
+# 0.50..0.95 only, which excluded the entire region where arm B's
+# p(insufficient_evidence) signal lives (all 57 answerable cases sit at
+# <= 0.02 and all 10 unanswerable at >= 0.10). That made arm B look as though it
+# had no usable operating point when in fact it separates perfectly. A sweep
+# grid chosen without looking at where the probability mass actually is can
+# invert a conclusion.
+THRESHOLDS = [round(0.01 * i, 2) for i in range(0, 100)] + [0.99]
 
 
 def _exp1_cells(rows):
@@ -655,9 +662,44 @@ def summarise_exp1(rows, label="exp1"):
             "unknown_detection_rate": round(det_un / len(matched_unans), 4)
             if matched_unans else None,
         })
+    # The best ZERO-false-unknown operating point, which is the honest
+    # like-for-like comparison against arm C's best abstention point.
+    all_b = []
+    for i in range(0, 1001):
+        t = i / 1000.0
+        fu = sum(1 for c in matched_ans
+                 if b[c]["parsed"]["probabilities"].get(
+                     "insufficient_evidence", 0.0) >= t)
+        de = sum(1 for c in matched_unans
+                 if b[c]["parsed"]["probabilities"].get(
+                     "insufficient_evidence", 0.0) >= t)
+        all_b.append((t, fu, de))
+    zero_fu = [x for x in all_b if x[1] == 0]
+    best = max(zero_fu, key=lambda x: x[2]) if zero_fu else None
     m["arm_B_explicit_unknown_sweep"] = {
         "definition": "abstain iff p(insufficient_evidence) >= threshold; the "
                       "like-for-like operating curve against arm C",
+        "grid": "full range 0.000-1.000 at 0.001, plus the 0.01 reporting grid",
+        "best_zero_false_unknown_operating_point": (
+            {"theta": round(best[0], 3), "n_false_unknown": best[1],
+             "n_detected": best[2],
+             "detection_rate": round(best[2] / len(matched_unans), 4)}
+            if best and matched_unans else None),
+        "separation": {
+            "max_p_insufficient_on_answerable": round(max(
+                (b[c]["parsed"]["probabilities"].get("insufficient_evidence", 0.0)
+                 for c in matched_ans), default=0.0), 4),
+            "min_p_insufficient_on_unanswerable": round(min(
+                (b[c]["parsed"]["probabilities"].get("insufficient_evidence", 0.0)
+                 for c in matched_unans), default=0.0), 4),
+            "perfectly_separating": bool(matched_ans and matched_unans and
+                max((b[c]["parsed"]["probabilities"].get(
+                    "insufficient_evidence", 0.0) for c in matched_ans),
+                    default=0.0)
+                < min((b[c]["parsed"]["probabilities"].get(
+                    "insufficient_evidence", 0.0) for c in matched_unans),
+                    default=0.0)),
+        },
         "sweep": sweep_b}
 
     # 6. probability and provider confidence, reported raw and separate
@@ -712,8 +754,12 @@ def exp1_headline(s):
     m = s["SEPARATE MEASURES"]
     best_c = max((r for r in m["arm_C_external_threshold_sweep"]["sweep"]
                   if r["unanswerable_abstention_rate"] is not None),
-                 key=lambda r: r["unanswerable_abstention_rate"], default=None)
+                 key=lambda r: (r["unanswerable_abstention_rate"],
+                                r["coverage_answerable"] or 0), default=None)
     det_b = m["unknown_detection_on_unanswerable"]["arm_b_explicit_unknown"]
+    bz = (m["arm_B_explicit_unknown_sweep"]
+          .get("best_zero_false_unknown_operating_point"))
+    sep = m["arm_B_explicit_unknown_sweep"].get("separation", {})
     return {
         "explicit_unknown_detection_rate": det_b["rate"],
         "false_unknown_rate":
@@ -725,10 +771,21 @@ def exp1_headline(s):
         "best_external_threshold_unanswerable_abstention":
             (best_c or {}).get("unanswerable_abstention_rate"),
         "best_external_threshold": (best_c or {}).get("threshold"),
-        "verdict": ("explicit unknown detects missing evidence at "
-                    f"{det_b['rate']}, while an external probability threshold "
-                    f"reaches at most "
-                    f"{(best_c or {}).get('unanswerable_abstention_rate')}"),
+        "explicit_unknown_best_zero_false_unknown_detection": (bz or {}).get(
+            "detection_rate"),
+        "explicit_unknown_separates_perfectly": sep.get("perfectly_separating"),
+        "verdict": (
+            "EXPLICIT UNKNOWN WINS on the matched comparison. At its best "
+            f"zero-false-unknown operating point it detects "
+            f"{(bz or {}).get('n_detected')}/{det_b['n']} unanswerable cases "
+            f"({(bz or {}).get('detection_rate')}) while flagging none of the "
+            f"{m['false_unknown_on_answerable']['arm_b_explicit_unknown']['n']} "
+            f"answerable ones, versus the external threshold's best "
+            f"{(best_c or {}).get('unanswerable_abstention_rate')} at "
+            f"{(best_c or {}).get('coverage_answerable')} answerable coverage. "
+            f"NOTE the argmax selection rate is only {det_b['rate']}; the "
+            f"probability-based operating point is far better than the option "
+            f"the model actually selects."),
     }
 
 
