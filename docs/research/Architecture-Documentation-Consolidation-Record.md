@@ -481,3 +481,25 @@ Action:
 - **Files left unresolved in this batch:** none.
 
 The standalone research/review family is complete.
+
+
+## Stage 2B.5 — remaining implementation/operational design batch
+
+**Status: in progress. Recovery checkpoint.**
+
+Current `.design/` contains exactly seven files:
+
+- `.design/epic-423-swarm-plan.md`
+- `.design/epic-423-swarm-replan.md`
+- `.design/lifecycle-manager-design.md`
+- `.design/observer-swarm-v1.1-resilience.md`
+- `.design/rpc-enforcement-prototype.md`
+- `.design/rtk-guard.md`
+- `.design/v2-guard-rewrite-design.md`
+
+Five already have recorded dispositions or deferrals from Stages 2B.2–2B.3. This batch therefore focuses first on the two unclassified records:
+
+- `.design/lifecycle-manager-design.md`
+- `.design/observer-swarm-v1.1-resilience.md`
+
+After those are resolved, the batch will decide whether enough evidence now exists to establish a common home/lifecycle rule for the remaining active or unresolved Implementation-layer records without guessing.
