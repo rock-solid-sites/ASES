@@ -415,3 +415,20 @@ Disposition remains as recorded in Stage 2B.3a: Experimental/Implementation desi
 - **Unsupported historical promotions:** none.
 
 This batch also establishes a broader filing issue for Stage 2: the Documentation Standard recognizes `Implementation` as an abstraction layer, but this repository currently has no `docs/implementation/` subtree. That structural question should be resolved once enough Implementation-layer records have been classified to justify a repository-level filing decision rather than creating a directory opportunistically for a single document.
+
+
+## Stage 2B.4 — standalone research/review material batch
+
+**Status: in progress. Recovery checkpoint.**
+
+Batch scope:
+
+- `.design/adversarial-reviewers-analysis.md`
+- `.design/architectural-brief-documentation-process.md`
+- `.design/capability-schema-validation.md`
+- `.design/chatgpt-execution-classification.md`
+- `.design/prior-art-brief.md`
+- `.design/research-git-notes.md`
+- `.design/tool-to-engine-gap-matrix.md`
+
+Goal: determine which are Research Records, Syntheses, Research Designs, External Reviews, or Historical research evidence; move only where the primary-source role is clear. Preserve contents byte-for-byte unless a separate metadata correction is independently justified.
