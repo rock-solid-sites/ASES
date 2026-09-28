@@ -26,8 +26,8 @@ question ambiguous.
 | `harness/extract.py` | `649a48094d0c4f3cd36aa558bf8006bee0abf6294ef52775ca0eab74f55f64ec` |
 | `harness/gen_cases.py` | `2a4e68b64dba819f1bdce987cda9af47acf60fe23436a68ffc3813fbbd57cac9` |
 | `harness/represent.py` | `f83c75a35ae33f85aa008b3c7a2f8da14b9fff2d26a84b719a907115badce174` |
-| `harness/run_jev.py` | `5364858ecffcce16546ceb8fe9f3ae5e38967a2b88ee86e1cf28fca193e8457e` |
-| `harness/score.py` | `02fad774f180794ff8eb6387cb2555ba1c9596714a1673ced4571e8e551a29ef` |
+| `harness/run_jev.py` | `888aa3b8954d87f948683467c826f7ab0de8c8ea2a7ddeaf7496b22cd4b93034` |
+| `harness/score.py` | `412fec14d76f69440dac40d67641e010ad5698d1f9c77aced6a52531aed6efea` |
 | `harness/validate_cases.py` | `fa0083461b43e939423d779918a580a4d731da040825fe853283c12c4191e241` |
 
 ## Frozen case set
@@ -98,6 +98,25 @@ Recorded because the gate earning its keep is a result, not a formality.
 A third defect was found and fixed in the same pass: call edges from nested
 functions were attributed to the enclosing method, which would have made "does
 X directly call Y" true whenever a closure inside X called Y.
+
+## Post-freeze changes to two harness files
+
+`harness/score.py` and `harness/run_jev.py` were modified AFTER the freeze
+commit, and the digests above were updated at that point. Disclosed here because
+it means the scorer changed after the measured run:
+
+- `score.py` - `case_group` fix. Pairing on the condition-relative
+  `classification` dropped all 25 `lookup_under_struct` cases, since a case
+  that is a `lookup` under structure is not `lookup` under raw. Without the fix
+  the central representation comparison would have been missing entirely.
+- `run_jev.py` - added `--send-unanswerable`, used only for the 40
+  observation-only cells, which are never scored.
+
+`extract.py`, `gen_cases.py`, `represent.py` and `validate_cases.py` are
+byte-identical to the freeze commit. The independent verifier re-derived every
+reported statistic from the raw NDJSON without importing `score.py`, so the
+reported numbers do not depend on the changed scorer. See
+`findings/findings.md` section 12 E2.
 
 ## Reproduction
 

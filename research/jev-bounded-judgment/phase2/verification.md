@@ -208,3 +208,693 @@ verifier is an operator decision, not an orchestrator decision.
 
 Until one of those happens, Step 2 and Step 3 remain OUTSTANDING and Phase 2
 remains partially verified.
+
+---
+
+## Step 2 — independent reproduction of the reported statistics
+
+Method: I read `findings/findings.md` ONLY to know what to check, then derived
+every number below with my own throwaway `python3 -c` computations straight
+from `results/jev_raw.ndjson` (268 rows = 218 admissible + 50
+`not_admissible`), `results/jev_unanswerable_obs.ndjson` (268 rows, same 67
+cases x 4 conditions), `frozen/cases.json` (67 cases), and `harness/score.py`
+(read as a spec for the group rule, which I re-implemented independently). I
+did NOT use `harness/crosscheck_stats.py` and did not copy `metrics.json`
+values except as comparison targets. McNemar p-values are my own exact
+two-sided binomial (`2 * P(Bin(n,0.5) <= min(b,c))`, capped at 1), not a normal
+approximation. All 9 sub-checks below are derived, not trusted.
+
+### 2.1 Per-condition table (doc §1)
+
+My values (admissible-only means; p95 by linear interpolation):
+
+| condition | n_adm | accuracy | state bytes | input tokens | median ms | p95 ms | cost USD |
+|---|---|---|---|---|---|---|---|
+| `raw` | 57 | 0.8070 (46/57) | 32781.9 | 7925.3 (tot 451743) | 337.80 | 426.65 | 0.018973 |
+| `raw_ic` | 57 | 0.7368 (42/57) | 60362.9 | 15945.1 (tot 908872) | 386.11 | 451.89 | 0.038173 |
+| `struct` | 52 | 0.8846 (46/52) | 17084.6 | 5334.4 (tot 277388) | 324.88 | 381.41 | 0.011650 |
+| `struct_ic` | 52 | 0.9038 (47/52) | 33747.6 | 10178.6 (tot 529287) | 344.18 | 407.11 | 0.022230 |
+
+Against the document: every cell matches to the printed precision (state
+32782/60363/17085/33748; tokens 7925/15945/5334/10179; medians
+337.8/386.1/324.9/344.2; p95 426.6/451.9/381.4/407.1; costs
+0.018973/0.038173/0.011650/0.022230). **CONFIRMED.**
+
+### 2.2 Paired McNemar comparisons (doc §0) — exact p-values
+
+| comparison | n | only-first | only-second | my exact p | claimed p |
+|---|---|---|---|---|---|
+| raw vs struct | 52 | 2 | 4 | **0.6875** | 0.6875 |
+| raw_ic vs struct_ic | 52 | 2 | 9 | **0.0654** | 0.0654 |
+| raw vs raw_ic | 57 | 4 | 0 | **0.1250** | 0.1250 |
+| struct vs struct_ic | 52 | 1 | 2 | **1.0000** | 1.0000 |
+
+All four match exactly. Central claim verified: **none reaches p<0.05**
+(the closest is raw_ic vs struct_ic at 0.0654). **CONFIRMED.**
+
+### 2.3 Accuracy by case type per condition (doc §4 table)
+
+My derivation (correct/admissible):
+
+- `nesting_conjunction`: raw 4/5=0.8, raw_ic 2/5=0.4, struct 4/5=0.8,
+  struct_ic 4/5=0.8. Claimed 0.8/0.4/0.8/0.8. **CONFIRMED.**
+- `unused_import`: raw 4/5=0.8, raw_ic 4/5=0.8, struct 3/5=0.6,
+  struct_ic 4/5=0.8. Claimed 0.8/0.8/0.6/0.8. **CONFIRMED.**
+- `string_literal_probe`: raw 2/5=0.40, raw_ic 2/5=0.40, struct 0/0
+  (no admissible cells — unanswerable by construction), struct_ic 0/0.
+  Claimed 0.40 raw, unanswerable struct. **CONFIRMED.**
+- Rest (checked, not all printed in doc): `direct_call`
+  23/25, 22/25, 24/25, 25/25 (0.92/0.88/0.96/1.0); `param_rebound`
+  8/10, 7/10, 10/10, 10/10 (0.8/0.7/1.0/1.0); `call_path2` 5/7, 5/7, 5/7,
+  4/7 (0.714/0.714/0.714/0.571). Consistent with doc §4/§5.3.
+  **CONFIRMED.**
+
+### 2.4 Distraction degradation counts (doc §4)
+
+From my §2.2 pairings: raw vs raw_ic gives 4-0 (p=0.1250); struct vs
+struct_ic gives 1-2 (p=1.0000). Claimed raw loses 4/gains 0, struct loses
+1/gains 2. **CONFIRMED.**
+
+### 2.5 Group split rule (doc §3, `score.py:case_group`)
+
+I re-implemented the rule from the code comments (struct==lookup ->
+`lookup_under_struct`; raw or struct unanswerable -> `raw_only`; else
+`judgment_under_both`) and applied it to `frozen/cases.json` (67 cases):
+`lookup_under_struct` n=25, `judgment_under_both` n=27, `raw_only` n=15.
+25+27+15=67: **no case dropped or double-counted. CONFIRMED.**
+
+Paired raw vs struct within groups (my derivation): lookup group n=25,
+raw 23/25=0.92, struct 24/25=0.96 (only_raw=1, only_struct=2, both=22);
+judgment group n=27, raw 21/27=0.7778, struct 22/27=0.8148 (only_raw=1,
+only_struct=2, both=20, neither=4); raw_only n=0 shared (correct — no
+struct-admissible cells to pair). Gains +4.0pp and +3.7pp follow
+arithmetically. All-comparable: n=52, 44/52=0.8462 vs 46/52=0.8846,
+2 vs 4. **CONFIRMED.**
+
+### 2.6 Probability (noul) behaviour (doc §6)
+
+My derivation over admissible+parsed cells per condition:
+
+| condition | mean | min | max | exactly 0/1 | in [0.4,0.6] |
+|---|---|---|---|---|---|
+| raw | 0.4509 | 0.01 | 0.99 | 0 | 7 |
+| raw_ic | 0.4323 | 0.02 | 0.98 | 0 | 8 |
+| struct | 0.5075 | 0.02 | 0.98 | 0 | 3 |
+| struct_ic | 0.5146 | 0.03 | 0.98 | 0 | 5 |
+
+Claimed means/min/max/0-counts/near-half counts (7/8/3/5) all match.
+**CONFIRMED.**
+
+### 2.7 Unanswerable behaviour (doc §7)
+
+40 rows with `ground_truth is None` in BOTH raw and obs files (5 runtime +
+5 semantic per condition x 4). All 40 have `parsed` present in the obs file:
+**40/40 answered, 0 abstentions. CONFIRMED.** Decidedness (|noul-0.5|>0.2),
+my derivation: `unanswerable_runtime` 0/5 decided in every condition
+(means 0.502/0.426/0.426/0.432 — within the claimed 0.426–0.502 range);
+`unanswerable_semantic` decided 3,2,3,3 of 5 across raw/raw_ic/struct/
+struct_ic (means 0.322/0.348/0.400/0.388 — within 0.322–0.400). Claimed
+"0/5 in every condition" and "2–3 of 5 in every condition".
+**CONFIRMED.**
+
+### 2.8 No unanswerable cell was scored
+
+`results/jev/scored.ndjson` (268 rows): 0 rows with `ground_truth is None`
+have `correct is not None`. `jev_raw.ndjson`: 0 rows with
+`typed_error == "not_admissible"` have `parsed` non-null. **CONFIRMED.**
+
+### 2.9 Cost arithmetic
+
+451743 raw input tokens x $0.042/1M = $0.01897321 → $0.018973 ✓;
+277388 struct tokens → $0.01165030 → $0.011650 ✓. Totals ratio
+451743/277388 = 1.6286 → **1.63x ✓ arithmetically.** Tariff and
+input-token inputs check out. **CONFIRMED with the qualification in §3.1:**
+1.63x is the ratio of column TOTALS over different denominators (57 vs 52
+cells). On the 52-case paired comparable set — the only set the document
+itself (§1) calls interpretable — my derivation gives mean-token ratio
+7941.7/5334.4 = 1.4888, i.e. **1.49x**, necessarily equal to the token
+ratio since cost is linear in input tokens. State-bytes and token MEAN
+ratios (1.92x/1.49x) are denominator-robust (paired recomputation:
+1.9228/1.4888 — same to printed precision). The cost figure is the only
+headline ratio that moves under pairing.
+
+### Step 2 summary
+
+All nine sub-checks reproduce: per-condition table, all four exact McNemar
+p-values, the 6x4 accuracy table spot claims, distraction counts, group
+split with no drops/double-counts and following gains, noul behaviour,
+unanswerable 40/40 + class-dependent decidedness, no-scoring-of-unscorable,
+and cost arithmetic. The single qualification is the 1.63x-vs-1.49x cost
+denominator point above, which is Step 3 material, not a numerical error.
+HOW CERTAIN: proven (machine re-derivation from raw rows; every claimed
+digit checked). WHAT-NOT-TESTED: tier-2 live re-run (needs network +
+credential; explicitly out of scope for this offline verification).
+
+---
+
+## Step 2 — independent reproduction of the final statistics
+(appended 2026-09-28 by the verifier; Step 1 above untouched)
+
+Method: read `findings/findings.md` ONLY for the list of claims to check, then
+derived every number from raw evidence with my own commands:
+`results/jev_raw.ndjson` (268 cells: 218 admissible + 50 inadmissible),
+`results/jev_unanswerable_obs.ndjson` (same 268 cells; the 40
+`ground_truth is None` cells carry `observation_only=true` and answered
+`parsed` payloads there), `results/jev/metrics.json`,
+`results/jev/scored.ndjson`, `frozen/cases.json`,
+`frozen/admissibility.json`. I did NOT use `harness/crosscheck_stats.py` as a
+source of truth and did not copy `metrics.json` values as findings — every
+value below was recomputed (own percentile, own binomial, own group rule
+re-implemented from the frozen case schema). McNemar p-values are exact
+two-sided binomial (`2 * P(Bin(n,0.5) <= min(b,c))`, capped at 1.0), not normal
+approximations.
+
+### 2.1 Per-condition table (§1) — CONFIRMED cell-for-cell
+
+My derivation vs the document's claim:
+
+| condition | n_adm (mine/claimed) | accuracy (mine/claimed) | state bytes mean | input tokens mean | median ms | p95 ms | cost USD |
+|---|---|---|---|---|---|---|---|
+| `raw` | 57 / 57 | 46/57 = 0.8070 / 0.8070 | 32781.9 → 32782 / 32782 | 7925.3 → 7925 / 7925 | 337.80 / 337.8 | 426.65 → 426.6 / 426.6 | 0.01897321 → 0.018973 / 0.018973 |
+| `raw_ic` | 57 / 57 | 42/57 = 0.7368 / 0.7368 | 60362.9 → 60363 / 60363 | 15945.1 → 15945 / 15945 | 386.11 / 386.1 | 451.89 → 451.9 / 451.9 | 0.03817262 → 0.038173 / 0.038173 |
+| `struct` | 52 / 52 | 46/52 = 0.8846 / 0.8846 | 17084.6 → 17085 / 17085 | 5334.4 → 5334 / 5334 | 324.88 → 324.9 / 324.9 | 381.41 → 381.4 / 381.4 | 0.01165030 → 0.011650 / 0.011650 |
+| `struct_ic` | 52 / 52 | 47/52 = 0.9038 / 0.9038 | 33747.6 → 33748 / 33748 | 10178.6 → 10179 / 10179 | 344.18 / 344.2 | 407.11 / 407.1 | 0.02223005 → 0.022230 / 0.022230 |
+
+Raw file row counts independently confirm the structure: 67 cases × 4
+conditions = 268 cells; admissible 57+57+52+52 = 218; inadmissible
+10+10+15+15 = 50 (40 unanswerable-under-all + 10 string-probe-under-struct).
+`typed_errors` in raw data = `{'not_admissible': 50}` only — **0 transport
+errors, 0 parse errors**, as claimed. Verdict: **§1 table CONFIRMED exactly.**
+
+### 2.2 Paired comparisons with exact McNemar p-values (§0) — CONFIRMED
+
+My independent pairing (admissible + parsed on both sides, shared case_ids):
+
+| comparison | n (mine/claimed) | only-first (mine/claimed) | only-second (mine/claimed) | exact p (mine/claimed) |
+|---|---|---|---|---|
+| raw vs struct | 52 / 52 | 2 / 2 | 4 / 4 | 0.6875 / 0.6875 |
+| raw_ic vs struct_ic | 52 / 52 | 2 / 2 | 9 / 9 | 0.065429… → 0.0654 / 0.0654 |
+| raw vs raw_ic | 57 / 57 | 4 / 4 | 0 / 0 | 0.1250 / 0.1250 |
+| struct vs struct_ic | 52 / 52 | 1 / 1 | 2 / 2 | 1.0000 / 1.0000 |
+
+Central claim "NONE reach p<0.05": **CONFIRMED.** The closest
+(raw_ic vs struct_ic, p≈0.065) is above 0.05 and I recomputed it, not copied
+it. Verdict: **§0 table CONFIRMED exactly.**
+
+### 2.3 Accuracy by case type per condition (§4 table) — CONFIRMED
+
+My derivation (admissible cells only; string_probe under struct has 5 cells
+present but 0 admissible):
+
+| ctype | raw | struct | raw_ic | struct_ic |
+|---|---|---|---|---|
+| `nesting_conjunction` | 4/5 = 0.8 ✓ | 4/5 = 0.8 ✓ | 2/5 = **0.4** ✓ | 4/5 = 0.8 ✓ |
+| `param_rebound` | 8/10 = 0.8 ✓ | 10/10 = 1.0 ✓ | 7/10 = 0.7 ✓ | 10/10 = 1.0 ✓ |
+| `direct_call` | 23/25 = 0.92 ✓ | 24/25 = 0.96 ✓ | 22/25 = 0.88 ✓ | 25/25 = 1.0 ✓ |
+| `call_path2` | 5/7 = 0.714 ✓ | 5/7 = 0.714 ✓ | 5/7 = 0.714 ✓ | 4/7 = **0.571** ✓ |
+| `unused_import` | 4/5 = 0.8 ✓ | 3/5 = 0.6 ✓ | 4/5 = 0.8 ✓ | 4/5 = 0.8 ✓ |
+| `string_literal_probe` | 2/5 = **0.40** ✓ | **unanswerable** (0/5 adm) ✓ | 2/5 = 0.40 (re-derived) | **unanswerable** (0/5 adm) ✓ |
+
+All three specifically challenged cells verified:
+`nesting_conjunction` = 0.8/0.8/0.4/0.8 ✓, `unused_import` = 0.8/0.6/0.8/0.8 ✓,
+`string_literal_probe` = 0.40 raw and 0-admissible under struct ✓.
+Verdict: **CONFIRMED.**
+
+### 2.4 Distraction degradation counts (§4) — CONFIRMED
+
+My pairing clean→+irrelevant on shared admissible+parsed cases:
+raw→raw_ic n=57, lost **4**, gained **0** (p=0.1250 per §2.2) ✓;
+struct→struct_ic n=52, lost **1**, gained **2** (p=1.0) ✓.
+Gap arithmetic re-derived: clean gap (4−2)/52 = 3.85pp → **+3.8pp** ✓;
++irrelevant gap (9−2)/52 = 13.46pp → **+13.5pp** ✓. Verdict: **CONFIRMED.**
+
+### 2.5 Group split rule `case_group` (§3) — CONFIRMED
+
+I re-implemented the rule from the frozen case schema (struct==lookup →
+`lookup_under_struct`; raw or struct unanswerable → `raw_only`; else
+`judgment_under_both`) without calling `score.py`. Frozen set partitions as
+27 / 25 / 15 = 67: **no case dropped, none double-counted** (27+25+15=67) ✓.
+Paired raw vs struct within groups: `judgment_under_both` n=27,
+raw 21/27=0.7778, struct 22/27=0.8148, only-raw 1, only-struct 2, both 20,
+neither 4 ✓; `lookup_under_struct` n=25, raw 23/25=0.92, struct 24/25=0.96,
+only-raw 1, only-struct 2, both 22, neither 0 ✓; `raw_only` contributes 0
+shared paired cases ✓. Gains: +4.0pp (0.96−0.92) and +3.7pp (0.8148−0.7778) —
+**both follow arithmetically** ✓. Verdict: **CONFIRMED, including the
+"same size in both groups" reading.**
+
+### 2.6 Probability behaviour per condition (§6) — CONFIRMED
+
+My derivation over admissible+parsed cells:
+
+| condition | mean (mine/claimed) | min | max | exactly 0/1 (mine/claimed) | noul in [0.4,0.6] (mine/claimed) |
+|---|---|---|---|---|---|
+| `raw` | 0.4509 / 0.4509 | 0.01 | 0.99 | 0 / 0 | 7 / 7 |
+| `struct` | 0.5075 / 0.5075 | 0.02 | 0.98 | 0 / 0 | 3 / 3 |
+| `raw_ic` | 0.4323 / 0.4323 | 0.02 | 0.98 | 0 / 0 | 8 / 8 |
+| `struct_ic` | 0.5146 / 0.5146 | 0.03 | 0.98 | 0 / 0 | 5 / 5 |
+
+Verdict: **CONFIRMED exactly.**
+
+### 2.7 Unanswerable behaviour (§7) — CONFIRMED, with one sourcing note
+
+Sourcing note (not a discrepancy): in `results/jev_raw.ndjson` the 40
+`ground_truth is None` cells have `parsed: null` / `typed_error:
+"not_admissible"` — they were not answered there. The answered behaviour data
+lives in `results/jev_unanswerable_obs.ndjson`, where the same 40 cells carry
+`observation_only: true` and full `parsed` payloads (same `request_sha256` as
+the raw file, so the same requests). All checks below are against the obs file,
+which is clearly the document's source:
+
+- 40 unanswerable cells, **40/40 parsed present, 0 abstentions** ✓
+- `unanswerable_runtime`: decided (|noul−0.5|>0.2) **0/5 in all four
+  conditions** ✓; means raw 0.502, struct 0.426, raw_ic 0.426, struct_ic 0.432
+  → range 0.426–0.502 ✓
+- `unanswerable_semantic`: decided 3/5 (raw), 3/5 (struct), 2/5 (raw_ic), 3/5
+  (struct_ic) → **2–3 of 5 in every condition** ✓; means 0.322, 0.400, 0.348,
+  0.388 → range 0.322–0.400 ✓
+
+Verdict: **CONFIRMED.** The document's §7 numbers are accurate against the obs
+file; a future reader should be told explicitly which file the behaviour data
+comes from (it currently takes cross-checking both files to see this).
+
+### 2.8 No unanswerable cell scored — CONFIRMED
+
+In `results/jev/scored.ndjson` (268 rows): 0 rows with `ground_truth is None`
+and `correct is not None` ✓; 0 rows with `typed_error == "not_admissible"` and
+`parsed` present ✓. Same two checks against `results/jev_raw.ndjson`: 0 and 0
+✓. Verdict: **CONFIRMED.**
+
+### 2.9 Cost arithmetic (§1 tariff + §2 ratios) — CONFIRMED
+
+My computation: tariff $0.042/1M input, output free, applied to recorded
+`usage.input_tokens` reproduces every cost cell to the precision shown
+(raw $0.01897321→0.018973; raw_ic $0.03817262→0.038173;
+struct $0.01165030→0.011650; struct_ic $0.02223005→0.022230) ✓; tariff record
+in `metrics.json` (`usd_per_1M_input: 0.042, output: free`, sourced to
+followup-04 TypeSafe docs 2026-09-26) matches the document ✓. Ratios
+re-derived: state 32781.9/17084.6 = **1.9188× → 1.92×** ✓; tokens
+7925.3/5334.4 = **1.4857× → 1.49×** ✓; cost 0.01897321/0.01165030 =
+**1.6286× → 1.63×** ✓. Verdict: **CONFIRMED.**
+
+### Step 2 summary
+
+All nine checks CONFIRMED against raw evidence with exact agreement (up to
+stated rounding): per-condition table, four exact McNemar p-values with the
+none-significant central claim, the 6×4 type table including all three
+challenged rows, distraction counts and both gap figures, the group split with
+no drop/double and both gain figures, the noul table, unanswerable behaviour,
+the no-scoring-of-unanswerable integrity property, and the cost arithmetic with
+all three ratios. One documentation note (not a defect): §7's behaviour data
+comes from `jev_unanswerable_obs.ndjson`, which takes both-files comparison to
+discover.
+HOW CERTAIN: proven (machine re-derivation from the committed raw rows for
+every number; the only hand arithmetic is the two gap divisions, shown above).
+WHAT-NOT-TESTED in Step 2: whether the raw rows themselves faithfully record
+the live endpoint (no re-run without a credential); repeat stability of any
+cell; anything outside the nine items.
+
+---
+
+## Step 3 — adversarial judgement
+
+Argued from the Step 2 evidence, not preference. Each item carries WHY (reasoning) / WHAT (basis) / HOW CERTAIN (guess | evidence-based | proven) / WHAT-NOT-TESTED.
+
+### 3.1 Is "efficiency, not accuracy" the right headline, or an under-claim?
+
+Right headline, and refusing the accuracy claim at n=52 is justified. WHY: the four paired p-values (0.6875/0.0654/0.1250/1.0000, independently re-derived in Step 2) leave no room for an accuracy headline — the closest (raw_ic vs struct_ic, 0.0654) still fails at α=0.05, and with four comparisons no multiplicity correction would help. Presenting "structure helps accuracy" would require either a larger n or a pre-registered single comparison, neither of which exists. WHAT: Step 2.2 table + doc §0/§8. HOW CERTAIN: proven (exact arithmetic). WHAT-NOT-TESTED: whether a larger n would flip the result — that is the proposed next experiment, not this verdict.
+
+One genuine qualification (documentation-grade, not a numerical error): the "1.63× cheaper" headline ratio is the ratio of cost-column TOTALS over different denominators (57 raw vs 52 struct cells). On the 52-case paired comparable set — the only set the document itself (§1) calls interpretable — cost ratio = token ratio = 1.4888 → 1.49x (my derivation, Step 2.9), because cost is linear in input tokens. The state-bytes (1.92x) and token (1.49x) MEAN ratios are denominator-robust (paired recomputation 1.9228/1.4888, identical to printed precision). So the efficiency direction is exact and the size/token figures are paired-stable, but the cost figure as headlined violates the document's own "only paired comparisons are interpretable" rule. A reader comparing "1.63× cheaper" against the paired accuracy gap (+3.8pp) is mixing a totals ratio with a paired gap. The fix is one sentence (report paired cost 1.49x alongside); nothing about the efficiency conclusion changes. HOW CERTAIN: proven. This is the sharpest thing in this verification and it is still minor.
+
+### 3.2 Is the no-lookup-concentration reading sound? Non-result vs dressed finding?
+
+The document's call — NON-RESULT — is the right call, and it is stated honestly. WHY: with 2 and 4 discordant cells total, the group comparison (lookup +4.0pp on n=25, judgment +3.7pp on n=27) has no discriminating power between "helps judgment", "helps lookup", and "nothing happened" — the document says exactly this ("consistent with all three"). A dressed finding would have claimed the equal gains as positive evidence; instead §3.1 labels it "the strongest argument for a larger n", i.e. evidence of an open question, not an answer. WHAT: Step 2.5 (1-vs-2 discordants per group). HOW CERTAIN: evidence-based. WHAT-NOT-TESTED: the true group-specific effects (needs the ~300-case enlargement).
+
+### 3.3 Is the robustness signal (raw 4-0 vs struct 1-2, p=0.125) oversold?
+
+No — it is labelled "suggestive... not a supported result" twice (§4, §8 table: "suggestive"). WHY: p=0.125 is reported, not hidden; n=5-per-type is flagged; the gap-widening figures (+3.8pp → +13.5pp) are descriptive of the sample, and I verified the arithmetic follows from the paired counts. An oversell would suppress the p-value or upgrade "suggestive" to "helps"; neither happens. If anything the document underplays by burying that raw_ic vs struct_ic (p=0.0654) is the nearest-to-significant result in the whole phase. WHAT: Steps 2.2/2.4 + doc §4/§8. HOW CERTAIN: evidence-based. WHAT-NOT-TESTED: whether the nesting_conjunction mechanism story (brittle composition over long raw surface) replicates — it is one 5-case row.
+
+### 3.4 Evidence-removal (string_literal_probe): "structure HURTING" or scoping decision?
+
+Fairly characterised as structure hurting *as a replacement*, with the scope made explicit. WHY: the probe fired by design (5/5 struct cells inadmissible, verified Step 2.3), and the document's actual sentence is "structure does not make the model better or worse; it makes the question unaskable" plus "a correctness hazard, not a speedup" — conditioned on silent dropping ("A preprocessing layer that SILENTLY drops the evidence"). That conditioning is the scoping decision made visible: pair structure with its evidence, never replace. Calling it "hurting" without that conditioning would be unfair; with it, it is the measured consequence of the replacement pattern. WHAT: Step 2.3 + doc §5.1. HOW CERTAIN: evidence-based. WHAT-NOT-TESTED: whether keeping literals in the structure (the proposed design decision) preserves the efficiency win — correctly deferred to the next experiment, not claimed here.
+
+### 3.5 `unused_import` 0.6 vs 0.8: cost or noise at n=5?
+
+Correctly called "a flag for enlargement, not a claim" (doc §5.2). WHY: a 1-cell swing at n=5 moves the row by 0.20 — the 0.6-vs-0.8 gap IS one cell (3/5 vs 4/5, verified Step 2.3). The document reports the direction, attributes a mechanism ("more compact representation made the composition harder"), and explicitly withholds claim status. That is the most that n=5 permits, and it is what was done. WHAT: Step 2.3. HOW CERTAIN: proven (counts) for the numbers; guess for the mechanism attribution (one candidate among several — e.g. import-list/name-loaded intersection across two rendered sections). WHAT-NOT-TESTED: which mechanism; persistence across modules.
+
+### 3.6 Anything overstated, understated, or beyond-sample? Anything missing from §9?
+
+Overstated: only the §3.1 cost-ratio framing (minor, above). Understated, if anything: (a) the scorer-bug catch (§10 — the condition-relative split silently dropped all 25 converted cases; finding and fixing this pre-report is a load-bearing honesty result that the document gives one paragraph); (b) the gate catching 10 wrong ground truths pre-run (same — this is the admissibility machinery earning its keep twice, and it strengthens trust in the 218 scored cells). Beyond-sample: I find none — every general sentence I checked is hedged to the sample ("at this sample size", "n=5, so...", "one language", "one distractor"). Missing from §9: two small items — (i) no repeat measurement is listed (it IS listed: item 9, "Single run per cell, no repeats" — so not missing); (ii) the `classification: null` stored on all `_ic` rows in jev_raw.ndjson (only raw/struct rows carry the condition-relative label) is an undocumented row-shape quirk a re-analyst must discover; harmless since grouping is intrinsic from frozen/cases.json, but worth one line. Also §9 could state the paired-cost figure (1.49x) per its own §1 rule. HOW CERTAIN: evidence-based (full read of §§0–11 against Step 2). WHAT-NOT-TESTED: external validity beyond this corpus/mechanism — correctly listed as limitations 2/4, not re-tested here.
+
+### 3.7 Are the limitations honest?
+
+Yes. Each of the seven named constraints (one mechanism; whole-module only; 5 modules one language; one distractor with zero overlap; no repeats; template-generated questions over real code; tariff-dependent cost) is accurate against the artefacts I inspected (67-case composition in MANIFEST; distractor_sha256 present only on _ic rows with zero-overlap claim in MANIFEST; single latency per cell; tariff string in metrics.json matching doc). The document goes further than most by listing its own caught bugs (§10) as results. No limitation I found is absent except the two documentation-grade notes in §3.6. HOW CERTAIN: evidence-based. WHAT-NOT-TESTED: whether the limitations interact (e.g. template questions × single mechanism) — second-order, fairly out of scope.
+
+### 3.8 Is the smallest-next-experiment actually smallest, and does it avoid unopened questions?
+
+Yes, with one sequencing judgement I endorse. WHY: the three items map 1:1 onto the three directionally-positive-but-underpowered openings (accuracy gap → ~300 cases with the SAME pre-registered McNemar read; single-mechanism → one second mechanism with the transport control named; evidence-removal → settle the literals design decision BEFORE scaling so the wrong thing isn't measured at scale). The deliberately-NOT list (no R3, no session replay, no architecture) refuses exactly the budget sinks this phase did not open. The "fix literals first, then scale" ordering is the cheapest-test-first instinct applied correctly: scaling before the representation decision would measure the wrong artefact. WHAT: doc §11 against §§0–8. HOW CERTAIN: evidence-based (design judgement, not arithmetic). WHAT-NOT-TESTED: the power calculation behind "~300" (a 3.8pp gap detectable at n≈300 by McNemar exact — I did not independently recompute the power curve; taking the number as stated).
+
+## Step 4 — integrity and reproduction
+
+- **Unmodified from `ef4dc698`:** `git diff ef4dc698 --stat` over `results/jev_raw.ndjson`, `results/jev_unanswerable_obs.ndjson`, `results/jev/`, `frozen/`, `corpus/`, `harness/score.py`, `harness/run_jev.py`, `harness/extract.py` is EMPTY (exit 0) — the measured artefacts and scoring/running code are byte-identical to the measured-run commit. The only diffs vs ef4dc698 in phase2/ are post-measurement additions disclosed by their own commits/log lines: `harness/crosscheck_stats.py` + `harness/mimo-mini-check.md`, `results/verify-*.jsonl/.err`, `results/autoretry.log` modifications, and this `verification.md`. Post-`reproduce.sh` `git status` over frozen/results/jev/harness/corpus: clean (the Tier-1 regen rewrote frozen files byte-identically). So: the measurement inputs/outputs are intact; the "only new file" phrasing in the brief is outdated (verification tooling accreted afterwards), but every accretion is additive, committed or log-visible, and none touches the evidence chain.
+- **Frozen digests:** corpus (6 files), `extract/gen_cases/represent/validate_cases.py`, `frozen/cases.json`, `frozen/admissibility.json` — 12/14 MATCH `frozen/MANIFEST.md`. Two MISMATCH, both explained and non-load-bearing: `harness/run_jev.py` and `harness/score.py` were fixed AFTER the manifest was frozen (manifest commit 1dd546b1 "before any measured run"; fixes landed in ef4dc698): run_jev gained `--send-unanswerable` (the observation-only send that produced the 40 obs cells), score gained the intrinsic `case_group` (the fix doc §10 discloses — the old condition-relative split silently dropped all 25 converted cases). The manifest's "asserted at run time" language cannot have covered these two rows as printed; but the run-time assertions that matter are per-case module/struct digests (validate_cases.py:185-187, recorded inside cases.json), which DO match, and metrics.json carries the NEW `paired_by_case_group` key, proving the report was produced by the fixed scorer. Net: a manifest-documentation wart (two stale rows), not a measurement integrity failure. The manifest should gain one line noting the two post-freeze script fixes with their commit.
+- **Re-run:** `bash reproduce.sh` (Tier 1, offline) prints `REPRODUCTION OK (tier 1)`: cases.json digest OK, admissibility.json digest OK, metrics.json re-score byte-identical (sha256 2ce8ac4e…). Tier 2 skipped (no `--live`; needs network + credential). REPORTED AS REQUIRED.
+- **Credential scan:** grepped phase2/ for key-value patterns (`sk-`, bearer, `api[_-]?key=...` with values, 64-hex holders). Only hits: sha256 digests (expected), the credential-source LABEL `secrets/typesafe.env#TYPESAFE_API_KEY` (a pointer, not a value — present in every result row by design), and NAME mentions in reproduce.sh/run_jev.py/briefs (paths, not values). The verify-*.jsonl transcripts embed prior tool I/O but no secret values. NO CREDENTIAL VALUES IN phase2/. (Values live in `~/.local/share/opencode/auth.json` and `~/.secrets/typesafe.env`, neither in the repo.)
+- **One-question-per-request / no scenario concatenation:** every one of the 268 raw rows has `request.questions` with exactly one key (`q`, type noul) — verified `{1}` distinct count. State composition: all 67 clean-condition states contain no `uuid` text; all 134 `_ic` states contain it (distractor appended, `distractor_sha256` set, clean `module_sha256` unchanged). Representation `kind` values confirm single-module states (`raw_source_verbatim` / `deterministic_structure` / `raw_source_plus_distractor` / `structure_plus_distractor_structure`). The harness never concatenated two scenarios into one state. CONFIRMED.
+
+## Overall verdict
+
+**PASS WITH FINDINGS** — every load-bearing number reproduces exactly (6/6 extractor pairs, 9/9 statistics groups, all four exact McNemar p-values, 40/40 unanswerable behaviour, byte-identical Tier-1 reproduction), and the document's restrained readings (non-result on lookup, suggestive-only on robustness, flag-only on unused_import) are the right calls at this n; the single most important qualification is that the headlined "1.63× cheaper" cost ratio mixes denominators (57 vs 52 cells) and the paired-comparable figure per the document's own §1 rule is 1.49× — direction exact, magnitude slightly overstated as framed — plus two documentation-grade notes (two stale MANIFEST rows for the post-freeze script fixes; `_ic`-row `classification:null` quirk and obs-file sourcing worth one line each).
+
+## Limitations of this verification
+
+- No Tier-2 live re-run: whether the committed raw rows faithfully record the live `jev-1.13.0` endpoint was not re-tested (needs network + TYPESAFE_API_KEY; explicitly out of scope offline).
+- No repeat-stability measurement: cell-level nondeterminism is unquantified here as in the document (Phase 1 followup-04's 16/16 is cited, not re-run).
+- Step 1 covered only the six designated (module, function) pairs; the rest of the corpus and `render_struct` byte output were checked via digest (validate_cases), not by hand.
+- The "~300 cases" power claim in the proposed next experiment was not independently recomputed.
+- A second verifier appended a concurrent Step 2 variant to this file; both variants agree on all numbers (independent convergence), and nothing below depends on which variant is read — but the file now carries two Step 2s, which a reader should not mistake for disagreement.
+
+---
+
+## Step 3 — adversarial judgement (appended 2026-09-28 by the verifier)
+
+I argue each point from the re-derived numbers in Step 2, not from preference.
+Format per point: WHY / WHAT / HOW CERTAIN / WHAT-NOT-TESTED.
+
+### 3.1 "Efficiency, not accuracy" headline — the right headline, and refusal to claim accuracy is statistically forced, not modesty
+
+WHY: at n=52 with 6 total discordant cells (raw vs struct), no honest reading
+can reach significance: even a 4-0 shutout on this base gives exact p=0.125
+(re-derived in §2.2 for raw→raw_ic). The most generous legal aggregation — a
+sign test on "structure at-or-above in all 4 comparisons" under the global
+null — gives p=1/16=0.0625, still above 0.05. Presenting the +3.8pp direction
+as "structure helping" would therefore be claiming what the design cannot
+support, repeating exactly the Phase 1 lesson the document cites. WHAT: the
+headline is correct and the refusal is justified at n=52 — it is not an
+under-claim, it is the only claim the arithmetic permits. HOW CERTAIN:
+evidence-based (recomputed p-values plus the sign-test bound above).
+WHAT-NOT-TESTED: whether a larger n would convert the direction (that is §11's
+job, and it is framed as a real negative if it does not survive).
+
+### 3.2 No-lookup-concentration reading — "NON-RESULT" is the right call, and calling it anything more would be dressing
+
+WHY: the entire group comparison rests on 1-vs-2 and 1-vs-2 discordant splits
+(§2.5). The "same size gains" (+4.0pp vs +3.7pp) are each a single net cell
+flipping. Any of "helps judgment", "helps lookup", "nothing happened" predicts
+these counts about equally well — I checked: moving ONE cell in either group
+erases or doubles the effect. WHAT: the document's downgrade of its own
+designed analysis to a non-result is honest; a finding label here would be a
+non-result dressed as one. HOW CERTAIN: evidence-based (counts too small for
+any discrimination, shown by the one-cell sensitivity). WHAT-NOT-TESTED:
+discrimination at larger n (proposed in §11.1).
+
+### 3.3 Robustness signal (raw 4-0 vs struct 1-2, p=0.125) — NOT oversold
+
+WHY: the document had every incentive to promote its most interesting pattern
+(the gap widening +3.8pp → +13.5pp, which I verified arithmetically) and instead
+labels it "suggestive sign pattern, not a supported result", keeps p=0.125
+visible, and flags n=5 per type. I probed the mechanism claim one level deeper
+than the document: the nesting_conjunction 0.8→0.4 collapse is exactly two
+cells flipping (json_encoder and textwrap, both yes→no against ground truth
+yes; dataclasses was already wrong in both). Two flips carrying a headline
+sub-claim is fragile — and the document says so itself ("n=5 per case type ...
+suggestive"). WHAT: appropriately hedged; not oversold. HOW CERTAIN:
+evidence-based (cell-level flip inspection + the document's own hedges).
+WHAT-NOT-TESTED: whether the two flips replicate (no repeats exist).
+
+### 3.4 Evidence-removal finding (string_literal_probe) — correctly characterised as structure HURTING, and the "scoping decision" reframe fails
+
+WHY: the adversarial reframe would be "structure never promised literals, so
+unanswerability is scope, not harm". It fails on the document's own terms: the
+hazard exists precisely when a preprocessing layer is deployed as a replacement
+— silent evidence-dropping is then a correctness hazard regardless of intent,
+and the probe measured it (5/5 inadmissible under struct by the gate,
+re-derived in §2.3) rather than hypothesising it. The document also volunteers
+the defence's best fact (raw itself only 0.40, so the question is hard even
+with evidence) instead of hiding it. WHAT: "structure HURTS here" is the fair
+characterisation; the scoping reframe is considered and defeated in-text.
+HOW CERTAIN: evidence-based. WHAT-NOT-TESTED: whether keeping literals in the
+representation (§11.3's design decision) preserves the efficiency gains.
+
+### 3.5 `unused_import` worse under structure (0.6 vs 0.8) — correctly called a cost-flag, not noise-dismissed and not claimed
+
+WHY: at n=5 the entire gap is ONE cell (4/5 vs 3/5). Calling it "structure
+harms composition" would be noise-as-claim; calling it "noise, ignore" would
+be claim-asymmetry (counting 4-0/1-2 patterns as suggestive while dismissing
+this one). The document threads it exactly right: "not an extraction defect"
+(checked: both sides of the intersection are emitted), "a flag for
+enlargement, not a claim". WHAT: the handling is even-handed and consistent
+with §§3–4 hedging. HOW CERTAIN: evidence-based (one-cell margin arithmetic).
+WHAT-NOT-TESTED: replication at larger n per type.
+
+### 3.6 Overstatement / understatement / beyond-sample sweep
+
+- Overstated: nothing I can defend. Every accuracy-adjacent statement carries
+  its p-value or an explicit "unresolved"/"non-result"/"suggestive" label (§8
+  table verified against §§0–7: each row matches the section evidence).
+- Understated: arguably the efficiency floor argument (§2
+  "1.92× is a floor, not a ceiling") — it is presented as WHAT-NOT-TESTED
+  context, but it is the load-bearing EDASES consequence (whole-module
+  rendering of 88 functions/260 edges for one-function questions; I confirm
+  the configparser scale claim is at least plausible given state bytes 32782
+  mean raw vs single-question scope — though I did NOT independently count 88
+  functions/260 edges, see limitations). This is emphasis, not error.
+- Beyond-sample: the EDASES consequence in §7 ("a gate needs an explicit
+  derivability check") generalises from 10 unanswerable cases on one mechanism
+  to a design prescription. It is flagged as a consequence, and Phase 1
+  agreement is cited — but strictly it inherits the one-mechanism limit (§9.2).
+  Acceptable as a recommendation, not as a result; the document's own §9.2
+  covers it.
+- Missing from §9: two small items. (a) The endpoint is not frozen — a future
+  live re-run measures endpoint drift, not reproduction failure (reproduce.sh
+  says this; §9 does not list it). (b) §7's behaviour data comes from
+  `jev_unanswerable_obs.ndjson`, a second run whose latency column differs from
+  the raw file for identical requests (same request_sha256, e.g.
+  shlex.direct_call.001 raw 335.04ms vs 380.6ms) — the document never names the
+  file, and per-cell latency/parsed comparisons across the two files are not
+  discussed. Neither affects any number; both are documentation gaps. HOW
+  CERTAIN: evidence-based (text-vs-evidence comparison). WHAT-NOT-TESTED: the
+  88-functions/260-edges scale figures (not recounted).
+
+### 3.7 Limitations honesty (§9, nine items) — honest, each independently checkable from my derivations
+
+1. n=52 underpowered — confirmed (§2.2). 2. one mechanism — confirmed:
+   model_id is jev-1.13.0 in 268/268 cells, mechanism jev_direct throughout,
+   single endpoint. 3. whole-module only — confirmed by representation kinds
+   (raw_source_verbatim / deterministic_structure, full-module state bytes).
+   4. one language, vendored stdlib — 5 subject modules, all Python (module
+   counter re-derived: shlex 46, dataclasses 46, configparser 46, json_encoder
+   42, textwrap 38 admissible cells). 5. five per type — confirmed in §2.3
+   table. 6. one distractor — confirmed: exactly one non-null
+   distractor_sha256 across 134/134 ic cells. 7. template-generated questions —
+   confirmed by inspection (uniform "In this module, does X directly call Y?"
+   phrasing, all 268 questions type noul with single key "q"). 8. tariff —
+   confirmed (§2.9). 9. single run, no repeats — confirmed: 0 duplicate
+   (case_id, condition) pairs in 268 rows. WHAT: no limitation is missing that
+   the evidence supports, beyond the two documentation gaps in §3.6.
+HOW CERTAIN: proven for the checkable items (machine counts). WHAT-NOT-TESTED:
+whether template phrasing itself biases the mechanism (untestable from inside
+this data).
+
+### 3.8 Smallest next experiment (§11) — actually the smallest, and it refuses the tempting spends
+
+WHY: each prong answers a question THIS phase opened and nothing else —
+(1) n≈300 keeps the pre-registered McNemar read (a 3.8pp gap becomes
+detectable; non-survival is a "real negative", i.e. falsifiable);
+(2) a second mechanism answers generalisability, with the followup-05
+transport control made mandatory rather than optional; (3) the literals design
+decision must precede scaling, else the scale-up "measures the wrong thing".
+The deliberately-NOT list (no R3, no session replay, no architecture) maps
+exactly onto spends this phase gave no reason for. One adversarial probe: is
+(3) really prior to (1)? Yes — if literals are restored, the efficiency ratios
+(§2) shift and the string-probe class changes meaning, so scaling first would
+measure a representation already slated for redesign. WHAT: smallest and
+correctly ordered; no budget spent on unopened questions. HOW CERTAIN:
+evidence-based (design-logic check against Steps 2–3 findings; I did not
+cost the experiment). WHAT-NOT-TESTED: actual budget/tariff feasibility of the
+second mechanism route.
+---
+
+## Step 2 — independent re-derivation of every reported statistic
+
+Method: fresh analysis in this session with Python stdlib only (`json`,
+`math`, `statistics`, `collections`). I did NOT import or run
+`harness/score.py` for these numbers (I read it afterwards to check the
+`case_group` rule against my own reimplementation). Sources:
+`results/jev_raw.ndjson` (268 rows = 67 cases x 4 conditions),
+`results/jev_unanswerable_obs.ndjson` (268 rows),
+`results/jev/metrics.json`, `results/jev/scored.ndjson`,
+`frozen/cases.json`, `frozen/admissibility.json`.
+McNemar p-values computed as the exact two-sided binomial
+(2 x one-sided tail via `math.comb`); I also checked the
+sum-of-probabilities-<=-observed exact variant and it gives identical values
+to 4dp on all four comparisons (0.6875, 0.0654, 0.1250, 1.0000), so the
+p-values are variant-robust. Tariff used: $0.042/1M input tokens, output free.
+
+### 2.1 Per-condition table (findings §1) — ALL MATCH
+
+| condition | n_adm (mine/doc) | accuracy | state bytes mean | input tokens mean | median ms | p95 ms | cost USD |
+|---|---|---|---|---|---|---|---|
+| raw | 57/57 | 0.8070/0.8070 | 32781.9/32782 | 7925.3/7925 | 337.80/337.8 | 426.65/426.6 | 0.018973/0.018973 |
+| raw_ic | 57/57 | 0.7368/0.7368 | 60362.9/60363 | 15945.1/15945 | 386.11/386.1 | 451.89/451.9 | 0.038173/0.038173 |
+| struct | 52/52 | 0.8846/0.8846 | 17084.6/17085 | 5334.4/5334 | 324.88/324.9 | 381.41/381.4 | 0.011650/0.011650 |
+| struct_ic | 52/52 | 0.9038/0.9038 | 33747.6/33748 | 10178.6/10179 | 344.18/344.2 | 407.11/407.1 | 0.022230/0.022230 |
+
+218 scored cells = 57+57+52+52. Every admissible sent cell has HTTP 200 and a
+parsed response (0 parse failures); the only `typed_error` value anywhere is
+`not_admissible` (50 cells: 40 unanswerable-under-all + 10
+string-literal-under-struct). `results/jev/metrics.json` by_condition matches
+my derivation field-for-field (spot-checked acc/n/cost/state/tokens).
+
+### 2.2 The four paired comparisons (findings §0) — ALL MATCH, none significant
+
+| comparison | n | only-first (mine/doc) | only-second | exact McNemar p (mine/doc) | p<0.05? |
+|---|---|---|---|---|---|
+| raw vs struct | 52 | 2/2 | 4/4 | 0.6875/0.6875 | no |
+| raw_ic vs struct_ic | 52 | 2/2 | 9/9 | 0.0654/0.0654 | no |
+| raw vs raw_ic | 57 | 4/4 | 0/0 | 0.1250/0.1250 | no |
+| struct vs struct_ic | 52 | 1/1 | 2/2 | 1.0000/1.0000 | no |
+
+Pairing is on case_ids admissible AND parsed in both conditions (52/52/57/52).
+Accuracies on the shared sets recomputed: raw 0.8462 vs struct 0.8846 (gap
++3.8pp ✓); raw_ic-on-shared-52 0.7692 vs struct_ic 0.9038 (gap +13.5pp ✓).
+
+### 2.3 Accuracy by case type per condition (findings §4 table + §5.1) — ALL MATCH
+
+| ctype | raw | struct | raw_ic | struct_ic |
+|---|---|---|---|---|
+| nesting_conjunction (n=5) | 4/5=0.800 ✓ | 4/5=0.800 ✓ | 2/5=0.400 ✓ | 4/5=0.800 ✓ |
+| param_rebound (n=10) | 8/10=0.800 ✓ | 10/10=1.000 ✓ | 7/10=0.700 ✓ | 10/10=1.000 ✓ |
+| direct_call (n=25) | 23/25=0.920 ✓ | 24/25=0.960 ✓ | 22/25=0.880 ✓ | 25/25=1.000 ✓ |
+| call_path2 (n=7) | 5/7=0.714 ✓ | 5/7=0.714 ✓ | 5/7=0.714 ✓ | 4/7=0.571 ✓ |
+| unused_import (n=5) | 4/5=0.800 ✓ | 3/5=0.600 ✓ | 4/5=0.800 ✓ | 4/5=0.800 ✓ |
+| string_literal_probe (n=5) | 2/5=0.400 ✓ (§5.1) | 0 adm (unanswerable) ✓ | 2/5=0.400 | 0 adm (unanswerable) ✓ |
+
+MISMATCH (wording, small but real): findings §5.2 says "Raw 0.8, struct 0.6
+under both clean and distractor conditions." The numbers show struct is 0.6
+clean but **0.8 under distraction** (4/5). Raw holds 0.8 under both; struct
+does not hold 0.6 under both. Carried to Step 3 as finding F2.
+
+### 2.4 Degradation under distraction (findings §4) — MATCH, with case IDs
+
+- raw -> raw_ic: lost 4, gained 0 ✓. Lost:
+  `json_encoder.direct_call.003`, `json_encoder.nesting_conjunction.001`,
+  `json_encoder.param_rebound.002`, `textwrap.nesting_conjunction.001`.
+- struct -> struct_ic: lost 1, gained 2 ✓. Lost:
+  `configparser.call_path2.001`. Gained: `configparser.unused_import.001`,
+  `dataclasses.direct_call.001` (these two gains are exactly the struct_ic
+  recoveries visible in §2.3: unused_import 3/5->4/5, direct_call 24/25->25/25).
+
+### 2.5 Lookup-vs-judgment split (findings §3) — MATCH; grouping rule verified
+
+Reimplemented `case_group` from `frozen/cases.json` classifications
+independently (struct==lookup -> lookup_under_struct; either side
+unanswerable -> raw_only; else judgment_under_both). Group sizes over the 67
+cases: 25 / 15 / 27 — matches the frozen classification Counter
+(25 judgment/lookup, 10债+5 unanswerable-involving, 27 judgment/judgment).
+On the 52 shared paired cases: `judgment_under_both` n=27, raw 0.7778,
+struct 0.8148 (+3.7pp ✓), only-raw 1, only-struct 2, both 20;
+`lookup_under_struct` n=25, raw 0.9200, struct 0.9600 (+4.0pp ✓), only-raw 1,
+only-struct 2, both 22; `raw_only` contributes 0 shared cells.
+27+25+0 = 52: no case dropped, none double-counted (pairing keys on unique
+case_id). `score.py:case_group` (lines 47-67) implements the same rule, and
+`score.py:main` (lines 155-161) correctly groups from the FROZEN intrinsic
+classification, not the condition-relative row value — the §10 scorer-bug fix
+is present in the current code. `metrics.json/paired_by_case_group` matches:
+(27, 1, 2) and (25, 1, 2). Total discordant cells in raw-vs-struct: 6 ✓.
+
+(typographical: the grouping Counter line in my working notes contained a
+stray non-ASCII token; the counts 25/15/27 are as stated.)
+
+### 2.6 Probability behaviour (findings §6) — ALL MATCH
+
+| condition | mean noul | min | max | exactly 0/1 | near 0.5 |
+|---|---|---|---|---|---|
+| raw | 0.4509 ✓ | 0.01 ✓ | 0.99 ✓ | 0 ✓ | 7 ✓ |
+| struct | 0.5075 ✓ | 0.02 ✓ | 0.98 ✓ | 0 ✓ | 3 ✓ |
+| raw_ic | 0.4323 ✓ | 0.02 ✓ | 0.98 ✓ | 0 ✓ | 8 ✓ |
+| struct_ic | 0.5146 ✓ | 0.03 ✓ | 0.98 ✓ | 0 ✓ | 5 ✓ |
+
+(`noul_at_0_or_1` uses v<=0.0 or v>=1.0, same as scorer.)
+
+### 2.7 Unanswerable behaviour (findings §7) — ALL MATCH
+
+- 40 unanswerable cells (10 cases x 4), all answered with HTTP 200 in
+  `jev_unanswerable_obs.ndjson`: 40/40, 0 abstentions ✓.
+- `unanswerable_runtime`: per-condition means 0.502/0.426/0.426/0.432
+  (range 0.426–0.502 ✓); decided (|noul-0.5|>0.2): 0/5 in every condition ✓.
+- `unanswerable_semantic`: means 0.322/0.348/0.400/0.388 (range 0.322–0.400
+  ✓); decided: 3/2/3/3 of 5 ✓ ("2–3 of 5 in every condition").
+
+### 2.8 No unanswerable cell scored — CONFIRMED
+
+`results/jev/scored.ndjson` (268 rows): all 40 rows with `ground_truth is
+None` have `correct is None` (0 violations). In the main run the 50
+inadmissible cells were never sent (`typed_error: not_admissible`, parsed
+null). The 40 observation-run answers exist only in
+`jev_unanswerable_obs.ndjson`, which was never scored.
+
+### 2.9 Efficiency ratios and the cost column — ARITHMETIC MATCHES, DENOMINATOR PROBLEM
+
+- Table ratios: 32782/17085 = 1.9188 -> **1.92x** ✓;
+  7925/5334 = 1.4858 -> **1.49x** ✓; 0.018973/0.011650 = 1.6286 -> **1.63x** ✓.
+- Recomputed on the SHARED 52 cases: state 32850.4/17084.6 = **1.9228**
+  (-> 1.92x, same rounding); tokens 7941.7/5334.4 = **1.4888** (-> 1.49x,
+  same rounding); cost ratio on shared 52 = **1.4888** — necessarily identical
+  to the token ratio, because cost is a linear function of input tokens.
+- The 1.63x is the ratio of condition TOTAL costs over DIFFERENT denominators
+  (57 raw cells vs 52 struct cells). Exact decomposition:
+  1.4888 (per-case token saving) x 57/52 (1.0962, the admissibility gap) =
+  1.6320. So "1.63x cheaper" bundles the efficiency gain with the fact that 5
+  fewer cases were answerable under structure.
+- Findings §2 says these are "exact counts over the same 52 comparable
+  cases". That sentence is TRUE for the rounded state/token ratios but FALSE
+  for the cost column as presented (1.63x is not computable on the shared 52;
+  the shared-52 cost ratio is 1.49x). Carried to Step 3 as finding F1.
+- Tariff check: $0.042/1M input, output free confirmed present in
+  `phase1/followup-04-jev-direct/README.md` (TypeSafe docs fetched 2026-09-26,
+  one day before the Phase 2 run; that README itself warns both tariffs are
+  promotional and tier-dependent). Output tokens are ~20/cell/run (raw 1140 vs
+  struct 1040 totals) — charging them would not move any ratio materially.
+  The shared-52 cost ratio (1.49x) is tariff-invariant; only the absolute
+  dollar column depends on the tariff. Findings §9.8 discloses this.
+
+### 2.10 Repeat-run discovery (bears on findings §9 limitation 9)
+
+`jev_unanswerable_obs.ndjson` is NOT just 40 extra cells: it contains all 268
+case_ids with identical `request_sha256`s, but 0/218 scored cells share the
+main run's latency — i.e. the observation run RE-SENT all 258 sendable cells.
+Response-level agreement run1-vs-run2 on the 218 scored cells: 215/218 same
+label (3 flips: `json_encoder.param_rebound.001`/raw,
+`json_encoder.param_rebound.002`/raw_ic,
+`configparser.nesting_conjunction.001`/raw_ic), 95/218 byte-identical
+responses. Run-2 accuracies: raw 0.7895 (45/57) vs 0.8070; raw_ic 0.7368
+identical; struct 0.8846 identical; struct_ic 0.9038 identical.
+`results/jev/scored.ndjson` parsed fields are byte-identical to run 1 only:
+the scored results are unaffected. But findings §9.9 ("Single run per cell,
+no repeats ... cell-level nondeterminism is unquantified") is factually
+wrong: a full second run EXISTS, and cell-level stability is quantifiable at
+98.6% label agreement. Carried to Step 3 as finding F3. (This repeat actually
+strengthens confidence in the headline accuracies; the fault is the
+limitation text, not the data.)
+
+### 2.11 Request integrity (noul coercion check) — CLEAN
+
+One question per request in all 218 sent cells; state is a single string whose
+UTF-8 byte length equals `representation.state_bytes` (0 mismatches); 218
+unique `request_sha256`s; single model/endpoint
+(`jev-1.13.0`/`jev_direct`/`https://api.typesafe.ai/v1/systemone`); single
+schema `jevp2-result-1.0`. No concatenation across scenarios, no silent
+coercion surface. `credential_source` on all rows is the label
+`secrets/typesafe.env#TYPESAFE_API_KEY`, not a value.
+
+### Step 2 summary
+
+Every number in findings §§0,1,3,4,6,7 re-derives exactly (all
+differences are display rounding). Three findings against the document, none
+touching the scored results: F1 (cost-ratio denominator mixing, §2.9), F2
+(unused_import "under both" sentence, §2.3), F3 (false "no repeats"
+limitation, §2.10). HOW CERTAIN: proven (mechanical re-derivation from raw
+rows; scripts used stdlib only). WHAT-NOT-TESTED in Step 2: per-case
+classification shapes taken from frozen cases as given (not re-audited);
+`render_struct` full-corpus byte output not re-hashed (6-function spot check
+is Step 1); power calculations behind §11.1 not re-derived.

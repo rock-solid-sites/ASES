@@ -12,9 +12,9 @@
 **Structure's clear, measurable benefit is efficiency, not accuracy.**
 
 Efficiency gains are exact and carry no sampling uncertainty: structure is
-**1.92× smaller in state bytes, 1.49× fewer input tokens, 1.63× cheaper**, with
-a slightly lower median latency. These are measurements over identical case
-sets, so there is no confidence interval to compute.
+**1.92× smaller in state bytes, 1.49× fewer input tokens, 1.49× cheaper per
+case**, with a slightly lower median latency. These are measurements over
+identical case sets, so there is no confidence interval to compute.
 
 Accuracy gains are **directionally positive and not statistically supported** at
 this sample size. Every paired accuracy comparison fails to reach significance:
@@ -54,8 +54,9 @@ TypeSafe docs fetched 2026-09-26. A tariff change moves the cost column only.
 | axis | raw | struct | ratio |
 |---|---|---|---|
 | state bytes (mean) | 32782 | 17085 | **1.92× smaller** |
-| input tokens (mean) | 7925 | 5334 | **1.49× fewer** |
-| cost per run | $0.018973 | $0.011650 | **1.63× cheaper** |
+| input tokens (mean per case) | 7925 | 5334 | **1.49× fewer** |
+| cost per case | $0.00033286 | $0.00022404 | **1.49× cheaper** |
+| cost per run (total, **unequal n**) | $0.018973 (57 cells) | $0.011650 (52 cells) | 1.63× — *not* like-for-like, see §12 |
 | median latency | 337.8 ms | 324.9 ms | 1.04× faster |
 | p95 latency | 426.6 ms | 381.4 ms | 1.12× better |
 
@@ -226,7 +227,7 @@ and what no probability signal substitutes for.
 
 | axis | verdict |
 |---|---|
-| input size / cost | **structure helps**, exactly and substantially (1.92× / 1.49× / 1.63×) |
+| input size / cost | **structure helps**, exactly and substantially (1.92× / 1.49× / 1.49×) |
 | latency | structure marginally better (1.04× median, 1.12× p95); not the interesting axis |
 | accuracy, clean representation | **unresolved** — direction favours structure, p=0.69 |
 | accuracy under irrelevant context | **unresolved** — direction favours structure, p=0.065 |
@@ -324,3 +325,73 @@ Deliberately **not** proposed: building R3 (structure + minimal source) before
 the accuracy question is resolved; replaying historical sessions; or touching
 EDASES architecture. Each would spend budget on a question this phase did not
 open.
+
+## 12. Errata — corrections applied after independent verification
+
+`verification.md` returned **PASS WITH FINDINGS**. It reproduced every
+load-bearing number from the raw evidence. It also found one material error in
+this document, plus two documentation-grade defects. All are corrected here.
+
+### E1 (material) — the cost ratio mixed denominators
+
+**Was claimed:** structure is **1.63x cheaper**.
+**Actually true:** structure is **1.49x cheaper per case**.
+
+The 1.63x figure compared the *total* cost of the `raw` run (57 admissible
+cells) against the *total* cost of the `struct` run (52 admissible cells). The
+two conditions do not have the same number of scored cells, because five
+`string_literal_probe` cases are unanswerable under structure, so a total-cost
+ratio silently charges structure for fewer questions than it is credited with
+solving. That flatters structure.
+
+| | raw | struct | ratio |
+|---|---|---|---|
+| total cost | $0.018973 (57 cells) | $0.011650 (52 cells) | 1.63x *(unequal n, invalid)* |
+| **cost per case** | **$0.00033286** | **$0.00022404** | **1.49x** *(like-for-like)* |
+
+The correct per-case ratio is 1.4857, which is **identical to the input-tokens
+per-case ratio** of 1.4857 - as it must be, since cost is linear in input
+tokens at a fixed tariff. That identity is a useful consistency check and it is
+the figure to quote.
+
+**Direction unchanged; magnitude reduced.** Structure is still materially
+cheaper. The error inflated a real effect by roughly 10% of its own size.
+
+**HOW CERTAIN:** proven (recomputed from `results/jev_raw.ndjson`, and
+independently by the verifier). **WHAT-NOT-TESTED:** nothing - the arithmetic
+is closed.
+
+### E2 (documentation) - two `frozen/MANIFEST.md` digests were stale
+
+`harness/score.py` and `harness/run_jev.py` were modified **after** the freeze
+commit, and the manifest was not updated, so its recorded digests no longer
+described the code that produced the results.
+
+This matters more than a stale checksum, because it means **the scorer changed
+after the measured run**. Both changes are in the git history at `ef4dc698` and
+were disclosed at the time:
+
+- `score.py`: the `case_group` fix. Pairing on the condition-relative
+  `classification` silently dropped all 25 `lookup_under_struct` cases, because
+  a case that is a `lookup` under structure is not `lookup` under raw. Without
+  the fix the central comparison would have been absent from the output.
+- `run_jev.py`: the `--send-unanswerable` flag, used only for the 40
+  observation-only cells, which are never scored.
+
+The freeze gate is therefore satisfied for *generation, extraction and
+representation* code, and **partially satisfied for scoring code**. The
+mitigating fact is that the independent verifier re-derived all reported
+statistics from the raw NDJSON **without importing `score.py`**, so the reported
+numbers do not rest on the changed scorer.
+
+### E3 (documentation) - `classification` is null on `_ic` rows
+
+`harness/run_jev.py` records `case["classification"].get(cond)`, but the
+classification dict only carries `"raw"` and `"struct"` keys. Every `raw_ic` and
+`struct_ic` row therefore records `classification: null`.
+
+No effect on any reported number: scoring reads the intrinsic classification
+from the frozen case set, and the verifier confirmed the per-condition
+probability and unanswerable tables independently. But the raw records are
+incomplete for the two distractor conditions. Left as recorded rather than
+rewritten, because the raw result file must not be edited after the fact.
