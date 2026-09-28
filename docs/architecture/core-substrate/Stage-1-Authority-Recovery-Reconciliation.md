@@ -41,12 +41,14 @@ semantic delta against the existing Kernel + Work Unit candidate. It is not a
 rerun of Phase I, a canonical change, implementation, or formal verification.
 New counterhistories below are constructed reasoning, not executed traces.
 
-**Initial checkpoint:** provenance verified; investigation in progress. No A/B
-completion verdict is asserted by this checkpoint.
+**Current result:** completion state A; see §12. Earlier local checkpoints
+preserve the in-progress evidence and derivation. All conclusions remain
+Draft/Derived, with realization and formal assurance explicitly outstanding.
 
 The frozen architecture basis is the following exact eleven-document set at
 `8d158e3e82d5811e420c80cc6c9664d3ae4a6088`. The manifest was read at
-`d310a08de512aa7864b283e3964173e64358a4ff`, which changes only
+`d310a08de512aa7864b283e3964173e64358a4ff` (manifest blob
+`89af38131465ee37fc780b7fb867860f51492f6e`), which changes only
 `docs/research/Astra-Reasoning-Input-Provenance.md` relative to that head. This run
 branches from that manifest commit as `codex/stage1-authority-recovery`.
 The branch base is not permission to consume other files as architecture inputs.
@@ -81,10 +83,11 @@ evidence, not revived requirements. Registry use is navigation/lineage only.
 - The attached operator request supplies the objective, semantic delta, stop rule
   and two completion states. Its SHA-256 is `69cd86c4487860c37b2f9a3d41b8ffc594f5b8d9c387c114fb5ed957972378cd`.
 - No outside architecture source, later architecture revision, linked historical
-  research file, live platform claim, or implementation experiment has yet been
-  introduced. References within the frozen packet are inherited claims unless
+  research file, live platform claim, or implementation experiment was
+  introduced in this run. References within the frozen packet are inherited claims unless
   separately listed here; their linked sources were not silently imported.
-- Operational guidance read from the starting checkout: AGENTS.md, ORIENTATION.md,
+- Operational guidance read at starting head
+  `3d4308b4b` (verified byte-identical in the manifest base): AGENTS.md, ORIENTATION.md,
   Documentation Standard and Concept: Levels of Abstraction. These govern work
   and document structure, not architecture conclusions. Crosslink issue/session
   state and Git/worktree metadata were inspected for task coordination only.
@@ -668,3 +671,225 @@ comparator/elimination premises. **HOW CERTAIN:** evidence-based scoped survival
 not an exhaustive proof of all architectures or a demonstrated host realization.
 **WHAT-NOT-TESTED:** formal product/induction, concrete refinement, timing bounds,
 arbitrary grant languages, arbitrary semantic correctness, independent review.
+
+### Loss is not an unguarded grant-changing escape hatch
+
+One final adequacy challenge concerns Kernel-0's rule that changes of authoritative
+meaning are guarded events: how can attachment eligibility change when the engine
+that normally performs those checks has stopped?
+
+The reconciliation does not require the dead process to execute a revocation
+command. A relationship whose declared validity requires available mediation is
+already conditional on that fact. The abstract failure/event relation must expose
+its loss and the resulting disabled eligibility, consistently with the pre-existing
+policy. The concrete route must actually stop admitting the affected use. This
+is an instance of Kernel-0's externally triggered/policy-generated events plus
+the explicitly stronger Phase-I failure profile; it is not permission for an
+arbitrary external event to install or widen grants.
+
+A use that must pass through unavailable mediation can fail closed without a
+separate scheduler first deciding that a process is dead. A retained autonomous
+route, however, cannot be declared disabled merely by that reasoning: its use-point
+exclusion still needs a conformance argument. A model's loss event is not evidence
+that a real host observes/enforces that event. R7/R14 and C13 keep this gap visible.
+The source of the fact and the entire enforcing boundary count in the TCB;
+neither a mandatory Observer nor a mandatory timeout follows. This challenges
+the failure relation's adequacy without introducing a new unconditional primitive.
+
+## 9. Disposition of prior claims and terminology
+
+This section is a proposed downstream contract supplement. It preserves the
+frozen texts as historical evidence rather than silently rewriting them. “Revised”
+below means the indicated reading is rejected by this reconciliation; it does not
+promote this Draft/Derived record to Canonical authority.
+
+| Prior claim or location | Disposition in this pass | Downstream meaning |
+| --- | --- | --- |
+| Kernel-0's six distinctions and model invariants 1–6 | Confirmed for the scoped candidate. | No new primitive or transition calculus is demonstrated necessary. Supply the explicit authority/failure/policy parameters above. |
+| Closure §2/§7: trusted manager / initial management | Clarified by Stage 1 and R1/R3. | Trusted user-rooted ingress and enforcement are not sovereign agents; O's proposals still need current delegated scope. |
+| Roadmap §2: Kernel “owns” authoritative transitions/enforcement | Clarified, not deleted. | Owns responsibility for representation/enforcement, not the root right to authorize. |
+| Ontology §§5–8: grants and attenuation | Refined by R1/R2/R10/R11. | Installation permission, use permission, current validity, issuance provenance and resource reservation cannot be collapsed. No universal grant lifetime/cascade rule is invented. |
+| Work Unit F: register sealed/inactive; resume execution through explicit relationships | Clarified by R5/R7/R8. | Outward relationships are inactive. Surviving internal computation and valid allocations need not be restarted; a new exposed relationship does require current authorization. |
+| Closure §3/§7: recover then explicitly activate | Confirmed and made more discriminating by R5/R6. | Current cut plus historical attachment descriptions is insufficient; activation needs present authorized reassessment and applicable premises. |
+| Q1 Part B: D1 means no new work admitted or started | Historical broad reading superseded by the Stage-1 disposition. | D1 concerns affected capability admission/use. Work within surviving resource bounds is not prohibited merely because it is new private computation. |
+| Q1 Part B: D2 means nothing egresses | Qualified by Kernel effect contracts; R12. | No affected new protected use at the declared event. Do not retroactively cancel valid exact commitments or forbid their later visibility by definition. |
+| Q1's D3 requirement and automatic stopping language | Baseline requirement already superseded by Stage 1; confirmed here. | Global engine-loss quiescence remains optional. Specific resource reclamation/destruction may still require excluding a live writer; R9 is not a global D3 promise. |
+| Historical Q1 assertions that D1/D2 are “always” achievable, or that a named timer is universally necessary for D3 | Not inherited as realization evidence or mechanism necessity. | Abstract obligations do not prove a host route closes. Optional timing profiles need their own justified enforcement/timing assumptions; this pass selects none. |
+| Closure C5/C8 and destruction H13/H14/P4 | Confirmed, with expanded adequacy fixture. | Include live private creation and protection of whole allocations; do not assume sealed means an inventory cannot change. |
+| Closure §7 / F1 conserved resource quantities | Confirmed, with loss-state refinement. | Inactive attachments must not zero surviving reservations. Define allocation, release and consumption distinctly. |
+| Processorless closure and Efficiency §§5–6 | Confirmed conditionally. | Retain authority decisions/allocations/required information; recompute genuine derived values. No persistent derivation lifecycle is forced by the delta. |
+| Work Unit C/L: Execution is activity, not a required durable object | Confirmed. | Add relevant activity/protection events to models without canonizing a durable Execution primitive. |
+| F1/F3 as next architectural steps; later roadmap phases remain deferred | Confirmed with the supplement below. | Still formalize and realize the finite candidate; first cover these distinctions. No new multi-phase redesign or broad research programme follows. |
+
+## 10. Downstream obligations reduced to explicit checks
+
+These supplement C1–C13 and T01–T24; they do not replace their existing whole-effect,
+continuity, content-retention or trust assumptions. They are specifications of
+future checks. No formal verification or implementation was started in this run.
+
+### Semantic invariants to carry into F1
+
+| ID | Checkable obligation | Trace basis |
+| --- | --- | --- |
+| S1 | Every admitted grant-changing effect has a current, scope-correct authorization grounded in the user; authenticated role/identity, useful judgment and engine process identity alone are insufficient. | R1/R3/R14. |
+| S2 | Current use satisfies all declared continuing support, containment and resource conditions. Issuance provenance is neither sufficient current support nor an implicit revocation dependency. | R2/R10/R13. |
+| S3 | Loss of required mediation disables the affected attachment. Remembered pre-loss attachment descriptions cannot authorize use or activation; a current authorized reassessment and whole activation establish any new relationship. Old evidence remains invalid even if the new description is identical. | R5/R6/R7. |
+| S4 | Reassessment scope and all required mutable premises are applicable at actual activation. Unknown required intent/fact/currentness cannot be silently supplied by O, a historical decision or user silence. | R4/R6. |
+| S5 | Private computation under surviving valid resources cannot alter accepted meaning, exceed claimed resource bounds, create unmediated protected crossings or weaken protection. Sealed does not assert private-state immutability or zero resource consumption. | R8/R10/R11. |
+| S6 | Final boundary removal has a complete current disposition basis and excludes future dependent creation under that removed protection; all surviving protected activity/content remains bounded. Quietness or a prior empty inventory alone is insufficient. | R9. |
+| S7 | Each pending/committed external effect follows its declared decision/use/acceptance/visibility and failure contract. Inactivity of the old attachment neither grants pending work permission nor silently cancels an independent valid obligation. | R12. |
+| S8 | Restart/reparenting/role replacement does not widen authority, lose accepted work, free unreleased capacity or permit stale conflicting mediation. A separately authorized change is distinguishable from resurrection. | R6/R10/R13/R14. |
+| S9 | Removing the active O agent or optional derived subsystems leaves a supported direct-user or explicitly standing-authorized path for useful operation/recovery under healthy declared premises. | R3 and §8. |
+
+### Hostile fixtures and positive controls
+
+Reuse the frozen verification plan's fixtures; add only states/events required to
+make the Stage-1 alternatives distinguishable. U/O identity and management scope,
+current versus historical attachments, a live internal computation, one surviving
+unit-capacity allocation, accepted x/private y/z, and a destruction-in-progress
+observation are sufficient new dimensions for the first finite fixtures. The
+existing P/Q/C/D containment and old/new ingress cases remain relevant. Bound the
+supported validity conditions and effect vocabulary explicitly; don't turn this
+into an arbitrary authority-language implementation.
+
+| Supplement | Exact discriminator and expected result | Existing work it extends |
+| --- | --- | --- |
+| V1 | O has authority to install read but neither install write nor personally read. Read installation succeeds; the two unauthorized actions fail. Narrow O between assessment and commitment; old wider proposal fails. | T01/T16/T22; R1. |
+| V2 | Install one expressly continuously dependent grant and one expressly standing resource allocation. Revoke only O's management envelope. The first loses eligibility; the second follows its own validity and remains accounted for. | T01/T04; R2/R10. |
+| V3 | Remove O. With healthy root ingress/current storage, U recovers W sealed and authorizes read. Read succeeds. A role-only self-bootstrap request fails. | F1 non-vacuity, T09/T10; R3. |
+| V4 | Recover authentic historical {a,b}; with no current assessment, neither activates. A current scoped decision selects only a; a' works, b and attempts based only on old a fail. The same capability description is allowed in a genuinely new grant. | T02/T03/T08/T10; R5. |
+| V5 | Reassess, then independently change O's envelope, relevant parent restriction, assessed state or required external premise before activation. Each relevant invalidation blocks stale activation; an unrelated private change does not force reassessment. | T11/T14/T16; R6. |
+| V6 | Crash after assessment/before activation; then after activation/before reply; then lose mediation during recovery again. Recover only permitted whole states; no replay restores old channels. A no-crash lost-reply control retains the actual definite commitment. | T07/T10; R6. |
+| V7 | Keep private CPU activity running after mediation loss; old capability use fails, accepted x is unchanged, private y can evolve. After authorized recovery, read x then separately accept exact y. Mutating the accepted referent is a failing variant. | T05/T06/T21; R7/R8. |
+| V8 | With W sealed and computing, enumerate empty, create private durable z, then attempt final removal. It must not expose z. Close/dispose the complete enclosing allocation or preserve a valid new boundary, then successful removal is possible. Stop-only with undisposed z also fails. | T12/T13/T15/T23; R9. |
+| V9 | Capacity one remains allocated to W through engine loss. Granting one to V fails until W's allocation is actually released/transferred under the resource contract; then valid allocation succeeds. | T04/T05/T10; R10. |
+| V10 | Label an actionable retained handle “resource”; attempt a protected effect after loss. The use still fails. Private mutation inside a valid bounded allocation remains allowed. | T05/T22/T24; R11. |
+| V11 | Delay an uncommitted request across loss: reject old-authority use. Separately delay an exact committed obligation under a loss-surviving profile: permit only its precise promised consequence, never substituted q'. An acceptance-current profile has its own contrary expected outcome. | T18/T19; R12. |
+| V12 | Move sealed C and D with live private computation under a permissive parent; fresh read works, old forbidden write does not. Surviving allocations remain conserved. A separately authorized widening is a positive control. | T11/T12; R13. |
+| V13 | B has authentic current U authorization; A retains a stale route. B's activation cannot authorize conflicting effects until actual exclusion is established. Also remove only O while mediation remains healthy and confirm no fictitious Kernel-loss event. | T20/T24; R7/R14. |
+| V14 | Present identical observations with an uncommunicated change of user intention in only one history. Do not claim the system detects the difference. Then admit a communicated restriction and confirm later affected use cannot rely on the old view. | T16/T17; R4. |
+
+Each failing variant must reach the targeted fault. A fixture that kills every
+writer at engine loss cannot count as evidence for V7/V8; one that deletes all
+old routes by test setup cannot establish V4/V13; one with no successful activation
+cannot establish non-resurrection together with useful recovery. These are
+adequacy checks, not instructions to weaken a deployed guard.
+
+### Realization/refinement obligations for F3/F4
+
+1. **Name the actual root ingress and its protection.** Demonstrate scope checks
+   with and without O. Show when communicated authorization/revocation becomes a
+   committed fact and what success acknowledgment means. A semantic interpretation
+   service, if trusted for a premise, must disclose exactly what it establishes.
+2. **First route discriminator:** retain a real usable route and live private
+   computation, lose required mediation, and attempt old use. Establish actual
+   use-point refusal, not only a metadata change. Inventory aliases, inherited
+   handles, queued work and access-policy changes per T05/T24. Accepted bytes must
+   survive and remain protected while private activity continues.
+3. **Prove the recovery mapping:** distinguish survived allocations, historical
+   attachments, current decisions and fresh active relationships. Record the
+   currentness/exclusion assumptions and interrupt each activation boundary.
+   Recovered state must retain the compatible cut; renewed authority cannot repair
+   missing accepted work or establish that a rolled-back image is current.
+4. **Prove private-step abstraction:** identify which concrete steps preserve all
+   authoritative/protection observations and may stutter. Use R8/R9 to challenge
+   this. Define how ownership of an enclosing allocation makes private bytes safe
+   without per-byte Kernel records; final removal must exclude later invalid writes
+   and surviving unbounded activity. Refuse unsupported disposal/transfer promises.
+5. **Conserve resources across loss and movement:** connect the abstract reservation
+   to actual allocation and release. State fixed-reservation versus measured-use
+   semantics and the failure boundary; add clocks/meters only if a selected validity
+   condition requires them. Partial release cannot be reported as complete reclamation.
+6. **Map effects as whole histories:** state the protected event for every enabled
+   attachment and exact obligation. Account for old pending messages, lost replies,
+   independently surviving consequences and repeated recovery. The abstraction
+   cannot explain one prefix using decision-current authority and a conflicting
+   suffix using acceptance-current authority.
+7. **Repeat the optional-subsystem removal control:** no O agent, cache, Processor,
+   tracker or general scheduler is present in the minimal successful sequence.
+   Trusted ingress, finite checking, retained information, protection and explicitly
+   invoked recovery remain. Their absence would be a different, unsupported claim.
+
+**Successful sequence required:** U establishes empty W; delegates a bounded choice
+to O; current selection grants a supported attachment/resource; accept x; lose
+mediation with private computation surviving; old use fails and private y evolves;
+recover x/current resource accounting with remembered attachments inactive; directly
+U (no O) reassesses and activates read; read x; separately accept y; move a sealed
+restricted child and activate without widening; dispose all dependencies safely,
+including live producers, and remove the unneeded boundary. Independent observations
+must check actual bytes, routes and resource/protection state.
+
+This sequence is a downstream target, not a purported execution result. Failure
+of one host mechanism first falsifies that realization. Reopen the architectural
+candidate only if the required behavior cannot be represented or discharged by
+any supported existing contract, or if a presently assumed property itself proves
+incoherent for the accepted profile.
+
+## 11. Assumptions, remaining questions and reopening conditions
+
+No unresolved choice of a new core primitive or mandatory subsystem remains in
+this scoped reconciliation. The following unknowns are explicit proof/realization
+obligations or input-policy parameters, not claims settled by prose.
+
+| Assumption / question | What evidence must settle it | What failure would change |
+| --- | --- | --- |
+| A trustworthy current user-root ingress and initial authority domain can be established. | An explicit realization/authentication mapping and V1/V3/V13. | If no supported control path exists, recovery non-vacuity fails; adding an assumed agent cannot repair it. Multiple competing root users remain a separate unselected policy. |
+| Every granted relationship has a supported, unambiguous validity/effect interpretation. | Declare and check installation/use scope, continuing support and invalidation for the finite fixture; V2/V4/V11. | An unrepresentable mandatory policy may require a richer policy instantiation; first try existing parameters rather than declaring a new primitive. No implicit grant survival/cascade default is established here. |
+| Required mediation/protection survives or fails closed for the selected process loss. | Retained-route, stale-mediator and concrete policy tests, with the actual TCB disclosed. | A bypass invalidates that realization's D1/D2 claim. If the required guarantee is unattainable under the selected trust/failure assumptions, stop and reopen the profile rather than weaken it silently. |
+| Accepted contents, current allocations, decisions and compatible authority state survive the covered failure. | F4 loss/coupling tests with independent observations and no recovery oracle. | Missing information defeats continuity/currentness. Fresh authorization cannot recover missing work; rollback resistance remains unselected. |
+| Live private computation remains confined and accepted meaning protected; disposition can close all future dependencies. | V7–V10 and an actual abstraction for private mutation/enclosing allocations. | An uncontrolled producer falsifies the realization/refinement. If safe useful removal requires an unrepresented guarantee, reopen the disposition contract. |
+| Reassessment requires observable premises or expressly authorized judgments, not uncommunicated intent or arbitrary semantic truth. | V5/V14; declare the source/meaning/currentness of every consumed fact. | A requirement for truth unavailable from any permitted observation is an information-boundary pivot, not an occasion for stronger model confidence. |
+| Finite supported checks terminate; no correctness deadline requires irreproducible autonomous derivation state. | F1 mapping and the processorless removal control. | A new required deadline/lower bound or independent necessary lifecycle reopens Processor elimination under its original conditional test. |
+| External effects obey their selected contract; no arbitrary cancellation, at-most-once delivery, secure erasure or host-compromise resistance is promised. | Profile-specific sink/storage/confinement evidence if selected. | Selecting a stronger guarantee reopens only its affected failure/effect boundary, not all Phase I. |
+
+Representation choices—storage format, grants schema, source binding, revocation
+mechanism, immutable-byte custody and protection teardown—remain for realization.
+They must be compared against the above properties. This pass does not pick leases,
+generations, databases, logs, replication, a process model or a host mechanism.
+Neither does it require the operator to decide abstract facts that the next bounded
+tests can discriminate.
+
+## 12. Completion decision and continuation cursor
+
+**Completion state A — reconciliation succeeds for the declared Phase-I candidate.**
+The supplied Stage-1 changes are coherent with the surviving Kernel + Work Unit
+semantics after the explicit contract clarifications above. Fourteen concrete
+histories, their contrasting successful cases, and the failure-event adequacy
+challenge reduce to existing guarded authority/effect/currentness/continuity
+semantics with explicit Work Unit policy and trusted realization obligations.
+No material pivot was established. No claim of complete formal or implemented
+Phase-I assurance follows.
+
+The consequential reductions are: user-rooted management without agent sovereignty;
+current reassessment distinct from historical replay; separate surviving allocation
+and capability eligibility; live private evolution distinct from accepted state;
+safe removal distinct from sealing; and precise treatment of committed consequences.
+The no-Orchestrator and processorless correctness claims survive within their
+original bounds. F1/F3 remain the next steps, with §10 as a required candidate
+supplement; later optional-subsystem design remains deferred.
+
+**Why stop here:** the materially different histories exposed by the delta have
+specific invariants, successful/hostile witnesses and refinement discriminators.
+Remaining uncertainty needs model or concrete realization evidence, or a newly
+selected requirement. Continuing into a general authority language, recovery
+framework, scheduler or subsystem design would expand the task without a failed
+architectural obligation.
+
+**Continuation:** read this record together with the exact §1 packet; instantiate
+S1–S9/V1–V14 alongside C1–C13/T01–T24, preserving the stated policy and failure bounds.
+Begin with the retained-route/live-computation discriminator and root/reattachment
+scope fixtures. If an architectural pivot emerges, preserve its smallest history,
+affected prior claims and dependencies, then stop for the next explicit decision.
+Do not treat a failed host mechanism, preferred alternative design, or unselected
+stronger guarantee alone as evidence that the core needs a new primitive.
+
+**WHY:** every required distinction introduced by this reconciliation has a concrete
+failure witness and an explicit smaller representation inside the existing finite
+candidate; the successful witnesses exclude pure deny-all reasoning. **WHAT:** the
+verified eleven-blob packet, the supplied semantic delta, R1–R14, the failure-event
+challenge, and the removal/obligation mapping. **HOW CERTAIN:** evidence-based
+architectural reconciliation and conditional reduction; not machine-checked proof,
+independent consensus, or demonstrated realization conformance. **WHAT-NOT-TESTED:**
+F1–F5, actual user authentication, natural-language interpretation, host enforcement,
+resource retention/reclamation, real recovery, sink behavior and all unselected
+stronger profiles. No subagents, formal verifier or production implementation ran.
