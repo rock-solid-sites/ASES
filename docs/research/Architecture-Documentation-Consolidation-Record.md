@@ -702,3 +702,48 @@ Moved byte-for-byte:
 - `docs/sentinel-model-triage-scope.md` → `docs/historical/sentinel-model-triage-scope.md`
 
 No content was modernized or rewritten.
+
+
+## Stage 2C.2 — current root utilities disposition
+
+**Status: classified for deeper review; no unsafe path moves.**
+
+Five non-entry documents remain at root `docs/` after the completed-record archival:
+
+- `docs/ORCHESTRATOR.md`
+- `docs/SESSION-END.md`
+- `docs/crosslink-adversarial-review.md`
+- `docs/crosslink-subagent-orchestration.md`
+- `docs/final-report-template.md`
+
+The Taxonomy says top-level repository documents are entry/navigation documents, so these paths are not ideal. However, the canonical Documentation Standard also says location does not determine identity, and Stage 2 forbids opportunistic semantic rewrites or unsourced directory schemes.
+
+Disposition by file:
+
+1. **`ORCHESTRATOR.md` — retained.** Current operational role/permission contract, but it mixes role semantics with OpenCode/Crosslink deployment detail and its name collides with the architectural Orchestrator concept. Moving or reclassifying it safely requires a full consumer/reference rewrite and likely a semantic split between role doctrine and tooling realization.
+2. **`SESSION-END.md` — retained.** Existing metadata (`layer: Research`, `document_type: Standard`, `authority: Derived`) conflicts with its body, which describes an operational routing convention and provisional Crosslink mechanism. Correcting this is a semantic classification task, not a path-only cleanup.
+3. **`crosslink-adversarial-review.md` — retained.** Explicitly a Crosslink workflow/review guide. It contains tool/version/model-specific operational claims whose currentness must be checked before declaring a durable guide home.
+4. **`crosslink-subagent-orchestration.md` — retained.** Explicitly a Crosslink workflow/orchestration guide. It likewise contains deployment-specific CLI/default-model/permission claims that require currentness validation before refiling.
+5. **`final-report-template.md` — retained.** Reusable template rather than repository entry point, but the current canonical Taxonomy does not define a Template category or repository home. Creating `docs/templates/` solely for this file would be an unsourced structural decision.
+
+### Search limitation confirmed
+
+GitHub indexed code search returned zero results for all five files, including `docs/ORCHESTRATOR.md`. That result is known false-negative evidence because `docs/research/capability-schema-validation.md` on this branch directly references `docs/ORCHESTRATOR.md`. Indexed search is therefore not used to justify moves for this family.
+
+These five files are passed into Stage 3 as **retrieval/currentness hazards requiring deeper semantic/reference investigation**, rather than being moved speculatively.
+
+## Stage 2 completion
+
+**Stage 2 is complete.**
+
+Completed outcomes include:
+
+- historical decisional-provenance review and authored-design lineage separated from active design surfaces;
+- research, synthesis, external-review, and advisory records moved from `.design/` into Research-appropriate homes;
+- completed/superseded implementation records archived only where primary-source evidence established that status;
+- the generic RTK proposal removed from active surfaces after canonical RTK design/synthesis plus implementation evidence established supersession;
+- root-level completed operation/implementation records moved to Historical;
+- unresolved active Implementation designs retained rather than forced into an invented `docs/implementation/` scheme;
+- current root utilities explicitly classified as Stage 3 hazards rather than silently rewritten.
+
+Stage 3 now begins from a bounded hazard set plus the deeper-search categories already defined above: misplaced design records outside obvious folders, current research under historical/addenda locations, architecture claims in operational notes, canonical-looking prose without metadata, duplicate homes, broken canonical references, abstraction conflicts, historical upstream dependencies, orphaned syntheses/reviews, generated truth masquerading as maintained truth, and repository-level documents redefining canonical concepts.
