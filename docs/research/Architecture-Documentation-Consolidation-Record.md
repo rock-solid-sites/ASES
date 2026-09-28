@@ -990,3 +990,17 @@ Safe normalization rule for this stage:
 This rule does **not** authorize inference of `depends_on`, `consumed_by`, `related_documents`, `supersedes`, `superseded_by`, identity, status, authority, or classification. Those remain evidence-dependent.
 
 The Standard's wording (“Every canonical document should begin with structured metadata”) is narrower than a universal all-document mandate. Therefore this consolidation will not automatically force complete canonical metadata onto External/Generated/trace/template records merely because they live under `docs/`.
+
+
+### Stage 3.2 checkpoint 4a — safe Research normalization, Crosslink-gates/failure tranche
+
+**Status: 6 documents normalized.**
+
+Applied only the checkpoint-3 rule: existing `layer: Research` frontmatter received missing `implements: []` and/or `implemented_by: []`. No other metadata or body content changed.
+
+- `docs/research/crosslink-gates/evidence-based-gates.md`
+- `docs/research/crosslink-gates/gates-issues.md`
+- `docs/research/crosslink-gates/gates-verified-facts.md`
+- `docs/research/crosslink-gates/server-crash-postmortem.md`
+- `docs/research/crosslink-gates/updated-evidence-based-gates.md`
+- `docs/research/failed-conversation.md`

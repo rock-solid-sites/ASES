@@ -17,6 +17,8 @@ related_documents:
 consumed_by:
   - session-recovery-after-crash.md
 
+implements: []
+implemented_by: []
 supersedes: []
 
 superseded_by: []

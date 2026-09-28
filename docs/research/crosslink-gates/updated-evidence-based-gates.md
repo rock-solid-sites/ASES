@@ -21,6 +21,8 @@ related_documents:
 consumed_by:
   - Crosslink implementation
 
+implements: []
+implemented_by: []
 supersedes:
   - evidence-based-gates.md
   - gates-verified-facts.md

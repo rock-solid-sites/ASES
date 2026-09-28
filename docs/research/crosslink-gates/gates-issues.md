@@ -20,6 +20,8 @@ related_documents:
 consumed_by:
   - Crosslink implementation
 
+implements: []
+implemented_by: []
 supersedes: []
 
 superseded_by:
