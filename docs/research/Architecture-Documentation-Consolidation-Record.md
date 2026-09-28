@@ -432,3 +432,21 @@ Batch scope:
 - `.design/tool-to-engine-gap-matrix.md`
 
 Goal: determine which are Research Records, Syntheses, Research Designs, External Reviews, or Historical research evidence; move only where the primary-source role is clear. Preserve contents byte-for-byte unless a separate metadata correction is independently justified.
+
+
+### Stage 2B.4a — clear standalone research/review moves
+
+**Status: completed for six clear files.**
+
+Repository code search found no exact-path/basename references to any file in this sub-batch.
+
+Moved byte-for-byte:
+
+- `.design/adversarial-reviewers-analysis.md` → `docs/research/syntheses/adversarial-reviewers-analysis.md`. Its own header identifies it as ASES Research, type “Analysis, Synthesis,” status Complete.
+- `.design/architectural-brief-documentation-process.md` → `docs/historical/decisional-provenance/architectural-brief-documentation-process.md`. Its body is a fresh-reviewer brief for the same documentation/decisional-provenance architecture sequence already archived in Stage 2B.1.
+- `.design/capability-schema-validation.md` → `docs/research/capability-schema-validation.md`. Its metadata declares `layer: Research`; its body calls itself a Research Design Document and explicitly says it is not an engine implementation or architecture redesign.
+- `.design/chatgpt-execution-classification.md` → `docs/research/review-inbox/chatgpt-execution-classification.md`. Its metadata declares `status: External-Unverified`, `authority: External`, and provenance as an independent ChatGPT review whose source claims require verification. The review-inbox location preserves that authority boundary even though the historical metadata says `layer: Implementation`.
+- `.design/research-git-notes.md` → `docs/research/research-git-notes.md`. It is explicitly a web-grounded research record on Git Notes and their decisional-provenance suitability.
+- `.design/tool-to-engine-gap-matrix.md` → `docs/research/tool-to-engine-gap-matrix.md`. Its metadata declares `layer: Research`, `document_type: Advisory`, `status: Draft`, and `authority: Derived`; the body explicitly says it is advisory only and does not make the build-vs-buy decision.
+
+No internal content or metadata was rewritten in this substep. Metadata contradictions preserved in historical/external material remain visible rather than being silently normalized.
