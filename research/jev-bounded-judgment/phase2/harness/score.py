@@ -832,8 +832,6 @@ def exp1_headline(s):
     }
 
 
-if __name__ == "__main__":
-    raise SystemExit(main())
 
 
 # ===========================================================================
@@ -1037,3 +1035,7 @@ def summarise_exp3(rows, packet, label="exp3"):
                "EXTERNAL GATE WINS OR TIES." if eu_det < eg_det else
                "EXACT TIE."))
     return out
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

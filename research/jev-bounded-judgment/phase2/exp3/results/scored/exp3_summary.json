@@ -1,0 +1,100 @@
+{
+ "label": "exp3",
+ "pre_registered_thresholds": {
+  "explicit_unknown": 0.05,
+  "external_gate": 0.86,
+  "source": "read from frozen packet preregistered_rules; not hardcoded in the scorer and not retuned"
+ },
+ "n_matched_cases": 51,
+ "n_matched_answerable": 41,
+ "n_matched_unanswerable": 10,
+ "matched_denominator_policy": "only cases answered in BOTH arms enter any cross-arm comparison; answerable and unanswerable are never pooled",
+ "SEPARATE MEASURES": {
+  "normal_answer_correct": {
+   "arm_a_forced": {
+    "n": 41,
+    "n_correct": 39,
+    "accuracy": 0.9512
+   },
+   "arm_b_explicit_unknown": {
+    "n": 41,
+    "n_correct": 39,
+    "accuracy": 0.9512,
+    "note": "selecting insufficient_evidence on an answerable case is WRONG, not partial credit"
+   }
+  },
+  "explicit_unknown_detection_primary": {
+   "rule": "p(insufficient_evidence) >= 0.05",
+   "n": 10,
+   "n_detected": 9,
+   "rate": 0.9,
+   "note": "this is the PRIMARY measurement and the pre-registered test"
+  },
+  "false_unknown": {
+   "rule": "p(insufficient_evidence) >= 0.05",
+   "n": 41,
+   "n_false_unknown": 0,
+   "rate": 0.0
+  },
+  "false_confidence": {
+   "arm_a_forced": {
+    "n": 10,
+    "n_false_confident": 10,
+    "rate": 1.0
+   },
+   "arm_b_explicit_unknown": {
+    "n": 10,
+    "n_false_confident": 4,
+    "rate": 0.4
+   }
+  },
+  "argmax_selected_insufficient": {
+   "n": 10,
+   "n_argmax": 6,
+   "rate": 0.6,
+   "distinction": "this is how often the model CHOOSES the option. The primary rate in (2) is what its PROBABILITY supports. Experiment 1 measured 0.30 here against 1.00 there; the two must never be reported interchangeably."
+  },
+  "external_gate_preregistered": {
+   "rule": "act iff p(ground_truth_option) >= 0.86; abstain on an unanswerable case iff max(p(yes),p(no)) < 0.86",
+   "threshold_provenance": "carried from Experiment 1, where 0.86 was the best point on that grid; applied out of sample and NOT re-tuned here",
+   "coverage_answerable": 0.7073,
+   "n_coverage": 29,
+   "n_answerable": 41,
+   "accuracy_when_acting": 1.0,
+   "unanswerable_abstention_rate": 0.6,
+   "n_abstained_unanswerable": 6
+  },
+  "probability_separation_DESCRIPTIVE_ONLY": {
+   "max_p_insufficient_on_answerable": 0.02,
+   "min_p_insufficient_on_unanswerable": 0.02,
+   "perfectly_separating_at_t_eu": false,
+   "warning": "descriptive only. This does NOT license moving the threshold, which stays pre-registered at 0.05 regardless of what it shows."
+  },
+  "probability_and_confidence": {
+   "arm_a_forced": {
+    "n_rows": 51,
+    "prob_min": 0.0,
+    "prob_max": 1.0,
+    "n_one_hot_rows": 0,
+    "provider_confidence_vs_derived_max_abs_diff": 0.01,
+    "note": "provider confidence is a DERIVED function of the probability vector (Phase 1 INSTRUMENT-VALIDATION) and is not independent evidence"
+   },
+   "arm_b_explicit_unknown": {
+    "n_rows": 51,
+    "prob_min": 0.0,
+    "prob_max": 1.0,
+    "n_one_hot_rows": 0,
+    "provider_confidence_vs_derived_max_abs_diff": 0.015,
+    "note": "provider confidence is a DERIVED function of the probability vector (Phase 1 INSTRUMENT-VALIDATION) and is not independent evidence"
+   }
+  },
+  "PRIMARY_ANSWER": {
+   "explicit_unknown_detection": 0.9,
+   "external_gate_unanswerable_abstention": 0.6,
+   "explicit_unknown_false_unknown": 0.0,
+   "explicit_unknown_outperforms_external_gate": true,
+   "false_unknowns_increased_materially": null,
+   "verdict": "explicit unknown detects 0.9 of unanswerable cases at the pre-registered p>=0.05, against the pre-registered external gate's 0.6 abstention. EXPLICIT UNKNOWN WINS."
+  }
+ }
+}

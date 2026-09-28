@@ -47,6 +47,19 @@ file, losing all of it. Therefore:
 Start `exp3/EXECUTION.md` with a header recording: model, route, UTC start
 time, the freeze version, and the two pre-registered thresholds you were given.
 
+## RESUMPTION NOTICE
+
+A prior run of this brief STOPPED correctly at Substep 2 with a logged
+deviation: `cases=0`, 0 records planned, 0 sent, rows=0, exit status 0. That was
+a genuine harness defect, not a mistake in your execution. It has since been
+FIXED in `harness/run_jev.py` and freeze v15 is declared. `EXECUTION.md` already
+records Substeps 1 and 2 and the investigation; keep that history and APPEND
+below it rather than rewriting it.
+
+The fix is verified: the Exp 3 packet now yields 51 fresh cases and 102
+records, and the Exp 1 and Phase 2 paths are unchanged. Do NOT re-investigate
+the old deviation; re-verify the freeze under v15 and re-run Substep 2.
+
 ## SUBSTEP 1 - verify the freeze immediately before execution
 
 ```
