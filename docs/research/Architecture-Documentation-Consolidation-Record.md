@@ -783,3 +783,18 @@ Result:
 That reference is **not an upstream dependency**. It appears under `related_documents`, not `depends_on`, and is explicitly annotated `superseded in part; lifecycle-semantics baseline`. This is an intentional historical lineage citation and does not violate the Taxonomy rule that Historical documents must not become upstream dependencies.
 
 No forbidden historical upstream dependency has been found in the first 40 current high-value documents checked.
+
+
+### Stage 3.1 checkpoint 3 — registries/currentness/evaluation material
+
+**Status: 30 additional documents scanned; 70 total in Stage 3.1.**
+
+This tranche covered currentness, evaluation-framework/harness-evaluation material, read-only/methodology research, registry documents, model-feedback records, and the AI Evaluation Protocol.
+
+One historical citation was found:
+
+- `docs/research/registry/Failure-Matrix.md` cites `docs/historical/` under **Secondary Evidence (Historical)** as evidence of earlier role-boundary/fallback/context-corruption patterns.
+
+This is not an upstream dependency. The file's frontmatter `depends_on` contains only the current AI Capability Registry Specification and Agent Orchestration Playbook; historical material is explicitly evidence provenance in the body.
+
+Result: **no forbidden Historical → current upstream dependency found in 70 current documents checked so far.**
