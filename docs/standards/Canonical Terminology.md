@@ -1,5 +1,4 @@
 ---
-
 title: Canonical Terminology
 program: EDASES
 layer: Research
@@ -9,30 +8,31 @@ authority: Canonical
 canonical_repository: edases
 
 depends_on:
-
-* Documentation Standard
-* Concept: Levels of Abstraction
+  - Documentation Standard
+  - Concept: Levels of Abstraction
 
 consumed_by:
-
-* Evaluation Framework
-* AI Evaluation Protocol
-* AI Capability Registry
-* AI Orchestration Guide
-* Methodology to Requirements Mapping Specification
-* Execution Engine Vision
-* README.md
-* ORIENTATION.md
-* AGENTS.md
-* ARCHITECTURE.md
+  - Evaluation Framework
+  - AI Evaluation Protocol
+  - AI Capability Registry
+  - AI Orchestration Guide
+  - Methodology to Requirements Mapping Specification
+  - Execution Engine Vision
+  - README.md
+  - ORIENTATION.md
+  - AGENTS.md
+  - ARCHITECTURE.md
 
 related_documents:
+  - Documentation Standard
 
-* Documentation Standard
-
+implements: []
+implemented_by: []
 supersedes: []
+superseded_by: []
 
-## last_updated:
+last_updated: 2026-09-29
+---
 
 # Canonical Terminology
 

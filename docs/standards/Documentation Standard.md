@@ -1,3 +1,30 @@
+---
+title: Documentation Standard
+program: EDASES
+layer: Research
+document_type: Standard
+status: Active
+authority: Canonical
+canonical_repository: edases
+
+depends_on:
+  - Concept: Levels of Abstraction
+
+consumed_by:
+  - All project documentation
+
+related_documents:
+  - Concept: Levels of Abstraction
+  - Evaluation Framework
+
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+
+last_updated: 2026-09-29
+---
+
 # Documentation Standard
 
 ## Document Classification

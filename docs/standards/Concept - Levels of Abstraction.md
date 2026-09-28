@@ -24,6 +24,12 @@ related_documents:
 
 supersedes: []
 
+implements: []
+implemented_by: []
+superseded_by: []
+
+last_updated: 2026-09-29
+
 review_frequency: On Release
 
 last_reviewed:

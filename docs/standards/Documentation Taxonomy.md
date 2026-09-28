@@ -1,5 +1,4 @@
 ---
-
 title: Documentation Taxonomy
 program: EDASES
 layer: Research
@@ -9,23 +8,24 @@ authority: Canonical
 canonical_repository: edases
 
 depends_on:
-
-* Documentation Standard
-* Concept: Levels of Abstraction
-* Canonical Terminology
+  - Documentation Standard
+  - Concept: Levels of Abstraction
+  - Canonical Terminology
 
 consumed_by:
-
-* All canonical and derived documentation
+  - All canonical and derived documentation
 
 related_documents:
+  - ORIENTATION.md
+  - ARCHITECTURE.md
 
-* ORIENTATION.md
-* ARCHITECTURE.md
-
+implements: []
+implemented_by: []
 supersedes: []
+superseded_by: []
 
-## last_updated:
+last_updated: 2026-09-29
+---
 
 # Documentation Taxonomy
 

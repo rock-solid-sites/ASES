@@ -1126,3 +1126,35 @@ Primary hazard families for this pass:
 3. **Skipped because layer/purpose differs from ordinary Research** — templates, trace files, structural-change/work-unit records, historical syntheses, and stage crossrefs.
 
 Goal: classify each file or family from its own purpose/provenance and only write metadata where the identity is already established by primary sources. Templates, traces, generated evidence, or documents whose authority remains ambiguous will not be forced into the canonical document schema.
+
+
+### Stage 3.2 checkpoint 6 — Canonical standards metadata repair
+
+**Status: completed for the four Canonical standards documents.**
+
+Primary-source findings:
+
+- `Documentation Standard.md` was Canonical but had no YAML metadata header; its identity, dependencies and consumers were already stated in its opening “Document Classification” section, and its relationship section names the Levels-of-Abstraction concept and Evaluation Framework.
+- `Documentation Taxonomy.md` and `Canonical Terminology.md` had a more serious structural defect: both opened YAML at line 1 but did not close it until a later body horizontal rule, leaving title/purpose prose inside malformed frontmatter.
+- `Concept - Levels of Abstraction.md` had valid frontmatter but lacked the current-schema `implements`, `implemented_by`, `superseded_by`, and `last_updated` fields.
+- Git history shows all four descend from the same 2026-06-29 canonical formalization and later 2026-08-10 normalization; no separate replacement lineage is recorded.
+
+Actions:
+
+- added valid structured frontmatter to `Documentation Standard.md` using only classification/relationship facts already stated in the document;
+- reconstructed valid YAML headers for `Documentation Taxonomy.md` and `Canonical Terminology.md` while preserving their body text;
+- completed the non-applicable relationship fields in `Concept - Levels of Abstraction.md`;
+- represented non-applicable `implements` / `implemented_by` and absent replacement relationships as explicit empty arrays, consistent with the Standard and current Canonical exemplars;
+- set `last_updated: 2026-09-29` because this metadata repair itself updates the documents.
+
+No substantive definitions, taxonomy rules, terminology, or abstraction claims were changed.
+
+### Generated/template metadata boundary
+
+The same investigation confirms that several Stage 3.2 outliers should **not** be hand-normalized as ordinary maintained documents:
+
+- `docs/research/harness-evaluations/Microsoft-AutoGen.md.trace.md` explicitly says it is auto-generated and “Do not hand-edit.”
+- `docs/research/harness-evaluations/_template.md`, `docs/research/selection-rationale/_template.md`, and `docs/final-report-template.md` are reusable templates rather than canonical claim-bearing documents.
+- `docs/research/ases-stage3-crossref.md`, `other-stage3-crossref.md`, and `tripn-stage3-crossref.md` identify themselves as generated cross-reference outputs; they are evidence artifacts, not maintained canonical documents.
+
+These files remain unchanged. Their lack of canonical YAML is not treated as the same defect as missing metadata on a Canonical document.
