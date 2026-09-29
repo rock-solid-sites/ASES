@@ -1562,3 +1562,81 @@ The section-by-section pass will proceed:
 Each section deep dive will establish lineage, live consumers, supersession, authority, and correct home before edits. Generated, vendored, backup, trace, and template material remains exempt from hand-authored canonical normalization unless a concrete defect is found.
 
 The existing operational limits remain in force: **65 files absolute maximum per turn; normally 8–12 underlying tool calls, 15 hard ceiling; durable checkpoint before approaching the call ceiling.**
+
+
+### Checkpoint 19 — `to-file/` deep dive, tranche A (first 10 of 20)
+
+**Status: provenance families identified; semantic moves intentionally deferred to the next bounded pass.**
+
+The first half of `to-file/` was inspected as a section rather than file-by-file cleanup. Ten files were read:
+
+- six independent research-level classification outputs:
+  - `# GLM Research Level Question.md`
+  - `# Kimi Research Level Classificaion.md`
+  - `ChatGPT Research Level Classification.md`
+  - `Claude Reserarch Level Classification.md`
+  - `Deepseek Research Level Classification.md`
+  - `Gemini Research Level Classification.md`
+- their common input:
+  - `EDASES Research-Level Classification prompt.md`
+- one large multi-reviewer packet:
+  - `EDASES Execution Engine reviews.md`
+- the Gas Town source/synthesis pair:
+  - `Gas Town Deep Dive.md`
+  - `Gas Town Deep Dive Summary.md`
+
+#### Family A — research-level classification exercise
+
+The common prompt is a **classification/research-framing experiment**, not a canonical definition of EDASES/ASES/Execution. It explicitly asks independent reviewers to test whether the three-level distinction emerges, compress the open-question inventory, identify missing questions, and argue against the separation.
+
+The six model outputs are independent responses to that same exercise. They differ materially in where they place questions and in how they decompose the research space. They therefore belong together as **raw independent research/review evidence**, not as six competing current taxonomy documents.
+
+A later deep-dive step should locate the synthesis/decision that consumed this exercise before choosing between:
+- filing the prompt + six outputs as decisional-provenance research/reviews; or
+- retaining them as a bounded historical experiment packet if no live consumer remains.
+
+They must not remain in `to-file/` as apparently current standalone taxonomy guidance.
+
+#### Family B — EDASES Execution Engine reviews
+
+`EDASES Execution Engine reviews.md` is a **1,710-line multi-reviewer packet**, not an execution-engine specification. It contains independent adversarial critiques of an earlier “State-Gated Durable Agentic Execution” proposal.
+
+The reviews repeatedly challenge:
+- premature Rust/SQLite assumptions;
+- state-gate sufficiency;
+- weak falsification criteria;
+- omitted prior art;
+- recovery/reconciliation semantics;
+- fencing/attempt identity;
+- the distinction between mechanical events and semantic completion.
+
+The packet's final material recommends narrowing the thesis toward an authoritative execution control plane and treating Rust as a candidate rather than an architectural premise.
+
+This should be reconciled against the later Execution Engine Roadmap / processorless architecture / Kernel and Work Unit work before filing. Its natural type is **review provenance**, not live specification.
+
+#### Family C — Gas Town archaeology
+
+`Gas Town Deep Dive.md` is a **16,253-line exported research conversation/source record**. It preserves the full investigation, web-grounded reasoning, intermediate hypotheses, and later recognition that a short synthesis would lose the archaeological chain.
+
+`Gas Town Deep Dive Summary.md` is a short Qwen3.7-Plus synthesis of that research. It extracts:
+- work outliving the agent;
+- state vs ephemeral execution;
+- GUPP/state-propulsion ideas;
+- recursive-supervision/token-cost failures;
+- Gas City simplification;
+- six follow-on EDASES research programmes.
+
+The source conversation itself explicitly says the short report is inadequate as the authoritative artifact and that the useful result is the full causal/history chain. Therefore the summary must not silently replace the source record.
+
+Before filing either, the next deep-dive step should check for later Gas Town/Gas City syntheses, prior-art briefs, future-topic entries, or architecture records that already consumed these conclusions.
+
+#### Section conclusion
+
+No files were moved in this checkpoint because the remaining question is **lineage and downstream consumption**, not basic document identity.
+
+The next bounded `to-file/` pass should:
+1. trace live consumers/syntheses of the classification exercise, execution-engine review packet, and Gas Town research;
+2. file these ten accordingly;
+3. then inspect the remaining ten `to-file/` files as tranche B.
+
+This preserves the broad-to-deep strategy while staying within the tool-call budget.
