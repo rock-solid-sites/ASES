@@ -17,7 +17,7 @@ related_documents:
   - .design/observer-swarm-v1.1-resilience.md
   - findings/vsdd-archaeology-report.md
   - findings/vsdd-73921ac-surgical-read.md
-  - specifications/Adverarial Test Suite Reviews:.md
+  - docs/historical/decisional-provenance-reviews/ases-universal-conformance-checklist-adversarial-reviews.md
 supersedes: []
 superseded_by: []
 last_updated: 2026-09-29

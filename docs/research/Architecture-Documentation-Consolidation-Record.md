@@ -1301,3 +1301,18 @@ Actions:
 5. updated the canonical playbook's bare Sentinel references to the exact new knowledge path.
 
 The old composite guide is therefore no longer a competing operational authority, while its path remains safe for legacy retrieval.
+
+
+### Stage 3.2 checkpoint 11 — raw Universal Checklist review filing
+
+**Status: completed.**
+
+`specifications/Adverarial Test Suite Reviews:.md` is a 1,754-line collection of raw adversarial reviewer outputs against the August 2026 Universal Conformance Checklist. It does not define a system/specification contract; its first and only path-history commit is the same generic 2026-09-01 staging commit that introduced the Checklist.
+
+Action:
+
+- preserved the review content unchanged at `docs/historical/decisional-provenance-reviews/ases-universal-conformance-checklist-adversarial-reviews.md`, alongside the existing raw decisional-provenance review corpus;
+- replaced the malformed `specifications/` path with a retrieval-safe redirect rather than deleting it;
+- updated the Checklist's related-document pointer to the historical review path.
+
+The review remains evidence about the reviewed 2026-08/09 checklist state. Filing it historically does not convert its reviewer conclusions into current project authority.
