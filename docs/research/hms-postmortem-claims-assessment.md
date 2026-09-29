@@ -1,3 +1,24 @@
+---
+title: "Assessment of the HMS Post-Mortem Claims: Evidence of an Agent Documentation / Capability Gap"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Experimental
+canonical_repository: edases
+depends_on:
+  - "to-file/hms-research-session-postmortem-2026-08-17.md"
+consumed_by: []
+related_documents:
+  - ".crosslink/knowledge/agent-orchestration-playbook.md"
+  - "docs/research/Workflow Topology Design and Reasoning Record.md"
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
+---
+
 # Assessment of the HMS Post-Mortem Claims: Evidence of an Agent Documentation / Capability Gap
 
 **Date**: 2026-08-18

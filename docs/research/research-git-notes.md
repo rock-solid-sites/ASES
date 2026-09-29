@@ -1,3 +1,23 @@
+---
+title: "Research: Git Notes for Software Engineering Decisional Provenance & Metadata"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Active
+authority: Experimental
+canonical_repository: edases
+depends_on: []
+consumed_by: []
+related_documents:
+  - "docs/historical/decisional-provenance/architectural-brief-documentation-process.md"
+  - "docs/historical/decisional-provenance/documentation-process-refactor.md"
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
+---
+
 # Research: Git Notes for Software Engineering Decisional Provenance & Metadata
 
 **Date:** 2026-06-25

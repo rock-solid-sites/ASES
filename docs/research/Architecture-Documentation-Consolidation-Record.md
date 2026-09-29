@@ -1335,3 +1335,17 @@ Decision:
 - source-specific provenance/fetch metadata is preserved.
 
 No body claims or source evidence were changed.
+
+
+### Stage 3.2 checkpoint 13 — maintained no-frontmatter Research records
+
+**Status: HMS assessment and Git Notes record classified in place.**
+
+Earlier Stage 2 evidence resolves the remaining filing ambiguity:
+
+- `hms-postmortem-claims-assessment.md` identifies itself as a Research / retrospective assessment and remains an active assessment of the historical HMS incident record. Its declared source `to-file/hms-research-session-postmortem-2026-08-17.md` still resolves and is recorded as an explicit dependency.
+- `research-git-notes.md` was already deliberately moved from `.design/` to `docs/research/` in Stage 2B.4a, where the consolidation record classified it with high confidence as a web-grounded Research Record on Git Notes and decisional-provenance suitability. It therefore does **not** move into the historical decisional-provenance folder merely because that programme motivated the research.
+
+Both documents now declare `program: EDASES`, `layer: Research`, `document_type: Research Record`, `status: Active`, `authority: Experimental`, and the required relationship fields. The `Active` lifecycle reflects their already-recorded treatment as maintained Research records; `Experimental` authority prevents either retrospective analysis from becoming project policy by implication.
+
+No body text was changed.
