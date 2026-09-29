@@ -116,6 +116,8 @@ Full-page/PDF extraction was used after discovery, with bounded extraction lengt
 
 ## Candidate disposition after discovery
 
+This table preserves the initial discovery disposition. The [family-reduction continuation](./Kernel-0-Machine-Realization-Family-Reduction.md) replaces F1–F3 as an irreducible classification; it does not alter the inspected source claims.
+
 | Candidate or idea | Reason for retention, factoring or non-selection |
 | --- | --- |
 | Verified language/interpreter and software fault isolation | Retained as F1; admission effects and host calls still need separate conformance. |
