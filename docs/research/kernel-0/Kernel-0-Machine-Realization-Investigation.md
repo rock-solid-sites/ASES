@@ -113,6 +113,8 @@ Use a relation `R(m, σ, h)` with history/auxiliary state when necessary, rather
 | O7 — Non-vacuity and bounded completion | Exhibit all required successful histories, and termination of supported invoked handlers under the stated healthy finite conditions. Refine observable outcomes, not just safety predicates. No scheduler fairness or deadline is added. |
 | O8 — Artifact and machine correspondence | Bind proof/model to exact binary/netlist, configuration, policy, initialization, device interfaces and active deployed image; state the lowest assumed interface and every unchecked translation below it. |
 
+Preparation has no exemption from the policy: if copying, allocation or IO consumes a governed resource or exposes protected data, authorize that auxiliary effect explicitly at its declared granularity. A later denial must not conceal a partial protected effect of the denied proposal.
+
 A strict serial holder gives a simple witness for O2, stronger than the required partial order. Independently verified per-object locks or individually linearizable storage calls do not establish the combined Work Unit operation. Persistent linearizability is relevant when persistence is selected, but neither that term nor ordinary linearizability alone captures W.D observations, policy completeness, external effects and confinement. Crash Hoare logic is concrete prior art for explicit recovery postconditions, not a reason to inherit its disk model or runtime assumptions ([E6](./Kernel-0-Machine-Realization-Evidence.md#e6-crash-refinement)).
 
 For a local mediated output, one possible concrete witness stages bounded data privately, checks the current view, commits its accepted state/obligation in retained storage, and then publishes that exact result. For a sink requiring authority at sink acceptance, a local precheck is insufficient: sink admission must share the required order or use a contract that establishes it. This distinction remains identical in all families.
@@ -168,6 +170,19 @@ The appliance can remain alive through engine loss, but its input queue is not a
 **Evidence and limit:** Knox relates a functional specification to hostile cycle-level IO, including the firmware/circuit together. Parfait composes information-preserving refinements across layers, but explicitly retains semantic bridges and tool assumptions. Kami and Vericert show circuit-refinement/synthesis approaches; neither their existence nor a generated Verilog file proves physical fabrication or this policy. The baseline needs effect/observation refinement; stronger information-preserving relations matter only for the leakage observations actually selected ([E7–E9](./Kernel-0-Machine-Realization-Evidence.md#e7-direct-circuit-refinement)).
 
 **Smallest rejection test:** a bounded RTL machine with retained accepted bytes and one gated output; interrupt/reset the restartable engine interface on each step between validation, commitment and output. Inspect gate-level or post-synthesis equivalence obligations before treating the shorter conceptual path as a shorter trusted path.
+
+### Direct comparison under the same target
+
+| Question | F1: confined abstract machine | F2: native protected machine | F3: digital appliance |
+| --- | --- | --- | --- |
+| What separates arbitrary work from authority? | Language semantics plus correct interpreter/validated execution and restricted imports | Privilege/protection enforcement, or exclusive separate-processor ownership | Private circuit state and non-bypassable wire/bus/output topology |
+| What extra correctness does that choice demand? | Parser, representation isolation, host-call semantics and executable lowering | Native policy code, machine/privilege model, protection setup and device interference | State/effect encoding, cycle/handshake/reset behavior and circuit construction |
+| What can disappear? | Native guest execution and guest-isolation MMU; general guest compiler correctness when only candidate work is promised | General OS/runtime on a dedicated path; compiler trust with exact-output checking | General software stack and ISA in the direct-circuit variant |
+| Where can state survive engine loss? | Surviving protected interpreter/store domain | Surviving monitor/store or independently retained appliance state | Independently retained circuit/memory domain |
+| Typical unresolved lowest link | Exact executable/ISA to physical CPU, memory and IO | Exact executable/ISA/protection to physical CPU, memory and IO | Checked digital artifact to configured/fabricated circuit, memory and IO |
+| Evidence that would most change the comparison | Required workload fits a narrow effect API without native escape | Actual retained routes and administrative/device paths meet C13 through loss | Full bounded policy and content/IO path can be checked without a larger unchecked tool/device boundary |
+
+All columns still require correct policy adequacy, present authority, retained contents, exact effects and physical assumptions. The table identifies different obligations, not three disjoint technology categories: an interpreted policy on a verified CPU appliance combines them. Such a hybrid inherits the union of applicable obligations and can discharge some by a composed proof.
 
 ### X — Certificate checking as a cross-family reduction
 
