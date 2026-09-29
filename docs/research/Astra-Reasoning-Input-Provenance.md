@@ -26,7 +26,7 @@ implemented_by: []
 supersedes: []
 superseded_by: []
 
-last_updated: 2026-09-28
+last_updated: 2026-09-29
 ---
 
 # Astra Reasoning Input Provenance
@@ -127,3 +127,25 @@ The next Astra pass must not treat these as conclusions Astra had already reache
 The invariant is:
 
 > **Every Astra reasoning run should be recoverable to an exact repository commit and/or exact document blob set, with later semantic changes recorded separately rather than silently replacing its evidence base.**
+
+
+## Stage-1 authority/recovery reconciliation output — 2026-09-29
+
+The next reasoning pass used exactly the eleven Stage-1 blobs above at
+`8d158e3e82d5811e420c80cc6c9664d3ae4a6088`, reading this manifest as blob
+`89af38131465ee37fc780b7fb867860f51492f6e` at commit
+`d310a08de512aa7864b283e3964173e64358a4ff`. Its separate reasoning branch is
+`codex/stage1-authority-recovery`.
+
+The [Stage-1 Authority and Recovery Reconciliation](../architecture/core-substrate/Stage-1-Authority-Recovery-Reconciliation.md)
+records completion **A**, with no material architectural pivot established for
+the scoped Phase-I candidate. It preserves fourteen constructed histories,
+corrected/clarified contracts, prior-claim dispositions, nine supplementary
+invariants and fourteen downstream verification fixtures. The substantive closure
+checkpoint is `df67899af`; preceding checkpoints are listed in the record.
+
+This is a Draft/Derived architectural result, not canonical promotion, formal
+verification or realization evidence. No later architecture sources were added.
+The original packet table and prior reasoning lineage above are unchanged;
+this output entry does not retroactively alter either input set. F1/F3 remain
+next, with the reconciliation's explicit obligations and claim limits.

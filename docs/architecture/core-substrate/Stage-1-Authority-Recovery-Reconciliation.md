@@ -29,7 +29,7 @@ implements: []
 implemented_by: []
 supersedes: []
 superseded_by: []
-last_updated: 2026-09-28
+last_updated: 2026-09-29
 ---
 
 # Stage-1 authority and recovery reconciliation
@@ -97,6 +97,9 @@ evidence, not revived requirements. Registry use is navigation/lineage only.
 
 ## 2. Initial discriminators
 
+These questions and their initial certainty statement are preserved from checkpoint
+`4c9affc1a`; §§4–12 record their subsequent disposition.
+
 1. Does user-rooted authority require a new primitive, or does it instantiate
    Kernel-0's explicit initial management premise and guarded delegation?
 2. Can fresh reassessment be distinguished from automatic historical replay without
@@ -111,7 +114,8 @@ evidence, not revived requirements. Registry use is navigation/lineage only.
 cheap counterhistories capable of defeating superficially compatible records.
 **WHAT:** the exact packet above, especially Work Unit E–J, Authority Ontology
 §§4–13, Kernel-0's view/order/failure contract and closure H1/H4/H14/C1–C13.
-**HOW CERTAIN:** evidence-based investigation targets; no reconciliation result yet.
+**HOW CERTAIN:** at the initial checkpoint, evidence-based investigation targets;
+no reconciliation result had yet been reached.
 **WHAT-NOT-TESTED:** all model/realization obligations, independent review, and
 whether the candidate survives the remaining reasoning.
 
@@ -158,7 +162,10 @@ user-originating authority or current delegated management authority for this
 exact operation, target, scope and conditions. The guard checks it in the same
 coherent view as the effect. A use capability is not implicitly delegable; an
 ability to install someone else's use capability need not include personal use.
-An authenticated actor is still checked for the requested operation.
+An authenticated actor is still checked for the requested operation. Mutually
+endorsing delegates with no valid user-rooted basis cannot authorize one another
+merely because every local endorsement has a valid identity; the supported
+authorization basis must actually ground the requested permission in U.
 
 **Positive discriminator:** U expressly delegates installation of read on W;
 O installs it while that delegation is current; W reads; O cannot read merely
@@ -893,3 +900,22 @@ independent consensus, or demonstrated realization conformance. **WHAT-NOT-TESTE
 F1–F5, actual user authentication, natural-language interpretation, host enforcement,
 resource retention/reclamation, real recovery, sink behavior and all unselected
 stronger profiles. No subagents, formal verifier or production implementation ran.
+
+
+### Local checkpoints and record validation
+
+The run retained local commits as findings became coherent:
+
+- `4c9affc1a` — exact frozen provenance and initial discriminators;
+- `698f992ae` — authority and current recovery contracts;
+- `83add2ade` — live sealing histories and conditional core reduction;
+- `df67899af` — completion A, prior-claim dispositions and downstream obligations.
+
+The final documentation checkpoint adds this validation/lineage and a navigation
+entry to the provenance manifest; it does not alter any of the eleven architecture
+input blobs. Checks verified the manifest parent against the requested pre-manifest
+head, all eleven blob identities against both the record and checkout, sequential
+R1–R14/S1–S9/V1–V14 identifiers, resolving Markdown file links, and whitespace via
+`git diff --check`. These are document/provenance checks only, not semantic model
+verification or evidence that the proposed runtime works. The separate worktree
+is clean after the final commit. No merge or push was performed.
