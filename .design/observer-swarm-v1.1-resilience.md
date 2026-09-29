@@ -4,18 +4,16 @@ program: EDASES
 layer: Implementation
 document_type: Design Document
 status: Draft
-authority: Derived
+authority: Experimental
 canonical_repository: edases
 depends_on:
   - docs/architecture/Execution Engine Vision.md
   - .crosslink/knowledge/agent-orchestration-playbook.md
-  - .crosslink/knowledge/server-memory-management.md
   - docs/research/Workflow Topology Design and Reasoning Record.md
   - issue #473 — Observer freeze-detection misfire + OOM death class
   - issue #462 — Execution Boundary D1-D4, Secrets Handling, Startup Verification
-  - to-file/VSDD.md — Verified Spec-Driven Development (lite adoption, see Appendix A)
-  - to-file/messaging.md — EDASES Observer v1.1 Minimal Agent-to-Orchestrator Communication (integrated into Phase 2)
 consumed_by:
+  - specifications/observer-conformance-suite.md
   - Swarm launch (observer v1.1 phases)
   - docs/ORCHESTRATOR.md
   - .crosslink/knowledge/agent-orchestration-playbook.md (next revision)
@@ -31,15 +29,22 @@ related_documents:
   - issue #489
   - issue #488 — swarm design for execution-engine vision (#460-lineage)
   - issue #490 — EPIC Observer Centralized Operator Reports (Hybrid F)
+implemented_by:
+  - scripts/observer/observer.sh (partial implementation)
+  - scripts/observer/tests/run-tests.sh
+superseded_by: []
 supersedes:
   - docs/historical/lifecycle-manager-design.md (partially — lifecycle semantics retained, resilience + filing + traceability added)
   - prior observer swarm assumptions that treated launch as infallible and filing as per-issue comments only
   - to-file/messaging.md as standalone draft — superseded as integrated Phase 2 expansion (no new broker/MCP; watermark watcher + blocking semantics + 10 acceptance tests now live in this design)
   - prior assumption that Builder->Orchestrator questions required a new protocol — replaced by Crosslink agent-communication convention forwarded via existing Observer->Orchestrator path (see Phase 2 §2e)
-last_updated: 2026-08-27
+last_updated: 2026-09-29
 ---
 
 # Observer Swarm v1.1 — Resilience Hardening
+
+> **Reconciliation note (2026-09-29):** This remains a live experimental design contract because the Observer Conformance Suite directly consumes it. The former `to-file/VSDD.md` and `to-file/messaging.md` drafts are not present in the repository; their surviving adopted content is embedded in this document (Appendix A and Phase 2 §2e). The former `.crosslink/knowledge/server-memory-management.md` pointer is also absent from the current tree. References to those paths below are provenance labels, not live dependencies. Current consumers should use this design together with `specifications/observer-conformance-suite.md`.
+
 
 ## Purpose
 
