@@ -1720,3 +1720,93 @@ Move commit:
 - `ef24547caa8759f6c84e31009714359d66ddcbc4`
 
 The next deep-dive section is `.design/`, following the Stage 3.3 order established in checkpoint 18.
+
+
+### Checkpoint 21 — `.design/` deep dive
+
+**Status: section reconciled conservatively; no closure state was invented for EPIC #423.**
+
+All five Markdown design records were inspected together, including history, current implementation surfaces, the current Execution Engine Roadmap, and the Observer Conformance Suite.
+
+#### EPIC #423 swarm plan + re-plan
+
+The pair is a tightly coupled proposed execution package:
+
+- `.design/epic-423-swarm-replan.md` is context and planning rationale;
+- `.design/epic-423-swarm-plan.md` is the parser-conformant executable phase plan.
+
+Both are August 2026 implementation planning artifacts centered on S1/S2/S3 surface comparison, documentation-integrity work, and possible fork retirement. The re-plan already declared `status: Proposed` and no standalone consumer beyond its executable companion.
+
+The repository evidence available to this reconciliation does **not** expose an authoritative EPIC #423 closure state. Therefore neither file is archived or declared completed.
+
+Action:
+
+- the executable plan receives full metadata as `EDASES / Implementation / Execution Plan / Proposed / Experimental`;
+- the re-plan changes from `Derived` to `Experimental` and records the executable plan as its consumer;
+- both now explicitly warn that their runtime/fork assumptions require revalidation before reuse.
+
+This removes implicit authority without making an unsupported historical/completion claim.
+
+#### Observer Swarm v1.1 resilience design
+
+This file remains a **live design contract**. The current Observer Conformance Suite directly identifies it as the behavioural contract and records partial implementation against `scripts/observer/observer.sh` and T1–T27.
+
+It is not fully implemented: the conformance suite records Phase 1/2 gaps and open convergence work. Therefore `Draft` remains appropriate, but `Derived` is not: the document is a design under evaluation rather than a summary of canonical material.
+
+Action:
+
+- authority changed to `Experimental`;
+- direct consumer `specifications/observer-conformance-suite.md` added;
+- partial implementation/test artifacts recorded;
+- three nonexistent live dependencies removed from frontmatter:
+  - `.crosslink/knowledge/server-memory-management.md`
+  - `to-file/VSDD.md`
+  - `to-file/messaging.md`
+- a reconciliation note explains that VSDD-lite and messaging content survives embedded in the design, while references to the missing paths in the body are provenance labels rather than live dependencies.
+
+The design stays in `.design/` because it remains the contract consumed by the conformance suite.
+
+#### RPC enforcement prototype
+
+`.design/rpc-enforcement-prototype.md` is explicitly an **Experiment Design**, states that it does not establish final EDASES architecture, and predates the later Kernel-0 / Work Unit execution-engine roadmap.
+
+The current roadmap frames the active realization problem at a more fundamental boundary: realizing Kernel + Work Unit guarantees with the smallest trusted computing base. RPC may still be a candidate realization technique, but the old prototype is not current architecture.
+
+Action:
+
+- substantive document moved to `docs/research/prototypes/EDASES-RPC-Enforcement-Prototype.md`;
+- classified as `EDASES / Research / Experiment Design / Proposed / Experimental`;
+- current Execution Engine Roadmap added as a related document;
+- old `.design/` path retained as a retrieval-safe redirect.
+
+#### V2 guard rewrite design
+
+Direct inspection of the current `.opencode/plugins/crosslink-guard.ts` and `.crosslink/hook-config.json` shows that the proposed V2 mechanisms were **not implemented** on the current reconciliation branch:
+
+- no `tool_allowlist_mode`;
+- no `deny_by_default` mode;
+- no `isPathAllowed` implementation;
+- no `SENTINEL_MISMATCH` mechanism;
+- current guard still uses the V1-style `allowed_bash_prefixes` and active-issue flow.
+
+The document also explicitly says its V2 runtime enforcement had not been tested.
+
+Action:
+
+- retained in `.design/` as a potentially reusable implementation proposal;
+- authority changed from `Derived` to `Experimental`;
+- explicit `consumed_by: []` and implementation-status metadata added;
+- top-level warning states that it is **not deployed policy** and all snapshot/line anchors require revalidation.
+
+No unsupported claim that the design was rejected or superseded is made.
+
+#### Section result
+
+The substantive `.design/` set is now semantically separated into:
+
+- two non-authoritative EPIC #423 proposal/planning artifacts whose closure remains unresolved;
+- one live experimental Observer design contract with partial implementation;
+- one RPC experiment design moved to Research;
+- one unimplemented experimental guard-rewrite proposal.
+
+The next Stage 3.3 deep-dive section is the repository-root Crosslink auto-export/planning family.
