@@ -14,8 +14,9 @@ def cache_cost(n, hits, recompute, lookup, validate, fixed):
 
 def sat(clauses):
     assignments = itertools.product((False, True), repeat=2)
-    return any(all(any(values[abs(lit) - 1] == (lit > 0) for lit in clause)
-                   for clause in clauses) for values in assignments)
+    satisfied = [all(any(values[abs(lit) - 1] == (lit > 0) for lit in clause)
+                     for clause in clauses) for values in assignments]
+    return any(satisfied)
 
 
 def main():

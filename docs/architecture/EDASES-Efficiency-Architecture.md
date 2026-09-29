@@ -11,6 +11,7 @@ depends_on:
   - EDASES Work Unit Component Design
   - EDASES Execution Engine Roadmap
   - Phase I Processorless Core Falsification
+  - Efficiency Architecture Investigation Record
 
 consumed_by:
   - Future Observer research
@@ -23,14 +24,161 @@ related_documents:
   - EDASES Authority Ontology
   - Concepts and Topics Registry
   - Execution Engine Vision
+  - Efficiency Architecture Evidence Ledger
+  - Efficiency Architecture Discriminating Experiments
 
 implements: []
 implemented_by: []
 supersedes: []
 superseded_by: []
 
-last_updated: 2026-09-28
+last_updated: 2026-09-29
 ---
+
+# EDASES Efficiency Architecture
+
+## Current research baseline — 2026-09-29
+
+**Experimental / Derived.** This revision transforms the frozen Stage-1 baseline into a set of discriminating architecture choices. It recommends research and evaluation conditions; it does not establish new methodology, change the Kernel/Work Unit core, or authorize a full efficiency subsystem.
+
+The central objective remains:
+
+> Minimize total computation, inference, state, coordination, observation, reconstruction and maintenance cost while retaining the smallest trustworthy authoritative substrate.
+
+The useful reduction is **contract-constrained elimination of total work**. First identify the information and successful behavior that must survive; then compare complete lifecycle costs of the simplest admissible alternatives. The best mechanism depends on demand, change, applicability, retention and failure patterns. “Recompute first”, “cache”, “event-driven” and “cheap-model first” are candidate choices, not a universal ordering.
+
+### Reading and provenance
+
+This pass starts exactly at commit `8d158e3e82d5811e420c80cc6c9664d3ae4a6088`, with Efficiency Architecture blob `349eee3b51171a9365201eff5d2bd10d8cbfa719`. It uses the directly governing frozen Work Unit A–L, Roadmap and Phase-I Processorless Falsification. The pending authority/recovery reconciliation `ad24f856a` was not consulted or imported as accepted evidence. Currentness-dependent efficiency proposals remain conditional.
+
+The [original body is preserved below](#historical-baseline--2026-09-28) without alteration. Where the two differ, use the current research conclusions as this document's **experimental** position; historical statements retain their provenance, not automatic present endorsement.
+
+| Record | Purpose |
+| --- | --- |
+| [Investigation and reasoning](efficiency/Efficiency-Investigation.md) | Frozen blob manifest; findings F01–F10; cost models; 14 mechanism cards; hypothesis dispositions; six boundary decision points |
+| [Evidence ledger](efficiency/Efficiency-Evidence.md) | 21 selected primary sources, exact supporting loci, transfer limits and excluded evidence |
+| [Discriminating experiments](efficiency/Efficiency-Experiments.md) | Eight executed finite countermodels and 12 ranked proposed empirical comparisons |
+
+The split keeps the architecture readable while preserving substantial reasoning and experimental instructions. It introduces no new component. All records remain Experimental / Derived.
+
+## A. The retained boundary
+
+The frozen Work Unit is a bounded Kernel-governed object; it does not intrinsically require a model, runtime process, issue, scheduler, Observer, Processor, Orchestrator or visual work graph. Its containment lifetime is independent of execution. **Sealed does not mean dormant:** internal computation may continue under surviving grants.
+
+The efficiency design should distinguish three axes:
+
+| Axis | Distinctions that matter |
+| --- | --- |
+| Information role | Authoritative state; accepted historical content; observation; reproducible derivation; proposed judgment |
+| Retention | Ephemeral; bounded cache; durable materialization; information retained because a contract requires it |
+| Trust | Untrusted production; checked result; scoped attestation; trusted computation |
+
+Derived origin does not imply disposable lifetime or untrusted consumption. A computed result accepted for future reading may need retention even after its inputs disappear. A disposable cache may still be in the trusted path if its results are used unchecked. These distinctions refine the efficiency boundary without adding Kernel object types.
+
+“Smallest” is relative to required future observations. If two histories require different future answers, collapsing them into the same surviving representation loses information. A source hash is not the source; an interpreter version name is not an available interpreter. Retain the distinctions needed by the promised contract, not automatically the full event log and not automatically only the latest snapshot. See F01/F02 and boundary B04.
+
+## B. Proposed efficiency principles after challenge
+
+These are evaluation principles for this experimental architecture, not Canonical invariants.
+
+1. **Separate admissibility from economics.** Savings cannot buy a weakened authority, retention or required-progress guarantee. Compare mechanisms under the same contract.
+2. **Measure marginal dormant cost.** Eliminate unnecessary per-object activity; still count retained bytes, maintenance, observation and recovery. Measure dormant population with active work held fixed.
+3. **Price applicability, not just lookup.** A reused answer needs the right meaning, complete relevant inputs, checked production, required currency and authorized consumption. Establish each only to the extent the consumer requires.
+4. **Exploit demand before maintaining every intermediate result.** Event dirtying, recomputation on demand, incremental repair, materialization and scheduling are independent decisions.
+5. **Retain only with a stated reason and lifecycle.** Include transitive source/witness retention, invalidation, recovery, migration and reclamation. Never dispose accepted evidence merely by labeling it a cache.
+6. **Test absence and wrongness separately.** Remove, corrupt, stale, restart and overload an optimization. A safe useful fallback must meet the actual successful-continuation contract.
+7. **Make information reduction consumer-relative.** Exact compression, indexing, evidence selection and semantic summarization have different obligations. Preserve access to required source evidence when a packet is disposable.
+8. **Keep computation identity separate from authority.** Shared bytes or proof of a fact do not grant permission to access them or act on them. Topology for scheduling is not containment authority.
+9. **Budget optimization itself.** Planning, retrieval, measurement, proof checking and adaptive tuning must earn their costs. A simple threshold or direct computation remains a competitor.
+10. **Evaluate correlated failure and required progress.** Many simultaneous cold reconstructions can change economics; advisory filters can suppress necessary work. Safety alone is insufficient where continuation is promised.
+
+The strongest baseline principles survive in this qualified form. The investigation explicitly rejects stronger readings such as zero-cost dormancy, automatically cheap incremental repair, removal proving untrusted operation, or cheap-first always saving work.
+
+## C. Economic decision model
+
+Use a cost vector containing compute, inference, memory-time, durable-byte-time, network, energy, latency distribution, human attention and engineering/maintenance effort. Track trusted-base complexity and assurance obligations separately. Hard guarantees constrain the feasible set; a single weighted price is appropriate only for declared tradeoffs. Latency percentiles cannot be added as though they were work counts.
+
+For a chosen additive cost dimension and a homogeneous workload:
+
+```text
+Direct: N R
+Reuse:  N(L + V) + (N - H)R + B + U m + S(T) + F r + O
+
+Reuse is cheaper only when:
+H R > N(L + V) + B + U m + S(T) + F r + O
+```
+
+N counts requests; H counts truly applicable accepted hits; R is recomputation; L/V are average lookup and applicability/check cost per request; B is setup; U m is update maintenance; S(T) is retention over the horizon; F r is failure repair; O is added observation, coordination, engineering and review. Heterogeneous or shared work needs explicit per-request/shared accounting rather than this simple formula. See F03 for derivation and limits.
+
+An executed illustrative model with the same 80% hit rate makes reuse either cheaper (570 versus 1000) or more expensive (1270 versus 1000) solely by changing validation cost. These are invented cost units. **No EDASES performance benefit is claimed.**
+
+The first empirical question is therefore whether a real repeated result has a cheap, sound applicability boundary. A precise dependency graph that costs more than recomputation fails this test; so can a coarse snapshot key with excessive invalidation.
+
+## D. Mechanism families and simpler competitors
+
+The [mechanism portfolio M01–M14](efficiency/Efficiency-Investigation.md#8-candidate-mechanism-portfolio) gives necessity, economic conditions, state burden, applicability, disposability, incremental entry and falsifiers for each candidate.
+
+| Family | Distinction / first comparison |
+| --- | --- |
+| Reuse and incremental computation | Direct recomputation → scoped memoization → dirty/full rebuild on demand → selected delta repair. A cache, graph and scheduler need not arrive together. |
+| Durable derived state | Compare ephemeral reuse with selected materialization/checkpoints across failures and retention lifetime; test source availability and accepted-output obligations. |
+| Negative results | Exact absence, formal contradiction, bounded search miss, transient failure and semantic rejection have different scope and invalidation. Compare rescan/retry before automatic pruning. |
+| Computation compilation | Extract specified mechanics or specialize a specified program. Inducing a rule from repeated judgments is a separate policy/learning proposal. Compare an existing tool/table first. |
+| Context and discovery | Compare direct retrieval and exact fragments with task-specific projections before semantic compression or a global tool registry. Measure evidence/tool recall and repair. |
+| Observation | Compare polling, event hints, demand and hybrid reconciliation at matched observation quality. Lost irreplaceable events cannot be reconstructed from a current snapshot. |
+| Placement and sharing | Compare local compute with transfer + remote lookup/check/fallback; establish permitted scope separately from computation identity. |
+| Approximation and routing | Separate sound conservative abstraction, statistical estimation and heuristics. Compare risk/coverage and complete cascade cost with direct execution. |
+| Scheduling and topology | Compare bounded concurrency and simple priority before a planner. Data dependencies, resource conflicts, organization and authority are different edge meanings. |
+| Retention, measurement and adaptation | Begin with bounded caches, coarse counters and fixed budgets; count reclamation, pinned ancestry and optimizer overhead before generalizing. |
+
+Established correspondences go beyond the original list: build-system rebuilder/scheduler separation; demand-driven incremental computation; database materialization/adaptive indexing; lineage and checkpointing; formal negative knowledge; proof-producing/checking separation; selective prediction; abstract interpretation; online investment; and metareasoning. Their exact limits are in the evidence ledger. None supplies an EDASES implementation or a transferable performance multiplier by analogy alone.
+
+## E. Corrections that materially constrain future design
+
+**Applicability is not one freshness bit.** Complete positive and negative domains, interpretation, production correctness, currency and authorized use are different. Hashing all included records does not prove that no additional record exists. Revalidation must meet the selected consumption/commitment contract; this pass does not invent that contract.
+
+**Event-driven is not reconciliation-free.** Demand determines whether a result is needed; notifications indicate change; direct reads or reconciliation may establish a current view. If every historical event is required, coalescing may be invalid. If only the final output matters, repairing every event can be wasteful.
+
+**Reconstructible is not economically free to lose.** Simultaneous misses after shared failure can overload sources and trigger duplicate work. Durable materialization, coalesced/throttled rebuild, selective warming and additional capacity compete. Only a genuine required deadline plus a defensible lower bound creates a potential correctness crossing.
+
+**A rich UI can remain derived, but its unique inputs cannot vanish.** User acceptances, commitments and irreplaceable observations captured through that UI need retained representation under the governing contract. Display projections remain rebuildable when their required sources survive.
+
+**Approximation can affect progress without authorizing effects.** A heuristic that hides the only successful path may violate a continuation guarantee even when the exact guard rejects every unsafe effect. Coverage and meaningful fallback matter.
+
+## F. Processorless result and stop conditions
+
+No new necessity for a persistent first-class Processor was established under the frozen Phase-I comparator. Trusted calculation or sound checking, complete relevant inputs, accepted information and the declared currentness/recovery mechanism remain necessary. This pass neither eliminates those obligations nor proves all future consumers reducible.
+
+Six [boundary cases B01–B06](efficiency/Efficiency-Investigation.md#10-architectural-decision-points-stop-these-branches-here) stop speculative design:
+
+- stale or rolled-back authority/currentness evidence;
+- an unknown external effect after a lost reply;
+- a mandatory cold-recovery deadline incompatible with a defensible resource/work bound;
+- irreplaceable history or accepted content lost through compaction/disposition;
+- nominal telemetry required for exact quota/billing enforcement;
+- a required successful path suppressed by heuristic routing.
+
+These cases require a governing contract or a separate architectural decision. None by itself entails a Processor, a new Kernel primitive, a global freshness service or a replacement core. Immutable derivation economics can be investigated while those dependencies remain isolated.
+
+## G. Prioritized next investigations and intentionally unbuilt machinery
+
+Begin with **X01 workload/observer-cost inventory**, **X02 applicability versus recomputation**, **X03 demand/full rebuild versus incrementality**, and **X04 cold recovery/retention closure**. These test whether a generalized efficiency subsystem is justified at all. X05 task-relative context/tool discovery is useful once defensible cases exist. X06–X12 cover negative reuse, specialization, observation, sharing, routing, scheduling and adaptation as their repeated costs become evident.
+
+The [protocol](efficiency/Efficiency-Experiments.md) fixes comparators, mutations, measurements, confounds, falsifiers and stopping conditions. Eight small countermodels ran in this pass; all real-system experiments remain proposed.
+
+Keep a universal semantic cache, comprehensive dependency engine, global tool registry, learned scheduler/router, generalized context compressor and large telemetry system intentionally unbuilt until simpler comparisons justify them. Candidate missing topics for existing roadmap phases are applicability economics, retention/reclamation, correlated reconstruction, bounded optimization effort, and progress/coverage under heuristics. They add research questions, not components or a changed phase order.
+
+## H. Confidence and review handoff
+
+**WHY:** the baseline now distinguishes information, retention and trust; challenges its strongest hypotheses; specifies complete cost comparisons; and offers bounded next investigations. **WHAT:** the frozen packet, 21 primary-source entries, F01–F10, M01–M14, B01–B06 and eight reproducible finite countermodels. **HOW CERTAIN:** evidence-based architecture synthesis with conditional toy proofs, not validated implementation economics. **WHAT-NOT-TESTED:** production workloads, actual model routing, real fault injection, independent adversarial review, implementation refinement, or the pending authority/recovery reconciliation. Separate review is required before experimental conclusions become Canonical direction.
+
+---
+
+# Historical baseline — 2026-09-28
+
+The following body is retained verbatim from blob `349eee3b51171a9365201eff5d2bd10d8cbfa719`. Its original metadata identified it as Experimental / Derived; that authority level is unchanged. Consult the current sections above for the present experimental position.
+
+
 
 # EDASES Efficiency Architecture
 

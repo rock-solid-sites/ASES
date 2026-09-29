@@ -34,7 +34,7 @@ implements: []
 implemented_by: []
 supersedes: []
 superseded_by: []
-last_updated: 2026-09-28
+last_updated: 2026-09-29
 ---
 
 # EDASES Execution Engine Roadmap
@@ -561,6 +561,24 @@ not a ranked build list. Topics should be pulled forward only when the working
 system makes their dependencies and value concrete.
 
 Some may disappear because earlier architecture makes them unnecessary.
+
+### Experimental efficiency research intake — 2026-09-29
+
+The [Efficiency Architecture investigation](./efficiency/Efficiency-Investigation.md)
+and [experiment protocol](./efficiency/Efficiency-Experiments.md) propose five
+additional lenses for the existing phases: applicability economics (III),
+retention and reclamation (III/VI), correlated cold reconstruction (III/VI),
+budgets for optimization and measurement themselves (IV–VI), and coverage/progress
+under advisory heuristics (IV/V). Observation comparisons in II should include
+gap recovery and demand as well as event versus polling cost.
+
+This is **Experimental / Derived research intake**, not an adopted component list,
+phase reorder or core-closure finding. The proposed first discriminators are a
+small workload inventory, applicability-versus-recomputation comparison,
+demand/full-rebuild-versus-incrementality comparison, and cold-recovery/retention
+comparison. They require the relevant working baseline and declared contracts.
+Core-currentness, external-outcome and mandatory-timing dependencies are isolated
+in the investigation's B01–B06 decision points; this intake does not resolve them.
 
 ---
 
