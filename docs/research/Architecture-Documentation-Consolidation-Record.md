@@ -1418,3 +1418,41 @@ Still deferred for the next bounded semantic pass:
 
 - `docs/ORCHESTRATOR.md` — confirmed live: both `AGENTS.md` and the canonical Crosslink playbook explicitly route to it.
 - `docs/crosslink-adversarial-review.md` — operational-looking but last updated in July 2026; requires currentness comparison before deciding whether to refresh, split, or archive.
+
+
+### Stage 3.2 checkpoint 16 — live Orchestrator contract and stale adversarial-review guide
+
+**Status: completed.**
+
+#### ORCHESTRATOR.md
+
+Primary-source evidence shows `docs/ORCHESTRATOR.md` is a live operational contract, not an orphan or archive candidate:
+
+- `AGENTS.md` explicitly routes to it as the operational procedure derived from the workflow-topology design;
+- the canonical `.crosslink/knowledge/agent-orchestration-playbook.md` explicitly names it as the ASES Orchestrator role definition;
+- its history contains repeated operational updates through September 2026, including model-verification, operator-boundary, liveness, and permission changes;
+- the body describes current OpenCode/Crosslink deployment, role permissions, model resolution, review/audit topology, and operator interaction.
+
+Action:
+
+- classified as `program: EDASES`, `layer: Implementation`, `document_type: Operational Contract`, `status: Active`, `authority: Canonical`;
+- recorded `AGENTS.md`, the canonical Crosslink playbook, and the Workflow Topology reasoning record as upstream inputs;
+- recorded the live permission/configuration artifacts as related implementation material;
+- completed explicit relationship fields without changing the operational body.
+
+#### crosslink-adversarial-review.md
+
+The July 2026 guide is stale operational documentation:
+
+- its last substantive commits are from 2026-07-11;
+- it contains hard-coded historical model recommendations and `trust-init --model opus`;
+- it documents `review-continue`, `swarm pipeline`, auto-fix, and auto-merge behavior not found in the current repository search surface;
+- later canonical documents impose stricter operator-gated model selection, independent-review rules, and merge discipline.
+
+Action:
+
+- preserved the old guide byte-for-byte at `docs/historical/crosslink-adversarial-review-2026-07.md`;
+- replaced the old live-looking path with a retrieval-safe redirect to the canonical playbook, model-discipline page, `AGENTS.md`, and the live Orchestrator contract;
+- did not attempt to reconstruct a new adversarial-review command guide from stale prose.
+
+This removes a competing operational authority while preserving the historical evidence.
