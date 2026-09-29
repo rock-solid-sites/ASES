@@ -1810,3 +1810,67 @@ The substantive `.design/` set is now semantically separated into:
 - one unimplemented experimental guard-rewrite proposal.
 
 The next Stage 3.3 deep-dive section is the repository-root Crosslink auto-export/planning family.
+
+
+### Checkpoint 22 — repository-root Crosslink auto-export design family
+
+**Status: six competing root-level design records removed from active retrieval; historical lineage preserved.**
+
+The complete family was inspected together:
+
+- `crosslink-auto-export-proposal.md`
+- `crosslink-auto-export-plan-v5.md`
+- `crosslink-auto-export-plan-v6.md`
+- `crosslink-auto-export-plan-v7.md`
+- `crosslink-auto-export-pivot-plan.md`
+- `crosslink-auto-export-shell-wrapper.md`
+
+All six were added to the repository together in commit `7b6439836a0f7ec2dfda0760adbe31639903a9d9` on 2026-07-19. Git chronology therefore cannot establish a final winner among them.
+
+The documents preserve an iterative design exploration:
+
+1. plugin command-pattern detection (v5/v6);
+2. a revised v7 plugin implementation plan;
+3. recognition that static verb detection is structurally fragile;
+4. a proposed pivot to Crosslink-native post-mutation export;
+5. a shell-wrapper alternative;
+6. a simplified pre-commit + CI safety-net proposal with no verb list.
+
+No document carries authoritative acceptance evidence for one of those alternatives.
+
+#### Current implementation check
+
+Direct inspection of the current reconciliation branch found:
+
+- no `.crosslink/issues-snapshot.json`;
+- no `.crosslink/hooks/pre-commit`;
+- no `.github/workflows/crosslink-sync.yml`;
+- no snapshot/auto-export logic in the current `.opencode/plugins/crosslink-guard.ts`.
+
+Therefore none of the six root documents describes deployed ASES behavior.
+
+#### Action
+
+All six substantive documents were moved unchanged to:
+
+- `docs/historical/decisional-provenance/crosslink-auto-export/`
+
+Move commit:
+
+- `dcc34f15d6db7f80958567022c32e28bd759de9e`
+
+Because `crosslink-auto-export-plan-v7.md` is explicitly named by surviving design/research records, that one former root path is retained as a retrieval-safe redirect only. The redirect clearly states that the plan was not implemented and points to the preserved historical family.
+
+Redirect commit:
+
+- `18da3e9af67ae7a67bfd22e3dce2fb6047785906`
+
+Current references were repaired to point directly to the historical v7 artifact and require revalidation before reuse:
+
+- EPIC #423 executable plan — `d8481c7a0a7a14efa422383d1f2924f447f26c59`
+- EPIC #423 re-plan — `f1a1663d6fbbf223a0e97d39fde79c49756701e0`
+- RPC enforcement research prototype — `cb9a88d32eb9547bf65b4781c98e356ec77103a1`
+
+This removes six competing implementation proposals from the repository root without pretending that the historical design exploration converged on an implemented solution.
+
+The next Stage 3.3 section is residual root-routing material plus `specifications/` and root `docs/*.md`.
