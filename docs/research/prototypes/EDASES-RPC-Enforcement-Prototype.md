@@ -12,7 +12,7 @@ depends_on: []
 consumed_by: []
 related_documents:
   - docs/architecture/EDASES-Execution-Engine-Roadmap.md
-  - crosslink-auto-export-plan-v7.md
+  - docs/historical/decisional-provenance/crosslink-auto-export/crosslink-auto-export-plan-v7.md
   - docs/research/deep-research-423-support-systems.md
   - docs/research/agent-tooling-and-permission-enforcement.md
 implements: []
