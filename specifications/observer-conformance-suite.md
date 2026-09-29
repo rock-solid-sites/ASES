@@ -9,10 +9,8 @@ canonical_repository: edases
 crosslink_issue: 523
 
 depends_on:
-  - to-file/ASES Universal Conformance Checklist.md (2026-08-29)
-  - .design/observer-swarm-v1.1-resilience.md @3fc3c60a
-  - to-file/VSDD Adaptation Profile.md
-  - to-file/VSDD.md (lite adoption per design Appendix A)
+  - to-file/ASES Universal Conformance Checklist.md (experimental draft; provenance gap recorded 2026-09-29)
+  - .design/observer-swarm-v1.1-resilience.md @3fc3c60a (Appendix A is the surviving VSDD-lite adoption contract)
   - .crosslink/knowledge/agent-orchestration-playbook.md (§5.4, §5.8, §5.8.1)
   - server-memory-management knowledge page (2026-08-25 revision)
   - docs/standards/Documentation Standard.md
@@ -35,10 +33,12 @@ implements:
 
 supersedes: []
 superseded_by: []
-last_updated: 2026-08-30
+last_updated: 2026-09-29
 ---
 
 # Observer Conformance Suite — Universal Checklist §§1–36 vs Observer Swarm v1.1
+
+> **Dependency repair (2026-09-29):** The suite originally named two uncommitted VSDD `to-file/` drafts as direct dependencies. The Observer design itself states that it consolidates the VSDD-lite calibration and that downstream consumers should read the design rather than those drafts in isolation. The missing draft dependencies are therefore retired here in favor of the surviving design Appendix A. The Universal Checklist remains a direct dependency, but is explicitly marked experimental until its own missing derivation source is restored or replaced by evidence.
 
 > **Scope:** Project-specific instantiation of the 36-dimension ASES Universal
 > Conformance Checklist for the Observer Swarm v1.1 resilience hardening
