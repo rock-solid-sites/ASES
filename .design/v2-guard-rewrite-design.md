@@ -4,7 +4,7 @@ program: EDASES
 layer: Implementation
 document_type: Design
 status: Draft
-authority: Derived
+authority: Experimental
 canonical_repository: edases
 issue: 504
 branch: feature/v2-guard-rewrite
@@ -16,7 +16,11 @@ depends_on:
   - .crosslink/hook-config.json
   - docs/research/registry/Hookability-Matrix.md (Surface Re-Validation 2026-08-24)
   - docs/research/agent-tooling-and-permission-enforcement-reviewed.md §2.4
+consumed_by: []
+implementation_status: "Not implemented in the current reconciliation branch as of 2026-09-29; revalidation required"
 supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
 related_documents:
   - docs/research/Workflow Topology Design and Reasoning Record.md
   - docs/research/registry/Failure-Matrix.md
@@ -28,6 +32,9 @@ authors: [muse-spark-1.2-contributor via opencode-go]
 ---
 
 # V2 Guard Rewrite Design — Beta TUI Inventory + crosslink-guard V2
+
+> **Reconciliation note (2026-09-29):** This is an unimplemented, snapshot-specific design draft, not deployed guard policy. The current `.opencode/plugins/crosslink-guard.ts` still exposes the V1-style `allowed_bash_prefixes` / active-issue flow and does not contain the proposed `tool_allowlist_mode`, `isPathAllowed`, or `SENTINEL_MISMATCH` mechanisms. Revalidate all code/line anchors before reuse.
+
 
 ## 0. Reading Guide
 
