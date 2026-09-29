@@ -1,6 +1,6 @@
 {
   "next_display_id": 575,
-  "next_comment_id": 4078,
+  "next_comment_id": 4079,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17955,7 +17955,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-09-29T14:59:24.183539153Z",
+      "updated_at": "2026-09-29T15:01:59.690391414Z",
       "labels": [
         "research"
       ],
@@ -18196,6 +18196,15 @@
           "kind": "observation",
           "signed_by": "SHA256:fRzK7Gh1AfdqHA25srJThVeFhsQ57ifSFsG86gHSdfE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbZ7cy/BUzMS3LdP6adZMveoU54q97kgaDH/CPzQotHIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAy7fFiMA10E26Vs8ItdWZZsOFDB3YcOZWpeQJGl/pA9qB3ZK/kQmztFaJrJ9Yx6scWXcunXNUUAy1M2rpdpWwAg=="
+        },
+        "9ce478c3-f9e6-4a76-81c5-19432e9a547a": {
+          "display_id": 4078,
+          "author": "pp3g-Qdw8-exp7-t5-freeze-plus-zero-spend-phase-a-zero-network",
+          "content": "Plan: Exp7 T5 — freeze + zero-spend Phase A (DESIGN §F, §G, §I). Zero network calls, zero measured Jev calls.\n\n## Inputs (read-only, frozen)\nThe phase2 tree does not exist in this worktree's checkout (HEAD 719223195 = main). It lives on branch `research/jev-phase1-565` @ 007095a75. I will materialise the input files at their canonical relative paths via `git archive research/jev-phase1-565 research/jev-bounded-judgment/phase2 | tar -x` — extraction only, byte-identical to the committed blobs, nothing modified, nothing staged, and hidden from `git status` via .git/info/exclude so the commit can contain exactly the 3 requested paths. This mirrors the read-only git-show pattern used by the earlier recon on this issue but makes the pipeline actually runnable in place so the committed freeze.py is re-runnable.\n\n## Step 1 — freeze.py (new file, experiment7/freeze.py)\nRecords every result-affecting component with sha256 into experiment7/FREEZE.json: 8 corpus input refs + PROVENANCE, reuse_check.json, DESIGN.md, PRIMATIVES.md, BASELINE.md, REUSE-CHECK.md, build_packet.py, packet.json, run_noul.py, analyze.py, PACKET-CHECK.md, RUNNER-PROOF.md, SCORER-PROOF.md, AUDIT-PAIRS.md, and the freeze script itself. Also pins the frozen experiment6 inputs (packet.json must be sha256 1310c3d3…, results/exec.jsonl) and asserts read-only + unmodified (mode bits, mtime-vs-content, git blob sha equivalence). Subcommands: write (emit FREEZE.json), verify (re-hash all, FAIL on any drift).\n\n## Step 2 — zero-send construction-validation pipeline\n- python3 build_packet.py check\n- python3 run_noul.py plan  and  python3 run_noul.py proof\n- python3 analyze.py selfcheck\n- independent reconstruction of packet.json from frozen inputs → prove byte-identity against the frozen packet (expected sha c9598052)\n- prove planned cardinality exactly 48 rows / 24 pairs / 8 per stratum\n- prove all 48 outgoing payloads match the frozen packet\n- tamper controls against the key scientific invariants: pair swap, decisive-fact drop, question leak, polarity flip, resend-on-resume\n\n## Step 3 — freeze verified BEFORE and AFTER the checks\nAny drift between the two verifications fails the gate.\n\n## Step 4 — credential scan\nGrep all experiment7 artifacts + the three scripts for secret patterns; prove only the named locations (env var name TYPESAFE_API_KEY, --credential-file path) appear, never values.\n\n## Deliverables (commit ONLY these 3 paths on #574)\n1. research/jev-bounded-judgment/phase2/experiment7/freeze.py\n2. research/jev-bounded-judgment/phase2/experiment7/FREEZE.json\n3. research/jev-bounded-judgment/phase2/experiment7/PHASE-A.md\n\nPHASE-A.md carries per-gate PASS/FAIL, component count, freeze version, and an explicit measured-calls-equals-0 statement.\n\n## Constraints honoured\nNothing under experiment6/, no frozen packet, no builder/runner/scorer source, and no other file is modified. The only subcommand that can spend is run_noul.py run — it is never invoked.\n\n## Certainty\nPlan is evidence-based: I read DESIGN.md §§F/G/I and the CLI surfaces of build_packet.py, run_noul.py, analyze.py. NOT-TESTED until execution: whether the pipeline passes its own gates.",
+          "created_at": "2026-09-29T15:01:59.681580114Z",
+          "kind": "note",
+          "signed_by": "SHA256:ysA8Ntd7onMFCreK2Fnm+JnK5KF1TUsnch/A0ci1z9c",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4CkeeC+dK2ZKqbQVkOTqjJAvPQ+WlStOdsrcoGbpoL0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAzwFC6AennuVbsnnoDrjNXsfQMpSexvsX0236Ej76lsccRpmHI5Iy+GU7DxlL5S5tJjP6Mqx6U43pxwWjDvsWCg=="
         },
         "a1837ad9-4c3b-42b6-80ab-b755e4d52b51": {
           "display_id": 4060,
@@ -47103,8 +47112,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-29T15:00:04.710312486Z",
+    "timestamp": "2026-09-29T15:01:59.690391414Z",
     "agent_id": "pp3g-Qdw8-exp7-t5-freeze-plus-zero-spend-phase-a-zero-network",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
