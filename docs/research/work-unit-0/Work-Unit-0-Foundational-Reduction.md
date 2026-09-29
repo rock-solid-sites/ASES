@@ -4,7 +4,7 @@ program: EDASES
 layer: Research
 document_type: Research Finding
 status: Draft
-authority: Derived
+authority: Experimental
 canonical_repository: edases
 crosslink_issue: 566
 baseline_commit: 6596931136f8276ae573041c2ade25a6f5ad0c64
@@ -29,7 +29,7 @@ implements: []
 implemented_by: []
 supersedes: []
 superseded_by: []
-last_updated: 2026-09-27
+last_updated: 2026-09-29
 ---
 
 # Work Unit-0 Foundational Reduction
