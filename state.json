@@ -1,6 +1,6 @@
 {
   "next_display_id": 575,
-  "next_comment_id": 4052,
+  "next_comment_id": 4053,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17951,7 +17951,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-09-29T13:46:40.086991707Z",
+      "updated_at": "2026-09-29T13:47:08.327091858Z",
       "labels": [
         "research"
       ],
@@ -17964,6 +17964,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:yKLDLFSO/pSR+mUf0vz7Ro5kkTtKTRZoMsT2cyzpyOs",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgyKwOhNCzKi0xKdfKxEQtuIOgU/5qwBAm1iZhrwjAdzwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbztjv3c8Cbr7IYu7nvk8DEQPl8lGeFyKKdnxw+/zqUfR+TAyy9wBO16STCmQOcD1cYRnIwotUMvfPo5nFcPDAg=="
+        },
+        "0936ddd9-92e8-421b-9661-b399fe07e94b": {
+          "display_id": 4052,
+          "author": "pp3g-QrVQ-exp7-t1-packet-build-zero-api-calls-read-research-jev",
+          "content": "Completed: Exp7 T1 packet build. research/jev-bounded-judgment/phase2/experiment7/{build_packet.py, packet.json, PACKET-CHECK.md} committed as bba7d5f1e on feature/pp3g-QrVQ-exp7-t1-... (exactly 3 paths). packet.json = 48 Noul-only requests over the 24 frozen Exp-6 U/A pairs, sha256 c959805273627089396f9f498d6b279e068a40a0472eec8d316edb5423b2d89a, 2531933 bytes. DESIGN section-D template, qid=sufficiency, type=noul, model=jev-1.13.0, NO criteria key, states byte-identical, no threshold. 68/68 gate checks PASS (cardinality 48/24/8-8-8 re-derived; state sha256 == frozen representation.state_sha256 48/48; instructions twin-identical 24/24; A carries RUNTIME_FACT and U carries (none); 8 leak classes clean; two consecutive runs byte-identical). 46/46 tamper controls caught, controls folded INTO build_packet.py so they are reproducible from the 3 committed paths. Three real GATE defects found by the controls and fixed: state corruption raised instead of failing a check (now D-0 + tolerant readers); option-label leak probe false-positived on 'no' inside 'not' (now boundary-aware); C-6 satisfiable by 49 rows/48 keys. A fourth finding was my own expectation error about T-2, corrected not loosened. Zero network calls MECHANICAL (socket refused at import). Environment-independence proven: identical sha256 from git-show, explicit-path and sibling-worktree resolution, and from delete+rebuild. NOT-TESTED and explicitly not claimed: that jev-1.13.0 accepts the body or what it would answer; whether the frozen Exp-6 question is semantically right for a sufficiency Noul (DESIGN section H, a STOP gate, not discharged here). Env caveat: phase2 tree lives on research/jev-phase1-565 @ 798d65e4e in another worktree; inputs read via git show; merging that branch here is operator-gated and NOT performed.",
+          "created_at": "2026-09-29T13:47:08.319400122Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:fRzK7Gh1AfdqHA25srJThVeFhsQ57ifSFsG86gHSdfE",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbZ7cy/BUzMS3LdP6adZMveoU54q97kgaDH/CPzQotHIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsCjz4jdf8b1Trt6oL78cSWe4TEFGlpPuIjzEKOGlws7KMtdCsidMFSrMHQnN0B2W+Cn3q8StA/aLsMyUfuaLBQ=="
         },
         "1931e19a-0248-4d69-ad5f-8863425b6d4b": {
           "display_id": 4050,
@@ -46862,8 +46871,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-29T13:46:54.250782080Z",
+    "timestamp": "2026-09-29T13:47:08.327091858Z",
     "agent_id": "pp3g-QrVQ-exp7-t1-packet-build-zero-api-calls-read-research-jev",
-    "agent_seq": 8
+    "agent_seq": 9
   }
 }
