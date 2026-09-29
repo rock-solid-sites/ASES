@@ -4,7 +4,7 @@ program: EDASES
 layer: Research
 document_type: Research Finding
 status: Draft
-authority: Derived
+authority: Experimental
 canonical_repository: edases
 crosslink_issue: 566
 baseline_commit: 741abfb905a270a90cab62213cf74fcda257b223
@@ -32,7 +32,7 @@ implements: []
 implemented_by: []
 supersedes: []
 superseded_by: []
-last_updated: 2026-09-28
+last_updated: 2026-09-29
 ---
 
 # EDASES Bounded Structural Transitions
