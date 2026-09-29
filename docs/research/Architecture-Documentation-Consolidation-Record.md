@@ -1381,3 +1381,40 @@ Still intentionally deferred for semantic/currentness review:
 - `docs/roles/Ontology-Reviewer.md`
 
 Operational pacing note: the previous attempt demonstrated that file count alone is not a sufficient safety bound. Future reconciliation turns use both limits: 65 files maximum, with roughly 8–12 underlying tool calls as the normal target and 15 as the hard ceiling.
+
+
+### Stage 3.2 checkpoint 15 — project routing and proposed-role classification
+
+**Status: two high-confidence semantic decisions completed.**
+
+#### HMS specification routed to its owning project
+
+Repository inspection confirmed a separate private project repository, `rock-solid-sites/HMS`. Its root already contains `Hospitality Management Suite Specification.md`.
+
+The HMS repository copy and the ASES `specifications/Hospitality Management Suite Specification.md` copy were byte-identical at reconciliation time, both blob `4cf2a7c09cb1a070651b8a1b5535952a49f5e777`.
+
+Action:
+
+- the ASES duplicate body is removed;
+- its old ASES path is retained as a retrieval-safe redirect to the HMS-owned document;
+- future HMS specification work belongs in `rock-solid-sites/HMS`, not in the ASES documentation graph.
+
+This is project-boundary repair, not archival of HMS itself.
+
+#### Ontology Reviewer classified as experimental Research protocol
+
+`docs/roles/Ontology-Reviewer.md` is explicitly a proposed specialist-reviewer role whose routing claims remain hypotheses to benchmark. Its body distinguishes exploratory and post-build conformance modes, requires independent model-family review for formal evidence, and ends with an empirical evaluation programme.
+
+Action:
+
+- classified as `program: EDASES`, `layer: Research`, `document_type: Research Protocol`, `status: Proposed`, `authority: Experimental`;
+- preserved the role-level constraint `read-only, non-authoritative` separately as `role_authority` rather than misusing the repository-level `authority` field;
+- recorded Canonical Terminology and Clean Room Execution as methodological inputs, the Prompt Skill as a consumer, and the Orchestrator / Workflow Topology record as related documents;
+- completed explicit empty implementation/replacement relationship fields.
+
+No body claims were changed and the role was **not** promoted into Canonical methodology.
+
+Still deferred for the next bounded semantic pass:
+
+- `docs/ORCHESTRATOR.md` — confirmed live: both `AGENTS.md` and the canonical Crosslink playbook explicitly route to it.
+- `docs/crosslink-adversarial-review.md` — operational-looking but last updated in July 2026; requires currentness comparison before deciding whether to refresh, split, or archive.
