@@ -1456,3 +1456,42 @@ Action:
 - did not attempt to reconstruct a new adversarial-review command guide from stale prose.
 
 This removes a competing operational authority while preserving the historical evidence.
+
+
+### Stage 3.2 checkpoint 17 — remaining known semantic Research records
+
+**Status: completed.**
+
+#### #566 foundational findings
+
+`docs/research/structural-change/EDASES-Bounded-Structural-Transitions.md` and `docs/research/work-unit-0/Work-Unit-0-Foundational-Reduction.md` are recent, branch-local Research Findings produced by issue #566.
+
+Both explicitly state that they are research results proposed for review, do not modify canonical policy, and leave unresolved adoption decisions to later architectural review. Their metadata graphs are otherwise complete and their locations match their Research role.
+
+The Documentation Standard distinguishes:
+
+- `Derived`: documents that summarize canonical documents;
+- `Experimental`: work under evaluation.
+
+Action:
+
+- retained both as `layer: Research`, `document_type: Research Finding`, `status: Draft`;
+- changed `authority: Derived` to `authority: Experimental`;
+- preserved all existing dependencies, consumers, and body claims;
+- updated `last_updated` to 2026-09-29.
+
+No promotion, move, or substantive rewrite was justified.
+
+#### June 2026 adversarial-reviewer synthesis
+
+`docs/research/syntheses/adversarial-reviewers-analysis.md` is a completed June 2026 synthesis of five early adversarial-review rounds. Its body makes hard-coded model-strength percentages and routing recommendations.
+
+The active `docs/research/registry/Model-Routing-Matrix.md` is later, broader, evidence-referenced, and explicitly maintains catalog/routing staleness. It includes newer models, later reliability findings, cost observations, and a refresh process. The June synthesis is therefore useful historical evidence but is no longer safe as current routing guidance.
+
+Action:
+
+- preserved the June synthesis byte-for-byte at `docs/historical/adversarial-reviewers-analysis-2026-06.md`;
+- replaced its former live Research/Synthesis path with a retrieval-safe redirect to the active Model Routing Matrix, current feedback records, and model-discipline page;
+- did not transplant its numerical ratings into current metadata or guidance.
+
+This completes the previously identified semantic remainder from checkpoint 7. Generated crossrefs, templates, traces, and bounded audit artifacts remain intentionally exempt unless a concrete retrieval defect is discovered.
