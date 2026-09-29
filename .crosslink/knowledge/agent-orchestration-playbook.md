@@ -50,7 +50,7 @@ Pick the tier **before** dispatching. The boundary is feature size and shape:
 |-----------|------|
 | One well-defined ticket that fits a single session (task-matched timeout, see §5.3) | **Kickoff** (`crosslink kickoff run`) |
 | A multi-phase feature that decomposes into parallel or sequential work | **Swarm** (`crosslink swarm init` → `launch` → `gate` → `checkpoint`) |
-| Long-running autonomous maintenance | **Sentinel** (separate; see `crosslink-subagent-orchestration.md`) |
+| Long-running autonomous maintenance | **Sentinel** (separate; see `.crosslink/knowledge/sentinel-orchestration.md`) |
 
 **Rules for choosing:**
 - Do not swarm what a single kickoff can do — swarm overhead (plan, phases,
@@ -72,7 +72,7 @@ never be used where kickoff/swarm/sentinel apply. The full decision matrix:
 | In-session read / research / quick-answer — small file reads, summarization, bounded analysis | **opencode Task tool** (or `@explore` / `@general`) | In-session subagent call | **Synchronous, BLOCKING** — the calling session locks until the subagent returns |
 | Single implementation ticket | **Kickoff** (`crosslink kickoff run`) | Background tmux/container + own worktree + feature branch + crosslink issue + checkpoint contract | **Non-blocking** — session stays live |
 | Multi-phase parallel feature | **Swarm** (`crosslink swarm init` → `launch` → `gate` → `checkpoint`) | Multiple worktrees, hub-branch coordination, budget windows, phase gates | Non-blocking — session stays live |
-| Long-running autonomous maintenance | **Sentinel** (separate; see `crosslink-subagent-orchestration.md`) | Persistent daemon, poll-triage-dispatch loop | Non-blocking — session stays live |
+| Long-running autonomous maintenance | **Sentinel** (separate; see `.crosslink/knowledge/sentinel-orchestration.md`) | Persistent daemon, poll-triage-dispatch loop | Non-blocking — session stays live |
 
 **Locking mechanism, stated explicitly:** the Task tool runs **in-session and
 synchronously** — the calling orchestrator session is **blocked until the
@@ -850,7 +850,7 @@ Before trusting such work:
 #   in-session read/research/quick-answer -> opencode Task tool (BLOCKS session — NEVER implementation)
 #   one ticket  -> kickoff
 #   multi-phase -> swarm
-#   autonomous  -> sentinel (see crosslink-subagent-orchestration.md)
+#   autonomous  -> sentinel (see .crosslink/knowledge/sentinel-orchestration.md)
 
 # Single agent dispatch
 #   --timeout: task-matched per §5.3 (trivial <=10m, doc/simple/review 15-20m,

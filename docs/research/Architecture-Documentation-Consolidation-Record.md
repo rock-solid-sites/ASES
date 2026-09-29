@@ -1278,3 +1278,26 @@ Action:
 - retained the explicit provenance warning rather than promoting the Checklist to Derived/Canonical authority.
 
 This resolves the staging-path hazard without changing the document's evidentiary status.
+
+
+### Stage 3.2 checkpoint 10 — Crosslink orchestration guide split
+
+**Status: stale composite guidance retired; live Sentinel guidance preserved.**
+
+Primary-source findings:
+
+- `.crosslink/knowledge/agent-orchestration-playbook.md` is the current canonical kickoff/swarm operational guide and explicitly requires a verified `--model`, task-matched timeouts, and current wrapper/launch discipline.
+- `docs/crosslink-subagent-orchestration.md` mixed kickoff, swarm, and Sentinel material but still documented an implicit `opus` model default, a default one-hour runtime, and older wrapper assumptions. Those claims conflict with the current playbook and `AGENTS.md`.
+- the canonical playbook still pointed to that composite document specifically for Sentinel, so deleting or simply archiving it would break a live retrieval path.
+- `.crosslink/knowledge/` is already the active home for operational Crosslink knowledge.
+- the live `.crosslink/hook-config.json` has Sentinel disabled. It also contains both a nested `sentinel.default_agent.model` and a differently valued dotted top-level `"sentinel.default_agent.model"` entry. Model-precedence semantics were not established by this documentation pass.
+
+Actions:
+
+1. created `.crosslink/knowledge/sentinel-orchestration.md` containing only the still-relevant Sentinel poll/triage/dedup/retry surface;
+2. removed hard-coded historical model defaults from the live guide and delegated model/approval/timeout policy to the current canonical playbook, model-discipline page, and `AGENTS.md`;
+3. recorded the duplicate Sentinel model configuration as an unresolved configuration hazard rather than guessing precedence;
+4. replaced `docs/crosslink-subagent-orchestration.md` with a retrieval-safe redirect, so unknown stale links do not resolve to obsolete operational instructions;
+5. updated the canonical playbook's bare Sentinel references to the exact new knowledge path.
+
+The old composite guide is therefore no longer a competing operational authority, while its path remains safe for legacy retrieval.
