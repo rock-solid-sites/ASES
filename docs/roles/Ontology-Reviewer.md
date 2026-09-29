@@ -1,10 +1,27 @@
 ---
 title: Ontology Reviewer Role
-version: 0.2-draft
+program: EDASES
+layer: Research
+document_type: Research Protocol
 status: Proposed
+authority: Experimental
+canonical_repository: edases
+version: 0.2-draft
 role_type: specialist-reviewer
-authority: read-only, non-authoritative
-last_updated: 2026-09-22
+role_authority: read-only, non-authoritative
+depends_on:
+  - docs/standards/Canonical Terminology.md
+  - docs/methodology/Clean Room Execution Guide.md
+consumed_by:
+  - skills/prompt/SKILL.md
+related_documents:
+  - docs/ORCHESTRATOR.md
+  - docs/research/Workflow Topology Design and Reasoning Record.md
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # Ontology Reviewer Role
