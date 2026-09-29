@@ -238,3 +238,18 @@ Priorities are recommendations from this pass, not a roadmap resequencing decisi
 For an admitted candidate, report normal, absent, stale/incorrect, recovering and overloaded behavior. Include a successful path in every required mode; safety through permanent refusal is not sufficient when the baseline promises continuation. Run interaction checks only where mechanisms share costs or evidence—for example context compression plus semantic caching, or delta maintenance plus eviction—not an indiscriminate combinatorial test suite.
 
 A report should state WHY the result changes a design choice, WHAT corpus/versions/failures it covers, HOW CERTAIN it is with uncertainty intervals where appropriate, and WHAT-NOT-TESTED. A negative result is a successful experiment if it prevents needless machinery. Promotion from this Experimental / Derived pass requires separate review and project direction.
+
+## Completion validation — 2026-09-29
+
+The following checks were executed by the producing session after its self-review:
+
+- Research branch ancestry resolves to the exact frozen commit; all eight input-manifest blobs match that commit.
+- The original Efficiency Architecture body is preserved byte-for-byte as the revised file's historical suffix; its original complete-file blob matches the supplied `349eee3b51171a9365201eff5d2bd10d8cbfa719`.
+- Required metadata fields, repository-local link targets and linked heading anchors resolve for all changed Markdown files.
+- `git diff --check` passes. The eight countermodels rerun with stdout exactly matching the saved JSON.
+- Source SHA-256: `51048e1c85b326cf67608a0435b8211c3aa45c23d9ca6b32796ab2abe82f6a11`.
+- Output SHA-256: `b2c209d4f5fed06ccab6af3f9674631573ae1a3cbcc941c85027fefa4098f795`.
+
+The self-review corrected a possible double count of cache setup versus miss execution and made the cold-recovery model's disjoint-work assumption explicit. These checks validate provenance, document structure and finite artifacts. They are **not independent adversarial review**, an audit of all cited proofs, or execution of X01–X12.
+
+A reviewer can focus first on F02's stronger ablation boundary, F03/F04's applicability economics, and whether X02–X04 discriminate enough to defer generalized machinery. Any challenge to core currentness or recovery should be associated with B01–B06 rather than imported as settled semantics.
