@@ -56,7 +56,7 @@ D0b Existence validator (V1): every cited path/section resolves.
 D0c Freshness + propagation (V3): last-verified stamps; editing a source node
 marks dependent nodes stale (update-pushes-out semantics).
 D0d Consult-gate (#387): before dispatch / config change / merge, orchestrator
-must reference current doc versions; hook pattern per auto-export plan v7.
+must reference current doc versions; hook pattern from historical docs/historical/decisional-provenance/crosslink-auto-export/crosslink-auto-export-plan-v7.md (revalidate before reuse).
 D0e Authority-trace validator (V2): Derived claims chain to Canonical parents;
 may trail if frontmatter coverage incomplete.
 
