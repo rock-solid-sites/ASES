@@ -1640,3 +1640,83 @@ The next bounded `to-file/` pass should:
 3. then inspect the remaining ten `to-file/` files as tranche B.
 
 This preserves the broad-to-deep strategy while staying within the tool-call budget.
+
+
+### Checkpoint 20 — `to-file/` section completed
+
+**Status: all 20 Markdown staging records classified and filed; `to-file/` no longer contains project documentation on this branch.**
+
+The full section was inspected before filing. Read-only inspection was intentionally broader than the normal semantic-write batch because the documents could be classified by provenance family without individual mutation.
+
+#### Research-level classification experiment — 11 records
+
+The common input was moved to:
+
+- `docs/historical/decisional-provenance/research-level-classification-prompt.md`
+
+Ten independent/raw outputs were grouped under:
+
+- `docs/historical/decisional-provenance-reviews/research-level-classification/`
+
+This preserves the exercise as a bounded research/review packet rather than leaving individual model answers exposed as competing taxonomy documents.
+
+Two provenance anomalies are preserved explicitly in filenames rather than silently corrected:
+
+- `hy3-file-label-mismatch.md` — the staging filename identifies Hy3 while the body begins with a Muse Spark title; model identity is therefore ambiguous.
+- `kimi-corrupted-output.md` — a visibly corrupted generation that substantially overlaps the valid Kimi response but contains intrusive token/text corruption.
+
+No later live synthesis was found by filename/content-surface search. The packet is therefore retained as historical decisional provenance, not promoted into current taxonomy guidance.
+
+#### Gas Town / Gas City archaeology — 3 records
+
+The full 16,253-line research conversation and its follow-up question extraction were moved to the repository's existing historical-project source area:
+
+- `sources/historical-projects/gas-town/deep-dive-transcript.md`
+- `sources/historical-projects/gas-town/qwen-extra-questions.md`
+
+The shorter synthesis was moved to:
+
+- `syntheses/gas-town-deep-dive-summary.md`
+
+This preserves the distinction the source itself makes: the short synthesis is useful but does not replace the detailed causal/history chain in the full research transcript.
+
+No later file named for Gas Town/Gas City was found elsewhere in the current tree. These remain research inputs for future prior-art work rather than current architecture authority.
+
+#### Earlier Execution Engine proposal and reviews — 2 records
+
+The state-gated Execution Engine proposal and its 1,710-line adversarial review packet were filed as historical decisional provenance:
+
+- `docs/historical/decisional-provenance/edases-execution-engine-state-gated-proposal.md`
+- `docs/historical/decisional-provenance-reviews/edases-execution-engine-state-gated-reviews.md`
+
+The current `docs/architecture/EDASES-Execution-Engine-Roadmap.md` reflects substantially later Kernel-0, Work Unit, processorless-architecture, authority/currentness, and minimization work. The older proposal's Rust/state-gating-centered framing is therefore preserved as lineage rather than treated as current architecture.
+
+#### HMS incident source — 1 record
+
+The HMS research-session postmortem was already explicitly treated by its maintained EDASES assessment as unchanged historical evidence. It moved to:
+
+- `docs/historical/hms-research-session-postmortem-2026-08-17.md`
+
+The live dependency and in-body source reference in `docs/research/hms-postmortem-claims-assessment.md` were updated accordingly. The postmortem remains evidence for the EDASES orchestration/capability-gap assessment; it is not reclassified as an ASES/HMS specification.
+
+#### Orphan checklist review wave — 3 records
+
+The staging `reviews-1.md`, `reviews-2.md`, and `reviews-3.md` are a distinct series from the already-archived same-named documentation-refactor reviews. Their content reviews Project Safety/Code Quality, Application Security, and LLM/Agentic Security checklists.
+
+Search found no live checklist counterpart with those titles in the current repository surface. They were therefore grouped as raw historical review provenance at:
+
+- `docs/historical/decisional-provenance-reviews/checklist-review-wave/reviews-1.md`
+- `docs/historical/decisional-provenance-reviews/checklist-review-wave/reviews-2.md`
+- `docs/historical/decisional-provenance-reviews/checklist-review-wave/reviews-3.md`
+
+They are not conflated with the older `decisional-provenance-reviews/reviews-2.md` and `reviews-3.md`, whose contents concern the documentation-process refactor and SQLite migration.
+
+#### Result
+
+All 20 records were moved in one tree-level commit using their existing blob SHAs, preserving their bytes while removing the ambiguous staging home.
+
+Move commit:
+
+- `ef24547caa8759f6c84e31009714359d66ddcbc4`
+
+The next deep-dive section is `.design/`, following the Stage 3.3 order established in checkpoint 18.
