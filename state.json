@@ -1,6 +1,6 @@
 {
   "next_display_id": 575,
-  "next_comment_id": 4043,
+  "next_comment_id": 4044,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17955,7 +17955,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-09-29T13:21:09.530130381Z",
+      "updated_at": "2026-09-29T13:21:43.966796629Z",
       "labels": [
         "research"
       ],
@@ -17986,6 +17986,15 @@
           "kind": "plan",
           "signed_by": "SHA256:yKLDLFSO/pSR+mUf0vz7Ro5kkTtKTRZoMsT2cyzpyOs",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgyKwOhNCzKi0xKdfKxEQtuIOgU/5qwBAm1iZhrwjAdzwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQAL3JFVeHdOGPjmADF1GXKlQgfOXmGsWmiiHBVhvDrnEDRbC5OMHn3efSxNkdX+Fwh7n+5an9qhmA5qzWCEkDw=="
+        },
+        "e0e13d30-b564-41d0-9991-5e2f5daccdcc": {
+          "display_id": 4043,
+          "author": "pp3g-x4Ua-exp7-bounded-recon-read-only-zero-api-calls-verify",
+          "content": "Result: REUSE-UNCHANGED = **YES** — all 24 frozen Exp-6 U/A pairs reconstruct exactly from experiment6/packet.json. 45/45 checks, 0 mismatches. Committed as f426dae65 on feature/research/jev-phase1-565 (exactly 2 paths).\n\nNOTE: supersedes my previous result comment on this issue, which was mangled by shell backtick interpolation (some inline-code spans were stripped). This is the authoritative version.\n\n## Verdict\nAll 24 pairs reuse **unchanged**. Nothing was repaired, because nothing was broken.\n\n## What was proven\n1. **Grouping** — 48 rows → exactly 24 pair_id groups, each with exactly one U and one A; no orphans, no duplicates. Re-derived by grouping, NOT read from the packet's declared counts.\n2. **Twin identity** — the \"question\" and \"options\" fields are byte-identical across U/A for all 24 pairs (also verified via request.questions.q.criteria and .instructions).\n3. **State byte-diff characterized** — U vs A differ on EXACTLY TWO lines per pair: line 7 (constant across all 24, the \"# meta variant: U|A\" meta line), and the runtime-facts decisive-fact line, which is \"(none)\" in U and one RUNTIME_FACT line in A equal to the selection decisive_fact (24/24). All other lines byte-identical; 0 unclassified differing lines; state line counts equal; state_sha256 differs per pair.\n4. **Strata 8/8/8** by ctype, re-derived by grouping.\n5. **Carried limitations identified by pair_id** — 4 attribute-receiver dispatch pairs (pd.pair02/03/06/07; decisive facts reference self._interpolation / self._parser) and 2 calendar over-approximation pairs (pd.pair00/01; type(self) = LocaleTextCalendar). Cross-checked against the packet's own decisive facts, not merely asserted from the Exp6 doc. Both statuses CARRIED; neither blocks reuse.\n6. **Per-pair record extracted** for all 24: pair_id / ctype / module / subject / state-sha256-U / state-sha256-A / question-hash (24 distinct question hashes).\n7. **Chain of custody** — all 5 packet.bound_to artifact sha256 re-hashed from git and matching.\n\n## Notable finding (not a mismatch)\nFour row fields DO differ per pair — ground_truth, ground_truth_p2b_outcome, ground_truth_source, score_for_correctness. These are the designed answer-key asymmetry: build_packet.py lines 838-850 derive all four from a single is_a flag (U: null/null/false; A: outcome/scorable). The verifier checks this asymmetry CONFORMS, so a corrupted answer key is caught rather than waved through.\n\n## Evidence that the checks discriminate\nA verifier that only ever passes proves nothing. 22 deliberately corrupted packet copies were run through the same verifier: **20 caught** (single-byte state corruption, corrupted and non-variant meta lines, dropped/extra/duplicated decisive facts, injected source line, U/A relabel, stripped meta marker, question edit, option reorder, row deletion/duplication, corrupted state_sha256, stratum breakage, out-of-set ground_truth, U/A state collapse, threshold change, arm change, admissibility flip, false api_calls_spent). The 2 survivors are proven row-ordering INVARIANCES (grouping is by pair_id, never row position) — recorded explicitly in negative_control.py ACCEPTED_INVARIANCES so a survivor is a decision, not an oversight. The real swap threat (relabelling U/A WITHOUT swapping states, presenting a decidable state as U) IS caught. Two consecutive clean runs produce byte-identical output.\n\n## Honesty note on my own process\nMy first negative-control run reported 3 survivors. Two were my own parser bugs (I matched \"## END MODEL-VISIBLE STATE\" when the packet uses \"### END...\") and one was a discarded .replace() result — a no-op mutation, i.e. a harness bug, not a pass. I fixed the harness to assert each mutation actually changed the packet, and added a check for the \"###\" marker. The verdict above is from the corrected run.\n\n## Constraints honoured\n- ZERO network calls: no Jev, no systemone, no chat call at any point. stdlib-only Python, deterministic.\n- experiment6/ NOT modified (read via git show; verified 0 changes under that path).\n- No Noul wording designed (out of scope per BASELINE.md).\n- No other file modified; no exp3 or .crosslink dirty paths touched (.crosslink/.last-hydrated-ref and .kickoff-session were already dirty before start and remain uncommitted).\n- Commit contains exactly the 2 requested paths.\n\n## ENVIRONMENT CAVEAT (needs operator action)\nThis worktree is on feature/research/jev-phase1-565 @ 719223195 (= main HEAD). The phase2 tree (experiment6/packet.json, experiment7/BASELINE.md, PRIMATIVES.md) exists ONLY on branch research/jev-phase1-565 @ 8e589035a, which is checked out in a DIFFERENT worktree (.worktrees/jev-phase1). Inputs were therefore read read-only via git show. Deliverables were written to the same relative paths in this worktree and committed here as instructed. **Merging feature/research/jev-phase1-565 into research/jev-phase1-565 is still required for the artifacts to land next to experiment6/ — and that merge/push is operator-gated, so I have not performed it.** The branch can also not be checked out here (git refuses: already checked out elsewhere).\n\n## Certainty\n- WHY: every claim is backed by a named check in reuse_check.json checks[] plus a mutation test proving the check fires.\n- WHAT: read-only structural analysis of the frozen packet at a pinned sha256, cross-referenced to the 5 bound_to artifacts and to the Exp6 construction documents.\n- HOW CERTAIN: **proven** for the structural reuse question (deterministic, reproducible, mutation-tested). **Evidence-based, not proven** for the Exp7 framing: nothing here establishes that the Exp6 substantive question is semantically appropriate for a Noul evidence-sufficiency proposition — that is the next design step, not a reuse question.\n- WHAT-NOT-TESTED: question well-posedness/answerability (would require spending API calls); any behavioural claim (nothing here measures Jev); reachability of the 4 attribute-receiver callsites (unproven in Exp6, not re-litigated); the median-convention note (an analysis convention, not a pair property).\n\nArtifacts: research/jev-bounded-judgment/phase2/experiment7/REUSE-CHECK.md (450 lines) + reuse_check.json (machine-readable, 24 per_pair entries).",
+          "created_at": "2026-09-29T13:21:43.960158920Z",
+          "kind": "result",
+          "signed_by": "SHA256:yKLDLFSO/pSR+mUf0vz7Ro5kkTtKTRZoMsT2cyzpyOs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgyKwOhNCzKi0xKdfKxEQtuIOgU/5qwBAm1iZhrwjAdzwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA1by4++VOf/mDDYK8MJtaSM79LCqxVTWQc5GJx6L5fmPJIq8ufQSGhSbPmIjf1GYj4hZT+CaQ56vHyGysWQYODg=="
         },
         "e6a1f62f-8016-4380-8daf-ef12f0c7ddec": {
           "display_id": 4039,
@@ -46785,8 +46794,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-29T13:21:09.530130381Z",
+    "timestamp": "2026-09-29T13:21:43.966796629Z",
     "agent_id": "pp3g-x4Ua-exp7-bounded-recon-read-only-zero-api-calls-verify",
-    "agent_seq": 8
+    "agent_seq": 9
   }
 }
