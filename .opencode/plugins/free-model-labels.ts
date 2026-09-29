@@ -49,15 +49,15 @@
  *     every update is preceded by a `get()`. Without that guard, annotating a
  *     model that a removal just deleted silently resurrects it.
  *
- * CONFIGURATION (all optional; with none set this plugin only annotates)
+ * CONFIGURATION (all optional; none of them can lift the xAI prohibition)
  *
  *   OPENCODE_FREEMODELS_CATALOG       catalog JSON path
  *                                     default ~/.local/share/opencode-docs/free-models.json
- *   OPENCODE_FREEMODELS_HIDE_PROVIDERS  comma-separated provider ids to remove
- *   OPENCODE_FREEMODELS_FORBIDDEN_MODELS  comma-separated case-insensitive substrings
- *                                     or /regex/ to remove
- *   OPENCODE_FREEMODELS_ZEN_WHITELIST   comma-separated model ids to keep on the
- *                                     `opencode` provider; empty means keep all
+ *   OPENCODE_FREEMODELS_HIDE_PROVIDERS  comma-separated provider ids to remove for tidiness
+ *   OPENCODE_FREEMODELS_ZEN_WHITELIST   comma-separated model ids to keep on the `opencode`
+ *                                     provider; empty means keep all
+ *
+ * NOT CONFIGURABLE: the xAI/Grok prohibition. See the section below.
  *
  * @module free-model-labels
  */
@@ -74,34 +74,78 @@ const envList = (name: string): string[] =>
     .map((s) => s.trim())
     .filter(Boolean)
 
-/** Providers removed from the model list. Empty unless a host opts in. */
-export const HIDE_PROVIDERS: string[] = envList("OPENCODE_FREEMODELS_HIDE_PROVIDERS")
+/* ------------------------------------------------------- the xAI prohibition
+ *
+ * HARD-CODED AND NOT CONFIGURABLE. This is the one removal in this file that is
+ * not a host preference, and it is deliberately not environment-driven.
+ *
+ * xAI/Grok is strictly and permanently forbidden. Unlike a model whitelist or a
+ * provider to tidy away, this is an invariant: no environment variable, catalog
+ * row or configuration change may lift it. If a future edit makes this
+ * configurable, the prohibition is no longer a prohibition.
+ *
+ * INVARIANT — if any xAI or Grok entry appears in the model list, THE PLUGIN IS
+ * BROKEN. It is not a preference the operator changed and not a new upstream
+ * model; it means the transform threw, the editor API changed shape, or this
+ * guard was edited. Treat the appearance of a grok or xai entry as a canary
+ * that the catalog transform is not doing its job.
+ *
+ * BOTH a provider-id block and a model-pattern sweep are needed. A provider-only
+ * block is not sufficient: as of 2026-09-28 the catalog carries no dedicated
+ * `xai` provider at all, and the xAI models surface on OTHER providers —
+ * `opencode-go/grok-4.5`, `openrouter/x-ai/grok-4.5`. The pattern sweep runs over
+ * the whole active model collection regardless of provider, which is what
+ * actually closes the hole. The provider list stays as a forward-looking net in
+ * case a first-party xAI provider is ever added.
+ *
+ * Verified against bare model ids, which is what the transform actually passes
+ * (`model.id`, never a provider-qualified ref): the patterns block all of
+ * `grok-4.5`, `x-ai/grok-4.5`, `xai/grok-4.5`, `grok-3-mini`, `grok-beta` and
+ * `grok-4.5-fast` (6/6) while leaving `gemini-3.5-flash`, `gpt-oss-20b`,
+ * `llama-4`, `qwen3-coder`, `nemotron-3-ultra-550b-a55b`, `mimo-v2.6-flash-free`,
+ * `claude-opus-4` and `gpt-5.6-sol` alone (0/8 wrongly blocked).
+ *
+ * One deliberate note: `xai/gpt-oss-20b` WOULD match, because the id claims the
+ * xAI namespace. The transform never passes that string — under a real provider
+ * the same model arrives as the bare id `gpt-oss-20b`, which is allowed. The
+ * match is the correct reading of the string, not a defect.
+ */
 
-/** Case-insensitive substrings or /regex/ whose matches are removed. */
-export const FORBIDDEN_MODEL_PATTERNS: RegExp[] = envList("OPENCODE_FREEMODELS_FORBIDDEN_MODELS").map(
-  (raw) => {
-    const asRegex = /^\/(.*)\/([a-z]*)$/.exec(raw)
-    try {
-      // `i` is appended to any operator-supplied flags rather than passed as a
-      // third argument: RegExp takes only (pattern, flags), and
-      // case-insensitivity is the point of the match.
-      const flags = (asRegex?.[2] ?? "") + "i"
-      return asRegex ? new RegExp(asRegex[1]!, flags) : new RegExp(escape(raw), "i")
-    } catch {
-      // A malformed pattern must not take down model selection.
-      return /$^/
-    }
-  },
-)
+/** Provider ids that may never appear in the model list. */
+export const FORBIDDEN_PROVIDER_IDS: readonly string[] = ["xai", "x-ai", "x_ai", "grok"]
+
+/**
+ * Model-id patterns that may never appear in the model list, on any provider.
+ * The boundary characters matter: they stop `xaipilot` and other names that
+ * merely contain the letters from being caught.
+ */
+export const FORBIDDEN_MODEL_PATTERNS: readonly RegExp[] = [
+  /(^|[-/_.])grok(-|\.|$)/i,
+  /(^|[-/_.])x-?ai([-/_.]|$)/i,
+]
 
 export const isForbiddenModel = (name: string): boolean =>
   FORBIDDEN_MODEL_PATTERNS.some((re) => re.test(name))
 
-function escape(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-}
+export const isForbiddenProvider = (id: string): boolean =>
+  FORBIDDEN_PROVIDER_IDS.includes(id)
 
-/** Model ids kept on the `opencode` provider. Empty means keep everything. */
+/**
+ * Providers removed from the model list for tidiness. THIS one is a host
+ * preference and is environment-driven, defaulting to nothing — unlike the xAI
+ * prohibition above, hiding a provider is a choice, not an invariant.
+ */
+export const HIDE_PROVIDERS: string[] = envList("OPENCODE_FREEMODELS_HIDE_PROVIDERS")
+
+/**
+ * Model ids kept on the `opencode` (OpenCode Zen) provider.
+ *
+ * Environment-driven and empty by default, because the free set on a
+ * "free for a limited time" tier changes underneath any list pinned in source —
+ * a hardcoded whitelist is a snapshot that goes quietly stale, and a stale
+ * whitelist removes models the operator still wants. A host that wants the list
+ * narrowed supplies it; a host that does not keeps everything.
+ */
 export const ZEN_WHITELIST: string[] = envList("OPENCODE_FREEMODELS_ZEN_WHITELIST")
 
 /** The verified free-model catalog. Overridable so the failure path is testable. */
@@ -278,7 +322,12 @@ export async function applyModelPolicy(ctx: any): Promise<void> {
   await ctx.catalog.transform((editor: any) => {
     try {
       for (const { provider } of editor.provider.list()) {
-        if (HIDE_PROVIDERS.includes(provider.id)) editor.provider.remove(provider.id)
+        // The xAI prohibition is hard-coded and unconditional. HIDE_PROVIDERS is
+        // the host's tidiness list and may be empty; this branch may not be
+        // configurable, skipped by a config error, or ordered after a throw.
+        if (isForbiddenProvider(provider.id) || HIDE_PROVIDERS.includes(provider.id)) {
+          editor.provider.remove(provider.id)
+        }
       }
 
       for (const model of models) {
