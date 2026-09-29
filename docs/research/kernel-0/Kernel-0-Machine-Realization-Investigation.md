@@ -124,7 +124,7 @@ For a local mediated output, one possible concrete witness stages bounded data p
 
 F1–F3 retain their original identifiers for traceability. The [continuation](./Kernel-0-Machine-Realization-Family-Reduction.md) replaces their interpretation as irreducible families; the mechanism obligations below remain applicable to configurations that use them.
 
-These are families of conditional constructions. None is a claim that a named technology already implements Work Units. Their common minimal experiment uses finite explicit tables/bytes, serial admission, bounded encodings, cold recovery and one declared mediated attachment. This removes accidental concurrency and convenience layers before comparing the essential paths.
+These are conditional construction patterns. None is a claim that a named technology already implements Work Units. Their common minimal experiment uses finite explicit tables/bytes, serial admission, bounded encodings, cold recovery and one declared mediated attachment. This removes accidental concurrency and convenience layers before comparing the essential paths.
 
 ### F1 — A confined abstract machine
 
@@ -216,7 +216,7 @@ The discovery of direct circuit verification changes the candidate space materia
 
 ## 6. Lowest boundary: what cannot presently be discharged
 
-For all three families, the final theorem is of the form `physical assumptions ⇒ observed refinement`. The predicate connecting measured voltages, stored charge, bus events or actuator movement to modeled bits/events is not established by a software or RTL proof.
+For all three construction patterns, the final theorem is of the form `physical assumptions ⇒ observed refinement`. The predicate connecting measured voltages, stored charge, bus events or actuator movement to modeled bits/events is not established by a software or RTL proof.
 
 | Boundary premise | What can be checked/reduced | What remains here |
 | --- | --- | --- |
