@@ -1,6 +1,6 @@
 {
   "next_display_id": 575,
-  "next_comment_id": 4068,
+  "next_comment_id": 4069,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17951,7 +17951,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-09-29T14:42:39.073475918Z",
+      "updated_at": "2026-09-29T14:43:23.730625797Z",
       "labels": [
         "research"
       ],
@@ -18072,6 +18072,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAaaj14kvjoqr5Gwpa6QeKgsEiiWx9PNaUT86J2l1vUQkMNf1NuNIYBWxU6rpVug3HiQXazKlxZEG8BDI0UJpwBQ=="
+        },
+        "594a4eae-ae4f-445f-859b-189492be8ad3": {
+          "display_id": 4068,
+          "author": "pp3g-MKPL-exp7-t3a-scorer-metrics-core-zero-network-calls-read",
+          "content": "Completed: Exp7 T3a scorer/metrics core. analyze.py (2207 lines, sha256 e21e2374db91edaa678af86707c6a8c3a7249849b7b863bfd3a9b762012cd0c1) + SCORER-PROOF.md committed on feature/pp3g-MKPL-exp7-t3a in 4 commits (6f4dcf806, 5d404f41e, 9b199de46, cd12df0d7), exactly the 2 authorized paths. Built in 3 persisted import-verified increments: parse/pair/E.A, then E.B+E.C comparator, then 11-check selfcheck. 11/11 PASS incl. under python3 -O. Negative control 15 injected defects / 15 caught; the 2 first-run survivors were real suite gaps, both closed (quantile convention was only self-consistency-checked; check_known_answer was never called). Exp6 known-answer vectors all reproduced from raw rows: AUC 0.8785, ordering 24/24, deltas min +0.05 median 0.36 mean +0.3908, false-unknown 0/8 8/8 1/8, accuracy 19/24, per-stratum AUC 1.0 x3. Found and fixed 7 real defects in my own code (3 would have survived an imports-and-runs check: per-stratum KeyError, double-reflected oriented AUC reporting the native value, reconcile arity). E.D no-threshold is a source audit (0 hits); E.E firewall is structural (Noul path never reads an answer key). Zero network calls; deterministic; experiment6/, packet and run_noul.py untouched across all 4 commits. Handoff: merge of this branch into research/jev-phase1-565 is REQUIRED for artefacts to land next to experiment6/ and is operator-gated (git merge and git push both blocked for me). No measured call made; no H1/H2 claim made or implied.",
+          "created_at": "2026-09-29T14:43:23.723824209Z",
+          "kind": "handoff",
+          "signed_by": "SHA256:2tAOcFujJk9CXAmtLr8QZ9F3jXP6zpK5NBzv+t6L0E4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgXTjKghXflYWUBWD+Y27V0O/kb1JjXAOSu8b7cvZZbB8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbeHcbpMy6UxaThHagks1jp1h62watkckYdLFS9xMFju/hNi0nnj6GILNPPraZSN9a4dp+wQ7AZYqP63FRLEnDg=="
         },
         "694f9e79-bf45-426a-b5f9-798274413fbf": {
           "display_id": 4047,
@@ -47006,8 +47015,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-29T14:43:10.318461329Z",
+    "timestamp": "2026-09-29T14:43:23.730625797Z",
     "agent_id": "pp3g-MKPL-exp7-t3a-scorer-metrics-core-zero-network-calls-read",
-    "agent_seq": 7
+    "agent_seq": 8
   }
 }
