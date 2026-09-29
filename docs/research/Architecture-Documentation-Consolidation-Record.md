@@ -1495,3 +1495,70 @@ Action:
 - did not transplant its numerical ratings into current metadata or guidance.
 
 This completes the previously identified semantic remainder from checkpoint 7. Generated crossrefs, templates, traces, and bounded audit artifacts remain intentionally exempt unless a concrete retrieval defect is discovered.
+
+
+## Stage 3.3 — broad repository reconnaissance before section deep-dives
+
+### Checkpoint 18 — repository-wide structural sweep
+
+**Status: broad reconnaissance complete; no semantic classifications made in this checkpoint.**
+
+A recursive tree walk at branch head `855027b0d57719f49d969e2d25baf200613d9906` covered the complete repository tree (**7,854 files; Git tree not truncated**) and identified **691 Markdown files**. This count includes vendored/forked source, generated research corpora, operational backups, skills, and other material that must not be treated as one homogeneous documentation set.
+
+The first-pass documentation zones are:
+
+- root `docs/*.md`: 5
+- `.design/*.md`: 5
+- `to-file/*.md`: 20
+- `specifications/*.md`: 3
+- `docs/architecture/**/*.md`: 10
+- `docs/methodology/**/*.md`: 6
+- `docs/research/**/*.md`: 128
+- `docs/historical/**/*.md`: 31
+- `docs/roles/**/*.md`: 1
+- `docs/standards/**/*.md`: 4
+- repository-root Markdown: 12
+
+### Structural signals from the broad sweep
+
+1. **`to-file/` is the highest-density unresolved staging zone.** It still contains 20 Markdown files, including research-level classification outputs/prompts, execution-engine reviews, Gas Town research, an execution-engine proposal, HMS incident material, and three raw review files. This is the first deep-dive section.
+
+2. **`.design/` is small but semantically high-value.** Five documents remain:
+   - two EPIC-423 planning records;
+   - the Observer resilience design;
+   - the RPC enforcement prototype;
+   - the v2 guard rewrite design.
+   Earlier reconciliation deliberately deferred some of these because currentness/supersession required evidence. This is the second deep-dive section.
+
+3. **The repository root contains a versioned Crosslink auto-export design family**:
+   - `crosslink-auto-export-proposal.md`
+   - `crosslink-auto-export-plan-v5.md`
+   - `crosslink-auto-export-plan-v6.md`
+   - `crosslink-auto-export-plan-v7.md`
+   - `crosslink-auto-export-pivot-plan.md`
+   - `crosslink-auto-export-shell-wrapper.md`
+   
+   Multiple generations at the same retrieval level are a likely supersession/currentness hazard and form the third deep-dive section.
+
+4. **Exact-blob duplicate analysis mostly identified expected operational/vendor duplication**, especially `.crosslink.backup-2026-06-23-pre-reset/rules/*` versus live `.crosslink/rules/*`. These backups should not be normalized as active project documentation merely because their Markdown is byte-identical.
+
+5. **Repeated filenames reveal a few staging/history collision candidates.** In particular, `reviews-2.md` and `reviews-3.md` exist both under `to-file/` and `docs/historical/decisional-provenance-reviews/`; they are not byte-identical, so the deep dive must determine whether the staging copies are predecessors, variants, or independent records before removal.
+
+6. **Large non-documentation subtrees are explicitly excluded from ordinary documentation classification.** The `fork/opencode-src/` tree, generated/evaluation corpora, skill internals, and backup trees will be inspected only when they create a concrete retrieval or authority hazard.
+
+### Deep-dive order
+
+The section-by-section pass will proceed:
+
+1. `to-file/`
+2. `.design/`
+3. repository-root Crosslink auto-export/planning family and root routing docs
+4. `specifications/` and root `docs/*.md` residual verification
+5. `docs/architecture/`
+6. `docs/methodology/`
+7. `docs/research/` by bounded subfamily rather than as one 128-file block
+8. `docs/historical/` boundary/integrity review
+
+Each section deep dive will establish lineage, live consumers, supersession, authority, and correct home before edits. Generated, vendored, backup, trace, and template material remains exempt from hand-authored canonical normalization unless a concrete defect is found.
+
+The existing operational limits remain in force: **65 files absolute maximum per turn; normally 8–12 underlying tool calls, 15 hard ceiling; durable checkpoint before approaching the call ceiling.**
