@@ -4,24 +4,29 @@ program: Methodology
 layer: Methodology
 document_type: Universal Conformance Checklist
 status: Draft
-authority: Derived
+authority: Experimental
 canonical_repository: edases
-depends_on:
-  - VSDD Adaptation Profile — State-Based Specifications
-  - to-file/VSDD.md
+depends_on: []
 consumed_by:
   - ASES state-based project specifications
   - project-specific conformance suites
   - VSDD Phases 1–6
   - builder completion gates
   - adversarial reviewer gates
+related_documents:
+  - .design/observer-swarm-v1.1-resilience.md
+  - findings/vsdd-archaeology-report.md
+  - findings/vsdd-73921ac-surgical-read.md
+  - specifications/Adverarial Test Suite Reviews:.md
 supersedes: []
 superseded_by: []
-last_updated: 2026-08-29
+last_updated: 2026-09-29
 ---
 # ASES Universal Conformance Checklist — State-Based Artefacts
 
-> **Purpose:** Universal framework for deriving a project-specific conformance suite from an ASES state-based specification. **Scope:** Universal conformance dimensions only; no project-specific states, events, resources, technologies, tests, or assumptions. **Authority:** Derived from the VSDD Adaptation Profile; does not replace, amend, or extend VSDD.
+> **Purpose:** Universal framework for deriving a project-specific conformance suite from an ASES state-based specification. **Scope:** Universal conformance dimensions only; no project-specific states, events, resources, technologies, tests, or assumptions. **Authority:** Experimental draft. It was originally presented as derived from a VSDD Adaptation Profile whose source is not available in the committed repository; it does not replace, amend, or extend VSDD.
+
+> **Provenance note (2026-09-29):** The original `depends_on` entries named `VSDD Adaptation Profile — State-Based Specifications` and `to-file/VSDD.md`. Git path history contains no committed version of either source. The checklist is preserved because it has a live project-specific consumer, but its VSDD derivation cannot currently be independently reconstructed. Until an authoritative source is restored, treat this document as experimental rather than as a live VSDD authority. `.design/observer-swarm-v1.1-resilience.md` Appendix A is the surviving Observer-specific VSDD-lite interpretation; the VSDD archaeology findings are contextual evidence about an external codebase, not replacements for the missing methodology sources.
 
 ## 1. Canonicality
 The canonical checklist must remain domain-independent. Project-specific material belongs in the instantiated suite. The universal document defines **what must be checked**; the project suite defines **what that means here**. Project experience must not silently rewrite universal obligations.
