@@ -55,25 +55,55 @@ them.
 |---|---|
 | Derives all model facts from the catalog at runtime | Yes — no table of model facts in source |
 | Annotates only; removes nothing by default | Yes — removals require explicit opt-in |
+| xAI/Grok prohibition hard-coded and non-configurable | Yes — see §2.1 |
+| Zen whitelist configurable | Yes — empty by default |
 | Filesystem writes inside the transform | None — the catalog is read once, before it |
 | Network calls | None |
 | Fails open | Yes — any catalog problem leaves the list untouched |
 | New TypeScript errors introduced | 0 (verified against the repo's `tsconfig.json`) |
 
-### Why removals are opt-in
+### 2.1 The xAI prohibition is an invariant, not a preference
 
-Model availability on a free tier moves, and redundancy across providers is
-worth preserving as a fallback. More importantly: a provider ban or a model
-whitelist is a **host policy decision**, and a shared plugin should not impose
-another machine's choices. The original working copy carried a hardcoded
-provider-hide list, a grok ban, and an 8-entry Zen whitelist; those became
-environment-driven configuration with empty defaults.
+**xAI/Grok is strictly and permanently forbidden, and this plugin inherits that
+prohibition.** It is hard-coded in source and is deliberately NOT
+environment-driven. If a future edit makes it configurable, the prohibition is no
+longer a prohibition.
 
-This is also a safety consideration. The Zen whitelist was a dated snapshot of
-8 model ids. Had a new free Zen model appeared in the catalog before the
-whitelist was updated, the interaction between the annotation and the removal
-pass would have to be reasoned about on every catalog refresh. Empty-by-default
-removes that coupling entirely.
+**INVARIANT: if any xAI or Grok entry appears in the model list, the plugin is
+broken.** It is not a preference the operator changed, and not a new upstream
+model. It means the catalog transform threw, the editor API changed shape, or
+this guard was edited. Treat the appearance of a grok or xai entry as a canary
+that the transform is not doing its job.
+
+This is categorically different from the two configurable removals, and the
+distinction is the point:
+
+| | xAI/Grok | `HIDE_PROVIDERS` | `ZEN_WHITELIST` |
+|---|---|---|---|
+| Nature | Invariant | Tidiness preference | Volatile snapshot |
+| Configurable | **Never** | Yes, default empty | Yes, default empty |
+| If it drifts | Something is broken | A choice changed | A stale list |
+| Wrong by default | Unacceptable | Acceptable | Acceptable |
+
+**Both a provider-id block and a model-pattern sweep are required.** A
+provider-only block is not sufficient. As of 2026-09-28 the catalog contains no
+dedicated `xai` provider at all — the xAI models surface on *other* providers,
+as `opencode-go/grok-4.5` and `openrouter/x-ai/grok-4.5`. The pattern sweep runs
+over the whole active model collection regardless of provider, and that is what
+closes the hole. The provider-id list remains as a forward-looking net in case a
+first-party xAI provider is ever added.
+
+### Why the Zen whitelist is configurable but the ban is not
+
+The Zen free set is documented as free *for a limited time* and changes
+underneath any list pinned in source. A hardcoded whitelist is a snapshot that
+goes quietly stale, and a stale whitelist removes models the operator still
+wants — a silent, one-directional failure. The original working copy hardcoded 8
+model ids; here the list is environment-driven and empty by default, so a host
+opts in and can update it without editing this file.
+
+That is the distinction in one line: **a list that changes is configuration; a
+rule that does not is code.**
 
 ## 3. Configuration
 
@@ -82,9 +112,15 @@ All optional. With none set, the plugin annotates and removes nothing.
 | Variable | Purpose | Default |
 |---|---|---|
 | `OPENCODE_FREEMODELS_CATALOG` | Catalog JSON path | `~/.local/share/opencode-docs/free-models.json` |
-| `OPENCODE_FREEMODELS_HIDE_PROVIDERS` | Comma-separated provider ids to remove | empty |
-| `OPENCODE_FREEMODELS_FORBIDDEN_MODELS` | Comma-separated substrings or `/regex/flags` to remove | empty |
+| `OPENCODE_FREEMODELS_HIDE_PROVIDERS` | Comma-separated provider ids to remove for tidiness | empty |
 | `OPENCODE_FREEMODELS_ZEN_WHITELIST` | Comma-separated model ids to keep on `opencode` | empty (keep all) |
+
+**No variable can lift the xAI prohibition.** There is deliberately no
+`OPENCODE_FREEMODELS_FORBIDDEN_*` escape hatch; the guard is code, not
+configuration. Verified: the prohibition blocks 6/6 xAI and Grok model ids and
+mislabels 0/8 unrelated ones with no configuration set, with
+`HIDE_PROVIDERS=xai`, and with `ZEN_WHITELIST=grok-4.5` — an attempt to keep the
+model by whitelist loses to the ban, which is the correct precedence.
 
 ## 4. Expected catalog shape
 
