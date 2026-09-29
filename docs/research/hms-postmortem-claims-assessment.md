@@ -7,7 +7,7 @@ status: Active
 authority: Experimental
 canonical_repository: edases
 depends_on:
-  - "to-file/hms-research-session-postmortem-2026-08-17.md"
+  - "docs/historical/hms-research-session-postmortem-2026-08-17.md"
 consumed_by: []
 related_documents:
   - ".crosslink/knowledge/agent-orchestration-playbook.md"
@@ -23,7 +23,7 @@ last_updated: 2026-09-29
 
 **Date**: 2026-08-18
 **Type**: Research / retrospective assessment
-**Document under assessment**: `to-file/hms-research-session-postmortem-2026-08-17.md` (commits `1db9b493`, `007ca01d`; ASES issue #384; tripn-astro #519)
+**Document under assessment**: `docs/historical/hms-research-session-postmortem-2026-08-17.md` (commits `1db9b493`, `007ca01d`; ASES issue #384; tripn-astro #519)
 **File status**: UNCHANGED — treated as historical evidence. This document is an assessment of its claims, not a revision of it.
 **Related issue**: ASES #385 (this assessment)
 
