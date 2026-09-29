@@ -27,7 +27,7 @@ implemented_by: []
 supersedes: []
 superseded_by: []
 
-last_updated: 2026-09-28
+last_updated: 2026-09-29
 ---
 
 # Architecture Documentation Consolidation Record
@@ -1349,3 +1349,35 @@ Earlier Stage 2 evidence resolves the remaining filing ambiguity:
 Both documents now declare `program: EDASES`, `layer: Research`, `document_type: Research Record`, `status: Active`, `authority: Experimental`, and the required relationship fields. The `Active` lifecycle reflects their already-recorded treatment as maintained Research records; `Experimental` authority prevents either retrospective analysis from becoming project policy by implication.
 
 No body text was changed.
+
+
+### Stage 3.2 checkpoint 14 — established-document lifecycle and relationship repair
+
+**Status: completed across two bounded write batches after tool-budget recovery.**
+
+This checkpoint repairs already-classified documents only; it does not force semantic classifications onto the remaining unresolved guides/specifications.
+
+Completed before the interrupted turn:
+
+- `Core System Prompt v1` — lifecycle corrected from `Active` to `Deprecated`, with `superseded_by: Core System Prompt v2`, following the existing v2 declaration and the 2026-08-10 commit that explicitly states “v2 supersedes v1.”
+- `Core System Prompt v2` — current-schema relationship fields completed.
+- `observer-conformance-suite.md` — `implemented_by: []` added and authority reduced from `Derived` to `Experimental`, matching the now-explicitly Experimental Universal Checklist provenance state.
+- `AI Orchestration Guide.md` — current-schema relationship fields completed.
+
+Completed in this bounded continuation:
+
+- `ASES Bounded Project Build Method.md` — explicit empty implementation/replacement relationships added.
+- `Clean Room Execution Guide.md` — explicit empty implementation/replacement relationships added.
+- `SESSION-END.md` — explicit empty implementation/replacement relationships added.
+- `Execution Engine Vision.md` — missing `consumed_by`, implementation, and replacement relationship fields added.
+
+All four continuation edits are schema/lifecycle metadata repairs only. No substantive methodology, architecture, session, or execution-engine claims were changed.
+
+Still intentionally deferred for semantic/currentness review:
+
+- `docs/ORCHESTRATOR.md`
+- `docs/crosslink-adversarial-review.md`
+- `specifications/Hospitality Management Suite Specification.md`
+- `docs/roles/Ontology-Reviewer.md`
+
+Operational pacing note: the previous attempt demonstrated that file count alone is not a sufficient safety bound. Future reconciliation turns use both limits: 65 files maximum, with roughly 8–12 underlying tool calls as the normal target and 15 as the hard ceiling.
