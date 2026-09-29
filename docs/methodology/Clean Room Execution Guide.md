@@ -17,8 +17,11 @@ consumed_by:
 related_documents:
   - AI Capability Registry
 
+implements: []
+implemented_by: []
 supersedes: []
-last_updated: 2026-08-10
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # Clean Room Execution Guide
