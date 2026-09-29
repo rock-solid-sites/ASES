@@ -9,7 +9,7 @@ canonical_repository: edases
 crosslink_issue: 523
 
 depends_on:
-  - to-file/ASES Universal Conformance Checklist.md (experimental draft; provenance gap recorded 2026-09-29)
+  - docs/methodology/ASES Universal Conformance Checklist.md (experimental draft; provenance gap recorded 2026-09-29)
   - .design/observer-swarm-v1.1-resilience.md @3fc3c60a (Appendix A is the surviving VSDD-lite adoption contract)
   - .crosslink/knowledge/agent-orchestration-playbook.md (§5.4, §5.8, §5.8.1)
   - server-memory-management knowledge page (2026-08-25 revision)

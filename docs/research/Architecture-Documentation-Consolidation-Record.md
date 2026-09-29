@@ -1255,3 +1255,26 @@ Actions:
 3. The suite continues to depend directly on the Universal Checklist, but now records its experimental/provenance-gap status rather than silently treating the checklist as fully traceable VSDD authority.
 
 This resolves the broken live retrieval chain while preserving the unresolved historical fact: the original full VSDD/adaptation-profile source text has not been recovered. No source was reconstructed from secondary evidence.
+
+
+### Stage 3.2 checkpoint 9 — Universal Checklist filing
+
+**Status: completed.**
+
+After checkpoint 8 repaired the broken VSDD dependency chain, the Checklist's filing question could be decided independently.
+
+Evidence:
+
+- the document declares `layer: Methodology`;
+- `to-file/` is a staging location, not a canonical layer home;
+- the only confirmed live path consumer is `specifications/observer-conformance-suite.md`;
+- the raw adversarial review names the Checklist semantically but does not depend on its path;
+- the Checklist remains `status: Draft`, `authority: Experimental` because its original VSDD derivation source has not been recovered.
+
+Action:
+
+- moved `to-file/ASES Universal Conformance Checklist.md` to `docs/methodology/ASES Universal Conformance Checklist.md` without changing its body or repaired metadata;
+- updated the Observer Conformance Suite to the new path;
+- retained the explicit provenance warning rather than promoting the Checklist to Derived/Canonical authority.
+
+This resolves the staging-path hazard without changing the document's evidentiary status.
