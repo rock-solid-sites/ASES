@@ -115,9 +115,11 @@ For one **chosen additive cost dimension**, let:
 
 - N be requests; H be hits that are actually applicable and accepted; R be direct recomputation cost;
 - L and V be average lookup and applicability/check cost per request, including misses as appropriate;
-- B be initial materialization/index setup; U and m be updates and average maintenance per update;
+- B be extra materialization/index setup, excluding f executions already counted as misses; U and m be updates and average maintenance per update;
 - S(T) be retained storage/resource cost; F and r be failures and average repair/recovery cost;
 - O be extra observation, coordination, engineering and review cost charged to this mechanism in the horizon.
+
+Common authoritative retention and admission costs cancel only when identical in both arms. R includes the direct path's necessary production/checking cost; L/V and lifecycle terms represent additional reuse-path costs. If persistence pins otherwise disposable inputs or changes admission/observation work, those differences must be added.
 
 Use the deliberately simple homogeneous comparator:
 
@@ -296,7 +298,7 @@ This does not require a new central retention service. A bounded local cache wit
 
 **Recovery amplification is another missing family.** Optional caches can all fail together. One slow-path recomputation may be affordable; thousands after a restart may overload the same store and cause retries, duplicate work and yet more load. Durable materialization, request coalescing, throttled rebuild, locality and selective warming compete with rebuilding everything. Coalescing must not cross authority scopes or merge independent required judgments.
 
-The toy cold-recovery workload assumes 100 mandatory outputs, a work floor of 10 each and capacity 8; it requires at least 125 time units, exceeding an invented deadline of 50. This is a conditional boundary example, **not** an accepted EDASES deadline or a demonstrated algorithmic lower bound. Under a genuine mandatory bound it would open B03 below; otherwise it is an operational trade. A retained value, resource reservation or narrower requirement might suffice; a persistent Processor does not follow.
+The toy cold-recovery workload assumes 100 disjoint mandatory jobs with no shared computation, an assumed work floor of 10 each and capacity 8; it requires at least 125 time units, exceeding an invented deadline of 50. This is a conditional boundary example, **not** an accepted EDASES deadline or a demonstrated algorithmic lower bound. Under a genuine mandatory bound it would open B03 below; otherwise it is an operational trade. A retained value, resource reservation or narrower requirement might suffice; a persistent Processor does not follow.
 
 Finally, telemetry is itself retained derived state. Count collection, indexing, transmission and interpretation. Bounded counters and sampled traces may answer economic questions; sampling can miss rare failures and tails. Measurements used for billing or enforceable quotas are no longer merely disposable economic dashboards if their loss changes a required guarantee.
 

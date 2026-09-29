@@ -108,7 +108,7 @@ Reuse is cheaper only when:
 H R > N(L + V) + B + U m + S(T) + F r + O
 ```
 
-N counts requests; H counts truly applicable accepted hits; R is recomputation; L/V are average lookup and applicability/check cost per request; B is setup; U m is update maintenance; S(T) is retention over the horizon; F r is failure repair; O is added observation, coordination, engineering and review. Heterogeneous or shared work needs explicit per-request/shared accounting rather than this simple formula. See F03 for derivation and limits.
+N counts requests; H counts truly applicable accepted hits; R is recomputation; L/V are average lookup and applicability/check cost per request; B is extra setup without double-counting miss execution; U m is update maintenance; S(T) is retention over the horizon; F r is failure repair; O is added observation, coordination, engineering and review. Common costs cancel only when identical in both arms. Heterogeneous or shared work needs explicit per-request/shared accounting rather than this simple formula. See F03 for derivation and limits.
 
 An executed illustrative model with the same 80% hit rate makes reuse either cheaper (570 versus 1000) or more expensive (1270 versus 1000) solely by changing validation cost. These are invented cost units. **No EDASES performance benefit is claimed.**
 

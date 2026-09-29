@@ -68,7 +68,7 @@ def main():
     }
     # A hypothetical work floor, not a measured or proven EDASES computation lower bound.
     out['cold_recovery'] = {
-        'assumptions': '100 required outputs; >=10 work units each; capacity=8 work units/time',
+        'assumptions': '100 disjoint required jobs; >=10 work units each; capacity=8 work units/time',
         'aggregate_time_lower_bound_given_assumptions': 100 * 10 / 8,
         'equal_job_batch_schedule_time': math.ceil(100 / 8) * 10,
         'hypothetical_deadline': 50,
