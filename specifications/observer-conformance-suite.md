@@ -4,7 +4,7 @@ program: EDASES
 layer: Implementation
 document_type: Conformance Suite
 status: Draft
-authority: Derived
+authority: Experimental
 canonical_repository: edases
 crosslink_issue: 523
 
@@ -30,6 +30,7 @@ related_documents:
 
 implements:
   - ASES Universal Conformance Checklist instantiation (§§1–36)
+implemented_by: []
 
 supersedes: []
 superseded_by: []
