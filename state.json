@@ -1,6 +1,6 @@
 {
   "next_display_id": 575,
-  "next_comment_id": 4038,
+  "next_comment_id": 4039,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17955,11 +17955,20 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-09-29T13:11:23.137660769Z",
+      "updated_at": "2026-09-29T13:11:36.705675982Z",
       "labels": [
         "research"
       ],
       "comments": {
+        "b73c6f3f-5ed9-4112-a308-7eeba0ff72e3": {
+          "display_id": 4038,
+          "author": "pp3g-x4Ua-exp7-bounded-recon-read-only-zero-api-calls-verify",
+          "content": "Plan: Exp7 bounded recon (read-only, zero API calls).\n\n## Scope\nVerify the 24 frozen Experiment-6 U/A pairs reconstruct identically from the frozen packet `research/jev-bounded-judgment/phase2/experiment6/packet.json` (sha256 1310c3d3c89c207086402f3752b4ff7d4e7cb3984486815dc10b12e62f2e46c1, 2629089 bytes, blob e180dde8). Output: `experiment7/REUSE-CHECK.md` + `experiment7/reuse_check.json`. Nothing under `experiment6/` is modified.\n\n## Environment note (discovered, not a blocker)\nThis worktree is on `feature/research/jev-phase1-565` @ 719223195 (= main HEAD). The phase2 tree (incl. experiment6/packet.json and experiment7/BASELINE.md, PRIMATIVES.md) exists only on branch `research/jev-phase1-565` @ 8e589035a, which is checked out in a different worktree (.worktrees/jev-phase1). Inputs are therefore read via `git show research/jev-phase1-565:<path>` (read-only, blob-identical). Deliverables are written to the same relative paths in this worktree and committed on `feature/research/jev-phase1-565` as instructed; merging into `research/jev-phase1-565` is operator-gated and is reported, not performed.\n\n## Method (deterministic, stdlib only, no network)\n1. Load packet.json read-only. Assert top-level counts (48 cases / 24 pairs / per_class 8-8-8 / threshold 0.05 / api_calls_spent 0).\n2. Group 48 rows by pair_id; assert exactly 24 groups, each with exactly one variant=U and one variant=A; no duplicate or unpaired rows.\n3. Per pair: assert `question` byte-identical across U/A; assert `options` list-of-strings byte-identical across U (and against `request.questions.q.criteria` / instruction clause).\n4. Per pair: diff `request.state` U vs A line-by-line; assert the ONLY differing lines are (a) the `# meta variant: …` line and (b) lines inside the runtime-facts decisive-fact section. Characterize the byte-diff exactly: which line numbers, which line kinds, byte counts, and that all non-listed lines are identical.\n5. Strata: group by ctype, assert 8/8/8, list pair_ids per stratum.\n6. Identify the 4 attribute-receiver dispatch pairs and 2 calendar P2b over-approximation pairs by pair_id from the packet's own recorded carried-limitation metadata; cross-check against module==calendar and ctype==polymorphic_dispatch. Report carried-limitation status.\n7. Emit per-pair: pair_id, ctype, module, subject, state_sha256-U, state_sha256-A, question-hash (sha256 of the exact question string), plus derived verdicts.\n\n## Outputs\n- `research/jev-bounded-judgment/phase2/experiment7/REUSE-CHECK.md` — human-readable, per-pair table, byte-diff characterization, strata, carried limitations, explicit verdict.\n- `research/jev-bounded-judgment/phase2/experiment7/reuse_check.json` — machine-readable mirror of every computed fact.\n\n## Constraints honoured\nZERO network calls (no Jev / systemone / chat calls). Read-only w.r.t. experiment6/. No Noul wording designed. No other file modified. No exp3 or .crosslink dirty paths touched. Commit ONLY the two output paths on #574. ON A NO VERDICT: stop without fixing anything and report the concrete mismatch evidence.\n\n## Certainty\nPlan is evidence-based (packet structure inspected read-only). NOT-TESTED: semantic adequacy of the Exp6 case design for a Noul proposition — explicitly out of scope for this recon.",
+          "created_at": "2026-09-29T13:11:36.699278307Z",
+          "kind": "plan",
+          "signed_by": "SHA256:yKLDLFSO/pSR+mUf0vz7Ro5kkTtKTRZoMsT2cyzpyOs",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgyKwOhNCzKi0xKdfKxEQtuIOgU/5qwBAm1iZhrwjAdzwAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAQAL3JFVeHdOGPjmADF1GXKlQgfOXmGsWmiiHBVhvDrnEDRbC5OMHn3efSxNkdX+Fwh7n+5an9qhmA5qzWCEkDw=="
+        },
         "fd0b7068-0920-4548-b855-ef86cf054837": {
           "display_id": 4037,
           "author": "OL2r",
@@ -46740,8 +46749,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-29T13:11:23.137660769Z",
-    "agent_id": "OL2r",
-    "agent_seq": 3610
+    "timestamp": "2026-09-29T13:11:36.705675982Z",
+    "agent_id": "pp3g-x4Ua-exp7-bounded-recon-read-only-zero-api-calls-verify",
+    "agent_seq": 4
   }
 }
