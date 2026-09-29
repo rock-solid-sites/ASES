@@ -2,9 +2,10 @@
 title: "Source 5 — arXiv 2607.28802: Model or Harness? An Interaction-Centric Taxonomy for Localizing Agent Failures"
 program: EDASES
 layer: Research
-document_type: Source Section
+document_type: Research Record
 status: Draft
-authority: Derived
+authority: Experimental
+canonical_repository: edases
 source_url: "https://arxiv.org/abs/2607.28802"
 source_version: "v1 (2026-07-30)"
 html_url: "https://arxiv.org/html/2607.28802v1"
@@ -23,6 +24,18 @@ not_fetched:
   - "Linked datasets/traces beyond what the HTML embeds (e.g., HuggingFace/Docent trajectories — referenced but not independently fetched)"
 worktree: "feature/pp3g-TF9r-atomized-source-worker-5-of-5-v2-429-cli-fetch-method"
 atomized_scope: "This file covers ONLY arXiv 2607.28802 per #429 CLI-fetch assignment. No synthesis across sibling sources (MAST/AdaMAST/ATLAS/2607.16387) — collator owns cross-walk."
+depends_on: []
+consumed_by: []
+related_documents:
+  - "docs/research/sections/source-1-mast.md"
+  - "docs/research/sections/source-2-adamast.md"
+  - "docs/research/sections/source-3-atlas.md"
+  - "docs/research/sections/source-4-paper-16387.md"
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # Source 5 — arXiv 2607.28802: Interaction-Centric Taxonomy for Localizing Agent Failures

@@ -1,10 +1,28 @@
 ---
 title: "Source 3 — ATLAS / AdaMAST Repository (CLI Fetch)"
+program: EDASES
+layer: Research
+document_type: Research Record
+status: Draft
+authority: Experimental
+canonical_repository: edases
 source: "https://github.com/multi-agent-systems-failure-taxonomy/ATLAS"
 fetch_method: "CLI — git clone --depth 1 https://github.com/multi-agent-systems-failure-taxonomy/ATLAS.git /tmp/opencode/src3/atlas"
 fetched: "2026-08-24"
 commit: "546687a (ATLAS: Point readers to AdaMAST docs and paper) — shallow clone depth 1, single commit visible locally"
 local_path: "/tmp/opencode/src3/atlas"
+depends_on: []
+consumed_by: []
+related_documents:
+  - "docs/research/sections/source-1-mast.md"
+  - "docs/research/sections/source-2-adamast.md"
+  - "docs/research/sections/source-4-paper-16387.md"
+  - "docs/research/sections/source-5-paper-28802.md"
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # Source 3 — ATLAS Repository: AdaMAST Adaptive Taxonomy System

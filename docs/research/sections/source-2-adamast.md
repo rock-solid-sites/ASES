@@ -12,13 +12,17 @@ fetched_at: "2026-08-24 00:48 UTC"
 clone_commit: "shallow clone depth 1; .git/HEAD detached, pyproject version 0.2.2.1, README tagline 'Learn how your AI agents fail, from their own recorded work.'"
 local_path: "/tmp/opencode/src2/adamast"
 depends_on: []
+consumed_by: []
 related_documents:
   - "docs/research/sections/source-1-mast.md"
   - "docs/research/sections/source-3-atlas.md"
+  - "docs/research/sections/source-4-paper-16387.md"
+  - "docs/research/sections/source-5-paper-28802.md"
 implements: []
 implemented_by: []
 supersedes: []
-last_updated: 2026-08-24
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # Source 2 — AdaMAST

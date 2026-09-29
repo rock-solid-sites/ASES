@@ -1316,3 +1316,22 @@ Action:
 - updated the Checklist's related-document pointer to the historical review path.
 
 The review remains evidence about the reviewed 2026-08/09 checklist state. Filing it historically does not convert its reviewer conclusions into current project authority.
+
+
+### Stage 3.2 checkpoint 12 — #429 atomized source-record schema
+
+**Status: family normalized from primary purpose and commit provenance.**
+
+All five files in `docs/research/sections/source-*` are one-shot atomized source-worker outputs from Crosslink issue #429. Their commits consistently describe them as `docs(research)` atomized source records covering one external repository or paper each.
+
+The Documentation Taxonomy defines **Research Records** as evidence-driven, traceable documents that preserve observations, experiments, and findings and feed methodology development. That is the direct role of this family. The prior `Report` and `Source Section` labels did not encode a different project role, and `Derived` on source 5 was inconsistent with the Standard's meaning of Derived documentation as explanatory/summarizing project canonical knowledge.
+
+Decision:
+
+- all five are `program: EDASES`, `layer: Research`, `document_type: Research Record`, `authority: Experimental`, `canonical_repository: edases`;
+- source 3 receives the missing project identity fields rather than copying an arbitrary sibling shape;
+- existing lifecycle status is preserved where already stated: source 4 remains `Active`; sources 1, 2, and 5 remain `Draft`; source 3 is recorded `Draft` because its original record had no lifecycle claim and no later validation/promotion evidence was found;
+- required relationship fields are made explicit; the five atomized records are cross-linked as one cohort;
+- source-specific provenance/fetch metadata is preserved.
+
+No body claims or source evidence were changed.

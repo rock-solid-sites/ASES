@@ -2,17 +2,25 @@
 title: "Source 4 — Fantastic Adaptive Taxonomies and How to Use Them (arXiv 2607.16387)"
 program: EDASES
 layer: Research
-document_type: Report
+document_type: Research Record
 status: Active
 authority: Experimental
 canonical_repository: edases
+depends_on: []
+consumed_by: []
 related_documents:
   - "Issue #429 — MAST + AdaMAST + ATLAS repos and two arXiv papers comparison"
-  - "Source 1 — MAST (this worktree sibling file, not reused here)"
+  - "docs/research/sections/source-1-mast.md"
+  - "docs/research/sections/source-2-adamast.md"
+  - "docs/research/sections/source-3-atlas.md"
+  - "docs/research/sections/source-5-paper-28802.md"
   - "docs/research/Workflow Topology Design and Reasoning Record.md"
   - "docs/ORCHESTRATOR.md"
+implements: []
+implemented_by: []
 supersedes: []
-last_updated: 2026-08-24
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # Source 4 — Fantastic Adaptive Taxonomies and How to Use Them (arXiv 2607.16387)

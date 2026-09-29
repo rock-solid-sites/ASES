@@ -8,13 +8,17 @@ authority: Experimental
 canonical_repository: edases
 depends_on:
   - "Cemri et al., Why Do Multi-Agent LLM Systems Fail? arXiv:2503.13657"
+consumed_by: []
 related_documents:
   - "docs/research/sections/source-2-adamast.md"
   - "docs/research/sections/source-3-atlas.md"
+  - "docs/research/sections/source-4-paper-16387.md"
+  - "docs/research/sections/source-5-paper-28802.md"
 implements: []
 implemented_by: []
 supersedes: []
-last_updated: 2026-08-24
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # Source 1 — MAST: Multi-Agent Systems Failure Taxonomy
