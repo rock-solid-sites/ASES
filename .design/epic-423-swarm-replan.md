@@ -4,12 +4,25 @@ program: EDASES
 layer: Implementation
 document_type: Design
 status: Proposed
-authority: Derived
+authority: Experimental
 parent_epic: "#423"
-consumed_by: none (context document; executable companion: .design/epic-423-swarm-plan.md)
+canonical_repository: edases
+depends_on: []
+consumed_by:
+  - .design/epic-423-swarm-plan.md
+related_documents:
+  - docs/research/Architecture-Documentation-Consolidation-Record.md
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # Purpose
+
+> **Reconciliation note (2026-09-29):** This remains proposed context for EPIC #423. No authoritative closure state is available in the repository evidence used here; its runtime/fork assumptions must be revalidated before reuse.
+
 
 Execute EPIC #423 remainder as a gated swarm. Ordering principle established by
 operator 2026-08-23: documentation-integrity infrastructure precedes all phases,
