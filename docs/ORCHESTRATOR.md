@@ -1,3 +1,27 @@
+---
+title: Orchestrator Contract
+program: EDASES
+layer: Implementation
+document_type: Operational Contract
+status: Active
+authority: Canonical
+canonical_repository: edases
+depends_on:
+  - AGENTS.md
+  - .crosslink/knowledge/agent-orchestration-playbook.md
+  - docs/research/Workflow Topology Design and Reasoning Record.md
+consumed_by:
+  - EDASES orchestrator sessions
+related_documents:
+  - .opencode/permissions.md
+  - .crosslink/hook-config.json
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
+---
+
 # ORCHESTRATOR.md
 
 # Orchestrator Contract
