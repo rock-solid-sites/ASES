@@ -17,9 +17,12 @@ consumed_by:
 related_documents:
   - AI Orchestration Guide
 
+implements: []
+implemented_by: []
 supersedes:
   - Core System Prompt v1
-last_updated: 2026-08-10
+superseded_by: []
+last_updated: 2026-09-29
 ---
 
 # EDASES Core System Prompt v2
