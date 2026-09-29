@@ -3,7 +3,7 @@ title: "EDASES Core System Prompt v1"
 program: EDASES
 layer: Methodology
 document_type: Methodology Specification
-status: Active
+status: Deprecated
 authority: Canonical
 canonical_repository: edases
 
@@ -17,8 +17,12 @@ consumed_by:
 related_documents:
   - AI Orchestration Guide
 
+implements: []
+implemented_by: []
 supersedes: []
-last_updated: 2026-08-10
+superseded_by:
+  - Core System Prompt v2
+last_updated: 2026-09-29
 ---
 
 # EDASES Core System Prompt v1
