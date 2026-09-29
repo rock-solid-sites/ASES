@@ -1234,3 +1234,24 @@ The remaining metadata problem is no longer primarily bulk schema normalization.
 5. semantically classify the HMS postmortem assessment and old Git Notes research record.
 
 The Canonical standards family has already been repaired in commit `6b6ca2fb21ec93a09834a0d49ac1c8c36c96562b`.
+
+
+### Stage 3.2 checkpoint 8 — VSDD dependency recovery
+
+**Status: live dependency defect repaired without inventing missing sources.**
+
+Primary-source findings:
+
+- Git path history for `to-file/VSDD.md` and `to-file/VSDD Adaptation Profile.md` is empty. The missing methodology inputs were referenced from working documents but were never committed.
+- `to-file/ASES Universal Conformance Checklist.md` first entered Git in commit `d0f3db2e3cd06a1a4569edbb8d4d6f28d12a1d35` (2026-09-01), bundled with the raw adversarial review. Its original metadata nevertheless dates the document 2026-08-29 and claims derivation from the missing VSDD sources.
+- `specifications/observer-conformance-suite.md` was committed earlier, in `6b352441e85c8b1b31ca20f5ca154de7c7a3ced0` (2026-08-30), and directly references both missing drafts.
+- The surviving Observer design, `.design/observer-swarm-v1.1-resilience.md`, contains Appendix A, **VSDD-lite: Verified Spec-Driven Development, Lite Adoption**, and explicitly states that the design consolidates the VSDD-lite calibration and that downstream consumers should read this design rather than the `to-file` drafts in isolation.
+- `findings/vsdd-archaeology-report.md` and `findings/vsdd-73921ac-surgical-read.md` concern an external VSDD codebase/fork baseline. They provide context but are not authoritative replacements for the missing methodology documents.
+
+Actions:
+
+1. The Universal Checklist remains a useful live input, but its authority is changed from `Derived` to `Experimental` while the claimed derivation source is unavailable. The broken `depends_on` entries are removed and the provenance gap is recorded explicitly in the document. Surviving VSDD/Observer evidence is listed only as related context, not substituted as an invented upstream authority.
+2. The Observer Conformance Suite retires the two missing VSDD draft dependencies and relies on the surviving Observer design Appendix A for the VSDD-lite adoption contract, exactly as the design instructs downstream consumers to do.
+3. The suite continues to depend directly on the Universal Checklist, but now records its experimental/provenance-gap status rather than silently treating the checklist as fully traceable VSDD authority.
+
+This resolves the broken live retrieval chain while preserving the unresolved historical fact: the original full VSDD/adaptation-profile source text has not been recovered. No source was reconstructed from secondary evidence.
