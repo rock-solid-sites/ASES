@@ -1,4 +1,27 @@
+---
+title: EPIC 423 Swarm Plan
+program: EDASES
+layer: Implementation
+document_type: Execution Plan
+status: Proposed
+authority: Experimental
+canonical_repository: edases
+parent_epic: "#423"
+depends_on:
+  - .design/epic-423-swarm-replan.md
+consumed_by: []
+related_documents:
+  - docs/research/Architecture-Documentation-Consolidation-Record.md
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-09-29
+---
+
 # EPIC 423 Swarm Plan
+
+> **Reconciliation note (2026-09-29):** This remains a proposed, non-authoritative execution plan. The repository evidence available during reconciliation does not establish EPIC #423 closure, so the plan is neither promoted nor archived. Revalidate its S1/S2/S3 assumptions before execution.
 
 Coordination layer drives fork CLI (S2) today and must be verified against OpenCode 2 beta (S1) before any retirement decision. Context document: .design/epic-423-swarm-replan.md
 
