@@ -1,6 +1,6 @@
 {
   "next_display_id": 575,
-  "next_comment_id": 4095,
+  "next_comment_id": 4096,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17955,7 +17955,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-09-30T15:46:32.537919570Z",
+      "updated_at": "2026-09-30T16:13:07.519712807Z",
       "labels": [
         "research"
       ],
@@ -18169,6 +18169,15 @@
           "kind": "observation",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAaaj14kvjoqr5Gwpa6QeKgsEiiWx9PNaUT86J2l1vUQkMNf1NuNIYBWxU6rpVug3HiQXazKlxZEG8BDI0UJpwBQ=="
+        },
+        "4bf154e1-82df-4373-adf3-7c2ea9bbe318": {
+          "display_id": 4095,
+          "author": "pp3g-w5ZA-experiment-7-stage-7a-ii-independent-clean-room-3ac3",
+          "content": "Plan: Independent clean-room Noul discrimination reconstruction (7A-ii, part 2 of 3). Write stage7/derive_7a_ii_noul_discrimination.py deriving EVERY number directly from the 48 raw rows of results/exec.jsonl + packet.json, extracted from the git object store at pinned branch research/jev-phase1-565 (same clean-room contract as 7A-i; blob SHA-1s/SHA-256s recorded). Deliverables: (1) explicit orientation (A = positive class on p_suff; high p_suff = sufficient) and AUC convention with 0.5-credit tie handling; (2) pooled AUC over all 24 pairs; (3) per-stratum AUC x3; (4) inverted-orientation AUC + numeric proof it equals 1 - pooled; (5) Mann-Whitney rank-sum cross-check with midrank tie handling, exact-agreement report; (6) A/U medians (mean-of-two-middle convention declared in 7A-i) overall and per stratum + min/max/p25/p75/p90 (linear-interpolation percentile convention, declared); (7) distribution overlap: min(A)-max(U) margin, count A>=max(U), count U<=min(A), touch/overlap vs perfect separation; (8) cross-class baseline variation: range of per-stratum medians within A and within U, per-stratum A-minus-U median shift. Integrity checks carried over from 7A-i (48 rows, 24 pairs 1U+1A, packet cross-match on state/request sha, qid, model, parsed noul, U!=A state) plus DESIGN-G orientation hand-fixtures (incl. inverted-AUC rejection and tie fixture). Outputs: 7A-ii-noul-discrimination.json + 7A-ii-NOUL-DISCRIMINATION.md. Numbers only: no hypothesis interpretation, no Noul threshold, no accuracy/false-unknown figures, no Experiment 6. Commit only the three stage7 paths.",
+          "created_at": "2026-09-30T16:13:07.507407137Z",
+          "kind": "plan",
+          "signed_by": "SHA256:db1HUHgW732vg0k2Y04KXHmKP5fQ7Ri5wLrh4/pMyL8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgc/EjqWXXRLV16SLMMqalxjz8Lw52U2YT+grOAt7eQDIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAowXGrC9b3WFWVctS8Yw/hpf1YH9FCSa4ryOHusiLbQ5MckQxADeDuYnkqRylnLcNE8SfiSh5EzO/cjmS4643DA=="
         },
         "57e0941b-8dc6-41e8-86e7-6a1457b94053": {
           "display_id": 4072,
@@ -47256,8 +47265,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-30T16:01:42.019358582Z",
+    "timestamp": "2026-09-30T16:13:07.519712807Z",
     "agent_id": "pp3g-w5ZA-experiment-7-stage-7a-ii-independent-clean-room-3ac3",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
