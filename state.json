@@ -1,6 +1,6 @@
 {
   "next_display_id": 575,
-  "next_comment_id": 4097,
+  "next_comment_id": 4098,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17955,7 +17955,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-09-30T16:13:27.423213955Z",
+      "updated_at": "2026-09-30T16:24:10.059103579Z",
       "labels": [
         "research"
       ],
@@ -18196,6 +18196,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:2tAOcFujJk9CXAmtLr8QZ9F3jXP6zpK5NBzv+t6L0E4",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgXTjKghXflYWUBWD+Y27V0O/kb1JjXAOSu8b7cvZZbB8AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbeHcbpMy6UxaThHagks1jp1h62watkckYdLFS9xMFju/hNi0nnj6GILNPPraZSN9a4dp+wQ7AZYqP63FRLEnDg=="
+        },
+        "5ff0c74c-ea88-4242-a063-c25fd87edf6f": {
+          "display_id": 4097,
+          "author": "pp3g-w5ZA-experiment-7-stage-7a-ii-independent-clean-room-3ac3",
+          "content": "Result: 7A-ii Noul discrimination clean-room reconstruction complete (part 2 of 3). Committed bdbd476ec with exactly three paths: stage7/derive_7a_ii_noul_discrimination.py, stage7/7A-ii-NOUL-DISCRIMINATION.md, stage7/7A-ii-noul-discrimination.json. All numbers derived directly from the 48 raw rows of results/exec.jsonl + packet.json (git object store, pinned branch research/jev-phase1-565; blob SHA-1s/SHA-256s recorded in the JSON). Key derived numbers: (1) orientation A=positive on p_suff, high=sufficient; AUC=(concordant+0.5*tied)/(n_A*n_U), ties 0.5 credit; (2) pooled AUC 505/576=0.876736 (504 concordant, 2 tied, 70 discordant of 576); (3) per-stratum AUC: polymorphic_dispatch 31/32=0.96875, runtime_conditioned_reachability 1.0, runtime_target_selection 1.0; (4) inverted-orientation AUC 71/576=0.123264, verified exactly equal to 1-pooled; (5) Mann-Whitney rank-sum cross-check with midranks (37 distinct pooled values, 10 true-tie groups listed) agrees exactly with the pairwise method; (6) medians (mean-of-two-middle): A overall 0.755, U overall 0.29; per stratum A/U: 0.855/0.545, 0.38/0.155, 0.76/0.29; min/max/p25/p75/p90 per class and stratum reported (linear-interpolation type-7 percentiles); (7) overlap: overall margin min(A)-max(U)=-0.44 (overlap; 13 A>=max(U), 13 U<=min(A)); polymorphic_dispatch margin -0.02 (overlap; 7/6); runtime_conditioned_reachability +0.11 and runtime_target_selection +0.33 (both perfectly separated); (8) baseline variation: per-stratum median range 0.475 within A, 0.39 within U; per-stratum A-minus-U median shifts +0.31, +0.225, +0.47. Integrity: all checks PASS (48 rows, 24 pairs 1U+1A, packet cross-match, qid, model, transport hygiene, U!=A state, 8/8/8 strata); DESIGN-G fixtures (orientation, inverted-AUC rejection, tie handling) all PASS; every number independently re-verified by a separate brute-force code path. Numbers only: no hypothesis interpretation, no Noul threshold, no accuracy/false-unknown figures, nothing from Experiment 6.",
+          "created_at": "2026-09-30T16:24:10.051248855Z",
+          "kind": "result",
+          "signed_by": "SHA256:db1HUHgW732vg0k2Y04KXHmKP5fQ7Ri5wLrh4/pMyL8",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgc/EjqWXXRLV16SLMMqalxjz8Lw52U2YT+grOAt7eQDIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAZqxXE/r1Uc9LtCef5LqNnt9y4MfXvRvqCvVE0vGR4i4qIupYLAIRzbkviecmRC41rZPRSpwOJt435fPU35+BAg=="
         },
         "694f9e79-bf45-426a-b5f9-798274413fbf": {
           "display_id": 4047,
@@ -47274,8 +47283,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-09-30T16:13:27.423213955Z",
+    "timestamp": "2026-09-30T16:24:10.059103579Z",
     "agent_id": "pp3g-w5ZA-experiment-7-stage-7a-ii-independent-clean-room-3ac3",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
