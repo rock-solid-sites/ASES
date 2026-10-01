@@ -1,0 +1,1 @@
+read_verilog /tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v /tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v; chparam -set COUPLED 0 -set EXCLUSIVE 0 boundary_formal; hierarchy -top boundary_formal; proc; flatten; memory; opt; sat -seq 2 -prove-skip 1 -set-def-inputs -set-init-def -prove ok 1 -verify

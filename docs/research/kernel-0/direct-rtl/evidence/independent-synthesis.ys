@@ -1,0 +1,1 @@
+read_verilog /tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v; chparam -set COUPLED 0 -set EXCLUSIVE 0 kernel0_machine; synth -top kernel0_machine -flatten -noabc; abc -exe /tmp/kernel0-rtl-tools/root/usr/bin/berkeley-abc -g simple; clean; check -assert; stat; ltp -noff; write_json /tmp/kernel0-rtl-build/independent-machine.json

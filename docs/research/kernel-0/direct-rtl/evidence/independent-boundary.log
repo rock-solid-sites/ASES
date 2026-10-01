@@ -1,0 +1,2853 @@
+
+-- Executing script file `/tmp/kernel0-rtl-build/independent-boundary.ys' --
+
+1. Executing Verilog-2005 frontend: /tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v
+Parsing Verilog input from `/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v' to AST representation.
+Generating RTLIL representation for module `\kernel0_step'.
+Generating RTLIL representation for module `\kernel0_machine'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: /tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v
+Parsing Verilog input from `/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v' to AST representation.
+Generating RTLIL representation for module `\boundary_formal'.
+Successfully finished Verilog frontend.
+
+3. Executing AST frontend in derive mode using pre-parsed AST for module `\boundary_formal'.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+Generating RTLIL representation for module `$paramod\boundary_formal\COUPLED=0\EXCLUSIVE=0'.
+
+4. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1. Analyzing design hierarchy..
+Top module:  \boundary_formal
+Used module:     \kernel0_machine
+Used module:         \kernel0_step
+
+4.2. Executing AST frontend in derive mode using pre-parsed AST for module `\kernel0_step'.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+Generating RTLIL representation for module `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0'.
+
+4.3. Executing AST frontend in derive mode using pre-parsed AST for module `\kernel0_machine'.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+Generating RTLIL representation for module `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0'.
+
+4.4. Executing AST frontend in derive mode using pre-parsed AST for module `\kernel0_step'.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+Found cached RTLIL representation for module `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0'.
+
+4.5. Analyzing design hierarchy..
+Top module:  \boundary_formal
+Used module:     $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0
+Used module:         \kernel0_step
+Used module:     $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0
+
+4.6. Executing AST frontend in derive mode using pre-parsed AST for module `\kernel0_step'.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+Found cached RTLIL representation for module `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0'.
+
+4.7. Analyzing design hierarchy..
+Top module:  \boundary_formal
+Used module:     $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0
+Used module:         $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0
+
+4.8. Analyzing design hierarchy..
+Top module:  \boundary_formal
+Used module:     $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0
+Used module:         $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0
+Removing unused module `\kernel0_machine'.
+Removing unused module `\kernel0_step'.
+Removed 2 unused modules.
+
+5. Executing PROC pass (convert processes to netlists).
+
+5.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731 in module $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.
+Marked 48 switch rules as full_case in process $proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390 in module $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.
+Removed a total of 0 dead cases.
+
+5.3. Executing PROC_INIT pass (extract init attributes).
+
+5.4. Executing PROC_ARST pass (detect async resets in processes).
+
+5.5. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+     1/3: $0\expected_committed[0:0]
+     2/3: $0\expected_resolved[0:0]
+     3/3: $0\expected_state[21:0]
+Creating decoders for process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+     1/3: $0\state[21:0]
+     2/3: $0\committed[0:0]
+     3/3: $0\resolved[0:0]
+Creating decoders for process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+     1/276: $9$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$728
+     2/276: $8$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$719
+     3/276: $7$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$715
+     4/276: $6$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$711
+     5/276: $5$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$707
+     6/276: $4$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$703
+     7/276: $3$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$694
+     8/276: $2$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$682
+     9/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$677
+    10/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\i[31:0]$678
+    11/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\parent_rights[2:0]$675
+    12/276: $6\proposed[21:0] [21:17]
+    13/276: $24\proposed[21:0] [2]
+    14/276: $24\proposed[21:0] [3]
+    15/276: $12\admitted[0:0]
+    16/276: $24\proposed[21:0] [0]
+    17/276: $24\proposed[21:0] [1]
+    18/276: $26\proposed[21:0] [18]
+    19/276: $26\proposed[21:0] [16]
+    20/276: $26\proposed[21:0] [14]
+    21/276: $26\proposed[21:0] [12]
+    22/276: $26\proposed[21:0] [10]
+    23/276: $26\proposed[21:0] [8]
+    24/276: $26\proposed[21:0] [6]
+    25/276: $26\proposed[21:0] [4]
+    26/276: $26\proposed[21:0] [2]
+    27/276: $26\proposed[21:0] [0]
+    28/276: $26\proposed[21:0] [20]
+    29/276: $26\proposed[21:0] [15]
+    30/276: $26\proposed[21:0] [11]
+    31/276: $26\proposed[21:0] [7]
+    32/276: $26\proposed[21:0] [3]
+    33/276: $26\proposed[21:0] [19]
+    34/276: $26\proposed[21:0] [13]
+    35/276: $26\proposed[21:0] [5]
+    36/276: $26\proposed[21:0] [17]
+    37/276: $26\proposed[21:0] [1]
+    38/276: $26\proposed[21:0] [9]
+    39/276: $25\proposed[21:0] [21]
+    40/276: $25\proposed[21:0] [18]
+    41/276: $25\proposed[21:0] [16]
+    42/276: $25\proposed[21:0] [14]
+    43/276: $25\proposed[21:0] [12]
+    44/276: $25\proposed[21:0] [10]
+    45/276: $25\proposed[21:0] [8]
+    46/276: $25\proposed[21:0] [6]
+    47/276: $25\proposed[21:0] [4]
+    48/276: $25\proposed[21:0] [2]
+    49/276: $25\proposed[21:0] [0]
+    50/276: $25\proposed[21:0] [20]
+    51/276: $25\proposed[21:0] [15]
+    52/276: $25\proposed[21:0] [11]
+    53/276: $25\proposed[21:0] [7]
+    54/276: $25\proposed[21:0] [3]
+    55/276: $25\proposed[21:0] [19]
+    56/276: $25\proposed[21:0] [13]
+    57/276: $25\proposed[21:0] [5]
+    58/276: $25\proposed[21:0] [17]
+    59/276: $25\proposed[21:0] [1]
+    60/276: $25\proposed[21:0] [9]
+    61/276: $26\proposed[21:0] [21]
+    62/276: $11\admitted[0:0]
+    63/276: $10\admitted[0:0]
+    64/276: $23\proposed[21:0]
+    65/276: $5\needed[2:0]
+    66/276: $6\proposed[21:0] [16:8]
+    67/276: $21\proposed[7:7]
+    68/276: $22\proposed[21:17] [2:0]
+    69/276: $9\admitted[0:0]
+    70/276: $6\proposed[21:0] [7]
+    71/276: $6\proposed[21:0] [6:0]
+    72/276: $24\proposed[21:0] [21:4]
+    73/276: $22\proposed[21:17] [4:3]
+    74/276: $20\proposed[21:0] [18]
+    75/276: $20\proposed[21:0] [16]
+    76/276: $20\proposed[21:0] [14]
+    77/276: $20\proposed[21:0] [12]
+    78/276: $20\proposed[21:0] [10]
+    79/276: $20\proposed[21:0] [8]
+    80/276: $20\proposed[21:0] [6]
+    81/276: $20\proposed[21:0] [4]
+    82/276: $20\proposed[21:0] [2]
+    83/276: $20\proposed[21:0] [0]
+    84/276: $20\proposed[21:0] [20]
+    85/276: $20\proposed[21:0] [15]
+    86/276: $20\proposed[21:0] [11]
+    87/276: $20\proposed[21:0] [7]
+    88/276: $20\proposed[21:0] [3]
+    89/276: $20\proposed[21:0] [19]
+    90/276: $20\proposed[21:0] [13]
+    91/276: $20\proposed[21:0] [5]
+    92/276: $20\proposed[21:0] [17]
+    93/276: $20\proposed[21:0] [1]
+    94/276: $20\proposed[21:0] [9]
+    95/276: $19\proposed[21:0] [21]
+    96/276: $19\proposed[21:0] [17]
+    97/276: $19\proposed[21:0] [19]
+    98/276: $19\proposed[21:0] [15]
+    99/276: $19\proposed[21:0] [13]
+   100/276: $19\proposed[21:0] [11]
+   101/276: $19\proposed[21:0] [9]
+   102/276: $19\proposed[21:0] [7]
+   103/276: $19\proposed[21:0] [5]
+   104/276: $19\proposed[21:0] [3]
+   105/276: $19\proposed[21:0] [1]
+   106/276: $19\proposed[21:0] [20]
+   107/276: $19\proposed[21:0] [16]
+   108/276: $19\proposed[21:0] [12]
+   109/276: $19\proposed[21:0] [8]
+   110/276: $19\proposed[21:0] [4]
+   111/276: $19\proposed[21:0] [0]
+   112/276: $19\proposed[21:0] [14]
+   113/276: $19\proposed[21:0] [18]
+   114/276: $19\proposed[21:0] [10]
+   115/276: $19\proposed[21:0] [2]
+   116/276: $19\proposed[21:0] [6]
+   117/276: $18\proposed[21:17] [4:3]
+   118/276: $18\proposed[21:17] [2:0]
+   119/276: $17\proposed[21:0] [21]
+   120/276: $17\proposed[21:0] [17]
+   121/276: $17\proposed[21:0] [19]
+   122/276: $17\proposed[21:0] [15]
+   123/276: $17\proposed[21:0] [13]
+   124/276: $17\proposed[21:0] [11]
+   125/276: $17\proposed[21:0] [9]
+   126/276: $17\proposed[21:0] [7]
+   127/276: $17\proposed[21:0] [5]
+   128/276: $17\proposed[21:0] [3]
+   129/276: $17\proposed[21:0] [1]
+   130/276: $17\proposed[21:0] [20]
+   131/276: $17\proposed[21:0] [16]
+   132/276: $17\proposed[21:0] [12]
+   133/276: $17\proposed[21:0] [8]
+   134/276: $17\proposed[21:0] [4]
+   135/276: $17\proposed[21:0] [0]
+   136/276: $17\proposed[21:0] [14]
+   137/276: $17\proposed[21:0] [18]
+   138/276: $17\proposed[21:0] [10]
+   139/276: $17\proposed[21:0] [2]
+   140/276: $17\proposed[21:0] [6]
+   141/276: $8\admitted[0:0]
+   142/276: $16\proposed[21:0]
+   143/276: $11\proposed[21:0] [21:17]
+   144/276: $14\proposed[21:17] [2:0]
+   145/276: $15\proposed[21:20]
+   146/276: $13\proposed[21:20]
+   147/276: $12\proposed[21:0] [21]
+   148/276: $12\proposed[21:0] [17]
+   149/276: $12\proposed[21:0] [19]
+   150/276: $12\proposed[21:0] [15]
+   151/276: $12\proposed[21:0] [13]
+   152/276: $12\proposed[21:0] [11]
+   153/276: $12\proposed[21:0] [9]
+   154/276: $12\proposed[21:0] [7]
+   155/276: $12\proposed[21:0] [5]
+   156/276: $12\proposed[21:0] [3]
+   157/276: $12\proposed[21:0] [1]
+   158/276: $12\proposed[21:0] [20]
+   159/276: $12\proposed[21:0] [16]
+   160/276: $12\proposed[21:0] [12]
+   161/276: $12\proposed[21:0] [8]
+   162/276: $12\proposed[21:0] [4]
+   163/276: $12\proposed[21:0] [0]
+   164/276: $12\proposed[21:0] [14]
+   165/276: $12\proposed[21:0] [18]
+   166/276: $12\proposed[21:0] [10]
+   167/276: $12\proposed[21:0] [2]
+   168/276: $12\proposed[21:0] [6]
+   169/276: $7\admitted[0:0]
+   170/276: $11\proposed[21:0] [16:0]
+   171/276: $14\proposed[21:17] [4:3]
+   172/276: $7\proposed[21:0] [21:20]
+   173/276: $9\proposed[21:0] [21]
+   174/276: $9\proposed[21:0] [18]
+   175/276: $9\proposed[21:0] [16]
+   176/276: $9\proposed[21:0] [14]
+   177/276: $9\proposed[21:0] [12]
+   178/276: $9\proposed[21:0] [10]
+   179/276: $9\proposed[21:0] [8]
+   180/276: $9\proposed[21:0] [6]
+   181/276: $9\proposed[21:0] [4]
+   182/276: $9\proposed[21:0] [2]
+   183/276: $9\proposed[21:0] [0]
+   184/276: $9\proposed[21:0] [20]
+   185/276: $9\proposed[21:0] [15]
+   186/276: $9\proposed[21:0] [11]
+   187/276: $9\proposed[21:0] [7]
+   188/276: $9\proposed[21:0] [3]
+   189/276: $9\proposed[21:0] [19]
+   190/276: $9\proposed[21:0] [13]
+   191/276: $9\proposed[21:0] [5]
+   192/276: $9\proposed[21:0] [17]
+   193/276: $9\proposed[21:0] [1]
+   194/276: $9\proposed[21:0] [9]
+   195/276: $8\proposed[21:0] [21]
+   196/276: $8\proposed[21:0] [17]
+   197/276: $8\proposed[21:0] [19]
+   198/276: $8\proposed[21:0] [15]
+   199/276: $8\proposed[21:0] [13]
+   200/276: $8\proposed[21:0] [11]
+   201/276: $8\proposed[21:0] [9]
+   202/276: $8\proposed[21:0] [7]
+   203/276: $8\proposed[21:0] [5]
+   204/276: $8\proposed[21:0] [3]
+   205/276: $8\proposed[21:0] [1]
+   206/276: $8\proposed[21:0] [20]
+   207/276: $8\proposed[21:0] [16]
+   208/276: $8\proposed[21:0] [12]
+   209/276: $8\proposed[21:0] [8]
+   210/276: $8\proposed[21:0] [4]
+   211/276: $8\proposed[21:0] [0]
+   212/276: $8\proposed[21:0] [14]
+   213/276: $8\proposed[21:0] [18]
+   214/276: $8\proposed[21:0] [10]
+   215/276: $8\proposed[21:0] [2]
+   216/276: $8\proposed[21:0] [6]
+   217/276: $6\admitted[0:0]
+   218/276: $7\proposed[21:0] [19:0]
+   219/276: $10\proposed[21:20]
+   220/276: $5\admitted[0:0]
+   221/276: $20\proposed[21:0] [21]
+   222/276: $4\needed[2:0]
+   223/276: $3\needed[2:0]
+   224/276: $4\admitted[0:0]
+   225/276: $5\proposed[21:0]
+   226/276: $2\proposed[21:0] [21:4]
+   227/276: $2\proposed[21:0] [2:1]
+   228/276: $4\proposed[3:3]
+   229/276: $3\proposed[0:0]
+   230/276: $2\admitted[0:0]
+   231/276: $2\proposed[21:0] [3]
+   232/276: $3\admitted[0:0]
+   233/276: $2\needed[2:0]
+   234/276: $2\proposed[21:0] [0]
+   235/276: $1\needed[2:0]
+   236/276: $1\admitted[0:0]
+   237/276: $1\proposed[21:0]
+   238/276: $9$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$537
+   239/276: $8$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$528
+   240/276: $7$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$524
+   241/276: $6$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$520
+   242/276: $5$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$516
+   243/276: $4$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$512
+   244/276: $3$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$503
+   245/276: $2$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$491
+   246/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$486
+   247/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\i[31:0]$487
+   248/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\parent_rights[2:0]$484
+   249/276: $1\wellformed[0:0]
+   250/276: $1\actor_rights[2:0]
+   251/276: $0\state_out[21:0]
+   252/276: $0\commit[0:0]
+   253/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\i[31:0]$396
+   254/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state[0:0]$393
+   255/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\parent_rights[2:0]$400
+   256/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\parent[1:0]$398
+   257/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\r3[2:0]$402
+   258/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\r2[2:0]$403
+   259/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\r1[2:0]$405
+   260/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\r0[2:0]$407
+   261/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\s[21:0]$391
+   262/276: $0\needed[2:0]
+   263/276: $0\admitted[0:0]
+   264/276: $0\proposed[21:0]
+   265/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\i[31:0]$408
+   266/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state[0:0]$392
+   267/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\parent_rights[2:0]$397
+   268/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\parent[1:0]$395
+   269/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\r3[2:0]$399
+   270/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\r2[2:0]$401
+   271/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\r1[2:0]$394
+   272/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\r0[2:0]$404
+   273/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\s[21:0]$406
+   274/276: $0\wellformed[0:0]
+   275/276: $0\actor_rights[2:0]
+   276/276: $0\current_rights[2:0]
+
+5.6. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.\state_out' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.\commit' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.\proposed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.\admitted' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.\wellformed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.\current_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.\actor_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.\needed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\s' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\valid_state' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\valid_state' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\r1' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\parent' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\i' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\parent_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\parent' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\r3' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\parent_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\r2' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\r3' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\r2' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\r0' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\r1' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\s' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$385$\r0' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$380$\i' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+
+5.7. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\boundary_formal.\expected_resolved' using process `\boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+  created $dff cell `$procdff$7284' with positive edge clock.
+Creating register for signal `\boundary_formal.\expected_state' using process `\boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+  created $dff cell `$procdff$7285' with positive edge clock.
+Creating register for signal `\boundary_formal.\expected_committed' using process `\boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+  created $dff cell `$procdff$7286' with positive edge clock.
+Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.\resolved' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+  created $dff cell `$procdff$7287' with positive edge clock.
+Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.\committed' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+  created $dff cell `$procdff$7288' with positive edge clock.
+Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.\state' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+  created $dff cell `$procdff$7289' with positive edge clock.
+
+5.8. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+Found and cleaned up 2 empty switches in `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+Removing empty process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+Found and cleaned up 48 empty switches in `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+Removing empty process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$390'.
+Cleaned up 50 empty switches.
+
+6. Executing FLATTEN pass (flatten design).
+Using template $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0 for cells of type $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.
+Using template $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0 for cells of type $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.
+<suppressed ~3 debug messages>
+No more expansions possible.
+Deleting now unused module $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=0.
+Deleting now unused module $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=0.
+
+7. Executing MEMORY pass.
+
+7.1. Executing MEMORY_DFF pass (merging $dff cells to $memrd and $memwr).
+
+7.2. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \boundary_formal..
+Removed 36 unused cells and 2485 unused wires.
+<suppressed ~49 debug messages>
+
+7.3. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \boundary_formal..
+
+7.5. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+7.6. Executing MEMORY_MAP pass (converting $mem cells to logic and flip-flops).
+
+8. Executing OPT pass (performing simple optimizations).
+
+8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module boundary_formal.
+<suppressed ~224 debug messages>
+
+8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\boundary_formal'.
+<suppressed ~6381 debug messages>
+Removed a total of 2127 cells.
+
+8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \boundary_formal..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$7030: \dut.state [19:0] -> { \dut.state [19:1] 1'1 }
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$6825: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$7131: \dut.state -> { \dut.state [21:1] 1'0 }
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$2615: \dut.state [6:0] -> { \dut.state [6:1] 1'1 }
+      Replacing known input bits on port B of cell $techmap\dut.transition.$procmux$7162: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$2504: \dut.state -> { \dut.state [21:1] 1'1 }
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$891: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$1271: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$2041: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$5525: \dut.state [16:0] -> { \dut.state [16:1] 1'1 }
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$5327: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\law.$procmux$2504: \dut.state -> { \dut.state [21:1] 1'1 }
+      Replacing known input bits on port A of cell $techmap\law.$procmux$891: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\law.$procmux$1271: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\law.$procmux$2041: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\law.$procmux$4715: \dut.state -> { \dut.state [21:1] 1'1 }
+      Replacing known input bits on port A of cell $techmap\law.$procmux$4524: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\law.$procmux$5525: \dut.state [16:0] -> { \dut.state [16:1] 1'1 }
+      Replacing known input bits on port A of cell $techmap\law.$procmux$5327: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\law.$procmux$7030: \dut.state [19:0] -> { \dut.state [19:1] 1'1 }
+      Replacing known input bits on port A of cell $techmap\law.$procmux$6825: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\law.$procmux$7131: \dut.state -> { \dut.state [21:1] 1'0 }
+      Replacing known input bits on port A of cell $techmap\law.$procmux$2615: \dut.state [6:0] -> { \dut.state [6:1] 1'1 }
+      Replacing known input bits on port B of cell $techmap\law.$procmux$7162: \dut.state [0] -> 1'1
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$4715: \dut.state -> { \dut.state [21:1] 1'1 }
+      Replacing known input bits on port A of cell $techmap\dut.transition.$procmux$4524: \dut.state [0] -> 1'1
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6337.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6352.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6354.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6356.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6359.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6361.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6380.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6382.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1839.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6384.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6387.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6389.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1842.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6410.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6412.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1844.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6414.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6417.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6419.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6442.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6444.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6446.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6449.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6451.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1871.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6476.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6478.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6480.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6483.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6485.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1873.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6512.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6514.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1875.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6516.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6519.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6521.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6550.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6552.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6554.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6557.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6559.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6590.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6592.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6594.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6597.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6599.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6631.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6633.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6635.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6638.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6640.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1877.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1880.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6654.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6656.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1882.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6658.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6661.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6663.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1911.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6681.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6683.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6685.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6688.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6690.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1913.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1915.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5060.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6712.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6714.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6716.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6719.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6721.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6747.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6749.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6751.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6754.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6756.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1917.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1920.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1922.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6786.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6788.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6790.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6793.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6795.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6827.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6829.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1953.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6831.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6834.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6836.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1955.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1957.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6856.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6858.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5062.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6860.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6863.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6865.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6881.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6883.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6885.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6888.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6890.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1959.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1962.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6914.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6916.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1964.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6918.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6921.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6923.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1997.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6955.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6957.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6959.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6962.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6964.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1999.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2001.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6992.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6994.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6996.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6999.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7001.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7013.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7015.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$7018.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7020.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7032.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7034.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$7037.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7039.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7052.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7054.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7056.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$7059.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7061.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5064.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2003.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2006.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2008.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5067.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2043.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2045.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7072.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$7075.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7077.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7088.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7090.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2047.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7092.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$7095.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7097.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$7125.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7127.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$7134.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7136.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7142.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7148.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7155.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7157.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7164.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7166.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7172.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7178.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7185.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7187.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7199.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7214.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7220.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7226.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7232.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7238.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7244.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7250.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$7256.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5069.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6302.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6304.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5099.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2049.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2052.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2054.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$748.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$754.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$760.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$766.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$772.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$778.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$784.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$790.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5101.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2069.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5103.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2071.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2073.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5106.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5108.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1679.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$812.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$815.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$817.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5139.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2075.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$828.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$830.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5141.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2078.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2080.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1682.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2100.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$832.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$835.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$837.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5143.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2102.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2104.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$850.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$852.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5146.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5148.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1684.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5161.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$854.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$857.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$859.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$870.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5163.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$872.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$874.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2106.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2109.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2111.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5165.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$876.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$879.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$881.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2135.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5168.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$894.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$896.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5170.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2137.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2139.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$898.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$901.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$903.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1000.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2141.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$915.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$917.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1701.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2144.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2146.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1002.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2174.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$919.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$922.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$924.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1004.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$940.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2176.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$942.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$944.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2178.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1703.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5187.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5189.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$946.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$949.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$951.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$969.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$971.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$973.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1705.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2180.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2183.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2185.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$975.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$978.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$980.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2217.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1006.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2219.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2221.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5191.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1009.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1011.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1033.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2223.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2226.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2228.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2244.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1035.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2246.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2248.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5194.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1037.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5196.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5217.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5219.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2250.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2253.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2255.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2277.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2279.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2281.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1039.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1042.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1044.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2283.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2286.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2288.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1068.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2318.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5221.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2320.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2322.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5224.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5226.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1070.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1707.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5251.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1072.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5253.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1710.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5255.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6328.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6306.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6309.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2324.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2327.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2329.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2347.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2349.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2351.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5258.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1074.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1077.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1079.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2353.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2356.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2358.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2392.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1105.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2394.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2396.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5260.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1107.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1109.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2398.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2401.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2403.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2429.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1712.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2431.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2433.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5289.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1111.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1114.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1116.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2435.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2438.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2440.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2453.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2455.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2457.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5291.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1144.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1146.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1148.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1731.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2459.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2462.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2464.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6330.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2474.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2476.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5293.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1150.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2478.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2481.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2483.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2491.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5296.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1153.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1155.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1185.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2493.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2496.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2498.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2506.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5298.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1187.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1189.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6332.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2508.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2511.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2513.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5329.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5331.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1733.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5333.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5336.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5338.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1735.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6311.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5357.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5359.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5023.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5361.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5364.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5366.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5381.
+    dead port 2/2 on $mux $techmap\law.$procmux$1000.
+    dead port 2/2 on $mux $techmap\law.$procmux$1002.
+    dead port 2/2 on $mux $techmap\law.$procmux$1004.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5383.
+    dead port 2/2 on $mux $techmap\law.$procmux$1006.
+    dead port 1/2 on $mux $techmap\law.$procmux$1009.
+    dead port 2/2 on $mux $techmap\law.$procmux$1011.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1191.
+    dead port 2/2 on $mux $techmap\law.$procmux$1033.
+    dead port 2/2 on $mux $techmap\law.$procmux$1035.
+    dead port 2/2 on $mux $techmap\law.$procmux$1037.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1737.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5385.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1194.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1196.
+    dead port 2/2 on $mux $techmap\law.$procmux$1039.
+    dead port 1/2 on $mux $techmap\law.$procmux$1042.
+    dead port 2/2 on $mux $techmap\law.$procmux$1044.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1228.
+    dead port 2/2 on $mux $techmap\law.$procmux$1068.
+    dead port 2/2 on $mux $techmap\law.$procmux$1070.
+    dead port 2/2 on $mux $techmap\law.$procmux$1072.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5388.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5390.
+    dead port 2/2 on $mux $techmap\law.$procmux$1074.
+    dead port 1/2 on $mux $techmap\law.$procmux$1077.
+    dead port 2/2 on $mux $techmap\law.$procmux$1079.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1230.
+    dead port 2/2 on $mux $techmap\law.$procmux$1105.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1232.
+    dead port 2/2 on $mux $techmap\law.$procmux$1107.
+    dead port 2/2 on $mux $techmap\law.$procmux$1109.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1740.
+    dead port 2/2 on $mux $techmap\law.$procmux$1111.
+    dead port 1/2 on $mux $techmap\law.$procmux$1114.
+    dead port 2/2 on $mux $techmap\law.$procmux$1116.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2541.
+    dead port 2/2 on $mux $techmap\law.$procmux$1144.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2544.
+    dead port 2/2 on $mux $techmap\law.$procmux$1146.
+    dead port 2/2 on $mux $techmap\law.$procmux$1148.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1742.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2546.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2555.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2557.
+    dead port 2/2 on $mux $techmap\law.$procmux$1150.
+    dead port 1/2 on $mux $techmap\law.$procmux$1153.
+    dead port 2/2 on $mux $techmap\law.$procmux$1155.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2560.
+    dead port 2/2 on $mux $techmap\law.$procmux$1185.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2562.
+    dead port 2/2 on $mux $techmap\law.$procmux$1187.
+    dead port 2/2 on $mux $techmap\law.$procmux$1189.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2571.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2573.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2576.
+    dead port 2/2 on $mux $techmap\law.$procmux$1191.
+    dead port 1/2 on $mux $techmap\law.$procmux$1194.
+    dead port 2/2 on $mux $techmap\law.$procmux$1196.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2578.
+    dead port 2/2 on $mux $techmap\law.$procmux$1228.
+    dead port 2/2 on $mux $techmap\law.$procmux$1230.
+    dead port 2/2 on $mux $techmap\law.$procmux$1232.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5413.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2587.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2589.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2592.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2594.
+    dead port 2/2 on $mux $techmap\law.$procmux$1234.
+    dead port 1/2 on $mux $techmap\law.$procmux$1237.
+    dead port 2/2 on $mux $techmap\law.$procmux$1239.
+    dead port 2/2 on $mux $techmap\law.$procmux$1273.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5415.
+    dead port 2/2 on $mux $techmap\law.$procmux$1275.
+    dead port 2/2 on $mux $techmap\law.$procmux$1277.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5417.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5420.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1234.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1237.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1239.
+    dead port 2/2 on $mux $techmap\law.$procmux$1279.
+    dead port 1/2 on $mux $techmap\law.$procmux$1282.
+    dead port 2/2 on $mux $techmap\law.$procmux$1284.
+    dead port 2/2 on $mux $techmap\law.$procmux$1298.
+    dead port 2/2 on $mux $techmap\law.$procmux$1300.
+    dead port 2/2 on $mux $techmap\law.$procmux$1302.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5422.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1273.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2605.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2608.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2610.
+    dead port 2/2 on $mux $techmap\law.$procmux$1304.
+    dead port 1/2 on $mux $techmap\law.$procmux$1307.
+    dead port 2/2 on $mux $techmap\law.$procmux$1309.
+    dead port 2/2 on $mux $techmap\law.$procmux$1328.
+    dead port 2/2 on $mux $techmap\law.$procmux$1330.
+    dead port 2/2 on $mux $techmap\law.$procmux$1332.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1763.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1275.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1277.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1765.
+    dead port 2/2 on $mux $techmap\law.$procmux$1334.
+    dead port 1/2 on $mux $techmap\law.$procmux$1337.
+    dead port 2/2 on $mux $techmap\law.$procmux$1339.
+    dead port 2/2 on $mux $techmap\law.$procmux$1362.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5453.
+    dead port 2/2 on $mux $techmap\law.$procmux$1364.
+    dead port 2/2 on $mux $techmap\law.$procmux$1366.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5455.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2620.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2623.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2625.
+    dead port 2/2 on $mux $techmap\law.$procmux$1368.
+    dead port 1/2 on $mux $techmap\law.$procmux$1371.
+    dead port 2/2 on $mux $techmap\law.$procmux$1373.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1279.
+    dead port 2/2 on $mux $techmap\law.$procmux$1400.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1282.
+    dead port 2/2 on $mux $techmap\law.$procmux$1402.
+    dead port 2/2 on $mux $techmap\law.$procmux$1404.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1767.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2638.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2640.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5457.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1284.
+    dead port 2/2 on $mux $techmap\law.$procmux$1406.
+    dead port 1/2 on $mux $techmap\law.$procmux$1409.
+    dead port 2/2 on $mux $techmap\law.$procmux$1411.
+    dead port 2/2 on $mux $techmap\law.$procmux$1442.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1298.
+    dead port 2/2 on $mux $techmap\law.$procmux$1444.
+    dead port 2/2 on $mux $techmap\law.$procmux$1446.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5460.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2642.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2645.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2647.
+    dead port 2/2 on $mux $techmap\law.$procmux$1448.
+    dead port 1/2 on $mux $techmap\law.$procmux$1451.
+    dead port 2/2 on $mux $techmap\law.$procmux$1453.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2656.
+    dead port 2/2 on $mux $techmap\law.$procmux$1468.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1300.
+    dead port 2/2 on $mux $techmap\law.$procmux$1470.
+    dead port 2/2 on $mux $techmap\law.$procmux$1472.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5462.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2658.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2661.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2663.
+    dead port 2/2 on $mux $techmap\law.$procmux$1474.
+    dead port 1/2 on $mux $techmap\law.$procmux$1477.
+    dead port 2/2 on $mux $techmap\law.$procmux$1479.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2677.
+    dead port 2/2 on $mux $techmap\law.$procmux$1500.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2679.
+    dead port 2/2 on $mux $techmap\law.$procmux$1502.
+    dead port 2/2 on $mux $techmap\law.$procmux$1504.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1302.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2681.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2684.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2686.
+    dead port 2/2 on $mux $techmap\law.$procmux$1506.
+    dead port 1/2 on $mux $techmap\law.$procmux$1509.
+    dead port 2/2 on $mux $techmap\law.$procmux$1511.
+    dead port 2/2 on $mux $techmap\law.$procmux$1540.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2702.
+    dead port 2/2 on $mux $techmap\law.$procmux$1542.
+    dead port 2/2 on $mux $techmap\law.$procmux$1544.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5025.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2704.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2706.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2709.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2711.
+    dead port 2/2 on $mux $techmap\law.$procmux$1546.
+    dead port 1/2 on $mux $techmap\law.$procmux$1549.
+    dead port 2/2 on $mux $techmap\law.$procmux$1551.
+    dead port 2/2 on $mux $techmap\law.$procmux$1568.
+    dead port 2/2 on $mux $techmap\law.$procmux$1570.
+    dead port 2/2 on $mux $techmap\law.$procmux$1572.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2729.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2731.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2733.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2736.
+    dead port 2/2 on $mux $techmap\law.$procmux$1574.
+    dead port 1/2 on $mux $techmap\law.$procmux$1577.
+    dead port 2/2 on $mux $techmap\law.$procmux$1579.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2738.
+    dead port 2/2 on $mux $techmap\law.$procmux$1612.
+    dead port 2/2 on $mux $techmap\law.$procmux$1614.
+    dead port 2/2 on $mux $techmap\law.$procmux$1616.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5489.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2758.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2760.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5491.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2762.
+    dead port 2/2 on $mux $techmap\law.$procmux$1618.
+    dead port 1/2 on $mux $techmap\law.$procmux$1621.
+    dead port 2/2 on $mux $techmap\law.$procmux$1623.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2765.
+    dead port 2/2 on $mux $techmap\law.$procmux$1648.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2767.
+    dead port 2/2 on $mux $techmap\law.$procmux$1650.
+    dead port 2/2 on $mux $techmap\law.$procmux$1652.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2789.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2791.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5493.
+    dead port 2/2 on $mux $techmap\law.$procmux$1654.
+    dead port 1/2 on $mux $techmap\law.$procmux$1657.
+    dead port 2/2 on $mux $techmap\law.$procmux$1659.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2793.
+    dead port 2/2 on $mux $techmap\law.$procmux$1673.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2796.
+    dead port 2/2 on $mux $techmap\law.$procmux$1675.
+    dead port 2/2 on $mux $techmap\law.$procmux$1677.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5496.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2798.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2822.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2824.
+    dead port 2/2 on $mux $techmap\law.$procmux$1679.
+    dead port 1/2 on $mux $techmap\law.$procmux$1682.
+    dead port 2/2 on $mux $techmap\law.$procmux$1684.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5498.
+    dead port 2/2 on $mux $techmap\law.$procmux$1701.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2826.
+    dead port 2/2 on $mux $techmap\law.$procmux$1703.
+    dead port 2/2 on $mux $techmap\law.$procmux$1705.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2829.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2831.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2857.
+    dead port 2/2 on $mux $techmap\law.$procmux$1707.
+    dead port 1/2 on $mux $techmap\law.$procmux$1710.
+    dead port 2/2 on $mux $techmap\law.$procmux$1712.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2859.
+    dead port 2/2 on $mux $techmap\law.$procmux$1731.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5509.
+    dead port 2/2 on $mux $techmap\law.$procmux$1733.
+    dead port 2/2 on $mux $techmap\law.$procmux$1735.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2861.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2864.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2866.
+    dead port 2/2 on $mux $techmap\law.$procmux$1737.
+    dead port 1/2 on $mux $techmap\law.$procmux$1740.
+    dead port 2/2 on $mux $techmap\law.$procmux$1742.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2894.
+    dead port 2/2 on $mux $techmap\law.$procmux$1763.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2896.
+    dead port 2/2 on $mux $techmap\law.$procmux$1765.
+    dead port 2/2 on $mux $techmap\law.$procmux$1767.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5511.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1304.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2898.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2901.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2903.
+    dead port 2/2 on $mux $techmap\law.$procmux$1769.
+    dead port 1/2 on $mux $techmap\law.$procmux$1772.
+    dead port 2/2 on $mux $techmap\law.$procmux$1774.
+    dead port 2/2 on $mux $techmap\law.$procmux$1797.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2933.
+    dead port 2/2 on $mux $techmap\law.$procmux$1799.
+    dead port 2/2 on $mux $techmap\law.$procmux$1801.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5514.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2935.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1307.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2937.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2940.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2942.
+    dead port 2/2 on $mux $techmap\law.$procmux$1803.
+    dead port 1/2 on $mux $techmap\law.$procmux$1806.
+    dead port 2/2 on $mux $techmap\law.$procmux$1808.
+    dead port 2/2 on $mux $techmap\law.$procmux$1833.
+    dead port 2/2 on $mux $techmap\law.$procmux$1835.
+    dead port 2/2 on $mux $techmap\law.$procmux$1837.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5516.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2974.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2976.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1309.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2978.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$2981.
+    dead port 2/2 on $mux $techmap\law.$procmux$1839.
+    dead port 1/2 on $mux $techmap\law.$procmux$1842.
+    dead port 2/2 on $mux $techmap\law.$procmux$1844.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2983.
+    dead port 2/2 on $mux $techmap\law.$procmux$1871.
+    dead port 2/2 on $mux $techmap\law.$procmux$1873.
+    dead port 2/2 on $mux $techmap\law.$procmux$1875.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2995.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2997.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$2999.
+    dead port 2/2 on $mux $techmap\law.$procmux$1877.
+    dead port 1/2 on $mux $techmap\law.$procmux$1880.
+    dead port 2/2 on $mux $techmap\law.$procmux$1882.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3002.
+    dead port 2/2 on $mux $techmap\law.$procmux$1911.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3004.
+    dead port 2/2 on $mux $techmap\law.$procmux$1913.
+    dead port 2/2 on $mux $techmap\law.$procmux$1915.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5527.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3021.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3023.
+    dead port 2/2 on $mux $techmap\law.$procmux$1917.
+    dead port 1/2 on $mux $techmap\law.$procmux$1920.
+    dead port 2/2 on $mux $techmap\law.$procmux$1922.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3025.
+    dead port 2/2 on $mux $techmap\law.$procmux$1953.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3028.
+    dead port 2/2 on $mux $techmap\law.$procmux$1955.
+    dead port 2/2 on $mux $techmap\law.$procmux$1957.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3030.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3051.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3053.
+    dead port 2/2 on $mux $techmap\law.$procmux$1959.
+    dead port 1/2 on $mux $techmap\law.$procmux$1962.
+    dead port 2/2 on $mux $techmap\law.$procmux$1964.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1328.
+    dead port 2/2 on $mux $techmap\law.$procmux$1997.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3055.
+    dead port 2/2 on $mux $techmap\law.$procmux$1999.
+    dead port 2/2 on $mux $techmap\law.$procmux$2001.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5529.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3058.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3060.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3085.
+    dead port 2/2 on $mux $techmap\law.$procmux$2003.
+    dead port 1/2 on $mux $techmap\law.$procmux$2006.
+    dead port 2/2 on $mux $techmap\law.$procmux$2008.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3087.
+    dead port 2/2 on $mux $techmap\law.$procmux$2043.
+    dead port 2/2 on $mux $techmap\law.$procmux$2045.
+    dead port 2/2 on $mux $techmap\law.$procmux$2047.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5532.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3089.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3092.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3094.
+    dead port 2/2 on $mux $techmap\law.$procmux$2049.
+    dead port 1/2 on $mux $techmap\law.$procmux$2052.
+    dead port 2/2 on $mux $techmap\law.$procmux$2054.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3123.
+    dead port 2/2 on $mux $techmap\law.$procmux$2069.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3125.
+    dead port 2/2 on $mux $techmap\law.$procmux$2071.
+    dead port 2/2 on $mux $techmap\law.$procmux$2073.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5534.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1330.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3127.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3130.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3132.
+    dead port 2/2 on $mux $techmap\law.$procmux$2075.
+    dead port 1/2 on $mux $techmap\law.$procmux$2078.
+    dead port 2/2 on $mux $techmap\law.$procmux$2080.
+    dead port 2/2 on $mux $techmap\law.$procmux$2100.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3145.
+    dead port 2/2 on $mux $techmap\law.$procmux$2102.
+    dead port 2/2 on $mux $techmap\law.$procmux$2104.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3147.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1332.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3149.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3152.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3154.
+    dead port 2/2 on $mux $techmap\law.$procmux$2106.
+    dead port 1/2 on $mux $techmap\law.$procmux$2109.
+    dead port 2/2 on $mux $techmap\law.$procmux$2111.
+    dead port 2/2 on $mux $techmap\law.$procmux$2135.
+    dead port 2/2 on $mux $techmap\law.$procmux$2137.
+    dead port 2/2 on $mux $techmap\law.$procmux$2139.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5546.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3173.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3175.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5548.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3177.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3180.
+    dead port 2/2 on $mux $techmap\law.$procmux$2141.
+    dead port 1/2 on $mux $techmap\law.$procmux$2144.
+    dead port 2/2 on $mux $techmap\law.$procmux$2146.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3182.
+    dead port 2/2 on $mux $techmap\law.$procmux$2174.
+    dead port 2/2 on $mux $techmap\law.$procmux$2176.
+    dead port 2/2 on $mux $techmap\law.$procmux$2178.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1769.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3209.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3211.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3213.
+    dead port 2/2 on $mux $techmap\law.$procmux$2180.
+    dead port 1/2 on $mux $techmap\law.$procmux$2183.
+    dead port 2/2 on $mux $techmap\law.$procmux$2185.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3216.
+    dead port 2/2 on $mux $techmap\law.$procmux$2217.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3218.
+    dead port 2/2 on $mux $techmap\law.$procmux$2219.
+    dead port 2/2 on $mux $techmap\law.$procmux$2221.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5550.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3233.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3235.
+    dead port 2/2 on $mux $techmap\law.$procmux$2223.
+    dead port 1/2 on $mux $techmap\law.$procmux$2226.
+    dead port 2/2 on $mux $techmap\law.$procmux$2228.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3237.
+    dead port 2/2 on $mux $techmap\law.$procmux$2244.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3240.
+    dead port 2/2 on $mux $techmap\law.$procmux$2246.
+    dead port 2/2 on $mux $techmap\law.$procmux$2248.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5553.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3242.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3273.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3275.
+    dead port 2/2 on $mux $techmap\law.$procmux$2250.
+    dead port 1/2 on $mux $techmap\law.$procmux$2253.
+    dead port 2/2 on $mux $techmap\law.$procmux$2255.
+    dead port 2/2 on $mux $techmap\law.$procmux$2277.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3277.
+    dead port 2/2 on $mux $techmap\law.$procmux$2279.
+    dead port 2/2 on $mux $techmap\law.$procmux$2281.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5555.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3280.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3282.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3305.
+    dead port 2/2 on $mux $techmap\law.$procmux$2283.
+    dead port 1/2 on $mux $techmap\law.$procmux$2286.
+    dead port 2/2 on $mux $techmap\law.$procmux$2288.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3307.
+    dead port 2/2 on $mux $techmap\law.$procmux$2318.
+    dead port 2/2 on $mux $techmap\law.$procmux$2320.
+    dead port 2/2 on $mux $techmap\law.$procmux$2322.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3309.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3312.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3314.
+    dead port 2/2 on $mux $techmap\law.$procmux$2324.
+    dead port 1/2 on $mux $techmap\law.$procmux$2327.
+    dead port 2/2 on $mux $techmap\law.$procmux$2329.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3325.
+    dead port 2/2 on $mux $techmap\law.$procmux$2347.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3327.
+    dead port 2/2 on $mux $techmap\law.$procmux$2349.
+    dead port 2/2 on $mux $techmap\law.$procmux$2351.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5567.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3329.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3332.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3334.
+    dead port 2/2 on $mux $techmap\law.$procmux$2353.
+    dead port 1/2 on $mux $techmap\law.$procmux$2356.
+    dead port 2/2 on $mux $techmap\law.$procmux$2358.
+    dead port 2/2 on $mux $techmap\law.$procmux$2392.
+    dead port 2/2 on $mux $techmap\law.$procmux$2394.
+    dead port 2/2 on $mux $techmap\law.$procmux$2396.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1772.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3349.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3351.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1334.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3353.
+    dead port 2/2 on $mux $techmap\law.$procmux$2398.
+    dead port 1/2 on $mux $techmap\law.$procmux$2401.
+    dead port 2/2 on $mux $techmap\law.$procmux$2403.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3356.
+    dead port 2/2 on $mux $techmap\law.$procmux$2429.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3358.
+    dead port 2/2 on $mux $techmap\law.$procmux$2431.
+    dead port 2/2 on $mux $techmap\law.$procmux$2433.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5569.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1337.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1339.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3371.
+    dead port 2/2 on $mux $techmap\law.$procmux$2435.
+    dead port 1/2 on $mux $techmap\law.$procmux$2438.
+    dead port 2/2 on $mux $techmap\law.$procmux$2440.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3373.
+    dead port 2/2 on $mux $techmap\law.$procmux$2453.
+    dead port 2/2 on $mux $techmap\law.$procmux$2455.
+    dead port 2/2 on $mux $techmap\law.$procmux$2457.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5572.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3375.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3378.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3380.
+    dead port 2/2 on $mux $techmap\law.$procmux$2459.
+    dead port 1/2 on $mux $techmap\law.$procmux$2462.
+    dead port 2/2 on $mux $techmap\law.$procmux$2464.
+    dead port 2/2 on $mux $techmap\law.$procmux$2474.
+    dead port 2/2 on $mux $techmap\law.$procmux$2476.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5574.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3397.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3399.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1362.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3401.
+    dead port 2/2 on $mux $techmap\law.$procmux$2478.
+    dead port 1/2 on $mux $techmap\law.$procmux$2481.
+    dead port 2/2 on $mux $techmap\law.$procmux$2483.
+    dead port 2/2 on $mux $techmap\law.$procmux$2491.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3404.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3406.
+    dead port 2/2 on $mux $techmap\law.$procmux$2493.
+    dead port 1/2 on $mux $techmap\law.$procmux$2496.
+    dead port 2/2 on $mux $techmap\law.$procmux$2498.
+    dead port 2/2 on $mux $techmap\law.$procmux$2506.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3425.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3427.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1364.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3429.
+    dead port 2/2 on $mux $techmap\law.$procmux$2508.
+    dead port 1/2 on $mux $techmap\law.$procmux$2511.
+    dead port 2/2 on $mux $techmap\law.$procmux$2513.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3432.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3434.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5587.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1366.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5589.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3455.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3457.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1774.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3459.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5591.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3462.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3464.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3487.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3489.
+    dead port 2/2 on $mux $techmap\law.$procmux$2541.
+    dead port 1/2 on $mux $techmap\law.$procmux$2544.
+    dead port 2/2 on $mux $techmap\law.$procmux$2546.
+    dead port 2/2 on $mux $techmap\law.$procmux$2555.
+    dead port 2/2 on $mux $techmap\law.$procmux$2557.
+    dead port 1/2 on $mux $techmap\law.$procmux$2560.
+    dead port 2/2 on $mux $techmap\law.$procmux$2562.
+    dead port 2/2 on $mux $techmap\law.$procmux$2571.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3491.
+    dead port 2/2 on $mux $techmap\law.$procmux$2573.
+    dead port 1/2 on $mux $techmap\law.$procmux$2576.
+    dead port 2/2 on $mux $techmap\law.$procmux$2578.
+    dead port 2/2 on $mux $techmap\law.$procmux$2587.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3494.
+    dead port 2/2 on $mux $techmap\law.$procmux$2589.
+    dead port 1/2 on $mux $techmap\law.$procmux$2592.
+    dead port 2/2 on $mux $techmap\law.$procmux$2594.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5594.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3496.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5596.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3521.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3523.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3525.
+    dead port 2/2 on $mux $techmap\law.$procmux$2605.
+    dead port 1/2 on $mux $techmap\law.$procmux$2608.
+    dead port 2/2 on $mux $techmap\law.$procmux$2610.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3528.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3530.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3557.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3559.
+    dead port 2/2 on $mux $techmap\law.$procmux$2620.
+    dead port 1/2 on $mux $techmap\law.$procmux$2623.
+    dead port 2/2 on $mux $techmap\law.$procmux$2625.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1368.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3561.
+    dead port 2/2 on $mux $techmap\law.$procmux$2638.
+    dead port 2/2 on $mux $techmap\law.$procmux$2640.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5612.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3564.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3566.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1371.
+    dead port 2/2 on $mux $techmap\law.$procmux$2642.
+    dead port 1/2 on $mux $techmap\law.$procmux$2645.
+    dead port 2/2 on $mux $techmap\law.$procmux$2647.
+    dead port 2/2 on $mux $techmap\law.$procmux$2656.
+    dead port 2/2 on $mux $techmap\law.$procmux$2658.
+    dead port 1/2 on $mux $techmap\law.$procmux$2661.
+    dead port 2/2 on $mux $techmap\law.$procmux$2663.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3595.
+    dead port 2/2 on $mux $techmap\law.$procmux$2677.
+    dead port 2/2 on $mux $techmap\law.$procmux$2679.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3597.
+    dead port 2/2 on $mux $techmap\law.$procmux$2681.
+    dead port 1/2 on $mux $techmap\law.$procmux$2684.
+    dead port 2/2 on $mux $techmap\law.$procmux$2686.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1373.
+    dead port 2/2 on $mux $techmap\law.$procmux$2702.
+    dead port 2/2 on $mux $techmap\law.$procmux$2704.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3599.
+    dead port 2/2 on $mux $techmap\law.$procmux$2706.
+    dead port 1/2 on $mux $techmap\law.$procmux$2709.
+    dead port 2/2 on $mux $techmap\law.$procmux$2711.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3602.
+    dead port 2/2 on $mux $techmap\law.$procmux$2729.
+    dead port 2/2 on $mux $techmap\law.$procmux$2731.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3604.
+    dead port 2/2 on $mux $techmap\law.$procmux$2733.
+    dead port 1/2 on $mux $techmap\law.$procmux$2736.
+    dead port 2/2 on $mux $techmap\law.$procmux$2738.
+    dead port 2/2 on $mux $techmap\law.$procmux$2758.
+    dead port 2/2 on $mux $techmap\law.$procmux$2760.
+    dead port 2/2 on $mux $techmap\law.$procmux$2762.
+    dead port 1/2 on $mux $techmap\law.$procmux$2765.
+    dead port 2/2 on $mux $techmap\law.$procmux$2767.
+    dead port 2/2 on $mux $techmap\law.$procmux$2789.
+    dead port 2/2 on $mux $techmap\law.$procmux$2791.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3634.
+    dead port 2/2 on $mux $techmap\law.$procmux$2793.
+    dead port 1/2 on $mux $techmap\law.$procmux$2796.
+    dead port 2/2 on $mux $techmap\law.$procmux$2798.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3636.
+    dead port 2/2 on $mux $techmap\law.$procmux$2822.
+    dead port 2/2 on $mux $techmap\law.$procmux$2824.
+    dead port 2/2 on $mux $techmap\law.$procmux$2826.
+    dead port 1/2 on $mux $techmap\law.$procmux$2829.
+    dead port 2/2 on $mux $techmap\law.$procmux$2831.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3638.
+    dead port 2/2 on $mux $techmap\law.$procmux$2857.
+    dead port 2/2 on $mux $techmap\law.$procmux$2859.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3641.
+    dead port 2/2 on $mux $techmap\law.$procmux$2861.
+    dead port 1/2 on $mux $techmap\law.$procmux$2864.
+    dead port 2/2 on $mux $techmap\law.$procmux$2866.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3643.
+    dead port 2/2 on $mux $techmap\law.$procmux$2894.
+    dead port 2/2 on $mux $techmap\law.$procmux$2896.
+    dead port 2/2 on $mux $techmap\law.$procmux$2898.
+    dead port 1/2 on $mux $techmap\law.$procmux$2901.
+    dead port 2/2 on $mux $techmap\law.$procmux$2903.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1400.
+    dead port 2/2 on $mux $techmap\law.$procmux$2933.
+    dead port 2/2 on $mux $techmap\law.$procmux$2935.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5614.
+    dead port 2/2 on $mux $techmap\law.$procmux$2937.
+    dead port 1/2 on $mux $techmap\law.$procmux$2940.
+    dead port 2/2 on $mux $techmap\law.$procmux$2942.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3655.
+    dead port 2/2 on $mux $techmap\law.$procmux$2974.
+    dead port 2/2 on $mux $techmap\law.$procmux$2976.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3657.
+    dead port 2/2 on $mux $techmap\law.$procmux$2978.
+    dead port 1/2 on $mux $techmap\law.$procmux$2981.
+    dead port 2/2 on $mux $techmap\law.$procmux$2983.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1402.
+    dead port 2/2 on $mux $techmap\law.$procmux$2995.
+    dead port 2/2 on $mux $techmap\law.$procmux$2997.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3659.
+    dead port 2/2 on $mux $techmap\law.$procmux$2999.
+    dead port 1/2 on $mux $techmap\law.$procmux$3002.
+    dead port 2/2 on $mux $techmap\law.$procmux$3004.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3662.
+    dead port 2/2 on $mux $techmap\law.$procmux$3021.
+    dead port 2/2 on $mux $techmap\law.$procmux$3023.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3664.
+    dead port 2/2 on $mux $techmap\law.$procmux$3025.
+    dead port 1/2 on $mux $techmap\law.$procmux$3028.
+    dead port 2/2 on $mux $techmap\law.$procmux$3030.
+    dead port 2/2 on $mux $techmap\law.$procmux$3051.
+    dead port 2/2 on $mux $techmap\law.$procmux$3053.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1404.
+    dead port 2/2 on $mux $techmap\law.$procmux$3055.
+    dead port 1/2 on $mux $techmap\law.$procmux$3058.
+    dead port 2/2 on $mux $techmap\law.$procmux$3060.
+    dead port 2/2 on $mux $techmap\law.$procmux$3085.
+    dead port 2/2 on $mux $techmap\law.$procmux$3087.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5616.
+    dead port 2/2 on $mux $techmap\law.$procmux$3089.
+    dead port 1/2 on $mux $techmap\law.$procmux$3092.
+    dead port 2/2 on $mux $techmap\law.$procmux$3094.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3680.
+    dead port 2/2 on $mux $techmap\law.$procmux$3123.
+    dead port 2/2 on $mux $techmap\law.$procmux$3125.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3682.
+    dead port 2/2 on $mux $techmap\law.$procmux$3127.
+    dead port 1/2 on $mux $techmap\law.$procmux$3130.
+    dead port 2/2 on $mux $techmap\law.$procmux$3132.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5619.
+    dead port 2/2 on $mux $techmap\law.$procmux$3145.
+    dead port 2/2 on $mux $techmap\law.$procmux$3147.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3684.
+    dead port 2/2 on $mux $techmap\law.$procmux$3149.
+    dead port 1/2 on $mux $techmap\law.$procmux$3152.
+    dead port 2/2 on $mux $techmap\law.$procmux$3154.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3687.
+    dead port 2/2 on $mux $techmap\law.$procmux$3173.
+    dead port 2/2 on $mux $techmap\law.$procmux$3175.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3689.
+    dead port 2/2 on $mux $techmap\law.$procmux$3177.
+    dead port 1/2 on $mux $techmap\law.$procmux$3180.
+    dead port 2/2 on $mux $techmap\law.$procmux$3182.
+    dead port 2/2 on $mux $techmap\law.$procmux$3209.
+    dead port 2/2 on $mux $techmap\law.$procmux$3211.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5621.
+    dead port 2/2 on $mux $techmap\law.$procmux$3213.
+    dead port 1/2 on $mux $techmap\law.$procmux$3216.
+    dead port 2/2 on $mux $techmap\law.$procmux$3218.
+    dead port 2/2 on $mux $techmap\law.$procmux$3233.
+    dead port 2/2 on $mux $techmap\law.$procmux$3235.
+    dead port 2/2 on $mux $techmap\law.$procmux$3237.
+    dead port 1/2 on $mux $techmap\law.$procmux$3240.
+    dead port 2/2 on $mux $techmap\law.$procmux$3242.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3709.
+    dead port 2/2 on $mux $techmap\law.$procmux$3273.
+    dead port 2/2 on $mux $techmap\law.$procmux$3275.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3711.
+    dead port 2/2 on $mux $techmap\law.$procmux$3277.
+    dead port 1/2 on $mux $techmap\law.$procmux$3280.
+    dead port 2/2 on $mux $techmap\law.$procmux$3282.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1406.
+    dead port 2/2 on $mux $techmap\law.$procmux$3305.
+    dead port 2/2 on $mux $techmap\law.$procmux$3307.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3713.
+    dead port 2/2 on $mux $techmap\law.$procmux$3309.
+    dead port 1/2 on $mux $techmap\law.$procmux$3312.
+    dead port 2/2 on $mux $techmap\law.$procmux$3314.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5639.
+    dead port 2/2 on $mux $techmap\law.$procmux$3325.
+    dead port 2/2 on $mux $techmap\law.$procmux$3327.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3716.
+    dead port 2/2 on $mux $techmap\law.$procmux$3329.
+    dead port 1/2 on $mux $techmap\law.$procmux$3332.
+    dead port 2/2 on $mux $techmap\law.$procmux$3334.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5641.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5027.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5643.
+    dead port 2/2 on $mux $techmap\law.$procmux$3349.
+    dead port 2/2 on $mux $techmap\law.$procmux$3351.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3718.
+    dead port 2/2 on $mux $techmap\law.$procmux$3353.
+    dead port 1/2 on $mux $techmap\law.$procmux$3356.
+    dead port 2/2 on $mux $techmap\law.$procmux$3358.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5646.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1409.
+    dead port 2/2 on $mux $techmap\law.$procmux$3371.
+    dead port 2/2 on $mux $techmap\law.$procmux$3373.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1411.
+    dead port 2/2 on $mux $techmap\law.$procmux$3375.
+    dead port 1/2 on $mux $techmap\law.$procmux$3378.
+    dead port 2/2 on $mux $techmap\law.$procmux$3380.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5648.
+    dead port 2/2 on $mux $techmap\law.$procmux$3397.
+    dead port 2/2 on $mux $techmap\law.$procmux$3399.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3742.
+    dead port 2/2 on $mux $techmap\law.$procmux$3401.
+    dead port 1/2 on $mux $techmap\law.$procmux$3404.
+    dead port 2/2 on $mux $techmap\law.$procmux$3406.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3744.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5668.
+    dead port 2/2 on $mux $techmap\law.$procmux$3425.
+    dead port 2/2 on $mux $techmap\law.$procmux$3427.
+    dead port 2/2 on $mux $techmap\law.$procmux$3429.
+    dead port 1/2 on $mux $techmap\law.$procmux$3432.
+    dead port 2/2 on $mux $techmap\law.$procmux$3434.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3746.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5670.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1797.
+    dead port 2/2 on $mux $techmap\law.$procmux$3455.
+    dead port 2/2 on $mux $techmap\law.$procmux$3457.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3749.
+    dead port 2/2 on $mux $techmap\law.$procmux$3459.
+    dead port 1/2 on $mux $techmap\law.$procmux$3462.
+    dead port 2/2 on $mux $techmap\law.$procmux$3464.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3751.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5672.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5675.
+    dead port 2/2 on $mux $techmap\law.$procmux$3487.
+    dead port 2/2 on $mux $techmap\law.$procmux$3489.
+    dead port 2/2 on $mux $techmap\law.$procmux$3491.
+    dead port 1/2 on $mux $techmap\law.$procmux$3494.
+    dead port 2/2 on $mux $techmap\law.$procmux$3496.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1442.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5677.
+    dead port 2/2 on $mux $techmap\law.$procmux$3521.
+    dead port 2/2 on $mux $techmap\law.$procmux$3523.
+    dead port 2/2 on $mux $techmap\law.$procmux$3525.
+    dead port 1/2 on $mux $techmap\law.$procmux$3528.
+    dead port 2/2 on $mux $techmap\law.$procmux$3530.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1444.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5699.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5701.
+    dead port 2/2 on $mux $techmap\law.$procmux$3557.
+    dead port 2/2 on $mux $techmap\law.$procmux$3559.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3779.
+    dead port 2/2 on $mux $techmap\law.$procmux$3561.
+    dead port 1/2 on $mux $techmap\law.$procmux$3564.
+    dead port 2/2 on $mux $techmap\law.$procmux$3566.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3781.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5030.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5703.
+    dead port 2/2 on $mux $techmap\law.$procmux$3595.
+    dead port 2/2 on $mux $techmap\law.$procmux$3597.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1446.
+    dead port 2/2 on $mux $techmap\law.$procmux$3599.
+    dead port 1/2 on $mux $techmap\law.$procmux$3602.
+    dead port 2/2 on $mux $techmap\law.$procmux$3604.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3783.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5706.
+    dead port 2/2 on $mux $techmap\law.$procmux$3634.
+    dead port 2/2 on $mux $techmap\law.$procmux$3636.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3786.
+    dead port 2/2 on $mux $techmap\law.$procmux$3638.
+    dead port 1/2 on $mux $techmap\law.$procmux$3641.
+    dead port 2/2 on $mux $techmap\law.$procmux$3643.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3788.
+    dead port 2/2 on $mux $techmap\law.$procmux$3655.
+    dead port 2/2 on $mux $techmap\law.$procmux$3657.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5708.
+    dead port 2/2 on $mux $techmap\law.$procmux$3659.
+    dead port 1/2 on $mux $techmap\law.$procmux$3662.
+    dead port 2/2 on $mux $techmap\law.$procmux$3664.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3818.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3820.
+    dead port 2/2 on $mux $techmap\law.$procmux$3680.
+    dead port 2/2 on $mux $techmap\law.$procmux$3682.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3822.
+    dead port 2/2 on $mux $techmap\law.$procmux$3684.
+    dead port 1/2 on $mux $techmap\law.$procmux$3687.
+    dead port 2/2 on $mux $techmap\law.$procmux$3689.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3825.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3827.
+    dead port 2/2 on $mux $techmap\law.$procmux$3709.
+    dead port 2/2 on $mux $techmap\law.$procmux$3711.
+    dead port 2/2 on $mux $techmap\law.$procmux$3713.
+    dead port 1/2 on $mux $techmap\law.$procmux$3716.
+    dead port 2/2 on $mux $techmap\law.$procmux$3718.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5732.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5734.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3845.
+    dead port 2/2 on $mux $techmap\law.$procmux$3742.
+    dead port 2/2 on $mux $techmap\law.$procmux$3744.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3847.
+    dead port 2/2 on $mux $techmap\law.$procmux$3746.
+    dead port 1/2 on $mux $techmap\law.$procmux$3749.
+    dead port 2/2 on $mux $techmap\law.$procmux$3751.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1799.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3849.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3852.
+    dead port 2/2 on $mux $techmap\law.$procmux$3779.
+    dead port 2/2 on $mux $techmap\law.$procmux$3781.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3854.
+    dead port 2/2 on $mux $techmap\law.$procmux$3783.
+    dead port 1/2 on $mux $techmap\law.$procmux$3786.
+    dead port 2/2 on $mux $techmap\law.$procmux$3788.
+    dead port 2/2 on $mux $techmap\law.$procmux$3818.
+    dead port 2/2 on $mux $techmap\law.$procmux$3820.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1448.
+    dead port 2/2 on $mux $techmap\law.$procmux$3822.
+    dead port 1/2 on $mux $techmap\law.$procmux$3825.
+    dead port 2/2 on $mux $techmap\law.$procmux$3827.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1451.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1453.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3868.
+    dead port 2/2 on $mux $techmap\law.$procmux$3845.
+    dead port 2/2 on $mux $techmap\law.$procmux$3847.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3870.
+    dead port 2/2 on $mux $techmap\law.$procmux$3849.
+    dead port 1/2 on $mux $techmap\law.$procmux$3852.
+    dead port 2/2 on $mux $techmap\law.$procmux$3854.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3872.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3875.
+    dead port 2/2 on $mux $techmap\law.$procmux$3868.
+    dead port 2/2 on $mux $techmap\law.$procmux$3870.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3877.
+    dead port 2/2 on $mux $techmap\law.$procmux$3872.
+    dead port 1/2 on $mux $techmap\law.$procmux$3875.
+    dead port 2/2 on $mux $techmap\law.$procmux$3877.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1468.
+    dead port 2/2 on $mux $techmap\law.$procmux$3899.
+    dead port 2/2 on $mux $techmap\law.$procmux$3901.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5736.
+    dead port 2/2 on $mux $techmap\law.$procmux$3903.
+    dead port 1/2 on $mux $techmap\law.$procmux$3906.
+    dead port 2/2 on $mux $techmap\law.$procmux$3908.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3899.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3901.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1470.
+    dead port 2/2 on $mux $techmap\law.$procmux$3938.
+    dead port 2/2 on $mux $techmap\law.$procmux$3940.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3903.
+    dead port 2/2 on $mux $techmap\law.$procmux$3942.
+    dead port 1/2 on $mux $techmap\law.$procmux$3945.
+    dead port 2/2 on $mux $techmap\law.$procmux$3947.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3906.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3908.
+    dead port 2/2 on $mux $techmap\law.$procmux$3973.
+    dead port 2/2 on $mux $techmap\law.$procmux$3975.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1472.
+    dead port 2/2 on $mux $techmap\law.$procmux$3977.
+    dead port 1/2 on $mux $techmap\law.$procmux$3980.
+    dead port 2/2 on $mux $techmap\law.$procmux$3982.
+    dead port 2/2 on $mux $techmap\law.$procmux$3993.
+    dead port 2/2 on $mux $techmap\law.$procmux$3995.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5739.
+    dead port 2/2 on $mux $techmap\law.$procmux$3997.
+    dead port 1/2 on $mux $techmap\law.$procmux$4000.
+    dead port 2/2 on $mux $techmap\law.$procmux$4002.
+    dead port 2/2 on $mux $techmap\law.$procmux$4013.
+    dead port 2/2 on $mux $techmap\law.$procmux$4015.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5741.
+    dead port 2/2 on $mux $techmap\law.$procmux$4017.
+    dead port 1/2 on $mux $techmap\law.$procmux$4020.
+    dead port 2/2 on $mux $techmap\law.$procmux$4022.
+    dead port 2/2 on $mux $techmap\law.$procmux$4033.
+    dead port 2/2 on $mux $techmap\law.$procmux$4035.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3938.
+    dead port 2/2 on $mux $techmap\law.$procmux$4037.
+    dead port 1/2 on $mux $techmap\law.$procmux$4040.
+    dead port 2/2 on $mux $techmap\law.$procmux$4042.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5767.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5769.
+    dead port 2/2 on $mux $techmap\law.$procmux$4057.
+    dead port 2/2 on $mux $techmap\law.$procmux$4059.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3940.
+    dead port 2/2 on $mux $techmap\law.$procmux$4061.
+    dead port 1/2 on $mux $techmap\law.$procmux$4064.
+    dead port 2/2 on $mux $techmap\law.$procmux$4066.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1801.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5771.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3942.
+    dead port 2/2 on $mux $techmap\law.$procmux$4079.
+    dead port 2/2 on $mux $techmap\law.$procmux$4081.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3945.
+    dead port 2/2 on $mux $techmap\law.$procmux$4083.
+    dead port 1/2 on $mux $techmap\law.$procmux$4086.
+    dead port 2/2 on $mux $techmap\law.$procmux$4088.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3947.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5774.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5776.
+    dead port 2/2 on $mux $techmap\law.$procmux$4105.
+    dead port 2/2 on $mux $techmap\law.$procmux$4107.
+    dead port 2/2 on $mux $techmap\law.$procmux$4109.
+    dead port 1/2 on $mux $techmap\law.$procmux$4112.
+    dead port 2/2 on $mux $techmap\law.$procmux$4114.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5804.
+    dead port 2/2 on $mux $techmap\law.$procmux$4133.
+    dead port 2/2 on $mux $techmap\law.$procmux$4135.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5806.
+    dead port 2/2 on $mux $techmap\law.$procmux$4137.
+    dead port 1/2 on $mux $techmap\law.$procmux$4140.
+    dead port 2/2 on $mux $techmap\law.$procmux$4142.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5032.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5808.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5811.
+    dead port 2/2 on $mux $techmap\law.$procmux$4163.
+    dead port 2/2 on $mux $techmap\law.$procmux$4165.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3973.
+    dead port 2/2 on $mux $techmap\law.$procmux$4167.
+    dead port 1/2 on $mux $techmap\law.$procmux$4170.
+    dead port 2/2 on $mux $techmap\law.$procmux$4172.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3975.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5813.
+    dead port 2/2 on $mux $techmap\law.$procmux$4195.
+    dead port 2/2 on $mux $techmap\law.$procmux$4197.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1474.
+    dead port 2/2 on $mux $techmap\law.$procmux$4199.
+    dead port 1/2 on $mux $techmap\law.$procmux$4202.
+    dead port 2/2 on $mux $techmap\law.$procmux$4204.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3977.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5843.
+    dead port 2/2 on $mux $techmap\law.$procmux$4229.
+    dead port 2/2 on $mux $techmap\law.$procmux$4231.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$3980.
+    dead port 2/2 on $mux $techmap\law.$procmux$4233.
+    dead port 1/2 on $mux $techmap\law.$procmux$4236.
+    dead port 2/2 on $mux $techmap\law.$procmux$4238.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3982.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5845.
+    dead port 2/2 on $mux $techmap\law.$procmux$4265.
+    dead port 2/2 on $mux $techmap\law.$procmux$4267.
+    dead port 2/2 on $mux $techmap\law.$procmux$4269.
+    dead port 1/2 on $mux $techmap\law.$procmux$4272.
+    dead port 2/2 on $mux $techmap\law.$procmux$4274.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3993.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5847.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5850.
+    dead port 2/2 on $mux $techmap\law.$procmux$4303.
+    dead port 2/2 on $mux $techmap\law.$procmux$4305.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3995.
+    dead port 2/2 on $mux $techmap\law.$procmux$4307.
+    dead port 1/2 on $mux $techmap\law.$procmux$4310.
+    dead port 2/2 on $mux $techmap\law.$procmux$4312.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1477.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5852.
+    dead port 2/2 on $mux $techmap\law.$procmux$4342.
+    dead port 2/2 on $mux $techmap\law.$procmux$4344.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$3997.
+    dead port 2/2 on $mux $techmap\law.$procmux$4346.
+    dead port 1/2 on $mux $techmap\law.$procmux$4349.
+    dead port 2/2 on $mux $techmap\law.$procmux$4351.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4000.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4002.
+    dead port 2/2 on $mux $techmap\law.$procmux$4363.
+    dead port 2/2 on $mux $techmap\law.$procmux$4365.
+    dead port 2/2 on $mux $techmap\law.$procmux$4367.
+    dead port 1/2 on $mux $techmap\law.$procmux$4370.
+    dead port 2/2 on $mux $techmap\law.$procmux$4372.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4013.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4015.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1479.
+    dead port 2/2 on $mux $techmap\law.$procmux$4388.
+    dead port 2/2 on $mux $techmap\law.$procmux$4390.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4017.
+    dead port 2/2 on $mux $techmap\law.$procmux$4392.
+    dead port 1/2 on $mux $techmap\law.$procmux$4395.
+    dead port 2/2 on $mux $techmap\law.$procmux$4397.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4020.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4022.
+    dead port 2/2 on $mux $techmap\law.$procmux$4417.
+    dead port 2/2 on $mux $techmap\law.$procmux$4419.
+    dead port 2/2 on $mux $techmap\law.$procmux$4421.
+    dead port 1/2 on $mux $techmap\law.$procmux$4424.
+    dead port 2/2 on $mux $techmap\law.$procmux$4426.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4033.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4035.
+    dead port 2/2 on $mux $techmap\law.$procmux$4450.
+    dead port 2/2 on $mux $techmap\law.$procmux$4452.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4037.
+    dead port 2/2 on $mux $techmap\law.$procmux$4454.
+    dead port 1/2 on $mux $techmap\law.$procmux$4457.
+    dead port 2/2 on $mux $techmap\law.$procmux$4459.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4040.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4042.
+    dead port 2/2 on $mux $techmap\law.$procmux$4487.
+    dead port 2/2 on $mux $techmap\law.$procmux$4489.
+    dead port 2/2 on $mux $techmap\law.$procmux$4491.
+    dead port 1/2 on $mux $techmap\law.$procmux$4494.
+    dead port 2/2 on $mux $techmap\law.$procmux$4496.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5884.
+    dead port 2/2 on $mux $techmap\law.$procmux$4526.
+    dead port 2/2 on $mux $techmap\law.$procmux$4528.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5886.
+    dead port 2/2 on $mux $techmap\law.$procmux$4530.
+    dead port 1/2 on $mux $techmap\law.$procmux$4533.
+    dead port 2/2 on $mux $techmap\law.$procmux$4535.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4057.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4059.
+    dead port 2/2 on $mux $techmap\law.$procmux$4553.
+    dead port 2/2 on $mux $techmap\law.$procmux$4555.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4061.
+    dead port 2/2 on $mux $techmap\law.$procmux$4557.
+    dead port 1/2 on $mux $techmap\law.$procmux$4560.
+    dead port 2/2 on $mux $techmap\law.$procmux$4562.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4064.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4066.
+    dead port 2/2 on $mux $techmap\law.$procmux$4576.
+    dead port 2/2 on $mux $techmap\law.$procmux$4578.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1500.
+    dead port 2/2 on $mux $techmap\law.$procmux$4580.
+    dead port 1/2 on $mux $techmap\law.$procmux$4583.
+    dead port 2/2 on $mux $techmap\law.$procmux$4585.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5888.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4079.
+    dead port 2/2 on $mux $techmap\law.$procmux$4607.
+    dead port 2/2 on $mux $techmap\law.$procmux$4609.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4081.
+    dead port 2/2 on $mux $techmap\law.$procmux$4611.
+    dead port 1/2 on $mux $techmap\law.$procmux$4614.
+    dead port 2/2 on $mux $techmap\law.$procmux$4616.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1502.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4083.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4086.
+    dead port 2/2 on $mux $techmap\law.$procmux$4646.
+    dead port 2/2 on $mux $techmap\law.$procmux$4648.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4088.
+    dead port 2/2 on $mux $techmap\law.$procmux$4650.
+    dead port 1/2 on $mux $techmap\law.$procmux$4653.
+    dead port 2/2 on $mux $techmap\law.$procmux$4655.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1504.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5891.
+    dead port 2/2 on $mux $techmap\law.$procmux$4681.
+    dead port 2/2 on $mux $techmap\law.$procmux$4683.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5893.
+    dead port 2/2 on $mux $techmap\law.$procmux$4685.
+    dead port 1/2 on $mux $techmap\law.$procmux$4688.
+    dead port 2/2 on $mux $techmap\law.$procmux$4690.
+    dead port 2/2 on $mux $techmap\law.$procmux$4700.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4105.
+    dead port 2/2 on $mux $techmap\law.$procmux$4702.
+    dead port 1/2 on $mux $techmap\law.$procmux$4705.
+    dead port 2/2 on $mux $techmap\law.$procmux$4707.
+    dead port 2/2 on $mux $techmap\law.$procmux$4717.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4107.
+    dead port 2/2 on $mux $techmap\law.$procmux$4719.
+    dead port 1/2 on $mux $techmap\law.$procmux$4722.
+    dead port 2/2 on $mux $techmap\law.$procmux$4724.
+    dead port 2/2 on $mux $techmap\law.$procmux$4735.
+    dead port 2/2 on $mux $techmap\law.$procmux$4737.
+    dead port 1/2 on $mux $techmap\law.$procmux$4740.
+    dead port 2/2 on $mux $techmap\law.$procmux$4742.
+    dead port 2/2 on $mux $techmap\law.$procmux$4754.
+    dead port 2/2 on $mux $techmap\law.$procmux$4756.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4109.
+    dead port 2/2 on $mux $techmap\law.$procmux$4758.
+    dead port 1/2 on $mux $techmap\law.$procmux$4761.
+    dead port 2/2 on $mux $techmap\law.$procmux$4763.
+    dead port 2/2 on $mux $techmap\law.$procmux$4776.
+    dead port 2/2 on $mux $techmap\law.$procmux$4778.
+    dead port 2/2 on $mux $techmap\law.$procmux$4780.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4112.
+    dead port 2/2 on $mux $techmap\law.$procmux$4782.
+    dead port 1/2 on $mux $techmap\law.$procmux$4785.
+    dead port 2/2 on $mux $techmap\law.$procmux$4787.
+    dead port 2/2 on $mux $techmap\law.$procmux$4799.
+    dead port 2/2 on $mux $techmap\law.$procmux$4801.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4114.
+    dead port 2/2 on $mux $techmap\law.$procmux$4803.
+    dead port 1/2 on $mux $techmap\law.$procmux$4806.
+    dead port 2/2 on $mux $techmap\law.$procmux$4808.
+    dead port 2/2 on $mux $techmap\law.$procmux$4820.
+    dead port 2/2 on $mux $techmap\law.$procmux$4822.
+    dead port 2/2 on $mux $techmap\law.$procmux$4824.
+    dead port 1/2 on $mux $techmap\law.$procmux$4827.
+    dead port 2/2 on $mux $techmap\law.$procmux$4829.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5927.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5929.
+    dead port 2/2 on $mux $techmap\law.$procmux$4845.
+    dead port 2/2 on $mux $techmap\law.$procmux$4847.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5931.
+    dead port 2/2 on $mux $techmap\law.$procmux$4849.
+    dead port 1/2 on $mux $techmap\law.$procmux$4852.
+    dead port 2/2 on $mux $techmap\law.$procmux$4854.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5934.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5936.
+    dead port 2/2 on $mux $techmap\law.$procmux$4868.
+    dead port 2/2 on $mux $techmap\law.$procmux$4870.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4133.
+    dead port 2/2 on $mux $techmap\law.$procmux$4872.
+    dead port 1/2 on $mux $techmap\law.$procmux$4875.
+    dead port 2/2 on $mux $techmap\law.$procmux$4877.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4135.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5950.
+    dead port 2/2 on $mux $techmap\law.$procmux$4895.
+    dead port 2/2 on $mux $techmap\law.$procmux$4897.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5952.
+    dead port 2/2 on $mux $techmap\law.$procmux$4899.
+    dead port 1/2 on $mux $techmap\law.$procmux$4902.
+    dead port 2/2 on $mux $techmap\law.$procmux$4904.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4137.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5954.
+    dead port 2/2 on $mux $techmap\law.$procmux$4924.
+    dead port 2/2 on $mux $techmap\law.$procmux$4926.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4140.
+    dead port 2/2 on $mux $techmap\law.$procmux$4928.
+    dead port 1/2 on $mux $techmap\law.$procmux$4931.
+    dead port 2/2 on $mux $techmap\law.$procmux$4933.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4142.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5957.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5959.
+    dead port 2/2 on $mux $techmap\law.$procmux$4955.
+    dead port 2/2 on $mux $techmap\law.$procmux$4957.
+    dead port 2/2 on $mux $techmap\law.$procmux$4959.
+    dead port 1/2 on $mux $techmap\law.$procmux$4962.
+    dead port 2/2 on $mux $techmap\law.$procmux$4964.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5978.
+    dead port 2/2 on $mux $techmap\law.$procmux$4988.
+    dead port 2/2 on $mux $techmap\law.$procmux$4990.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5980.
+    dead port 2/2 on $mux $techmap\law.$procmux$4992.
+    dead port 1/2 on $mux $techmap\law.$procmux$4995.
+    dead port 2/2 on $mux $techmap\law.$procmux$4997.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5982.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$5985.
+    dead port 2/2 on $mux $techmap\law.$procmux$5023.
+    dead port 2/2 on $mux $techmap\law.$procmux$5025.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4163.
+    dead port 2/2 on $mux $techmap\law.$procmux$5027.
+    dead port 1/2 on $mux $techmap\law.$procmux$5030.
+    dead port 2/2 on $mux $techmap\law.$procmux$5032.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4165.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$5987.
+    dead port 2/2 on $mux $techmap\law.$procmux$5060.
+    dead port 2/2 on $mux $techmap\law.$procmux$5062.
+    dead port 2/2 on $mux $techmap\law.$procmux$5064.
+    dead port 1/2 on $mux $techmap\law.$procmux$5067.
+    dead port 2/2 on $mux $techmap\law.$procmux$5069.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4167.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6010.
+    dead port 2/2 on $mux $techmap\law.$procmux$5099.
+    dead port 2/2 on $mux $techmap\law.$procmux$5101.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4170.
+    dead port 2/2 on $mux $techmap\law.$procmux$5103.
+    dead port 1/2 on $mux $techmap\law.$procmux$5106.
+    dead port 2/2 on $mux $techmap\law.$procmux$5108.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4172.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6012.
+    dead port 2/2 on $mux $techmap\law.$procmux$5139.
+    dead port 2/2 on $mux $techmap\law.$procmux$5141.
+    dead port 2/2 on $mux $techmap\law.$procmux$5143.
+    dead port 1/2 on $mux $techmap\law.$procmux$5146.
+    dead port 2/2 on $mux $techmap\law.$procmux$5148.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1803.
+    dead port 2/2 on $mux $techmap\law.$procmux$5161.
+    dead port 2/2 on $mux $techmap\law.$procmux$5163.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6014.
+    dead port 2/2 on $mux $techmap\law.$procmux$5165.
+    dead port 1/2 on $mux $techmap\law.$procmux$5168.
+    dead port 2/2 on $mux $techmap\law.$procmux$5170.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4195.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4197.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1506.
+    dead port 2/2 on $mux $techmap\law.$procmux$5187.
+    dead port 2/2 on $mux $techmap\law.$procmux$5189.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4199.
+    dead port 2/2 on $mux $techmap\law.$procmux$5191.
+    dead port 1/2 on $mux $techmap\law.$procmux$5194.
+    dead port 2/2 on $mux $techmap\law.$procmux$5196.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4202.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4204.
+    dead port 2/2 on $mux $techmap\law.$procmux$5217.
+    dead port 2/2 on $mux $techmap\law.$procmux$5219.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1509.
+    dead port 2/2 on $mux $techmap\law.$procmux$5221.
+    dead port 1/2 on $mux $techmap\law.$procmux$5224.
+    dead port 2/2 on $mux $techmap\law.$procmux$5226.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6017.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6019.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4229.
+    dead port 2/2 on $mux $techmap\law.$procmux$5251.
+    dead port 2/2 on $mux $techmap\law.$procmux$5253.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4231.
+    dead port 2/2 on $mux $techmap\law.$procmux$5255.
+    dead port 1/2 on $mux $techmap\law.$procmux$5258.
+    dead port 2/2 on $mux $techmap\law.$procmux$5260.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1511.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4233.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4236.
+    dead port 2/2 on $mux $techmap\law.$procmux$5289.
+    dead port 2/2 on $mux $techmap\law.$procmux$5291.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4238.
+    dead port 2/2 on $mux $techmap\law.$procmux$5293.
+    dead port 1/2 on $mux $techmap\law.$procmux$5296.
+    dead port 2/2 on $mux $techmap\law.$procmux$5298.
+    dead port 2/2 on $mux $techmap\law.$procmux$5329.
+    dead port 2/2 on $mux $techmap\law.$procmux$5331.
+    dead port 2/2 on $mux $techmap\law.$procmux$5333.
+    dead port 1/2 on $mux $techmap\law.$procmux$5336.
+    dead port 2/2 on $mux $techmap\law.$procmux$5338.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4265.
+    dead port 2/2 on $mux $techmap\law.$procmux$5357.
+    dead port 2/2 on $mux $techmap\law.$procmux$5359.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4267.
+    dead port 2/2 on $mux $techmap\law.$procmux$5361.
+    dead port 1/2 on $mux $techmap\law.$procmux$5364.
+    dead port 2/2 on $mux $techmap\law.$procmux$5366.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4269.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4272.
+    dead port 2/2 on $mux $techmap\law.$procmux$5381.
+    dead port 2/2 on $mux $techmap\law.$procmux$5383.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4274.
+    dead port 2/2 on $mux $techmap\law.$procmux$5385.
+    dead port 1/2 on $mux $techmap\law.$procmux$5388.
+    dead port 2/2 on $mux $techmap\law.$procmux$5390.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1540.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6046.
+    dead port 2/2 on $mux $techmap\law.$procmux$5413.
+    dead port 2/2 on $mux $techmap\law.$procmux$5415.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6048.
+    dead port 2/2 on $mux $techmap\law.$procmux$5417.
+    dead port 1/2 on $mux $techmap\law.$procmux$5420.
+    dead port 2/2 on $mux $techmap\law.$procmux$5422.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4303.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4305.
+    dead port 2/2 on $mux $techmap\law.$procmux$5453.
+    dead port 2/2 on $mux $techmap\law.$procmux$5455.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4307.
+    dead port 2/2 on $mux $techmap\law.$procmux$5457.
+    dead port 1/2 on $mux $techmap\law.$procmux$5460.
+    dead port 2/2 on $mux $techmap\law.$procmux$5462.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4310.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4312.
+    dead port 2/2 on $mux $techmap\law.$procmux$5489.
+    dead port 2/2 on $mux $techmap\law.$procmux$5491.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1542.
+    dead port 2/2 on $mux $techmap\law.$procmux$5493.
+    dead port 1/2 on $mux $techmap\law.$procmux$5496.
+    dead port 2/2 on $mux $techmap\law.$procmux$5498.
+    dead port 2/2 on $mux $techmap\law.$procmux$5509.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1806.
+    dead port 2/2 on $mux $techmap\law.$procmux$5511.
+    dead port 1/2 on $mux $techmap\law.$procmux$5514.
+    dead port 2/2 on $mux $techmap\law.$procmux$5516.
+    dead port 2/2 on $mux $techmap\law.$procmux$5527.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4342.
+    dead port 2/2 on $mux $techmap\law.$procmux$5529.
+    dead port 1/2 on $mux $techmap\law.$procmux$5532.
+    dead port 2/2 on $mux $techmap\law.$procmux$5534.
+    dead port 2/2 on $mux $techmap\law.$procmux$5546.
+    dead port 2/2 on $mux $techmap\law.$procmux$5548.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4344.
+    dead port 2/2 on $mux $techmap\law.$procmux$5550.
+    dead port 1/2 on $mux $techmap\law.$procmux$5553.
+    dead port 2/2 on $mux $techmap\law.$procmux$5555.
+    dead port 2/2 on $mux $techmap\law.$procmux$5567.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1544.
+    dead port 2/2 on $mux $techmap\law.$procmux$5569.
+    dead port 1/2 on $mux $techmap\law.$procmux$5572.
+    dead port 2/2 on $mux $techmap\law.$procmux$5574.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4346.
+    dead port 2/2 on $mux $techmap\law.$procmux$5587.
+    dead port 2/2 on $mux $techmap\law.$procmux$5589.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4349.
+    dead port 2/2 on $mux $techmap\law.$procmux$5591.
+    dead port 1/2 on $mux $techmap\law.$procmux$5594.
+    dead port 2/2 on $mux $techmap\law.$procmux$5596.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4351.
+    dead port 2/2 on $mux $techmap\law.$procmux$5612.
+    dead port 2/2 on $mux $techmap\law.$procmux$5614.
+    dead port 2/2 on $mux $techmap\law.$procmux$5616.
+    dead port 1/2 on $mux $techmap\law.$procmux$5619.
+    dead port 2/2 on $mux $techmap\law.$procmux$5621.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6050.
+    dead port 2/2 on $mux $techmap\law.$procmux$5639.
+    dead port 2/2 on $mux $techmap\law.$procmux$5641.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6335.
+    dead port 2/2 on $mux $techmap\law.$procmux$5643.
+    dead port 1/2 on $mux $techmap\law.$procmux$5646.
+    dead port 2/2 on $mux $techmap\law.$procmux$5648.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4363.
+    dead port 2/2 on $mux $techmap\law.$procmux$5668.
+    dead port 2/2 on $mux $techmap\law.$procmux$5670.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4365.
+    dead port 2/2 on $mux $techmap\law.$procmux$5672.
+    dead port 1/2 on $mux $techmap\law.$procmux$5675.
+    dead port 2/2 on $mux $techmap\law.$procmux$5677.
+    dead port 2/2 on $mux $techmap\law.$procmux$5699.
+    dead port 2/2 on $mux $techmap\law.$procmux$5701.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4367.
+    dead port 2/2 on $mux $techmap\law.$procmux$5703.
+    dead port 1/2 on $mux $techmap\law.$procmux$5706.
+    dead port 2/2 on $mux $techmap\law.$procmux$5708.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4370.
+    dead port 2/2 on $mux $techmap\law.$procmux$5732.
+    dead port 2/2 on $mux $techmap\law.$procmux$5734.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4372.
+    dead port 2/2 on $mux $techmap\law.$procmux$5736.
+    dead port 1/2 on $mux $techmap\law.$procmux$5739.
+    dead port 2/2 on $mux $techmap\law.$procmux$5741.
+    dead port 2/2 on $mux $techmap\law.$procmux$5767.
+    dead port 2/2 on $mux $techmap\law.$procmux$5769.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6053.
+    dead port 2/2 on $mux $techmap\law.$procmux$5771.
+    dead port 1/2 on $mux $techmap\law.$procmux$5774.
+    dead port 2/2 on $mux $techmap\law.$procmux$5776.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6055.
+    dead port 2/2 on $mux $techmap\law.$procmux$5804.
+    dead port 2/2 on $mux $techmap\law.$procmux$5806.
+    dead port 2/2 on $mux $techmap\law.$procmux$5808.
+    dead port 1/2 on $mux $techmap\law.$procmux$5811.
+    dead port 2/2 on $mux $techmap\law.$procmux$5813.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4388.
+    dead port 2/2 on $mux $techmap\law.$procmux$5843.
+    dead port 2/2 on $mux $techmap\law.$procmux$5845.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4390.
+    dead port 2/2 on $mux $techmap\law.$procmux$5847.
+    dead port 1/2 on $mux $techmap\law.$procmux$5850.
+    dead port 2/2 on $mux $techmap\law.$procmux$5852.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1546.
+    dead port 2/2 on $mux $techmap\law.$procmux$5884.
+    dead port 2/2 on $mux $techmap\law.$procmux$5886.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4392.
+    dead port 2/2 on $mux $techmap\law.$procmux$5888.
+    dead port 1/2 on $mux $techmap\law.$procmux$5891.
+    dead port 2/2 on $mux $techmap\law.$procmux$5893.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4395.
+    dead port 2/2 on $mux $techmap\law.$procmux$5927.
+    dead port 2/2 on $mux $techmap\law.$procmux$5929.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4397.
+    dead port 2/2 on $mux $techmap\law.$procmux$5931.
+    dead port 1/2 on $mux $techmap\law.$procmux$5934.
+    dead port 2/2 on $mux $techmap\law.$procmux$5936.
+    dead port 2/2 on $mux $techmap\law.$procmux$5950.
+    dead port 2/2 on $mux $techmap\law.$procmux$5952.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1549.
+    dead port 2/2 on $mux $techmap\law.$procmux$5954.
+    dead port 1/2 on $mux $techmap\law.$procmux$5957.
+    dead port 2/2 on $mux $techmap\law.$procmux$5959.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1551.
+    dead port 2/2 on $mux $techmap\law.$procmux$5978.
+    dead port 2/2 on $mux $techmap\law.$procmux$5980.
+    dead port 2/2 on $mux $techmap\law.$procmux$5982.
+    dead port 1/2 on $mux $techmap\law.$procmux$5985.
+    dead port 2/2 on $mux $techmap\law.$procmux$5987.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4417.
+    dead port 2/2 on $mux $techmap\law.$procmux$6010.
+    dead port 2/2 on $mux $techmap\law.$procmux$6012.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4419.
+    dead port 2/2 on $mux $techmap\law.$procmux$6014.
+    dead port 1/2 on $mux $techmap\law.$procmux$6017.
+    dead port 2/2 on $mux $techmap\law.$procmux$6019.
+    dead port 2/2 on $mux $techmap\law.$procmux$6046.
+    dead port 2/2 on $mux $techmap\law.$procmux$6048.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4421.
+    dead port 2/2 on $mux $techmap\law.$procmux$6050.
+    dead port 1/2 on $mux $techmap\law.$procmux$6053.
+    dead port 2/2 on $mux $techmap\law.$procmux$6055.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4424.
+    dead port 2/2 on $mux $techmap\law.$procmux$6086.
+    dead port 2/2 on $mux $techmap\law.$procmux$6088.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4426.
+    dead port 2/2 on $mux $techmap\law.$procmux$6090.
+    dead port 1/2 on $mux $techmap\law.$procmux$6093.
+    dead port 2/2 on $mux $techmap\law.$procmux$6095.
+    dead port 2/2 on $mux $techmap\law.$procmux$6110.
+    dead port 2/2 on $mux $techmap\law.$procmux$6112.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1568.
+    dead port 2/2 on $mux $techmap\law.$procmux$6114.
+    dead port 1/2 on $mux $techmap\law.$procmux$6117.
+    dead port 2/2 on $mux $techmap\law.$procmux$6119.
+    dead port 2/2 on $mux $techmap\law.$procmux$6140.
+    dead port 2/2 on $mux $techmap\law.$procmux$6142.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1570.
+    dead port 2/2 on $mux $techmap\law.$procmux$6144.
+    dead port 1/2 on $mux $techmap\law.$procmux$6147.
+    dead port 2/2 on $mux $techmap\law.$procmux$6149.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4450.
+    dead port 2/2 on $mux $techmap\law.$procmux$6178.
+    dead port 2/2 on $mux $techmap\law.$procmux$6180.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4452.
+    dead port 2/2 on $mux $techmap\law.$procmux$6182.
+    dead port 1/2 on $mux $techmap\law.$procmux$6185.
+    dead port 2/2 on $mux $techmap\law.$procmux$6187.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1572.
+    dead port 2/2 on $mux $techmap\law.$procmux$6204.
+    dead port 2/2 on $mux $techmap\law.$procmux$6206.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4454.
+    dead port 2/2 on $mux $techmap\law.$procmux$6208.
+    dead port 1/2 on $mux $techmap\law.$procmux$6211.
+    dead port 2/2 on $mux $techmap\law.$procmux$6213.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4457.
+    dead port 2/2 on $mux $techmap\law.$procmux$6246.
+    dead port 2/2 on $mux $techmap\law.$procmux$6248.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4459.
+    dead port 2/2 on $mux $techmap\law.$procmux$6250.
+    dead port 1/2 on $mux $techmap\law.$procmux$6253.
+    dead port 2/2 on $mux $techmap\law.$procmux$6255.
+    dead port 2/2 on $mux $techmap\law.$procmux$6280.
+    dead port 2/2 on $mux $techmap\law.$procmux$6282.
+    dead port 2/2 on $mux $techmap\law.$procmux$6284.
+    dead port 1/2 on $mux $techmap\law.$procmux$6287.
+    dead port 2/2 on $mux $techmap\law.$procmux$6289.
+    dead port 2/2 on $mux $techmap\law.$procmux$6302.
+    dead port 2/2 on $mux $techmap\law.$procmux$6304.
+    dead port 2/2 on $mux $techmap\law.$procmux$6306.
+    dead port 1/2 on $mux $techmap\law.$procmux$6309.
+    dead port 2/2 on $mux $techmap\law.$procmux$6311.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6086.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6088.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1808.
+    dead port 2/2 on $mux $techmap\law.$procmux$6328.
+    dead port 2/2 on $mux $techmap\law.$procmux$6330.
+    dead port 2/2 on $mux $techmap\law.$procmux$6332.
+    dead port 1/2 on $mux $techmap\law.$procmux$6335.
+    dead port 2/2 on $mux $techmap\law.$procmux$6337.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4487.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6090.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4489.
+    dead port 2/2 on $mux $techmap\law.$procmux$6352.
+    dead port 2/2 on $mux $techmap\law.$procmux$6354.
+    dead port 2/2 on $mux $techmap\law.$procmux$6356.
+    dead port 1/2 on $mux $techmap\law.$procmux$6359.
+    dead port 2/2 on $mux $techmap\law.$procmux$6361.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4491.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6093.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6095.
+    dead port 2/2 on $mux $techmap\law.$procmux$6380.
+    dead port 2/2 on $mux $techmap\law.$procmux$6382.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4494.
+    dead port 2/2 on $mux $techmap\law.$procmux$6384.
+    dead port 1/2 on $mux $techmap\law.$procmux$6387.
+    dead port 2/2 on $mux $techmap\law.$procmux$6389.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4496.
+    dead port 2/2 on $mux $techmap\law.$procmux$6410.
+    dead port 2/2 on $mux $techmap\law.$procmux$6412.
+    dead port 2/2 on $mux $techmap\law.$procmux$6414.
+    dead port 1/2 on $mux $techmap\law.$procmux$6417.
+    dead port 2/2 on $mux $techmap\law.$procmux$6419.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6110.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6112.
+    dead port 2/2 on $mux $techmap\law.$procmux$6442.
+    dead port 2/2 on $mux $techmap\law.$procmux$6444.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4526.
+    dead port 2/2 on $mux $techmap\law.$procmux$6446.
+    dead port 1/2 on $mux $techmap\law.$procmux$6449.
+    dead port 2/2 on $mux $techmap\law.$procmux$6451.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4528.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6114.
+    dead port 2/2 on $mux $techmap\law.$procmux$6476.
+    dead port 2/2 on $mux $techmap\law.$procmux$6478.
+    dead port 2/2 on $mux $techmap\law.$procmux$6480.
+    dead port 1/2 on $mux $techmap\law.$procmux$6483.
+    dead port 2/2 on $mux $techmap\law.$procmux$6485.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4530.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6117.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6119.
+    dead port 2/2 on $mux $techmap\law.$procmux$6512.
+    dead port 2/2 on $mux $techmap\law.$procmux$6514.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4533.
+    dead port 2/2 on $mux $techmap\law.$procmux$6516.
+    dead port 1/2 on $mux $techmap\law.$procmux$6519.
+    dead port 2/2 on $mux $techmap\law.$procmux$6521.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4535.
+    dead port 2/2 on $mux $techmap\law.$procmux$6550.
+    dead port 2/2 on $mux $techmap\law.$procmux$6552.
+    dead port 2/2 on $mux $techmap\law.$procmux$6554.
+    dead port 1/2 on $mux $techmap\law.$procmux$6557.
+    dead port 2/2 on $mux $techmap\law.$procmux$6559.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1574.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6140.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6142.
+    dead port 2/2 on $mux $techmap\law.$procmux$6590.
+    dead port 2/2 on $mux $techmap\law.$procmux$6592.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1577.
+    dead port 2/2 on $mux $techmap\law.$procmux$6594.
+    dead port 1/2 on $mux $techmap\law.$procmux$6597.
+    dead port 2/2 on $mux $techmap\law.$procmux$6599.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1579.
+    dead port 2/2 on $mux $techmap\law.$procmux$6631.
+    dead port 2/2 on $mux $techmap\law.$procmux$6633.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4553.
+    dead port 2/2 on $mux $techmap\law.$procmux$6635.
+    dead port 1/2 on $mux $techmap\law.$procmux$6638.
+    dead port 2/2 on $mux $techmap\law.$procmux$6640.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4555.
+    dead port 2/2 on $mux $techmap\law.$procmux$6654.
+    dead port 2/2 on $mux $techmap\law.$procmux$6656.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4557.
+    dead port 2/2 on $mux $techmap\law.$procmux$6658.
+    dead port 1/2 on $mux $techmap\law.$procmux$6661.
+    dead port 2/2 on $mux $techmap\law.$procmux$6663.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4560.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4562.
+    dead port 2/2 on $mux $techmap\law.$procmux$6681.
+    dead port 2/2 on $mux $techmap\law.$procmux$6683.
+    dead port 2/2 on $mux $techmap\law.$procmux$6685.
+    dead port 1/2 on $mux $techmap\law.$procmux$6688.
+    dead port 2/2 on $mux $techmap\law.$procmux$6690.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1612.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4576.
+    dead port 2/2 on $mux $techmap\law.$procmux$6712.
+    dead port 2/2 on $mux $techmap\law.$procmux$6714.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4578.
+    dead port 2/2 on $mux $techmap\law.$procmux$6716.
+    dead port 1/2 on $mux $techmap\law.$procmux$6719.
+    dead port 2/2 on $mux $techmap\law.$procmux$6721.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1614.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4580.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4583.
+    dead port 2/2 on $mux $techmap\law.$procmux$6747.
+    dead port 2/2 on $mux $techmap\law.$procmux$6749.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4585.
+    dead port 2/2 on $mux $techmap\law.$procmux$6751.
+    dead port 1/2 on $mux $techmap\law.$procmux$6754.
+    dead port 2/2 on $mux $techmap\law.$procmux$6756.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1616.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6144.
+    dead port 2/2 on $mux $techmap\law.$procmux$6786.
+    dead port 2/2 on $mux $techmap\law.$procmux$6788.
+    dead port 2/2 on $mux $techmap\law.$procmux$6790.
+    dead port 1/2 on $mux $techmap\law.$procmux$6793.
+    dead port 2/2 on $mux $techmap\law.$procmux$6795.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4607.
+    dead port 2/2 on $mux $techmap\law.$procmux$6827.
+    dead port 2/2 on $mux $techmap\law.$procmux$6829.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4609.
+    dead port 2/2 on $mux $techmap\law.$procmux$6831.
+    dead port 1/2 on $mux $techmap\law.$procmux$6834.
+    dead port 2/2 on $mux $techmap\law.$procmux$6836.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4611.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4614.
+    dead port 2/2 on $mux $techmap\law.$procmux$6856.
+    dead port 2/2 on $mux $techmap\law.$procmux$6858.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4616.
+    dead port 2/2 on $mux $techmap\law.$procmux$6860.
+    dead port 1/2 on $mux $techmap\law.$procmux$6863.
+    dead port 2/2 on $mux $techmap\law.$procmux$6865.
+    dead port 2/2 on $mux $techmap\law.$procmux$6881.
+    dead port 2/2 on $mux $techmap\law.$procmux$6883.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6147.
+    dead port 2/2 on $mux $techmap\law.$procmux$6885.
+    dead port 1/2 on $mux $techmap\law.$procmux$6888.
+    dead port 2/2 on $mux $techmap\law.$procmux$6890.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4646.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4648.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1618.
+    dead port 2/2 on $mux $techmap\law.$procmux$6914.
+    dead port 2/2 on $mux $techmap\law.$procmux$6916.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4650.
+    dead port 2/2 on $mux $techmap\law.$procmux$6918.
+    dead port 1/2 on $mux $techmap\law.$procmux$6921.
+    dead port 2/2 on $mux $techmap\law.$procmux$6923.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4653.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4655.
+    dead port 2/2 on $mux $techmap\law.$procmux$6955.
+    dead port 2/2 on $mux $techmap\law.$procmux$6957.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1621.
+    dead port 2/2 on $mux $techmap\law.$procmux$6959.
+    dead port 1/2 on $mux $techmap\law.$procmux$6962.
+    dead port 2/2 on $mux $techmap\law.$procmux$6964.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1623.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4681.
+    dead port 2/2 on $mux $techmap\law.$procmux$6992.
+    dead port 2/2 on $mux $techmap\law.$procmux$6994.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4683.
+    dead port 2/2 on $mux $techmap\law.$procmux$6996.
+    dead port 1/2 on $mux $techmap\law.$procmux$6999.
+    dead port 2/2 on $mux $techmap\law.$procmux$7001.
+    dead port 2/2 on $mux $techmap\law.$procmux$7013.
+    dead port 2/2 on $mux $techmap\law.$procmux$7015.
+    dead port 1/2 on $mux $techmap\law.$procmux$7018.
+    dead port 2/2 on $mux $techmap\law.$procmux$7020.
+    dead port 2/2 on $mux $techmap\law.$procmux$7032.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4685.
+    dead port 2/2 on $mux $techmap\law.$procmux$7034.
+    dead port 1/2 on $mux $techmap\law.$procmux$7037.
+    dead port 2/2 on $mux $techmap\law.$procmux$7039.
+    dead port 2/2 on $mux $techmap\law.$procmux$7052.
+    dead port 2/2 on $mux $techmap\law.$procmux$7054.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4688.
+    dead port 2/2 on $mux $techmap\law.$procmux$7056.
+    dead port 1/2 on $mux $techmap\law.$procmux$7059.
+    dead port 2/2 on $mux $techmap\law.$procmux$7061.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6149.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4690.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4700.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1648.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4702.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4705.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4707.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4717.
+    dead port 2/2 on $mux $techmap\law.$procmux$7072.
+    dead port 1/2 on $mux $techmap\law.$procmux$7075.
+    dead port 2/2 on $mux $techmap\law.$procmux$7077.
+    dead port 2/2 on $mux $techmap\law.$procmux$7088.
+    dead port 2/2 on $mux $techmap\law.$procmux$7090.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4719.
+    dead port 2/2 on $mux $techmap\law.$procmux$7092.
+    dead port 1/2 on $mux $techmap\law.$procmux$7095.
+    dead port 2/2 on $mux $techmap\law.$procmux$7097.
+    dead port 1/2 on $mux $techmap\law.$procmux$7125.
+    dead port 2/2 on $mux $techmap\law.$procmux$7127.
+    dead port 1/2 on $mux $techmap\law.$procmux$7134.
+    dead port 2/2 on $mux $techmap\law.$procmux$7136.
+    dead port 2/2 on $mux $techmap\law.$procmux$7142.
+    dead port 2/2 on $mux $techmap\law.$procmux$7148.
+    dead port 2/2 on $mux $techmap\law.$procmux$7155.
+    dead port 2/2 on $mux $techmap\law.$procmux$7157.
+    dead port 2/2 on $mux $techmap\law.$procmux$7164.
+    dead port 2/2 on $mux $techmap\law.$procmux$7166.
+    dead port 2/2 on $mux $techmap\law.$procmux$7172.
+    dead port 2/2 on $mux $techmap\law.$procmux$7178.
+    dead port 2/2 on $mux $techmap\law.$procmux$7185.
+    dead port 2/2 on $mux $techmap\law.$procmux$7187.
+    dead port 2/2 on $mux $techmap\law.$procmux$7199.
+    dead port 2/2 on $mux $techmap\law.$procmux$7214.
+    dead port 2/2 on $mux $techmap\law.$procmux$7220.
+    dead port 2/2 on $mux $techmap\law.$procmux$7226.
+    dead port 2/2 on $mux $techmap\law.$procmux$7232.
+    dead port 2/2 on $mux $techmap\law.$procmux$7238.
+    dead port 2/2 on $mux $techmap\law.$procmux$7244.
+    dead port 2/2 on $mux $techmap\law.$procmux$7250.
+    dead port 2/2 on $mux $techmap\law.$procmux$7256.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4722.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4724.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4735.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1650.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4737.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4740.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4742.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4754.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4756.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1652.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4758.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4761.
+    dead port 2/2 on $mux $techmap\law.$procmux$748.
+    dead port 2/2 on $mux $techmap\law.$procmux$754.
+    dead port 2/2 on $mux $techmap\law.$procmux$760.
+    dead port 2/2 on $mux $techmap\law.$procmux$766.
+    dead port 2/2 on $mux $techmap\law.$procmux$772.
+    dead port 2/2 on $mux $techmap\law.$procmux$778.
+    dead port 2/2 on $mux $techmap\law.$procmux$784.
+    dead port 2/2 on $mux $techmap\law.$procmux$790.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6178.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4763.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4776.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4778.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4780.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6180.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4782.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4785.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4787.
+    dead port 2/2 on $mux $techmap\law.$procmux$812.
+    dead port 1/2 on $mux $techmap\law.$procmux$815.
+    dead port 2/2 on $mux $techmap\law.$procmux$817.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4799.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4801.
+    dead port 2/2 on $mux $techmap\law.$procmux$828.
+    dead port 2/2 on $mux $techmap\law.$procmux$830.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1833.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4803.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4806.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4808.
+    dead port 2/2 on $mux $techmap\law.$procmux$832.
+    dead port 1/2 on $mux $techmap\law.$procmux$835.
+    dead port 2/2 on $mux $techmap\law.$procmux$837.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6182.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4820.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4822.
+    dead port 2/2 on $mux $techmap\law.$procmux$850.
+    dead port 2/2 on $mux $techmap\law.$procmux$852.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6185.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6187.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4824.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4827.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4829.
+    dead port 2/2 on $mux $techmap\law.$procmux$854.
+    dead port 1/2 on $mux $techmap\law.$procmux$857.
+    dead port 2/2 on $mux $techmap\law.$procmux$859.
+    dead port 2/2 on $mux $techmap\law.$procmux$870.
+    dead port 2/2 on $mux $techmap\law.$procmux$872.
+    dead port 2/2 on $mux $techmap\law.$procmux$874.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6204.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6206.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4845.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4847.
+    dead port 2/2 on $mux $techmap\law.$procmux$876.
+    dead port 1/2 on $mux $techmap\law.$procmux$879.
+    dead port 2/2 on $mux $techmap\law.$procmux$881.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4849.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4852.
+    dead port 2/2 on $mux $techmap\law.$procmux$894.
+    dead port 2/2 on $mux $techmap\law.$procmux$896.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4854.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6208.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6211.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6213.
+    dead port 2/2 on $mux $techmap\law.$procmux$898.
+    dead port 1/2 on $mux $techmap\law.$procmux$901.
+    dead port 2/2 on $mux $techmap\law.$procmux$903.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4868.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4870.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1654.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4872.
+    dead port 2/2 on $mux $techmap\law.$procmux$915.
+    dead port 2/2 on $mux $techmap\law.$procmux$917.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4875.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4877.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$1657.
+    dead port 2/2 on $mux $techmap\law.$procmux$919.
+    dead port 1/2 on $mux $techmap\law.$procmux$922.
+    dead port 2/2 on $mux $techmap\law.$procmux$924.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6246.
+    dead port 2/2 on $mux $techmap\law.$procmux$940.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4895.
+    dead port 2/2 on $mux $techmap\law.$procmux$942.
+    dead port 2/2 on $mux $techmap\law.$procmux$944.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6248.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4897.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1659.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4899.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4902.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4904.
+    dead port 2/2 on $mux $techmap\law.$procmux$946.
+    dead port 1/2 on $mux $techmap\law.$procmux$949.
+    dead port 2/2 on $mux $techmap\law.$procmux$951.
+    dead port 2/2 on $mux $techmap\law.$procmux$969.
+    dead port 2/2 on $mux $techmap\law.$procmux$971.
+    dead port 2/2 on $mux $techmap\law.$procmux$973.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1835.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6250.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6253.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4924.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4926.
+    dead port 2/2 on $mux $techmap\law.$procmux$975.
+    dead port 1/2 on $mux $techmap\law.$procmux$978.
+    dead port 2/2 on $mux $techmap\law.$procmux$980.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4928.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4931.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6255.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4933.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1673.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4955.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4957.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4959.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4962.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4964.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1675.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6280.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6282.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4988.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4990.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1677.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4992.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$4995.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$4997.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$1837.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6284.
+    dead port 1/2 on $mux $techmap\dut.transition.$procmux$6287.
+    dead port 2/2 on $mux $techmap\dut.transition.$procmux$6289.
+Removed 2196 multiplexer ports.
+<suppressed ~38 debug messages>
+
+8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \boundary_formal.
+    New input vector for $reduce_or cell $techmap\dut.transition.$procmux$1706_ANY: { $techmap\dut.transition.$procmux$1005_CMP [0] $techmap\dut.transition.$procmux$1005_CMP [2] $techmap\dut.transition.$procmux$1005_CMP [3] $techmap\dut.transition.$procmux$1005_CMP [4] $techmap\dut.transition.$procmux$1001_CMP }
+    New input vector for $reduce_or cell $techmap\dut.transition.$procmux$7273_ANY: { $techmap\dut.transition.$procmux$1005_CMP [2] $techmap\dut.transition.$procmux$1005_CMP [3] }
+    New input vector for $reduce_or cell $techmap\dut.transition.$procmux$2523_ANY: { $techmap\dut.transition.$procmux$1005_CMP [0] $techmap\dut.transition.$procmux$1001_CMP }
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4159: $auto$opt_reduce.cc:132:opt_mux$7291
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4191: $auto$opt_reduce.cc:132:opt_mux$7293
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4225: $auto$opt_reduce.cc:132:opt_mux$7295
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4261: $auto$opt_reduce.cc:132:opt_mux$7297
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4299: $auto$opt_reduce.cc:132:opt_mux$7299
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$910: { $techmap\dut.transition.$procmux$1005_CMP [0] $techmap\dut.transition.$procmux$1001_CMP $auto$opt_reduce.cc:132:opt_mux$7301 }
+    New ctrl vector for $mux cell $techmap\dut.transition.$procmux$7162: { }
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4339: $auto$opt_reduce.cc:132:opt_mux$7303
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4360: $auto$opt_reduce.cc:132:opt_mux$7305
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4384: $auto$opt_reduce.cc:132:opt_mux$7307
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4413: $auto$opt_reduce.cc:132:opt_mux$7309
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4446: $auto$opt_reduce.cc:132:opt_mux$7311
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4483: $auto$opt_reduce.cc:132:opt_mux$7313
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4053: $auto$opt_reduce.cc:132:opt_mux$7315
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4549: $auto$opt_reduce.cc:132:opt_mux$7317
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4075: $auto$opt_reduce.cc:132:opt_mux$7319
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4101: $auto$opt_reduce.cc:132:opt_mux$7321
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4129: $auto$opt_reduce.cc:132:opt_mux$7323
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4572: $auto$opt_reduce.cc:132:opt_mux$7325
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4159: $auto$opt_reduce.cc:132:opt_mux$7327
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4191: $auto$opt_reduce.cc:132:opt_mux$7329
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4603: $auto$opt_reduce.cc:132:opt_mux$7331
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4225: $auto$opt_reduce.cc:132:opt_mux$7333
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4261: $auto$opt_reduce.cc:132:opt_mux$7335
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4642: $auto$opt_reduce.cc:132:opt_mux$7337
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4299: $auto$opt_reduce.cc:132:opt_mux$7339
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4339: $auto$opt_reduce.cc:132:opt_mux$7341
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4677: $auto$opt_reduce.cc:132:opt_mux$7343
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4360: $auto$opt_reduce.cc:132:opt_mux$7345
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4384: $auto$opt_reduce.cc:132:opt_mux$7347
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4413: $auto$opt_reduce.cc:132:opt_mux$7349
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4446: $auto$opt_reduce.cc:132:opt_mux$7351
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4483: $auto$opt_reduce.cc:132:opt_mux$7353
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4053: $auto$opt_reduce.cc:132:opt_mux$7355
+    New ctrl vector for $mux cell $techmap\law.$procmux$7162: { }
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4549: $auto$opt_reduce.cc:132:opt_mux$7357
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4572: $auto$opt_reduce.cc:132:opt_mux$7359
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4075: $auto$opt_reduce.cc:132:opt_mux$7361
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4603: $auto$opt_reduce.cc:132:opt_mux$7363
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4642: $auto$opt_reduce.cc:132:opt_mux$7365
+    New ctrl vector for $pmux cell $techmap\law.$procmux$4677: $auto$opt_reduce.cc:132:opt_mux$7367
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4101: $auto$opt_reduce.cc:132:opt_mux$7369
+    New ctrl vector for $pmux cell $techmap\law.$procmux$910: { $techmap\dut.transition.$procmux$1005_CMP [0] $techmap\dut.transition.$procmux$1001_CMP $auto$opt_reduce.cc:132:opt_mux$7371 }
+    New ctrl vector for $pmux cell $techmap\dut.transition.$procmux$4129: $auto$opt_reduce.cc:132:opt_mux$7373
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7296: { $techmap\dut.transition.$procmux$6511_CMP $techmap\dut.transition.$procmux$5059_CMP $techmap\dut.transition.$procmux$5058_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7318: { $techmap\dut.transition.$procmux$6350_CMP $techmap\dut.transition.$procmux$6325_CMP $techmap\dut.transition.$procmux$6301_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7324: { $techmap\dut.transition.$procmux$6350_CMP $techmap\dut.transition.$procmux$6326_CMP $techmap\dut.transition.$procmux$6325_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7334: { $techmap\dut.transition.$procmux$6511_CMP $techmap\dut.transition.$procmux$5059_CMP $techmap\dut.transition.$procmux$5058_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7342: { $techmap\dut.transition.$procmux$6511_CMP $techmap\dut.transition.$procmux$6510_CMP $techmap\dut.transition.$procmux$5058_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7358: { $techmap\dut.transition.$procmux$6350_CMP $techmap\dut.transition.$procmux$6326_CMP $techmap\dut.transition.$procmux$6325_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7360: { $techmap\dut.transition.$procmux$6350_CMP $techmap\dut.transition.$procmux$6325_CMP $techmap\dut.transition.$procmux$6301_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7366: { $techmap\dut.transition.$procmux$6511_CMP $techmap\dut.transition.$procmux$6510_CMP $techmap\dut.transition.$procmux$5058_CMP }
+  Optimizing cells in module \boundary_formal.
+Performed a total of 55 changes.
+
+8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\boundary_formal'.
+<suppressed ~1038 debug messages>
+Removed a total of 346 cells.
+
+8.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \boundary_formal..
+Removed 2 unused cells and 3991 unused wires.
+<suppressed ~6 debug messages>
+
+8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module boundary_formal.
+<suppressed ~2 debug messages>
+
+8.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \boundary_formal..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~42 debug messages>
+
+8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \boundary_formal.
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7366: { $techmap\dut.transition.$procmux$4263_CMP $techmap\dut.transition.$procmux$4228_CMP $techmap\dut.transition.$procmux$4227_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$7334: { $techmap\dut.transition.$procmux$4264_CMP $techmap\dut.transition.$procmux$4263_CMP $techmap\dut.transition.$procmux$4228_CMP }
+  Optimizing cells in module \boundary_formal.
+Performed a total of 2 changes.
+
+8.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\boundary_formal'.
+Removed a total of 0 cells.
+
+8.13. Executing OPT_RMDFF pass (remove dff with constant values).
+
+8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \boundary_formal..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+8.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module boundary_formal.
+
+8.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+8.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \boundary_formal..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~42 debug messages>
+
+8.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \boundary_formal.
+Performed a total of 0 changes.
+
+8.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\boundary_formal'.
+Removed a total of 0 cells.
+
+8.20. Executing OPT_RMDFF pass (remove dff with constant values).
+
+8.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \boundary_formal..
+
+8.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module boundary_formal.
+
+8.23. Finished OPT passes. (There is nothing left to do.)
+
+9. Executing SAT pass (solving SAT problems in the circuit).
+
+Setting up time step 1:
+Final constraint equation: { } = { }
+Import def constraint for this timestep: \clk
+Import def constraint for this timestep: \valid
+Import def constraint for this timestep: \reset
+Import def constraint for this timestep: \proposal
+Imported 539 cells to SAT database.
+No constraints for initial state found.
+
+
+Setting up time step 2:
+Final constraint equation: { } = { }
+Import def constraint for this timestep: \clk
+Import def constraint for this timestep: \valid
+Import def constraint for this timestep: \reset
+Import def constraint for this timestep: \proposal
+Imported 539 cells to SAT database.
+Import proof-constraint: \ok = 1'1
+Final proof equation: \ok = 1'1
+
+Solving problem with 82799 variables and 244953 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+
