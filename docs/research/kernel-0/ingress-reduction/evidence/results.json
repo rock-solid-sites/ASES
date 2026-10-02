@@ -1,0 +1,729 @@
+{
+  "artifact_sha256": {
+    "exhaustive_tb.v": "fcbe2ac88953af250f0721f3bba6ff2d1d413d1a2284662f443e1303ceb40a00",
+    "fixed_ingress.v": "c19d5db737ecb06da7d1163521b945660a1820f7045b6b96bd5a84ed4896bbbd",
+    "preflight.py": "13147044b738815e513343e1b85e3a4b6e9689274416ed0e913a2f476f19ed4b",
+    "refinement_formal.v": "ff4b23108d4719face8ea0fc434ac71de140d53da5aa41783c06ac90387fbb29",
+    "sequence_tb.v": "76011a2a479fd49c5d65a4020448dead1a80a6467d1a06414ae9f52e8d785a75",
+    "verify.py": "fa487219884d0064206884ae98f51b3ad608ffd4251c89fb3183322636cddf58"
+  },
+  "baseline": "c03bf1c470e54f51c299cb3347c547eeeae0e5ce",
+  "commands": [
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-V"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "iverilog-version",
+      "wall_seconds": 0.012056
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-V"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "yosys-version",
+      "wall_seconds": 0.003896
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/berkeley-abc",
+        "-c",
+        "version"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "abc-version",
+      "wall_seconds": 0.033123
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/ingress-refinement.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "ingress-refinement",
+      "wall_seconds": 0.075086
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/mutant-worker_becomes_manager.ys"
+      ],
+      "exit_code": 1,
+      "expected_proof_failure": true,
+      "max_rss_kib": 18256,
+      "name": "mutant-worker_becomes_manager",
+      "wall_seconds": 0.069366
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/counterexample-worker_becomes_manager.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "counterexample-worker_becomes_manager",
+      "wall_seconds": 0.073809
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/mutant-old_becomes_current.ys"
+      ],
+      "exit_code": 1,
+      "expected_proof_failure": true,
+      "max_rss_kib": 18256,
+      "name": "mutant-old_becomes_current",
+      "wall_seconds": 0.070485
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/counterexample-old_becomes_current.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "counterexample-old_becomes_current",
+      "wall_seconds": 0.066441
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/mutant-wrong_lane_payload.ys"
+      ],
+      "exit_code": 1,
+      "expected_proof_failure": true,
+      "max_rss_kib": 18256,
+      "name": "mutant-wrong_lane_payload",
+      "wall_seconds": 0.060299
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/counterexample-wrong_lane_payload.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "counterexample-wrong_lane_payload",
+      "wall_seconds": 0.064454
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/mutant-collision_submits.ys"
+      ],
+      "exit_code": 1,
+      "expected_proof_failure": true,
+      "max_rss_kib": 18256,
+      "name": "mutant-collision_submits",
+      "wall_seconds": 0.062629
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/counterexample-collision_submits.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "counterexample-collision_submits",
+      "wall_seconds": 0.064896
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/mutant-always_idle.ys"
+      ],
+      "exit_code": 1,
+      "expected_proof_failure": true,
+      "max_rss_kib": 18256,
+      "name": "mutant-always_idle",
+      "wall_seconds": 0.046427
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/counterexample-always_idle.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 18256,
+      "name": "counterexample-always_idle",
+      "wall_seconds": 0.048005
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_exhaustive_tb.COUPLED=0",
+        "-Pingress_exhaustive_tb.EXCLUSIVE=0",
+        "-s",
+        "ingress_exhaustive_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/independent-exhaustive.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/exhaustive_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "independent-exhaustive-compile",
+      "wall_seconds": 0.018485
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/independent-exhaustive.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/independent.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "independent-exhaustive",
+      "wall_seconds": 28.425809
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_exhaustive_tb.COUPLED=0",
+        "-Pingress_exhaustive_tb.EXCLUSIVE=0",
+        "-s",
+        "ingress_exhaustive_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/independent-attack.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/exhaustive_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "independent-attack-compile",
+      "wall_seconds": 0.014978
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/independent-attack.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/independent-attack.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "independent-attack",
+      "wall_seconds": 0.226457
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_sequence_tb.COUPLED=0",
+        "-Pingress_sequence_tb.EXCLUSIVE=0",
+        "-s",
+        "ingress_sequence_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/independent-sequence.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/sequence_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "independent-sequence-compile",
+      "wall_seconds": 0.015551
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/independent-sequence.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/independent-sequence.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "independent-sequence",
+      "wall_seconds": 0.012179
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/independent-boundary.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 164064,
+      "name": "independent-boundary",
+      "wall_seconds": 4.814631
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/independent-synthesis-equivalence.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "independent-synthesis-equivalence",
+      "wall_seconds": 4.04329
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/independent-synthesis.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "independent-synthesis",
+      "wall_seconds": 3.166858
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_exhaustive_tb.COUPLED=1",
+        "-Pingress_exhaustive_tb.EXCLUSIVE=0",
+        "-s",
+        "ingress_exhaustive_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/coupled-exhaustive.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/exhaustive_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "coupled-exhaustive-compile",
+      "wall_seconds": 0.012261
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/coupled-exhaustive.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/coupled.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "coupled-exhaustive",
+      "wall_seconds": 21.355094
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_exhaustive_tb.COUPLED=1",
+        "-Pingress_exhaustive_tb.EXCLUSIVE=0",
+        "-s",
+        "ingress_exhaustive_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/coupled-attack.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/exhaustive_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "coupled-attack-compile",
+      "wall_seconds": 0.011408
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/coupled-attack.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/coupled-attack.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "coupled-attack",
+      "wall_seconds": 0.224723
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_sequence_tb.COUPLED=1",
+        "-Pingress_sequence_tb.EXCLUSIVE=0",
+        "-s",
+        "ingress_sequence_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/coupled-sequence.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/sequence_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "coupled-sequence-compile",
+      "wall_seconds": 0.017117
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/coupled-sequence.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/coupled-sequence.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "coupled-sequence",
+      "wall_seconds": 0.01189
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/coupled-boundary.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 164184,
+      "name": "coupled-boundary",
+      "wall_seconds": 5.115078
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/coupled-synthesis-equivalence.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "coupled-synthesis-equivalence",
+      "wall_seconds": 4.215505
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/coupled-synthesis.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "coupled-synthesis",
+      "wall_seconds": 3.309928
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_exhaustive_tb.COUPLED=0",
+        "-Pingress_exhaustive_tb.EXCLUSIVE=1",
+        "-s",
+        "ingress_exhaustive_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/exclusive-exhaustive.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/exhaustive_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "exclusive-exhaustive-compile",
+      "wall_seconds": 0.016838
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/exclusive-exhaustive.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/exclusive.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "exclusive-exhaustive",
+      "wall_seconds": 6.480754
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_exhaustive_tb.COUPLED=0",
+        "-Pingress_exhaustive_tb.EXCLUSIVE=1",
+        "-s",
+        "ingress_exhaustive_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/exclusive-attack.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/exhaustive_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "exclusive-attack-compile",
+      "wall_seconds": 0.012898
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/exclusive-attack.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/exclusive-attack.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "exclusive-attack",
+      "wall_seconds": 0.227543
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/iverilog",
+        "-B",
+        "/tmp/kernel0-rtl-tools/root/usr/lib/x86_64-linux-gnu/ivl",
+        "-g2012",
+        "-Pingress_sequence_tb.COUPLED=0",
+        "-Pingress_sequence_tb.EXCLUSIVE=1",
+        "-s",
+        "ingress_sequence_tb",
+        "-o",
+        "/tmp/kernel0-ingress-build/exclusive-sequence.vvp",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/direct-rtl/kernel0.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/fixed_ingress.v",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/sequence_tb.v"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "exclusive-sequence-compile",
+      "wall_seconds": 0.01207
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
+        "/tmp/kernel0-ingress-build/exclusive-sequence.vvp",
+        "+vectors=/tmp/kernel0-ingress-build/exclusive-sequence.vectors"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "exclusive-sequence",
+      "wall_seconds": 0.012395
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/exclusive-boundary.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 164196,
+      "name": "exclusive-boundary",
+      "wall_seconds": 4.460434
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/exclusive-synthesis-equivalence.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "exclusive-synthesis-equivalence",
+      "wall_seconds": 3.857044
+    },
+    {
+      "argv": [
+        "/tmp/kernel0-rtl-tools/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/tmp/ases-kernel0-ingress-reduction/docs/research/kernel-0/ingress-reduction/evidence/exclusive-synthesis.ys"
+      ],
+      "exit_code": 0,
+      "expected_proof_failure": false,
+      "max_rss_kib": 63360,
+      "name": "exclusive-synthesis",
+      "wall_seconds": 3.286657
+    }
+  ],
+  "ingress_mutations_detected": [
+    "worker_becomes_manager",
+    "old_becomes_current",
+    "wrong_lane_payload",
+    "collision_submits",
+    "always_idle"
+  ],
+  "ingress_refinement": "PASS all 2^60 defined raw input combinations",
+  "profiles": [
+    {
+      "boundary_proof": "PASS arbitrary defined state and all raw port inputs",
+      "commit_vectors": 172545,
+      "name": "independent",
+      "raw_lane_attack_vectors": 10240,
+      "semantic_vectors": 1250452,
+      "sequential_cycles": 206,
+      "stale_lane_commits_over_all_2048_payloads": 0,
+      "states": 8449,
+      "status": "PASS",
+      "synthesis": {
+        "cell_types": {
+          "$_AND_": 410,
+          "$_DFF_P_": 24,
+          "$_MUX_": 62,
+          "$_NOT_": 110,
+          "$_OR_": 332,
+          "$_XOR_": 5
+        },
+        "cells": 943,
+        "netlist_sha256": "1f497eb24afad226baa5aac4d4bea88068fbd6b53078a8ba58db75256b598199"
+      },
+      "synthesis_equivalence": "PASS whole machine mapped-versus-RTL",
+      "vector_sha256": "c0449576ed282b6f2941a1b8ffaf2af845a5816a7a4fd845a1b30c29dd969f95"
+    },
+    {
+      "boundary_proof": "PASS arbitrary defined state and all raw port inputs",
+      "commit_vectors": 116389,
+      "name": "coupled",
+      "raw_lane_attack_vectors": 10240,
+      "semantic_vectors": 937876,
+      "sequential_cycles": 206,
+      "stale_lane_commits_over_all_2048_payloads": 0,
+      "states": 6337,
+      "status": "PASS",
+      "synthesis": {
+        "cell_types": {
+          "$_AND_": 485,
+          "$_DFF_P_": 24,
+          "$_MUX_": 48,
+          "$_NOT_": 141,
+          "$_OR_": 410,
+          "$_XOR_": 6
+        },
+        "cells": 1114,
+        "netlist_sha256": "e69466af0e1b02b1cc4cab78b7b72c2ca6af966a181068574eeaca43f2defdab"
+      },
+      "synthesis_equivalence": "PASS whole machine mapped-versus-RTL",
+      "vector_sha256": "fca6fd21258b63cb910018675c863ddde909b1945bbd9128707cab3c452c45bf"
+    },
+    {
+      "boundary_proof": "PASS arbitrary defined state and all raw port inputs",
+      "commit_vectors": 21057,
+      "name": "exclusive",
+      "raw_lane_attack_vectors": 10240,
+      "semantic_vectors": 284308,
+      "sequential_cycles": 206,
+      "stale_lane_commits_over_all_2048_payloads": 0,
+      "states": 1921,
+      "status": "PASS",
+      "synthesis": {
+        "cell_types": {
+          "$_AND_": 468,
+          "$_DFF_P_": 24,
+          "$_MUX_": 54,
+          "$_NOT_": 134,
+          "$_OR_": 394,
+          "$_XOR_": 5
+        },
+        "cells": 1079,
+        "netlist_sha256": "0ee18b5afa2a4d3986e3a13510cbe9a8b4cd9ad911f813ec447703190ef2416a"
+      },
+      "synthesis_equivalence": "PASS whole machine mapped-versus-RTL",
+      "vector_sha256": "7050586828441b3cd0595eb1a78949d0f8167e68c7fc1cd2e4bbefba6063b39a"
+    }
+  ],
+  "python": "3.10.12",
+  "scope": "fixed protected lanes; synchronous digital timing retained",
+  "semantic_vectors": 2472636,
+  "status": "PASS",
+  "tools": {
+    "abc": "ABC command line: \"version\".\n\nUC Berkeley, ABC 1.01 (compiled Jan 29 2022 01:26:07)",
+    "iverilog": "Icarus Verilog version 11.0 (stable) ()",
+    "yosys": "Yosys 0.9 (git sha1 1979e0b)"
+  }
+}

@@ -1,0 +1,2997 @@
+{
+  "authoritative_graphs": [
+    {
+      "commit_edges": 172349,
+      "committed_kinds": [
+        "accept",
+        "delegate",
+        "establish",
+        "flip",
+        "grant",
+        "pair",
+        "replace",
+        "restrict",
+        "resume",
+        "set"
+      ],
+      "deny_edges": 1077067,
+      "edges": 1249416,
+      "profile": "independent",
+      "requests_per_state": 148,
+      "states": 8442
+    },
+    {
+      "commit_edges": 116249,
+      "committed_kinds": [
+        "accept",
+        "delegate",
+        "establish",
+        "flip",
+        "grant",
+        "pair",
+        "replace",
+        "restrict",
+        "resume",
+        "set"
+      ],
+      "deny_edges": 820887,
+      "edges": 937136,
+      "profile": "coupled",
+      "requests_per_state": 148,
+      "states": 6332
+    },
+    {
+      "commit_edges": 20861,
+      "committed_kinds": [
+        "accept",
+        "establish",
+        "flip",
+        "grant",
+        "pair",
+        "replace",
+        "restrict",
+        "resume",
+        "set"
+      ],
+      "deny_edges": 262411,
+      "edges": 283272,
+      "profile": "exclusive",
+      "requests_per_state": 148,
+      "states": 1914
+    }
+  ],
+  "content_boundary": [
+    {
+      "continuation_after_loss": [
+        "private candidate := 1",
+        "guarded accept",
+        "lose executor and ALL private bytes",
+        "guarded replacement with fresh evidence",
+        "replacement consumes required accepted bytes"
+      ],
+      "counterexample": null,
+      "edges": 111,
+      "mode": "copy",
+      "stale_writer_counterexample": null,
+      "states": 33
+    },
+    {
+      "continuation_after_loss": null,
+      "counterexample": {
+        "after": {
+          "accepted": 0,
+          "alive": true,
+          "current": true,
+          "private": 1,
+          "replacement": false,
+          "resumed": -1,
+          "retained": -1
+        },
+        "before": {
+          "accepted": 0,
+          "alive": true,
+          "current": true,
+          "private": 0,
+          "replacement": false,
+          "resumed": -1,
+          "retained": -1
+        },
+        "meaning_after": 1,
+        "meaning_before": 0,
+        "trace": [
+          "guarded accept",
+          "private candidate := 1"
+        ]
+      },
+      "edges": 123,
+      "mode": "live",
+      "stale_writer_counterexample": {
+        "after": {
+          "accepted": 0,
+          "alive": true,
+          "current": false,
+          "private": 1,
+          "replacement": false,
+          "resumed": -1,
+          "retained": -1
+        },
+        "before": {
+          "accepted": 0,
+          "alive": true,
+          "current": false,
+          "private": 0,
+          "replacement": false,
+          "resumed": -1,
+          "retained": -1
+        },
+        "trace": [
+          "guarded accept",
+          "guarded revoke",
+          "private candidate := 1"
+        ]
+      },
+      "states": 39
+    },
+    {
+      "continuation_after_loss": null,
+      "counterexample": {
+        "after": {
+          "accepted": 0,
+          "alive": false,
+          "current": true,
+          "private": -1,
+          "replacement": false,
+          "resumed": -1,
+          "retained": -1
+        },
+        "before": {
+          "accepted": 0,
+          "alive": true,
+          "current": true,
+          "private": 0,
+          "replacement": false,
+          "resumed": -1,
+          "retained": -1
+        },
+        "meaning_after": -1,
+        "meaning_before": 0,
+        "trace": [
+          "guarded accept",
+          "lose executor and ALL private bytes"
+        ]
+      },
+      "edges": 55,
+      "mode": "hash_only",
+      "stale_writer_counterexample": null,
+      "states": 25
+    }
+  ],
+  "detached_validation_mutants": [
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 32,
+      "counterexample": {
+        "actual_state": {
+          "content": 0,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "current_view_requires": "deny",
+        "expected_state": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "trace": [
+          "0: invoke/copy set(a0, 0, 1, 0)",
+          "0: observe State(established=True, data=(0, 0), content=0, issued=1, rights=(7, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "1: invoke/copy replace(management, 0, 0, 1)",
+          "1: observe State(established=True, data=(0, 0), content=0, issued=1, rights=(7, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "1: commit -> State(established=True, data=(0, 0), content=0, issued=3, rights=(0, 7, 0, 0), parents=(-1, -1, -1, -1))",
+          "0: commit -> State(established=True, data=(1, 0), content=0, issued=3, rights=(0, 7, 0, 0), parents=(-1, -1, -1, -1))"
+        ]
+      },
+      "deny_edges": 8,
+      "edges": 254,
+      "lost_ack_edges": 56,
+      "name": "replacement race",
+      "repeated_flip_returns_to_start": false,
+      "states": 140,
+      "weakness": "stale_view"
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 32,
+      "counterexample": {
+        "actual_state": {
+          "content": 0,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "current_view_requires": "deny",
+        "expected_state": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "trace": [
+          "0: invoke/copy set(a0, 0, 1, 0)",
+          "0: observe State(established=True, data=(0, 0), content=0, issued=1, rights=(7, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "1: invoke/copy restrict(management, 0, 0, 0)",
+          "1: observe State(established=True, data=(0, 0), content=0, issued=1, rights=(7, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "1: commit -> State(established=True, data=(0, 0), content=0, issued=1, rights=(0, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "0: commit -> State(established=True, data=(1, 0), content=0, issued=1, rights=(0, 0, 0, 0), parents=(-1, -1, -1, -1))"
+        ]
+      },
+      "deny_edges": 8,
+      "edges": 254,
+      "lost_ack_edges": 56,
+      "name": "revocation race",
+      "repeated_flip_returns_to_start": false,
+      "states": 140,
+      "weakness": "stale_view"
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 48,
+      "counterexample": {
+        "actual_state": {
+          "content": 0,
+          "data": [
+            1,
+            1
+          ],
+          "established": true,
+          "issued": 9,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            2
+          ]
+        },
+        "current_view_requires": "deny",
+        "expected_state": {
+          "content": 0,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 9,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            2
+          ]
+        },
+        "trace": [
+          "0: invoke/copy set(a0, 0, 1, 0)",
+          "0: observe State(established=True, data=(0, 0), content=0, issued=9, rights=(7, 0, 0, 2), parents=(-1, -1, -1, -1))",
+          "1: invoke/copy set(a3, 1, 1, 0)",
+          "1: observe State(established=True, data=(0, 0), content=0, issued=9, rights=(7, 0, 0, 2), parents=(-1, -1, -1, -1))",
+          "0: commit -> State(established=True, data=(1, 0), content=0, issued=9, rights=(7, 0, 0, 2), parents=(-1, -1, -1, -1))",
+          "1: commit -> State(established=True, data=(1, 1), content=0, issued=9, rights=(7, 0, 0, 2), parents=(-1, -1, -1, -1))"
+        ]
+      },
+      "deny_edges": 32,
+      "edges": 608,
+      "lost_ack_edges": 112,
+      "name": "coupled fields",
+      "repeated_flip_returns_to_start": false,
+      "states": 280,
+      "weakness": "stale_view"
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 12,
+      "counterexample": {
+        "actual_state": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 9,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            1,
+            0,
+            0,
+            2
+          ]
+        },
+        "current_view_requires": "deny",
+        "expected_state": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        "trace": [
+          "0: invoke/copy grant(management, 0, 1, 0)",
+          "0: observe State(established=True, data=(0, 0), content=0, issued=0, rights=(0, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "1: invoke/copy grant(management, 3, 2, 0)",
+          "1: observe State(established=True, data=(0, 0), content=0, issued=0, rights=(0, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "0: commit -> State(established=True, data=(0, 0), content=0, issued=1, rights=(1, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "1: commit -> State(established=True, data=(0, 0), content=0, issued=9, rights=(1, 0, 0, 2), parents=(-1, -1, -1, -1))"
+        ]
+      },
+      "deny_edges": 8,
+      "edges": 102,
+      "lost_ack_edges": 28,
+      "name": "exclusive grant race",
+      "repeated_flip_returns_to_start": false,
+      "states": 70,
+      "weakness": "stale_view"
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 32,
+      "counterexample": {
+        "actual_state": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 9,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            0
+          ],
+          "rights": [
+            1,
+            0,
+            0,
+            2
+          ]
+        },
+        "current_view_requires": "commit",
+        "expected_state": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 9,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        "trace": [
+          "0: invoke/copy delegate(a0, 3, 2, 0)",
+          "0: observe State(established=True, data=(0, 0), content=0, issued=1, rights=(7, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "1: invoke/copy restrict(management, 0, 1, 0)",
+          "1: observe State(established=True, data=(0, 0), content=0, issued=1, rights=(7, 0, 0, 0), parents=(-1, -1, -1, -1))",
+          "0: commit -> State(established=True, data=(0, 0), content=0, issued=9, rights=(7, 0, 0, 2), parents=(-1, -1, -1, 0))",
+          "1: commit -> State(established=True, data=(0, 0), content=0, issued=9, rights=(1, 0, 0, 2), parents=(-1, -1, -1, 0))"
+        ]
+      },
+      "deny_edges": 8,
+      "edges": 254,
+      "lost_ack_edges": 56,
+      "name": "delegation versus parent restriction",
+      "repeated_flip_returns_to_start": false,
+      "states": 140,
+      "weakness": "stale_view"
+    }
+  ],
+  "format": 1,
+  "history_oracle": {
+    "accepted": 1712,
+    "cases": 4096,
+    "cycle": {
+      "effects": [
+        "A: x=1",
+        "B: y=1",
+        "C: z=1"
+      ],
+      "observations": [
+        "A: y=0",
+        "B: z=0",
+        "C: x=0"
+      ],
+      "pair_orders": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "required_order": [
+        "A<B",
+        "B<C",
+        "C<A"
+      ],
+      "weak_trace": [
+        "initiate A, B, C",
+        "observe all guards at (0,0,0)",
+        "apply A from old observation",
+        "apply B from old observation",
+        "apply C from old observation: (1,1,1)"
+      ],
+      "whole_set_witness": null
+    },
+    "pairwise_false_positives": 8,
+    "real_time": {
+      "completed_before_initiated_order": null,
+      "overlapping_order": [
+        1,
+        0
+      ]
+    },
+    "rejected": 2384,
+    "torn_view": {
+      "coherent_views": [
+        [
+          true,
+          0
+        ],
+        [
+          false,
+          0
+        ],
+        [
+          false,
+          1
+        ]
+      ],
+      "false_admission_by_components": [
+        [
+          0,
+          2
+        ]
+      ]
+    }
+  },
+  "interleavings": [
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 26,
+      "counterexample": null,
+      "deny_edges": 14,
+      "edges": 284,
+      "lost_ack_edges": 68,
+      "name": "replacement race",
+      "repeated_flip_returns_to_start": false,
+      "states": 158,
+      "weakness": null
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 26,
+      "counterexample": null,
+      "deny_edges": 14,
+      "edges": 284,
+      "lost_ack_edges": 68,
+      "name": "revocation race",
+      "repeated_flip_returns_to_start": false,
+      "states": 158,
+      "weakness": null
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 80,
+      "counterexample": null,
+      "deny_edges": 0,
+      "edges": 608,
+      "lost_ack_edges": 112,
+      "name": "compatible fields",
+      "repeated_flip_returns_to_start": false,
+      "states": 280,
+      "weakness": null
+    },
+    {
+      "both_commit_reachable": false,
+      "commit_edges": 24,
+      "counterexample": null,
+      "deny_edges": 56,
+      "edges": 680,
+      "lost_ack_edges": 136,
+      "name": "coupled fields",
+      "repeated_flip_returns_to_start": false,
+      "states": 316,
+      "weakness": null
+    },
+    {
+      "both_commit_reachable": false,
+      "commit_edges": 6,
+      "counterexample": null,
+      "deny_edges": 14,
+      "edges": 114,
+      "lost_ack_edges": 34,
+      "name": "exclusive grant race",
+      "repeated_flip_returns_to_start": false,
+      "states": 79,
+      "weakness": null
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 26,
+      "counterexample": null,
+      "deny_edges": 14,
+      "edges": 284,
+      "lost_ack_edges": 68,
+      "name": "delegation versus parent restriction",
+      "repeated_flip_returns_to_start": false,
+      "states": 158,
+      "weakness": null
+    },
+    {
+      "both_commit_reachable": false,
+      "commit_edges": 0,
+      "counterexample": null,
+      "deny_edges": 2,
+      "edges": 14,
+      "lost_ack_edges": 2,
+      "name": "denied composite and loss",
+      "repeated_flip_returns_to_start": false,
+      "states": 12,
+      "weakness": null
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 2,
+      "counterexample": null,
+      "deny_edges": 0,
+      "edges": 14,
+      "lost_ack_edges": 2,
+      "name": "whole pair and loss",
+      "repeated_flip_returns_to_start": false,
+      "states": 12,
+      "weakness": null
+    },
+    {
+      "both_commit_reachable": true,
+      "commit_edges": 4,
+      "counterexample": null,
+      "deny_edges": 0,
+      "edges": 27,
+      "lost_ack_edges": 4,
+      "name": "lost acknowledgement then replay",
+      "repeated_flip_returns_to_start": true,
+      "states": 22,
+      "weakness": null
+    }
+  ],
+  "source_sha256": "c9c429b0400df6e044d30b71befaeb810657430372fb1088f9e62631c8965083",
+  "witnesses": {
+    "co_located_view_loss": {
+      "after": {
+        "content": -1,
+        "data": [
+          0,
+          0
+        ],
+        "established": false,
+        "issued": 0,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "before": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "violation": "executor death erased continuing work, content and authority"
+    },
+    "distinction_witnesses": [
+      {
+        "distinction": "issued versus never issued",
+        "future_request": "grant(management, 0, 7, 0)",
+        "left": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 0,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "left_result": [
+          {
+            "content": 0,
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "commit"
+        ],
+        "right": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "right_result": [
+          {
+            "content": 0,
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "deny"
+        ]
+      },
+      {
+        "distinction": "current authority scope",
+        "future_request": "set(a0, 0, 1, 0)",
+        "left": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        "left_result": [
+          {
+            "content": 0,
+            "data": [
+              1,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          "commit"
+        ],
+        "right": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            2,
+            0,
+            0,
+            0
+          ]
+        },
+        "right_result": [
+          {
+            "content": 0,
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              2,
+              0,
+              0,
+              0
+            ]
+          },
+          "deny"
+        ]
+      },
+      {
+        "distinction": "delegation dependency",
+        "future_request": "restrict(management, 0, 0, 0)",
+        "left": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 9,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            2
+          ]
+        },
+        "left_result": [
+          {
+            "content": 0,
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 9,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              0,
+              0,
+              0,
+              2
+            ]
+          },
+          "commit"
+        ],
+        "right": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 9,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            0
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            2
+          ]
+        },
+        "right_result": [
+          {
+            "content": 0,
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 9,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "commit"
+        ]
+      },
+      {
+        "distinction": "required accepted content",
+        "future_request": "resume(a0, 0, 1, 0)",
+        "left": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "left_result": [
+          {
+            "content": 0,
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "deny"
+        ],
+        "right": {
+          "content": 1,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "right_result": [
+          {
+            "content": 1,
+            "data": [
+              1,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "commit"
+        ]
+      },
+      {
+        "distinction": "invariant-relevant work field",
+        "future_request": "set(a0, 1, 1, 0)",
+        "left": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "left_result": [
+          {
+            "content": 0,
+            "data": [
+              0,
+              1
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "commit"
+        ],
+        "right": {
+          "content": 0,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "right_result": [
+          {
+            "content": 0,
+            "data": [
+              1,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "deny"
+        ]
+      }
+    ],
+    "indistinguishable_evidence": [
+      {
+        "answer_for_shared_observation": false,
+        "old_denied": true,
+        "replacement_admitted": false
+      },
+      {
+        "answer_for_shared_observation": true,
+        "old_denied": false,
+        "replacement_admitted": true
+      }
+    ],
+    "mutable_proposal": {
+      "actual": {
+        "content": 0,
+        "data": [
+          1,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "declared": "set(a0, 0, 0, 0)",
+      "later_retargeted": "set(a0, 0, 1, 0)",
+      "required": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "violation": "invariant and authority hold, but the declared whole effect changed"
+    },
+    "mutants": {
+      "amplify": {
+        "mutant": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "restrict(management, 0, 1, 0)",
+            "outcome": "commit"
+          },
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 9,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                0
+              ],
+              "rights": [
+                1,
+                0,
+                0,
+                7
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "delegate(a0, 3, 7, 0)",
+            "outcome": "commit"
+          }
+        ],
+        "reference": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "restrict(management, 0, 1, 0)",
+            "outcome": "commit"
+          },
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                1,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "delegate(a0, 3, 7, 0)",
+            "outcome": "deny"
+          }
+        ]
+      },
+      "confusion": {
+        "mutant": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 3,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                7,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "replace(management, 0, 0, 1)",
+            "outcome": "commit"
+          },
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                1,
+                0
+              ],
+              "established": true,
+              "issued": 3,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                7,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 3,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                7,
+                0,
+                0
+              ]
+            },
+            "event": "set(a0, 0, 1, 0)",
+            "outcome": "commit"
+          }
+        ],
+        "reference": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 3,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                7,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "replace(management, 0, 0, 1)",
+            "outcome": "commit"
+          },
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 3,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                7,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 3,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                7,
+                0,
+                0
+              ]
+            },
+            "event": "set(a0, 0, 1, 0)",
+            "outcome": "deny"
+          }
+        ]
+      },
+      "exclusivity": {
+        "mutant": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 9,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                2
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "grant(management, 3, 2, 0)",
+            "outcome": "commit"
+          }
+        ],
+        "reference": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "grant(management, 3, 2, 0)",
+            "outcome": "deny"
+          }
+        ]
+      },
+      "forgery": {
+        "mutant": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                1,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "set(a0, 0, 1, 0)",
+            "outcome": "commit"
+          }
+        ],
+        "reference": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "set(a0, 0, 1, 0)",
+            "outcome": "deny"
+          }
+        ]
+      },
+      "partial": {
+        "mutant": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                1,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "mixed(a0, 0, 0, 0)",
+            "outcome": "deny"
+          }
+        ],
+        "reference": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "mixed(a0, 0, 0, 0)",
+            "outcome": "deny"
+          }
+        ]
+      },
+      "reuse": {
+        "mutant": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "restrict(management, 0, 0, 0)",
+            "outcome": "commit"
+          },
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "grant(management, 0, 7, 0)",
+            "outcome": "commit"
+          },
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                1,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "set(a0, 0, 1, 0)",
+            "outcome": "commit"
+          }
+        ],
+        "reference": [
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "restrict(management, 0, 0, 0)",
+            "outcome": "commit"
+          },
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "grant(management, 0, 7, 0)",
+            "outcome": "deny"
+          },
+          {
+            "after": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "before": {
+              "content": 0,
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "event": "set(a0, 0, 1, 0)",
+            "outcome": "deny"
+          }
+        ]
+      }
+    },
+    "new_evidence_at_old_physical_producer": [
+      {
+        "after": {
+          "content": 0,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "before": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "event": "set(a1, 0, 1, 0)",
+        "outcome": "commit"
+      }
+    ],
+    "replay_after_two_replacements": [
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            1,
+            1
+          ],
+          "established": true,
+          "issued": 15,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            2
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            1,
+            1
+          ],
+          "established": true,
+          "issued": 15,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            2
+          ]
+        },
+        "event": "set(a0, 0, 0, 0)",
+        "outcome": "deny"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            1,
+            1
+          ],
+          "established": true,
+          "issued": 15,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            2
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            1,
+            1
+          ],
+          "established": true,
+          "issued": 15,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            2
+          ]
+        },
+        "event": "set(a1, 0, 0, 0)",
+        "outcome": "deny"
+      }
+    ],
+    "split_effect_crash": {
+      "actual": {
+        "content": 0,
+        "data": [
+          1,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "before": {
+        "content": 0,
+        "data": [
+          0,
+          0
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "cuts_examined": 48,
+      "invalid_cuts": [
+        {
+          "before": [
+            0,
+            0
+          ],
+          "partial": [
+            1,
+            0
+          ],
+          "whole": [
+            1,
+            1
+          ],
+          "writes_before_loss": 1
+        },
+        {
+          "before": [
+            0,
+            1
+          ],
+          "partial": [
+            1,
+            1
+          ],
+          "whole": [
+            1,
+            0
+          ],
+          "writes_before_loss": 1
+        },
+        {
+          "before": [
+            1,
+            0
+          ],
+          "partial": [
+            0,
+            0
+          ],
+          "whole": [
+            0,
+            1
+          ],
+          "writes_before_loss": 1
+        },
+        {
+          "before": [
+            1,
+            1
+          ],
+          "partial": [
+            0,
+            1
+          ],
+          "whole": [
+            0,
+            0
+          ],
+          "writes_before_loss": 1
+        }
+      ],
+      "trace": [
+        "submit pair := (1,1)",
+        "validate",
+        "write x := 1",
+        "executor dies before y write / whole-effect record"
+      ],
+      "whole": {
+        "content": 0,
+        "data": [
+          1,
+          1
+        ],
+        "established": true,
+        "issued": 1,
+        "parents": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "rights": [
+          7,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "success": [
+      {
+        "after": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 0,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "before": {
+          "content": -1,
+          "data": [
+            0,
+            0
+          ],
+          "established": false,
+          "issued": 0,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "event": "establish(management, 0, 0, 0)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "before": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 0,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "event": "grant(management, 0, 7, 0)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 0,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "before": {
+          "content": 0,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "event": "set(a0, 0, 1, 0)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "before": {
+          "content": 0,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "event": "accept(a0, 0, 1, 0)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "event": "replace(management, 0, 0, 1)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "event": "resume(a1, 0, 1, 0)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "event": "flip(a1, 0, 0, 0)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 7,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            0
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 3,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            7,
+            0,
+            0
+          ]
+        },
+        "event": "replace(management, 1, 0, 2)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 7,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            0
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 7,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            0
+          ]
+        },
+        "event": "set(a2, 0, 1, 0)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 15,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            2
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 7,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            0
+          ]
+        },
+        "event": "grant(management, 3, 2, 0)",
+        "outcome": "commit"
+      },
+      {
+        "after": {
+          "content": 1,
+          "data": [
+            1,
+            1
+          ],
+          "established": true,
+          "issued": 15,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            2
+          ]
+        },
+        "before": {
+          "content": 1,
+          "data": [
+            1,
+            0
+          ],
+          "established": true,
+          "issued": 15,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            0,
+            0,
+            7,
+            2
+          ]
+        },
+        "event": "set(a3, 1, 1, 0)",
+        "outcome": "commit"
+      }
+    ]
+  }
+}
