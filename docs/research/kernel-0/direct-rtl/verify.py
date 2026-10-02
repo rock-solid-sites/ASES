@@ -19,6 +19,15 @@ from correspondence import (BASE, SOURCES, PROFILES, model, valid_states, reques
                             encode_state, decode_state, encode_request, decode_request)
 
 HERE = Path(__file__).resolve().parent
+REPO = HERE.parents[3]
+ARTIFACT_SOURCES = (
+    HERE/"kernel0.v",
+    HERE/"correspondence.py",
+    HERE/"verify.py",
+    HERE/"boundary_formal.v",
+    HERE/"exhaustive_tb.v",
+    HERE/"sequence_tb.v",
+)
 
 
 def digest(path):
@@ -27,6 +36,23 @@ def digest(path):
 
 def dump(path, value):
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+
+
+def require_clean_head(paths):
+    head = subprocess.check_output(["git","rev-parse","HEAD"],cwd=REPO,text=True).strip()
+    snapshot = {}
+    changed = []
+    for path in paths:
+        rel = str(path.relative_to(REPO))
+        actual = path.read_bytes()
+        committed = subprocess.check_output(["git","show",f"HEAD:{rel}"],cwd=REPO)
+        if actual != committed:
+            changed.append(rel)
+        snapshot[rel] = sha256(actual).hexdigest()
+    if changed:
+        raise RuntimeError("protected verification inputs differ from HEAD:\n"+
+                           "\n".join(changed))
+    return head, snapshot
 
 
 def sequence_vectors(profile, path):
@@ -100,11 +126,19 @@ def main():
     ap.add_argument("--yosys",default="yosys")
     ap.add_argument("--abc",default="berkeley-abc")
     args = ap.parse_args()
+    semantic_paths = tuple(HERE.parent/name for name in SOURCES)
+    protected_paths = semantic_paths + ARTIFACT_SOURCES
+    artifact_commit, protected_snapshot = require_clean_head(protected_paths)
+    artifact_manifest = {
+        str(path.relative_to(REPO)): protected_snapshot[str(path.relative_to(REPO))]
+        for path in ARTIFACT_SOURCES
+    }
     build, evidence = args.build.resolve(), args.evidence.resolve()
     build.mkdir(parents=True,exist_ok=True)
     evidence.mkdir(parents=True,exist_ok=True)
     commands = []
-    metrics = {"format":1,"baseline":BASE,"status":"INCOMPLETE",
+    metrics = {"format":1,"baseline":BASE,"artifact_commit":artifact_commit,
+               "artifact_sha256":artifact_manifest,"status":"INCOMPLETE",
                "profiles":[],"measurements":{},"tools":{},
                "host":{"system":platform.system(),"machine":platform.machine(),
                        "python":platform.python_version()}}
@@ -135,15 +169,20 @@ def main():
     metrics["tools"]["yosys"] = run("yosys-version",[args.yosys,"-V"]).strip()
     metrics["tools"]["iverilog"] = run("iverilog-version",compiler[:len(compiler)-1]+["-V"]).splitlines()[0]
     metrics["tools"]["abc"] = run("abc-version",[args.abc,"-c","version"]).strip()
-    # Verify both Git blob identity and actual working file contents at the frozen ref.
+    # Semantic inputs remain pinned to the frozen baseline. The RTL and
+    # verification machinery are pinned to, and recorded from, the clean HEAD.
     manifest = {}
-    for name in SOURCES:
-        path = HERE.parent/name
-        rel = str(path.relative_to(HERE.parents[3]))
-        frozen = subprocess.check_output(["git","show",f"{BASE}:{rel}"],cwd=HERE)
+    for name, path in zip(SOURCES, semantic_paths):
+        rel = str(path.relative_to(REPO))
+        frozen = subprocess.check_output(["git","show",f"{BASE}:{rel}"],cwd=REPO)
         assert frozen == path.read_bytes(), f"source changed: {name}"
         manifest[name] = digest(path)
-    dump(evidence/"source-manifest.json",{"baseline":BASE,"sha256":manifest})
+    dump(evidence/"source-manifest.json",{
+        "baseline":BASE,
+        "artifact_commit":artifact_commit,
+        "sha256":manifest,
+        "artifact_sha256":artifact_manifest,
+    })
     output = run("reference-model",["python3",HERE.parent/"kernel0_finite_model.py",
                                    "--output",evidence/"reference-model.json"])
     print(output.strip(),flush=True)
@@ -285,8 +324,10 @@ def main():
 
     metrics["status"] = "PASS"
     metrics["total_vectors"] = sum(p["vectors"] for p in metrics["profiles"])
-    metrics["artifact_sha256"] = {p.name:digest(p) for p in sorted(HERE.iterdir())
-                                  if p.suffix in (".py",".v")}
+    final_snapshot = {
+        str(path.relative_to(REPO)): digest(path) for path in protected_paths
+    }
+    assert final_snapshot == protected_snapshot, "protected verification inputs changed during run"
     dump(evidence/"results.json",metrics)
     dump(evidence/"commands.json",commands)
     print(f"PASS total_vectors={metrics['total_vectors']}",flush=True)
