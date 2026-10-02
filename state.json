@@ -1,6 +1,6 @@
 {
   "next_display_id": 577,
-  "next_comment_id": 4129,
+  "next_comment_id": 4130,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17957,7 +17957,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-10-02T20:56:23.905074584Z",
+      "updated_at": "2026-10-02T20:58:58.406598351Z",
       "labels": [
         "research"
       ],
@@ -18432,6 +18432,15 @@
           "kind": "result",
           "signed_by": "SHA256:ysA8Ntd7onMFCreK2Fnm+JnK5KF1TUsnch/A0ci1z9c",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4CkeeC+dK2ZKqbQVkOTqjJAvPQ+WlStOdsrcoGbpoL0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAbOqlWFPpX2fzLsSXd2jogpA9HUPckBjOGBmvnjYkY+nPjLsrk4mhiz1W5LbxS50qDxVqbpGURU8KRxTjBiJSBg=="
+        },
+        "73175701-f44e-40f1-9fd4-309024783bbd": {
+          "display_id": 4129,
+          "author": "pp3g-kTvg-experiment-7-stage-7c-unit-4-of-6-small-atomic-task",
+          "content": "Result: Wrote research/jev-bounded-judgment/phase2/experiment7/stage7/7C-U4-reachability.md (commit 7f56c0f, single path). (a) All 8 A-row p_suff listed individually: 0.35 0.49 0.44 0.41 0.41 0.32 0.29 0.35 (range [0.29,0.49]); all 8 U-row: 0.15 0.13 0.16 0.17 0.18 0.16 0.14 0.14 (range [0.13,0.18]). Populations are SEPARATED, not overlapping: min(A)=0.29 > max(U)=0.18, gap 0.1100, 64/64 cross-pairs A>U, 0 ties/0 reversals, within-stratum AUC 1.0000, median shift +0.2250; all 8 per-pair deltas positive (min +0.15, median +0.225, max +0.36). Computed by my own short python script over the raw rows. (b) Exp6 findings.md section 'Strata (8 pairs each)' quotes the runtime_conditioned_reachability row verbatim: 8/8=1.0 FU at 0.05 and within-stratum AUC 1.0 (A correctness 3/8=0.375, delta min +0.28 / median 0.33); the 0.05 rule is quoted from the doc header as 'p(insufficient_evidence) >= 0.05, frozen before measurement, never tuned'. (c) 5-sentence section 'Was the Choice threshold pathology removed or merely made incomparable'. KEY FINDING, stated plainly: the pathology was NOT removed, it was left without a Noul counterpart. The sharp point is that Noul does not beat Choice on separation at all - Exp6 already had within-stratum AUC 1.0 in this stratum, so both primitives are rank-perfect and disjoint; Exp6's 8/8 false-unknown was purely a level/calibration failure ('the reachability A distribution sits high'), not a distributional-overlap failure. The calibration claim is unfalsifiable in Exp7 rather than refuted, because DESIGN section E.D pre-registered no Noul threshold (threshold discovery is 'explicitly exploratory and excluded from H1/H2'), so no operating point, no detection count and no false-unknown count exist for Noul; an error rate at an unspecified point cannot be compared to an error rate at a frozen 0.05. The separation result is indifferent between a perfectly-placed and an adversarial Noul threshold. Four requirements for saying 'genuinely removed' are listed (pre-declared operating point, error counts at it, a calibration measure not a separation statistic, and data not used to choose the point). CONSTRAINTS OBSERVED: no H1/H2 global assessment; no threshold applied to any Noul value (verified: all 7 occurrences of 0.05 refer to the Exp6 Choice p_ins rule); no Noul FP/FN counts computed (the 3 false-unknown mentions are the Exp6 Choice count plus explicit statements that no Noul count exists); read only DESIGN.md E.B/E.C/E.D, results/exec.jsonl, and experiment6/findings.md - did not read experiment6/results/exec.jsonl, experiment7/results/findings.json, analyze.py, or any other stage7 file. NOTE: the three permitted sources are absent from this worktree's base branch and were read from the git object store at origin/jev-phase1-565 (7bb716ef) via git show rather than materialised into the branch, keeping the commit single-path. Certainty: separation is evidence-based and directly computed; 'matches rather than beats' rests on Exp6's reported within-stratum AUC 1.0, not re-derived Exp6 raw values (out of scope); 'not removed' is the strong form being unfalsifiable, which is the point.",
+          "created_at": "2026-10-02T20:58:58.399668810Z",
+          "kind": "result",
+          "signed_by": "SHA256:FFyF7AisrQMU1bl5dcTGR9jF0aY34OKhMUFfvT3DIJw",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgN78lF/VeFUwHKY4H1G8j0qzXvHP2z4q7/7Ld4wIpow4AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAhIiiPX6kSKjyjfcMrMVsReAM0kGADfa/3GhQ26rAryo14CUSUhz3Nh7r+LRw4IfcE9bEAaYmnD52/lwFJ1vsAQ=="
         },
         "7600f3ed-2fae-4953-aa2e-43be2e27b6ba": {
           "display_id": 4056,
@@ -47602,8 +47611,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-10-02T20:56:23.905074584Z",
+    "timestamp": "2026-10-02T20:58:58.406598351Z",
     "agent_id": "pp3g-kTvg-experiment-7-stage-7c-unit-4-of-6-small-atomic-task",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
