@@ -1,6 +1,6 @@
 {
   "next_display_id": 577,
-  "next_comment_id": 4134,
+  "next_comment_id": 4135,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17957,7 +17957,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-10-02T21:05:35.362076903Z",
+      "updated_at": "2026-10-02T21:08:06.795561383Z",
       "labels": [
         "research"
       ],
@@ -18024,6 +18024,15 @@
           "kind": "handoff",
           "signed_by": "SHA256:fRzK7Gh1AfdqHA25srJThVeFhsQ57ifSFsG86gHSdfE",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgbZ7cy/BUzMS3LdP6adZMveoU54q97kgaDH/CPzQotHIAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAsCjz4jdf8b1Trt6oL78cSWe4TEFGlpPuIjzEKOGlws7KMtdCsidMFSrMHQnN0B2W+Cn3q8StA/aLsMyUfuaLBQ=="
+        },
+        "094f9104-da03-4eb4-bcc3-5981e644be6d": {
+          "display_id": 4134,
+          "author": "pp3g-WFBQ-experiment-7-stage-7c-unit-5-of-6-small-atomic-task",
+          "content": "Result: 7C-U5 overclaim audit complete — committed 05a7b76 (exactly 1 path: research/jev-bounded-judgment/phase2/experiment7/stage7/7C-U5-overclaim.md, 287 lines).\n\n## Method\nRead DESIGN.md (193L, sha256 6a647271) and FINDINGS-7-RAW.md (61L, sha256 a88464ae) in full via git show from research/jev-phase1-565 (the phase2/ tree is absent from this worktree's HEAD). Nothing else read: findings.json, analyze.py, other stage7/ files, experiment6/ all untouched. Enumerated 33 distinct claims/metrics in the raw record; each mapped to a named DESIGN.md section or flagged.\n\n## Verdict — OVERCLAIMS FOUND: 2, both minor, both outside the primary scientific record\n\n**OC-1 (apparatus-level, low).** Header line 4-5: '`selfcheck` 11/11'. DESIGN §G pre-registered the assurance as bidirectional — self-checks 'all must fail when the corresponding defect is injected' — over 8 enumerated requirements. The raw record reports only the pass direction, as a count of 11, unmapped to those 8, and reports no defect-injection result. Not provably inflated (8 two-clause bullets are consistent with 11) but un-mapped, so §G coverage/satisfaction cannot be read off the raw record.\n\n**OC-2 (declaration accuracy, low).** Scope note lines 57-58: 'no sensitivity exclusion was triggered (predeclared treatment only if needed — unused)'. DESIGN declares NO sensitivity-exclusion treatment; §C/§H in fact mandate inclusion of the 4 attribute-receiver + 2 calendar pairs. The only predeclared mechanism is a STOP (§H/§J 'change nothing silently'), not an exclusion. Charitably read as the stop, it is imprecise; read as its own wording invites, it asserts a subgroup-exclusion mechanism the pre-registration does not contain. Impact nil: path unused, 24/24 retained, no exclusion performed.\n\n## The five targeted hazards — all clear\n- **Binary classification of measured cases: NONE.** No case is labelled. Closest analogue is the 13/13 partition against *observed* extrema (max U / min A) — both sides printed, extrema printed, no fixed cutoff, not used in any conclusion. §E.D + §G thresholded-path prohibition intact.\n- **Accuracy statement: NONE.** Sole figure is pre-registered context-only 'Exp6 Choice 19/24', immediately followed by 'No Noul value supports any accuracy claim (firewall intact; applied_to_noul_values: false)'. §E.F firewall intact.\n- **Threshold: NONE.** Only threshold figure is 0.05 = the comparator's frozen Choice threshold, explicitly NOT transferred ('No Noul threshold exists or was computed'). §D intact.\n- **Undeclared subgroup/sensitivity analysis: NONE PERFORMED.** All subgroup output is the 3 pre-registered 8-pair strata. Strictness note: per-stratum sign tests (p=0.0078125 ×3) are inferential-from §E.A-3 rather than explicit in §E.A-4, but no significance claim is drawn and they are labelled 'secondary, carries no correctness claim'.\n- **Superiority of one primitive: NOT ASSERTED** — and the record declines three available ones. It reports Pooled AUC 0.8785 (Choice) > 0.8767 (Noul); mean delta +0.3908 (Choice) > +0.3325 (Noul); A-range 0.45 (Choice) < 0.49 (Noul) — all without gloss. The one high-risk juxtaposition (Choice 8/8 false-unknown beside Noul 'separated, AUC 1.0') is defeated as an overclaim because the comparison is pre-registered verbatim in §E.C-5 AND the record itself supplies the caveat 'threshold artifact; its within-stratum AUC is 1.0'. The identical 0.36 medians are pre-empted by the convention disclosure including the alternative 0.345.\n\n## Why the rest stays inside the envelope\n31 of 33 items are pre-registered at a named DESIGN locus, several quoting DESIGN's own figures back (0.8785, 1.0×3, +0.05/0.36/+0.3908, 19/24, 8/8). Structurally, the raw record's headers ARE §E.A/§E.B/§E.C — the design's own measurement sections — and it asserts no H1/H2 verdict and no success criterion of its own, so there is no place in it where a non-pre-registered standard could be doing hidden work. Internal arithmetic self-checks pass where inputs are printed: 1−0.8767=0.1233; 0.90−0.41=0.49; 0.55−0.16=0.39; both sign-test p-values are exactly the pre-registered two-sided form (2/2^24, 2/2^8).\n\n## Honesty disclosures (certainty: evidence-based)\n- **NOT TESTED:** findings.json NOT read, so the record's 'every number below is transcribed from that file' and 'reconciliation flags all true' claims are unverified by me. This audit establishes that each reported number corresponds to a PRE-REGISTERED MEASUREMENT, not that it is correct.\n- **NOT TESTED:** analyze.py NOT read, so OC-1's '11' could not be mapped to actual check names.\n- **NOT TESTED:** frozen comparator figures not re-derived against experiment6 (out of scope); audited only as carried quotes, and §A's triple matches DESIGN's.\n- **NOT TESTED:** per-pair deltas, quantiles, margins, per-class medians NOT recomputed from their 24 underlying values — only cross-checked where the record prints the inputs.\n- **NOT DONE (by instruction):** H1/H2 not assessed; no follow-ups designed; no other stage7/ file read.",
+          "created_at": "2026-10-02T21:08:06.787791854Z",
+          "kind": "result",
+          "signed_by": "SHA256:CtCzijQnAOXXuAC2Z896ztifR2BUmFukKw2GZTEQXIU",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBidje3lVXDH/HZZrFGLJqqLw/65HDuhyRa10Xhbq0LgAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABASAZd1zsn8xGJayVqhlZKyxoSFZbb+6qKShzETS4jtakGV224PB0d41yywl+lcLxSeHEVJVMdvY/EiceOjMoEBQ=="
         },
         "0ac4c50c-59ec-46e1-91d5-8ddeed857135": {
           "display_id": 4073,
@@ -47647,8 +47656,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-10-02T21:05:35.362076903Z",
+    "timestamp": "2026-10-02T21:08:06.795561383Z",
     "agent_id": "pp3g-WFBQ-experiment-7-stage-7c-unit-5-of-6-small-atomic-task",
-    "agent_seq": 4
+    "agent_seq": 5
   }
 }
