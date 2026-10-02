@@ -1,6 +1,6 @@
 {
   "next_display_id": 577,
-  "next_comment_id": 4120,
+  "next_comment_id": 4121,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -17957,7 +17957,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-09-29T13:06:19.095428788Z",
-      "updated_at": "2026-10-02T20:44:13.003155635Z",
+      "updated_at": "2026-10-02T20:45:50.213966928Z",
       "labels": [
         "research"
       ],
@@ -18225,6 +18225,15 @@
           "kind": "observation",
           "signed_by": "SHA256:ysA8Ntd7onMFCreK2Fnm+JnK5KF1TUsnch/A0ci1z9c",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg4CkeeC+dK2ZKqbQVkOTqjJAvPQ+WlStOdsrcoGbpoL0AAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAL5LiTCAt11jjUnTC4iGrOiW93zsEHso8LPbA2PJQM7SZ4sTUz3uxJMlnQODbVAL/+Lgs9Wc5qjY/uwke8uegBw=="
+        },
+        "47cac9c7-7557-44c9-92d8-198362f9ba18": {
+          "display_id": 4120,
+          "author": "pp3g-bGdm-experiment-7-stage-7c-unit-2-of-6-small-atomic-task",
+          "content": "Result: Wrote and committed ONE file — research/jev-bounded-judgment/phase2/experiment7/stage7/7C-U2-H1.md (commit b7d222565) — assessing H1 only. (a) Per-stratum table computed from the 48 raw exec.jsonl rows by a short script: polymorphic_dispatch 8 pairs 8 A>U 0 ties 0 reversals min +0.08 mean +0.28375; runtime_conditioned_reachability 8/8/0/0 min +0.15 mean +0.22875; runtime_target_selection 8/8/0/0 min +0.38 mean +0.48500; pooled 24 pairs 24 A>U 0 ties 0 reversals min +0.08 mean +0.33250, sign test two-sided p=2^-23 (~1.19e-7). My independent re-derivation reproduces all 24 7C-U1 values exactly. (b) H1 VERDICT: SUPPORTED — 24/24 exceeds the 12-pair majority threshold, and holds 8/8 within every stratum; no near-zero deltas counted as strict increases (smallest is +0.08). (c) 'Responsiveness versus calibration': H1 establishes directional within-pair movement only, not absolute p_suff levels, cross-class behavior (H2, not assessed), or answer correctness (DESIGN §F); a calibration claim would have needed the observed base rate of true state sufficiency per p_suff value (a reliability curve per probability bin) against an independent ground-truth adjudication, which does not exist in this 48-row file — the only label available is the frozen contract already used to define each pair, so reusing it would be circular. Constraints honoured: only DESIGN.md §§A-B, results/exec.jsonl and 7C-U1-paired-response.md were read; findings.json, analyze.py, other stage7 files and all of experiment6 were not read; no H2 assessment and no follow-up designed. DISPATCH ANOMALY (orchestrator attention): the experiment7 tree does not exist at this worktree's HEAD — DESIGN.md, exec.jsonl and 7C-U1 live on branch research/jev-phase1-565, which is not an ancestor of this feature branch, so this unit's base branch appears wrong. The three permitted inputs were therefore read via 'git show research/jev-phase1-565:<path>' and the script ran on those bytes; this file is consequently committed on a branch where it sits alone in an otherwise-empty path. Merging this branch into research/jev-phase1-565 will place it beside 7C-U1 with no other changes, but the orchestrator should confirm the intended base for the remaining 7C units. WHAT-NOT-TESTED: H2, absolute probability levels, correctness firewall.",
+          "created_at": "2026-10-02T20:45:50.205088517Z",
+          "kind": "result",
+          "signed_by": "SHA256:SrMqkCClYyG95e2JIQLfiS9NkYTqVnAHI0HCOn9A84E",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgfkweFTp5JqChQsVBdKU06JKJV4i2VZysA+s1f6QDzxEAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAMVc1XtT4Sc+ki1IGA0/m+GP6Yk71qL/RYI2xanY4EyO5NmgU9mgHh5gK2A6NIshwU2XT0+rA1k/ezlxOD4pvAg=="
         },
         "4976e9e0-27de-42e9-aa76-e8425163d531": {
           "display_id": 4090,
@@ -47521,8 +47530,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-10-02T20:44:13.003155635Z",
+    "timestamp": "2026-10-02T20:45:50.213966928Z",
     "agent_id": "pp3g-bGdm-experiment-7-stage-7c-unit-2-of-6-small-atomic-task",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
