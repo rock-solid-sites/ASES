@@ -29,9 +29,9 @@
   {
     "argv": [
       "python3",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/kernel0_finite_model.py",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/kernel0_finite_model.py",
       "--output",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/evidence/reference-model.json"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/evidence/reference-model.json"
     ],
     "expected_failure": false,
     "name": "reference-model"
@@ -47,9 +47,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/independent.vvp",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "independent-compile"
@@ -57,8 +57,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/independent.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/independent.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent.vectors"
     ],
     "expected_failure": false,
     "name": "independent-exhaustive"
@@ -74,9 +74,9 @@
       "-s",
       "sequence_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/independent-sequence.vvp",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/sequence_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-sequence.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/sequence_tb.v"
     ],
     "expected_failure": false,
     "name": "independent-sequence-compile"
@@ -84,8 +84,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/independent-sequence.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/independent-sequence.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-sequence.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-sequence.vectors"
     ],
     "expected_failure": false,
     "name": "independent-sequence"
@@ -96,7 +96,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/independent-synthesis-equivalence.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-synthesis-equivalence.ys"
     ],
     "expected_failure": false,
     "name": "independent-synthesis-equivalence"
@@ -107,7 +107,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/independent-boundary.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-boundary.ys"
     ],
     "expected_failure": false,
     "name": "independent-boundary"
@@ -118,7 +118,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/independent-synthesis.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-synthesis.ys"
     ],
     "expected_failure": false,
     "name": "independent-synthesis"
@@ -134,9 +134,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/independent-always_deny.vvp",
-      "/tmp/kernel0-rtl-build/independent-always_deny.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-always_deny.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-always_deny.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "independent-always_deny-compile"
@@ -144,8 +144,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/independent-always_deny.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/independent-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-always_deny.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "independent-always_deny"
@@ -161,9 +161,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/independent-forged_authority.vvp",
-      "/tmp/kernel0-rtl-build/independent-forged_authority.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-forged_authority.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-forged_authority.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "independent-forged_authority-compile"
@@ -171,8 +171,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/independent-forged_authority.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/independent-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-forged_authority.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "independent-forged_authority"
@@ -188,9 +188,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/independent-reuse.vvp",
-      "/tmp/kernel0-rtl-build/independent-reuse.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-reuse.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-reuse.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "independent-reuse-compile"
@@ -198,8 +198,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/independent-reuse.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/independent-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-reuse.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "independent-reuse"
@@ -215,9 +215,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/independent-denied_partial.vvp",
-      "/tmp/kernel0-rtl-build/independent-denied_partial.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-denied_partial.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-denied_partial.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "independent-denied_partial-compile"
@@ -225,8 +225,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/independent-denied_partial.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/independent-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-denied_partial.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/independent-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "independent-denied_partial"
@@ -242,9 +242,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/coupled.vvp",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "coupled-compile"
@@ -252,8 +252,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/coupled.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/coupled.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled.vectors"
     ],
     "expected_failure": false,
     "name": "coupled-exhaustive"
@@ -269,9 +269,9 @@
       "-s",
       "sequence_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/coupled-sequence.vvp",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/sequence_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-sequence.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/sequence_tb.v"
     ],
     "expected_failure": false,
     "name": "coupled-sequence-compile"
@@ -279,8 +279,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/coupled-sequence.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/coupled-sequence.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-sequence.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-sequence.vectors"
     ],
     "expected_failure": false,
     "name": "coupled-sequence"
@@ -291,7 +291,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/coupled-synthesis-equivalence.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-synthesis-equivalence.ys"
     ],
     "expected_failure": false,
     "name": "coupled-synthesis-equivalence"
@@ -302,7 +302,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/coupled-boundary.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-boundary.ys"
     ],
     "expected_failure": false,
     "name": "coupled-boundary"
@@ -313,7 +313,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/coupled-synthesis.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-synthesis.ys"
     ],
     "expected_failure": false,
     "name": "coupled-synthesis"
@@ -329,9 +329,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/coupled-always_deny.vvp",
-      "/tmp/kernel0-rtl-build/coupled-always_deny.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-always_deny.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-always_deny.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "coupled-always_deny-compile"
@@ -339,8 +339,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/coupled-always_deny.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/coupled-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-always_deny.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "coupled-always_deny"
@@ -356,9 +356,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/coupled-forged_authority.vvp",
-      "/tmp/kernel0-rtl-build/coupled-forged_authority.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-forged_authority.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-forged_authority.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "coupled-forged_authority-compile"
@@ -366,8 +366,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/coupled-forged_authority.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/coupled-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-forged_authority.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "coupled-forged_authority"
@@ -383,9 +383,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/coupled-reuse.vvp",
-      "/tmp/kernel0-rtl-build/coupled-reuse.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-reuse.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-reuse.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "coupled-reuse-compile"
@@ -393,8 +393,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/coupled-reuse.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/coupled-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-reuse.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "coupled-reuse"
@@ -410,9 +410,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/coupled-denied_partial.vvp",
-      "/tmp/kernel0-rtl-build/coupled-denied_partial.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-denied_partial.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-denied_partial.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "coupled-denied_partial-compile"
@@ -420,8 +420,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/coupled-denied_partial.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/coupled-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-denied_partial.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "coupled-denied_partial"
@@ -437,9 +437,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/coupled-coupled_invariant.vvp",
-      "/tmp/kernel0-rtl-build/coupled-coupled_invariant.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-coupled_invariant.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-coupled_invariant.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "coupled-coupled_invariant-compile"
@@ -447,8 +447,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/coupled-coupled_invariant.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/coupled-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-coupled_invariant.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/coupled-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "coupled-coupled_invariant"
@@ -464,9 +464,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/exclusive.vvp",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "exclusive-compile"
@@ -474,8 +474,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/exclusive.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/exclusive.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive.vectors"
     ],
     "expected_failure": false,
     "name": "exclusive-exhaustive"
@@ -491,9 +491,9 @@
       "-s",
       "sequence_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/exclusive-sequence.vvp",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/sequence_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-sequence.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/sequence_tb.v"
     ],
     "expected_failure": false,
     "name": "exclusive-sequence-compile"
@@ -501,8 +501,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/exclusive-sequence.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/exclusive-sequence.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-sequence.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-sequence.vectors"
     ],
     "expected_failure": false,
     "name": "exclusive-sequence"
@@ -513,7 +513,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/exclusive-synthesis-equivalence.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-synthesis-equivalence.ys"
     ],
     "expected_failure": false,
     "name": "exclusive-synthesis-equivalence"
@@ -524,7 +524,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/exclusive-boundary.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-boundary.ys"
     ],
     "expected_failure": false,
     "name": "exclusive-boundary"
@@ -535,7 +535,7 @@
       "-Q",
       "-T",
       "-s",
-      "/tmp/kernel0-rtl-build/exclusive-synthesis.ys"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-synthesis.ys"
     ],
     "expected_failure": false,
     "name": "exclusive-synthesis"
@@ -551,9 +551,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/exclusive-always_deny.vvp",
-      "/tmp/kernel0-rtl-build/exclusive-always_deny.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-always_deny.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-always_deny.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "exclusive-always_deny-compile"
@@ -561,8 +561,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/exclusive-always_deny.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/exclusive-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-always_deny.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "exclusive-always_deny"
@@ -578,9 +578,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/exclusive-forged_authority.vvp",
-      "/tmp/kernel0-rtl-build/exclusive-forged_authority.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-forged_authority.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-forged_authority.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "exclusive-forged_authority-compile"
@@ -588,8 +588,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/exclusive-forged_authority.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/exclusive-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-forged_authority.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "exclusive-forged_authority"
@@ -605,9 +605,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/exclusive-reuse.vvp",
-      "/tmp/kernel0-rtl-build/exclusive-reuse.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-reuse.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-reuse.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "exclusive-reuse-compile"
@@ -615,8 +615,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/exclusive-reuse.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/exclusive-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-reuse.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "exclusive-reuse"
@@ -632,9 +632,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/exclusive-denied_partial.vvp",
-      "/tmp/kernel0-rtl-build/exclusive-denied_partial.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-denied_partial.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-denied_partial.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "exclusive-denied_partial-compile"
@@ -642,8 +642,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/exclusive-denied_partial.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/exclusive-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-denied_partial.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "exclusive-denied_partial"
@@ -659,9 +659,9 @@
       "-s",
       "exhaustive_tb",
       "-o",
-      "/tmp/kernel0-rtl-build/exclusive-exclusive_invariant.vvp",
-      "/tmp/kernel0-rtl-build/exclusive-exclusive_invariant.v",
-      "/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-exclusive_invariant.vvp",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-exclusive_invariant.v",
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/exhaustive_tb.v"
     ],
     "expected_failure": false,
     "name": "exclusive-exclusive_invariant-compile"
@@ -669,8 +669,8 @@
   {
     "argv": [
       "/tmp/kernel0-rtl-tools/root/usr/bin/vvp",
-      "/tmp/kernel0-rtl-build/exclusive-exclusive_invariant.vvp",
-      "+vectors=/tmp/kernel0-rtl-build/exclusive-mutation.vectors"
+      "/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-exclusive_invariant.vvp",
+      "+vectors=/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-mutation.vectors"
     ],
     "expected_failure": true,
     "name": "exclusive-exclusive_invariant"

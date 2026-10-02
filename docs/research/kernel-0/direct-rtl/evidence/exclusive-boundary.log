@@ -1,14 +1,14 @@
 
--- Executing script file `/tmp/kernel0-rtl-build/exclusive-boundary.ys' --
+-- Executing script file `/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/build/exclusive-boundary.ys' --
 
-1. Executing Verilog-2005 frontend: /tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v
-Parsing Verilog input from `/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v' to AST representation.
+1. Executing Verilog-2005 frontend: /home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v
+Parsing Verilog input from `/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v' to AST representation.
 Generating RTLIL representation for module `\kernel0_step'.
 Generating RTLIL representation for module `\kernel0_machine'.
 Successfully finished Verilog frontend.
 
-2. Executing Verilog-2005 frontend: /tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v
-Parsing Verilog input from `/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v' to AST representation.
+2. Executing Verilog-2005 frontend: /home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/boundary_formal.v
+Parsing Verilog input from `/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/boundary_formal.v' to AST representation.
 Generating RTLIL representation for module `\boundary_formal'.
 Successfully finished Verilog frontend.
 
@@ -70,8 +70,8 @@ Removed 3 unused modules.
 Cleaned up 0 empty switches.
 
 5.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
-Marked 1 switch rules as full_case in process $proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731 in module $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.
-Marked 48 switch rules as full_case in process $proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743 in module $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.
+Marked 1 switch rules as full_case in process $proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:163$731 in module $paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.
+Marked 48 switch rules as full_case in process $proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743 in module $paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.
 Removed a total of 0 dead cases.
 
 5.3. Executing PROC_INIT pass (extract init attributes).
@@ -79,26 +79,26 @@ Removed a total of 0 dead cases.
 5.4. Executing PROC_ARST pass (detect async resets in processes).
 
 5.5. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+Creating decoders for process `\boundary_formal.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
      1/3: $0\expected_committed[0:0]
      2/3: $0\expected_resolved[0:0]
      3/3: $0\expected_state[21:0]
-Creating decoders for process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+Creating decoders for process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
      1/3: $0\state[21:0]
      2/3: $0\committed[0:0]
      3/3: $0\resolved[0:0]
-Creating decoders for process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-     1/276: $9$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1081
-     2/276: $8$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1072
-     3/276: $7$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1068
-     4/276: $6$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1064
-     5/276: $5$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1060
-     6/276: $4$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1056
-     7/276: $3$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1047
-     8/276: $2$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1035
-     9/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1030
-    10/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\i[31:0]$1031
-    11/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent_rights[2:0]$1028
+Creating decoders for process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+     1/276: $9$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1081
+     2/276: $8$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1072
+     3/276: $7$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1068
+     4/276: $6$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1064
+     5/276: $5$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1060
+     6/276: $4$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1056
+     7/276: $3$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1047
+     8/276: $2$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1035
+     9/276: $1$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$1030
+    10/276: $1$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\i[31:0]$1031
+    11/276: $1$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent_rights[2:0]$1028
     12/276: $6\proposed[21:0] [21:17]
     13/276: $24\proposed[21:0] [2]
     14/276: $24\proposed[21:0] [3]
@@ -325,94 +325,94 @@ Creating decoders for process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc
    235/276: $1\needed[2:0]
    236/276: $1\admitted[0:0]
    237/276: $1\proposed[21:0]
-   238/276: $9$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$890
-   239/276: $8$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$881
-   240/276: $7$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$877
-   241/276: $6$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$873
-   242/276: $5$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$869
-   243/276: $4$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$865
-   244/276: $3$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$856
-   245/276: $2$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$844
-   246/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$839
-   247/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\i[31:0]$840
-   248/276: $1$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent_rights[2:0]$837
+   238/276: $9$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$890
+   239/276: $8$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$881
+   240/276: $7$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$877
+   241/276: $6$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$873
+   242/276: $5$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$869
+   243/276: $4$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$865
+   244/276: $3$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$856
+   245/276: $2$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$844
+   246/276: $1$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$839
+   247/276: $1$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\i[31:0]$840
+   248/276: $1$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent_rights[2:0]$837
    249/276: $1\wellformed[0:0]
    250/276: $1\actor_rights[2:0]
    251/276: $0\state_out[21:0]
    252/276: $0\commit[0:0]
-   253/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\i[31:0]$761
-   254/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$753
-   255/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent_rights[2:0]$759
-   256/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent[1:0]$760
-   257/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r3[2:0]$758
-   258/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r2[2:0]$757
-   259/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r1[2:0]$756
-   260/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r0[2:0]$755
-   261/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\s[21:0]$754
+   253/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\i[31:0]$761
+   254/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state[0:0]$753
+   255/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent_rights[2:0]$759
+   256/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent[1:0]$760
+   257/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r3[2:0]$758
+   258/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r2[2:0]$757
+   259/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r1[2:0]$756
+   260/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r0[2:0]$755
+   261/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\s[21:0]$754
    262/276: $0\needed[2:0]
    263/276: $0\admitted[0:0]
    264/276: $0\proposed[21:0]
-   265/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\i[31:0]$751
-   266/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$746
-   267/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent_rights[2:0]$744
-   268/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent[1:0]$750
-   269/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r3[2:0]$745
-   270/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r2[2:0]$749
-   271/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r1[2:0]$752
-   272/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r0[2:0]$748
-   273/276: $0$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\s[21:0]$747
+   265/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\i[31:0]$751
+   266/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state[0:0]$746
+   267/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent_rights[2:0]$744
+   268/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent[1:0]$750
+   269/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r3[2:0]$745
+   270/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r2[2:0]$749
+   271/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r1[2:0]$752
+   272/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r0[2:0]$748
+   273/276: $0$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\s[21:0]$747
    274/276: $0\wellformed[0:0]
    275/276: $0\actor_rights[2:0]
    276/276: $0\current_rights[2:0]
 
 5.6. Executing PROC_DLATCH pass (convert process syncs to latches).
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\state_out' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\commit' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\proposed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\admitted' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\wellformed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\current_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\actor_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\needed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r3' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\s' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r0' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r2' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\i' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r1' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\s' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r0' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r1' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r2' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r3' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\i' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\state_out' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\commit' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\proposed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\admitted' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\wellformed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\current_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\actor_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.\needed' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r3' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\valid_state' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\s' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r0' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r2' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\parent' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\i' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:76$733$\r1' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\valid_state' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\s' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r0' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r1' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r2' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\r3' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent_rights' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\parent' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+No latch inferred for signal `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$func$\valid_state$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:143$738$\i' from process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
 
 5.7. Executing PROC_DFF pass (convert process syncs to FFs).
-Creating register for signal `\boundary_formal.\expected_resolved' using process `\boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+Creating register for signal `\boundary_formal.\expected_resolved' using process `\boundary_formal.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
   created $dff cell `$procdff$7635' with positive edge clock.
-Creating register for signal `\boundary_formal.\expected_state' using process `\boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+Creating register for signal `\boundary_formal.\expected_state' using process `\boundary_formal.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
   created $dff cell `$procdff$7636' with positive edge clock.
-Creating register for signal `\boundary_formal.\expected_committed' using process `\boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+Creating register for signal `\boundary_formal.\expected_committed' using process `\boundary_formal.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
   created $dff cell `$procdff$7637' with positive edge clock.
-Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.\resolved' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.\resolved' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
   created $dff cell `$procdff$7638' with positive edge clock.
-Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.\committed' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.\committed' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
   created $dff cell `$procdff$7639' with positive edge clock.
-Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.\state' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+Creating register for signal `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.\state' using process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
   created $dff cell `$procdff$7640' with positive edge clock.
 
 5.8. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Removing empty process `boundary_formal.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
-Found and cleaned up 2 empty switches in `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
-Removing empty process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
-Found and cleaned up 48 empty switches in `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
-Removing empty process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/tmp/ases-kernel0-direct-rtl/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+Removing empty process `boundary_formal.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/boundary_formal.v:15$367'.
+Found and cleaned up 2 empty switches in `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+Removing empty process `$paramod\kernel0_machine\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:163$731'.
+Found and cleaned up 48 empty switches in `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
+Removing empty process `$paramod\kernel0_step\COUPLED=0\EXCLUSIVE=1.$proc$/home/claude-code/projects/ASES/.worktrees/kernel0-verifier-verify/docs/research/kernel-0/direct-rtl/kernel0.v:53$743'.
 Cleaned up 50 empty switches.
 
 6. Executing FLATTEN pass (flatten design).
