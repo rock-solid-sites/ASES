@@ -31,17 +31,19 @@ last_updated: 2026-10-03
 
 # Paseo Role Capability Matrix — Initial Compatibility and Enforcement Record
 
-> **Purpose.** Define the first role-capability target for running ASES/EDASES
-> work through Paseo without allowing Paseo's current configuration model to
-> redefine the roles. The stable design unit is the semantic capability and its
-> authority boundary. Paseo provider aliases, Agent Profiles, provider-native
-> permission systems, MCP servers, workspaces and future small plugins are
-> temporary mechanisms used to realize that design.
+> **Purpose.** Define a practical role-capability target for using Paseo as a
+> better temporary execution harness than the previous OpenCode setup. The role
+> definitions come from ASES/EDASES work; Paseo provider aliases, Agent Profiles,
+> provider-native permissions, MCP servers and workspaces are temporary ways to
+> approximate those roles.
 >
-> **Status.** This is a first-pass research/design record, not a canonical
-> execution-engine specification. It intentionally includes known gaps,
-> provider-dependent enforcement and stopgap compromises. It does not claim
-> Work Unit or Kernel guarantees.
+> **Scope.** This is explicitly **not** an attempt to recreate the future EDASES
+> Execution Engine, Kernel or Work Unit inside Paseo, nor to obtain proof-grade
+> authority guarantees from a stopgap harness. The goal is narrower: preserve
+> useful role separation, remove obviously unnecessary capabilities, prevent
+> common accidental/model-initiated boundary crossings where Paseo can do so
+> cheaply, and regression-test the important failures already encountered in
+> OpenCode. Prefer native Paseo/provider features over new infrastructure.
 >
 > **Historical-role rule.** Project-specific roles and role variants should be
 > retained as historical role records even when future reuse is uncertain.
@@ -79,17 +81,18 @@ permissions/sandbox     semantic menu       policy
                          worktree
 ```
 
-Paseo is a stopgap execution harness. It should implement the current role
-contract as faithfully as practical, but the contract must remain portable to
-the eventual EDASES Execution Engine.
+Paseo is a stopgap execution harness. It should preserve the useful parts of the
+current role design while remaining cheap to configure, test and replace.
 
 The governing implementation preference is:
 
-> **Remove raw capabilities where practical; reintroduce necessary authority as
-> the smallest semantic interface that represents the role's actual job.**
+> **Use Paseo and provider-native restrictions first. Remove capabilities that a
+> role plainly does not need. Add a narrow MCP/API wrapper only when a concrete
+> recurring boundary cannot be expressed adequately with the existing controls
+> and the wrapper is substantially simpler than the old OpenCode guard stack.**
 
-A role is therefore not defined by a bag of tools. Tools and provider settings
-are one realization of a semantic capability contract.
+A role is still not defined by a bag of tools, but this Paseo programme does not
+need to implement every semantic capability as a formally authorized operation.
 
 ## 2. Initial role set
 
@@ -570,65 +573,69 @@ should instantiate them for every supported provider/profile combination.
 - **XROLE-04** — A free-model/provider compatibility failure is reported as a
   compatibility failure rather than solved by silently widening the role.
 
-## 10. Enforcement levels and claim language
+## 10. Practical enforcement confidence
 
-Every test result should state which level it establishes.
+The Paseo work should distinguish what kind of evidence we actually have
+without turning the stopgap into an authority-verification project.
 
-### Level R — representation
+### P — presentation restriction
 
-The model is shown only the intended operation/tool.
+The capability is absent from the model-visible tool/menu surface.
 
-Useful for reliability and reducing accidental misuse, but not an authority
-guarantee.
+This is useful. It reduces accidental misuse and model confusion. It should not
+be described as stronger isolation than it is.
 
-### Level A — application enforcement
+### E — exercised enforcement
 
-Paseo, the provider or the semantic MCP/API rejects the forbidden operation
-when invoked.
+The current Paseo/provider path rejects the forbidden operation in direct
+testing, including a small number of deliberately adversarial attempts.
 
-This is the minimum level expected for ordinary role-boundary claims in the
-Paseo stopgap.
+This is the normal practical target for important role boundaries in Paseo. It
+is a regression-tested property of the current configuration, not a universal
+security proof.
 
-### Level H — host confinement
+### I — isolation/confinement
 
-The process lacks OS-level authority to bypass the application even if it can
-execute arbitrary code.
+The underlying process cannot bypass the boundary even with arbitrary code
+execution.
 
-Paseo/provider profiles do not generally establish this level. Provider
-sandboxes/containers may improve it, but host-confinement claims require
-separate evidence.
+This belongs to sandbox/container/OS mechanisms and, ultimately, the future
+EDASES execution substrate. It is **not a requirement for the Paseo MVP**.
+Where a provider already gives useful sandboxing cheaply, use it; do not build
+a new confinement system around Paseo.
 
-The eventual EDASES Work Unit/Kernel design is expected to address a stronger
-authority model. This Paseo programme must not relabel Level R or Level A as
-that future guarantee.
+The practical question for this programme is therefore:
+
+> Does this configuration make the intended role boundary materially harder to
+> cross than the old OpenCode setup, and do our tests catch the failure modes we
+> already know matter?
 
 ## 11. Immediate implementation questions
 
 The matrix leaves a small number of implementation questions to resolve before
 writing the first Paseo configuration:
 
-1. **Default-root mechanism.** What is the smallest Paseo change that guarantees
-   fresh-session Orchestrator default and makes specialist selection non-sticky?
-2. **Orchestrator facade.** Which stock Paseo tools can safely be exposed
-   directly, and which should be replaced by ownership-scoped semantic
-   operations?
-3. **Document interface.** How should required full documents, summaries and
-   explicit full-document requests be represented without reopening broad
-   filesystem access?
-4. **Named-test interface.** Can Reviewer testing be represented as named
-   scripts/MCP operations rather than generic shell?
-5. **Candidate-knowledge sink.** What append-only schema lets
-   Builder/Reviewer/Researcher flag project-knowledge candidates without
-   changing canonical knowledge?
-6. **Provider parity.** Which semantic capabilities can be enforced at Level A
-   on OpenCode, Codex and Claude respectively?
+1. **Default-root mechanism.** What is the smallest configuration or UI change
+   that makes fresh sessions default to Orchestrator and specialist choices
+   non-sticky?
+2. **Stock Paseo tools first.** Which existing Paseo orchestration tools are
+   already good enough for the Orchestrator without adding a facade?
+3. **Document access.** What is the simplest way to provide required full
+   documents and occasional explicit full-document reads?
+4. **Reviewer testing.** Can existing named workspace scripts or provider
+   command restrictions give Reviewer enough testing ability without a general
+   shell? Add a wrapper only if that is materially simpler.
+5. **Candidate-knowledge append.** What existing Crosslink/MCP mechanism can be
+   narrowed to append attention items without recreating a new knowledge
+   service?
+6. **Provider coverage.** Which useful boundaries work on the providers/models
+   we actually intend to use now? Exact cross-provider parity is not required.
 7. **OpenCode free-tier compatibility.** Which restrictive profiles work with
-   the current free catalog without triggering anti-abuse rejection? A failure
-   here is a provider/profile compatibility result, not permission to relax the
-   canonical role contract.
-8. **Ownership scoping.** Do stock Paseo lifecycle tools permit an Orchestrator
-   to control agents outside its subtree, and if so should the ASES facade be
-   the first small plugin/API addition?
+   the current free catalog without triggering anti-abuse rejection? Record
+   incompatibility rather than redesigning the role around the free tier.
+8. **Ownership scoping.** Test whether stock Paseo lifecycle tools are too broad
+   in practice. Only add an ownership-scoped wrapper if the gap is real and
+   operationally important.
 
 ## 12. Relationship to historical OpenCode controls
 
@@ -651,20 +658,22 @@ Portable lessons retained here include:
 OpenCode-specific shell parsing, wrapper behavior and guard implementation
 should not be copied unless Paseo exposes the same concrete failure.
 
-## 13. Expected next artifact
+## 13. Expected next step
 
-After discussion and adjustment of this matrix, the next artifact should be a
-**Paseo conformance specification** that turns the seed invariants into
-provider/profile test cases and classifies each result as:
+Turn the seed invariants into a **small practical Paseo compatibility test
+checklist** and run it against the first provider/model combinations we can use.
 
-- **PASS** — native behavior satisfies the role contract;
-- **CONFIG** — satisfied through supported Paseo/provider configuration;
-- **FACADE** — requires a narrow semantic MCP/API wrapper;
-- **PLUGIN** — requires a small Paseo extension;
-- **EXTERNAL** — depends on OS/container/external enforcement;
-- **DEFERRED** — belongs to the eventual EDASES Work Unit/Kernel;
-- **FAIL** — cannot be made adequate for this stopgap without disproportionate
-  work.
+Classify each result as:
 
-Only after that conformance target exists should the Paseo runtime
-configuration be treated as the implementation baseline.
+- **NATIVE** — Paseo/provider already behaves as desired;
+- **CONFIG** — a supported setting is sufficient;
+- **SMALL PATCH** — a small Paseo/plugin/wrapper change is justified;
+- **EXTERNAL** — an existing sandbox/container or external service is needed;
+- **DEFER** — useful for the future Execution Engine but unnecessary for this
+  stopgap;
+- **NOT WORTH IT** — the improvement would require disproportionate temporary
+  engineering.
+
+The purpose of the checklist is to identify the minimum configuration and small
+changes needed to make Paseo clearly better than the old OpenCode harness, not
+to prove the future ASES architecture in advance.
