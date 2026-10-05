@@ -1,6 +1,6 @@
 {
   "next_display_id": 580,
-  "next_comment_id": 4149,
+  "next_comment_id": 4150,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -22124,7 +22124,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-10-05T01:43:55.369349238Z",
-      "updated_at": "2026-10-05T02:01:17.362146295Z",
+      "updated_at": "2026-10-05T02:12:14.311607828Z",
       "labels": [
         "research"
       ],
@@ -22139,6 +22139,15 @@
           "driver_key_fingerprint": "SHA256:zGzmtgnoZhXU4eO6KSQsgBUaiDEkB/tJTAYgLkcxm+w",
           "signed_by": "SHA256:txtxRbCGncxPs5YVqhd0abUgfcruU3ze6o9USZ9e9ck",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgBrkJWbwQmXES5+ltWRxRKeJmS2PIO3BfyCG5CwZdt0oAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAHK1PvOy9GFV3jOlAvB87zId17khRm6QWnveBhlPCbRe8IvOhvHFtAznmIjp4DfLUzG7a51oSmFoOSslrGG9VDw=="
+        },
+        "8231d6ca-f4f3-4378-8e07-8819b23024ac": {
+          "display_id": 4149,
+          "author": "pp3g-rTRI-task-1a-for-579-exp7-u-vs-u-pad-control-write-one-5829",
+          "content": "Plan: Task-1a writes ONE file — phase2/exp7-pad-control/FILLER-EVAL.md — evaluating the four filler candidates (a) duplicated benign source line, (b) duplicated irrelevant structural material, (c) neutral structured metadata, (d) explicit inert padding text, each on residual semantic effect / bias direction / boundability / fails-safe status, ending in ONE chosen construction or STOP.\n\nWHAT I read (zero network, stdlib only, frozen trees read-only): review sections 2/4/5; the tail of 3 U-states (one per stratum) — runtime-facts section + END marker; exec.jsonl usage.input_tokens column only.\n\nKEY DERIVED FINDINGS (all recomputed from frozen bytes, zero spend):\n- Reproduced F2 and F3 exactly: line counts equal 24/24, exactly 2 differing lines 24/24; dtok range 8-22 mean 13.92; dbytes 27-95 mean 52.6.\n- NEW: the review 5 padding rule as literally written (ONE designated line repeated k times, +/-10% byte match) is UNSATISFIABLE for most pairs. Best realistic single line reaches 18/24 at best; module-native code lines reach 3/24. Integer-k repetition quantizes the byte total.\n- NEW: a per-module MENU of module-native statements + deterministic greedy composition reaches 24/24 byte targets with max error 2.9% (mean 0.2%).\n- NEW: bytes are sizeable offline but billed TOKENS are not — no vendor tokenizer offline; the frozen A-fact tok/byte band alone is 0.220-0.314 (1.43x). Predicted padding addition is 8-27 tokens vs the frozen 8-22 (ratio 0.90-1.27, mean 1.05).\n- NEW: no benign self-contained source line is present in all 24 U-states; the only lines universal across all 24 are the STRUCTURAL lines (## source (verbatim), ## runtime facts, ### END MODEL-VISIBLE STATE, # meta ...), which is candidate (b) — and duplicating those is high-salience/grammar-corrupting.\n\nWILL FLAG AS AMENDMENTS NEEDING AUTHORIZATION (both are design changes, not filler choices): (i) the +/-10% byte-match rule is unreachable by single-line repetition and must be restated as per-module-menu greedy composition; (ii) the 5 fatal billed-token manipulation gate cannot be verified offline and would likely self-trigger, so it should be re-registered as a REPORTED achieved-dtok covariate with interpretation bounded for achieved dtok; (iii) placement moved from inside the runtime-facts region to the end of the source block, so the duplicated imports are not miscategorised as asserted runtime facts.\n\nStop condition: stub commit, then completed commit, then stop.",
+          "created_at": "2026-10-05T02:12:14.303301545Z",
+          "kind": "plan",
+          "signed_by": "SHA256:16PNHD+XOpOS7dPtTpWUkjp4jsE+YXjR0g2nlRofvEI",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLWL9cqVmBneWvV5I8jDDHR3LqfC6OKcb7/x+E09pQsMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5SVuw9T5zcq6O6qUDRKipjcf3OBmmDLi6Uo2jZwhqjm5k18M7rMGh+aj3FTRIDXPTPjSMiY/pjJquzWq+7XPBg=="
         }
       }
     },
@@ -47844,8 +47853,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-10-05T02:04:21.009434354Z",
+    "timestamp": "2026-10-05T02:12:14.311607828Z",
     "agent_id": "pp3g-rTRI-task-1a-for-579-exp7-u-vs-u-pad-control-write-one-5829",
-    "agent_seq": 3
+    "agent_seq": 4
   }
 }
