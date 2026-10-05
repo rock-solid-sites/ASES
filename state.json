@@ -1,6 +1,6 @@
 {
   "next_display_id": 580,
-  "next_comment_id": 4158,
+  "next_comment_id": 4159,
   "display_id_map": {
     "00b57281-0ee6-4405-82dc-1c4535ff8844": 476,
     "00c74c15-41bf-4fb7-bf57-229a9085260a": 493,
@@ -22124,7 +22124,7 @@
       "parent_uuid": "129154a4-56b8-47a4-9d4f-de557c2cbd79",
       "created_by": "OL2r",
       "created_at": "2026-10-05T01:43:55.369349238Z",
-      "updated_at": "2026-10-05T02:49:23.642968015Z",
+      "updated_at": "2026-10-05T03:17:44.469782581Z",
       "labels": [
         "research"
       ],
@@ -22157,6 +22157,15 @@
           "kind": "plan",
           "signed_by": "SHA256:16PNHD+XOpOS7dPtTpWUkjp4jsE+YXjR0g2nlRofvEI",
           "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgLWL9cqVmBneWvV5I8jDDHR3LqfC6OKcb7/x+E09pQsMAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABA5SVuw9T5zcq6O6qUDRKipjcf3OBmmDLi6Uo2jZwhqjm5k18M7rMGh+aj3FTRIDXPTPjSMiY/pjJquzWq+7XPBg=="
+        },
+        "8849edbb-0764-4ae8-8bb9-529b1293b810": {
+          "display_id": 4158,
+          "author": "pp3g-4fn0-task-1c-for-579-write-one-file-only-base-branch-8350",
+          "content": "Plan: Task-1c writes ONE file — phase2/exp7-pad-control/LENGTH-NOTES.md — in TWO commits (stub skeleton first, then completed file), stdlib-only, zero network, exp6/exp7 read-only. Content: (1) verdict on deterministic pre-execution reproduction of Jev/provider tokenization — my recon says NO (no vendor tokenizer documented in PRIMATIVES.md; cl100k/o200k/p50k/r50k all fail to reproduce billed input_tokens on sampled states; billed/cl100k ratio varies 1.075-1.168 by module, CV 2.3%, so no constant scale factor; cl100k A-U delta matches billed on 0/24 pairs; usage reported only post-execution). (2) per-pair survey table recomputed from frozen bytes (pair_id, added bytes A-U, billed dtok A-U from usage records, decisive-fact byte length) — reproduces review appendix 24/24; mechanical identity dbytes = factlen - 6. (3) verify/correct Task-1a claims: single-line 18/24 (my filters: trivial structural 24/24, best non-structural import re 20/24, import sys 18/24, best statement-like 11/24 — qualitative claim confirmed, exact 18/24 filter-dependent); menu 24/24 max 2.9% mean 0.2% (confirmed in substance: my canonical largest-first-fit gives 24/24, max 1.69%, mean 0.071%, 23/24 exact; statements-only menu max 3.4% mean 0.24%); predicted padding 8-27 tok (confirmed: exact under constant r=0.28 tok/byte, ratio stats 0.891/1.271/1.050 match cited 0.90/1.27/1.05). (4) byte-proxy rule: per-module menu of distinct non-empty source lines, largest-first-fit greedy, reusable, ±10% tolerance; residual max 1 byte (1.69%), mean 0.04 bytes. (5) billed-token gate restated as reported covariate, never tuned.",
+          "created_at": "2026-10-05T03:17:44.461149644Z",
+          "kind": "plan",
+          "signed_by": "SHA256:r6YyXG5F+/ghw5m84HiJfRSnPb5eiEj1Nf1LSRYXkH4",
+          "signature": "U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgvlIKzgWziWYJmehZGd0ODThF/l+OrGbIjPPTB5EpjJkAAAARY3Jvc3NsaW5rLWNvbW1lbnQAAAAAAAAABnNoYTUxMgAAAFMAAAALc3NoLWVkMjU1MTkAAABAo8S4yPkEWE/lqKcBHmE/za3vqJOpA6MN/7wMu/4sGGOVv9cWoXpe7VGskV17V4FBPtuYXERqeuGDNX2xFB5rAQ=="
         },
         "8b9529c8-3605-4e55-952b-e0d218997d78": {
           "display_id": 4151,
@@ -47929,8 +47938,8 @@
     }
   ],
   "watermark": {
-    "timestamp": "2026-10-05T03:01:11.427032969Z",
+    "timestamp": "2026-10-05T03:17:44.469782581Z",
     "agent_id": "pp3g-4fn0-task-1c-for-579-write-one-file-only-base-branch-8350",
-    "agent_seq": 1
+    "agent_seq": 2
   }
 }
