@@ -6,7 +6,9 @@ This directory contains the active inputs and evidence for the Kernel-0 reasonin
 
 The [Kernel-0 Direct RTL Realization Experiment](./Kernel-0-Direct-RTL-Experiment.md) has completed its bounded implementation and independent review cycle. The canonical review synthesis is [Kernel-0 Direct RTL Independent Review](./Kernel-0-Direct-RTL-Independent-Review.md).
 
-The next independent gate is the ingress-reduction artifact at `ac9d128e984dddecbbf08c810a9cfc53e9754ac9` on `codex/kernel-0-ingress-reduction-c03bf1c`.
+The ingress-reduction artifact at `ac9d128e984dddecbbf08c810a9cfc53e9754ac9` has also completed independent review. See [Kernel-0 Ingress Reduction Independent Review](./Kernel-0-Ingress-Reduction-Independent-Review.md).
+
+The next research gate is synchronous-timing reduction: derive the weakest realization contract needed for whole-proposal capture, coherent current-state observation, whole-successor publication and necessary ordering between interacting commitments, without treating the present clock as a Kernel primitive.
 
 A fresh agent working on that experiment should read, from the **same repository ref/commit**:
 
@@ -50,9 +52,9 @@ A prior implementation is never evidence that its mechanisms are required by the
 
 ## Current objective
 
-The bounded direct-RTL baseline is now independently supported: the frozen transition law matches the finite reference over 4,945,272 declared comparisons, and the verification apparatus has passed independent sufficiency review plus a hardened clean-worktree reproduction.
+The bounded direct-RTL baseline is independently supported, its verification-integrity weakness has been hardened and reproduced, and the fixed-lane ingress reduction is independently supported as a genuine structural reduction.
 
-The next objective is to review the ingress-reduction result independently before attempting further assumption reduction. Keep ingress reduction and synchronous-timing reduction as separate evidence steps; combine them only after each has been established independently.
+The next objective is to identify and challenge the minimal timing/observation/publication contract required by Kernel-0 before constructing another realization. Do not combine timing reduction with further ingress changes during this step.
 
 ## Stronger assurance program
 
