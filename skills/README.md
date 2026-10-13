@@ -22,3 +22,12 @@ Skill-related design notes, derivations, evaluations and evidence belong under `
 Legacy Claude-era skill/style material is archived under `docs/historical/skills/` and is not active procedure.
 
 Add a new skill only when repeated use demonstrates a stable operational procedure distinct from canonical methodology or project knowledge.
+
+## Restored Library skills
+
+- [Workflow Orchestration](workflow-orchestration/SKILL.md) — provisional coordination skill.
+- [Custom MCP Connector](custom-mcp-connector/SKILL.md) — connector setup and troubleshooting skill.
+- [Compact Prompt](compact-prompt/SKILL.md) — distinct Library variant retained alongside the existing `skills/prompt/SKILL.md`.
+- [Ontology Reviewer](ontology-reviewer/Ontology-Reviewer-Role.md) — role, proposal, review-skill connection, and dated-as-older archived drafts.
+
+The archived drafts are preserved as history; they are not promoted as the current role definition.
