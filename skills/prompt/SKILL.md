@@ -1,6 +1,6 @@
 ---
 name: compact-prompt
-version: 0.2-draft
+version: 0.3-draft
 description: Construct compact agent prompts for ASES/T3 workflows. Use when preparing fresh-context prompts for orchestrators, builders, recon/verification agents, reviewers, ontology reviewers, or synthesis agents. Select only task-specific instructions, run-specific policy, relevant context, and an observable completion condition; omit project knowledge and restrictions already supplied or enforced elsewhere.
 ---
 
@@ -32,6 +32,8 @@ Before writing, identify:
 - **receiver**: orchestrator, worker, reviewer, ontology reviewer, synthesizer, etc.;
 - **run policy**: facts that vary for this invocation, especially model/delegation policy;
 - **context sources**: only sources whose contents could materially change execution;
+- **execution path**: an established route, identity, provider, account, configuration or workflow that the task must use or try first;
+- **operator knowledge**: whether a consequential apparent unknown can be settled more cheaply by one question than by investigation;
 - **completion condition**: observable state that ends the task;
 - **authority**: what the receiver can actually do, preferably supplied mechanically rather than explained in prose.
 
@@ -87,6 +89,32 @@ If a frozen Implementation Packet governs the target, treat it as directly gover
 For ontology-sensitive work, select the relevant conceptual neighborhood rather than the whole corpus. Canonical terminology/registry entries establish identity and relationships; canonical specifications/architecture establish substantive meaning, invariants, ownership, and boundaries.
 
 If required meaning is missing or contradictory, expose the gap instead of silently expanding the prompt into an invented explanation.
+
+### 4a. Preserve established execution paths
+
+When a task depends on a previously selected route, identity, configuration, account, provider, repository, environment, tool or workflow, identify it explicitly. An available alternative is not automatically the intended path.
+
+Classify the path only as needed:
+- **required** — must be preserved; changing it requires approval;
+- **preferred** — the established first attempt; other routes are considered only after a concrete failure;
+- **fallback** — an alternative already authorized for this task.
+
+Give the receiving agent the decisive starting reference when multiple plausible paths exist. Verify the established route with the smallest safe check before searching for or substituting another. If it fails, diagnose that path rather than assuming the underlying resource or capability is unavailable. Failure to find configuration through a historical, restricted or unintended route does not prove absence in the target environment.
+
+Do not invent a new path, change authority boundaries, or substitute a different identity/provider merely because it is discoverable. Include only routing facts that change execution; leave cheap, non-ambiguous implementation details to the agent's tools.
+
+### 4b. Check operator knowledge before declaring an unknown
+
+Before compiling an "unknown", "not established" or reconnaissance task, distinguish:
+- **operator-known context** — intention, rationale, history, preferred route or identity that the operator may settle immediately;
+- **live-state uncertainty** — a current technical or security property that requires direct observation or testing;
+- **genuine unresolved uncertainty** — neither supplied context nor an inexpensive test currently settles it.
+
+If the operator could plausibly answer a consequential context question more cheaply than agents could investigate it, ask one broad, concrete, low-burden question first. Allow a partial or uncertain answer; do not demand the operator reconstruct every detail. Ask only when the answer would change the prompt, investigation path or decision. Do not ask again for facts already supplied, or turn this rule into a routine preflight questionnaire.
+
+An operator explanation can establish intent and point to the right mechanism; it is not by itself proof of the live state, effective security policy or successful recovery. Verify claims that require runtime evidence with the smallest discriminating test. If the operator does not know, proceed with bounded reconnaissance rather than repeatedly questioning them.
+
+Keep shell work, administrative navigation and configuration edits with agents. Never ask for credentials or secrets in conversation; preserve existing identity-action and approval boundaries.
 
 ### 5. Preserve run-specific policy
 
@@ -155,6 +183,8 @@ Delete anything that does not change execution.
 Apply these tests:
 
 - **Fresh-context test:** Does the receiver need this fact, and can it discover it from available context/tools? If discoverable, omit unless discovery is unusually costly or error-prone.
+- **Established-route test:** Have we preserved the operator-selected route or identity, rather than leaving an agent to pick a merely available alternative?
+- **Operator-knowledge test:** Are apparent unknowns genuinely unanswered, or could one useful question eliminate substantial misdirected research? Do not ask when the answer is already known or live verification is inherently required.
 - **Concept-introduction test:** Does this sentence introduce a concept the agent otherwise would not need? If yes, remove it unless it is required.
 - **Authority test:** Is this already mechanically enforced? If yes, omit it.
 - **Duplication test:** Is this stable procedure already in the role/skill or stable meaning already in project knowledge? If yes, reference/select it rather than restating it.
@@ -268,6 +298,7 @@ Provide completed independent findings and the decision required. Ask the synthe
 Do not force compression when shared semantics are insufficient. If the prompt cannot be made safely compact:
 
 - add the smallest missing context;
+- check whether a single operator question can resolve the missing intent, history or established path before escalating tool research;
 - identify the missing canonical term/boundary;
 - request an ontology review if the ambiguity is conceptual;
 - ask the orchestrator/human to resolve a genuine decision;
