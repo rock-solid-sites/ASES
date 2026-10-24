@@ -35,6 +35,7 @@ Applicability to whole large projects is unvalidated. Until evidence supports ot
 - Reuse selectively. Extract mechanisms that satisfy requirements; do not inherit upstream architecture merely because it exists.
 - Every proposed requirement, feature, component, abstraction, dependency and custom implementation must survive a necessity test: what fails if it is removed, and can a smaller, native or existing mechanism satisfy the same need?
 - Move deterministic or pure work earlier when practical; do not spend live build inference recomputing settled results.
+- Complete all safe, authorized, practical work in the current execution environment before delegating. Delegation is a residual capability or independence boundary, not the default output of preparation.
 - Reference canonical project meaning rather than duplicating it into packets or prompts.
 - Freeze only what evidence supports. Reopen frozen decisions only on concrete contradictory evidence from the live environment or acceptance tests.
 - Verify completion at the abstraction level of the requirement.
@@ -77,7 +78,13 @@ Freeze behavior before build. Specify state transitions, persistence/update rule
 
 Write and test pure logic before live integration when doing so reduces builder reasoning: state classification, filtering, sorting, transformations, renderers, retry policy, naming, small contracts and similar deterministic work.
 
-### 8. Pre-build compilation
+### 8. Complete what the current environment can do
+
+Before preparing a builder handoff, inventory the currently available source access, editing tools, tests, runtime, repository permissions, and verification capabilities. Implement and verify all safe, authorized and practical portions here, including code and deterministic tests, rather than stopping at an implementation-ready packet. Stop at a concrete boundary: unavailable runtime/credential/access, required independent verification, unsafe shared-state effects, or a task that cannot be reliably completed here. Do not repeat work downstream that has already been verified. Record what was completed and what remains uncertain; a speculative concern is not itself a reason to delegate.
+
+If the required artifact and acceptance checks can be completed here, record the finished result and evidence; **no builder delegation or implementation packet is necessary**. If only a bounded portion remains, supply the completed artifacts and the smallest residual task. If implementation is unavailable here, prepare the packet for that remaining implementation.
+
+### 9. Pre-build compilation
 
 Assemble an Implementation Packet containing only information that can change execution. A packet may include:
 
@@ -94,15 +101,15 @@ Assemble an Implementation Packet containing only information that can change ex
 
 Not every packet needs every field. The packet is task context, not a replacement for canonical project knowledge.
 
-### 9. Execute the residual task
+### 10. Execute the residual task
 
 The builder integrates and verifies rather than repeating research or product design. If live evidence contradicts the packet, make the smallest compatible substitution, preserve the required behavior, record the evidence and return genuinely strategic conflicts upstream.
 
-### 10. Verify independently
+### 11. Verify independently
 
 Operational acceptance may use the packet. Formal post-build review follows clean-room rules: the packet is process history and should not be supplied wholesale. Provide the artifact, concrete claim/invariant, explicit assumptions and the minimum canonical definitions needed to judge it.
 
-### 11. Preserve reusable results
+### 12. Preserve reusable results
 
 Feed durable findings, reusable mechanisms, new constraints and corrected canonical meaning back into the appropriate project knowledge so later work does not repeat the same inference.
 
@@ -115,4 +122,10 @@ Feed durable findings, reusable mechanisms, new constraints and corrected canoni
 
 ## Output
 
-For a nontrivial bounded build, the normal preparation output is a frozen Implementation Packet plus a compact residual-task prompt. The desired result is not merely better instructions: the builder should have few unresolved decisions left.
+For a nontrivial bounded build, output the furthest **verified state achievable in the current environment**, using the smallest of these forms:
+
+1. **Completed locally:** finished artifact plus verification evidence; no builder prompt.
+2. **Partially completed locally:** completed components/tests/evidence plus an Implementation Packet and compact prompt limited to the residual work.
+3. **Execution unavailable locally:** frozen Implementation Packet and compact residual-task prompt, with the concrete capability boundary stated.
+
+The desired result is not merely better instructions: each downstream builder should receive only work that genuinely remains.
