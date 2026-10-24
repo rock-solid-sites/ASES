@@ -1,0 +1,74 @@
+{
+  "installedAt": "20261024T061722Z",
+  "backup": "/home/claude-code/.paseo/config.json.pre-pgs2-20261024T061722Z",
+  "backupSha256": "a35ed244385413fbb5dc8f9992f494246b201ad40f9b32dd3d6addf995d6933d",
+  "configSha256": "6216ff05758d98fd70326f1e265e70348eae81725fb3541f381d9c1f433e9ad1",
+  "provider": {
+    "extends": "codex",
+    "label": "Codex — Phoenix Grove 2",
+    "command": [
+      "/home/claude-code/.local/bin/codex-pgs2"
+    ],
+    "env": {
+      "OPENAI_BASE_URL": "https://api.pgsgrove.com/v1",
+      "OPENAI_API_KEY": "loaded-by-codex-pgs2-wrapper",
+      "CODEX_HOME": "/home/claude-code/.paseo/codex-pgs2"
+    },
+    "models": [
+      {
+        "id": "deepseek-v4.1-flash-1017",
+        "label": "DeepSeek V4.1 Flash 1017",
+        "isDefault": true,
+        "thinkingOptions": [
+          {
+            "id": "none",
+            "label": "Off",
+            "isDefault": true
+          },
+          {
+            "id": "low",
+            "label": "Low"
+          }
+        ]
+      },
+      {
+        "id": "mimo-v2.6-flash",
+        "label": "MiMo V2.6 Flash",
+        "thinkingOptions": [
+          {
+            "id": "none",
+            "label": "Off",
+            "isDefault": true
+          }
+        ],
+        "description": "Use reasoning Off; low reasoning did not return final text in compatibility tests."
+      },
+      {
+        "id": "glm-5.3-flash",
+        "label": "GLM 5.3 Flash",
+        "thinkingOptions": [
+          {
+            "id": "none",
+            "label": "Off",
+            "isDefault": true
+          },
+          {
+            "id": "low",
+            "label": "Low"
+          }
+        ]
+      }
+    ]
+  },
+  "launcher": "/home/claude-code/.local/bin/codex-pgs2",
+  "launcherMode": "0700",
+  "codexHomeMode": "0700",
+  "credentialMode": "0600",
+  "unrelatedConfigUnchanged": true,
+  "codexVersion": "codex-cli 0.157.1",
+  "dedicatedCodexConfig": {
+    "path": "/home/claude-code/.paseo/codex-pgs2/config.toml",
+    "mode": "0600",
+    "content": "# Phoenix Grove gateway compatibility default; isolated from native Codex.\nmodel_reasoning_effort = \"none\"\n"
+  }
+}

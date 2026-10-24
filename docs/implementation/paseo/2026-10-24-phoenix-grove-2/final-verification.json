@@ -1,0 +1,783 @@
+{
+  "startedAt": "2026-10-24T06:13:56Z",
+  "verifiedAt": "2026-10-24T06:34:19.634830+00:00",
+  "initialLowReasoningRuns": [
+    {
+      "agentId": "461d8840-d7a6-4ee9-96fa-7a908f87fff6",
+      "nativeSessionId": "01a16c8f-811c-75d3-a8f6-47f240e2a523",
+      "model": "deepseek-v4.1-flash-1017",
+      "thinking": "low",
+      "mode": "auto",
+      "nativeTaskDurationSeconds": 4.454,
+      "cumulativeTokens": {
+        "input_tokens": 16381,
+        "cached_input_tokens": 8089,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 109,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 16490
+      },
+      "toolCalls": [
+        {
+          "name": "exec_command",
+          "arguments": "{\"cmd\": \"printf \\\"PGS2_NATIVE_TOOL_OK\\\\n\\\" > native-marker.txt && cat native-marker.txt\", \"workdir\": \"/tmp/paseo-pgs2-smoke-20261024\"}",
+          "callId": "chatcmpl-tool-9c3ec7cb40644caa"
+        }
+      ],
+      "toolResults": [
+        {
+          "callId": "chatcmpl-tool-9c3ec7cb40644caa",
+          "output": "Chunk ID: 8ca572\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+        }
+      ],
+      "finalAnswer": "PGS2_NATIVE_OK",
+      "toolPassed": true,
+      "finalTextPassed": true,
+      "processesAfterCompletion": [
+        {
+          "pid": 3943457,
+          "ppid": 3917466,
+          "rssKiB": 144004,
+          "hwmKiB": 145624,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        }
+      ]
+    },
+    {
+      "agentId": "79809fb5-6e4a-4535-96a4-558e4a15bee1",
+      "nativeSessionId": "01a16c91-a683-75c1-8e39-92650650c860",
+      "model": "glm-5.3-flash",
+      "thinking": "low",
+      "mode": "auto",
+      "nativeTaskDurationSeconds": 2.937,
+      "cumulativeTokens": {
+        "input_tokens": 15537,
+        "cached_input_tokens": 7571,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 31,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 15568
+      },
+      "toolCalls": [
+        {
+          "name": "exec_command",
+          "arguments": "{\"cmd\":\"cat native-marker.txt\",\"yield_time_ms\":10000}",
+          "callId": "3498676f-7b0e-4fea-ac49-4e69f43a4dda"
+        }
+      ],
+      "toolResults": [
+        {
+          "callId": "3498676f-7b0e-4fea-ac49-4e69f43a4dda",
+          "output": "Chunk ID: cd4545\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+        }
+      ],
+      "finalAnswer": "PGS2_NATIVE_OK",
+      "toolPassed": true,
+      "finalTextPassed": true,
+      "processesAfterCompletion": [
+        {
+          "pid": 3943457,
+          "ppid": 3917466,
+          "rssKiB": 144168,
+          "hwmKiB": 145624,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        },
+        {
+          "pid": 3943799,
+          "ppid": 3917466,
+          "rssKiB": 148052,
+          "hwmKiB": 148228,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        }
+      ],
+      "cliElapsedSeconds": 4.619
+    },
+    {
+      "agentId": "f08235b6-9f1a-4f5d-90a3-9259df8b4acd",
+      "nativeSessionId": "01a16c91-c017-7ab3-a242-9919389845d1",
+      "model": "mimo-v2.6-flash",
+      "thinking": "low",
+      "mode": "auto",
+      "nativeTaskDurationSeconds": 49.718,
+      "cumulativeTokens": {
+        "input_tokens": 15817,
+        "cached_input_tokens": 7833,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 107,
+        "reasoning_output_tokens": 37,
+        "total_tokens": 15924
+      },
+      "toolCalls": [
+        {
+          "name": "exec_command",
+          "arguments": "{\"max_output_tokens\":1000,\"workdir\":\"/tmp/paseo-pgs2-smoke-20261024\",\"yield_time_ms\":10000,\"cmd\":\"cat native-marker.txt\"}",
+          "callId": "call-d63e2dca-dd9b-42a8-b1ba-d1da86806fda"
+        }
+      ],
+      "toolResults": [
+        {
+          "callId": "call-d63e2dca-dd9b-42a8-b1ba-d1da86806fda",
+          "output": "Chunk ID: 800aad\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+        }
+      ],
+      "finalAnswer": null,
+      "toolPassed": true,
+      "finalTextPassed": false,
+      "processesAfterCompletion": [
+        {
+          "pid": 3943457,
+          "ppid": 3917466,
+          "rssKiB": 144080,
+          "hwmKiB": 145624,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        },
+        {
+          "pid": 3943799,
+          "ppid": 3917466,
+          "rssKiB": 147476,
+          "hwmKiB": 148616,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        },
+        {
+          "pid": 3943977,
+          "ppid": 3917466,
+          "rssKiB": 148292,
+          "hwmKiB": 148700,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        }
+      ],
+      "cliElapsedSeconds": 51.307,
+      "additionalTextCheck": [
+        {
+          "durationMs": 12415,
+          "finalAnswer": null
+        }
+      ]
+    }
+  ],
+  "nativeRuns": [
+    {
+      "agentId": "4dd6873f-2d4b-4c7f-8508-e264c16faa1c",
+      "nativeSessionId": "01a16c9c-85f2-7fe3-8012-198ba62841cc",
+      "model": "deepseek-v4.1-flash-1017",
+      "thinking": "none",
+      "mode": "auto",
+      "turns": [
+        {
+          "durationSeconds": 2.307,
+          "finalAnswer": "PGS2_NATIVE_OK",
+          "tokens": {
+            "input_tokens": 16245,
+            "cached_input_tokens": 8242,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 49,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 16294
+          },
+          "toolCalls": [
+            {
+              "name": "exec_command",
+              "arguments": "{\"cmd\": \"cat native-marker.txt\"}",
+              "callId": "chatcmpl-tool-a54e9fc626685d8b"
+            }
+          ],
+          "toolResults": [
+            {
+              "callId": "chatcmpl-tool-a54e9fc626685d8b",
+              "output": "Chunk ID: 372de4\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+            }
+          ]
+        }
+      ],
+      "verifiedToolTurn": {
+        "durationSeconds": 2.307,
+        "finalAnswer": "PGS2_NATIVE_OK",
+        "tokens": {
+          "input_tokens": 16245,
+          "cached_input_tokens": 8242,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 49,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 16294
+        },
+        "toolCalls": [
+          {
+            "name": "exec_command",
+            "arguments": "{\"cmd\": \"cat native-marker.txt\"}",
+            "callId": "chatcmpl-tool-a54e9fc626685d8b"
+          }
+        ],
+        "toolResults": [
+          {
+            "callId": "chatcmpl-tool-a54e9fc626685d8b",
+            "output": "Chunk ID: 372de4\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+          }
+        ]
+      },
+      "sessionTotalTokens": {
+        "input_tokens": 16245,
+        "cached_input_tokens": 8242,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 49,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 16294
+      },
+      "processesAfterCompletion": [
+        {
+          "pid": 3944838,
+          "ppid": 3917466,
+          "rssKiB": 147584,
+          "hwmKiB": 150224,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        },
+        {
+          "pid": 3945364,
+          "ppid": 3917466,
+          "rssKiB": 147304,
+          "hwmKiB": 147676,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        }
+      ],
+      "cliElapsedSeconds": 4.072
+    },
+    {
+      "agentId": "cb7662e5-15bd-4708-8d07-9ec420aeb328",
+      "nativeSessionId": "01a16c9c-9bbf-7070-80ba-4333b3e479a7",
+      "model": "glm-5.3-flash",
+      "thinking": "none",
+      "mode": "auto",
+      "turns": [
+        {
+          "durationSeconds": 3.303,
+          "finalAnswer": "PGS2_NATIVE_OK",
+          "tokens": {
+            "input_tokens": 15537,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 31,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 15568
+          },
+          "toolCalls": [
+            {
+              "name": "exec_command",
+              "arguments": "{\"cmd\":\"cat native-marker.txt\",\"yield_time_ms\":10000}",
+              "callId": "1ba062b7-4145-441b-875e-804c4e1c4154"
+            }
+          ],
+          "toolResults": [
+            {
+              "callId": "1ba062b7-4145-441b-875e-804c4e1c4154",
+              "output": "Chunk ID: 404e1c\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+            }
+          ]
+        }
+      ],
+      "verifiedToolTurn": {
+        "durationSeconds": 3.303,
+        "finalAnswer": "PGS2_NATIVE_OK",
+        "tokens": {
+          "input_tokens": 15537,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 31,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 15568
+        },
+        "toolCalls": [
+          {
+            "name": "exec_command",
+            "arguments": "{\"cmd\":\"cat native-marker.txt\",\"yield_time_ms\":10000}",
+            "callId": "1ba062b7-4145-441b-875e-804c4e1c4154"
+          }
+        ],
+        "toolResults": [
+          {
+            "callId": "1ba062b7-4145-441b-875e-804c4e1c4154",
+            "output": "Chunk ID: 404e1c\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+          }
+        ]
+      },
+      "sessionTotalTokens": {
+        "input_tokens": 15537,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 31,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 15568
+      },
+      "processesAfterCompletion": [
+        {
+          "pid": 3944838,
+          "ppid": 3917466,
+          "rssKiB": 147672,
+          "hwmKiB": 150224,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        },
+        {
+          "pid": 3945364,
+          "ppid": 3917466,
+          "rssKiB": 147304,
+          "hwmKiB": 147676,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        },
+        {
+          "pid": 3945537,
+          "ppid": 3917466,
+          "rssKiB": 148284,
+          "hwmKiB": 148640,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        }
+      ],
+      "cliElapsedSeconds": 4.64
+    },
+    {
+      "agentId": "7c3e8aec-fbff-42bf-84e0-6c55f64ace60",
+      "nativeSessionId": "01a16c98-ca3d-7ea0-8605-99c7c8786228",
+      "model": "mimo-v2.6-flash",
+      "thinking": "none",
+      "mode": "auto",
+      "turns": [
+        {
+          "durationSeconds": 34.693,
+          "finalAnswer": "PGS2_MIMO_NONE_OK",
+          "tokens": {
+            "input_tokens": 7809,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 8,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 7817
+          },
+          "toolCalls": [],
+          "toolResults": []
+        },
+        {
+          "durationSeconds": 85.539,
+          "finalAnswer": "PGS2_NATIVE_OK",
+          "tokens": {
+            "input_tokens": 15905,
+            "cached_input_tokens": 15666,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 94,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 15999
+          },
+          "toolCalls": [
+            {
+              "name": "exec_command",
+              "arguments": "{\"yield_time_ms\":10000,\"cmd\":\"cat native-marker.txt\",\"workdir\":\"/tmp/paseo-pgs2-smoke-20261024\",\"max_output_tokens\":1000}",
+              "callId": "call-9678d6d3-0c4d-42e6-ac36-1eea098325d0"
+            }
+          ],
+          "toolResults": [
+            {
+              "callId": "call-9678d6d3-0c4d-42e6-ac36-1eea098325d0",
+              "output": "Chunk ID: 3a0d79\nWall time: 0.0001 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+            }
+          ]
+        }
+      ],
+      "verifiedToolTurn": {
+        "durationSeconds": 85.539,
+        "finalAnswer": "PGS2_NATIVE_OK",
+        "tokens": {
+          "input_tokens": 15905,
+          "cached_input_tokens": 15666,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 94,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 15999
+        },
+        "toolCalls": [
+          {
+            "name": "exec_command",
+            "arguments": "{\"yield_time_ms\":10000,\"cmd\":\"cat native-marker.txt\",\"workdir\":\"/tmp/paseo-pgs2-smoke-20261024\",\"max_output_tokens\":1000}",
+            "callId": "call-9678d6d3-0c4d-42e6-ac36-1eea098325d0"
+          }
+        ],
+        "toolResults": [
+          {
+            "callId": "call-9678d6d3-0c4d-42e6-ac36-1eea098325d0",
+            "output": "Chunk ID: 3a0d79\nWall time: 0.0001 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\nPGS2_NATIVE_TOOL_OK\n"
+          }
+        ]
+      },
+      "sessionTotalTokens": {
+        "input_tokens": 23714,
+        "cached_input_tokens": 15666,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 102,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 23816
+      },
+      "processesAfterCompletion": [
+        {
+          "pid": 3944838,
+          "ppid": 3917466,
+          "rssKiB": 147752,
+          "hwmKiB": 150224,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        },
+        {
+          "pid": 3945364,
+          "ppid": 3917466,
+          "rssKiB": 148236,
+          "hwmKiB": 148952,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        },
+        {
+          "pid": 3945537,
+          "ppid": 3917466,
+          "rssKiB": 148680,
+          "hwmKiB": 149972,
+          "dedicatedPgs2": true,
+          "correctBaseUrl": true,
+          "keyLoadedFromProtectedFile": true
+        }
+      ],
+      "cliElapsedSeconds": null
+    }
+  ],
+  "beforeArchive": {
+    "at": "2026-10-24T06:34:19.646090+00:00",
+    "service": {
+      "MainPID": "3917442",
+      "NRestarts": "0",
+      "MemoryCurrent": "2967175168",
+      "TasksCurrent": "487",
+      "ActiveState": "active"
+    },
+    "codexProcesses": [
+      {
+        "pid": 3902156,
+        "ppid": 1,
+        "rssKiB": 90444,
+        "hwmKiB": 294988,
+        "dedicatedPgs2": false
+      },
+      {
+        "pid": 3903993,
+        "ppid": 3903992,
+        "rssKiB": 3500,
+        "hwmKiB": 25572,
+        "dedicatedPgs2": false
+      },
+      {
+        "pid": 3944838,
+        "ppid": 3917466,
+        "rssKiB": 147752,
+        "hwmKiB": 150224,
+        "dedicatedPgs2": true,
+        "correctBaseUrl": true,
+        "keyLoadedFromProtectedFile": true
+      },
+      {
+        "pid": 3945364,
+        "ppid": 3917466,
+        "rssKiB": 148236,
+        "hwmKiB": 148952,
+        "dedicatedPgs2": true,
+        "correctBaseUrl": true,
+        "keyLoadedFromProtectedFile": true
+      },
+      {
+        "pid": 3945537,
+        "ppid": 3917466,
+        "rssKiB": 148680,
+        "hwmKiB": 149972,
+        "dedicatedPgs2": true,
+        "correctBaseUrl": true,
+        "keyLoadedFromProtectedFile": true
+      }
+    ]
+  },
+  "mimoCompatibility": "Low reasoning completed tools but omitted final text twice. Reasoning none passed text-only and tool-result completion. Provider default and MiMo catalog now use none.",
+  "archives": [
+    {
+      "agentId": "4dd6873f-2d4b-4c7f-8508-e264c16faa1c",
+      "result": {
+        "agentId": "4dd6873f-2d4b-4c7f-8508-e264c16faa1c",
+        "status": "archived",
+        "archivedAt": "2026-10-24T06:34:20.770Z"
+      }
+    },
+    {
+      "agentId": "cb7662e5-15bd-4708-8d07-9ec420aeb328",
+      "result": {
+        "agentId": "cb7662e5-15bd-4708-8d07-9ec420aeb328",
+        "status": "archived",
+        "archivedAt": "2026-10-24T06:34:21.890Z"
+      }
+    },
+    {
+      "agentId": "7c3e8aec-fbff-42bf-84e0-6c55f64ace60",
+      "result": {
+        "agentId": "7c3e8aec-fbff-42bf-84e0-6c55f64ace60",
+        "status": "archived",
+        "archivedAt": "2026-10-24T06:34:23.043Z"
+      }
+    }
+  ],
+  "afterArchive": {
+    "at": "2026-10-24T06:34:23.325419+00:00",
+    "service": {
+      "MainPID": "3917442",
+      "NRestarts": "0",
+      "MemoryCurrent": "2880811008",
+      "TasksCurrent": "418",
+      "ActiveState": "active"
+    },
+    "codexProcesses": [
+      {
+        "pid": 3902156,
+        "ppid": 1,
+        "rssKiB": 90444,
+        "hwmKiB": 294988,
+        "dedicatedPgs2": false
+      },
+      {
+        "pid": 3903993,
+        "ppid": 3903992,
+        "rssKiB": 3492,
+        "hwmKiB": 25572,
+        "dedicatedPgs2": false
+      }
+    ]
+  },
+  "preservedFiles": {
+    ".codex/auth.json": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".codex/config.toml": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".config/opencode/opencode.json": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".local/share/opencode/auth.json": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".config/systemd/user/paseo.service": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".paseo/config.json.ops-accepted-20261024": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".paseo/config.json.pre-issue3": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".paseo/config.json.pre-ops-20261024": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".paseo/config.json.pre-ases-roles": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".paseo/config.json.pre-issue4-20261005": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".paseo/config.json.pre-issue2-roles": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".config/opencode-ases/researcher/opencode.json": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".config/opencode-ases/reviewer/opencode.json": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    },
+    ".config/opencode-ases/orchestrator/opencode.json": {
+      "sha256Unchanged": true,
+      "modeUnchanged": true
+    }
+  },
+  "onlyConfigChange": "agents.providers.codex-pgs2",
+  "models": [
+    {
+      "model": "DeepSeek V4.1 Flash 1017",
+      "id": "deepseek-v4.1-flash-1017",
+      "description": "",
+      "thinkingOptionIds": [
+        "none",
+        "low"
+      ],
+      "defaultThinkingOptionId": "none",
+      "thinkingOptions": "none, low"
+    },
+    {
+      "model": "MiMo V2.6 Flash",
+      "id": "mimo-v2.6-flash",
+      "description": "Use reasoning Off; low reasoning did not return final text in compatibility tests.",
+      "thinkingOptionIds": [
+        "none"
+      ],
+      "defaultThinkingOptionId": "none",
+      "thinkingOptions": "none"
+    },
+    {
+      "model": "GLM 5.3 Flash",
+      "id": "glm-5.3-flash",
+      "description": "",
+      "thinkingOptionIds": [
+        "none",
+        "low"
+      ],
+      "defaultThinkingOptionId": "none",
+      "thinkingOptions": "none, low"
+    }
+  ],
+  "providerCatalog": [
+    {
+      "provider": "codex",
+      "label": "Codex",
+      "status": "available",
+      "enabled": "Enabled",
+      "defaultMode": "auto-review",
+      "modes": "Default Permissions, Auto-review, Full Access"
+    },
+    {
+      "provider": "opencode",
+      "label": "OpenCode",
+      "status": "available",
+      "enabled": "Enabled",
+      "defaultMode": "default",
+      "modes": "Build, Plan, Gemini-35-flash, Gemini-pro-reviewer, Glm5.2-auditor, Kimi-k2.7-code, Mimo-v2.5-pro, Space-bunny"
+    },
+    {
+      "provider": "ases-orchestrator",
+      "label": "ASES Orchestrator",
+      "status": "available",
+      "enabled": "Enabled",
+      "defaultMode": "default",
+      "modes": "Build, Plan"
+    },
+    {
+      "provider": "ases-builder",
+      "label": "ASES Builder",
+      "status": "available",
+      "enabled": "Enabled",
+      "defaultMode": "default",
+      "modes": "Build, Plan, Gemini-35-flash, Gemini-pro-reviewer, Glm5.2-auditor, Kimi-k2.7-code, Mimo-v2.5-pro, Space-bunny"
+    },
+    {
+      "provider": "ases-reviewer",
+      "label": "ASES Reviewer",
+      "status": "available",
+      "enabled": "Enabled",
+      "defaultMode": "default",
+      "modes": "Build, Plan"
+    },
+    {
+      "provider": "ases-researcher",
+      "label": "ASES Researcher",
+      "status": "available",
+      "enabled": "Enabled",
+      "defaultMode": "default",
+      "modes": "Build, Plan"
+    },
+    {
+      "provider": "codex-pgs2",
+      "label": "Codex — Phoenix Grove 2",
+      "status": "available",
+      "enabled": "Enabled",
+      "defaultMode": "auto-review",
+      "modes": "Default Permissions, Auto-review, Full Access"
+    }
+  ],
+  "nativeAuthFileUnchanged": true,
+  "noDedicatedProcessRetainedAfterArchive": true,
+  "mainPidUnchanged": true,
+  "credentialMode": "0o600",
+  "credentialNotInConfig": true,
+  "credentialNotInEvidence": true,
+  "noDedicatedAuthFile": true,
+  "agentStates": {
+    "idle": 6,
+    "closed": 48
+  },
+  "elapsedSinceResumeSeconds": 1230.254,
+  "allSixDisposableAgentsArchived": true,
+  "archivedAgentInspections": [
+    {
+      "Id": "461d8840-d7a6-4ee9-96fa-7a908f87fff6",
+      "Archived": true,
+      "Status": "closed",
+      "Provider": "codex-pgs2",
+      "Model": "deepseek-v4.1-flash-1017"
+    },
+    {
+      "Id": "79809fb5-6e4a-4535-96a4-558e4a15bee1",
+      "Archived": true,
+      "Status": "closed",
+      "Provider": "codex-pgs2",
+      "Model": "glm-5.3-flash"
+    },
+    {
+      "Id": "f08235b6-9f1a-4f5d-90a3-9259df8b4acd",
+      "Archived": true,
+      "Status": "closed",
+      "Provider": "codex-pgs2",
+      "Model": "mimo-v2.6-flash"
+    },
+    {
+      "Id": "4dd6873f-2d4b-4c7f-8508-e264c16faa1c",
+      "Archived": true,
+      "Status": "closed",
+      "Provider": "codex-pgs2",
+      "Model": "deepseek-v4.1-flash-1017"
+    },
+    {
+      "Id": "cb7662e5-15bd-4708-8d07-9ec420aeb328",
+      "Archived": true,
+      "Status": "closed",
+      "Provider": "codex-pgs2",
+      "Model": "glm-5.3-flash"
+    },
+    {
+      "Id": "7c3e8aec-fbff-42bf-84e0-6c55f64ace60",
+      "Archived": true,
+      "Status": "closed",
+      "Provider": "codex-pgs2",
+      "Model": "mimo-v2.6-flash"
+    }
+  ],
+  "finalAuditAt": "2026-10-24T06:38:35.690164+00:00"
+}

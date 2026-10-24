@@ -1,0 +1,246 @@
+{
+  "startedAt": "2026-10-24T06:15:28.302155+00:00",
+  "credentialMode": "0600",
+  "endpoint": "https://api.pgsgrove.com/v1/responses",
+  "models": [
+    "deepseek-v4-flash",
+    "deepseek-v4-flash-0731",
+    "deepseek-v4-flash-0731-turbo",
+    "deepseek-v4-flash-turbo",
+    "deepseek-v4-pro",
+    "deepseek-v4-pro-0813",
+    "deepseek-v4-pro-0813-turbo",
+    "deepseek-v4-pro-turbo",
+    "deepseek-v4.1-flash",
+    "deepseek-v4.1-flash-1017",
+    "deepseek-v4.1-flash-1017-turbo",
+    "deepseek-v4.1-flash-turbo",
+    "embeddinggemma-300m",
+    "gemma-4-31b",
+    "gemma-4-31b-turbo",
+    "glm-5.2",
+    "glm-5.2-turbo",
+    "glm-5.3",
+    "glm-5.3-flash",
+    "kimi-k2.6",
+    "kimi-k2.6-turbo",
+    "kimi-k3",
+    "kokoro-82m",
+    "ling-3.1-flash",
+    "mimo-v2.6-flash",
+    "mimo-v2.6-pro",
+    "minimax-m3",
+    "nemotron-3-super",
+    "nemotron-3-super-turbo",
+    "nemotron-3-ultra",
+    "nemotron-3-ultra-turbo",
+    "nemotron-3.5-super-vl",
+    "qwen-3.8-27b"
+  ],
+  "probes": [
+    {
+      "model": "deepseek-v4.1-flash-1017",
+      "listed": true,
+      "first": {
+        "httpStatus": 200,
+        "contentType": "text/event-stream",
+        "elapsedSeconds": 1.415,
+        "eventCounts": {
+          "response.created": 1,
+          "response.in_progress": 1,
+          "response.output_item.added": 1,
+          "response.function_call_arguments.delta": 1,
+          "response.function_call_arguments.done": 1,
+          "response.output_item.done": 1,
+          "response.completed": 1
+        },
+        "usage": {
+          "input_tokens": 290,
+          "input_tokens_details": {
+            "cached_tokens": 153,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 44,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 334
+        },
+        "status": "completed"
+      },
+      "functionCalls": [
+        {
+          "name": "pg_probe",
+          "arguments": "{\"value\": \"PGS2_TOOL_OK\"}"
+        }
+      ],
+      "second": {
+        "httpStatus": 200,
+        "contentType": "text/event-stream",
+        "elapsedSeconds": 1.135,
+        "eventCounts": {
+          "response.created": 1,
+          "response.in_progress": 1,
+          "response.output_item.added": 1,
+          "response.content_part.added": 1,
+          "response.output_text.delta": 2,
+          "response.output_text.done": 1,
+          "response.content_part.done": 1,
+          "response.output_item.done": 1,
+          "response.completed": 1
+        },
+        "usage": {
+          "input_tokens": 89,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 5,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 94
+        },
+        "status": "completed"
+      },
+      "answer": "PGS2_OK",
+      "passed": true
+    },
+    {
+      "model": "mimo-v2.6-flash",
+      "listed": true,
+      "first": {
+        "httpStatus": 200,
+        "contentType": "text/event-stream",
+        "elapsedSeconds": 22.868,
+        "eventCounts": {
+          "response.created": 1,
+          "response.in_progress": 1,
+          "response.output_item.added": 1,
+          "response.function_call_arguments.delta": 1,
+          "response.function_call_arguments.done": 1,
+          "response.output_item.done": 1,
+          "response.completed": 1
+        },
+        "usage": {
+          "input_tokens": 120,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 13,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 133
+        },
+        "status": "completed"
+      },
+      "functionCalls": [
+        {
+          "name": "pg_probe",
+          "arguments": "{ \"value\": \"PGS2_TOOL_OK\" }"
+        }
+      ],
+      "second": {
+        "httpStatus": 200,
+        "contentType": "text/event-stream",
+        "elapsedSeconds": 24.169,
+        "eventCounts": {
+          "response.created": 1,
+          "response.in_progress": 1,
+          "response.output_item.added": 1,
+          "response.content_part.added": 1,
+          "response.output_text.delta": 2,
+          "response.output_text.done": 1,
+          "response.content_part.done": 1,
+          "response.output_item.done": 1,
+          "response.completed": 1
+        },
+        "usage": {
+          "input_tokens": 79,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 39,
+          "output_tokens_details": {
+            "reasoning_tokens": 35
+          },
+          "total_tokens": 118
+        },
+        "status": "completed"
+      },
+      "answer": "PGS2_OK",
+      "passed": true
+    },
+    {
+      "model": "glm-5.3-flash",
+      "listed": true,
+      "first": {
+        "httpStatus": 200,
+        "contentType": "text/event-stream",
+        "elapsedSeconds": 1.329,
+        "eventCounts": {
+          "response.created": 1,
+          "response.in_progress": 1,
+          "response.output_item.added": 1,
+          "response.function_call_arguments.delta": 1,
+          "response.function_call_arguments.done": 1,
+          "response.output_item.done": 1,
+          "response.completed": 1
+        },
+        "usage": {
+          "input_tokens": 179,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 16,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 195
+        },
+        "status": "completed"
+      },
+      "functionCalls": [
+        {
+          "name": "pg_probe",
+          "arguments": "{\"value\":\"PGS2_TOOL_OK\"}"
+        }
+      ],
+      "second": {
+        "httpStatus": 200,
+        "contentType": "text/event-stream",
+        "elapsedSeconds": 1.105,
+        "eventCounts": {
+          "response.created": 1,
+          "response.in_progress": 1,
+          "response.output_item.added": 1,
+          "response.content_part.added": 1,
+          "response.output_text.delta": 1,
+          "response.output_text.done": 1,
+          "response.content_part.done": 1,
+          "response.output_item.done": 1,
+          "response.completed": 1
+        },
+        "usage": {
+          "input_tokens": 59,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 6,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 65
+        },
+        "status": "completed"
+      },
+      "answer": "PGS2_OK",
+      "passed": true
+    }
+  ]
+}
