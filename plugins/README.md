@@ -1,19 +1,9 @@
-# ChatGPT Plugin Records
+# ChatGPT plugin records — migrated
 
-This directory stores reproducible source records for the private ChatGPT plugins used by ASES-related tooling.
+**Canonical custom MCP source and connector records now live in [rock-solid-sites/rss-tools](https://github.com/rock-solid-sites/rss-tools/tree/main/mcp).** This directory is retained only for migration pointers and Git history. Do not update duplicate connector specifications here.
 
-These files are **repo-local deployment records, not an OpenAI plugin-import schema**. They intentionally exclude tunnel IDs, API keys, bearer tokens, and other environment-specific secrets.
+- [cgrmcp](../../../../rss-tools): canonical [connector record](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/cgrmcp/connector-record.json) and [skill](https://github.com/rock-solid-sites/rss-tools/blob/main/mcp/cgrmcp/SKILL.md)
+- [Strategy Code Graph](https://github.com/rock-solid-sites/rss-tools/tree/main/mcp/retired/strategy-code-graph): **RETIRED**, superseded by cgrmcp
+- [ATProto Reader](https://github.com/rock-solid-sites/rss-tools/tree/main/mcp/atproto-reader): active-development record and source links
 
-Each plugin record captures:
-- the user-facing/plugin namespace identity;
-- the MCP backend and connection mode;
-- the expected model-facing tool surface;
-- relevant operational constraints;
-- the reconstruction procedure;
-- links to any model-facing skill maintained in this repository.
-
-Current records:
-- `strategy-code-graph/connector-record.json` — legacy GitNexus-backed read-only structural-code plugin.
-- `cgrmcp/connector-record.json` — CodeGraph-backed repository-research plugin.
-
-The ChatGPT plugin object itself is created in **Settings → Developer → Plugins** with **Connection: Tunnel** and bound to the corresponding OpenAI Secure MCP Tunnel. Tunnel IDs and runtime credentials must remain outside Git.
+Prior versions of these files remain available in this repository's Git history. **These records are not OpenAI plugin-import schemas.** Runtime tunnel IDs and credentials must not be committed.
