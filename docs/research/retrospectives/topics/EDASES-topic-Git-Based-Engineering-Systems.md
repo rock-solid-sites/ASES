@@ -23,7 +23,7 @@ supersedes: []
 
 superseded_by: []
 
-last_updated: 2026-08-10
+last_updated: 2026-10-28
 ---
 
 # EDASES Topic: Git-Based Engineering Systems
@@ -114,6 +114,12 @@ For existing Crosslink sessions, investigate:
 This retrospective should explicitly examine whether existing Crosslink mechanisms represent **necessary extensions to Git** or whether some have arisen because Git-native mechanisms were not yet being exploited.
 
 Crosslink should be treated as an empirical case study in the design of multi-agent Git workflows, not merely as an implementation dependency.
+
+### New field observation (2026-10-28): the Git push approval boundary
+
+The [IT3812 cross-environment push-gate observation](2026-10-28-cross-environment-push-gate-coordination.md) records a coordination failure mode that existing Git/Crosslink research should test: **operator approval for every `git push` may prevent agents operating in separate environments from publishing recoverable review-branch checkpoints**. Local commits are invisible to other machines until transferred or pushed. This can convert an intended security gate into a manual coordination bottleneck.
+
+The operator has authorized a bounded `vps-runbook` experiment: non-main branch pushes without per-push approval, while merging to `main` remains operator-controlled. This is **not** evidence that global push approval should be removed; measure handoff reliability, intervention load, provenance, unintended publication and push-triggered side effects. The VPS-side policy has not yet been verified in a new agent session.
 
 ---
 
