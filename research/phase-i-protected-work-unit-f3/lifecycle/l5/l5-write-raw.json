@@ -1,0 +1,354 @@
+{
+  "acceptance": {
+    "checks_observed": true,
+    "content_unchanged": true,
+    "moved_read_succeeded": true,
+    "moved_write_denied": true,
+    "mutant_effect_detected": true,
+    "mutant_forbidden_write_succeeded": true,
+    "positive_write_succeeded": true
+  },
+  "cases": {
+    "latent_preserved": {
+      "accepted_x_bytes_unchanged": true,
+      "accepted_x_sha256_before_after": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+      "activation_record_sha256": "06167499f4160354290d45cd01966bb326764047731ede65380d95423a600ccf",
+      "actual_checks": [
+        {
+          "actor_pid": 204790,
+          "allowed": true,
+          "effective": [
+            "read"
+          ],
+          "ingress": "W1",
+          "op": "read_x",
+          "parent": "Q",
+          "record_sha256": "06167499f4160354290d45cd01966bb326764047731ede65380d95423a600ccf",
+          "worker_pid": 204792
+        },
+        {
+          "actor_pid": 204790,
+          "allowed": false,
+          "effective": [
+            "read"
+          ],
+          "ingress": "W1",
+          "op": "write",
+          "parent": "Q",
+          "record_sha256": "06167499f4160354290d45cd01966bb326764047731ede65380d95423a600ccf",
+          "worker_pid": 204792
+        }
+      ],
+      "authority_pid": 204790,
+      "case": "latent-ceiling-preserved",
+      "current_state": {
+        "C": {
+          "grants": [
+            "read",
+            "write"
+          ],
+          "id": "C",
+          "latent_ceiling": [
+            "read"
+          ],
+          "parent": "Q"
+        },
+        "P": {
+          "grants": [
+            "read"
+          ],
+          "id": "P"
+        },
+        "Q": {
+          "grants": [
+            "read",
+            "write"
+          ],
+          "id": "Q"
+        },
+        "active": true,
+        "current_ingress": "W1",
+        "events": [
+          {
+            "actor": "initial-manager",
+            "op": "initialize",
+            "record": "whole"
+          },
+          {
+            "actor": "initial-manager",
+            "captured_old_effective": [
+              "read"
+            ],
+            "from": "P",
+            "mutant_dropped_latent": false,
+            "op": "sealed_whole_move",
+            "to": "Q"
+          },
+          {
+            "actor": "initial-manager",
+            "ingress": "W1",
+            "op": "fresh_authorized_activation"
+          }
+        ],
+        "id": "C",
+        "schema": 1,
+        "sealed": false
+      },
+      "effects": [],
+      "move_record_sha256": "2f8283359711ae0aa9f6250d1e229775fd0850b5c11e55c5af2a125bd2a419f5",
+      "routes": {
+        "accepted_x_mutation": "none",
+        "authority_to_effect": "mediator-only atomic replace in disposable effects/",
+        "worker_direct_filesystem": "Landlock confined; no target or accepted-object fd passed",
+        "worker_to_authority": "one inherited socketpair fd; request-by-request H authorization"
+      },
+      "worker_observation": {
+        "pid": 204792,
+        "read": {
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "identity": "C-accepted-x",
+          "result": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "write": {
+          "reason": "current-effective-permission",
+          "result": "DENY"
+        }
+      },
+      "worker_pid": 204792
+    },
+    "positive": {
+      "accepted_x_bytes_unchanged": true,
+      "accepted_x_sha256_before_after": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+      "activation_record_sha256": "a0b8ffe20ceb62b7195e61339d8cbc4abaa0cb02c184abbf8ae870dfc60df192",
+      "actual_checks": [
+        {
+          "actor_pid": 204790,
+          "allowed": true,
+          "effective": [
+            "read",
+            "write"
+          ],
+          "ingress": "W1",
+          "op": "read_x",
+          "parent": "P",
+          "record_sha256": "a0b8ffe20ceb62b7195e61339d8cbc4abaa0cb02c184abbf8ae870dfc60df192",
+          "worker_pid": 204791
+        },
+        {
+          "actor_pid": 204790,
+          "allowed": true,
+          "effective": [
+            "read",
+            "write"
+          ],
+          "ingress": "W1",
+          "op": "write",
+          "parent": "P",
+          "record_sha256": "a0b8ffe20ceb62b7195e61339d8cbc4abaa0cb02c184abbf8ae870dfc60df192",
+          "worker_pid": 204791
+        }
+      ],
+      "authority_pid": 204790,
+      "case": "authorized-write-control",
+      "current_state": {
+        "C": {
+          "grants": [
+            "read",
+            "write"
+          ],
+          "id": "C",
+          "latent_ceiling": [
+            "read",
+            "write"
+          ],
+          "parent": "P"
+        },
+        "P": {
+          "grants": [
+            "read",
+            "write"
+          ],
+          "id": "P"
+        },
+        "Q": {
+          "grants": [
+            "read",
+            "write"
+          ],
+          "id": "Q"
+        },
+        "active": true,
+        "current_ingress": "W1",
+        "events": [
+          {
+            "actor": "initial-manager",
+            "op": "initialize",
+            "record": "whole"
+          }
+        ],
+        "id": "C",
+        "schema": 1,
+        "sealed": false
+      },
+      "effects": [
+        {
+          "bytes_hex": "617574686f72697a65642d706f736974697665",
+          "committed_before_ack": true,
+          "path": "/tmp/ases-l5-authorized-write-control-ivvxd34a/effects/write-effect.bin",
+          "sha256": "8732b8a00f4332a354a08c1713b3f31278436d3c16f2befae9095e47590bbd06"
+        }
+      ],
+      "move_record_sha256": null,
+      "routes": {
+        "accepted_x_mutation": "none",
+        "authority_to_effect": "mediator-only atomic replace in disposable effects/",
+        "worker_direct_filesystem": "Landlock confined; no target or accepted-object fd passed",
+        "worker_to_authority": "one inherited socketpair fd; request-by-request H authorization"
+      },
+      "worker_observation": {
+        "pid": 204791,
+        "read": {
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "identity": "C-accepted-x",
+          "result": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "write": {
+          "effect_sha256": "8732b8a00f4332a354a08c1713b3f31278436d3c16f2befae9095e47590bbd06",
+          "result": "COMMITTED"
+        }
+      },
+      "worker_pid": 204791
+    },
+    "unsafe_mutant": {
+      "accepted_x_bytes_unchanged": true,
+      "accepted_x_sha256_before_after": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+      "activation_record_sha256": "0f6c5d947d645ec5f007fa5861c916e6e62292fcde463e07dc8405fd3e9310d5",
+      "actual_checks": [
+        {
+          "actor_pid": 204790,
+          "allowed": true,
+          "effective": [
+            "read",
+            "write"
+          ],
+          "ingress": "W1",
+          "op": "read_x",
+          "parent": "Q",
+          "record_sha256": "0f6c5d947d645ec5f007fa5861c916e6e62292fcde463e07dc8405fd3e9310d5",
+          "worker_pid": 204793
+        },
+        {
+          "actor_pid": 204790,
+          "allowed": true,
+          "effective": [
+            "read",
+            "write"
+          ],
+          "ingress": "W1",
+          "op": "write",
+          "parent": "Q",
+          "record_sha256": "0f6c5d947d645ec5f007fa5861c916e6e62292fcde463e07dc8405fd3e9310d5",
+          "worker_pid": 204793
+        }
+      ],
+      "authority_pid": 204790,
+      "case": "latent-ceiling-dropped-mutant",
+      "current_state": {
+        "C": {
+          "grants": [
+            "read",
+            "write"
+          ],
+          "id": "C",
+          "latent_ceiling": [
+            "read",
+            "write"
+          ],
+          "parent": "Q"
+        },
+        "P": {
+          "grants": [
+            "read"
+          ],
+          "id": "P"
+        },
+        "Q": {
+          "grants": [
+            "read",
+            "write"
+          ],
+          "id": "Q"
+        },
+        "active": true,
+        "current_ingress": "W1",
+        "events": [
+          {
+            "actor": "initial-manager",
+            "op": "initialize",
+            "record": "whole"
+          },
+          {
+            "actor": "initial-manager",
+            "captured_old_effective": [
+              "read"
+            ],
+            "from": "P",
+            "mutant_dropped_latent": true,
+            "op": "sealed_whole_move",
+            "to": "Q"
+          },
+          {
+            "actor": "initial-manager",
+            "ingress": "W1",
+            "op": "fresh_authorized_activation"
+          }
+        ],
+        "id": "C",
+        "schema": 1,
+        "sealed": false
+      },
+      "effects": [
+        {
+          "bytes_hex": "706f73742d6d6f76652d666f7262696464656e",
+          "committed_before_ack": true,
+          "path": "/tmp/ases-l5-latent-ceiling-dropped-mutant-0digmahm/effects/write-effect.bin",
+          "sha256": "fc614537bf8ddf4be6ccf0797898d6c2f476fea99da0fdec674d084dd9b47b83"
+        }
+      ],
+      "move_record_sha256": "1d6b4771018210279d79fdadc69e3ebe5a8c1f0076ef3ec8f2f5e3cb7c94a50a",
+      "routes": {
+        "accepted_x_mutation": "none",
+        "authority_to_effect": "mediator-only atomic replace in disposable effects/",
+        "worker_direct_filesystem": "Landlock confined; no target or accepted-object fd passed",
+        "worker_to_authority": "one inherited socketpair fd; request-by-request H authorization"
+      },
+      "worker_observation": {
+        "pid": 204793,
+        "read": {
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "identity": "C-accepted-x",
+          "result": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "write": {
+          "effect_sha256": "fc614537bf8ddf4be6ccf0797898d6c2f476fea99da0fdec674d084dd9b47b83",
+          "result": "COMMITTED"
+        }
+      },
+      "worker_pid": 204793
+    }
+  },
+  "kernel": "5.15.0-184-generic",
+  "landlock_abi": 1,
+  "limits": {
+    "cases": 3,
+    "outer_timeout_seconds": 20,
+    "virtual_memory_kib": 524288,
+    "worker_requests_each": 2
+  },
+  "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+  "source_sha256": "214771793703ad7d2cce234d166ce8c9909a5a4ada7f872c65a1b13054915015",
+  "status": "L5-PASS"
+}
