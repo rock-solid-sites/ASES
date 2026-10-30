@@ -870,6 +870,225 @@
       "mechanism": {
         "whole_effect_recovery": true
       }
+    },
+    {
+      "id": "T13-disposition-all-durable-material-before-removal",
+      "trace": "T13",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "candidate_add",
+            "unit": "C",
+            "atom": "z"
+          },
+          {
+            "ev": "durable_add",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "dispose",
+          "unit": "C",
+          "what": "candidate"
+        },
+        {
+          "ev": "dispose",
+          "unit": "C",
+          "what": "dependent"
+        },
+        {
+          "ev": "delete",
+          "unit": "C"
+        }
+      ],
+      "expected_observation": {
+        "delete_blocked": false,
+        "store": {
+          "status.C": "removed"
+        }
+      },
+      "assumption": "Durable candidate confinement and dependent accounting are discharged before boundary removal.",
+      "status": "executed"
+    },
+    {
+      "id": "T13-retained-old-reference-blocks-removal",
+      "trace": "T13",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "dispose",
+          "unit": "C",
+          "what": "dependent",
+          "keep_representation": true
+        },
+        {
+          "ev": "delete",
+          "unit": "C"
+        }
+      ],
+      "expected_observation": {
+        "delete_blocked": true,
+        "delete_reason_contains": "retained representation"
+      },
+      "assumption": "A retained representation capable of exposing disposed material prevents claiming safe final removal.",
+      "status": "executed"
+    },
+    {
+      "id": "T14-old-derived-snapshot-denied-after-revocation",
+      "trace": "T14",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "read",
+            "allow": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "derive",
+          "unit": "C"
+        },
+        {
+          "ev": "revoke",
+          "unit": "C"
+        },
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "read",
+            "snapshot_ref": 0
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "stale"
+      },
+      "assumption": "A true, authentic pre-revocation derivation cannot authorize use after the current authority epoch changes.",
+      "status": "executed"
+    },
+    {
+      "id": "T14-healthy-recompute-positive",
+      "trace": "T14",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "read",
+            "allow": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "derive",
+          "unit": "C"
+        },
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "read",
+            "snapshot_ref": 0
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": false
+      },
+      "assumption": "A fresh derivation on unchanged healthy state is admissible without a mandatory persistent cache service.",
+      "status": "executed"
+    },
+    {
+      "id": "T15-omitted-child-graph-is-not-proof-of-emptiness",
+      "trace": "T15",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          },
+          {
+            "ev": "create",
+            "unit": "C",
+            "parent": "P"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "discovery_graph",
+          "root": "P"
+        },
+        {
+          "ev": "empty_check",
+          "unit": "P"
+        },
+        {
+          "ev": "assert_empty_removal",
+          "unit": "P"
+        }
+      ],
+      "expected_observation": {
+        "delete_blocked": true,
+        "store": {
+          "parent.C": "P"
+        }
+      },
+      "assumption": "An incomplete discovery graph cannot authorize removal while a contained child exists.",
+      "status": "executed"
+    },
+    {
+      "id": "T16-model-confidence-does-not-supply-permission",
+      "trace": "T16",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "model_judgement",
+          "unit": "C",
+          "right": "write",
+          "decision": "safe"
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "cannot supply permission"
+      },
+      "assumption": "A model judgement is non-authoritative absent explicit current Kernel authorization.",
+      "status": "executed"
     }
   ]
 }

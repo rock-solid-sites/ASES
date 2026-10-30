@@ -23,6 +23,8 @@ def observed(expect, result, store):
             failures.append(f"store[{key}]: expected {value!r}, got {got!r}")
     if "reason_contains" in expect and expect["reason_contains"] not in (result.reason or ""):
         failures.append(f"reason {result.reason!r} lacks {expect['reason_contains']!r}")
+    if "delete_reason_contains" in expect and expect["delete_reason_contains"] not in (result.delete_reason or ""):
+        failures.append(f"delete reason {result.delete_reason!r} lacks {expect['delete_reason_contains']!r}")
     return failures
 
 raw = []

@@ -16,10 +16,10 @@ Scope: this increment adds executable abstract-replay histories for selected por
 | T10 | Recovery lost after validation; rediscovery/revalidation before fresh activation | executed | No duplicate external-effect/revived-channel check beyond modeled state |
 | T11 | Sealed move read positive for C/D; write-restriction fixture executes but currently fails to preserve expected denial in the oracle | blocked | A fixture inconsistency or oracle gap remains under investigation; do not count T11 as passing |
 | T12 | Coupled move whole-effect positive executes; empty-check/child-create/removal history executes but oracle strands child and fails expected current-state refusal | blocked | Empty-removal handler does not currently enforce the intended guard; no recovery interruption/half-effect variant yet |
-| T13 | ? | blocked | Interrupted dependent disposition and stale-reference exposure not fixtured |
-| T14 | ? | blocked | Authentic pre-revocation derivation submit/recompute positive not fixtured |
-| T15 | ? | blocked | Omitted graph, phantom child, and complete-empty removal not fixtured |
-| T16 | ? | blocked | Scoped observation and qualified model-judgment variants not fixtured |
+| T13 | Candidate/dependent disposition then removal; retained-reference removal refusal (runner now checks delete reason) | executed | No interrupted recovery between individual disposition steps or real stale-handle probe |
+| T14 | Pre-revocation snapshot denied after revocation; fresh healthy snapshot positive | executed | Abstract derivation only; authentic runtime provenance not established |
+| T15 | Omitted child graph plus contained child attempts empty removal; oracle strands child and fails expected refusal | blocked | Exposes the same empty-removal guard gap as T12; phantom-after-enumeration and complete-empty positive not fixtured |
+| T16 | Model confidence without explicit authority is denied | executed | Scope-limited observation and expressly authorized qualified-decision variants not fixtured |
 | T17 | ? | blocked | Unknown sink retry, immutable read, and missing-currentness cases not fixtured |
 | T18 | ? | blocked | Exact-obligation versus use-current external-effect profiles not fixtured |
 | T19 | ? | blocked | Indistinguishable lost-reply histories and sink contract distinction not fixtured |
