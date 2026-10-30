@@ -69,9 +69,11 @@ For each surviving element ask:
 
 During implementation the same principle may descend to files, functions, branches and lines: code should trace to a requirement, invariant, integration necessity or verified platform constraint.
 
-### 6. Specification and prototype
+### 6. Specification, modeling and realization choice
 
-Freeze behavior before build. Specify state transitions, persistence/update rules, naming/path rules, output semantics, failure behavior and acceptance evidence. Where UI materially affects behavior, resolve it with the lightest useful artifact: text layout, mockup, interactive prototype or real component prototype.
+Freeze behavior before build. Specify relevant state transitions, persistence/update rules, naming/path rules, output semantics, failure behavior and acceptance evidence. Assess whether a state machine is a PRIMARY, SUPPLEMENTARY, NOT APPLICABLE, or UNRESOLVED behavioral representation under `docs/methodology/State-Model Applicability and Reuse Method.md`; do not force state modeling where it adds no verification value.
+
+Select realization *after* behavioral/assurance requirements under `docs/methodology/Implementation Realization and Assurance Selection Method.md`. A traditional programming language or processor is not required if a processorless, declarative, hardware, or reused mechanism better satisfies the guarantees. Verification follows the existing VSDD or project-specific testing method without competing phases. Where UI materially affects behavior, resolve it with the lightest useful artifact: text layout, mockup, interactive prototype or real component prototype.
 
 ### 7. Precompute deterministic work
 
