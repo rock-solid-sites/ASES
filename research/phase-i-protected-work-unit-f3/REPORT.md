@@ -36,3 +36,6 @@ This does not establish universal Linux behavior, confidentiality against copied
 ## Next bounded step
 
 After reconciling with the F1 model, define one disposable mediated-attachment test and its explicit bypass cases. Test only there with a short timeout; record failures literally. Do not broaden into lifecycle implementation until an exclusion mechanism passes that initial discriminating test. Preserve `exp1/run/` and the recovery snapshot; its mode-000 target bytes are separately retained as documented in the snapshot README.
+## Landlock alternative mechanism probe
+
+The bounded Landlock availability and path/alias/retained-FD discrimination results are recorded in `exp2/availability/RESULT.md` and `exp2/discrimination/RESULT.md`. The direct target and one symlink alias were denied under the child's empty read ruleset; a sibling per-operation mediator returned bytes; an FD inherited before restriction remained readable. This concrete retained-handle obstruction means Landlock did not provide handle revocation. Stop further mechanism broadening here. No F3 acceptance; F1 remains partial and F5 independent review outstanding.
