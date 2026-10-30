@@ -217,3 +217,13 @@ Both dropped and surviving message choices are tested. Under the explicitly perm
 
 
 Run: 19 states/22 committed transitions/0 invariant violations under 1,000 states, 1 GiB, 90 s; syntax passed. Evidence and C1/C10/C12/Work Unit mapping are in Phase-I-F1-Targeted-Run.md. F1 and concrete sink semantics remain incomplete.
+
+## 2026-10-30 AT-03/AT-11 audit tranche start
+
+
+
+Inherited branch research/phase-i-work-unit-f1-20261029 at remote-verified SHA 6b38496bcf01041e740842976bf471f7790c2670. Existing Crosslink session remains bound to #8. This tranche is restricted to AT-03/T02, AT-11/T07 and one small named invariant context.
+
+
+
+Initial inspection: AT-03 uses A_GEN for SINK even though A_GEN is the NET ingress generation and the SINK is already at B_GEN; the old-use attempt is stale before replacement and the mutation disables ack ordering rather than old-position currentness. AT-11 attempts mgmt_ack with no pending revoke; Profile.ack_after_commit has no behavior separating prepare from recoverable commitment. Capture the before traces first; then repair only reachable history/observer coverage demanded by T02/T07.
