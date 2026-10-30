@@ -1,5 +1,5 @@
 ---
-title: Implementation Realization and Assurance Selection Method
+title: Constraint-Driven Realization and Assurance Selection Method
 program: ASES
 layer: Methodology
 document_type: Methodology Specification
@@ -17,65 +17,88 @@ consumed_by:
 last_updated: 2026-10-30
 ---
 
-# Implementation Realization and Assurance Selection Method
+# Constraint-Driven Realization and Assurance Selection Method
 
-## Purpose and scope
+## Purpose
 
-Choose an implementation *realization* and assurance mechanisms based on the properties a project must satisfy. Realization includes programming language(s) and runtime, but may instead or additionally use declarative specifications, hardware/RTL, processorless or minimal-TCB designs, verified components, configuration, or existing services. **No traditional program, processor, or particular language is required by ASES.**
+Select a system realization **by deriving requirements and excluding approaches that fail them**, not by choosing from a preapproved list of languages, frameworks, architectures, or technologies.
 
-This method governs how to make and substantiate an implementation choice; it does not impose a universal realization. The project chooses its form only after describing its behavior and the assurances it needs. A state model may be the primary behavioral specification without implying a software implementation.
+A realization is whatever mechanism physically or operationally satisfies the system's specified behavior. A traditional software implementation, programming language, or processor is not a prerequisite. The outcome of this method must be *demonstrated adequacy*, not membership in an approved category.
+
+This is a design-selection method, not a replacement for requirements engineering, VSDD, state-modeling, implementation conformance or tests.
 
 ## Governing rules
 
-1. **Semantics before realization.** Define required behavior, trust boundaries, invariants, failure modes, and acceptance evidence before choosing a language, runtime, ISA, processor or hardware design. Do not use a favored implementation to hide an unresolved semantic question.
-2. **Evaluate absence as a candidate.** Ask whether a traditional program, language, processor or persistent service is necessary. Where a smaller declarative, hardware, processorless or existing mechanism suffices, compare it on equal terms; do not treat "no language" as an automatic exemption from verification.
-3. **Prefer mechanically established guarantees.** Assess type/ownership systems, refinement types, contracts, model checking, proof, static analysis, OS/hardware enforcement and observational evidence against *specific* properties. Prefer the least complicated combination that achieves the required assurance.
-4. **Consider the whole trusted base.** Include compiler, toolchain, runtime, dependencies, unsafe/FFI interfaces, OS, hardware, firmware, network and external control planes. A proof of one component does not prove the total system.
-5. **Separate evidence classes.** Memory safety does not imply authorization safety; verified models do not establish implementation conformance; tests do not constitute proof; formally verified code does not guarantee properties of unmodeled external resources.
-6. **Assurance is proportionate to failure.** Concentrate stronger verification where violation would invalidate critical authority, isolation, safety, durability or termination guarantees. Prefer cheaper discriminating tests elsewhere.
-7. **Account for practical reliability.** Compare dependency health, compatibility, agent ability to build and review, compilation/test cost, portability, reproducibility, maintenance and cost. Do not optimize a theoretical property at the expense of deployability without reason.
-8. **Record and revise.** Preserve evidence, rejected alternatives, limitations and reopening conditions. Change choices on concrete counterevidence, not language fashion.
+1. **Define the properties before viewing solutions.** Establish behavior, safety, correctness, security, resource, performance, reliability, recovery and maintainability requirements at the appropriate system boundary. Avoid candidate examples, favored implementations and technology lists in the initial derivation prompt.
+2. **Express exclusions as falsifiable requirements.** A constraint must specify the forbidden condition or mandatory guarantee, the scope/environment, a measurable threshold or invariant where possible, and a mechanism for establishing whether it holds. Vague labels such as "safe", "fast" or "formal" are not acceptance criteria.
+3. **Eliminate for evidence-based failure, not unfamiliarity.** An approach is excluded when it cannot satisfy a hard requirement under the stated constraints, or satisfying it would require an unacceptable change to those constraints. A candidate with insufficient evidence is **UNRESOLVED**, not proven viable; a candidate from an unfamiliar realization family is not rejected for that reason.
+4. **Preserve an open search space.** Search across mechanisms and system boundaries without assuming a language, runtime, processor, deployment topology, or conventional architecture. Look for ways to remove components and failure modes entirely rather than only mitigating them.
+5. **Separate constraints from optimization.** Safety and other non-negotiable guarantees are gates. Among surviving candidates, compare verified fitness, trusted-base size, performance headroom, complexity, cost, agent implementation/review reliability, and maintenance. No amount of convenience compensates for a failed mandatory guarantee.
+6. **Use appropriate assurance.** Ask which properties are mechanically enforced, proven, tested, observed or still assumed; distinguish abstract-model correctness from actual realization conformance. A type system, memory-safety claim or formally verified subcomponent is not proof of the whole system.
+7. **Minimize the actual trusted boundary.** Account for libraries, runtimes, compilers, firmware/hardware, operating systems, permissions, external processes, network services and operator procedures wherever the claimed property depends on them.
+8. **Reopen on evidence.** A new failure, requirement, platform constraint or verifiable alternative can change exclusions and the selected realization. Record the reason and affected guarantees.
 
-## Decision procedure
+## Selection procedure
 
-### 1. State required properties
+### 1 — Specify independent of realization
 
-List guarantees and classify each as **safety** (nothing forbidden happens), **liveness** (required progress eventually occurs under stated assumptions), or another precisely described property. Identify the authority and external resources involved. State which properties are critical and what evidence can falsify them.
+State what must be true and what must never occur. Classify safety, liveness and other requirements; identify authority, ownership, lifecycle, resource and external boundaries. Establish measurable performance/resource ceilings or targets with workloads and measurement conditions, rather than calling an implementation efficient by reputation.
 
-### 2. Assess modeling suitability
+### 2 — Assess whether a state model helps
 
-Apply the separate State-Model Applicability and Reuse Method. A PRIMARY or SUPPLEMENTARY state model supplies behavioral and transition obligations independently of implementation technology. NOT APPLICABLE is an acceptable justified outcome.
+Use the State-Model Applicability and Reuse Method where behavior has meaningful transitions or authority/lifecycle semantics. Derive relevant guards and invariants without choosing the mechanism that enforces them. A justified NOT APPLICABLE result is valid.
 
-### 3. Identify realization families
+### 3 — Build the exclusion criteria
 
-Include plausible realizations, not just languages: for example an existing vetted service; a declarative configuration or policy; processorless or minimal-processor hardware; RTL/FPGA; a small verified kernel; and software in Rust, Haskell, OCaml, SPARK/Ada, F*, Go, Python or another suitable language. Eliminate candidates only with documented constraints or a cheap test.
+For every mandatory property record:
 
-### 4. Map properties to mechanisms
+| Field | Obligation |
+| --- | --- |
+| Claim | Exact property, invariant, forbidden event, or performance bound |
+| Scope | Component, system boundary, assumptions, operating conditions |
+| Failure | Observable counterexample or unmet threshold |
+| Evidence | The discriminating proof, test, inspection or deployment observation |
+| Consequence | Exclude, remain unresolved pending evidence, or proceed to comparison |
 
-For each candidate, distinguish:
-- what the language, type system, compiler, proof assistant, model checker or hardware **actually guarantees**;
-- what still depends on runtime checks, kernel/hardware enforcement and operating procedures;
-- what requires implementation-conformance, fault-injection, resource or integration tests;
-- what remains unverified or outside scope.
+Requirements may rule out whole realization families, a proposed design within a family, or a specific configuration. Do not infer broad categorical exclusions from one failing implementation.
 
-Identify the minimum trusted computing base and external assumptions.
+### 4 — Search without supplying an approved-option list
 
-### 5. Run the cheapest discriminating comparison
+Generate and investigate possible ways to satisfy the properties, including opportunities to remove the need for a component or architectural assumption. Search prior art for **mechanisms that meet the constraints**, not examples to copy by default. Where an agent is used, give it requirements, exclusions and evidence obligations before disclosing prior favored choices. Permit competing independent derivations when anchoring could materially narrow the search.
 
-If competing choices materially differ, prototype only the difficult invariant, proof or boundary, not full competing products. Measure feasibility and evidence quality, then select the smallest adequate realization.
+### 5 — Filter and test
 
-### 6. Record the decision
+For each concrete candidate, map required properties to mechanisms and evidence. Mark:
+- **EXCLUDED** when credible, relevant evidence establishes failure of a hard constraint;
+- **UNRESOLVED** when a critical property cannot yet be supported or a key assumption remains untested;
+- **VIABLE** only after evidence supports every applicable non-negotiable requirement at the claimed scope.
 
-The project decision record must name the chosen realization or justified absence of a traditional language/processor, alternatives, required guarantees, evidence mapping, trusted base, operational constraints, unverified assumptions, and triggers for reassessment. Integrate with the existing verification architecture and acceptance gates.
+Use the cheapest discriminating experiment to resolve pivotal uncertainties. A local test cannot establish untested host, network, hardware or production boundaries. Maintain an explicit record of *what was not evaluated*.
 
-## Boundary with VSDD
+### 6 — Choose within the viable set
 
-VSDD's specification, test-first and verification practices remain applicable regardless of realization, adapted to the artifact being tested. This selection method neither replaces VSDD nor introduces additional VSDD phases. A verified state model, if used, must still be checked against its actual physical/software realization.
+Only after exclusion gates have been applied, compare surviving realizations on justified trade-offs, including assurance strength, implementation/operational complexity, resource costs, performance, reversibility, maintenance and total trusted computing base. If no candidate is demonstrated viable, do not pick the least-bad one by fiat: report the unsatisfied requirements or investigation needed and seek a change in constraints when warranted.
+
+### 7 — Record and verify
+
+A project decision record preserves: the properties and their sources; measurable exclusion gates; models/assumptions; search coverage (including unexplored regions); excluded and unresolved approaches with evidence; viable alternatives; chosen realization and why; verification plan; remaining trust assumptions; and conditions that reopen the decision.
+
+A chosen candidate is still a hypothesis about realized behavior until the implementation/physical system passes its own conformance and operational acceptance gates.
+
+## Prompt and agent discipline
+
+Do not give a selection agent a "choose one of these" list, a default language, a sample architecture, or a success-shaped prototype unless the operator has explicitly imposed that constraint or the investigation's purpose is to evaluate those specific candidates. Do not convert illustrative technologies in research sources into allowed-option inventories.
+
+When a previous implementation already exists, separate **behavioral evidence** from implementation preference. Existing tests may define required behavior but do not justify retaining that language or architecture. Where independent ideation matters, withhold historical choices until after the initial requirements-first derivation and then use them as prior art or adversarial comparisons.
+
+## Relation to VSDD
+
+VSDD supplies specification and verification activities; it does not decide the implementation realization. Where state-based representation is useful, its adaptation and conformance methods instantiate the obligations. This method defines the selection gate **upstream of implementation choice**, without weakening VSDD's test-first, adversarial or realization-conformance requirements.
 
 ## Kernel-0 precedent
 
-Kernel-0 has progressed beyond the earlier provisional Verus/Rust software choice toward evaluation of a minimal-TCB / processorless architecture. The model and its admissible transitions are considered independently of a realization. That precedent demonstrates why a software-language preference must never be an upstream methodological requirement. This document does not settle Kernel-0's final design.
+Kernel-0 illustrates semantics-first separation: its state and authority model is evaluated independently of the physical mechanism that might realize it. Reconsideration of a previously discussed software realization did not require abandoning the state model. The general method therefore must neither presume a programming language nor predetermine a processorless result.
 
 ## Governing principle
 
-**Choose the smallest justified realization and verification mechanism that establishes the required guarantees; a language, runtime or conventional processor is optional, not assumed.**
+**Constrain by required properties; exclude by evidence; search broadly without seeding answers; select only among demonstrated survivors.**
