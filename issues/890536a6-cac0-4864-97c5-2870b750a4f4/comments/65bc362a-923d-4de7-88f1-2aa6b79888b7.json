@@ -1,0 +1,8 @@
+{
+  "uuid": "65bc362a-923d-4de7-88f1-2aa6b79888b7",
+  "issue_uuid": "890536a6-cac0-4864-97c5-2870b750a4f4",
+  "author": "anon-19b3b487",
+  "content": "Mediator revocation probe completed and checkpoint pushed: branch research/phase-i-protected-work-unit-f3-20261029 at fa1589dfe442031705268eb4b3b7c2ba89947630 (origin SHA verified). One disposable test, <20s: Landlock ABI-1 restrictions applied in pre-exec before test code; activity received only retained local socket endpoint, no target FD. Target and one symlink open returned EACCES. Trusted sibling mediator authorized initial READ and returned sentinel; supervisor revoked current mediator state while child/socket stayed alive; mediator acked REVOKED, and same child next READ got DENY authorization-revoked with zero bytes. Separate unconfined negative control deliberately received preopened FD and read sentinel, showing why that route is forbidden. Trust boundary is mediator-owned path access/current authorization state, with supervisor control; this demonstrates revocation of subsequent mediated operations only, not erasure/revocation of bytes already returned or safety of leaked FDs. One harness setup error (EINVAL from READ_DIR on ld.so.cache) was corrected with file-appropriate rights and recorded; no host policy/privilege change. Next: stop implementation here, reconcile future lifecycle work with B F1 (still partial); F5 independent review remains outstanding. No F3 acceptance.",
+  "created_at": "2026-10-30T09:03:38.377845770Z",
+  "kind": "observation"
+}
