@@ -584,6 +584,292 @@
       },
       "assumption": "After loss between validation and activation, a fresh discovery/validation is required; activation does not duplicate accepted effects in this modeled trace.",
       "status": "executed"
+    },
+    {
+      "id": "T11-sealed-move-read-remains-available",
+      "trace": "T11",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          },
+          {
+            "ev": "create",
+            "unit": "Q"
+          },
+          {
+            "ev": "create",
+            "unit": "C",
+            "parent": "P",
+            "latent_right": "write"
+          },
+          {
+            "ev": "create",
+            "unit": "D",
+            "parent": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "P",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "Q",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "Q",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "D",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "D",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          },
+          {
+            "ev": "activate",
+            "unit": "D"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "coupled_move",
+          "child": "C",
+          "to": "Q"
+        },
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "read"
+          }
+        },
+        {
+          "ev": "use",
+          "unit": "D",
+          "use": {
+            "right": "read"
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": false,
+        "store": {
+          "parent.C": "Q"
+        }
+      },
+      "assumption": "Moving the sealed boundary to a permissive parent preserves useful local read grants for C and descendant D.",
+      "status": "executed"
+    },
+    {
+      "id": "T11-sealed-move-latent-write-denied",
+      "trace": "T11",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          },
+          {
+            "ev": "create",
+            "unit": "Q"
+          },
+          {
+            "ev": "create",
+            "unit": "C",
+            "parent": "P",
+            "latent_right": "write"
+          },
+          {
+            "ev": "create",
+            "unit": "D",
+            "parent": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "P",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "Q",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "Q",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "D",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "D",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          },
+          {
+            "ev": "activate",
+            "unit": "D"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "coupled_move",
+          "child": "C",
+          "to": "Q"
+        },
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "write"
+          }
+        },
+        {
+          "ev": "use",
+          "unit": "D",
+          "use": {
+            "right": "write"
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "current authority"
+      },
+      "assumption": "C's latent write restriction survives moving beneath Q; inherited containment applies to D absent a separate authorized grant.",
+      "status": "executed"
+    },
+    {
+      "id": "T12-empty-check-races-child-creation",
+      "trace": "T12",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "empty_check",
+          "unit": "P"
+        },
+        {
+          "ev": "create",
+          "unit": "C",
+          "parent": "P"
+        },
+        {
+          "ev": "assert_empty_removal",
+          "unit": "P"
+        }
+      ],
+      "expected_observation": {
+        "delete_blocked": true,
+        "store": {
+          "parent.C": "P",
+          "status.P": "sealed"
+        }
+      },
+      "assumption": "An empty observation cannot authorize removal after a concurrent child is created; the final transition must revalidate the current relation.",
+      "status": "executed"
+    },
+    {
+      "id": "T12-coupled-move-commits-whole-relation",
+      "trace": "T12",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          },
+          {
+            "ev": "create",
+            "unit": "Q"
+          },
+          {
+            "ev": "create",
+            "unit": "C",
+            "parent": "P"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "coupled_move",
+          "child": "C",
+          "to": "Q"
+        }
+      ],
+      "expected_observation": {
+        "deny": false,
+        "store": {
+          "parent.C": "Q",
+          "relations.live.move": "Q"
+        }
+      },
+      "assumption": "Under the whole-effect profile, structural relation and policy relation are committed together.",
+      "status": "executed",
+      "mechanism": {
+        "whole_effect_recovery": true
+      }
     }
   ]
 }

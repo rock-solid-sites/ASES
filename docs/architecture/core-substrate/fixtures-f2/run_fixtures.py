@@ -29,13 +29,14 @@ raw = []
 failed = False
 for fixture in catalog["fixtures"]:
     world = {"init": fixture["initial_state"]}
-    store, result = run_scenario(world, {"events": fixture["events"]})
+    store, result = run_scenario(world, {"events": fixture["events"]}, fixture.get("mechanism"))
     baseline = observed(fixture["expected_observation"], result, store)
     record = {"id": fixture["id"], "trace": fixture["trace"], "assumption": fixture["assumption"],
               "status": "executed" if not baseline else "blocked", "execution_scope": "f2lib abstract replay only",
               "observation": result.as_dict(), "store": store, "failures": baseline, "mutation": None}
     if fixture.get("mutation"):
-        mutated_store, mutated_result = run_scenario(world, {"events": fixture["events"]}, fixture["mutation"])
+        mechanism = dict(fixture.get("mechanism", {})); mechanism.update(fixture["mutation"])
+        mutated_store, mutated_result = run_scenario(world, {"events": fixture["events"]}, mechanism)
         mutation_failures = observed(fixture["mutation_expected"], mutated_result, mutated_store)
         record["mutation"] = {"mech": fixture["mutation"], "observation": mutated_result.as_dict(),
                               "store": mutated_store, "status": "discriminating" if not mutation_failures else "invalid",

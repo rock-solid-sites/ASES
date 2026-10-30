@@ -1,5 +1,5 @@
 {
-  "blocked": 0,
+  "blocked": 2,
   "cases": [
     {
       "assumption": "Ancestor grants do not imply child-local grants; the complete path is checked.",
@@ -1836,9 +1836,577 @@
         ]
       },
       "trace": "T10"
+    },
+    {
+      "assumption": "Moving the sealed boundary to a permissive parent preserves useful local read grants for C and descendant D.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T11-sealed-move-read-remains-available",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": [],
+          "D": [],
+          "P": [],
+          "Q": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0,
+          "D": 0,
+          "P": 0,
+          "Q": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": true
+            }
+          },
+          "D": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": true
+            }
+          },
+          "P": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": false
+            }
+          },
+          "Q": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": true
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {
+          "C": {
+            "right": {
+              "write": false
+            }
+          }
+        },
+        "parent": {
+          "C": "Q",
+          "D": "C",
+          "P": null,
+          "Q": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "active",
+          "D": "active",
+          "P": "sealed",
+          "Q": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 14,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          },
+          "D": {
+            "created_by": "kit",
+            "genesis": 15,
+            "id": "D",
+            "origin": "",
+            "project": "alpha"
+          },
+          "P": {
+            "created_by": "kit",
+            "genesis": 12,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          },
+          "Q": {
+            "created_by": "kit",
+            "genesis": 13,
+            "id": "Q",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit Q",
+          "create empty sealed unit C",
+          "create empty sealed unit D"
+        ]
+      },
+      "trace": "T11"
+    },
+    {
+      "assumption": "C's latent write restriction survives moving beneath Q; inherited containment applies to D absent a separate authorized grant.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [
+        "deny: expected True, got False",
+        "reason 'admitted' lacks 'current authority'"
+      ],
+      "id": "T11-sealed-move-latent-write-denied",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "blocked",
+      "store": {
+        "accepted": {
+          "C": [],
+          "D": [],
+          "P": [],
+          "Q": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0,
+          "D": 0,
+          "P": 0,
+          "Q": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": true
+            }
+          },
+          "D": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": true
+            }
+          },
+          "P": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": false
+            }
+          },
+          "Q": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": true
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {
+          "C": {
+            "right": {
+              "write": false
+            }
+          }
+        },
+        "parent": {
+          "C": "Q",
+          "D": "C",
+          "P": null,
+          "Q": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "active",
+          "D": "active",
+          "P": "sealed",
+          "Q": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 18,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          },
+          "D": {
+            "created_by": "kit",
+            "genesis": 19,
+            "id": "D",
+            "origin": "",
+            "project": "alpha"
+          },
+          "P": {
+            "created_by": "kit",
+            "genesis": 16,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          },
+          "Q": {
+            "created_by": "kit",
+            "genesis": 17,
+            "id": "Q",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit Q",
+          "create empty sealed unit C",
+          "create empty sealed unit D"
+        ]
+      },
+      "trace": "T11"
+    },
+    {
+      "assumption": "An empty observation cannot authorize removal after a concurrent child is created; the final transition must revalidate the current relation.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [
+        "delete_blocked: expected True, got False",
+        "store[parent.C]: expected 'P', got None"
+      ],
+      "id": "T12-empty-check-races-child-creation",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": false,
+        "delete_reason": "",
+        "denied": null,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "blocked",
+      "store": {
+        "accepted": {
+          "C": [],
+          "P": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0,
+          "P": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "empty_check_units": [
+          "P"
+        ],
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          },
+          "P": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null,
+          "P": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "sealed",
+          "P": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 21,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          },
+          "P": {
+            "created_by": "kit",
+            "genesis": 20,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T12"
+    },
+    {
+      "assumption": "Under the whole-effect profile, structural relation and policy relation are committed together.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T12-coupled-move-commits-whole-relation",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": [],
+          "P": [],
+          "Q": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0,
+          "P": 0,
+          "Q": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          },
+          "P": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          },
+          "Q": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": "Q",
+          "P": null,
+          "Q": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {
+            "move": "Q"
+          },
+          "live": {
+            "move": "Q"
+          }
+        },
+        "status": {
+          "C": "sealed",
+          "P": "sealed",
+          "Q": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 24,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          },
+          "P": {
+            "created_by": "kit",
+            "genesis": 22,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          },
+          "Q": {
+            "created_by": "kit",
+            "genesis": 23,
+            "id": "Q",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit Q",
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T12"
     }
   ],
-  "executed": 16,
+  "executed": 18,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"
 }

@@ -1,6 +1,6 @@
 # F2 coverage matrix ? Agent C
 
-Scope: this increment adds executable abstract-replay histories for selected portions of T01?T04 and T06?T10. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
+Scope: this increment adds executable abstract-replay histories for selected portions of T01?T04 and T06?T12. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
 
 | Trace | Coverage in this increment | Status | Known gap |
 |---|---|---|---|
@@ -14,8 +14,8 @@ Scope: this increment adds executable abstract-replay histories for selected por
 | T08 | Restore old authentic snapshot after y/revocation; fresh credentials followed by untrusted-currentness discovery leaves unit sealed | executed | Abstract model only; rollback resistance is expressly outside the baseline premise |
 | T09 | Wrong-root, incomplete-content, and incompatible-interpretation images are quarantined/refused | executed | No real parser/decoder or storage-image corruption path |
 | T10 | Recovery lost after validation; rediscovery/revalidation before fresh activation | executed | No duplicate external-effect/revived-channel check beyond modeled state |
-| T11 | ? | blocked | Sealed move with latent restriction and D witness not fixtured |
-| T12 | ? | blocked | Empty-check race, coupled-move recovery, and half-effect rejection not fixtured |
+| T11 | Sealed move read positive for C/D; write-restriction fixture executes but currently fails to preserve expected denial in the oracle | blocked | A fixture inconsistency or oracle gap remains under investigation; do not count T11 as passing |
+| T12 | Coupled move whole-effect positive executes; empty-check/child-create/removal history executes but oracle strands child and fails expected current-state refusal | blocked | Empty-removal handler does not currently enforce the intended guard; no recovery interruption/half-effect variant yet |
 | T13 | ? | blocked | Interrupted dependent disposition and stale-reference exposure not fixtured |
 | T14 | ? | blocked | Authentic pre-revocation derivation submit/recompute positive not fixtured |
 | T15 | ? | blocked | Omitted graph, phantom child, and complete-empty removal not fixtured |
