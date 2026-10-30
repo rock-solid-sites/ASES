@@ -22,3 +22,6 @@ Preserve the exact traces, explain which claim the descriptor result refutes, fi
 - `exp1/observations-acl.txt`
 - `exp1/observations-acl-attempt.txt`
 - unexecuted `probe/` drafts as identified above
+## Resume checkpoint (2026-10-30)
+
+Inherited plain-POSIX evidence: a descriptor opened before chmod 000 still reads existing bytes, while fresh path opens fail. Restoring mode permits fresh opens even after the holder is killed. This demonstrates permission-check behavior, not a revocable capability. ACL/no_new_privs remains inconclusive; proxy/bodyguard drafts are unexecuted. Next: complete minimal F3 report and trusted-boundary inventory from existing evidence. Preserve untracked exp1/run and snapshot. F1 remains incomplete; defer broader lifecycle and acceptance.
