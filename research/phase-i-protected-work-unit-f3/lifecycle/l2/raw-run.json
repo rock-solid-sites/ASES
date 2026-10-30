@@ -1,0 +1,97 @@
+{
+  "activation": {
+    "record": "record-000003.json",
+    "result": "COMMITTED"
+  },
+  "authority_ready": {
+    "event": "authority-ready",
+    "pid": 200444
+  },
+  "authority_trace": "",
+  "expected_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+  "grant": {
+    "record": "record-000002.json",
+    "result": "COMMITTED"
+  },
+  "kernel": "5.15.0-184-generic",
+  "landlock_abi": 1,
+  "limits": {
+    "timeout_seconds": 20,
+    "virtual_memory_kib": 524288
+  },
+  "pass": true,
+  "pids": {
+    "H": 200444,
+    "W1": 200445,
+    "W2": 200446
+  },
+  "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+  "replacement_commit": {
+    "current_ingress": "W2",
+    "record": "record-000005.json",
+    "result": "COMMITTED"
+  },
+  "root": "/home/claude-code/.paseo/worktrees/216s81dw/phase-i-d-protected-work-unit-f3/research/phase-i-protected-work-unit-f3/lifecycle/l2/lab",
+  "status": "completed",
+  "stop": {
+    "result": "STOPPED"
+  },
+  "w1_after_replacement": {
+    "event": "w1-after-replacement",
+    "pid": 200445,
+    "reply": {
+      "bytes": 0,
+      "current_ingress": "W2",
+      "reason": "stale-ingress",
+      "result": "DENY"
+    },
+    "trigger": {
+      "event": "replacement-committed"
+    }
+  },
+  "w1_before_replacement": {
+    "accept": {
+      "identity": "C-content-1462070e6b10a8ba",
+      "record": "record-000004.json",
+      "result": "ACCEPTED",
+      "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+    },
+    "activation": {
+      "event": "activation-current"
+    },
+    "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+    "event": "w1-before-replacement",
+    "pid": 200445,
+    "read": "OK",
+    "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+  },
+  "w1_missing": {
+    "event": "missing-grant",
+    "pid": 200445,
+    "reply": {
+      "bytes": 0,
+      "initial_empty": true,
+      "reason": "missing-full-path-grant",
+      "result": "DENY"
+    }
+  },
+  "w2_after_replacement": {
+    "activation": {
+      "event": "activation-current"
+    },
+    "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+    "event": "w2-after-replacement",
+    "pid": 200446,
+    "reply": {
+      "bytes": "RjMtbGlmZWN5Y2xlLXgtdjEK",
+      "ingress": "W2",
+      "result": "OK",
+      "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+    },
+    "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+  },
+  "worker_returncodes": {
+    "W1": 0,
+    "W2": 0
+  }
+}
