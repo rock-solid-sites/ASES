@@ -23,7 +23,7 @@ last_updated: 2026-10-30
 
 ## Purpose
 
-Evaluate **whether**, **where**, and **how** state-based modeling improves a project's specification, construction, testing and verification. Assess the suitability of a state machine before selecting implementation technology. A project may be described as a state-transition system while its realization is processorless, hardware-based, declarative or software-based.
+Evaluate **whether**, **where**, and **how** state-based modeling improves a project's specification, construction, testing and verification. Assess the suitability of a state machine before selecting implementation technology. A project may be described as a state-transition system without that description determining how, or whether, the behavior is implemented as conventional software.
 
 State machines are a useful representation, not a mandated universal architecture or a competing methodology. VSDD supplies test-first and verification gates where adopted; the existing state-based VSDD adaptation profile and universal conformance checklist supply the detailed conformance dimensions. Do not duplicate or weaken them here.
 
@@ -72,9 +72,11 @@ A state model is versioned alongside requirements, assumptions, verified claims 
 
 Model suitability is assessed during behavior specification. Verification method, abstraction and implementation-conformance strategy are selected in the existing verification-architecture step (VSDD Phase 1b where VSDD is used). Keep VSDD's test-first, adversarial, hardening and convergence process intact. The applicability method is not another VSDD phase, not a universal proof requirement and not a replacement for other forms of testing.
 
-## Crosslink MCP example
+## Applicability and realization boundaries
 
-For the remote shell MCP, command/session ownership and stop/cancellation form PRIMARY state models. Authentication and tunnel connection lifecycles may be SUPPLEMENTARY; individual JSON parsing need not be state-machine driven. A terminal state labelled "stopped" cannot be accepted without an independently enforceable resource-settlement observation, such as correctly scoped cgroup termination. Implementing the same state model in Python, Rust or nontraditional architecture does not by itself settle the guarantee.
+Assess modeling by its ability to expose forbidden behavior, identity/ownership changes, recovery conditions and testable claims, not by whether it fits an already selected technology. A model that is applicable does not imply a specific language, deployment design or architectural family. Conversely, the absence of useful state transitions must not be obscured by forcing a state-machine implementation.
+
+A terminal-state claim is limited to properties the model and its external verification can actually establish. Do not infer that a process or physical resource is settled from a state name alone.
 
 ## Governing principle
 
