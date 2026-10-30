@@ -1,6 +1,6 @@
 ---
 name: custom-mcp-connector
-version: 0.1
+version: 0.2
 summary: Set up and troubleshoot custom MCP connectors in ChatGPT using the live Plugins UI as ground truth. Use when creating or repairing a custom MCP connection, especially when current ChatGPT menus differ from documentation.
 ---
 
@@ -22,6 +22,31 @@ Evidence order:
 4. remembered or historical menu paths.
 
 If documentation conflicts with the current UI, record the mismatch and continue from the observed interface. Do not keep searching for a documented menu that the user has already shown is absent.
+
+## MCP lifecycle debugging profile (2026-10-27/28)
+
+Diagnose each boundary independently. Passing an earlier boundary does not prove a later one.
+
+| Stage | Cheapest discriminating evidence |
+|---|---|
+| Product compatibility | Verify the requested action on the exact ChatGPT client surface, including iOS separately where relevant |
+| Registration | Inspect the intended account/workspace, endpoint and saved connector configuration |
+| Activation | Confirm the plugin is installed, enabled and discoverable in this conversation |
+| Transport | Test direct HTTPS or the existing Secure MCP Tunnel independently of API permissions |
+| Authentication | Separate ChatGPT plugin permissions, OAuth, upstream bearer validity and target-resource scopes |
+| Tool discovery | Compare visible tool names and schemas against the server allowlist |
+| Execution | Make one genuine ChatGPT-originated canary call, then a bounded target operation |
+| Security | Verify isolation, least privilege, audit, secret handling, mutation boundaries and limits |
+
+For every stage record PASS, FAIL, BLOCKED or NOT TESTED, with exact evidence, expected result, failure class, next smallest falsifying test and proposed remedy. Never turn BLOCKED into PASS. Change one variable at a time and stop retries that add no evidence.
+
+### Reusable canary and escalation
+
+Maintain a harmless read-only fixture such as ping, a protocol-level tool-list check and a bounded authenticated resource read. Verify backend → transport → registration → activation → discovery → ChatGPT-originated invocation. CLI success alone does not prove ChatGPT client success. Test a disposable write only when explicitly authorized and after read-path and identity checks pass. Correlate request IDs with redacted backend logs.
+
+Preserve the established connection route and credentials location. Distinguish a 401/403 from a transport failure, missing tool, unsupported client action or registration issue. Avoid new proxies, OAuth layers or architecture changes until a discriminating test demonstrates necessity. Inspect actual installed CLI/tool schemas rather than assuming documentation matches. Keep shell/configuration work with agents, not the operator.
+
+Acceptance is the user's exact client objective, not a Connected label or HTTP 200. For private connectors, corroborate a genuine ChatGPT-originated call with backend evidence. The September 2026 UI notes below are dated examples, not a current product contract.
 
 ## Current observed ChatGPT MCP connection surface
 
