@@ -1,13 +1,14 @@
 # Bounded builder handoff — dedicated ASES plugin monorepo
 
-**Status:** preparation packet; do not execute until strategy confirms the scope and remaining unknowns. Builder: VPS agent using authenticated `rock-solid-sites` GitHub CLI. This is a bounded repo-creation/migration task, not permission to redesign the ASES methodology or deploy production changes.
+**Status:** M1 migration preparation packet; name and scope agreed, source audit still incomplete. Builder: VPS agent using authenticated `rock-solid-sites` GitHub CLI. This is a bounded repo-creation/migration task, not permission to redesign the ASES methodology or deploy production changes.
 
 ## Objective
 
-Create a dedicated ASES plugin monorepo with the four staged documents at repository root, import verified in-scope existing plugin/connector sources and records without disrupting working installations, and establish reproducible builds, manifests and end-to-end acceptance fixtures.
+Create `rock-solid-sites/ases-plugins` with the four staged documents at repository root, import verified in-scope existing plugin/connector sources and records without disrupting working installations, and establish reproducible builds, manifests and end-to-end acceptance fixtures.
 
 ## Required initial inputs
 
+- Source audit: `rock-solid-sites/ASES/staging/ases-plugins/SOURCE-AUDIT-2026-10-30.md`
 - This staging directory: `rock-solid-sites/ASES/staging/ases-plugins/`
 - Existing source inventory: `rock-solid-sites/rss-tools/mcp/REGISTRY.md`, `rss-tools/mcp/`, `rss-tools/atproto-thread-reader/`
 - ASES Workflow release source: `rock-solid-sites/ASES/plugins/ases-workflow/` and `ASES/skills/`
@@ -34,7 +35,7 @@ Create a dedicated ASES plugin monorepo with the four staged documents at reposi
 
 **C. Import:** move or import verified sources and connector records with history/provenance; preserve old repositories and pointer links. Keep retired Strategy Code Graph retired and pending Crosslink MCP pending.
 
-**D. Verification:** implement initially red acceptance tests for ASES Workflow automatic invocation, cgrmcp tool discovery/real read, ATProto API/MCP behavior and security; add reproducible package parity and version-drift checks. Test only safe read-only canaries initially. Tests blocked by missing client access remain BLOCKED.
+**D. Verification:** implement reproducible package parity and version-drift checks and preserve existing runtime evidence; add initially red client acceptance fixtures for future runtime work. Do not require repairing pre-existing invocation failures to accept M1 migration. Test only safe read-only canaries initially. Tests blocked by missing client access remain BLOCKED.
 
 **E. Report:** list exact repo URL, commits, imported paths, unchanged live deployments, test evidence, failures, unverified assumptions and minimal residual actions. Do not claim cutover until independently demonstrated.
 
@@ -44,4 +45,4 @@ Stop and report if authenticated repo creation fails, required source is unavail
 
 ## Remaining pre-execution decisions
 
-Confirm destination repository name and precise scope of any tools beyond ASES Workflow, cgrmcp, ATProto Reader and the retired historical record. Other decisions should be resolved by inspection or cheapest discriminating tests, not additional operator questionnaires.
+Destination name and scope are settled: `rock-solid-sites/ases-plugins`; ChatGPT plugins, packaged compatible skills, custom MCP connectors, source, release tooling and tests. Exclude general Crosslink/OpenCode utilities and preserve canonical ASES methodology in ASES. Audit unresolved source/provenance before declaring M1 complete. Other decisions should be resolved by inspection or cheapest discriminating tests, not additional operator questionnaires.
