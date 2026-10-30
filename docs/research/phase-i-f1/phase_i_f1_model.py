@@ -129,6 +129,11 @@ class State:
     prepared_revoke_gen: int | None = None
     committed_revoke_gen: int | None = None  # abstract recoverable whole-commit endpoint
     acknowledged_revoke_gen: int | None = None
+    kernel_ac_revoked: bool = False  # C13 Kernel-side revocation state
+    ac_widen_authorized: bool = False  # K authorization captured before revocation
+    ac_policy_widened: bool = False
+    ac_old_access_allowed: bool = True
+    ac_consistent: bool = True
 
     # helpers
     def wu(self, w: str) -> WU:
@@ -186,6 +191,8 @@ class Profile:
     ack_ordering: bool = True          # C13 ordering of revoke-ack vs later use
     ac_trust: bool = True              # C13 outside-boundary widening refused
     ac_pending_ordered: bool = True    # C13 in-flight AC change blocks admission
+    ac_ordering: bool = True           # later AC widening may not overtake Kernel revocation
+    ac_consistency_check: bool = True  # reject widening without Kernel authorization
     whole_commitment: bool = True      # C2/C7 whole endpoints (no partial activation)
     companion_certified: bool = True   # C7 recovery certifies every dependant
     retention: bool = True             # C5 route values retained after loss
@@ -607,13 +614,35 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
             return "unacknowledged-revocation (C12)"
         return None
 
+    if k == "authorize_ac_widening":
+        if state.kernel_ac_revoked or not live(state):
+            return "kernel-authority-unavailable (C13)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "kernel_revoke_ac":
+        if state.kernel_ac_revoked or not live(state):
+            return "kernel-revocation-unavailable (C13)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "commit_old_ac_request":
+        if not state.old_request_pending:
+            return "old-request-not-pending"
+        if p.ac_ordering and state.kernel_ac_revoked:
+            return "kernel-revocation-precedes-old-use (C13)"
+        if state.kernel_ac_revoked and not state.ac_old_access_allowed:
+            return "access-policy-revoked (C13)"
+        if p.current_position_check and state.old_request_gen != state.current_sink_gen:
+            return "stale-evidence (C6)"
+        return guard(state, ("use", C, SINK, W, B_GEN), p)
+
     if k == "ac_request":
         widen = ev[1]
-        if widen:
-            # a policy broadening that the Kernel never authorised
-            return "policy-widen-not-authorized (C13/AC3)"
         if state.ac_pending != NO:
             return "ac-change-in-flight (C13)"
+        if widen and p.ac_ordering and state.kernel_ac_revoked:
+            return "ac-broadening-after-kernel-revocation (C13)"
+        if widen and p.ac_consistency_check and not state.ac_widen_authorized:
+            return "policy-widen-not-authorized (C13/AC3)"
         r = mgmt_permits(state, C, p)
         if r:
             return "management-denied (K.12)"
@@ -829,11 +858,24 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         gen = state.gen
         return replace(state, mgmt=state.mgmt + (("root", gen, OPEN),), gen=gen + 1)
 
+    if k == "authorize_ac_widening":
+        return replace(state, ac_widen_authorized=True)
+
+    if k == "kernel_revoke_ac":
+        return replace(state, kernel_ac_revoked=True, ac_policy_widened=False, ac_old_access_allowed=False, ac_consistent=True)
+
+    if k == "commit_old_ac_request":
+        eff = chain_grant(state, C, SINK, p)
+        return replace(state, old_request_pending=False, uses=state.uses + ((C, SINK, eff, state.old_request_gen),))
+
     if k == "ac_request":
-        return replace(state, ac_pending="restrict")
+        return replace(state, ac_pending="widen" if ev[1] else "restrict")
 
     if k == "ac_apply":
-        return replace(state, ac_pending=NO, epoch=state.epoch + 1)
+        if state.ac_pending == "widen":
+            consistent = state.ac_widen_authorized and not state.kernel_ac_revoked
+            return replace(state, ac_pending=NO, epoch=state.epoch + 1, ac_policy_widened=True, ac_old_access_allowed=True, ac_consistent=consistent, ac_inside=state.ac_inside and consistent)
+        return replace(state, ac_pending=NO, epoch=state.epoch + 1, ac_policy_widened=False, ac_old_access_allowed=False, ac_consistent=True)
 
     if k == "ac_reject":
         return replace(state, ac_pending=NO)
@@ -1017,6 +1059,14 @@ CONTEXTS["currentness-image"] = [
     ("restore_stale_image",), ("restore_current_image",),
 ]
 
+CONTEXTS["ac-revocation-order"] = [
+    _g(P, SINK, RW), _g(C, SINK, RW), ("begin_old_request",),
+    ("authorize_ac_widening",), ("kernel_revoke_ac",),
+    ("ac_request", True), ("ac_apply",), ("commit_old_ac_request",),
+]
+
+CONTEXTS["ac-consistency"] = [("ac_request", True), ("ac_apply",)]
+
 CONTEXTS["old-request-after-replacement"] = [
     _g(P, SINK, RW), _g(C, SINK, RW), ("begin_old_request",),
     ("mgmt_revoke", P, 0), ("mgmt_ack", 0), ("mgmt_reissue", P, 0),
@@ -1041,6 +1091,8 @@ CONTEXTS["sink-outcomes"] = [
 ]
 
 CONTEXT_BOUNDS = {
+    "ac-revocation-order": 1000,
+    "ac-consistency": 1000,
     "old-request-after-replacement": 1000,
     "sink-outcomes": 1000,
     "two-loss-currentness": 5000,
@@ -1255,7 +1307,9 @@ def render_state(st: State) -> dict:
         "accepted_x": st.accepted_x, "accepted_y": st.accepted_y,
         "sink_attempts": list(st.sink_attempts), "sink_reply_knowledge": st.sink_reply_knowledge,
         "mgmt": [list(g) for g in st.mgmt],
-        "ac": {"inside": st.ac_inside, "epoch": st.epoch, "pending": st.ac_pending},
+        "ac": {"inside": st.ac_inside, "epoch": st.epoch, "pending": st.ac_pending,
+                "kernel_revoked": st.kernel_ac_revoked, "widened": st.ac_policy_widened,
+                "old_access_allowed": st.ac_old_access_allowed, "consistent": st.ac_consistent},
         "route_handles": st.route_handles,
         "uses": [list(u) for u in st.uses],
         "wus": {
@@ -1349,25 +1403,25 @@ ATTACKS = [
         "id": "AT-06", "clause": "C13", "target": "revocation ordering vs AC policy change",
         "promise": "a revocation acknowledged before a later use cannot be "
                    "justified by the earlier permission",
-        "trace": [_g(P, SINK, RW), _g(C, SINK, RW), ("mgmt_revoke", P, 0),
-                  ("mgmt_ack", 0), ("ac_request", False), ("ac_apply",),
-                  _use(C, SINK, W, B_GEN)],
-        "expected_reference": "deny at the final use (Kernel records the "
-                              "relationship revoked; admission needs open mgmt)",
-        "weakened": [("ack_ordering", {"ack_ordering": False})],
-        "note": "with ack_ordering=False, admission does not need an open "
-                "management entry, so the earlier permission is reused after the "
-                "policy change",
+        "trace": [_g(P, SINK, RW), _g(C, SINK, RW), ("begin_old_request",),
+                  ("authorize_ac_widening",), ("kernel_revoke_ac",),
+                  ("ac_request", True), ("ac_apply",),
+                  ("commit_old_ac_request",)],
+        "expected_reference": "revocation precedes and blocks later AC broadening and old use",
+        "weakened": [("ac_ordering", {"ac_ordering": False})],
+        "note": "a K-authorized widening ticket is created before revocation;"
+                "after revocation, ordering refuses its later application;"
+                "weakening order permits the broadening and old request use", 
     },
     {
         "id": "AT-07", "clause": "C13/AC3", "target": "policy broadening the Kernel never authorised",
         "promise": "a policy widening is either inside the trust boundary or it "
                    "blocks the revocation claim",
-        "trace": [("ac_request", True)],
-        "expected_reference": "deny at the request (widen not authorized)",
-        "weakened": [("ac_trust", {"ac_trust": False})],
-        "note": "ac_trust=False permits the out-of-band widening request; a "
-                "revocation claim in the same history is then unsupported",
+        "trace": [("ac_request", True), ("ac_apply",)],
+        "expected_reference": "deny policy broadening without Kernel authorization",
+        "weakened": [("ac_consistency_check", {"ac_consistency_check": False})],
+        "note": "without the consistency check the out-of-band widening is"
+                "applied, marked outside the boundary, and ac_consistent is false", 
     },
     {
         "id": "AT-08", "clause": "K.8/C4", "target": "interior metadata edit",

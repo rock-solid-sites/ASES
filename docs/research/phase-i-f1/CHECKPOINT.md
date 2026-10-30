@@ -255,3 +255,17 @@ Inherited branch research/phase-i-work-unit-f1-20261029 at origin-verified SHA b
 
 
 AT-06 inspection: the old case requests AC restriction with ac_request(False), then its ack_ordering mutant and fixed-position use do not isolate C13 ordering. AT-07 inspection: ac_request(True) is unconditionally refused and ac_trust is not consulted, so its current mutant cannot discriminate consistency. Next: add only narrow state bits for Kernel AC revocation, pre-authorized widening ticket, applied policy widened/consistency; test post-revocation use and unauthorized widening. Partial application has no current representation and will remain absent. Bounds: each named context <=1,000 states, 1,000,000 KiB, 90 seconds; no aggregate.
+
+## 2026-10-30 C13 AT-06/AT-07 checkpoint
+
+
+
+Replaced AT-06 with a Kernel-authorized widening ticket issued before revocation, followed by Kernel revocation, a later AC widening attempt and old-request use. Baseline ordering denies widening and old use; ac_ordering=False applies the stale ticket and permits old use.
+
+
+
+Replaced AT-07 with unauthorized widening and consistency mutation. Baseline refuses; ac_consistency_check=False applies it, labels policy outside trusted boundary and records ac_consistent=false. Partial application remains unrepresented; ac_apply is atomic and no partial-failure claim is made.
+
+
+
+Contexts: ac-revocation-order 66/194/0; ac-consistency 1/0/0 (states/transitions/invariant violations), each under 1,000 states/1 GiB/90 s; syntax passes. Traces and C13/T24 assumptions are in Phase-I-F1-Targeted-Run.md. F1/F5 remain incomplete.

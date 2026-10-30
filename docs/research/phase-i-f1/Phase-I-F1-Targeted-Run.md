@@ -367,3 +367,41 @@ One accidental context-key selection re-ran the existing sink-outcomes context (
 
 
 Frozen mapping: T02/C6 old ingress is valid before replacement and denied afterward; the mutated current-position check permits it. T07/C12 pre-commit acknowledgement is denied, post-abstract-commit acknowledgement accepted; weakening admits early acknowledgement and violates the invariant. T24/AC is not implicated. Trusted premise: commit_prepared_revoke is the baseline model whole recoverable commitment endpoint. Physical persistence, source identity, and concrete old-holder exclusion remain untested.
+
+## AT-06 / AT-07 C13 bounded evidence (2026-10-30)
+
+
+
+Model SHA-256: ba790e74ecdf455b1e8e88445b052d5511eb3ab1bf145e2a1241144d1f13daf2.
+
+
+
+AT-06 exact trace: grant P/C SINK RW; begin_old_request at ingress generation 3; authorize an AC widening while Kernel authority is current; kernel_revoke_ac commits and disables old AC use; request the previously authorized widening after revocation; attempt apply; attempt old request use.
+
+
+
+Reference: request denied ac-broadening-after-kernel-revocation (C13); apply denied no-inflight-change; later old use denied kernel-revocation-precedes-old-use. Weakened ac_ordering=False: request and apply commit, AC state becomes widened/inconsistent, and the retained old request commits one SINK effect. This distinguishes ordering from lack of authorization: the widening had a K ticket before revocation but is stale afterward.
+
+
+
+AT-07 exact trace: ac_request(True); ac_apply. Reference rejects the request because there is no Kernel widening authorization and then rejects apply with no pending operation. Weakened ac_consistency_check=False admits both; final state is ac_policy_widened=true, ac_inside=false, ac_consistent=false. The mutation marks the policy outside the trusted boundary and inconsistent; it is not claimed as a valid profile.
+
+
+
+Bounded checks: ac-revocation-order context 66 states/194 committed transitions/0 reference invariant violations; ac-consistency context 1 state/0 committed transitions/0 violations. Each used <=1,000 states, 1,000,000-KiB virtual-memory cap, 90-second timeout; py_compile PASS. Named AT-06 and AT-07 before/after steps are listed above.
+
+
+
+Semantics/trust: kernel_revoke_ac abstracts an atomically ordered Kernel revocation plus restrictive AC state; authorization ticket is valid before that event only; the permissive mutation allows its later use. This does not model a real OS policy or prove open-handle revocation.
+
+
+
+Partial/rejected AC application is ABSENT: ac_apply in this model is atomic when pending and has no partial state. No partial-apply failure claim is made. The earlier attempted non-discriminating histories and C13 gaps are preserved above.
+
+
+
+Mapping: C13/T24 ordering—AT-06; C13/AC3 and trust-boundary disclosure—AT-07; C12 acknowledgement/persistence is not tested here. Work Unit D/E—abstract boundary and policy consistency; L/realization—no concrete policy adapter. Physical policy conformance, admin identity, descriptor/mapped-memory coverage, actual policy sequence behavior, and all other C1-C13/A-L/F5 obligations remain open.
+
+
+
+A context-index lookup also reran old-request-after-replacement (144 states/432 transitions/0 violations) before the two intended C13 contexts were selected. No aggregate context was run.
