@@ -169,3 +169,13 @@ Result: 42 states/128 committed transitions/0 reference invariant violations. Cu
 
 
 Test bounds: 10,000 states, 1 GiB RSS, 120 seconds; no aggregate search. Run record includes trace, mutation, C5/C6/C7/C12 and A-L mapping plus storage/currentness assumptions. F1 remains incomplete.
+
+## 2026-10-30 two-loss fixture start
+
+
+
+Inherited clean branch research/phase-i-work-unit-f1-20261029 at origin-verified SHA 657621f86ea517ab043ffaa709dc6f076179c238. Existing currentness-image, content-x/y, capacity-one, and cycle-order evidence remains intact; those contexts will not be rerun.
+
+
+
+Next single context: two successive stop/recover/restore cycles over x/y at epoch 1; verify sealed after each current-image restore; deny use while sealed and stale generation-2 use after final explicit activation; allow current generation-3 use. Inject the authentic epoch-0 x-only image during the second recovery and run one currentness_check=False mutation to require the C7 stale-image counterexample. Cap 5,000 states, 1,000,000 KiB RSS and 120 seconds. No aggregate search.
