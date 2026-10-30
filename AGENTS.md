@@ -199,10 +199,22 @@ Model names must be verified before use. Never assume a model ID.
 
 # Repository Changes
 
-Builder agents should create a local commit approximately every five minutes
-as a liveness and recovery checkpoint. WIP/intermediate commits are acceptable
-and history neatness is secondary to preserving work. Pushes remain explicitly
-operator-gated and require approval immediately before each push.
+**Work, Codex, and VPS worker agents** should commit frequently during substantive
+work (about every five minutes where practical) as durable recovery checkpoints.
+WIP commits are acceptable. They should **push their working branches at the end
+of each work session without a separate per-push approval**, unless a concrete
+security, privacy, repository-policy, conflict, or scope concern prevents it.
+Do not force-push, include secrets, overwrite others' work, or bypass CI/branch
+protection. Stop and report such a blocker; a failed push is not completion.
+
+**Operator decisions made explicitly in a strategy chat are authoritative and
+final within their stated scope.** Agents may implement, commit and push those
+decisions in the normal repository workflow without asking for redundant
+approval. Seek clarification when a decision is materially ambiguous, conflicts
+with another operator decision, or would cross an unstated risk/production
+boundary. Agent discussion, suggestions and inferred preferences do not carry
+this authority. Merging, deployment, destructive operations and model-launch
+approvals retain their separate established controls where relevant.
 
 Before introducing new documents:
 
@@ -288,7 +300,7 @@ The operator is not a programmer and does not assess shell commands.
 
 Raw pasted output blocks are the expected response format; parsing them is the agent's job. Explain significance in plain language. Never delegate command-safety assessment to the operator.
 
-Where an irreducible operator action exists (e.g. a `git push` that triggers deploys, or a consent click), present it as ONE single step — nothing more.
+Where an irreducible operator action exists (e.g. human identity consent, or a separately gated production deployment), present it as ONE single step — nothing more. Ordinary pushes of agent work branches are agent work; if a push would trigger a consequential deployment, apply the existing deployment gate rather than silently deploy.
 
 ## Secrets Handling
 
@@ -312,7 +324,10 @@ Evidence from the 2026-08-24 forensics shows agent death signatures appear in op
 
 ---
 
-Agents proactively propose git push moments: after merge clusters, before cleanup or migration operations, and at session end.
+Agents preserve recoverable progress through frequent local commits and **push
+their working branches at session end**; report branch, commit SHA, test evidence,
+and any blocked or unpushed state. For operator-directed strategy decisions,
+publication of in-scope documentation does not require a second approval.
 
 When building automation or repair work, consult: AI Orchestration Guide (coordination principles), Methodology to Requirements Mapping Specification (preservation requirements), Execution Engine Vision (long-term direction), Documentation Standard (any new document), Canonical Terminology and Concept: Levels of Abstraction (naming and layering).
 
