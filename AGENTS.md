@@ -177,6 +177,14 @@ Agents should avoid introducing assumptions tied to specific:
 
 Implementation proposals belong in implementation documents.
 
+**Constraint-first realization:** Before proposing languages or architectures, derive the
+required safety, correctness, security, performance and other properties,
+their falsifying tests, and the conditions that exclude a design. Do not give
+agents preapproved technology lists or a preferred solution to choose from.
+Keep insufficiently evidenced choices unresolved; compare only designs that
+pass the non-negotiable gates. See
+`docs/methodology/Implementation Realization and Assurance Selection Method.md`.
+
 ---
 
 # Model Discipline — Operator-Gated (same tier as git merge)
@@ -186,8 +194,8 @@ Model names must be verified before use. Never assume a model ID.
 * Run `opencode models <provider>` before using any model in a command or configuration.
 * Copy model IDs exactly — do not guess, shorten, or modify them.
 * Ask the operator which provider to use. Do not choose on your own.
-* **Operator-gated launch (mechanically enforced):** every `crosslink kickoff run`, `crosslink kickoff launch`, and `crosslink swarm launch` (bash via `crosslink-guard.ts`) and every `Task` delegation to builder/reviewer/auditor (`orchestrator-guard.ts`) is gated on per-launch operator approval — same tier as `git merge`. Config: `gated_bash_commands` in `.crosslink/hook-config.json`. Block signature: `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`
-* **Required 3 steps before retry:** 1) **question (verbal approval)** — ask the operator via the question tool which model; the operator's verbal answer is the approval — required and sufficient; 2) **opencode models** — verify the exact ID (`opencode models <provider>`); 3) **retry** — re-run the launch. **No Crosslink approval comment** — do not post one and do not wait for one: the operator never runs shell commands (D1–D4), and a durable approval comment is pathological (a future agent would misread a transient approval as standing acceptance). Approval is per-launch unless the operator explicitly says it covers multiple phases.
+* **Operator authorization for model launches is a workflow rule**, not an assertion about installed enforcement. The legacy `crosslink-guard` plugin is no longer used; its configuration, block signatures and historical launch gates must not be presented as active controls. Verify the current harness capabilities and obtain any applicable model-selection authorization without requiring redundant approval for strategy-chat decisions already explicit within scope.
+* For a proposed model launch, confirm the operator's stated scope, verify the exact model ID against the available catalog, and launch only with the required authorization. An explicit strategy decision may cover multiple phases when it says so. Do not demand approval comments, refer to obsolete guard prompts, or treat an untested configuration as enforcement.
 * **Cheaper-first:** prefer cheaper models that satisfy the task; never select a frontier/expensive model over a cheaper option without explicit per-launch operator approval.
 * Do not use free-tier (Zen) models for kickoff or swarm agents — rate limits will cause failures.
 * The `opencode-go/` prefix indicates paid models. Free models have different, provider-specific prefixes.
