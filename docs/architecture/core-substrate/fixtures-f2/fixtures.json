@@ -1765,7 +1765,23 @@
         "reason_contains": "cannot authorize post-revocation"
       },
       "assumption": "Kernel revocation ordering dominates a concrete policy that would otherwise still permit the use.",
-      "status": "executed"
+      "status": "executed",
+      "expected_steps": [
+        {},
+        {
+          "deny": false
+        },
+        {
+          "deny": true,
+          "reason_contains": "cannot authorize post-revocation"
+        }
+      ],
+      "mutation": {
+        "ac_ordering": false
+      },
+      "mutation_expected": {
+        "deny": false
+      }
     },
     {
       "id": "T24-partial-policy-application-fails-closed",

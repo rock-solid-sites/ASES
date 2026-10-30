@@ -1,5 +1,5 @@
 {
-  "blocked": 2,
+  "blocked": 1,
   "cases": [
     {
       "assumption": "D1/D2 sealing must defeat retained external routes while baseline permits already-authorized CPU-only internal computation; requires real process/descriptor route mediation and independent content observation.",
@@ -5044,27 +5044,192 @@
     {
       "assumption": "Kernel revocation ordering dominates a concrete policy that would otherwise still permit the use.",
       "execution_scope": "f2lib abstract replay only",
-      "failures": [
-        "deny: expected True, got False",
-        "reason 'admitted' lacks 'cannot authorize post-revocation'"
-      ],
+      "failures": [],
       "id": "T24-ordered-policy-broadening-cannot-justify-revoked-use",
-      "mutation": null,
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "ac_ordering": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "step_observations": [
+          {
+            "delete_blocked": null,
+            "delete_reason": "",
+            "denied": null,
+            "engine_denied": null,
+            "engine_reason": "",
+            "flags": {
+              "revoked_ack_stamp": 1
+            },
+            "reason": "",
+            "sink": null,
+            "takeover_refused": null
+          },
+          {
+            "delete_blocked": null,
+            "delete_reason": "",
+            "denied": false,
+            "engine_denied": null,
+            "engine_reason": "",
+            "flags": {},
+            "reason": "admitted",
+            "sink": null,
+            "takeover_refused": null
+          },
+          {
+            "delete_blocked": null,
+            "delete_reason": "",
+            "denied": false,
+            "engine_denied": null,
+            "engine_reason": "",
+            "flags": {},
+            "reason": "admitted",
+            "sink": null,
+            "takeover_refused": null
+          }
+        ],
+        "store": {
+          "accepted": {
+            "C": []
+          },
+          "acks": {},
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {
+            "C": 0
+          },
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {
+            "C": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            }
+          },
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {
+            "C": null
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {
+              "epoch": {
+                "C": 2
+              },
+              "policy": "broadened"
+            }
+          },
+          "status": {
+            "C": "sealed"
+          },
+          "survivors": [],
+          "units": {
+            "C": {
+              "created_by": "kit",
+              "genesis": 61,
+              "id": "C",
+              "origin": "",
+              "project": "alpha"
+            }
+          },
+          "witness": [
+            "create empty sealed unit C",
+            "revocation of boundary C"
+          ]
+        }
+      },
       "observation": {
         "delete_blocked": null,
         "delete_reason": "",
-        "denied": false,
+        "denied": true,
         "engine_denied": null,
         "engine_reason": "",
-        "flags": {
-          "revoked_ack_stamp": 1
-        },
-        "reason": "admitted",
+        "flags": {},
+        "reason": "policy broadening cannot authorize post-revocation use",
         "sink": null,
         "takeover_refused": null
       },
-      "status": "blocked",
-      "step_observations": [],
+      "status": "executed",
+      "step_observations": [
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {
+            "revoked_ack_stamp": 1
+          },
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": true,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "policy broadening cannot authorize post-revocation use",
+          "sink": null,
+          "takeover_refused": null
+        }
+      ],
       "store": {
         "accepted": {
           "C": []
@@ -5234,7 +5399,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 61,
+            "genesis": 62,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -5342,7 +5507,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 62,
+            "genesis": 63,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -5356,7 +5521,7 @@
       "trace": "T24"
     }
   ],
-  "executed": 40,
+  "executed": 41,
   "prepared_only": 1,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"
