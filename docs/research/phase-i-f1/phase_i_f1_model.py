@@ -77,7 +77,7 @@ class WU:
     sealed: bool = True
     route: bool = False
     grants: tuple = ()   # ((cap, mode), ...) explicit local grants (K.4)
-    latent: tuple = ()   # ((cap, max_mode), ...) accepted latent ceiling (D-6)
+    latent: tuple = ((NET, RW), (SINK, RW))  # trusted initial latent ceiling (D-6)
 
 
 @dataclass(frozen=True)
@@ -555,7 +555,7 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         return state
 
     if k == "activate_image":
-        return replace(state, image=True)
+        return replace(state, image=True, engine=True)
 
     if k == "start_internal":
         w = ev[1]

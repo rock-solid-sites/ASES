@@ -37,3 +37,13 @@ The model passed Python syntax compilation. The first executable run used a 120-
 
 
 Next: measure a single small context with a lower explicit state ceiling; repair the exploration interface or state representation as needed before further runs. Preserve drafts; do not make a bounded or unbounded proof claim.
+
+## 2026-10-30 targeted evidence checkpoint
+
+
+
+Corrected two concrete draft defects: the recovery activation effect now enables image and enforcement atomically; explicit trusted initial latent ceilings permit later authorized grant events. Syntax passed. One bounded recovery context reached 16 states/78 committed transitions with zero invariant violations. Ten draft witness histories yielded seven fully committed; WT-01, WT-07 and WT-09 remain invalid/incomplete and are documented in Phase-I-F1-Targeted-Run.md. The broad combined exploration hit MemoryError under its cap and remains incomplete.
+
+
+
+Next: repair the failed witness fixtures/ack guard, add a per-context state/time-limited runner and preserve raw outcomes; then complete C1-C13/A-L coverage and intended mutants. No proof claim.
