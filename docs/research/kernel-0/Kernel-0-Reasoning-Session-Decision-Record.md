@@ -75,7 +75,7 @@ Do not supply:
 - a proposed Kernel-0 schema;
 - known reviewer conclusions;
 - a preferred decomposition;
-- a preferred software or processorless realization.
+- a preferred conventional or unconventional realization.
 
 The purpose is to discover what model Astra derives from the requirements with minimal anchoring, including distinctions or problems not already anticipated.
 
@@ -120,11 +120,11 @@ If reduction leaves a concrete unresolved semantic question and prior art could 
 
 ## Realization boundary
 
-Do not select a language, compiler, ISA, operating system, verified software stack, processorless implementation, FPGA/RTL design, or other realization during the initial derivation.
+Do not select a language, compiler, ISA, operating system, verified software stack, FPGA/RTL design, unconventional physical architecture, or other realization during the initial derivation.
 
 Realization alternatives are a separate comparison after Kernel-0 semantics survive reasoning and adequacy review.
 
-The later minimal-TCB / processorless direction is important as a realization hypothesis because it may remove assumptions from the trusted path. It is not a semantic premise for Kernel-0.
+The later minimal-TCB and unconventional-architecture investigations are important as realization hypotheses because they may remove assumptions from the trusted path. It is not a semantic premise for Kernel-0.
 
 ## Prompting policy
 
