@@ -1,5 +1,5 @@
 {
-  "blocked": 3,
+  "blocked": 2,
   "cases": [
     {
       "assumption": "D1/D2 sealing must defeat retained external routes while baseline permits already-authorized CPU-only internal computation; requires real process/descriptor route mediation and independent content observation.",
@@ -3946,25 +3946,184 @@
     {
       "assumption": "Two eligible holders cannot commit conflicting protected acceptance while an old holder remains without exclusion.",
       "execution_scope": "f2lib abstract replay only",
-      "failures": [
-        "deny: expected True, got False",
-        "reason 'admitted' lacks 'second acceptance'"
-      ],
+      "failures": [],
       "id": "T20-conflicting-acceptance-blocked",
-      "mutation": null,
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "holder_exclusion": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "step_observations": [
+          {
+            "delete_blocked": null,
+            "delete_reason": "",
+            "denied": null,
+            "engine_denied": null,
+            "engine_reason": "",
+            "flags": {},
+            "reason": "",
+            "sink": null,
+            "takeover_refused": null
+          },
+          {
+            "delete_blocked": null,
+            "delete_reason": "",
+            "denied": false,
+            "engine_denied": null,
+            "engine_reason": "",
+            "flags": {},
+            "reason": "admitted",
+            "sink": null,
+            "takeover_refused": null
+          },
+          {
+            "delete_blocked": null,
+            "delete_reason": "",
+            "denied": false,
+            "engine_denied": null,
+            "engine_reason": "",
+            "flags": {},
+            "reason": "admitted",
+            "sink": null,
+            "takeover_refused": null
+          }
+        ],
+        "store": {
+          "accepted": {
+            "C": []
+          },
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {
+            "C": 0
+          },
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {
+            "C": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": true
+              }
+            }
+          },
+          "isolated": [
+            "A"
+          ],
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {
+            "C": null
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {
+            "C": "active"
+          },
+          "survivors": [],
+          "units": {
+            "C": {
+              "created_by": "kit",
+              "genesis": 44,
+              "id": "C",
+              "origin": "",
+              "project": "alpha"
+            }
+          },
+          "witness": [
+            "create empty sealed unit C"
+          ]
+        }
+      },
       "observation": {
         "delete_blocked": null,
         "delete_reason": "",
-        "denied": false,
+        "denied": true,
         "engine_denied": null,
         "engine_reason": "",
         "flags": {},
-        "reason": "admitted",
+        "reason": "second acceptance into C while holder without exclusion exists",
         "sink": null,
         "takeover_refused": null
       },
-      "status": "blocked",
-      "step_observations": [],
+      "status": "executed",
+      "step_observations": [
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": true,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "second acceptance into C while holder without exclusion exists",
+          "sink": null,
+          "takeover_refused": null
+        }
+      ],
       "store": {
         "accepted": {
           "C": []
@@ -4127,7 +4286,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 44,
+            "genesis": 45,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4223,7 +4382,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 45,
+            "genesis": 46,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4343,21 +4502,21 @@
           "units": {
             "C": {
               "created_by": "kit",
-              "genesis": 51,
+              "genesis": 52,
               "id": "C",
               "origin": "",
               "project": "alpha"
             },
             "P": {
               "created_by": "kit",
-              "genesis": 49,
+              "genesis": 50,
               "id": "P",
               "origin": "",
               "project": "alpha"
             },
             "Q": {
               "created_by": "kit",
-              "genesis": 50,
+              "genesis": 51,
               "id": "Q",
               "origin": "",
               "project": "alpha"
@@ -4468,21 +4627,21 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 48,
+            "genesis": 49,
             "id": "C",
             "origin": "",
             "project": "alpha"
           },
           "P": {
             "created_by": "kit",
-            "genesis": 46,
+            "genesis": 47,
             "id": "P",
             "origin": "",
             "project": "alpha"
           },
           "Q": {
             "created_by": "kit",
-            "genesis": 47,
+            "genesis": 48,
             "id": "Q",
             "origin": "",
             "project": "alpha"
@@ -4578,7 +4737,7 @@
         "units": {
           "C": {
             "created_by": "parent-agent",
-            "genesis": 52,
+            "genesis": 53,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4621,7 +4780,7 @@
           "candidates": [
             {
               "atom": "z",
-              "stamp": 56,
+              "stamp": 57,
               "unit": "C"
             }
           ],
@@ -4683,7 +4842,7 @@
           "units": {
             "C": {
               "created_by": "kit",
-              "genesis": 55,
+              "genesis": 56,
               "id": "C",
               "origin": "",
               "project": "alpha"
@@ -4714,7 +4873,7 @@
         "candidates": [
           {
             "atom": "z",
-            "stamp": 54,
+            "stamp": 55,
             "unit": "C"
           }
         ],
@@ -4776,7 +4935,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 53,
+            "genesis": 54,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4870,7 +5029,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 57,
+            "genesis": 58,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4975,7 +5134,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 59,
+            "genesis": 60,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -5075,7 +5234,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 60,
+            "genesis": 61,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -5183,7 +5342,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 61,
+            "genesis": 62,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -5197,7 +5356,7 @@
       "trace": "T24"
     }
   ],
-  "executed": 39,
+  "executed": 40,
   "prepared_only": 1,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"

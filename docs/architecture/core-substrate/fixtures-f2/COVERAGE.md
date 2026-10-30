@@ -23,7 +23,7 @@ Scope: this increment adds executable abstract-replay histories for selected por
 | T17 | Lost sink reply leaves outcome unknown and permissive retry flags duplicate possibility; independent read positive | executed | No irreversible-write guard profile that authorizes/restricts retry by policy |
 | T18 | Exact-obligation later delivery after replacement | executed | Use-current profile and actual sink-side revocation ordering not fixtured |
 | T19 | Permissive duplicate delivery and explicit at-most-once sink suppression | executed | No concrete sink contract implementation/effect evidence |
-| T20 | Takeover refused for isolated holder; conflict fixture currently fails its expected second-acceptance denial | blocked | Conflicting-acceptance replay inconsistency remains to debug; no successful overlapping-holder exclusion proof |
+| T20 | Isolated-holder takeover refused; first acceptance allowed and second conflicting acceptance denied; disabling holder exclusion admits it | executed | Abstract replay only; no physical fencing/exclusion witness |
 | T21 | Killed partial derivation denied; recomputed derivation positive | executed | No accepted historical output/evidence retention witness |
 | T22 | Interior parent edit denied; metadata-separation mutation admits it; creator metadata alone gives no write authority | executed | No exposed-route/completion export/parent-code management runtime cases |
 | T23 | Unaccepted candidate blocks removal; accepted candidate disposition allows removal; accepted-only mutation admits incomplete delete | executed | Ephemeral scratch teardown remains unfixtured |
@@ -38,7 +38,8 @@ Scope: this increment adds executable abstract-replay histories for selected por
 - T06 `content_binding=false`: substituted bytes are admitted.
 - T07 `wal_before_ack=false`: acknowledgement may occur while the committed journal lacks the value.
 - T12 `stale_empty_check=true`: the concurrent child is stranded using stale empty evidence.
+- T20 `holder_exclusion=false`: the second conflicting acceptance is admitted.
 - T22 `metadata_separation=false`: an interior edit changes parentage.
 - T23 `complete_domain_checking=false, check_accepted_only=true`: deletion ignores an unaccepted durable candidate.
 
-These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 39 abstract histories executed, 1 prepared-only (T05), and 3 blocked. The blocked cases are T20 conflicting acceptance and two T24 ACL-order/consistency observations. The matrix is intentionally not an aggregate T01 through T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.
+These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 40 abstract histories executed, 1 prepared-only (T05), and 2 blocked. Both blocked checks are T24 ACL-order/consistency observations. The matrix is intentionally not an aggregate T01 through T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.

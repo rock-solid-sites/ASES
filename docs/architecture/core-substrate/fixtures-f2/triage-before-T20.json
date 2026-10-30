@@ -1,0 +1,103 @@
+[
+  {
+    "assumption": "Two eligible holders cannot commit conflicting protected acceptance while an old holder remains without exclusion.",
+    "execution_scope": "f2lib abstract replay only",
+    "failures": [
+      "deny: expected True, got False",
+      "reason 'admitted' lacks 'second acceptance'"
+    ],
+    "id": "T20-conflicting-acceptance-blocked",
+    "mutation": null,
+    "observation": {
+      "delete_blocked": null,
+      "delete_reason": "",
+      "denied": false,
+      "engine_denied": null,
+      "engine_reason": "",
+      "flags": {},
+      "reason": "admitted",
+      "sink": null,
+      "takeover_refused": null
+    },
+    "status": "blocked",
+    "step_observations": [],
+    "store": {
+      "accepted": {
+        "C": []
+      },
+      "candidates": [],
+      "comms": {},
+      "conflict": "x",
+      "content": {
+        "x": {
+          "internal": 0,
+          "outward": 0,
+          "published": 0,
+          "sink_accept": 0
+        },
+        "y": {
+          "internal": 0,
+          "outward": 0,
+          "published": 0,
+          "sink_accept": 0
+        },
+        "z": {
+          "internal": 0,
+          "outward": 0,
+          "published": 0,
+          "sink_accept": 0
+        }
+      },
+      "dependents": {
+        "C": 0
+      },
+      "derived": [],
+      "discovered": [],
+      "domain": 0,
+      "grants": {
+        "C": {
+          "exp": false,
+          "local": {
+            "read": false,
+            "write": true
+          }
+        }
+      },
+      "isolated": [
+        "A"
+      ],
+      "journal": {
+        "committed": {},
+        "live": {}
+      },
+      "latent": {},
+      "parent": {
+        "C": null
+      },
+      "positions": {},
+      "processes": {},
+      "recovered_stamps": [],
+      "relations": {
+        "committed": {},
+        "live": {}
+      },
+      "status": {
+        "C": "active"
+      },
+      "survivors": [],
+      "units": {
+        "C": {
+          "created_by": "kit",
+          "genesis": 43,
+          "id": "C",
+          "origin": "",
+          "project": "alpha"
+        }
+      },
+      "witness": [
+        "create empty sealed unit C"
+      ]
+    },
+    "trace": "T20"
+  }
+]

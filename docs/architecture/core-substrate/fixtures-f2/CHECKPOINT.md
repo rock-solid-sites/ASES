@@ -4,7 +4,7 @@
 - Crosslink issue: #9
 - Oracle baseline: `f2lib.py`, independent of Agent D
 - Scope: T01 through T24 have explicit catalog records in `fixtures.json`; `COVERAGE.md` distinguishes partial traces, model-only executions, prepared-only traces, and blocked cases.
-- Latest runner report: `results.json`: 37 executed abstract replays, 1 prepared-only trace (T05), 5 blocked fixture cases. This is not aggregate T01 through T24 passing evidence.
+- Latest runner report: `results.json`: 40 executed abstract replays, 1 prepared-only trace (T05), 2 blocked fixture cases. This is not aggregate T01 through T24 passing evidence.
 
 ## Added artifacts
 
@@ -17,18 +17,17 @@
 
 - `python3 -m py_compile f2lib.py run_fixtures.py`
 - `python3 -m json.tool fixtures.json`
-- Runner last reported 37 executed, 1 prepared-only, 5 blocked; 9 mutations discriminate intended faults.
+- Runner last reported 40 executed, 1 prepared-only, 2 blocked; 11 mutations discriminate intended faults.
 - `git diff --check`
 
 The executions are abstract reference-model replays only. No host/runtime, descriptor, concrete route, storage rollback, or ACL evidence is claimed. The T05 event sequence is prepared-only because retained OS handles and live CPU-only progress are outside the model.
 
 ## Blocked outcomes requiring follow-up
 
-- T20: conflicting-acceptance history does not produce the expected second-acceptance denial.
 - T24: ordered post-revocation use and out-of-band policy consistency observations fail their expected checks.
 
-T01-T04, T06-T10, T13-T14, T16-T19, T21-T23 contain selected passing model histories; coverage is not complete within those traces (see matrix).
+T01-T04, T06-T23 contain selected passing model histories; coverage is not complete within those traces (see matrix).
 
 ## Next operation
 
-Debug blocked oracle histories without reference to Agent D, add remaining destructive mutations and positive controls, then run supported lightweight cases. Keep host-dependent cases prepared-only until a suitable independent harness exists. Continue small commits and push only this branch; the previous provider HTTP 402 is not to be retried.
+Debug the two blocked T24 ACL observations without reference to Agent D, add remaining destructive mutations and positive controls, then run supported lightweight cases. Keep host-dependent cases prepared-only until a suitable independent harness exists. Continue small commits and push only this branch; the previous provider HTTP 402 is not to be retried.
