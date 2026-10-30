@@ -1,5 +1,5 @@
 {
-  "blocked": 3,
+  "blocked": 4,
   "cases": [
     {
       "assumption": "Ancestor grants do not imply child-local grants; the complete path is checked.",
@@ -3017,9 +3017,607 @@
         ]
       },
       "trace": "T16"
+    },
+    {
+      "assumption": "A lost reply leaves the irreversible external outcome unknown; this permissive model demonstrates duplicate risk, not safe retry authorization.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T17-unknown-sink-retry-remains-unsafe",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {
+          "duplicate_possible": true,
+          "reply": "lost",
+          "sent": 1
+        },
+        "reason": "admitted",
+        "sink": "unknown",
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {
+          "m": {
+            "accepted": true,
+            "sent": 1
+          }
+        },
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 1
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T17"
+    },
+    {
+      "assumption": "A separately supported immutable/read-only operation may progress independently of an unknown external write outcome.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T17-independent-read-without-current-boundary",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "active"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 35,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T17"
+    },
+    {
+      "assumption": "Under exact-obligation profile, replacement of producer does not cancel an already-authorized delivery; no current-use profile is claimed.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T18-exact-obligation-delivery-after-replacement",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {
+          "reply": "received",
+          "sent": 1
+        },
+        "reason": "admitted",
+        "sink": "accepted",
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {
+          "m": {
+            "accepted": true,
+            "sent": 1
+          }
+        },
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 1
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {
+          "p": {
+            "gen": 2,
+            "holder": "new",
+            "unit": "C"
+          }
+        },
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T18"
+    },
+    {
+      "assumption": "Identical caller observations (lost reply) are compatible with an accepted or unaccepted external effect; permissive retry can duplicate.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T19-lost-reply-allows-duplicate-under-permissive-profile",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {
+          "duplicate_possible": true,
+          "reply": "lost",
+          "sent": 2
+        },
+        "reason": "admitted",
+        "sink": "unknown",
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {
+          "m": {
+            "accepted": true,
+            "sent": 2
+          }
+        },
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 2
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T19"
+    },
+    {
+      "assumption": "At-most-once behavior is supplied by an explicit sink contract; the substrate cannot claim exactly-once from retries alone.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T19-sound-sink-at-most-once-contract-suppresses-retry",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {
+          "duplicate_possible": true,
+          "reply": "lost",
+          "sent": 2
+        },
+        "reason": "admitted",
+        "sink": "unknown",
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {
+          "m": {
+            "accepted": true,
+            "sent": 2
+          }
+        },
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 1
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T19"
+    },
+    {
+      "assumption": "Takeover is refused when exclusion of the isolated old holder cannot be established.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T20-isolated-holder-cannot-be-taken-over",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": null,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "",
+        "sink": null,
+        "takeover_refused": true
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": true
+            }
+          }
+        },
+        "isolated": [
+          "A"
+        ],
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "active"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 36,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T20"
+    },
+    {
+      "assumption": "Two eligible holders cannot commit conflicting protected acceptance while an old holder remains without exclusion.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [
+        "deny: expected True, got False",
+        "reason 'admitted' lacks 'second acceptance'"
+      ],
+      "id": "T20-conflicting-acceptance-blocked",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "blocked",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "comms": {},
+        "conflict": "x",
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": true
+            }
+          }
+        },
+        "isolated": [
+          "A"
+        ],
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "active"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 37,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T20"
     }
   ],
-  "executed": 23,
+  "executed": 29,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"
 }

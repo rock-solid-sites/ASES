@@ -1089,6 +1089,292 @@
       },
       "assumption": "A model judgement is non-authoritative absent explicit current Kernel authorization.",
       "status": "executed"
+    },
+    {
+      "id": "T17-unknown-sink-retry-remains-unsafe",
+      "trace": "T17",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "sink_send",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_accept",
+          "msg": "m",
+          "atom": "x"
+        },
+        {
+          "ev": "sink_reply",
+          "msg": "m",
+          "drop": true
+        },
+        {
+          "ev": "retry",
+          "msg": "m"
+        }
+      ],
+      "expected_observation": {
+        "flags": {
+          "reply": "lost",
+          "duplicate_possible": true
+        },
+        "sink": "unknown"
+      },
+      "assumption": "A lost reply leaves the irreversible external outcome unknown; this permissive model demonstrates duplicate risk, not safe retry authorization.",
+      "status": "executed"
+    },
+    {
+      "id": "T17-independent-read-without-current-boundary",
+      "trace": "T17",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "read"
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": false
+      },
+      "assumption": "A separately supported immutable/read-only operation may progress independently of an unknown external write outcome.",
+      "status": "executed"
+    },
+    {
+      "id": "T18-exact-obligation-delivery-after-replacement",
+      "trace": "T18",
+      "initial_state": {
+        "store": {
+          "positions": {
+            "p": {
+              "gen": 1,
+              "unit": "C",
+              "holder": "old"
+            }
+          }
+        }
+      },
+      "events": [
+        {
+          "ev": "position_advance",
+          "pos": "p",
+          "unit": "C",
+          "to": "new"
+        },
+        {
+          "ev": "sink_send",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_accept",
+          "msg": "m",
+          "atom": "x"
+        },
+        {
+          "ev": "sink_reply",
+          "msg": "m"
+        }
+      ],
+      "expected_observation": {
+        "sink": "accepted"
+      },
+      "assumption": "Under exact-obligation profile, replacement of producer does not cancel an already-authorized delivery; no current-use profile is claimed.",
+      "status": "executed"
+    },
+    {
+      "id": "T19-lost-reply-allows-duplicate-under-permissive-profile",
+      "trace": "T19",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "sink_send",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_accept",
+          "msg": "m",
+          "atom": "x"
+        },
+        {
+          "ev": "sink_reply",
+          "msg": "m",
+          "drop": true
+        },
+        {
+          "ev": "retry",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_send",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_accept",
+          "msg": "m",
+          "atom": "x"
+        }
+      ],
+      "expected_observation": {
+        "flags": {
+          "duplicate_possible": true
+        },
+        "store": {
+          "content.x.sink_accept": 2
+        }
+      },
+      "assumption": "Identical caller observations (lost reply) are compatible with an accepted or unaccepted external effect; permissive retry can duplicate.",
+      "status": "executed"
+    },
+    {
+      "id": "T19-sound-sink-at-most-once-contract-suppresses-retry",
+      "trace": "T19",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "sink_send",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_accept",
+          "msg": "m",
+          "atom": "x"
+        },
+        {
+          "ev": "sink_reply",
+          "msg": "m",
+          "drop": true
+        },
+        {
+          "ev": "retry",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_send",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_accept",
+          "msg": "m",
+          "atom": "x"
+        }
+      ],
+      "mechanism": {
+        "sink_at_most_once": true
+      },
+      "expected_observation": {
+        "store": {
+          "content.x.sink_accept": 1
+        }
+      },
+      "assumption": "At-most-once behavior is supplied by an explicit sink contract; the substrate cannot claim exactly-once from retries alone.",
+      "status": "executed"
+    },
+    {
+      "id": "T20-isolated-holder-cannot-be-taken-over",
+      "trace": "T20",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "isolate",
+          "holders": [
+            "A"
+          ]
+        },
+        {
+          "ev": "takeover",
+          "holders": [
+            "A"
+          ]
+        }
+      ],
+      "expected_observation": {
+        "takeover_refused": true
+      },
+      "assumption": "Takeover is refused when exclusion of the isolated old holder cannot be established.",
+      "status": "executed"
+    },
+    {
+      "id": "T20-conflicting-acceptance-blocked",
+      "trace": "T20",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "isolate",
+          "holders": [
+            "A"
+          ]
+        },
+        {
+          "ev": "conflicting_accept",
+          "unit": "C",
+          "result": "x"
+        },
+        {
+          "ev": "conflicting_accept",
+          "unit": "C",
+          "result": "y"
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "second acceptance"
+      },
+      "assumption": "Two eligible holders cannot commit conflicting protected acceptance while an old holder remains without exclusion.",
+      "status": "executed"
     }
   ]
 }

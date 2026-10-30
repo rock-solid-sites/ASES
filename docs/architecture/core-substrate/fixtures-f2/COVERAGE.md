@@ -1,6 +1,6 @@
 # F2 coverage matrix ? Agent C
 
-Scope: this increment adds executable abstract-replay histories for selected portions of T01?T04 and T06?T12. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
+Scope: this increment adds executable abstract-replay histories for selected portions of T01?T04, T06?T20. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
 
 | Trace | Coverage in this increment | Status | Known gap |
 |---|---|---|---|
@@ -20,10 +20,10 @@ Scope: this increment adds executable abstract-replay histories for selected por
 | T14 | Pre-revocation snapshot denied after revocation; fresh healthy snapshot positive | executed | Abstract derivation only; authentic runtime provenance not established |
 | T15 | Omitted child graph plus contained child attempts empty removal; oracle strands child and fails expected refusal | blocked | Exposes the same empty-removal guard gap as T12; phantom-after-enumeration and complete-empty positive not fixtured |
 | T16 | Model confidence without explicit authority is denied | executed | Scope-limited observation and expressly authorized qualified-decision variants not fixtured |
-| T17 | ? | blocked | Unknown sink retry, immutable read, and missing-currentness cases not fixtured |
-| T18 | ? | blocked | Exact-obligation versus use-current external-effect profiles not fixtured |
-| T19 | ? | blocked | Indistinguishable lost-reply histories and sink contract distinction not fixtured |
-| T20 | ? | blocked | Isolated-holder takeover/resume conflict histories not fixtured |
+| T17 | Lost sink reply leaves outcome unknown and permissive retry flags duplicate possibility; independent read positive | executed | No irreversible-write guard profile that authorizes/restricts retry by policy |
+| T18 | Exact-obligation later delivery after replacement | executed | Use-current profile and actual sink-side revocation ordering not fixtured |
+| T19 | Permissive duplicate delivery and explicit at-most-once sink suppression | executed | No concrete sink contract implementation/effect evidence |
+| T20 | Takeover refused for isolated holder; conflict fixture currently fails its expected second-acceptance denial | blocked | Conflicting-acceptance replay inconsistency remains to debug; no successful overlapping-holder exclusion proof |
 | T21 | ? | blocked | Cache deletion/half-derivation recovery and historical output witness not fixtured |
 | T22 | ? | blocked | Boundary metadata, routes, management authority, and information-flow cases not fixtured |
 | T23 | ? | blocked | Unaccepted durable candidate confinement and ephemeral scratch separation not fixtured |
