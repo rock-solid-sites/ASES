@@ -141,3 +141,17 @@ Each small context had a 1,000,000-KiB virtual-memory cap and 120-second timeout
 
 
 No results JSON was generated: the model driver only writes at end, while aggregate exploration exceeds the state cap. The Markdown run record contains raw counts/counterexamples and explicit incompleteness. The final all-context profile is finite only under the generation/AC caps and is still not completely explored.
+
+## Source and final bounded retest reference
+
+
+
+Current model SHA-256 for the finite-context retests: 83827480e6825650717a719c4d9920d16591803d7017903bdece741dce9ae8aa.
+
+
+
+Post-horizon syntax and targeted witness/mutation rerun: py_compile PASS; 10/10 named event sequences commit; 3/10 mutation variants discriminate (AT-02, AT-05, AT-09). Context counts above were collected against this model revision before formatting-only cleanup of the horizon guards; semantics unchanged.
+
+
+
+The original aggregate script still has configured limits of 200,000–400,000 states per context and no global time budget; it was not rerun. Reaching an explicit 10,000-state cap is an incomplete result. The three completed contexts are small, separately invoked traversals, not the full plan acceptance.
