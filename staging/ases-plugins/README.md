@@ -1,6 +1,6 @@
 # ASES Plugins — staging root
 
-**Status:** pre-migration design workspace. **Destination:** a dedicated `rock-solid-sites` plugin monorepo, to be created by the VPS builder after the design and inventory are settled. This directory is NOT the new canonical source for existing tools.
+**Status:** pre-migration design workspace. **Destination:** `rock-solid-sites/ases-plugins`, to be created by the VPS builder after the design and inventory are settled. This directory is NOT the new canonical source for existing tools.
 
 ## Purpose
 
@@ -11,7 +11,8 @@ Develop, package, test, release and maintain ChatGPT skills/plugins and custom M
 1. [AGENTS.md](AGENTS.md) — required operating instructions for builders and reviewers
 2. [DESIGN-AND-ASSURANCE.md](DESIGN-AND-ASSURANCE.md) — end-to-end behavior, state applicability, realization and release gates
 3. [INVENTORY-AND-MIGRATION.md](INVENTORY-AND-MIGRATION.md) — existing tools, authority and staged migration
-4. [BUILD-PACKET.md](BUILD-PACKET.md) — bounded implementation and handoff for the VPS builder
+4. [SOURCE-AUDIT-2026-10-30.md](SOURCE-AUDIT-2026-10-30.md) — source evidence, installed App distinctions and migration gates
+5. [BUILD-PACKET.md](BUILD-PACKET.md) — bounded implementation and handoff for the VPS builder
 
 The four files are designed to become root-level files in the destination repository. The canonical ASES methodologies remain in `rock-solid-sites/ASES/docs/methodology/`; do not fork their meaning here.
 
