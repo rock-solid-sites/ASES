@@ -1,5 +1,5 @@
 {
-  "blocked": 4,
+  "blocked": 6,
   "cases": [
     {
       "assumption": "Ancestor grants do not imply child-local grants; the complete path is checked.",
@@ -3615,9 +3615,1150 @@
         ]
       },
       "trace": "T20"
+    },
+    {
+      "assumption": "A killed partial derivation cannot become authoritative; guard evaluation must use current retained state.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T21-killed-partial-derivation-is-not-authoritative",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "partial output is not an authoritative derivation",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": true
+            }
+          }
+        },
+        "half": true,
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 38,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T21"
+    },
+    {
+      "assumption": "A fresh recomputation from retained state can succeed without requiring a cache or persistent Processor.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T21-recomputed-derivation-positive",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "committed": null,
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": true
+            }
+          }
+        },
+        "half": true,
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 39,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T21"
+    },
+    {
+      "assumption": "Interior content cannot administer boundary identity, parentage, grants, or status.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T22-interior-edit-cannot-change-parent",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "metadata_separation": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "store": {
+          "accepted": {
+            "C": [],
+            "P": [],
+            "Q": []
+          },
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {
+            "C": 0,
+            "P": 0,
+            "Q": 0
+          },
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {
+            "C": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            },
+            "P": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            },
+            "Q": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            }
+          },
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {
+            "C": "Q",
+            "P": null,
+            "Q": null
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {
+            "C": "sealed",
+            "P": "sealed",
+            "Q": "sealed"
+          },
+          "survivors": [],
+          "units": {
+            "C": {
+              "created_by": "kit",
+              "genesis": 45,
+              "id": "C",
+              "origin": "",
+              "project": "alpha"
+            },
+            "P": {
+              "created_by": "kit",
+              "genesis": 43,
+              "id": "P",
+              "origin": "",
+              "project": "alpha"
+            },
+            "Q": {
+              "created_by": "kit",
+              "genesis": 44,
+              "id": "Q",
+              "origin": "",
+              "project": "alpha"
+            }
+          },
+          "witness": [
+            "create empty sealed unit P",
+            "create empty sealed unit Q",
+            "create empty sealed unit C"
+          ]
+        }
+      },
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "interior edit cannot alter boundary field parent",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": [],
+          "P": [],
+          "Q": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0,
+          "P": 0,
+          "Q": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          },
+          "P": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          },
+          "Q": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": "P",
+          "P": null,
+          "Q": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "sealed",
+          "P": "sealed",
+          "Q": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 42,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          },
+          "P": {
+            "created_by": "kit",
+            "genesis": 40,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          },
+          "Q": {
+            "created_by": "kit",
+            "genesis": 41,
+            "id": "Q",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit Q",
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T22"
+    },
+    {
+      "assumption": "Creator/project metadata alone does not confer current management or write authority.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T22-created-by-does-not-grant-management",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "current authority for C/write absent",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "parent-agent",
+            "genesis": 46,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T22"
+    },
+    {
+      "assumption": "Unaccepted but durable candidate bytes remain confined until explicitly dispositioned.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T23-unaccepted-candidate-blocks-removal",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "check_accepted_only": true,
+          "complete_domain_checking": false
+        },
+        "observation": {
+          "delete_blocked": false,
+          "delete_reason": "allowed",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "store": {
+          "accepted": {
+            "C": []
+          },
+          "candidates": [
+            {
+              "atom": "z",
+              "stamp": 50,
+              "unit": "C"
+            }
+          ],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {
+            "C": 0
+          },
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {
+            "C": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            }
+          },
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {
+            "C": null
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {
+            "C": "removed"
+          },
+          "survivors": [],
+          "units": {
+            "C": {
+              "created_by": "kit",
+              "genesis": 49,
+              "id": "C",
+              "origin": "",
+              "project": "alpha"
+            }
+          },
+          "witness": [
+            "create empty sealed unit C"
+          ]
+        }
+      },
+      "observation": {
+        "delete_blocked": true,
+        "delete_reason": "1 unaccepted durable candidate(s) confined",
+        "denied": null,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [
+          {
+            "atom": "z",
+            "stamp": 48,
+            "unit": "C"
+          }
+        ],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 47,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T23"
+    },
+    {
+      "assumption": "After valid candidate disposition, the empty boundary can be removed.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T23-candidate-disposition-allows-removal",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": false,
+        "delete_reason": "allowed",
+        "denied": null,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "removed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 51,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T23"
+    },
+    {
+      "assumption": "Kernel revocation ordering dominates a concrete policy that would otherwise still permit the use.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [
+        "deny: expected True, got False",
+        "reason 'admitted' lacks 'cannot authorize post-revocation'"
+      ],
+      "id": "T24-ordered-policy-broadening-cannot-justify-revoked-use",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {
+          "revoked_ack_stamp": 1
+        },
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "blocked",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "acks": {},
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {
+            "epoch": {
+              "C": 2
+            },
+            "policy": "broadened"
+          }
+        },
+        "status": {
+          "C": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 53,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C",
+          "revocation of boundary C"
+        ]
+      },
+      "trace": "T24"
+    },
+    {
+      "assumption": "A rejected partial ACL application fails closed and advances the authority epoch under the selected policy profile.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T24-partial-policy-application-fails-closed",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "policy application partial: fail closed",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {
+            "epoch": {
+              "C": 1
+            },
+            "policy": "half_applied"
+          }
+        },
+        "status": {
+          "C": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 54,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T24"
+    },
+    {
+      "assumption": "An ACL change outside the disclosed Kernel ordering boundary blocks the claim that acknowledged revocation excludes the route.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [
+        "flag consistent: expected False, got True"
+      ],
+      "id": "T24-out-of-band-policy-change-breaks-boundary-claim",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": null,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {
+          "ac_in_boundary": false,
+          "consistent": true,
+          "kernel_thinks": "revoked",
+          "policy_state": "out_of_band",
+          "revoked_ack_stamp": 1
+        },
+        "reason": "",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "blocked",
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "acks": {},
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {
+            "epoch": {
+              "C": 1
+            },
+            "policy": "out_of_band"
+          }
+        },
+        "status": {
+          "C": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 55,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit C",
+          "revocation of boundary C"
+        ]
+      },
+      "trace": "T24"
     }
   ],
-  "executed": 29,
+  "executed": 36,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"
 }

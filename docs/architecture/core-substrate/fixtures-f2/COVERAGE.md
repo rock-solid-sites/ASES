@@ -1,6 +1,6 @@
 # F2 coverage matrix ? Agent C
 
-Scope: this increment adds executable abstract-replay histories for selected portions of T01?T04, T06?T20. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
+Scope: this increment adds executable abstract-replay histories for selected portions of T01?T24. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
 
 | Trace | Coverage in this increment | Status | Known gap |
 |---|---|---|---|
@@ -24,10 +24,10 @@ Scope: this increment adds executable abstract-replay histories for selected por
 | T18 | Exact-obligation later delivery after replacement | executed | Use-current profile and actual sink-side revocation ordering not fixtured |
 | T19 | Permissive duplicate delivery and explicit at-most-once sink suppression | executed | No concrete sink contract implementation/effect evidence |
 | T20 | Takeover refused for isolated holder; conflict fixture currently fails its expected second-acceptance denial | blocked | Conflicting-acceptance replay inconsistency remains to debug; no successful overlapping-holder exclusion proof |
-| T21 | ? | blocked | Cache deletion/half-derivation recovery and historical output witness not fixtured |
-| T22 | ? | blocked | Boundary metadata, routes, management authority, and information-flow cases not fixtured |
-| T23 | ? | blocked | Unaccepted durable candidate confinement and ephemeral scratch separation not fixtured |
-| T24 | ? | blocked | Ordered/rejected/partial ACL policy changes, out-of-band broadening, and open-access observation not fixtured |
+| T21 | Killed partial derivation denied; recomputed derivation positive | executed | No accepted historical output/evidence retention witness |
+| T22 | Interior parent edit denied; metadata-separation mutation admits it; creator metadata alone gives no write authority | executed | No exposed-route/completion export/parent-code management runtime cases |
+| T23 | Unaccepted candidate blocks removal; accepted candidate disposition allows removal; accepted-only mutation admits incomplete delete | executed | Ephemeral scratch teardown remains unfixtured |
+| T24 | Partial-policy rejection/epoch and out-of-band ACL fixtures are present; ordered revocation/use and out-of-band consistency fixtures fail under current oracle | blocked | T24 ordering/consistency semantics require oracle repair; no open-handle invalidation observation or concrete ACL evidence |
 
 ## Discriminating mutations executed
 

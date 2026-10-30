@@ -1375,6 +1375,329 @@
       },
       "assumption": "Two eligible holders cannot commit conflicting protected acceptance while an old holder remains without exclusion.",
       "status": "executed"
+    },
+    {
+      "id": "T21-killed-partial-derivation-is-not-authoritative",
+      "trace": "T21",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "write",
+            "allow": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "clear_cache"
+        },
+        {
+          "ev": "kill_half_derivation"
+        },
+        {
+          "ev": "submit_derived",
+          "unit": "C",
+          "right": "write"
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "partial output"
+      },
+      "assumption": "A killed partial derivation cannot become authoritative; guard evaluation must use current retained state.",
+      "status": "executed"
+    },
+    {
+      "id": "T21-recomputed-derivation-positive",
+      "trace": "T21",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "write",
+            "allow": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "clear_cache"
+        },
+        {
+          "ev": "kill_half_derivation"
+        },
+        {
+          "ev": "submit_derived",
+          "unit": "C",
+          "right": "write",
+          "recomputed": true
+        }
+      ],
+      "expected_observation": {
+        "deny": false
+      },
+      "assumption": "A fresh recomputation from retained state can succeed without requiring a cache or persistent Processor.",
+      "status": "executed"
+    },
+    {
+      "id": "T22-interior-edit-cannot-change-parent",
+      "trace": "T22",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          },
+          {
+            "ev": "create",
+            "unit": "Q"
+          },
+          {
+            "ev": "create",
+            "unit": "C",
+            "parent": "P"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "interior_edit",
+          "unit": "C",
+          "field": "parent",
+          "value": "Q"
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "store": {
+          "parent.C": "P"
+        }
+      },
+      "assumption": "Interior content cannot administer boundary identity, parentage, grants, or status.",
+      "mutation": {
+        "metadata_separation": false
+      },
+      "mutation_expected": {
+        "deny": false,
+        "store": {
+          "parent.C": "Q"
+        }
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T22-created-by-does-not-grant-management",
+      "trace": "T22",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C",
+            "created_by": "parent-agent"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "write"
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": true
+      },
+      "assumption": "Creator/project metadata alone does not confer current management or write authority.",
+      "status": "executed"
+    },
+    {
+      "id": "T23-unaccepted-candidate-blocks-removal",
+      "trace": "T23",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "candidate_add",
+            "unit": "C",
+            "atom": "z"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "delete",
+          "unit": "C"
+        }
+      ],
+      "expected_observation": {
+        "delete_blocked": true,
+        "delete_reason_contains": "candidate"
+      },
+      "assumption": "Unaccepted but durable candidate bytes remain confined until explicitly dispositioned.",
+      "mutation": {
+        "complete_domain_checking": false,
+        "check_accepted_only": true
+      },
+      "mutation_expected": {
+        "delete_blocked": false,
+        "store": {
+          "status.C": "removed"
+        }
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T23-candidate-disposition-allows-removal",
+      "trace": "T23",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "candidate_add",
+            "unit": "C",
+            "atom": "z"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "dispose",
+          "unit": "C",
+          "what": "candidate"
+        },
+        {
+          "ev": "delete",
+          "unit": "C"
+        }
+      ],
+      "expected_observation": {
+        "delete_blocked": false,
+        "store": {
+          "status.C": "removed"
+        }
+      },
+      "assumption": "After valid candidate disposition, the empty boundary can be removed.",
+      "status": "executed"
+    },
+    {
+      "id": "T24-ordered-policy-broadening-cannot-justify-revoked-use",
+      "trace": "T24",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "revoke",
+          "unit": "C",
+          "ack": true
+        },
+        {
+          "ev": "policy_change",
+          "unit": "C",
+          "broadening": true,
+          "kernel_authorized": true
+        },
+        {
+          "ev": "reopen_access_check",
+          "unit": "C",
+          "policy_still_permits": true
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "cannot authorize post-revocation"
+      },
+      "assumption": "Kernel revocation ordering dominates a concrete policy that would otherwise still permit the use.",
+      "status": "executed"
+    },
+    {
+      "id": "T24-partial-policy-application-fails-closed",
+      "trace": "T24",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "policy_change",
+          "unit": "C",
+          "broadening": true,
+          "kernel_authorized": true
+        }
+      ],
+      "mechanism": {
+        "ac_policy": "partial"
+      },
+      "expected_observation": {
+        "deny": true,
+        "store": {
+          "relations.live.epoch.C": 1
+        }
+      },
+      "assumption": "A rejected partial ACL application fails closed and advances the authority epoch under the selected policy profile.",
+      "status": "executed"
+    },
+    {
+      "id": "T24-out-of-band-policy-change-breaks-boundary-claim",
+      "trace": "T24",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "revoke",
+          "unit": "C",
+          "ack": true
+        },
+        {
+          "ev": "ac_out_of_band"
+        },
+        {
+          "ev": "observe_ac",
+          "kernel_thinks": "revoked"
+        }
+      ],
+      "expected_observation": {
+        "flags": {
+          "ac_in_boundary": false,
+          "consistent": false
+        }
+      },
+      "assumption": "An ACL change outside the disclosed Kernel ordering boundary blocks the claim that acknowledged revocation excludes the route.",
+      "status": "executed"
     }
   ]
 }
