@@ -113,9 +113,12 @@ def encode_word(s: State) -> int:
 VIEW = lambda name: lambda f: getattr(name, f)  # noqa: E731
 
 
-def join(a: State, b: State, mask: frozenset) -> State:
-    """Componentwise mixture: fields in `mask` from a, the rest from b."""
-    return State(*[(getattr(a, f) if f in mask else getattr(b, f)) for f in FIELDS])
+def project(s: State, mask: frozenset) -> tuple:
+    """Return only named visible fields; hidden fields are absent, not defaulted."""
+    unknown = mask - ALL_FIELDS
+    if unknown:
+        raise ValueError(f"unknown observation fields: {sorted(unknown)}")
+    return tuple((field, getattr(s, field)) for field in FIELDS if field in mask)
 
 
 def types(q: model.Request) -> dict:
@@ -232,8 +235,11 @@ def run_correspondence(deadline: float) -> dict:
                 styles = (ALL_FIELDS, minimal) if len(minimal) < len(FIELDS) else (ALL_FIELDS,)
                 for mask in styles:
                     per["cases"] += 1
-                    view = join(s, s, mask)  # trivially coherent: one cut
-                    out, kind = resolve(view, q, prof)
+                    # Resolution still consumes the complete oracle state: a
+                    # projection alone cannot reconstruct hidden authoritative fields.
+                    # Compare only the state components visible at this mask.
+                    project(s, mask)
+                    out, kind = resolve(s, q, prof)
                     if kind != ref_kind:
                         per["outcome_mismatch"] += 1
                         if len(per["style_mismatch_examples"]) < 3:
@@ -242,7 +248,7 @@ def run_correspondence(deadline: float) -> dict:
                                  "observed": sorted(mask), "reference": ref_kind, "obtained": kind})
                         continue
                     if kind == "commit":
-                        if join(out, out, mask) != join(ref_out, ref_out, mask):
+                        if project(out, mask) != project(ref_out, mask):
                             per["published_view_mismatch"] += 1
                         if not model.invariant(out, prof):
                             per["illegal_under_style"] += 1
@@ -273,7 +279,8 @@ def run_correspondence(deadline: float) -> dict:
             for q in sample_offers:
                 mask = minimal_style(q, s)
                 residue["narrowest_style_per_offer_kind"].setdefault(q.kind, set()).add(mask)
-                outcome, kind = resolve(join(s, s, mask), q, prof)
+                project(s, mask)
+                outcome, kind = resolve(s, q, prof)
                 ref_out, ref_kind = resolve(s, q, prof)
                 residue["cases"] += 1
                 if kind != ref_kind:
@@ -281,7 +288,7 @@ def run_correspondence(deadline: float) -> dict:
                     if len(residue["examples"]) < 3:
                         residue["examples"].append({"profile": prof.name, "state_word": word,
                                                     "offer": q.label(), "style": sorted(mask)})
-                elif kind == "commit" and join(outcome, outcome, mask) != join(ref_out, ref_out, mask):
+                elif kind == "commit" and project(outcome, mask) != project(ref_out, mask):
                     residue["published_view_mismatch"] += 1
     residue["narrowest_style_per_offer_kind"] = {
         k: sorted((sorted(m) for m in v), key=lambda m: (len(m), m))
