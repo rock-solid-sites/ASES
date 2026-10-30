@@ -279,6 +279,121 @@
       },
       "assumption": "Independent work remains committable; positive control for precedence constraints.",
       "status": "executed"
+    },
+    {
+      "id": "T06-substituted-candidate-rejected",
+      "trace": "T06",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "hold_bytes",
+          "bytes": "checked-x"
+        },
+        {
+          "ev": "substitute_content",
+          "path_target": "attacker-y"
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "differs from checked bytes"
+      },
+      "assumption": "Boundary acceptance is bound to the exact retained bytes that were checked.",
+      "mutation": {
+        "content_binding": false
+      },
+      "mutation_expected": {
+        "deny": false
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T06-trusted-copy-survives-producer-loss",
+      "trace": "T06",
+      "initial_state": {
+        "store": {
+          "survivors": [
+            "x"
+          ]
+        }
+      },
+      "events": [
+        {
+          "ev": "use_after_holder_loss",
+          "kill": "producer"
+        }
+      ],
+      "expected_observation": {
+        "deny": false,
+        "flags": {
+          "bytes_available": [
+            "x"
+          ]
+        }
+      },
+      "assumption": "A trusted surviving holder supplies required bytes after the candidate producer is lost.",
+      "status": "executed"
+    },
+    {
+      "id": "T07-acknowledged-commit-survives-crash-lost-reply",
+      "trace": "T07",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "irrevocable_commit",
+          "id": "x",
+          "lost_reply": true
+        },
+        {
+          "ev": "crash",
+          "power_loss": true
+        },
+        {
+          "ev": "recover_commit"
+        }
+      ],
+      "expected_observation": {
+        "deny": false,
+        "flags": {
+          "reply": "lost",
+          "recovered_commits": [
+            "commit:x"
+          ]
+        }
+      },
+      "assumption": "Durable commitment precedes acknowledgement; a lost reply leaves outcome unknown to requester but committed state survives.",
+      "status": "executed",
+      "mutation": {
+        "wal_before_ack": false
+      },
+      "mutation_expected": {
+        "store": {
+          "journal.committed.commit:x": "<missing>"
+        }
+      }
+    },
+    {
+      "id": "T07-preparation-interruption-does-not-commit",
+      "trace": "T07",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "irrevocable_commit",
+          "id": "x",
+          "interrupt_at": "preparation"
+        },
+        {
+          "ev": "crash"
+        },
+        {
+          "ev": "recover_commit"
+        }
+      ],
+      "expected_observation": {
+        "deny": true
+      },
+      "assumption": "Interruption before preparation cannot create an acknowledged or recovered committed value.",
+      "status": "executed"
     }
   ]
 }

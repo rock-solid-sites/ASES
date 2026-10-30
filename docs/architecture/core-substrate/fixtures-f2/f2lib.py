@@ -506,6 +506,7 @@ def _ev_irrevocable_commit(store, e, res, mech):
         _deny(res, "interrupted at commitment point")
         return
     if mech.get("wal_before_ack", True):
+        tset(T, key, "committed")
         tcommit(T)
     if e.get("lost_reply"):
         # durable commit happened; the requester learns nothing

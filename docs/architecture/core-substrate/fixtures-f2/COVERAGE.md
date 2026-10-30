@@ -9,8 +9,8 @@ Scope: this increment adds an executable abstract-replay tranche for selected T0
 | T03 | Reuse of represented old capability; source-binding mutation | executed | Physical source binding/bearer secrecy require runtime evidence; not tested here |
 | T04 | Two unit-capacity reservations; capacity-check mutation; independent order commit positive | executed | Three-way cyclic separately validated commitments not yet fixtured |
 | T05 | ? | blocked | Engine-loss retained routes and CPU-only positive control not fixtured |
-| T06 | ? | blocked | Exact-byte substitution and producer-loss retained-byte witness not fixtured |
-| T07 | ? | blocked | Preparation/commit/response interruption histories not fixtured |
+| T06 | Exact checked-byte substitution rejected under binding; trusted-copy positive survives producer loss; content-binding mutation | executed | Abstract replay only; no filesystem swap or real producer-loss evidence |
+| T07 | Pre-preparation interruption; acknowledged commit with lost reply survives crash/recovery; WAL-before-ack mutation | executed | Only these two abstract endpoints; no concrete crash/storage fault injection |
 | T08 | ? | blocked | Authentic old-image rollback and baseline premise distinction not fixtured |
 | T09 | ? | blocked | Wrong-root, incomplete-image, and changed-interpretation variants not fixtured |
 | T10 | ? | blocked | Repeated recovery loss/recovery histories not fixtured |
@@ -35,5 +35,7 @@ Scope: this increment adds an executable abstract-replay tranche for selected T0
 - T02 `source_binding=false`: the stale position claim is admitted.
 - T03 `source_binding=false`: reuse of the represented old capability is admitted.
 - T04 `capacity_check=false`: the second reservation exceeds capacity.
+- T06 `content_binding=false`: substituted bytes are admitted.
+- T07 `wal_before_ack=false`: acknowledgement may occur while the committed journal lacks the value.
 
 These mutations are controls on the abstract oracle, not implementation mutants. The matrix is intentionally not an aggregate T01?T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.

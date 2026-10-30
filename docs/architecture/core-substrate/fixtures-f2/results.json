@@ -952,9 +952,432 @@
         "witness": []
       },
       "trace": "T04"
+    },
+    {
+      "assumption": "Boundary acceptance is bound to the exact retained bytes that were checked.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T06-substituted-candidate-rejected",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "content_binding": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "store": {
+          "accepted": {},
+          "candidate_checked": {
+            "bytes": "checked-x"
+          },
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {},
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {},
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {},
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {},
+          "survivors": [],
+          "trusted_copy": "checked-x",
+          "units": {},
+          "witness": []
+        }
+      },
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "path target 'attacker-y' differs from checked bytes 'checked-x'",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidate_checked": {
+          "bytes": "checked-x"
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "trusted_copy": "checked-x",
+        "units": {},
+        "witness": []
+      },
+      "trace": "T06"
+    },
+    {
+      "assumption": "A trusted surviving holder supplies required bytes after the candidate producer is lost.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T06-trusted-copy-survives-producer-loss",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {
+          "bytes_available": [
+            "x"
+          ]
+        },
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {
+          "producer": false
+        },
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [
+          "x"
+        ],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T06"
+    },
+    {
+      "assumption": "Durable commitment precedes acknowledgement; a lost reply leaves outcome unknown to requester but committed state survives.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T07-acknowledged-commit-survives-crash-lost-reply",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "wal_before_ack": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {
+            "reply": "lost"
+          },
+          "reason": "admitted",
+          "sink": "unknown",
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "store": {
+          "accepted": {},
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {},
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {},
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {},
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {},
+          "survivors": [],
+          "units": {},
+          "witness": []
+        }
+      },
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {
+          "recovered_commits": [
+            "commit:x"
+          ],
+          "reply": "lost"
+        },
+        "reason": "admitted",
+        "sink": "unknown",
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {
+            "commit:x": "committed"
+          },
+          "live": {
+            "commit:x": "committed"
+          }
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T07"
+    },
+    {
+      "assumption": "Interruption before preparation cannot create an acknowledged or recovered committed value.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T07-preparation-interruption-does-not-commit",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "interrupted before preparation",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T07"
     }
   ],
-  "executed": 7,
+  "executed": 11,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"
 }
