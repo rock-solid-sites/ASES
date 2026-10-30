@@ -225,3 +225,25 @@ Work Unit A—P/C/S bounded objects; B—resource allocation is represented as a
 
 
 Trusted premises: initial P capacity is exactly one; serialized Kernel serializes competing requests; reservation assignment and consumption state are authoritative; only named C/S compete; independent_change is disjoint and management-authorized. Not tested: concurrency, rollback, storage, physical capacity, or schedulers.
+
+## Three-pending-proposal cycle fixture (2026-10-30)
+
+
+
+Model SHA-256: 3b0d71be6fa147b43cc63c45a1566b368f5c25e1e74bca05682ba2e47864daa3.
+
+
+
+Cycle fixture: proposal 0 requires proposal 1 before commit; proposal 1 requires proposal 2; proposal 2 requires proposal 0. The named history proposes 0,1,2 before attempting any commit, so all three are pending at once. Commit attempts 0,1,2 are each denied with cyclic-predecessor-uncommitted (C2). A separate independent_change then commits while all three remain pending and uncommitted.
+
+
+
+Bounded run: cycle-order context, 16 reachable states, 32 committed transitions, zero invariant violations under 10,000 states, 1,000,000-KiB virtual-memory cap and 120-second timeout. Syntax check PASS. Named history state: pending=(true,true,true), committed=(false,false,false), independent_changed=true; invariant passes.
+
+
+
+Mapping: C2—cyclic precedence cannot be satisfied by a first commit; this is a serialized guard-level cycle fixture, not concurrent validation or a general serializability proof. C3—independent management-authorized change is accepted despite the pending conflict. Work Unit A/C—fixed bounded proposal state, no real processes. Work Unit K—one explicit cycle counterexample attempt and independence control; all other K claims remain outside this context.
+
+
+
+Assumptions: one serialized Kernel; fixed predecessor relation; proposal registration does not itself commit protected effects; the independent change is disjoint and authorized. Not tested: concurrent holders, order graphs beyond this exact 3-cycle, scheduler fairness, rollback, or external effects.

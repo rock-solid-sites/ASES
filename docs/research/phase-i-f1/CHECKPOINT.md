@@ -131,3 +131,17 @@ The capacity-one context passes: 8 states, 10 committed transitions, 0 invariant
 
 
 Next optional bounded tranche: add the three pending-proposal cyclic-order attack and independent disjoint transition. Capacity fixture does not establish concurrent conflict ordering. F1 remains incomplete.
+
+## 2026-10-30 cycle-order checkpoint
+
+
+
+Added a fixed three-pending-proposal cycle fixture: 0 requires 1, 1 requires 2, 2 requires 0. All proposals are pending before commits; each commit is rejected. A disjoint management-authorized independent_change commits in the same state.
+
+
+
+Bounded cycle-order context passed at 16 states/32 committed transitions/0 invariant violations under 10,000 states, 1 GiB, 120 s. Evidence, trace, assumptions and C2/C3/K mapping are in Phase-I-F1-Targeted-Run.md. This is a single serialized cycle witness, not general concurrency proof.
+
+
+
+Capacity-one milestone remains recorded: P-owned unit allocated to C or S as one view, separate consumption, one competing denial and independent control; context 8 states/10 transitions/0 violations. F1 remains incomplete; continue with report/obligation accuracy, no aggregate search.

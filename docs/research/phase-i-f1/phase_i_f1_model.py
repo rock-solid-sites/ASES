@@ -101,7 +101,9 @@ class State:
     accepted_x: bool = False  # one immutable accepted-content atom, fixed fixture owner C
     capacity_reserved: str | None = None  # view of P single unit allocated to C or S
     capacity_consumed: bool = False  # consumption of that same unit, never a second allocation
-    independent_changed: bool = False
+    independent_changed: bool = False  # one finite positive control orthogonal to capacity
+    cycle_pending: tuple = (False, False, False)  # pending A/B/C proposals
+    cycle_committed: tuple = (False, False, False)  # committed A/B/C proposals
 
     # helpers
     def wu(self, w: str) -> WU:
@@ -365,6 +367,23 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
         if state.independent_changed: return NO
         return mgmt_permits(state, P, p) or ac_cover(state, p)
 
+    if k == "propose_cycle":
+        i = ev[1]
+        if i not in (0, 1, 2) or state.cycle_pending[i] or state.cycle_committed[i]:
+            return "invalid-or-duplicate-cycle-proposal (C2)"
+        if not live(state):
+            return "no-current-view (C2)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "commit_cycle":
+        i = ev[1]
+        if i not in (0, 1, 2) or not state.cycle_pending[i]:
+            return "cycle-proposal-not-pending (C2)"
+        predecessor = (1, 2, 0)[i]
+        if not state.cycle_committed[predecessor]:
+            return "cyclic-predecessor-uncommitted (C2)"
+        return None
+
     if k == "accept_x":
         w, origin = ev[1], ev[2]
         if state.accepted_x:
@@ -555,6 +574,16 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
     if k == "independent_change":
         return replace(state, independent_changed=True)
 
+    if k == "propose_cycle":
+        pending = list(state.cycle_pending)
+        pending[ev[1]] = True
+        return replace(state, cycle_pending=tuple(pending))
+
+    if k == "commit_cycle":
+        committed = list(state.cycle_committed)
+        committed[ev[1]] = True
+        return replace(state, cycle_committed=tuple(committed))
+
     if k == "accept_x":
         return replace(state, accepted_x=True)
 
@@ -661,6 +690,10 @@ def invariant(state: State, p: Profile = REFERENCE) -> str | None:
         return "C3: capacity reservation has invalid owner"
     if state.capacity_consumed and state.capacity_reserved is None:
         return "C3: capacity consumed without parent reservation"
+    if any(c and not p for c, p in zip(state.cycle_committed, state.cycle_pending)):
+        return "C2: committed cycle proposal was not pending"
+    if all(state.cycle_committed):
+        return "C2: all three cyclic proposals committed"
     # One non-None capacity_reserved value counts as one P reservation; the child is only its allocation view.
     return None
 
@@ -756,7 +789,14 @@ CONTEXTS["capacity-one"] = [
     ("consume_capacity", C), ("independent_change",),
 ]
 
+CONTEXTS["cycle-order"] = [
+    ("propose_cycle", 0), ("propose_cycle", 1), ("propose_cycle", 2),
+    ("commit_cycle", 0), ("commit_cycle", 1), ("commit_cycle", 2),
+    ("independent_change",),
+]
+
 CONTEXT_BOUNDS = {
+    "cycle-order": 10000,
     "capacity-one": 10000,
     "content-continuity": 5000,
     "containment-and-grants": 200000,
