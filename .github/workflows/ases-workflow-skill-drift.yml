@@ -1,0 +1,14 @@
+name: ASES workflow skill drift
+on:
+  schedule:
+    - cron: '23 7 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check pinned skill versions
+        run: python3 plugins/ases-workflow/check_versions.py
