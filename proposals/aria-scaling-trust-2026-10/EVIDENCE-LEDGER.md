@@ -11,12 +11,12 @@
 | F2 hostile histories | C @ `5fb690d4ba7544a4a7eb5fce9ca1e54485543d64`, `fixtures-f2/COVERAGE.md` | 46 *abstract-model* replays, 16 discriminating mutations; 2 prepared-only | 24 physical tests or full suite green |
 | F3 mediator revocation | D @ `ad44b3ff93477cc694a5b0771c3b867afdfde620`, `exp3/RESULT.md` | One process-level disposable Landlock + mediator proof-of-mechanism; explicit revocation and read denial | complete Work Unit, fail-closed on authority holder death, physical route inventory |
 | Retained FD bypass | D `exp1`/`exp3`; chmod/Landlock test variants | Bounded negative observation | revocation of already-open descriptors via mode bits or Landlock |
-| Actual authority-holder death experiment | Separate F3 packet on `planning/ases-phase-i-f3-authority-loss-20261030` | Builder in progress; result not yet known | positive outcome until host evidence arrives |
+| Actual authority-holder death | F3 commit `04600b1b45e6510665bdc3108db9d51f6b2f8c56`, `authority-loss/REPORT.md` and pinned JSON | Selected profile: baseline read, H=M SIGKILL/reap, 392,488 counted CPU iterations, no post-loss protected read on retained socket; path/symlink/write-open denials; distinct surviving-stale-mediator control returned protected bytes as expected. Independent Luna rerun, not F5. | full lifecycle; arbitrary aliases/FD passing/descendants/sinks; source binding; cold recovery; general D2/F5 |
 | F4 full-history failure injection | Phase I Verification Plan | Specified only, not completed | crash/refinement complete |
 | F5 independent review | User-reported conditional review, older than latest B SHA; no clean-room final review at these heads | Preliminary conditional feedback | independently certified F1–F5 closure |
 
 ## Decision rule for new evidence
-On new F3 result: record exact source SHA, executed command, real event sequence, positive control, post-loss read result, CPU continuation, fault-sensitive mutant and untested routes. Update only the matching row and proposal wording. A failed experiment may be an excellent **research finding** and motivate the next project milestone; it cannot be described as a passing security guarantee.
+The verified selected-profile F3 authority-loss result is recorded above and separately in `F3-AUTHORITY-LOSS-ADDENDUM.md`. F2 T05 remains prepared-only pending an independent host adapter; its partial physical observations do not convert T01–T24 into a passing host suite. The next technical target is the bounded end-to-end lifecycle packet on `planning/ases-phase-i-work-unit-lifecycle-20261030`. Any additional test results must remain tied to exact source SHA, command, observation and exclusions.
 
 ## Evidence discipline
 - Keep claims at the abstraction level tested.
