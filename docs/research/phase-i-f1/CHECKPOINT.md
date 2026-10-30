@@ -279,3 +279,17 @@ Inherited branch research/phase-i-work-unit-f1-20261029 at origin-verified SHA e
 
 
 Next targeted fixtures: AT-04 opens a valid old SINK route, revokes/reissues authority for a new holder, accepts through new holder, then attempts old acceptance; holder_exclusion=False should preserve old route and expose the second effect. AT-10 performs two stop/recovery/image activations, then retries activation in the second cycle; duplicate_activation_guard=False should expose duplicate authority count. Each context cap 2,000 states, 1,000,000 KiB, 120 s; no aggregate search. Physical holder/route facts remain trusted abstractions.
+
+## 2026-10-30 AT-04/AT-10 bounded checkpoint
+
+
+
+AT-04 now opens an old generation-3 route before revocation/reissue, activates and accepts through a fresh authorized holder, then tries old acceptance. The baseline excludes the route; holder_exclusion=False retains it and creates the intended second-acceptance C6/T20 invariant counterexample.
+
+
+
+AT-10 now executes two stop/recovery/image-activation cycles before a same-cycle duplicate image activation. The reference permits one activation per cycle; duplicate_activation_guard=False reaches active_image_count=2 and the C7/T10 invariant counterexample.
+
+
+
+Separate contexts passed: holder-overlap 180/542/0 and recovery-duplicate-activation 12/76/0 (states/transitions/reference violations), under 2,000 states/1 GiB/120 s; syntax passed. Report records traces and trusted physical/authority abstractions. F1/F5 remain incomplete.

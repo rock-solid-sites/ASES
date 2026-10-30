@@ -405,3 +405,29 @@ Mapping: C13/T24 ordering—AT-06; C13/AC3 and trust-boundary disclosure—AT-07
 
 
 A context-index lookup also reran old-request-after-replacement (144 states/432 transitions/0 violations) before the two intended C13 contexts were selected. No aggregate context was run.
+
+## AT-04 / AT-10 holder-overlap and repeated-activation fixtures (2026-10-30)
+
+
+
+Model SHA-256: b0240c9aa1326f9a41d76e0ffe457bc3828b513b921f3c83ca41965958e07518.
+
+
+
+AT-04 exact trace: grant P/C; open old SINK route at current generation 3; revoke/ack/reissue management; activate a fresh authorized holder; accept through the new holder; attempt old-holder acceptance. Reference trace commits through new-holder acceptance, then denies old acceptance because activation excluded the old route. With holder_exclusion=False the old route remains reachable; resolve admits the old acceptance effect, sink_effect_count becomes 2, then C6/T20 invariant reports conflicting effects from overlapping holders.
+
+
+
+AT-04 context: 180 states, 542 committed transitions, zero reference invariant violations; cap 2,000 states, 1,000,000 KiB RSS, 120 seconds. Trusted premise: open_old_holder_route represents a physically reachable old route and holder_exclusion represents its effective exclusion before new-holder acceptance. This is not host or descriptor-level evidence.
+
+
+
+AT-10 exact trace: grant P/C; stop/recover-start/steps/image activation; stop again; recover-start/steps/image activation; duplicate image activation in recovery cycle two. Reference commits two distinct recovery activations and denies the same-cycle duplicate. With duplicate_activation_guard=False the final activation is admitted and active_image_count reaches 2; C7/T10 invariant reports duplicate image authority in one recovery cycle.
+
+
+
+AT-10 context: 12 states, 76 committed transitions, zero reference invariant violations; cap 2,000 states, 1,000,000 KiB RSS, 120 seconds. active_image_count is an abstract activation-authority witness reset by stop, not a concrete host activation counter.
+
+
+
+Python syntax compilation PASS. No aggregate context was run. Mapping: AT-04 C6/T20—old route versus new holder and intended second acceptance; AT-10 C7/T10—two losses, two valid recoveries, duplicate authority guard. Beyond two cycles, physical source/route exclusion, storage and realization remain assumptions.

@@ -36,6 +36,7 @@ SCOPE_COVERED = [
     "one conserved capacity-one parent reservation allocated to C or S, with distinct consumption (C3; narrow fixture)",
     "current versus stale authentic image epoch/content check with refusal boundary (C7; trusted currentness premise)",
     "permissive two-attempt sink outcome and reply-knowledge abstraction (T18/T19; no exactly-once contract)",
+    "one old/new holder route-overlap mutation and one duplicate activation mutation (T10/T20; modeled routes only)",
     "two successive stop/recovery cycles preserve x/y sealed; deeper repetition untested",
     "internal resource-backed computation continuing after engine loss (K.7; D3 not modelled)",
     "complete-disposition precondition for boundary removal incl. descendants and empty units (C4, C8)",
@@ -129,6 +130,13 @@ class State:
     prepared_revoke_gen: int | None = None
     committed_revoke_gen: int | None = None  # abstract recoverable whole-commit endpoint
     acknowledged_revoke_gen: int | None = None
+    old_holder_route: bool = False  # physical-route reachability premise in AT-04
+    old_holder_gen: int | None = None
+    new_holder_active: bool = False
+    sink_effect_count: int = 0  # protected effects accepted by either holder
+    new_holder_accepted: bool = False  # one named acceptance per holder in this finite fixture
+    old_holder_accepted: bool = False
+    active_image_count: int = 0  # activations within current recovery cycle
     kernel_ac_revoked: bool = False  # C13 Kernel-side revocation state
     ac_widen_authorized: bool = False  # K authorization captured before revocation
     ac_policy_widened: bool = False
@@ -172,7 +180,7 @@ def initial() -> State:
         ),
         mgmt=(("root", 0, OPEN),),          # trusted initial management (T-3)
         gen=1,
-        engine=True, image=True,
+        engine=True, image=True, active_image_count=1,
     )
 
 
@@ -185,6 +193,8 @@ class Profile:
     latent_preserved: bool = True      # C8 on move
     route_exclusion: bool = True       # D1 concrete handle withdrawal at seal
     single_holder: bool = True         # C6/T20
+    holder_exclusion: bool = True      # C6/T20 old route is excluded before new acceptance
+    duplicate_activation_guard: bool = True  # T10 one image authority per recovery cycle
     currentness_check: bool = True     # trusted external epoch/content currentness premise
     current_position_check: bool = True  # old ingress must remain current after replacement
     currentness_available: bool = True  # absent premise refuses successful recovery
@@ -418,6 +428,37 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
         if not state.cycle_committed[predecessor]:
             return "cyclic-predecessor-uncommitted (C2)"
         return None
+
+    if k == "open_old_holder_route":
+        if p.holder_exclusion and state.new_holder_active: return NO
+        if state.old_holder_route:
+            return "old-holder-route-already-open"
+        if not live(state):
+            return "no-current-view (C6)"
+        return guard(state, ("use", C, SINK, W, state.current_sink_gen), p)
+
+    if k == "activate_new_holder":
+        if state.new_holder_active:
+            return "new-holder-already-active"
+        if not live(state):
+            return "no-current-view (C6)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "new_holder_accept":
+        if state.new_holder_accepted:
+            return "new-holder-effect-already-accepted"
+        if not state.new_holder_active:
+            return "new-holder-not-active"
+        return guard(state, ("use", C, SINK, W, B_GEN), p)
+
+    if k == "old_holder_accept":
+        if state.old_holder_accepted:
+            return "old-holder-effect-already-accepted"
+        if not state.old_holder_route:
+            return "old-holder-route-excluded (C6)"
+        if p.holder_exclusion and state.new_holder_active:
+            return "old-holder-excluded-before-new-acceptance (C6/T20)"
+        return guard(state, ("use", C, SINK, W, state.old_holder_gen), p)
 
     if k == "begin_old_request":
         if state.old_request_pending:
@@ -676,8 +717,10 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
         return None
 
     if k == "activate_image":
-        if state.image:
-            return "image-already-active (C6)"
+        if state.image and p.duplicate_activation_guard:
+            return "image-already-active (C6/T10)"
+        if state.image and not p.duplicate_activation_guard:
+            return None
         if state.engine:
             return "engine-running-without-image"
         if p.companion_certified and any(state.thinking):
@@ -757,6 +800,20 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         committed = list(state.cycle_committed)
         committed[ev[1]] = True
         return replace(state, cycle_committed=tuple(committed))
+
+    if k == "open_old_holder_route":
+        return replace(state, old_holder_route=True, old_holder_gen=state.current_sink_gen, route_handles=state.route_handles + 1)
+
+    if k == "activate_new_holder":
+        if p.holder_exclusion:
+            return replace(state, new_holder_active=True, old_holder_route=False, route_handles=max(0, state.route_handles - 1))
+        return replace(state, new_holder_active=True)
+
+    if k == "new_holder_accept":
+        return replace(state, new_holder_accepted=True, sink_effect_count=state.sink_effect_count + 1, uses=state.uses + (("new-holder", C, SINK, W, B_GEN),))
+
+    if k == "old_holder_accept":
+        return replace(state, old_holder_accepted=True, sink_effect_count=state.sink_effect_count + 1, uses=state.uses + (("old-holder", C, SINK, W, state.old_holder_gen),))
 
     if k == "begin_old_request":
         return replace(state, old_request_pending=True, old_request_gen=state.current_sink_gen)
@@ -883,7 +940,7 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
     if k == "stop":
         # D1: no new affected capability admission/use; D2: no protected outward
         # effect. Concrete route handles are withdrawn (trusted mechanism).
-        s = replace(state, engine=False, image=False, route_handles=0)
+        s = replace(state, engine=False, image=False, route_handles=0, active_image_count=0)
         s = replace(s, wus=tuple(replace(x, route=False, sealed=True) for x in s.wus))
         return s
 
@@ -894,8 +951,10 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         return state
 
     if k == "activate_image":
+        if state.image:
+            return replace(state, active_image_count=state.active_image_count + 1)
         sealed_wus = tuple(replace(wu, sealed=True) if wu.present else wu for wu in state.wus)
-        return replace(state, image=True, engine=True, wus=sealed_wus)
+        return replace(state, image=True, engine=True, active_image_count=1, wus=sealed_wus)
 
     if k == "start_internal":
         w = ev[1]
@@ -931,6 +990,10 @@ def invariant(state: State, p: Profile = REFERENCE) -> str | None:
             cur = state.wu(cur.parent)
     if state.image and not state.engine:
         return "C6: image mounted without enforcement"
+    if state.active_image_count > 1:
+        return "C7/T10: duplicate image authority activated in one recovery cycle"
+    if state.sink_effect_count > 1 and state.old_holder_route and state.new_holder_active:
+        return "C6/T20: conflicting protected effects accepted by overlapping holders"
     if state.image and state.mounted_image_authentic and (state.mounted_image_epoch != state.authority_epoch or state.mounted_image_x != state.accepted_x or state.mounted_image_y != state.accepted_y):
         return "C7: mounted authentic image is stale or omits accepted content"
     if state.route_handles > 0 and state.engine is False and p.route_exclusion:
@@ -1059,6 +1122,19 @@ CONTEXTS["currentness-image"] = [
     ("restore_stale_image",), ("restore_current_image",),
 ]
 
+CONTEXTS["holder-overlap"] = [
+    _g(P, SINK, RW), _g(C, SINK, RW), ("open_old_holder_route",),
+    ("mgmt_revoke", P, 0), ("mgmt_ack", 0), ("mgmt_reissue", P, 0),
+    ("activate_new_holder",), ("new_holder_accept",), ("old_holder_accept",),
+]
+
+CONTEXTS["recovery-duplicate-activation"] = [
+    _g(P, SINK, RW), _g(C, SINK, RW), ("stop",), ("recover_start",),
+    ("recover_step", P), ("recover_step", C), ("activate_image",),
+    ("stop",), ("recover_start",), ("recover_step", P),
+    ("recover_step", C), ("activate_image",), ("activate_image",),
+]
+
 CONTEXTS["ac-revocation-order"] = [
     _g(P, SINK, RW), _g(C, SINK, RW), ("begin_old_request",),
     ("authorize_ac_widening",), ("kernel_revoke_ac",),
@@ -1091,6 +1167,8 @@ CONTEXTS["sink-outcomes"] = [
 ]
 
 CONTEXT_BOUNDS = {
+    "holder-overlap": 2000,
+    "recovery-duplicate-activation": 2000,
     "ac-revocation-order": 1000,
     "ac-consistency": 1000,
     "old-request-after-replacement": 1000,
@@ -1377,17 +1455,16 @@ ATTACKS = [
     {
         "id": "AT-04", "clause": "C6/T20", "target": "stale holder route overlap",
         "promise": "no two eligible holders can cause conflicting acceptance",
-        "trace": [_g(P, SINK, RW), _g(C, SINK, RW), _use(C, SINK, W, B_GEN),
-                  ("stop",), ("recover_start",), ("recover_step", P),
-                  ("recover_step", C), ("activate_image",),
-                  _use(C, SINK, W, B_GEN)],
-        "expected_reference": "use accepted before loss; no use accepted while "
-                              "engine is down; use accepted after certified recovery",
-        "weakened": [("route_exclusion", {"route_exclusion": False})],
-        "note": "route_exclusion=False leaves the concrete handle alive across "
-                "loss; the single_holder check turns that into a denial in the "
-                "reference, so the variant is only a discriminator if the "
-                "resulting history accepts an effect while the engine is down",
+        "trace": [_g(P, SINK, RW), _g(C, SINK, RW),
+                  ("open_old_holder_route",), ("mgmt_revoke", P, 0),
+                  ("mgmt_ack", 0), ("mgmt_reissue", P, 0),
+                  ("activate_new_holder",), ("new_holder_accept",),
+                  ("old_holder_accept",)],
+        "expected_reference": "new holder accepts; old reachable route is excluded before conflicting acceptance",
+        "weakened": [("holder_exclusion", {"holder_exclusion": False})],
+        "note": "the old route captures current SINK generation 3 before management"
+                " replacement; a fresh authorized holder is activated; disabling"
+                " holder exclusion preserves the route and admits a second effect", 
     },
     {
         "id": "AT-05", "clause": "C8", "target": "sealed move preserves latent restriction (T11)",
@@ -1444,14 +1521,16 @@ ATTACKS = [
     {
         "id": "AT-10", "clause": "C7 (T10)", "target": "recovery loss and duplicate activation",
         "promise": "no duplicate activation, no repeated use accepted twice",
-        "trace": [_g(P, SINK, RW), _g(C, SINK, RW), ("stop",), ("recover_start",),
-                  ("recover_step", P), ("recover_step", C), ("activate_image",),
-                  ("activate_image",)],
-        "expected_reference": "deny the second activation",
-        "weakened": [("whole_commitment", {"whole_commitment": False})],
-        "note": "whole_commitment drops the interior-running precondition only; "
-                "duplicate activation is still refused, so this variant is "
-                "checked (and reported) as non-discriminating",
+        "trace": [_g(P, SINK, RW), _g(C, SINK, RW), ("stop",),
+                  ("recover_start",), ("recover_step", P), ("recover_step", C),
+                  ("activate_image",), ("stop",), ("recover_start",),
+                  ("recover_step", P), ("recover_step", C),
+                  ("activate_image",), ("activate_image",)],
+        "expected_reference": "two recoveries activate once each; duplicate activation in cycle two is denied",
+        "weakened": [("duplicate_activation_guard", {"duplicate_activation_guard": False})],
+        "note": "the mutation disables only the duplicate-activation guard; it"
+                " allows a second image authority in the same recovery cycle and"
+                " reaches the C7/T10 duplicate-authority invariant", 
     },
     {
         "id": "AT-11", "clause": "C12/T07", "target": "acknowledgement before recoverable commitment",
