@@ -1,0 +1,91 @@
+{
+  "evaluator": "F2 independent raw-field T05 selected-subprofile adapter",
+  "fault_sensitivity": {
+    "mutated_trace_sha256": "6aed8c8e2dee8f19e130fb1c6df3d1fec6895340fa6fa02af45c7b9a70c744b1",
+    "mutation_errors": [
+      {
+        "check": "safe_post_loss_no_sentinel",
+        "detail": "safe same-socket post-loss reply must contain no sentinel/protected bytes"
+      },
+      {
+        "check": "safe_same_socket_epipe",
+        "detail": "safe same-socket reply must record EPIPE (IOERROR:32)"
+      }
+    ],
+    "mutation_rejected": true
+  },
+  "input": "docs/architecture/core-substrate/fixtures-f2/t05-host-adapter/raw-run.json",
+  "input_sha256": "afafe338f9470cb35fadee28969fe10f4b51c15a6bf490a6041b070055d6245c",
+  "overall_pass": true,
+  "safe_selected_profile": {
+    "errors": [],
+    "observed": {
+      "cpu_end_ns": 203385520943380,
+      "cpu_iterations": 392488,
+      "cpu_start_ns": 203385440940969,
+      "holder_pid": 184953,
+      "holder_returncode": -9,
+      "kill_requested_ns": 203385439579394,
+      "mediator_pid": 184953,
+      "post_loss_reply": "IOERROR:32",
+      "post_loss_trigger_ns": 203385440919245,
+      "reaped_ns": 203385440835225,
+      "route_observations": {
+        "direct_target": {
+          "detail": "Permission denied",
+          "errno": 13,
+          "result": "denied"
+        },
+        "noop_O_WRONLY": {
+          "detail": "Permission denied",
+          "errno": 13,
+          "result": "denied"
+        },
+        "symlink_alias": {
+          "detail": "Permission denied",
+          "errno": 13,
+          "result": "denied"
+        }
+      },
+      "worker_pid": 184954
+    },
+    "passed": true,
+    "role": "safe"
+  },
+  "sentinel_sha256_matches_raw_field": true,
+  "unsafe_H_not_M_control": {
+    "errors": [],
+    "observed": {
+      "cpu_end_ns": 203385643866188,
+      "cpu_iterations": 337193,
+      "cpu_start_ns": 203385563862421,
+      "holder_pid": 184955,
+      "holder_returncode": -9,
+      "kill_requested_ns": 203385562519047,
+      "mediator_pid": 184956,
+      "post_loss_reply": "OK authority-loss-sentinel-v1",
+      "post_loss_trigger_ns": 203385563823450,
+      "reaped_ns": 203385563738315,
+      "route_observations": {
+        "direct_target": {
+          "detail": "Permission denied",
+          "errno": 13,
+          "result": "denied"
+        },
+        "noop_O_WRONLY": {
+          "detail": "Permission denied",
+          "errno": 13,
+          "result": "denied"
+        },
+        "symlink_alias": {
+          "detail": "Permission denied",
+          "errno": 13,
+          "result": "denied"
+        }
+      },
+      "worker_pid": 184957
+    },
+    "passed": true,
+    "role": "control"
+  }
+}
