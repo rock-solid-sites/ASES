@@ -34,7 +34,7 @@ The bounded run completed with `status=L5-PASS`; independent verifier emitted ni
 SHA-256:
 
 - `l5_write.py`: `214771793703ad7d2cce234d166ce8c9909a5a4ada7f872c65a1b13054915015`
-- `verify_l5_write.py`: `423acac8f42ab0524e03886721062f070e7064e6a1791fb6eff7d0edc631a776`
+- `verify_l5_write.py`: `b1e226b7f100b3749cfbbb9f41852288c23af04e2a1491eb38d079d12031d255`
 - `l5-write-raw.json`: `a03521863a6dd5ebce55eadb057467a1479e90d13ca526a4607ac2fb52f5d83b`
 
 ## Authority/effect route boundary
