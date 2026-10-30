@@ -177,20 +177,21 @@ Agents should avoid introducing assumptions tied to specific:
 
 Implementation proposals belong in implementation documents.
 
-**Realization and language gate:** All maintained project code must comply
-with the explicit unsafe-language exclusions in
+**Realization and language gate:** Apply
 `docs/methodology/Implementation Realization and Assurance Selection Method.md`.
-A short disposable test can use the lightest suitable tool. A maintained,
-bounded plugin or connector uses the policy's safety-oriented default
-language list (not a license to skip tests of permissions, process control
-or external boundaries). For larger systems, first derive falsifiable
-safety, correctness, security, performance and reliability requirements,
-then search broadly without a preferred architecture or language list.
-Exclude demonstrated failures; preserve unverified alternatives as
-UNRESOLVED. Unconventional or novel designs may be selected when evidenced
-project-specific benefits outweigh their lack of precedent, tooling,
-community and maintenance support. Do not penalize novelty without
-identifying and testing the actual risks.
+New standalone code must respect its excluded-language policy. A short
+disposable test can use the lightest appropriate tool. A maintained bounded
+plugin or connector selects from the safety-oriented default language set,
+which **includes strict TypeScript** for JavaScript integrations, alongside
+other strongly typed and memory-managed languages. When reusing existing
+repository code, a narrowly scoped exception may be better than a disruptive
+rewrite, including for legacy code in normally excluded languages: justify
+the whole-system trade-off, contain and validate the integration, document
+compensating controls, and preserve all mandatory security guarantees.
+For larger systems derive falsifiable requirements and search broadly without
+a preferred architecture/language shortlist. Exclude demonstrated failures,
+keep unknowns UNRESOLVED, and select unconventional designs when evidenced
+benefits justify their missing precedent and support.
 
 ---
 
