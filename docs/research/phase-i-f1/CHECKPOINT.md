@@ -145,3 +145,13 @@ Bounded cycle-order context passed at 16 states/32 committed transitions/0 invar
 
 
 Capacity-one milestone remains recorded: P-owned unit allocated to C or S as one view, separate consumption, one competing denial and independent control; context 8 states/10 transitions/0 violations. F1 remains incomplete; continue with report/obligation accuracy, no aggregate search.
+
+## 2026-10-30 current-versus-stale-image tranche start
+
+
+
+Resumed existing F1 tracker on the existing worktree and branch at remote-verified SHA 2022bba53a74e9d3cc6c653027a3bb9b7aa26522; active Crosslink session is already bound to issue #8. Earlier x, capacity-one, and cycle-order fixtures are preserved and will not be rerun.
+
+
+
+Next bounded fixture only: accept x then y; capture current and explicitly stale authentic image records (stale image omits y and carries prior epoch); after stop/recovery require current image restore sealed with x/y and reject stale restore as outside-profile. Add a currentness-check weakening and require it to admit stale data into an invariant violation. Planned cap 10,000 states, 1,000,000 KiB, 120 seconds. Currentness is a trusted external premise in the baseline, not rollback resistance.
