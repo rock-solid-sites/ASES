@@ -27,7 +27,7 @@ Scope: this increment adds executable abstract-replay histories for selected por
 | T21 | Killed partial derivation denied; recomputed derivation positive | executed | No accepted historical output/evidence retention witness |
 | T22 | Interior parent edit denied; metadata-separation mutation admits it; creator metadata alone gives no write authority | executed | No exposed-route/completion export/parent-code management runtime cases |
 | T23 | Unaccepted candidate blocks removal; accepted candidate disposition allows removal; accepted-only mutation admits incomplete delete | executed | Ephemeral scratch teardown remains unfixtured |
-| T24 | Ordered revocation-before-use is denied with `ac_ordering=false` mutation admitting use; out-of-band consistency observation remains blocked | blocked | Out-of-band consistency classification still under triage; no open-handle invalidation observation or concrete ACL evidence |
+| T24 | Ordered revocation-before-use denied with `ac_ordering=false` mutation admitting use; out-of-band state is classified inconsistent with revoked Kernel state and disclosed outside boundary; weakened consistency mutation misclassifies it | executed | No open-handle invalidation observation or concrete ACL enforcement evidence |
 
 ## Discriminating mutations executed
 
@@ -39,8 +39,9 @@ Scope: this increment adds executable abstract-replay histories for selected por
 - T07 `wal_before_ack=false`: acknowledgement may occur while the committed journal lacks the value.
 - T12 `stale_empty_check=true`: the concurrent child is stranded using stale empty evidence.
 - T24 `ac_ordering=false`: post-revocation use is admitted under broadened policy.
+- T24 `ac_consistency_checking=false`: out-of-band broadening is misclassified as consistent with revocation.
 - T20 `holder_exclusion=false`: the second conflicting acceptance is admitted.
 - T22 `metadata_separation=false`: an interior edit changes parentage.
 - T23 `complete_domain_checking=false, check_accepted_only=true`: deletion ignores an unaccepted durable candidate.
 
-These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 41 abstract histories executed, 1 prepared-only (T05), and 1 blocked: T24 out-of-band ACL consistency. The matrix is intentionally not an aggregate T01 through T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.
+These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 42 abstract histories executed, 1 prepared-only (T05), and 0 blocked. The matrix is intentionally not an aggregate T01 through T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.

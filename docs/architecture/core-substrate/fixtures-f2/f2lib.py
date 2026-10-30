@@ -886,7 +886,10 @@ def _ev_observe_ac(store, e, res, mech):
     policy = tget(store["relations"], "policy", "narrow")
     res.flags["kernel_thinks"] = thinks
     res.flags["policy_state"] = policy
-    res.flags["consistent"] = (thinks == "revoked" and policy != "broadened") or thinks == "granted"
+    if mech.get("ac_consistency_checking", True):
+        res.flags["consistent"] = (thinks == "revoked" and policy == "narrow") or thinks == "granted"
+    else:
+        res.flags["consistent"] = (thinks == "revoked" and policy != "broadened") or thinks == "granted"
     res.log.append("AC observation: kernel=%s policy=%s consistent=%s" %
                    (thinks, policy, res.flags["consistent"]))
 

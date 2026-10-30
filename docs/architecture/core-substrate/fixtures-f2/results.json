@@ -1,5 +1,5 @@
 {
-  "blocked": 1,
+  "blocked": 0,
   "cases": [
     {
       "assumption": "D1/D2 sealing must defeat retained external routes while baseline permits already-authorized CPU-only internal computation; requires real process/descriptor route mediation and independent content observation.",
@@ -5414,11 +5414,113 @@
     {
       "assumption": "An ACL change outside the disclosed Kernel ordering boundary blocks the claim that acknowledged revocation excludes the route.",
       "execution_scope": "f2lib abstract replay only",
-      "failures": [
-        "flag consistent: expected False, got True"
-      ],
+      "failures": [],
       "id": "T24-out-of-band-policy-change-breaks-boundary-claim",
-      "mutation": null,
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "ac_consistency_checking": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {
+            "ac_in_boundary": false,
+            "consistent": true,
+            "kernel_thinks": "revoked",
+            "policy_state": "out_of_band",
+            "revoked_ack_stamp": 1
+          },
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "step_observations": [],
+        "store": {
+          "accepted": {
+            "C": []
+          },
+          "acks": {},
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {
+            "C": 0
+          },
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {
+            "C": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            }
+          },
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {
+            "C": null
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {
+              "epoch": {
+                "C": 1
+              },
+              "policy": "out_of_band"
+            }
+          },
+          "status": {
+            "C": "sealed"
+          },
+          "survivors": [],
+          "units": {
+            "C": {
+              "created_by": "kit",
+              "genesis": 64,
+              "id": "C",
+              "origin": "",
+              "project": "alpha"
+            }
+          },
+          "witness": [
+            "create empty sealed unit C",
+            "revocation of boundary C"
+          ]
+        }
+      },
       "observation": {
         "delete_blocked": null,
         "delete_reason": "",
@@ -5427,7 +5529,7 @@
         "engine_reason": "",
         "flags": {
           "ac_in_boundary": false,
-          "consistent": true,
+          "consistent": false,
           "kernel_thinks": "revoked",
           "policy_state": "out_of_band",
           "revoked_ack_stamp": 1
@@ -5436,7 +5538,7 @@
         "sink": null,
         "takeover_refused": null
       },
-      "status": "blocked",
+      "status": "executed",
       "step_observations": [],
       "store": {
         "accepted": {
@@ -5521,7 +5623,7 @@
       "trace": "T24"
     }
   ],
-  "executed": 41,
+  "executed": 42,
   "prepared_only": 1,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"

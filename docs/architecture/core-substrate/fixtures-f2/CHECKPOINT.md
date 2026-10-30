@@ -4,7 +4,7 @@
 - Crosslink issue: #9
 - Oracle baseline: `f2lib.py`, independent of Agent D
 - Scope: T01 through T24 have explicit catalog records in `fixtures.json`; `COVERAGE.md` distinguishes partial traces, model-only executions, prepared-only traces, and blocked cases.
-- Latest runner report: `results.json`: 41 executed abstract replays, 1 prepared-only trace (T05), 1 blocked fixture case. This is not aggregate T01 through T24 passing evidence.
+- Latest runner report: `results.json`: 42 executed abstract replays, 1 prepared-only trace (T05), 0 blocked fixture cases. This is not aggregate T01 through T24 passing evidence.
 
 ## Added artifacts
 
@@ -17,17 +17,17 @@
 
 - `python3 -m py_compile f2lib.py run_fixtures.py`
 - `python3 -m json.tool fixtures.json`
-- Runner last reported 41 executed, 1 prepared-only, 1 blocked; 12 mutations discriminate intended faults.
+- Runner last reported 42 executed, 1 prepared-only, 0 blocked; 13 mutations discriminate intended faults.
 - `git diff --check`
 
 The executions are abstract reference-model replays only. No host/runtime, descriptor, concrete route, storage rollback, or ACL evidence is claimed. The T05 event sequence is prepared-only because retained OS handles and live CPU-only progress are outside the model.
 
 ## Blocked outcomes requiring follow-up
 
-- T24: out-of-band policy consistency observation remains blocked; ordered post-revocation use now passes with a discriminating mutation.
+
 
 T01-T04, T06-T23 contain selected passing model histories; coverage is not complete within those traces (see matrix).
 
 ## Next operation
 
-Debug the two blocked T24 ACL observations without reference to Agent D, add remaining destructive mutations and positive controls, then run supported lightweight cases. Keep host-dependent cases prepared-only until a suitable independent harness exists. Continue small commits and push only this branch; the previous provider HTTP 402 is not to be retried.
+Complete remaining destructive controls and positive cases without reference to Agent D, then assess which host-dependent traces can remain prepared-only. Keep host-dependent cases prepared-only until a suitable independent harness exists. Continue small commits and push only this branch; the previous provider HTTP 402 is not to be retried.

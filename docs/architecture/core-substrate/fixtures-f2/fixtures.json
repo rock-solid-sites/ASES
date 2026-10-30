@@ -1846,7 +1846,16 @@
         }
       },
       "assumption": "An ACL change outside the disclosed Kernel ordering boundary blocks the claim that acknowledged revocation excludes the route.",
-      "status": "executed"
+      "status": "executed",
+      "mutation": {
+        "ac_consistency_checking": false
+      },
+      "mutation_expected": {
+        "flags": {
+          "consistent": true,
+          "ac_in_boundary": false
+        }
+      }
     }
   ]
 }
