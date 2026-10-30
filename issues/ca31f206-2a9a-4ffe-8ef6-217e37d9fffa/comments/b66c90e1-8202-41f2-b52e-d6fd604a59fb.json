@@ -1,0 +1,8 @@
+{
+  "uuid": "b66c90e1-8202-41f2-b52e-d6fd604a59fb",
+  "issue_uuid": "ca31f206-2a9a-4ffe-8ef6-217e37d9fffa",
+  "author": "anon-2c7c8e73",
+  "content": "[PROGRESS] state=running branch=research/phase-i-work-unit-f1-20261029 sha=ba09e992248b4c7fbc4a85e259daf040691a47dc findings=AT03 old test used NET gen2 for SINK gen3 and had no pending old request; fixed reachable gen3 request-before-replacement, replacement advances to gen4, old commit denied, pre-replacement commit positive, current-position mutant admits; context 144 states/432 transitions/0 violations under 1000/1GiB/90s. AT11 old ack had no pending revoke; fixed prepare/abstract-whole-commit/ack: early ack denied, postcommit ack accepted, ack_after_commit=False triggers C12 counterexample assumptions=commit_prepared_revoke is abstract recoverable whole commit, not physical durability; old source is generation-bound request, not process identity gaps=source binding/host exclusion, actual persistence, concrete T24 AC, other C1-C13/A-L obligations and F5 review remain; one unintended sink-outcomes context rerun during index selection (19/22/0), no aggregate",
+  "created_at": "2026-10-30T09:37:47.767529501Z",
+  "kind": "observation"
+}
