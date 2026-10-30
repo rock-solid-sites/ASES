@@ -364,9 +364,8 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
         r = mgmt_permits(state, w, p) or ac_cover(state, p)
         if r:
             return r
-        if scope == "relative":
-            if w not in descendants(state, C) and w != C:
-                return "delegation-outside-scope (K.12)"
+        if scope not in ("root", "relative", "w:C"):
+            return "invalid-scope (K.12)"
         return None
 
     if k == "mgmt_revoke":
@@ -386,9 +385,9 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
     if k == "mgmt_ack":
         gen = ev[1]
         entry = grant_entry(state, gen)
-        if entry is not None and entry[2] == REVOKED:
+        if entry is None or entry[2] != REVOKED:
             return "pending"
-        return "no-pending-revocation (C12)"
+        return None
 
     if k == "mgmt_reissue":
         if not live(state):
@@ -775,7 +774,7 @@ WITNESSES = [
     ("WT-01 empty sealed Work Unit is a valid Work Unit",
      "Q stays a valid empty sealed shell; it may be relocated as a whole sealed "
      "unit and later activated under an explicit grant+path; use then succeeds",
-     [("move", Q, C), ("grant", Q, SINK, RW), ("activate", Q),
+     [("grant", P, SINK, RW), ("grant", C, SINK, RW), ("move", Q, C), ("grant", Q, SINK, RW), ("activate", Q),
       ("use", Q, SINK, W, POSITIONS["B"][2])],
      "use accepted in Q after move+activate; boundary intact"),
     ("WT-02 sealed child use under current P and C grants",

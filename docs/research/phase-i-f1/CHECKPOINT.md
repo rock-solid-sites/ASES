@@ -47,3 +47,13 @@ Corrected two concrete draft defects: the recovery activation effect now enables
 
 
 Next: repair the failed witness fixtures/ack guard, add a per-context state/time-limited runner and preserve raw outcomes; then complete C1-C13/A-L coverage and intended mutants. No proof claim.
+
+## 2026-10-30 mapping and witness checkpoint
+
+
+
+Added explicit status mapping for every C1-C13 and Work Unit A-L in Phase-I-F1-Targeted-Run.md. Repaired the draft management-ack guard, delegation scope check, and WT-01 full-path fixture. Retests: 10/10 witness event sequences commit; only 2/10 weakened variants discriminate intended faults (AT-02, AT-09). Several sequence promises still do not execute their negative control; coverage table and evidence note disclose this.
+
+
+
+Next: model explicit denied uses after engine loss and latent move; repair or replace nondiscriminating mutation histories; implement missing bounded contexts for C1-C13 obligations beginning with capacity/content/recovery. All-context MemoryError remains unresolved; no proof claim.
