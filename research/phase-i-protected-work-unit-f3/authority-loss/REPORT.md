@@ -1,6 +1,6 @@
 # F3 authority-holder-loss experiment
 
-Date: 2026-10-30. Status: **narrow selected-profile success, with a detected unsafe-mutant counterexample**. This is not F3 lifecycle closure, general confinement, D2, or arbitrary sink evidence.
+Date: 2026-10-30. Status: **narrow selected-profile success, with a detected unsafe-mutant counterexample and completed write-route audit**. This is not F3 lifecycle closure, general confinement, D2, or arbitrary sink evidence.
 
 ## Boundary and reconciliation
 
@@ -22,11 +22,9 @@ timeout 20s bash -c 'ulimit -v 196608; python3 research/phase-i-protected-work-u
 sha256sum research/phase-i-protected-work-unit-f3/authority-loss/authority_loss.py research/phase-i-protected-work-unit-f3/authority-loss/run.json
 ```
 
-The run completed in ~0.233 seconds, below the 20-second outer bound; virtual address-space limit was 196608 KiB. One runner, two sequential profiles. The worker restriction reuses exp3's Landlock ABI-1 helper: PR_SET_NO_NEW_PRIVS and Landlock are applied in `preexec_fn` before exec; only read_file/read_dir rights are handled, with runtime read paths allowed. The target and alias are outside those allow rules. No packages, sudo, sysctl, production service/policy, `/tmp`, real credentials, or external network were used.
+The run completed in ~0.233 seconds, below the 20-second outer bound; virtual address-space limit was 196608 KiB. One runner, two sequential profiles. The worker restriction reuses exp3's Landlock ABI-1 helper: PR_SET_NO_NEW_PRIVS and Landlock are applied in `preexec_fn` before exec; the initial run handled read_file/read_dir only; the route-audit run handles the ABI-1 filesystem read, write, and directory-mutation rights listed in the addendum, with runtime read paths allowed. The target and alias are outside those allow rules. No packages, sudo, sysctl, production service/policy, `/tmp`, real credentials, or external network were used.
 
-Source SHA-256: `a933c0bda83fa1387f7548d2a40af9fde08531ed255b8e81c9c4c3e3f0dd435b`.
-Run JSON SHA-256: `d0ccc00cb5f7fe4528c84e9f1b30d095a70d1ca85c931ca3374a1da7efc03947`.
-Raw PIDs, monotonic timestamps, return codes, replies, worker CPU counts, direct/alias errors, and mediator traces are in `run.json`.
+Initial-run source SHA-256: `a933c0bda83fa1387f7548d2a40af9fde08531ed255b8e81c9c4c3e3f0dd435b`; its original result SHA-256 `d0ccc00cb5f7fe4528c84e9f1b30d095a70d1ca85c931ca3374a1da7efc03947` is preserved as `run-before-route-audit.json`. The corrected source/result hashes and observations are in the route-audit addendum below. Raw PIDs, monotonic timestamps, return codes, replies, CPU metrics, path errors, write-open observation, and mediator traces are recorded in the corresponding JSON.
 
 ## Observations
 
@@ -54,8 +52,21 @@ Raw PIDs, monotonic timestamps, return codes, replies, worker CPU counts, direct
 | Actual authorization state | Observed | In candidate, the only current request-serving state/access is in H=M; process death removes it and closes the socket. In mutant M retains `authorized_from_cached_grant=true` and demonstrably serves after H loss. |
 | Landlock policy state | Applied before W exec; partial application not tested | S's pre-exec helper constructs/applies ABI-1 rules and NNP. W cannot relax an inherited Landlock domain under NNP, though further restriction is possible. No partial/failed syscall application mutant was exercised. Host administrator/root policy alteration is outside the experiment. |
 
-The fixture enforces read-path restrictions only for the declared object/alias observations. Landlock's configured handled rights are read_file/read_dir; writes, arbitrary sinks, network, credential access, and full descriptor closure are not established. S creates the fixture/policy and controls the SIGKILL; H=M's process code owns mediation and pathname access. No separate policy-update/revalidation mechanism or partial-application behavior was tested. The result depends on the observed process-lifetime coupling; killing H does not revoke a grant cached by another still-running M, as the fault control proves.
+The original run handled only read_file/read_dir and did not test write-open behavior. The route-audit addendum supersedes that policy description: the corrected Landlock ruleset handles ABI-1 filesystem read/write/directory-mutation rights and records a denied no-op O_WRONLY open of R. No bytes were written, and other mutation operations were not attempted. Arbitrary sinks, network, credentials, and full descriptor closure remain unestablished. S creates the fixture/policy and controls SIGKILL; H=M owns mediation and pathname access. Partial policy application remains untested. The result depends on the observed process-lifetime coupling; killing H does not revoke a grant cached by another still-running M, as the fault control proves.
 
 ## Limits and stop
 
 One worker, one logical holder, one mediator/path, one sentinel, one local socket, one symlink, two sequential requests, and one stale-grant mutant. No in-flight-before-loss ordering, already-returned-byte erasure, hostile socket peer, all-FD inventory, process-tree containment, race stress, production realization, power-loss/recovery, source identity, arbitrary sink, general proxy/runtime/lifecycle, or F3 lifecycle closure is claimed. T18 use-current, broad T03/T20/T24, and all remaining F1/F2 gaps remain outside this implementation. Stop at this packet's narrow success plus its explicit counterexample control; independent review remains separate.
+
+
+## Route-audit correction (2026-10-30)
+
+The original committed `run.json` is preserved byte-for-byte as `run-before-route-audit.json` (SHA-256 `d0ccc00cb5f7fe4528c84e9f1b30d095a70d1ca85c931ca3374a1da7efc03947`). The corrected rerun is `run.json`; current source SHA-256 `073fe00c83ca5860870d79614270ecff056461981ae825c9062c8b8b557309b3`; corrected result SHA-256 `afafe338f9470cb35fadee28969fe10f4b51c15a6bf490a6041b070055d6245c`. The exact reproduction command and 20-second timeout are unchanged. Runtime reports Linux `5.15.0-184-generic`, Python `3.10.12`, Landlock ABI `1`; an explicit `landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION)` query returned 1.
+
+The worker's ruleset now handles `READ_FILE|READ_DIR|WRITE_FILE|REMOVE_DIR|REMOVE_FILE|MAKE_CHAR|MAKE_DIR|MAKE_REG|MAKE_SOCK|MAKE_FIFO|MAKE_BLOCK|MAKE_SYM` (mask 8190). These filesystem rights are supported by the observed ABI 1; no unsupported-right obstruction occurred. Rules still grant only the runtime read paths, not the fixture. After post-loss CPU work and the retained-socket request, W attempted exactly `os.open(TARGET, os.O_WRONLY)` and immediately closed the descriptor if one was returned; it wrote no bytes. Candidate observation: denied with EACCES/errno 13. Direct target and symlink reads remain denied. The stale-grant fault control still returns sentinel bytes and remains detected as a violation.
+
+The CPU metric is corrected: `cpu_iterations` is now an integer incremented once per loop iteration, and `cpu_accumulator` separately records the LCG value. Candidate W: 392,488 iterations, accumulator 4,096,614,728. Mutant W: 337,193 iterations, accumulator 1,428,077,575. Both values are emitted in `run.json`; the prior run's `cpu_iterations` field was the accumulator and must not be interpreted as a count.
+
+Holder-loss trace in the corrected candidate: W baseline PID 184954; H=M PID 184953 SIGKILLed and reaped at monotonic ns 203385440835225; post-reap trigger at 203385440919245; CPU interval 203385440940969?203385520943380; post-loss write-open EACCES. In the mutant, H PID 184955 was reaped at 203385563738315 while M PID 184956 survived and returned sentinel bytes to W PID 184957; violation detected. Both original profiles, socket behavior, loss ordering, and outer timeout are unchanged.
+
+This closes the specific direct O_WRONLY-open gap for the tested target path under the corrected Landlock policy. Directory mutation rights are now handled by policy, but no unlink/rename/create operation was attempted; those operation outcomes remain untested. No bytes were written. This remains selected-profile evidence, not a general filesystem or lifecycle claim.

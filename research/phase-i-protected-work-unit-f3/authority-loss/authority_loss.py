@@ -14,6 +14,11 @@ ALIAS = os.path.join(FIXTURE, 'alias.txt')
 CONTENT = b'authority-loss-sentinel-v1'
 SYS_CREATE, SYS_ADD, SYS_RESTRICT = 444, 445, 446
 READ_FILE, READ_DIR = 1 << 2, 1 << 3
+WRITE_FILE, REMOVE_DIR, REMOVE_FILE = 1 << 1, 1 << 4, 1 << 5
+MAKE_CHAR, MAKE_DIR, MAKE_REG = 1 << 6, 1 << 7, 1 << 8
+MAKE_SOCK, MAKE_FIFO, MAKE_BLOCK, MAKE_SYM = 1 << 9, 1 << 10, 1 << 11, 1 << 12
+HANDLED_FS = (READ_FILE | READ_DIR | WRITE_FILE | REMOVE_DIR | REMOVE_FILE |
+              MAKE_CHAR | MAKE_DIR | MAKE_REG | MAKE_SOCK | MAKE_FIFO | MAKE_BLOCK | MAKE_SYM)
 
 # Process code is deliberately stdlib-only and is exec'd as separate actors.
 MEDIATOR = r'''import json, os, socket, sys, time
@@ -59,8 +64,11 @@ trigger.wait(5)
 start=time.monotonic_ns()
 # Volatile CPU-only work: no files, sockets, or other effect during this interval.
 x=0
+iterations=0
 until=time.monotonic()+0.08
-while time.monotonic()<until: x=(x*1664525+1013904223)&0xffffffff
+while time.monotonic()<until:
+    x=(x*1664525+1013904223)&0xffffffff
+    iterations += 1
 cpu_end=time.monotonic_ns()
 try:
     s.sendall(b'READ|')
@@ -73,9 +81,23 @@ for label,path in [('direct_target',TARGET),('symlink_alias',ALIAS)]:
         try: alias_results[label]={'result':'allowed','bytes':os.read(fd,256).decode('utf-8','replace')}
         finally: os.close(fd)
     except OSError as e: alias_results[label]={'result':'denied','errno':e.errno,'detail':e.strerror}
-print(json.dumps({'event':'post_loss','pid':os.getpid(),'signal_ns':signal_ns,'cpu_start_ns':start,'cpu_end_ns':cpu_end,'cpu_iterations':x,'second_reply':second.decode('utf-8','replace'),'second_has_protected_bytes':'authority-loss-sentinel-v1' in second.decode('utf-8','replace'),'paths':alias_results},sort_keys=True),flush=True)
+try:
+    fd=os.open(TARGET,os.O_WRONLY)
+    os.close(fd)
+    write_open={'result':'allowed'}
+except OSError as e:
+    write_open={'result':'denied','errno':e.errno,'detail':e.strerror}
+print(json.dumps({'event':'post_loss','pid':os.getpid(),'signal_ns':signal_ns,'cpu_start_ns':start,'cpu_end_ns':cpu_end,'cpu_iterations':iterations,'cpu_accumulator':x,'second_reply':second.decode('utf-8','replace'),'second_has_protected_bytes':'authority-loss-sentinel-v1' in second.decode('utf-8','replace'),'paths':alias_results,'direct_write_open':write_open},sort_keys=True),flush=True)
 '''
 
+
+def libc_abi_version():
+    libc = ctypes.CDLL(None, use_errno=True)
+    version = libc.syscall(SYS_CREATE, ctypes.c_void_p(0), ctypes.c_size_t(0), ctypes.c_uint(1))
+    if version < 0:
+        e = ctypes.get_errno()
+        raise OSError(e, os.strerror(e), 'landlock ABI version query')
+    return version
 
 def add_allow_rule(libc, ruleset, path):
     if not os.path.exists(path):
@@ -95,7 +117,7 @@ def add_allow_rule(libc, ruleset, path):
 
 def confine_before_exec():
     libc = ctypes.CDLL(None, use_errno=True)
-    attr = ctypes.c_uint64(READ_FILE | READ_DIR)
+    attr = ctypes.c_uint64(HANDLED_FS)
     ruleset = libc.syscall(SYS_CREATE, ctypes.byref(attr), ctypes.c_size_t(ctypes.sizeof(attr)), ctypes.c_uint(0))
     if ruleset < 0:
         e = ctypes.get_errno()
@@ -189,14 +211,16 @@ def main():
     started = time.monotonic_ns()
     safe = one_run(False)
     mutant = one_run(True)
-    result={'status':'completed','python':sys.version,'kernel':__import__('platform').release(),
+    abi = libc_abi_version()
+    result={'status':'completed','python':sys.version,'kernel':__import__('platform').release(),'landlock_abi':abi,'handled_fs_mask':HANDLED_FS,
             'fixture':FIXTURE,'sentinel_sha256':__import__('hashlib').sha256(CONTENT).hexdigest(),
             'safe_candidate':safe,'stale_grant_fault_control':mutant,
             'safe_candidate_pass': (safe['baseline']['reply'].startswith('OK ') and
                 not safe['post_loss']['second_has_protected_bytes'] and
                 safe['post_loss']['cpu_iterations']>0 and
                 safe['holder_returncode']==-signal.SIGKILL and safe['holder_wait_reaped_ns']<safe['post_loss']['signal_ns'] and
-                all(v.get('result')=='denied' for v in safe['post_loss']['paths'].values())),
+                all(v.get('result')=='denied' for v in safe['post_loss']['paths'].values()) and
+                safe['post_loss']['direct_write_open'].get('result')=='denied' and abi >= 1),
             'fault_control_detected':mutant['violation_detected'],'elapsed_ns':time.monotonic_ns()-started}
     print(json.dumps(result,sort_keys=True,indent=2))
     if not result['safe_candidate_pass'] or not result['fault_control_detected']:
