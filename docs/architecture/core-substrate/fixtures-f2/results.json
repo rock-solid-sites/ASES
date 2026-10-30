@@ -2,6 +2,22 @@
   "blocked": 6,
   "cases": [
     {
+      "assumption": "D1/D2 sealing must defeat retained external routes while baseline permits already-authorized CPU-only internal computation; requires real process/descriptor route mediation and independent content observation.",
+      "execution_scope": "Event sequence specified but skipped by abstract runner: retained OS handles, physical route denial, and live CPU progress are not represented by f2lib.",
+      "expected_observation": {
+        "accepted-content": [
+          "x"
+        ],
+        "cpu-only-internal-computation": "continues",
+        "engine-route-denied": true,
+        "protected-outward-effect-denied": true
+      },
+      "id": "T05-engine-loss-retained-route-and-cpu-positive-control",
+      "mutation": null,
+      "status": "prepared-only",
+      "trace": "T05"
+    },
+    {
       "assumption": "Ancestor grants do not imply child-local grants; the complete path is checked.",
       "execution_scope": "f2lib abstract replay only",
       "failures": [],
@@ -4759,6 +4775,7 @@
     }
   ],
   "executed": 36,
+  "prepared_only": 1,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"
 }

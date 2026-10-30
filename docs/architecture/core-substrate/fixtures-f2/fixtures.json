@@ -2,6 +2,74 @@
   "schema": "f2-fixture-v1",
   "fixtures": [
     {
+      "id": "T05-engine-loss-retained-route-and-cpu-positive-control",
+      "trace": "T05",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C",
+            "exp": true
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ],
+        "store": {
+          "processes": {
+            "engine": true,
+            "activity": true
+          },
+          "accepted": {
+            "C": [
+              "x"
+            ]
+          }
+        }
+      },
+      "events": [
+        {
+          "ev": "retain_handle",
+          "process": "activity",
+          "unit": "C",
+          "path": "x"
+        },
+        {
+          "ev": "kill",
+          "process": "engine"
+        },
+        {
+          "ev": "handle_read",
+          "process": "activity",
+          "unit": "C",
+          "right": "read"
+        },
+        {
+          "ev": "cpu_only_computation",
+          "process": "activity",
+          "expected": "continues"
+        }
+      ],
+      "expected_observation": {
+        "engine-route-denied": true,
+        "protected-outward-effect-denied": true,
+        "cpu-only-internal-computation": "continues",
+        "accepted-content": [
+          "x"
+        ]
+      },
+      "assumption": "D1/D2 sealing must defeat retained external routes while baseline permits already-authorized CPU-only internal computation; requires real process/descriptor route mediation and independent content observation.",
+      "status": "prepared-only",
+      "execution_note": "Event sequence specified but skipped by abstract runner: retained OS handles, physical route denial, and live CPU progress are not represented by f2lib."
+    },
+    {
       "id": "T01-parent-admits-child-ungranted",
       "trace": "T01",
       "initial_state": {

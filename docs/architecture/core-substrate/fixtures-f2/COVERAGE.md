@@ -8,7 +8,7 @@ Scope: this increment adds executable abstract-replay histories for selected por
 | T02 | Replacement position advance followed by stale old-generation claim; source-binding mutation | executed | No before/after commit race pair or new-ingress x continuation witness |
 | T03 | Reuse of represented old capability; source-binding mutation | executed | Physical source binding/bearer secrecy require runtime evidence; not tested here |
 | T04 | Two unit-capacity reservations; capacity-check mutation; independent order commit positive | executed | Three-way cyclic separately validated commitments not yet fixtured |
-| T05 | ? | blocked | Engine-loss retained routes and CPU-only positive control not fixtured |
+| T05 | Explicit event sequence prepared for engine death with retained route and CPU-only positive control | prepared-only | Requires real process/descriptor mediation and independent live-computation observation; excluded from replay totals |
 | T06 | Exact checked-byte substitution rejected under binding; trusted-copy positive survives producer loss; content-binding mutation | executed | Abstract replay only; no filesystem swap or real producer-loss evidence |
 | T07 | Pre-preparation interruption; acknowledged commit with lost reply survives crash/recovery; WAL-before-ack mutation | executed | Only these two abstract endpoints; no concrete crash/storage fault injection |
 | T08 | Restore old authentic snapshot after y/revocation; fresh credentials followed by untrusted-currentness discovery leaves unit sealed | executed | Abstract model only; rollback resistance is expressly outside the baseline premise |
@@ -38,4 +38,4 @@ Scope: this increment adds executable abstract-replay histories for selected por
 - T06 `content_binding=false`: substituted bytes are admitted.
 - T07 `wal_before_ack=false`: acknowledgement may occur while the committed journal lacks the value.
 
-These mutations are controls on the abstract oracle, not implementation mutants. The matrix is intentionally not an aggregate T01?T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.
+These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 36 abstract histories executed, 1 prepared-only (T05), and 6 blocked. The six blocked cases are the T11 latent-write denial, T12 and T15 empty-removal guards, T20 conflicting acceptance, and two T24 ACL-order/consistency observations. The matrix is intentionally not an aggregate T01?T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.

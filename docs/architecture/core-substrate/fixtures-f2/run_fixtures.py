@@ -30,6 +30,11 @@ def observed(expect, result, store):
 raw = []
 failed = False
 for fixture in catalog["fixtures"]:
+    if fixture.get("status") == "prepared-only":
+        raw.append({"id": fixture["id"], "trace": fixture["trace"], "assumption": fixture["assumption"],
+                    "status": "prepared-only", "execution_scope": fixture.get("execution_note"),
+                    "expected_observation": fixture["expected_observation"], "mutation": None})
+        continue
     world = {"init": fixture["initial_state"]}
     store, result = run_scenario(world, {"events": fixture["events"]}, fixture.get("mechanism"))
     baseline = observed(fixture["expected_observation"], result, store)
@@ -50,8 +55,9 @@ for fixture in catalog["fixtures"]:
 
 out = {"schema": "f2-run-results-v1", "scope": "abstract reference replay; not host/runtime evidence",
        "executed": sum(item["status"] == "executed" for item in raw),
+       "prepared_only": sum(item["status"] == "prepared-only" for item in raw),
        "blocked": sum(item["status"] == "blocked" for item in raw), "cases": raw}
 (ROOT / "results.json").write_text(json.dumps(out, indent=2, sort_keys=True, default=lambda value: sorted(value) if isinstance(value, set) else repr(value)) + "\n")
-print(json.dumps({"executed": out["executed"], "blocked": out["blocked"],
+print(json.dumps({"executed": out["executed"], "prepared_only": out["prepared_only"], "blocked": out["blocked"],
                   "mutations": {item["id"]: item["mutation"]["status"] for item in raw if item["mutation"]}}, indent=2))
 raise SystemExit(1 if failed else 0)
