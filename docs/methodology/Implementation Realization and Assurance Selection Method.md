@@ -25,7 +25,7 @@ Select a system realization by enforcing safety, correctness, security, performa
 
 A realization is any mechanism that satisfies the specified behavior. Conventional program structure or a particular execution architecture is not a prerequisite. An unconventional, previously untried or genuinely novel design may be the best fit: the absence of a long track record, community or example projects is a **risk to measure**, not an automatic exclusion. Such a design may be selected when evidence demonstrates that its project-specific benefits outweigh the additional validation, maintenance, tooling and support risks, and its critical guarantees are verified at the appropriate boundaries.
 
-This method has **two levels of application**: a bounded implementation-language shortcut for small plugins/connectors, and the full open-ended exclusion process for more ambitious systems. Universal language exclusions apply to both. This is not a replacement for requirements engineering, VSDD, state-modeling, implementation conformance or tests.
+This method has **two levels of application**: a bounded implementation-language shortcut for small plugins/connectors, and the full open-ended exclusion process for more ambitious systems. New implementation code follows the language exclusions by default; narrowly justified integration reuse is governed by the exception below. This is not a replacement for requirements engineering, VSDD, state-modeling, implementation conformance or tests.
 
 ## Governing rules
 
@@ -40,11 +40,28 @@ This method has **two levels of application**: a bounded implementation-language
 
 ## Universal implementation-language exclusions
 
-**Do not author maintained project implementation code** in `C`, `C++`, `Objective-C`, `Zig`, or `PHP`. The prohibition extends to other implementation languages or modes that rely on unchecked/manual memory handling or do not meet the project's baseline safety and correctness expectations. This is a **project policy gate**, not a claim that all excluded languages share the same technical vulnerability: `PHP` is ordinarily memory-managed, but is excluded on the project's engineering and assurance criteria. Do not label a memory-managed language memory-unsafe without evidence.
+**Do not choose `C`, `C++`, `Objective-C`, `Zig`, or `PHP` for new standalone maintained implementation code.** The prohibition extends to other implementation languages or modes that rely on unchecked/manual memory handling or do not meet the project's baseline safety and correctness expectations. This is a **project policy gate**, not a claim that all excluded languages share the same technical vulnerability: `PHP` is ordinarily memory-managed, but is excluded on the project's engineering and assurance criteria. Do not label a memory-managed language memory-unsafe without evidence.
 
-Do not circumvent the exclusion by placing unsafe implementation in a native extension, embedded snippet, generated source, or FFI wrapper. Existing system dependencies and third-party runtimes do not automatically become forbidden simply because they contain excluded-language code, but they belong in the trusted-base and vulnerability assessment. An external dependency's existence does not license new unsafe-language application code.
+Do not circumvent the exclusion by placing new unsafe implementation in a native extension, embedded snippet, generated source, or FFI wrapper. Existing system dependencies and third-party runtimes do not automatically become forbidden simply because they contain excluded-language code, but they belong in the trusted-base and vulnerability assessment. An external dependency's existence does not license unrestricted new unsafe-language application code.
 
 Small disposable experiments can use temporary tools to *investigate* a candidate, but experimental output is not accepted as a maintained implementation without passing the relevant gate. No automatic exception for agent familiarity, shorter prompts or ecosystem popularity.
+
+## Bounded integration and upstream-reuse exception
+
+**Reuse can be safer than rewriting.** When integrating an established repository, the existing implementation language and runtime may be a legitimate constraint. Do not translate a mature dependency or neighboring module into a nominally stronger language if that would add disproportionate changes, new interfaces, untested behavior or ongoing maintenance burden. Language choice is part of the **whole-system** risk assessment.
+
+A bounded exception may retain, wrap or make the minimum necessary compatibility changes to existing code in a language outside the default set, including code in a normally excluded language. **This is not a general permission to start new standalone projects in excluded languages, or to expand unsafe core logic.** A sensitive execution, credential or authority boundary requires independently adequate confinement and assurance; an exception cannot waive a mandatory safety property.
+
+Record the reason for retaining the upstream code, the exact affected modules and trust boundaries, the estimated risks of reuse versus rewriting, and the compensating controls. Appropriate measures include:
+- isolate the reused code behind a narrow, typed, validated interface or separate process where beneficial;
+- keep new code in the safest feasible language supported by the surrounding project; avoid unnecessary conversion of working files;
+- pin and inspect dependencies, check security advisories and licensing, and minimize privileged access and secrets exposure;
+- enable strict checking and static analysis where supported, validate external inputs at runtime, and apply targeted integration, regression, fuzz/property or adversarial tests commensurate with risk;
+- limit scope and document the remaining unverified assumptions; reassess if the integration grows into a substantial standalone system.
+
+For **TypeScript**, require `strict: true` and project-appropriate stricter options (for example `noUncheckedIndexedAccess`); avoid unsafe `any`, unchecked assertions and broad `@ts-ignore` suppressions, and prefer `unknown` plus runtime decoding at trust boundaries. Types do not validate network payloads, file data or untyped dependencies. For **JavaScript-only upstream code**, prefer incremental typing or a narrow TypeScript adapter instead of a compulsory rewrite.
+
+An exception is valid only when the recorded evidence shows it **does not violate non-negotiable guarantees** and the reduction in integration risk/work materially outweighs the loss of language-level assurance. Reassess as scope or authority expands.
 
 ## Two-level application
 
@@ -54,14 +71,18 @@ A **short, disposable test** may use the fastest suitable tool provided its outp
 
 For a **small, bounded plugin or connector** intended for actual use, select from this safety-oriented default language set:
 
-- **Rust** — memory and resource ownership controls; strong compiler guarantees, with `unsafe` usage and dependencies audited.
-- **Haskell** — strong static types and functional modeling; isolate and test effectful boundaries.
-- **OCaml** — strong static types and algebraic modeling; validate runtime/native bindings.
-- **Ada/SPARK** — contracts and proof-oriented subsets when the verified subset and toolchain are applicable.
-- **F#** — strong static types and functional modeling, with managed runtime assumptions stated.
-- **Go** — memory-safe managed execution and straightforward concurrency tooling; explicitly test the weaker application-level invariant guarantees.
+- **Rust** — memory and resource ownership controls; audit `unsafe` and native dependencies.
+- **Haskell, OCaml, F#** — strong static type systems and functional modeling; test effectful/native boundaries.
+- **Ada/SPARK** — contracts and formal proof where a suitable verified subset is practical.
+- **Go** — memory-managed execution and straightforward deployment; test application-level invariants and concurrency.
+- **TypeScript** — preferred for existing JavaScript/TypeScript integrations; use `strict` type checking, avoid unchecked `any` and assertions, and validate untrusted data at runtime.
+- **Kotlin, Java, Scala** — managed runtimes and mature JVM interoperability; select by ecosystem fit and evaluate nullability, native interfaces and runtime assumptions.
+- **Swift** — memory safety and static typing, particularly when integrating into its native ecosystem.
+- **C#** — managed runtime with static typing and nullable reference analysis when enabled; audit unsafe/native interop.
+- **Dart** — sound typing and null safety, particularly for Dart/Flutter integrations.
+- **Gleam** — static typing for suitable BEAM/JavaScript integrations; scrutinize external untyped bindings.
 
-This is a **practical default set for a narrow work class**, not a claim of equal formal assurance, an absolute catalog of safe languages, or a shortlist to seed open-ended research for larger architectures. A platform that only supports another implementation language is a material constraint to document and escalate rather than silently violating the gate.
+This is a **practical default set for a narrow work class**, not a claim of equal formal assurance, an absolute catalog of safe languages, or a shortlist to seed open-ended research for larger architectures. A platform that only supports another implementation language is a material constraint. Apply the bounded reuse exception below when justified; otherwise escalate rather than silently violating the gate.
 
 The shortcut requires: a bounded scope, no unresolved critical trust-boundary assumptions, a documented reason for the choice, explicit safety/resource requirements, dependency inspection, and discriminating tests of failures and external boundaries. Adding arbitrary remote command execution, multiple service identities or durable agent authority can raise verification obligations even when delivered as a connector. The shortcut reduces *language research*, not safety checks.
 
@@ -124,7 +145,7 @@ A chosen candidate is still a hypothesis about realized behavior until the imple
 
 ## Prompt and agent discipline
 
-For the **full process**, do not give a selection agent a "choose one of these" list, default language, sample architecture or success-shaped prototype unless the operator has explicitly imposed that constraint or the investigation evaluates those candidates. Do not convert illustrative research examples into allowed-option inventories. For an eligible **small plugin/connector**, use the bounded safety-focused language list below to reduce selection cost; it is not an architecture shortlist for larger systems.
+For the **full process**, do not give a selection agent a "choose one of these" list, default language, sample architecture or success-shaped prototype unless the operator has explicitly imposed that constraint or the investigation evaluates those candidates. Do not convert illustrative research examples into allowed-option inventories. For an eligible **small plugin/connector**, use the bounded safety-focused language set to reduce selection cost; it is not an architecture shortlist for larger systems. An existing upstream implementation can independently justify a scoped reuse exception where replacing it would worsen whole-system risk.
 
 When a previous implementation already exists, separate **behavioral evidence** from implementation preference. Existing tests may define required behavior but do not justify retaining that language or architecture. Where independent ideation matters, withhold historical choices until after the initial requirements-first derivation and then use them as prior art or adversarial comparisons.
 
