@@ -1,0 +1,38 @@
+NOTE: no_new_privs variant requires a preexec hook; using plain spawn
+[
+  {
+    "variant": {
+      "no_new_privs_in_grantor": true,
+      "revocation": "acl"
+    },
+    "grantor_ready": "GRANTOR READY pid=6",
+    "p1_holder": "{'via_authority_read': \"OK b'F3-sentinel-content\\\\n'\", 'via_authority_write': 'OK', 'retained_open': 'ok ino=3017976', 'retained_read': \"b'F3-sentinel-content\\\\n'\", 'fresh_open': \"ok b'F3-sentinel-content\\\\n'\"}",
+    "p1_fresh": "{'via_authority_read': \"OK b'F3-sentinel-content\\\\n'\", 'via_authority_write': 'OK', 'fresh_open': \"ok b'F3-sentinel-content\\\\n'\"}",
+    "after_revoke_mode": "0o0",
+    "p2_holder_after_revoke": "{'via_authority_read': 'ERR Permission denied', 'via_authority_write': 'ERR Permission denied', 'retained_read': \"b'F3-sentinel-content\\\\n'\", 'fresh_open': 'ERR Permission denied'}",
+    "p2_fresh_after_revoke": "{'via_authority_read': 'ERR Permission denied', 'via_authority_write': 'ERR Permission denied', 'fresh_open': 'ERR Permission denied'}",
+    "p2_parent_read": {
+      "result": "error",
+      "detail": "[Errno 13] Permission denied: '/home/claude-code/.paseo/worktrees/216s81dw/phase-i-d-protected-work-unit-f3/research/phase-i-protected-work-unit-f3/exp1/run/acl/target.txt'",
+      "errno": 13
+    },
+    "regrant": {
+      "result": "ok",
+      "value": "'setfacl -m o:rw ran'"
+    },
+    "p3_fresh_after_regrant": "{'via_authority_read': 'ERR Permission denied', 'via_authority_write': 'ERR Permission denied', 'fresh_open': 'ERR Permission denied'}",
+    "p3_holder_after_regrant": "{'via_authority_read': 'ERR Permission denied', 'via_authority_write': 'ERR Permission denied', 'retained_read': \"b'F3-sentinel-content\\\\n'\", 'fresh_open': 'ERR Permission denied'}",
+    "p3_parent_read": {
+      "result": "error",
+      "detail": "[Errno 13] Permission denied: '/home/claude-code/.paseo/worktrees/216s81dw/phase-i-d-protected-work-unit-f3/research/phase-i-protected-work-unit-f3/exp1/run/acl/target.txt'",
+      "errno": 13
+    },
+    "holder_stopped_exit": -9,
+    "p4_fresh_after_holder_stopped": "{'via_authority_read': 'ERR Permission denied', 'via_authority_write': 'ERR Permission denied', 'fresh_open': 'ERR Permission denied'}",
+    "p4_parent_read": {
+      "result": "error",
+      "detail": "[Errno 13] Permission denied: '/home/claude-code/.paseo/worktrees/216s81dw/phase-i-d-protected-work-unit-f3/research/phase-i-protected-work-unit-f3/exp1/run/acl/target.txt'",
+      "errno": 13
+    }
+  }
+]
