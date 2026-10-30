@@ -18,3 +18,12 @@ Read and correct the model before running it; use small, per-context bounds and 
 - `Phase-I-F1-Design.md`
 - `phase_i_f1_model.py`
 - `__pycache__` is generated test residue and should not be committed.
+## 2026-10-30 continuation checkpoint
+
+
+
+Inherited clean branch research/phase-i-work-unit-f1-20261029 at 0ebb257bf646c0bf753fe410e622369bd14af53b; origin verified at the same SHA. Recovery archive SHA-256 verified as 6783ccb452fa24d14a2a82cb2f777eb515f69078a5f4d29876ea23560da32e0c. Separate worktree: /home/claude-code/.paseo/worktrees/216s81dw/phase-i-b-work-unit-f1.
+
+
+
+First bounded operation: syntax-check the preserved model and inspect focused state/policy sections, then run a small bounded context. No invariant, witness, mutation, or proof claim is inherited as verified.
