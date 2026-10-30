@@ -1,6 +1,6 @@
 # F2 coverage matrix ? Agent C
 
-Scope: this increment adds an executable abstract-replay tranche for selected T01?T04 histories. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
+Scope: this increment adds executable abstract-replay histories for selected portions of T01?T04 and T06?T10. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
 
 | Trace | Coverage in this increment | Status | Known gap |
 |---|---|---|---|
@@ -11,9 +11,9 @@ Scope: this increment adds an executable abstract-replay tranche for selected T0
 | T05 | ? | blocked | Engine-loss retained routes and CPU-only positive control not fixtured |
 | T06 | Exact checked-byte substitution rejected under binding; trusted-copy positive survives producer loss; content-binding mutation | executed | Abstract replay only; no filesystem swap or real producer-loss evidence |
 | T07 | Pre-preparation interruption; acknowledged commit with lost reply survives crash/recovery; WAL-before-ack mutation | executed | Only these two abstract endpoints; no concrete crash/storage fault injection |
-| T08 | ? | blocked | Authentic old-image rollback and baseline premise distinction not fixtured |
-| T09 | ? | blocked | Wrong-root, incomplete-image, and changed-interpretation variants not fixtured |
-| T10 | ? | blocked | Repeated recovery loss/recovery histories not fixtured |
+| T08 | Restore old authentic snapshot after y/revocation; fresh credentials followed by untrusted-currentness discovery leaves unit sealed | executed | Abstract model only; rollback resistance is expressly outside the baseline premise |
+| T09 | Wrong-root, incomplete-content, and incompatible-interpretation images are quarantined/refused | executed | No real parser/decoder or storage-image corruption path |
+| T10 | Recovery lost after validation; rediscovery/revalidation before fresh activation | executed | No duplicate external-effect/revived-channel check beyond modeled state |
 | T11 | ? | blocked | Sealed move with latent restriction and D witness not fixtured |
 | T12 | ? | blocked | Empty-check race, coupled-move recovery, and half-effect rejection not fixtured |
 | T13 | ? | blocked | Interrupted dependent disposition and stale-reference exposure not fixtured |

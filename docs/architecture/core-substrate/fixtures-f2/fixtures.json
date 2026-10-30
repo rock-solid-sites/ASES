@@ -394,6 +394,196 @@
       },
       "assumption": "Interruption before preparation cannot create an acknowledged or recovered committed value.",
       "status": "executed"
+    },
+    {
+      "id": "T08-fresh-credentials-do-not-establish-currentness",
+      "trace": "T08",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          },
+          {
+            "ev": "internal_accept",
+            "unit": "C",
+            "atom": "x"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "snapshot"
+        },
+        {
+          "ev": "internal_accept",
+          "unit": "C",
+          "atom": "y"
+        },
+        {
+          "ev": "revoke",
+          "unit": "C",
+          "ack": true
+        },
+        {
+          "ev": "restore"
+        },
+        {
+          "ev": "fresh_credentials"
+        },
+        {
+          "ev": "discover",
+          "unit": "C",
+          "durable_state": "old-authentic-image",
+          "trusted_currentness": false
+        },
+        {
+          "ev": "validate",
+          "trusted_currentness": false
+        }
+      ],
+      "expected_observation": {
+        "flags": {
+          "credentials": "fresh",
+          "sealed_without_currentness": true
+        },
+        "store": {
+          "accepted.C": [
+            "x"
+          ]
+        }
+      },
+      "assumption": "Authenticity of a restored historical image and fresh credentials do not establish currentness; rollback resistance is outside this baseline model.",
+      "status": "executed"
+    },
+    {
+      "id": "T09-wrong-root-quarantined",
+      "trace": "T09",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "discover",
+          "unit": "C",
+          "durable_state": "image",
+          "trusted_currentness": true
+        },
+        {
+          "ev": "validate",
+          "image": "wrong_root",
+          "trusted_currentness": true
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "flags": {
+          "quarantined": true
+        }
+      },
+      "assumption": "A discovered image with a wrong root must be quarantined before activation.",
+      "status": "executed"
+    },
+    {
+      "id": "T09-incomplete-content-quarantined",
+      "trace": "T09",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "discover",
+          "unit": "C",
+          "durable_state": "image",
+          "trusted_currentness": true
+        },
+        {
+          "ev": "validate",
+          "image": "incomplete",
+          "trusted_currentness": true
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "flags": {
+          "quarantined": true
+        }
+      },
+      "assumption": "Incomplete discovered content must not be bootstrapped as a complete unit.",
+      "status": "executed"
+    },
+    {
+      "id": "T09-incompatible-interpretation-refused",
+      "trace": "T09",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "discover",
+          "unit": "C",
+          "durable_state": "image",
+          "trusted_currentness": true
+        },
+        {
+          "ev": "validate",
+          "interpretation": "changed",
+          "trusted_currentness": true
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "flags": {
+          "quarantined": true,
+          "widening_blocked": true
+        }
+      },
+      "assumption": "Changed interpretation cannot widen permission or activate incompatible state.",
+      "status": "executed"
+    },
+    {
+      "id": "T10-recovery-loss-retry-currentness",
+      "trace": "T10",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "discover",
+          "unit": "C",
+          "durable_state": "durable-1",
+          "trusted_currentness": true
+        },
+        {
+          "ev": "validate",
+          "trusted_currentness": true
+        },
+        {
+          "ev": "lose_recovery",
+          "discard_discovered": true
+        },
+        {
+          "ev": "discover",
+          "unit": "C",
+          "durable_state": "durable-1",
+          "trusted_currentness": true
+        },
+        {
+          "ev": "validate",
+          "trusted_currentness": true
+        },
+        {
+          "ev": "activate_fresh",
+          "routes": []
+        }
+      ],
+      "expected_observation": {
+        "deny": false,
+        "store": {
+          "status.C": "active"
+        }
+      },
+      "assumption": "After loss between validation and activation, a fresh discovery/validation is required; activation does not duplicate accepted effects in this modeled trace.",
+      "status": "executed"
     }
   ]
 }
