@@ -3,11 +3,14 @@
 
 ## Applicant structure — confirmed 30 October 2026
 - **Applicant/PI:** one **unhosted individual**, using their own legal name and identity as the contracting/funded party; legal name and tax residence still to be provided privately.
-- **Rock Solid Sites:** established public GitHub/project identity only. It is not incorporated or registered as a usable grant applicant, and is not to be represented as a legal company, employer, host organization or formal co-applicant.
+- **Research identity:** A distinct name, domain, GitHub organization and public presence will be selected for this research project. **Rock Solid Sites is a separate business**, not the applicant, research sponsor, institutional affiliation or public research identity. Earlier repository hosting is transitional provenance only.
 - **Eligibility:** ARIA's Scaling Trust FAQ says it can fund unhosted individuals without a limited company or host organization; all awardees undergo due diligence. If the award involves contractors/collaborators, ARIA suggests considering sole-trader/company structure and independent tax advice **if selected**. This does not prevent applying now as an individual.
-- **Team:** one human PI; additional technical/security experts are proposed contractors or recruits, not confirmed personnel. ARIA says AI agents may be listed as team members if their status is explicit. Our default narrative describes them as tools/contributors under the PI, not as human employees.
+- **Human team:** Individual PI, plus only any subsequently recruited/contracted human researchers, engineers and independent reviewers. Temporary AI subagents are research tools and will **not** appear as team members. No persistent agents or unconfirmed human specialists are claimed.
 - **Remaining private applicant fields:** legal name, residence/tax details, actual FTE and bio, legal title/ownership of project background IP, and consent to grant conditions. Do not invent or store identifying information in this public repository.
 - **Source:** https://aria.org.uk/media/1lcjzczg/scaling-trust-faqs-webinar-1.pdf (Team Composition + Solo Applicants, pp. 5–6).
+
+## Independent project identity
+A name/domain/organization/social-handle availability check and actual registrations are needed before final application branding. Confirm conflicts and permissions first; no name or domain has yet been acquired. Public research materials and research-funded deliverables must be kept separate from the unrelated business. Any business account currently hosting research source is a temporary evidence location, not a sponsor or corporate grant recipient.
 
 ## Nonnegotiable submission format
 - Portal account and submission link through official funding page; confirm current fields in live portal before pasting.
