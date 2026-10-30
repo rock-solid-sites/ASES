@@ -155,3 +155,17 @@ Resumed existing F1 tracker on the existing worktree and branch at remote-verifi
 
 
 Next bounded fixture only: accept x then y; capture current and explicitly stale authentic image records (stale image omits y and carries prior epoch); after stop/recovery require current image restore sealed with x/y and reject stale restore as outside-profile. Add a currentness-check weakening and require it to admit stale data into an invariant violation. Planned cap 10,000 states, 1,000,000 KiB, 120 seconds. Currentness is a trusted external premise in the baseline, not rollback resistance.
+
+## 2026-10-30 currentness-image checkpoint
+
+
+
+Added the single currentness-image context with distinct x then y accepted under epoch 1, a stale authentic epoch-0 image omitting y, and an epoch-1 current image containing both.
+
+
+
+Result: 42 states/128 committed transitions/0 reference invariant violations. Current image restores sealed with x/y; stale image is refused as outside baseline successful recovery. With currentness_check weakened, stale restore is admitted and triggers the C7 stale-image invariant counterexample. With currentness_available absent, both candidates are refused; currentness/rollback resistance remains an explicit trusted premise, not proved.
+
+
+
+Test bounds: 10,000 states, 1 GiB RSS, 120 seconds; no aggregate search. Run record includes trace, mutation, C5/C6/C7/C12 and A-L mapping plus storage/currentness assumptions. F1 remains incomplete.

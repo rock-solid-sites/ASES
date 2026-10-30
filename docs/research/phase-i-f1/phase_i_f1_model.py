@@ -34,6 +34,7 @@ SCOPE_COVERED = [
     "engine loss under D1+D2 and cold recovery prepare/commit/activate/loss, two losses (C7, T10)",
     "one accepted atom x across stop, sealed cold recovery, authority reissue and use (C5/C6/C7; limited fixture)",
     "one conserved capacity-one parent reservation allocated to C or S, with distinct consumption (C3; narrow fixture)",
+    "current versus stale authentic image epoch/content check with refusal boundary (C7; trusted currentness premise)",
     "internal resource-backed computation continuing after engine loss (K.7; D3 not modelled)",
     "complete-disposition precondition for boundary removal incl. descendants and empty units (C4, C8)",
     "interior metadata edit rejection (K.8, T22)",
@@ -99,6 +100,20 @@ class State:
     route_handles: int = 0    # live runtime handles held by old activity (oracle)
     uses: tuple = ()          # accepted uses: ((w, cap, mode), ...) (oracle/Obs)
     accepted_x: bool = False  # one immutable accepted-content atom, fixed fixture owner C
+    accepted_y: bool = False  # second distinct accepted atom, fixed fixture owner C
+    authority_epoch: int = 0  # trusted non-rollback currentness premise
+    current_image_epoch: int | None = None
+    current_image_x: bool = False
+    current_image_y: bool = False
+    current_image_authentic: bool = False
+    stale_image_epoch: int | None = None
+    stale_image_x: bool = False
+    stale_image_y: bool = False
+    stale_image_authentic: bool = False
+    mounted_image_epoch: int | None = None
+    mounted_image_x: bool = False
+    mounted_image_y: bool = False
+    mounted_image_authentic: bool = False
     capacity_reserved: str | None = None  # view of P single unit allocated to C or S
     capacity_consumed: bool = False  # consumption of that same unit, never a second allocation
     independent_changed: bool = False  # one finite positive control orthogonal to capacity
@@ -155,6 +170,8 @@ class Profile:
     latent_preserved: bool = True      # C8 on move
     route_exclusion: bool = True       # D1 concrete handle withdrawal at seal
     single_holder: bool = True         # C6/T20
+    currentness_check: bool = True     # trusted external epoch/content currentness premise
+    currentness_available: bool = True  # absent premise refuses successful recovery
     ack_ordering: bool = True          # C13 ordering of revoke-ack vs later use
     ac_trust: bool = True              # C13 outside-boundary widening refused
     ac_pending_ordered: bool = True    # C13 in-flight AC change blocks admission
@@ -384,6 +401,51 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
             return "cyclic-predecessor-uncommitted (C2)"
         return None
 
+    if k == "accept_y":
+        w, origin = ev[1], ev[2]
+        if not state.accepted_x or state.accepted_y:
+            return "y-requires-x-and-is-accepted-once"
+        return guard(state, ("use", w, SINK, W, origin), p)
+
+    if k == "advance_authority_epoch":
+        if state.authority_epoch >= 1: return NO
+        if state.image and state.mounted_image_authentic: return NO
+        if not live(state):
+            return "no-current-view (C7)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "capture_current_image":
+        if not state.accepted_x or not state.accepted_y:
+            return "required-content-missing (C7)"
+        if not live(state):
+            return "no-current-view (C7)"
+        return None
+
+    if k == "inject_stale_image":
+        if not state.accepted_x or not state.accepted_y or state.authority_epoch < 1:
+            return "stale-fixture-requires-post-y-epoch"
+        return None
+
+    if k == "restore_current_image":
+        if not p.currentness_available:
+            return "currentness-premise-unavailable-refuse-recovery (C7)"
+        if live(state):
+            return "already-current (C7)"
+        if not state.current_image_authentic or state.current_image_epoch != state.authority_epoch or not state.current_image_x or not state.current_image_y:
+            return "current-image-missing-or-incompatible (C7)"
+        return None
+
+    if k == "restore_stale_image":
+        if not p.currentness_available:
+            return "currentness-premise-unavailable-refuse-recovery (C7)"
+        if live(state):
+            return "already-current (C7)"
+        if not state.stale_image_authentic:
+            return "stale-fixture-absent"
+        if p.currentness_check:
+            return "stale-authentic-image-outside-baseline-success-profile (C7)"
+        return None
+
     if k == "accept_x":
         w, origin = ev[1], ev[2]
         if state.accepted_x:
@@ -584,6 +646,26 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         committed[ev[1]] = True
         return replace(state, cycle_committed=tuple(committed))
 
+    if k == "accept_y":
+        return replace(state, accepted_y=True)
+
+    if k == "advance_authority_epoch":
+        return replace(state, authority_epoch=state.authority_epoch + 1)
+
+    if k == "capture_current_image":
+        return replace(state, current_image_epoch=state.authority_epoch, current_image_x=state.accepted_x, current_image_y=state.accepted_y, current_image_authentic=True)
+
+    if k == "inject_stale_image":
+        return replace(state, stale_image_epoch=state.authority_epoch - 1, stale_image_x=state.accepted_x, stale_image_y=False, stale_image_authentic=True)
+
+    if k == "restore_current_image":
+        sealed_wus = tuple(replace(wu, sealed=True) if wu.present else wu for wu in state.wus)
+        return replace(state, image=True, engine=True, wus=sealed_wus, mounted_image_epoch=state.current_image_epoch, mounted_image_x=state.current_image_x, mounted_image_y=state.current_image_y, mounted_image_authentic=True)
+
+    if k == "restore_stale_image":
+        sealed_wus = tuple(replace(wu, sealed=True) if wu.present else wu for wu in state.wus)
+        return replace(state, image=True, engine=True, wus=sealed_wus, mounted_image_epoch=state.stale_image_epoch, mounted_image_x=state.stale_image_x, mounted_image_y=state.stale_image_y, mounted_image_authentic=True)
+
     if k == "accept_x":
         return replace(state, accepted_x=True)
 
@@ -684,6 +766,8 @@ def invariant(state: State, p: Profile = REFERENCE) -> str | None:
             cur = state.wu(cur.parent)
     if state.image and not state.engine:
         return "C6: image mounted without enforcement"
+    if state.image and state.mounted_image_authentic and (state.mounted_image_epoch != state.authority_epoch or state.mounted_image_x != state.accepted_x or state.mounted_image_y != state.accepted_y):
+        return "C7: mounted authentic image is stale or omits accepted content"
     if state.route_handles > 0 and state.engine is False and p.route_exclusion:
         return "D1: surviving route after engine loss"
     if state.capacity_reserved not in (None, C, S):
@@ -795,7 +879,15 @@ CONTEXTS["cycle-order"] = [
     ("independent_change",),
 ]
 
+CONTEXTS["currentness-image"] = [
+    _g(P, SINK, RW), _g(C, SINK, RW), ("accept_x", C, B_GEN),
+    ("advance_authority_epoch",), ("accept_y", C, B_GEN),
+    ("inject_stale_image",), ("capture_current_image",), ("stop",),
+    ("restore_stale_image",), ("restore_current_image",),
+]
+
 CONTEXT_BOUNDS = {
+    "currentness-image": 10000,
     "cycle-order": 10000,
     "capacity-one": 10000,
     "content-continuity": 5000,

@@ -247,3 +247,33 @@ Mapping: C2—cyclic precedence cannot be satisfied by a first commit; this is a
 
 
 Assumptions: one serialized Kernel; fixed predecessor relation; proposal registration does not itself commit protected effects; the independent change is disjoint and authorized. Not tested: concurrent holders, order graphs beyond this exact 3-cycle, scheduler fairness, rollback, or external effects.
+
+## Current-versus-stale authentic image fixture (2026-10-30)
+
+
+
+Model SHA-256: fb9dbb4c6d6082bcb25e7faaade769225c734dfade62d620297620ffbe60b043.
+
+
+
+Named history: grant P/C SINK RW; accept x; advance the explicitly trusted authority/revocation epoch from 0 to 1; accept distinct y under that current view; create an authentic stale candidate at epoch 0 containing x but omitting y; capture an authentic current candidate at epoch 1 containing x/y; stop; attempt stale restore; restore current candidate.
+
+
+
+Reference outcome: stale restore is denied as stale-authentic-image-outside-baseline-success-profile (C7); current candidate restores successfully, mounted epoch=1 matches trusted current epoch=1, mounted x/y=true, accepted x/y=true, and all present Work Units are sealed. No accepted content is resubmitted.
+
+
+
+Mutation: currentness_check=False admits the stale restore transition; resolve detects C7 invariant violation: mounted authentic image is stale or omits accepted content. This is discriminating within the trusted authority-epoch/current-content premise.
+
+
+
+Boundary: currentness_available=False refuses both stale and current image recovery; no successful-recovery claim is made without the premise. The authentic marker, monotonic authority epoch, and accepted-content oracle are trusted inputs. This does not prove rollback resistance, image authenticity cryptographically, or storage freshness. Stale authentic material is expressly outside the baseline successful-recovery profile.
+
+
+
+Bounded run: currentness-image context, 42 states, 128 committed transitions, 0 reference invariant violations; one named stale denial. Mutant run produced the expected invariant-violation counterexample. Syntax check PASS; 10,000-state cap, 1,000,000-KiB virtual-memory cap, 120-second timeout. No aggregate context was run.
+
+
+
+Mapping: C5—x/y remain accepted through stop/recovery in the abstract store; C6—epoch is a separate trusted currentness witness; C7—current candidate recovers sealed, stale omitted-y/old-epoch candidate refused, weakened currentness is detected; C12—epoch change is ordered before y/image capture, but lost publication/reply is not modeled. Work Unit D—fixed content/boundary observations; E—currentness premise and refusal when unavailable; F—current vs stale recovery path; H—authority epoch change; I—retained x/y, no export/disposal; remaining A-L obligations stay as previously mapped and incomplete.
