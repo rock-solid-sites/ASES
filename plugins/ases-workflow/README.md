@@ -19,3 +19,8 @@ The repository is authoritative; plugin bundles are immutable, pinned snapshots,
 5. Confirm skill visibility and actual selection in a fresh chat; successful plugin creation alone is insufficient.
 
 No persistent service or automatic updater is implemented by this README.
+## First private release
+
+Version 0.1.0: https://chatgpt.com/plugins/plugins_6ae44a4ff8f081919325009658a40cae
+
+Sources are pinned in `sources.json`. Weekly checks run through `.github/workflows/ases-workflow-skill-drift.yml`. Checks only report differences; release updates remain explicit. Skill invocation must be verified in a fresh chat.
