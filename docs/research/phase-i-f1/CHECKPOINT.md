@@ -193,3 +193,13 @@ Reference context: 51 states/445 committed transitions/0 invariant violations un
 
 
 Two repeated cycles are the declared finite cutoff; deeper recovery, physical storage and rollback resistance remain unproved. No aggregate context was run. F1 remains incomplete.
+
+## 2026-10-30 optional-sink tranche start
+
+
+
+Inherited branch research/phase-i-work-unit-f1-20261029 at remote-verified SHA 7eb3cbe350311fb231412a3c158d52abdc96d7b1. Existing content, capacity, cycle, currentness and two-loss fixtures are preserved and will not be rerun.
+
+
+
+The current model has no sink acceptance ledger or source reply/knowledge distinction. The next single tiny context will add an explicitly permissive abstract sink outcome plus source-visible reply state only to compare accepted/unaccepted histories, dropped/surviving message choices and duplicate possibility on blind retry. This is not a sink contract or exactly-once guarantee. Planned cap <1,000 states, 1,000,000 KiB, 90 seconds; no aggregate search.
