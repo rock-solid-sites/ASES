@@ -1,5 +1,17 @@
 # Permissions — ASES Agent Definitions
 
+> **Policy/configuration drift (2026-10-30):** `AGENTS.md` now requires
+> Work, Codex and VPS worker agents to commit frequently and push their own
+> working branches at session end; explicit operator strategy decisions are
+> final within scope and may be published without redundant approval.
+> This file records **legacy configured permissions**, not the updated
+> desired policy: the current `crosslink-guard` and OpenCode permission
+> settings still block `git push`. Do not bypass these guards or claim the
+> new policy is mechanically implemented. A separately tested change must
+> update the guard and role permissions while retaining protections against
+> force pushes, unreviewed default-branch updates, secret exposure and
+> consequential deployment.
+
 **Snapshot** of the four roles' permission maps. **NOT the source of truth** —
 the live sources are `.opencode/agents/*.md`, `.opencode/opencode.json`, and
 `.crosslink/hook-config.json`. This file can go stale; if a setting here
