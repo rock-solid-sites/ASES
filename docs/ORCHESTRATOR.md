@@ -164,60 +164,32 @@ The commit cadence is one facet of auditing; liveness patrol is the other.
 
 ---
 
-# Permission Matrix
+# Current Agent Roles and Git Publication Policy
 
-**Policy update (2026-10-30):** Work, Codex, and VPS builder/worker agents
-must commit frequently and push their own working branches at session end.
-Explicit operator strategy-chat decisions are authoritative and may be published
-within their stated scope without a redundant per-push approval. This differs
-from the **legacy guard deployment** described below, which still blocks
-`git push` for native OpenCode roles. Do not mistake this policy update for
-a deployed guard change. Bring mechanical permissions into alignment in a
-separate tested change; do not bypass the existing guard, push to protected
-branches without permission, or claim a blocked push succeeded.
+The operator confirmed on 2026-10-30 that the historical `crosslink-guard`
+plugin is **not in use**. Earlier permission tables and claims that the guard
+blocks `git push` were snapshots of an obsolete architecture, **not
+statements about current enforcement**. The old table is retained for
+historical reference in `.opencode/permissions.md`; do not treat it as
+current or use it to deny normal worker publication.
 
-The following table describes the **currently observed/recorded legacy guard
-configuration**, not the desired end-state policy. The four-role permission model
-is enforced by two layers:
-`.opencode/agents/*.md` frontmatter (OpenCode permission matcher) and
-`.crosslink/hook-config.json` (`agent_overrides.by_type.*`, enforced by the
-`crosslink-guard` plugin). The authoritative snapshot lives in
-`.opencode/permissions.md`.
+Work, Codex and VPS worker agents commit frequently and push their **own
+working branches** at session end without a redundant per-push approval. They
+must not force-push or overwrite unrelated work, include credentials, bypass
+repository restrictions or conflate publication with deployment. Any blocked
+push is reported with the unpushed commit ID.
 
-| Role | Edit | Bash | Task (subagents) | Git write |
-|------|------|------|------------------|-----------|
-| **Orchestrator** (primary) | `deny` | allowlist: `crosslink *`, `opencode models *`, read-only git (`status`/`diff`/`log`/`show`/`branch`), the two gated git commands (`commit`, `merge`), `ls`/`cat`/`rtk` | `builder`, `reviewer`, `auditor` only | **Gated**: `git commit` + `git merge` (require active issue). **Blocked**: `push`, `rebase`, `cherry-pick`, `reset`, `clean`, `checkout .`, `restore .`, `stash`, `tag`, `am`, `apply`, `branch -d/-D/-m` |
-| **Builder** (subagent) | `allow` | full | `deny` | **Gated**: `git commit` (require active issue). Blocked: the shared blocked list (push/merge/rebase/reset/clean/checkout ./restore ./stash/tag/am/apply/branch -d/-D/-m) |
-| **Reviewer** (subagent) | `deny` | read-only only | `deny` | **Blocked**: all git writes including `git commit` |
-| **Auditor** (subagent) | `deny` | read-only only | `deny` | **Blocked**: all git writes including `git commit` |
+Operator decisions made explicitly in strategy chat are final within their
+scope and may be committed and published directly; uncertainty about the
+decision's scope or a distinct consequential action is escalated rather than
+invented. Reviewers and auditors remain independent and do not silently take
+on builder duties.
 
-Rules of thumb:
-
-- **Orchestrator**: coordination only — commit and merge currently require
-  an active Crosslink issue; legacy policy blocks push. Under the updated
-  policy, delegate session-end branch push to an authorized worker once the
-  guard permits it. Do not ask the operator to run routine Git commands.
-- **Builder**: the only role that writes project files.
-- **Reviewer / Auditor**: read-only; they can never write files or git history.
-
-The `orchestrator-guard.ts` plugin additionally blocks all write-path tools
-(`write`, `edit`, `apply_patch`, `filesystem_write_file`, `filesystem_edit_file`)
-for every non-Builder agent, closing the OpenCode `edit: deny` gap (#33677).
-
-Note: the Orchestrator's `bash` allowlist includes `git commit *` and `git merge *`
-not because those are read-only, but because the OpenCode matcher runs before the
-plugin's active-issue gate — without those patterns the gate would be unreachable
-and merge would be silently impossible. The gate itself is enforced by
-`by_type.orchestrator.gated_git_commands` in `.crosslink/hook-config.json`.
-
-Note: the bash allowlist is **prefix-matched** — chained or piped commands
-(e.g. `rtk git show ... | grep ... | wc -l`) are denied even when each segment
-is individually allowed; this is by design, not a bug. Use one command per
-tool invocation (or the Read tool for files); see the orchestration playbook
-§5.7 for guidance.
+**Effective permissions must be checked in the agent's active environment.**
+This section specifies desired conduct, not evidence of an installed technical
+enforcement mechanism.
 
 ---
-
 # Workflow Topology — Operational Procedure
 
 The design and reasoning record for the workflow topology is
@@ -597,27 +569,21 @@ Never bundle open-ended investigation mandates into edit or documentation tasks.
 Research that cannot be bounded up front gets its own issue and its own dispatch.
 A mutation task blocked on unresolved research delivers partial work with explicit WHAT-NOT-TESTED rather than waiting silently.
 
-## Model Selection — Operator-Gated (same tier as git merge)
+## Model Selection and Operator Authorization
 
-Model launch is **operator-gated and mechanically enforced** — same tier as `git merge`. The gate covers ALL agent launches: `crosslink kickoff run`, `crosslink kickoff launch`, and `crosslink swarm launch` via bash (`crosslink-guard.ts`), AND `Task` delegations to builder/reviewer/auditor (`orchestrator-guard.ts`). Configuration: `gated_bash_commands` in `.crosslink/hook-config.json`.
+The historical `crosslink-guard` plugin is not used. Its old block
+signatures, permission matrices and mechanical per-launch enforcement claims
+are obsolete; **do not represent them as active controls**.
 
-* Never assume the operator's model choice; halt on general model uncertainty rather than defaulting.
-* **Cheaper-first:** prefer cheaper models that satisfy the task; never select a frontier/expensive model over a cheaper option without explicit per-launch operator approval.
-* Verify every model ID against the live catalog before launch: `opencode models <provider>` — copy the ID exactly.
-
-**Block signature if not approved:** `AGENT LAUNCH BLOCK — Did your operator approve a model selection?`
-
-**Required 3 steps before retry:**
-1. **question (verbal approval)** — Ask the operator via the question tool: Which model for this dispatch? The operator's verbal answer is the approval — required and sufficient.
-2. **opencode models** — Verify the exact ID: `opencode models <provider>` (e.g. `opencode models opencode-go`).
-3. **retry** — Re-run the same launch. Each launch needs its own approval; approval is per-launch unless the operator explicitly says it covers multiple phases.
-
-**No Crosslink approval comment** — do not post one and do not wait for one: the operator never runs shell commands (AGENTS.md D1–D4), and a durable approval comment is pathological (a future agent would misread a transient approval as standing acceptance).
-
-Without an active issue the gate also blocks; create/claim one first (`crosslink quick` / `crosslink session work <id>`). The gate sits above the `crosslink`-prefix allowlist — being in `allowed_bash_prefixes` does not bypass it.
+Select models based on the actual task, available capability and justified
+cost/reliability requirements. Verify exact identifiers against the current
+model catalog when the provider is used. Honor the operator's explicit
+model-selection decisions within their stated scope; seek authorization when
+the choice is unresolved or a new material cost/scope decision is required.
+Do not ask for repeated approval for a choice already covered by an
+authoritative strategy decision.
 
 ---
-
 # Workflow
 
 Always follow this sequence unless the user explicitly requests otherwise.
