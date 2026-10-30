@@ -307,3 +307,33 @@ Assumptions/boundary: current image and stale authentic image are explicit trust
 
 
 Mapping: C5—x/y retained and bounded across both stops; C6—generation-2 stale use denied after second activation; C7—two current image restores preserve exact abstract x/y while stale epoch/content image is refused, and mutation detects stale mount; C12—no lost-response/publication history. Work Unit E/F currentness/recovery, H sealing/activation, I retained contents are partially witnessed. Remaining C/A-L gaps remain open.
+
+## Optional permissive-sink outcome context (2026-10-30)
+
+
+
+Model SHA-256: 62738d484e9ff6c5b04fa503c55240d5f87cc91c132d8298a81269bb09e01802.
+
+
+
+This is a bounded abstract permissive sink fixture, not a new sink contract or primitive. sink_attempts is hidden sink state; sink_reply_knowledge is source-visible. Source projection is (attempt count, reply knowledge) and excludes sink acceptance/drop.
+
+
+
+Accepted history: sink_send_survives; sink_accept (irreversible hidden outcome); sink_lose_reply. Unaccepted history: sink_send_dropped; sink_lose_reply. Both have source projection (1,unknown), although hidden sink_attempts differ: (accepted) versus (dropped). Common causal order is request invocation before terminal message outcome (acceptance or drop), before reply loss. The source cannot select one outcome from the shared observation.
+
+
+
+Dropped and surviving choices are explicit. Permissive retry history: send survives; accept; lose reply; retry survives under unknown outcome; accept retry; lose reply. Hidden ledger ends (accepted,accepted), reply knowledge unknown: duplicate possibility is demonstrated. No exactly-once, at-most-once, eventual delivery, or sink-currentness guarantee is claimed.
+
+
+
+Bounded run: sink-outcomes context, 19 reachable states, 22 committed transitions, zero invariant violations; state cap 1,000, virtual-memory cap 1,000,000 KiB, timeout 90 seconds. Python syntax compilation PASS. No aggregate context was run.
+
+
+
+Assumptions: exactly two attempts maximum in this fixture; a surviving message is eligible for irreversible acceptance; a dropped message cannot be accepted; sink acceptance persists when reply is lost; source sees only attempt count and unknown reply state; no sink idempotency/deduplication. This is an outcome abstraction, not evidence about a concrete service.
+
+
+
+Mapping: C1—sink acceptance is separated from source reply, but no concrete whole-effect refinement; C10—dropped/surviving/accept outcomes are enumerated without a sink contract; C12—lost reply preserves uncertainty and retry can duplicate. Work Unit B—SINK is an attachment abstraction; C—source process state is abstract; I—external visibility remains unspecified. Remaining sink identity, visible order and concrete contract obligations remain open.

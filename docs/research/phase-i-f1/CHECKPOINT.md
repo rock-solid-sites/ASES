@@ -203,3 +203,17 @@ Inherited branch research/phase-i-work-unit-f1-20261029 at remote-verified SHA 7
 
 
 The current model has no sink acceptance ledger or source reply/knowledge distinction. The next single tiny context will add an explicitly permissive abstract sink outcome plus source-visible reply state only to compare accepted/unaccepted histories, dropped/surviving message choices and duplicate possibility on blind retry. This is not a sink contract or exactly-once guarantee. Planned cap <1,000 states, 1,000,000 KiB, 90 seconds; no aggregate search.
+
+## 2026-10-30 permissive-sink checkpoint
+
+
+
+Added a tiny sink-outcomes context separating hidden sink_attempts from source reply knowledge. Accepted and dropped histories both project to (one attempt, unknown reply); a single common causal skeleton orders request before terminal sink outcome before reply loss.
+
+
+
+Both dropped and surviving message choices are tested. Under the explicitly permissive no-deduplication abstraction, retry after lost reply reaches two irreversible accepted outcomes. This demonstrates duplicate possibility only; it adds no sink contract and makes no exactly-once claim.
+
+
+
+Run: 19 states/22 committed transitions/0 invariant violations under 1,000 states, 1 GiB, 90 s; syntax passed. Evidence and C1/C10/C12/Work Unit mapping are in Phase-I-F1-Targeted-Run.md. F1 and concrete sink semantics remain incomplete.

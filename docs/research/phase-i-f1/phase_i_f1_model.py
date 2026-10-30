@@ -35,6 +35,7 @@ SCOPE_COVERED = [
     "one accepted atom x across stop, sealed cold recovery, authority reissue and use (C5/C6/C7; limited fixture)",
     "one conserved capacity-one parent reservation allocated to C or S, with distinct consumption (C3; narrow fixture)",
     "current versus stale authentic image epoch/content check with refusal boundary (C7; trusted currentness premise)",
+    "permissive two-attempt sink outcome and reply-knowledge abstraction (T18/T19; no exactly-once contract)",
     "two successive stop/recovery cycles preserve x/y sealed; deeper repetition untested",
     "internal resource-backed computation continuing after engine loss (K.7; D3 not modelled)",
     "complete-disposition precondition for boundary removal incl. descendants and empty units (C4, C8)",
@@ -45,7 +46,7 @@ SCOPE_NOT_COVERED = [
     "additional content atoms y and unaccepted candidate z, multi-object retention and disposition (T06, T23)",
     "multi-unit, repeated, and post-recovery capacity competition beyond one reservation (T04)",
     "three concurrent proposals with cyclic order plus independence control (T04 second half)",
-    "selected sink contracts, dropped/surviving in-flight messages, lost reply (T18, T19)",
+    "concrete sink identity, delivery/currentness/visibility contracts and arbitrary retries beyond the two-attempt permissive fixture (T18, T19)",
     "derived results, phantom/negative facts, scope-limited judgments (T14-T16, T21)",
     "interrupted disposition and coupled move/recovery races (T12, T13)",
     "concurrent holders and any non-serialized ordering (D-1: serialized Kernel only)",
@@ -120,6 +121,8 @@ class State:
     independent_changed: bool = False  # one finite positive control orthogonal to capacity
     cycle_pending: tuple = (False, False, False)  # pending A/B/C proposals
     cycle_committed: tuple = (False, False, False)  # committed A/B/C proposals
+    sink_attempts: tuple = ()  # hidden outcomes: dropped/surviving/accepted, capped at two
+    sink_reply_knowledge: str = "none"  # source-visible: none/awaiting/unknown
 
     # helpers
     def wu(self, w: str) -> WU:
@@ -402,6 +405,26 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
             return "cyclic-predecessor-uncommitted (C2)"
         return None
 
+    if k == "sink_send_dropped" or k == "sink_send_survives":
+        if state.sink_attempts:
+            return "initial-sink-attempt-already-made"
+        return None
+
+    if k == "sink_accept":
+        if not state.sink_attempts or state.sink_attempts[-1] != "surviving":
+            return "no-surviving-message-for-acceptance (C10)"
+        return None
+
+    if k == "sink_lose_reply":
+        if state.sink_reply_knowledge != "awaiting":
+            return "no-pending-sink-reply"
+        return None
+
+    if k == "sink_retry_survives":
+        if state.sink_reply_knowledge != "unknown" or len(state.sink_attempts) != 1:
+            return "blind-retry-not-in-permissive-fixture"
+        return None
+
     if k == "accept_y":
         w, origin = ev[1], ev[2]
         if not state.accepted_x or state.accepted_y:
@@ -647,6 +670,23 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         committed[ev[1]] = True
         return replace(state, cycle_committed=tuple(committed))
 
+    if k == "sink_send_dropped":
+        return replace(state, sink_attempts=state.sink_attempts + ("dropped",), sink_reply_knowledge="awaiting")
+
+    if k == "sink_send_survives":
+        return replace(state, sink_attempts=state.sink_attempts + ("surviving",), sink_reply_knowledge="awaiting")
+
+    if k == "sink_accept":
+        attempts = list(state.sink_attempts)
+        attempts[-1] = "accepted"
+        return replace(state, sink_attempts=tuple(attempts))
+
+    if k == "sink_lose_reply":
+        return replace(state, sink_reply_knowledge="unknown")
+
+    if k == "sink_retry_survives":
+        return replace(state, sink_attempts=state.sink_attempts + ("surviving",), sink_reply_knowledge="awaiting")
+
     if k == "accept_y":
         return replace(state, accepted_y=True)
 
@@ -771,6 +811,12 @@ def invariant(state: State, p: Profile = REFERENCE) -> str | None:
         return "C7: mounted authentic image is stale or omits accepted content"
     if state.route_handles > 0 and state.engine is False and p.route_exclusion:
         return "D1: surviving route after engine loss"
+    if len(state.sink_attempts) > 2 or any(x not in ("dropped", "surviving", "accepted") for x in state.sink_attempts):
+        return "C10: invalid or unbounded sink attempt ledger"
+    if state.sink_reply_knowledge not in ("none", "awaiting", "unknown"):
+        return "C10: invalid source reply knowledge"
+    if bool(state.sink_attempts) != (state.sink_reply_knowledge != "none"):
+        return "C10: source reply knowledge inconsistent with request history"
     if state.capacity_reserved not in (None, C, S):
         return "C3: capacity reservation has invalid owner"
     if state.capacity_consumed and state.capacity_reserved is None:
@@ -899,7 +945,13 @@ CONTEXTS["two-loss-currentness"] = [
     ("use_x", C, B_GEN),
 ]
 
+CONTEXTS["sink-outcomes"] = [
+    ("sink_send_dropped",), ("sink_send_survives",),
+    ("sink_accept",), ("sink_lose_reply",), ("sink_retry_survives",),
+]
+
 CONTEXT_BOUNDS = {
+    "sink-outcomes": 1000,
     "two-loss-currentness": 5000,
     "currentness-image": 10000,
     "cycle-order": 10000,
@@ -1101,10 +1153,16 @@ def run_witnesses(p: Profile = REFERENCE):
 
 # ------------------------------------------------------------------ render
 
+def sink_source_observation(st: State) -> tuple:
+    """Source-visible attempts and reply knowledge; excludes sink outcome ledger."""
+    return (len(st.sink_attempts), st.sink_reply_knowledge)
+
+
 def render_state(st: State) -> dict:
     return {
         "engine": st.engine, "image": st.image, "thinking": list(st.thinking),
-        "accepted_x": st.accepted_x,
+        "accepted_x": st.accepted_x, "accepted_y": st.accepted_y,
+        "sink_attempts": list(st.sink_attempts), "sink_reply_knowledge": st.sink_reply_knowledge,
         "mgmt": [list(g) for g in st.mgmt],
         "ac": {"inside": st.ac_inside, "epoch": st.epoch, "pending": st.ac_pending},
         "route_handles": st.route_handles,
