@@ -22,12 +22,13 @@
 
 The executions are abstract reference-model replays only. No host/runtime, descriptor, concrete route, storage rollback, or ACL evidence is claimed. The T05 event sequence is prepared-only because retained OS handles and live CPU-only progress are outside the model.
 
-## Blocked outcomes requiring follow-up
+## Remaining limitations
 
-
-
-T01-T04, T06-T23 contain selected passing model histories; coverage is not complete within those traces (see matrix).
+- No abstract fixture is blocked in the latest run; the six previously blocked checks were corrected only where inspection showed a runner/oracle defect against the frozen F2 condition.
+- T05 remains prepared-only because actual retained OS handles, protected-route denial, and continuing CPU-only execution require an isolated runtime harness.
+- Other trace families still have partial coverage and missing subcases listed in `COVERAGE.md`; 42 passing abstract histories are not aggregate T01-T24 acceptance.
+- No concrete policy invalidation of already-open access, external sink contract, storage rollback resistance, or physical holder fencing was tested.
 
 ## Next operation
 
-Complete remaining destructive controls and positive cases without reference to Agent D, then assess which host-dependent traces can remain prepared-only. Keep host-dependent cases prepared-only until a suitable independent harness exists. Continue small commits and push only this branch; the previous provider HTTP 402 is not to be retried.
+Review destructive-control coverage against the frozen F2 list and add remaining positive cases without reference to Agent D; assess which host-dependent traces can remain prepared-only. Keep host-dependent cases prepared-only until a suitable independent harness exists. Continue small commits and push only this branch; the previous provider HTTP 402 is not to be retried.
