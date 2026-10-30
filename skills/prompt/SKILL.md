@@ -1,6 +1,6 @@
 ---
 name: compact-prompt
-version: 0.3-draft
+version: 0.4-draft
 description: Construct compact agent prompts for ASES/T3 workflows. Use when preparing fresh-context prompts for orchestrators, builders, recon/verification agents, reviewers, ontology reviewers, or synthesis agents. Select only task-specific instructions, run-specific policy, relevant context, and an observable completion condition; omit project knowledge and restrictions already supplied or enforced elsewhere.
 ---
 
@@ -126,8 +126,8 @@ Distinguish **the recipient's own identity** from **the models it is authorized 
 
 Examples:
 
-- **Forbidden:** `You are Luna xhigh. Confirm that you are running Luna xhigh before proceeding.`
-- **Forbidden:** `As the DeepSeek builder, choose reviewers from other model families.`
+- **Forbidden:** A statement assigning the receiver a model identity or a demand that it verify its own model selection.
+- **Forbidden:** Asking the builder to infer its own model family to determine reviewer eligibility.
 - **Correct:** `Review the pinned artifact under the supplied constraints; stop and ask if the authorized route is unavailable.`
 - **Correct when dispatch is part of the task:** `Launch only the reviewer model/provider pairs approved in the immutable dispatch manifest; stop if one is unavailable.`
 
