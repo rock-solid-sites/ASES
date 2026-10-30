@@ -757,7 +757,21 @@
         }
       },
       "assumption": "Moving the sealed boundary to a permissive parent preserves useful local read grants for C and descendant D.",
-      "status": "executed"
+      "status": "executed",
+      "mechanism": {
+        "whole_effect_recovery": true
+      },
+      "expected_steps": [
+        {
+          "deny": false
+        },
+        {
+          "deny": false
+        },
+        {
+          "deny": false
+        }
+      ]
     },
     {
       "id": "T11-sealed-move-latent-write-denied",
@@ -861,7 +875,32 @@
         "reason_contains": "current authority"
       },
       "assumption": "C's latent write restriction survives moving beneath Q; inherited containment applies to D absent a separate authorized grant.",
-      "status": "executed"
+      "status": "executed",
+      "mechanism": {
+        "whole_effect_recovery": true
+      },
+      "mutation": {
+        "whole_effect_recovery": false
+      },
+      "mutation_expected": {
+        "deny": false,
+        "store": {
+          "parent.C": "Q"
+        }
+      },
+      "expected_steps": [
+        {
+          "deny": false
+        },
+        {
+          "deny": true,
+          "reason_contains": "current authority"
+        },
+        {
+          "deny": true,
+          "reason_contains": "current authority"
+        }
+      ]
     },
     {
       "id": "T12-empty-check-races-child-creation",

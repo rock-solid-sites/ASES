@@ -2,10 +2,24 @@
 """Replay the machine-checkable F2 fixture tranche using the independent oracle."""
 import json
 from pathlib import Path
-from f2lib import run_scenario, _read_path
+from f2lib import run_scenario, _read_path, build, Result, apply
 
 ROOT = Path(__file__).resolve().parent
 catalog = json.loads((ROOT / "fixtures.json").read_text())
+
+class StepResult:
+    def __init__(self, value):
+        self.denied = value.get("denied")
+        self.reason = value.get("reason", "")
+        self.engine_denied = value.get("engine_denied")
+        self.delete_blocked = value.get("delete_blocked")
+        self.takeover_refused = value.get("takeover_refused")
+        self.sink = value.get("sink")
+        self.flags = value.get("flags", {})
+        self.delete_reason = value.get("delete_reason", "")
+
+def _dict_result(value):
+    return StepResult(value)
 
 def observed(expect, result, store):
     failures = []
@@ -36,17 +50,40 @@ for fixture in catalog["fixtures"]:
                     "expected_observation": fixture["expected_observation"], "mutation": None})
         continue
     world = {"init": fixture["initial_state"]}
-    store, result = run_scenario(world, {"events": fixture["events"]}, fixture.get("mechanism"))
-    baseline = observed(fixture["expected_observation"], result, store)
+    step_observations = []
+    if fixture.get("expected_steps"):
+        store = build(fixture["initial_state"])
+        result = Result()
+        for event in fixture["events"]:
+            result = Result()
+            apply(store, event, result, fixture.get("mechanism", {}))
+            step_observations.append(result.as_dict())
+        baseline = []
+        for index, expected in enumerate(fixture["expected_steps"]):
+            baseline.extend([f"step {index}: {failure}" for failure in observed(expected, _dict_result(step_observations[index]), store)])
+    else:
+        store, result = run_scenario(world, {"events": fixture["events"]}, fixture.get("mechanism"))
+        baseline = observed(fixture["expected_observation"], result, store)
     record = {"id": fixture["id"], "trace": fixture["trace"], "assumption": fixture["assumption"],
               "status": "executed" if not baseline else "blocked", "execution_scope": "f2lib abstract replay only",
-              "observation": result.as_dict(), "store": store, "failures": baseline, "mutation": None}
+              "observation": result.as_dict(), "step_observations": step_observations,
+              "store": store, "failures": baseline, "mutation": None}
     if fixture.get("mutation"):
         mechanism = dict(fixture.get("mechanism", {})); mechanism.update(fixture["mutation"])
-        mutated_store, mutated_result = run_scenario(world, {"events": fixture["events"]}, mechanism)
+        mutation_steps = []
+        if fixture.get("expected_steps"):
+            mutated_store = build(fixture["initial_state"])
+            mutated_result = Result()
+            for event in fixture["events"]:
+                mutated_result = Result()
+                apply(mutated_store, event, mutated_result, mechanism)
+                mutation_steps.append(mutated_result.as_dict())
+        else:
+            mutated_store, mutated_result = run_scenario(world, {"events": fixture["events"]}, mechanism)
         mutation_failures = observed(fixture["mutation_expected"], mutated_result, mutated_store)
         record["mutation"] = {"mech": fixture["mutation"], "observation": mutated_result.as_dict(),
-                              "store": mutated_store, "status": "discriminating" if not mutation_failures else "invalid",
+                              "step_observations": mutation_steps, "store": mutated_store,
+                              "status": "discriminating" if not mutation_failures else "invalid",
                               "failures": mutation_failures}
         if mutation_failures:
             record["status"] = "blocked"

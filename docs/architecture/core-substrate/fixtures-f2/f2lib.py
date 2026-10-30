@@ -934,6 +934,7 @@ def _ev_coupled_move(store, e, res, mech):
         res.log.append("coupled move committed")
         return
     store["parent"][e["child"]] = e["to"]
+    store.get("latent", {}).pop(e["child"], None)
     _allow(res)
     res.log.append("weakened: half effect (parent changed, restrictions lost)")
 

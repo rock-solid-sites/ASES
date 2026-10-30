@@ -4,7 +4,7 @@
 - Crosslink issue: #9
 - Oracle baseline: `f2lib.py`, independent of Agent D
 - Scope: T01 through T24 have explicit catalog records in `fixtures.json`; `COVERAGE.md` distinguishes partial traces, model-only executions, prepared-only traces, and blocked cases.
-- Latest runner report: `results.json`: 36 executed abstract replays, 1 prepared-only trace (T05), 6 blocked fixture cases. This is not aggregate T01 through T24 passing evidence.
+- Latest runner report: `results.json`: 37 executed abstract replays, 1 prepared-only trace (T05), 5 blocked fixture cases. This is not aggregate T01 through T24 passing evidence.
 
 ## Added artifacts
 
@@ -17,14 +17,13 @@
 
 - `python3 -m py_compile f2lib.py run_fixtures.py`
 - `python3 -m json.tool fixtures.json`
-- Runner last reported 36 executed, 1 prepared-only, 6 blocked; 8 mutations discriminate intended faults.
+- Runner last reported 37 executed, 1 prepared-only, 5 blocked; 9 mutations discriminate intended faults.
 - `git diff --check`
 
 The executions are abstract reference-model replays only. No host/runtime, descriptor, concrete route, storage rollback, or ACL evidence is claimed. The T05 event sequence is prepared-only because retained OS handles and live CPU-only progress are outside the model.
 
 ## Blocked outcomes requiring follow-up
 
-- T11: latent write restriction does not produce the expected denial in the move trace.
 - T12 and T15: empty-removal handler strands the concurrently created child instead of refusing removal.
 - T20: conflicting-acceptance history does not produce the expected second-acceptance denial.
 - T24: ordered post-revocation use and out-of-band policy consistency observations fail their expected checks.
