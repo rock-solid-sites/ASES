@@ -97,3 +97,17 @@ ATTACKS/negative mutation run: 11 attack histories, 10 weakened variants; only A
 
 
 Final mapped status: partial. Coverage table records omissions explicitly. No all-context run or proof claim.
+
+## Additional latent-ceiling mutation and bounded-run update (2026-10-30)
+
+
+
+A focused negative use after the WT-08 move initially committed incorrectly: the move retained only explicit latent metadata, not the old ancestors effective grant ceiling; use-time chain evaluation also ignored latent metadata. The move now retains the intersection of all old ancestor grants in the child latent ceiling, and use-time effective grants intersect latent ceilings. Retest: same AT-05 write attempt is denied in the reference; with latent_preserved=False the weakened trace diverges and AT-05 is now a valid discriminator.
+
+
+
+Latest attack-report retest: 3/10 variants discriminate their named fault (AT-02, AT-05, AT-09). Seven remain invalid/non-discriminating.
+
+
+
+Latest syntax check passed. The containment-and-grants context was run with a 10,000-state cap, 1,000,000-KiB memory cap and 120-second timeout; it raised state-bound-exceeded before completion. This is INCOMPLETE, not a pass. The 16-state recovery-context result was obtained before this latest change and must be rerun. Evidence is recorded here; no output was represented as exhaustive.

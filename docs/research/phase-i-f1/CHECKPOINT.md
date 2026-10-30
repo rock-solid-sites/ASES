@@ -57,3 +57,9 @@ Added explicit status mapping for every C1-C13 and Work Unit A-L in Phase-I-F1-T
 
 
 Next: model explicit denied uses after engine loss and latent move; repair or replace nondiscriminating mutation histories; implement missing bounded contexts for C1-C13 obligations beginning with capacity/content/recovery. All-context MemoryError remains unresolved; no proof claim.
+
+## 2026-10-30 latent-ceiling checkpoint
+
+
+
+Found and repaired a concrete C8 defect: move/use previously dropped an old ancestor grant restriction despite a latent record. AT-05 now denies forbidden post-move write and discriminates when latent preservation is weakened. Attack discrimination is 3/10, remaining seven invalid. A 10,000-state run of containment-and-grants exceeded its state bound and is recorded incomplete. Next: refactor bounded exploration/reporting, rerun recovery context under updated source, and continue explicit negative/witness tests.

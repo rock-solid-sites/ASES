@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 from collections import deque
 from dataclasses import dataclass, replace
+from functools import reduce
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -198,10 +199,10 @@ def chain_grant(state: State, w: str, cap: str, p: Profile) -> str:
     """Local grant restricted by every ancestor grant (K.11)."""
     m = get(state.wu(w).grants, cap)
     if not p.ancestor_ceiling:
-        return m
+        return ix(m, latent_chain(state, w, cap))
     for a in ancestors(state, w):
         m = ix(m, get(state.wu(a).grants, cap))
-    return m
+    return ix(m, latent_chain(state, w, cap))
 
 
 def latent_chain(state: State, w: str, cap: str) -> str:
@@ -488,7 +489,7 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
             return state.set_wu(w, parent=new_parent)
         retained = {}
         for cap in CAPS:
-            retained[cap] = latent_chain(state, w, cap)
+            retained[cap] = reduce(lambda mode, parent: ix(mode, get(state.wu(parent).grants, cap)), ancestors(state, w), latent_chain(state, w, cap))
         s = state.set_wu(w, parent=new_parent)
         for cap in CAPS:
             allowed = ix(retained[cap], latent_chain(s, w, cap))
