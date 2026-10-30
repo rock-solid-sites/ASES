@@ -1,0 +1,91 @@
+# Scaling Trust — Track 2.2 (Components)
+## Working grant proposal: Kernel-0 / Work Unit-0 — Verifiable Authority for Autonomous Agents
+**Status: APPLICATION DRAFT, NOT SUBMISSION-READY.** Prepared 30 October 2026; 31 October 2026 14:00 GMT batch cut-off. Track and budget remain subject to applicant approval and portal checks. Formatting target: PDF <=10 pages, Arial 11pt+, >=0.5in margins; references excluded from page limit. Author identity, team, costs, UK benefit, and IP authorization require confirmation before submission.
+
+### 0. Summary (under 500 words)
+AI agents can increasingly execute complex tasks using existing operating systems, tools, networks and services, yet a critical security question remains unanswered: **which authority actually permits a consequential operation at the instant it happens, and can that permission be enforced when the agent, its operator or its supervisor fails or is replaced?** A model instruction, an access-control record, and a confident report are not sufficient if an old process retains a usable file descriptor, credential or external-service route.
+
+We propose an open-source, reusable authority-enforcement and conformance component for agentic systems, grounded in the Kernel-0 and Work Unit-0 research programme. Our core research treats authorization as a current-state-dependent predicate over the exact proposed effect, accepting a whole transition only when guards, effect relation and invariants agree. Work Units retain bounded work and accepted content independently of the lifetime of any particular agent process. This is deliberately narrower than designing a new general-purpose agent, network stack or operating system: existing systems provide computation, while the protected boundary supplies demonstrable limits on consequential operations.
+
+The project has substantial but scoped prior evidence. A fixed transition-logic Kernel-0 realization passed 4,945,272 bounded oracle comparisons and synthesis-level equivalence checks under declared finite-profile and trusted-ingress assumptions. Subsequent ingress-reduction experiments tested a simpler protected-lane hypothesis. The ongoing Work Unit programme has executable bounded reference models, 46 abstract hostile-history replays with 16 discriminating mutations, and a small host experiment in which a restricted child obtained an authorized read through a mediator and a later read was denied following explicit revocation. The same experiments exposed why inherited file descriptors can bypass path-permission revocation. These are **research results, not proof of a completed deployment-quality security substrate**.
+
+We seek support to turn the semantics and experimental mechanisms into a usable, independently testable agent-side component: a minimal enforcement boundary for selected resource attachments, precise machine-readable effect and authority decisions, observable failure/recovery behavior, and a hostile conformance suite that distinguishes successful security claims from vacuous denials. We will demonstrate useful delegated work involving distinct principals and deliberately adversarial actors, measure security failures alongside task utility, and publish the component and reproducible evidence under MIT/Apache-2.0 dual licensing for funded deliverables.
+
+The intended contribution to ARIA Scaling Trust is the *enforcement layer between security policy or protocol decisions and actual consequential actions*. It complements funded efforts in protocol design, negotiation, auditing and cryptographic evidence. By making authorization boundaries falsifiable rather than merely asserted, it could give Arena entrants and other agent platforms a reusable foundation for trustworthy coordination.
+
+### 1. Programme and technical case
+
+#### Track and distinctive problem
+**Track 2.2 — reusable components.** ASES addresses a distinct operational problem: **authority-to-effect correspondence**. Many systems can derive or express a policy; a different system component must reliably decide, at the effect boundary, whether an actual file, network, credential, storage or service operation is currently permitted. An agent sandbox alone does not prove that every protected route is mediated, that obsolete authority is excluded, that accepted content survives selected failures, or that recorded authorizations match irreversible effects.
+
+The specific contribution is a small, inspectable component with an explicit failure-profile contract and an evidence-based conformance harness. It does not attempt to invent cryptographic negotiation protocols, train a security-reasoning model or replace secure execution products. It should be usable by other systems that already capture policies or generate protocols.
+
+#### Scientific/technical hypothesis
+**Hypothesis H:** For a declared finite class of delegated agent operations and physical trust premises, an implementation with a minimal authoritative state-transition boundary plus independent durable Work Unit state can enforce current authorization on selected real effect routes, retain accepted work across executor loss, and expose enough evidence for independent conformance and adversarial testing, without a permanently trusted agent reasoning loop.
+
+The hypothesis is falsifiable by a single post-revocation or post-failure forbidden effect through an in-scope route, a missing accepted byte after covered recovery, a replayable stale holder, a partial commitment falsely acknowledged as whole, or a failure to make useful authorized progress.
+
+#### Existing results and their limits
+1. **Kernel-0 RTL:** finite-profile synthesizable transition logic, with no general processor or interpreter in the declared authority mechanism; 4,945,272 comparisons across three profiles, including correspondence and synthesis checks. This does not prove physical silicon, arbitrary concurrency, hardware wiring, trusted ingress or complete agent confinement.
+2. **Ingress reduction:** experiments on replacing caller-supplied identity/authenticity claims with protected fixed source lanes. Conditional on physically trustworthy lane separation; physical unforgeability is not demonstrated.
+3. **Work Unit formalization:** finite model witnesses for replacement, retained x/y through two modelled recovery losses, a capacity-one resource, acyclic-order obligations, current-versus-stale images and targeted malicious mutations. The broad C1–C13 / A–L proof obligations and concrete realization correspondence are incomplete.
+4. **Host enforcement:** a Landlock-confined child with no target descriptor obtained an authorized read via a per-operation mediator and was denied a later read over the same retained socket after explicit revocation. A deliberately inherited file descriptor bypassed pathname restrictions. General route coverage, actual authority-holder-loss behavior, policy-ordering across failure and full recovery remain to be established.
+5. **Adversarial catalogue:** T01–T24 scenarios with 46 executed *abstract replays* and 16 discriminating mutation controls; host-level tests and several subcases remain outstanding.
+
+These results are documented in the evidence ledger. We will publish counterexamples and unresolved assumptions as first-class outputs, not present them as passing guarantees.
+
+#### Proposed deliverable and interfaces
+The funded product will expose a narrow, versioned interface for: (i) proposing a fully specified operation against a named bounded Work Unit and declared capability; (ii) receiving an authorized whole-effect decision or denial with an explicit scope and state/dependency reference; (iii) invoking a protected adapter for a supported effect rather than handing an ambient credential to the untrusted agent; and (iv) exporting machine-readable observations for a separate checker. This is a *target interface*, not an existing implemented API or a commitment to any particular transport, language or isolation architecture. Interface and realization candidates must pass ASES's exclusion-first assurance selection.
+
+The reference Work Unit is an object with explicitly bounded content, authority, provenance, capabilities and failure semantics. Agent processes remain replaceable; the implementation must avoid confusing a supervisor's cached grant with current authority. When the authority holder is lost, in-scope protected operations fail closed while permitted internal resource-backed computation may continue. Accepted content remains protected and recoverable under the declared process-loss/current-storage assumptions.
+
+#### Test case and Arena relevance
+A principal delegates a bounded task to an agent that uses a selected protected resource. The agent performs an authorized read or other supported operation, retains its control channel, and attempts to repeat an operation after the principal revokes or the authority holder is replaced. A second independent agent or red-team actor attempts impersonation, replay, bypass via inherited handles, and misuse of partially accepted work. Positive utility controls ensure that a system which denies everything cannot pass.
+
+Measures: proportion of supported harmful-history tests excluded; positive task completion; differences between modeled and observed histories; mutation sensitivity; supported route coverage; resource/latency overhead against baseline; recovery behavior under explicitly covered failures; and integration cost for a second agent harness. Report the denominator and exclusions for every metric. Do not claim zero security failures outside the covered boundary.
+
+#### Method and milestones — candidate 12-month Track 2.2 plan
+| Period | Work and demonstrable gate | Proposed artifact |
+| --- | --- | --- |
+| Months 1–3 | Close a subset of Work Unit formal obligations and F2 hostile tests; independently challenge selected authority/currentness assumptions; establish reusable operation/effect format and measurable exclusion criteria. | Versioned reference semantics, finite proof/test reports, security-property catalogue, reproducible negative mutants. |
+| Months 4–6 | Implement and verify a protected Work Unit with an explicitly selected resource attachment, accepted byte retention, executor replacement, covered loss/recovery and current route enforcement. Verify complete non-vacuous use and exact limits. | Host prototype, route/TCB inventory, executable positive and hostile tests, precise failure-class statement. |
+| Months 7–9 | Extend to a second useful attachment and a two-principal delegated workflow if supported by evidence; bind concrete histories to one abstract explanation; assess integration against existing agent stacks and compare cost/security/utility. | Reusable component interface, independently reproducible demo, whole-history checker, benchmark results. |
+| Months 10–12 | Clean-room cross-family/security review, documented repairs, public releases, deployment/integration guide, UK build-week participation and collaboration with relevant UK ecosystem partners. | Open-source component under required dual licensing, reproducible conformance suite, published limitation register, engagement report. |
+
+Stage gates are falsifiable: if an enabled path bypasses mediation, stop claiming confinement and repair/narrow the profile; if cold recovery is inconsistent, preserve protected dormant state rather than invent accepted work; if no viable realization satisfies the mandatory properties, report the obstruction and narrower supported result. A nontrivial negative result is publishable research evidence.
+
+#### Key risks and response
+- **Actual-effect bypass:** inherited descriptors, aliases, process descendants, alternate credentials, network/sink acceptance, and OS policy races may defeat metadata-only sealing. Use concrete route inventory and hostile tests; restrict the selected attachment until all claimed paths are accounted for.
+- **Trusted base too large:** OS, storage, runtime, toolchain and mediator remain trusted to the extent the guarantee depends on them. Report the entire actual TCB; test reductions rather than asserting processorless RTL eliminates host trust.
+- **Loss/currentness ambiguity:** process-loss tests cannot prove power-loss durability or rollback resistance. Publish separate failure profiles, and withhold activation if currentness is unavailable.
+- **Compositional mismatch:** independent local checks may not explain a complete observed history. Compare whole histories against one coherent admissible order and compatible recovery cut.
+- **Novelty and cost:** a novel mechanism may be costly to validate, adopt and maintain. Compare it empirically with existing host facilities and reusable open-source mechanisms before freezing a production realization.
+- **Adoption/generalisation:** an abstract kernel could remain isolated research. Build to a stable narrow component interface and evaluate interoperability with independently developed agent systems, rather than building an entire agent platform.
+
+#### Differentiation and portfolio complementarity
+ARIA already funds the University of Edinburgh's agentic protocol security reasoner, Dovetail's protocol synthesis, ProtoSage/ProtoBench protocol auditing, Project HAMMER's negotiation security, and CCTI's cryptographic trust infrastructure. These tools address protocol creation, interaction, audit or trusted facts. Our proposed boundary addresses a distinct failure mode: a policy can be sound and its protocol verified, while actual operation through an old descriptor, credential or holder remains unauthorized. An enforcement-and-conformance component can *consume* their decisions and demonstrate whether a real effect met them; actual interoperability is future work rather than an existing partnership. See the October 7 portfolio map and the companion positioning memo.
+
+### 2. Team and execution plan — INFORMATION REQUIRED BEFORE SUBMISSION
+**Lead/applicant:** [legal name/entity, location and legal status], principal research role [FTE]; qualifications and evidence of work: [verified record, prior projects, roles]. We have not established applicant credentials or formal commitments here; do not invent them.
+
+**To recruit/contract:** independent systems assurance / formal-methods and host security review capacity, subject to agreed costs and availability; name only if confirmed. Describe which work is already committed and which roles are proposed. State expected start dates and % FTE. The existing ASES programme uses agents and reproducible deterministic tests; funding should secure accountable human researchers and reviewers rather than represent LLM outputs as expert independent assurance.
+
+**Management:** small evidence-driven work increments; bounded specifications; independently replayable tests; recorded negative results; independent cross-family review; versioned releases and explicit milestone gates.
+
+### 3. Administrative response — OPEN
+- **Requested budget:** [GBP amount; cost spreadsheet required; 12-month example in budget planning note]. Funding may cover 100% of eligible costs; proposed personnel, compute/model access, storage/hardware, security review, UK travel/build weeks and administration require cost justification and eligibility check.
+- **UK benefit and work location:** Project lead currently outside the UK; UK collaboration, build weeks and direct reusable benefit to UK agent-security infrastructure should be specified with credible plans, named partners only when agreed, and calendar. A 2–4-week UK presence is an available planning constraint, not a promise of majority UK spend or presence. ARIA evaluates net programme benefit to the UK if most work is overseas.
+- **IP:** background ASES research and dependencies to be audited for rights; ARIA-funded foreground software proposed under MIT + Apache-2.0 dual licences. Check contributions and dependencies before asserting rights; existing public source does not mean rights to relicense all background content.
+- **Commercial hypothesis:** [portal-provided template to complete]. Hypothesis: open enforceable authority substrate and conformance suite can reduce integration and security-review costs for agent developers; future service opportunities may be testing, support or integration while core foreground remains permissively open source. No customers, revenue or partnerships claimed.
+- **Other funding, conflicts, authorization, restricted work:** [applicant-specific answers required].
+- **Funding and team readiness:** [actual commitments and timelines required].
+- **Submission:** complete separate administrative answers and official cost spreadsheet; export proposal in required <=10-page PDF format; submit through ARIA portal before 31 Oct 2026 14:00 GMT for current batch. The February solicitation PDF still prints a March deadline; the live rolling-call page replaces that date.
+
+### References
+1. ARIA, live rolling call: https://aria.org.uk/opportunity-spaces/trust-everything-everywhere/scaling-trust/funding
+2. ARIA, 30-page solicitation PDF, Sections 3–8: https://aria.org.uk/media/3fojcymz/scaling-trust-call-for-proposals_accessible.pdf
+3. Scaling Trust portfolio blog, Oct 7, 2026: https://scalingtrust.org.uk/blog/building-the-scaling-trust-portfolio/
+4. Kernel-0 direct RTL evidence: https://github.com/rock-solid-sites/ASES/blob/research/phase-i-kernel0-timing-20261029/docs/research/kernel-0/Kernel-0-Direct-RTL-Result.md
+5. F1 Work Unit record: https://github.com/rock-solid-sites/ASES/blob/d227a22b9bbc0732881bf58f6933ce46fddc08fa/docs/research/phase-i-f1/Phase-I-F1-Targeted-Run.md
+6. F2 hostile catalogue: https://github.com/rock-solid-sites/ASES/blob/5fb690d4ba7544a4a7eb5fce9ca1e54485543d64/docs/architecture/core-substrate/fixtures-f2/COVERAGE.md
+7. F3 host evidence: https://github.com/rock-solid-sites/ASES/blob/ad44b3ff93477cc694a5b0771c3b867afdfde620/research/phase-i-protected-work-unit-f3/exp3/RESULT.md
