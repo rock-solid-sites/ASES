@@ -155,3 +155,37 @@ Post-horizon syntax and targeted witness/mutation rerun: py_compile PASS; 10/10 
 
 
 The original aggregate script still has configured limits of 200,000–400,000 states per context and no global time budget; it was not rerun. Reaching an explicit 10,000-state cap is an incomplete result. The three completed contexts are small, separately invoked traversals, not the full plan acceptance.
+
+## Accepted-content continuity milestone (2026-10-30)
+
+
+
+Model SHA-256: dd3fe74dbb89e4276c2e5e3f830f71f4fce87e15bbe4eaf5acef724a34a22065.
+
+
+
+Scope: one immutable atom x owned by C; one SINK attachment; fixed P->C containment; fixed authority position B at generation 3 and stale A evidence at generation 2. No other content atoms, mutation of bytes, or storage implementation is represented.
+
+
+
+Named history (indices correspond to the content-continuity context): grant P/SINK RW; grant C/SINK RW; accept_x(C,B-gen-3); stop (accepting activity/engine holder lost); recover_start; recover_step(P); recover_step(C); activate_image (atomic engine+image activation seals all present Work Units); revoke old management generation 0; acknowledge revocation; attempt use_x(C,B-gen-3) while C is still sealed (denied: sealed); issue fresh management authority; explicitly activate P and C; attempt use_x(C,A-gen-2) (denied: stale-evidence); use_x(C,B-gen-3) (commits). The sole accept_x precedes stop; no content resubmission occurs.
+
+
+
+Cold prefix check: accepted_x remains true and all Work Units are sealed after activate_image. Final state: accepted_x=true and one use observation (C,x,RW,B-gen-3). Denials: pre-reactivation sealed use and stale generation-2 use. Current generation-3 use succeeds after fresh management authority and explicit activation.
+
+
+
+Bounded run: context content-continuity, state cap 5,000, actual 600 reachable states, 3,090 committed transitions, 0 invariant violations; Python syntax check PASS; 1,000,000-KiB virtual-memory cap and 120-second timeout. The context completed. No aggregate/exhaustive context was run.
+
+
+
+Trust assumptions: accepted_x is an immutable durable-store abstraction owned by C; stop and cold recovery preserve its exact identity/value; the recovery image is current and compatible; generation-2 is stale and management reissue establishes current authority; the single serialized holder and guards are trusted. The model does not verify storage durability, bytes/hash equality, rollback resistance, host isolation, or authority service correctness.
+
+
+
+Mapping: C1—accept/use are guarded transitions but no external whole-effect refinement; partial. C5—x remains bounded across stop/recovery and computation/execution holder loss; one-atom abstract evidence, not storage proof. C6—stale generation-2 ingress denied after fresh authority; no physical source binding. C7—cold recovery reaches sealed boundary and retained x; current-image/cut equivalence is assumed, not tested. C12—old management revoke acknowledgement precedes fresh authority; no lost reply/publication protocol.
+
+
+
+Work Unit A—C remains a bounded object with accepted content; B—SINK is an exposed attachment, resource/attachment distinction not represented; C—stop loses activity while WU/content persists; D—parent/grant/seal fields stand in for boundary record, identity/provenance absent; E—currentness is fixed-generation premise; F—cold image activation is modeled and starts sealed, discovery/validation absent; G—path grants P/C checked; H—old management revoked and sealed recovery explicitly reactivated; I—x remains confined and is used internally, no export/disposal; J—no move in this history; K—partial witnesses for empty/content persistence, path, sealing/currentness, no full K.1–20 proof; L—no runtime/prototype claim.

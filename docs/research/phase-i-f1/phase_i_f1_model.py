@@ -38,7 +38,7 @@ SCOPE_COVERED = [
     "observational equivalence of recomputed vs retained observations on the model's Obs",
 ]
 SCOPE_NOT_COVERED = [
-    "content atoms x/y and unaccepted candidate z, retention under loss (T06, T23)",
+    "additional content atoms y and unaccepted candidate z, multi-object retention and disposition (T06, T23)",
     "capacity reservation/consumption competition (T04 first half)",
     "three concurrent proposals with cyclic order plus independence control (T04 second half)",
     "selected sink contracts, dropped/surviving in-flight messages, lost reply (T18, T19)",
@@ -96,6 +96,7 @@ class State:
     thinking: tuple = (False,) * 5  # internal computation per Work Unit
     route_handles: int = 0    # live runtime handles held by old activity (oracle)
     uses: tuple = ()          # accepted uses: ((w, cap, mode), ...) (oracle/Obs)
+    accepted_x: bool = False  # one immutable accepted-content atom, fixed fixture owner C
 
     # helpers
     def wu(self, w: str) -> WU:
@@ -339,6 +340,18 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
                 return "not-dispositioned (C4/C8)"
         return None
 
+    if k == "accept_x":
+        w, origin = ev[1], ev[2]
+        if state.accepted_x:
+            return "x-already-accepted (immutable content)"
+        return guard(state, ("use", w, SINK, W, origin), p)
+
+    if k == "use_x":
+        w, origin = ev[1], ev[2]
+        if not state.accepted_x:
+            return "x-not-accepted (C5)"
+        return guard(state, ("use", w, SINK, R, origin), p)
+
     if k == "use":
         w, cap, mode, origin = ev[1], ev[2], ev[3], ev[4]
         if not state.wu(w).present:
@@ -508,6 +521,14 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         return state.set_wu(ev[1], present=False, parent=None, sealed=False,
                             grants=(), route=False)
 
+    if k == "accept_x":
+        return replace(state, accepted_x=True)
+
+    if k == "use_x":
+        w, origin = ev[1], ev[2]
+        eff = chain_grant(state, w, SINK, p)
+        return replace(state, uses=state.uses + ((w, "x", eff, origin),))
+
     if k == "use":
         w, cap, mode, origin = ev[1], ev[2], ev[3], ev[4]
         eff = chain_grant(state, w, cap, p)
@@ -563,7 +584,8 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         return state
 
     if k == "activate_image":
-        return replace(state, image=True, engine=True)
+        sealed_wus = tuple(replace(wu, sealed=True) if wu.present else wu for wu in state.wus)
+        return replace(state, image=True, engine=True, wus=sealed_wus)
 
     if k == "start_internal":
         w = ev[1]
@@ -681,7 +703,17 @@ CONTEXTS = {
     ],
 }
 
+CONTEXTS["content-continuity"] = [
+    _g(P, SINK, RW), _g(C, SINK, RW), ("accept_x", C, B_GEN),
+    ("stop",), ("recover_start",), ("recover_step", P),
+    ("recover_step", C), ("activate_image",), ("mgmt_revoke", P, 0),
+    ("mgmt_ack", 0), ("use_x", C, B_GEN), ("mgmt_reissue", P, 0),
+    ("activate", P), ("activate", C), ("use_x", C, A_GEN),
+    ("use_x", C, B_GEN),
+]
+
 CONTEXT_BOUNDS = {
+    "content-continuity": 5000,
     "containment-and-grants": 200000,
     "engine-loss-and-recovery": 200000,
     "replacement-and-management": 400000,
@@ -811,7 +843,8 @@ WITNESSES = [
      "recover, then the same granted use succeeds again without a new grant",
      [("grant", P, SINK, RW), ("grant", C, SINK, RW), ("stop",),
       ("recover_start",), ("recover_step", P), ("recover_step", C),
-      ("activate_image",), ("use", C, SINK, W, POSITIONS["B"][2])],
+      ("activate_image",), ("activate", P), ("activate", C),
+      ("use", C, SINK, W, POSITIONS["B"][2])],
      "use accepted after recovery"),
     ("WT-07 replacement: current generation continues accepted work",
      "revoke A's grant and reissue (replacement, whole), then new position B "
@@ -880,6 +913,7 @@ def run_witnesses(p: Profile = REFERENCE):
 def render_state(st: State) -> dict:
     return {
         "engine": st.engine, "image": st.image, "thinking": list(st.thinking),
+        "accepted_x": st.accepted_x,
         "mgmt": [list(g) for g in st.mgmt],
         "ac": {"inside": st.ac_inside, "epoch": st.epoch, "pending": st.ac_pending},
         "route_handles": st.route_handles,

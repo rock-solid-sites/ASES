@@ -87,3 +87,17 @@ Mapping C1-C13 and A-L is explicitly status-labelled in the targeted run record.
 
 
 Next work: add retained accepted content x with post-recovery use, distinguish preparation/commit/activation and current versus historical images, implement bounded content/capacity/sink contexts, then repair remaining mutations and test run record.
+
+## 2026-10-30 accepted-content continuation checkpoint
+
+
+
+Implemented accepted_x as a fixed immutable C-owned content atom and use_x as a current-authority read. Cold activate_image now restores the image and engine atomically but seals every present Work Unit; separate activation is required.
+
+
+
+Content-continuity context completed at 600 states/3,090 committed transitions/0 invariant violations under 5,000 states, 1 GiB RSS and 120 s. Trace accepts x once before stop, recovers with x still accepted and all WUs sealed, rejects pre-activation use and stale generation-2 ingress, then accepts x under fresh management and generation-3 ingress without resubmission. Explicit trusted storage/current-image premises and C1/C5/C6/C7/C12 plus A-L mapping are recorded in Phase-I-F1-Targeted-Run.md.
+
+
+
+F1 remains incomplete; this is finite abstract evidence only. Next: add byte/version identity and a meaningful storage/current-image discriminator or explicitly keep currentness as premise; extend accepted x to y and unaccepted z only in separately bounded fixtures; repair WT-06 to reflect sealed recovery; preserve F5 independent review as outstanding.
