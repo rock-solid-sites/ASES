@@ -1,0 +1,141 @@
+{
+  "authority_pid": 201159,
+  "authority_ready": {
+    "event": "authority-ready",
+    "pid": 201159
+  },
+  "authority_reaped_ns": 210687541476531,
+  "authority_returncode": -9,
+  "cold_recovery": {
+    "content_hex": "46332d6c6966656379636c652d782d76310a",
+    "content_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+    "content_size": 18,
+    "event": "cold-recovery",
+    "pid": 201161,
+    "policy": "L1-read-only-mediated-v1",
+    "reconstructed": {
+      "C": {
+        "accepted": {
+          "identity": "C-content-1462070e6b10a8ba",
+          "object": "objects/1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061.bin",
+          "provenance": {
+            "actor": "worker-ingress-W1",
+            "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+            "source": "candidate-x.bin"
+          },
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "size": 18
+        },
+        "active": false,
+        "execution_ingress": null,
+        "grants": [
+          "read"
+        ],
+        "id": "C",
+        "parent": "P",
+        "sealed": true
+      },
+      "P": {
+        "accepted": null,
+        "active": false,
+        "execution_ingress": null,
+        "grants": [
+          "read"
+        ],
+        "id": "P",
+        "parent": null,
+        "sealed": true
+      }
+    },
+    "record": "record-000004.json",
+    "sealed_before_use": true
+  },
+  "expected_x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+  "failure_profile": "authority-process-SIGKILL; host kernel/filesystem remain live; no OS-crash/power-loss inference",
+  "kernel": "5.15.0-184-generic",
+  "kill_requested_ns": 210687540282144,
+  "landlock_abi": 1,
+  "limits": {
+    "timeout_seconds": 20,
+    "virtual_memory_kib": 524288
+  },
+  "management_activation": {
+    "record": "record-000003.json",
+    "result": "COMMITTED"
+  },
+  "management_grant": {
+    "record": "record-000002.json",
+    "result": "COMMITTED"
+  },
+  "pass": true,
+  "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+  "root": "/home/claude-code/.paseo/worktrees/216s81dw/phase-i-d-protected-work-unit-f3/research/phase-i-protected-work-unit-f3/lifecycle/l3/lab",
+  "status": "completed",
+  "worker_alive_after_reap": true,
+  "worker_pid": 201160,
+  "worker_post_loss": {
+    "cpu_end_ns": 210687621598320,
+    "cpu_iterations": 378873,
+    "cpu_start_ns": 210687541593496,
+    "cpu_value": 1195327703,
+    "direct_paths": {
+      "alias": {
+        "errno": 13,
+        "result": "denied"
+      },
+      "source": {
+        "errno": 13,
+        "result": "denied"
+      }
+    },
+    "direct_write_open": {
+      "errno": 13,
+      "result": "denied"
+    },
+    "event": "post-loss",
+    "pid": 201160,
+    "retained_ingress_reply": {
+      "detail": "[Errno 32] Broken pipe",
+      "errno": 32,
+      "result": "IOERROR"
+    },
+    "signal_received": true
+  },
+  "worker_pre_loss_acceptance": {
+    "accepted": {
+      "identity": "C-content-1462070e6b10a8ba",
+      "record": "record-000004.json",
+      "result": "ACCEPTED",
+      "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+    },
+    "activation": {
+      "event": "activation-current"
+    },
+    "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+    "event": "accepted-before-loss",
+    "pid": 201160,
+    "read": "OK",
+    "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+  },
+  "worker_pre_loss_denial": {
+    "direct_paths": {
+      "alias": {
+        "errno": 13,
+        "result": "denied"
+      },
+      "source": {
+        "errno": 13,
+        "result": "denied"
+      }
+    },
+    "event": "pre-loss-denial",
+    "pid": 201160,
+    "reply": {
+      "bytes": 0,
+      "initial_empty": true,
+      "reason": "missing-full-path-grant",
+      "result": "DENY"
+    }
+  },
+  "worker_returncode": 0
+}
