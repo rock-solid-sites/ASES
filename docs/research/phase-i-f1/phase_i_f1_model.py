@@ -35,6 +35,7 @@ SCOPE_COVERED = [
     "one accepted atom x across stop, sealed cold recovery, authority reissue and use (C5/C6/C7; limited fixture)",
     "one conserved capacity-one parent reservation allocated to C or S, with distinct consumption (C3; narrow fixture)",
     "current versus stale authentic image epoch/content check with refusal boundary (C7; trusted currentness premise)",
+    "two successive stop/recovery cycles preserve x/y sealed; deeper repetition untested",
     "internal resource-backed computation continuing after engine loss (K.7; D3 not modelled)",
     "complete-disposition precondition for boundary removal incl. descendants and empty units (C4, C8)",
     "interior metadata edit rejection (K.8, T22)",
@@ -719,7 +720,7 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         # D1: no new affected capability admission/use; D2: no protected outward
         # effect. Concrete route handles are withdrawn (trusted mechanism).
         s = replace(state, engine=False, image=False, route_handles=0)
-        s = replace(s, wus=tuple(replace(x, route=False) for x in s.wus))
+        s = replace(s, wus=tuple(replace(x, route=False, sealed=True) for x in s.wus))
         return s
 
     if k == "recover_start":
@@ -886,7 +887,20 @@ CONTEXTS["currentness-image"] = [
     ("restore_stale_image",), ("restore_current_image",),
 ]
 
+CONTEXTS["two-loss-currentness"] = [
+    _g(P, SINK, RW), _g(C, SINK, RW), ("accept_x", C, B_GEN),
+    ("advance_authority_epoch",), ("accept_y", C, B_GEN),
+    ("inject_stale_image",), ("capture_current_image",), ("stop",),
+    ("recover_start",), ("recover_step", P), ("recover_step", C),
+    ("restore_current_image",), ("use_x", C, B_GEN), ("stop",),
+    ("recover_start",), ("recover_step", P), ("recover_step", C),
+    ("restore_stale_image",), ("restore_current_image",),
+    ("activate", P), ("activate", C), ("use_x", C, A_GEN),
+    ("use_x", C, B_GEN),
+]
+
 CONTEXT_BOUNDS = {
+    "two-loss-currentness": 5000,
     "currentness-image": 10000,
     "cycle-order": 10000,
     "capacity-one": 10000,

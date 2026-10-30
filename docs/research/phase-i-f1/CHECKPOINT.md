@@ -179,3 +179,17 @@ Inherited clean branch research/phase-i-work-unit-f1-20261029 at origin-verified
 
 
 Next single context: two successive stop/recover/restore cycles over x/y at epoch 1; verify sealed after each current-image restore; deny use while sealed and stale generation-2 use after final explicit activation; allow current generation-3 use. Inject the authentic epoch-0 x-only image during the second recovery and run one currentness_check=False mutation to require the C7 stale-image counterexample. Cap 5,000 states, 1,000,000 KiB RSS and 120 seconds. No aggregate search.
+
+## 2026-10-30 two-loss test checkpoint
+
+
+
+Added and ran the separate two-loss-currentness context. Both stop events seal every Work Unit and preserve accepted x/y. Each recovery restores the epoch-1 current image sealed; use is denied while sealed, stale authentic epoch-0 x-only image is refused, and after second current restore only explicit activation permits use. Stale generation-2 evidence remains denied; current generation-3 use succeeds.
+
+
+
+Reference context: 51 states/445 committed transitions/0 invariant violations under 5,000 states, 1 GiB RSS and 120 s; syntax passes. Weakening currentness_check admits the stale restore and triggers the intended C7 invariant counterexample. Exact trace, assumptions, and limits are in Phase-I-F1-Targeted-Run.md.
+
+
+
+Two repeated cycles are the declared finite cutoff; deeper recovery, physical storage and rollback resistance remain unproved. No aggregate context was run. F1 remains incomplete.

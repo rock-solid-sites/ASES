@@ -277,3 +277,33 @@ Bounded run: currentness-image context, 42 states, 128 committed transitions, 0 
 
 
 Mapping: C5—x/y remain accepted through stop/recovery in the abstract store; C6—epoch is a separate trusted currentness witness; C7—current candidate recovers sealed, stale omitted-y/old-epoch candidate refused, weakened currentness is detected; C12—epoch change is ordered before y/image capture, but lost publication/reply is not modeled. Work Unit D—fixed content/boundary observations; E—currentness premise and refusal when unavailable; F—current vs stale recovery path; H—authority epoch change; I—retained x/y, no export/disposal; remaining A-L obligations stay as previously mapped and incomplete.
+
+## Two-successive-loss currentness fixture (2026-10-30)
+
+
+
+Model SHA-256: b80fbd45861b555d960f0a2d17a94cceb74803aa4bbff2f65602f456ee477b1c.
+
+
+
+Sequence: grant P/C; accept x; advance authority epoch 0->1; accept y; construct authentic stale epoch-0 candidate (x=true,y=false) and authentic current epoch-1 candidate (x=true,y=true); stop #1; recover-start/steps; restore current candidate; attempt use while sealed (denied); stop #2; recover-start/steps; attempt stale candidate (denied outside baseline success profile); restore current candidate; activate P/C; attempt stale generation-2 use (denied); current generation-3 use succeeds.
+
+
+
+At the first stop and after first current restore, x/y remain true and all Work Units are sealed. At second stop and after second current restore, x/y remain true and all Work Units are sealed. Final current image has epoch 1 and x/y; final successful use is recorded only after explicit activation. Stale use remains denied.
+
+
+
+Weakened mutation currentness_check=False admits restore_stale_image at the second recovery; resolve reports invariant_violation C7: mounted authentic image is stale or omits accepted content. This is the intended stale-resurrection/content-loss counterexample. currentness_available=False continues to refuse recovery as established in the prior currentness fixture.
+
+
+
+Bounded run: two-loss-currentness context, 51 reachable states, 445 committed transitions, zero reference invariant violations; 5,000-state cap, 1,000,000-KiB RSS cap, 120-second timeout. Syntax PASS. No aggregate context was run.
+
+
+
+Assumptions/boundary: current image and stale authentic image are explicit trusted fixtures; authority_epoch is non-rollback external currentness evidence; stop seals all model Work Units and preserves x/y; recover_start/recover_step are abstract no-op stages; serialized holder; two loss/recovery cycles only. This is not storage durability, rollback resistance, cryptographic image authenticity, or arbitrary repeated-recovery proof.
+
+
+
+Mapping: C5—x/y retained and bounded across both stops; C6—generation-2 stale use denied after second activation; C7—two current image restores preserve exact abstract x/y while stale epoch/content image is refused, and mutation detects stale mount; C12—no lost-response/publication history. Work Unit E/F currentness/recovery, H sealing/activation, I retained contents are partially witnessed. Remaining C/A-L gaps remain open.
