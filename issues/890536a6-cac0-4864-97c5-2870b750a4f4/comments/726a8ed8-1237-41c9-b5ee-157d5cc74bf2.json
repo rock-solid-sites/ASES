@@ -1,0 +1,8 @@
+{
+  "uuid": "726a8ed8-1237-41c9-b5ee-157d5cc74bf2",
+  "issue_uuid": "890536a6-cac0-4864-97c5-2870b750a4f4",
+  "author": "anon-19b3b487",
+  "content": "Landlock probe checkpoint: branch research/phase-i-protected-work-unit-f3-20261029 at 62b19e21e2d36ecef9bc4387089a35ec670fd484 (remote SHA verified). In one disposable unprivileged child, ABI 1 ruleset entry succeeded. Under the read_file/read_dir deny policy, direct target open and one in-tree symlink alias both returned EACCES; a sibling per-operation mediator opened/read/closed the fixture and returned its bytes. An FD inherited before restriction remained readable after restriction, establishing a concrete retained-handle obstruction; mediation does not revoke or erase returned bytes. Test children exited and were reaped. No packages, privilege escalation, host policy/sysctl, /tmp, or services touched. Stopped further mechanism broadening here; no proxy/runtime/lifecycle work and no F3 acceptance. F1 remains partial; F5 independent review remains outstanding. Next: reconcile only when F1 model is available and retain F5 review as a separate gate.",
+  "created_at": "2026-10-30T08:29:28.900378674Z",
+  "kind": "observation"
+}
