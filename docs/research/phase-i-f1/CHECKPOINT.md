@@ -107,3 +107,13 @@ F1 remains incomplete; this is finite abstract evidence only. Next: add byte/ver
 
 
 Updated SCOPE_COVERED to disclose the bounded accepted-x continuity fixture; reran the named context at 600 states/3,090 committed transitions/0 violations and syntax-checked successfully. Current source SHA is recorded in the targeted report.
+
+## 2026-10-30 capacity-one tranche start
+
+
+
+Resumed on branch research/phase-i-work-unit-f1-20261029 at inherited remote-verified SHA 09928adf92ff389d5e51a751b53b1f577763519f in the existing VPS worktree. Crosslink issue #8 remains open and the active local session is #3 bound to #8.
+
+
+
+Next bounded fixture: one reservation unit supplied by P, allocation as a view assigned to C or sibling S, consumption tracked separately, two serialized competing requests, and one unrelated positive change. Planned context cap 10,000 states, memory 1,000,000 KiB, timeout 120 seconds. No aggregate context or proof claim.
