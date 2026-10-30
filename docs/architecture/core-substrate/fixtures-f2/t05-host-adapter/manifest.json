@@ -1,4 +1,18 @@
 {
+  "abstract_runner": {
+    "command": "timeout 110s python3 docs/architecture/core-substrate/fixtures-f2/run_fixtures.py",
+    "exit_code": 0,
+    "exit_code_file": "abstract-runner.exit-code.txt",
+    "exit_code_file_sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "output": "abstract-runner.stdout.txt",
+    "output_sha256": "ccc95baa75c3e84fe7ec152c6de985b64ce4415efbd7799b2b25c416c87e53fe",
+    "summary": {
+      "blocked": 0,
+      "discriminating_mutations": 16,
+      "executed": 46,
+      "prepared_only": 2
+    }
+  },
   "commands": [
     "git cat-file blob 04600b1b45e6510665bdc3108db9d51f6b2f8c56:research/phase-i-protected-work-unit-f3/authority-loss/run.json > docs/architecture/core-substrate/fixtures-f2/t05-host-adapter/raw-run.json",
     "python3 docs/architecture/core-substrate/fixtures-f2/t05-host-adapter/validate_host_trace.py docs/architecture/core-substrate/fixtures-f2/t05-host-adapter/raw-run.json --mutation-output docs/architecture/core-substrate/fixtures-f2/t05-host-adapter/mutated-safe-trace.json > docs/architecture/core-substrate/fixtures-f2/t05-host-adapter/result.json"

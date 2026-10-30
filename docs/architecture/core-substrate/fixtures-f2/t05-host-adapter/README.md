@@ -31,3 +31,7 @@ python3 docs/architecture/core-substrate/fixtures-f2/t05-host-adapter/validate_h
 ```
 
 The exact invocation used to persist `result.json` is the same command with stdout redirected to that file. See `manifest.json` for source, hashes, and command record.
+
+## Bounded abstract regression
+
+Command: `timeout 110s python3 docs/architecture/core-substrate/fixtures-f2/run_fixtures.py` (stdout/stderr captured in `abstract-runner.stdout.txt`; exit code in `abstract-runner.exit-code.txt`). Observed exit code: **0**; 46 abstract replays executed, 2 prepared-only (T05 and T18 use-current), 0 blocked, and all 16 listed mutations discriminated. This run did not change the catalogue or expected values. The actual runner returned zero; prepared-only remains reflected in the summary rather than a runner failure.
