@@ -61,6 +61,7 @@ for fixture in catalog["fixtures"]:
         baseline = []
         for index, expected in enumerate(fixture["expected_steps"]):
             baseline.extend([f"step {index}: {failure}" for failure in observed(expected, _dict_result(step_observations[index]), store)])
+        baseline.extend(observed(fixture["expected_observation"], result, store))
     else:
         store, result = run_scenario(world, {"events": fixture["events"]}, fixture.get("mechanism"))
         baseline = observed(fixture["expected_observation"], result, store)

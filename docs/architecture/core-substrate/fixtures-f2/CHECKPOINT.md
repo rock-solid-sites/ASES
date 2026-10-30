@@ -4,7 +4,7 @@
 - Crosslink issue: #9
 - Oracle baseline: `f2lib.py`, independent of Agent D
 - Scope: T01 through T24 have explicit catalog records in `fixtures.json`; `COVERAGE.md` distinguishes partial traces, model-only executions, prepared-only traces, and blocked cases.
-- Latest runner report: `results.json`: 42 executed abstract replays, 1 prepared-only trace (T05), 0 blocked fixture cases. This is not aggregate T01 through T24 passing evidence.
+- Latest runner report: `results.json`: 46 executed abstract replays, 2 prepared-only cases (T05 and T18 use-current), 0 blocked fixture cases. This is not aggregate T01 through T24 passing evidence.
 
 ## Added artifacts
 
@@ -17,7 +17,7 @@
 
 - `python3 -m py_compile f2lib.py run_fixtures.py`
 - `python3 -m json.tool fixtures.json`
-- Runner last reported 42 executed, 1 prepared-only, 0 blocked; 13 mutations discriminate intended faults.
+- Runner last reported 46 executed, 2 prepared-only, 0 blocked; 16 mutations discriminate intended faults.
 - `git diff --check`
 
 The executions are abstract reference-model replays only. No host/runtime, descriptor, concrete route, storage rollback, or ACL evidence is claimed. The T05 event sequence is prepared-only because retained OS handles and live CPU-only progress are outside the model.
@@ -25,9 +25,9 @@ The executions are abstract reference-model replays only. No host/runtime, descr
 ## Remaining limitations
 
 - No abstract fixture is blocked in the latest run; the six previously blocked checks were corrected only where inspection showed a runner/oracle defect against the frozen F2 condition.
-- T05 remains prepared-only because actual retained OS handles, protected-route denial, and continuing CPU-only execution require an isolated runtime harness.
-- Other trace families still have partial coverage and missing subcases listed in `COVERAGE.md`; 42 passing abstract histories are not aggregate T01-T24 acceptance.
-- No concrete policy invalidation of already-open access, external sink contract, storage rollback resistance, or physical holder fencing was tested.
+- T05 remains prepared-only because actual retained OS handles, protected-route denial, and continuing CPU-only execution require an isolated runtime harness. T18 use-current remains prepared-only because no sink-side current-authority ordering primitive exists in f2lib.
+- Other trace families still have partial coverage and missing subcases listed in `COVERAGE.md`; 46 passing abstract histories are not aggregate T01-T24 acceptance.
+- No concrete policy invalidation of already-open access, concrete sink-contract implementation, storage rollback resistance, or physical holder fencing was tested.
 
 ## Next operation
 

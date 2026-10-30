@@ -572,7 +572,7 @@ def _ev_retry(store, e, res, mech):
         _deny(res, "exactly-once contract not supported")
         return
     _allow(res)
-    res.flags["duplicate_possible"] = True
+    res.flags["duplicate_possible"] = not mech.get("sink_at_most_once", False)
 
 
 def _ev_snapshot(store, e, res, mech):
@@ -982,6 +982,7 @@ def _ev_assert_empty_removal(store, e, res, mech):
         return
     res.delete_blocked = False
     res.delete_reason = "allowed"
+    store["status"][unit] = "removed"
     res.log.append("removal of empty %s" % unit)
 
 

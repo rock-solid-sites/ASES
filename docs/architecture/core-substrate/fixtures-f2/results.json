@@ -902,7 +902,7 @@
       "trace": "T04"
     },
     {
-      "assumption": "Independent work remains committable; positive control for precedence constraints.",
+      "assumption": "Independent work remains committable; positive control for precedence constraints. The independent proposal is disjoint from a cyclic pending-order set.",
       "execution_scope": "f2lib abstract replay only",
       "failures": [],
       "id": "T04-independent-order-positive",
@@ -3774,7 +3774,81 @@
       "execution_scope": "f2lib abstract replay only",
       "failures": [],
       "id": "T19-sound-sink-at-most-once-contract-suppresses-retry",
-      "mutation": null,
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "sink_at_most_once": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {
+            "duplicate_possible": true,
+            "reply": "lost",
+            "sent": 2
+          },
+          "reason": "admitted",
+          "sink": "unknown",
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "step_observations": [],
+        "store": {
+          "accepted": {},
+          "candidates": [],
+          "comms": {
+            "m": {
+              "accepted": true,
+              "sent": 2
+            }
+          },
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 2
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {},
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {},
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {},
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {},
+          "survivors": [],
+          "units": {},
+          "witness": []
+        }
+      },
       "observation": {
         "delete_blocked": null,
         "delete_reason": "",
@@ -3782,7 +3856,7 @@
         "engine_denied": null,
         "engine_reason": "",
         "flags": {
-          "duplicate_possible": true,
+          "duplicate_possible": false,
           "reply": "lost",
           "sent": 2
         },
@@ -5621,10 +5695,786 @@
         ]
       },
       "trace": "T24"
+    },
+    {
+      "assumption": "Each proposal is separately validated before commit; the required precedence relation is cyclic, so no member can commit first.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T04-three-validated-cyclic-proposals-rejected",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "common_order": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "step_observations": [],
+        "store": {
+          "accepted": {},
+          "candidates": [],
+          "committed_order": [
+            "A",
+            "B",
+            "C"
+          ],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {},
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {},
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {},
+          "positions": {},
+          "processes": {},
+          "proposals": {
+            "A": {
+              "pre": [
+                "C"
+              ],
+              "state": "committed",
+              "unit": "C",
+              "validated": true
+            },
+            "B": {
+              "pre": [
+                "A"
+              ],
+              "state": "committed",
+              "unit": "C",
+              "validated": true
+            },
+            "C": {
+              "pre": [
+                "B"
+              ],
+              "state": "committed",
+              "unit": "C",
+              "validated": true
+            }
+          },
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {},
+          "survivors": [],
+          "units": {},
+          "witness": []
+        }
+      },
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "precedence unmet: ['C']",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "step_observations": [],
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "committed_order": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "proposals": {
+          "A": {
+            "pre": [
+              "C"
+            ],
+            "state": "proposed",
+            "unit": "C",
+            "validated": true
+          },
+          "B": {
+            "pre": [
+              "A"
+            ],
+            "state": "proposed",
+            "unit": "C",
+            "validated": true
+          },
+          "C": {
+            "pre": [
+              "B"
+            ],
+            "state": "proposed",
+            "unit": "C",
+            "validated": true
+          }
+        },
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T04"
+    },
+    {
+      "assumption": "Complete current enumeration confirms no children; the authorized final removal may commit.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T15-complete-current-empty-boundary-removal-positive",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": false,
+        "delete_reason": "allowed",
+        "denied": null,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "step_observations": [],
+      "store": {
+        "accepted": {
+          "P": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "P": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "empty_check_children": {
+          "P": []
+        },
+        "empty_check_units": [
+          "P"
+        ],
+        "grants": {
+          "P": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "P": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "P": "removed"
+        },
+        "survivors": [],
+        "units": {
+          "P": {
+            "created_by": "kit",
+            "genesis": 65,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P"
+        ]
+      },
+      "trace": "T15"
+    },
+    {
+      "assumption": "A child created after correct enumeration invalidates the stale empty result; current containment must be rechecked at removal.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T15-phantom-child-after-correct-enumeration",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "stale_empty_check": true
+        },
+        "observation": {
+          "delete_blocked": false,
+          "delete_reason": "weakened stale empty check stranded child phantom",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "step_observations": [],
+        "store": {
+          "accepted": {
+            "P": [],
+            "phantom": []
+          },
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {
+            "P": 0,
+            "phantom": 0
+          },
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "empty_check_children": {
+            "P": []
+          },
+          "empty_check_units": [
+            "P"
+          ],
+          "grants": {
+            "P": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            },
+            "phantom": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            }
+          },
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {
+            "P": null,
+            "phantom": null
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {
+            "P": "sealed",
+            "phantom": "sealed"
+          },
+          "survivors": [],
+          "units": {
+            "P": {
+              "created_by": "kit",
+              "genesis": 68,
+              "id": "P",
+              "origin": "",
+              "project": "alpha"
+            },
+            "phantom": {
+              "created_by": "kit",
+              "genesis": 69,
+              "id": "phantom",
+              "origin": "",
+              "project": "alpha"
+            }
+          },
+          "witness": [
+            "create empty sealed unit P",
+            "create empty sealed unit phantom"
+          ]
+        }
+      },
+      "observation": {
+        "delete_blocked": true,
+        "delete_reason": "child phantom still contained",
+        "denied": null,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "step_observations": [],
+      "store": {
+        "accepted": {
+          "P": [],
+          "phantom": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "P": 0,
+          "phantom": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "empty_check_children": {
+          "P": []
+        },
+        "empty_check_units": [
+          "P"
+        ],
+        "grants": {
+          "P": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          },
+          "phantom": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "P": null,
+          "phantom": "P"
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "P": "sealed",
+          "phantom": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "P": {
+            "created_by": "kit",
+            "genesis": 66,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          },
+          "phantom": {
+            "created_by": "kit",
+            "genesis": 67,
+            "id": "phantom",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit phantom"
+        ]
+      },
+      "trace": "T15"
+    },
+    {
+      "assumption": "Use-current profile: post-revocation sink acceptance must be excluded at the sink ordering boundary, independently of T18 exact-obligation delivery.",
+      "execution_scope": "f2lib has no sink-side current-authority ordering event; fixture retained unexecuted instead of treating sink_send or detached revocation state as evidence.",
+      "expected_observation": {
+        "sink": "rejected",
+        "store": {
+          "content.x.sink_accept": 0
+        }
+      },
+      "id": "T18-use-current-sink-order-after-revocation",
+      "mutation": null,
+      "status": "prepared-only",
+      "trace": "T18"
+    },
+    {
+      "assumption": "Three separately validated proposals remain pending because their precedence cycle has no first commit; an independent proposal with no dependency still commits.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T04-cyclic-pending-set-allows-disjoint-change",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "step_observations": [
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": true,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "precedence unmet: ['C']",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": true,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "precedence unmet: ['A']",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": true,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "precedence unmet: ['B']",
+          "sink": null,
+          "takeover_refused": null
+        },
+        {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        }
+      ],
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "committed_order": [
+          "I"
+        ],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "proposals": {
+          "A": {
+            "pre": [
+              "C"
+            ],
+            "state": "proposed",
+            "unit": "C",
+            "validated": true
+          },
+          "B": {
+            "pre": [
+              "A"
+            ],
+            "state": "proposed",
+            "unit": "C",
+            "validated": true
+          },
+          "C": {
+            "pre": [
+              "B"
+            ],
+            "state": "proposed",
+            "unit": "C",
+            "validated": true
+          },
+          "I": {
+            "pre": [],
+            "state": "committed",
+            "unit": "D",
+            "validated": true
+          }
+        },
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T04"
     }
   ],
-  "executed": 42,
-  "prepared_only": 1,
+  "executed": 46,
+  "prepared_only": 2,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"
 }

@@ -345,7 +345,7 @@
           ]
         }
       },
-      "assumption": "Independent work remains committable; positive control for precedence constraints.",
+      "assumption": "Independent work remains committable; positive control for precedence constraints. The independent proposal is disjoint from a cyclic pending-order set.",
       "status": "executed"
     },
     {
@@ -1399,12 +1399,26 @@
         "sink_at_most_once": true
       },
       "expected_observation": {
+        "flags": {
+          "duplicate_possible": false
+        },
         "store": {
           "content.x.sink_accept": 1
         }
       },
       "assumption": "At-most-once behavior is supplied by an explicit sink contract; the substrate cannot claim exactly-once from retries alone.",
-      "status": "executed"
+      "status": "executed",
+      "mutation": {
+        "sink_at_most_once": false
+      },
+      "mutation_expected": {
+        "flags": {
+          "duplicate_possible": true
+        },
+        "store": {
+          "content.x.sink_accept": 2
+        }
+      }
     },
     {
       "id": "T20-isolated-holder-cannot-be-taken-over",
@@ -1856,6 +1870,319 @@
           "ac_in_boundary": false
         }
       }
+    },
+    {
+      "id": "T04-three-validated-cyclic-proposals-rejected",
+      "trace": "T04",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "order_propose",
+          "id": "A",
+          "unit": "C",
+          "pre": [
+            "C"
+          ]
+        },
+        {
+          "ev": "order_propose",
+          "id": "B",
+          "unit": "C",
+          "pre": [
+            "A"
+          ]
+        },
+        {
+          "ev": "order_propose",
+          "id": "C",
+          "unit": "C",
+          "pre": [
+            "B"
+          ]
+        },
+        {
+          "ev": "order_validate",
+          "id": "A"
+        },
+        {
+          "ev": "order_validate",
+          "id": "B"
+        },
+        {
+          "ev": "order_validate",
+          "id": "C"
+        },
+        {
+          "ev": "order_commit",
+          "id": "A"
+        },
+        {
+          "ev": "order_commit",
+          "id": "B"
+        },
+        {
+          "ev": "order_commit",
+          "id": "C"
+        }
+      ],
+      "mechanism": {
+        "common_order": true
+      },
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "precedence unmet",
+        "store": {
+          "committed_order": []
+        }
+      },
+      "assumption": "Each proposal is separately validated before commit; the required precedence relation is cyclic, so no member can commit first.",
+      "mutation": {
+        "common_order": false
+      },
+      "mutation_expected": {
+        "deny": false,
+        "store": {
+          "committed_order": [
+            "A",
+            "B",
+            "C"
+          ]
+        }
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T15-complete-current-empty-boundary-removal-positive",
+      "trace": "T15",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "empty_check",
+          "unit": "P"
+        },
+        {
+          "ev": "assert_empty_removal",
+          "unit": "P"
+        }
+      ],
+      "expected_observation": {
+        "delete_blocked": false,
+        "store": {
+          "status.P": "removed"
+        }
+      },
+      "assumption": "Complete current enumeration confirms no children; the authorized final removal may commit.",
+      "status": "executed"
+    },
+    {
+      "id": "T15-phantom-child-after-correct-enumeration",
+      "trace": "T15",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "empty_check",
+          "unit": "P"
+        },
+        {
+          "ev": "create",
+          "unit": "phantom",
+          "parent": "P"
+        },
+        {
+          "ev": "assert_empty_removal",
+          "unit": "P"
+        }
+      ],
+      "expected_observation": {
+        "delete_blocked": true,
+        "delete_reason_contains": "phantom",
+        "store": {
+          "parent.phantom": "P",
+          "status.P": "sealed"
+        }
+      },
+      "assumption": "A child created after correct enumeration invalidates the stale empty result; current containment must be rechecked at removal.",
+      "mutation": {
+        "stale_empty_check": true
+      },
+      "mutation_expected": {
+        "delete_blocked": false,
+        "store": {
+          "parent.phantom": null
+        }
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T18-use-current-sink-order-after-revocation",
+      "trace": "T18",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "C",
+            "exp": true
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "write",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "revoke",
+          "unit": "C",
+          "ack": true
+        },
+        {
+          "ev": "sink_send",
+          "unit": "C",
+          "msg": "post-revoke"
+        },
+        {
+          "ev": "sink_accept",
+          "msg": "post-revoke",
+          "atom": "x"
+        },
+        {
+          "ev": "sink_reply",
+          "msg": "post-revoke"
+        }
+      ],
+      "expected_observation": {
+        "sink": "rejected",
+        "store": {
+          "content.x.sink_accept": 0
+        }
+      },
+      "assumption": "Use-current profile: post-revocation sink acceptance must be excluded at the sink ordering boundary, independently of T18 exact-obligation delivery.",
+      "status": "prepared-only",
+      "execution_note": "f2lib has no sink-side current-authority ordering event; fixture retained unexecuted instead of treating sink_send or detached revocation state as evidence."
+    },
+    {
+      "id": "T04-cyclic-pending-set-allows-disjoint-change",
+      "trace": "T04",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "order_propose",
+          "id": "A",
+          "unit": "C",
+          "pre": [
+            "C"
+          ]
+        },
+        {
+          "ev": "order_propose",
+          "id": "B",
+          "unit": "C",
+          "pre": [
+            "A"
+          ]
+        },
+        {
+          "ev": "order_propose",
+          "id": "C",
+          "unit": "C",
+          "pre": [
+            "B"
+          ]
+        },
+        {
+          "ev": "order_propose",
+          "id": "I",
+          "unit": "D",
+          "pre": []
+        },
+        {
+          "ev": "order_validate",
+          "id": "A"
+        },
+        {
+          "ev": "order_validate",
+          "id": "B"
+        },
+        {
+          "ev": "order_validate",
+          "id": "C"
+        },
+        {
+          "ev": "order_validate",
+          "id": "I"
+        },
+        {
+          "ev": "order_commit",
+          "id": "A"
+        },
+        {
+          "ev": "order_commit",
+          "id": "B"
+        },
+        {
+          "ev": "order_commit",
+          "id": "C"
+        },
+        {
+          "ev": "order_commit",
+          "id": "I"
+        }
+      ],
+      "mechanism": {
+        "common_order": true
+      },
+      "expected_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "deny": true
+        },
+        {
+          "deny": true
+        },
+        {
+          "deny": true
+        },
+        {
+          "deny": false
+        }
+      ],
+      "expected_observation": {
+        "deny": false,
+        "store": {
+          "committed_order": [
+            "I"
+          ]
+        }
+      },
+      "assumption": "Three separately validated proposals remain pending because their precedence cycle has no first commit; an independent proposal with no dependency still commits.",
+      "status": "executed"
     }
   ]
 }
