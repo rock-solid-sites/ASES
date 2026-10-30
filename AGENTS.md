@@ -177,13 +177,20 @@ Agents should avoid introducing assumptions tied to specific:
 
 Implementation proposals belong in implementation documents.
 
-**Constraint-first realization:** Before proposing languages or architectures, derive the
-required safety, correctness, security, performance and other properties,
-their falsifying tests, and the conditions that exclude a design. Do not give
-agents preapproved technology lists or a preferred solution to choose from.
-Keep insufficiently evidenced choices unresolved; compare only designs that
-pass the non-negotiable gates. See
+**Realization and language gate:** All maintained project code must comply
+with the explicit unsafe-language exclusions in
 `docs/methodology/Implementation Realization and Assurance Selection Method.md`.
+A short disposable test can use the lightest suitable tool. A maintained,
+bounded plugin or connector uses the policy's safety-oriented default
+language list (not a license to skip tests of permissions, process control
+or external boundaries). For larger systems, first derive falsifiable
+safety, correctness, security, performance and reliability requirements,
+then search broadly without a preferred architecture or language list.
+Exclude demonstrated failures; preserve unverified alternatives as
+UNRESOLVED. Unconventional or novel designs may be selected when evidenced
+project-specific benefits outweigh their lack of precedent, tooling,
+community and maintenance support. Do not penalize novelty without
+identifying and testing the actual risks.
 
 ---
 
