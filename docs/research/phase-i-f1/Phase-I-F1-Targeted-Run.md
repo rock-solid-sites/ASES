@@ -337,3 +337,33 @@ Assumptions: exactly two attempts maximum in this fixture; a surviving message i
 
 
 Mapping: C1—sink acceptance is separated from source reply, but no concrete whole-effect refinement; C10—dropped/surviving/accept outcomes are enumerated without a sink contract; C12—lost reply preserves uncertainty and retry can duplicate. Work Unit B—SINK is an attachment abstraction; C—source process state is abstract; I—external visibility remains unspecified. Remaining sink identity, visible order and concrete contract obligations remain open.
+
+## AT-03 / AT-11 before-and-after audit (2026-10-30)
+
+
+
+Model SHA-256: b30557168440c6c1e12b010d8b1e79b29820c5b36245d361d3ce9aeca4838b96.
+
+
+
+AT-03 before trace: grant P/C; mgmt_revoke(0); mgmt_ack(0); mgmt_reissue; grant C; use SINK with A_GEN=2. Reference and ack_ordering=False mutant both deny at use with stale-evidence. Diagnosis: fixture defect plus mutation mismatch—the supposed old SINK request uses A/NET generation 2 and is already stale against SINK generation 3; no old request/executor was reachable before replacement.
+
+
+
+AT-03 repaired trace: grant P/C; begin_old_request captures current SINK ingress generation 3 while use is valid; revoke/ack/reissue management; replace_sink_position atomically advances current ingress to generation 4; commit_old_request is denied stale-evidence. Positive control commits the same captured old request before replace. Mutation current_position_check=False commits the retained generation-3 request after replacement. A 1,000-state old-request-after-replacement BFS completed at 144 states/432 transitions/0 invariant violations; 1,000,000-KiB cap, 90-second timeout, syntax PASS. This models a pending ingress generation, not a physical executor identity or source-binding proof.
+
+
+
+AT-11 before trace: mgmt_ack(0) from initial state; reference and ack_after_commit=False mutant both deny pending. Diagnosis: fixture/coverage defect—the history has neither a prepared revoke nor a recoverable commitment; ack_after_commit was not consulted.
+
+
+
+AT-11 repaired history: prepare_revoke(0); acknowledge_revoke(0) is denied before commit; commit_prepared_revoke(0) then acknowledge_revoke(0) both commit. The commit event is explicitly the abstract recoverable whole-commit boundary, not physical storage durability. Mutation ack_after_commit=False allows the pre-commit acknowledgement; invariant reports C12 acknowledgement preceded recoverable whole commitment while old authority remains open. This makes the intended mutation discriminating without asserting host durability.
+
+
+
+One accidental context-key selection re-ran the existing sink-outcomes context (19 states/22 transitions/0 invariant violations) while locating the new context index. No aggregate or other prior contexts were run.
+
+
+
+Frozen mapping: T02/C6 old ingress is valid before replacement and denied afterward; the mutated current-position check permits it. T07/C12 pre-commit acknowledgement is denied, post-abstract-commit acknowledgement accepted; weakening admits early acknowledgement and violates the invariant. T24/AC is not implicated. Trusted premise: commit_prepared_revoke is the baseline model whole recoverable commitment endpoint. Physical persistence, source identity, and concrete old-holder exclusion remain untested.

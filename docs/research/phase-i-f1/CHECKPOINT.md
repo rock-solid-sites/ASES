@@ -227,3 +227,21 @@ Inherited branch research/phase-i-work-unit-f1-20261029 at remote-verified SHA 6
 
 
 Initial inspection: AT-03 uses A_GEN for SINK even though A_GEN is the NET ingress generation and the SINK is already at B_GEN; the old-use attempt is stale before replacement and the mutation disables ack ordering rather than old-position currentness. AT-11 attempts mgmt_ack with no pending revoke; Profile.ack_after_commit has no behavior separating prepare from recoverable commitment. Capture the before traces first; then repair only reachable history/observer coverage demanded by T02/T07.
+
+## 2026-10-30 AT-03/AT-11 checkpoint
+
+
+
+Repaired AT-03 fixture to create a valid pending SINK request at generation 3 before replacement, atomically advance to generation 4, then deny old commit; pre-replacement commit is the positive control. The current-position mutation now admits old use. Diagnosis: old fixture used NET generation 2 for SINK and did not create an old request.
+
+
+
+Repaired AT-11 fixture with prepare, abstract recoverable whole commitment, and acknowledgement stages. Pre-commit ack denied, post-commit ack accepted. ack_after_commit=False admits an early ack and trips C12 invariant while old authority remains open. Diagnosis: old fixture attempted ack without any pending revoke, so both profile variants denied before target.
+
+
+
+Named AT03 context passed 144 states/432 transitions/0 invariant violations under 1,000 states/1 GiB/90 s. Named AT11 event traces and mutations executed directly; syntax passed. Exact before/after traces and the abstract commitment/storage limitation are documented in Phase-I-F1-Targeted-Run.md.
+
+
+
+F1 remains incomplete; physical source binding, concrete durable commitment, AT-06/T24 concrete AC behavior, remaining C1-C13/A-L gaps and F5 review are outstanding.

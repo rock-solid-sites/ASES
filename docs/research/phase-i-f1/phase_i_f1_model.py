@@ -123,6 +123,12 @@ class State:
     cycle_committed: tuple = (False, False, False)  # committed A/B/C proposals
     sink_attempts: tuple = ()  # hidden outcomes: dropped/surviving/accepted, capped at two
     sink_reply_knowledge: str = "none"  # source-visible: none/awaiting/unknown
+    current_sink_gen: int = 3  # old/new SINK ingress generation in AT-03 fixture
+    old_request_pending: bool = False
+    old_request_gen: int | None = None
+    prepared_revoke_gen: int | None = None
+    committed_revoke_gen: int | None = None  # abstract recoverable whole-commit endpoint
+    acknowledged_revoke_gen: int | None = None
 
     # helpers
     def wu(self, w: str) -> WU:
@@ -175,6 +181,7 @@ class Profile:
     route_exclusion: bool = True       # D1 concrete handle withdrawal at seal
     single_holder: bool = True         # C6/T20
     currentness_check: bool = True     # trusted external epoch/content currentness premise
+    current_position_check: bool = True  # old ingress must remain current after replacement
     currentness_available: bool = True  # absent premise refuses successful recovery
     ack_ordering: bool = True          # C13 ordering of revoke-ack vs later use
     ac_trust: bool = True              # C13 outside-boundary widening refused
@@ -404,6 +411,58 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
         if not state.cycle_committed[predecessor]:
             return "cyclic-predecessor-uncommitted (C2)"
         return None
+
+    if k == "begin_old_request":
+        if state.old_request_pending:
+            return "old-request-already-pending"
+        if not live(state):
+            return "no-current-view (C6)"
+        return guard(state, ("use", C, SINK, W, state.current_sink_gen), p)
+
+    if k == "replace_sink_position":
+        if state.current_sink_gen != 3:
+            return "sink-position-already-replaced"
+        if not live(state):
+            return "no-current-view (C6)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "commit_old_request":
+        if not state.old_request_pending:
+            return "old-request-not-pending"
+        if p.current_position_check and state.old_request_gen != state.current_sink_gen:
+            return "stale-evidence (C6)"
+        return guard(state, ("use", C, SINK, W, B_GEN), p)
+
+    if k == "prepare_revoke":
+        gen = ev[1]
+        if not live(state):
+            return "no-current-view (C12)"
+        entry = grant_entry(state, gen)
+        if entry is None or entry[2] != OPEN:
+            return "not-current (C12)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "commit_prepared_revoke":
+        gen = ev[1]
+        entry = grant_entry(state, gen)
+        if state.prepared_revoke_gen != gen or entry is None or entry[2] != OPEN:
+            return "revoke-not-prepared (C12)"
+        if not live(state):
+            return "no-current-view (C12)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "acknowledge_revoke":
+        gen = ev[1]
+        entry = grant_entry(state, gen)
+        if entry is None:
+            return "no-revocation-to-acknowledge (C12)"
+        if p.ack_after_commit and state.committed_revoke_gen != gen:
+            return "ack-before-recoverable-commit (C12)"
+        if state.committed_revoke_gen == gen and entry[2] == REVOKED:
+            return None
+        if not p.ack_after_commit and state.prepared_revoke_gen == gen and entry[2] == OPEN:
+            return None
+        return "no-committed-revocation-to-acknowledge (C12)"
 
     if k == "sink_send_dropped" or k == "sink_send_survives":
         if state.sink_attempts:
@@ -670,6 +729,29 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         committed[ev[1]] = True
         return replace(state, cycle_committed=tuple(committed))
 
+    if k == "begin_old_request":
+        return replace(state, old_request_pending=True, old_request_gen=state.current_sink_gen)
+
+    if k == "replace_sink_position":
+        return replace(state, current_sink_gen=state.current_sink_gen + 1)
+
+    if k == "commit_old_request":
+        eff = chain_grant(state, C, SINK, p)
+        return replace(state, old_request_pending=False, uses=state.uses + ((C, SINK, eff, state.old_request_gen),))
+
+    if k == "prepare_revoke":
+        return replace(state, prepared_revoke_gen=ev[1])
+
+    if k == "commit_prepared_revoke":
+        gen = ev[1]
+        return replace(state, prepared_revoke_gen=None, committed_revoke_gen=gen, mgmt=tuple((g[0], g[1], REVOKED) if g[1] == gen and g[2] == OPEN else g for g in state.mgmt))
+
+    if k == "acknowledge_revoke":
+        gen = ev[1]
+        if state.committed_revoke_gen == gen:
+            return replace(state, acknowledged_revoke_gen=gen, mgmt=tuple((g[0], g[1], ACKED) if g[1] == gen and g[2] == REVOKED else g for g in state.mgmt))
+        return replace(state, acknowledged_revoke_gen=gen)
+
     if k == "sink_send_dropped":
         return replace(state, sink_attempts=state.sink_attempts + ("dropped",), sink_reply_knowledge="awaiting")
 
@@ -817,6 +899,8 @@ def invariant(state: State, p: Profile = REFERENCE) -> str | None:
         return "C10: invalid source reply knowledge"
     if bool(state.sink_attempts) != (state.sink_reply_knowledge != "none"):
         return "C10: source reply knowledge inconsistent with request history"
+    if state.acknowledged_revoke_gen is not None and state.committed_revoke_gen != state.acknowledged_revoke_gen:
+        return "C12: acknowledgement preceded recoverable whole commitment"
     if state.capacity_reserved not in (None, C, S):
         return "C3: capacity reservation has invalid owner"
     if state.capacity_consumed and state.capacity_reserved is None:
@@ -933,6 +1017,12 @@ CONTEXTS["currentness-image"] = [
     ("restore_stale_image",), ("restore_current_image",),
 ]
 
+CONTEXTS["old-request-after-replacement"] = [
+    _g(P, SINK, RW), _g(C, SINK, RW), ("begin_old_request",),
+    ("mgmt_revoke", P, 0), ("mgmt_ack", 0), ("mgmt_reissue", P, 0),
+    ("replace_sink_position",), ("commit_old_request",),
+]
+
 CONTEXTS["two-loss-currentness"] = [
     _g(P, SINK, RW), _g(C, SINK, RW), ("accept_x", C, B_GEN),
     ("advance_authority_epoch",), ("accept_y", C, B_GEN),
@@ -951,6 +1041,7 @@ CONTEXTS["sink-outcomes"] = [
 ]
 
 CONTEXT_BOUNDS = {
+    "old-request-after-replacement": 1000,
     "sink-outcomes": 1000,
     "two-loss-currentness": 5000,
     "currentness-image": 10000,
@@ -1219,15 +1310,15 @@ ATTACKS = [
     {
         "id": "AT-03", "clause": "C6/T02", "target": "old evidence commits after replacement",
         "promise": "a committed replacement precedes later initiated old use",
-        "trace": [_g(P, SINK, RW), _g(C, SINK, RW), ("mgmt_revoke", P, 0),
-                  ("mgmt_ack", 0), ("mgmt_reissue", P, 0), _g(C, SINK, RW),
-                  _use(C, SINK, W, A_GEN)],
-        "expected_reference": "deny at the final use (stale generation)",
-        "weakened": [("ack_ordering", {"ack_ordering": False})],
-        "note": "ack_ordering=False makes a use after a completed, acknowledged "
-                "revocation admissible; the stale-evidence guard still denies in "
-                "this history, so the variant must be checked for reachability of "
-                "the fault before being counted (see results)",
+        "trace": [_g(P, SINK, RW), _g(C, SINK, RW), ("begin_old_request",),
+                  ("mgmt_revoke", P, 0), ("mgmt_ack", 0),
+                  ("mgmt_reissue", P, 0), ("replace_sink_position",),
+                  ("commit_old_request",)],
+        "expected_reference": "old request valid before replacement is denied after replacement",
+        "weakened": [("current_position_check", {"current_position_check": False})],
+        "note": "old request captures SINK generation 3 before replacement;"
+                "replacement advances the SINK ingress to generation 4; the"
+                "current-position mutant admits the retained old request", 
     },
     {
         "id": "AT-04", "clause": "C6/T20", "target": "stale holder route overlap",
@@ -1311,12 +1402,13 @@ ATTACKS = [
     {
         "id": "AT-11", "clause": "C12/T07", "target": "acknowledgement before recoverable commitment",
         "promise": "successful acknowledgement follows commitment",
-        "trace": [("mgmt_ack", 0)],
-        "expected_reference": "deny (no pending revocation)",
+        "trace": [("prepare_revoke", 0), ("acknowledge_revoke", 0),
+                  ("commit_prepared_revoke", 0), ("acknowledge_revoke", 0)],
+        "expected_reference": "pre-commit acknowledgement denied; acknowledgement after abstract whole commit accepted",
         "weakened": [("ack_after_commit", {"ack_after_commit": False})],
-        "note": "ack_after_commit=False only removes the commit precondition; the "
-                "model refuses to invent an acknowledgement for a revoke that "
-                "never committed",
+        "note": "the request reaches a prepared-but-uncommitted revocation;"
+                "the weakened guard acknowledges it and C12 detects an ack with"
+                "the old authority still open", 
     },
 ]
 
