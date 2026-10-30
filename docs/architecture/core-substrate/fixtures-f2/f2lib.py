@@ -957,18 +957,28 @@ def _ev_resume_move(store, e, res, mech):
 def _ev_empty_check(store, e, res, mech):
     snap = len(store["units"]) and set(store["units"])
     store["empty_check_units"] = snap
+    store.setdefault("empty_check_children", {})[e["unit"]] = [
+        c for c, parent in store["parent"].items() if parent == e["unit"] and unit_exists(store, c)]
     res.log.append("empty check observed %d units" % len(snap))
 
 
 def _ev_assert_empty_removal(store, e, res, mech):
     unit = e["unit"]
-    children = [c for c, p in store["parent"].items() if p == unit and unit_exists(store, c)]
-    if children:
+    children = [c for c, parent in store["parent"].items() if parent == unit and unit_exists(store, c)]
+    checked = store.get("empty_check_children", {}).get(unit, [])
+    if children and mech.get("stale_empty_check") and not checked:
         store["parent"][children[0]] = None
-        res.log.append("weakened: concurrent child %s stranded (moved to top)" % children[0])
         res.delete_blocked = False
+        res.delete_reason = "weakened stale empty check stranded child %s" % children[0]
+        res.log.append("weakened stale empty check: child %s stranded" % children[0])
+        return
+    if children:
+        res.delete_blocked = True
+        res.delete_reason = "child %s still contained" % children[0]
+        res.log.append("removal blocked: " + res.delete_reason)
         return
     res.delete_blocked = False
+    res.delete_reason = "allowed"
     res.log.append("removal of empty %s" % unit)
 
 

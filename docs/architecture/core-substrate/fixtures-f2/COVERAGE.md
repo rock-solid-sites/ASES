@@ -15,10 +15,10 @@ Scope: this increment adds executable abstract-replay histories for selected por
 | T09 | Wrong-root, incomplete-content, and incompatible-interpretation images are quarantined/refused | executed | No real parser/decoder or storage-image corruption path |
 | T10 | Recovery lost after validation; rediscovery/revalidation before fresh activation | executed | No duplicate external-effect/revived-channel check beyond modeled state |
 | T11 | Sealed move read positive for C/D; per-step observations show latent write denial; weakened move mutation loses the restriction and admits write | executed | Abstract replay only; no concrete structural/ACL route test |
-| T12 | Coupled move whole-effect positive executes; empty-check/child-create/removal history executes but oracle strands child and fails expected current-state refusal | blocked | Empty-removal handler does not currently enforce the intended guard; no recovery interruption/half-effect variant yet |
+| T12 | Whole-effect coupled move positive; child created after empty check blocks removal and retains containment; stale-empty-check mutation strands child | executed | Abstract model only; recovery interruption/half-effect variants remain unfixtured |
 | T13 | Candidate/dependent disposition then removal; retained-reference removal refusal (runner now checks delete reason) | executed | No interrupted recovery between individual disposition steps or real stale-handle probe |
 | T14 | Pre-revocation snapshot denied after revocation; fresh healthy snapshot positive | executed | Abstract derivation only; authentic runtime provenance not established |
-| T15 | Omitted child graph plus contained child attempts empty removal; oracle strands child and fails expected refusal | blocked | Exposes the same empty-removal guard gap as T12; phantom-after-enumeration and complete-empty positive not fixtured |
+| T15 | Omitted graph with current contained child cannot authorize empty removal | executed | Phantom-after-correct-enumeration and complete-empty positive remain unfixtured |
 | T16 | Model confidence without explicit authority is denied | executed | Scope-limited observation and expressly authorized qualified-decision variants not fixtured |
 | T17 | Lost sink reply leaves outcome unknown and permissive retry flags duplicate possibility; independent read positive | executed | No irreversible-write guard profile that authorizes/restricts retry by policy |
 | T18 | Exact-obligation later delivery after replacement | executed | Use-current profile and actual sink-side revocation ordering not fixtured |
@@ -37,7 +37,8 @@ Scope: this increment adds executable abstract-replay histories for selected por
 - T04 `capacity_check=false`: the second reservation exceeds capacity.
 - T06 `content_binding=false`: substituted bytes are admitted.
 - T07 `wal_before_ack=false`: acknowledgement may occur while the committed journal lacks the value.
+- T12 `stale_empty_check=true`: the concurrent child is stranded using stale empty evidence.
 - T22 `metadata_separation=false`: an interior edit changes parentage.
 - T23 `complete_domain_checking=false, check_accepted_only=true`: deletion ignores an unaccepted durable candidate.
 
-These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 37 abstract histories executed, 1 prepared-only (T05), and 5 blocked. The blocked cases are T12 and T15 empty-removal guards, T20 conflicting acceptance, and two T24 ACL-order/consistency observations. The matrix is intentionally not an aggregate T01 through T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.
+These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 39 abstract histories executed, 1 prepared-only (T05), and 3 blocked. The blocked cases are T20 conflicting acceptance and two T24 ACL-order/consistency observations. The matrix is intentionally not an aggregate T01 through T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.

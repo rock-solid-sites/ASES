@@ -1,5 +1,5 @@
 {
-  "blocked": 5,
+  "blocked": 3,
   "cases": [
     {
       "assumption": "D1/D2 sealing must defeat retained external routes while baseline permits already-authorized CPU-only internal computation; requires real process/descriptor route mediation and independent content observation.",
@@ -2450,15 +2450,128 @@
     {
       "assumption": "An empty observation cannot authorize removal after a concurrent child is created; the final transition must revalidate the current relation.",
       "execution_scope": "f2lib abstract replay only",
-      "failures": [
-        "delete_blocked: expected True, got False",
-        "store[parent.C]: expected 'P', got None"
-      ],
+      "failures": [],
       "id": "T12-empty-check-races-child-creation",
-      "mutation": null,
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "stale_empty_check": true
+        },
+        "observation": {
+          "delete_blocked": false,
+          "delete_reason": "weakened stale empty check stranded child C",
+          "denied": null,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "step_observations": [],
+        "store": {
+          "accepted": {
+            "C": [],
+            "P": []
+          },
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {
+            "C": 0,
+            "P": 0
+          },
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "empty_check_children": {
+            "P": []
+          },
+          "empty_check_units": [
+            "P"
+          ],
+          "grants": {
+            "C": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            },
+            "P": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            }
+          },
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {
+            "C": null,
+            "P": null
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {
+            "C": "sealed",
+            "P": "sealed"
+          },
+          "survivors": [],
+          "units": {
+            "C": {
+              "created_by": "kit",
+              "genesis": 27,
+              "id": "C",
+              "origin": "",
+              "project": "alpha"
+            },
+            "P": {
+              "created_by": "kit",
+              "genesis": 26,
+              "id": "P",
+              "origin": "",
+              "project": "alpha"
+            }
+          },
+          "witness": [
+            "create empty sealed unit P",
+            "create empty sealed unit C"
+          ]
+        }
+      },
       "observation": {
-        "delete_blocked": false,
-        "delete_reason": "",
+        "delete_blocked": true,
+        "delete_reason": "child C still contained",
         "denied": null,
         "engine_denied": null,
         "engine_reason": "",
@@ -2467,7 +2580,7 @@
         "sink": null,
         "takeover_refused": null
       },
-      "status": "blocked",
+      "status": "executed",
       "step_observations": [],
       "store": {
         "accepted": {
@@ -2503,6 +2616,9 @@
         "derived": [],
         "discovered": [],
         "domain": 0,
+        "empty_check_children": {
+          "P": []
+        },
         "empty_check_units": [
           "P"
         ],
@@ -2528,7 +2644,7 @@
         },
         "latent": {},
         "parent": {
-          "C": null,
+          "C": "P",
           "P": null
         },
         "positions": {},
@@ -2674,21 +2790,21 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 28,
+            "genesis": 30,
             "id": "C",
             "origin": "",
             "project": "alpha"
           },
           "P": {
             "created_by": "kit",
-            "genesis": 26,
+            "genesis": 28,
             "id": "P",
             "origin": "",
             "project": "alpha"
           },
           "Q": {
             "created_by": "kit",
-            "genesis": 27,
+            "genesis": 29,
             "id": "Q",
             "origin": "",
             "project": "alpha"
@@ -2784,7 +2900,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 29,
+            "genesis": 31,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -2881,7 +2997,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 31,
+            "genesis": 33,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -2907,115 +3023,6 @@
         "engine_reason": "",
         "flags": {},
         "reason": "derived snapshot is stale under current authority",
-        "sink": null,
-        "takeover_refused": null
-      },
-      "status": "executed",
-      "step_observations": [],
-      "store": {
-        "accepted": {
-          "C": []
-        },
-        "candidates": [],
-        "comms": {},
-        "content": {
-          "x": {
-            "internal": 0,
-            "outward": 0,
-            "published": 0,
-            "sink_accept": 0
-          },
-          "y": {
-            "internal": 0,
-            "outward": 0,
-            "published": 0,
-            "sink_accept": 0
-          },
-          "z": {
-            "internal": 0,
-            "outward": 0,
-            "published": 0,
-            "sink_accept": 0
-          }
-        },
-        "dependents": {
-          "C": 0
-        },
-        "derived": [
-          {
-            "epoch": 0,
-            "map": {
-              "read": true,
-              "write": false
-            },
-            "stamp": 33,
-            "unit": "C"
-          }
-        ],
-        "discovered": [],
-        "domain": 0,
-        "grants": {
-          "C": {
-            "exp": false,
-            "local": {
-              "read": true,
-              "write": false
-            }
-          }
-        },
-        "journal": {
-          "committed": {},
-          "live": {}
-        },
-        "latent": {},
-        "parent": {
-          "C": null
-        },
-        "positions": {},
-        "processes": {},
-        "recovered_stamps": [],
-        "relations": {
-          "committed": {},
-          "live": {
-            "epoch": {
-              "C": 1
-            }
-          }
-        },
-        "status": {
-          "C": "sealed"
-        },
-        "survivors": [],
-        "units": {
-          "C": {
-            "created_by": "kit",
-            "genesis": 32,
-            "id": "C",
-            "origin": "",
-            "project": "alpha"
-          }
-        },
-        "witness": [
-          "create empty sealed unit C",
-          "revocation of boundary C"
-        ]
-      },
-      "trace": "T14"
-    },
-    {
-      "assumption": "A fresh derivation on unchanged healthy state is admissible without a mandatory persistent cache service.",
-      "execution_scope": "f2lib abstract replay only",
-      "failures": [],
-      "id": "T14-healthy-recompute-positive",
-      "mutation": null,
-      "observation": {
-        "delete_blocked": null,
-        "delete_reason": "",
-        "denied": false,
-        "engine_denied": null,
-        "engine_reason": "",
-        "flags": {},
-        "reason": "admitted",
         "sink": null,
         "takeover_refused": null
       },
@@ -3085,7 +3092,11 @@
         "recovered_stamps": [],
         "relations": {
           "committed": {},
-          "live": {}
+          "live": {
+            "epoch": {
+              "C": 1
+            }
+          }
         },
         "status": {
           "C": "sealed"
@@ -3101,6 +3112,111 @@
           }
         },
         "witness": [
+          "create empty sealed unit C",
+          "revocation of boundary C"
+        ]
+      },
+      "trace": "T14"
+    },
+    {
+      "assumption": "A fresh derivation on unchanged healthy state is admissible without a mandatory persistent cache service.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T14-healthy-recompute-positive",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "step_observations": [],
+      "store": {
+        "accepted": {
+          "C": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0
+        },
+        "derived": [
+          {
+            "epoch": 0,
+            "map": {
+              "read": true,
+              "write": false
+            },
+            "stamp": 37,
+            "unit": "C"
+          }
+        ],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 36,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
           "create empty sealed unit C"
         ]
       },
@@ -3109,15 +3225,12 @@
     {
       "assumption": "An incomplete discovery graph cannot authorize removal while a contained child exists.",
       "execution_scope": "f2lib abstract replay only",
-      "failures": [
-        "delete_blocked: expected True, got False",
-        "store[parent.C]: expected 'P', got None"
-      ],
+      "failures": [],
       "id": "T15-omitted-child-graph-is-not-proof-of-emptiness",
       "mutation": null,
       "observation": {
-        "delete_blocked": false,
-        "delete_reason": "",
+        "delete_blocked": true,
+        "delete_reason": "child C still contained",
         "denied": null,
         "engine_denied": null,
         "engine_reason": "",
@@ -3126,7 +3239,7 @@
         "sink": null,
         "takeover_refused": null
       },
-      "status": "blocked",
+      "status": "executed",
       "step_observations": [],
       "store": {
         "accepted": {
@@ -3162,6 +3275,11 @@
         "derived": [],
         "discovered": [],
         "domain": 0,
+        "empty_check_children": {
+          "P": [
+            "C"
+          ]
+        },
         "empty_check_units": [
           "C",
           "P"
@@ -3188,7 +3306,7 @@
         },
         "latent": {},
         "parent": {
-          "C": null,
+          "C": "P",
           "P": null
         },
         "positions": {},
@@ -3207,14 +3325,14 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 37,
+            "genesis": 39,
             "id": "C",
             "origin": "",
             "project": "alpha"
           },
           "P": {
             "created_by": "kit",
-            "genesis": 36,
+            "genesis": 38,
             "id": "P",
             "origin": "",
             "project": "alpha"
@@ -3309,7 +3427,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 38,
+            "genesis": 40,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -3480,7 +3598,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 39,
+            "genesis": 41,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -3813,7 +3931,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 40,
+            "genesis": 42,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -3914,7 +4032,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 41,
+            "genesis": 43,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4009,7 +4127,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 42,
+            "genesis": 44,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4105,7 +4223,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 43,
+            "genesis": 45,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4225,21 +4343,21 @@
           "units": {
             "C": {
               "created_by": "kit",
-              "genesis": 49,
+              "genesis": 51,
               "id": "C",
               "origin": "",
               "project": "alpha"
             },
             "P": {
               "created_by": "kit",
-              "genesis": 47,
+              "genesis": 49,
               "id": "P",
               "origin": "",
               "project": "alpha"
             },
             "Q": {
               "created_by": "kit",
-              "genesis": 48,
+              "genesis": 50,
               "id": "Q",
               "origin": "",
               "project": "alpha"
@@ -4350,21 +4468,21 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 46,
+            "genesis": 48,
             "id": "C",
             "origin": "",
             "project": "alpha"
           },
           "P": {
             "created_by": "kit",
-            "genesis": 44,
+            "genesis": 46,
             "id": "P",
             "origin": "",
             "project": "alpha"
           },
           "Q": {
             "created_by": "kit",
-            "genesis": 45,
+            "genesis": 47,
             "id": "Q",
             "origin": "",
             "project": "alpha"
@@ -4460,7 +4578,7 @@
         "units": {
           "C": {
             "created_by": "parent-agent",
-            "genesis": 50,
+            "genesis": 52,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4503,7 +4621,7 @@
           "candidates": [
             {
               "atom": "z",
-              "stamp": 54,
+              "stamp": 56,
               "unit": "C"
             }
           ],
@@ -4565,7 +4683,7 @@
           "units": {
             "C": {
               "created_by": "kit",
-              "genesis": 53,
+              "genesis": 55,
               "id": "C",
               "origin": "",
               "project": "alpha"
@@ -4596,7 +4714,7 @@
         "candidates": [
           {
             "atom": "z",
-            "stamp": 52,
+            "stamp": 54,
             "unit": "C"
           }
         ],
@@ -4658,7 +4776,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 51,
+            "genesis": 53,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4752,7 +4870,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 55,
+            "genesis": 57,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4857,7 +4975,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 57,
+            "genesis": 59,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -4957,7 +5075,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 58,
+            "genesis": 60,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -5065,7 +5183,7 @@
         "units": {
           "C": {
             "created_by": "kit",
-            "genesis": 59,
+            "genesis": 61,
             "id": "C",
             "origin": "",
             "project": "alpha"
@@ -5079,7 +5197,7 @@
       "trace": "T24"
     }
   ],
-  "executed": 37,
+  "executed": 39,
   "prepared_only": 1,
   "schema": "f2-run-results-v1",
   "scope": "abstract reference replay; not host/runtime evidence"

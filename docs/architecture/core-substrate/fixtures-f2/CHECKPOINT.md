@@ -24,7 +24,6 @@ The executions are abstract reference-model replays only. No host/runtime, descr
 
 ## Blocked outcomes requiring follow-up
 
-- T12 and T15: empty-removal handler strands the concurrently created child instead of refusing removal.
 - T20: conflicting-acceptance history does not produce the expected second-acceptance denial.
 - T24: ordered post-revocation use and out-of-band policy consistency observations fail their expected checks.
 

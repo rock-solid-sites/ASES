@@ -933,10 +933,20 @@
         "store": {
           "parent.C": "P",
           "status.P": "sealed"
-        }
+        },
+        "delete_reason_contains": "child C still contained"
       },
       "assumption": "An empty observation cannot authorize removal after a concurrent child is created; the final transition must revalidate the current relation.",
-      "status": "executed"
+      "status": "executed",
+      "mutation": {
+        "stale_empty_check": true
+      },
+      "mutation_expected": {
+        "delete_blocked": false,
+        "store": {
+          "parent.C": null
+        }
+      }
     },
     {
       "id": "T12-coupled-move-commits-whole-relation",
