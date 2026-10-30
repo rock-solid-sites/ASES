@@ -245,3 +245,13 @@ Named AT03 context passed 144 states/432 transitions/0 invariant violations unde
 
 
 F1 remains incomplete; physical source binding, concrete durable commitment, AT-06/T24 concrete AC behavior, remaining C1-C13/A-L gaps and F5 review are outstanding.
+
+## 2026-10-30 AT-06/AT-07 C13 tranche start
+
+
+
+Inherited branch research/phase-i-work-unit-f1-20261029 at origin-verified SHA ba09e992248b4c7fbc4a85e259daf040691a47dc; existing F1 tracker remains active on #8.
+
+
+
+AT-06 inspection: the old case requests AC restriction with ac_request(False), then its ack_ordering mutant and fixed-position use do not isolate C13 ordering. AT-07 inspection: ac_request(True) is unconditionally refused and ac_trust is not consulted, so its current mutant cannot discriminate consistency. Next: add only narrow state bits for Kernel AC revocation, pre-authorized widening ticket, applied policy widened/consistency; test post-revocation use and unauthorized widening. Partial application has no current representation and will remain absent. Bounds: each named context <=1,000 states, 1,000,000 KiB, 90 seconds; no aggregate.
