@@ -111,3 +111,33 @@ Latest attack-report retest: 3/10 variants discriminate their named fault (AT-02
 
 
 Latest syntax check passed. The containment-and-grants context was run with a 10,000-state cap, 1,000,000-KiB memory cap and 120-second timeout; it raised state-bound-exceeded before completion. This is INCOMPLETE, not a pass. The 16-state recovery-context result was obtained before this latest change and must be rerun. Evidence is recorded here; no output was represented as exhaustive.
+
+## Finite-context cap and retest record (2026-10-30)
+
+
+
+The previously non-finite management/AC event loops were given explicit model horizons: management generation counter stops at MAX_GENERATIONS=4; AC epoch stops at MAX_AC_EPOCHS=2. These are bounded-context assumptions, not claims that production has these limits. They make the explored event relation finite for these variables.
+
+
+
+| Context / check | Reachable states | Committed transitions | Violations | Status |
+
+|---|---:|---:|---:|---|
+
+| engine-loss-and-recovery | 16 | 78 | 0 | complete for this declared context and 10,000-state cap |
+
+| replacement-and-management | 456 | 2,086 | 0 | complete for this declared context and 10,000-state cap |
+
+| delegation | 120 | 502 | 0 | complete for this declared context and 10,000-state cap |
+
+| containment-and-grants | >10,000 | n/a | n/a | incomplete; explicit state cap exceeded |
+
+| all | >10,000 | n/a | n/a | incomplete; explicit state cap exceeded |
+
+
+
+Each small context had a 1,000,000-KiB virtual-memory cap and 120-second timeout. Positive named traces retested: 10/10 commit all events. Mutants: 3/10 discriminate (AT-02, AT-05, AT-09). A direct post-stop use check denies with sealed-by-loss; AT-05 write-after-move denies in the reference. The named witness prose still overstates WT-05/WT-08 because those sequences do not themselves issue the corresponding negative use; the direct checks are separate and bounded.
+
+
+
+No results JSON was generated: the model driver only writes at end, while aggregate exploration exceeds the state cap. The Markdown run record contains raw counts/counterexamples and explicit incompleteness. The final all-context profile is finite only under the generation/AC caps and is still not completely explored.

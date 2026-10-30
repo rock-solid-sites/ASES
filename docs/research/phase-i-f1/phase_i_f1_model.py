@@ -62,6 +62,8 @@ GRANTABLE = (NO, R, W, RW)
 OPEN, REVOKED, ACKED = "open", "revoked", "acked"
 IDLE, PREPARED, ACTIVE, RECOVERY = "idle", "prepared", "active", "recovering"
 POSITIONS = {"A": (C, NET, 2), "B": (C, SINK, 3)}  # fixed trusted premise (T-1)
+MAX_GENERATIONS = 4
+MAX_AC_EPOCHS = 2
 # origin identity for ingress evidence: a request must state which position it claims
 
 
@@ -357,6 +359,8 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
         return None
 
     if k == "mgmt_grant":
+        if state.gen >= MAX_GENERATIONS:
+            return NO
         w, scope, origin = ev[1], ev[2], ev[3]
         if not live(state):
             return "no-current-view (D1/D2, C7)"
@@ -391,6 +395,8 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
         return None
 
     if k == "mgmt_reissue":
+        if state.gen >= MAX_GENERATIONS:
+            return NO
         if not live(state):
             return "no-current-view (C7)"
         if any(g[2] == OPEN for g in state.mgmt):
@@ -412,6 +418,8 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
         return None
 
     if k == "ac_apply":
+        if state.epoch >= MAX_AC_EPOCHS:
+            return NO
         if state.ac_pending == NO:
             return "no-inflight-ac-change (C13)"
         return None

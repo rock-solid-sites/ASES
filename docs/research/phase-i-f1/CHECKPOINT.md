@@ -63,3 +63,13 @@ Next: model explicit denied uses after engine loss and latent move; repair or re
 
 
 Found and repaired a concrete C8 defect: move/use previously dropped an old ancestor grant restriction despite a latent record. AT-05 now denies forbidden post-move write and discriminates when latent preservation is weakened. Attack discrimination is 3/10, remaining seven invalid. A 10,000-state run of containment-and-grants exceeded its state bound and is recorded incomplete. Next: refactor bounded exploration/reporting, rerun recovery context under updated source, and continue explicit negative/witness tests.
+
+## 2026-10-30 finite-context checkpoint
+
+
+
+Added explicit finite horizons for management generation (4) and AC epoch (2), stopping infinite event-loop growth. Re-ran contexts: engine loss 16 states/78 commits; replacement-management 456/2086; delegation 120/502; each 0 invariant violations within its context. Containment and all contexts exceed a 10,000-state cap and remain incomplete. Ten positive event sequences commit; 3/10 mutations discriminate. Targeted deny-use checks confirm post-stop denial and the latent restriction after move. Per-context evidence is in Phase-I-F1-Targeted-Run.md.
+
+
+
+Next: model positive use after recovery with retained accepted content, add the required negative event to WT-05/WT-08, partition containment further and complete C1-C13/A-L checks. No theorem claim.
