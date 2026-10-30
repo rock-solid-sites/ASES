@@ -101,3 +101,9 @@ Content-continuity context completed at 600 states/3,090 committed transitions/0
 
 
 F1 remains incomplete; this is finite abstract evidence only. Next: add byte/version identity and a meaningful storage/current-image discriminator or explicitly keep currentness as premise; extend accepted x to y and unaccepted z only in separately bounded fixtures; repair WT-06 to reflect sealed recovery; preserve F5 independent review as outstanding.
+
+## Scope synchronization checkpoint
+
+
+
+Updated SCOPE_COVERED to disclose the bounded accepted-x continuity fixture; reran the named context at 600 states/3,090 committed transitions/0 violations and syntax-checked successfully. Current source SHA is recorded in the targeted report.

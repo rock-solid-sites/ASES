@@ -32,6 +32,7 @@ SCOPE_COVERED = [
     "concrete route exclusion at the sealing event; stale-holder route overlap check (C3, C6, D1/D2)",
     "replacement of ingress positions with generation-bound evidence, replay and stale-holder reuse (C6)",
     "engine loss under D1+D2 and cold recovery prepare/commit/activate/loss, two losses (C7, T10)",
+    "one accepted atom x across stop, sealed cold recovery, authority reissue and use (C5/C6/C7; limited fixture)",
     "internal resource-backed computation continuing after engine loss (K.7; D3 not modelled)",
     "complete-disposition precondition for boundary removal incl. descendants and empty units (C4, C8)",
     "interior metadata edit rejection (K.8, T22)",

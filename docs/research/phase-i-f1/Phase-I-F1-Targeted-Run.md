@@ -189,3 +189,9 @@ Mapping: C1—accept/use are guarded transitions but no external whole-effect re
 
 
 Work Unit A—C remains a bounded object with accepted content; B—SINK is an exposed attachment, resource/attachment distinction not represented; C—stop loses activity while WU/content persists; D—parent/grant/seal fields stand in for boundary record, identity/provenance absent; E—currentness is fixed-generation premise; F—cold image activation is modeled and starts sealed, discovery/validation absent; G—path grants P/C checked; H—old management revoked and sealed recovery explicitly reactivated; I—x remains confined and is used internally, no export/disposal; J—no move in this history; K—partial witnesses for empty/content persistence, path, sealing/currentness, no full K.1–20 proof; L—no runtime/prototype claim.
+
+## Scope-list synchronization
+
+
+
+The executable scope list now includes the limited accepted-x continuity fixture. Rerun at model SHA-256 e0db7168b4b0684c1865f8baa3a6605c4d01077f7db0edeec76adbf2e107fa82: content-continuity context 600 states, 3,090 committed transitions, 0 invariant violations; syntax check PASS. This remains a single boolean atom/store abstraction, not byte-level or rollback evidence.
