@@ -27,3 +27,13 @@ Inherited clean branch research/phase-i-work-unit-f1-20261029 at 0ebb257bf646c0b
 
 
 First bounded operation: syntax-check the preserved model and inspect focused state/policy sections, then run a small bounded context. No invariant, witness, mutation, or proof claim is inherited as verified.
+
+## Bounded-run observation (2026-10-30)
+
+
+
+The model passed Python syntax compilation. The first executable run used a 120-second process timeout and a 1,800,000-KiB virtual-memory cap, but the script explored all configured contexts in one invocation. It terminated with MemoryError in explore() before writing Phase-I-F1-Results.json. This is INCOMPLETE and establishes no invariant or witness result. No process remains running.
+
+
+
+Next: measure a single small context with a lower explicit state ceiling; repair the exploration interface or state representation as needed before further runs. Preserve drafts; do not make a bounded or unbounded proof claim.
