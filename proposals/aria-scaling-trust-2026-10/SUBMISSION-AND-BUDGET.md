@@ -24,8 +24,8 @@ A name/domain/organization/social-handle availability check and actual registrat
 - UK build weeks/travel costs should be included, matching actual plans. No fabricated UK collaborators.
 - Review criteria: worth shooting for, differentiated, well defined/rapid execution, responsible, intrinsic motivation/team, and benefit to the UK.
 
-## Illustrative 12-month budget — NOT A QUOTE OR AUTHORIZED REQUEST
-Target example: **GBP 320,000**, subject to user approval, eligible-cost template and staffing rates.
+## Historical initial budget — SUPERSEDED / NOT A QUOTE
+**Superseded planning snapshot:** the initial £320,000 estimate was not based on the observed pace and is **not a current funding request**. Use `REVISED-12-MONTH-SCOPE-AND-COSTING.md` for the evidence-based £225k / £300k / £420k working scenarios, still pending actual rates and eligibility. The table below is retained solely to show planning provenance.
 | Category (provisional) | Illustrative GBP | What it buys | Status |
 | --- | ---: | --- | --- |
 | Individual PI research remuneration (subject to ARIA eligibility and tax treatment) | 90,000 | 12 months dedicated research/methodology, milestone integration, leadership | Personal commitment and cost basis not confirmed |
@@ -55,4 +55,4 @@ The individual PI should confirm whether this scope realistically requires addit
 5. Upload with time margin; verify final portal receipt. Current cycle is a quarterly cut-off; late submission rolls to next quarter while call stays open.
 
 ## Current parallel R&D
-Luna is running actual F3 holder-death test. Grant language should remain at the `ad44b3f` baseline until pinned new results are delivered and reviewed. Never delay the submission solely to await unproven F3 results.
+The selected-profile F3 authority-loss experiment was completed at commit `04600b1b45e6510665bdc3108db9d51f6b2f8c56` and its limitations are recorded in `F3-AUTHORITY-LOSS-ADDENDUM.md` and the evidence ledger. Next ASES packets: bounded F3 lifecycle (`planning/ases-phase-i-work-unit-lifecycle-20261030`) and independent F2 T05 host bridge (`planning/ases-phase-i-f2-t05-host-bridge-20261030`). Grant scope/costing now uses `REVISED-12-MONTH-SCOPE-AND-COSTING.md`.
