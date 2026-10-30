@@ -1,6 +1,6 @@
-# F2 coverage matrix ? Agent C
+# F2 coverage matrix - Agent C
 
-Scope: this increment adds executable abstract-replay histories for selected portions of T01?T24. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
+Scope: this increment adds executable abstract-replay histories for selected portions of T01 through T24. `executed` means replayed by the independent `f2lib.py` reference model only. It does not mean a host/runtime fixture was executed. Raw observations and mutated-run outputs are in `results.json`.
 
 | Trace | Coverage in this increment | Status | Known gap |
 |---|---|---|---|
@@ -37,5 +37,7 @@ Scope: this increment adds executable abstract-replay histories for selected por
 - T04 `capacity_check=false`: the second reservation exceeds capacity.
 - T06 `content_binding=false`: substituted bytes are admitted.
 - T07 `wal_before_ack=false`: acknowledgement may occur while the committed journal lacks the value.
+- T22 `metadata_separation=false`: an interior edit changes parentage.
+- T23 `complete_domain_checking=false, check_accepted_only=true`: deletion ignores an unaccepted durable candidate.
 
-These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 36 abstract histories executed, 1 prepared-only (T05), and 6 blocked. The six blocked cases are the T11 latent-write denial, T12 and T15 empty-removal guards, T20 conflicting acceptance, and two T24 ACL-order/consistency observations. The matrix is intentionally not an aggregate T01?T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.
+These mutations are controls on the abstract oracle, not implementation mutants. Latest runner snapshot: 36 abstract histories executed, 1 prepared-only (T05), and 6 blocked. The six blocked cases are the T11 latent-write denial, T12 and T15 empty-removal guards, T20 conflicting acceptance, and two T24 ACL-order/consistency observations. The matrix is intentionally not an aggregate T01 through T24 passing claim. Tests requiring a host, process, descriptor, concrete route, storage rollback, or ACL remain unexecuted until such an independent fixture harness is available.
