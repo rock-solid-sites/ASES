@@ -1,0 +1,10 @@
+# L1 raw failed-run notes — retained, not counted as passes
+
+All disposable roots are retained under this directory. The test command outer bound was 20 seconds and each run used `ulimit -v 524288`.
+
+1. `lab-failure-001/`: worker/authority child modes used incorrect `sys.argv` indices. The parent failed at `missing=json.loads(worker.stdout.readline())` with `json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)`. The source was corrected to account for the `--authority` mode argument. This run had no published protected record or accepted content.
+2. `lab-failure-002/`: acceptance reached `record-000004.json`, but the supervisor sent `stop` and then incorrectly expected a JSON reply although the authority intentionally closed without a stop acknowledgement. Raw diagnostic: `JSONDecodeError: Expecting value: line 1 column 1 (char 0)` at the supervisor `admin('stop')`; the retained current selector references the accepted x record. No L1 pass was counted from this run.
+3. `lab-failure-003/`: acceptance and selector publication completed. A literal trailing `PY` in the harness file executed after the independent reader printed its result, causing `NameError: name 'PY' is not defined` and a nonzero reader process status. Manual independent reader invocation verified the on-disk object, but the run remained a harness failure and was not counted.
+4. `lab-initial-vacuous-control/` and `raw-initial-vacuous-control.json`: the end-to-end positive x flow completed, but audit found the initial denial response was unconditional instead of derived from P/C state. This is a vacuous denial control and explicitly not counted as L1 evidence.
+
+The final accepted L1 run is `lab/` and `raw-run.json`; it changed the denial to evaluate the current selector's P/C active/grants state and checks the exact initial empty observation in its pass predicate. The prior records are preserved as written for reproduction and diagnosis.

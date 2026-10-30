@@ -1,0 +1,109 @@
+{
+  "authority_pid": 199017,
+  "authority_ready": "{\"event\": \"authority_ready\", \"pid\": 199017}",
+  "authority_trace": "",
+  "expected_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+  "kernel": "5.15.0-184-generic",
+  "landlock_abi": 1,
+  "limits": {
+    "outer_timeout_seconds": 20,
+    "virtual_memory_kib": 524288
+  },
+  "management_activation_commit": {
+    "record": "record-000003.json",
+    "result": "COMMITTED"
+  },
+  "management_grant_commit": {
+    "record": "record-000002.json",
+    "result": "COMMITTED"
+  },
+  "pass": true,
+  "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+  "reader": {
+    "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+    "identity": "C-content-1462070e6b10a8ba",
+    "provenance": {
+      "actor": "worker-ingress-W1",
+      "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+      "source": "candidate-x.bin"
+    },
+    "reader_pid": 199019,
+    "record": "record-000004.json",
+    "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+    "size": 18,
+    "work_units": {
+      "C": {
+        "accepted": {
+          "identity": "C-content-1462070e6b10a8ba",
+          "object": "objects/1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061.bin",
+          "provenance": {
+            "actor": "worker-ingress-W1",
+            "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+            "source": "candidate-x.bin"
+          },
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "size": 18
+        },
+        "active": true,
+        "grants": [
+          "read"
+        ],
+        "id": "C",
+        "parent": "P"
+      },
+      "P": {
+        "accepted": null,
+        "active": true,
+        "grants": [
+          "read"
+        ],
+        "id": "P",
+        "parent": null
+      }
+    }
+  },
+  "root": "/home/claude-code/.paseo/worktrees/216s81dw/phase-i-d-protected-work-unit-f3/research/phase-i-protected-work-unit-f3/lifecycle/l1/lab",
+  "status": "completed",
+  "worker_after_grant": {
+    "accept": {
+      "bytes": 18,
+      "identity": "C-content-1462070e6b10a8ba",
+      "record": "record-000004.json",
+      "result": "ACCEPTED",
+      "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+    },
+    "activation": {
+      "event": "activation-current"
+    },
+    "event": "authorized_read_and_accept",
+    "pid": 199018,
+    "read_hex": "46332d6c6966656379636c652d782d76310a",
+    "read_result": "OK",
+    "read_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+  },
+  "worker_missing_grant": {
+    "direct_paths": {
+      "current": {
+        "errno": 13,
+        "result": "denied"
+      },
+      "source": {
+        "errno": 13,
+        "result": "denied"
+      },
+      "symlink": {
+        "errno": 13,
+        "result": "denied"
+      }
+    },
+    "event": "missing_grant",
+    "pid": 199018,
+    "reply": {
+      "bytes": 0,
+      "reason": "missing-full-path-grant",
+      "result": "DENY"
+    }
+  },
+  "worker_pid": 199018,
+  "worker_returncode": 0
+}
