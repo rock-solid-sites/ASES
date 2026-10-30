@@ -269,3 +269,13 @@ Replaced AT-07 with unauthorized widening and consistency mutation. Baseline ref
 
 
 Contexts: ac-revocation-order 66/194/0; ac-consistency 1/0/0 (states/transitions/invariant violations), each under 1,000 states/1 GiB/90 s; syntax passes. Traces and C13/T24 assumptions are in Phase-I-F1-Targeted-Run.md. F1/F5 remain incomplete.
+
+## 2026-10-30 AT-04/AT-10 audit tranche start
+
+
+
+Inherited branch research/phase-i-work-unit-f1-20261029 at origin-verified SHA e8daea700e2b65cd777c08cc62a9bdfe66ae4475. Existing AT-04 clears route_handles at stop regardless of route_exclusion and has no route-acquisition/new-holder event, so its weakened variant cannot reach overlap. Existing AT-10 repeats activate_image without a second recovery cycle and weakens whole_commitment, which is unrelated to duplicate activation.
+
+
+
+Next targeted fixtures: AT-04 opens a valid old SINK route, revokes/reissues authority for a new holder, accepts through new holder, then attempts old acceptance; holder_exclusion=False should preserve old route and expose the second effect. AT-10 performs two stop/recovery/image activations, then retries activation in the second cycle; duplicate_activation_guard=False should expose duplicate authority count. Each context cap 2,000 states, 1,000,000 KiB, 120 s; no aggregate search. Physical holder/route facts remain trusted abstractions.
