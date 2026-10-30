@@ -166,7 +166,19 @@ The commit cadence is one facet of auditing; liveness patrol is the other.
 
 # Permission Matrix
 
-The four-role permission model is enforced by two layers:
+**Policy update (2026-10-30):** Work, Codex, and VPS builder/worker agents
+must commit frequently and push their own working branches at session end.
+Explicit operator strategy-chat decisions are authoritative and may be published
+within their stated scope without a redundant per-push approval. This differs
+from the **legacy guard deployment** described below, which still blocks
+`git push` for native OpenCode roles. Do not mistake this policy update for
+a deployed guard change. Bring mechanical permissions into alignment in a
+separate tested change; do not bypass the existing guard, push to protected
+branches without permission, or claim a blocked push succeeded.
+
+The following table describes the **currently observed/recorded legacy guard
+configuration**, not the desired end-state policy. The four-role permission model
+is enforced by two layers:
 `.opencode/agents/*.md` frontmatter (OpenCode permission matcher) and
 `.crosslink/hook-config.json` (`agent_overrides.by_type.*`, enforced by the
 `crosslink-guard` plugin). The authoritative snapshot lives in
@@ -181,8 +193,10 @@ The four-role permission model is enforced by two layers:
 
 Rules of thumb:
 
-- **Orchestrator**: coordination only — commit and merge are allowed when an active
-  Crosslink issue exists; pushing is always the operator's job.
+- **Orchestrator**: coordination only — commit and merge currently require
+  an active Crosslink issue; legacy policy blocks push. Under the updated
+  policy, delegate session-end branch push to an authorized worker once the
+  guard permits it. Do not ask the operator to run routine Git commands.
 - **Builder**: the only role that writes project files.
 - **Reviewer / Auditor**: read-only; they can never write files or git history.
 
@@ -348,6 +362,13 @@ Do not automatically resume workflow.
 ---
 
 ## 4. Explicit Approval Is Required
+
+An explicit decision issued by the operator in a strategy conversation **is
+approval for that stated decision and its ordinary documentation/publication
+steps**; do not demand a second approval merely to push it. Routine worker
+branch pushes at session end are likewise expected under the updated repository
+policy. Materially ambiguous scope, destructive actions, production deployment
+and model launch retain their separately applicable gates.
 
 Implementation never begins implicitly.
 
