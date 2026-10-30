@@ -1,6 +1,6 @@
 # Inventory, provenance and migration
 
-**Status:** evidence-based starting inventory; not proof of live health. Audit exact sources, revisions, installed releases and deployments before migration. Destination repository name is not yet fixed.
+**Status:** evidence-based starting inventory; not proof of live health. Audit exact sources, revisions, installed releases and deployments before migration. Destination repository name and scope are settled; see `SOURCE-AUDIT-2026-10-30.md` for the latest evidence.
 
 ## Assets and current authority
 
@@ -40,4 +40,4 @@ Recent ChatGPT-originated GitHub repository creation attempts returned `403 Reso
 
 ## Decisions requiring evidence
 
-The final repository name, which parts of `rss-tools` are actually in scope, whether plugin source can be fully recovered, and whether the client provides deterministic skill selection remain to be resolved during source audit or targeted tests. Do not treat any as implicitly settled.
+Repository name and scope are settled: `rock-solid-sites/ases-plugins` covers ChatGPT plugins, packaged skills, MCP connectors and their release/test tooling, not general OpenCode/Crosslink utilities. Source recovery, deployed revision parity and client skill discovery remain unresolved and must be evidenced. See `SOURCE-AUDIT-2026-10-30.md` for additional legacy MCP records and the distinction between working App-backed plugins and historical packages. Do not treat any as implicitly settled.
