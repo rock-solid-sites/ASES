@@ -388,9 +388,16 @@ def _ev_use_with(store, e, res, mech):
         return
     unit = e.get("unit")
     right = use.get("right")
-    if unit is not None and right and not effective(store, unit, right):
-        _deny(res, "current authority for %s/%s absent" % (unit, right))
-        return
+    if unit is not None and right:
+        if mech.get("ancestor_checking") is False:
+            local = store["grants"].get(unit, {}).get("local", {}).get(right, False)
+            locally_restricted = store["latent"].get(unit, {}).get("right", {}).get(right) is False
+            authorized = local and not locally_restricted
+        else:
+            authorized = effective(store, unit, right)
+        if not authorized:
+            _deny(res, "current authority for %s/%s absent" % (unit, right))
+            return
     if unit is not None and use.get("outward") and not effective_exp(store, unit):
         _deny(res, "outward use of %s not authorized by current boundary state" % unit)
         return
@@ -447,7 +454,7 @@ def _ev_replay_message(store, e, res, mech):
 def _ev_reserve(store, e, res, mech):
     pool = store.setdefault("pool", {})
     p = pool.setdefault(e["pool"], {"cap": e.get("cap", 1), "used": 0})
-    if mech.get("capacity_check"):
+    if mech.get("capacity_check", True):
         if p["used"] + 1 > p["cap"]:
             _deny(res, "pool %s at capacity" % e["pool"])
             return

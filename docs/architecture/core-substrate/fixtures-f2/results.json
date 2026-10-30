@@ -1,0 +1,960 @@
+{
+  "blocked": 0,
+  "cases": [
+    {
+      "assumption": "Ancestor grants do not imply child-local grants; the complete path is checked.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T01-parent-admits-child-ungranted",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "current authority for C/read absent",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": [],
+          "P": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0,
+          "P": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          },
+          "P": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": "P",
+          "P": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "active",
+          "P": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 2,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          },
+          "P": {
+            "created_by": "kit",
+            "genesis": 1,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T01"
+    },
+    {
+      "assumption": "A child grant cannot override a missing ancestor grant.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T01-child-grant-ancestor-denies",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "ancestor_checking": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "store": {
+          "accepted": {
+            "C": [],
+            "P": []
+          },
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {
+            "C": 0,
+            "P": 0
+          },
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {
+            "C": {
+              "exp": false,
+              "local": {
+                "read": true,
+                "write": false
+              }
+            },
+            "P": {
+              "exp": false,
+              "local": {
+                "read": false,
+                "write": false
+              }
+            }
+          },
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {
+            "C": "P",
+            "P": null
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {
+            "C": "active",
+            "P": "sealed"
+          },
+          "survivors": [],
+          "units": {
+            "C": {
+              "created_by": "kit",
+              "genesis": 6,
+              "id": "C",
+              "origin": "",
+              "project": "alpha"
+            },
+            "P": {
+              "created_by": "kit",
+              "genesis": 5,
+              "id": "P",
+              "origin": "",
+              "project": "alpha"
+            }
+          },
+          "witness": [
+            "create empty sealed unit P",
+            "create empty sealed unit C"
+          ]
+        }
+      },
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "current authority for C/read absent",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": [],
+          "P": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0,
+          "P": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": false
+            }
+          },
+          "P": {
+            "exp": false,
+            "local": {
+              "read": false,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": "P",
+          "P": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "active",
+          "P": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 4,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          },
+          "P": {
+            "created_by": "kit",
+            "genesis": 3,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T01"
+    },
+    {
+      "assumption": "Explicit grants on every boundary in the path admit read.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T01-full-path-grant-positive",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {
+          "C": [],
+          "P": []
+        },
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {
+          "C": 0,
+          "P": 0
+        },
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {
+          "C": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": false
+            }
+          },
+          "P": {
+            "exp": false,
+            "local": {
+              "read": true,
+              "write": false
+            }
+          }
+        },
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {
+          "C": "P",
+          "P": null
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {
+          "C": "active",
+          "P": "sealed"
+        },
+        "survivors": [],
+        "units": {
+          "C": {
+            "created_by": "kit",
+            "genesis": 8,
+            "id": "C",
+            "origin": "",
+            "project": "alpha"
+          },
+          "P": {
+            "created_by": "kit",
+            "genesis": 7,
+            "id": "P",
+            "origin": "",
+            "project": "alpha"
+          }
+        },
+        "witness": [
+          "create empty sealed unit P",
+          "create empty sealed unit C"
+        ]
+      },
+      "trace": "T01"
+    },
+    {
+      "assumption": "Completed replacement advances position identity before later old-holder requests.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T02-stale-position-claim",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "source_binding": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "store": {
+          "accepted": {},
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {},
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {},
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {},
+          "positions": {
+            "p": {
+              "gen": 1,
+              "holder": "old",
+              "unit": "C"
+            }
+          },
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {},
+          "survivors": [],
+          "units": {},
+          "witness": []
+        }
+      },
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "claim does not match current position identity (gen 2 holder new)",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {
+          "p": {
+            "gen": 2,
+            "holder": "new",
+            "unit": "C"
+          }
+        },
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T02"
+    },
+    {
+      "assumption": "Tests represented old-capability reuse; does not establish physical-source binding or bearer secrecy.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T03-reuse-reachable-old-representation",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "source_binding": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "store": {
+          "accepted": {},
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {},
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {},
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {},
+          "positions": {
+            "p": {
+              "gen": 2,
+              "holder": "new",
+              "unit": "C"
+            }
+          },
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {},
+          "survivors": [],
+          "units": {},
+          "witness": []
+        }
+      },
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": true,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "reuse of old representation 'old-capability'",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {
+          "p": {
+            "gen": 2,
+            "holder": "new",
+            "unit": "C"
+          }
+        },
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T03"
+    },
+    {
+      "assumption": "Abstract reservation capacity is authoritative and serialized.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T04-unit-capacity-two-reservations",
+      "mutation": {
+        "failures": [],
+        "mech": {
+          "capacity_check": false
+        },
+        "observation": {
+          "delete_blocked": null,
+          "delete_reason": "",
+          "denied": false,
+          "engine_denied": null,
+          "engine_reason": "",
+          "flags": {},
+          "reason": "admitted",
+          "sink": null,
+          "takeover_refused": null
+        },
+        "status": "discriminating",
+        "store": {
+          "accepted": {},
+          "candidates": [],
+          "comms": {},
+          "content": {
+            "x": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "y": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            },
+            "z": {
+              "internal": 0,
+              "outward": 0,
+              "published": 0,
+              "sink_accept": 0
+            }
+          },
+          "dependents": {},
+          "derived": [],
+          "discovered": [],
+          "domain": 0,
+          "grants": {},
+          "journal": {
+            "committed": {},
+            "live": {}
+          },
+          "latent": {},
+          "parent": {},
+          "pool": {
+            "one": {
+              "cap": 1,
+              "used": 2
+            }
+          },
+          "positions": {},
+          "processes": {},
+          "recovered_stamps": [],
+          "relations": {
+            "committed": {},
+            "live": {}
+          },
+          "status": {},
+          "survivors": [],
+          "units": {},
+          "witness": []
+        }
+      },
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "pool": {
+          "one": {
+            "cap": 1,
+            "used": 1
+          }
+        },
+        "positions": {},
+        "processes": {},
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T04"
+    },
+    {
+      "assumption": "Independent work remains committable; positive control for precedence constraints.",
+      "execution_scope": "f2lib abstract replay only",
+      "failures": [],
+      "id": "T04-independent-order-positive",
+      "mutation": null,
+      "observation": {
+        "delete_blocked": null,
+        "delete_reason": "",
+        "denied": false,
+        "engine_denied": null,
+        "engine_reason": "",
+        "flags": {},
+        "reason": "admitted",
+        "sink": null,
+        "takeover_refused": null
+      },
+      "status": "executed",
+      "store": {
+        "accepted": {},
+        "candidates": [],
+        "committed_order": [
+          "independent"
+        ],
+        "comms": {},
+        "content": {
+          "x": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "y": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          },
+          "z": {
+            "internal": 0,
+            "outward": 0,
+            "published": 0,
+            "sink_accept": 0
+          }
+        },
+        "dependents": {},
+        "derived": [],
+        "discovered": [],
+        "domain": 0,
+        "grants": {},
+        "journal": {
+          "committed": {},
+          "live": {}
+        },
+        "latent": {},
+        "parent": {},
+        "positions": {},
+        "processes": {},
+        "proposals": {
+          "independent": {
+            "pre": [],
+            "state": "committed",
+            "unit": "C",
+            "validated": true
+          }
+        },
+        "recovered_stamps": [],
+        "relations": {
+          "committed": {},
+          "live": {}
+        },
+        "status": {},
+        "survivors": [],
+        "units": {},
+        "witness": []
+      },
+      "trace": "T04"
+    }
+  ],
+  "executed": 7,
+  "schema": "f2-run-results-v1",
+  "scope": "abstract reference replay; not host/runtime evidence"
+}

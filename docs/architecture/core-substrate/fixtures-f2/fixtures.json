@@ -1,0 +1,284 @@
+{
+  "schema": "f2-fixture-v1",
+  "fixtures": [
+    {
+      "id": "T01-parent-admits-child-ungranted",
+      "trace": "T01",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          },
+          {
+            "ev": "create",
+            "unit": "C",
+            "parent": "P"
+          },
+          {
+            "ev": "grant",
+            "unit": "P",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "read"
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "current authority"
+      },
+      "assumption": "Ancestor grants do not imply child-local grants; the complete path is checked.",
+      "status": "executed"
+    },
+    {
+      "id": "T01-child-grant-ancestor-denies",
+      "trace": "T01",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          },
+          {
+            "ev": "create",
+            "unit": "C",
+            "parent": "P"
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "read"
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "current authority"
+      },
+      "assumption": "A child grant cannot override a missing ancestor grant.",
+      "mutation": {
+        "ancestor_checking": false
+      },
+      "mutation_expected": {
+        "deny": false
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T01-full-path-grant-positive",
+      "trace": "T01",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "unit": "P"
+          },
+          {
+            "ev": "create",
+            "unit": "C",
+            "parent": "P"
+          },
+          {
+            "ev": "grant",
+            "unit": "P",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "grant",
+            "unit": "C",
+            "right": "read",
+            "allow": true
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ]
+      },
+      "events": [
+        {
+          "ev": "use",
+          "unit": "C",
+          "use": {
+            "right": "read"
+          }
+        }
+      ],
+      "expected_observation": {
+        "deny": false
+      },
+      "assumption": "Explicit grants on every boundary in the path admit read.",
+      "status": "executed"
+    },
+    {
+      "id": "T02-stale-position-claim",
+      "trace": "T02",
+      "initial_state": {
+        "store": {
+          "positions": {
+            "p": {
+              "gen": 1,
+              "unit": "C",
+              "holder": "old"
+            }
+          }
+        }
+      },
+      "events": [
+        {
+          "ev": "position_advance",
+          "pos": "p",
+          "unit": "C",
+          "to": "new"
+        },
+        {
+          "ev": "stale_claim",
+          "pos": "p",
+          "gen": 1,
+          "unit": "C",
+          "claimant": "old"
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "does not match"
+      },
+      "assumption": "Completed replacement advances position identity before later old-holder requests.",
+      "mutation": {
+        "source_binding": false
+      },
+      "mutation_expected": {
+        "deny": false
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T03-reuse-reachable-old-representation",
+      "trace": "T03",
+      "initial_state": {
+        "store": {
+          "positions": {
+            "p": {
+              "gen": 2,
+              "unit": "C",
+              "holder": "new"
+            }
+          }
+        }
+      },
+      "events": [
+        {
+          "ev": "stale_claim",
+          "pos": "p",
+          "gen": 2,
+          "unit": "C",
+          "claimant": "new",
+          "old_rep": "old-capability"
+        }
+      ],
+      "expected_observation": {
+        "deny": true,
+        "reason_contains": "reuse of old representation"
+      },
+      "assumption": "Tests represented old-capability reuse; does not establish physical-source binding or bearer secrecy.",
+      "mutation": {
+        "source_binding": false
+      },
+      "mutation_expected": {
+        "deny": false
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T04-unit-capacity-two-reservations",
+      "trace": "T04",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "reserve",
+          "pool": "one",
+          "cap": 1
+        },
+        {
+          "ev": "reserve",
+          "pool": "one",
+          "cap": 1
+        }
+      ],
+      "expected_observation": {
+        "store": {
+          "pool.one.used": 1
+        }
+      },
+      "assumption": "Abstract reservation capacity is authoritative and serialized.",
+      "mutation": {
+        "capacity_check": false
+      },
+      "mutation_expected": {
+        "store": {
+          "pool.one.used": 2
+        }
+      },
+      "status": "executed"
+    },
+    {
+      "id": "T04-independent-order-positive",
+      "trace": "T04",
+      "initial_state": {},
+      "events": [
+        {
+          "ev": "order_propose",
+          "id": "independent",
+          "unit": "C",
+          "pre": []
+        },
+        {
+          "ev": "order_validate",
+          "id": "independent"
+        },
+        {
+          "ev": "order_commit",
+          "id": "independent"
+        }
+      ],
+      "expected_observation": {
+        "deny": false,
+        "store": {
+          "committed_order": [
+            "independent"
+          ]
+        }
+      },
+      "assumption": "Independent work remains committable; positive control for precedence constraints.",
+      "status": "executed"
+    }
+  ]
+}
