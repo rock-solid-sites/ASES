@@ -29,8 +29,8 @@ Before writing, identify:
 
 - **operation**: what kind of reasoning/action is requested;
 - **target**: artifact, diff, issue, subsystem, claim, or objective;
-- **receiver**: orchestrator, worker, reviewer, ontology reviewer, synthesizer, etc.;
-- **run policy**: facts that vary for this invocation, especially model/delegation policy;
+- **receiver**: orchestrator, worker, reviewer, ontology reviewer, synthesizer, etc.; identify the role, never the receiving agent's model or reasoning-effort setting;
+- **run policy**: facts that vary for this invocation, including authorization for delegation, approved reviewer-model routes, and stop/escalation conditions; keep the receiving agent's own model identity, provider, and reasoning effort in the launch configuration, not the prompt;
 - **context sources**: only sources whose contents could materially change execution;
 - **execution path**: an established route, identity, provider, account, configuration or workflow that the task must use or try first;
 - **operator knowledge**: whether a consequential apparent unknown can be settled more cheaply by one question than by investigation;
@@ -116,17 +116,24 @@ An operator explanation can establish intent and point to the right mechanism; i
 
 Keep shell work, administrative navigation and configuration edits with agents. Never ask for credentials or secrets in conversation; preserve existing identity-action and approval boundaries.
 
-### 5. Preserve run-specific policy
+### 5. Preserve run-specific policy without revealing the receiver's model
 
-Include instructions that can legitimately change from invocation to invocation and are not yet mechanically enforced.
+Include instructions that legitimately vary between runs and are needed to perform this task. **Never tell the receiving agent which model, provider, model family, or reasoning-effort level it is running as. Never ask the agent to confirm, discover, verify, or report its own model identity or effort level. No exceptions.** This applies to Operator/Orchestrator, builders, reviewers, recon, verification, and synthesis agents alike.
 
-Do not tell an orchestrator its own model identity by default. Model identity belongs in the prompt only when it materially changes execution policy or provenance — for example, when same-family builders generate code and later reviewer eligibility depends on which model family produced that artifact.
+Configure the recipient's model, provider, effort, and identity outside the model-visible task prompt, in the invoking tool/session configuration. Keep the resulting identity and cross-family provenance in trusted dispatch records available to the human and the orchestration machinery, not as the agent's claimed self-identification. A model's assertion about its identity is not independent verification of its actual routing.
 
-Example:
+Distinguish **the recipient's own identity** from **the models it is authorized to dispatch**. If an orchestrator must launch specified reviewers, it may need an immutable allowlist of those *target* model/provider routes, or an externally enforced manifest reference. That is task authorization, not a statement about the orchestrator's own model. Never ask the orchestrator to infer its own family to make a reviewer-eligibility decision: obtain the builder's family from dispatch provenance and enforce the review constraints externally.
 
-`Delegate bounded work to Luna Light; escalate a failed bounded task to Luna Medium on concrete evidence of capability failure.`
+Examples:
 
-Do not move variable routing policy into permanent project documentation merely to shorten prompts. Prefer the runtime/orchestration layer to know model identity and enforce model-family constraints without making that identity part of the model-visible task unless the model must reason about it.
+- **Forbidden:** `You are Luna xhigh. Confirm that you are running Luna xhigh before proceeding.`
+- **Forbidden:** `As the DeepSeek builder, choose reviewers from other model families.`
+- **Correct:** `Review the pinned artifact under the supplied constraints; stop and ask if the authorized route is unavailable.`
+- **Correct when dispatch is part of the task:** `Launch only the reviewer model/provider pairs approved in the immutable dispatch manifest; stop if one is unavailable.`
+
+If the invocation mechanism cannot select or verify the intended receiver model/effort outside the task prompt, **stop and request correction of the launch configuration**. Do not compensate by embedding self-identity instructions in the prompt.
+
+Do not move variable authorization policy into permanent project documentation merely to shorten prompts; do not use model-visible prose as a replacement for enforceable dispatch controls.
 
 ### 6. Remove redundant authority prose
 
@@ -183,9 +190,10 @@ Delete anything that does not change execution.
 Apply these tests:
 
 - **Fresh-context test:** Does the receiver need this fact, and can it discover it from available context/tools? If discoverable, omit unless discovery is unusually costly or error-prone.
-- **Established-route test:** Have we preserved the operator-selected route or identity, rather than leaving an agent to pick a merely available alternative?
+- **Established-route test:** Have we preserved the operator-selected execution route, destination, and authorized target-model/provider paths, rather than leaving an agent to pick a merely available alternative?
 - **Operator-knowledge test:** Are apparent unknowns genuinely unanswered, or could one useful question eliminate substantial misdirected research? Do not ask when the answer is already known or live verification is inherently required.
 - **Concept-introduction test:** Does this sentence introduce a concept the agent otherwise would not need? If yes, remove it unless it is required.
+- **Receiver-identity test:** Does the rendered task tell the receiver what model/provider/family/effort it is, or ask it to identify itself? If yes, delete that text and move the setting/check to the caller-side configuration.
 - **Authority test:** Is this already mechanically enforced? If yes, omit it.
 - **Duplication test:** Is this stable procedure already in the role/skill or stable meaning already in project knowledge? If yes, reference/select it rather than restating it.
 - **Anchoring test:** Am I telling a reviewer where I expect the bug to be? Remove unnecessary hypotheses.
@@ -199,15 +207,13 @@ Formatting should optimize machine consumption: dense paragraphs, short headings
 
 Include:
 - bounded objective;
-- current run model/delegation policy;
+- authorized delegation policy only where it changes dispatch behavior (never the receiving orchestrator's own model, provider, family, or effort);
 - Crosslink state location when relevant;
 - completion condition.
 
-For review orchestration, the prompt must either:
-- name the reviewer models to launch; or
-- ask the orchestrator to propose a small set of cost-efficient models suited to the review operation before launch.
+For review orchestration, reviewer selection must be governed by explicit dispatch configuration. Prefer an immutable, externally enforced reviewer-model/provider allowlist or manifest; when the orchestrator itself is authorized to dispatch reviewers, supply the **target reviewer** list or manifest reference, not the orchestrator's own model identity. If selection has deliberately been delegated, request a proposal for human approval before launch. A failed or missing approved route is a stop/escalation condition, not permission for substitution.
 
-Do not leave reviewer selection implicit. Model choice is part of the review design because different models have materially different review behavior, cost, and strengths.
+Do not leave reviewer selection or cost/provider authorization implicit. Model choice is part of review design, but the orchestrator's self-identity is never part of the task prompt.
 
 Let the orchestrator decide decomposition within its allowed delegation surface.
 
@@ -265,13 +271,13 @@ A small suite of two or three well-chosen reviewers is often sufficient; smaller
 
 #### Review provenance and model selection
 
-Reviewer selection must never be implicit. The review-orchestrator prompt must either name the reviewer models or explicitly ask the orchestrator to recommend a small, cost-efficient set suited to the review operation before launching them.
+Reviewer selection must never be implicit. The review dispatch manifest must identify the approved reviewer model/provider pairs, or record that reviewer selection requires a separate human-approved proposal. A task prompt may point to this manifest or list *target reviewers* only where dispatch requires it; never include the orchestrator's own model identity.
 
 Formal independent review evidence in either mode must come from a different model family than the artifact-producing family.
 
 A same-family orchestrator may inspect a same-family worker submission for practical task acceptance, but that result is an acceptance check, not independent judgement-only review evidence.
 
-The reviewer prompt normally does not need the reviewer's model identity. The orchestration layer should record provenance, decide eligibility, instantiate clean contexts where required, and control when peer outputs become visible.
+The reviewer prompt must not contain the reviewer's own model identity, provider, family, or effort, nor instruct the reviewer to establish it. The dispatch layer must record provenance, decide eligibility from actual routing, instantiate clean contexts where required, and control when peer outputs become visible.
 
 ### Ontology review
 
