@@ -117,3 +117,17 @@ Resumed on branch research/phase-i-work-unit-f1-20261029 at inherited remote-ver
 
 
 Next bounded fixture: one reservation unit supplied by P, allocation as a view assigned to C or sibling S, consumption tracked separately, two serialized competing requests, and one unrelated positive change. Planned context cap 10,000 states, memory 1,000,000 KiB, timeout 120 seconds. No aggregate context or proof claim.
+
+## 2026-10-30 capacity-one checkpoint
+
+
+
+Implemented capacity_reserved as the single P-owned unit assigned as a view to C or sibling S, plus separate capacity_consumed. No parent+child double counting: one non-None owner accounts for the one global unit.
+
+
+
+The capacity-one context passes: 8 states, 10 committed transitions, 0 invariant violations under 10,000 states/1 GiB/120 s. Named sequence C reservation succeeds, S competitor denied, independent change succeeds, C consumption succeeds. Search includes both C and S as possible reservation owners. Evidence and C1/C3/A-L mapping are in Phase-I-F1-Targeted-Run.md.
+
+
+
+Next optional bounded tranche: add the three pending-proposal cyclic-order attack and independent disjoint transition. Capacity fixture does not establish concurrent conflict ordering. F1 remains incomplete.

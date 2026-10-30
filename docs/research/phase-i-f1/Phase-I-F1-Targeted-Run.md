@@ -195,3 +195,33 @@ Work Unit A—C remains a bounded object with accepted content; B—SINK is an e
 
 
 The executable scope list now includes the limited accepted-x continuity fixture. Rerun at model SHA-256 e0db7168b4b0684c1865f8baa3a6605c4d01077f7db0edeec76adbf2e107fa82: content-continuity context 600 states, 3,090 committed transitions, 0 invariant violations; syntax check PASS. This remains a single boolean atom/store abstraction, not byte-level or rollback evidence.
+
+## Capacity-one reservation competition milestone (2026-10-30)
+
+
+
+Model SHA-256: 9487921b8c8cbb554435e0b16075e069dedbe6a8d7608845a2d7e293dc25c064.
+
+
+
+Fixture definition: P owns exactly one capacity unit. capacity_reserved is either None, C, or sibling S and represents allocation of that one P-owned unit as a child view. It is not a second global unit. capacity_consumed is a separate boolean indicating consumption of the same reservation; the invariant rejects consumption without an allocated owner. Thus allocated global units = 1 iff capacity_reserved is non-None, never parent reservation plus child allocation.
+
+
+
+Named history: reserve_capacity(C) commits; competing reserve_capacity(S) is denied with capacity-unit-already-allocated; independent_change commits; consume_capacity(C) commits. Final state: owner C, consumed true, independent_changed true, invariant passes. The context graph reaches reservation winners C and S (and unallocated None), so the competing request order is not hard-coded by the transition system.
+
+
+
+Bounded run: capacity-one context, 8 reachable states, 10 committed transitions, zero invariant violations; 10,000-state cap; 1,000,000-KiB virtual-memory cap; 120-second timeout. Syntax check PASS. This is a serialized allocation/consumption fixture only; no numeric quantities, resource interface, simultaneous execution, recovery or host enforcement is tested.
+
+
+
+Mapping: C1—reservation and consumption are distinct committed transitions; no concrete effect refinement. C3—one conserved parent unit, exclusive child allocation, and authority-guarded mutation; narrow fixture only. C2—serialized order is assumed, no cycle attack yet.
+
+
+
+Work Unit A—P/C/S bounded objects; B—resource allocation is represented as an unexposed reservation, no attachment; C—consumption is a state change, no running activity; D—parent relationship is the fixed fixture, not full boundary metadata; E/F—recovery not included; G—C and S are sibling allocation views under P; H—no revocation/sealing; I—no content/export; J—no move; K—partial capacity conservation invariant; L—no realization claim.
+
+
+
+Trusted premises: initial P capacity is exactly one; serialized Kernel serializes competing requests; reservation assignment and consumption state are authoritative; only named C/S compete; independent_change is disjoint and management-authorized. Not tested: concurrency, rollback, storage, physical capacity, or schedulers.

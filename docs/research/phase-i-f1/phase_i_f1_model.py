@@ -33,6 +33,7 @@ SCOPE_COVERED = [
     "replacement of ingress positions with generation-bound evidence, replay and stale-holder reuse (C6)",
     "engine loss under D1+D2 and cold recovery prepare/commit/activate/loss, two losses (C7, T10)",
     "one accepted atom x across stop, sealed cold recovery, authority reissue and use (C5/C6/C7; limited fixture)",
+    "one conserved capacity-one parent reservation allocated to C or S, with distinct consumption (C3; narrow fixture)",
     "internal resource-backed computation continuing after engine loss (K.7; D3 not modelled)",
     "complete-disposition precondition for boundary removal incl. descendants and empty units (C4, C8)",
     "interior metadata edit rejection (K.8, T22)",
@@ -40,7 +41,7 @@ SCOPE_COVERED = [
 ]
 SCOPE_NOT_COVERED = [
     "additional content atoms y and unaccepted candidate z, multi-object retention and disposition (T06, T23)",
-    "capacity reservation/consumption competition (T04 first half)",
+    "multi-unit, repeated, and post-recovery capacity competition beyond one reservation (T04)",
     "three concurrent proposals with cyclic order plus independence control (T04 second half)",
     "selected sink contracts, dropped/surviving in-flight messages, lost reply (T18, T19)",
     "derived results, phantom/negative facts, scope-limited judgments (T14-T16, T21)",
@@ -98,6 +99,9 @@ class State:
     route_handles: int = 0    # live runtime handles held by old activity (oracle)
     uses: tuple = ()          # accepted uses: ((w, cap, mode), ...) (oracle/Obs)
     accepted_x: bool = False  # one immutable accepted-content atom, fixed fixture owner C
+    capacity_reserved: str | None = None  # view of P single unit allocated to C or S
+    capacity_consumed: bool = False  # consumption of that same unit, never a second allocation
+    independent_changed: bool = False
 
     # helpers
     def wu(self, w: str) -> WU:
@@ -341,6 +345,26 @@ def guard(state: State, ev: tuple, p: Profile = REFERENCE) -> str | None:
                 return "not-dispositioned (C4/C8)"
         return None
 
+    if k == "reserve_capacity":
+        w = ev[1]
+        if w not in (C, S):
+            return "invalid-capacity-recipient"
+        if not live(state):
+            return "no-current-view (C3)"
+        if state.capacity_reserved is not None:
+            return "capacity-unit-already-allocated (C3)"
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
+    if k == "consume_capacity":
+        w = ev[1]
+        if state.capacity_reserved != w or state.capacity_consumed:
+            return "capacity-not-allocated-or-already-consumed (C3)"
+        return None
+
+    if k == "independent_change":
+        if state.independent_changed: return NO
+        return mgmt_permits(state, P, p) or ac_cover(state, p)
+
     if k == "accept_x":
         w, origin = ev[1], ev[2]
         if state.accepted_x:
@@ -522,6 +546,15 @@ def effect(state: State, ev: tuple, p: Profile = REFERENCE) -> State:
         return state.set_wu(ev[1], present=False, parent=None, sealed=False,
                             grants=(), route=False)
 
+    if k == "reserve_capacity":
+        return replace(state, capacity_reserved=ev[1])
+
+    if k == "consume_capacity":
+        return replace(state, capacity_consumed=True)
+
+    if k == "independent_change":
+        return replace(state, independent_changed=True)
+
     if k == "accept_x":
         return replace(state, accepted_x=True)
 
@@ -624,6 +657,11 @@ def invariant(state: State, p: Profile = REFERENCE) -> str | None:
         return "C6: image mounted without enforcement"
     if state.route_handles > 0 and state.engine is False and p.route_exclusion:
         return "D1: surviving route after engine loss"
+    if state.capacity_reserved not in (None, C, S):
+        return "C3: capacity reservation has invalid owner"
+    if state.capacity_consumed and state.capacity_reserved is None:
+        return "C3: capacity consumed without parent reservation"
+    # One non-None capacity_reserved value counts as one P reservation; the child is only its allocation view.
     return None
 
 
@@ -713,7 +751,13 @@ CONTEXTS["content-continuity"] = [
     ("use_x", C, B_GEN),
 ]
 
+CONTEXTS["capacity-one"] = [
+    ("reserve_capacity", C), ("reserve_capacity", S),
+    ("consume_capacity", C), ("independent_change",),
+]
+
 CONTEXT_BOUNDS = {
+    "capacity-one": 10000,
     "content-continuity": 5000,
     "containment-and-grants": 200000,
     "engine-loss-and-recovery": 200000,
