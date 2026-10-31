@@ -12,7 +12,7 @@
 ## Confirmed project position
 
 - Deliver **authority-to-effect enforcement plus adversarial conformance** as a reusable tool, not the full orchestration engine or a new generalized OS.
-- Existing bounded Kernel-0 / F1–F3 research is preliminary evidence with explicit trust assumptions. F3 L5 source review is still pending; L6/L7 and F4/F5 remain open. Never state F3/F5 closure.
+- Existing bounded Kernel-0 / F1–F3 research is preliminary evidence with explicit trust assumptions. Three cross-model F3 L5 source reviews at `831f2bb9c1fe6b30e09520acb249043b72a29bc0` all returned `partial`, confirming only the bounded latent-ceiling discriminator; L5's full T11 obligations, L6/L7 and F4/F5 remain open. Never state F3/F5 closure.
 - Proposed early scenario: two principals and distinct agents, one authorized shared task, a revocation/replacement or impersonation attempt, independently observed protected effect and a positive utility check. Multi-principal live enforcement is a **target, not a completed experiment**.
 - Funded deliverable centered on interface, real protected adapter, external verifier, hostile negative controls, independent host reproducibility and use by a second agent harness.
 - Individual PI is the human applicant; agent models are tools, not teammates. Do not imply an institutional affiliation with the unrelated Rock Solid Sites business.
