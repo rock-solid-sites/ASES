@@ -1,0 +1,16 @@
+Conduct an independent, clean-room source and evidence review of the bounded F3 L5 integration from commit b49e1f66ddd91e501794f6c9381e1e96c19b096c. This packet intentionally excludes implementation result/obstruction reports and prior independent reviews. Do not search/read them or import any earlier review verdict. Review only the source/evidence/specification/provenance files supplied in this packet.
+
+Governing reference resolution (performed before dispatch): the originally supplied 5c03a425fd5627c3764806292b8c5cb653498f4f is an unrelated commit. Use Phase-I-Verification.md at 511a5272e92155bd5ace7be2bb13fd2ed3730b23 (T11) and Phase-I-Closure.md at 8277b7f3b87347ef0c8438e1b7b73f08f37f9992 (§7). In T11, C has local read/write, P restricts to read, sealed C moves beneath read/write Q, and after activation read succeeds while write remains denied absent separate authorized grant; include D. Closure §7 requires structurally safe whole moves, retained/narrowed latent permission and descendants, and separate current authorized activation with recomputed full-path constraints.
+
+Implementation launch provenance is supplied in IMPLEMENTATION-LAUNCH-PROVENANCE.txt. The implementation was directly authored in an assistant GPT-6 Luna coding session; the only recorded delegated Codex GLM/pgs2 invocation failed with HTTP 402 before producing output. Your approved OpenCode free route is distinct from the actual implementation model. Record your exact model route and the provenance basis in the report.
+
+Assess the source and raw observations, especially: whether the run actually starts from L4-generated protected/accepted state; whether reads come from verified accepted storage; whether D is represented and protected across the move; whether permissions are transitive and structures validated; whether move and activation are separately and meaningfully authorized through a management boundary; whether positive/safe/weakened write cases discriminate; whether adversarial controls establish the claimed bounded result; whether raw evidence/verifier support the claims; and which required claims remain untested. Look for bypasses, vacuity, inconsistent state, verifier weaknesses, or misleading scope.
+
+Independently run the read-only verifier in the packet. If reproducing the runner, first copy the packet lifecycle tree to a disposable /tmp directory and run there so the supplied raw observations remain unchanged. Do not edit the packet or implementation. Use precise file/line references and distinguish demonstrated defects from limitations or untested properties.
+
+Return only a self-contained Markdown review with:
+1. Bounded verdict: PASS / PARTIAL / FAIL, with one-paragraph rationale.
+2. Findings sorted by severity, each with evidence path and line(s), impact, and concrete counterexample or reasoning.
+3. Which T11 / Closure §7 elements are supported, partially supported, or unsupported.
+4. Reproduction commands and observed results.
+5. Provenance/independence statement and explicit limits; do not infer full F3/F5 closure.
