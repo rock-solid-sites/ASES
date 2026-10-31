@@ -202,21 +202,32 @@ benefits justify their missing precedent and support.
 
 ---
 
-# Model Discipline — Operator-Gated (same tier as git merge)
+# Model and Launch Discipline — Current (2026-10-31)
 
-Model names must be verified before use. Never assume a model ID.
+The authoritative cross-environment launch route inventory is
+`docs/methodology/Agent Model Launch Routes.md` (v1.0.0, 2026-10-31).
+The caller chooses and verifies the **execution host, launcher, provider/model
+and allowed target-model fallbacks** before task dispatch. This is a
+per-task authorization decision. Verify model IDs using the selected launcher's
+actual model catalog/route, not a different harness or historical routing table.
 
-* Run `opencode models <provider>` before using any model in a command or configuration.
-* Copy model IDs exactly — do not guess, shorten, or modify them.
-* Ask the operator which provider to use. Do not choose on your own.
-* **Operator authorization for model launches is a workflow rule**, not an assertion about installed enforcement. The legacy `crosslink-guard` plugin is no longer used; its configuration, block signatures and historical launch gates must not be presented as active controls. Verify the current harness capabilities and obtain any applicable model-selection authorization without requiring redundant approval for strategy-chat decisions already explicit within scope.
-* For a proposed model launch, confirm the operator's stated scope, verify the exact model ID against the available catalog, and launch only with the required authorization. An explicit strategy decision may cover multiple phases when it says so. Do not demand approval comments, refer to obsolete guard prompts, or treat an untested configuration as enforcement.
-* **Cheaper-first:** prefer cheaper models that satisfy the task; never select a frontier/expensive model over a cheaper option without explicit per-launch operator approval.
-* Do not use free-tier (Zen) models for kickoff or swarm agents — rate limits will cause failures.
-* The `opencode-go/` prefix indicates paid models. Free models have different, provider-specific prefixes.
-* The mandatory model list for this project is documented at `.crosslink/knowledge/model-discipline.md`.
+Never tell a receiving agent which model, provider, family or reasoning-effort
+level it is running as, or ask it to determine them. Receiver identity stays
+in caller-side dispatch/provenance. A coordinating agent may be given the exact
+**other** model/provider routes it is authorized to launch. Never silently
+substitute providers or consume paid service capacity after a quota failure.
+Free models are permitted when their exact use is authorized for the task;
+free availability alone is not authorization or evidence of reliability.
 
-**Operator override (2026-08-23):** free-tier models are permitted within swarms under auditor supervision; hy3-class serves as primary reviewer; luna is reserved for complex phases; peer-review between agents is permitted.
+**Historical policy superseded:** Older statements requiring a live
+`crosslink-guard` intercept on every launch/push, a Crosslink approval comment,
+or a blanket prohibition on free-tier agents reflect earlier configurations.
+As confirmed on 2026-10-30 in `docs/ORCHESTRATOR.md`, the guard is currently
+not in use. Agents may commit and push their own task branches without a
+redundant per-push approval; branch protection, operator decisions on model
+launch, and restrictions on destructive action/production still apply.
+Do not infer effective tooling permissions from documentation: check the
+active environment's real controls before acting.
 
 ---
 
