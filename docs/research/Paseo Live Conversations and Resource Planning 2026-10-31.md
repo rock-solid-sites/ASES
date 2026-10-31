@@ -12,6 +12,9 @@ depends_on:
 related_documents:
   - docs/ORCHESTRATOR.md
   - docs/methodology/Agent Model Launch Routes.md
+  - docs/research/Paseo Conversation-First Integration Roadmap 2026-10-31.md
+  - docs/research/Paseo Integration Research Findings 2026-10-31.md
+  - docs/research/Paseo Cloud Execution Environment Registry 2026-10-31.md
 last_updated: 2026-10-31
 ---
 
@@ -80,7 +83,7 @@ Paseo is the **management plane**, not a replacement for Kernel-0, Work Unit or 
 
 Environments, including the VPS, are **not fully trusted**. Minimize secrets, assign least privilege, retain evidence independently, restrict source access, and validate stop/deletion outcomes. Railway's October 2026 incident motivates treating provider secret storage and cloud control planes as potential compromise boundaries.
 
-Current candidate platform inventory includes Codex Cloud, Mistral Vibe Web, Google Jules, GitHub Codespaces/Actions, Modal (confirmed recurring $30 account credit), Daytona/E2B (introductory rather than recurring credits), Vercel Sandbox (Hobby usage restrictions), and hourly VMs. DevPod is a possible provisioning abstraction, **not** another compute allocation or a Paseo substitute.
+The current, dated environment inventory is maintained in `docs/research/Paseo Cloud Execution Environment Registry 2026-10-31.md`. It includes Codex Cloud, Mistral Vibe Web, GitHub Codespaces/Actions, Modal (confirmed recurring $30 compute credit), Daytona/E2B (one-time credits), Vercel Sandbox (Hobby commercial-use restrictions), and hourly VPS options. **Correction as of 2026-10-31:** Google Jules announced its shutdown on October 29; it is historical, NOT a future execution adapter. Ona/Gitpod Cloud and Codeanywhere are similarly discontinued. DevPod is provisioning tooling, not an additional compute allocation.
 
 Do not introduce an always-on automatic dispatcher or rebuild the ASES execution engine as a Paseo plugin.
 
@@ -103,3 +106,14 @@ Do not introduce an always-on automatic dispatcher or rebuild the ASES execution
 Operator decisions in the 2026-10-31 strategy discussion govern priority and scope. This is a plan, **not** proof the implementation exists. Before development, compare current Paseo plugin/browser/workspace capabilities with direct hands-on tests; maintain an explicit capability matrix with statuses *observed, documented, unverified, unsupported*. See `docs/research/Paseo Role Capability Matrix.md` and the active cross-environment model launch routes.
 
 **Key reasoning:** project strategy and agent execution occupy different scopes. Preserving original conversations prevents provenance loss; linking them to agent sessions improves coordination; only after that does resource planning connect the strategy, evidence and execution layers usefully. 
+
+
+## Research and roadmap follow-up (2026-10-31)
+
+This initial design record is supplemented, not superseded, by:
+
+- [Paseo Conversation-First Integration Roadmap](Paseo%20Conversation-First%20Integration%20Roadmap%202026-10-31.md): ordered phases, active runbook/tool blockers and acceptance gates; original live chats first, session linkage second, advisory planning third.
+- [Paseo Integration Research Findings](Paseo%20Integration%20Research%20Findings%202026-10-31.md): sourced Paseo browser/plugin capabilities and known issue #3223, account-history/search gaps, observability prior art, current provider corrections.
+- [Paseo Cloud Execution Environment Registry](Paseo%20Cloud%20Execution%20Environment%20Registry%202026-10-31.md): comprehensive categorized integration targets, documented quotas, one-time vs recurring credits, untrusted-cloud boundaries, exclusions and storage.
+
+**Evidence correction:** live original ChatGPT/DeepSeek web conversations must not be replaced with imports; existing Paseo desktop browser support is **documented**, but actual current-account continuation and cross-chat agent search have **not** been verified. The plan remains a proposal until its specified discriminating tests pass. OpenCode is a harness, not compute; Sol and MiMo are examples, not default model pins. The Work Unit name retains its specific ASES engine meaning.
