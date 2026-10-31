@@ -1,0 +1,1140 @@
+{
+  "acceptance": {
+    "accepted_content_unchanged": true,
+    "accepted_read_from_verified_l4_storage": true,
+    "cycle_rejected": true,
+    "dangling_parent_rejected": true,
+    "dependent_D_preserved": true,
+    "positive_concrete_write": true,
+    "safe_move_write_denied": true,
+    "separate_move_and_activation": true,
+    "unknown_permission_rejected": true,
+    "weakened_mutant_write_effect": true
+  },
+  "cases": {
+    "positive": {
+      "D_effective": [
+        "read",
+        "write"
+      ],
+      "accepted_content_metadata": {
+        "identity": "C-content-1462070e6b10a8ba",
+        "object": "objects/1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061.bin",
+        "provenance": {
+          "actor": "worker-ingress-W1",
+          "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "source": "candidate-x.bin"
+        },
+        "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+        "size": 18
+      },
+      "accepted_x_bytes_hex": "46332d6c6966656379636c652d782d76310a",
+      "accepted_x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+      "accepted_x_unchanged": true,
+      "activation": {
+        "ingress": "W-L5",
+        "record": "record-000008.json",
+        "record_sha256": "d294ecb2e6c9c5f483f371cd3239dfaa72850f27036f90d1624cf7626ec2485d",
+        "result": "COMMITTED"
+      },
+      "activation_event": null,
+      "case": "positive",
+      "dependent_D": {
+        "depends_on": [
+          "C"
+        ],
+        "included_in_move": true,
+        "parent": "C"
+      },
+      "effects": [
+        {
+          "bytes_hex": "617574686f72697a65642d706f736974697665",
+          "sha256": "8732b8a00f4332a354a08c1713b3f31278436d3c16f2befae9095e47590bbd06"
+        }
+      ],
+      "final_record": "record-000009.json",
+      "graph_valid": true,
+      "l4_raw": {
+        "cold_reader": {
+          "content_hex": "46332d6c6966656379636c652d782d76310a",
+          "content_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "content_size": 18,
+          "event": "cold-recovery",
+          "pid": 290673,
+          "policy": "L1-read-only-mediated-v1",
+          "reconstructed": {
+            "C": {
+              "accepted": {
+                "identity": "C-content-1462070e6b10a8ba",
+                "object": "objects/1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061.bin",
+                "provenance": {
+                  "actor": "worker-ingress-W1",
+                  "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                  "source": "candidate-x.bin"
+                },
+                "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                "size": 18
+              },
+              "active": false,
+              "execution_ingress": null,
+              "grants": [
+                "read"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": true
+            },
+            "P": {
+              "accepted": null,
+              "active": false,
+              "execution_ingress": null,
+              "grants": [
+                "read"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": true
+            }
+          },
+          "record": "record-000004.json",
+          "sealed_before_use": true
+        },
+        "expected": {
+          "x_hex": "46332d6c6966656379636c652d782d76310a",
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "y_hex": "46332d6c6966656379636c652d792d76310a",
+          "y_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+        },
+        "failure_profile": "H1 SIGKILL/reap; host remains live; H2 cold reconstruction; no OS crash/power loss",
+        "final_independent_readback": {
+          "contents": [
+            {
+              "hex": "46332d6c6966656379636c652d782d76310a",
+              "identity": "C-content-1462070e6b10a8ba",
+              "provenance": {
+                "actor": "worker-ingress-W1",
+                "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                "source": "candidate-x.bin"
+              },
+              "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+              "size": 18
+            },
+            {
+              "hex": "46332d6c6966656379636c652d792d76310a",
+              "identity": "C-content-a56c91761fc6a09c",
+              "provenance": {
+                "actor": "worker-ingress-W2",
+                "presented_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62",
+                "source": "candidate-y.bin"
+              },
+              "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62",
+              "size": 18
+            }
+          ],
+          "current_ingress": "W2",
+          "events": [
+            {
+              "actor": "initial-manager",
+              "op": "grant_read"
+            },
+            {
+              "actor": "initial-manager",
+              "op": "activate"
+            },
+            {
+              "actor": "worker-ingress-W1",
+              "op": "accept",
+              "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W2",
+              "op": "fresh_activate"
+            },
+            {
+              "actor": "worker-ingress-W2",
+              "op": "accept",
+              "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+            }
+          ],
+          "record": "record-000006.json"
+        },
+        "fresh_management_activation": {
+          "ingress": "W2",
+          "record": "record-000005.json",
+          "result": "COMMITTED"
+        },
+        "h1_kill_requested_ns": 253739393463496,
+        "h1_pid": 290671,
+        "h1_reaped_ns": 253739394676253,
+        "h1_returncode": -9,
+        "h2_pid": 290674,
+        "h2_reconstructed_sealed": {
+          "event": "recovered-sealed",
+          "ingress": null,
+          "record": "record-000004.json",
+          "sealed": true,
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "h2_stop": {
+          "result": "exited-after-route-sequence"
+        },
+        "kernel": "5.15.0-184-generic",
+        "landlock_abi": 1,
+        "limits": {
+          "timeout_seconds": 20,
+          "virtual_memory_kib": 524288
+        },
+        "pass": true,
+        "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+        "returncodes": {
+          "W1": 0,
+          "W2": 0
+        },
+        "root": "/tmp/ases-l5-l4-cv6l1qc4/lifecycle/l4/lab",
+        "status": "completed",
+        "w1_accept_x": {
+          "accept": {
+            "identity": "C-content-1462070e6b10a8ba",
+            "record": "record-000004.json",
+            "result": "ACCEPTED",
+            "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+          },
+          "activation": {
+            "event": "activation-current"
+          },
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "event": "old-w1-accepted-x",
+          "pid": 290672,
+          "read": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "w1_after_fresh_activation": {
+          "event": "old-w1-after-fresh-activation",
+          "pid": 290672,
+          "reply": {
+            "detail": "[Errno 32] Broken pipe",
+            "errno": 32,
+            "result": "IOERROR"
+          }
+        },
+        "w1_after_h1_loss": {
+          "cpu_end_ns": 253739474770901,
+          "cpu_iterations": 366874,
+          "cpu_start_ns": 253739394764076,
+          "event": "old-w1-after-h-loss",
+          "pid": 290672,
+          "reply": {
+            "detail": "[Errno 32] Broken pipe",
+            "errno": 32,
+            "result": "IOERROR"
+          }
+        },
+        "w1_alive_after_h1_reap": true,
+        "w1_missing_grant": {
+          "event": "old-ingress-initial-denial",
+          "paths": {
+            "alias": {
+              "errno": 13,
+              "result": "denied"
+            },
+            "source": {
+              "errno": 13,
+              "result": "denied"
+            }
+          },
+          "pid": 290672,
+          "reply": {
+            "bytes": 0,
+            "initial_empty": true,
+            "reason": "missing-full-path-grant",
+            "result": "DENY"
+          }
+        },
+        "w1_pid": 290672,
+        "w2": {
+          "accept_y": {
+            "identity": "C-content-a56c91761fc6a09c",
+            "record": "record-000006.json",
+            "result": "ACCEPTED",
+            "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+          },
+          "activation": {
+            "event": "fresh-activation",
+            "record": "record-000005.json"
+          },
+          "candidate_y": "OK",
+          "event": "fresh-w2-x-y",
+          "pid": 290675,
+          "read_x": "OK",
+          "read_y": "OK",
+          "x_hex": "46332d6c6966656379636c652d782d76310a",
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "y_hex": "46332d6c6966656379636c652d792d76310a",
+          "y_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+        }
+      },
+      "l4_raw_sha256": "b26f7621630395c268380568bd6ddcb1576a8cfb14ea3eb55868b851d2af32ab",
+      "l4_record_before_l5": "record-000007.json",
+      "l4_run_pass": true,
+      "management": [],
+      "management_denial": {
+        "request": {
+          "authorized_by": "intruder",
+          "child": "C",
+          "credential": "wrong",
+          "destination": "Q",
+          "op": "authorize_move"
+        },
+        "response": {
+          "reason": "management-authorization-required",
+          "result": "DENY"
+        },
+        "state_unchanged": true
+      },
+      "mediator_checks": [
+        {
+          "D_effective": [
+            "read",
+            "write"
+          ],
+          "allowed": true,
+          "current_ingress": "W-L5",
+          "op": "read_x",
+          "parent_C": "P",
+          "record": "record-000009.json",
+          "record_sha256": "2ce2b93f20672d70354afe2fae92752ad2972830b9d73c79d93f6d7822a92137",
+          "reply": {
+            "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+            "identity": "C-content-1462070e6b10a8ba",
+            "result": "OK",
+            "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+          },
+          "worker_pid": 290677
+        },
+        {
+          "D_effective": [
+            "read",
+            "write"
+          ],
+          "allowed": true,
+          "current_ingress": "W-L5",
+          "op": "write_d",
+          "parent_C": "P",
+          "record": "record-000009.json",
+          "record_sha256": "2ce2b93f20672d70354afe2fae92752ad2972830b9d73c79d93f6d7822a92137",
+          "reply": {
+            "effect_sha256": "8732b8a00f4332a354a08c1713b3f31278436d3c16f2befae9095e47590bbd06",
+            "result": "COMMITTED"
+          },
+          "worker_pid": 290677
+        }
+      ],
+      "move": null,
+      "move_event": null,
+      "source_l4_raw_stderr": "",
+      "unauthorized_move_denied_without_mutation": true,
+      "worker_observation": {
+        "read": {
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "identity": "C-content-1462070e6b10a8ba",
+          "result": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "write": {
+          "effect_sha256": "8732b8a00f4332a354a08c1713b3f31278436d3c16f2befae9095e47590bbd06",
+          "result": "COMMITTED"
+        }
+      },
+      "worker_pid": 290677
+    },
+    "safe": {
+      "D_effective": [
+        "read"
+      ],
+      "accepted_content_metadata": {
+        "identity": "C-content-1462070e6b10a8ba",
+        "object": "objects/1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061.bin",
+        "provenance": {
+          "actor": "worker-ingress-W1",
+          "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "source": "candidate-x.bin"
+        },
+        "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+        "size": 18
+      },
+      "accepted_x_bytes_hex": "46332d6c6966656379636c652d782d76310a",
+      "accepted_x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+      "accepted_x_unchanged": true,
+      "activation": {
+        "ingress": "W-L5",
+        "record": "record-000009.json",
+        "record_sha256": "6cabac88a4eef1597d5deabccc348392f3fb1e6f10160fc3943c5538c4fa3e2c",
+        "result": "COMMITTED"
+      },
+      "activation_event": {
+        "actor": "initial-manager",
+        "ingress": "W-L5",
+        "op": "separately-authorized_activation"
+      },
+      "case": "safe",
+      "dependent_D": {
+        "depends_on": [
+          "C"
+        ],
+        "included_in_move": true,
+        "parent": "C"
+      },
+      "effects": [],
+      "final_record": "record-000009.json",
+      "graph_valid": true,
+      "l4_raw": {
+        "cold_reader": {
+          "content_hex": "46332d6c6966656379636c652d782d76310a",
+          "content_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "content_size": 18,
+          "event": "cold-recovery",
+          "pid": 290681,
+          "policy": "L1-read-only-mediated-v1",
+          "reconstructed": {
+            "C": {
+              "accepted": {
+                "identity": "C-content-1462070e6b10a8ba",
+                "object": "objects/1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061.bin",
+                "provenance": {
+                  "actor": "worker-ingress-W1",
+                  "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                  "source": "candidate-x.bin"
+                },
+                "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                "size": 18
+              },
+              "active": false,
+              "execution_ingress": null,
+              "grants": [
+                "read"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": true
+            },
+            "P": {
+              "accepted": null,
+              "active": false,
+              "execution_ingress": null,
+              "grants": [
+                "read"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": true
+            }
+          },
+          "record": "record-000004.json",
+          "sealed_before_use": true
+        },
+        "expected": {
+          "x_hex": "46332d6c6966656379636c652d782d76310a",
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "y_hex": "46332d6c6966656379636c652d792d76310a",
+          "y_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+        },
+        "failure_profile": "H1 SIGKILL/reap; host remains live; H2 cold reconstruction; no OS crash/power loss",
+        "final_independent_readback": {
+          "contents": [
+            {
+              "hex": "46332d6c6966656379636c652d782d76310a",
+              "identity": "C-content-1462070e6b10a8ba",
+              "provenance": {
+                "actor": "worker-ingress-W1",
+                "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                "source": "candidate-x.bin"
+              },
+              "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+              "size": 18
+            },
+            {
+              "hex": "46332d6c6966656379636c652d792d76310a",
+              "identity": "C-content-a56c91761fc6a09c",
+              "provenance": {
+                "actor": "worker-ingress-W2",
+                "presented_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62",
+                "source": "candidate-y.bin"
+              },
+              "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62",
+              "size": 18
+            }
+          ],
+          "current_ingress": "W2",
+          "events": [
+            {
+              "actor": "initial-manager",
+              "op": "grant_read"
+            },
+            {
+              "actor": "initial-manager",
+              "op": "activate"
+            },
+            {
+              "actor": "worker-ingress-W1",
+              "op": "accept",
+              "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W2",
+              "op": "fresh_activate"
+            },
+            {
+              "actor": "worker-ingress-W2",
+              "op": "accept",
+              "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+            }
+          ],
+          "record": "record-000006.json"
+        },
+        "fresh_management_activation": {
+          "ingress": "W2",
+          "record": "record-000005.json",
+          "result": "COMMITTED"
+        },
+        "h1_kill_requested_ns": 253739772900629,
+        "h1_pid": 290679,
+        "h1_reaped_ns": 253739774119544,
+        "h1_returncode": -9,
+        "h2_pid": 290682,
+        "h2_reconstructed_sealed": {
+          "event": "recovered-sealed",
+          "ingress": null,
+          "record": "record-000004.json",
+          "sealed": true,
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "h2_stop": {
+          "result": "exited-after-route-sequence"
+        },
+        "kernel": "5.15.0-184-generic",
+        "landlock_abi": 1,
+        "limits": {
+          "timeout_seconds": 20,
+          "virtual_memory_kib": 524288
+        },
+        "pass": true,
+        "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+        "returncodes": {
+          "W1": 0,
+          "W2": 0
+        },
+        "root": "/tmp/ases-l5-l4-pzoppl9y/lifecycle/l4/lab",
+        "status": "completed",
+        "w1_accept_x": {
+          "accept": {
+            "identity": "C-content-1462070e6b10a8ba",
+            "record": "record-000004.json",
+            "result": "ACCEPTED",
+            "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+          },
+          "activation": {
+            "event": "activation-current"
+          },
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "event": "old-w1-accepted-x",
+          "pid": 290680,
+          "read": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "w1_after_fresh_activation": {
+          "event": "old-w1-after-fresh-activation",
+          "pid": 290680,
+          "reply": {
+            "detail": "[Errno 32] Broken pipe",
+            "errno": 32,
+            "result": "IOERROR"
+          }
+        },
+        "w1_after_h1_loss": {
+          "cpu_end_ns": 253739854194746,
+          "cpu_iterations": 353151,
+          "cpu_start_ns": 253739774191734,
+          "event": "old-w1-after-h-loss",
+          "pid": 290680,
+          "reply": {
+            "detail": "[Errno 32] Broken pipe",
+            "errno": 32,
+            "result": "IOERROR"
+          }
+        },
+        "w1_alive_after_h1_reap": true,
+        "w1_missing_grant": {
+          "event": "old-ingress-initial-denial",
+          "paths": {
+            "alias": {
+              "errno": 13,
+              "result": "denied"
+            },
+            "source": {
+              "errno": 13,
+              "result": "denied"
+            }
+          },
+          "pid": 290680,
+          "reply": {
+            "bytes": 0,
+            "initial_empty": true,
+            "reason": "missing-full-path-grant",
+            "result": "DENY"
+          }
+        },
+        "w1_pid": 290680,
+        "w2": {
+          "accept_y": {
+            "identity": "C-content-a56c91761fc6a09c",
+            "record": "record-000006.json",
+            "result": "ACCEPTED",
+            "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+          },
+          "activation": {
+            "event": "fresh-activation",
+            "record": "record-000005.json"
+          },
+          "candidate_y": "OK",
+          "event": "fresh-w2-x-y",
+          "pid": 290683,
+          "read_x": "OK",
+          "read_y": "OK",
+          "x_hex": "46332d6c6966656379636c652d782d76310a",
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "y_hex": "46332d6c6966656379636c652d792d76310a",
+          "y_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+        }
+      },
+      "l4_raw_sha256": "fad6f7afeef84e7ebad3c7fbcad401120dd056c68fa3ca869ae24f5cd30e70dc",
+      "l4_record_before_l5": "record-000007.json",
+      "l4_run_pass": true,
+      "management": [
+        {
+          "old_effective": {
+            "C": [
+              "read"
+            ],
+            "D": [
+              "read"
+            ]
+          },
+          "record": "record-000008.json",
+          "record_sha256": "507fdbbd13eb03d2ed130c69615d3cdf7b51a135f5c61e642b118833734b6688",
+          "result": "COMMITTED"
+        },
+        {
+          "ingress": "W-L5",
+          "record": "record-000009.json",
+          "record_sha256": "6cabac88a4eef1597d5deabccc348392f3fb1e6f10160fc3943c5538c4fa3e2c",
+          "result": "COMMITTED"
+        }
+      ],
+      "management_denial": {
+        "request": {
+          "authorized_by": "intruder",
+          "child": "C",
+          "credential": "wrong",
+          "destination": "Q",
+          "op": "authorize_move"
+        },
+        "response": {
+          "reason": "management-authorization-required",
+          "result": "DENY"
+        },
+        "state_unchanged": true
+      },
+      "mediator_checks": [
+        {
+          "D_effective": [
+            "read"
+          ],
+          "allowed": true,
+          "current_ingress": "W-L5",
+          "op": "read_x",
+          "parent_C": "Q",
+          "record": "record-000009.json",
+          "record_sha256": "6cabac88a4eef1597d5deabccc348392f3fb1e6f10160fc3943c5538c4fa3e2c",
+          "reply": {
+            "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+            "identity": "C-content-1462070e6b10a8ba",
+            "result": "OK",
+            "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+          },
+          "worker_pid": 290685
+        },
+        {
+          "D_effective": [
+            "read"
+          ],
+          "allowed": false,
+          "current_ingress": "W-L5",
+          "op": "write_d",
+          "parent_C": "Q",
+          "record": "record-000009.json",
+          "record_sha256": "6cabac88a4eef1597d5deabccc348392f3fb1e6f10160fc3943c5538c4fa3e2c",
+          "reply": {
+            "reason": "current-verified-full-path-permission",
+            "result": "DENY"
+          },
+          "worker_pid": 290685
+        }
+      ],
+      "move": {
+        "old_effective": {
+          "C": [
+            "read"
+          ],
+          "D": [
+            "read"
+          ]
+        },
+        "record": "record-000008.json",
+        "record_sha256": "507fdbbd13eb03d2ed130c69615d3cdf7b51a135f5c61e642b118833734b6688",
+        "result": "COMMITTED"
+      },
+      "move_event": {
+        "actor": "initial-manager",
+        "from": "P",
+        "included": [
+          "C",
+          "D"
+        ],
+        "old_effective": {
+          "C": [
+            "read"
+          ],
+          "D": [
+            "read"
+          ]
+        },
+        "op": "authorized_sealed_whole_move",
+        "to": "Q"
+      },
+      "source_l4_raw_stderr": "",
+      "unauthorized_move_denied_without_mutation": true,
+      "worker_observation": {
+        "read": {
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "identity": "C-content-1462070e6b10a8ba",
+          "result": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "write": {
+          "reason": "current-verified-full-path-permission",
+          "result": "DENY"
+        }
+      },
+      "worker_pid": 290685
+    },
+    "weakened": {
+      "D_effective": [
+        "read",
+        "write"
+      ],
+      "accepted_content_metadata": {
+        "identity": "C-content-1462070e6b10a8ba",
+        "object": "objects/1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061.bin",
+        "provenance": {
+          "actor": "worker-ingress-W1",
+          "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "source": "candidate-x.bin"
+        },
+        "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+        "size": 18
+      },
+      "accepted_x_bytes_hex": "46332d6c6966656379636c652d782d76310a",
+      "accepted_x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+      "accepted_x_unchanged": true,
+      "activation": {
+        "ingress": "W-L5",
+        "record": "record-000010.json",
+        "record_sha256": "70a377751f9f96f0432c31ab15a07eabb257474e611d891fc4249db8850d3a15",
+        "result": "COMMITTED"
+      },
+      "activation_event": {
+        "actor": "initial-manager",
+        "ingress": "W-L5",
+        "op": "separately-authorized_activation"
+      },
+      "case": "weakened",
+      "dependent_D": {
+        "depends_on": [
+          "C"
+        ],
+        "included_in_move": true,
+        "parent": "C"
+      },
+      "effects": [
+        {
+          "bytes_hex": "666f7262696464656e2d61667465722d6d6f7665",
+          "sha256": "b4ef82a3fe2424cb069551300623c175e7f8954c0e5242076f5c6446b4cea781"
+        }
+      ],
+      "final_record": "record-000010.json",
+      "graph_valid": true,
+      "l4_raw": {
+        "cold_reader": {
+          "content_hex": "46332d6c6966656379636c652d782d76310a",
+          "content_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "content_size": 18,
+          "event": "cold-recovery",
+          "pid": 290689,
+          "policy": "L1-read-only-mediated-v1",
+          "reconstructed": {
+            "C": {
+              "accepted": {
+                "identity": "C-content-1462070e6b10a8ba",
+                "object": "objects/1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061.bin",
+                "provenance": {
+                  "actor": "worker-ingress-W1",
+                  "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                  "source": "candidate-x.bin"
+                },
+                "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                "size": 18
+              },
+              "active": false,
+              "execution_ingress": null,
+              "grants": [
+                "read"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": true
+            },
+            "P": {
+              "accepted": null,
+              "active": false,
+              "execution_ingress": null,
+              "grants": [
+                "read"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": true
+            }
+          },
+          "record": "record-000004.json",
+          "sealed_before_use": true
+        },
+        "expected": {
+          "x_hex": "46332d6c6966656379636c652d782d76310a",
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "y_hex": "46332d6c6966656379636c652d792d76310a",
+          "y_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+        },
+        "failure_profile": "H1 SIGKILL/reap; host remains live; H2 cold reconstruction; no OS crash/power loss",
+        "final_independent_readback": {
+          "contents": [
+            {
+              "hex": "46332d6c6966656379636c652d782d76310a",
+              "identity": "C-content-1462070e6b10a8ba",
+              "provenance": {
+                "actor": "worker-ingress-W1",
+                "presented_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+                "source": "candidate-x.bin"
+              },
+              "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+              "size": 18
+            },
+            {
+              "hex": "46332d6c6966656379636c652d792d76310a",
+              "identity": "C-content-a56c91761fc6a09c",
+              "provenance": {
+                "actor": "worker-ingress-W2",
+                "presented_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62",
+                "source": "candidate-y.bin"
+              },
+              "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62",
+              "size": 18
+            }
+          ],
+          "current_ingress": "W2",
+          "events": [
+            {
+              "actor": "initial-manager",
+              "op": "grant_read"
+            },
+            {
+              "actor": "initial-manager",
+              "op": "activate"
+            },
+            {
+              "actor": "worker-ingress-W1",
+              "op": "accept",
+              "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W2",
+              "op": "fresh_activate"
+            },
+            {
+              "actor": "worker-ingress-W2",
+              "op": "accept",
+              "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+            }
+          ],
+          "record": "record-000006.json"
+        },
+        "fresh_management_activation": {
+          "ingress": "W2",
+          "record": "record-000005.json",
+          "result": "COMMITTED"
+        },
+        "h1_kill_requested_ns": 253740159419988,
+        "h1_pid": 290687,
+        "h1_reaped_ns": 253740162120174,
+        "h1_returncode": -9,
+        "h2_pid": 290690,
+        "h2_reconstructed_sealed": {
+          "event": "recovered-sealed",
+          "ingress": null,
+          "record": "record-000004.json",
+          "sealed": true,
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "h2_stop": {
+          "result": "exited-after-route-sequence"
+        },
+        "kernel": "5.15.0-184-generic",
+        "landlock_abi": 1,
+        "limits": {
+          "timeout_seconds": 20,
+          "virtual_memory_kib": 524288
+        },
+        "pass": true,
+        "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+        "returncodes": {
+          "W1": 0,
+          "W2": 0
+        },
+        "root": "/tmp/ases-l5-l4-j1gpj4pl/lifecycle/l4/lab",
+        "status": "completed",
+        "w1_accept_x": {
+          "accept": {
+            "identity": "C-content-1462070e6b10a8ba",
+            "record": "record-000004.json",
+            "result": "ACCEPTED",
+            "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+          },
+          "activation": {
+            "event": "activation-current"
+          },
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "event": "old-w1-accepted-x",
+          "pid": 290688,
+          "read": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "w1_after_fresh_activation": {
+          "event": "old-w1-after-fresh-activation",
+          "pid": 290688,
+          "reply": {
+            "detail": "[Errno 32] Broken pipe",
+            "errno": 32,
+            "result": "IOERROR"
+          }
+        },
+        "w1_after_h1_loss": {
+          "cpu_end_ns": 253740242546759,
+          "cpu_iterations": 355293,
+          "cpu_start_ns": 253740162536477,
+          "event": "old-w1-after-h-loss",
+          "pid": 290688,
+          "reply": {
+            "detail": "[Errno 32] Broken pipe",
+            "errno": 32,
+            "result": "IOERROR"
+          }
+        },
+        "w1_alive_after_h1_reap": true,
+        "w1_missing_grant": {
+          "event": "old-ingress-initial-denial",
+          "paths": {
+            "alias": {
+              "errno": 13,
+              "result": "denied"
+            },
+            "source": {
+              "errno": 13,
+              "result": "denied"
+            }
+          },
+          "pid": 290688,
+          "reply": {
+            "bytes": 0,
+            "initial_empty": true,
+            "reason": "missing-full-path-grant",
+            "result": "DENY"
+          }
+        },
+        "w1_pid": 290688,
+        "w2": {
+          "accept_y": {
+            "identity": "C-content-a56c91761fc6a09c",
+            "record": "record-000006.json",
+            "result": "ACCEPTED",
+            "sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+          },
+          "activation": {
+            "event": "fresh-activation",
+            "record": "record-000005.json"
+          },
+          "candidate_y": "OK",
+          "event": "fresh-w2-x-y",
+          "pid": 290691,
+          "read_x": "OK",
+          "read_y": "OK",
+          "x_hex": "46332d6c6966656379636c652d782d76310a",
+          "x_sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061",
+          "y_hex": "46332d6c6966656379636c652d792d76310a",
+          "y_sha256": "a56c91761fc6a09c69a51a162b4c4f7c7ce5f26cd14371bec50c7fd3a5d8df62"
+        }
+      },
+      "l4_raw_sha256": "8c2399080e02588be1137ff5b4853e463e7304f2003c44591ac8c7cd3058faf5",
+      "l4_record_before_l5": "record-000007.json",
+      "l4_run_pass": true,
+      "management": [
+        {
+          "old_effective": {
+            "C": [
+              "read"
+            ],
+            "D": [
+              "read"
+            ]
+          },
+          "record": "record-000008.json",
+          "record_sha256": "507fdbbd13eb03d2ed130c69615d3cdf7b51a135f5c61e642b118833734b6688",
+          "result": "COMMITTED"
+        },
+        {
+          "ingress": "W-L5",
+          "record": "record-000010.json",
+          "record_sha256": "70a377751f9f96f0432c31ab15a07eabb257474e611d891fc4249db8850d3a15",
+          "result": "COMMITTED"
+        }
+      ],
+      "management_denial": {
+        "request": {
+          "authorized_by": "intruder",
+          "child": "C",
+          "credential": "wrong",
+          "destination": "Q",
+          "op": "authorize_move"
+        },
+        "response": {
+          "reason": "management-authorization-required",
+          "result": "DENY"
+        },
+        "state_unchanged": true
+      },
+      "mediator_checks": [
+        {
+          "D_effective": [
+            "read",
+            "write"
+          ],
+          "allowed": true,
+          "current_ingress": "W-L5",
+          "op": "read_x",
+          "parent_C": "Q",
+          "record": "record-000010.json",
+          "record_sha256": "70a377751f9f96f0432c31ab15a07eabb257474e611d891fc4249db8850d3a15",
+          "reply": {
+            "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+            "identity": "C-content-1462070e6b10a8ba",
+            "result": "OK",
+            "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+          },
+          "worker_pid": 290693
+        },
+        {
+          "D_effective": [
+            "read",
+            "write"
+          ],
+          "allowed": true,
+          "current_ingress": "W-L5",
+          "op": "write_d",
+          "parent_C": "Q",
+          "record": "record-000010.json",
+          "record_sha256": "70a377751f9f96f0432c31ab15a07eabb257474e611d891fc4249db8850d3a15",
+          "reply": {
+            "effect_sha256": "b4ef82a3fe2424cb069551300623c175e7f8954c0e5242076f5c6446b4cea781",
+            "result": "COMMITTED"
+          },
+          "worker_pid": 290693
+        }
+      ],
+      "move": {
+        "old_effective": {
+          "C": [
+            "read"
+          ],
+          "D": [
+            "read"
+          ]
+        },
+        "record": "record-000008.json",
+        "record_sha256": "507fdbbd13eb03d2ed130c69615d3cdf7b51a135f5c61e642b118833734b6688",
+        "result": "COMMITTED"
+      },
+      "move_event": {
+        "actor": "initial-manager",
+        "from": "P",
+        "included": [
+          "C",
+          "D"
+        ],
+        "old_effective": {
+          "C": [
+            "read"
+          ],
+          "D": [
+            "read"
+          ]
+        },
+        "op": "authorized_sealed_whole_move",
+        "to": "Q"
+      },
+      "source_l4_raw_stderr": "",
+      "unauthorized_move_denied_without_mutation": true,
+      "worker_observation": {
+        "read": {
+          "bytes_hex": "46332d6c6966656379636c652d782d76310a",
+          "identity": "C-content-1462070e6b10a8ba",
+          "result": "OK",
+          "sha256": "1462070e6b10a8baf625a31791cd0f4e95af638b42b1767c2aaaf8c79cdef061"
+        },
+        "write": {
+          "effect_sha256": "b4ef82a3fe2424cb069551300623c175e7f8954c0e5242076f5c6446b4cea781",
+          "result": "COMMITTED"
+        }
+      },
+      "worker_pid": 290693
+    }
+  },
+  "kernel": "5.15.0-184-generic",
+  "limits": {
+    "atomicity": "same-filesystem atomic replace, no fsync/crash/rollback claim",
+    "cases": 3,
+    "does_not_claim": "full F3/F5 closure",
+    "management_credential": "test-only shared secret; no physical manager identity claim",
+    "profile": "single local trusted mediator and disposable L4-derived fixture",
+    "routes": "one inherited Unix socket per worker; no hostile descendants, SCM_RIGHTS, network or alternate mount coverage",
+    "write_operations_per_case": 1
+  },
+  "python": "3.10.12 (main, Jul 15 2026, 23:40:17) [GCC 11.4.0]",
+  "source_sha256": "daf24f8fce53810a3961fb72062c49165798b1580ccc88734d941fed41d21156",
+  "status": "L5-INTEGRATED-PASS",
+  "structural_controls": {
+    "cycle_rejected": true,
+    "dangling_parent_rejected": true,
+    "unknown_permission_rejected": true
+  }
+}

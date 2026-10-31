@@ -1,0 +1,9 @@
+PASS raw source hash matches executed implementation
+PASS positive configuration has P and C read/write and an actual committed effect
+PASS positive effect bytes/hash are independently consistent
+PASS whole move records C under Q, with P read-only, local C read/write, and retained read ceiling
+PASS fresh ingress reads exact retained x then write is denied without effect
+PASS mediator checks are tied to moved current record and distinct worker identity
+PASS weakened ceiling admits same post-move write and concrete effect is observed
+PASS accepted x was unchanged in all cases
+PASS worker process IDs are distinct from the authority and each other
