@@ -1,6 +1,6 @@
 ---
 name: workflow-orchestration
-version: 0.1-draft
+version: 0.2-draft
 description: Choose and coordinate the smallest effective loop of reconnaissance, strategy, parallel testing, implementation, and verification based on uncertainty, task independence, evidence, and readiness.
 status: provisional-reference
 ---
@@ -60,6 +60,12 @@ Parallel tests should not influence one another's outcome. Check for shared muta
 If state is shared, either isolate each test with distinct fixtures/profiles/worktrees/resources or sequence the tests. Record the isolation boundary. Small tests are not automatically independent.
 
 ### 4. Choose the execution environment
+
+Use `docs/methodology/Agent Model Launch Routes.md` for the existing IT3812
+launcher inventory and the Codex Desktop/Cloud, OpenCode Desktop, ChatGPT and
+VPS entry distinctions. An established launcher route is dispatch input, not
+reconnaissance. Verify the actual execution host once, then use its selected
+route; never restart active local applications or silently change provider.
 
 Use the local machine when the question requires desktop UI, native OS behavior, an interactive browser/WebView, local credentials, hardware, or human-visible confirmation. Use a VPS when the question benefits from a reproducible headless/service environment, persistent automation, network-facing behavior, or isolated resources. Use both only when they answer complementary questions; record relevant environment and version differences. Never move credentials, cookies, or sensitive session state into an environment merely for convenience.
 

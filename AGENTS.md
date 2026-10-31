@@ -18,6 +18,13 @@ This document complements `ORIENTATION.md`.
 
 Agents should read both documents before making significant repository changes.
 
+For any agent launch, model routing or cross-environment dispatch, consult
+`docs/methodology/Agent Model Launch Routes.md` (v1.0.0, 2026-10-31).
+Its entry routes distinguish Codex Desktop/Cloud, OpenCode Desktop and IT3812.
+Set the receiving model/provider/effort in caller-only launch configuration;
+never tell the receiving agent its own model. No implicit provider substitutions,
+credential movement or desktop/daemon restarts.
+
 ---
 
 # Core Principles

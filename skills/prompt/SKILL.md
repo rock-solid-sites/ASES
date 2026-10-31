@@ -1,6 +1,6 @@
 ---
 name: compact-prompt
-version: 0.4-draft
+version: 0.5-draft
 description: Construct compact agent prompts for ASES/T3 workflows. Use when preparing fresh-context prompts for orchestrators, builders, recon/verification agents, reviewers, ontology reviewers, or synthesis agents. Select only task-specific instructions, run-specific policy, relevant context, and an observable completion condition; omit project knowledge and restrictions already supplied or enforced elsewhere.
 ---
 
@@ -91,6 +91,15 @@ For ontology-sensitive work, select the relevant conceptual neighborhood rather 
 If required meaning is missing or contradictory, expose the gap instead of silently expanding the prompt into an invented explanation.
 
 ### 4a. Preserve established execution paths
+
+Consult `docs/methodology/Agent Model Launch Routes.md` (v1.0.0, 2026-10-31)
+when preparing a prompt for an agent launched from Codex Desktop/Cloud,
+OpenCode Desktop, ChatGPT or the VPS. Set **controller, execution host, entry,
+launcher and target route** in caller-only configuration before prompting.
+Reference the known route in the prompt, not a model-routing exploration;
+never disclose the recipient's own model/provider/effort. Differentiate it
+from child routes the agent is approved to dispatch. Stop on missing controls,
+provider errors or unapproved fallback instead of changing route or apps.
 
 When a task depends on a previously selected route, identity, configuration, account, provider, repository, environment, tool or workflow, identify it explicitly. An available alternative is not automatically the intended path.
 
