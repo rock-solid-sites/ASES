@@ -7,7 +7,7 @@ F={"scenario":"synthetic-two","stages":[{"id":"a","dependencies":[],"duration_ti
 S={"id":"snapshot-1","environments":{"vps":{"ram_mib":2048,"cpu_millicores":2000,"slots":2,"outages":[]}}}
 class Baseline(unittest.TestCase):
  def test_feasible(self):
-  p=schedule(F,S);self.assertEqual(validate(F,p),[]);self.assertEqual(p["stages"]["b"]["start"],3)
+  p=schedule(F,S);self.assertEqual(validate(F,p,S),[]);self.assertEqual(p["stages"]["b"]["start"],3)
  def test_outage(self):
   s=copy.deepcopy(S);s["environments"]["vps"]["outages"]=[[0,4]]
   self.assertGreaterEqual(schedule(F,s)["stages"]["a"]["start"],4)
@@ -19,11 +19,11 @@ class Baseline(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,"no feasible"):schedule(f,S)
  def test_dependency_violation(self):
   p=schedule(F,S);p["stages"]["b"]["start"]=2
-  self.assertTrue(any("dependency" in e for e in validate(F,p)))
+  self.assertTrue(any("dependency" in e for e in validate(F,p,S)))
  def test_forged_demand(self):
   p=schedule(F,S);p["stages"]["a"]["ram_mib"]=1
-  self.assertTrue(any("authoritative" in e for e in validate(F,p)))
+  self.assertTrue(any("authoritative" in e for e in validate(F,p,S)))
  def test_snapshot_identity(self):
   p=schedule(F,S);p["snapshot_id"]=""
-  self.assertTrue(any("snapshot" in e for e in validate(F,p)))
+  self.assertTrue(any("snapshot" in e for e in validate(F,p,S)))
 if __name__=="__main__":unittest.main()
