@@ -55,7 +55,7 @@ fn decide(c: &Case) -> Decision<'_> {
     }
 
     let billable = if c.mode == "free" || c.mode == "subscription" {
-        c.usage.saturating_sub(c.included)
+        c.usage.saturating_sub(c.included).max(0)
     } else {
         c.usage
     };
@@ -104,6 +104,7 @@ mod tests {
     #[test]
     fn free_included_is_admissible() {
         assert_eq!(decide(&baseline()).reason, "admitted");
+        assert_eq!(decide(&baseline()).charge_cents, 0);
     }
     #[test]
     fn arithmetic_overflow_denied() {
