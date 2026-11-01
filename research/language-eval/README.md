@@ -21,7 +21,7 @@ ghc -O0 -package aeson -odir /tmp/ases-ghc -hidir /tmp/ases-ghc -o /tmp/ases-adm
 python3 research/language-eval/compare.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell /tmp/ases-admit-hs
 ```
 
-The harness checks a 24-case oracle, 1,000 deterministic generated cases, a separate Python oracle, monotonicity safety properties, repeated deterministic output, and Rust/Haskell differential equivalence. The reference Python oracle is independent test code, **not production approval**.
+The harness checks a 24-case oracle, 1,000 deterministic generated cases, a separate Python oracle, a no-unauthorized-charge safety property, repeated deterministic output, and Rust/Haskell differential equivalence. The reference Python oracle is independent test code, **not production approval**.
 
 ## CI and evidence
 
