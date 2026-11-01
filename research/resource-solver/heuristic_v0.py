@@ -34,6 +34,6 @@ def schedule(fixture,snapshot):
         end,start,eid=min(candidates)
         plan["stages"][sid]={"start":start,"end":end,"environment":eid,**demand}
         pending.remove(sid)
-    errors=validate(fixture,plan)
+    errors=validate(fixture,plan,snapshot)
     if errors:raise ValueError(f"validator rejected: {errors}")
     return plan
