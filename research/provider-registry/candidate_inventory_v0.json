@@ -39,7 +39,6 @@
     {
       "id": "google",
       "products": [
-        "jules",
         "cloud_shell"
       ],
       "roles": [
@@ -47,18 +46,12 @@
         "execution"
       ],
       "product_status": {
-        "jules": {
-          "state": "sunsetting",
-          "new_sessions_until": "2026-11-11",
-          "read_only_after": "2026-11-11",
-          "end_date": "2026-12-31",
-          "source": "https://jules.google/docs/changelog/2026-10-29"
-        },
         "cloud_shell": {
           "state": "unverified"
         }
       },
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "notes": "Jules excluded from candidates: sunsetting and no known account or historical usage. Cloud Shell remains unverified."
     },
     {
       "id": "modal",
@@ -229,31 +222,6 @@
         "provisioning"
       ],
       "status": "unverified_candidate"
-    },
-    {
-      "id": "codeanywhere",
-      "products": [
-        "remote_workspace"
-      ],
-      "roles": [
-        "historical_candidate"
-      ],
-      "status": "retired",
-      "retired_on": "2026-07-01",
-      "source": "https://www.codeanywhere.com/blog/codeanywhere-is-sunsetting"
-    },
-    {
-      "id": "gitpod_ona",
-      "products": [
-        "remote_workspace"
-      ],
-      "roles": [
-        "historical_candidate"
-      ],
-      "status": "retired",
-      "retired_on": "2026-10-31",
-      "source": "https://ona.com/stories/ona-core-shutdown",
-      "notes": "Gitpod Classic PAYG sunset 2025-10-15; Ona Cloud shut down 2026-10-31"
     }
   ],
   "additional_provider_classes": [
@@ -265,5 +233,5 @@
     "billing_only",
     "storage_only"
   ],
-  "notes": "Candidate list is not proof of present availability, pricing, or entitlement. Historical and potentially discontinued entries are not automatically active. Availability statuses are product-specific; unverified candidates are never schedulable. Jules is winding down (not yet fully closed as of 2026-11-01)."
+  "notes": "Candidate discovery list only; closed or closing offerings with no known account or historical assignment are excluded. Historical records are retained only when referenced by an actual assignment, usage, or audit event. Other entries are unverified and not schedulable."
 }
