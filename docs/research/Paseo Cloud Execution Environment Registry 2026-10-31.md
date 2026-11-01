@@ -11,6 +11,7 @@ depends_on:
 related_documents:
   - docs/research/Paseo Conversation-First Integration Roadmap 2026-10-31.md
   - docs/research/Paseo Integration Research Findings 2026-10-31.md
+  - docs/research/Paseo Resource Planner Parallel Track and Identity Domains 2026-11-01.md
   - docs/methodology/Agent Model Launch Routes.md
 last_updated: 2026-10-31
 ---
@@ -143,3 +144,10 @@ References: https://paseo.sh/docs ; https://paseo.sh/docs/browser ; https://pase
 ## Maintenance
 
 Recheck active-provider status and pricing when a plan is requested, record last-observed balances and resets, and keep account capacity distinct from published plan maximum. The planner must never invent remaining credits, guaranteed stock, VM performance, safe secret storage or APIs. Promote a provider to **observed** only after a real user-account test with retained evidence.
+
+
+## G. Identity-domain scope and account multiplicity (operator correction 2026-11-01)
+
+Three **separate** identity domains are required: `ases` (dedicated future GitHub identity planned; current research repo is under `rock-solid-sites`), `hms` (dedicated future identity planned), and `tripn` (**existing GitHub account `tripn-chill-zone` with the production site**). HMS is **not** Trip'n's owning identity. Do not move, mutate or assume control of Trip'n production in research/prototype stages.
+
+Register a **provider-account record per domain and service**; resources, subscription/model allowances, quotas and access tokens bind to that account. A common Paseo project view is not authority to pool allowances, move source code, reuse credentials or charge another project. The prototype fails closed on cross-domain account routing; shared resources would require a separate explicit scoped grant and legitimate provider permissions. Not every provider permits multiple personal/free accounts or duplicated promotional credits; account provisioning and free-allowance eligibility must be verified service by service, and organization/subaccount structures used where appropriate. This table is an inventory of possible providers, **not a combined balance across identities**. See `tools/resource-planner/README.md` and the parallel-track identity-domain design record.
