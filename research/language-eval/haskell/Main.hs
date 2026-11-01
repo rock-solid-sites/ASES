@@ -157,7 +157,7 @@ benchCore cs passes = do
             !nextCharges = charges + vCharge v
             !nextReasons = reasons + reasonCode (vReason v)
         in (nextAccepted, nextCharges, nextReasons)
-      (!a, !ch, !r) = loop 0 0 0 0
+      (!a, !ch, !r) = loop 0 (0 :: Integer) (0 :: Integer) (0 :: Integer)
   a `seq` ch `seq` r `seq` pure ()
   finished <- getMonotonicTimeNSec
   BL.putStrLn (encode (object
