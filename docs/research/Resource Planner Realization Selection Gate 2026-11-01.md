@@ -83,6 +83,15 @@ The previously reported 10 passing local tests cover the example's behavior only
 
 **Current outcome:** No realization selected. Do not present Node.js/TypeScript as the decision, do not promote the prototype to the management plane, and do not use the code to authorize real provider activity until the ASES gate is satisfied.
 
+## Initial requirements-first survey completed (2026-11-01)
+
+The operator clarified that **Paseo compatibility is only a current integration requirement; speculative long-term interoperability must not influence realization choice**. The research now includes:
+
+- [Resource Planner Requirements and Behavioral Model](Resource%20Planner%20Requirements%20and%20Behavioral%20Model%202026-11-01.md), including falsifiable invariants, scoped state-model applicability and an **observed 52-minute vs proven optimal 32-minute synthetic counterexample** against the existing assignment-only v0.
+- [Resource Planner Mechanism and Realization Survey](Resource%20Planner%20Mechanism%20and%20Realization%20Survey%202026-11-01.md), comparing exact small-graph search, constraint programming/CP-SAT, MiniZinc with multiple backends, MILP, SMT, incremental heuristics and weaker graph/rule-only methods, with source links and test plan.
+
+The initial broad research pass is complete, **but the realization gate remains UNRESOLVED**. No candidate has passed current-machine footprint, complete-fixture semantics, measured optimizer performance and operational trust checks. The next work is small solver-neutral fixtures and direct comparative experiments, not expansion of the initial Node/TypeScript prototype into a live service. A separate adapter specific to current Paseo is permissible when actual APIs are verified; it is not a selection constraint for the core.
+
 ## Historical evidence and WHAT NOT TESTED
 
 - Evidence: source code and ten local regression tests from the 2026-11-01 feature branch; three canonical methodology documents above.
