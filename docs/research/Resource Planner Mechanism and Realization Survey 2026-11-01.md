@@ -113,6 +113,12 @@ Current important trade-offs **to benchmark** rather than assume:
 
 **Fourth**, choose the smallest realization that satisfies the validated needs and current Paseo access. If a simple on-demand procedure with a local data snapshot suffices, **do not build an always-on daemon, multi-provider plugin framework or generic future ASES compatibility API**.
 
+## Completed comparative experiment (2026-11-01)
+
+The narrow, source-controlled solver comparison is recorded in [ASES Planner Comparative Solver Experiment](ASES%20Planner%20Comparative%20Solver%20Experiment%202026-11-01.md). GitHub Actions run [41261372360](https://github.com/rock-solid-sites/ASES/actions/runs/41261372360) succeeded on **38 recorded checks**, including 8 optimal numerical fixture results for each of direct CP-SAT, MiniZinc/Gecode and MiniZinc/Chuffed, plus independent feasibility preflight/negative statuses. The 12-/30-stage fixtures yielded the same proven optimum of **23/52 synthetic minutes** in all three. Median observed full-process wall times: CP-SAT/Python **292 ms**, Gecode **106 ms**, Chuffed **99 ms**; peak RSS: approximately **116, 22, 17 MB** respectively. The pure exact enumerator handled small graphs but deliberately skipped the two larger instances; a cap-exhaustion test correctly reported UNKNOWN.
+
+**Interpretation:** MiniZinc with bundled backends is an attractive **on-demand candidate**, but the model omits pinned stages, live provider-account quotas, several billing units and multiobjective costs. None of these metrics was collected on the target VPS, and no language/realization is selected. Gecode required the Ubuntu `libegl1` library. Refer to the report for exact evidence and limitations.
+
 ## 6. Why no final selection yet
 
 - Neither actual memory/time measurements nor reproducible 12/30-stage workload distributions are available.

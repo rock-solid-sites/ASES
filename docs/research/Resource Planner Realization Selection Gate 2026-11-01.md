@@ -92,6 +92,10 @@ The operator clarified that **Paseo compatibility is only a current integration 
 
 The initial broad research pass is complete, **but the realization gate remains UNRESOLVED**. No candidate has passed current-machine footprint, complete-fixture semantics, measured optimizer performance and operational trust checks. The next work is small solver-neutral fixtures and direct comparative experiments, not expansion of the initial Node/TypeScript prototype into a live service. A separate adapter specific to current Paseo is permissible when actual APIs are verified; it is not a selection constraint for the core.
 
+## Verified, bounded optimization comparison (2026-11-01)
+
+The feature-branch [comparative experiment](ASES%20Planner%20Comparative%20Solver%20Experiment%202026-11-01.md) ran a shared synthetic fixture model through small exact search, direct CP-SAT and MiniZinc with Gecode/Chuffed. GitHub Actions run [41261372360](https://github.com/rock-solid-sites/ASES/actions/runs/41261372360) passed **38 recorded checks**, with all external solvers agreeing on 8 optimal numerical fixtures. The old fixed-order scheduler's F01 failure is corrected in all three. **This validates a narrow scheduling mechanism, NOT the core language/realization selection**; acceptance criteria for live provider windows, state reconciliation, untrusted telemetry, current Paseo integration, actual VPS performance and pinned F07 replanning remain open. MiniZinc moves from documentation-only potential to empirically promising candidate for a *CLI-on-demand research configuration*, with no promotion to maintained implementation.
+
 ## Historical evidence and WHAT NOT TESTED
 
 - Evidence: source code and ten local regression tests from the 2026-11-01 feature branch; three canonical methodology documents above.
