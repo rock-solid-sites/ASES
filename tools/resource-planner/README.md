@@ -4,6 +4,12 @@
 
 The planner accepts a resource inventory, an identity domain, and a dependency graph of development stages. It enumerates placements for small graphs, rejects unavailable/ineligible resources and cross-domain account usage, then returns up to three distinct plan proposals: lowest estimated incremental cash expense, earliest estimated completion, and lowest modeled exposure. Model and environment selection remain separate; a `harness` field prevents assigning jobs to resources incapable of executing that harness. Actual model routing and token/quota telemetry are intentionally not integrated yet.
 
+## Realization selection gate — NOT APPROVED FOR MAINTAINED USE
+
+**Language/runtime choice remains UNRESOLVED.** This TypeScript/Node implementation was written before the required canonical ASES realization-selection review. It is retained **only as a disposable, offline behavioral experiment**, not the chosen resource-planner architecture or a supported implementation. It must not be deployed, wired into real account credentials, or expanded into a production integration until the full requirements-first, exclusion-based selection process is completed. Passing the local regression tests does not establish that TypeScript/Node is appropriate. See [`Resource Planner Realization Selection Gate 2026-11-01.md`](../../docs/research/Resource%20Planner%20Realization%20Selection%20Gate%202026-11-01.md) and the canonical [`Implementation Realization and Assurance Selection Method`](../../docs/methodology/Implementation%20Realization%20and%20Assurance%20Selection%20Method.md).
+
+The current code has strict TypeScript checking and some runtime invariants, but it has **not** been independently validated for arbitrary JSON input, complex quota units, performance, account authority or persistent state. The final planner may use another realization; a thin Paseo JavaScript/TypeScript adapter is a separate choice.
+
 ## Identity boundaries: user-confirmed 2026-11-01
 
 | Domain | GitHub identity | Current state |
