@@ -61,6 +61,9 @@ class AdmissionGate:
                 return False, "invalid plan or claim mapping"
             if not claims:
                 return False, "no chargeable claims"
+            period = self._snapshot.get("allowance_period")
+            if not isinstance(period, str) or not period or any(c.bucket.period != period for c in claims):
+                return False, "allowance period mismatch or missing period binding"
             version = self._ledger.snapshot()["version"]
             ok, reason = self._ledger.admit(plan_id, version, claims)
             if ok:
