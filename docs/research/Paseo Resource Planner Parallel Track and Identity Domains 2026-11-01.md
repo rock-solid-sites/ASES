@@ -52,6 +52,10 @@ Provider terms may prohibit or limit multiple accounts or multiple free-tier ben
 
 **Integration can mature independently:** Paseo/OpenCode integration work later supplies current account balances, model routes, token/TPS logs, cost units, provider permissions, session lifecycle and execution observations. Do not assume the prototype can run OpenCode in Codex Cloud or access an existing production account.
 
+## Realization/language selection correction (2026-11-01)
+
+The prototype was written in Node.js/TypeScript before checking ASES's **canonical Constraint-Driven Realization and Assurance Selection Method** and **Bounded Project Build Method**. The operator flagged this process failure. The `tools/resource-planner/` code is **only a disposable offline behavioral experiment**; its runtime/language are **not approved** for the maintained persistent planner or real integrations. This substantial, identity- and quota-sensitive target requires the full requirements-first, Level B exclusion-based selection, plus state-model applicability checks. Strict TypeScript may be appropriate as a **thin Paseo adapter** to existing JavaScript/TypeScript code, without constraining the planner core. **No language or architecture has been selected.** See [Resource Planner Realization Selection Gate](Resource%20Planner%20Realization%20Selection%20Gate%202026-11-01.md).
+
 ## Deliberate prototype limitations
 
 The initial algorithm is an exhaustive **assignment** search for small graphs (bounded, fails closed on size), with deterministic topological resource scheduling. It does not guarantee globally optimal intra-resource stage order, support simultaneous stages sharing machine cores, include model-route optimization, real multi-currency credits, account-wide concurrency, implicit cross-project grants, live quota observations, interval uncertainty or cloud launches. A production planner would require these checks and stronger adversarial review before use.
