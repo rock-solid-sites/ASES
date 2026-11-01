@@ -27,6 +27,13 @@ def validate(fixture, plan):
         for metric in ("ram_gib", "cpu_cores"):
             if not isinstance(p.get(metric), (int, float)) or p[metric] < 0:
                 errors.append(f"{sid}: invalid {metric}")
+    # Never trust a candidate's resource claims when the authoritative fixture supplies them.
+    for sid, spec in stages.items():
+        if sid not in schedule or not isinstance(schedule[sid], dict):
+            continue
+        for metric, candidate in (("ram_mib", schedule[sid].get("ram_mib")), ("cpu_millicores", schedule[sid].get("cpu_millicores")), ("slots", schedule[sid].get("slots"))):
+            if metric in spec and spec[metric] is not None and candidate != spec[metric]:
+                errors.append(f"{sid}: {metric} differs from authoritative workload")
     for env, capacity in environments.items():
         jobs = [p for p in schedule.values() if p.get("environment") == env and isinstance(p.get("start"), (int, float)) and isinstance(p.get("end"), (int, float))]
         for t in sorted({t for p in jobs for t in (p["start"], p["end"])})[:-1]:
@@ -34,4 +41,6 @@ def validate(fixture, plan):
             for metric in ("ram_gib", "cpu_cores"):
                 if all(isinstance(p.get(metric), (int, float)) for p in active) and sum(p[metric] for p in active) > capacity[metric] + 1e-9:
                     errors.append(f"{env}@{t}: {metric} capacity exceeded")
+    # The original prototype uses floating resource units. A later schema revision
+    # will standardize on integer MiB, millicores, and discrete time ticks.
     return errors
