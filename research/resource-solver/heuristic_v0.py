@@ -25,7 +25,11 @@ def schedule(fixture,snapshot):
             while t<100000:
                 end=t+s["duration_ticks"]
                 overlaps=[p for p in plan["stages"].values() if p["environment"]==eid and p["start"]<end and t<p["end"]]
-                blockers=[p["end"] for p in overlaps if any(sum(q[k] for q in overlaps)+demand[k]>e[k] for k in demand)]
+                # Evaluate actual simultaneous demand at every event boundary,
+                # not the sum of all jobs overlapping the entire candidate interval.
+                events=sorted({t,end}|{x for p in overlaps for x in (p["start"],p["end"]) if t<x<end})
+                blocked=any(any(sum(p[k] for p in overlaps if p["start"]<=x<p["end"])+demand[k]>e[k] for k in demand) for x in events[:-1])
+                blockers=[p["end"] for p in overlaps] if blocked else []
                 outages=[b for a,b in e.get("outages",[]) if t<b and a<end]
                 if not blockers and not outages:break
                 t=max(t+1,min(blockers+outages))
