@@ -1,6 +1,7 @@
 //! Intentionally small conventional Rust baseline. Not an operational admission gate.
 use serde::{Deserialize, Serialize};
 use std::io::{self, Read};
+use std::time::Instant;
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -37,8 +38,12 @@ fn result<'a>(c: &'a Case, reason: &'static str, charge: i64) -> Decision<'a> {
 }
 
 fn decide(c: &Case) -> Decision<'_> {
+    decide_with_usage(c, c.usage)
+}
+
+fn decide_with_usage(c: &Case, current_usage: i64) -> Decision<'_> {
     if [
-        c.capacity, c.reserved, c.requested, c.usage, c.included,
+        c.capacity, c.reserved, c.requested, current_usage, c.included,
         c.rate, c.wallet, c.wallet_floor, c.liability, c.spend_cap
     ].iter().any(|n| *n < 0) || c.requested == 0 {
         return result(c, "invalid-input", 0);
@@ -55,9 +60,9 @@ fn decide(c: &Case) -> Decision<'_> {
     }
 
     let billable = if c.mode == "free" || c.mode == "subscription" {
-        c.usage.saturating_sub(c.included).max(0)
+        current_usage.saturating_sub(c.included).max(0)
     } else {
-        c.usage
+        current_usage
     };
     let charge = match billable.checked_mul(c.rate) {
         Some(value) => value,
@@ -76,12 +81,78 @@ fn decide(c: &Case) -> Decision<'_> {
     result(c, "admitted", charge)
 }
 
+// Stable numeric mapping shared with Haskell and the independent Python oracle.
+fn reason_code(reason: &str) -> u64 {
+    match reason {
+        "admitted" => 0,
+        "invalid-input" => 1,
+        "inactive" => 2,
+        "unverified" => 3,
+        "stale-evidence" => 4,
+        "unknown-price" => 5,
+        "capacity-exceeded" => 6,
+        "arithmetic-overflow" => 7,
+        "paid-opt-in-required" => 8,
+        "wallet-floor-exceeded" => 9,
+        "spend-cap-exceeded" => 10,
+        _ => 99,
+    }
+}
+
+/// Times the admission loop after parsing exactly once. No per-case JSON is
+/// serialized. This is intentionally a process-local time, not a bare-metal
+/// instruction benchmark; the language's decision representation still matters.
+fn bench_core(cases: &[Case], passes: u64) -> serde_json::Value {
+    let started = Instant::now();
+    let mut accepted: u64 = 0;
+    let mut charge_sum: i128 = 0;
+    let mut reason_sum: u64 = 0;
+    for round in 0..passes {
+        let delta = (round % 17) as i64;
+        for c in cases {
+            let varied_usage = if c.usage <= i64::MAX - 16 {
+                c.usage + delta
+            } else {
+                c.usage
+            };
+            let verdict = decide_with_usage(c, varied_usage);
+            accepted += u64::from(verdict.accepted);
+            charge_sum += i128::from(verdict.charge_cents);
+            reason_sum += reason_code(verdict.reason);
+        }
+    }
+    let core_ns = started.elapsed().as_nanos();
+    serde_json::json!({
+        "accepted_count": accepted,
+        "charge_sum": charge_sum,
+        "reason_sum": reason_sum,
+        "evaluations": (cases.len() as u128) * (passes as u128),
+        "core_ns": core_ns,
+    })
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    let passes = match args.as_slice() {
+        [] => None,
+        [flag, count] if flag == "--bench-core" => {
+            let value: u64 = count.parse()?;
+            if !(1..=10_000).contains(&value) {
+                return Err("--bench-core passes must be 1..=10000".into());
+            }
+            Some(value)
+        }
+        _ => return Err("usage: ases-admit-rs [--bench-core PASSES]".into()),
+    };
     let mut text = String::new();
     io::stdin().read_to_string(&mut text)?;
     let cases: Vec<Case> = serde_json::from_str(&text)?;
-    let decisions: Vec<_> = cases.iter().map(decide).collect();
-    serde_json::to_writer(io::stdout().lock(), &decisions)?;
+    if let Some(n) = passes {
+        serde_json::to_writer(io::stdout().lock(), &bench_core(&cases, n))?;
+    } else {
+        let decisions: Vec<_> = cases.iter().map(decide).collect();
+        serde_json::to_writer(io::stdout().lock(), &decisions)?;
+    }
     println!();
     Ok(())
 }
