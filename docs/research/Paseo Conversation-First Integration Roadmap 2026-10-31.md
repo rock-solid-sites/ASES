@@ -11,6 +11,7 @@ depends_on:
   - docs/research/Paseo Role Capability Matrix.md
 related_documents:
   - docs/research/Paseo Cloud Execution Environment Registry 2026-10-31.md
+  - docs/research/Paseo Resource Planner Parallel Track and Identity Domains 2026-11-01.md
   - docs/research/Paseo Integration Research Findings 2026-10-31.md
   - docs/methodology/Agent Model Launch Routes.md
   - docs/ORCHESTRATOR.md
@@ -40,7 +41,7 @@ last_updated: 2026-10-31
 | **3. Advisory resource calculator** | Work graph with multiple feasible placement proposals, telemetry and replanning | Proposed whole-graph routes include cost/quota/latency/setup/cache and risks; after observed change unfinished stages replan without dispatch | Verified usage sources and resource baselines |
 | **4. Provider adapters** | Selectively add managed agents, shell workspaces, batch and hourly cloud execution | Authorized stage starts and stops; evidence retained; cost and resource use recorded | Provider-specific permissions, lifecycle APIs and spending controls |
 
-Phases are **user-visible priority order**, not permission to build a new subsystem while the runbook and current tool integration are incomplete. Targeted documentation research and cheapest compatibility checks may proceed in parallel. No other implementation activity is implied by this roadmap.
+**2026-11-01 operator update:** The user explicitly authorized development of the **independent, read-only resource-planner prototype in parallel** with the VPS runbook and Paseo model/tool integration. This does **not** change user-visible Phase 1 priority (original live chats) or authorize autonomous routing, cloud provider launches, credentials, production work, or a large Paseo fork. See the identity-domain/parallel-track record linked above. The implementation and live adapter portion of Phase 3 still depends on measured Paseo session/account data.
 
 ## Phase 0: finish the actual prerequisites
 
@@ -77,7 +78,7 @@ This does **not** put all chat transcripts into an orchestrator's context. Defau
 
 Do not infer authority from membership or permit agents to search entire ChatGPT/DeepSeek accounts without an explicit scope and justified read mechanism.
 
-## Phase 3: revisable, advisory resource planning
+## Phase 3: revisable, advisory resource planning (independent v0 proceeds in parallel)
 
 A work graph records dependencies/alternatives and resource requirements **for the entire plan**, not only its next step. The planner should make related-stage colocation vs moving work to another environment visible, including workspace warm state, cache locality, setup latency, data transfer, CPU/RAM/disk, model and host concurrency, downstream memory peaks, security and credit expiry.
 
