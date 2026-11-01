@@ -1,0 +1,25 @@
+{
+  "domains": [
+    { "id": "ases", "githubStatus": "planned" },
+    { "id": "hms", "githubStatus": "planned" },
+    { "id": "tripn", "githubStatus": "existing", "githubAccount": "tripn-chill-zone" }
+  ],
+  "accounts": [
+    { "id": "ases-demo-local", "domainId": "ases", "provider": "SYNTHETIC-LOCAL", "remainingIncludedMinutes": 200, "maxAdditionalSpendUsd": 0 },
+    { "id": "ases-demo-remote", "domainId": "ases", "provider": "SYNTHETIC-REMOTE", "remainingIncludedMinutes": 0, "maxAdditionalSpendUsd": 20 },
+    { "id": "hms-demo", "domainId": "hms", "provider": "SYNTHETIC-HMS", "remainingIncludedMinutes": 1000, "maxAdditionalSpendUsd": 0 },
+    { "id": "tripn-demo", "domainId": "tripn", "provider": "SYNTHETIC-TRIPN", "remainingIncludedMinutes": 1000, "maxAdditionalSpendUsd": 0 }
+  ],
+  "resources": [
+    { "id": "ases-local-demo", "accountId": "ases-demo-local", "kind": "workspace", "availability": "verified", "cpu": 4, "ramGiB": 8, "startupMinutes": 0, "usdPerMinute": 0.03, "transferGiBPerMinute": 0.5, "egressUsdPerGiB": 0, "riskScore": 2, "accepts": ["public"], "harnesses": ["opencode", "none"], "warm": true },
+    { "id": "ases-remote-demo", "accountId": "ases-demo-remote", "kind": "workspace", "availability": "verified", "cpu": 8, "ramGiB": 32, "startupMinutes": 10, "usdPerMinute": 0.1, "transferGiBPerMinute": 0.3, "egressUsdPerGiB": 0.01, "riskScore": 3, "accepts": ["public"], "harnesses": ["opencode", "none"], "maxSessionMinutes": 120 },
+    { "id": "hms-only-demo", "accountId": "hms-demo", "kind": "workspace", "availability": "verified", "cpu": 16, "ramGiB": 64, "startupMinutes": 0, "usdPerMinute": 0, "transferGiBPerMinute": 10, "egressUsdPerGiB": 0, "riskScore": 1, "accepts": ["public", "internal"], "harnesses": ["opencode", "none"] },
+    { "id": "tripn-only-demo", "accountId": "tripn-demo", "kind": "workspace", "availability": "verified", "cpu": 8, "ramGiB": 16, "startupMinutes": 0, "usdPerMinute": 0, "transferGiBPerMinute": 10, "egressUsdPerGiB": 0, "riskScore": 1, "accepts": ["public", "internal", "production"], "harnesses": ["opencode", "none"] }
+  ],
+  "domainId": "ases",
+  "maxNewSpendUsd": 20,
+  "stages": [
+    { "id": "implement", "after": [], "estimatedMinutes": 35, "minCpu": 2, "minRamGiB": 4, "dataClass": "public", "harness": "opencode", "kind": ["workspace"] },
+    { "id": "compile", "after": ["implement"], "estimatedMinutes": 25, "minCpu": 4, "minRamGiB": 16, "dataClass": "public", "harness": "none", "kind": ["workspace"], "transferGiBFrom": { "implement": 2 } }
+  ]
+}
