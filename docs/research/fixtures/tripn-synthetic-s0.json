@@ -1,0 +1,197 @@
+{
+  "schema_version": "0.1",
+  "scenario": "tripn_synthetic_s0",
+  "evidence_tier": "S",
+  "source_graph": "docs/research/fixtures/tripn-beds24-document-derived-v0.json",
+  "historical_execution_claim": false,
+  "units": {
+    "duration": "minutes",
+    "ram": "MiB",
+    "cpu": "millicores"
+  },
+  "note": "Entire duration/resource envelope is invented for algorithm benchmarking; dependencies derive from D-tier graph, not historical chronology.",
+  "stages": [
+    {
+      "id": "design_handoff",
+      "dependencies": [],
+      "duration_ticks": 12,
+      "ram_mib": 512,
+      "cpu_millicores": 500,
+      "slots": 1
+    },
+    {
+      "id": "styling_contract",
+      "dependencies": [],
+      "duration_ticks": 8,
+      "ram_mib": 512,
+      "cpu_millicores": 500,
+      "slots": 1
+    },
+    {
+      "id": "site_seaside",
+      "dependencies": [
+        "design_handoff",
+        "styling_contract"
+      ],
+      "duration_ticks": 20,
+      "ram_mib": 1536,
+      "cpu_millicores": 1500,
+      "slots": 1
+    },
+    {
+      "id": "site_chill_zone",
+      "dependencies": [
+        "design_handoff",
+        "styling_contract"
+      ],
+      "duration_ticks": 18,
+      "ram_mib": 1536,
+      "cpu_millicores": 1500,
+      "slots": 1
+    },
+    {
+      "id": "site_pink_bubble",
+      "dependencies": [
+        "design_handoff",
+        "styling_contract"
+      ],
+      "duration_ticks": 17,
+      "ram_mib": 1536,
+      "cpu_millicores": 1500,
+      "slots": 1
+    },
+    {
+      "id": "site_tripn_hostel",
+      "dependencies": [
+        "design_handoff",
+        "styling_contract"
+      ],
+      "duration_ticks": 19,
+      "ram_mib": 1536,
+      "cpu_millicores": 1500,
+      "slots": 1
+    },
+    {
+      "id": "site_landing",
+      "dependencies": [
+        "design_handoff"
+      ],
+      "duration_ticks": 14,
+      "ram_mib": 1536,
+      "cpu_millicores": 1500,
+      "slots": 1
+    },
+    {
+      "id": "plugin_search",
+      "dependencies": [
+        "styling_contract"
+      ],
+      "duration_ticks": 15,
+      "ram_mib": 1024,
+      "cpu_millicores": 1000,
+      "slots": 1
+    },
+    {
+      "id": "plugin_results",
+      "dependencies": [
+        "plugin_search"
+      ],
+      "duration_ticks": 12,
+      "ram_mib": 1024,
+      "cpu_millicores": 1000,
+      "slots": 1
+    },
+    {
+      "id": "plugin_cart",
+      "dependencies": [
+        "plugin_results"
+      ],
+      "duration_ticks": 11,
+      "ram_mib": 1024,
+      "cpu_millicores": 1000,
+      "slots": 1
+    },
+    {
+      "id": "plugin_confirm_handoff",
+      "dependencies": [
+        "plugin_cart"
+      ],
+      "duration_ticks": 9,
+      "ram_mib": 1024,
+      "cpu_millicores": 1000,
+      "slots": 1
+    },
+    {
+      "id": "plugin_iframe",
+      "dependencies": [
+        "plugin_confirm_handoff"
+      ],
+      "duration_ticks": 10,
+      "ram_mib": 1024,
+      "cpu_millicores": 1000,
+      "slots": 1
+    },
+    {
+      "id": "plugin_settings",
+      "dependencies": [
+        "plugin_search"
+      ],
+      "duration_ticks": 7,
+      "ram_mib": 768,
+      "cpu_millicores": 500,
+      "slots": 1
+    },
+    {
+      "id": "booking_integration_test",
+      "dependencies": [
+        "site_chill_zone",
+        "plugin_iframe",
+        "plugin_settings"
+      ],
+      "duration_ticks": 16,
+      "ram_mib": 1536,
+      "cpu_millicores": 1500,
+      "slots": 1
+    },
+    {
+      "id": "credit_card_offer_configuration",
+      "dependencies": [
+        "booking_integration_test"
+      ],
+      "duration_ticks": 8,
+      "ram_mib": 512,
+      "cpu_millicores": 500,
+      "slots": 1
+    },
+    {
+      "id": "booking_heading_fix",
+      "dependencies": [
+        "booking_integration_test"
+      ],
+      "duration_ticks": 6,
+      "ram_mib": 768,
+      "cpu_millicores": 500,
+      "slots": 1
+    },
+    {
+      "id": "production_ci_deploy",
+      "dependencies": [
+        "booking_heading_fix"
+      ],
+      "duration_ticks": 3,
+      "ram_mib": 1024,
+      "cpu_millicores": 1000,
+      "slots": 1
+    },
+    {
+      "id": "postdeploy_visual_smoke",
+      "dependencies": [
+        "production_ci_deploy"
+      ],
+      "duration_ticks": 5,
+      "ram_mib": 768,
+      "cpu_millicores": 500,
+      "slots": 1
+    }
+  ]
+}
