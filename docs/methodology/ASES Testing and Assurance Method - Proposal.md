@@ -133,6 +133,7 @@ The following are examples, not a fixed shortlist or required stack:
 | Formal / exhaustive verification | Bounded or mathematically expressible guarantees | Valid only under stated assumptions and abstraction boundaries |
 | Static analysis / source inspection | Structural, typing, dependency, security constraints | May not demonstrate actual runtime behavior |
 | Fault injection / adversarial tests | Recovery, fail-closed behavior, resilience | Test-induced failures must be contained and reversible |
+| Environmental perturbation tests | Timing, contention, resource limits, dependency and recovery boundaries | Stress-related failures require attribution; results depend on measured conditions |
 | Operational observation / monitoring | Continuing deployed invariants, regressions | A passing probe does not establish complete system health |
 | Independent or clean-room review | Specification fidelity, assumptions, missing cases | Agent agreement is not executable evidence |
 
@@ -147,6 +148,27 @@ When selected, distinguish:
 - **MUTATE:** reintroducing the original defect or an appropriate targeted equivalent in isolation causes the relevant check to fail; restore and recheck the correct version.
 
 Keep a contemporaneous red-before-fix record distinct from **retrospective mutation verification**. A mutation that survives because it targets the wrong guard cannot be scored as a meaningful sensitivity failure without diagnosing the mismatch. This protocol remains provisional beyond its currently documented resource-solver scope until adopted explicitly.
+
+### Environmental perturbation testing
+
+**Status: proposed selectable technique, not a mandatory stress gate.** A reported observation ([Jim Calabro, Bluesky, 2026-10-25](https://bsky.app/profile/calabro.io/post/3myp675zzok2r)) suggests rerunning a test suite during heavy CPU contention to reveal latent failures. That observation is a **hypothesis worth evaluating**, not empirical proof that saturating CPUs is universally effective or safe. The broader method is to deliberately change environmental conditions to challenge assumptions about timing, resources, isolation, recovery, and external dependencies.
+
+**Selection question.** Could a permitted environmental change expose a violation of this specific guarantee that ordinary testing would probably miss? Relevant changes may include CPU competition or throttling; reduced memory; disk-space, I/O, or filesystem latency; constrained network throughput, latency, packet loss or disconnection; process interruption/restart; concurrent requests; dependency outages; clock/time-boundary effects; and scheduling variation. Choose only conditions relevant to the target claim. Not every project or component benefits from every perturbation.
+
+**Experimental protocol (when selected):**
+
+1. **Freeze the guarantee, hypothesis, expected invariant, and failure criteria before running.** For example: "Under CPU contention, concurrent reservation attempts must not both commit the same inventory unit." State which performance degradation, timeout, or partial service is permitted by the requirement. Do not invent an unconditional availability guarantee.
+2. **Establish a baseline** with the same test suite, inputs, code/spec revisions, and comparable environment before perturbation. Record baseline failures and variability; a pre-existing flaky test is not a newly exposed application defect.
+3. **Isolate and vary one dimension first.** Prefer bounded resource controls in a disposable runner, container, or VM. Record *achieved* pressure (for example, CPU throttling and contention measurements), not only configured load. CPU quota/throttling and competition with CPU-consuming work are distinct experiments; record which occurred. Expand to combined conditions only after single-factor evidence is interpretable.
+4. **Repeat and compare.** Retain run counts, seeds, load configuration, environmental metrics, error types, durations/latencies, and whether failures recur. Random timing may need repeated trials and minimization; one success or one incidental failure must not be overgeneralized.
+5. **Classify the cause rather than counting any red result as a defect.** Distinguish (a) a violation of the application or system invariant, (b) a test fixture/oracle/harness defect, (c) expected degradation within the specified envelope, and (d) environmental or CI infrastructure failure. Use additional discriminating tests to resolve ambiguity; leave unresolved cases INCONCLUSIVE.
+6. **Preserve both baseline and perturbed records** in the evidence archive with pre-run rationale, host isolation boundary, relevant configuration, measured pressure, outputs, interpretation, and later decisions. A suspected defect becomes a regression guard only after adequate confirmation and attribution.
+
+**Safety and applicability.** Do not indiscriminately saturate a shared development host, production service, externally owned system, or live customer workflow. Protect provider limits, sensitive data, neighboring workloads, and resource budgets; define stop conditions, cleanup, and any required operator approval. For the currently resource-constrained development VPS, favor isolated cloud runners or bounded containers/VMs with independently verified resource limits, rather than host-wide stress. Host-level experiments are separate, explicitly justified work. Stress tools are instruments, not proof of defect or performance.
+
+**CI integration.** Baseline CI remains independent of perturbation campaigns. Run relevant perturbations selectively on dedicated PR, scheduled, or pre-release routes when their added evidentiary value justifies cost; do not mandate full stress suites on every commit. GitHub Actions, GitLab CI, Tangled Spindles, and other runners may execute the same scenario, but different hosts, kernel settings, and resource controls must be recorded before comparing outcomes. Capture and durably archive failing **and passing** runs. Distinguish performance benchmarks from stress-induced correctness tests: stressing a machine changes measurement conditions and may make throughput comparisons misleading.
+
+**Candidate pilots.** Try one bounded, non-production test each for resource-solver concurrency/admission, an HMS reservation-state invariant against a controlled mock or test backend, and a Trip'n deployment/invariant-check harness. An experimentally observed improvement would justify adding a reusable profile; failure to discover relevant defects, excessive cost, or nondiscriminating flaky results should limit or reject the technique's broader adoption.
 
 ## 6. Assurance intensity: per claim, not per repository
 
@@ -252,7 +274,7 @@ Measure run cost, storage footprint, cognitive/documentation overhead, reviewer 
 
 - Required minimum evidence for low-risk changes versus high-consequence guarantees; whether risk profiles should be formal registries.
 - Which test changes warrant mutation/controlled-failure proof; whether mutation-score targets can be justified at all.
-- Treatment of randomized, nondeterministic, probabilistic, and external-service tests.
+- Treatment of randomized, nondeterministic, probabilistic, and external-service tests, including when environmental perturbation campaigns add enough discrimination to warrant cost.
 - Exact evidence schema, allowed corrections, privacy/access tiers, and common outcome vocabulary.
 - Durable retention duration, storage owner, backup verification, handling of sensitive artifacts, capacity exhaustion, and disposition of historical evidence.
 - Whether an archive failure blocks specific CI gates or merely produces an independent evidence-integrity failure.
