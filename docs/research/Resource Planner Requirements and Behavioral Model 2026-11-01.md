@@ -7,11 +7,11 @@ status: Draft
 authority: Experimental
 canonical_repository: edases
 depends_on:
+  - docs/research/Resource Planner Realization Selection Gate 2026-11-01.md
+related_documents:
   - docs/methodology/Implementation Realization and Assurance Selection Method.md
   - docs/methodology/ASES Bounded Project Build Method.md
   - docs/methodology/State-Model Applicability and Reuse Method.md
-related_documents:
-  - docs/research/Resource Planner Realization Selection Gate 2026-11-01.md
   - docs/research/Resource Planner Mechanism and Realization Survey 2026-11-01.md
   - docs/research/Paseo Resource Planner Parallel Track and Identity Domains 2026-11-01.md
 last_updated: 2026-11-01
@@ -68,7 +68,7 @@ A local Node 22 execution of the previously built \`tools/resource-planner/dist/
 - **v0 returned:** A on R1 at 0–30; B on R1 at 30–32; C on R2 at 32–52. Reported makespan = **52 minutes**.
 - **Explicit feasible improvement:** B on R1 at 0–2; C on R2 at 2–22; A on R1 at 2–32. Makespan = **32 minutes**. Dependencies and one-stage-per-resource exclusivity are satisfied.
 
-This proves that exhaustive **resource assignment** enumeration plus fixed topological stage scheduling does **not** optimize whole-graph completion even when assignments are forced and graph size is three. The currently claimed "fastest" proposal is **not demonstrably fastest**. Preserve the example as a regression and require an improved candidate to return the 32-minute schedule (or disclose inability to prove/select it). This is not evidence about any actual cloud-provider performance.
+This proves that exhaustive **resource assignment** enumeration plus fixed topological stage scheduling does **not** optimize whole-graph completion even when assignments are forced and graph size is three. **Optimality proof for the alternative:** R1 must execute A (30) and B (2) sequentially, so no schedule can finish in less than 32 minutes. The valid B-C/A schedule finishes in exactly 32, achieving this lower bound. The currently claimed "fastest" proposal is **not demonstrably fastest**. Preserve the example as a regression and require an improved candidate to return the 32-minute schedule (or disclose inability to prove/select it). This is not evidence about any actual cloud-provider performance.
 
 Local test source can be reconstructed from \`tools/resource-planner/planner.ts\` using the three-stage graph; no live services or auth were accessed.
 
