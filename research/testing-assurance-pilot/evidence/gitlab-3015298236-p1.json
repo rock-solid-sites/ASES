@@ -1,0 +1,334 @@
+{
+  "archive_fault_injection": {
+    "altered_fixture": {
+      "integrity": "FAIL",
+      "problems": [
+        {
+          "path": "assumptions.txt",
+          "reason": "CORRUPT"
+        }
+      ]
+    },
+    "deleted_fixture": {
+      "integrity": "FAIL",
+      "problems": [
+        {
+          "path": "test-output.txt",
+          "reason": "MISSING"
+        }
+      ]
+    },
+    "intact": {
+      "integrity": "COMPLETE",
+      "problems": []
+    },
+    "qualified": true,
+    "scope": "synthetic private test blobs only"
+  },
+  "baseline": {
+    "haskell": {
+      "elapsed_ms": 1.837,
+      "observed": {
+        "free-covered": {
+          "accepted": true,
+          "charge_cents": 0,
+          "reason": "admitted"
+        },
+        "free-spill-authorized": {
+          "accepted": true,
+          "charge_cents": 10,
+          "reason": "admitted"
+        },
+        "free-spill-denied": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "paid-opt-in-required"
+        },
+        "postpaid-authorized": {
+          "accepted": true,
+          "charge_cents": 40,
+          "reason": "admitted"
+        },
+        "postpaid-unapproved": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "paid-opt-in-required"
+        }
+      },
+      "valid": true
+    },
+    "rust": {
+      "elapsed_ms": 0.988,
+      "observed": {
+        "free-covered": {
+          "accepted": true,
+          "charge_cents": 0,
+          "reason": "admitted"
+        },
+        "free-spill-authorized": {
+          "accepted": true,
+          "charge_cents": 10,
+          "reason": "admitted"
+        },
+        "free-spill-denied": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "paid-opt-in-required"
+        },
+        "postpaid-authorized": {
+          "accepted": true,
+          "charge_cents": 40,
+          "reason": "admitted"
+        },
+        "postpaid-unapproved": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "paid-opt-in-required"
+        }
+      },
+      "valid": true
+    }
+  },
+  "fixed_control_expectations": {
+    "free-covered": {
+      "accepted": true,
+      "charge_cents": 0,
+      "reason": "admitted"
+    },
+    "free-spill-authorized": {
+      "accepted": true,
+      "charge_cents": 10,
+      "reason": "admitted"
+    },
+    "free-spill-denied": {
+      "accepted": false,
+      "charge_cents": 0,
+      "reason": "paid-opt-in-required"
+    },
+    "postpaid-authorized": {
+      "accepted": true,
+      "charge_cents": 40,
+      "reason": "admitted"
+    },
+    "postpaid-unapproved": {
+      "accepted": false,
+      "charge_cents": 0,
+      "reason": "paid-opt-in-required"
+    }
+  },
+  "frozen_plan_sha256": "33493c4d4b5cf9931fc08105cbc1a27f341bcd07a8dc1faae8bc52a748607971",
+  "method_limitations": [
+    "Controls are attributable to the synthetic one-shot ASES admission contract only.",
+    "Mutants do not establish complete specification or test-suite quality.",
+    "Oracle and source may share incorrect product assumptions.",
+    "Archive fault-injection tests the checker, not live CI export.",
+    "External provider settlement, distributed concurrency, and independent review not tested."
+  ],
+  "mutants": [
+    {
+      "build_elapsed_ms": 791.768,
+      "detected": true,
+      "exact_source_replacement": {
+        "from": "if charge > 0 && !c.paid_opt_in {",
+        "to": "if charge > 0 && !c.paid_opt_in && false {"
+      },
+      "execute_elapsed_ms": 0.991,
+      "intended_failure_cases": [
+        "free-spill-denied",
+        "postpaid-unapproved"
+      ],
+      "language": "rust",
+      "neighbor_pass": true,
+      "observed": {
+        "free-covered": {
+          "accepted": true,
+          "charge_cents": 0,
+          "reason": "admitted"
+        },
+        "free-spill-authorized": {
+          "accepted": true,
+          "charge_cents": 10,
+          "reason": "admitted"
+        },
+        "free-spill-denied": {
+          "accepted": true,
+          "charge_cents": 10,
+          "reason": "admitted"
+        },
+        "postpaid-authorized": {
+          "accepted": true,
+          "charge_cents": 40,
+          "reason": "admitted"
+        },
+        "postpaid-unapproved": {
+          "accepted": true,
+          "charge_cents": 40,
+          "reason": "admitted"
+        }
+      },
+      "observed_violation_cases": [
+        "free-spill-denied",
+        "postpaid-unapproved"
+      ],
+      "operator": "bypass-paid-guard",
+      "source_sha256": "908e556f3da7e010a029b2ad87e6a8d3115668fb7bf0957d218b90147731d5c7"
+    },
+    {
+      "build_elapsed_ms": 786.641,
+      "detected": true,
+      "exact_source_replacement": {
+        "from": "    result(c, \"admitted\", charge)\n}",
+        "to": "    result(c, \"unverified\", 0)\n}"
+      },
+      "execute_elapsed_ms": 0.936,
+      "intended_failure_cases": [
+        "free-covered",
+        "free-spill-authorized",
+        "postpaid-authorized"
+      ],
+      "language": "rust",
+      "neighbor_pass": true,
+      "observed": {
+        "free-covered": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "unverified"
+        },
+        "free-spill-authorized": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "unverified"
+        },
+        "free-spill-denied": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "paid-opt-in-required"
+        },
+        "postpaid-authorized": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "unverified"
+        },
+        "postpaid-unapproved": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "paid-opt-in-required"
+        }
+      },
+      "observed_violation_cases": [
+        "free-covered",
+        "free-spill-authorized",
+        "postpaid-authorized"
+      ],
+      "operator": "reject-valid",
+      "source_sha256": "45ce9bcb9947b36421a3ae9c31568628edfa064985eb6bd570882785937b3532"
+    },
+    {
+      "build_elapsed_ms": 1355.651,
+      "detected": true,
+      "exact_source_replacement": {
+        "from": "| charge > 0 && not (paidOptIn c) = deny \"paid-opt-in-required\"",
+        "to": "| charge > 0 && not (paidOptIn c) && False = deny \"paid-opt-in-required\""
+      },
+      "execute_elapsed_ms": 1.938,
+      "intended_failure_cases": [
+        "free-spill-denied",
+        "postpaid-unapproved"
+      ],
+      "language": "haskell",
+      "neighbor_pass": true,
+      "observed": {
+        "free-covered": {
+          "accepted": true,
+          "charge_cents": 0,
+          "reason": "admitted"
+        },
+        "free-spill-authorized": {
+          "accepted": true,
+          "charge_cents": 10,
+          "reason": "admitted"
+        },
+        "free-spill-denied": {
+          "accepted": true,
+          "charge_cents": 10,
+          "reason": "admitted"
+        },
+        "postpaid-authorized": {
+          "accepted": true,
+          "charge_cents": 40,
+          "reason": "admitted"
+        },
+        "postpaid-unapproved": {
+          "accepted": true,
+          "charge_cents": 40,
+          "reason": "admitted"
+        }
+      },
+      "observed_violation_cases": [
+        "free-spill-denied",
+        "postpaid-unapproved"
+      ],
+      "operator": "bypass-paid-guard",
+      "source_sha256": "5199ea6844066729d3e0cf16805ecd81f206d54d83035f19402583a297fa4231"
+    },
+    {
+      "build_elapsed_ms": 1446.816,
+      "detected": true,
+      "exact_source_replacement": {
+        "from": "| otherwise = outcome \"admitted\" charge",
+        "to": "| otherwise = outcome \"unverified\" 0"
+      },
+      "execute_elapsed_ms": 1.865,
+      "intended_failure_cases": [
+        "free-covered",
+        "free-spill-authorized",
+        "postpaid-authorized"
+      ],
+      "language": "haskell",
+      "neighbor_pass": true,
+      "observed": {
+        "free-covered": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "unverified"
+        },
+        "free-spill-authorized": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "unverified"
+        },
+        "free-spill-denied": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "paid-opt-in-required"
+        },
+        "postpaid-authorized": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "unverified"
+        },
+        "postpaid-unapproved": {
+          "accepted": false,
+          "charge_cents": 0,
+          "reason": "paid-opt-in-required"
+        }
+      },
+      "observed_violation_cases": [
+        "free-covered",
+        "free-spill-authorized",
+        "postpaid-authorized"
+      ],
+      "operator": "reject-valid",
+      "source_sha256": "a45f48e6bf24227e45057bd19a5ebfa69ad3502148cfc9bd8640732a826be8fc"
+    }
+  ],
+  "pilot": "EDASES-P1",
+  "qualification": "QUALIFIED_FOR_SELECTED_CONTROLS",
+  "schema_version": 1,
+  "source_sha256": {
+    "haskell": "3af4c8cde3c5059ccc39f95cf2be064a94779bc15586c881e78d9f39fd758343",
+    "rust": "06bc843abc6fbf85440f144e05b35398e000f7d4f515aa2fa5e018e2a91d1d1f"
+  },
+  "status": "PASS",
+  "total_pilot_elapsed_ms": 4412.474
+}
