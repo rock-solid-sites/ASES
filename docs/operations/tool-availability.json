@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "title": "ASES tool availability and connection inventory",
+  "purpose": "Fast orientation for future ASES conversations; not a credential store, entitlement authorization, provider catalog or proof of present access",
+  "as_of": "2026-11-01",
+  "canonical_repository": "rock-solid-sites/ASES",
+  "refresh_policy": {
+    "on_session_start": "Read this file, then probe task-relevant connector capabilities; do not assume connected tools persist into fresh chats",
+    "on_state_change": "Update verification status, evidence and checked_on; preserve prior evidence in version history",
+    "security": "No PATs, access keys, personal tokens, secrets, IP addresses or account balances in this registry",
+    "funding": "This registry does not authorize paid jobs; use provider funding and liability contracts"
+  },
+  "status_definitions": {
+    "verified_this_chat": "A named operation completed successfully during this conversation",
+    "configured_not_execution_verified": "Configuration exists but functionality was not exercised successfully",
+    "connector_listed_not_probed": "Tool namespace exposed in this conversation, no live request performed",
+    "user_confirmed_local_vps_unverified": "User confirms local capability; corresponding VPS capability unverified",
+    "user_reported_available": "User reports access but this conversation has no direct verification",
+    "prior_record_not_probed": "Older conversation evidence; availability not verified today"
+  },
+  "tools": [
+    {
+      "id": "github-chat-connector",
+      "name": "GitHub MCP",
+      "category": "source_control",
+      "surface": "ChatGPT connected tools",
+      "status": "verified_this_chat",
+      "capabilities": [
+        "read_repository_file",
+        "write_repository_file",
+        "create_branch",
+        "open_pull_request",
+        "inspect_commits_and_actions"
+      ],
+      "repository": "rock-solid-sites/ASES",
+      "evidence": {
+        "kind": "observed",
+        "detail": "Created ASES research branch, source commits, draft PR #3; GitHub Actions runtime not confirmed",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "connector use subject to user account; no spending authority inferred"
+    },
+    {
+      "id": "gitlab-chat-connector",
+      "name": "GitLab MCP",
+      "category": "source_control_ci",
+      "surface": "ChatGPT connected tools",
+      "status": "verified_this_chat",
+      "capabilities": [
+        "read_private_projects",
+        "write_repository_files",
+        "create_pipeline",
+        "list_jobs",
+        "read_job_traces"
+      ],
+      "repository": "rock-solid-sites-group/rock-solid-sites-project",
+      "evidence": {
+        "kind": "observed",
+        "detail": "Created CI configuration and successful pipeline 3015114434",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "GitLab subscription, trial and runner-minute entitlements must be checked separately"
+    },
+    {
+      "id": "gitlab-hosted-ci",
+      "name": "GitLab CI shared runner",
+      "category": "build_test",
+      "surface": "gitlab.com hosted runner",
+      "status": "verified_this_chat",
+      "capabilities": [
+        "run_linux_amd64_ci",
+        "compile_rust",
+        "compile_haskell",
+        "persist_job_artifacts"
+      ],
+      "repository": "rock-solid-sites-group/rock-solid-sites-project",
+      "evidence": {
+        "kind": "observed",
+        "detail": "Pipeline 3015114434 succeeded; runner shared small amd64, 90-day artifact retention in current job",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "free/trial minutes and expiry unknown; no assumption of unmetered use"
+    },
+    {
+      "id": "github-actions",
+      "name": "GitHub Actions",
+      "category": "build_test",
+      "surface": "github.com",
+      "status": "configured_not_execution_verified",
+      "capabilities": [
+        "CI_configuration_committed"
+      ],
+      "repository": "rock-solid-sites/ASES",
+      "evidence": {
+        "kind": "observed",
+        "detail": "Workflow .github/workflows/ases-language-eval.yml committed; no confirmed completed job observed here",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "plan-dependent included minutes and artifact retention"
+    },
+    {
+      "id": "github-codespaces",
+      "name": "GitHub Codespaces",
+      "category": "development",
+      "surface": "GitHub hosted",
+      "status": "user_reported_available",
+      "capabilities": [
+        "cloud_dev_environments"
+      ],
+      "evidence": {
+        "kind": "conversation",
+        "detail": "Discussed as cloud development option; quota and account access not checked now",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "free quota and metered beyond allowance"
+    },
+    {
+      "id": "codex-cloud",
+      "name": "Codex Cloud",
+      "category": "development",
+      "surface": "ChatGPT/Codex",
+      "status": "user_reported_available",
+      "capabilities": [
+        "cloud_coding_tasks"
+      ],
+      "evidence": {
+        "kind": "conversation",
+        "detail": "User reports access; this chat has not launched a task",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "plan entitlement and quotas unknown"
+    },
+    {
+      "id": "cloudflare-connector",
+      "name": "Cloudflare MCP",
+      "category": "deployment_cloud",
+      "surface": "ChatGPT connected tools",
+      "status": "connector_listed_not_probed",
+      "capabilities": [
+        "cloudflare_product_documentation_and_resources"
+      ],
+      "evidence": {
+        "kind": "tool_catalog",
+        "detail": "Cloudflare namespace is visible in this conversation",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "per-product limits; do not assume free usage"
+    },
+    {
+      "id": "atproto-reader",
+      "name": "ATProto Reader",
+      "category": "social_research",
+      "surface": "ChatGPT connected tools",
+      "status": "connector_listed_not_probed",
+      "capabilities": [
+        "public_ATProto_URLs_and_URIs"
+      ],
+      "evidence": {
+        "kind": "tool_catalog",
+        "detail": "AT_Proto_Reader namespace visible",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "not assessed"
+    },
+    {
+      "id": "codegraph",
+      "name": "cgrmcp current",
+      "category": "code_research",
+      "surface": "ChatGPT connected tools",
+      "status": "connector_listed_not_probed",
+      "capabilities": [
+        "commit_pinned_repository_code_exploration"
+      ],
+      "evidence": {
+        "kind": "tool_catalog",
+        "detail": "cgrmcp_current namespace visible",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "not assessed"
+    },
+    {
+      "id": "exa",
+      "name": "Exa",
+      "category": "research",
+      "surface": "ChatGPT connected tools",
+      "status": "connector_listed_not_probed",
+      "capabilities": [
+        "deep_search"
+      ],
+      "evidence": {
+        "kind": "tool_catalog",
+        "detail": "Exa namespace visible",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "not assessed"
+    },
+    {
+      "id": "firecrawl",
+      "name": "Firecrawl",
+      "category": "research",
+      "surface": "ChatGPT connected tools",
+      "status": "connector_listed_not_probed",
+      "capabilities": [
+        "web_research_and_extraction"
+      ],
+      "evidence": {
+        "kind": "tool_catalog",
+        "detail": "Firecrawl namespace visible",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "not assessed"
+    },
+    {
+      "id": "context7",
+      "name": "Context7",
+      "category": "developer_research",
+      "surface": "ChatGPT connected tools",
+      "status": "connector_listed_not_probed",
+      "capabilities": [
+        "live_library_documentation"
+      ],
+      "evidence": {
+        "kind": "tool_catalog",
+        "detail": "Context7 namespace visible",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "not assessed"
+    },
+    {
+      "id": "plugin-creator",
+      "name": "Plugin Creator",
+      "category": "developer_tooling",
+      "surface": "ChatGPT connected tools",
+      "status": "connector_listed_not_probed",
+      "capabilities": [
+        "manage_plugins"
+      ],
+      "evidence": {
+        "kind": "tool_catalog",
+        "detail": "Plugin_Creator namespace visible",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "not assessed"
+    },
+    {
+      "id": "modal",
+      "name": "Modal",
+      "category": "cloud_execution",
+      "surface": "Windows local CLI; VPS target",
+      "status": "user_confirmed_local_vps_unverified",
+      "capabilities": [
+        "local_cli_installed_and_authenticated_per_user"
+      ],
+      "evidence": {
+        "kind": "conversation",
+        "detail": "User reported Modal working locally, VPS and Codex setup not verified here",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "free allowance, billing and account policy require independent verification"
+    },
+    {
+      "id": "vps",
+      "name": "Development VPS",
+      "category": "execution",
+      "surface": "Ubuntu VPS",
+      "status": "prior_record_not_probed",
+      "capabilities": [
+        "development",
+        "ssh",
+        "remote_agents"
+      ],
+      "evidence": {
+        "kind": "conversation",
+        "detail": "Existing 8GB development VPS with resource pressure; direct connector shell access not verified in this turn",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "existing lease; marginal cost and expiry separately evaluated"
+    },
+    {
+      "id": "opencode",
+      "name": "OpenCode",
+      "category": "agent_tooling",
+      "surface": "VPS/CLI",
+      "status": "user_reported_available",
+      "capabilities": [
+        "multi_model_agent_execution"
+      ],
+      "evidence": {
+        "kind": "conversation",
+        "detail": "User operates OpenCode with model-provider subscriptions and PAYG sources",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "per-plan and per-provider"
+    },
+    {
+      "id": "mimo-deepseek-mistral",
+      "name": "MiMo, DeepSeek and Mistral inference",
+      "category": "inference",
+      "surface": "API or subscriptions",
+      "status": "user_reported_available",
+      "capabilities": [
+        "model_inference"
+      ],
+      "evidence": {
+        "kind": "conversation",
+        "detail": "User reports these providers/plans available in development stack",
+        "checked_on": "2026-11-01"
+      },
+      "cost": "distinct prepaid, postpaid and free allowance meters; verify before scheduling"
+    }
+  ],
+  "followups": [
+    "Confirm CI artifact retention outside GitLab beyond 90 days",
+    "Do not silently promote available inference accounts to schedulable funded products",
+    "Check GitHub Actions independently; GitLab CI verified execution",
+    "Record verified Modal VPS and cloud environment status when tested"
+  ]
+}
