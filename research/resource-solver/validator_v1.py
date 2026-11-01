@@ -1,12 +1,13 @@
 """Independent feasibility gate, prototype only; no solver dependency."""
-def validate(fixture,plan):
+def validate(fixture,plan,snapshot):
     errors=[]
     stages={s["id"]:s for s in fixture["stages"]}
     if len(stages)!=len(fixture["stages"]):errors.append("duplicate stage id")
-    jobs=plan.get("stages",{});envs=plan.get("environments",{})
+    jobs=plan.get("stages",{});envs=snapshot["environments"]
+    if plan.get("environments")!=envs:errors.append("candidate environment snapshot mismatch")
     if set(jobs)!=set(stages):errors.append("stage set mismatch")
     if plan.get("fixture_id")!=fixture.get("scenario"):errors.append("fixture identity mismatch")
-    if not plan.get("snapshot_id"):errors.append("missing snapshot identity")
+    if plan.get("snapshot_id")!=snapshot.get("id"):errors.append("snapshot identity mismatch")
     if type(plan.get("time_tick_seconds")) is not int or plan["time_tick_seconds"]<=0:errors.append("invalid time tick")
     for sid,s in stages.items():
         if sid not in jobs:continue
