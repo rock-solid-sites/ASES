@@ -3,29 +3,267 @@
   "purpose": "candidate inventory, not account entitlement evidence",
   "source": "Compare VPS Value and Remote Development Options conversations, October-November 2026",
   "providers": [
-    {"id":"hostkey","products":["vps"],"roles":["execution"]},
-    {"id":"github","products":["codespaces","actions"],"roles":["execution","automation"]},
-    {"id":"openai","products":["codex_cloud"],"roles":["managed_agent","inference"]},
-    {"id":"google","products":["jules","cloud_shell"],"roles":["managed_agent","execution"]},
-    {"id":"modal","products":["sandboxes"],"roles":["execution"]},
-    {"id":"e2b","products":["sandboxes"],"roles":["execution"]},
-    {"id":"daytona","products":["sandboxes"],"roles":["execution"]},
-    {"id":"vercel","products":["sandbox"],"roles":["execution"]},
-    {"id":"cloudflare","products":["sandbox","workers","pages","containers"],"roles":["execution","deployment"]},
-    {"id":"railway","products":["compute","sandbox"],"roles":["execution","deployment"]},
-    {"id":"clines","products":["cline_cloud"],"roles":["managed_agent"]},
-    {"id":"codesandbox","products":["devboxes"],"roles":["execution"]},
-    {"id":"replit","products":["workspace","agent"],"roles":["execution","managed_agent"]},
-    {"id":"gitlab","products":["workspaces","ci"],"roles":["execution","automation"]},
-    {"id":"cursor","products":["background_agents"],"roles":["managed_agent"]},
-    {"id":"devpod","products":["environment_provisioner"],"roles":["provisioning"]},
-    {"id":"coder","products":["workspace_provisioner"],"roles":["provisioning"]},
-    {"id":"bunnyshell","products":["environment_orchestration"],"roles":["provisioning"]},
-    {"id":"eclipse_che","products":["workspaces"],"roles":["provisioning"]},
-    {"id":"devbox","products":["environment_definition"],"roles":["provisioning"]},
-    {"id":"codeanywhere","products":["remote_workspace"],"roles":["historical_candidate"]},
-    {"id":"gitpod_ona","products":["remote_workspace"],"roles":["historical_candidate"]}
+    {
+      "id": "hostkey",
+      "products": [
+        "vps"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "github",
+      "products": [
+        "codespaces",
+        "actions"
+      ],
+      "roles": [
+        "execution",
+        "automation"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "openai",
+      "products": [
+        "codex_cloud"
+      ],
+      "roles": [
+        "managed_agent",
+        "inference"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "google",
+      "products": [
+        "jules",
+        "cloud_shell"
+      ],
+      "roles": [
+        "managed_agent",
+        "execution"
+      ],
+      "product_status": {
+        "jules": {
+          "state": "sunsetting",
+          "new_sessions_until": "2026-11-11",
+          "read_only_after": "2026-11-11",
+          "end_date": "2026-12-31",
+          "source": "https://jules.google/docs/changelog/2026-10-29"
+        },
+        "cloud_shell": {
+          "state": "unverified"
+        }
+      },
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "modal",
+      "products": [
+        "sandboxes"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "e2b",
+      "products": [
+        "sandboxes"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "daytona",
+      "products": [
+        "sandboxes"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "vercel",
+      "products": [
+        "sandbox"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "cloudflare",
+      "products": [
+        "sandbox",
+        "workers",
+        "pages",
+        "containers"
+      ],
+      "roles": [
+        "execution",
+        "deployment"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "railway",
+      "products": [
+        "compute",
+        "sandbox"
+      ],
+      "roles": [
+        "execution",
+        "deployment"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "clines",
+      "products": [
+        "cline_cloud"
+      ],
+      "roles": [
+        "managed_agent"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "codesandbox",
+      "products": [
+        "devboxes"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "replit",
+      "products": [
+        "workspace",
+        "agent"
+      ],
+      "roles": [
+        "execution",
+        "managed_agent"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "gitlab",
+      "products": [
+        "workspaces",
+        "ci"
+      ],
+      "roles": [
+        "execution",
+        "automation"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "cursor",
+      "products": [
+        "background_agents"
+      ],
+      "roles": [
+        "managed_agent"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "devpod",
+      "products": [
+        "environment_provisioner"
+      ],
+      "roles": [
+        "provisioning"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "coder",
+      "products": [
+        "workspace_provisioner"
+      ],
+      "roles": [
+        "provisioning"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "bunnyshell",
+      "products": [
+        "environment_orchestration"
+      ],
+      "roles": [
+        "provisioning"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "eclipse_che",
+      "products": [
+        "workspaces"
+      ],
+      "roles": [
+        "provisioning"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "devbox",
+      "products": [
+        "environment_definition"
+      ],
+      "roles": [
+        "provisioning"
+      ],
+      "status": "unverified_candidate"
+    },
+    {
+      "id": "codeanywhere",
+      "products": [
+        "remote_workspace"
+      ],
+      "roles": [
+        "historical_candidate"
+      ],
+      "status": "retired",
+      "retired_on": "2026-07-01",
+      "source": "https://www.codeanywhere.com/blog/codeanywhere-is-sunsetting"
+    },
+    {
+      "id": "gitpod_ona",
+      "products": [
+        "remote_workspace"
+      ],
+      "roles": [
+        "historical_candidate"
+      ],
+      "status": "retired",
+      "retired_on": "2026-10-31",
+      "source": "https://ona.com/stories/ona-core-shutdown",
+      "notes": "Gitpod Classic PAYG sunset 2025-10-15; Ona Cloud shut down 2026-10-31"
+    }
   ],
-  "additional_provider_classes": ["local_machine","self_hosted_vps","inference_api","subscription_model_allowance","observability_only","billing_only","storage_only"],
-  "notes": "Candidate list is not proof of present availability, pricing, or entitlement. Historical and potentially discontinued entries are not automatically active."
+  "additional_provider_classes": [
+    "local_machine",
+    "self_hosted_vps",
+    "inference_api",
+    "subscription_model_allowance",
+    "observability_only",
+    "billing_only",
+    "storage_only"
+  ],
+  "notes": "Candidate list is not proof of present availability, pricing, or entitlement. Historical and potentially discontinued entries are not automatically active. Availability statuses are product-specific; unverified candidates are never schedulable. Jules is winding down (not yet fully closed as of 2026-11-01)."
 }
