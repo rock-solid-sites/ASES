@@ -7,12 +7,12 @@ from allowance_admission_v2 import Bucket, Claim
 
 B=Bucket("rss","github","codespaces","2026-11","core-hours")
 def snapshot():
-    return {"horizon":5,"accounts":{"rss":{"credits":8,"reserve":0}},
+    return {"allowance_period":"2026-11","horizon":5,"accounts":{"rss":{"credits":8,"reserve":0}},
             "policy":{"p":["rss"]},
             "environments":{"cloud":{"account":"rss","cpu":4,"ram":8,"slots":1}},
             "tasks":[{"id":"job","project":"p","duration":2,"cpu":1,"ram":1,
                       "deadline":5,"modes":["cloud"],"deps":[],
-                      "mode_overrides":{"cloud":{"credits":3,"allowance":vars(B)}}}]}
+                      "mode_overrides":{"cloud":{"credits":3,"allowance":dict(vars(B))}}}]}
 PLAN={"job":{"env":"cloud","start":0}}
 class GateTests(unittest.TestCase):
     def setUp(self): self.g=AdmissionGate(snapshot(),{B:{"limit":8,"reserve":0}})
@@ -91,3 +91,13 @@ class GateTests(unittest.TestCase):
         g=AdmissionGate(s,{B:{"limit":8,"reserve":0}})
         self.assertFalse(g.admit("x",0,s,PLAN)[0])
 if __name__=="__main__":unittest.main()
+
+class PeriodIdentityTests(unittest.TestCase):
+    def test_wrong_period_not_charged(self):
+        s=snapshot();s["allowance_period"]="2026-12"
+        g=AdmissionGate(s,{B:{"limit":8,"reserve":0}})
+        self.assertFalse(g.admit("x",0,s,PLAN)[0])
+    def test_matching_period_admitted(self):
+        s=snapshot();s["allowance_period"]="2026-11"
+        g=AdmissionGate(s,{B:{"limit":8,"reserve":0}})
+        self.assertTrue(g.admit("x",0,s,PLAN)[0])
