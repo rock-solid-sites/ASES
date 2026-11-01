@@ -50,13 +50,20 @@ def main():
             expect=json.loads(f.read_text()).get('expect')
             if report['status'] in ('PROCESS_FAILED','PARSE_FAILED','ERROR','MODEL_INVALID'):
                 all_ok=False
-            if expect and 'makespan' in expect and report['status']=='OPTIMAL' and report.get('makespan')!=expect['makespan']:
-                all_ok=False;report['unexpectedMakespan']=expect['makespan']
-            if expect and expect['status']=='INFEASIBLE' and report['status']!='INFEASIBLE':
-                all_ok=False;report['unexpectedStatus']=expect['status']
+            if expect and report['status']!='SKIPPED_TOO_LARGE':
+                if report['status']!=expect['status']:
+                    all_ok=False;report['unexpectedStatus']=expect['status']
+                if 'makespan' in expect and report.get('makespan')!=expect['makespan']:
+                    all_ok=False;report['unexpectedMakespan']=expect['makespan']
             if expect and expect.get('resource') and report['status']=='OPTIMAL' and report['placements']['build']['resource']!=expect['resource']:
                 all_ok=False;report['unexpectedResource']=expect['resource']
             print(f'{name:27s} {tool:17s} {report["status"]:23s} ms={report.get("wallProcessMs","-")} rss={report.get("peakRssKb","-")} objective={report.get("makespan","-")}',flush=True)
+    # F10: exhaust a search node budget; UNKNOWN is not evidence of infeasibility.
+    probe=exe([sys.executable,'exact.py',str(ROOT/'fixtures'/'F01-priority-reordering.json'),'1'])
+    if probe['status']!='UNKNOWN':
+        all_ok=False;probe['unexpectedStatus']='UNKNOWN'
+    result['runs'].append({'fixture':'F10-search-budget','backend':'exact-budget1','result':probe})
+    print('F10-search-budget exact-budget1',probe['status'],flush=True)
     result['allPass']=all_ok
     (ROOT/'results.json').write_text(json.dumps(result,indent=2)+'\n')
     print('SUMMARY',json.dumps({'allPass':all_ok,'tests':len(result['runs']),'environment':result['environment']}))

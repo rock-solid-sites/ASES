@@ -31,7 +31,7 @@ Results are printed and written to `results.json` (GitHub Actions artifact), inc
 
 ## Acceptance and research scope
 
-F01–F06 and F08 are executable finite scheduling fixtures; F09 tests malformed-data rejection. F11 and F12 measure 12- and 30-stage instances with solver time limits. F07 and F10 are specified in the requirements research but *not* fully tested; unknown/time limit classification is partially exercised where solvers hit limits. F06 verifies machine-minute caps, not distinct real-world account quotas with resets.
+F01–F06 and F08 are executable finite scheduling fixtures; F09 tests malformed-data rejection. F11 and F12 measure 12- and 30-stage instances with solver time limits. F07 (pinned running/completed-stage replanning) remains untested. F10 now explicitly tests a deliberately exhausted exact-search node budget and requires an UNKNOWN result rather than misreporting INFEASIBLE. These are not comprehensive solver-timeout tests. F06 verifies machine-minute caps, not distinct real-world account quotas with resets.
 
 Critical research question: does a serious solver correct the known F01 52-minute result to the proven 32-minute optimum, while keeping resource and identity eligibility sound and providing low enough on-demand memory/process overhead?
 
