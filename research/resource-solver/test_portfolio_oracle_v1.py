@@ -37,7 +37,7 @@ class OracleTests(unittest.TestCase):
         self.reject(self.data, {"ases-bench": {"env": "mbd-cloud", "start": 0}}, "unauthorized")
 
     def test_shared_account_double_spend(self):
-        self.data["accounts"]["rss"]["credits"] = 5
+        self.data["accounts"]["rss"]["credits"] = 4
         self.data["accounts"]["rss"]["reserve"] = 3
         self.reject(self.data, self.good, "protected credits")
 
