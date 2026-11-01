@@ -19,9 +19,15 @@ This is **an admission decision only**; it deliberately does not solve atomic co
 cargo build --manifest-path research/language-eval/rust/Cargo.toml
 ghc -O0 -package aeson -odir /tmp/ases-ghc -hidir /tmp/ases-ghc -o /tmp/ases-admit-hs research/language-eval/haskell/Main.hs
 python3 research/language-eval/compare.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell /tmp/ases-admit-hs
+python3 research/language-eval/wire_cases.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell /tmp/ases-admit-hs
+python3 research/language-eval/bench_repeats.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell /tmp/ases-admit-hs
 ```
 
 The harness checks a 24-case oracle, 1,000 deterministic generated cases, a separate Python oracle, a no-unauthorized-charge safety property, repeated deterministic output, and Rust/Haskell differential equivalence. The reference Python oracle is independent test code, **not production approval**.
+
+## Observed results
+
+The [2026-11-01 evidence report](RESULTS-2026-11-01.md) documents the first CI red-green correctness discoveries and independently executed GitLab development/optimized build and wire-format tests. The benchmark records cold and no-change warm compilation separately; no changed-source incremental compiler comparisons have been executed.
 
 ## CI and evidence
 
