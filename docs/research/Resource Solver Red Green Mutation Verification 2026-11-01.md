@@ -35,3 +35,33 @@ The v2 admission source and test suite were local files at the time of this audi
 ## Policy status
 
 **Provisional project-level procedure**, pending wider ASES methodology review. This is a research quality gate, not proof of production readiness. Synthetic quotas and single-process locks cannot establish provider billing or distributed atomicity.
+
+
+## Backwards audit execution — initial pass
+
+Executed the previously available local suites without changes:
+
+| Component | Existing green tests |
+| --- | ---: |
+| Allowance admission v2 (uncommitted local prototype) | 19 |
+| Allowance ledger v1 | 16 |
+| Portfolio planner v2 | 10 |
+| Portfolio harness v0 + independent oracle and stress tests | 36 |
+
+**Total: 81 passing test methods** across four separately executed local suites; this is not a single clean-checkout CI run.
+
+The admission-v2 retrospective mutations killed **6/6** correctly targeted defects. The backwards mutation audit then killed **7/7** correctly targeted defects:
+
+| Component | Mutation detected by |
+| --- | --- |
+| Allowance ledger v1 | `test_no_cross_bucket_substitution` (budget bypass) |
+| Allowance ledger v1 | `test_stale_version` (version bypass) |
+| Portfolio planner v2 | `test_dependency_cycle` (cycle detection disabled) |
+| Portfolio planner v2 | `test_invalid_width` (invalid width accepted) |
+| Independent oracle v1 | `test_capacity_collision` (all resource collision checks bypassed) |
+| Independent oracle v1 | `test_duplicate_task_id` (duplicate task IDs accepted) |
+| Portfolio harness v0 | `test_greedy_valid` (candidate validation bypassed, leading to a failing test) |
+
+Two initial mutation attempts did not cause a failure because they targeted the wrong guard or only a subset of a compound guard; the audit corrected those mutations before recording the above 7/7. The original green tests were rerun successfully in their local directories. **These are retrospective mutation kills, not contemporaneous RED-before-fix proof.**
+
+This is **13 targeted mutation kills across admission v2 and earlier layers**, not a comprehensive mutation score. There are still many untested branches and properties; do not infer full coverage or production safety. In particular, generated DAG execution, multi-process concurrency, policy-revision CAS, provider reconciliation, snapshot freshness and full end-to-end admission remain open.
