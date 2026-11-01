@@ -4,6 +4,7 @@ Run: python3 research/resource-solver/portfolio_harness_v0.py
 import itertools
 import json
 from collections import defaultdict
+from portfolio_oracle_v1 import validate as independent_validate
 
 def fixture():
     return {
@@ -78,7 +79,7 @@ def candidates(data, task, plan):
     for eid in task["modes"]:
         for start in range(data["horizon"] - task["duration"] + 1):
             proposal = {**plan, task["id"]: {"env": eid, "start": start}}
-            if not validate(data, proposal):
+            if not validate(data, proposal) and not independent_validate(data, proposal):
                 yield proposal
 
 def greedy(data):
@@ -122,7 +123,7 @@ def run():
     data = fixture()
     results = {}
     for name, plan in (("greedy", greedy(data)), ("beam100", beam(data))):
-        errors = validate(data, plan)
+        errors = validate(data, plan) + independent_validate(data, plan)
         if errors:
             raise AssertionError((name, errors))
         results[name] = {"metrics": score(data, plan), "plan": plan}
