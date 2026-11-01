@@ -66,16 +66,32 @@ def verify(root, manifest):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--root", required=True)
-    p.add_argument("--source", required=True)
-    p.add_argument("--plan", required=True)
+    p.add_argument("--source")
+    p.add_argument("--plan")
+    p.add_argument("--verify-only", action="store_true",
+                   help="Recheck the persisted manifest after all other writes")
     args = p.parse_args()
     root = Path(args.root)
     root.mkdir(parents=True, exist_ok=True)
+    path = root / "evidence-manifest.json"
+    if args.verify_only:
+        if not path.is_file():
+            raise SystemExit("EVIDENCE_RETENTION_ERROR: manifest not found")
+        manifest = json.loads(path.read_text())
+        status = verify(root, manifest)
+        print(json.dumps({"post_execution_integrity": status["execution_integrity"],
+                          "problems": status["failures"],
+                          "independent_external_archive": "NOT_VERIFIED"},
+                         sort_keys=True))
+        if status["execution_integrity"] != "COMPLETE_LOCALLY":
+            raise SystemExit(2)
+        return
+    if not args.source or not args.plan:
+        raise SystemExit("ERROR: --source and --plan required when creating index")
     plan = Path(args.plan)
     if not plan.is_file():
         raise SystemExit("ERROR: frozen plan missing")
     manifest = build(root, args.source, sha256(plan.read_bytes()))
-    path = root / "evidence-manifest.json"
     path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     status = verify(root, manifest)
     status_path = root / "evidence-integrity.json"
