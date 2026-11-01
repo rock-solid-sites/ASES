@@ -18,12 +18,13 @@ Production data can only be assigned to resources that explicitly declare produc
 
 ## Quick test (no provider accounts required)
 
-Requires Node.js 22+ and TypeScript 5.8+ to build. From this directory:
+Requires Node.js 22+ and npm. From this directory (one pinned TypeScript development dependency):
 
-
-tsc --project tsconfig.json
-node --test test/*.test.mjs
+```sh
+npm install --ignore-scripts --no-audit --no-fund
+npm test
 node cli.mjs fixtures/example-ases.json
+```
 
 Run the tests before using the sample CLI. The CLI reads a local JSON fixture and returns a planning proposal; it never launches a process on any remote host.
 

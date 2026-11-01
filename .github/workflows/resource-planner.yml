@@ -1,0 +1,23 @@
+name: Resource planner prototype
+on:
+  pull_request:
+    paths:
+      - 'tools/resource-planner/**'
+      - '.github/workflows/resource-planner.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned development compiler
+        working-directory: tools/resource-planner
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Type check and execute regression tests
+        working-directory: tools/resource-planner
+        run: npm test
