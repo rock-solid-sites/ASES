@@ -55,3 +55,18 @@ The source and tests were reproduced and executed in a local container. **A clea
 ## Next verification gates
 
 Prioritize durable transactional state and a reservation/settlement state machine; test restart and multiple-process races using a disposable SQLite WAL store. Add mode-to-period timestamp validation, fail-closed nested schema preflight, and frozen-work policies. Preserve test-first failure evidence and require mutation kills for critical guards. Continue exact-reference comparisons on progressively larger small instances before relying on heuristic quality.
+
+## Final local regression sweep
+
+Five separately executed local test suites completed without failures:
+
+| Suite | Test methods |
+| --- | ---: |
+| Snapshot gate and exact-reference | 23 |
+| Mode-aware planner v2 | 10 |
+| Original harness, independent oracle, stress and preflight | 36 |
+| Discrete allowance ledger v1 | 16 |
+| Allowance admission and settlement v2 | 19 |
+| **Total** | **104** |
+
+All **104 test methods passed** locally. The exact-reference test internally evaluates 100 heuristic results over 50 independent seeded tiny instances; do not count those as 100 additional unittest methods. This is not a clean-checkout GitHub CI run, and the suite files were executed from multiple local working directories.
