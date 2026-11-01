@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "name": "F04-downstream-transfer",
+  "domain": "ases",
+  "resources": [
+    {
+      "id": "r1",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 32,
+      "quotaMinutes": 500,
+      "availability": "verified"
+    },
+    {
+      "id": "r2",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 500,
+      "availability": "verified"
+    }
+  ],
+  "stages": [
+    {
+      "id": "prep",
+      "after": [],
+      "modes": [
+        {
+          "resource": "r1",
+          "duration": 3,
+          "costCents": 0
+        },
+        {
+          "resource": "r2",
+          "duration": 1,
+          "costCents": 0
+        }
+      ]
+    },
+    {
+      "id": "heavy",
+      "after": [
+        "prep"
+      ],
+      "modes": [
+        {
+          "resource": "r1",
+          "duration": 10,
+          "costCents": 0
+        }
+      ],
+      "minRamGiB": 32,
+      "transferMinutesIfMoved": 20
+    }
+  ],
+  "budgetCents": 100000,
+  "expect": {
+    "status": "OPTIMAL",
+    "makespan": 13
+  }
+}

@@ -1,0 +1,52 @@
+name: ASES solver research - synthetic fixtures
+on:
+  push:
+    branches:
+      - feature/paseo-resource-planner-identity-scopes
+    paths:
+      - 'tools/resource-planner-research/**'
+      - '.github/workflows/resource-planner-research.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned OR-Tools research dependency
+        run: python -m pip install --no-cache-dir ortools==9.14.6206
+      - name: Install isolated MiniZinc binary bundle
+        shell: bash
+        run: |
+          curl -fL --retry 3 -o "$RUNNER_TEMP/minizinc.tgz" "https://github.com/MiniZinc/MiniZincIDE/releases/download/2.10.0/MiniZincIDE-2.10.0-bundle-linux-x86_64.tgz"
+          tar -xf "$RUNNER_TEMP/minizinc.tgz" -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/MiniZincIDE-2.10.0-bundle-linux-x86_64/bin" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$RUNNER_TEMP/MiniZincIDE-2.10.0-bundle-linux-x86_64/lib" >> "$GITHUB_ENV"
+      - name: Check installed solver capabilities
+        run: |
+          minizinc --version
+          minizinc --solvers
+          minizinc --solvers | grep -i gecode
+          minizinc --solvers | grep -i chuffed
+      - name: Execute identical synthetic comparison fixtures
+        working-directory: tools/resource-planner-research
+        shell: bash
+        run: |
+          python3 make_fixtures.py
+          set -o pipefail
+          python3 research_run.py | tee results.log
+      - name: Preserve machine-specific results for review
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ases-solver-synthetic-comparison
+          path: |
+            tools/resource-planner-research/results.json
+            tools/resource-planner-research/results.log
+          if-no-files-found: warn
+          retention-days: 14

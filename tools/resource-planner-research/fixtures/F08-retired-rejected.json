@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "F08-retired-rejected",
+  "domain": "ases",
+  "resources": [
+    {
+      "id": "retired",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 500,
+      "availability": "retired"
+    }
+  ],
+  "stages": [
+    {
+      "id": "only",
+      "after": [],
+      "modes": [
+        {
+          "resource": "retired",
+          "duration": 3,
+          "costCents": 0
+        }
+      ]
+    }
+  ],
+  "budgetCents": 100000,
+  "expect": {
+    "status": "INFEASIBLE"
+  }
+}

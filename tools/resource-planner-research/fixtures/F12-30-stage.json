@@ -1,0 +1,657 @@
+{
+  "version": 1,
+  "name": "F12-30-stage",
+  "domain": "ases",
+  "resources": [
+    {
+      "id": "machine0",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 16,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine1",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine2",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine3",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine4",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 16,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine5",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine6",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine7",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine8",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 16,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    },
+    {
+      "id": "machine9",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 1000,
+      "availability": "verified"
+    }
+  ],
+  "stages": [
+    {
+      "id": "t0",
+      "after": [],
+      "modes": [
+        {
+          "resource": "machine0",
+          "duration": 8,
+          "costCents": 0
+        },
+        {
+          "resource": "machine2",
+          "duration": 9,
+          "costCents": 3
+        }
+      ],
+      "transferMinutesIfMoved": 2
+    },
+    {
+      "id": "t1",
+      "after": [],
+      "modes": [
+        {
+          "resource": "machine1",
+          "duration": 8,
+          "costCents": 0
+        },
+        {
+          "resource": "machine3",
+          "duration": 9,
+          "costCents": 7
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t2",
+      "after": [],
+      "modes": [
+        {
+          "resource": "machine2",
+          "duration": 8,
+          "costCents": 0
+        },
+        {
+          "resource": "machine4",
+          "duration": 5,
+          "costCents": 8
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t3",
+      "after": [
+        "t0"
+      ],
+      "modes": [
+        {
+          "resource": "machine3",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "machine5",
+          "duration": 9,
+          "costCents": 1
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t4",
+      "after": [
+        "t1"
+      ],
+      "modes": [
+        {
+          "resource": "machine4",
+          "duration": 3,
+          "costCents": 0
+        },
+        {
+          "resource": "machine6",
+          "duration": 4,
+          "costCents": 0
+        }
+      ],
+      "transferMinutesIfMoved": 2
+    },
+    {
+      "id": "t5",
+      "after": [
+        "t2"
+      ],
+      "modes": [
+        {
+          "resource": "machine5",
+          "duration": 4,
+          "costCents": 0
+        },
+        {
+          "resource": "machine7",
+          "duration": 10,
+          "costCents": 4
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t6",
+      "after": [
+        "t3"
+      ],
+      "modes": [
+        {
+          "resource": "machine6",
+          "duration": 5,
+          "costCents": 0
+        },
+        {
+          "resource": "machine8",
+          "duration": 9,
+          "costCents": 3
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t7",
+      "after": [
+        "t4"
+      ],
+      "modes": [
+        {
+          "resource": "machine7",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "machine9",
+          "duration": 3,
+          "costCents": 6
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t8",
+      "after": [
+        "t5"
+      ],
+      "modes": [
+        {
+          "resource": "machine8",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "machine0",
+          "duration": 3,
+          "costCents": 8
+        }
+      ],
+      "transferMinutesIfMoved": 2
+    },
+    {
+      "id": "t9",
+      "after": [
+        "t6"
+      ],
+      "modes": [
+        {
+          "resource": "machine9",
+          "duration": 2,
+          "costCents": 0
+        },
+        {
+          "resource": "machine1",
+          "duration": 9,
+          "costCents": 5
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t10",
+      "after": [
+        "t7",
+        "t5"
+      ],
+      "modes": [
+        {
+          "resource": "machine0",
+          "duration": 3,
+          "costCents": 0
+        },
+        {
+          "resource": "machine2",
+          "duration": 11,
+          "costCents": 7
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t11",
+      "after": [
+        "t8"
+      ],
+      "modes": [
+        {
+          "resource": "machine1",
+          "duration": 7,
+          "costCents": 0
+        },
+        {
+          "resource": "machine3",
+          "duration": 8,
+          "costCents": 3
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t12",
+      "after": [
+        "t9"
+      ],
+      "modes": [
+        {
+          "resource": "machine2",
+          "duration": 2,
+          "costCents": 0
+        },
+        {
+          "resource": "machine4",
+          "duration": 9,
+          "costCents": 3
+        }
+      ],
+      "transferMinutesIfMoved": 2
+    },
+    {
+      "id": "t13",
+      "after": [
+        "t10"
+      ],
+      "modes": [
+        {
+          "resource": "machine3",
+          "duration": 5,
+          "costCents": 0
+        },
+        {
+          "resource": "machine5",
+          "duration": 7,
+          "costCents": 1
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t14",
+      "after": [
+        "t11"
+      ],
+      "modes": [
+        {
+          "resource": "machine4",
+          "duration": 4,
+          "costCents": 0
+        },
+        {
+          "resource": "machine6",
+          "duration": 4,
+          "costCents": 0
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t15",
+      "after": [
+        "t12",
+        "t10"
+      ],
+      "modes": [
+        {
+          "resource": "machine5",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "machine7",
+          "duration": 6,
+          "costCents": 2
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t16",
+      "after": [
+        "t13"
+      ],
+      "modes": [
+        {
+          "resource": "machine6",
+          "duration": 2,
+          "costCents": 0
+        },
+        {
+          "resource": "machine8",
+          "duration": 9,
+          "costCents": 1
+        }
+      ],
+      "transferMinutesIfMoved": 2
+    },
+    {
+      "id": "t17",
+      "after": [
+        "t14"
+      ],
+      "modes": [
+        {
+          "resource": "machine7",
+          "duration": 3,
+          "costCents": 0
+        },
+        {
+          "resource": "machine9",
+          "duration": 6,
+          "costCents": 1
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t18",
+      "after": [
+        "t15"
+      ],
+      "modes": [
+        {
+          "resource": "machine8",
+          "duration": 5,
+          "costCents": 0
+        },
+        {
+          "resource": "machine0",
+          "duration": 11,
+          "costCents": 3
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t19",
+      "after": [
+        "t16"
+      ],
+      "modes": [
+        {
+          "resource": "machine9",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "machine1",
+          "duration": 9,
+          "costCents": 7
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t20",
+      "after": [
+        "t17",
+        "t15"
+      ],
+      "modes": [
+        {
+          "resource": "machine0",
+          "duration": 2,
+          "costCents": 0
+        },
+        {
+          "resource": "machine2",
+          "duration": 4,
+          "costCents": 0
+        }
+      ],
+      "transferMinutesIfMoved": 2
+    },
+    {
+      "id": "t21",
+      "after": [
+        "t18"
+      ],
+      "modes": [
+        {
+          "resource": "machine1",
+          "duration": 7,
+          "costCents": 0
+        },
+        {
+          "resource": "machine3",
+          "duration": 3,
+          "costCents": 0
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t22",
+      "after": [
+        "t19"
+      ],
+      "modes": [
+        {
+          "resource": "machine2",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "machine4",
+          "duration": 10,
+          "costCents": 4
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t23",
+      "after": [
+        "t20"
+      ],
+      "modes": [
+        {
+          "resource": "machine3",
+          "duration": 3,
+          "costCents": 0
+        },
+        {
+          "resource": "machine5",
+          "duration": 10,
+          "costCents": 7
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t24",
+      "after": [
+        "t21"
+      ],
+      "modes": [
+        {
+          "resource": "machine4",
+          "duration": 4,
+          "costCents": 0
+        },
+        {
+          "resource": "machine6",
+          "duration": 10,
+          "costCents": 4
+        }
+      ],
+      "transferMinutesIfMoved": 2
+    },
+    {
+      "id": "t25",
+      "after": [
+        "t22",
+        "t20"
+      ],
+      "modes": [
+        {
+          "resource": "machine5",
+          "duration": 2,
+          "costCents": 0
+        },
+        {
+          "resource": "machine7",
+          "duration": 7,
+          "costCents": 2
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t26",
+      "after": [
+        "t23"
+      ],
+      "modes": [
+        {
+          "resource": "machine6",
+          "duration": 5,
+          "costCents": 0
+        },
+        {
+          "resource": "machine8",
+          "duration": 10,
+          "costCents": 8
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t27",
+      "after": [
+        "t24"
+      ],
+      "modes": [
+        {
+          "resource": "machine7",
+          "duration": 5,
+          "costCents": 0
+        },
+        {
+          "resource": "machine9",
+          "duration": 9,
+          "costCents": 2
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    },
+    {
+      "id": "t28",
+      "after": [
+        "t25"
+      ],
+      "modes": [
+        {
+          "resource": "machine8",
+          "duration": 8,
+          "costCents": 0
+        },
+        {
+          "resource": "machine0",
+          "duration": 10,
+          "costCents": 8
+        }
+      ],
+      "transferMinutesIfMoved": 2
+    },
+    {
+      "id": "t29",
+      "after": [
+        "t26"
+      ],
+      "modes": [
+        {
+          "resource": "machine9",
+          "duration": 7,
+          "costCents": 0
+        },
+        {
+          "resource": "machine1",
+          "duration": 6,
+          "costCents": 7
+        }
+      ],
+      "transferMinutesIfMoved": 0
+    }
+  ],
+  "budgetCents": 100000
+}

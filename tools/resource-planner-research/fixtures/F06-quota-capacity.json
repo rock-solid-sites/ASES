@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "name": "F06-quota-capacity",
+  "domain": "ases",
+  "resources": [
+    {
+      "id": "r1",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 8,
+      "availability": "verified"
+    },
+    {
+      "id": "r2",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 8,
+      "availability": "verified"
+    }
+  ],
+  "stages": [
+    {
+      "id": "a",
+      "after": [],
+      "modes": [
+        {
+          "resource": "r1",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "r2",
+          "duration": 7,
+          "costCents": 0
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "after": [],
+      "modes": [
+        {
+          "resource": "r1",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "r2",
+          "duration": 7,
+          "costCents": 0
+        }
+      ]
+    }
+  ],
+  "budgetCents": 100000,
+  "expect": {
+    "status": "OPTIMAL",
+    "makespan": 7
+  }
+}

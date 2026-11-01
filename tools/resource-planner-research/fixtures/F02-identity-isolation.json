@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "name": "F02-identity-isolation",
+  "domain": "ases",
+  "resources": [
+    {
+      "id": "ases-host",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 500,
+      "availability": "verified"
+    },
+    {
+      "id": "hms-host",
+      "account": "synthetic:hms",
+      "domain": "hms",
+      "ramGiB": 8,
+      "quotaMinutes": 500,
+      "availability": "verified"
+    }
+  ],
+  "stages": [
+    {
+      "id": "build",
+      "after": [],
+      "modes": [
+        {
+          "resource": "hms-host",
+          "duration": 1,
+          "costCents": 0
+        },
+        {
+          "resource": "ases-host",
+          "duration": 7,
+          "costCents": 0
+        }
+      ]
+    }
+  ],
+  "budgetCents": 100000,
+  "expect": {
+    "status": "OPTIMAL",
+    "makespan": 7,
+    "resource": "ases-host"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "name": "F05-co-location",
+  "domain": "ases",
+  "resources": [
+    {
+      "id": "warm-r1",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 500,
+      "availability": "verified"
+    },
+    {
+      "id": "cold-r2",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 500,
+      "availability": "verified"
+    }
+  ],
+  "stages": [
+    {
+      "id": "setup",
+      "after": [],
+      "modes": [
+        {
+          "resource": "warm-r1",
+          "duration": 6,
+          "costCents": 0
+        },
+        {
+          "resource": "cold-r2",
+          "duration": 2,
+          "costCents": 0
+        }
+      ]
+    },
+    {
+      "id": "test",
+      "after": [
+        "setup"
+      ],
+      "modes": [
+        {
+          "resource": "warm-r1",
+          "duration": 5,
+          "costCents": 0
+        }
+      ],
+      "transferMinutesIfMoved": 15
+    }
+  ],
+  "budgetCents": 100000,
+  "expect": {
+    "status": "OPTIMAL",
+    "makespan": 11
+  }
+}

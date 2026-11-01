@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "name": "F01-priority-reordering",
+  "domain": "ases",
+  "resources": [
+    {
+      "id": "r1",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 500,
+      "availability": "verified"
+    },
+    {
+      "id": "r2",
+      "account": "synthetic:ases",
+      "domain": "ases",
+      "ramGiB": 8,
+      "quotaMinutes": 500,
+      "availability": "verified"
+    }
+  ],
+  "stages": [
+    {
+      "id": "A",
+      "after": [],
+      "modes": [
+        {
+          "resource": "r1",
+          "duration": 30,
+          "costCents": 0
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "after": [],
+      "modes": [
+        {
+          "resource": "r1",
+          "duration": 2,
+          "costCents": 0
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "after": [
+        "B"
+      ],
+      "modes": [
+        {
+          "resource": "r2",
+          "duration": 20,
+          "costCents": 0
+        }
+      ]
+    }
+  ],
+  "budgetCents": 100000,
+  "expect": {
+    "status": "OPTIMAL",
+    "makespan": 32
+  }
+}
