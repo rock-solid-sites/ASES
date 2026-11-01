@@ -1,0 +1,255 @@
+{
+  "schema_version": "0.1",
+  "project": "tripn-beds24",
+  "scenario": "document_derived_v0",
+  "historical_execution_claim": false,
+  "sources": [
+    {
+      "ref": "site-readme",
+      "url": "https://github.com/rock-solid-sites/tripn-sites/blob/main/README.md",
+      "kind": "repository_document"
+    },
+    {
+      "ref": "plugin-plan",
+      "url": "https://github.com/rock-solid-sites/beds24-booking-plugin/blob/main/docs/v1-plan.md",
+      "kind": "repository_document"
+    },
+    {
+      "ref": "booking-handoff",
+      "url": "https://github.com/rock-solid-sites/HMS/blob/main/research/beds24/session-handoff-2026-10-26.md",
+      "kind": "session_handoff"
+    },
+    {
+      "ref": "astro-fix",
+      "url": "https://github.com/TripN-Chill-Zone/tripn-astro/commit/974d8224ac5376720793d9ead57b08b061573312",
+      "kind": "commit"
+    },
+    {
+      "ref": "deploy-run",
+      "url": "https://github.com/TripN-Chill-Zone/tripn-astro/actions/runs/40273650126",
+      "kind": "workflow_run"
+    }
+  ],
+  "note": "Stage order is a reconstructed planning dependency model, NOT observed wall-clock chronology. Null durations and resource demands are intentional.",
+  "stages": [
+    {
+      "id": "design_handoff",
+      "dependencies": [],
+      "source_ref": "site-readme",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "styling_contract",
+      "dependencies": [],
+      "source_ref": "site-readme",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "site_seaside",
+      "dependencies": [
+        "design_handoff",
+        "styling_contract"
+      ],
+      "source_ref": "site-readme",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "site_chill_zone",
+      "dependencies": [
+        "design_handoff",
+        "styling_contract"
+      ],
+      "source_ref": "site-readme",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "site_pink_bubble",
+      "dependencies": [
+        "design_handoff",
+        "styling_contract"
+      ],
+      "source_ref": "site-readme",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "site_tripn_hostel",
+      "dependencies": [
+        "design_handoff",
+        "styling_contract"
+      ],
+      "source_ref": "site-readme",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "site_landing",
+      "dependencies": [
+        "design_handoff"
+      ],
+      "source_ref": "site-readme",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded",
+      "notes": "Five-site scope supplied by operator; design README specifically details four property folders"
+    },
+    {
+      "id": "plugin_search",
+      "dependencies": [
+        "styling_contract"
+      ],
+      "source_ref": "plugin-plan",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "plugin_results",
+      "dependencies": [
+        "plugin_search"
+      ],
+      "source_ref": "plugin-plan",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "plugin_cart",
+      "dependencies": [
+        "plugin_results"
+      ],
+      "source_ref": "plugin-plan",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "plugin_confirm_handoff",
+      "dependencies": [
+        "plugin_cart"
+      ],
+      "source_ref": "plugin-plan",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "plugin_iframe",
+      "dependencies": [
+        "plugin_confirm_handoff"
+      ],
+      "source_ref": "plugin-plan",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "plugin_settings",
+      "dependencies": [
+        "plugin_search"
+      ],
+      "source_ref": "plugin-plan",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "booking_integration_test",
+      "dependencies": [
+        "site_chill_zone",
+        "plugin_iframe",
+        "plugin_settings"
+      ],
+      "source_ref": "booking-handoff",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "credit_card_offer_configuration",
+      "dependencies": [
+        "booking_integration_test"
+      ],
+      "source_ref": "booking-handoff",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "booking_heading_fix",
+      "dependencies": [
+        "booking_integration_test"
+      ],
+      "source_ref": "astro-fix",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "production_ci_deploy",
+      "dependencies": [
+        "booking_heading_fix"
+      ],
+      "source_ref": "deploy-run",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "not_encoded"
+    },
+    {
+      "id": "postdeploy_visual_smoke",
+      "dependencies": [
+        "production_ci_deploy"
+      ],
+      "source_ref": "booking-handoff",
+      "evidence_tier": "D",
+      "duration_minutes": null,
+      "cpu_cores": null,
+      "peak_ram_gib": null,
+      "execution_status": "unverified"
+    }
+  ]
+}
