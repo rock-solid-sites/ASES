@@ -15,10 +15,12 @@ from collections import Counter
 from pathlib import Path
 
 from pilot_p1 import FROZEN
-from compare import make_generated, oracle
+import sys
 
 BASE = Path(__file__).resolve().parent.parent
 LANG = BASE / "language-eval"
+sys.path.insert(0, str(LANG))
+from compare import make_generated, oracle
 PLAN = BASE / "testing-assurance-pilot/P3-PREREGISTERED-PLAN-2026-11-01.md"
 MAX_DIFF_PREVIEW = 8
 
