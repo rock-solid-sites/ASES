@@ -8,8 +8,8 @@ authority: Experimental
 canonical_repository: edases
 depends_on:
   - docs/research/Resource Planner Requirements and Behavioral Model 2026-11-01.md
-  - docs/methodology/Implementation Realization and Assurance Selection Method.md
 related_documents:
+  - docs/methodology/Implementation Realization and Assurance Selection Method.md
   - docs/research/Resource Planner Realization Selection Gate 2026-11-01.md
   - docs/research/Paseo Cloud Execution Environment Registry 2026-10-31.md
   - docs/research/Paseo Conversation-First Integration Roadmap 2026-10-31.md
