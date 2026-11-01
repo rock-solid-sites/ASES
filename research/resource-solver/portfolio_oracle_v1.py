@@ -25,6 +25,35 @@ def validate(snapshot, placements):
             tasks[task["id"]] = task
         if errors:
             return sorted(set(errors))
+        # Validate the entire authoritative snapshot, including unused resources.
+        for owner, account in accounts.items():
+            if not isinstance(owner, str) or not isinstance(account, dict):
+                errors.append("invalid account")
+                continue
+            credits, reserve = account.get("credits"), account.get("reserve", 0)
+            period = account.get("period", horizon)
+            if any(type(x) is not int for x in (credits, reserve, period)) or credits < 0 or reserve < 0 or reserve > credits or period <= 0:
+                errors.append(owner + ": invalid account budget")
+        for eid, env in envs.items():
+            if not isinstance(eid, str) or not isinstance(env, dict):
+                errors.append("invalid environment")
+                continue
+            if any(type(env.get(k)) is not int or env[k] <= 0 for k in ("cpu", "ram", "slots")):
+                errors.append(eid + ": invalid environment capacity")
+            if env.get("account") is not None and env["account"] not in accounts:
+                errors.append(eid + ": unknown account owner")
+        for tid, task in tasks.items():
+            if (not isinstance(task.get("project"), str) or
+                type(task.get("duration")) is not int or task["duration"] <= 0 or
+                any(type(task.get(k)) is not int or task[k] < 0 for k in ("cpu", "ram")) or
+                type(task.get("deadline")) is not int or
+                not isinstance(task.get("modes"), list) or not task["modes"] or
+                any(eid not in envs for eid in task["modes"]) or
+                not isinstance(task.get("deps"), list) or
+                any(dep not in tasks or dep == tid for dep in task["deps"])):
+                errors.append(tid + ": invalid task definition")
+        if errors:
+            return sorted(set(errors))
         usage = defaultdict(int)
         timelines = defaultdict(list)
         for tid, placement in placements.items():
