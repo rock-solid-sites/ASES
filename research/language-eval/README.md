@@ -21,6 +21,7 @@ ghc -O0 -package aeson -odir /tmp/ases-ghc -hidir /tmp/ases-ghc -o /tmp/ases-adm
 python3 research/language-eval/compare.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell /tmp/ases-admit-hs
 python3 research/language-eval/wire_cases.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell /tmp/ases-admit-hs
 python3 research/language-eval/bench_repeats.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell /tmp/ases-admit-hs
+python3 research/language-eval/bench_kernel.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell /tmp/ases-admit-hs --passes 240 --iterations 7
 ```
 
 The harness checks a 24-case oracle, 1,000 deterministic generated cases, a separate Python oracle, a no-unauthorized-charge safety property, repeated deterministic output, and Rust/Haskell differential equivalence. The reference Python oracle is independent test code, **not production approval**.
@@ -28,6 +29,16 @@ The harness checks a 24-case oracle, 1,000 deterministic generated cases, a sepa
 ## Observed results
 
 The [2026-11-01 evidence report](RESULTS-2026-11-01.md) documents the first CI red-green correctness discoveries and independently executed GitLab development/optimized build and wire-format tests. The benchmark records cold and no-change warm compilation separately; no changed-source incremental compiler comparisons have been executed.
+
+## Decomposing compute from transport and compile cost
+
+**Computation-only probe:** Both binaries now support `--bench-core PASSES`. The program parses the identical JSON corpus *once*, then uses the exact admission decision function repeatedly while varying one bounded usage input, computing a strict numerical checksum rather than serializing one JSON object per decision. Native monotonic `core_ns` timing is recorded inside the process *after parsing and before checksum serialization*. The Python harness (`bench_kernel.py`) independently computes the checksum through the established oracle and repeats the measurement with warmups. This is not pure instruction counting: allocation, garbage collection, data types, and branch logic still affect results.
+
+**End-to-end control:** `bench_repeats.py` still measures process launch, JSON parse, decisions, serialization and process exit. Its 12,300-case workload is different from the 1,025-case repeated compute probe; do **not** subtract their timings as though they were component measurements of a single identical run.
+
+**Changed-source compile probe:** `rebuild_probe.py` modifies one real admission expression per language in a disposable CI checkout by inserting an explicit numeric type. The change preserves semantics and causes both compilers to rebuild their programs; collect cold/no-change/edited-build time and RSS separately for Rust development/release and Haskell -O0/-O2. This is only a **single-module expression edit**, not a large-project, transitive dependency, macro, or multi-module edit. It does not yet establish the benefit of Blaze or other compiler accelerators. Re-run differential and wire-format tests after the source edits to confirm unchanged behavior.
+
+Read the result report for measured values rather than treating CI configuration as proof of success.
 
 ## CI and evidence
 
