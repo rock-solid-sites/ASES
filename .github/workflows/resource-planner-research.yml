@@ -20,6 +20,10 @@ jobs:
           python-version: '3.12'
       - name: Install pinned OR-Tools research dependency
         run: python -m pip install --no-cache-dir ortools==9.14.6206
+      - name: Install operating-system library required by bundled Gecode
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libegl1
       - name: Install isolated MiniZinc binary bundle
         shell: bash
         run: |
