@@ -70,11 +70,24 @@ jobs:
           python3 research/language-eval/wire_cases.py --rust research/language-eval/rust/target/release/ases-admit-rs --haskell "$RUNNER_TEMP/ases-admit-hs-opt" | tee results/wire-optimized.json
           python3 research/language-eval/bench_repeats.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell "$RUNNER_TEMP/ases-admit-hs" | tee results/bench-development.json
           python3 research/language-eval/bench_repeats.py --rust research/language-eval/rust/target/release/ases-admit-rs --haskell "$RUNNER_TEMP/ases-admit-hs-opt" | tee results/bench-optimized.json
+          python3 research/language-eval/bench_kernel.py --rust research/language-eval/rust/target/debug/ases-admit-rs --haskell "$RUNNER_TEMP/ases-admit-hs" --passes 240 --iterations 7 | tee results/decision-core-dev.json
+          python3 research/language-eval/bench_kernel.py --rust research/language-eval/rust/target/release/ases-admit-rs --haskell "$RUNNER_TEMP/ases-admit-hs-opt" --passes 240 --iterations 7 | tee results/decision-core-optimized.json
       - name: Record executable sizes
         shell: bash
         run: |
           wc -c research/language-eval/rust/target/debug/ases-admit-rs research/language-eval/rust/target/release/ases-admit-rs "$RUNNER_TEMP/ases-admit-hs" "$RUNNER_TEMP/ases-admit-hs-opt" | tee results/binary-sizes.txt
           grep -E 'Elapsed \\(wall clock\\)|Maximum resident set size' results/*.time | tee results/build-resource-summary.txt
+      - name: Measure source-edited rebuilds and confirm behavior
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 research/language-eval/rebuild_probe.py | tee results/rebuild-edit.txt
+          /usr/bin/time -v -o results/rust-debug-edited.time cargo build --manifest-path research/language-eval/rust/Cargo.toml
+          /usr/bin/time -v -o results/rust-release-edited.time cargo build --release --manifest-path research/language-eval/rust/Cargo.toml
+          /usr/bin/time -v -o results/haskell-o0-edited.time ghc -O0 -package aeson -outputdir "$RUNNER_TEMP/ases-ghc-o0" -o "$RUNNER_TEMP/ases-admit-hs" research/language-eval/haskell/Main.hs
+          /usr/bin/time -v -o results/haskell-o2-edited.time ghc -O2 -package aeson -outputdir "$RUNNER_TEMP/ases-ghc-o2" -o "$RUNNER_TEMP/ases-admit-hs-opt" research/language-eval/haskell/Main.hs
+          python3 research/language-eval/compare.py --rust research/language-eval/rust/target/release/ases-admit-rs --haskell "$RUNNER_TEMP/ases-admit-hs-opt" | tee results/differential-edited.json
+          python3 research/language-eval/wire_cases.py --rust research/language-eval/rust/target/release/ases-admit-rs --haskell "$RUNNER_TEMP/ases-admit-hs-opt" | tee results/wire-edited.json
       - name: Archive experiment evidence
         if: always()
         uses: actions/upload-artifact@v4
