@@ -262,6 +262,13 @@ impl Store {
     pub fn register_meter(&mut self, meter: &Meter) -> Result<i64> {
         meter.verify()?;
         let tx = self.db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        if let Some(raw)=tx.query_row("SELECT data FROM meters WHERE id=?1",[&meter.id],|r|r.get::<_,String>(0)).optional()? {
+            let old:Meter=serde_json::from_str(&raw)?;
+            if (old.account.as_str(),old.provider.as_str(),old.product.as_str(),old.period.as_str(),old.unit.as_str())
+                != (meter.account.as_str(),meter.provider.as_str(),meter.product.as_str(),meter.period.as_str(),meter.unit.as_str()) {
+                return Err(Error::Conflict("meter identity cannot be rebound; create new meter ID".into()));
+            }
+        }
         tx.execute("INSERT INTO meters(id,data) VALUES (?1,?2)
                     ON CONFLICT(id) DO UPDATE SET data=excluded.data",
                    params![meter.id,serde_json::to_string(meter)?])?;
@@ -431,7 +438,7 @@ impl Store {
             "SELECT state,catalog_version,expires_at,ack_id FROM jobs WHERE id=?1",[job],
             |r|Ok((r.get(0)?,r.get(1)?,r.get(2)?,r.get(3)?)))
             .optional()?.ok_or_else(||Error::Invalid("unknown job".into()))?;
-        if state=="AUTHORIZED" && prior.as_deref()==Some(ack_id) {
+        if ["AUTHORIZED","RUNNING","CLOSED"].contains(&state.as_str()) && prior.as_deref()==Some(ack_id) {
             tx.commit()?;return Ok("AUTHORIZED_REPLAY".into());
         }
         if state!="RESERVED" {return Err(Error::Conflict(format!("cannot acknowledge state {state}")));}
@@ -473,6 +480,21 @@ impl Store {
         }
         if state!="AUTHORIZED" {return Err(Error::Conflict(format!("launch forbidden from state {state}")));}
         if expiry<at {return Err(Error::Conflict("authorization expired".into()));}
+        let (proposal,version):(String,i64)=tx.query_row(
+            "SELECT proposal,catalog_version FROM jobs WHERE id=?1",[job],
+            |r|Ok((r.get(0)?,r.get(1)?)))?;
+        let p:Proposal=serde_json::from_str(&proposal)?;
+        let current:i64=tx.query_row("SELECT value FROM meta WHERE key='catalog_version'",[],|r|r.get(0))?;
+        if current!=version {return Err(Error::Conflict("launch catalog revision stale".into()));}
+        if !Self::env(&tx,&p.environment_id)?.fresh(at) {
+            return Err(Error::Conflict("environment observation stale at launch".into()));
+        }
+        for claim in &p.claims {
+            if !Self::meter(&tx,&claim.meter_id)?.fresh(at) ||
+               Self::balance(&tx,&claim.meter_id,at)?.available<0 {
+                return Err(Error::Conflict("resource overconsumed or stale at launch".into()));
+            }
+        }
         tx.execute("UPDATE jobs SET state='RUNNING',launch_id=?2 WHERE id=?1",params![job,launch_id])?;
         Self::log(&tx,&format!("{job}:launch:{launch_id}"),Some(job),"MOCK_LAUNCH",at,
                   json!({"launch_id":launch_id,"external_provider_launch":false}))?;
