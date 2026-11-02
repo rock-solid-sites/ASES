@@ -131,10 +131,32 @@ class ResourceTests(unittest.TestCase):
     def test_free_only_job_uses_finite_nonchargeable_slot(self):
         self.c.register_bucket(bucket_id="slots",account="acct",provider="mock",
             product="local",period="2026-11",unit="launch-slots",
-            allowance=1,observed_at=self.now)
+            allowance=1,observed_at=self.now,kind="CONCURRENT")
         self.reserved(claims={"slots":1})
         self.assertEqual(self.capacity()["slots"]["available"],0)
         self.assertFalse(self.quote(claims={"slots":1})["eligible"])
+
+    def test_concurrent_slot_is_released_and_reusable(self):
+        self.c.register_bucket(bucket_id="slots",account="acct",provider="mock",
+            product="local",period="2026-11",unit="slots",
+            allowance=1,observed_at=self.now,kind="CONCURRENT")
+        q=self.quote(claims={"slots":1})
+        self.c.reserve(job_id="j1",attempt_id="a1",quote=q,account="acct",now=self.now)
+        self.assertEqual(self.capacity()["slots"]["available"],0)
+        self.c.finalize("j1",state="CANCELLED",event_id="cancel")
+        self.assertEqual(self.capacity()["slots"]["available"],1)
+        self.assertEqual(self.capacity()["slots"]["local_consumed"],0)
+        q2=self.quote(claims={"slots":1})
+        self.c.reserve(job_id="j2",attempt_id="a2",quote=q2,account="acct",now=self.now)
+        self.assertEqual(self.capacity()["slots"]["reserved"],1)
+
+    def test_concurrent_capacity_cannot_be_reported_as_metered_use(self):
+        self.c.register_bucket(bucket_id="slots",account="acct",provider="mock",
+            product="local",period="2026-11",unit="slots",
+            allowance=1,observed_at=self.now,kind="CONCURRENT")
+        self.started(claims={"slots":1})
+        self.assertRejected("CONCURRENT_CAPACITY_IS_NOT_CONSUMABLE",
+            lambda:self.c.observe("j1",event_id="usage_slot",bucket_id="slots",cumulative=1))
 
     def test_multi_meter_is_atomic(self):
         q=self.quote(claims={"cpu":5,"storage":2000})
