@@ -68,6 +68,9 @@ class Control:
                     refreshed_at INTEGER NOT NULL, ttl_seconds INTEGER NOT NULL,
                     frozen INTEGER NOT NULL DEFAULT 0,
                     UNIQUE(account,provider,product,period,unit));
+                CREATE TABLE IF NOT EXISTS quotes (
+                    id TEXT PRIMARY KEY, account TEXT NOT NULL, payload TEXT NOT NULL,
+                    issued_at TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS jobs (
                     id TEXT PRIMARY KEY, snapshot TEXT NOT NULL, estimate TEXT NOT NULL,
                     attempt_id TEXT NOT NULL UNIQUE, state TEXT NOT NULL,
@@ -203,9 +206,17 @@ class Control:
             elif not b["fresh"]: issues.append([bid,"STALE"])
             elif b["price_micros"] is None: issues.append([bid,"UNKNOWN_PRICE"])
             elif n > b["available"]: issues.append([bid,"INSUFFICIENT"])
-        return {"revision":view["revision"],"snapshot_digest":digest(view),
-                "claims":normalized,"estimate":estimate,"issues":issues,
-                "eligible":not issues}
+        result={"quote_id":uuid.uuid4().hex,"revision":view["revision"],
+                "snapshot_digest":digest(view),"claims":normalized,"estimate":estimate,
+                "issues":issues,"eligible":not issues}
+        with self._tx() as c:
+            c.execute("INSERT INTO quotes(id,account,payload,issued_at) VALUES(?,?,?,?)",
+                      (result["quote_id"],account,canonical(result),utc_now()))
+            self._event(c,"QUOTED","controller",
+                        {"quote_id":result["quote_id"],"account":account,
+                         "revision":view["revision"],"eligible":result["eligible"],
+                         "claims":normalized})
+        return result
 
     def reserve(self, *, job_id, attempt_id, quote, account, now=None):
         require_id(job_id,"job_id");require_id(attempt_id,"attempt_id");require_id(account,"account")
@@ -218,6 +229,9 @@ class Control:
         with self._tx() as c:
             if c.execute("SELECT 1 FROM jobs WHERE id=? OR attempt_id=?", (job_id,attempt_id)).fetchone():
                 raise Rejected("DUPLICATE_JOB_OR_ATTEMPT")
+            original=c.execute("SELECT account,payload FROM quotes WHERE id=?",(quote.get("quote_id"),)).fetchone()
+            if original is None or original["account"]!=account or original["payload"]!=canonical(quote):
+                raise Rejected("QUOTE_MISMATCH")
             if quote.get("revision") != self._revision(c):
                 raise Rejected("STALE_REVISION")
             rows = {b["id"]:b for b in c.execute("SELECT * FROM buckets WHERE account=?", (account,))}
