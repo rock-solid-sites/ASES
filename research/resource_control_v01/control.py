@@ -242,6 +242,7 @@ class Control:
 
     def quote(self, *, claims, estimate, account, now=None):
         require_id(account, "account")
+        self.expire_unlaunched(now=now)
         normalized = self._normalize_claims(claims)
         if not isinstance(estimate, dict):
             raise ValueError("estimate must be object")
@@ -316,6 +317,27 @@ class Control:
             self._bump(c)
             return {"job_id":job_id,"attempt_id":attempt_id,"state":"RESERVED"}
 
+    def expire_unlaunched(self, *, now=None):
+        """Reclaim only requests proven never to have entered the launch boundary."""
+        stamp=int(time.time()) if now is None else integer(now,"now")
+        expired=[]
+        with self._tx() as c:
+            jobs=c.execute("""SELECT * FROM jobs WHERE
+                (state='RESERVED' AND reservation_expires<=?) OR
+                (state='AUTHORIZED' AND (auth_expires<=? OR reservation_expires<=?))
+                ORDER BY id""",(stamp,stamp,stamp)).fetchall()
+            for job in jobs:
+                claims=c.execute("SELECT bucket_id,quantity FROM claims WHERE job_id=?",(job["id"],)).fetchall()
+                for claim in claims:
+                    c.execute("UPDATE buckets SET reserved=reserved-? WHERE id=?",
+                              (claim["quantity"],claim["bucket_id"]))
+                c.execute("UPDATE jobs SET state='EXPIRED' WHERE id=?",(job["id"],))
+                self._event(c,"EXPIRED","controller",
+                            {"reason":"unlaunched authorization expired"},job["id"])
+                expired.append(job["id"])
+            if expired:self._bump(c)
+        return {"expired":expired}
+
     def acknowledge(self, job_id, *, snapshot_digest, expires_at):
         require_id(job_id)
         integer(expires_at,"expires_at",1)
@@ -326,6 +348,8 @@ class Control:
             if j["state"]!="RESERVED":raise Rejected("INVALID_STATE")
             if j["snapshot"] != snapshot_digest:raise Rejected("WRONG_SNAPSHOT")
             if expires_at <= int(time.time()): raise Rejected("EXPIRED")
+            if expires_at>j["reservation_expires"]:
+                raise Rejected("AUTH_EXCEEDS_RESERVATION")
             c.execute("""UPDATE jobs SET state='AUTHORIZED',acknowledged=?,auth_token_hash=?,auth_expires=?
                          WHERE id=?""",(snapshot_digest,hashlib.sha256(token.encode()).hexdigest(),expires_at,job_id))
             self._event(c,"AUTHORIZED","controller",{"expires_at":expires_at},job_id)
@@ -339,7 +363,8 @@ class Control:
             if j["state"] != "AUTHORIZED":raise Rejected("INVALID_STATE")
             if not isinstance(token,str) or hashlib.sha256(token.encode()).hexdigest()!=j["auth_token_hash"]:
                 raise Rejected("UNAUTHORIZED")
-            if stamp >= j["auth_expires"]:raise Rejected("EXPIRED")
+            if stamp >= j["auth_expires"] or stamp>=j["reservation_expires"]:
+                raise Rejected("EXPIRED")
             c.execute("UPDATE jobs SET state='LAUNCH_PENDING' WHERE id=?",(job_id,))
             self._event(c,"LAUNCH_PENDING","controller",{"attempt_id":j["attempt_id"]},job_id)
             return {"job_id":job_id,"attempt_id":j["attempt_id"],"state":"LAUNCH_PENDING"}
