@@ -129,6 +129,39 @@ presence/structure audit, not a re-run.
 
 ---
 
+# Upstream Change Awareness
+
+When investigating a failure, limitation, performance problem, or proposed fix
+in a dependency or external project, **check upstream before investing in deep
+diagnosis or implementation**. This is a cheapest-discriminating-test obligation,
+not an instruction to upgrade automatically or to search every dependency for
+every routine edit.
+
+* Identify the **actually executed** binary/package/API version and commit,
+  including wrappers, forks, cached services and installed-versus-PATH
+  discrepancies when relevant.
+* Check the latest **published release** and current **upstream source**, then
+  search changelogs, issues, merged and open PRs, and recent commits for the
+  observed symptom and adjacent failure class. A fix can be merged but unreleased.
+* Refresh the check after the root cause is narrowed, **before writing or
+  proposing a fix**, and during a prolonged investigation when upstream might
+  have changed. A previously searched upstream is not indefinitely fresh.
+* If a candidate upstream fix exists, run the smallest reproduction against the
+  affected local version and the candidate source/release before duplicating
+  work. Keep production pinned until compatibility and regression evidence
+  justify promotion.
+* Record the check time, installed version, release version, upstream
+  commit/PR/issue links, observed test outcome, untested surfaces, and the
+  resulting decision. Distinguish **fix exists**, **fix released**, **fix
+  tested locally**, and **fix adopted**; none implies the next.
+
+Absence of a matching issue or PR is a bounded search result, not proof that
+upstream has no fix. Apply proportional effort: a cheap first pass is mandatory
+for relevant third-party failures; deeper upstream archaeology is warranted
+only when it can change the next decision.
+
+---
+
 # Workflow Topology
 
 The full workflow-topology design — the two principles above, the
