@@ -644,9 +644,9 @@ impl Store {
     }
     pub fn event_log(&self,job:Option<&str>)->Result<Vec<Value>>{
         let sql=if job.is_some() {
-            "SELECT id,job_id,kind,at,payload FROM events WHERE job_id=?1 ORDER BY at,id"
+            "SELECT id,job_id,kind,at,payload FROM events WHERE job_id=?1 ORDER BY at,rowid"
         } else {
-            "SELECT id,job_id,kind,at,payload FROM events ORDER BY at,id"
+            "SELECT id,job_id,kind,at,payload FROM events ORDER BY at,rowid"
         };
         let mut stmt=self.db.prepare(sql)?;
         let decode=|r:&rusqlite::Row<'_>|->rusqlite::Result<(String,Option<String>,String,i64,String)>{
