@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "role": "conformance",
+  "cases": [
+    {
+      "id": "S02",
+      "role": "conformance",
+      "artifact_type": "completed_event_mapping",
+      "question": "Does the finished mapping preserve the fixed separation of reviewer evidence from authorization?",
+      "context": {
+        "frozen_concepts": [
+          "ReviewFinding is evidentiary, and may report no violation observed within a stated scope.",
+          "AuthorizationDecision is a separate explicitly empowered actor's action.",
+          "Missing authorization must remain NOT_RECORDED; no review outcome automatically grants approval."
+        ],
+        "specific_invariant": "A reviewer finding may be persisted without creating an AuthorizationDecision."
+      },
+      "candidate": {
+        "implementation_excerpt": [
+          "recordReviewFinding({claim_id, scope, result:'NO_VIOLATION_OBSERVED_WITHIN_SCOPE', evidence_refs})",
+          "store.review_findings.append(finding)",
+          "if (!store.authorized_decisions.contains(claim_id)) state.authorization = 'NOT_RECORDED'",
+          "return {review_finding: finding, authorization: state.authorization}"
+        ],
+        "observed_trace": [
+          "Review finding stored; authorized decisions list empty",
+          "Returned authorization NOT_RECORDED"
+        ]
+      }
+    },
+    {
+      "id": "S04",
+      "role": "conformance",
+      "artifact_type": "completed_journal_algorithm",
+      "question": "Under the supplied fixed durability claim, does the artifact preserve the conceptual meaning of acknowledged commit?",
+      "context": {
+        "frozen_concepts": [
+          "Committed means a complete journal entry has been written and a successful fsync call has returned.",
+          "ACK represents a claim that the transaction is already committed and recoverable after process interruption.",
+          "A retry of the same transaction ID after ACK must not create an additional charge."
+        ],
+        "specific_invariant": "The program must not issue ACK before fsync successfully returns for that transaction."
+      },
+      "candidate": {
+        "implementation_excerpt": [
+          "def reserve(tx):",
+          "  validate_authorization_capacity_and_id(tx)",
+          "  emit('ACK', tx.id)",
+          "  append_journal_line(tx)",
+          "  fsync(journal_fd)",
+          "  return"
+        ],
+        "relevant_trace": [
+          "ACK can be observed before append_journal_line or fsync",
+          "If process terminates at ACK, an inspection process can find no journal entry"
+        ]
+      }
+    },
+    {
+      "id": "S06",
+      "role": "conformance",
+      "artifact_type": "completed_event_mapping",
+      "question": "Does the implementation preserve the distinction between a bounded conformance finding and authorized acceptance?",
+      "context": {
+        "frozen_concepts": [
+          "NO_VIOLATION_OBSERVED_WITHIN_SCOPE is a bounded evidence finding.",
+          "Only an authorized operator or governance mechanism can issue ACCEPT.",
+          "A clean review alone must never auto-promote an experimental method."
+        ],
+        "specific_invariant": "Recording a NO_VIOLATION_OBSERVED_WITHIN_SCOPE review must not set the separate authority decision to ACCEPT."
+      },
+      "candidate": {
+        "implementation_excerpt": [
+          "on_conformance_result(result):",
+          "  record.review = result",
+          "  if result == 'NO_VIOLATION_OBSERVED_WITHIN_SCOPE':",
+          "    record.authority_decision = 'ACCEPT'",
+          "  else:",
+          "    record.authority_decision = 'DEFER'",
+          "  return record"
+        ],
+        "observed_trace": [
+          "Conformance reviewer observed no violation",
+          "Record persisted authority_decision ACCEPT without any operator decision"
+        ]
+      }
+    }
+  ],
+  "scoring_key": "Not included",
+  "review_context": "Clean-room: fixed concepts, specific claim and finished artifact only. No builder rationale or other reviewer findings; report minimal counterexamples or bounded no-violation. No canonical approval."
+}
