@@ -83,6 +83,8 @@ pub struct Meter {
     #[serde(default)]
     pub price_per_unit_micros: u64,
     #[serde(default)]
+    pub price_currency: Option<String>,
+    #[serde(default)]
     pub chargeable: bool,
 }
 impl Meter {
@@ -102,6 +104,14 @@ impl Meter {
         as_i64(self.price_per_unit_micros, "price")?;
         if self.chargeable && self.price_per_unit_micros == 0 {
             return Err(Error::Invalid("chargeable meter without verified nonzero price".into()));
+        }
+        if self.chargeable && self.price_currency.is_none() {
+            return Err(Error::Invalid("chargeable meter requires explicit pricing currency".into()));
+        }
+        if let Some(currency)=&self.price_currency {
+            if currency.len()!=3 || !currency.bytes().all(|b|b.is_ascii_uppercase()) {
+                return Err(Error::Invalid("pricing currency must be an uppercase ISO-style code".into()));
+            }
         }
         Ok(())
     }
@@ -159,6 +169,8 @@ pub struct Proposal {
     #[serde(default)]
     pub paid_spend_cap_micros: Option<u64>,
     #[serde(default)]
+    pub paid_spend_cap_currency: Option<String>,
+    #[serde(default)]
     pub forecast_context: Option<Value>,
 }
 impl Proposal {
@@ -203,6 +215,7 @@ pub struct Quote {
     pub reason: String,
     pub catalog_version: i64,
     pub estimated_cash_micros: i64,
+    pub estimated_cash_currency: Option<String>,
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Reservation {
@@ -424,6 +437,9 @@ impl Store {
                                                    m.id,b.available,requested)));
             }
             if m.chargeable {
+                if p.paid_spend_cap_currency.as_deref()!=m.price_currency.as_deref() {
+                    return Err(Error::Invalid("spend cap currency missing or incompatible; no implicit FX conversion".into()));
+                }
                 quoted = checked_add(quoted,checked_mul(requested,as_i64(m.price_per_unit_micros,"price")?,"cost")?,"cash budget")?;
             }
         }
@@ -439,8 +455,8 @@ impl Store {
         let checked = Self::validate_proposal(&tx,p,at);
         tx.commit()?;
         Ok(match checked {
-            Ok(cost)=>Quote{eligible:true,reason:"eligible for atomic admission".into(),catalog_version:catalog,estimated_cash_micros:cost},
-            Err(e)=>Quote{eligible:false,reason:e.to_string(),catalog_version:catalog,estimated_cash_micros:0}
+            Ok(cost)=>Quote{eligible:true,reason:"eligible for atomic admission".into(),catalog_version:catalog,estimated_cash_micros:cost,estimated_cash_currency:if cost>0 {p.paid_spend_cap_currency.clone()} else {None}},
+            Err(e)=>Quote{eligible:false,reason:e.to_string(),catalog_version:catalog,estimated_cash_micros:0,estimated_cash_currency:None}
         })
     }
     fn log(tx:&Transaction<'_>, id:&str, job:Option<&str>, kind:&str, at:i64, payload:Value) -> Result<()> {
