@@ -9,6 +9,7 @@ use std::path::Path;
 
 pub mod archive;
 pub mod catalog;
+pub mod access;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug)]
@@ -260,6 +261,12 @@ impl Store {
         Ok(store)
     }
 
+    pub fn account_for_meter(&self,id:&str)->Result<String>{
+        check_id(id,"meter")?;
+        let raw:String=self.db.query_row("SELECT data FROM meters WHERE id=?1",[id],|r|r.get(0))
+            .optional()?.ok_or_else(||Error::Invalid("unknown meter".into()))?;
+        Ok(serde_json::from_str::<Meter>(&raw)?.account)
+    }
     pub fn catalog_version(&self) -> Result<i64> {
         Ok(self.db.query_row("SELECT value FROM meta WHERE key='catalog_version'", [], |r| r.get(0))?)
     }
