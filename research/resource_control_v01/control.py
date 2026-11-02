@@ -315,7 +315,11 @@ class Control:
         if source not in ("local","launcher","provider"):
             raise ValueError("invalid source")
         with self._tx() as c:
-            if c.execute("SELECT 1 FROM events WHERE event_id=?",(event_id,)).fetchone():
+            existing=c.execute("SELECT job_id,kind,payload FROM events WHERE event_id=?",(event_id,)).fetchone()
+            if existing is not None:
+                expected={"bucket_id":bucket_id,"cumulative":cumulative}
+                if existing["job_id"]!=job_id or existing["kind"]!="USAGE_OBSERVED" or existing["payload"]!=canonical(expected):
+                    raise Rejected("EVENT_ID_COLLISION")
                 return {"duplicate":True}
             j=c.execute("SELECT state FROM jobs WHERE id=?",(job_id,)).fetchone()
             if j is None:raise Rejected("UNKNOWN_JOB")
@@ -355,7 +359,10 @@ class Control:
         """Loss of visibility retains reservations until authoritative termination."""
         require_id(event_id,"event_id")
         with self._tx() as c:
-            if c.execute("SELECT 1 FROM events WHERE event_id=?",(event_id,)).fetchone():
+            existing=c.execute("SELECT job_id,kind,payload FROM events WHERE event_id=?",(event_id,)).fetchone()
+            if existing is not None:
+                if existing["job_id"]!=job_id or existing["kind"]!="INTERRUPTED":
+                    raise Rejected("EVENT_ID_COLLISION")
                 return {"duplicate":True}
             j=c.execute("SELECT state FROM jobs WHERE id=?",(job_id,)).fetchone()
             if j is None:raise Rejected("UNKNOWN_JOB")
@@ -369,7 +376,11 @@ class Control:
         if state not in ("COMPLETED","FAILED","CANCELLED"):
             raise ValueError("invalid terminal state")
         with self._tx() as c:
-            if c.execute("SELECT 1 FROM events WHERE event_id=?",(event_id,)).fetchone():
+            existing=c.execute("SELECT job_id,kind,payload FROM events WHERE event_id=?",(event_id,)).fetchone()
+            if existing is not None:
+                data=json.loads(existing["payload"])
+                if existing["job_id"]!=job_id or existing["kind"]!="FINALIZED" or data.get("state")!=state:
+                    raise Rejected("EVENT_ID_COLLISION")
                 return {"duplicate":True}
             j=c.execute("SELECT state FROM jobs WHERE id=?",(job_id,)).fetchone()
             if j is None:raise Rejected("UNKNOWN_JOB")
@@ -401,10 +412,14 @@ class Control:
         require_id(report_id,"report_id");require_id(bucket_id,"bucket_id")
         integer(cumulative,"cumulative");integer(observed_at,"observed_at")
         with self._tx() as c:
-            if c.execute("SELECT 1 FROM provider_reports WHERE id=?",(report_id,)).fetchone():
+            existing=c.execute("SELECT bucket_id,observed_at,consumed FROM provider_reports WHERE id=?",(report_id,)).fetchone()
+            if existing is not None:
+                if existing["bucket_id"]!=bucket_id or existing["observed_at"]!=observed_at or existing["consumed"]!=cumulative:
+                    raise Rejected("REPORT_ID_COLLISION")
                 return {"duplicate":True}
             b=c.execute("SELECT * FROM buckets WHERE id=?",(bucket_id,)).fetchone()
             if b is None:raise Rejected("UNKNOWN_BUCKET")
+            if b["kind"]!="CONSUMABLE":raise Rejected("CONCURRENT_BUCKET_HAS_NO_USAGE_METER")
             c.execute("""INSERT INTO provider_reports(id,bucket_id,observed_at,consumed,source)
                          VALUES(?,?,?,?,?)""",(report_id,bucket_id,observed_at,cumulative,source))
             applied=b["provider_observed_at"] is None or observed_at>b["provider_observed_at"]
