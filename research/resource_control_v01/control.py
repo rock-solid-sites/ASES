@@ -60,6 +60,7 @@ class Control:
                 CREATE TABLE IF NOT EXISTS buckets (
                     id TEXT PRIMARY KEY, account TEXT NOT NULL, provider TEXT NOT NULL,
                     product TEXT NOT NULL, period TEXT NOT NULL, unit TEXT NOT NULL,
+                    kind TEXT NOT NULL DEFAULT 'CONSUMABLE' CHECK(kind IN ('CONSUMABLE','CONCURRENT')),
                     allowance INTEGER NOT NULL CHECK (allowance>=0),
                     reserved INTEGER NOT NULL DEFAULT 0 CHECK (reserved>=0),
                     locally_consumed INTEGER NOT NULL DEFAULT 0 CHECK (locally_consumed>=0),
@@ -134,6 +135,8 @@ class Control:
 
     @staticmethod
     def _capacity(b):
+        if b["kind"]=="CONCURRENT":
+            return b["allowance"]-b["reserved"]
         p = b["provider_consumed"]
         spent = max(b["locally_consumed"], p if p is not None else 0)
         return b["allowance"] - spent - b["reserved"]
@@ -144,7 +147,7 @@ class Control:
 
     def register_bucket(self, *, bucket_id, account, provider, product, period, unit,
                         allowance, price_micros=0, overage="BLOCK", ttl_seconds=3600,
-                        observed_at=None):
+                        observed_at=None, kind="CONSUMABLE"):
         ids = [bucket_id, account, provider, product, period, unit]
         for label, value in zip(("bucket_id","account","provider","product","period","unit"), ids):
             require_id(value, label)
@@ -154,15 +157,17 @@ class Control:
             integer(price_micros, "price_micros")
         if overage not in ("BLOCK", "ALLOW_EXPLICIT"):
             raise ValueError("invalid overage")
+        if kind not in ("CONSUMABLE","CONCURRENT"):
+            raise ValueError("invalid bucket kind")
         stamp = integer(observed_at if observed_at is not None else int(time.time()), "observed_at")
         with self._tx() as c:
             if c.execute("SELECT 1 FROM buckets WHERE id=?", (bucket_id,)).fetchone():
                 raise Rejected("DUPLICATE_BUCKET")
             c.execute("""INSERT INTO buckets(id,account,provider,product,period,unit,
-                allowance,price_micros,overage,refreshed_at,ttl_seconds)
-                VALUES(?,?,?,?,?,?,?,?,?,?,?)""",
+                allowance,price_micros,overage,refreshed_at,ttl_seconds,kind)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (bucket_id,account,provider,product,period,unit,allowance,
-                 price_micros,overage,stamp,ttl_seconds))
+                 price_micros,overage,stamp,ttl_seconds,kind))
             self._bump(c)
             self._event(c,"BUCKET_REGISTERED","registry",{"bucket_id":bucket_id})
 
@@ -175,7 +180,7 @@ class Control:
             for b in rows:
                 records.append({
                     "id":b["id"],"account":b["account"],"provider":b["provider"],
-                    "product":b["product"],"period":b["period"],"unit":b["unit"],
+                    "kind":b["kind"],"product":b["product"],"period":b["period"],"unit":b["unit"],
                     "allowance":b["allowance"],"available":self._capacity(b),
                     "reserved":b["reserved"],"local_consumed":b["locally_consumed"],
                     "provider_consumed":b["provider_consumed"],
@@ -238,7 +243,7 @@ class Control:
             # This digest binds the complete account-scoped view, not a self-asserted subset.
             view = {"revision":self._revision(c),"buckets":sorted([{
                 "id":b["id"],"account":b["account"],"provider":b["provider"],
-                "product":b["product"],"period":b["period"],"unit":b["unit"],
+                "kind":b["kind"],"product":b["product"],"period":b["period"],"unit":b["unit"],
                 "allowance":b["allowance"],"available":self._capacity(b),
                 "reserved":b["reserved"],"local_consumed":b["locally_consumed"],
                 "provider_consumed":b["provider_consumed"],"price_micros":b["price_micros"],
@@ -319,6 +324,9 @@ class Control:
             claim=c.execute("SELECT observed FROM claims WHERE job_id=? AND bucket_id=?",(job_id,bucket_id)).fetchone()
             if claim is None:raise Rejected("UNKNOWN_CLAIM")
             if cumulative < claim["observed"]:raise Rejected("NONMONOTONIC_LOCAL_OBSERVATION")
+            kind=c.execute("SELECT kind FROM buckets WHERE id=?",(bucket_id,)).fetchone()["kind"]
+            if kind!="CONSUMABLE":
+                raise Rejected("CONCURRENT_CAPACITY_IS_NOT_CONSUMABLE")
             c.execute("UPDATE claims SET observed=? WHERE job_id=? AND bucket_id=?",(cumulative,job_id,bucket_id))
             self._event(c,"USAGE_OBSERVED",source,{"bucket_id":bucket_id,"cumulative":cumulative},job_id,event_id)
             return {"duplicate":False,"observed":cumulative}
@@ -375,6 +383,10 @@ class Control:
             overruns=[]
             for claim in claims:
                 bid=claim["bucket_id"];reserved=claim["quantity"];used=claim["observed"]
+                kind=c.execute("SELECT kind FROM buckets WHERE id=?",(bid,)).fetchone()["kind"]
+                if kind=="CONCURRENT":
+                    c.execute("UPDATE buckets SET reserved=reserved-? WHERE id=?",(reserved,bid))
+                    continue
                 c.execute("""UPDATE buckets SET reserved=reserved-?,locally_consumed=locally_consumed+?
                              WHERE id=?""",(reserved,used,bid))
                 if used>reserved:
