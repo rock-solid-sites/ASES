@@ -28,8 +28,14 @@
 - A 1.2-second **single-core** CPU contender was measured as effective; five before/after samples per language showed slowed execution but no failed tested invariants. Process crash recovery and disk/network fault injection are **NOT_TESTED**.
 - **Complete original P4 CI artifact ZIP is preserved outside GitLab**, [Base64 archive](evidence/p4-gitlab-3015717109-original-artifacts.zip.b64) + [SHA-256 provenance](evidence/p4-gitlab-3015717109-archive-manifest.json), with source ZIP hash independently recomputed after GitHub archival. This does not retroactively complete P1/P3 archives.
 
+**P5 — Comparative crash recovery: conventional restart testing versus checkpoint-qualified SIGKILL.**
+- [Preregistered hypotheses](P5-PREREGISTERED-PLAN-2026-11-02.md), [observed results and method comparison](P5-RESULTS-2026-11-02.md), and [blind reviewer packet](P5-REVIEWER-PACKET-2026-11-02.md).
+- GitLab CI `3015833489`, both Rust and Haskell: ordinary restart/idempotency checks detected deliberate duplicate commits but **missed premature ACK before journal fsync**; five milestone-specific kills per point detected the missing committed transaction in each language. The correct variants passed all tests.
+- The conventional approach took a combined 72.184 ms across six tests; qualified approach 540.005 ms (adds 90 real SIGKILL recovery checks). The earlier failed CI run exposed a **mistaken fixture expectation**, not an implementation bug; it is preserved without retroactive rewriting.
+- The **two full native CI artifact ZIPs**, failed and successful, are independently preserved and SHA-256 verified: [original archive manifest](evidence/P5-ARCHIVES-MANIFEST-2026-11-02.json). No sudden power loss, storage crash, or production transaction was tested. Independent review remains **NOT_RUN**.
+
 [Independent-review packet](INDEPENDENT-REVIEW-PACKET-2026-11-01.md) is ready for an actual separate reviewer; drafting it and source-first checking by the builder are **not** independent verification.
 
 ## Method conclusions still pending
 
-The two distinct substrates (with a third pilot within the admission substrate) show targeted assurance benefit and measurable low-cost fault-discrimination. They do not show that a universal fixed red/green/mutation process is beneficial. Evaluate comparative review effectiveness and overhead with separate reviewers, and solve external artifact retention and real-world monitoring-cadence gaps before considering promotion. The authorized decision is **DEFER**.
+The experiments span admission controls, a real monitoring workflow, in-memory concurrency and durable-journal interruption prototypes, and show targeted assurance benefit and measurable low-cost fault-discrimination. They do not show that a universal fixed red/green/mutation process is beneficial. Evaluate comparative review effectiveness and overhead with separate reviewers, and solve external artifact retention and real-world monitoring-cadence gaps before considering promotion. The authorized decision is **DEFER**.
