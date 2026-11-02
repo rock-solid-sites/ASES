@@ -28,6 +28,8 @@ def handler_factory(control, launcher, archive_directory, read_token, admin_toke
             self.send_response(status)
             self.send_header("Content-Type","application/json")
             self.send_header("Cache-Control","no-store")
+            self.send_header("Connection","close")
+            self.close_connection=True
             self.send_header("Content-Length",str(len(body)))
             self.end_headers()
             self.wfile.write(body)
