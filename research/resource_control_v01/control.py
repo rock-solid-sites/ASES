@@ -54,7 +54,8 @@ class Control:
     def __init__(self, db):
         self.db = str(db)
         Path(self.db).parent.mkdir(parents=True, exist_ok=True)
-        with sqlite3.connect(self.db) as c:
+        c = sqlite3.connect(self.db)
+        try:
             c.executescript("""
                 CREATE TABLE IF NOT EXISTS buckets (
                     id TEXT PRIMARY KEY, account TEXT NOT NULL, provider TEXT NOT NULL,
@@ -92,6 +93,9 @@ class Control:
                     id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL);
                 INSERT OR IGNORE INTO policies(id,revision) VALUES(1,0);
             """)
+            c.commit()
+        finally:
+            c.close()
 
     @contextmanager
     def _tx(self):
