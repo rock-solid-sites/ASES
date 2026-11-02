@@ -386,6 +386,52 @@ class ResourceTests(unittest.TestCase):
         self.assertEqual(self.capacity()["cpu"]["reserved"],45)
         self.assertEqual(self.capacity()["cpu"]["local_consumed"],0)
 
+    def test_evidence_backed_adjustment_preserves_original_observation(self):
+        self.started()
+        self.c.observe("j1",event_id="u1",bucket_id="cpu",cumulative=30)
+        self.c.finalize("j1",state="COMPLETED",event_id="done",stop_evidence="provider stopped")
+        x=self.c.adjust_usage(adjustment_id="adj1",job_id="j1",bucket_id="cpu",
+            new_quantity=28,reason="corrected meter",evidence="billing-export-1",actor="operator")
+        self.assertEqual(x["delta"],-2)
+        self.assertEqual(self.capacity()["cpu"]["local_consumed"],28)
+        claim=self.c.status("j1")["claims"][0]
+        self.assertEqual(claim["observed"],30)
+        self.assertEqual(claim["corrected"],28)
+        self.assertTrue(self.c.adjust_usage(adjustment_id="adj1",job_id="j1",bucket_id="cpu",
+            new_quantity=28,reason="corrected meter",evidence="billing-export-1",actor="operator")["duplicate"])
+        self.assertRejected("ADJUSTMENT_ID_COLLISION",lambda:self.c.adjust_usage(
+            adjustment_id="adj1",job_id="j1",bucket_id="cpu",
+            new_quantity=29,reason="corrected meter",evidence="billing-export-1",actor="operator"))
+
+    def test_adjustment_requires_terminal_job_and_provenance(self):
+        self.reserved()
+        self.assertRejected("JOB_NOT_FINALIZED",lambda:self.c.adjust_usage(
+            adjustment_id="a",job_id="j1",bucket_id="cpu",new_quantity=20,
+            reason="new reading",evidence="receipt",actor="operator"))
+        self.c.finalize("j1",state="CANCELLED",event_id="done")
+        with self.assertRaises(ValueError):
+            self.c.adjust_usage(adjustment_id="a",job_id="j1",bucket_id="cpu",
+                new_quantity=20,reason="x",evidence="",actor="operator")
+
+    def test_adjustment_cannot_erase_covered_provider_usage(self):
+        self.started()
+        self.c.observe("j1",event_id="u1",bucket_id="cpu",cumulative=30)
+        self.c.finalize("j1",state="COMPLETED",event_id="done",stop_evidence="stopped")
+        self.c.provider_report(report_id="p",bucket_id="cpu",cumulative=30,
+            observed_at=self.now+1,covered_local=30,coverage_evidence="matched job")
+        self.assertRejected("PROVIDER_COVERAGE_CONFLICT",lambda:self.c.adjust_usage(
+            adjustment_id="adj",job_id="j1",bucket_id="cpu",new_quantity=25,
+            reason="claimed reduction",evidence="receipt",actor="operator"))
+
+    def test_adjustment_overrun_freezes_new_launches(self):
+        self.started()
+        self.c.observe("j1",event_id="u1",bucket_id="cpu",cumulative=30)
+        self.c.finalize("j1",state="COMPLETED",event_id="done",stop_evidence="stopped")
+        self.c.adjust_usage(adjustment_id="adj",job_id="j1",bucket_id="cpu",
+            new_quantity=60,reason="late bill correction",evidence="receipt",actor="operator")
+        self.assertTrue(self.capacity()["cpu"]["frozen"])
+        self.assertEqual(self.capacity()["cpu"]["local_consumed"],60)
+
     def test_invalid_numeric_quantities(self):
         for val in (-1,1.5,True,None,"5"):
             with self.subTest(value=val):
