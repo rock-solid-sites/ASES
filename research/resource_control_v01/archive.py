@@ -43,8 +43,9 @@ def archive(control, job_id, output_directory, *, artifacts=None):
     require_id(job_id,"job_id")
     root=Path(output_directory)
     root.mkdir(parents=True,exist_ok=True)
-    record={"schema":1,"captured_at":utc_now(),"job":control.status(job_id),
-            "events":control.events(job_id),
+    events=control.events(job_id)
+    record={"schema":1,"evidence_through":events[-1]["observed_at"] if events else None,
+            "job":control.status(job_id),"events":events,
             "scope":"available local-control evidence, not all external transcripts"}
     files={"session.json":canonical(record).encode()}
     for name,data in (artifacts or {}).items():
