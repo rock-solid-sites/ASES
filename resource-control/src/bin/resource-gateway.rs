@@ -40,7 +40,7 @@ fn handle(mut conn:UnixStream,db:&Path,policy:&Policy,controller:&Path)->std::io
     let answer=(||->Result<Value,Box<dyn std::error::Error>>{
         let uid=peer_uid(&conn)?;
         let mut input=Vec::new();
-        conn.by_ref().take(MAX_MESSAGE+1).read_to_end(&mut input)?;
+        std::io::Read::by_ref(&mut conn).take(MAX_MESSAGE+1).read_to_end(&mut input)?;
         if input.len() as u64>MAX_MESSAGE {
             return Err("request exceeds 1 MiB".into());
         }
