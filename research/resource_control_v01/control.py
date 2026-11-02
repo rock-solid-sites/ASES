@@ -82,6 +82,7 @@ class Control:
                     job_id TEXT NOT NULL REFERENCES jobs(id), bucket_id TEXT NOT NULL REFERENCES buckets(id),
                     quantity INTEGER NOT NULL CHECK(quantity>=0),
                     observed INTEGER NOT NULL DEFAULT 0 CHECK(observed>=0),
+                    corrected INTEGER,
                     PRIMARY KEY(job_id,bucket_id));
                 CREATE TABLE IF NOT EXISTS events (
                     seq INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT NOT NULL UNIQUE,
@@ -94,6 +95,11 @@ class Control:
                 CREATE TABLE IF NOT EXISTS corrections (
                     id TEXT PRIMARY KEY, job_id TEXT, bucket_id TEXT, quantity INTEGER,
                     reason TEXT NOT NULL, evidence TEXT NOT NULL, actor TEXT NOT NULL,
+                    recorded_at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS usage_adjustments (
+                    id TEXT PRIMARY KEY,job_id TEXT NOT NULL,bucket_id TEXT NOT NULL,
+                    previous INTEGER NOT NULL,new_quantity INTEGER NOT NULL,
+                    reason TEXT NOT NULL,evidence TEXT NOT NULL,actor TEXT NOT NULL,
                     recorded_at TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS policies (
                     id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL);
@@ -465,6 +471,57 @@ class Control:
             self._event(c,"CORRECTION_RECORDED","manual",{"id":correction_id,"quantity":quantity,
                         "bucket_id":bucket_id,"reason":reason,"evidence":evidence,"actor":actor},job_id)
             return {"duplicate":False}
+
+    def adjust_usage(self, *, adjustment_id, job_id, bucket_id, new_quantity,
+                     reason, evidence, actor):
+        """Authorized append-only amendment of a terminal job's accounting.
+
+        Original 'observed' remains untouched. Actual provider reports remain separate.
+        Caller must authenticate the privileged actor at the API boundary.
+        """
+        require_id(adjustment_id,"adjustment_id")
+        require_id(job_id,"job_id");require_id(bucket_id,"bucket_id")
+        require_id(actor,"actor");integer(new_quantity,"new_quantity")
+        if not isinstance(reason,str) or len(reason.strip())<5 or not isinstance(evidence,str) or not evidence.strip():
+            raise ValueError("evidence and reason required")
+        with self._tx() as c:
+            old=c.execute("SELECT * FROM usage_adjustments WHERE id=?",(adjustment_id,)).fetchone()
+            if old is not None:
+                if (old["job_id"]!=job_id or old["bucket_id"]!=bucket_id or
+                    old["new_quantity"]!=new_quantity or old["reason"]!=reason or
+                    old["evidence"]!=evidence or old["actor"]!=actor):
+                    raise Rejected("ADJUSTMENT_ID_COLLISION")
+                return {"duplicate":True}
+            j=c.execute("SELECT state FROM jobs WHERE id=?",(job_id,)).fetchone()
+            if j is None:raise Rejected("UNKNOWN_JOB")
+            if j["state"] not in ("COMPLETED","FAILED","CANCELLED"):
+                raise Rejected("JOB_NOT_FINALIZED")
+            claim=c.execute("SELECT * FROM claims WHERE job_id=? AND bucket_id=?",(job_id,bucket_id)).fetchone()
+            if claim is None:raise Rejected("UNKNOWN_CLAIM")
+            bucket=c.execute("SELECT * FROM buckets WHERE id=?",(bucket_id,)).fetchone()
+            if bucket["kind"]!="CONSUMABLE":raise Rejected("NONCONSUMABLE_ADJUSTMENT")
+            prior=claim["corrected"] if claim["corrected"] is not None else claim["observed"]
+            delta=new_quantity-prior
+            resulting=bucket["locally_consumed"]+delta
+            if resulting<bucket["provider_covered_local"]:
+                raise Rejected("PROVIDER_COVERAGE_CONFLICT")
+            if resulting<0:raise Rejected("NEGATIVE_ACCOUNT_USAGE")
+            c.execute("UPDATE claims SET corrected=? WHERE job_id=? AND bucket_id=?",
+                      (new_quantity,job_id,bucket_id))
+            c.execute("UPDATE buckets SET locally_consumed=locally_consumed+? WHERE id=?",
+                      (delta,bucket_id))
+            if new_quantity>claim["quantity"]:
+                c.execute("UPDATE buckets SET frozen=1 WHERE id=?",(bucket_id,))
+            c.execute("""INSERT INTO usage_adjustments(id,job_id,bucket_id,previous,
+                        new_quantity,reason,evidence,actor,recorded_at)
+                        VALUES(?,?,?,?,?,?,?,?,?)""",
+                      (adjustment_id,job_id,bucket_id,prior,new_quantity,reason,evidence,actor,utc_now()))
+            self._event(c,"USAGE_ADJUSTED","manual",
+                        {"adjustment_id":adjustment_id,"bucket_id":bucket_id,
+                         "previous":prior,"new_quantity":new_quantity,"reason":reason,
+                         "evidence":evidence,"actor":actor},job_id)
+            self._bump(c)
+            return {"duplicate":False,"delta":delta,"previous":prior,"new_quantity":new_quantity}
 
     def status(self, job_id):
         with self._tx() as c:
