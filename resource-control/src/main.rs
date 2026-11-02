@@ -1,5 +1,6 @@
 //! Trusted local command adapter; NOT a public network API or external launcher.
 use ases_resource_control::{archive::verify_archive, now, Environment, Meter, Proposal, Store};
+use ases_resource_control::catalog::{Account, CatalogImport};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use std::io::Read;
@@ -8,7 +9,14 @@ use std::path::Path;
 #[derive(Deserialize)]
 #[serde(tag="op",rename_all="snake_case",deny_unknown_fields)]
 enum Request {
+    RegisterAccount { account: Account },
+    Accounts,
     RegisterMeter { meter: Meter },
+    ImportCatalog { catalog: CatalogImport },
+    CatalogStates { ttl_seconds: i64 },
+    CatalogModels { provider: String },
+    CatalogFailure { provider: String, description: String },
+    Annotate { id:String, related_event_id:String, reported_actor:String, reason:String },
     RegisterEnvironment { environment: Environment },
     Snapshot,
     Quote { proposal: Proposal },
@@ -55,7 +63,20 @@ fn run()->Result<(),Box<dyn std::error::Error>> {
     let request:Request=serde_json::from_str(&text)?;
     let time=now(); // Client cannot select the clock used for admission/authorization.
     let result:Value=match request {
+        Request::RegisterAccount{account}=>json!({"catalog_version":store.register_account(&account)?}),
+        Request::Accounts=>json!({"accounts":store.accounts()?}),
         Request::RegisterMeter{meter}=>json!({"catalog_version":store.register_meter(&meter)?}),
+        Request::ImportCatalog{catalog}=>serde_json::to_value(store.import_catalog(&catalog)?)?,
+        Request::CatalogStates{ttl_seconds}=>json!({"catalogs":store.catalog_states(time,ttl_seconds)?}),
+        Request::CatalogModels{provider}=>store.catalog_payload(&provider)?,
+        Request::CatalogFailure{provider,description}=>{
+            store.catalog_failure(&provider,&description,time)?;
+            json!({"catalog_preserved":true})
+        },
+        Request::Annotate{id,related_event_id,reported_actor,reason}=>{
+            store.annotate(&id,&related_event_id,&reported_actor,&reason,time)?;
+            json!({"annotation":"RECORDED","authority":"UNVERIFIED","numeric_accounting":"UNCHANGED"})
+        },
         Request::RegisterEnvironment{environment}=>json!({"catalog_version":store.register_environment(&environment)?}),
         Request::Snapshot=>json!({"catalog_version":store.catalog_version()?,"balances":store.balances(time)?}),
         Request::Quote{proposal}=>serde_json::to_value(store.quote(&proposal,time)?)?,
