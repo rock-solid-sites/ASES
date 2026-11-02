@@ -77,6 +77,10 @@ pub struct Meter {
     pub ttl_seconds: i64,
     pub source: String,
     #[serde(default)]
+    pub period_start: Option<i64>,
+    #[serde(default)]
+    pub period_end: Option<i64>,
+    #[serde(default)]
     pub price_per_unit_micros: u64,
     #[serde(default)]
     pub chargeable: bool,
@@ -89,6 +93,9 @@ impl Meter {
         }
         nonblank(&self.source, "source")?;
         if self.guard > self.limit { return Err(Error::Invalid("meter guard exceeds limit".into())); }
+        if self.period_start.zip(self.period_end).is_some_and(|(a,b)|a>=b) {
+            return Err(Error::Invalid("invalid billing period window".into()));
+        }
         if self.ttl_seconds < 0 { return Err(Error::Invalid("negative TTL".into())); }
         as_i64(self.limit, "limit")?;
         as_i64(self.guard, "guard")?;
@@ -101,6 +108,12 @@ impl Meter {
     fn fresh(&self, at: i64) -> bool {
         self.ttl_seconds > 0 && at >= self.observed_at &&
             at.saturating_sub(self.observed_at) <= self.ttl_seconds
+    }
+    fn covers_forecast(&self,at:i64,wall_seconds:u64)->bool{
+        if self.period_start.is_some_and(|start|at<start) {return false;}
+        let end=match at.checked_add(wall_seconds as i64){Some(v)=>v,None=>return false};
+        if self.period_end.is_some_and(|stop|end>stop) {return false;}
+        true
     }
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -400,6 +413,9 @@ impl Store {
             if m.account != p.account_id || m.provider!=account.provider { return Err(Error::Invalid("meter account mismatch or unauthorized borrowing".into())); }
             if !m.fresh(at) {
                 return Err(Error::Invalid(format!("meter {} stale or unverified",m.id)));
+            }
+            if !m.covers_forecast(at,p.estimated_wall_seconds) {
+                return Err(Error::Invalid(format!("meter {} cannot cover entire forecast period; split reservation required",m.id)));
             }
             let b=Self::balance(tx,&claim.meter_id,at)?;
             let requested=as_i64(claim.amount,"claim")?;
