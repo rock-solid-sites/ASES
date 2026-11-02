@@ -1,0 +1,1066 @@
+{
+  "schema_version": 1,
+  "kind": "known_accounts",
+  "as_of_date": "2026-11-02",
+  "status": "historical_user_and_provider_claims_not_live_usage",
+  "source_document": "docs/research/Known Accounts and Resource Reconciliation 2026-11-02.md",
+  "public_repository_redaction": "No private billing IDs, account emails, access tokens, or credentials.",
+  "records": [
+    {
+      "id": "hostkey",
+      "provider": "HOSTKEY",
+      "account_evidence": {
+        "status": "user_confirmed",
+        "last_live_verified_at": null,
+        "notes": "User-confirmed active; hardware from user account history, not refreshed API"
+      },
+      "offering_summary": "User-reported VPS: 8 GB RAM, 4 shared vCPU, 120 GB NVMe, Italy, ~$61.91/year",
+      "claims": [
+        {
+          "metric": "ram",
+          "value": 8,
+          "unit": "GB",
+          "period": null,
+          "scope": "account_reported",
+          "verified_for_current_account": null,
+          "source": "prior_account_inventory_2026-11-02"
+        },
+        {
+          "metric": "vcpus",
+          "value": 4,
+          "unit": "vCPU",
+          "period": null,
+          "scope": "account_reported",
+          "verified_for_current_account": null,
+          "source": "prior_account_inventory_2026-11-02"
+        },
+        {
+          "metric": "disk_capacity",
+          "value": 120,
+          "unit": "GB",
+          "period": null,
+          "scope": "account_reported",
+          "verified_for_current_account": null,
+          "source": "prior_account_inventory_2026-11-02"
+        },
+        {
+          "metric": "prior_estimated_annual_price",
+          "value": 61.91,
+          "unit": "USD",
+          "period": "yearly",
+          "scope": "historical_estimate",
+          "verified_for_current_account": false,
+          "source": "prior_account_inventory_2026-11-02"
+        }
+      ],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "vps.ram_in_use",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "vps.disk_in_use",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "vps.cpu_utilization",
+            "unit": "percent",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "VPS panel + guest `free -h`, `df -h`, CPU contention; contract",
+      "source_usage_description": "RAM/disk/CPU actual utilization unknown; billing term/renewal unknown"
+    },
+    {
+      "id": "github",
+      "provider": "GitHub",
+      "account_evidence": {
+        "status": "tool_observed",
+        "last_live_verified_at": null,
+        "notes": "Connected GitHub operations observed; precise billing owner, plan and runner usage unknown"
+      },
+      "offering_summary": "Repositories, Actions, Codespaces; personal Free advertises 120 core-hours and 15 GB-month for Codespaces; 2-core hours count as 2 core-hours",
+      "claims": [
+        {
+          "metric": "codespaces_personal_free_compute",
+          "value": 120,
+          "unit": "core_hours",
+          "period": "monthly",
+          "scope": "provider_advertised",
+          "verified_for_current_account": false,
+          "source": "prior_account_inventory_2026-11-02"
+        },
+        {
+          "metric": "codespaces_personal_free_storage",
+          "value": 15,
+          "unit": "GB_month",
+          "period": "monthly",
+          "scope": "provider_advertised",
+          "verified_for_current_account": false,
+          "source": "prior_account_inventory_2026-11-02"
+        }
+      ],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "codespaces.core_hours_used",
+            "unit": "core_hours",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "codespaces.storage_used",
+            "unit": "GB_month",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "actions.runner_time_used",
+            "unit": "minutes",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "actions.storage_used",
+            "unit": "GB_month",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Billing usage/entitlement pages by owner; Actions job logs; Codespaces usage",
+      "source_usage_description": "Actions minutes, Codespaces core-hours, storage, artifacts: **unknown**"
+    },
+    {
+      "id": "gitlab",
+      "provider": "GitLab",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "User-reported account and CI scheduling experiment; quotas unverified"
+      },
+      "offering_summary": "Repos, CI pipeline runners, potential workspaces",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "ci.compute_used",
+            "unit": "minutes",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "ci.storage_used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Project CI usage and plan panel",
+      "source_usage_description": "Pipeline minutes / storage / runner consumption **unknown**"
+    },
+    {
+      "id": "cloudflare",
+      "provider": "Cloudflare",
+      "account_evidence": {
+        "status": "user_confirmed",
+        "last_live_verified_at": null,
+        "notes": "User-confirmed account and deployed projects; per-product plan unknown"
+      },
+      "offering_summary": "Pages, Workers, D1, R2, etc.; Pages Free published 500 builds/month; Workers Free 100k requests/day (10ms CPU per request per Nov 1 documentation)",
+      "claims": [
+        {
+          "metric": "pages_free_builds",
+          "value": 500,
+          "unit": "builds",
+          "period": "monthly",
+          "scope": "provider_advertised",
+          "verified_for_current_account": false,
+          "source": "prior_account_inventory_2026-11-02"
+        },
+        {
+          "metric": "workers_free_requests",
+          "value": 100000,
+          "unit": "requests",
+          "period": "daily",
+          "scope": "provider_advertised",
+          "verified_for_current_account": false,
+          "source": "prior_account_inventory_2026-11-02"
+        }
+      ],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "workers.requests_used",
+            "unit": "requests",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "workers.cpu_time_used",
+            "unit": "ms",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "pages.builds_used",
+            "unit": "builds",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "r2.storage_used",
+            "unit": "GB_month",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "d1.storage_used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Account-specific analytics + billing; distinguish product meters",
+      "source_usage_description": "Pages builds, Worker requests/CPU, D1 rows/storage, R2 storage/egress and bills **unknown**"
+    },
+    {
+      "id": "modal",
+      "provider": "Modal",
+      "account_evidence": {
+        "status": "user_confirmed",
+        "last_live_verified_at": null,
+        "notes": "Account and local CLI reported functional; production execution/remaining allowance unverified"
+      },
+      "offering_summary": "Sandboxes, functions, GPU/CPU jobs; Starter historically advertised $30/month included usage",
+      "claims": [
+        {
+          "metric": "starter_historical_included_compute",
+          "value": 30,
+          "unit": "USD",
+          "period": "monthly",
+          "scope": "historical_advertisement",
+          "verified_for_current_account": false,
+          "source": "prior_account_inventory_2026-11-02"
+        }
+      ],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "compute.charges",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "compute.included_allowance",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "sandboxes.active_count",
+            "unit": "instances",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Billing credits, usage dashboard, plan and CPU sandbox quotas",
+      "source_usage_description": "Actual spend / monthly available / active apps **unknown**"
+    },
+    {
+      "id": "e2b",
+      "provider": "E2B",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported only"
+      },
+      "offering_summary": "Agent sandboxes and usage allowance",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "sandbox.runtime",
+            "unit": "hours",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "credits.remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "E2B billing/limits page",
+      "source_usage_description": "All quotas, minutes, balance **unknown**"
+    },
+    {
+      "id": "daytona",
+      "provider": "Daytona",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported only"
+      },
+      "offering_summary": "On-demand developer workspaces/sandboxes",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "workspace.compute_used",
+            "unit": "hours",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "credits.remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Organization plan and usage",
+      "source_usage_description": "Compute credits, usage and concurrency **unknown**"
+    },
+    {
+      "id": "vercel",
+      "provider": "Vercel",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Projects; Sandbox and standard deployment products subject to distinct meters",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "sandbox.cpu_time_used",
+            "unit": "core_hours",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "deployments.builds",
+            "unit": "builds",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "credits.remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Vercel dashboard usage + specific Sandbox entitlement",
+      "source_usage_description": "Credits, sandbox usage, build counts **unknown**"
+    },
+    {
+      "id": "google",
+      "provider": "Google / Drive / AI Studio",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "User-reported account; no proof Google Cloud billing project exists"
+      },
+      "offering_summary": "Google Drive consumer storage commonly 15 GB shared; AI Studio free-tier model/API limitations vary; Cloud Shell is separate product",
+      "claims": [
+        {
+          "metric": "drive_common_consumer_storage",
+          "value": 15,
+          "unit": "GB",
+          "period": null,
+          "scope": "provider_advertised",
+          "verified_for_current_account": false,
+          "source": "prior_account_inventory_2026-11-02"
+        }
+      ],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "drive.storage_used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "ai_studio.requests_used",
+            "unit": "requests",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "cloud_compute.credit_remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Google One/Drive storage usage, AI Studio usage, separate Cloud Billing account check",
+      "source_usage_description": "Drive total/used **unknown** (15 GB not verified account quota); API tokens, quotas **unknown**"
+    },
+    {
+      "id": "backblaze",
+      "provider": "Backblaze",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "B2 object storage; paid/free allowance depends on plan",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "b2.storage_used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "b2.egress_used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "b2.charges",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "B2 buckets + billing usage",
+      "source_usage_description": "B2 storage, transaction/egress, accrued bill **unknown**"
+    },
+    {
+      "id": "idrive",
+      "provider": "IDrive",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "e2 object storage, IDrive personal/mini distinct contracts",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "e2.storage_used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "e2.charges",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Account plan + used storage by product",
+      "source_usage_description": "Allocation and consumed bytes **unknown**"
+    },
+    {
+      "id": "box",
+      "provider": "Box",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Cloud files; plan-specific storage",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "storage.used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Box Account Settings/Storage",
+      "source_usage_description": "Total/used **unknown**"
+    },
+    {
+      "id": "mega",
+      "provider": "MEGA",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Cloud storage; plan-specific transfer/storage",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "storage.used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "transfer.used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Storage manager / transfer allowance",
+      "source_usage_description": "Storage and transfer **unknown**"
+    },
+    {
+      "id": "pcloud",
+      "provider": "pCloud",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Cloud storage; plan-specific",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "storage.used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Storage dashboard",
+      "source_usage_description": "Total/used **unknown**"
+    },
+    {
+      "id": "terabox",
+      "provider": "TeraBox",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Cloud storage; plan-specific",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "storage.used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Storage dashboard",
+      "source_usage_description": "Total/used **unknown**"
+    },
+    {
+      "id": "apple-icloud",
+      "provider": "iCloud / Apple",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Storage and sign-in identity",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "storage.used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "iCloud storage settings",
+      "source_usage_description": "Total/used **unknown**"
+    },
+    {
+      "id": "tailscale",
+      "provider": "Tailscale",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "User-reported Apple sign-in and previously tested connectivity; current policy needs refresh"
+      },
+      "offering_summary": "Tailnet connectivity / device membership, not compute",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "devices.active",
+            "unit": "devices",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "users.active",
+            "unit": "users",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Admin usage/access controls",
+      "source_usage_description": "Devices and active users versus plan limits **unknown**"
+    },
+    {
+      "id": "mistral",
+      "provider": "Mistral",
+      "account_evidence": {
+        "status": "user_confirmed",
+        "last_live_verified_at": null,
+        "notes": "User-confirmed signup"
+      },
+      "offering_summary": "API, developer tools; free-tier constraints and credits change",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "api.requests_used",
+            "unit": "requests",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "api.credit_remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Console billing and quotas",
+      "source_usage_description": "API requests/remaining allowance **unknown**"
+    },
+    {
+      "id": "openrouter",
+      "provider": "OpenRouter",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Model API aggregator; balances and free model limits vary",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "api.credit_remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Keys/credits dashboard (do not publish secrets)",
+      "source_usage_description": "Remaining credit/requests **unknown**"
+    },
+    {
+      "id": "nvidia",
+      "provider": "NVIDIA",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported; actual product unknown"
+      },
+      "offering_summary": "Developer APIs or NIM trials, subject to program eligibility",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "api.credit_remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "NVIDIA console",
+      "source_usage_description": "All credit/usage values **unknown**"
+    },
+    {
+      "id": "deepseek",
+      "provider": "DeepSeek",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "User-reported account, product use in development"
+      },
+      "offering_summary": "Prepaid model API credits; PAYG, not general-purpose compute VM",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "api.credit_remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "API billing account",
+      "source_usage_description": "Current balance/spend **unknown**"
+    },
+    {
+      "id": "xiaomi-mimo",
+      "provider": "Xiaomi/MiMo",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "User-reported account, subscription/credits history"
+      },
+      "offering_summary": "Model inference account; token plans and API billing separate",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "api.credit_remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "subscription.tokens_used",
+            "unit": "tokens",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Developer console",
+      "source_usage_description": "Balance/remaining tokens **unknown**"
+    },
+    {
+      "id": "phoenix-grove",
+      "provider": "Phoenix Grove",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Inference subscription / plan allowance, not VM",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "subscription.usage",
+            "unit": "provider_units",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Subscription meter",
+      "source_usage_description": "Remaining shared allocation **unknown**"
+    },
+    {
+      "id": "opencode",
+      "provider": "OpenCode",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "User-reported subscription and $5 credit in Oct 2026"
+      },
+      "offering_summary": "Go/Zen models, potentially paid plans/credits",
+      "claims": [
+        {
+          "metric": "october_2026_reported_credit",
+          "value": 5,
+          "unit": "USD",
+          "period": null,
+          "scope": "historical_user_report",
+          "verified_for_current_account": false,
+          "source": "prior_account_inventory_2026-11-02"
+        }
+      ],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "credit.remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "subscription.usage",
+            "unit": "provider_units",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "OpenCode billing + credit wallet",
+      "source_usage_description": "$5 was reported at that time; **not verified as current**; remaining allowance unknown"
+    },
+    {
+      "id": "firecrawl",
+      "provider": "Firecrawl",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported; API/plugin usage observed"
+      },
+      "offering_summary": "Web research/scrape credits; plan-specific",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "credits.remaining",
+            "unit": "credits",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "scrapes.used",
+            "unit": "requests",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Billing and usage meters",
+      "source_usage_description": "Remaining credits **unknown**"
+    },
+    {
+      "id": "hugging-face",
+      "provider": "Hugging Face",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Spaces, inference, hosted services; account-specific quotas",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "compute.used",
+            "unit": "hours",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "storage.used",
+            "unit": "GB",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "Account billing and running Spaces",
+      "source_usage_description": "Compute/storage/credits **unknown**"
+    },
+    {
+      "id": "typesafe",
+      "provider": "Typesafe",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Account user-reported"
+      },
+      "offering_summary": "Developer account; precise product and entitlements unresolved",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": []
+      },
+      "verification_next": "Identify product and plan",
+      "source_usage_description": "**Unknown**"
+    },
+    {
+      "id": "openai",
+      "provider": "ChatGPT / OpenAI",
+      "account_evidence": {
+        "status": "user_reported",
+        "last_live_verified_at": null,
+        "notes": "Plus and Codex Cloud environments ASES/HMS user-reported; limits shared/plan-specific"
+      },
+      "offering_summary": "ChatGPT Plus, Codex Cloud, separate API if enrolled; separate quotas",
+      "claims": [],
+      "usage": {
+        "status": "unknown",
+        "observed_at": null,
+        "period": null,
+        "meters": [
+          {
+            "meter_id": "codex.usage",
+            "unit": "provider_units",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          },
+          {
+            "meter_id": "api.credit_remaining",
+            "unit": "USD",
+            "granted": null,
+            "consumed": null,
+            "remaining": null
+          }
+        ]
+      },
+      "verification_next": "ChatGPT usage/Codex settings and API billing if account exists",
+      "source_usage_description": "Remaining Codex task/model limits, API balance **unknown**"
+    }
+  ]
+}
