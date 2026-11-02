@@ -221,7 +221,7 @@ fn duplicate_reservation_is_idempotent_but_changed_forecast_is_not() {
 }
 #[test]
 fn distinct_connections_compete_under_sqlite_transaction() {
-    let (dir,path,mut initial)=setup(90,10);
+    let (dir,path,initial)=setup(90,10);
     let rev=initial.catalog_version().unwrap();
     drop(initial);
     let barrier=Arc::new(Barrier::new(9));
@@ -243,7 +243,7 @@ fn distinct_connections_compete_under_sqlite_transaction() {
 }
 #[test]
 fn restart_preserves_reservation_ack_and_single_launch_id() {
-    let (_d,path,mut s)=setup(100,2);
+    let (_d,path,s)=setup(100,2);
     let rev=s.catalog_version().unwrap();
     let p=proposal("recovery",30);
     s.reserve(&p,rev,now()).unwrap();
