@@ -8,6 +8,7 @@ use std::fmt::{Display, Formatter};
 use std::path::Path;
 
 pub mod archive;
+pub mod catalog;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug)]
@@ -106,6 +107,7 @@ impl Meter {
 pub struct Environment {
     pub id: String,
     pub account: String,
+    pub provider: String,
     pub max_parallel: u32,
     pub observed_at: i64,
     pub ttl_seconds: i64,
@@ -115,6 +117,7 @@ impl Environment {
     fn verify(&self) -> Result<()> {
         check_id(&self.id, "environment")?;
         check_id(&self.account, "environment account")?;
+        check_id(&self.provider, "environment provider")?;
         nonblank(&self.source, "source")?;
         if self.max_parallel == 0 || self.ttl_seconds < 0 {
             return Err(Error::Invalid("environment requires positive concurrency and nonnegative TTL".into()));
@@ -134,6 +137,7 @@ pub struct Claim { pub meter_id: String, pub amount: u64 }
 pub struct Proposal {
     pub job_id: String,
     pub account_id: String,
+    pub project_id: String,
     pub environment_id: String,
     pub estimated_wall_seconds: u64,
     #[serde(default)]
@@ -147,6 +151,7 @@ impl Proposal {
     fn verify(&self) -> Result<()> {
         check_id(&self.job_id, "job")?;
         check_id(&self.account_id, "proposal account")?;
+        check_id(&self.project_id, "proposal project")?;
         check_id(&self.environment_id, "environment")?;
         if self.estimated_wall_seconds == 0 { return Err(Error::Invalid("estimated wall duration must be positive".into())); }
         as_i64(self.estimated_wall_seconds, "duration")?;
@@ -250,7 +255,9 @@ impl Store {
                 scope TEXT NOT NULL, exported_at INTEGER NOT NULL
              );"
         )?;
-        Ok(Self { db })
+        let store = Self { db };
+        store.init_catalog()?;
+        Ok(store)
     }
 
     pub fn catalog_version(&self) -> Result<i64> {
@@ -358,8 +365,22 @@ impl Store {
     }
     fn validate_proposal(tx: &Transaction<'_>, p: &Proposal, at: i64) -> Result<i64> {
         p.verify()?;
+        let account_raw:Option<String>=tx.query_row(
+            "SELECT data FROM accounts WHERE id=?1",[&p.account_id],|r|r.get(0)).optional()?;
+        let account_raw=account_raw.ok_or_else(||Error::Invalid("unregistered account".into()))?;
+        let account:crate::catalog::Account=serde_json::from_str(&account_raw)?;
+        if account.registration_status!="verified" ||
+           account.credential_status!="working" || account.entitlement_status!="active" ||
+           !account.fresh(at) {
+            return Err(Error::Invalid("account entitlement unverified, expired or inactive".into()));
+        }
+        if !account.allowed_projects.contains(&p.project_id) {
+            return Err(Error::Invalid("project has no explicit entitlement grant".into()));
+        }
         let env = Self::env(tx,&p.environment_id)?;
-        if env.account != p.account_id { return Err(Error::Invalid("environment account mismatch or unauthorized borrowing".into())); }
+        if env.account != p.account_id || env.provider!=account.provider {
+            return Err(Error::Invalid("environment account mismatch or unauthorized borrowing".into()));
+        }
         if !env.fresh(at) { return Err(Error::Invalid("environment information stale or unverified".into())); }
         let slots:i64=tx.query_row("SELECT COUNT(*) FROM jobs WHERE env=?1 AND state IN ('RESERVED','AUTHORIZED','RUNNING')",
                                    [&p.environment_id],|r|r.get(0))?;
@@ -369,7 +390,7 @@ impl Store {
         let mut quoted = 0i64;
         for claim in &p.claims {
             let m=Self::meter(tx,&claim.meter_id)?;
-            if m.account != p.account_id { return Err(Error::Invalid("meter account mismatch or unauthorized borrowing".into())); }
+            if m.account != p.account_id || m.provider!=account.provider { return Err(Error::Invalid("meter account mismatch or unauthorized borrowing".into())); }
             if !m.fresh(at) {
                 return Err(Error::Invalid(format!("meter {} stale or unverified",m.id)));
             }
