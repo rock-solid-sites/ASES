@@ -56,6 +56,8 @@ class Control:
         Path(self.db).parent.mkdir(parents=True, exist_ok=True)
         c = sqlite3.connect(self.db)
         try:
+            c.execute("PRAGMA journal_mode=WAL")
+            c.execute("PRAGMA synchronous=FULL")
             c.executescript("""
                 CREATE TABLE IF NOT EXISTS buckets (
                     id TEXT PRIMARY KEY, account TEXT NOT NULL, provider TEXT NOT NULL,
@@ -115,6 +117,7 @@ class Control:
         c.row_factory = sqlite3.Row
         c.execute("PRAGMA foreign_keys=ON")
         c.execute("PRAGMA busy_timeout=20000")
+        c.execute("PRAGMA synchronous=FULL")
         try:
             c.execute("BEGIN IMMEDIATE")
             yield c
