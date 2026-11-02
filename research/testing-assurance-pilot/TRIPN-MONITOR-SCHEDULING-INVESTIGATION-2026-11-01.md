@@ -91,3 +91,52 @@ The connected Rock Solid Sites Cloudflare account, inspected read-only 2026-11-0
 ## ASES assurance status
 
 Source-first, smallest discriminating tests, independent sibling-workflow control and separation of hypotheses from observations were applied. Existing P2 historical evidence is retained in private GitLab; this public ASES report stores aggregate findings and references, **not** sensitive job traces. Independent provider-internal root-cause confirmation, owner billing and longitudinal corrective validation remain **NOT DONE**.
+
+---
+
+## Follow-up 2026-11-02 — repository-owner GitHub access and third-workflow control
+
+**Provenance:** User connected `TripN-Chill-Zone` GitHub account to GitHub MCP on 2026-11-02. Investigated read-only via that account and the Actions GET/list functions. No simulated failure, dispatch, production, or monitoring mutations.
+
+### New owner-authorized observations
+
+- Account identity **verified**: `TripN-Chill-Zone` (GitHub user ID 272279656); the repository is private, the account reports `admin: true` for `TripN-Chill-Zone/tripn-astro`.
+- Direct workflow read **verified**: production-invariant workflow ID `366183226`, `state: active`, created and `updated_at` both 2026-09-24T15:20:01Z; sibling keepalive ID `324843349`, `state: active`, created and last updated 2026-08-01T00:32:15Z. The equal timestamps strengthen, but do not conclusively prove, uninterrupted enabled state; no historical audit log was available.
+- The six *current* workflows in `tripn-astro` are active. The GitHub Actions API separately returns `disabled_inactivity` for a scheduled workflow in another repository; this distinguishes inactivity disablement from the current private monitor's active state.
+- The linked owner account exposes three repositories, of which only `tripn-astro` is private. Read-only enumeration of this private repo's Actions history returned **316 total workflow runs** across June–November 1, 2026, of which **165 total in October** (157 monitor, four Beds24, two CI, two deployments); source names should be calculated from actual enumeration, not an assumed billing balance. Observed earlier `Pink Bubble` workflow had 43 `startup_failure` conclusions from June–August, *not* contemporaneous with the monitor's September–November intervals. Current recorded monitor executions remain 196, including 194 scheduled and two manual.
+- Cross-check: `157 + 4 + 2 + 2 = 165` October workflow executions. Across the period the other public repos have independent runs but they are not billed as private-repository standard GitHub-hosted usage. The observed low number and short 19–24s monitor jobs make an exhausted 2,000-minute equivalent allowance *unlikely* to explain scheduling; owner billing usage and budgets remain **not verifiable** via available tools.
+- Historical run usage GET returned `billable.UBUNTU.total_ms = 0` despite nonzero 23s/28s wall time on sampled private runs. **DO NOT interpret this as proof of zero billed usage**: GitHub deprecated/is closing the old workflow run usage endpoint; its result is not a trustworthy billing-account statement. Official notice: https://github.blog/changelog/2025-02-02-actions-get-workflow-usage-and-get-workflow-run-usage-endpoints-closing-down/ and https://github.blog/changelog/2025-09-26-product-specific-billing-apis-are-closing-down/ .
+- `GitHub__fetch` with the *owner link* still rejects the administrative `/actions/workflows/{id}`, `/actions/permissions`, and `/actions/billing/usage` URLs at the connector's allowlist layer (HTTP 400), not because owner lacks repo administration. The separate GitHub Actions GET tool did return workflow `state` successfully. Owner **billing** and policy restrictions still require the official Billing & Licensing UI or a permitted consolidated billing connector/API; do not use deprecated usage values.
+
+### Third independent scheduling control: different repository, near-perfect correlated delays
+
+**New evidence materially strengthens the shared upstream scheduling hypothesis.**
+
+In public `TripN-Chill-Zone/tripn-instagram-feed`, workflow `.github/workflows/refresh-instagram-tokens.yml`, ID `318641780`, is configured for Mondays at `0 4 * * 1` (04:00 UTC). In separate **private** `TripN-Chill-Zone/tripn-astro`, workflow `.github/workflows/keepalive.yml`, ID `324843349`, uses `17 4 * * 1` (04:17 UTC). Ten dates have schedule-created runs in both, with the following observed event times and UTC delays:
+
+| Monday UTC | Instagram actual | Instagram lateness vs 04:00 | Beds24 actual | Beds24 lateness vs 04:17 |
+| --- | --- | ---: | --- | ---: |
+| Aug 03 | 07:23:49 | 3.397h | 07:50:32 | 3.559h |
+| Aug 10 | 05:25:05 | 1.418h | 05:47:09 | 1.503h |
+| Aug 17 | 04:40:33 | 0.676h | 05:00:38 | 0.727h |
+| Aug 24 | 04:42:27 | 0.708h | 05:04:22 | 0.789h |
+| Aug 31 | 10:34:49 | 6.580h | 10:55:02 | 6.634h |
+| Sep 07 | 08:56:31 | 4.942h | 09:25:10 | 5.136h |
+| Sep 14 | 09:35:20 | 5.589h | 09:56:14 | 5.654h |
+| Sep 21 | 09:37:19 | 5.622h | 09:59:59 | 5.716h |
+| Sep 28 | 10:36:33 | 6.609h | 10:59:15 | 6.704h |
+| Oct 05 | 11:11:31 | 7.192h | 11:35:00 | 7.300h |
+
+Pearson correlation of their ten per-date lateness values is **0.9998387**; actual creation timestamps differ by an average of **22.94 minutes** against the original 17-minute scheduled offset. The delays move together from week to week. There is therefore strong **cross-repository** evidence of a common scheduling effect. However, both repositories have the same owner and scheduled-actor `rock-solid-sites`, so this observation **cannot distinguish GitHub-platform-wide delay from shared account/actor-specific effects**. The timing alone does not reveal GitHub's internal event queue, coalescing, suppressions, or billing logic.
+
+Primary references: [Instagram workflow](https://github.com/TripN-Chill-Zone/tripn-instagram-feed/blob/main/.github/workflows/refresh-instagram-tokens.yml), [Oct 5 Instagram workflow history](https://github.com/TripN-Chill-Zone/tripn-instagram-feed/actions/workflows/refresh-instagram-tokens.yml), [Oct 5 Beds24 run](https://github.com/TripN-Chill-Zone/tripn-astro/actions/runs/37303863486). Run timestamps above were retrieved from the two authenticated Actions workflow run lists.
+
+**Separate operation risk:** Instagram refresh workflow state is `disabled_inactivity` with `updated_at=2026-10-05T11:11:31Z`. The last repository commit checked was 2026-08-06T01:27:48Z. GitHub docs confirm public scheduled workflows can auto-disable after 60 days without repository activity: https://docs.github.com/en/actions/how-tos/manage-workflow-runs/disable-and-enable-workflows . That disabled state concerns the Instagram token-refresh schedule, not the private production monitor, but merits its own operational review before refresh tokens expire. **Do not re-enable here without separate scope/approval.**
+
+### Updated root-cause confidence and remaining tests
+
+- **CONFIRMED:** the monitored workflow is currently active under the owner's account; its creation/update metadata has not changed; the private repository's October execution count is low; the published schedule remains twice-hourly, while actual run creation averages multi-hour intervals.
+- **STRONGER SUPPORT THAN BEFORE:** common GitHub scheduled-event delivery/creation (or common account/actor scheduling policy) is implicated because *two independently coded weekly workflows in two repositories* show almost exactly matched multi-hour lateness, while the original monitor also misses most nominal slots.
+- **EXCLUDED:** the public Instagram workflow's 60-day inactivity disablement as an explanation for the private monitor (it is active and private); the discrepancy is not solely a high-frequency-cron phenomenon.
+- **UNVERIFIED:** owner's actual plan, monthly remaining compute, configured budgets/stop-usage and whether GitHub's internal scheduler delayed or dropped each nominal 30-minute event; provider audit/support would be required. The old per-run billable usage API's zero is **not** evidence.
+- **RECOMMENDATION UNCHANGED:** test a low-cost external heartbeat/dispatcher on a safe nonproduction workflow, record *every intended slot* and distinguish dispatch success from GitHub run creation and completion before any production change. Current connection does not justify altering production cron.
