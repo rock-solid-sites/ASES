@@ -185,16 +185,26 @@ def check_archive(source):
 
 def assertion_counts(p5):
     rows = []
+    by_candidate = {}
     for lang, modes in p5["implementations"].items():
+        by_candidate[lang] = {}
         for mode, methods in modes.items():
+            local = []
             a = methods.get("A", {})
-            rows.extend(a.get("checks", []))
+            local.extend(a.get("checks", []))
             b = methods.get("B", {})
-            rows.extend(b.get("conventional_component", {}).get("checks", []))
-            rows.extend({"pass": x["passed"]}
-                        for x in b.get("kill_trials", []))
+            local.extend(b.get("conventional_component", {}).get("checks", []))
+            local.extend({"pass": x["passed"]}
+                         for x in b.get("kill_trials", []))
+            rows.extend(local)
+            by_candidate[lang][mode] = {
+                "checks": len(local),
+                "failed": sum(item.get("pass") is False for item in local),
+                "planted_fault": mode != "correct"
+            }
     require(bool(rows), "NO_CHECKS_IN_ARCHIVE")
-    return len(rows), sum(item.get("pass") is False for item in rows)
+    return (len(rows), sum(item.get("pass") is False for item in rows),
+            by_candidate)
 
 def assertion_example(p5):
     results = {}
@@ -216,8 +226,16 @@ def make_envelope(source, p5, archived, plan_hash):
     require(p5["status"] == expected_suite, "P5_SOURCE_STATUS")
     require(p5["source_plan_sha256"] == h(P5PLAN.read_bytes()),
             "P5_PLAN_HASH")
-    total, failed = assertion_counts(p5)
-    require((failed > 0) == red, "P5_ASSERTIONS_UNEXPECTED")
+    total, failed, by_candidate = assertion_counts(p5)
+    # A successful mutation-qualification run still contains intentionally
+    # failed assertions in deliberately broken candidates. Distinguish
+    # unexpected failures of the correct implementation from expected REDs.
+    correct_failures = sum(v["correct"]["failed"] for v in by_candidate.values())
+    planted_failures = sum(v[m]["failed"] for v in by_candidate.values()
+                           for m in ("duplicate", "early_ack"))
+    require((correct_failures > 0) == red and planted_failures > 0
+            and failed == correct_failures + planted_failures,
+            "P5_CANDIDATE_CLASSIFICATION")
     examples = assertion_example(p5)
     for lang, example in examples.items():
         require(example["expected"] == ["DENY"], "WRONG_GOLDEN")
@@ -233,6 +251,9 @@ def make_envelope(source, p5, archived, plan_hash):
         evidence_event(run_id, 2, "ASSERTION", [rawref], {
             "result": "FAIL" if failed else "PASS",
             "total_count": total, "failed_count": failed,
+            "by_candidate": by_candidate,
+            "unexpected_correct_candidate_failures": correct_failures,
+            "intended_negative_control_failures": planted_failures,
             "illustrative_check": examples}),
         evidence_event(run_id, 3, "INSTRUMENT", [rawref,
              "p5-source:" + P5_SOURCE[label]], {
