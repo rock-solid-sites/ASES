@@ -79,10 +79,7 @@ impl Policy {
                     ))
                 } else {
                     let meter=request.get("meter_id").and_then(Value::as_str).unwrap_or("");
-                    let mut s = Store::open(":memory:")?;
-                    // Do not trust caller-supplied account for unattributed usage.
-                    // Query the authoritative meter registry from the shared DB instead.
-                    let _=&mut s; // Not used for authorization.
+                    // Look up the meter owner; never trust a supplied account alias.
                     let a=store.account_for_meter(meter)?;
                     if !grant.accounts.contains(&a) {
                         return Err(Error::Invalid("unattributed meter is outside caller scope".into()));
