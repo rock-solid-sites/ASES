@@ -4,9 +4,10 @@
 use rusqlite::{params, Connection, OptionalExtension, Transaction, TransactionBehavior};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use sha2::{Digest, Sha256};
 use std::fmt::{Display, Formatter};
 use std::path::Path;
+
+pub mod archive;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug)]
