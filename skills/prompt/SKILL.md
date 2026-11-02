@@ -55,8 +55,6 @@ Start with the smallest operation that fits. Current useful operations:
 
 Add new named operations only after repeated use demonstrates a distinct reasoning mode.
 
-**Ontology review routing (proposed integration).** Select ontology-review only when a change or claim concerns material conceptual identity, categories, ownership, relationships, authority, lifecycles, or boundaries; pair it with pre-build-review for unsettled conceptual design and post-build-review for independent conformance to fixed canonical definitions. Use docs/roles/Ontology-Reviewer.md and docs/ORCHESTRATOR.md for selection and eligibility rules. Do not dispatch an additional agent when a deterministic canonical-meaning check suffices, and do not imply a dedicated reviewer runtime exists unless its authorized route is verified. Preserve the independent-model-family and clean-room rules for formal reviews.
-
 ### 2. Preserve task semantics
 
 Preserve task semantics before optimizing execution. Identify the user-selected target, required behavior, and settled constraints. Do not replace them with implementation conveniences or reopen them during planning unless evidence shows they are infeasible.
