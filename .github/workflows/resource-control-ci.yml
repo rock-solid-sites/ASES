@@ -32,3 +32,5 @@ jobs:
         run: cargo test --all-targets --locked -- --test-threads=4
       - name: Clippy
         run: cargo clippy --all-targets --locked -- -D warnings
+      - name: Offline provider adapter tests
+        run: python3 -m unittest discover -s adapters -p 'test_*.py' -v
