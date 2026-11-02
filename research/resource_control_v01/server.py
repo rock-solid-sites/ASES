@@ -93,6 +93,7 @@ def handler_factory(control, launcher, archive_directory, read_token, admin_toke
                 elif path=="/v1/register":result=control.register_bucket(**obj) or {"registered":True}
                 elif path=="/v1/bucket-refresh":result=control.refresh_bucket(**obj)
                 elif path=="/v1/recover":result=recover_mock(control,launcher)
+                elif path=="/v1/expire":result=control.expire_unlaunched(**obj)
                 elif path=="/v1/archive":result=archive(control,obj["job_id"],archive_directory)
                 else:return self.respond(404,{"error":"NOT_FOUND"})
                 self.respond(200,result)
