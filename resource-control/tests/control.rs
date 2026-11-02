@@ -462,3 +462,131 @@ fn tests_are_reproducible_from_fixture_path_not_external_services() {
     assert!(Path::new(&path).exists());
     assert_eq!(s.catalog_version().unwrap(),3);
 }
+
+
+#[test]
+fn accounts_have_explicit_provenance_and_project_grants() {
+    let (_d,_p,mut s)=setup(100,2);
+    assert_eq!(s.accounts().unwrap().len(),1);
+    let acct=s.account("acct-a").unwrap();
+    assert_eq!(acct.registration_status,"verified");
+    assert!(acct.fresh(now()));
+    let mut p=proposal("project-b",10);
+    p.project_id="project-b".into();
+    assert_error_contains(s.reserve(&p,s.catalog_version().unwrap(),now()),"no explicit entitlement grant");
+    p.project_id="project-a".into();
+    assert!(s.quote(&p,now()).unwrap().eligible);
+}
+#[test]
+fn account_reporting_is_not_credential_verification() {
+    let (_d,_p,mut s)=setup(100,2);
+    let mut account=s.account("acct-a").unwrap();
+    account.registration_status="reported".into();
+    account.credential_status="untested".into();
+    account.entitlement_status="unknown".into();
+    s.register_account(&account).unwrap();
+    assert_error_contains(s.reserve(&proposal("unverified",10),s.catalog_version().unwrap(),now()),
+                         "account entitlement unverified");
+    account.registration_status="verified".into();
+    account.credential_status="working".into();
+    account.entitlement_status="active".into();
+    s.register_account(&account).unwrap();
+    assert!(s.quote(&proposal("verified",10),now()).unwrap().eligible);
+}
+#[test]
+fn account_identity_is_immutable_without_new_id() {
+    let (_d,_p,mut s)=setup(100,2);
+    let mut account=s.account("acct-a").unwrap();
+    account.provider="other-provider".into();
+    assert_error_contains(s.register_account(&account),"cannot silently change");
+    assert_eq!(s.account("acct-a").unwrap().provider,"github");
+}
+#[test]
+fn dormant_or_expired_account_does_not_become_a_free_allowance() {
+    let (_d,_p,mut s)=setup(100,2);
+    let mut account=s.account("acct-a").unwrap();
+    account.observed_at=now()-7200;
+    s.register_account(&account).unwrap();
+    assert!(!s.quote(&proposal("expired-account",10),now()).unwrap().eligible);
+    account.observed_at=now();
+    account.entitlement_status="exhausted".into();
+    s.register_account(&account).unwrap();
+    assert!(!s.quote(&proposal("exhausted-account",10),now()).unwrap().eligible);
+}
+fn sample_catalog(models:&[&str])->CatalogImport {
+    CatalogImport {
+        provider:"opencode-zen".into(),
+        source_url:"https://opencode.ai/zen/v1/models".into(),
+        retrieved_at:now(),
+        payload:serde_json::json!({"object":"list",
+            "data":models.iter().map(|id|serde_json::json!({"id":id,"cost":"unknown"}))
+                .collect::<Vec<_>>()})
+    }
+}
+#[test]
+fn passive_catalog_has_versioned_diff_and_does_not_imply_account_access() {
+    let (_d,_p,mut s)=setup(100,2);
+    let initial=s.catalog_version().unwrap();
+    let c=sample_catalog(&["alpha","beta"]);
+    let first=s.import_catalog(&c).unwrap();
+    assert!(first.changed);
+    assert_eq!(first.added_ids,vec!["alpha","beta"]);
+    assert_eq!(first.catalog_version,initial+1);
+    let second=s.import_catalog(&c).unwrap();
+    assert!(!second.changed);
+    assert_eq!(second.catalog_version,initial+1);
+    let more=s.import_catalog(&sample_catalog(&["beta","gamma"])).unwrap();
+    assert_eq!(more.added_ids,vec!["gamma"]);
+    assert_eq!(more.removed_ids,vec!["alpha"]);
+    assert!(s.catalog_states(now(),3600).unwrap()[0]["fresh"].as_bool().unwrap());
+    assert_eq!(s.catalog_states(now(),3600).unwrap()[0]["catalog_presence_not_account_access"],true);
+    assert_eq!(s.catalog_payload("opencode-zen").unwrap()["data"].as_array().unwrap().len(),2);
+}
+#[test]
+fn catalog_failure_preserves_last_known_models_and_reports_stale() {
+    let (_d,_p,mut s)=setup(100,2);
+    s.import_catalog(&sample_catalog(&["still-known"])).unwrap();
+    s.catalog_failure("opencode-zen","timeout",now()).unwrap();
+    assert_eq!(s.catalog_payload("opencode-zen").unwrap()["data"][0]["id"],"still-known");
+    let state=s.catalog_states(now()+10000,60).unwrap();
+    assert_eq!(state[0]["fresh"],false);
+    assert_eq!(state[0]["last_error"],"timeout");
+    assert_eq!(state[0]["digest"].as_str().unwrap().len(),64);
+}
+#[test]
+fn catalog_input_is_qualified_and_rejects_invalid_neighbors() {
+    let (_d,_p,mut s)=setup(100,2);
+    let mut c=sample_catalog(&["valid"]);
+    assert!(s.import_catalog(&c).is_ok());
+    c.source_url="http://insecure.example/models".into();
+    assert_error_contains(s.import_catalog(&c),"HTTPS");
+    c.source_url="https://opencode.ai/zen/v1/models".into();
+    c.payload=serde_json::json!({"data":[{"id":"same"},{"id":"same"}]});
+    assert_error_contains(s.import_catalog(&c),"duplicate");
+    c.payload=serde_json::json!({"data":[{"price":0}]});
+    assert_error_contains(s.import_catalog(&c),"without identifier");
+    c.payload=serde_json::json!({"not_a_model_list":[]});
+    assert_error_contains(s.import_catalog(&c),"requires");
+}
+#[test]
+fn model_catalog_change_invalidates_inflight_resource_acknowledgement() {
+    let (_d,_p,mut s)=setup(100,2);
+    let revision=s.catalog_version().unwrap();
+    s.reserve(&proposal("catalog-drift",40),revision,now()).unwrap();
+    s.import_catalog(&sample_catalog(&["model-new"])).unwrap();
+    assert_error_contains(s.acknowledge("catalog-drift","ack",revision,now()),"catalog changed");
+}
+#[test]
+fn manual_attribution_is_append_only_and_cannot_change_financial_amounts() {
+    let (_d,_p,mut s)=setup(100,2);
+    running(&mut s,&proposal("annotation",30));
+    let t=now();
+    s.observe_usage("obs",Some("annotation"),"core",20,t,"provider").unwrap();
+    let before=balance(&mut s).available;
+    s.annotate("note-1","obs:obs","agent-a","time split due to setup, not verified provider outage",t).unwrap();
+    assert_eq!(balance(&mut s).available,before);
+    let events=s.event_log(None).unwrap();
+    assert_eq!(events.last().unwrap()["kind"],"MANUAL_INTERPRETATION");
+    assert_eq!(events.last().unwrap()["payload"]["authority_not_authenticated"],true);
+    assert_error_contains(s.annotate("bad","missing","agent-a","guess",t),"unknown source");
+}
