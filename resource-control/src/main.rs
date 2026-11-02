@@ -1,5 +1,5 @@
 //! Trusted local command adapter; NOT a public network API or external launcher.
-use ases_resource_control::{archive::verify_archive, now, Claim, Environment, Meter, Proposal, Store};
+use ases_resource_control::{archive::verify_archive, now, Environment, Meter, Proposal, Store};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use std::io::Read;
@@ -19,6 +19,9 @@ enum Request {
                    occurred_at:Option<i64>, source:String },
     ProviderReport { event_id:String, meter_id:String, total_used:u64,
                      complete_through:Option<i64>, observed_at:Option<i64>, source:String },
+    ObserveLifecycle { event_id:String, job_id:String, kind:String, subject:String,
+                       occurred_at:Option<i64>, details:Option<Value> },
+    Timeline { job_id:String },
     Finalize { job_id:String, outcome:String },
     Expire,
     Job { job_id:String },
@@ -71,6 +74,11 @@ fn run()->Result<(),Box<dyn std::error::Error>> {
             "provider_observation":store.provider_report(&event_id,&meter_id,total_used,
                                                          complete_through,observed_at.unwrap_or(time),&source)?
         }),
+        Request::ObserveLifecycle{event_id,job_id,kind,subject,occurred_at,details}=>json!({
+            "lifecycle":store.observe_lifecycle(&event_id,&job_id,&kind,
+                 occurred_at.unwrap_or(time),&subject,details.unwrap_or(json!({})))?
+        }),
+        Request::Timeline{job_id}=>store.timeline(&job_id)?,
         Request::Finalize{job_id,outcome}=>json!({"finalization":store.finalize(&job_id,&outcome,time)?}),
         Request::Expire=>json!({"expired":store.expire_unlaunched(time)?}),
         Request::Job{job_id}=>store.job(&job_id)?,
