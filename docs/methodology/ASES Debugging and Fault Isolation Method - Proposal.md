@@ -58,6 +58,14 @@ Apply the existing *Bounded Project Build Method* when a diagnosed change needs 
 
 The current **AGENTS.md** already requires reasoning certainty (WHY / WHAT / HOW CERTAIN / WHAT-NOT-TESTED), cheapest discriminating tests, tool independence, operator-thinness and independently supported review. Those are current policy independently of this draft. This proposal specifies additional diagnostic practice; it must not claim the status of a canonical rule until promoted.
 
+### Ontology review for diagnostic category and boundary errors
+
+The existing [Ontology Reviewer](../roles/Ontology-Reviewer.md) is a **selectable specialist review domain**, not a new debugging stage. Choose it when an investigation depends on contested or incorrectly conflated conceptual distinctions—for example **client tool exposure vs MCP backend health**, **trigger not delivered vs CI job failed**, **symptom vs root cause**, **provider acknowledgment vs durable settlement**, or **test harness failure vs application failure**.
+
+An exploratory ontology review can clarify ambiguous failure boundaries before committing to a debugging model or invasive experiment. A post-build conformance review can independently challenge whether a finished diagnostic artifact maps observations to the correct canonical entities and boundaries. This does **not** validate a causal hypothesis by itself: discriminating runtime tests, real-surface acceptance and evidence of the actual mechanism remain necessary. Do not summon an extra model where a direct definition/identity check resolves the distinction. Review execution must retain the role's independent-family, minimal-context and authority constraints.
+
+The [testing proposal](ASES%20Testing%20and%20Assurance%20Method%20-%20Proposal.md) may supply qualified diagnostic instruments; the Ontology Reviewer examines whether the **categories under examination** are coherent. Both feed the same evidence and reasoning record.
+
 ## 3. Proposed governing disciplines
 
 1. **Original objective is the acceptance oracle.** Define what the operator/user actually needed. A green probe at an intermediate layer does not close the incident if the requested operation still fails.
