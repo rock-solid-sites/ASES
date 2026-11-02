@@ -33,7 +33,12 @@ last_updated: 2026-11-02
 | [ontology-design-reviewer.md](ontology-design-reviewer.md) | **Exploratory conceptual design challenge**, with design context and authorized revision of the proposed model | Separate *role contract* extracted from historical Ontology Reviewer pre-build mode |
 | [ontology-conformance-reviewer.md](ontology-conformance-reviewer.md) | **Independent conceptual conformance** against fixed canonical meaning, clean-room and falsification-oriented | Separate *role contract* extracted from historical Ontology Reviewer post-build mode |
 | [integration-plan.md](integration-plan.md) | Proposed ownership, routing, review entry points, dependencies, and conflicts to check | Nothing is wired in by this document |
+| [cross-conversation-reconciliation-2026-11-02.md](cross-conversation-reconciliation-2026-11-02.md) | First synthesis of HMS, cgrmcp, Resource Solver and Account Enumeration feedback, plus P6/P7 research | Review-only note linking response files on main, not an adoption decision |
 | [integration-changes.patch](integration-changes.patch) | **Exact earlier candidate edits** to four pre-existing operational/methodology documents, against current main at capture | Comparison input only; **do not blindly apply** before reconciliation |
+
+## Cross-conversation responses
+
+Four response documents were subsequently committed by other discussions to this same folder path **on main**, not this proposal branch: [HMS chat](https://github.com/rock-solid-sites/ASES/blob/main/docs/proposals/2026-11-02-testing-debugging-ontology/HMS%20chat.md), [cgrmcp response](https://github.com/rock-solid-sites/ASES/blob/main/docs/proposals/2026-11-02-testing-debugging-ontology/cgrmcp-chat-response-2026-11-02.md), [Resource Solver response](https://github.com/rock-solid-sites/ASES/blob/main/docs/proposals/2026-11-02-testing-debugging-ontology/resource-solver-chat-response-2026-11-02.md), and [Account Enumeration response](https://github.com/rock-solid-sites/ASES/blob/main/docs/proposals/2026-11-02-testing-debugging-ontology/ases-account-enumeration-chat-2026-11-02.md). Their evidence classification, common findings and unresolved issues are summarized in the [cross-conversation reconciliation](cross-conversation-reconciliation-2026-11-02.md). Follow these links for exact source statements; do not assume the main and branch folders have identical contents.
 
 ## Existing sources to compare against
 
