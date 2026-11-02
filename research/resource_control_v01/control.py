@@ -182,6 +182,35 @@ class Control:
             self._bump(c)
             self._event(c,"BUCKET_REGISTERED","registry",{"bucket_id":bucket_id})
 
+    def refresh_bucket(self, *, bucket_id, allowance, price_micros,
+                       observed_at, ttl_seconds, evidence, source="provider"):
+        """Update provider entitlement facts, preserving reservations and prior event."""
+        require_id(bucket_id,"bucket_id")
+        integer(allowance,"allowance");integer(observed_at,"observed_at")
+        integer(ttl_seconds,"ttl_seconds",1)
+        if price_micros is not None:integer(price_micros,"price_micros")
+        if not isinstance(evidence,str) or not evidence.strip():
+            raise Rejected("MISSING_PROVIDER_EVIDENCE")
+        require_id(source,"source")
+        with self._tx() as c:
+            b=c.execute("SELECT * FROM buckets WHERE id=?",(bucket_id,)).fetchone()
+            if b is None:raise Rejected("UNKNOWN_BUCKET")
+            if observed_at<=b["refreshed_at"]:
+                raise Rejected("STALE_PROVIDER_FACT")
+            c.execute("""UPDATE buckets SET allowance=?,price_micros=?,refreshed_at=?,
+                         ttl_seconds=? WHERE id=?""",
+                      (allowance,price_micros,observed_at,ttl_seconds,bucket_id))
+            current=c.execute("SELECT * FROM buckets WHERE id=?",(bucket_id,)).fetchone()
+            if self._capacity(current)<0:
+                c.execute("UPDATE buckets SET frozen=1 WHERE id=?",(bucket_id,))
+            self._event(c,"BUCKET_REFRESHED",source,
+                        {"bucket_id":bucket_id,"allowance":allowance,
+                         "price_micros":price_micros,"observed_at":observed_at,
+                         "evidence":evidence})
+            self._bump(c)
+            return {"bucket_id":bucket_id,"available":self._capacity(current),
+                    "frozen":self._capacity(current)<0 or bool(b["frozen"])}
+
     def snapshot(self, account=None, *, now=None):
         stamp = int(time.time()) if now is None else integer(now, "now")
         with self._tx() as c:
