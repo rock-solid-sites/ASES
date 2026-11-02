@@ -1,0 +1,43 @@
+# ASES nonproduction scheduler control. No network checks, alerts, or repository writes.
+# Native cron is a comparison arm; Cloudflare dispatch is disabled until explicitly enabled.
+name: ASES Schedule Delivery Probe
+run-name: "ASES clock / ${{ github.event_name }} / ${{ inputs.slot_utc || 'native' }}"
+
+on:
+  schedule:
+    - cron: '13 */3 * * *'
+  workflow_dispatch:
+    inputs:
+      slot_utc:
+        description: 'External scheduled UTC timestamp (research control only)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Record scheduling evidence
+        env:
+          PROBE_EVENT: ${{ github.event_name }}
+          PROBE_SLOT_UTC: ${{ inputs.slot_utc || '' }}
+          PROBE_NATIVE_CRON: ${{ github.event.schedule || '' }}
+          PROBE_RUN_ID: ${{ github.run_id }}
+          PROBE_ATTEMPT: ${{ github.run_attempt }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import datetime, json, os
+          print("ASES_SCHEDULE_PROBE=" + json.dumps({
+              "event": os.environ["PROBE_EVENT"],
+              "slot_utc": os.environ["PROBE_SLOT_UTC"] or None,
+              "native_cron": os.environ["PROBE_NATIVE_CRON"] or None,
+              "run_id": os.environ["PROBE_RUN_ID"],
+              "run_attempt": os.environ["PROBE_ATTEMPT"],
+              "step_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          }, sort_keys=True))
+          PY
