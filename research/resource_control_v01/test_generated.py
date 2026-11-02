@@ -39,7 +39,7 @@ class GeneratedHistories(unittest.TestCase):
                             # The synthetic job was admitted and observed; it need not call a real provider.
                             token=ctl.acknowledge("j"+str(i),
                                 snapshot_digest=q["snapshot_digest"],
-                                expires_at=int(time.time())+3600)["token"]
+                                expires_at=int(time.time())+3000)["token"]
                             ctl.launch_prepare("j"+str(i),token=token)
                             ctl.launch_confirm("j"+str(i),external_id="mock"+str(i))
                             ctl.observe("j"+str(i),event_id="use"+str(i),
@@ -69,7 +69,7 @@ class GeneratedHistories(unittest.TestCase):
                         quote=ctl.quote(claims={"cpu":local},estimate={},account="a")
                         ctl.reserve(job_id="j",attempt_id="attempt",quote=quote,account="a")
                         ack=ctl.acknowledge("j",snapshot_digest=quote["snapshot_digest"],
-                                            expires_at=int(time.time())+3600)
+                                            expires_at=int(time.time())+3000)
                         ctl.launch_prepare("j",token=ack["token"])
                         ctl.launch_confirm("j",external_id="mock")
                         ctl.observe("j",event_id="usage",bucket_id="cpu",cumulative=local)
