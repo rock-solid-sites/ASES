@@ -22,6 +22,12 @@
 - [Structured raw evidence copied from GitLab CI](evidence/gitlab-3015407990-p3.json).
 - GitLab CI `3015407990`: six compiled capacity/wallet/spend-cap mutants; **0/6** caught by P1's five controls, **6/6** by the inherited 1,025-case suite, **6/6** by the new six independent boundary inputs with valid neighbors retained. The full provider artifact archive has **not** been independently copied. This is a test-selection comparison, not a general mutation score.
 
+**P4 — Environmental perturbation on concurrent in-memory reservations (new stateful substrate).**
+- [Experimental technique and interpretation rules](ENVIRONMENTAL-PERTURBATION-EXPERIMENTAL.md); [frozen P4 plan](P4-PREREGISTERED-PLAN-2026-11-02.md); [P4 observed results](P4-RESULTS-2026-11-02.md).
+- GitLab CI `3015717109`: 120 trials covering four competing-request scenarios, two languages, normal runs, measured critical-section delays, and deliberately stale snapshots. Safe Rust/Haskell implementations preserved all tested invariants; known stale-snapshot faults were detected in capacity/spend/idempotency controls.
+- A 1.2-second **single-core** CPU contender was measured as effective; five before/after samples per language showed slowed execution but no failed tested invariants. Process crash recovery and disk/network fault injection are **NOT_TESTED**.
+- **Complete original P4 CI artifact ZIP is preserved outside GitLab**, [Base64 archive](evidence/p4-gitlab-3015717109-original-artifacts.zip.b64) + [SHA-256 provenance](evidence/p4-gitlab-3015717109-archive-manifest.json), with source ZIP hash independently recomputed after GitHub archival. This does not retroactively complete P1/P3 archives.
+
 [Independent-review packet](INDEPENDENT-REVIEW-PACKET-2026-11-01.md) is ready for an actual separate reviewer; drafting it and source-first checking by the builder are **not** independent verification.
 
 ## Method conclusions still pending
