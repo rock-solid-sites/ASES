@@ -27,7 +27,7 @@ fn bootstrap(db:&Path){
         id:"core".into(),account:"acct-a".into(),provider:"github".into(),
         product:"codespaces".into(),period:"2026-11".into(),unit:"core_minutes".into(),
         limit:100,guard:0,observed_at:now(),ttl_seconds:3600,
-        source:"synthetic".into(),period_start:None,period_end:None,price_per_unit_micros:0,chargeable:false
+        source:"synthetic".into(),period_start:None,period_end:None,price_per_unit_micros:0,price_currency:None,chargeable:false
     }).unwrap();
     s.register_environment(&Environment{
         id:"codespace".into(),account:"acct-a".into(),provider:"github".into(),
@@ -38,7 +38,7 @@ fn p(id:&str)->Proposal{
     Proposal{job_id:id.into(),account_id:"acct-a".into(),project_id:"project-a".into(),
         environment_id:"codespace".into(),estimated_wall_seconds:60,
         claims:vec![Claim{meter_id:"core".into(),amount:10}],
-        paid_spend_cap_micros:None,forecast_context:None}
+        paid_spend_cap_micros:None,paid_spend_cap_currency:None,forecast_context:None}
 }
 #[test]
 fn role_and_project_scope_are_enforced_on_actual_controller_state(){
