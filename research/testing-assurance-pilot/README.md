@@ -40,6 +40,14 @@
 - The [first P6 run 3016045716](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3016045716) failed due to a bad assertion-aggregation assumption; it was not counted as an application defect. Both original P6 CI ZIPs are [independently archived and SHA-256 verified](evidence/P6-ARCHIVE-MANIFEST-2026-11-02.json).
 - The schema is research-only: field presence does not authenticate reviewer independence, human authority or semantic truth; no canonical method changed.
 
+**P7 — Source-first P5 evidence reconstruction and ontology role benchmark qualification.**
+- [Frozen P7 plan](P7-PREREGISTERED-PLAN-2026-11-02.md), [results and caveats](P7-RESULTS-2026-11-02.md), [review dispatch protocol](P7-REVIEW-EXECUTION-PROTOCOL-2026-11-02.md).
+- Original P5 failed and corrected ZIPs reopened, SHA-256/CRC checked, assertion outcomes and five-fold crash-point results recomputed from raw per-check fields. P5 fixture correction source diff exactly one line (`charge=50` to `charge=90`, cap 80); **mechanical source-first reconstruction is NOT model-independent human/agent review**.
+- [Six unlabeled cases](../ontology-benchmark-p7/blind-cases.json), key privately sealed before execution, [GitLab P7 CI 3016096124](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3016096124): simple deterministic syntax-control baseline found **2/4** planted conceptual defects with **0/2** false positives; **7/7** malformed input checks detected. This is NOT ordinary reviewer performance.
+- Original Conformance packet had result-hint traces. Corrected [Conformance packet v2](../ontology-benchmark-p7/conformance-review-packet-v2.json) and separate [Design packet](../ontology-benchmark-p7/design-review-packet.json) passed [post-hoc GitLab packet qualification 3016118845](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3016118845): **2/2 valid, 6/6 invalid**.
+- [Public redacted P7 machine evidence](../ontology-benchmark-p7/evidence/p7-machine-result-redacted.json) contains no individual benchmark labels; original complete sealed ZIP **6,199 bytes** preserved and SHA-256 verified in private `rock-solid-sites/foundation-ASES@research/ases-p7-sealed-evidence-2026-11-02`. [Original post-hoc packet CI ZIP](../ontology-benchmark-p7/evidence/p7-cleanroom-packet-qualification-original-ci.zip.b64) also independently retained and hash-verified.
+- **Real ordinary/model Design/model Conformance review evaluations: NOT_RUN.** Model-family route, independent reviewer reconstruction and role added value remain to be measured; PR #4 stays draft.
+
 [Independent-review packet](INDEPENDENT-REVIEW-PACKET-2026-11-01.md) is ready for an actual separate reviewer; drafting it and source-first checking by the builder are **not** independent verification.
 
 ## Method conclusions still pending
