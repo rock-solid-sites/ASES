@@ -1,0 +1,143 @@
+{
+  "schema_version": "0.1",
+  "as_of_utc": "2026-11-02T04:00:15.835Z",
+  "source_read_note": "Conservative bounded sweep, 2026-11-02T04:00:10.401Z to 04:00:15.835Z (caller-side). Cloudflare provider-side observation timestamp 04:00:12.206Z. GitHub ASES list 04:00:10.403Z to 04:00:15.833Z, Tripn list 04:00:10.403Z to 04:00:15.835Z. Individual GitHub server response timestamps are not available; as_of_utc is the latest tool-return cutoff, not a precise GitHub backend observation time. This is a normalized metadata excerpt, not full provider response, log or artifact archive.",
+  "cloud": {
+    "id": "ases-schedule-clock-20261102",
+    "cron": "9,39 * * * *",
+    "first_evaluable_utc": "2026-11-02T01:39:00Z",
+    "interval_minutes": 30,
+    "source": {
+      "status": "OK",
+      "kind": "Cloudflare D1 REST query",
+      "database_id": "722b87f3-1570-466b-8565-dd77f650a241",
+      "table": "ticks",
+      "query_errors": [],
+      "query_server_utc": "2026-11-02T04:00:12.206Z",
+      "query_caller_start_utc": "2026-11-02T04:00:10.401Z",
+      "query_caller_end_utc": "2026-11-02T04:00:15.833Z",
+      "rows_read_count": 6
+    },
+    "rows": [
+      {
+        "scheduled_ms": 1793581771387,
+        "observed_ms": 1793581771983,
+        "last_seen_ms": 1793581771983,
+        "cron": "9,39 * * * *",
+        "duplicate_count": 0,
+        "dispatch_status": "not_dispatch_slot",
+        "http_code": null,
+        "error_code": null
+      },
+      {
+        "scheduled_ms": 1793583571387,
+        "observed_ms": 1793583572218,
+        "last_seen_ms": 1793583572218,
+        "cron": "9,39 * * * *",
+        "duplicate_count": 0,
+        "dispatch_status": "not_dispatch_slot",
+        "http_code": null,
+        "error_code": null
+      },
+      {
+        "scheduled_ms": 1793585371387,
+        "observed_ms": 1793585372519,
+        "last_seen_ms": 1793585372519,
+        "cron": "9,39 * * * *",
+        "duplicate_count": 0,
+        "dispatch_status": "not_dispatch_slot",
+        "http_code": null,
+        "error_code": null
+      },
+      {
+        "scheduled_ms": 1793587171387,
+        "observed_ms": 1793587172215,
+        "last_seen_ms": 1793587172215,
+        "cron": "9,39 * * * *",
+        "duplicate_count": 0,
+        "dispatch_status": "not_dispatch_slot",
+        "http_code": null,
+        "error_code": null
+      },
+      {
+        "scheduled_ms": 1793588971387,
+        "observed_ms": 1793588972480,
+        "last_seen_ms": 1793588972480,
+        "cron": "9,39 * * * *",
+        "duplicate_count": 0,
+        "dispatch_status": "disabled",
+        "http_code": null,
+        "error_code": null
+      },
+      {
+        "scheduled_ms": 1793590771387,
+        "observed_ms": 1793590772857,
+        "last_seen_ms": 1793590772857,
+        "cron": "9,39 * * * *",
+        "duplicate_count": 0,
+        "dispatch_status": "not_dispatch_slot",
+        "http_code": null,
+        "error_code": null
+      }
+    ]
+  },
+  "github": [
+    {
+      "id": "ases-native-control",
+      "repo": "rock-solid-sites/ASES",
+      "workflow_id": 404004929,
+      "cron": "13 */3 * * *",
+      "first_evaluable_utc": "2026-11-02T03:13:00Z",
+      "interval_minutes": 180,
+      "source": {
+        "status": "OK",
+        "kind": "GitHub Actions list_workflow_runs",
+        "total_count": 0,
+        "workflow_state": "active",
+        "query_caller_start_utc": "2026-11-02T04:00:10.403Z",
+        "query_caller_end_utc": "2026-11-02T04:00:15.833Z"
+      },
+      "runs": []
+    },
+    {
+      "id": "tripn-native-monitor",
+      "repo": "TripN-Chill-Zone/tripn-astro",
+      "workflow_id": 366183226,
+      "cron": "7 */3 * * *",
+      "first_evaluable_utc": "2026-11-02T03:07:00Z",
+      "interval_minutes": 180,
+      "source": {
+        "status": "OK",
+        "kind": "GitHub Actions list_workflow_runs",
+        "total_count": 197,
+        "workflow_state": "active",
+        "query_caller_start_utc": "2026-11-02T04:00:10.403Z",
+        "query_caller_end_utc": "2026-11-02T04:00:15.835Z"
+      },
+      "runs": [
+        {
+          "id": 41368023717,
+          "created_at": "2026-11-02T00:36:11Z",
+          "run_started_at": "2026-11-02T00:36:11Z",
+          "event": "schedule",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/TripN-Chill-Zone/tripn-astro/actions/runs/41368023717",
+          "updated_at": "2026-11-02T00:36:35Z",
+          "head_sha": "974d8224ac5376720793d9ead57b08b061573312",
+          "run_number": 197
+        }
+      ],
+      "prior_run_note": "The complete GitHub listing showed 197 total runs and zero created since the 03:07 UTC first eligible slot; only latest pre-change run metadata is preserved in this normalized snapshot. The 03:07 nominal slot is not provably permanently dropped."
+    }
+  ],
+  "external_dispatch": {
+    "enabled": false,
+    "reason": "No scoped Actions-write credential provisioned; disabled by design"
+  },
+  "predecessor": {
+    "snapshot_path": "research/testing-assurance-pilot/scheduler-clock/snapshot-2026-11-02T0349Z.json",
+    "observation_utc": "2026-11-02T03:49:40.796Z",
+    "prior_claim": "No GitHub scheduled run visible for the 03:07 and 03:13 UTC slots; no permanent-drop attribution"
+  }
+}

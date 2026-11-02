@@ -1,0 +1,144 @@
+{
+  "schema_version": "0.1",
+  "as_of_utc": "2026-11-02T04:00:15.835Z",
+  "claim": "Compare source-attributed scheduling observations without collapsing execution into claim confidence or acceptance",
+  "cloud": {
+    "source_status": "OK",
+    "expected_slots_elapsed": 5,
+    "observed_slots": 5,
+    "slots": [
+      {
+        "slot_utc": "2026-11-02T01:39:00.000Z",
+        "observation": "EXECUTION_RECORD_OBSERVED",
+        "d1_scheduled_utc": "2026-11-02T01:39:31.387Z",
+        "observed_utc": "2026-11-02T01:39:32.218Z",
+        "scheduled_offset_ms": 31387,
+        "execution_after_provider_scheduled_ms": 831,
+        "end_to_end_from_nominal_ms": 32218,
+        "duplicates": 0,
+        "dispatch_telemetry": "not_dispatch_slot",
+        "delivery_cause": "NOT_INFERRED"
+      },
+      {
+        "slot_utc": "2026-11-02T02:09:00.000Z",
+        "observation": "EXECUTION_RECORD_OBSERVED",
+        "d1_scheduled_utc": "2026-11-02T02:09:31.387Z",
+        "observed_utc": "2026-11-02T02:09:32.519Z",
+        "scheduled_offset_ms": 31387,
+        "execution_after_provider_scheduled_ms": 1132,
+        "end_to_end_from_nominal_ms": 32519,
+        "duplicates": 0,
+        "dispatch_telemetry": "not_dispatch_slot",
+        "delivery_cause": "NOT_INFERRED"
+      },
+      {
+        "slot_utc": "2026-11-02T02:39:00.000Z",
+        "observation": "EXECUTION_RECORD_OBSERVED",
+        "d1_scheduled_utc": "2026-11-02T02:39:31.387Z",
+        "observed_utc": "2026-11-02T02:39:32.215Z",
+        "scheduled_offset_ms": 31387,
+        "execution_after_provider_scheduled_ms": 828,
+        "end_to_end_from_nominal_ms": 32215,
+        "duplicates": 0,
+        "dispatch_telemetry": "not_dispatch_slot",
+        "delivery_cause": "NOT_INFERRED"
+      },
+      {
+        "slot_utc": "2026-11-02T03:09:00.000Z",
+        "observation": "EXECUTION_RECORD_OBSERVED",
+        "d1_scheduled_utc": "2026-11-02T03:09:31.387Z",
+        "observed_utc": "2026-11-02T03:09:32.480Z",
+        "scheduled_offset_ms": 31387,
+        "execution_after_provider_scheduled_ms": 1093,
+        "end_to_end_from_nominal_ms": 32480,
+        "duplicates": 0,
+        "dispatch_telemetry": "disabled",
+        "delivery_cause": "NOT_INFERRED"
+      },
+      {
+        "slot_utc": "2026-11-02T03:39:00.000Z",
+        "observation": "EXECUTION_RECORD_OBSERVED",
+        "d1_scheduled_utc": "2026-11-02T03:39:31.387Z",
+        "observed_utc": "2026-11-02T03:39:32.857Z",
+        "scheduled_offset_ms": 31387,
+        "execution_after_provider_scheduled_ms": 1470,
+        "end_to_end_from_nominal_ms": 32857,
+        "duplicates": 0,
+        "dispatch_telemetry": "not_dispatch_slot",
+        "delivery_cause": "NOT_INFERRED"
+      }
+    ],
+    "excluded_warmup_rows": [
+      {
+        "d1_scheduled_utc": "2026-11-02T01:09:31.387Z",
+        "observed_utc": "2026-11-02T01:09:31.983Z",
+        "note": "excluded from completeness denominator"
+      }
+    ],
+    "quality": "PARTIALLY_QUALIFIED",
+    "limitations": [
+      "D1 receipt verifies durable ingestion within Cloudflare, not independently complete Cron delivery",
+      "Provider scheduled timestamp may be offset from nominal UTC cron minute",
+      "No independent evidence of events absent from D1"
+    ]
+  },
+  "github": [
+    {
+      "id": "ases-native-control",
+      "source_status": "OK",
+      "expected_slots_elapsed": 1,
+      "run_creations_since_first_slot": 0,
+      "run_events": [],
+      "slot_observations": [
+        {
+          "slot_utc": "2026-11-02T03:13:00.000Z",
+          "observation": "NO_RUN_VISIBLE_AS_OF_QUERY",
+          "causal_status": "UNRESOLVED"
+        }
+      ],
+      "run_to_nominal_slot_attribution": "UNAVAILABLE_FROM_GITHUB_RUN_LIST",
+      "execution_summary": "NO_NEW_RUN_AS_OF_QUERY",
+      "provider_root_cause": "UNRESOLVED",
+      "instrument_quality": "PARTIALLY_QUALIFIED",
+      "note": "Missing observations can reflect delay, event non-delivery, incomplete provider data or observer faults; not automatically a failed executed job."
+    },
+    {
+      "id": "tripn-native-monitor",
+      "source_status": "OK",
+      "expected_slots_elapsed": 1,
+      "run_creations_since_first_slot": 0,
+      "run_events": [],
+      "slot_observations": [
+        {
+          "slot_utc": "2026-11-02T03:07:00.000Z",
+          "observation": "NO_RUN_VISIBLE_AS_OF_QUERY",
+          "causal_status": "UNRESOLVED"
+        }
+      ],
+      "run_to_nominal_slot_attribution": "UNAVAILABLE_FROM_GITHUB_RUN_LIST",
+      "execution_summary": "NO_NEW_RUN_AS_OF_QUERY",
+      "provider_root_cause": "UNRESOLVED",
+      "instrument_quality": "PARTIALLY_QUALIFIED",
+      "note": "Missing observations can reflect delay, event non-delivery, incomplete provider data or observer faults; not automatically a failed executed job."
+    }
+  ],
+  "external_dispatch": {
+    "execution": "NOT_RUN_BY_DESIGN",
+    "claimed_success": "NOT_EVALUATED"
+  },
+  "archive": {
+    "source_metadata_snapshot": "RECORDED_IN_PROJECT_REPOSITORY_ON_COMMIT",
+    "github_complete_logs": "NOT_INDEPENDENTLY_ARCHIVED",
+    "cloudflare_d1_export": "SNAPSHOT_ONLY_NOT_AUTOMATED",
+    "completeness": "PARTIAL",
+    "input_sha256": "be9e7d94191d6565f64829c98552d3b45700237b8105d0919e44e01d2aee64ab"
+  },
+  "interpretation": {
+    "clock_operational_claim": "SUPPORTED_WITHIN_RECORDED_WINDOW",
+    "github_reliability_claim": "UNRESOLVED",
+    "permanent_dropped_event_claim": "NOT_ESTABLISHED",
+    "cause_of_regression": "NOT_ESTABLISHED",
+    "tripn_production_health": "NOT_TESTED_BY_THIS_EXPERIMENT",
+    "acceptance": "NOT_DECIDED_BY_CLASSIFIER"
+  }
+}
