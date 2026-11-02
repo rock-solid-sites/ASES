@@ -67,7 +67,7 @@ def run_a(exe, mode, directory):
     for label, kw in [
         ("unapproved",{"ident":"B","charge":40,"consent":False}),
         ("capacity_exceeded",{"ident":"B","units":3,"charge":0}),
-        ("spend_cap_exceeded",{"ident":"B","units":1,"charge":50,"cap":80})
+        ("spend_cap_exceeded",{"ident":"B","units":1,"charge":90,"cap":80})
     ]:
         isolated = directory / f"{label}.log"
         isolated.write_text("")
