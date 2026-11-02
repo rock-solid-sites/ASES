@@ -590,3 +590,57 @@ fn manual_attribution_is_append_only_and_cannot_change_financial_amounts() {
     assert_eq!(events.last().unwrap()["payload"]["authority_not_authenticated"],true);
     assert_error_contains(s.annotate("bad","missing","agent-a","guess",t),"unknown source");
 }
+
+
+#[test]
+fn billing_period_must_cover_estimated_run_and_valid_neighbor_passes() {
+    let (_d,_p,mut s)=setup(100,2);
+    let current=now();
+    let mut m=meter("core",100);
+    m.period_start=Some(current-60);
+    m.period_end=Some(current+60*60);
+    s.register_meter(&m).unwrap();
+    assert!(s.quote(&proposal("within",10),current).unwrap().eligible);
+    m.period_end=Some(current+20*60);
+    s.register_meter(&m).unwrap();
+    assert!(!s.quote(&proposal("crosses-reset",10),current).unwrap().eligible);
+    assert_error_contains(s.reserve(&proposal("crosses-reset",10),s.catalog_version().unwrap(),current),"split reservation");
+    m.period_start=Some(current+1);
+    m.period_end=Some(current+10000);
+    s.register_meter(&m).unwrap();
+    assert!(!s.quote(&proposal("future-period",10),current).unwrap().eligible);
+    m.period_start=Some(current-60);
+    m.period_end=Some(current+2700);
+    s.register_meter(&m).unwrap();
+    assert!(s.quote(&proposal("exact-end",10),current).unwrap().eligible);
+}
+#[test]
+fn multi_meter_failure_is_atomic_and_valid_neighbor_is_admitted() {
+    let (_d,_p,mut s)=setup(100,3);
+    let mut storage=meter("storage",20);
+    storage.unit="GB_hours".into();
+    s.register_meter(&storage).unwrap();
+    let mut rejected=proposal("multi-rejected",50);
+    rejected.claims.push(Claim{meter_id:"storage".into(),amount:21});
+    let rev=s.catalog_version().unwrap();
+    assert_error_contains(s.reserve(&rejected,rev,now()),"insufficient storage");
+    assert_eq!(balance(&mut s).available,100);
+    assert_eq!(s.balances(now()).unwrap().into_iter().find(|b|b.meter_id=="storage").unwrap().available,20);
+    let mut accepted=proposal("multi-valid",50);
+    accepted.claims.push(Claim{meter_id:"storage".into(),amount:20});
+    reserve(&mut s,&accepted);
+    assert_eq!(balance(&mut s).available,50);
+    assert_eq!(s.balances(now()).unwrap().into_iter().find(|b|b.meter_id=="storage").unwrap().available,0);
+    s.finalize("multi-valid","cancelled",now()).unwrap();
+    assert_eq!(balance(&mut s).available,100);
+}
+#[test]
+fn malformed_billing_window_rejected_with_valid_neighbor() {
+    let (_d,_p,mut s)=setup(100,2);
+    let mut m=meter("bad-window",100);
+    m.period_start=Some(120);
+    m.period_end=Some(119);
+    assert_error_contains(s.register_meter(&m),"invalid billing period");
+    m.period_end=Some(121);
+    assert!(s.register_meter(&m).is_ok());
+}
