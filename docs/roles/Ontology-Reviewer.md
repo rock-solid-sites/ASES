@@ -1,10 +1,10 @@
 ---
 title: Ontology Reviewer Role
-version: 0.3-draft
+version: 0.2-draft
 status: Proposed
 role_type: specialist-reviewer
 authority: read-only, non-authoritative
-last_updated: 2026-11-02
+last_updated: 2026-09-22
 ---
 
 # Ontology Reviewer Role
@@ -171,29 +171,6 @@ Strong triggers include:
 - a finished artifact making a material claim about canonical identities, boundaries, ownership, lifecycle, or relationships.
 
 Select exploratory mode before build when the conceptual model itself is under test. Select conformance mode after build when canonical meaning is fixed and the artifact claims to instantiate it.
-
-## Integration into ASES reviews (proposed, not yet validated)
-
-This existing specialist role should be selected at the **review-domain level** using the already established ontology-review operation in skills/prompt/SKILL.md. It is not a general-purpose epistemology checker, another implementation verifier, a fourth always-on review gate, or an ontology database.
-
-**Selection trigger:** a change makes a material assertion about identity, categorization, ownership, authority, boundary, lifecycle, or conceptual relationship. If the question is instead whether an executable assertion detects a bug, select assurance/testing; if it asks where a runtime failure occurs, select fault isolation; if it asks whether code works within a settled conceptual model, select behavioral/implementation review. These domains can overlap on one artifact when they protect **different** invariants.
-
-**Pre-build selection:** before freezing a specification or substantial implementation decision, where the relevant conceptual model remains disputed or proposed, send a bounded neighborhood of definitions, design, and uncertainty for **exploratory** review. Multiple revisions can be valuable. Reviewer findings remain proposals until accepted by the proper authority.
-
-**Post-build selection:** if a completed implementation, test plan, diagnostic policy, or documentation claims a fixed conceptual invariant, send it with the specific claim and canonical definitions for **clean-room conformance**. An apparent inconsistency in the canonical source itself must be reported as ambiguity rather than rewritten as part of the review.
-
-**Examples especially relevant to current ASES work:**
-- A testing protocol must not conflate **test execution outcome**, **evidential sufficiency**, and **authorized acceptance**.
-- A debugging record must not conflate **symptom**, **hypothesis**, **mechanism**, **root-cause conclusion**, and **verified user-facing recovery**.
-- A connector review must not equate **server connectivity**, **client tool exposure**, **effective authorization**, and **successful operation**.
-- A resource solver must not treat **estimated allowance**, **provider-reported usage**, **actual settlement**, and **host execution time** as equivalent.
-- An orchestration workflow must not merge **agent session**, **durable Work Unit**, **in-flight position**, and **final finding** into one undifferentiated status.
-
-**Decision and economy:** a cheap deterministic canonical-definition comparison may resolve the risk without another agent. Invoke a specialist only where meaningful semantic disagreement or a nontrivial conceptual claim warrants it. A decision to omit review need not generate redundant paperwork. When formal independent ontology evidence is required but cannot be obtained with correct model-family provenance and isolation, report BLOCKED/UNVERIFIED instead of substituting same-family acceptance.
-
-**Validation:** instantiate and run the historical two-mode benchmark with known conceptual defects **and clean controls**, including false-positive and concept-invention checks. Measure incremental findings, cost and context use compared with ordinary review. Do not declare this proposed integration operationally proven from document edits alone.
-
-For workflow integration see docs/ORCHESTRATOR.md; for development entry points see docs/methodology/ASES Bounded Project Build Method.md. The sibling proposed testing and debugging methods address other evidence questions; all use existing EDASES provenance and authorized decision semantics.
 
 ## Input contract
 
