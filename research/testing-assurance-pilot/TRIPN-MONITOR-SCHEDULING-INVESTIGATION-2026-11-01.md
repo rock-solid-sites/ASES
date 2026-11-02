@@ -140,3 +140,58 @@ Primary references: [Instagram workflow](https://github.com/TripN-Chill-Zone/tri
 - **EXCLUDED:** the public Instagram workflow's 60-day inactivity disablement as an explanation for the private monitor (it is active and private); the discrepancy is not solely a high-frequency-cron phenomenon.
 - **UNVERIFIED:** owner's actual plan, monthly remaining compute, configured budgets/stop-usage and whether GitHub's internal scheduler delayed or dropped each nominal 30-minute event; provider audit/support would be required. The old per-run billable usage API's zero is **not** evidence.
 - **RECOMMENDATION UNCHANGED:** test a low-cost external heartbeat/dispatcher on a safe nonproduction workflow, record *every intended slot* and distinguish dispatch success from GitHub run creation and completion before any production change. Current connection does not justify altering production cron.
+
+---
+
+## Follow-up 2026-11-02 — cheapest discriminating tests: upstream scheduler regression
+
+**Result:** Read-only evidence now strongly supports a **broad GitHub Actions `schedule` event-creation/delivery degradation**, with a sharp observed onset **2026-08-27** in an unchanged cross-account control and ongoing effects as late as October 2026. This is a provider-side **failure boundary**; without GitHub's internal scheduler traces, do **not** claim a specific internal root-cause mechanism or that the August 26 incident caused all subsequent missed events.
+
+### Hypotheses preregistered for the follow-up and minimal tests
+
+| Hypothesis | Cheap discriminating test | Evidence-bound verdict |
+| --- | --- | --- |
+| The issue is confined to TripN's private repo, owner allowance or cron syntax | Historical independent public `rock-solid-sites/100percentaiart` `0 */4 * * *` schedule and unrelated `kort0881` public cron | **REJECTED** as a sole explanation: independent owners, actors, and public repos also show missed slots and severe delays |
+| The cross-repository synchronization is caused by common GitHub scheduled actor `rock-solid-sites` | Read-only independent actor `kort0881` with current October schedules and stable YAML | **REJECTED** as sole explanation: `kort0881` workflows exhibit October under-delivery |
+| Workflow code/configuration regression caused the change | Compare exact workflow **blob SHA** at commits before/after 2026-08-27, compare daily run counts | **REJECTED** for the `100percentaiart` control: identical `hourly-post.yml` blob `ed86f7ae199c538a014c9436a14e1167a715b191`, cron `0 */4 * * *`, on Aug 25 and Aug 28; head SHA unchanged `e6a281a3ce4faa40b9c6ae8cb2737f521f41a181` through August transition |
+| Late runs are runner-queue bottlenecks | Compare GitHub job creation vs start in pre/post control and unrelated actor | **REJECTED in the samples**: Aug 25 Go bot created 20:17:56Z and job started 20:17:59Z (3s); Aug 27 created 18:38:49Z and started 18:38:52Z (3s); Oct 27 unrelated actor created 18:31:21Z, started 18:31:24Z (3s) |
+| The problem began on/around a GitHub infrastructure event | Before/after control and official incident report, independent public incident reports | **TEMPORALLY CONSISTENT**, not proven causal: an August 26, 2026 GitHub Actions incident affected run starts / inbound event processing; public community reports describe prolonged cron event-creation failures after Aug 26. Official incident report describes a queued-run/runner assignment failure, which is **not itself** proof of our later precreation scheduler failure |
+| New synthetic workflow necessary to distinguish application vs GitHub | Evaluate read-only controls above | **NO:** controls discriminate sufficiently for an operational correction; new production workflow runs risk issue writes and consume capacity, while a harmless fresh workflow cannot expose GitHub internal queue state without longitudinal observation |
+
+### Primary controlled before/after: separate owner, stable source
+
+Workflow: `rock-solid-sites/100percentaiart/.github/workflows/hourly-post.yml`; schedule at historical head: `0 */4 * * *` (6/day), same workflow file blob before and after regression. GitHub Actions recorded **448 scheduled runs** 2026-06-21T21:06:05Z through 2026-09-08T19:08:47Z, enumerated across five pages and independently counted.
+
+- **Pre-period:** Aug 1–25, 25 full UTC days, **149 recorded run creations vs 150 nominal** (99.3% count ratio); 24 days had six run creations and one day five. Consecutive-interval mean ~4.02h, just one >6h, none >8h. `run 385`: https://github.com/rock-solid-sites/100percentaiart/actions/runs/32894531570 at 2026-08-25T20:17:56Z, job queued 3s.
+- **Transition:** Aug 26 still **6** recorded run creations, including 2026-08-26T22:36:04Z for the last daily creation. Aug 27 only **2**, created at 05:54:15Z and 18:38:48Z. Aug 28 only **2**, at 03:55:31Z and 15:48:56Z. Gap Aug 27 05:54 to 18:38 was **12.7425h**. `run 393`: https://github.com/rock-solid-sites/100percentaiart/actions/runs/33104515512; job started 3s after creation.
+- **Post-period:** Aug 27–Sep 7, 12 full UTC days, **53 recorded run creations vs 72 nominal** (73.6% count ratio); one day had six, 11 had fewer. Consecutive-interval mean ~5.39h, 21 gaps >6h, 7 >8h.
+- **Caveat:** The ratios count run **creation dates**, not individual matched intended slots, because GitHub does not expose the original intended tick time and delayed events can cross UTC date boundaries. The abrupt large change and persistent gaps remain regardless of exact slot assignment. This natural before/after sample establishes severity in another repo and another repository owner, not the name of the faulty internal component.
+
+The same Mondays Aug 3, 10, 17, 24, 31 and Sep 7 exhibited broad clusters between Go bot's run creations, Chill Zone's Instagram refresh and Beds24 keepalive; bot is owned by `rock-solid-sites`, but its scheduling actor is also `rock-solid-sites`. It therefore tests a **second owner**, not a second actor.
+
+### Strong independent-actor control in October: `kort0881`
+
+From GitHub public REST run history and historical workflow blobs (not just anecdotal community posts):
+
+- `kort0881/facts-telegram-generator`, `.github/workflows/facts.yml`, `0 5,9,13,17,21 * * *` (nominal 5/day). Same workflow blob SHA `49bbc4576f85d2f50c69ed41b411ede02ad523cd` on Oct 23, Oct 31 and Nov 2 run heads. **29 recorded scheduled run creations** in Oct 23–31 (9 days), against **45 nominal opportunities**. Actor `kort0881`. [2026-10-27 sampled run](https://github.com/kort0881/facts-telegram-generator/actions/runs/40560753284) created 18:31:21Z, job started 18:31:24Z (3s).
+- `kort0881/No-code-protection`, `.github/workflows/kibersos.yml`, `0 6,12,15,18 * * *` (4/day). Same workflow blob SHA `9ae2ee0af9ad2540c01e7ac3e779ee29609fe5b5` on Oct 23, Oct 31 and Nov 1 run heads. **25 recorded scheduled run creations** in Oct 23–31, against **36 nominal opportunities**. Actor `kort0881`.
+- **Caveat:** Date-window run counts are not exact per-tick matched slot counts when delayed creations cross midnight; there may be timing/cross-boundary error. They nonetheless demonstrate substantial under-delivery by a distinct GitHub actor/owner.
+
+This rejects the narrow account/actor-only hypothesis and supports a cross-GitHub `schedule` problem extending into October. **Do not presume every schedule or every region is affected identically**.
+
+### External corroboration and chronology
+
+- **Official GitHub schedule limitation:** GitHub documents that scheduled events can be delayed and some may be dropped: https://docs.github.com/en/actions/how-tos/troubleshoot-workflows
+- **Official August 26 incident RCA:** GitHub reports inbound Actions event volume, shared database saturation, manual throttling and runner assignment impacts, beginning 2026-08-26 at 15:11 UTC. Its RCA concerns runner starts / event-processing pressure, not a confirmed persistent cron-specific scheduler defect: https://github.blog/news-insights/company-news/github-availability-report-august-2026/
+- **Independent report Aug 27 onward:** https://github.com/orgs/community/discussions/206019 (public workflows missing events, manual dispatch starts promptly; off-hour cron shifts ineffective).
+- **Independent report Sep 9, following Aug 26 onset:** https://github.com/orgs/community/discussions/207346 (private repo, dropped/late run creations despite resets, workflow active).
+- **Independent contemporary report Oct 27:** https://github.com/orgs/community/discussions/211421 (4–7h late run creations October 13–27).
+- These community posts are *third-party reports*, not GitHub engineering acknowledgement of the exact scheduler root cause. They corroborate independent observations across unrelated accounts.
+
+### Consequences and remaining unknowns
+
+**Root-cause assessment updated:** Very high confidence that TripN's missing coverage is caused predominantly by failed or late `schedule` **event delivery/run creation** on GitHub rather than a TripN monitor defect. The `rock-solid-sites` pre/post abrupt degradation and unrelated `kort0881` October controls strongly support a **broad provider-side regression**. We cannot distinguish event drops, coalescing, scheduler throttling, replay windows, or queue TTLs without provider-internal logs. Nor can we prove the August 26 incident caused a persistent scheduler defect; the evidence establishes a matching onset.
+
+**Next smallest useful action:** Given strong observational discrimination, **stop adding YAML tweaks or synthetic live failures**. Preserve the existing workflow and run history, create a provider support incident with this evidence packet, and prototype a **separate harmless external scheduler and heartbeat**, only then decide whether GitHub native `schedule` should remain a backup. A near-term external Cloudflare Cron → GitHub `workflow_dispatch` path avoids the failure boundary while preserving Node/SNI/DoH detector behavior. Validate the new trigger without production probes or issue writes, with a missing-slot watchdog and measured run completeness. Actual GitHub owner's billing and account-specific budgets still remain **NOT VERIFIED**, though cross-account under-delivery rules them out as a general root cause.
+
+**Evidence integrity:** No GitHub Actions production dispatch, production DNS/HTTPS checks, booking/payment interactions, live issue writes, workflow changes, or Cloudflare resource mutations occurred. All tests were historical read-only API queries and public documentation verification. Keep private TripN logs in original private GitLab evidence location. 
