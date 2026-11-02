@@ -79,6 +79,7 @@ class Control:
                     id TEXT PRIMARY KEY, snapshot TEXT NOT NULL, estimate TEXT NOT NULL,
                     attempt_id TEXT NOT NULL UNIQUE, state TEXT NOT NULL,
                     acknowledged TEXT, auth_token_hash TEXT, auth_expires INTEGER,
+                    reservation_expires INTEGER NOT NULL,
                     external_id TEXT, reason TEXT, created_at TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS claims (
                     job_id TEXT NOT NULL REFERENCES jobs(id), bucket_id TEXT NOT NULL REFERENCES buckets(id),
@@ -267,7 +268,7 @@ class Control:
                          "claims":normalized})
         return result
 
-    def reserve(self, *, job_id, attempt_id, quote, account, now=None):
+    def reserve(self, *, job_id, attempt_id, quote, account, now=None, reservation_ttl=3600):
         require_id(job_id,"job_id");require_id(attempt_id,"attempt_id");require_id(account,"account")
         if not isinstance(quote,dict) or not quote.get("eligible") or quote.get("issues"):
             raise Rejected("INVALID_QUOTE")
@@ -275,6 +276,7 @@ class Control:
         if not claims:
             raise Rejected("NO_RESOURCE_CLAIMS")
         stamp = int(time.time()) if now is None else integer(now,"now")
+        integer(reservation_ttl,"reservation_ttl",1)
         with self._tx() as c:
             if c.execute("SELECT 1 FROM jobs WHERE id=? OR attempt_id=?", (job_id,attempt_id)).fetchone():
                 raise Rejected("DUPLICATE_JOB_OR_ATTEMPT")
@@ -305,9 +307,9 @@ class Control:
                 if n>self._capacity(b):raise Rejected("CAPACITY_EXHAUSTED")
             for bid,n in claims.items():
                 c.execute("UPDATE buckets SET reserved=reserved+? WHERE id=?", (n,bid))
-            c.execute("""INSERT INTO jobs(id,snapshot,estimate,attempt_id,state,created_at)
-                    VALUES(?,?,?,?,?,?)""",(job_id,quote["snapshot_digest"],
-                    canonical(quote["estimate"]),attempt_id,"RESERVED",utc_now()))
+            c.execute("""INSERT INTO jobs(id,snapshot,estimate,attempt_id,state,reservation_expires,created_at)
+                    VALUES(?,?,?,?,?,?,?)""",(job_id,quote["snapshot_digest"],
+                    canonical(quote["estimate"]),attempt_id,"RESERVED",stamp+reservation_ttl,utc_now()))
             for bid,n in claims.items():
                 c.execute("INSERT INTO claims(job_id,bucket_id,quantity) VALUES(?,?,?)",(job_id,bid,n))
             self._event(c,"RESERVED","controller",{"claims":claims,"account":account},job_id)
