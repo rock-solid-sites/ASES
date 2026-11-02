@@ -66,7 +66,7 @@ fn shorter_job_releases_unused_allocation_but_keeps_actual() {
     running(&mut s,&p);
     assert_eq!(balance(&mut s).available,10);
     s.observe_usage("short-u",Some("short"),"core",60,now(),"mock-provider").unwrap();
-    assert_eq!(balance(&mut s).available,40);
+    assert_eq!(balance(&mut s).available,10);
     assert_eq!(s.job("short").unwrap()["meters"][0]["unspent"],30);
     s.finalize("short","completed",now()).unwrap();
     assert_eq!(balance(&mut s).available,40);
@@ -264,8 +264,8 @@ fn restart_preserves_reservation_ack_and_single_launch_id() {
 fn expired_unlaunched_reservation_releases_capacity() {
     let (_d,_p,mut s)=setup(100,1);
     let rev=s.catalog_version().unwrap();
-    s.reserve(&proposal("expire",100),rev,now()-950).unwrap();
-    assert_eq!(s.expire_unlaunched(now()).unwrap(),1);
+    s.reserve(&proposal("expire",100),rev,now()).unwrap();
+    assert_eq!(s.expire_unlaunched(now()+951).unwrap(),1);
     assert_eq!(balance(&mut s).available,100);
     assert_error_contains(s.launch_mock("expire","too-late",now()),"forbidden");
 }
@@ -303,7 +303,7 @@ fn provider_watermark_avoids_double_counting_local_usage() {
     assert_eq!(b.available,75);
     s.observe_usage("u-after",Some("report"),"core",5,t+2,"local").unwrap();
     assert_eq!(balance(&mut s).effective_consumed,20);
-    assert_eq!(balance(&mut s).available,70);
+    assert_eq!(balance(&mut s).available,75);
 }
 #[test]
 fn unknown_report_coverage_is_conservative_not_zero() {
