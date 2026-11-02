@@ -178,8 +178,34 @@ class ResourceTests(unittest.TestCase):
     def test_quoted_digest_is_account_scoped_and_binding(self):
         q=self.quote()
         tampered=dict(q,snapshot_digest="bad")
-        self.assertRejected("STALE_SNAPSHOT",lambda:self.c.reserve(
+        self.assertRejected("QUOTE_MISMATCH",lambda:self.c.reserve(
             job_id="j1",attempt_id="a1",quote=tampered,account="acct",now=self.now))
+
+    def test_quote_claim_tampering_rejected(self):
+        quote=self.quote(45)
+        changed=dict(quote,claims={"cpu":1})
+        self.assertRejected("QUOTE_MISMATCH",lambda:self.c.reserve(
+            job_id="j1",attempt_id="a1",quote=changed,account="acct",now=self.now))
+        self.assertEqual(self.capacity()["cpu"]["reserved"],0)
+
+    def test_quote_estimate_tampering_rejected(self):
+        quote=self.quote(45)
+        changed=dict(quote,estimate={"wall_minutes":1})
+        self.assertRejected("QUOTE_MISMATCH",lambda:self.c.reserve(
+            job_id="j1",attempt_id="a1",quote=changed,account="acct",now=self.now))
+
+    def test_fabricated_quote_rejected(self):
+        quote=self.quote(45)
+        quote["quote_id"]="made_up"
+        self.assertRejected("QUOTE_MISMATCH",lambda:self.c.reserve(
+            job_id="j1",attempt_id="a1",quote=quote,account="acct",now=self.now))
+
+    def test_quote_tampering_with_account_rejected(self):
+        quote=self.quote(45)
+        self.c.register_bucket(bucket_id="other_slot",account="other",provider="mock",
+            product="local",period="2026-11",unit="slots",allowance=5,observed_at=self.now)
+        self.assertRejected("QUOTE_MISMATCH",lambda:self.c.reserve(
+            job_id="j1",attempt_id="a1",quote=quote,account="other",now=self.now))
 
     def test_duplicate_job_and_attempt(self):
         self.reserved()
