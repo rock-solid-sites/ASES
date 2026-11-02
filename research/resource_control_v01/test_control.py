@@ -432,6 +432,37 @@ class ResourceTests(unittest.TestCase):
         self.assertTrue(self.capacity()["cpu"]["frozen"])
         self.assertEqual(self.capacity()["cpu"]["local_consumed"],60)
 
+    def test_entitlement_refresh_invalidates_preexisting_quote(self):
+        quote=self.quote(40)
+        self.c.refresh_bucket(bucket_id="cpu",allowance=80,price_micros=0,
+            observed_at=self.now+1,ttl_seconds=3600,evidence="provider-doc-v2")
+        self.assertRejected("STALE_REVISION",lambda:self.c.reserve(
+            job_id="j1",attempt_id="a1",quote=quote,account="acct",now=self.now+1))
+        self.assertEqual(self.capacity()["cpu"]["allowance"],80)
+
+    def test_entitlement_shrink_does_not_erase_existing_reservation(self):
+        self.reserved(90)
+        self.c.refresh_bucket(bucket_id="cpu",allowance=80,price_micros=0,
+            observed_at=self.now+1,ttl_seconds=3600,evidence="quota-change")
+        current=self.capacity()["cpu"]
+        self.assertEqual(current["reserved"],90)
+        self.assertTrue(current["frozen"])
+        self.assertEqual(current["available"],-10)
+
+    def test_entitlement_refresh_rejects_missing_proof_and_old_timestamp(self):
+        self.assertRejected("MISSING_PROVIDER_EVIDENCE",lambda:self.c.refresh_bucket(
+            bucket_id="cpu",allowance=90,price_micros=0,observed_at=self.now+1,
+            ttl_seconds=3600,evidence=""))
+        self.assertRejected("STALE_PROVIDER_FACT",lambda:self.c.refresh_bucket(
+            bucket_id="cpu",allowance=90,price_micros=0,observed_at=self.now,
+            ttl_seconds=3600,evidence="provider"))
+
+    def test_provider_contract_unknown_price_blocks_new_allocation(self):
+        self.c.refresh_bucket(bucket_id="cpu",allowance=120,price_micros=None,
+            observed_at=self.now+1,ttl_seconds=3600,evidence="price hidden")
+        self.assertIn(["cpu","UNKNOWN_PRICE"],self.c.quote(
+            claims={"cpu":1},estimate={},account="acct",now=self.now+1)["issues"])
+
     def test_invalid_numeric_quantities(self):
         for val in (-1,1.5,True,None,"5"):
             with self.subTest(value=val):
