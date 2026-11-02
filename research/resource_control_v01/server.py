@@ -66,7 +66,7 @@ def handler_factory(control, launcher, archive_directory, read_token, admin_toke
             if not self.authorized():
                 return self.respond(401,{"error":"UNAUTHORIZED"})
             path=urlsplit(self.path).path
-            privileged=path in ("/v1/register","/v1/provider-report","/v1/correction","/v1/usage-adjustment")
+            privileged=path in ("/v1/register","/v1/provider-report","/v1/correction","/v1/usage-adjustment","/v1/bucket-refresh")
             if privileged and not self.authorized(admin=True):
                 return self.respond(403,{"error":"ADMIN_REQUIRED"})
             try:
@@ -89,6 +89,7 @@ def handler_factory(control, launcher, archive_directory, read_token, admin_toke
                 elif path=="/v1/correction":result=control.manual_correction(**obj)
                 elif path=="/v1/usage-adjustment":result=control.adjust_usage(**obj)
                 elif path=="/v1/register":result=control.register_bucket(**obj) or {"registered":True}
+                elif path=="/v1/bucket-refresh":result=control.refresh_bucket(**obj)
                 elif path=="/v1/recover":result=recover_mock(control,launcher)
                 elif path=="/v1/archive":result=archive(control,obj["job_id"],archive_directory)
                 else:return self.respond(404,{"error":"NOT_FOUND"})
