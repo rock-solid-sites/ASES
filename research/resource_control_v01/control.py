@@ -556,7 +556,7 @@ class Control:
         with self._tx() as c:
             j=c.execute("SELECT id,attempt_id,state,external_id,reason FROM jobs WHERE id=?",(job_id,)).fetchone()
             if j is None:raise Rejected("UNKNOWN_JOB")
-            claims=c.execute("SELECT bucket_id,quantity,observed FROM claims WHERE job_id=? ORDER BY bucket_id",(job_id,)).fetchall()
+            claims=c.execute("SELECT bucket_id,quantity,observed,corrected FROM claims WHERE job_id=? ORDER BY bucket_id",(job_id,)).fetchall()
             return {"job":dict(j),"claims":[dict(x) for x in claims]}
 
     def events(self, job_id=None):
