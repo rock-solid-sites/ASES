@@ -1,0 +1,32 @@
+name: Resource control verification
+on:
+  push:
+    paths:
+      - 'resource-control/**'
+      - '.github/workflows/resource-control-ci.yml'
+  pull_request:
+    paths:
+      - 'resource-control/**'
+      - '.github/workflows/resource-control-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: resource-control
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rust version
+        run: rustc --version && cargo --version
+      - name: Format
+        run: cargo fmt --all -- --check
+      - name: Compile and test
+        run: cargo test --all-targets --locked -- --test-threads=4
+      - name: Clippy
+        run: cargo clippy --all-targets --locked -- -D warnings
