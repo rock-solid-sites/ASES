@@ -34,6 +34,12 @@
 - The conventional approach took a combined 72.184 ms across six tests; qualified approach 540.005 ms (adds 90 real SIGKILL recovery checks). The earlier failed CI run exposed a **mistaken fixture expectation**, not an implementation bug; it is preserved without retroactive rewriting.
 - The **two full native CI artifact ZIPs**, failed and successful, are independently preserved and SHA-256 verified: [original archive manifest](evidence/P5-ARCHIVES-MANIFEST-2026-11-02.json). No sudden power loss, storage crash, or production transaction was tested. Independent review remains **NOT_RUN**.
 
+**P6 — Evidence semantics: execution, individual assertions, instrument quality, interpretation, archive and authority.**
+- [Preregistered P6 plan](P6-PREREGISTERED-PLAN-2026-11-02.md), [experimental typed event contract](EVIDENCE-EVENT-CONTRACT-EXPERIMENTAL-2026-11-02.md), [P6 results](P6-RESULTS-2026-11-02.md), and [validator / replay harness](evidence_semantics_p6.py).
+- [GitLab CI 3016049098](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3016049098): opened and rehashed both original P5 CI archives, accepted **3/3** legitimate evidence records, rejected **16/16** invalid controls. The corrected P5 job remains a valid green suite **despite expected RED assertions in the planted mutants**.
+- The [first P6 run 3016045716](https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3016045716) failed due to a bad assertion-aggregation assumption; it was not counted as an application defect. Both original P6 CI ZIPs are [independently archived and SHA-256 verified](evidence/P6-ARCHIVE-MANIFEST-2026-11-02.json).
+- The schema is research-only: field presence does not authenticate reviewer independence, human authority or semantic truth; no canonical method changed.
+
 [Independent-review packet](INDEPENDENT-REVIEW-PACKET-2026-11-01.md) is ready for an actual separate reviewer; drafting it and source-first checking by the builder are **not** independent verification.
 
 ## Method conclusions still pending
