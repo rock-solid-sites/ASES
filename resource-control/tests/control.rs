@@ -10,7 +10,7 @@ fn meter(id:&str,limit:u64)->Meter {
         id:id.into(), account:"acct-a".into(),provider:"github".into(),product:"codespaces".into(),
         period:"2026-11".into(),unit:"core_minutes".into(),limit,guard:0,
         observed_at:now(),ttl_seconds:3600,source:"synthetic:test".into(),
-        price_per_unit_micros:0,chargeable:false
+        period_start:None,period_end:None,price_per_unit_micros:0,chargeable:false
     }
 }
 fn environment(slots:u32)->Environment {
