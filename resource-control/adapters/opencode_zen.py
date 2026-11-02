@@ -112,6 +112,7 @@ def persist(cache: Path, data: dict, ids: list[str], digest: str, fetched_at: in
         "changed": prior is None or prior.get("sha256") != digest,
         "archive": filename, "source_type": "public_catalog_not_entitlement",
         "verified": "local_sha256_readback_only",
+        "controller_synced": False,
     }
     target = cache / "latest.json"
     with tempfile.NamedTemporaryFile(dir=cache, mode="w", encoding="utf-8", delete=False) as f:
@@ -120,6 +121,31 @@ def persist(cache: Path, data: dict, ids: list[str], digest: str, fetched_at: in
         f.flush()
         os.fsync(f.fileno())
     os.replace(temp, target)
+    return manifest
+
+
+
+def read_cached(cache: Path, manifest: dict) -> dict:
+    archive = cache / manifest["archive"]
+    if archive.name != manifest["archive"]:
+        raise ValueError("unsafe archive path")
+    with gzip.open(archive, "rb") as stream:
+        content = stream.read(MAX_BYTES + 1)
+    data, _, digest = normalize(content)
+    if digest != manifest["sha256"]:
+        raise ValueError("cached catalog hash mismatch")
+    return data
+
+
+def mark_synced(cache: Path, manifest: dict) -> dict:
+    manifest = {**manifest, "controller_synced": True}
+    with tempfile.NamedTemporaryFile(dir=cache, mode="w", encoding="utf-8",
+                                     delete=False) as f:
+        temp = Path(f.name)
+        json.dump(manifest, f, sort_keys=True, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(temp, cache / "latest.json")
     return manifest
 
 
@@ -144,7 +170,19 @@ def check(cache: Path, ttl: int = DEFAULT_TTL, force: bool = False,
     if not force and current and timestamp >= current.get("fetched_at", 0) and (
         timestamp - current.get("fetched_at", 0) < ttl
     ):
-        return {**current, "refresh": "CACHE_FRESH"}
+        try:
+            data = read_cached(cache, current)
+            if controller is not None and db is not None and not current.get("controller_synced"):
+                forward(controller, db, {
+                    "op": "import_catalog",
+                    "catalog": {"provider": "opencode-zen", "source_url": URL,
+                                "retrieved_at": current["fetched_at"], "payload": data},
+                })
+                current = mark_synced(cache, current)
+            return {**current, "refresh": "CACHE_FRESH"}
+        except (ValueError, OSError, KeyError):
+            # Corrupted cache is never considered a successful catalog observation.
+            pass
     try:
         data, ids, digest = normalize(fetch_catalog(opener=opener))
         result = persist(cache, data, ids, digest, timestamp)
@@ -154,6 +192,7 @@ def check(cache: Path, ttl: int = DEFAULT_TTL, force: bool = False,
                 "catalog": {"provider": "opencode-zen", "source_url": URL,
                             "retrieved_at": timestamp, "payload": data},
             })
+            result = mark_synced(cache, result)
         return {**result, "refresh": "SUCCESS"}
     except Exception as exc:
         message = f"{type(exc).__name__}: {str(exc)[:350]}"
