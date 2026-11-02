@@ -208,6 +208,8 @@ class Control:
         if not isinstance(quote,dict) or not quote.get("eligible") or quote.get("issues"):
             raise Rejected("INVALID_QUOTE")
         claims = self._normalize_claims(quote.get("claims"))
+        if not claims:
+            raise Rejected("NO_RESOURCE_CLAIMS")
         stamp = int(time.time()) if now is None else integer(now,"now")
         with self._tx() as c:
             if c.execute("SELECT 1 FROM jobs WHERE id=? OR attempt_id=?", (job_id,attempt_id)).fetchone():
@@ -303,17 +305,54 @@ class Control:
             self._event(c,"USAGE_OBSERVED",source,{"bucket_id":bucket_id,"cumulative":cumulative},job_id,event_id)
             return {"duplicate":False,"observed":cumulative}
 
-    def finalize(self, job_id, *, state, event_id):
+    def record_activity(self, job_id, *, event_id, kind, start_ms, end_ms, source="launcher"):
+        """Measure an interval; not necessarily productive or billable."""
+        require_id(event_id, "event_id")
+        if kind not in ("AGENT_ACTIVE","ENVIRONMENT_RUNNING","PROVISIONING",
+                        "PROVIDER_BLOCKED","IDLE","TEARDOWN"):
+            raise ValueError("invalid activity kind")
+        integer(start_ms,"start_ms");integer(end_ms,"end_ms")
+        if end_ms < start_ms:raise ValueError("negative interval")
+        with self._tx() as c:
+            payload={"kind":kind,"start_ms":start_ms,"end_ms":end_ms}
+            prior=c.execute("SELECT job_id,kind,payload FROM events WHERE event_id=?",(event_id,)).fetchone()
+            if prior is not None:
+                if prior["job_id"] != job_id or prior["kind"]!="ACTIVITY" or prior["payload"]!=canonical(payload):
+                    raise Rejected("EVENT_ID_COLLISION")
+                return {"duplicate":True}
+            if not c.execute("SELECT 1 FROM jobs WHERE id=?",(job_id,)).fetchone():
+                raise Rejected("UNKNOWN_JOB")
+            self._event(c,"ACTIVITY",source,payload,job_id,event_id)
+            return {"duplicate":False}
+
+    def interrupt(self, job_id, *, event_id):
+        """Loss of visibility retains reservations until authoritative termination."""
         require_id(event_id,"event_id")
-        if state not in ("COMPLETED","FAILED","CANCELLED","INTERRUPTED"):
+        with self._tx() as c:
+            if c.execute("SELECT 1 FROM events WHERE event_id=?",(event_id,)).fetchone():
+                return {"duplicate":True}
+            j=c.execute("SELECT state FROM jobs WHERE id=?",(job_id,)).fetchone()
+            if j is None:raise Rejected("UNKNOWN_JOB")
+            if j["state"] not in ("RUNNING","LAUNCH_PENDING"):raise Rejected("INVALID_STATE")
+            c.execute("UPDATE jobs SET state='INTERRUPTED' WHERE id=?",(job_id,))
+            self._event(c,"INTERRUPTED","controller",{},job_id,event_id)
+            return {"duplicate":False}
+
+    def finalize(self, job_id, *, state, event_id, stop_evidence=None):
+        require_id(event_id,"event_id")
+        if state not in ("COMPLETED","FAILED","CANCELLED"):
             raise ValueError("invalid terminal state")
         with self._tx() as c:
             if c.execute("SELECT 1 FROM events WHERE event_id=?",(event_id,)).fetchone():
                 return {"duplicate":True}
             j=c.execute("SELECT state FROM jobs WHERE id=?",(job_id,)).fetchone()
             if j is None:raise Rejected("UNKNOWN_JOB")
-            if j["state"] not in ("RUNNING","LAUNCH_PENDING","INTERRUPTED","AUTHORIZED","RESERVED"):
+            if j["state"] not in ("RUNNING","INTERRUPTED","AUTHORIZED","RESERVED"):
                 raise Rejected("INVALID_STATE")
+            if j["state"] in ("RUNNING","INTERRUPTED") and (not isinstance(stop_evidence,str) or not stop_evidence.strip()):
+                raise Rejected("MISSING_STOP_EVIDENCE")
+            if j["state"] in ("RESERVED","AUTHORIZED") and state!="CANCELLED":
+                raise Rejected("NEVER_LAUNCHED")
             claims=c.execute("SELECT * FROM claims WHERE job_id=?",(job_id,)).fetchall()
             overruns=[]
             for claim in claims:
@@ -324,7 +363,7 @@ class Control:
                     overruns.append({"bucket_id":bid,"overrun":used-reserved})
                     c.execute("UPDATE buckets SET frozen=1 WHERE id=?",(bid,))
             c.execute("UPDATE jobs SET state=? WHERE id=?",(state,job_id))
-            self._event(c,"FINALIZED","controller",{"state":state,"overruns":overruns},job_id,event_id)
+            self._event(c,"FINALIZED","controller",{"state":state,"overruns":overruns,"stop_evidence":stop_evidence},job_id,event_id)
             self._bump(c)
             return {"duplicate":False,"state":state,"overruns":overruns}
 
