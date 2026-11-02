@@ -299,7 +299,8 @@ class ResourceTests(unittest.TestCase):
         self.c.observe("j1",event_id="u1",bucket_id="cpu",cumulative=30)
         self.c.finalize("j1",state="COMPLETED",event_id="done",stop_evidence="stopped")
         self.c.provider_report(report_id="p1",bucket_id="cpu",cumulative=50,
-                               observed_at=self.now+1)
+                               observed_at=self.now+1,covered_local=30,
+                               coverage_evidence="provider covered j1 local 30")
         self.assertEqual(self.capacity()["cpu"]["available"],70)
         self.assertEqual(self.c.reconcile_bucket("cpu",now=self.now)["difference"],20)
 
@@ -308,8 +309,58 @@ class ResourceTests(unittest.TestCase):
         self.c.observe("j1",event_id="u1",bucket_id="cpu",cumulative=30)
         self.c.finalize("j1",state="COMPLETED",event_id="done",stop_evidence="stopped")
         self.c.provider_report(report_id="p1",bucket_id="cpu",cumulative=10,
-                               observed_at=self.now+1)
+                               observed_at=self.now+1,covered_local=10,
+                               coverage_evidence="provider covered 10 local units")
         self.assertEqual(self.capacity()["cpu"]["available"],90)
+
+    def test_unknown_report_overlap_conservatively_reduces_availability(self):
+        self.started()
+        self.c.observe("j1",event_id="u1",bucket_id="cpu",cumulative=30)
+        self.c.finalize("j1",state="COMPLETED",event_id="done",stop_evidence="stopped")
+        self.c.provider_report(report_id="p1",bucket_id="cpu",cumulative=50,
+                               observed_at=self.now+1)
+        self.assertEqual(self.capacity()["cpu"]["available"],40)
+        self.assertTrue(self.c.reconcile_bucket("cpu",now=self.now)["overlap_unverified"])
+
+    def test_delayed_report_plus_new_local_usage_is_not_undercounted(self):
+        self.c.provider_report(report_id="p1",bucket_id="cpu",cumulative=20,
+                               observed_at=self.now+1)
+        self.started()
+        self.c.observe("j1",event_id="u1",bucket_id="cpu",cumulative=30)
+        self.c.finalize("j1",state="COMPLETED",event_id="done",stop_evidence="stopped")
+        self.assertEqual(self.capacity()["cpu"]["available"],70)
+
+    def test_cannot_claim_overlap_without_provenance(self):
+        self.started()
+        self.c.observe("j1",event_id="u1",bucket_id="cpu",cumulative=20)
+        self.c.finalize("j1",state="COMPLETED",event_id="done",stop_evidence="stopped")
+        self.assertRejected("MISSING_COVERAGE_EVIDENCE",lambda:self.c.provider_report(
+            report_id="p1",bucket_id="cpu",cumulative=20,observed_at=self.now+1,
+            covered_local=20))
+        self.assertRejected("INVALID_COVERAGE",lambda:self.c.provider_report(
+            report_id="p2",bucket_id="cpu",cumulative=30,observed_at=self.now+1,
+            covered_local=25,coverage_evidence="invalid internal match"))
+
+    def test_event_id_collision_does_not_suppress_distinct_usage(self):
+        self.started()
+        self.c.observe("j1",event_id="same",bucket_id="cpu",cumulative=10)
+        self.assertRejected("EVENT_ID_COLLISION",lambda:self.c.observe(
+            "j1",event_id="same",bucket_id="cpu",cumulative=15))
+        self.assertEqual(self.c.status("j1")["claims"][0]["observed"],10)
+
+    def test_provider_report_id_collision(self):
+        self.c.provider_report(report_id="p1",bucket_id="cpu",cumulative=10,
+                               observed_at=self.now+1)
+        self.assertRejected("REPORT_ID_COLLISION",lambda:self.c.provider_report(
+            report_id="p1",bucket_id="cpu",cumulative=20,observed_at=self.now+1))
+
+    def test_concurrent_bucket_rejects_provider_usage(self):
+        self.c.register_bucket(bucket_id="slots",account="acct",provider="mock",
+            product="local",period="2026-11",unit="slots",
+            allowance=1,observed_at=self.now,kind="CONCURRENT")
+        self.assertRejected("CONCURRENT_BUCKET_HAS_NO_USAGE_METER",
+            lambda:self.c.provider_report(report_id="p1",bucket_id="slots",cumulative=1,
+                                          observed_at=self.now+1))
 
     def test_duplicate_and_out_of_order_provider_report(self):
         self.c.provider_report(report_id="p1",bucket_id="cpu",cumulative=80,
