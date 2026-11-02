@@ -1,4 +1,5 @@
 use ases_resource_control::{archive::verify_archive, now, Claim, Environment, Meter, Proposal, Store};
+use ases_resource_control::catalog::{Account,CatalogImport};
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Barrier};
 use std::thread;
@@ -13,11 +14,11 @@ fn meter(id:&str,limit:u64)->Meter {
     }
 }
 fn environment(slots:u32)->Environment {
-    Environment{id:"codespace".into(),account:"acct-a".into(),max_parallel:slots,
+    Environment{id:"codespace".into(),account:"acct-a".into(),provider:"github".into(),max_parallel:slots,
                 observed_at:now(),ttl_seconds:3600,source:"synthetic:test".into()}
 }
 fn proposal(id:&str,amount:u64)->Proposal{
-    Proposal{job_id:id.into(),account_id:"acct-a".into(),environment_id:"codespace".into(),
+    Proposal{job_id:id.into(),account_id:"acct-a".into(),project_id:"project-a".into(),environment_id:"codespace".into(),
              estimated_wall_seconds:45*60,claims:if amount==0 {vec![]} else {
                  vec![Claim{meter_id:"core".into(),amount}] },
              paid_spend_cap_micros:None,forecast_context:Some(serde_json::json!({
@@ -28,6 +29,12 @@ fn setup(limit:u64,slots:u32)->(TempDir,PathBuf,Store) {
     let dir=tempfile::tempdir().unwrap();
     let path=dir.path().join("control.sqlite");
     let mut s=Store::open(&path).unwrap();
+    s.register_account(&Account{
+        id:"acct-a".into(),provider:"github".into(),payer_ref:"payer-a".into(),
+        registration_status:"verified".into(),credential_status:"working".into(),
+        entitlement_status:"active".into(),allowed_projects:vec!["project-a".into()],
+        source:"synthetic-account-confirmation".into(),observed_at:now(),ttl_seconds:3600
+    }).unwrap();
     s.register_meter(&meter("core",limit)).unwrap();
     s.register_environment(&environment(slots)).unwrap();
     (dir,path,s)
@@ -141,6 +148,12 @@ fn lifecycle_is_idempotent_and_rejects_conflicting_reuse() {
 fn account_mismatch_rejected_for_environment_and_meter() {
     let (_d,_p,mut s)=setup(100,2);
     let mut p=proposal("wrong-account",20);
+    s.register_account(&Account{
+        id:"acct-b".into(),provider:"github".into(),payer_ref:"payer-b".into(),
+        registration_status:"verified".into(),credential_status:"working".into(),
+        entitlement_status:"active".into(),allowed_projects:vec!["project-a".into()],
+        source:"synthetic".into(),observed_at:now(),ttl_seconds:3600
+    }).unwrap();
     p.account_id="acct-b".into();
     assert!(!s.quote(&p,now()).unwrap().eligible);
     assert_error_contains(s.reserve(&p,s.catalog_version().unwrap(),now()),"account mismatch");
@@ -447,5 +460,5 @@ fn cli_launch_is_separate_process_and_recovers_state() {
 fn tests_are_reproducible_from_fixture_path_not_external_services() {
     let (_d,path,s)=setup(100,1);
     assert!(Path::new(&path).exists());
-    assert_eq!(s.catalog_version().unwrap(),2);
+    assert_eq!(s.catalog_version().unwrap(),3);
 }
