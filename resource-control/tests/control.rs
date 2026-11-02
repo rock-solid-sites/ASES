@@ -10,7 +10,7 @@ fn meter(id:&str,limit:u64)->Meter {
         id:id.into(), account:"acct-a".into(),provider:"github".into(),product:"codespaces".into(),
         period:"2026-11".into(),unit:"core_minutes".into(),limit,guard:0,
         observed_at:now(),ttl_seconds:3600,source:"synthetic:test".into(),
-        period_start:None,period_end:None,price_per_unit_micros:0,chargeable:false
+        period_start:None,period_end:None,price_per_unit_micros:0,price_currency:None,chargeable:false
     }
 }
 fn environment(slots:u32)->Environment {
@@ -21,7 +21,7 @@ fn proposal(id:&str,amount:u64)->Proposal{
     Proposal{job_id:id.into(),account_id:"acct-a".into(),project_id:"project-a".into(),environment_id:"codespace".into(),
              estimated_wall_seconds:45*60,claims:if amount==0 {vec![]} else {
                  vec![Claim{meter_id:"core".into(),amount}] },
-             paid_spend_cap_micros:None,forecast_context:Some(serde_json::json!({
+             paid_spend_cap_micros:None,paid_spend_cap_currency:None,forecast_context:Some(serde_json::json!({
                "estimated_minutes":45,"cores":2,"origin":"pre-execution forecast"
              }))}
 }
@@ -360,11 +360,13 @@ fn paid_claim_requires_explicit_cap_and_known_price() {
     let mut expensive=meter("core",200);
     expensive.price_per_unit_micros=1000;
     expensive.chargeable=true;
+    expensive.price_currency=Some("USD".into());
     s.register_meter(&expensive).unwrap();
-    let p=proposal("cash",20);
+    let mut p=proposal("cash",20);
+    p.paid_spend_cap_currency=Some("USD".into());
     assert!(!s.quote(&p,now()).unwrap().eligible);
     assert_error_contains(s.reserve(&p,s.catalog_version().unwrap(),now()),"spend cap");
-    let mut p=p;p.paid_spend_cap_micros=Some(19999);
+    p.paid_spend_cap_micros=Some(19999);
     assert!(!s.quote(&p,now()).unwrap().eligible);
     p.paid_spend_cap_micros=Some(20000);
     assert_eq!(s.quote(&p,now()).unwrap().estimated_cash_micros,20000);
