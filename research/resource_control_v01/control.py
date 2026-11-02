@@ -54,7 +54,7 @@ class Control:
     def __init__(self, db):
         self.db = str(db)
         Path(self.db).parent.mkdir(parents=True, exist_ok=True)
-        with self._tx() as c:
+        with sqlite3.connect(self.db) as c:
             c.executescript("""
                 CREATE TABLE IF NOT EXISTS buckets (
                     id TEXT PRIMARY KEY, account TEXT NOT NULL, provider TEXT NOT NULL,
