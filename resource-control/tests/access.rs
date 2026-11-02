@@ -27,7 +27,7 @@ fn bootstrap(db:&Path){
         id:"core".into(),account:"acct-a".into(),provider:"github".into(),
         product:"codespaces".into(),period:"2026-11".into(),unit:"core_minutes".into(),
         limit:100,guard:0,observed_at:now(),ttl_seconds:3600,
-        source:"synthetic".into(),price_per_unit_micros:0,chargeable:false
+        source:"synthetic".into(),period_start:None,period_end:None,price_per_unit_micros:0,chargeable:false
     }).unwrap();
     s.register_environment(&Environment{
         id:"codespace".into(),account:"acct-a".into(),provider:"github".into(),
