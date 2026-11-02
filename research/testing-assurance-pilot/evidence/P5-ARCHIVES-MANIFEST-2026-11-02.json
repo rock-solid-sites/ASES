@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment": "EDASES-P5",
+  "status": "INDEPENDENT_FULL_ARCHIVE_VERIFIED",
+  "source_provider": "GitLab CI",
+  "source_project": "rock-solid-sites-group/rock-solid-sites-project",
+  "export_job": 17650948553,
+  "export_pipeline": 3015836483,
+  "encoding": "base64 of original GitLab ZIP; line break at file end",
+  "verification": "Entire base64 content read back from ASES GitHub, independently decoded; SHA-256 calculated on decoded bytes and compared with source exporter; SHA-256 implementation passed standard empty-string and abc reference test vectors",
+  "records": [
+    {
+      "label": "red_instrument_error",
+      "source_job_id": 17650922007,
+      "source_pipeline_id": 3015831687,
+      "job_result": "FAIL",
+      "reason": "Test-harness fixture incorrectly expected rejection of charge 50 against spend_cap 80 in otherwise empty journal",
+      "artifact_zip_bytes": 8667,
+      "artifact_zip_sha256": "d7da4c0deaacb4002be8e747a2f864830c6648a25981b9203b42552db5a492e2",
+      "archive_path": "research/testing-assurance-pilot/evidence/p5-red_instrument_error-original-ci-artifacts.zip.b64",
+      "decoded_sha256_check": "PASS"
+    },
+    {
+      "label": "green_corrected",
+      "source_job_id": 17650933508,
+      "source_pipeline_id": 3015833489,
+      "job_result": "SUCCESS",
+      "reason": "Corrected over-cap fixture uses charge 90 against cap 80; P5 comparison qualified",
+      "artifact_zip_bytes": 9792,
+      "artifact_zip_sha256": "b684ec94cb010495a4a88894d1b8b96179c28ef01b54e1941217d9db5c74fd96",
+      "archive_path": "research/testing-assurance-pilot/evidence/p5-green_corrected-original-ci-artifacts.zip.b64",
+      "decoded_sha256_check": "PASS"
+    }
+  ],
+  "scope": "Original CI job artifacts (complete ZIPs) for both P5 runs; not all provider-side records",
+  "notes": [
+    "Failed CI run retained and classified as test-harness fixture error, not an implementation defect.",
+    "SIGKILL process interruption alone does not simulate host power loss.",
+    "External verifier can decode and compare hashes with sha256sum."
+  ]
+}
