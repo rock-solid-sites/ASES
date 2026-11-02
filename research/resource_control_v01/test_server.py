@@ -84,7 +84,8 @@ class ApiTests(unittest.TestCase):
             "stop_evidence":"mock shutdown verified"})[0],200)
         self.assertEqual(self.req("POST","/v1/provider-report",{
             "report_id":"bill1","bucket_id":"slot","cumulative":2,
-            "observed_at":int(time.time())+1},token=ADMIN)[0],200)
+            "observed_at":int(time.time())+1,"covered_local":1,
+            "coverage_evidence":"verified provider included internal usage"},token=ADMIN)[0],200)
         status,r=self.req("POST","/v1/reconcile",{"bucket_id":"slot"})
         self.assertEqual(status,200)
         self.assertEqual(r["difference"],1)
