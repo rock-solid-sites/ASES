@@ -16,10 +16,10 @@ import zipfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-PILOT = HERE.parent
-EVIDENCE = PILOT / "evidence"
-PLAN = PILOT / "P6-PREREGISTERED-PLAN-2026-11-02.md"
-P5PLAN = PILOT / "P5-PREREGISTERED-PLAN-2026-11-02.md"
+ROOT = HERE.parent.parent
+EVIDENCE = HERE / "evidence"
+PLAN = HERE / "P6-PREREGISTERED-PLAN-2026-11-02.md"
+P5PLAN = HERE / "P5-PREREGISTERED-PLAN-2026-11-02.md"
 MANIFEST = EVIDENCE / "P5-ARCHIVES-MANIFEST-2026-11-02.json"
 ALLOWED_KINDS = {"EXECUTION", "ASSERTION", "INSTRUMENT", "CLAIM",
                  "ARCHIVE", "DECISION", "REVIEW", "CORRECTION"}
@@ -165,7 +165,7 @@ def evidence_event(run_id, num, kind, source_refs, payload):
             "run_id": run_id, "source_refs": source_refs, "payload": payload}
 
 def check_archive(source):
-    p = EVIDENCE.parent.parent / source["archive_path"]
+    p = ROOT / source["archive_path"]
     raw = base64.b64decode(p.read_text().strip(), validate=True)
     require(len(raw) == source["artifact_zip_bytes"] and
             h(raw) == source["artifact_zip_sha256"], "ARCHIVE_SOURCE_MISMATCH")
