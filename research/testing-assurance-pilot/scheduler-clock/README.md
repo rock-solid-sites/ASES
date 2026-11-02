@@ -74,3 +74,22 @@ Cloudflare clock ticks; 56 Cloudflare dispatch attempts if enabled).
 Count lateness, misses, 4xx/5xx acceptance, duplicate slots, and GitHub
 job-start latency separately. Test results should be retained permanently
 in ASES evidence independent of GitHub log retention.
+
+## Typed evidence classification (2026-11-02)
+
+The initial analysis is now governed by [EVIDENCE-CLASSIFICATION.md](EVIDENCE-CLASSIFICATION.md)
+(experiment-specific, **not** promoted global methodology). The independent
+03:49 UTC read is retained as
+[`snapshot-2026-11-02T0349Z.json`](snapshot-2026-11-02T0349Z.json),
+its deterministic output as
+[`classification-2026-11-02T0349Z.json`](classification-2026-11-02T0349Z.json),
+and the reproducible classifier and eight tests as `classify.mjs` and
+`classify.test.mjs`. Run `node --test classify.test.mjs` and
+`node classify.mjs snapshot-2026-11-02T0349Z.json`.
+
+The classifier distinguishes missing source observations, GitHub runs not
+yet visible, permanently *unproven* missing deliveries, disabled dispatch,
+claim confidence, and incomplete artifact retention. Never infer an exact
+native GitHub cron slot from a run's creation timestamp when delays can
+cross expected intervals. New observations must be append-only snapshots;
+do not overwrite the initial evidence after late events arrive.
