@@ -104,6 +104,7 @@ impl Meter {
 #[serde(deny_unknown_fields)]
 pub struct Environment {
     pub id: String,
+    pub account: String,
     pub max_parallel: u32,
     pub observed_at: i64,
     pub ttl_seconds: i64,
@@ -112,6 +113,7 @@ pub struct Environment {
 impl Environment {
     fn verify(&self) -> Result<()> {
         check_id(&self.id, "environment")?;
+        check_id(&self.account, "environment account")?;
         nonblank(&self.source, "source")?;
         if self.max_parallel == 0 || self.ttl_seconds < 0 {
             return Err(Error::Invalid("environment requires positive concurrency and nonnegative TTL".into()));
@@ -130,6 +132,7 @@ pub struct Claim { pub meter_id: String, pub amount: u64 }
 #[serde(deny_unknown_fields)]
 pub struct Proposal {
     pub job_id: String,
+    pub account_id: String,
     pub environment_id: String,
     pub estimated_wall_seconds: u64,
     #[serde(default)]
@@ -142,6 +145,7 @@ pub struct Proposal {
 impl Proposal {
     fn verify(&self) -> Result<()> {
         check_id(&self.job_id, "job")?;
+        check_id(&self.account_id, "proposal account")?;
         check_id(&self.environment_id, "environment")?;
         if self.estimated_wall_seconds == 0 { return Err(Error::Invalid("estimated wall duration must be positive".into())); }
         as_i64(self.estimated_wall_seconds, "duration")?;
@@ -347,6 +351,7 @@ impl Store {
     fn validate_proposal(tx: &Transaction<'_>, p: &Proposal, at: i64) -> Result<i64> {
         p.verify()?;
         let env = Self::env(tx,&p.environment_id)?;
+        if env.account != p.account_id { return Err(Error::Invalid("environment account mismatch or unauthorized borrowing".into())); }
         if !env.fresh(at) { return Err(Error::Invalid("environment information stale or unverified".into())); }
         let slots:i64=tx.query_row("SELECT COUNT(*) FROM jobs WHERE env=?1 AND state IN ('RESERVED','AUTHORIZED','RUNNING')",
                                    [&p.environment_id],|r|r.get(0))?;
@@ -356,6 +361,7 @@ impl Store {
         let mut quoted = 0i64;
         for claim in &p.claims {
             let m=Self::meter(tx,&claim.meter_id)?;
+            if m.account != p.account_id { return Err(Error::Invalid("meter account mismatch or unauthorized borrowing".into())); }
             if !m.fresh(at) {
                 return Err(Error::Invalid(format!("meter {} stale or unverified",m.id)));
             }
@@ -479,10 +485,14 @@ impl Store {
         if amount==0 {return Err(Error::Invalid("usage delta must be positive".into()));}
         let n=as_i64(amount,"observed usage")?;
         let tx=self.db.transaction_with_behavior(TransactionBehavior::Immediate)?;
-        Self::meter(&tx,meter)?;
+        let selected_meter=Self::meter(&tx,meter)?;
         if let Some(job)=job {
-            let exists:bool=tx.query_row("SELECT EXISTS(SELECT 1 FROM jobs WHERE id=?1)",[job],|r|r.get(0))?;
-            if !exists {return Err(Error::Invalid("unknown observation job".into()));}
+            let proposal:Option<String>=tx.query_row("SELECT proposal FROM jobs WHERE id=?1",[job],|r|r.get(0)).optional()?;
+            let proposal=proposal.ok_or_else(||Error::Invalid("unknown observation job".into()))?;
+            let p:Proposal=serde_json::from_str(&proposal)?;
+            if p.account_id!=selected_meter.account {
+                return Err(Error::Invalid("cross-account usage cannot be attributed to this job; record as external".into()));
+            }
         }
         let prior:Option<(Option<String>,String,i64,i64,String)>=tx.query_row(
             "SELECT job_id,meter_id,amount,occurred_at,source FROM usage_events WHERE id=?1",[id],
@@ -607,6 +617,68 @@ impl Store {
             "event_id":id,"job_id":job,"kind":kind,"at":at,
             "payload":serde_json::from_str::<Value>(&payload)?
         }))).collect()
+    }
+
+    /// Authenticated collector records lifecycle facts. This records observations,
+    /// not inferred productive time or a verified provider bill.
+    pub fn observe_lifecycle(&mut self,id:&str,job:&str,kind:&str,at:i64,subject:&str,details:Value)->Result<String>{
+        check_id(id,"lifecycle event")?;
+        check_id(job,"job")?;
+        check_id(subject,"subject")?;
+        const ALLOWED:&[&str]=&["ENV_STARTED","ENV_STOPPED","AGENT_STARTED","AGENT_STOPPED",
+            "WAIT_STARTED","WAIT_STOPPED","PROVIDER_PAUSED","PROVIDER_RESUMED",
+            "LAUNCH_FAILED","PROVISIONING_STARTED","PROVISIONING_ENDED"];
+        if !ALLOWED.contains(&kind) {return Err(Error::Invalid("unsupported lifecycle observation".into()));}
+        let tx=self.db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let exists:bool=tx.query_row("SELECT EXISTS(SELECT 1 FROM jobs WHERE id=?1)",[job],|r|r.get(0))?;
+        if !exists {return Err(Error::Invalid("unknown lifecycle job".into()));}
+        let payload=json!({"subject":subject,"details":details});
+        let prior:Option<(Option<String>,String,i64,String)>=tx.query_row(
+            "SELECT job_id,kind,at,payload FROM events WHERE id=?1",[id],
+            |r|Ok((r.get(0)?,r.get(1)?,r.get(2)?,r.get(3)?))).optional()?;
+        if let Some((j,k,t,v))=prior {
+            if j.as_deref()==Some(job) && k==kind && t==at && v==serde_json::to_string(&payload)? {
+                tx.commit()?;return Ok("LIFECYCLE_REPLAY".into());
+            }
+            return Err(Error::Conflict("lifecycle event ID reused".into()));
+        }
+        Self::log(&tx,id,Some(job),kind,at,payload)?;
+        tx.commit()?;
+        Ok("LIFECYCLE_RECORDED".into())
+    }
+    /// Derived intervals are *only* computed for matched starts/stops; lost events
+    /// produce unknown intervals rather than fabricated idle/provider fault time.
+    pub fn timeline(&self,job:&str)->Result<Value>{
+        let events=self.event_log(Some(job))?;
+        let mut open=std::collections::HashMap::<(String,String),i64>::new();
+        let mut seconds=std::collections::BTreeMap::<String,i64>::new();
+        let mut anomalies=Vec::<String>::new();
+        for ev in events {
+            let kind=ev["kind"].as_str().unwrap_or("");
+            let at=ev["at"].as_i64().unwrap_or(0);
+            let subject=ev["payload"]["subject"].as_str().unwrap_or("");
+            let (family,start)=match kind {
+                "ENV_STARTED"=>("environment",true),"ENV_STOPPED"=>("environment",false),
+                "AGENT_STARTED"=>("agent",true),"AGENT_STOPPED"=>("agent",false),
+                "WAIT_STARTED"=>("waiting",true),"WAIT_STOPPED"=>("waiting",false),
+                "PROVISIONING_STARTED"=>("provisioning",true),"PROVISIONING_ENDED"=>("provisioning",false),
+                _=>continue
+            };
+            let key=(family.to_string(),subject.to_string());
+            if start {
+                if open.insert(key.clone(),at).is_some() {
+                    anomalies.push(format!("duplicate start {}:{}",family,subject));
+                }
+            } else if let Some(from)=open.remove(&key) {
+                if at<from {anomalies.push(format!("negative interval {}:{}",family,subject));continue;}
+                let v=seconds.entry(family.to_string()).or_default();
+                *v=checked_add(*v,at-from,"timeline")?;
+            } else {anomalies.push(format!("unmatched stop {}:{}",family,subject));}
+        }
+        for ((family,subject),_) in open {anomalies.push(format!("open interval {family}:{subject}"));}
+        Ok(json!({"job_id":job,"observed_interval_seconds":seconds,
+                  "incomplete_or_ambiguous":!anomalies.is_empty(),"anomalies":anomalies,
+                  "note":"Agent intervals may overlap; totals are not a partition of environment lifetime"}))
     }
     pub fn reconcile(&mut self, at:i64)->Result<Value>{
         let balances=self.balances(at)?;
