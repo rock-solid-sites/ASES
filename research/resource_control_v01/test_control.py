@@ -463,6 +463,46 @@ class ResourceTests(unittest.TestCase):
         self.assertIn(["cpu","UNKNOWN_PRICE"],self.c.quote(
             claims={"cpu":1},estimate={},account="acct",now=self.now+1)["issues"])
 
+    def test_expired_unlaunched_reservation_releases_slots(self):
+        q=self.quote(30)
+        self.c.reserve(job_id="j1",attempt_id="a1",quote=q,account="acct",
+                       now=self.now,reservation_ttl=10)
+        self.assertEqual(self.capacity()["cpu"]["reserved"],30)
+        expired=self.c.expire_unlaunched(now=self.now+11)
+        self.assertEqual(expired["expired"],["j1"])
+        self.assertEqual(self.capacity()["cpu"]["reserved"],0)
+        self.assertEqual(self.c.status("j1")["job"]["state"],"EXPIRED")
+
+    def test_expired_authorization_releases_never_started_claim(self):
+        q=self.quote(30)
+        self.c.reserve(job_id="j1",attempt_id="a1",quote=q,account="acct",
+                       now=self.now,reservation_ttl=100)
+        auth=self.c.acknowledge("j1",snapshot_digest=q["snapshot_digest"],
+                               expires_at=self.now+50)
+        self.c.expire_unlaunched(now=self.now+51)
+        self.assertEqual(self.capacity()["cpu"]["reserved"],0)
+        self.assertRejected("INVALID_STATE",lambda:self.c.launch_prepare(
+            "j1",token=auth["token"],now=self.now+52))
+
+    def test_authorization_cannot_outlive_reservation(self):
+        q=self.quote(30)
+        self.c.reserve(job_id="j1",attempt_id="a1",quote=q,account="acct",
+                       now=self.now,reservation_ttl=100)
+        self.assertRejected("AUTH_EXCEEDS_RESERVATION",lambda:self.c.acknowledge(
+            "j1",snapshot_digest=q["snapshot_digest"],expires_at=self.now+200))
+
+    def test_uncertain_external_launch_not_expired_automatically(self):
+        q=self.quote(30)
+        self.c.reserve(job_id="j1",attempt_id="a1",quote=q,account="acct",
+                       now=self.now,reservation_ttl=100)
+        auth=self.c.acknowledge("j1",snapshot_digest=q["snapshot_digest"],
+                               expires_at=self.now+50)
+        self.c.launch_prepare("j1",token=auth["token"],now=self.now)
+        expired=self.c.expire_unlaunched(now=self.now+10000)
+        self.assertEqual(expired["expired"],[])
+        self.assertEqual(self.capacity()["cpu"]["reserved"],30)
+        self.assertEqual(self.c.status("j1")["job"]["state"],"LAUNCH_PENDING")
+
     def test_invalid_numeric_quantities(self):
         for val in (-1,1.5,True,None,"5"):
             with self.subTest(value=val):
