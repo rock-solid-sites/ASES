@@ -34,6 +34,7 @@ impl From<rusqlite::Error> for Error { fn from(e: rusqlite::Error) -> Self { Sel
 impl From<serde_json::Error> for Error { fn from(e: serde_json::Error) -> Self { Self::Json(e) } }
 impl From<std::io::Error> for Error { fn from(e: std::io::Error) -> Self { Self::Io(e) } }
 pub type Result<T> = std::result::Result<T, Error>;
+type JobRow = (String, String, i64, i64, Option<String>, Option<String>, Option<String>);
 
 pub fn now() -> i64 {
     SystemTime::now().duration_since(UNIX_EPOCH).expect("system clock before Unix epoch").as_secs() as i64
@@ -603,7 +604,7 @@ impl Store {
     }
     pub fn job(&self,id:&str)->Result<Value>{
         check_id(id,"job")?;
-        let row:Option<(String,String,i64,i64,Option<String>,Option<String>,Option<String>)>=self.db.query_row(
+        let row:Option<JobRow>=self.db.query_row(
             "SELECT proposal,state,catalog_version,expires_at,ack_id,launch_id,outcome FROM jobs WHERE id=?1",
             [id],|r|Ok((r.get(0)?,r.get(1)?,r.get(2)?,r.get(3)?,r.get(4)?,r.get(5)?,r.get(6)?))).optional()?;
         let (p,state,revision,expiry,ack,launch,outcome)=row.ok_or_else(||Error::Invalid("unknown job".into()))?;
