@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ases-schedule-clock-20261102",
+  "main": "./worker.mjs",
+  "compatibility_date": "2026-11-02",
+  "triggers": { "crons": ["9,39 * * * *"] },
+  "vars": { "DISPATCH_ENABLED": "false" },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ases-schedule-clock-20261102",
+      "database_id": "722b87f3-1570-466b-8565-dd77f650a241"
+    }
+  ]
+}
