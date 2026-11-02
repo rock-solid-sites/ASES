@@ -256,7 +256,7 @@ fn distinct_connections_compete_under_sqlite_transaction() {
 }
 #[test]
 fn restart_preserves_reservation_ack_and_single_launch_id() {
-    let (_d,path,s)=setup(100,2);
+    let (_d,path,mut s)=setup(100,2);
     let rev=s.catalog_version().unwrap();
     let p=proposal("recovery",30);
     s.reserve(&p,rev,now()).unwrap();
@@ -436,7 +436,7 @@ fn deterministic_multi_job_history_matches_ledger() {
 }
 #[test]
 fn cli_launch_is_separate_process_and_recovers_state() {
-    let (_d,path,mut s)=setup(100,2);
+    let (_d,path,s)=setup(100,2);
     let rev=s.catalog_version().unwrap();
     let p=proposal("cli",10);
     let req=serde_json::json!({"op":"reserve","proposal":p,"expected_catalog":rev}).to_string();
