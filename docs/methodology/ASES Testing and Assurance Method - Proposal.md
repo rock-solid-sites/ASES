@@ -12,6 +12,7 @@ depends_on:
   - docs/methodology/State-Model Applicability and Reuse Method.md
   - docs/methodology/Implementation Realization and Assurance Selection Method.md
 related_documents:
+  - docs/methodology/ASES Debugging and Fault Isolation Method - Proposal.md
   - docs/research/Guarantee-Driven Testing and Goal-Substitution Resistance.md
   - docs/research/EDASES Review Methodology.md
   - docs/PROVISIONAL-RED-GREEN-VERIFICATION-NOTE-2026-11-01.md
@@ -169,6 +170,10 @@ Keep a contemporaneous red-before-fix record distinct from **retrospective mutat
 **CI integration.** Baseline CI remains independent of perturbation campaigns. Run relevant perturbations selectively on dedicated PR, scheduled, or pre-release routes when their added evidentiary value justifies cost; do not mandate full stress suites on every commit. GitHub Actions, GitLab CI, Tangled Spindles, and other runners may execute the same scenario, but different hosts, kernel settings, and resource controls must be recorded before comparing outcomes. Capture and durably archive failing **and passing** runs. Distinguish performance benchmarks from stress-induced correctness tests: stressing a machine changes measurement conditions and may make throughput comparisons misleading.
 
 **Candidate pilots.** Try one bounded, non-production test each for resource-solver concurrency/admission, an HMS reservation-state invariant against a controlled mock or test backend, and a Trip'n deployment/invariant-check harness. An experimentally observed improvement would justify adding a reusable profile; failure to discover relevant defects, excessive cost, or nondiscriminating flaky results should limit or reject the technique's broader adoption.
+
+### Relationship to the debugging method
+
+The sibling [ASES Debugging and Fault Isolation Method](ASES%20Debugging%20and%20Fault%20Isolation%20Method%20-%20Proposal.md) starts with an observed discrepancy, separates competing causes across relevant failure boundaries, and chooses cheap discriminating experiments before making a correction. This testing method supplies qualified verification instruments and regression/acceptance evidence when needed. Both inherit the same EDASES obligations to preserve pre-test reasoning, execution artifacts, limitations and downstream decisions; neither creates a new mandatory development phase. A working intermediate probe does not resolve a debugging case until the originally requested operation is verified at its actual surface.
 
 ## 6. Assurance intensity: per claim, not per repository
 
