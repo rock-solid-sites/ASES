@@ -65,6 +65,7 @@ class Control:
                     reserved INTEGER NOT NULL DEFAULT 0 CHECK (reserved>=0),
                     locally_consumed INTEGER NOT NULL DEFAULT 0 CHECK (locally_consumed>=0),
                     provider_consumed INTEGER, provider_observed_at INTEGER,
+                    provider_covered_local INTEGER NOT NULL DEFAULT 0,
                     price_micros INTEGER, overage TEXT NOT NULL DEFAULT 'BLOCK',
                     refreshed_at INTEGER NOT NULL, ttl_seconds INTEGER NOT NULL,
                     frozen INTEGER NOT NULL DEFAULT 0,
@@ -88,7 +89,8 @@ class Control:
                     source TEXT NOT NULL, payload TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS provider_reports (
                     id TEXT PRIMARY KEY, bucket_id TEXT NOT NULL, observed_at INTEGER NOT NULL,
-                    consumed INTEGER NOT NULL CHECK(consumed>=0), source TEXT NOT NULL);
+                    consumed INTEGER NOT NULL CHECK(consumed>=0), source TEXT NOT NULL,
+                    covered_local INTEGER NOT NULL DEFAULT 0, coverage_evidence TEXT);
                 CREATE TABLE IF NOT EXISTS corrections (
                     id TEXT PRIMARY KEY, job_id TEXT, bucket_id TEXT, quantity INTEGER,
                     reason TEXT NOT NULL, evidence TEXT NOT NULL, actor TEXT NOT NULL,
@@ -138,7 +140,10 @@ class Control:
         if b["kind"]=="CONCURRENT":
             return b["allowance"]-b["reserved"]
         p = b["provider_consumed"]
-        spent = max(b["locally_consumed"], p if p is not None else 0)
+        # Unknown overlap is treated conservatively. A verified covered amount
+        # removes ONLY the known duplicate between local and provider records.
+        spent = b["locally_consumed"] if p is None else (
+            p+b["locally_consumed"]-b["provider_covered_local"])
         return b["allowance"] - spent - b["reserved"]
 
     @staticmethod
@@ -184,6 +189,7 @@ class Control:
                     "allowance":b["allowance"],"available":self._capacity(b),
                     "reserved":b["reserved"],"local_consumed":b["locally_consumed"],
                     "provider_consumed":b["provider_consumed"],
+                    "provider_covered_local":b["provider_covered_local"],
                     "price_micros":b["price_micros"],"overage":b["overage"],
                     "frozen":bool(b["frozen"]),"fresh":self._fresh(b,stamp),
                     "observed_at":b["refreshed_at"],"ttl_seconds":b["ttl_seconds"]})
@@ -246,7 +252,8 @@ class Control:
                 "kind":b["kind"],"product":b["product"],"period":b["period"],"unit":b["unit"],
                 "allowance":b["allowance"],"available":self._capacity(b),
                 "reserved":b["reserved"],"local_consumed":b["locally_consumed"],
-                "provider_consumed":b["provider_consumed"],"price_micros":b["price_micros"],
+                "provider_consumed":b["provider_consumed"],
+                "provider_covered_local":b["provider_covered_local"],"price_micros":b["price_micros"],
                 "overage":b["overage"],"frozen":bool(b["frozen"]),
                 "fresh":self._fresh(b,stamp),"observed_at":b["refreshed_at"],
                 "ttl_seconds":b["ttl_seconds"]} for b in rows.values()],key=lambda x:x["id"])}
@@ -408,27 +415,36 @@ class Control:
             self._bump(c)
             return {"duplicate":False,"state":state,"overruns":overruns}
 
-    def provider_report(self, *, report_id, bucket_id, cumulative, observed_at, source="provider"):
+    def provider_report(self, *, report_id, bucket_id, cumulative, observed_at,
+                        source="provider", covered_local=0, coverage_evidence=None):
         require_id(report_id,"report_id");require_id(bucket_id,"bucket_id")
         integer(cumulative,"cumulative");integer(observed_at,"observed_at")
+        integer(covered_local,"covered_local")
+        if covered_local>0 and (not isinstance(coverage_evidence,str) or not coverage_evidence.strip()):
+            raise Rejected("MISSING_COVERAGE_EVIDENCE")
+        if covered_local>cumulative:raise Rejected("INVALID_COVERAGE")
         with self._tx() as c:
-            existing=c.execute("SELECT bucket_id,observed_at,consumed FROM provider_reports WHERE id=?",(report_id,)).fetchone()
+            existing=c.execute("SELECT * FROM provider_reports WHERE id=?",(report_id,)).fetchone()
             if existing is not None:
-                if existing["bucket_id"]!=bucket_id or existing["observed_at"]!=observed_at or existing["consumed"]!=cumulative:
+                if (existing["bucket_id"]!=bucket_id or existing["observed_at"]!=observed_at
+                    or existing["consumed"]!=cumulative or existing["covered_local"]!=covered_local
+                    or existing["coverage_evidence"]!=coverage_evidence):
                     raise Rejected("REPORT_ID_COLLISION")
                 return {"duplicate":True}
             b=c.execute("SELECT * FROM buckets WHERE id=?",(bucket_id,)).fetchone()
             if b is None:raise Rejected("UNKNOWN_BUCKET")
             if b["kind"]!="CONSUMABLE":raise Rejected("CONCURRENT_BUCKET_HAS_NO_USAGE_METER")
-            c.execute("""INSERT INTO provider_reports(id,bucket_id,observed_at,consumed,source)
-                         VALUES(?,?,?,?,?)""",(report_id,bucket_id,observed_at,cumulative,source))
+            if covered_local>b["locally_consumed"]:raise Rejected("INVALID_COVERAGE")
+            c.execute("""INSERT INTO provider_reports(id,bucket_id,observed_at,consumed,source,covered_local,coverage_evidence)
+                         VALUES(?,?,?,?,?,?,?)""",(report_id,bucket_id,observed_at,cumulative,source,covered_local,coverage_evidence))
             applied=b["provider_observed_at"] is None or observed_at>b["provider_observed_at"]
             if applied:
                 c.execute("""UPDATE buckets SET provider_consumed=?,provider_observed_at=?,
-                             refreshed_at=? WHERE id=?""",(cumulative,observed_at,observed_at,bucket_id))
+                             provider_covered_local=? WHERE id=?""",(cumulative,observed_at,covered_local,bucket_id))
                 self._bump(c)
             self._event(c,"PROVIDER_REPORTED",source,
-                        {"bucket_id":bucket_id,"cumulative":cumulative,"applied":applied})
+                        {"bucket_id":bucket_id,"cumulative":cumulative,"applied":applied,
+                         "covered_local":covered_local,"coverage_evidence":coverage_evidence})
             return {"duplicate":False,"applied":applied}
 
     def manual_correction(self, *, correction_id, job_id, bucket_id, quantity, reason, evidence, actor):
@@ -472,8 +488,9 @@ class Control:
         b=view[bucket_id]
         return {"bucket_id":bucket_id,"local_consumed":b["local_consumed"],
                 "provider_consumed":b["provider_consumed"],
-                "difference":None if b["provider_consumed"] is None else b["provider_consumed"]-b["local_consumed"],
-                "unattributed_possible":b["provider_consumed"] is not None and b["provider_consumed"]>b["local_consumed"],
+                "difference":None if b["provider_consumed"] is None else b["provider_consumed"]-b["provider_covered_local"],
+                "overlap_unverified":b["provider_consumed"] is not None and b["provider_covered_local"]==0,
+                "unattributed_possible":b["provider_consumed"] is not None and b["provider_consumed"]>b["provider_covered_local"],
                 "available":b["available"],"frozen":b["frozen"],"fresh":b["fresh"]}
 
 
