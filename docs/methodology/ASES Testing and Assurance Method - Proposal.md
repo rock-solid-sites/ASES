@@ -175,6 +175,14 @@ Keep a contemporaneous red-before-fix record distinct from **retrospective mutat
 
 The sibling [ASES Debugging and Fault Isolation Method](ASES%20Debugging%20and%20Fault%20Isolation%20Method%20-%20Proposal.md) starts with an observed discrepancy, separates competing causes across relevant failure boundaries, and chooses cheap discriminating experiments before making a correction. This testing method supplies qualified verification instruments and regression/acceptance evidence when needed. Both inherit the same EDASES obligations to preserve pre-test reasoning, execution artifacts, limitations and downstream decisions; neither creates a new mandatory development phase. A working intermediate probe does not resolve a debugging case until the originally requested operation is verified at its actual surface.
 
+### Ontology review as an assurance specialization
+
+The existing [Ontology Reviewer](../roles/Ontology-Reviewer.md) evaluates conceptual fidelity **before** a proposed guarantee is translated into tests and, when meaningful, **after** a completed artifact claims to implement fixed canonical concepts. This is distinct from proving that a test is sensitive to a behavior violation.
+
+Before freezing a substantial new specification or test design, select exploratory ontology review where terms such as **requirement**, **claim**, **property**, **test run**, **evidence**, **finding**, **acceptance**, **monitor state**, or **external settlement** are conflated or ambiguous. A test suite can be green while enforcing a category error. When canonical concepts are fixed and a completed assurance artifact claims to preserve them, a post-build clean-room ontology conformance review can attempt to falsify the semantic mapping.
+
+Invoke the specialist only for a material conceptual risk; use a cheaper direct comparison when sufficient. Record findings and their evidential links under the same project provenance rules, without treating reviewer agreement as proof of test correctness. An ontology review cannot replace test-instrument qualification, behavioral verification, real-interface testing, or authorized acceptance. The selection mechanics are proposed in docs/ORCHESTRATOR.md, not a new testing phase.
+
 ## 6. Assurance intensity: per claim, not per repository
 
 Choose effort based on potential harm of an incorrect conclusion, reversibility, trust boundaries, external side effects, data sensitivity, concurrency, operational exposure, novelty, and strength of existing evidence.
