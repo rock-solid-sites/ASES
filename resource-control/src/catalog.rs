@@ -1,6 +1,6 @@
 //! Account registry and passive model catalog snapshots.
 //! A public catalog is *never* equivalent to account entitlement or runtime capacity.
-use crate::{check_id, nonblank, now, Error, Result, Store};
+use crate::{check_id, nonblank, Error, Result, Store};
 use rusqlite::{params, OptionalExtension, TransactionBehavior};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -56,6 +56,9 @@ pub struct CatalogChange {
     pub catalog_version: i64,
     pub added_ids: Vec<String>,
     pub removed_ids: Vec<String>,
+}
+fn version_marker(tx:&rusqlite::Transaction<'_>)->Result<i64>{
+    Ok(tx.query_row("SELECT value FROM meta WHERE key='catalog_version'",[],|r|r.get(0))?)
 }
 fn model_ids(payload:&Value)->Result<std::collections::BTreeSet<String>>{
     let models=payload.get("data").or_else(||payload.get("models"))
@@ -144,7 +147,7 @@ impl Store {
                    params![p.provider,digest,p.retrieved_at])?;
         if changed {
             Self::bump_catalog(&tx)?;
-            Self::log(&tx,&format!("catalog:{}:{}",p.provider,digest),
+            Self::log(&tx,&format!("catalog:{}:{}:{}",p.provider,version_marker(&tx)?,digest),
                 None,"CATALOG_CHANGED",p.retrieved_at,json!({
                 "provider":p.provider,"digest":digest,"previous_digest":previous,
                 "added":ids.difference(&oldids).collect::<Vec<_>>(),
@@ -168,8 +171,12 @@ impl Store {
                     ON CONFLICT(provider) DO UPDATE SET last_error_at=excluded.last_error_at,
                     last_error=excluded.last_error",
                    params![provider,at,description])?;
-        Self::log(&tx,&format!("catalog-error:{provider}:{at}"),None,"CATALOG_REFRESH_FAILED",
+        let evidence_id=format!("catalog-error:{provider}:{at}:{:x}",Sha256::digest(description.as_bytes()));
+        let exists:bool=tx.query_row("SELECT EXISTS(SELECT 1 FROM events WHERE id=?1)",[&evidence_id],|r|r.get(0))?;
+        if !exists {
+        Self::log(&tx,&evidence_id,None,"CATALOG_REFRESH_FAILED",
                   at,json!({"provider":provider,"error":description,"old_catalog_retained":true}))?;
+        }
         tx.commit()?;
         Ok(())
     }
