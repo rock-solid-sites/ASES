@@ -276,6 +276,26 @@ first-class, non-penalized outcome.
 
 ---
 
+## Ontology Review — Selectable Specialist Domain (Proposed Integration)
+
+**Proposal for review; not proof of current runtime deployment.** The specialist role is defined at docs/roles/Ontology-Reviewer.md and is already supported as a domain/mode selection by skills/prompt/SKILL.md. This section proposes when the Orchestrator should select it. Do not describe an ontology-review session as executed unless an eligible reviewer actually ran it and its evidence was retained.
+
+**Triage when a task changes project meaning.** Before a bounded build is frozen, or when reviewing a substantive change, ask whether the artifact introduces, redefines, merges, separates, or changes **the identity, relationship, ownership, authority, lifecycle, or abstraction boundary** of a significant concept. Examples include redefining *test execution* as *verified evidence*, conflating *MCP server health* with *client tool availability*, treating *booking acknowledgement* as *settlement*, or conflating an *agent session* with a durable *Work Unit*. Prefer a small deterministic terminology/relationship check when sufficient.
+
+- **Material conceptual uncertainty before build:** select the ontology review domain with **exploratory pre-build review** mode. Use relevant canonical definitions and neighboring concepts; let the reviewer challenge the proposed model. Resolve accepted findings before freezing behavior or the Implementation Packet.
+- **Finished artifact with a material conceptual invariant:** select ontology review with **post-build conformance** mode. Supply the frozen artifact/claim, relevant canonical meaning and explicit assumptions only. Use clean-room independence; withhold builder rationale, prior reviewers' findings and process history.
+- **No material conceptual change or uncertainty:** do not add an ontology reviewer by ritual. Record a brief NOT_APPLICABLE reason only where an audit trail or gate-selection decision is already required; do not create a form for trivial edits.
+- **Unknown or contradictory canonical meaning:** report the ambiguity and affected claims; the reviewer cannot establish or silently change canonical truth. Resolve through existing authorized governance before making an unqualified conformance claim.
+
+This is a **review domain**, not a fifth always-running agent, a replacement Code Reviewer, or a second Auditor. The Code Reviewer continues the pre-consumption readiness check (testability, evidence, calibrated claims). The Auditor continues in-flight divergence checking. Ontology specialists challenge **what the artifact asserts exists and how those things relate**. For a material change, ontology and implementation/behavioral review may both be necessary; choose by distinct failure mode, not a fixed reviewer count.
+
+Formal ontology reviewers are read-only, non-authoritative, appropriately isolated, and from an independent model family relative to the artifact producer as specified by the existing role. The Orchestrator uses caller-side model provenance and approved target routes; it must not ask a receiving model to identify itself, assume a reviewer route exists, or replace a requested independent review with same-family acceptance. If no authorized isolated route is available, record NOT_RUN/BLOCKED and the unverified conceptual claim rather than a fabricated pass. Findings are synthesized before authorized decisions, as in existing EDASES review practice.
+
+The role's independent performance remains to be benchmarked in both modes against defective cases and clean controls. Selective invocation, false-positive rate, model-family routing, and added cost should be studied before promoting this proposal to a universal operational default. See also the proposed ASES testing and debugging methods on this review branch.
+
+---
+
+
 # Core Principles
 
 ## 1. Stay in Your Role
