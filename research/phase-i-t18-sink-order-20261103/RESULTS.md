@@ -38,6 +38,33 @@ python3 research/phase-i-t18-sink-order-20261103/run.py --output research/phase-
 
 Observed exit code: `0`. The script launches and terminates its own local sink subprocesses and creates a temporary journal directory per scenario.
 
+## F4 selected process-death cut
+
+Preregistration: [`F4-PREREGISTRATION.md`](./F4-PREREGISTRATION.md), committed at `b7404d7a2a73b2f4dd5e39ffcafaedb29f98f97f` before implementation or observation. The prior-art check found that Kernel-0 already covers source cuts before/after its own durable commitment and a sink kill/restart after prepared versus accepted state. This follow-on therefore tests the current disposable sink journal's `fsync`-before-ACK rule, the fresh-reader boundary, and the explicit early-ACK mutant.
+
+Command from repository root:
+
+```sh
+python3 research/phase-i-t18-sink-order-20261103/run.py --f4-output research/phase-i-t18-sink-order-20261103/F4-results.json > research/phase-i-t18-sink-order-20261103/F4-run.stdout.txt 2>&1
+```
+
+Observed exit code: `0`; 24 assertions passed. Raw JSON contains each client acknowledgment observation, client exit code, sink `SIGKILL`/reap code (`-9`), fresh recovery subprocess result, exact journal bytes, and recovered payload bytes/hashes. The payload SHA-256 was `8c0809ec57204ad419875f1a3ffd2c91a637dbeba4c6090a795f573ecc7ba160` in the two accepted cases.
+
+| Cut | Client observation | Fresh-process recovered effects | Expected interpretation |
+|---|---|---:|---|
+| Uninterrupted | HTTP 201 | 1 exact payload | Success follows accepted journal record |
+| Before accept | No HTTP response; connection closed after sink kill | 0 | No accept and no success reply |
+| Accepted, before ACK | No HTTP response; connection closed after sink kill | 1 exact payload | Accepted outcome is unknown to caller, not denied |
+| Unsafe early-ACK mutation | HTTP 201 | 0 | Deliberate counterexample: ACK can lie if sent before the commitment boundary |
+
+No retry was sent after the unknown accepted-before-ACK case. Its recovered effect count remains one; the permissive sink does not deduplicate, so a retry could create a duplicate. That possibility is stated in `F4-results.json` and was not suppressed by the harness.
+
+The early-ACK row is a destructive control whose expected failure was detected; its 201 response is not a passing commitment behavior. Recovery executed in a new interpreter process with only the journal path, validated newline framing and event sequence, recomputed the payload digest from recovered bytes, and did not consume the runner's expected payload or server memory.
+
+The first harness invocation failed before launching a client because its test payload contained a NUL passed as a command-line argument. It produced no experiment observations; the traceback and exit code are retained in `F4-run-attempt-1.stdout.txt` and `F4-run-attempt-1.exit-code.txt`. The harness was corrected and committed before the successful rerun. The failed invocation orphaned a sink subprocess; it was killed, then remained as a defunct process owned by PID 1 in this container. It has no open descriptors or active execution. This harness cleanup defect is bounded to the first no-observation attempt and did not affect the recorded experiment directories.
+
+These are process-death and local `fsync` observations only. They do not demonstrate power-loss durability, device-cache behavior, kernel-crash behavior, filesystem fault handling, rollback resistance, host confinement, F3 conformance, or a guarantee for other sinks.
+
 ## Next discriminator
 
 Exercise the same paused-request schedule against a pinned candidate implementation or real selected sink, using its actual authority replacement and acceptance boundary. Retain both positive paths and the detached-check control. Until that exists, no claim follows about F3, operating-system enforcement, production services, or arbitrary use-current attachments.
