@@ -45,11 +45,18 @@ export function githubReadback({payload,workflowId,firstEvaluableUtc,periodMinut
     runs: matched.map(r=>({id:r.id,created_at:r.created_at,conclusion:r.conclusion??null,status:r.status??null,source:"schedule",...minimumLateness(firstEvaluableUtc,periodMinutes,r.created_at)}))
   };
 }
-export function gitlabReadback({pipelines,schedules,scheduleQueryStatus="UNAVAILABLE",pipelineQueryStatus="OK"}) {
+export function gitlabReadback({pipelines,schedules,expectedSchedules=[],expectedRef=null,scheduleQueryStatus="UNAVAILABLE",pipelineQueryStatus="OK"}) {
   if(pipelineQueryStatus!=="OK"||!Array.isArray(pipelines))
     return {status:"OBSERVER_UNAVAILABLE",scheduled_pipelines:[],expected_slots:null};
-  const scheduleVerified=scheduleQueryStatus==="OK"&&Array.isArray(schedules)&&schedules.length>0
-   &&schedules.every(s=>typeof s.id==="number"&&typeof s.active==="boolean"&&typeof s.cron==="string"&&typeof s.cron_timezone==="string"&&typeof s.ref==="string"&&typeof s.next_run_at==="string");
+  // A partial list (one of two planned schedules) is not sufficient.
+  // Valid metadata still cannot establish an activation-adjusted slot denominator.
+  const scheduleVerified=scheduleQueryStatus==="OK"
+    &&Array.isArray(schedules)&&Array.isArray(expectedSchedules)&&expectedSchedules.length>0
+    &&expectedSchedules.every(e=>schedules.some(s=>
+      Number.isSafeInteger(s.id)&&s.active===true&&typeof s.created_at==="string"
+      &&typeof s.next_run_at==="string"&&Number.isFinite(Date.parse(s.next_run_at))
+      &&s.description===e.description&&s.cron===e.cron
+      &&s.cron_timezone===(e.timezone||"UTC")&&s.ref===(e.ref||expectedRef)));
   const scheduled=pipelines.filter(x=>x.source==="schedule").map(x=>({id:x.id,created_at:x.created_at,status:x.status,sha:x.sha,ref:x.ref}));
   return {status:scheduleVerified?"CONFIGURATION_OBSERVED":"CONFIGURATION_UNVERIFIED",expected_slots:null,
    scheduled_pipelines:scheduled,unscheduled_pipelines:pipelines.filter(x=>x.source!=="schedule").map(x=>({id:x.id,source:x.source})),
