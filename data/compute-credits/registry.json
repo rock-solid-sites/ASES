@@ -15,7 +15,13 @@
     ],
     "never_register_or_redeem": true,
     "unknown_is_null": true,
-    "do_not_notify_evergreen_baselines": true
+    "do_not_notify_evergreen_baselines": true,
+    "event_eligibility_gate": {
+      "remote_participation_required": true,
+      "unfunded_mandatory_travel": "exclude",
+      "credit_type_separate_from_general_cpu": true,
+      "record_gpu_notebook_quotas": true
+    }
   },
   "providers": [
     {
@@ -619,6 +625,29 @@
       },
       "official_url": null,
       "last_verified_at": null
+    },
+    {
+      "id": "amd-developer-cloud",
+      "name": "AMD Developer Cloud",
+      "category": "developer_execution",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": false,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://www.amd.com/",
+      "last_verified_at": "2026-11-03"
     }
   ],
   "compute_offerings": [
@@ -847,7 +876,7 @@
       "credit_expiry": "unknown",
       "first_seen_at": null,
       "last_checked_at": "2026-11-03",
-      "status": "actionable_registration_deadline",
+      "status": "excluded",
       "eligible_existing_account": false,
       "requires_new_account": true,
       "minimum_spend_usd": null,
@@ -861,7 +890,7 @@
         "https://that.promo/vultr-agent-rush-hackathon"
       ],
       "evidence_level": "official event confirms $200 and required stack; secondary source reports new-account-only gift code",
-      "alert_state": "notified_or_baseline",
+      "alert_state": "do_not_notify",
       "account_eligibility_evidence": "secondary_source_only; official confirmation pending",
       "redemption_method": "gift code reportedly shared at kickoff; unverified official",
       "required_stack": [
@@ -876,7 +905,9 @@
         "architecture explanation"
       ],
       "credit_usage_window": "event Nov 3-8 claimed by secondary source; formal credit expiration unverified",
-      "account_specific_fit": "new account eligible in principle; participation and gift code required; not guaranteed"
+      "account_specific_fit": "new account eligible in principle; participation and gift code required; not guaranteed",
+      "exclusion_reason": "Onsite component Salt Lake City Nov 8; travel/accommodation not covered; user explicitly delisted",
+      "onsite_required": "user_reported; official event page confirms onsite phase but does not clearly establish mandatory attendance for every participant"
     },
     {
       "id": "ibm-flexvsi-2026",
@@ -1053,6 +1084,33 @@
       "source_urls": [],
       "evidence_level": "monitoring_baseline_not_freshly_verified",
       "alert_state": "notified_or_baseline"
+    },
+    {
+      "id": "amd-ai-league-2026",
+      "provider_id": "amd-developer-cloud",
+      "type": "online_challenge",
+      "advertised_value": 100,
+      "value_unit": "USD_GPU_credits",
+      "details": "New eligible AMD Developer Program members get $100 AMD GPU credits; hackathon notebook GPU access 3 hours/day, about 25GB persistent storage; individual participation, no onsite requirement described; Match 5 repo repair, Match 6 game agent",
+      "credit_expiry": null,
+      "first_seen_at": "2026-11-03",
+      "last_checked_at": "2026-11-03",
+      "status": "active_non_cpu_compute",
+      "eligible_existing_account": null,
+      "requires_new_account": true,
+      "minimum_spend_usd": 0,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": false,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "event_end_date": "2026-12-01",
+      "final_match_end_date": "2026-11-14",
+      "source_urls": [
+        "https://lablab.ai/ai-hackathons/amd-lablab-ai-academy-challenge"
+      ],
+      "evidence_level": "official_event_page; credit expiry and country eligibility not established",
+      "alert_state": "tracked_no_cpu_credit_notification",
+      "account_specific_fit": "Useful GPU experiment resource, not interchangeable with 8GB CPU VM credit"
     }
   ],
   "account_inventory": {
@@ -1087,6 +1145,15 @@
         "vultr-optimized-general-8gb-reference"
       ],
       "summary": "Added official Vultr stopped billing, hourly cap and bandwidth policies; third-party 8GB hourly reference prices kept unverified."
+    },
+    {
+      "at": "2026-11-03",
+      "kind": "exclude_and_add_event",
+      "entity_ids": [
+        "vultr-agent-rush-2026",
+        "amd-ai-league-2026"
+      ],
+      "summary": "Delisted Vultr Agent Rush for unfunded onsite component; added AMD online GPU challenge and lablab discovery feed."
     }
   ],
   "source_policy": {
@@ -1099,5 +1166,21 @@
     "Collect 6GB+ hourly VM specifications and full hourly TCO",
     "Verify Vultr Agent Rush eligibility before 15:00 UTC November 3",
     "Integrate promotion ID-based diff with hourly monitor"
+  ],
+  "discovery_sources": [
+    {
+      "id": "lablab-hackathons",
+      "url": "https://lablab.ai/ai-hackathons",
+      "type": "event_aggregator",
+      "check_for": [
+        "online eligibility",
+        "onsite requirement",
+        "travel cost",
+        "free compute access",
+        "credit restrictions",
+        "project fit",
+        "submission deadlines"
+      ]
+    }
   ]
 }
