@@ -333,3 +333,7 @@ F1 and existing holder omit C11 identity/provenance/project/consumer evidence; p
 ## 2026-11-03 consumer observation continuity checkpoint
 
 Four fixed eight-event inherited F1 traces (32 commits), no enumeration: full-retention reference preserves each world's four distinct C11 observations and accepted x; bytes-only mutation preserves x and identical F1 final state yet loses every required observation and collapses the worlds. Dropping an irrelevant cache does not affect queries. Abstract wrapper stipulates accepted observations and retention; no concrete holder, schema, or provenance authenticity claim. Raw output and hashes in `Consumer-Observation-Continuity.md`. F1 and F5 remain incomplete. Next selection: resource reassignment with retained dependent and covered recovery; first identify the precise closure disposition requirement and existing removal guard.
+
+## 2026-11-03 stale disposition across recovery tranche start
+
+Preregistered `Stale-Disposition-Recovery.md`: compare an earlier empty check and current inventory after z is created inside sealed leaf S and survives abstract stop/recovery. Baseline checks at final removal; stale-check mutant removes S and independent observer detects unbounded z. Empty-inventory and bounded transfer controls ensure nonvacuity. Serial atomic final check/commit and candidate survival are assumed, not host-enforced. Resource reassignment remains a separate queue item.
