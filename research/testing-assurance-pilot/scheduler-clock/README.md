@@ -93,3 +93,24 @@ claim confidence, and incomplete artifact retention. Never infer an exact
 native GitHub cron slot from a run's creation timestamp when delays can
 cross expected intervals. New observations must be append-only snapshots;
 do not overwrite the initial evidence after late events arrive.
+
+## Readback repair and live cross-provider qualification (2026-11-03)
+
+The [repair investigation](REPAIR-2026-11-03.md) records two isolated
+observation errors (unsupported workflow-specific GitHub connector route and
+incorrectly calculated minimum lateness), plus GitLab activation uncertainty.
+Use `readback-v2.mjs` for UTC slot generation, GitHub repository-wide run
+pagination qualification, conservative lateness bounds, and GitLab configuration
+checks. The original `classify.mjs` now consumes those functions.
+
+Run `node --test classify.test.mjs readback-v2.test.mjs` to qualify the
+classifier without touching any provider. The append-only
+[`snapshot-2026-11-03T0340Z.json`](snapshot-2026-11-03T0340Z.json) is a
+bounded cross-provider source read, not a claim of full native CI log archival.
+
+Never infer a run's true cron slot from its creation time. For the observed
+21:41 ASES run the latest *possible* preceding slot is 21:13 UTC, so the lower
+bound is 28m32s, **not** 2h28m. GitLab's two planned native schedules remain
+`CONFIGURATION_UNVERIFIED` until both are authoritatively inspected and their
+activation boundary recorded. The Cloudflare-to-GitHub dispatch remains
+disabled by design.
