@@ -69,3 +69,22 @@ The 1.6.2 seeded, cold A and cold B results were **identical across the complete
 **Interpretation:** the Go edge-loss symptom is reproducible on the tested 1.6.0 installation and **does not reproduce under 1.6.2** for these pinned sources. That supports testing a version-specific upgrade in development, but does not identify the exact upstream commit that fixed it or prove general 1.6.2 correctness. The upstream 1.6.2 release explicitly recommends reindexing because the index extraction semantics changed. **Never seed or serve a 1.6.0 database under a 1.6.2 engine by merely relabeling the manifest**; exact version/extraction gates remain necessary. Three alternating 1.6.2 repetitions are scheduled separately and must be recorded before treating the timing benefit as repeatable.
 
 Decision remains: **no production deployment, merge or default-on setting**. The user-authorized development experiment may now examine an explicit development-only 1.6.2 pin and migration plan, with clean rebuild of old indexes and a fresh correctness/assurance gate.
+
+## 1.6.2 repeated-trial qualification — later addendum
+
+[CI 41702907364](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41702907364) repeated the exact pinned `junegunn/fzf` real Go source comparison with isolated CodeGraph **1.6.2**. The first independent three-way seed/cold/cold comparison again produced **13,024 identical edge multisets**, **116** indexed files and **2,925** nodes, at extraction version **27**.
+
+The subsequent three alternating clean-versus-seeded comparisons all passed full file/count parity plus sampled exact symbols/callers (`init`, `Enabled`, `Force`), with timings:
+
+| Trial | Order | Seeded update incl. backup | Full rebuild |
+| --- | --- | ---: | ---: |
+| 1 | Seed first | 2.64 s | 3.14 s |
+| 2 | Clean first | 2.26 s | 3.12 s |
+| 3 | Seed first | 2.28 s | 3.11 s |
+| **Median** | | **2.28 s** | **3.12 s** |
+
+The seeded path saved approximately **27%** of the median measured operation time on this pinned real Git source, one runner, and one CodeGraph version. It did **not** reduce stored index size: child seeded DB approx. **12.24 MiB**, cold DB approx. **11.86 MiB**. No CPU, RSS, peak filesystem allocation, electricity, provider billing, end-user agent task improvement or production QPS conclusions follow.
+
+**Epistemic distinction:** 1.6.2 **does not reproduce** the observed 1.6.0 Go incremental relationship omission on these inputs; the different absolute edge counts across upstream versions cannot establish that 1.6.2 is universally semantically correct, or pinpoint which upstream change repaired this case. A versioned clean-rebuild oracle, extraction identity and pinned source facts are essential. The stronger proposal is to run a dev-only 1.6.2 upgrade acceptance suite and **rebuild 1.6.0 indexes** instead of attempting cross-version seeding. The current cgrmcp development runtime remains pinned to 1.6.0 and is not thereby upgraded, merged or deployed.
+
+**Next acceptance gates:** versioned cgrmcp MCP end-to-end across Rust/Go/TS, migration/reindex behavior on startup or explicit operator action, checks for mixed-version manifest/index registry, multiple commits/branches, repeated WAL contention and crash boundaries, representative large repositories, performance/resource accounting, independent evidence archiving. The Go 1.6.0 negative test must remain a **failure** until an explicit fix or version guard is installed; no silent downgrade or waived graph-parity oracle.
