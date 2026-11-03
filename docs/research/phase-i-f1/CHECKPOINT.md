@@ -309,3 +309,7 @@ Preregistered `Snapshot-Witness-Experiment.md`: real old/current SQLite backup i
 ## 2026-11-03 surviving snapshot witness checkpoint
 
 Two distinct actual SQLite backups passed integrity; after writer SIGKILL/reap, fresh receiver accepted current x/y using supervisor-held digest, refused old with that witness and current with missing witness. Bypassing comparison accepted old x-only; independent current digest/content observer detected stale acceptance. Four one-shot cases, one history; syntax passed, raw output/hashes in `Snapshot-Witness-Experiment.md`. Correct currentness, non-rollback and atomic publication/update ordering of witness are trusted, not proved. Next: two-store update-order crash cuts and recovered evidence, including safe refusal versus stale acceptance; no non-rollback solution claim.
+
+## 2026-11-03 two-store crash cuts tranche start
+
+Preregistered `Two-Store-Crash-Cuts.md`: five concrete process-loss cuts through separately committed authoritative record and witness stores, fresh reader, actual old/current candidate files, independent currentness oracle. Record-first mid-cut predicts stale acceptance; witness-first mid-cut predicts refusal under explicit authoritative-eligibility premise. No claim to solve witness nonrollback or cross-store atomicity.
