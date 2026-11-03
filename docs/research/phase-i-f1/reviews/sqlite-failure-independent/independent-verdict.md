@@ -21,3 +21,7 @@ This supports only one row/schema, the finite accepted payloads, one profile, on
 ## Reproduction evidence
 
 Commands, exit codes, raw stdout/stderr, and input/result hashes are in this directory. The instrumented follow-up changed only a `/tmp` copy of the probe and added a log after `Store.write` returns. Repository sources were unchanged.
+
+## Checkout provenance correction
+
+The first probe and report were initially collected in `/workspace/ASES` after creating the task branch there. Before publication, I verified that the only working-tree changes were this report/evidence directory and that `main` still pointed to `e63ff28d98dd2c59d22d026d3f538263600278fa`. I committed only this report/evidence, restored the shared checkout to `main`, and created `/workspace/ases-sqlite-check` on the task branch. No experiment source was edited; no probe was rerun for this relocation.
