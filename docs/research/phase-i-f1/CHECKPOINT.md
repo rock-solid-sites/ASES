@@ -337,3 +337,7 @@ Four fixed eight-event inherited F1 traces (32 commits), no enumeration: full-re
 ## 2026-11-03 stale disposition across recovery tranche start
 
 Preregistered `Stale-Disposition-Recovery.md`: compare an earlier empty check and current inventory after z is created inside sealed leaf S and survives abstract stop/recovery. Baseline checks at final removal; stale-check mutant removes S and independent observer detects unbounded z. Empty-inventory and bounded transfer controls ensure nonvacuity. Serial atomic final check/commit and candidate survival are assumed, not host-enforced. Resource reassignment remains a separate queue item.
+
+## 2026-11-03 stale disposition across recovery checkpoint
+
+Five fixed histories: earlier empty check followed by creation of unaccepted z, stop and recovery; reference refuses S removal, stale-check mutant removes S and independent observer detects z unbounded. Empty reference/mutant both remove; transfer control moves z to present Q then removes S safely. 34 inherited commits, nine wrapper commits, two wrapper denials; no search. Raw transitions/hashes and assumptions in `Stale-Disposition-Recovery.md`; check-and-remove atomicity, complete inventory and candidate retention are assumed, not host-enforced. Remaining next item: resource reservation/reassignment across loss only if a concrete conservation/currentness distinction can be isolated independently of this disposition case. F1 and F5 remain incomplete.
