@@ -87,6 +87,11 @@ def manager_roundtrip(client,server,req,st,root):
  q=json.loads(server.makefile('rb',buffering=0).readline())
  ok=q.get('authorized_by')=='initial-manager' and q.get('credential')==CREDENTIAL
  result={'result':'DENY','reason':'management-authorization-required'}
+ if ok:
+  _,published=load_current(root)
+  if json.dumps(st,sort_keys=True,separators=(',',':')) != json.dumps(published,sort_keys=True,separators=(',',':')):
+   result={'result':'DENY','reason':'management-state-not-current'}
+   server.sendall((json.dumps(result,sort_keys=True)+'\n').encode()); return q,result
  if ok and q.get('op')=='authorize_move':
   if not graph_valid(st) or st['current_ingress'] is not None or any(u['active'] or not u['sealed'] for u in st['work_units'].values()): result={'result':'DENY','reason':'move-requires-current-valid-sealed-state'}
   elif q.get('child')!='C' or q.get('destination')!='Q': result={'result':'DENY','reason':'unsupported-move'}
@@ -98,7 +103,10 @@ def manager_roundtrip(client,server,req,st,root):
     name,h=commit(root,st,{'op':'authorized_sealed_whole_move','actor':q['authorized_by'],'from':'P','to':'Q','included':['C','D'],'old_effective':prior})
     result={'result':'COMMITTED','record':name,'record_sha256':h,'old_effective':prior}
  elif ok and q.get('op')=='authorize_activate':
-  if not graph_valid(st) or st['current_ingress'] is not None or st['work_units']['C']['parent']!='Q' or any(u['active'] for u in st['work_units'].values()): result={'result':'DENY','reason':'activation-requires-moved-sealed-state'}
+  if (not graph_valid(st) or st['current_ingress'] is not None
+      or st['work_units']['C']['parent'] not in {'P','Q'}
+      or any(u['active'] or not u['sealed'] for u in st['work_units'].values())):
+   result={'result':'DENY','reason':'activation-requires-current-inactive-sealed-state'}
   else:
    st['current_ingress']='W-L5'; st['work_units']['P']['active']=True; st['work_units']['Q']['active']=True; st['work_units']['C']['active']=True; st['work_units']['D']['active']=True
    for u in st['work_units'].values(): u['sealed']=False
@@ -106,7 +114,10 @@ def manager_roundtrip(client,server,req,st,root):
    result={'result':'COMMITTED','record':name,'record_sha256':h,'ingress':'W-L5'}
  server.sendall((json.dumps(result,sort_keys=True)+'\n').encode()); return q,result
 def run_case(label,parent_grants,move,mutant=False):
- tmp,root,l4record,l4out,l4err=l4_bootstrap(); l4_raw=json.loads((root.parent/'raw-run.json').read_text()); (HERE/f'l5-integrated-l4-{label}.json').write_text(json.dumps(l4_raw,sort_keys=True,indent=2)+'\n'); state_name,st=load_current(root); st['work_units']['P']['grants']=parent_grants
+ tmp,root,l4record,l4out,l4err=l4_bootstrap(); l4_raw=json.loads((root.parent/'raw-run.json').read_text()); (HERE/f'l5-integrated-l4-{label}.json').write_text(json.dumps(l4_raw,sort_keys=True,indent=2)+'\n'); state_name,st=load_current(root)
+ if st['work_units']['P']['grants']!=parent_grants:
+  st['work_units']['P']['grants']=parent_grants
+  commit(root,st,{'op':'fixture-parent-grant','scope':'P','grants':parent_grants})
  # Test the established socket management boundary: an unauthorized request is
  # actually received, denied, and leaves the current state byte-for-byte intact.
  before=json.dumps(st,sort_keys=True); a,b=socket.socketpair(); unauthorized={'op':'authorize_move','authorized_by':'intruder','credential':'wrong','child':'C','destination':'Q'}
@@ -116,7 +127,6 @@ def run_case(label,parent_grants,move,mutant=False):
  move_reply=None; activation_reply=None; management=[]
  if move:
   oldc=sorted(permissions(st,'C')); oldd=sorted(permissions(st,'D'))
-  st['work_units']['P']['active']=False
   _,move_reply=manager_roundtrip(a,b,{'op':'authorize_move','authorized_by':'initial-manager','credential':CREDENTIAL,'child':'C','destination':'Q'},st,root); management.append(move_reply)
   if move_reply['result']!='COMMITTED': raise AssertionError(move_reply)
   if mutant:
@@ -124,17 +134,8 @@ def run_case(label,parent_grants,move,mutant=False):
    commit(root,st,{'op':'unsafe_mutant_drop_latent_restrictions'})
   _,activation_reply=manager_roundtrip(a,b,{'op':'authorize_activate','authorized_by':'initial-manager','credential':CREDENTIAL},st,root); management.append(activation_reply)
  else:
-  # Positive control has separately authorized current activation without a move.
-  st['work_units']['P']['grants']=['read','write']; st['work_units']['P']['active']=False
-  # Seed C->P active state is enabled only by management control.
-  st['work_units']['C']['parent']='P'; st['current_ingress']=None
-  st['work_units']['P']['active']=True; st['work_units']['C']['active']=True; st['work_units']['D']['active']=True; st['work_units']['Q']['active']=False
-  for u in st['work_units'].values(): u['sealed']=False
-  name,h=commit(root,st,{'op':'separately-authorized_positive_control_activation','actor':'initial-manager','ingress':'W-L5'})
-  activation_reply={'result':'COMMITTED','record':name,'record_sha256':h,'ingress':'W-L5'}; st['current_ingress']='W-L5'
-  # Persist current ingress exactly as activated.
-  name,h=commit(root,st,{'op':'positive_control_ingress_current','actor':'initial-manager'})
-  a.close(); b.close()
+  # Positive control uses the same current-authority manager route as relocation.
+  _,activation_reply=manager_roundtrip(a,b,{'op':'authorize_activate','authorized_by':'initial-manager','credential':CREDENTIAL},st,root); management.append(activation_reply)
  if move: a.close(); b.close()
  if not graph_valid(st): raise AssertionError('post-transition graph invalid')
  if move and permissions(st,'D') != (set(VALID) if mutant else {'read'}): raise AssertionError(('unexpected effective D permissions',permissions(st,'D')))

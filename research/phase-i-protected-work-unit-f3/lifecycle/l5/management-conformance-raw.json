@@ -1,0 +1,93 @@
+{
+  "decision": {
+    "concurrency_claim": "none; check-then-commit assumes serialized single holder",
+    "fresh_activation_through_manager": true,
+    "stale_state_denied_without_store_change": true,
+    "unsealed_activation_denied_without_store_change": true,
+    "wrong_credential_denied_without_store_change": true
+  },
+  "preregistration": "MANAGEMENT-CONFORMANCE-PREREGISTRATION.md",
+  "steps": [
+    {
+      "case": "fresh",
+      "record": "record-000001.json",
+      "step": "bootstrap",
+      "store_hashes": {
+        "CURRENT": "f70c54bf3102dae690266541379e4c54be31c3de870b1c61fd717dca049b0727",
+        "record-000001.json": "93f9e6d84a3ce01ad3176da9c4398bde856c2cff0df3a8492d536e583eeeb583"
+      }
+    },
+    {
+      "case": "fresh",
+      "record": "record-000002.json",
+      "record_sha256": "b5100b89e554d99c6c58613e362f10613d8dd9faf85f4c4e2543674f775e337b",
+      "response": {
+        "old_effective": {
+          "C": [
+            "read",
+            "write"
+          ],
+          "D": [
+            "read",
+            "write"
+          ]
+        },
+        "record": "record-000002.json",
+        "record_sha256": "b5100b89e554d99c6c58613e362f10613d8dd9faf85f4c4e2543674f775e337b",
+        "result": "COMMITTED"
+      },
+      "step": "move"
+    },
+    {
+      "case": "fresh",
+      "current_ingress": "W-L5",
+      "last_event": {
+        "actor": "initial-manager",
+        "ingress": "W-L5",
+        "op": "separately-authorized_activation"
+      },
+      "record": "record-000003.json",
+      "record_sha256": "fc899329c71de4108f871dcfbbec0a338de9ab9010444182dd00084910fd23c4",
+      "response": {
+        "ingress": "W-L5",
+        "record": "record-000003.json",
+        "record_sha256": "fc899329c71de4108f871dcfbbec0a338de9ab9010444182dd00084910fd23c4",
+        "result": "COMMITTED"
+      },
+      "step": "activation"
+    },
+    {
+      "byte_identical": true,
+      "case": "stale",
+      "response": {
+        "reason": "management-state-not-current",
+        "result": "DENY"
+      },
+      "selector_after": "record-000003.json",
+      "selector_before": "record-000003.json",
+      "store_hash_after": "2494360ed4613dd2111ca92eeaaaa104e27947b0e4c5e724dd0898e45408d6e3",
+      "store_hash_before": "2494360ed4613dd2111ca92eeaaaa104e27947b0e4c5e724dd0898e45408d6e3"
+    },
+    {
+      "byte_identical": true,
+      "case": "wrong_credential",
+      "response": {
+        "reason": "management-authorization-required",
+        "result": "DENY"
+      },
+      "store_hash_after": "2494360ed4613dd2111ca92eeaaaa104e27947b0e4c5e724dd0898e45408d6e3",
+      "store_hash_before": "2494360ed4613dd2111ca92eeaaaa104e27947b0e4c5e724dd0898e45408d6e3"
+    },
+    {
+      "byte_identical": true,
+      "case": "unsealed_fixture",
+      "reachable_through_manager": false,
+      "response": {
+        "reason": "activation-requires-current-inactive-sealed-state",
+        "result": "DENY"
+      },
+      "store_hash_after": "d8e7fb415a7e39cd935a1a62d4ae17dfff72457fd3f82dacc17a3a9507d34534",
+      "store_hash_before": "d8e7fb415a7e39cd935a1a62d4ae17dfff72457fd3f82dacc17a3a9507d34534"
+    }
+  ]
+}
