@@ -1,0 +1,102 @@
+{
+  "corruption_controls": {
+    "malformed_journal": {
+      "reason": "malformed journal record",
+      "status": "INCOMPLETE"
+    },
+    "missing_client_observation": {
+      "reason": "missing F4 observation",
+      "status": "INCOMPLETE"
+    },
+    "missing_event": {
+      "reason": "missing, unordered or duplicate event",
+      "status": "INCOMPLETE"
+    },
+    "missing_scenario": {
+      "reason": "'sink_ordered'",
+      "status": "INCOMPLETE"
+    },
+    "truncated_journal": {
+      "reason": "truncated journal framing",
+      "status": "INCOMPLETE"
+    }
+  },
+  "coverage": {
+    "gate_event_and_fsync_timing": "not retained in F4 raw events",
+    "missing_vs_empty_journal": "not distinguishable by recorded recovery",
+    "other_T01_T24_F3_host_acceptance": "not tested",
+    "t07_power_loss": "not tested; real process death only",
+    "t18_exact": "accepted-order correspondence with client-send event unlogged",
+    "t18_use_current_fixture": "prepared-only; recorded schedule is narrower analogy"
+  },
+  "detached_mutant": {
+    "evidence_seq": {
+      "old_check": 1,
+      "replacement": 3,
+      "stale_accept": 4
+    },
+    "reason": "detached old authority check accepted stale request after replacement",
+    "status": "VIOLATION"
+  },
+  "exact_obligation": {
+    "evidence_seq": {
+      "accept": 7,
+      "commit": 2,
+      "replacement": 4
+    },
+    "reason": "matching exact committed obligation delivered after replacement",
+    "status": "SUPPORTED_ANALOG",
+    "unresolved": "client-send event not separately logged; profile-specific analogy, not use-current authorization"
+  },
+  "f4": {
+    "accepted_before_ack": {
+      "limitation": "no retry recorded; F2 power-loss case not reproduced",
+      "reason": "no reply; independent reader recovered one exact effect",
+      "status": "UNKNOWN_CALLER_COMMITTED_EFFECT"
+    },
+    "early_ack_mutant": {
+      "effects": 0,
+      "limitation": "empty and missing journal are indistinguishable in recorded runner",
+      "reason": "success ACK without a recoverable matching effect",
+      "status": "VIOLATION"
+    },
+    "preaccept": {
+      "limitation": "empty and missing journal indistinguishable; gate event not retained",
+      "reason": "no reply and reader reports zero effects; not a denial",
+      "status": "UNKNOWN_CALLER_NO_RECOVERED_EFFECT"
+    },
+    "uninterrupted": {
+      "effects": 1,
+      "limitation": "gate events and fsync timing are not retained in raw output; process death only",
+      "reason": "success reply and one exact recovered effect",
+      "status": "SUPPORTED_ANALOG"
+    }
+  },
+  "ordered": {
+    "evidence_seq": {
+      "held": 3,
+      "rejected": 5,
+      "replacement": 4
+    },
+    "f2_fixture_status": "prepared-only",
+    "reason": "held old request rejected after replacement; current requests accepted",
+    "status": "SUPPORTED_ANALOG",
+    "unresolved": "request was initiated before replacement, while F2 sink_send follows revoke; replacement is not automatically equivalent to that revoke"
+  },
+  "provenance": {
+    "closure_sha256": "63d77d9e27960ace3679dc2538ad5bc035cc38d39bbc831052091fbb01667be9",
+    "f2_commit": "5fb690d4ba7544a4a7eb5fce9ca1e54485543d64",
+    "f2_fixture_sha256": "bdc8cbeb5e917c10f23add99ab8dd88a9d2212d1d9f52be0a7e5c178e1eb6f65",
+    "f4_raw_sha256": "78a10b4b5e64f0e577102196149fb7cbfdb651e0dc7d5d986111b2e9784541ae",
+    "f4_source_sha256": "63d52186d3cd4cb64ad471b6b017a3406506930fb926be3e0da648e03de21b23",
+    "recorded_f4_source_sha256": "63d52186d3cd4cb64ad471b6b017a3406506930fb926be3e0da648e03de21b23",
+    "t18_raw_sha256": "0f61e9b5a513c24a9f1d1c4f4089eafe990c3768ba0c4db7131416ecfe2522f1",
+    "t18_source_commit": "b631bfae01faff1f32a8f81993386cdc3a36eb63",
+    "t18_source_sha256": "d07e71da07638003c12852607c0662014e389a9d3b54499982f32fcdc509918f",
+    "verification_sha256": "f8dbf16606ad58072ec51dfc3306dfd6f55220aa3cb6952c9137790f86cbd13d"
+  },
+  "recorded_truncated_control": {
+    "reason": "fresh reader refused truncated journal; no empty successful recovery",
+    "status": "INCOMPLETE"
+  }
+}
