@@ -92,6 +92,8 @@ export function classify(snapshot) {
   const gitlab = snapshot.gitlab ? gitlabReadback({
     pipelines:snapshot.gitlab.pipelines,
     schedules:snapshot.gitlab.schedules,
+    expectedSchedules:snapshot.gitlab.expected_schedules || [],
+    expectedRef:snapshot.gitlab.ref || null,
     scheduleQueryStatus:snapshot.gitlab.schedule_source?.status || 'UNAVAILABLE',
     pipelineQueryStatus:snapshot.gitlab.source?.status || 'ERROR'
   }) : null;
