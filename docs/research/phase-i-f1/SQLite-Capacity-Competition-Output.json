@@ -1,0 +1,136 @@
+{
+  "bounds": {
+    "enumerated": false,
+    "schedules": 2,
+    "truncated": false,
+    "writers_per_schedule": 2
+  },
+  "detached_mutant": {
+    "acks": [
+      {
+        "event": "ack",
+        "owner": "C"
+      },
+      {
+        "event": "ack",
+        "owner": "S"
+      }
+    ],
+    "capacity_invariant": false,
+    "decisions": [
+      {
+        "count_seen": 0,
+        "event": "committed",
+        "owner": "C"
+      },
+      {
+        "count_seen": 0,
+        "event": "committed",
+        "owner": "S"
+      }
+    ],
+    "exits": [
+      0,
+      0
+    ],
+    "pre_ack_observer": {
+      "effects": [
+        "C",
+        "S"
+      ],
+      "integrity": "ok",
+      "reservations": [
+        "C",
+        "S"
+      ]
+    },
+    "prechecks": [
+      {
+        "count": 0,
+        "event": "precheck",
+        "owner": "C"
+      },
+      {
+        "count": 0,
+        "event": "precheck",
+        "owner": "S"
+      }
+    ],
+    "ready": [
+      {
+        "event": "ready",
+        "owner": "C",
+        "pid": 12305
+      },
+      {
+        "event": "ready",
+        "owner": "S",
+        "pid": 12306
+      }
+    ]
+  },
+  "f1_serial_control": {
+    "final_owner": "C",
+    "invariant": null,
+    "outcomes": [
+      {
+        "outcome": "commit",
+        "owner": "C",
+        "reason": null
+      },
+      {
+        "outcome": "deny",
+        "owner": "S",
+        "reason": "capacity-unit-already-allocated (C3)"
+      }
+    ]
+  },
+  "reference": {
+    "acks": [
+      {
+        "event": "ack",
+        "owner": "S"
+      }
+    ],
+    "capacity_invariant": true,
+    "decisions": [
+      {
+        "count_seen": 1,
+        "event": "denied",
+        "owner": "C"
+      },
+      {
+        "count_seen": 0,
+        "event": "committed",
+        "owner": "S"
+      }
+    ],
+    "exits": [
+      0,
+      0
+    ],
+    "pre_ack_observer": {
+      "effects": [
+        "S"
+      ],
+      "integrity": "ok",
+      "reservations": [
+        "S"
+      ]
+    },
+    "prechecks": [],
+    "ready": [
+      {
+        "event": "ready",
+        "owner": "C",
+        "pid": 12303
+      },
+      {
+        "event": "ready",
+        "owner": "S",
+        "pid": 12304
+      }
+    ]
+  },
+  "sqlite": "3.53.1"
+}

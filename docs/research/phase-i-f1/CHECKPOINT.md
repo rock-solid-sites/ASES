@@ -357,3 +357,7 @@ The previous C11 two-world atoms covary; preregistered `Independent-Observation-
 ## 2026-11-03 two-process SQLite competition tranche start
 
 At 0e3349987, parked independent-observation-fields preregistration unexecuted while prioritizing the concrete bridge. `SQLite-Capacity-Competition.md` preregisters two separate SQLite writers, one-unit in-transaction current check vs synchronized detached-precheck mutant, independent pre-ACK ledger/effect read, F1 serial comparison, and non-vacuous winner/denial controls. Existing holder uses one in-process lock; two separate direct database writers are the distinct boundary. No production/runtime or host-confinement claim.
+
+## 2026-11-03 two-process SQLite competition checkpoint
+
+Two real independent SQLite writers, two supervised schedules: transactional reference gives one reservation/effect and one denial; forced detached prechecks both see empty and then commit two reservations/effects. Independent pre-ACK database observation agrees with committed decisions, and all four children exit 0; F1 serial one-winner control matches the narrow safety outcome. Syntax and integrity checks pass. Raw evidence, hashes and scope in `SQLite-Capacity-Competition.md`; SQLite/VFS locking, transaction correctness and live host remain premises; effects are test rows, no power loss or general refinement. Independent C11 field-variation experiment remains preregistered but unexecuted; resume after independent conformance check or as directed. F1/F5 remain incomplete.
