@@ -7,3 +7,7 @@
 - [ATProto Reader](https://github.com/rock-solid-sites/rss-tools/tree/main/mcp/atproto-reader): active-development record and source links
 
 Prior versions of these files remain available in this repository's Git history. **These records are not OpenAI plugin-import schemas.** Runtime tunnel IDs and credentials must not be committed.
+
+## Explicit operator-directed planning dossier (non-runtime exception)
+
+- [GitLab pipeline schedule control](gitlab-schedule-control/README.md) is an **experimental, agent-oriented problem/requirements/architecture record** placed here by direct operator request on 2026-11-03. It does **not** reverse the migration above or establish a deployed/installed plugin. Its eventual canonical MCP implementation and connector records, if approved, belong in [rss-tools/mcp](https://github.com/rock-solid-sites/rss-tools/tree/main/mcp), not duplicated in ASES.
