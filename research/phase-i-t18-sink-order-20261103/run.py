@@ -580,7 +580,7 @@ def cold_recover(journal: Path) -> tuple[dict[str, Any], int, str]:
 def run_f4_experiment(output: Path) -> dict[str, Any]:
     scenarios: dict[str, Any] = {}
     assertions: dict[str, bool] = {}
-    payload = "phase-i-t18-effect-π\nimmutable payload\x00tail"
+    payload = "phase-i-t18-effect-π\nimmutable payload"
     cases = ("uninterrupted", "preaccept", "accepted_before_ack", "early_ack_mutant")
     with tempfile.TemporaryDirectory(prefix="ases-t18-f4-") as temporary:
         root = Path(temporary)
@@ -594,26 +594,34 @@ def run_f4_experiment(output: Path) -> dict[str, Any]:
                 "early_ack_mutant": "early_ack",
             }[case]
             sink = RunningSink("f4", case_root)
-            client = subprocess.Popen(
-                [sys.executable, str(Path(__file__).resolve()), "--client", str(sink.port),
-                 f"effect-{case}", payload, cut],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-            )
-            if case == "uninterrupted":
-                client_result, client_stderr = read_child_json(client, "uninterrupted client")
-                kill_status = sink.kill_and_reap()
-            elif case == "preaccept":
-                wait_for_event(sink, "request_waiting_before_accept")
-                kill_status = sink.kill_and_reap()
-                client_result, client_stderr = read_child_json(client, "preaccept client")
-            elif case == "accepted_before_ack":
-                wait_for_event(sink, "accepted_waiting_before_ack")
-                kill_status = sink.kill_and_reap()
-                client_result, client_stderr = read_child_json(client, "accepted-before-ack client")
-            else:
-                wait_for_event(sink, "early_ack_waiting_before_accept")
-                client_result, client_stderr = read_child_json(client, "early-ack mutant client")
-                kill_status = sink.kill_and_reap()
+            client = None
+            try:
+                client = subprocess.Popen(
+                    [sys.executable, str(Path(__file__).resolve()), "--client", str(sink.port),
+                     f"effect-{case}", payload, cut],
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                )
+                if case == "uninterrupted":
+                    client_result, client_stderr = read_child_json(client, "uninterrupted client")
+                    kill_status = sink.kill_and_reap()
+                elif case == "preaccept":
+                    wait_for_event(sink, "request_waiting_before_accept")
+                    kill_status = sink.kill_and_reap()
+                    client_result, client_stderr = read_child_json(client, "preaccept client")
+                elif case == "accepted_before_ack":
+                    wait_for_event(sink, "accepted_waiting_before_ack")
+                    kill_status = sink.kill_and_reap()
+                    client_result, client_stderr = read_child_json(client, "accepted-before-ack client")
+                else:
+                    wait_for_event(sink, "early_ack_waiting_before_accept")
+                    client_result, client_stderr = read_child_json(client, "early-ack mutant client")
+                    kill_status = sink.kill_and_reap()
+            finally:
+                if client is not None and client.poll() is None:
+                    client.kill()
+                    client.wait(timeout=2.0)
+                if sink.process.poll() is None:
+                    sink.kill_and_reap()
 
             recovered, recovery_status, recovery_stderr = cold_recover(journal)
             scenario = {
