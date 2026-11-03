@@ -3,8 +3,7 @@
 
 Run (bounded, single copy):
   python3 -u timing_event_model.py --output evidence/results.json
-Optional knobs: --deadline <s per phase> (default 900), --residue-samples <n>
-(default 256).
+Optional knob: --deadline <seconds for entire run> (default 900).
 
 No dependencies, network, randomness, host clocks or persistent service state.
 This is an experiment harness, not a Kernel-0 realization. It reuses the frozen
@@ -214,6 +213,10 @@ assert len(STYLES) == 2**len(FIELDS)
 
 def run_correspondence(deadline: float) -> dict:
     started = time.monotonic()
+    def check_deadline(phase, **cursor):
+        if time.monotonic() - started >= deadline:
+            raise SystemExit(json.dumps({"status": "incomplete", "reason": "deadline",
+                                         "phase": phase, "cursor": cursor}, sort_keys=True))
     per_profile, style_mismatch, style_examples = {}, 0, []
     legal_words = {}
     residue_ok = residue_total = 0
@@ -225,13 +228,20 @@ def run_correspondence(deadline: float) -> dict:
                "style_mismatch_examples": []}
         necessary_by_kind = {}
         for word in range(1 << 22):
+            check_deadline("correspondence", profile=prof.name, next_word=word,
+                           legal_states=per["legal_states"], completed_offers=per["catalog_offers"])
+            # The absent state has exactly one canonical encoding, zero.
+            if word and not word & 1:
+                continue
             s = decode_word(word)
             if not model.invariant(s, prof):
                 continue
             per["legal_states"] += 1
             legal_words.setdefault(prof.name, []).append(word)
-            for q in CATALOG:
-                per["catalog_offers"] += 1
+            for offer_index, q in enumerate(CATALOG):
+                check_deadline("correspondence", profile=prof.name, current_word=word,
+                               next_offer_index=offer_index, legal_states=per["legal_states"],
+                               completed_offers=per["catalog_offers"])
                 ref_out, ref_kind = resolve(s, q, prof)
                 minimal = minimal_style(q, s, prof)
                 kinds = necessary_by_kind.setdefault(q.kind, {})
@@ -256,6 +266,7 @@ def run_correspondence(deadline: float) -> dict:
                             per["published_view_mismatch"] += 1
                         if not model.invariant(out, prof):
                             per["illegal_under_style"] += 1
+                per["catalog_offers"] += 1
         per["styles_examined"] = 2
         per["minimal_style_census"] = {k: {"/".join(sorted(kk)): v for kk, v in vv.items()}
                                        for k, vv in sorted(necessary_by_kind.items())}
@@ -264,8 +275,6 @@ def run_correspondence(deadline: float) -> dict:
         per_profile[prof.name] = per
         print(f"{prof.name}: {per['legal_states']} legal states, {per['catalog_offers']} offers, "
               f"{per['cases']} cases, {time.monotonic() - started:.1f}s", flush=True)
-        if time.monotonic() - started > deadline:
-            raise SystemExit(f"time bound exceeded after profile {prof.name}; incomplete run")
     # Residue: the narrowest style is checked against every legal state with a
     # deterministic small subset of offers (complete per kind, capped per kind).
     per_kind = {}
@@ -280,7 +289,9 @@ def run_correspondence(deadline: float) -> dict:
         for word in legal_words[prof.name]:
             s = decode_word(word)
             residue["legal_states_checked"] += 1
-            for q in sample_offers:
+            for offer_index, q in enumerate(sample_offers):
+                check_deadline("residue", profile=prof.name, current_word=word,
+                               next_offer_index=offer_index, completed_cases=residue["cases"])
                 mask = minimal_style(q, s, prof)
                 residue["narrowest_style_per_offer_kind"].setdefault(q.kind, set()).add(mask)
                 project(s, mask)
@@ -304,6 +315,8 @@ def run_correspondence(deadline: float) -> dict:
     mixed = {"lane_pairs_with_two_authentic_offers": 0, "mixtures": 0,
              "mixtures_that_are_an_endpoint": 0, "mixtures_not_offered": 0, "witness": None}
     for payload_a, payload_b in combinations(range(2048), 2):
+        check_deadline("mixed_offers", next_payload_pair=[payload_a, payload_b],
+                       completed_mixtures=mixed["mixtures"])
         diff = payload_a ^ payload_b
         if bin(diff).count("1") != 2 or diff & 0b11110000000:
             continue
