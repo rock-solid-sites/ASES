@@ -98,3 +98,16 @@ Consequently, merely bumping the CodeGraph package in an existing cgrmcp store c
 **Safety decision:** Do **not** directly upgrade an existing store in place. First qualify an isolated **new, version-scoped store root** or explicit versioned snapshot IDs/registry migration, plus a `repo_explore`/engine compatibility gate that does not unnecessarily block safe raw source reads. Reindex previous revisions cleanly under 1.6.2; never relabel or silently seed old 1.6.0 SQLite. Preserve old snapshots/manifest evidence until explicitly verified replacement and rollback. Test the behavior of `repo_open`, `repo_status`, `repo_explore` and `repo_read` separately across an engine-version transition. This is a **design blocker**, not a committed implementation change.
 
 **ASES Processor generalization:** a derived result's address must not falsely imply cross-producer reuse. Existing cgrmcp's commit-only snapshot IDs make this a concrete example: work identity and result identity are distinct, and validity must also bind to the actual producing engine/version/schema. Retain this as a proposed architectural requirement, not a global kernel rule.
+
+## Later 1.6.2 cross-language replication
+
+[Cross-language CI run 41703432405](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41703432405) added three alternating, independently indexed source comparisons for each of the same immutable public Rust and TypeScript revisions under an isolated CodeGraph **1.6.2** binary (extraction version 27). Both language jobs **PASSED all 3/3 source/graph parity controls**.
+
+| Real source | Seed median (backup included) | Fresh median | Difference | Indexed DB size (seed / fresh) |
+| --- | ---: | ---: | ---: | ---: |
+| `sharkdp/fd` Rust | **742 ms** | **1,228 ms** | ~40% less elapsed time | ~2.11 / 2.12 MiB |
+| `unjs/ofetch` TypeScript | **834 ms** | **1,026 ms** | ~19% less elapsed time | 588 / 560 KiB |
+
+The independently completed [Go 1.6.2 triplicate run 41702907364](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41702907364) likewise **PASSED 3/3** with 2.28 s seeded and 3.12 s clean median (~27% less). The source fixture, CodeGraph binary and query oracle are versioned, but these are three samples per source, not general-purpose engine guarantees, nor agent-level cost improvements.
+
+The 1.6.2 Rust/Go/TS trials show that the earlier 1.6.0 Go failure is not an inevitable property of our SQLite-backup mechanism. They **do not** erase the negative evidence, justify serving 1.6.0-built databases under 1.6.2, or prove the entire graph correct where both paths could share the same extractor error. A version-scoped, clean-reindexed cgrmcp store and cross-version query gate remain mandatory before any development upgrade acceptance.
