@@ -305,3 +305,7 @@ Reference conflict: 136 states, 312 attempted edges, 120 committed, 192 denied, 
 ## 2026-11-03 surviving snapshot witness tranche start
 
 Preregistered `Snapshot-Witness-Experiment.md`: real old/current SQLite backup images after writer loss, fresh receiver, supervisor-held current digest; stale and absent witness must refuse, current must succeed, and comparison-bypass must admit stale to independent oracle. This tests one surviving-witness premise only; no integrated runtime, storage rollback resistance or host-loss claim.
+
+## 2026-11-03 surviving snapshot witness checkpoint
+
+Two distinct actual SQLite backups passed integrity; after writer SIGKILL/reap, fresh receiver accepted current x/y using supervisor-held digest, refused old with that witness and current with missing witness. Bypassing comparison accepted old x-only; independent current digest/content observer detected stale acceptance. Four one-shot cases, one history; syntax passed, raw output/hashes in `Snapshot-Witness-Experiment.md`. Correct currentness, non-rollback and atomic publication/update ordering of witness are trusted, not proved. Next: two-store update-order crash cuts and recovered evidence, including safe refusal versus stale acceptance; no non-rollback solution claim.
