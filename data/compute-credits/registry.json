@@ -752,7 +752,7 @@
       "type": "new_customer_trial",
       "advertised_value": 300,
       "value_unit": "USD",
-      "details": "User reports $10 deposit required for $300 credit in Google Vertex/Google Cloud signup flow; verify product scope and whether this is a hold or refundable deposit before treating as standard Google Cloud free trial",
+      "details": "User reports $10 deposit required for $300 credit in Google Vertex/Google Cloud signup flow; verify product scope and whether this is a hold or refundable deposit before treating as standard Google Cloud free trial User explicitly confirms payment is a deposit, not a refundable card verification/test amount.",
       "credit_expiry": "90 days",
       "first_seen_at": null,
       "last_checked_at": "2026-11-03",
@@ -760,13 +760,16 @@
       "eligible_existing_account": null,
       "requires_new_account": null,
       "minimum_spend_usd": 10,
-      "deposit_refundable": null,
+      "deposit_refundable": false,
       "eligible_cpu_vm": null,
       "region_restrictions": null,
       "redemption_deadline_utc": null,
       "source_urls": [],
       "evidence_level": "user_observed_signup_2026-11-03; exact program identity not yet verified",
-      "alert_state": "notified_or_baseline"
+      "alert_state": "notified_or_baseline",
+      "deposit_type": "actual_upfront_deposit_not_card_authorization",
+      "deposit_refundability_evidence": "user_confirmed_nonrefundable_test_amount_distinction; refundability of unused account balance not separately verified",
+      "deposit_creditable_to_usage": null
     },
     {
       "id": "oci-300-30d",
@@ -1015,7 +1018,7 @@
       "type": "welcome_offer",
       "advertised_value": 300,
       "value_unit": "USD",
-      "details": "$300 voucher conditional on $5 deposit shown in user's current signup flow; payment verification additionally blocked",
+      "details": "$300 voucher conditional on $5 deposit shown in user's current signup flow; payment verification additionally blocked User explicitly confirms payment is a deposit, not a refundable card verification/test amount.",
       "credit_expiry": "unknown",
       "first_seen_at": null,
       "last_checked_at": "2026-11-03",
@@ -1023,14 +1026,17 @@
       "eligible_existing_account": null,
       "requires_new_account": null,
       "minimum_spend_usd": 5,
-      "deposit_refundable": null,
+      "deposit_refundable": false,
       "eligible_cpu_vm": null,
       "region_restrictions": null,
       "redemption_deadline_utc": null,
       "source_urls": [],
       "evidence_level": "user_observed_checkout_2026-11-03",
       "alert_state": "do_not_notify_until_payment_eligibility_changes",
-      "account_specific_fit": "Not currently accessible: signup blocked by card verification rejecting Revolut and Wise as prepaid"
+      "account_specific_fit": "Not currently accessible: signup blocked by card verification rejecting Revolut and Wise as prepaid",
+      "deposit_type": "actual_upfront_deposit_not_card_authorization",
+      "deposit_refundability_evidence": "user_confirmed_nonrefundable_test_amount_distinction; refundability of unused account balance not separately verified",
+      "deposit_creditable_to_usage": null
     },
     {
       "id": "aws-activate-founders",
@@ -1185,6 +1191,15 @@
         "gcp-300-90d"
       ],
       "summary": "User observed $5 deposit for Vultr $300 voucher and $10 deposit for Google Vertex/Cloud $300 credit; refundability and program identity remain unverified."
+    },
+    {
+      "at": "2026-11-03",
+      "kind": "deposit_classification_correction",
+      "entity_ids": [
+        "vultr-general-signup",
+        "gcp-300-90d"
+      ],
+      "summary": "User confirms $5/$10 are actual deposits rather than refundable authorization/test holds. Treatment of unused deposited balance remains unknown."
     }
   ],
   "source_policy": {
