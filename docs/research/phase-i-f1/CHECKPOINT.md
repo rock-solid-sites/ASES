@@ -301,3 +301,7 @@ On `research/autonomy-20261103-f1` at 9ca53bb3c, preregistered a finite two-unit
 ## 2026-11-03 two-unit competition checkpoint
 
 Reference conflict: 136 states, 312 attempted edges, 120 committed, 192 denied, zero violations; mutation removing commit-time recheck: 145/318/138/180, 18 violation edges. Fitting positive control: 121/286/154/132, zero violations and both allocations consumed. All searches exhausted below 10,000 states; syntax passed and direct repeat consumption refused. Raw output, exact boundaries and hashes are in `Capacity-Competition-Experiment.md`. C3/T04 and Work Unit B/G/K remain partial; no real concurrency, recovery or F1/F5 completion claim. Next candidate: independent currentness witness across genuine process loss or recovery of reservation ledger, with a meaningful absent-witness refusal.
+
+## 2026-11-03 surviving snapshot witness tranche start
+
+Preregistered `Snapshot-Witness-Experiment.md`: real old/current SQLite backup images after writer loss, fresh receiver, supervisor-held current digest; stale and absent witness must refuse, current must succeed, and comparison-bypass must admit stale to independent oracle. This tests one surviving-witness premise only; no integrated runtime, storage rollback resistance or host-loss claim.
