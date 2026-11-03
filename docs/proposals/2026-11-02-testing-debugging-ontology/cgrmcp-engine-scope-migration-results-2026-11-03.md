@@ -41,3 +41,27 @@ The package-lock version in this branch remains 1.6.0; 1.6.2 was explicitly inst
 A separate follow-on workflow added **15 alternating MCP fixtures (5 variants × 3)**, includes offline index compression roundtrips, reports allocated/unique blocks, and uploads then downloads its evidence artifact with a byte-for-byte check. This is **PENDING** until that CI completes; no median reported yet. A GitHub upload/download check will demonstrate retrieval correctness but **not** independent long-term retention outside GitHub's 30-day artifact policy (`ARCHIVE_NOT_VERIFIED`).
 
 Critical remaining work before promotion: exact 1.6.2 package/lock pin in an isolated development branch, complete regression-suite execution at that pin, fresh-store cutover/rollback procedure with protection of old 1.6.0 graphs, active non-test repository verification, binary/config/extraction identity beyond the semver only, symlink path race hardening and independent durable archival of raw CI evidence. The established 1.6.0 Go lost-14-edges failure remains a required negative regression, **not** an accepted implementation.
+
+## Later completed qualification: repeated optimization, exact lock and real MCP
+
+**15 alternating optimization trials:** [run 41709276669](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41709276669) PASSED all 7 jobs. The repeated two-commit 160-module TypeScript experiment compared these median measured index + backup times and unique allocated disk:
+
+| Path | Median index work | Unique disk | Median total MCP test |
+| --- | ---: | ---: | ---: |
+| Clean rebuild | 1,116 ms | 8.77 MiB | 6.46 s |
+| Seeded reuse | 875 ms | 8.77 MiB | 6.51 s |
+| Source dedup | 1,104 ms | 8.14 MiB | 6.68 s |
+| Reuse + source dedup | 903 ms | 8.13 MiB | 6.41 s |
+| Reuse + dedup + per-snapshot Git pruning | 866 ms | 7.89 MiB | 6.48 s |
+
+Combined measured index work was about 22% lower and unique storage about 10% lower than clean baseline, but **overall MCP test duration did not significantly improve**. The CodeGraph SQLite component still occupies approximately 5.27–5.29 MiB allocated. These are small synthetic trials and do not prove large production savings.
+
+The experiment uploaded a 15-trial JSON artifact to GitHub Actions, downloaded it into a separate directory, verified byte-for-byte equality and checked trial counts; SHA-256 **44975020668be4b04205e599693ba6be16d92aed49d84e7d520384fb75704cc1**. That qualifies GitHub upload/read-back but does not provide an independent durable archive or Backblaze B2 read-back; classification remains **ARCHIVE_NOT_VERIFIED**.
+
+**Pinned 1.6.2 development dependency:** [CI 41710228986](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41710228986) generated a real npm-resolved package and lockfile, checked clean npm ci and version-scoped/MCP seed recovery, then committed both exact 1.6.2 dependency files to the separate development branch. [Initial red CI 41709973587](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41709973587) arose because the historical-source checker counted generated npm node_modules as unexpected recovered source. Its fix excludes only that dependency directory, retaining byte-level verification of all recorded historical sources and explicit modifications. Original failed run retained.
+
+**Expanded pinned runtime acceptance:** [CI 41710699811](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41710699811) **PASSED all 5 jobs**: 44 security/transport/registry/source/storage/WAL/crash unit tests plus HTTP MCP/auth smoke; clean and seeded version-scoped two-commit MCP including restart; SHA-256 Git-object-format indexing; adversarial actual MCP restart with an old-engine ready manifest rejected by repo_open, repo_explore and repo_read while repo_status remained factual; and real public unjs/ofetch live transport/index/read/explore using pinned Git SHA 1dbc37fd1ceab832fc7c90cad81b1091c95ba563. This is stronger than a synthetic CLI-only test but not a production-agent performance proof.
+
+Development PR stack: [#28 version isolation](https://github.com/rock-solid-sites/ases-plugins/pull/28), [#29 optimization benchmark](https://github.com/rock-solid-sites/ases-plugins/pull/29), [#30 exact pinned 1.6.2/runtime acceptance](https://github.com/rock-solid-sites/ases-plugins/pull/30). All are draft, unmerged and undeployed.
+
+**Outstanding production blockers:** plan a safe cutover and rollback for conversations holding old snapshot IDs; preserve old 1.6.0 indexes and an old-engine read route until clients have transitioned; calculate temporary storage peak when two complete engine scopes coexist; further test sustained writer/OOM/crash boundaries, symlink-replacement races, and larger real repositories; decide whether raw source-only reads should remain accessible under a mismatched index engine without weakening graph rejection; independently archive CI evidence with durable read-back. No existing snapshot was migrated or deleted, no B2 operation occurred, and no default-on cache policy is justified.
