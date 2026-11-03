@@ -293,3 +293,7 @@ AT-10 now executes two stop/recovery/image-activation cycles before a same-cycle
 
 
 Separate contexts passed: holder-overlap 180/542/0 and recovery-duplicate-activation 12/76/0 (states/transitions/reference violations), under 2,000 states/1 GiB/120 s; syntax passed. Report records traces and trusted physical/authority abstractions. F1/F5 remain incomplete.
+
+## 2026-11-03 two-unit competition tranche start
+
+On `research/autonomy-20261103-f1` at 9ca53bb3c, preregistered a finite two-unit check/commit interleaving discriminator and fitting positive case in `Capacity-Competition-Experiment.md`. The current single-unit fixture does not cover numeric competing reservations. This tests a conceptual ledger with atomic steps, not actual concurrent or recovery behavior. Next: implement and exhaust both cases and weakened commit-time check, preserve raw output and hashes.
