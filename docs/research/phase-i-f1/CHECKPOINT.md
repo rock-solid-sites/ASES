@@ -345,3 +345,7 @@ Five fixed histories: earlier empty check followed by creation of unaccepted z, 
 ## 2026-11-03 active capacity reassignment tranche start
 
 Preregistered `Active-Capacity-Reassignment.md`: one in-flight use starts after an old quiescence check, survives abstract stop, and competes with reassignment/new use. Reference checks active use at reassignment; stale-snapshot mutant permits overlap. Quiet and completion controls provide nonvacuity. Reassignment/completion are fixture-only extensions and selected exclusive-use policy; no host enforcement or universal resource semantics claim.
+
+## 2026-11-03 active capacity reassignment checkpoint
+
+Four fixed histories (30 F1 commits, one F1 denial, eight wrapper commits, one wrapper denial): S begins use after an old quiescence check; reference denies reassignment after abstract loss and C consumption, stale-snapshot mutant reassigns and C consumes while S remains active, violating one-unit and holder observations. Completion and quiet positive controls permit C use. This selected exclusive-use policy uses fixture-only reassignment/completion and stipulated independent activity survival, not real resource enforcement. Raw traces/hashes in `Active-Capacity-Reassignment.md`. F1/F5 remain incomplete. Resume: fresh independent conformance review of C11, disposition and active-use additions; then investigate independently current activity observation/ordering rather than adding a general resource runtime.
