@@ -353,3 +353,7 @@ Four fixed histories (30 F1 commits, one F1 denial, eight wrapper commits, one w
 ## 2026-11-03 independently varied observation fields tranche start
 
 The previous C11 two-world atoms covary; preregistered `Independent-Observation-Fields.md` to cross all 16 value tuples and erase each field separately. This tests individual distinguishability without assuming four perfectly correlated inputs, retaining the abstract wrapper limits and F1 loss sequence.
+
+## 2026-11-03 two-process SQLite competition tranche start
+
+At 0e3349987, parked independent-observation-fields preregistration unexecuted while prioritizing the concrete bridge. `SQLite-Capacity-Competition.md` preregisters two separate SQLite writers, one-unit in-transaction current check vs synchronized detached-precheck mutant, independent pre-ACK ledger/effect read, F1 serial comparison, and non-vacuous winner/denial controls. Existing holder uses one in-process lock; two separate direct database writers are the distinct boundary. No production/runtime or host-confinement claim.
