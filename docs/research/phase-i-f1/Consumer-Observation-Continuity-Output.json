@@ -1,0 +1,479 @@
+{
+  "bounds": {
+    "enumerated": false,
+    "events_per_history": 8,
+    "histories": 4,
+    "total_committed_events": 32,
+    "truncated": false
+  },
+  "results": {
+    "bytes_only_mutant": {
+      "A": {
+        "cache_drop_preserves_query": true,
+        "f1_final_state": "State(wus=(WU(present=True, parent=None, sealed=True, route=False, grants=(('SINK', 'RW'),), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent=None, sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='P', sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='P', sealed=True, route=False, grants=(('SINK', 'RW'),), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='C', sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW')))), mgmt=(('root', 0, 'open'),), gen=1, engine=True, image=True, ac_inside=True, epoch=0, ac_pending='no', thinking=(False, False, False, False, False), route_handles=0, uses=(), accepted_x=True, accepted_y=False, authority_epoch=0, current_image_epoch=None, current_image_x=False, current_image_y=False, current_image_authentic=False, stale_image_epoch=None, stale_image_x=False, stale_image_y=False, stale_image_authentic=False, mounted_image_epoch=None, mounted_image_x=False, mounted_image_y=False, mounted_image_authentic=False, capacity_reserved=None, capacity_consumed=False, independent_changed=False, cycle_pending=(False, False, False), cycle_committed=(False, False, False), sink_attempts=(), sink_reply_knowledge='none', current_sink_gen=3, old_request_pending=False, old_request_gen=None, prepared_revoke_gen=None, committed_revoke_gen=None, acknowledged_revoke_gen=None, old_holder_route=False, old_holder_gen=None, new_holder_active=False, sink_effect_count=0, new_holder_accepted=False, old_holder_accepted=False, active_image_count=1, kernel_ac_revoked=False, ac_widen_authorized=False, ac_policy_widened=False, ac_old_access_allowed=True, ac_consistent=True)",
+        "oracle_field_matches": {
+          "consumer_evidence": false,
+          "created_by": false,
+          "identity_genesis": false,
+          "project": false
+        },
+        "pre_loss_query": {
+          "accepted_x": true,
+          "consumer_evidence": "evidence-A",
+          "created_by": "creator-A",
+          "identity_genesis": "work-A",
+          "project": "project-A"
+        },
+        "recovered_query": {
+          "accepted_x": true,
+          "consumer_evidence": null,
+          "created_by": null,
+          "identity_genesis": null,
+          "project": null
+        },
+        "trace": [
+          {
+            "accepted_x": false,
+            "engine": true,
+            "event": [
+              "grant",
+              "P",
+              "SINK",
+              "RW"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": false,
+            "engine": true,
+            "event": [
+              "grant",
+              "C",
+              "SINK",
+              "RW"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": true,
+            "event": [
+              "accept_x",
+              "C",
+              3
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "stop"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_start"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_step",
+              "P"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_step",
+              "C"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": true,
+            "event": [
+              "activate_image"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          }
+        ]
+      },
+      "B": {
+        "cache_drop_preserves_query": true,
+        "f1_final_state": "State(wus=(WU(present=True, parent=None, sealed=True, route=False, grants=(('SINK', 'RW'),), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent=None, sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='P', sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='P', sealed=True, route=False, grants=(('SINK', 'RW'),), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='C', sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW')))), mgmt=(('root', 0, 'open'),), gen=1, engine=True, image=True, ac_inside=True, epoch=0, ac_pending='no', thinking=(False, False, False, False, False), route_handles=0, uses=(), accepted_x=True, accepted_y=False, authority_epoch=0, current_image_epoch=None, current_image_x=False, current_image_y=False, current_image_authentic=False, stale_image_epoch=None, stale_image_x=False, stale_image_y=False, stale_image_authentic=False, mounted_image_epoch=None, mounted_image_x=False, mounted_image_y=False, mounted_image_authentic=False, capacity_reserved=None, capacity_consumed=False, independent_changed=False, cycle_pending=(False, False, False), cycle_committed=(False, False, False), sink_attempts=(), sink_reply_knowledge='none', current_sink_gen=3, old_request_pending=False, old_request_gen=None, prepared_revoke_gen=None, committed_revoke_gen=None, acknowledged_revoke_gen=None, old_holder_route=False, old_holder_gen=None, new_holder_active=False, sink_effect_count=0, new_holder_accepted=False, old_holder_accepted=False, active_image_count=1, kernel_ac_revoked=False, ac_widen_authorized=False, ac_policy_widened=False, ac_old_access_allowed=True, ac_consistent=True)",
+        "oracle_field_matches": {
+          "consumer_evidence": false,
+          "created_by": false,
+          "identity_genesis": false,
+          "project": false
+        },
+        "pre_loss_query": {
+          "accepted_x": true,
+          "consumer_evidence": "evidence-B",
+          "created_by": "creator-B",
+          "identity_genesis": "work-B",
+          "project": "project-B"
+        },
+        "recovered_query": {
+          "accepted_x": true,
+          "consumer_evidence": null,
+          "created_by": null,
+          "identity_genesis": null,
+          "project": null
+        },
+        "trace": [
+          {
+            "accepted_x": false,
+            "engine": true,
+            "event": [
+              "grant",
+              "P",
+              "SINK",
+              "RW"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": false,
+            "engine": true,
+            "event": [
+              "grant",
+              "C",
+              "SINK",
+              "RW"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": true,
+            "event": [
+              "accept_x",
+              "C",
+              3
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "stop"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_start"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_step",
+              "P"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_step",
+              "C"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": true,
+            "event": [
+              "activate_image"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          }
+        ]
+      }
+    },
+    "reference": {
+      "A": {
+        "cache_drop_preserves_query": true,
+        "f1_final_state": "State(wus=(WU(present=True, parent=None, sealed=True, route=False, grants=(('SINK', 'RW'),), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent=None, sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='P', sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='P', sealed=True, route=False, grants=(('SINK', 'RW'),), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='C', sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW')))), mgmt=(('root', 0, 'open'),), gen=1, engine=True, image=True, ac_inside=True, epoch=0, ac_pending='no', thinking=(False, False, False, False, False), route_handles=0, uses=(), accepted_x=True, accepted_y=False, authority_epoch=0, current_image_epoch=None, current_image_x=False, current_image_y=False, current_image_authentic=False, stale_image_epoch=None, stale_image_x=False, stale_image_y=False, stale_image_authentic=False, mounted_image_epoch=None, mounted_image_x=False, mounted_image_y=False, mounted_image_authentic=False, capacity_reserved=None, capacity_consumed=False, independent_changed=False, cycle_pending=(False, False, False), cycle_committed=(False, False, False), sink_attempts=(), sink_reply_knowledge='none', current_sink_gen=3, old_request_pending=False, old_request_gen=None, prepared_revoke_gen=None, committed_revoke_gen=None, acknowledged_revoke_gen=None, old_holder_route=False, old_holder_gen=None, new_holder_active=False, sink_effect_count=0, new_holder_accepted=False, old_holder_accepted=False, active_image_count=1, kernel_ac_revoked=False, ac_widen_authorized=False, ac_policy_widened=False, ac_old_access_allowed=True, ac_consistent=True)",
+        "oracle_field_matches": {
+          "consumer_evidence": true,
+          "created_by": true,
+          "identity_genesis": true,
+          "project": true
+        },
+        "pre_loss_query": {
+          "accepted_x": true,
+          "consumer_evidence": "evidence-A",
+          "created_by": "creator-A",
+          "identity_genesis": "work-A",
+          "project": "project-A"
+        },
+        "recovered_query": {
+          "accepted_x": true,
+          "consumer_evidence": "evidence-A",
+          "created_by": "creator-A",
+          "identity_genesis": "work-A",
+          "project": "project-A"
+        },
+        "trace": [
+          {
+            "accepted_x": false,
+            "engine": true,
+            "event": [
+              "grant",
+              "P",
+              "SINK",
+              "RW"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": false,
+            "engine": true,
+            "event": [
+              "grant",
+              "C",
+              "SINK",
+              "RW"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": true,
+            "event": [
+              "accept_x",
+              "C",
+              3
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "stop"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_start"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_step",
+              "P"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_step",
+              "C"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": true,
+            "event": [
+              "activate_image"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          }
+        ]
+      },
+      "B": {
+        "cache_drop_preserves_query": true,
+        "f1_final_state": "State(wus=(WU(present=True, parent=None, sealed=True, route=False, grants=(('SINK', 'RW'),), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent=None, sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='P', sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='P', sealed=True, route=False, grants=(('SINK', 'RW'),), latent=(('NET', 'RW'), ('SINK', 'RW'))), WU(present=True, parent='C', sealed=True, route=False, grants=(), latent=(('NET', 'RW'), ('SINK', 'RW')))), mgmt=(('root', 0, 'open'),), gen=1, engine=True, image=True, ac_inside=True, epoch=0, ac_pending='no', thinking=(False, False, False, False, False), route_handles=0, uses=(), accepted_x=True, accepted_y=False, authority_epoch=0, current_image_epoch=None, current_image_x=False, current_image_y=False, current_image_authentic=False, stale_image_epoch=None, stale_image_x=False, stale_image_y=False, stale_image_authentic=False, mounted_image_epoch=None, mounted_image_x=False, mounted_image_y=False, mounted_image_authentic=False, capacity_reserved=None, capacity_consumed=False, independent_changed=False, cycle_pending=(False, False, False), cycle_committed=(False, False, False), sink_attempts=(), sink_reply_knowledge='none', current_sink_gen=3, old_request_pending=False, old_request_gen=None, prepared_revoke_gen=None, committed_revoke_gen=None, acknowledged_revoke_gen=None, old_holder_route=False, old_holder_gen=None, new_holder_active=False, sink_effect_count=0, new_holder_accepted=False, old_holder_accepted=False, active_image_count=1, kernel_ac_revoked=False, ac_widen_authorized=False, ac_policy_widened=False, ac_old_access_allowed=True, ac_consistent=True)",
+        "oracle_field_matches": {
+          "consumer_evidence": true,
+          "created_by": true,
+          "identity_genesis": true,
+          "project": true
+        },
+        "pre_loss_query": {
+          "accepted_x": true,
+          "consumer_evidence": "evidence-B",
+          "created_by": "creator-B",
+          "identity_genesis": "work-B",
+          "project": "project-B"
+        },
+        "recovered_query": {
+          "accepted_x": true,
+          "consumer_evidence": "evidence-B",
+          "created_by": "creator-B",
+          "identity_genesis": "work-B",
+          "project": "project-B"
+        },
+        "trace": [
+          {
+            "accepted_x": false,
+            "engine": true,
+            "event": [
+              "grant",
+              "P",
+              "SINK",
+              "RW"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": false,
+            "engine": true,
+            "event": [
+              "grant",
+              "C",
+              "SINK",
+              "RW"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": true,
+            "event": [
+              "accept_x",
+              "C",
+              3
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "stop"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_start"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_step",
+              "P"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": false,
+            "event": [
+              "recover_step",
+              "C"
+            ],
+            "image": false,
+            "outcome": "commit",
+            "reason": null
+          },
+          {
+            "accepted_x": true,
+            "engine": true,
+            "event": [
+              "activate_image"
+            ],
+            "image": true,
+            "outcome": "commit",
+            "reason": null
+          }
+        ]
+      }
+    }
+  }
+}

@@ -329,3 +329,7 @@ Exact authority-and-witness agreement at five real SIGKILL cuts refused both ima
 ## 2026-11-03 consumer observation continuity tranche start
 
 F1 and existing holder omit C11 identity/provenance/project/consumer evidence; preregistered `Consumer-Observation-Continuity.md` for two abstract histories with same accepted bytes and admission state but distinct required opaque observations. Reuse inherited stop/recovery transitions, compare retained full observation vs bytes-only loss mutation, independent per-field oracle and irrelevant-cache deletion control. No producer schema or physical persistence claim.
+
+## 2026-11-03 consumer observation continuity checkpoint
+
+Four fixed eight-event inherited F1 traces (32 commits), no enumeration: full-retention reference preserves each world's four distinct C11 observations and accepted x; bytes-only mutation preserves x and identical F1 final state yet loses every required observation and collapses the worlds. Dropping an irrelevant cache does not affect queries. Abstract wrapper stipulates accepted observations and retention; no concrete holder, schema, or provenance authenticity claim. Raw output and hashes in `Consumer-Observation-Continuity.md`. F1 and F5 remain incomplete. Next selection: resource reassignment with retained dependent and covered recovery; first identify the precise closure disposition requirement and existing removal guard.
