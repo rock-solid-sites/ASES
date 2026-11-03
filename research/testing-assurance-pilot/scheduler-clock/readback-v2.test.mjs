@@ -120,3 +120,28 @@ test('classify integrates new readback evidence without altering frozen snapshot
   assert.equal(result.gitlab.expected_slots,null);
   assert.equal(result.external_dispatch.execution,'NOT_RUN_BY_DESIGN');
 });
+
+test('one of two GitLab schedules is insufficient to verify full configuration', () => {
+  const expectedSchedules=[
+    {description:'ases-clock-gitlab-A-17m-3h',cron:'17 */3 * * *',timezone:'UTC'},
+    {description:'ases-clock-gitlab-B-47m-3h',cron:'47 */3 * * *',timezone:'UTC'}
+  ];
+  const a={id:1,active:true,description:expectedSchedules[0].description,
+    cron:expectedSchedules[0].cron,cron_timezone:'UTC',
+    ref:'research/scheduler-clock-gitlab-2026-11-02',
+    created_at:'2026-11-02T12:00:00Z',next_run_at:'2026-11-03T06:17:00Z'};
+  const opts={pipelines:[],schedules:[a],expectedSchedules,
+    expectedRef:'research/scheduler-clock-gitlab-2026-11-02',scheduleQueryStatus:'OK'};
+  assert.equal(gitlabReadback(opts).status,'CONFIGURATION_UNVERIFIED');
+  const b={...a,id:2,description:expectedSchedules[1].description,cron:expectedSchedules[1].cron};
+  assert.equal(gitlabReadback({...opts,schedules:[a,b]}).status,'CONFIGURATION_OBSERVED');
+  assert.equal(gitlabReadback({...opts,schedules:[a,{...b,active:false}]}).status,'CONFIGURATION_UNVERIFIED');
+});
+test('GitLab schedule metadata does not imply verified activation time or missing slots', () => {
+  const r=gitlabReadback({pipelines:[],schedules:[{
+    id:1,active:true,description:'A',cron:'17 */3 * * *',cron_timezone:'UTC',
+    ref:'main',created_at:'2026-11-02T12:00:00Z',next_run_at:'2026-11-03T06:17:00Z'
+  }],expectedSchedules:[{description:'A',cron:'17 */3 * * *',timezone:'UTC',ref:'main'}],scheduleQueryStatus:'OK'});
+  assert.equal(r.status,'CONFIGURATION_OBSERVED');
+  assert.equal(r.expected_slots,null);
+});
