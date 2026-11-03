@@ -1,0 +1,22 @@
+name: Compute credit registry validation
+on:
+  push:
+    paths:
+      - 'data/compute-credits/**'
+      - '.github/workflows/compute-credit-registry.yml'
+  pull_request:
+    paths:
+      - 'data/compute-credits/**'
+      - '.github/workflows/compute-credit-registry.yml'
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 data/compute-credits/validate.py
