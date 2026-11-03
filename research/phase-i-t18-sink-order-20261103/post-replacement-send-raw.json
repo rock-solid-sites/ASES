@@ -1,0 +1,514 @@
+{
+  "bounds": {
+    "cases": 2,
+    "enumerated": false,
+    "sinks_concurrent": 1,
+    "truncated": false
+  },
+  "cases": {
+    "bypass_mutant": {
+      "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d63757272656e74222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227374616c652d78222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261667465722d7374616c65222c2022736571223a20337d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e742d78222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a202261667465722d63757272656e74222c2022736571223a20347d0a",
+      "journal_sha256": "77b5ea6b1a7934f24bd33b76b065fc97325965c145b9081f496d04131f7b81b1",
+      "sink_exit": -9,
+      "sink_pid": 15983,
+      "steps": [
+        {
+          "completion_monotonic_ns": 3203460700571,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "before-x",
+              "request_id": "before-current"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "sink_snapshot": {
+            "authority_version": 1,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              }
+            ],
+            "waiting": 0
+          },
+          "start_monotonic_ns": 3203459221126
+        },
+        {
+          "completion_monotonic_ns": 3203462234880,
+          "request": {
+            "body": {},
+            "method": "POST",
+            "path": "/replace"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "outcome": "replaced"
+            },
+            "status": 200
+          },
+          "sink_snapshot": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              }
+            ],
+            "waiting": 0
+          },
+          "start_monotonic_ns": 3203461522784
+        },
+        {
+          "completion_monotonic_ns": 3203463770439,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "stale-x",
+              "request_id": "after-stale"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 3,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "sink_snapshot": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "stale-x",
+                "presented_version": 1,
+                "request_id": "after-stale",
+                "seq": 3
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "stale-x",
+                "presented_version": 1,
+                "request_id": "after-stale",
+                "seq": 3
+              }
+            ],
+            "waiting": 0
+          },
+          "start_monotonic_ns": 3203462936810
+        },
+        {
+          "completion_monotonic_ns": 3203465214841,
+          "request": {
+            "body": {
+              "authority_version": 2,
+              "payload": "current-x",
+              "request_id": "after-current"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 4,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "sink_snapshot": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "stale-x",
+                "presented_version": 1,
+                "request_id": "after-stale",
+                "seq": 3
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current-x",
+                "presented_version": 2,
+                "request_id": "after-current",
+                "seq": 4
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "stale-x",
+                "presented_version": 1,
+                "request_id": "after-stale",
+                "seq": 3
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current-x",
+                "presented_version": 2,
+                "request_id": "after-current",
+                "seq": 4
+              }
+            ],
+            "waiting": 0
+          },
+          "start_monotonic_ns": 3203464507503
+        }
+      ],
+      "variant": "bypass"
+    },
+    "reference": {
+      "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d63757272656e74222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e742d78222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a202261667465722d63757272656e74222c2022736571223a20347d0a",
+      "journal_sha256": "809f448600112809d1214d1869619853342a9dfede4069d36e90d07420ff8371",
+      "sink_exit": -9,
+      "sink_pid": 15974,
+      "steps": [
+        {
+          "completion_monotonic_ns": 3203394774806,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "before-x",
+              "request_id": "before-current"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "sink_snapshot": {
+            "authority_version": 1,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              }
+            ],
+            "waiting": 0
+          },
+          "start_monotonic_ns": 3203384772686
+        },
+        {
+          "completion_monotonic_ns": 3203396922851,
+          "request": {
+            "body": {},
+            "method": "POST",
+            "path": "/replace"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "outcome": "replaced"
+            },
+            "status": 200
+          },
+          "sink_snapshot": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              }
+            ],
+            "waiting": 0
+          },
+          "start_monotonic_ns": 3203395558751
+        },
+        {
+          "completion_monotonic_ns": 3203398624843,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "stale-x",
+              "request_id": "after-stale"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "outcome": "rejected"
+            },
+            "status": 409
+          },
+          "sink_snapshot": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              },
+              {
+                "current_version": 2,
+                "event": "sink_rejected",
+                "presented_version": 1,
+                "reason": "authority changed before sink acceptance",
+                "request_id": "after-stale",
+                "seq": 3
+              }
+            ],
+            "waiting": 0
+          },
+          "start_monotonic_ns": 3203397703320
+        },
+        {
+          "completion_monotonic_ns": 3203400148634,
+          "request": {
+            "body": {
+              "authority_version": 2,
+              "payload": "current-x",
+              "request_id": "after-current"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 4,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "sink_snapshot": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current-x",
+                "presented_version": 2,
+                "request_id": "after-current",
+                "seq": 4
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "presented_version": 1,
+                "request_id": "before-current",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              },
+              {
+                "current_version": 2,
+                "event": "sink_rejected",
+                "presented_version": 1,
+                "reason": "authority changed before sink acceptance",
+                "request_id": "after-stale",
+                "seq": 3
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current-x",
+                "presented_version": 2,
+                "request_id": "after-current",
+                "seq": 4
+              }
+            ],
+            "waiting": 0
+          },
+          "start_monotonic_ns": 3203399305421
+        }
+      ],
+      "variant": "reference"
+    }
+  },
+  "mutant_sha256": "c9569d7277793dfbbd704d1298cbb857c9f2b58b569dfaa3b41cdedc13b77a01",
+  "mutation": "replace first submit current-version comparison with False",
+  "source_sha256": "63d52186d3cd4cb64ad471b6b017a3406506930fb926be3e0da648e03de21b23"
+}

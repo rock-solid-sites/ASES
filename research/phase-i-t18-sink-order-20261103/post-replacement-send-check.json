@@ -1,0 +1,57 @@
+{
+  "bypass_mutant": {
+    "reason": "post-replacement stale request accepted under new current version",
+    "replacement_ack_complete_ns": 3203462234880,
+    "scope": "version invalidation is selected revoke analogue; initial F2 create/grant/activate are trusted bootstrap and not observed",
+    "sequence": {
+      "new_current": 4,
+      "replacement": 2,
+      "stale": 3
+    },
+    "stale_call_start_ns": 3203462936810,
+    "status": "VIOLATION"
+  },
+  "fixture": {
+    "commit": "5fb690d4ba7544a4a7eb5fce9ca1e54485543d64",
+    "id": "T18-use-current-sink-order-after-revocation",
+    "sha256": "bdc8cbeb5e917c10f23add99ab8dd88a9d2212d1d9f52be0a7e5c178e1eb6f65",
+    "status_preserved": "prepared-only"
+  },
+  "incomplete_controls": {
+    "missing_event": {
+      "reason": "missing or extra event",
+      "status": "INCOMPLETE"
+    },
+    "missing_send_time": {
+      "reason": "missing client/sink observation",
+      "status": "INCOMPLETE"
+    },
+    "truncated_journal": {
+      "reason": "incomplete journal framing",
+      "status": "INCOMPLETE"
+    }
+  },
+  "limits": [
+    "no independently recorded F2 bootstrap create/grant/activate",
+    "version invalidation is a selected analogue of revocation",
+    "monotonic client invocation markers are not packet timestamps",
+    "no host confinement, F3/F2 aggregate acceptance or power-loss claim"
+  ],
+  "provenance": {
+    "mutant_source_sha256": "c9569d7277793dfbbd704d1298cbb857c9f2b58b569dfaa3b41cdedc13b77a01",
+    "raw_sha256": "4ea421134ac56a604c771a980e0c6548dcbfbd277486759be7d57e111aaa7d38",
+    "sink_source_sha256": "63d52186d3cd4cb64ad471b6b017a3406506930fb926be3e0da648e03de21b23"
+  },
+  "reference": {
+    "reason": "post-replacement stale request rejected, no stale effect",
+    "replacement_ack_complete_ns": 3203396922851,
+    "scope": "version invalidation is selected revoke analogue; initial F2 create/grant/activate are trusted bootstrap and not observed",
+    "sequence": {
+      "new_current": 4,
+      "replacement": 2,
+      "stale": 3
+    },
+    "stale_call_start_ns": 3203397703320,
+    "status": "SUPPORTED_SELECTED_MAPPING"
+  }
+}
