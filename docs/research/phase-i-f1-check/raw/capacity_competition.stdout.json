@@ -1,0 +1,441 @@
+{
+  "conflict_mutant": {
+    "commit_recheck": false,
+    "counts": {
+      "attempted": 318,
+      "commit": 138,
+      "deny": 180,
+      "deny:insufficient-at-prepare": 24,
+      "deny:no-unconsumed-allocation": 100,
+      "deny:not-prepared": 56,
+      "violation_edges": 18
+    },
+    "limit": 10000,
+    "quantities": [
+      2,
+      1
+    ],
+    "states": 145,
+    "truncated": false,
+    "witnesses": {
+      "over_reservation": [
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "prepare_C",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "prepare_S",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            2,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "commit_C",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            2,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            2,
+            1
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "commit_S",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            2,
+            1
+          ],
+          "violations": [
+            "reservation-sum-exceeds-capacity"
+          ]
+        }
+      ],
+      "unallocated_consumption_denied": [
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "consume_C",
+          "outcome": "deny",
+          "reason": "no-unconsumed-allocation",
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        }
+      ]
+    }
+  },
+  "conflict_reference": {
+    "commit_recheck": true,
+    "counts": {
+      "attempted": 312,
+      "commit": 120,
+      "deny": 192,
+      "deny:insufficient-at-commit": 12,
+      "deny:insufficient-at-prepare": 24,
+      "deny:no-unconsumed-allocation": 100,
+      "deny:not-prepared": 56
+    },
+    "limit": 10000,
+    "quantities": [
+      2,
+      1
+    ],
+    "states": 136,
+    "truncated": false,
+    "witnesses": {
+      "competing_commit_denied": [
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "prepare_C",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "prepare_S",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            2,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "commit_C",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            2,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            2,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "commit_S",
+          "outcome": "deny",
+          "reason": "insufficient-at-commit",
+          "reserved": [
+            2,
+            0
+          ],
+          "violations": []
+        }
+      ],
+      "unallocated_consumption_denied": [
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "consume_C",
+          "outcome": "deny",
+          "reason": "no-unconsumed-allocation",
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        }
+      ]
+    }
+  },
+  "fitting_reference": {
+    "commit_recheck": true,
+    "counts": {
+      "attempted": 286,
+      "commit": 154,
+      "deny": 132,
+      "deny:no-unconsumed-allocation": 88,
+      "deny:not-prepared": 44
+    },
+    "limit": 10000,
+    "quantities": [
+      1,
+      1
+    ],
+    "states": 121,
+    "truncated": false,
+    "witnesses": {
+      "both_allocate_and_consume": [
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "prepare_C",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "prepare_S",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            1,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "commit_C",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            1,
+            0
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            1,
+            1
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "commit_S",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            1,
+            1
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            1,
+            1
+          ],
+          "consumed": [
+            1,
+            0
+          ],
+          "event": "consume_C",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            1,
+            1
+          ],
+          "violations": []
+        },
+        {
+          "allocated": [
+            1,
+            1
+          ],
+          "consumed": [
+            1,
+            1
+          ],
+          "event": "consume_S",
+          "outcome": "commit",
+          "reason": null,
+          "reserved": [
+            1,
+            1
+          ],
+          "violations": []
+        }
+      ],
+      "unallocated_consumption_denied": [
+        {
+          "allocated": [
+            0,
+            0
+          ],
+          "consumed": [
+            0,
+            0
+          ],
+          "event": "consume_C",
+          "outcome": "deny",
+          "reason": "no-unconsumed-allocation",
+          "reserved": [
+            0,
+            0
+          ],
+          "violations": []
+        }
+      ]
+    }
+  },
+  "repeat_consumption_control": [
+    {
+      "consumed": [
+        0,
+        0
+      ],
+      "event": "prepare_C",
+      "outcome": "commit",
+      "reason": null,
+      "reserved": [
+        0,
+        0
+      ],
+      "violations": []
+    },
+    {
+      "consumed": [
+        0,
+        0
+      ],
+      "event": "commit_C",
+      "outcome": "commit",
+      "reason": null,
+      "reserved": [
+        1,
+        0
+      ],
+      "violations": []
+    },
+    {
+      "consumed": [
+        1,
+        0
+      ],
+      "event": "consume_C",
+      "outcome": "commit",
+      "reason": null,
+      "reserved": [
+        1,
+        0
+      ],
+      "violations": []
+    },
+    {
+      "consumed": [
+        1,
+        0
+      ],
+      "event": "consume_C",
+      "outcome": "deny",
+      "reason": "no-unconsumed-allocation",
+      "reserved": [
+        1,
+        0
+      ],
+      "violations": []
+    }
+  ]
+}

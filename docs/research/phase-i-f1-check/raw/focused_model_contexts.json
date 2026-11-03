@@ -1,0 +1,267 @@
+{
+  "capacity-one": {
+    "states": 8,
+    "committed_transitions": 10,
+    "violations": [],
+    "failed_checks": [
+      {
+        "check": "D1 positive control: internal computation survives engine loss",
+        "clause": "K.7/D1",
+        "passed": false,
+        "detail": null
+      }
+    ],
+    "checks": [
+      {
+        "check": "invariants preserved on every reached state",
+        "clause": "C4",
+        "passed": true,
+        "detail": {
+          "violations": []
+        }
+      },
+      {
+        "check": "D1: no surviving concrete route while affected use is disabled",
+        "clause": "C5/C6",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "D1 positive control: internal computation survives engine loss",
+        "clause": "K.7/D1",
+        "passed": false,
+        "detail": null
+      },
+      {
+        "check": "no open management entry exists while the current view is unavailable",
+        "clause": "C3/C13",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "no accepted use fails the independent C3 oracle",
+        "clause": "C3",
+        "passed": true,
+        "detail": "uses are recorded with their effective mode; oracle recomputed in oracle_use_permitted and compared below"
+      },
+      {
+        "check": "acknowledged revocation always had a prior committed revocation",
+        "clause": "C12",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "authority representations are never re-issued",
+        "clause": "C6",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "accepted latent ceiling is within the whole containment chain",
+        "clause": "C8",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "no Work Unit disappears implicitly",
+        "clause": "C5/K.7",
+        "passed": true,
+        "detail": "removal is the only event whose effect sets present=False"
+      }
+    ],
+    "denials": {
+      "capacity-not-allocated-or-already-consumed (C3)": 6,
+      "capacity-unit-already-allocated (C3)": 12,
+      "no": 4
+    }
+  },
+  "currentness-image": {
+    "states": 42,
+    "committed_transitions": 128,
+    "violations": [],
+    "failed_checks": [
+      {
+        "check": "D1 positive control: internal computation survives engine loss",
+        "clause": "K.7/D1",
+        "passed": false,
+        "detail": null
+      },
+      {
+        "check": "no open management entry exists while the current view is unavailable",
+        "clause": "C3/C13",
+        "passed": false,
+        "detail": null
+      }
+    ],
+    "checks": [
+      {
+        "check": "invariants preserved on every reached state",
+        "clause": "C4",
+        "passed": true,
+        "detail": {
+          "violations": []
+        }
+      },
+      {
+        "check": "D1: no surviving concrete route while affected use is disabled",
+        "clause": "C5/C6",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "D1 positive control: internal computation survives engine loss",
+        "clause": "K.7/D1",
+        "passed": false,
+        "detail": null
+      },
+      {
+        "check": "no open management entry exists while the current view is unavailable",
+        "clause": "C3/C13",
+        "passed": false,
+        "detail": null
+      },
+      {
+        "check": "no accepted use fails the independent C3 oracle",
+        "clause": "C3",
+        "passed": true,
+        "detail": "uses are recorded with their effective mode; oracle recomputed in oracle_use_permitted and compared below"
+      },
+      {
+        "check": "acknowledged revocation always had a prior committed revocation",
+        "clause": "C12",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "authority representations are never re-issued",
+        "clause": "C6",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "accepted latent ceiling is within the whole containment chain",
+        "clause": "C8",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "no Work Unit disappears implicitly",
+        "clause": "C5/K.7",
+        "passed": true,
+        "detail": "removal is the only event whose effect sets present=False"
+      }
+    ],
+    "denials": {
+      "use-denied (C3: path/grant conjunction)": 6,
+      "y-requires-x-and-is-accepted-once": 38,
+      "stale-fixture-requires-post-y-epoch": 26,
+      "required-content-missing (C7)": 20,
+      "already-current (C7)": 42,
+      "no": 27,
+      "no-current-view (D1/D2, C7)": 42,
+      "sealed-by-loss (C5/D1)": 10,
+      "no-current-view (C7)": 19,
+      "stale-fixture-absent": 17,
+      "current-image-missing-or-incompatible (C7)": 15,
+      "x-already-accepted (immutable content)": 26,
+      "stale-authentic-image-outside-baseline-success-profile (C7)": 4
+    }
+  },
+  "two-loss-currentness": {
+    "states": 51,
+    "committed_transitions": 445,
+    "violations": [],
+    "failed_checks": [
+      {
+        "check": "D1 positive control: internal computation survives engine loss",
+        "clause": "K.7/D1",
+        "passed": false,
+        "detail": null
+      },
+      {
+        "check": "no open management entry exists while the current view is unavailable",
+        "clause": "C3/C13",
+        "passed": false,
+        "detail": null
+      }
+    ],
+    "checks": [
+      {
+        "check": "invariants preserved on every reached state",
+        "clause": "C4",
+        "passed": true,
+        "detail": {
+          "violations": []
+        }
+      },
+      {
+        "check": "D1: no surviving concrete route while affected use is disabled",
+        "clause": "C5/C6",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "D1 positive control: internal computation survives engine loss",
+        "clause": "K.7/D1",
+        "passed": false,
+        "detail": null
+      },
+      {
+        "check": "no open management entry exists while the current view is unavailable",
+        "clause": "C3/C13",
+        "passed": false,
+        "detail": null
+      },
+      {
+        "check": "no accepted use fails the independent C3 oracle",
+        "clause": "C3",
+        "passed": true,
+        "detail": "uses are recorded with their effective mode; oracle recomputed in oracle_use_permitted and compared below"
+      },
+      {
+        "check": "acknowledged revocation always had a prior committed revocation",
+        "clause": "C12",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "authority representations are never re-issued",
+        "clause": "C6",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "accepted latent ceiling is within the whole containment chain",
+        "clause": "C8",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "no Work Unit disappears implicitly",
+        "clause": "C5/K.7",
+        "passed": true,
+        "detail": "removal is the only event whose effect sets present=False"
+      }
+    ],
+    "denials": {
+      "use-denied (C3: path/grant conjunction)": 6,
+      "y-requires-x-and-is-accepted-once": 47,
+      "stale-fixture-requires-post-y-epoch": 29,
+      "required-content-missing (C7)": 20,
+      "already-current (T10: no duplicate activation)": 60,
+      "engine-already-current (C6)": 120,
+      "already-current (C7)": 90,
+      "x-not-accepted (C5)": 48,
+      "no": 36,
+      "no-current-view (D1/D2, C7)": 84,
+      "sealed-by-loss (C5/D1)": 49,
+      "no-current-view (C7)": 19,
+      "current-image-missing-or-incompatible (C7)": 30,
+      "stale-fixture-absent": 17,
+      "x-already-accepted (immutable content)": 35,
+      "stale-evidence (C6)": 16,
+      "stale-authentic-image-outside-baseline-success-profile (C7)": 4,
+      "sealed (D1/D2)": 18
+    }
+  }
+}
