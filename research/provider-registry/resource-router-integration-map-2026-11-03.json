@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "kind": "ases_resource_router_integration_trace",
+  "as_of_date": "2026-11-03",
+  "authority": "experimental_reconciliation_not_policy",
+  "sources": [
+    {
+      "id": "solver-reconciliation",
+      "location": "docs/research/Resource Solver Specification Reconciliation 2026-11-02.md",
+      "branch": "main",
+      "status": "committed",
+      "authority": "experimental"
+    },
+    {
+      "id": "registry-control",
+      "location": "docs/research/Provider Registry Control Plane and Usage Reconciliation 2026-11-01.md",
+      "branch": "main",
+      "status": "committed",
+      "authority": "provisional"
+    },
+    {
+      "id": "known-accounts",
+      "location": "research/provider-registry/known_accounts_v1.json",
+      "branch": "main",
+      "status": "committed",
+      "authority": "snapshot_not_live_entitlement"
+    },
+    {
+      "id": "potential-offers",
+      "location": "research/provider-registry/potential_offers_v1.json",
+      "branch": "main",
+      "status": "committed",
+      "authority": "unverified_prospective"
+    },
+    {
+      "id": "discovery-candidates",
+      "location": "research/provider-registry/candidate_inventory_v0.json",
+      "branch": "main",
+      "status": "committed",
+      "authority": "discovery_only"
+    },
+    {
+      "id": "registry-envelope",
+      "location": "research/provider-registry/manifest_v0.py",
+      "branch": "main",
+      "status": "experimental",
+      "authority": "prototype"
+    },
+    {
+      "id": "rust-controller",
+      "location": "resource-control/src/lib.rs",
+      "branch": "feature/resource-control-runtime-2026-11-02",
+      "status": "unmerged_experimental",
+      "authority": "prototype"
+    },
+    {
+      "id": "rust-gateway",
+      "location": "resource-control/src/bin/resource-gateway.rs",
+      "branch": "feature/resource-control-runtime-2026-11-02",
+      "status": "unmerged_experimental",
+      "authority": "prototype"
+    },
+    {
+      "id": "runtime-readme",
+      "location": "resource-control/README.md",
+      "branch": "feature/resource-control-runtime-2026-11-02",
+      "status": "unmerged_experimental",
+      "authority": "self_declared_incomplete"
+    },
+    {
+      "id": "ontology-comment",
+      "location": "docs/proposals/2026-11-02-testing-debugging-ontology/ases-account-enumeration-chat-2026-11-02.md",
+      "branch": "main",
+      "status": "proposal",
+      "authority": "not_adopted"
+    },
+    {
+      "id": "codespaces-discussion",
+      "location": "ChatGPT conversation: Codespaces launcher, 2026-11-03",
+      "branch": null,
+      "status": "conversation_decision_requires_canonical_review",
+      "authority": "operator_direction"
+    }
+  ],
+  "proposed_layers": [
+    {
+      "id": "provider_catalog",
+      "responsibility": "public_contracts_skus_pricing",
+      "consumes": [
+        "discovery-candidates"
+      ],
+      "produces": [
+        "versioned_provider_product_catalog"
+      ],
+      "implemented": "partial_schema_only"
+    },
+    {
+      "id": "account_inventory",
+      "responsibility": "known_account_existence_and_claims",
+      "consumes": [
+        "known-accounts",
+        "potential-offers"
+      ],
+      "produces": [
+        "candidate_account_references"
+      ],
+      "implemented": "static_snapshot_only"
+    },
+    {
+      "id": "account_observer",
+      "responsibility": "account_specific_entitlements_usage_billing_owner",
+      "consumes": [
+        "candidate_account_references",
+        "provider_api"
+      ],
+      "produces": [
+        "scoped_fresh_observations"
+      ],
+      "implemented": "not_live"
+    },
+    {
+      "id": "advisor",
+      "responsibility": "propose_resource_routes",
+      "consumes": [
+        "versioned_provider_product_catalog",
+        "scoped_fresh_observations",
+        "work_graph"
+      ],
+      "produces": [
+        "candidate_plan"
+      ],
+      "implemented": "research_only"
+    },
+    {
+      "id": "admission",
+      "responsibility": "independent_validation_atomic_reservation_and_bounded_authorization",
+      "consumes": [
+        "candidate_plan",
+        "scoped_fresh_observations"
+      ],
+      "produces": [
+        "one_use_authorization"
+      ],
+      "implemented": "experimental_mock_in_unmerged_branch"
+    },
+    {
+      "id": "codespaces_adapter",
+      "responsibility": "provider_machine_discovery_launch_stop_reconcile",
+      "consumes": [
+        "one_use_authorization"
+      ],
+      "produces": [
+        "provider_resource_id",
+        "lifecycle_evidence"
+      ],
+      "implemented": "not_started"
+    },
+    {
+      "id": "accounting",
+      "responsibility": "local_usage_external_usage_provider_reconciliation",
+      "consumes": [
+        "lifecycle_evidence",
+        "provider_reports"
+      ],
+      "produces": [
+        "reconciled_usage_events"
+      ],
+      "implemented": "experimental_mock_in_unmerged_branch"
+    },
+    {
+      "id": "client_integrations",
+      "responsibility": "chatgpt_paseo_request_and_status",
+      "consumes": [
+        "authorized_scoped_api"
+      ],
+      "produces": [
+        "correlation_id"
+      ],
+      "implemented": "not_connected"
+    },
+    {
+      "id": "future_engine",
+      "responsibility": "higher_level_work_units_observer_and_engine_routing",
+      "consumes": [
+        "reconciled_usage_events"
+      ],
+      "produces": [],
+      "implemented": "future_not_present"
+    }
+  ],
+  "codespaces_v0": {
+    "existing_github_inventory_id": "github",
+    "existing_usage_status": "unknown",
+    "provider": "github",
+    "product": "codespaces",
+    "required_meters": [
+      {
+        "id": "compute",
+        "unit": "core_hours",
+        "state": "unverified_account_observation_required"
+      },
+      {
+        "id": "storage",
+        "unit": "GB_month",
+        "state": "unverified_account_observation_required"
+      }
+    ],
+    "scoping": [
+      "account",
+      "billing_owner",
+      "repository_owner",
+      "product",
+      "period",
+      "machine_type",
+      "project_authorization"
+    ],
+    "remote_launch_available_in_current_github_chat_connector": false,
+    "client_credential_access": "not_available",
+    "minimum_operations": [
+      "list_accounts",
+      "list_environments",
+      "quote",
+      "request_launch",
+      "status",
+      "request_stop",
+      "usage"
+    ],
+    "live_execution_authorized": false
+  },
+  "gaps": [
+    {
+      "id": "G01",
+      "description": "Map account_inventory claims/nulls to Rust Meter without manufacturing a balance",
+      "severity": "critical",
+      "next_test": "schema_mapping_and_unknown_stale_rejection"
+    },
+    {
+      "id": "G02",
+      "description": "Discover GitHub Codespaces billing owner plan usage and allowed machines",
+      "severity": "critical",
+      "next_test": "read_only_provider_snapshot"
+    },
+    {
+      "id": "G03",
+      "description": "Require provider-aware compute/storage billing units and disjoint meter reservation",
+      "severity": "critical",
+      "next_test": "dual_meter_contract_fixture"
+    },
+    {
+      "id": "G04",
+      "description": "Recover unknown remote create/start outcome without duplicating resources",
+      "severity": "critical",
+      "next_test": "timeout_after_create_reconcile"
+    },
+    {
+      "id": "G05",
+      "description": "Bound spend and stop independently of client lifecycle",
+      "severity": "critical",
+      "next_test": "client_disconnect_stop_watchdog"
+    },
+    {
+      "id": "G06",
+      "description": "Connect secure chat/Paseo transport without exposing controller credentials",
+      "severity": "high",
+      "next_test": "scoped_callers_access_negative_tests"
+    },
+    {
+      "id": "G07",
+      "description": "Reconcile unmerged branches, proposals and uncommitted specs",
+      "severity": "high",
+      "next_test": "source_and_authority_ledger"
+    },
+    {
+      "id": "G08",
+      "description": "Trace future Engine roles without treating Observer as implemented",
+      "severity": "medium",
+      "next_test": "ontology_design_review"
+    }
+  ],
+  "implementation_status": "no_live_codespaces_adapter_or_approved_paid_launch"
+}
