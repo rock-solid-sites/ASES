@@ -51,6 +51,14 @@ def permissions(st,key):
   if 'latent_ceiling' in u: out &= set(u['latent_ceiling'])
   cur=u['parent']
  return out
+def enabled(st,key,ingress):
+ if not graph_valid(st) or st.get('current_ingress')!=ingress: return False
+ cur=key
+ while cur is not None:
+  unit=st['work_units'][cur]
+  if not unit.get('active',False) or unit.get('sealed',True): return False
+  cur=unit['parent']
+ return True
 def commit(root,st,event):
  path=root/'protected'; old,_=load_current(root); n=int(old[7:13])+1
  st['events'].append(event); name=f'record-{n:06d}.json'
@@ -136,8 +144,8 @@ def run_case(label,parent_grants,move,mutant=False):
  conn=socket.socket(fileno=pair.detach()); stream=conn.makefile('rb',buffering=0); checks=[]; effects=[]
  for _ in range(2):
   req=json.loads(stream.readline()); cur_name,current=load_current(root); valid=graph_valid(current); rights=permissions(current,'D') if valid else set()
-  enabled=valid and current.get('current_ingress')=='W-L5' and current['work_units']['D']['active'] and not current['work_units']['D']['sealed']
-  allowed=enabled and (('read' in rights) if req['op']=='read_x' else ('write' in rights))
+  use_enabled=enabled(current,'D','W-L5')
+  allowed=use_enabled and (('read' in rights) if req['op']=='read_x' else ('write' in rights))
   if req['op']=='read_x' and allowed:
    blob=verified_content(root,current['work_units']['C']['accepted_contents'][0]); reply={'result':'OK','bytes_hex':blob.hex(),'sha256':digest(blob),'identity':current['work_units']['C']['accepted_contents'][0]['identity']}
   elif req['op']=='write_d' and allowed:
