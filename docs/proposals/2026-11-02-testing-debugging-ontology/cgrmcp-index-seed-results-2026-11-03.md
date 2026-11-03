@@ -79,3 +79,11 @@ The preceding section's **pending** classification describes its state at origin
 **Decision:** H/S research receives positive evidence to continue with an isolated, **off-by-default** mechanism; **no production release, merge or automatic reuse threshold is authorized**. Next consequential falsifiers are real repositories, larger and sustained WAL writers, process-kill boundaries, concurrent cross-process access, resource/I/O monitoring, engine version/extraction changes and outcome-level agent work. The Go/tiny tests change the earlier pending classification only in the narrow scopes stated above.
 
 **Archive:** `ARCHIVE_NOT_VERIFIED` remains unchanged. GitHub Actions logs and repository commits are direct/native evidence, not independent long-term archive readback. No Backblaze B2 upload or deletion occurred.
+
+## 7. Executing-binary identity guard — later development correction
+
+Code review identified that cgrmcp's `CGRMCP_ENGINE_BIN` override can execute an arbitrary CodeGraph binary while the manifest version resolver preferentially reads the installed npm package version. A matching package version is therefore **not sufficient evidence of executable identity** in that configuration.
+
+The experimental opt-in now rejects `CGRMCP_REUSE_INDEX=1` when an explicit `CGRMCP_ENGINE_BIN` override is present, rather than using a potentially incompatible prior index. The previous normal custom-engine route remains available when reuse is disabled. A paired negative/positive config test was added on the development branch; the new CI execution is separately qualified, not assumed from the earlier green run.
+
+This illustrates a reusable ASES Processor provenance principle: **derivation version must identify the component that actually executed**, not merely the package alongside it. Full executable digest attestation, parser/extraction-schema identity and cross-version migration remain future research; no global provenance schema is adopted by this experiment.
