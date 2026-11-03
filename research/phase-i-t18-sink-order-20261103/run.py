@@ -653,6 +653,27 @@ def run_f4_experiment(output: Path) -> dict[str, Any]:
             assertions[f"{case}_fresh_recovery_process_succeeded"] = recovery_status == 0 and recovered.get("ok") is True
             assertions[f"{case}_sink_was_killed_and_reaped"] = kill_status == -9
 
+        intact_journal = root / "uninterrupted" / "sink-effects.jsonl"
+        intact_bytes = intact_journal.read_bytes()
+        truncated_journal = root / "truncated-control.jsonl"
+        truncated_journal.write_bytes(intact_bytes[:-5])
+        truncated, truncated_status, truncated_stderr = cold_recover(truncated_journal)
+        scenarios["truncated_record_control"] = {
+            "source_journal_sha256": hashlib.sha256(intact_bytes).hexdigest(),
+            "mutated_journal_raw_hex": truncated_journal.read_bytes().hex(),
+            "mutated_journal_sha256": hashlib.sha256(truncated_journal.read_bytes()).hexdigest(),
+            "cold_recovery_process_returncode": truncated_status,
+            "cold_recovery_stderr": truncated_stderr,
+            "recovered": truncated,
+        }
+        assertions["truncated_record_recovery_refused"] = (
+            truncated_status == 2 and truncated.get("ok") is False
+            and "truncated" in truncated.get("error", "")
+        )
+        assertions["truncated_record_was_not_misreported_as_empty"] = (
+            truncated.get("ok") is False and "effects" not in truncated
+        )
+
     result = {
         "schema": "ases.phase-i.t18-f4-sink-cut-result.v1",
         "source_commit": "8b3c7e06aaab97122d2fcdaf2ee891e62667154b",
@@ -670,7 +691,7 @@ def run_f4_experiment(output: Path) -> dict[str, Any]:
         },
         "scenarios": scenarios,
         "assertions": assertions,
-        "pass": all(assertions.values()) and len(assertions) == 24,
+        "pass": all(assertions.values()) and len(assertions) == 26,
         "untested": [
             "retry after ambiguous accepted-before-ACK (documented as duplicate-possible, not run)",
             "power-loss/device-cache durability, kernel crash, filesystem faults, journal corruption/rollback",
