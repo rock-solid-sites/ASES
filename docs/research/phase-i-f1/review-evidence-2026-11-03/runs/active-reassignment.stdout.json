@@ -1,0 +1,599 @@
+{
+  "bounds": {
+    "enumerated": false,
+    "histories": 4,
+    "totals": {
+      "f1_commit": 30,
+      "f1_deny": 1,
+      "wrapper_commit": 8,
+      "wrapper_deny": 1
+    },
+    "truncated": false
+  },
+  "cases": {
+    "completed_reference": {
+      "C_consume": "commit",
+      "counts": {
+        "f1_commit": 8,
+        "wrapper_commit": 3
+      },
+      "final_violations": [],
+      "name": "completed_reference",
+      "trace": [
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "reserve_capacity",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": "prepare_reassignment_while_quiet",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "consume_capacity",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": "complete_S_use",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": "reassign_S_to_C",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "C"
+        },
+        {
+          "active": [
+            "C"
+          ],
+          "consumed": true,
+          "event": [
+            "consume_capacity",
+            "C"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "C"
+        }
+      ]
+    },
+    "hazard_reference": {
+      "C_consume": "deny",
+      "counts": {
+        "f1_commit": 7,
+        "f1_deny": 1,
+        "wrapper_commit": 1,
+        "wrapper_deny": 1
+      },
+      "final_violations": [],
+      "name": "hazard_reference",
+      "trace": [
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "reserve_capacity",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": "prepare_reassignment_while_quiet",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "consume_capacity",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": "reassign_S_to_C",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "deny",
+          "reason": "active-S-use",
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "consume_capacity",
+            "C"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "deny",
+          "reason": "capacity-not-allocated-or-already-consumed (C3)",
+          "reservation": "S"
+        }
+      ]
+    },
+    "hazard_stale_mutant": {
+      "C_consume": "commit",
+      "counts": {
+        "f1_commit": 8,
+        "wrapper_commit": 2
+      },
+      "final_violations": [
+        "active-use-exceeds-one-unit",
+        "active-use-without-current-reservation"
+      ],
+      "name": "hazard_stale_mutant",
+      "trace": [
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "reserve_capacity",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": "prepare_reassignment_while_quiet",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "consume_capacity",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [
+            "S"
+          ],
+          "consumed": false,
+          "event": "reassign_S_to_C",
+          "independent_violations": [
+            "active-use-without-current-reservation"
+          ],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "C"
+        },
+        {
+          "active": [
+            "C",
+            "S"
+          ],
+          "consumed": true,
+          "event": [
+            "consume_capacity",
+            "C"
+          ],
+          "independent_violations": [
+            "active-use-exceeds-one-unit",
+            "active-use-without-current-reservation"
+          ],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "C"
+        }
+      ]
+    },
+    "quiet_reference": {
+      "C_consume": "commit",
+      "counts": {
+        "f1_commit": 7,
+        "wrapper_commit": 2
+      },
+      "final_violations": [],
+      "name": "quiet_reference",
+      "trace": [
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "reserve_capacity",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": "prepare_reassignment_while_quiet",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "S"
+        },
+        {
+          "active": [],
+          "consumed": false,
+          "event": "reassign_S_to_C",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "C"
+        },
+        {
+          "active": [
+            "C"
+          ],
+          "consumed": true,
+          "event": [
+            "consume_capacity",
+            "C"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "reservation": "C"
+        }
+      ]
+    }
+  }
+}

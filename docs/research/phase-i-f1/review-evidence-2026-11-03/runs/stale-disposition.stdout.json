@@ -1,0 +1,622 @@
+{
+  "bounds": {
+    "enumerated": false,
+    "histories": 5,
+    "totals": {
+      "f1_commit": 34,
+      "wrapper_commit": 9,
+      "wrapper_deny": 2
+    },
+    "truncated": false
+  },
+  "cases": {
+    "empty_reference": {
+      "counts": {
+        "f1_commit": 7,
+        "wrapper_commit": 1
+      },
+      "final_S_present": false,
+      "final_violations": [],
+      "final_z_owner": null,
+      "first_remove": "commit",
+      "name": "empty_reference",
+      "trace": [
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "seal",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "prepare_empty_inventory",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": false,
+          "event": [
+            "remove",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        }
+      ]
+    },
+    "empty_stale_mutant": {
+      "counts": {
+        "f1_commit": 7,
+        "wrapper_commit": 1
+      },
+      "final_S_present": false,
+      "final_violations": [],
+      "final_z_owner": null,
+      "first_remove": "commit",
+      "name": "empty_stale_mutant",
+      "trace": [
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "seal",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "prepare_empty_inventory",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": false,
+          "event": [
+            "remove",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        }
+      ]
+    },
+    "hazard_reference": {
+      "counts": {
+        "f1_commit": 6,
+        "wrapper_commit": 2,
+        "wrapper_deny": 1
+      },
+      "final_S_present": true,
+      "final_violations": [],
+      "final_z_owner": "S",
+      "first_remove": "deny",
+      "name": "hazard_reference",
+      "trace": [
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "seal",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "prepare_empty_inventory",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "authorized_create_unaccepted_z",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "remove_S_current_inventory",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "deny",
+          "reason": "dependent-z-present",
+          "z_owner": "S"
+        }
+      ]
+    },
+    "hazard_stale_mutant": {
+      "counts": {
+        "f1_commit": 7,
+        "wrapper_commit": 2
+      },
+      "final_S_present": false,
+      "final_violations": [
+        "z-unbounded:S"
+      ],
+      "final_z_owner": "S",
+      "first_remove": "commit",
+      "name": "hazard_stale_mutant",
+      "trace": [
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "seal",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "prepare_empty_inventory",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "authorized_create_unaccepted_z",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": false,
+          "event": [
+            "remove",
+            "S"
+          ],
+          "independent_violations": [
+            "z-unbounded:S"
+          ],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        }
+      ]
+    },
+    "transfer_reference": {
+      "counts": {
+        "f1_commit": 7,
+        "wrapper_commit": 3,
+        "wrapper_deny": 1
+      },
+      "final_S_present": false,
+      "final_violations": [],
+      "final_z_owner": "Q",
+      "first_remove": "deny",
+      "name": "transfer_reference",
+      "trace": [
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "seal",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "prepare_empty_inventory",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": null
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "authorized_create_unaccepted_z",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "stop"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_start"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "P"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "recover_step",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": [
+            "activate_image"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "remove_S_current_inventory",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "deny",
+          "reason": "dependent-z-present",
+          "z_owner": "S"
+        },
+        {
+          "Q_present": true,
+          "S_present": true,
+          "event": "authorized_transfer_z_to_Q",
+          "independent_violations": [],
+          "kind": "wrapper",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "Q"
+        },
+        {
+          "Q_present": true,
+          "S_present": false,
+          "event": [
+            "remove",
+            "S"
+          ],
+          "independent_violations": [],
+          "kind": "f1",
+          "outcome": "commit",
+          "reason": null,
+          "z_owner": "Q"
+        }
+      ]
+    }
+  }
+}

@@ -41,7 +41,7 @@ Target source SHA-256 values:
 - `active_capacity_reassignment.py`: `cd2a4b57ea5454d85fce553990854c6c8a76f9d6858491b3d5c6ed1e489278ba`
 - `stale_disposition_recovery.py`: `871b2f03f7ff2b470070523abac9d60250adaa3c7eb5cd5385bf3bf59dee4560`
 
-Raw run outputs and logs are retained under `/tmp/f1-bridge-review/`:
+Exact copies of the first verdict, bounded reproduction inputs, and raw run outputs are preserved in [the review evidence directory](review-evidence-2026-11-03/manifest.md). The original temporary copies remain under `/tmp/f1-bridge-review/` in this execution environment. The evidence manifest records hashes and notes that the top-level numeric shell exit code was not separately captured; child exits are in the raw stdout JSON.
 
 - `sqlite-capacity-run.json` — SHA-256 `957c50e3db63288c18502ea41e95d8732f7f0c286ccebd00499bf3dcf1fe0cd7`; matching stderr file is empty.
 - `active-reassignment-run.json` — SHA-256 `1b9cccf75952688b19d34705901c5df389a69b1681692c09604f981c93641679`; matching stderr file is empty.
