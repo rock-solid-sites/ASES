@@ -1,0 +1,9 @@
+# Sequential RTL reaches the paired fixtures
+
+Preregistered at `58d0f5b5e`. The unchanged sequential RTL and frozen oracle agree over five reset-to-operation traces and 47 cycles, including idle cycles: independent and dependent child-parent cases in both independent and coupled profiles (18 and 29 total cycles respectively), plus the coupled data case. Both parent-pair pre-restriction states equal the prior combinational fixtures. The coupled data `(0,1)` state is reachable from reset via establish, grant a0=7, grant a3=1 and set(y,1); the subsequent set(x,1) is denied in both oracle and RTL. This upgrades the constructed-state reachability observation for that specific example, not for all enumerated legal states.
+
+Both positive simulations report PASS; each profile's intentionally corrupted reset expectation causes the expected cycle-0 failure. Vectors, every oracle pre/post state and outcome, compile and simulation output, and source hashes before/after are retained in the raw log. Existing `sequence_tb.v` checks state and acknowledgement after clock edges and state stability at its sampled interval; this finite check is not analog timing verification or a test of arbitrary concurrent inputs. The oracle and encoding are shared dependencies.
+
+Bounds: five traces, at most 60 cycles (47 used), each subprocess 10 s/1 GiB, outer wall 60 s. Python elapsed 0.039 s, peak RSS 12,800 KiB excluding aggregate children. Disposable Icarus version/package provenance is in `rtl-paired-fixture-result-2026-11-03.md`. Script SHA-256 `4c6ed12d9c5a44219f6c26da5f708e58af973bdf30e53edd7ba4926bfb908b0d`; raw log `1bb19fbe1ad2a56aa5ea0113651aaab80f7ce67b088f7327d0bd74b094b1cab8`.
+
+Next cursor: bound an exhaustive short catalog subset by profile and parent-transition partition, comparing actual sequential RTL with oracle traces and stopping on first mismatch; record exact bounds, shared assumptions and negative controls before running.
