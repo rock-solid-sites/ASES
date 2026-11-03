@@ -144,17 +144,21 @@
         "usage_usd": 0
       },
       "billing": {
-        "hourly_cpu_available": null,
-        "stopped_instance_billed": null,
+        "hourly_cpu_available": true,
+        "stopped_instance_billed": true,
         "storage_extra": null,
-        "network_extra": null
+        "network_extra": null,
+        "stop_billing_requires_destroy": true,
+        "minimum_billing_hours": 1,
+        "monthly_cap_hours_non_gpu": 672,
+        "network_overage_usd_per_gb": 0.01
       },
       "reliability": {
         "operating_history_verified": false,
         "cpu_fair_use_verified": false
       },
-      "official_url": null,
-      "last_verified_at": null
+      "official_url": "https://www.vultr.com/pricing/",
+      "last_verified_at": "2026-11-03"
     },
     {
       "id": "akamai-linode",
@@ -617,7 +621,45 @@
       "last_verified_at": null
     }
   ],
-  "compute_offerings": [],
+  "compute_offerings": [
+    {
+      "id": "vultr-cloud-compute-8gb-reference",
+      "provider_id": "vultr",
+      "name": "Cloud Compute 8GB reference",
+      "ram_gb": 8,
+      "vcpu": null,
+      "architecture": null,
+      "hourly_usd": 0.059,
+      "storage_included_gb": null,
+      "network_included_gb": null,
+      "region": null,
+      "pricing_evidence": "third_party_listing_not_checkout_verified",
+      "source_urls": [
+        "https://hostingcompass.com/providers/vultr/vps",
+        "https://www.vultr.com/pricing/"
+      ],
+      "verified_at": "2026-11-03",
+      "notes": "Illustrative estimate; specific tier/region/CPU and total price require verification."
+    },
+    {
+      "id": "vultr-optimized-general-8gb-reference",
+      "provider_id": "vultr",
+      "name": "Optimized Cloud Compute 2vCPU/8GB reference",
+      "ram_gb": 8,
+      "vcpu": 2,
+      "architecture": "x86-64",
+      "hourly_usd": 0.082,
+      "storage_included_gb": 50,
+      "network_included_gb": null,
+      "region": "Toronto",
+      "pricing_evidence": "independent_catalog_not_checkout_verified",
+      "source_urls": [
+        "https://compute.info/vm/catalog/300/"
+      ],
+      "verified_at": "2026-11-03",
+      "notes": "Dedicated CPU reference; $60 monthly advertised; credit service eligibility not confirmed."
+    }
+  ],
   "promotions": [
     {
       "id": "aws-2026-free-plan",
@@ -1035,6 +1077,16 @@
         "vultr-agent-rush-2026"
       ],
       "summary": "User confirms no Vultr account; official event requirements checked; secondary-only gift code claims separated."
+    },
+    {
+      "at": "2026-11-03",
+      "kind": "billing_and_price_evidence",
+      "entity_ids": [
+        "vultr",
+        "vultr-cloud-compute-8gb-reference",
+        "vultr-optimized-general-8gb-reference"
+      ],
+      "summary": "Added official Vultr stopped billing, hourly cap and bandwidth policies; third-party 8GB hourly reference prices kept unverified."
     }
   ],
   "source_policy": {
