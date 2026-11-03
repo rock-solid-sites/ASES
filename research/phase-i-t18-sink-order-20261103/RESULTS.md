@@ -48,7 +48,7 @@ Command from repository root:
 python3 research/phase-i-t18-sink-order-20261103/run.py --f4-output research/phase-i-t18-sink-order-20261103/F4-results.json > research/phase-i-t18-sink-order-20261103/F4-run.stdout.txt 2>&1
 ```
 
-The initial successful process-cut run returned exit code `0` with 24 assertions. This follow-on adds the truncated-record control preregistered in the recovery-reader contract; its result is recorded below after execution. Raw JSON contains each client acknowledgment observation, client exit code, sink `SIGKILL`/reap code (`-9`), fresh recovery subprocess result, exact journal bytes, and recovered payload bytes/hashes. The payload SHA-256 was `8c0809ec57204ad419875f1a3ffd2c91a637dbeba4c6090a795f573ecc7ba160` in the two accepted cases.
+Final F4 run returned exit code `0`; all 26 assertions passed. Raw JSON contains each client acknowledgment observation, client exit code, sink `SIGKILL`/reap code (`-9`), fresh recovery subprocess result, exact journal bytes, and recovered payload bytes/hashes. The payload SHA-256 was `8c0809ec57204ad419875f1a3ffd2c91a637dbeba4c6090a795f573ecc7ba160` in the two accepted cases.
 
 | Cut | Client observation | Fresh-process recovered effects | Expected interpretation |
 |---|---|---:|---|
@@ -61,7 +61,7 @@ No retry was sent after the unknown accepted-before-ACK case. Its recovered effe
 
 The early-ACK row is a destructive control whose expected failure was detected; its 201 response is not a passing commitment behavior. Recovery executed in a new interpreter process with only the journal path, validated newline framing and event sequence, recomputed the payload digest from recovered bytes, and did not consume the runner's expected payload or server memory.
 
-The additional corruption control copies the uninterrupted committed journal and removes five trailing bytes from its last record. It requires a new recovery process to refuse the journal rather than report an empty successful state. The exact observed exit and error are added after the run. This tests one decoder fault control, not storage hardware or recovery of partially written production journals.
+The additional corruption control copied the uninterrupted committed journal and removed five trailing bytes from its last record. A fresh recovery process exited `2` with `ValueError: journal has an unterminated/truncated final record`; it did not report an empty successful state. This tests one decoder fault control, not storage hardware or recovery of partially written production journals.
 
 
 These are process-death and local `fsync` observations only. They do not demonstrate power-loss durability, device-cache behavior, kernel-crash behavior, filesystem fault handling, rollback resistance, host confinement, F3 conformance, or a guarantee for other sinks.

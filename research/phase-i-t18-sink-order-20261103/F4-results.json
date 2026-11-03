@@ -18,6 +18,8 @@
     "preaccept_cold_effect_count": true,
     "preaccept_fresh_recovery_process_succeeded": true,
     "preaccept_sink_was_killed_and_reaped": true,
+    "truncated_record_recovery_refused": true,
+    "truncated_record_was_not_misreported_as_empty": true,
     "uninterrupted_ack_observation": true,
     "uninterrupted_client_process_exited_cleanly": true,
     "uninterrupted_cold_effect_bytes_and_hash": true,
@@ -32,7 +34,7 @@
     "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
     "python": "3.12.14"
   },
-  "f4_implementation_sha256": "747223456001647c18a66fe063ee75609384ca18bc8cc5ed3a95f86f37429e21",
+  "f4_implementation_sha256": "63d52186d3cd4cb64ad471b6b017a3406506930fb926be3e0da648e03de21b23",
   "f4_preregistration_commit": "b7404d7a2a73b2f4dd5e39ffcafaedb29f98f97f",
   "pass": true,
   "payload_reference_sha256": "8c0809ec57204ad419875f1a3ffd2c91a637dbeba4c6090a795f573ecc7ba160",
@@ -104,6 +106,18 @@
         "record_count": 0
       },
       "sink_process_returncode": -9
+    },
+    "truncated_record_control": {
+      "cold_recovery_process_returncode": 2,
+      "cold_recovery_stderr": "",
+      "mutated_journal_raw_hex": "7b22616363657074616e63655f626f756e64617279223a20226a6f75726e616c20617070656e64202b206673796e632072657475726e6564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202270686173652d692d7431382d6566666563742d5c75303363305c6e696d6d757461626c65207061796c6f6164222c20227061796c6f61645f736861323536223a202238633038303965633537323034616434313938373566316133666664326339316136333764626562613463363039306137393566353733656363376261313630222c20227061796c6f61645f757466385f686578223a2022373036383631373336353264363932643734333133383264363536363636363536333734326463663830306136393664366437353734363136323663363532303730363137393663366636313634222c2022726571756573745f6964223a20226566666563742d756e696e746572727570746564222c202273657122",
+      "mutated_journal_sha256": "026cfa081012b1ffd1080b5f54fb9a0b41f6c649a43875a591a496cdc9972786",
+      "recovered": {
+        "error": "ValueError: journal has an unterminated/truncated final record",
+        "journal_bytes": 377,
+        "ok": false
+      },
+      "source_journal_sha256": "ec5f38706bcec94817cff242d9f59db9e5d7acd83c4400e1e1c3fba175229859"
     },
     "uninterrupted": {
       "client_observation": {
