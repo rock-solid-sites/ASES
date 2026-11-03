@@ -1,0 +1,9 @@
+# Version wrap permits a torn accepted read
+
+Preregistered at `e1219edf7`. In 30 schedules per mode, an unbounded integer version accepts 6 coherent reads and no incoherent reads; modulo 4 accepts 17 coherent and 1 incoherent read. The latter reads field 0 before `(0,0) → (1,0)` and field 1 after `(1,0) → (1,1)`, producing `(0,1)`, which matches no whole-state cut during the read. Both version samples equal zero because the two commits increment by two and wrap. The full event and cut witness is in the raw log. Remaining attempts are rejected: 24 unbounded and 12 modulo 4. Equality of version samples therefore depends on a no-wrap/no-ABA condition over the observation interval in this fixture; equal samples sometimes still produce a coherent result after wrap, so equality does not itself prove absence of intervening commits.
+
+The experiment counts 60 cases, 420 per-case state cuts and 360 event steps, caps 60/420, wall 10 s, 1 GiB; elapsed Python time 0.0024 s, peak RSS 9,088 KiB. Case-cap-3 and state-cap-15 controls both exit 2 and report exact next schedule. Replay: `timeout 10s bash -c 'ulimit -v 1048576; python3 -u docs/research/kernel-0/timing-reduction/evidence/version_wrap_scan.py'`.
+
+SHA-256 script `35cba0fd75713edb3b24ab85f39c81d9551dc95cc8208ee270ee1c5e12e7b385`; full log `b894378a6a0a022b787f2b1f76c1199d6900dedc445e6a7f8445ee920a13b8d0`; case truncation `3b0130b58606af32090ad26ca5d58d12f1ef0c0f007c59282e428e9ff79256b5`; state truncation `38f8efc8a3c69efa29f4f41e67f865033deda01dd951a23c9581c46f2aee6b88`.
+
+Finite two-commit toy evidence assumes whole-state/version updates occur atomically. It neither selects a realization nor establishes a safe version width, physical memory ordering, liveness, or unbounded correctness. Next: isolate a return-time precedence constraint that final-state-only serial comparison could miss, using interacting commitments and complete observed outcomes.
