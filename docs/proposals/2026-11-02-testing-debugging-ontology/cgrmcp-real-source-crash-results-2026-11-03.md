@@ -43,3 +43,19 @@ Existing seed regression unit controls (eight cases) also passed; the further ex
 - The passed writer and crash tests strengthen confidence in the isolated online-backup and boot cleanup paths, but do not establish concurrent active-engine resolution correctness.
 - Correctness and validity must precede ASES Processor cost optimization. A fast, wrong graph is not a cache hit. The minimum reusable-result contract may need more than a complete-status bit and matching extraction version: relationships may require source-level revalidation or an independent graph fingerprint/oracle.
 - Next cheapest test is an independent second clean graph plus a canonical edge multiset diff. If cold builds disagree, investigate upstream nondeterminism and test stability. If they agree but seeded differs, investigate incremental-specific dropped edges and versioned upstream fixes. Do not relax the graph-count gate to obtain a green CI run.
+
+## Later diagnostic addendum — exact Go relationship-loss evidence
+
+[Diagnostic run 41701972587](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41701972587) performed the prospective [Go discrimination plan](cgrmcp-go-edge-discrepancy-diagnostic-plan-2026-11-03.md) and preserved a canonical SQLite edge-multiset diff. CodeGraph engine remained **1.6.0** and the pinned `junegunn/fzf` parent/child commits were unchanged.
+
+| Graph | Files | Nodes | Edges | Compared with cold A |
+| --- | ---: | ---: | ---: | --- |
+| Seeded index + `sync` | 116 | 2,925 | **13,091** | 14 missing, 0 extra |
+| Independent cold A | 116 | 2,925 | **13,105** | Reference |
+| Independent cold B | 116 | 2,925 | **13,105** | **Exactly same edge multiset** |
+
+The seed lost precisely **14 `contains` edges** linking Go type aliases/structs to method nodes. Missing relationships included `resumableState::Enabled/Force/Set`, `actionType::String/Name`, `Terminal::inListWindow/markEmptyLine/markOtherLine`, `byTimeOrder::Len/Swap/Less`, `Options::initProfiling` from both build-tag files and `placeholderFlags::encodePlaceholder`. They originate in `src/terminal.go`, `src/actiontype_string.go`, `src/options*.go` and `src/terminal_test.go`. These relationships were present in both clean builds and missing from the seeded graph; the difference was not caused by truncating caller queries. No extraneous edges were observed, and the filenames, nodes, kinds and index extraction version agreed.
+
+**Evidence classification:** G1 (incremental-specific edge loss) **SUPPORTED**, G2 (cold-build nondeterminism in this fixture) **WEAKENED**, G3 (mere query truncation/instrument defect) **REJECTED** for this observation. G4 (precise causal mechanism in the Go extractor/incremental linker) remains **UNRESOLVED**. A healthy CodeGraph `status --json` is **not** sufficient proof that the graph is equivalent to a fresh build.
+
+**Consequence:** this is a correctness-blocking negative result. **Do not merge, deploy or automatically enable index seeding** on the basis of Rust/TypeScript timing wins. The next smallest discriminating check is a *separate versioned* CodeGraph 1.6.2 control and/or a local minimal reproduction for upstream. Do not silently change the production 1.6.0 pin, weaken the graph-parity oracle or bury this failure in aggregate passing counts. The CI artifact expires; independent archive remains `ARCHIVE_NOT_VERIFIED`.
