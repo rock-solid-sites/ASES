@@ -138,10 +138,10 @@
       "name": "Vultr",
       "category": "hourly_cpu_vm",
       "account": {
-        "status": "unknown",
-        "verification": "not_checked",
-        "credits_remaining_usd": null,
-        "usage_usd": null
+        "status": "not_registered",
+        "verification": "user_confirmed_2026-11-03",
+        "credits_remaining_usd": 0,
+        "usage_usd": 0
       },
       "billing": {
         "hourly_cpu_available": null,
@@ -805,9 +805,9 @@
       "credit_expiry": "unknown",
       "first_seen_at": null,
       "last_checked_at": "2026-11-03",
-      "status": "time_sensitive",
-      "eligible_existing_account": null,
-      "requires_new_account": null,
+      "status": "actionable_registration_deadline",
+      "eligible_existing_account": false,
+      "requires_new_account": true,
       "minimum_spend_usd": null,
       "deposit_refundable": null,
       "eligible_cpu_vm": null,
@@ -815,10 +815,26 @@
       "redemption_deadline_utc": "2026-11-03T15:00:00Z",
       "source_urls": [
         "https://community.vultr.com/e/vultr-agent-rush-hackathon",
-        "https://lablab.ai/ai-hackathons/vultr-hackathon/live"
+        "https://lablab.ai/ai-hackathons/vultr-hackathon/live",
+        "https://that.promo/vultr-agent-rush-hackathon"
       ],
-      "evidence_level": "official_event_page_for_credit_and_deadline; account restrictions unverified",
-      "alert_state": "notified_or_baseline"
+      "evidence_level": "official event confirms $200 and required stack; secondary source reports new-account-only gift code",
+      "alert_state": "notified_or_baseline",
+      "account_eligibility_evidence": "secondary_source_only; official confirmation pending",
+      "redemption_method": "gift code reportedly shared at kickoff; unverified official",
+      "required_stack": [
+        "Vultr VM",
+        "Vultr Serverless Inference",
+        "sandboxed execution"
+      ],
+      "deliverables": [
+        "public GitHub repository",
+        "public deployed demo",
+        "recorded containment demo",
+        "architecture explanation"
+      ],
+      "credit_usage_window": "event Nov 3-8 claimed by secondary source; formal credit expiration unverified",
+      "account_specific_fit": "new account eligible in principle; participation and gift code required; not guaranteed"
     },
     {
       "id": "ibm-flexvsi-2026",
@@ -998,10 +1014,29 @@
     }
   ],
   "account_inventory": {
-    "status": "requires_account_audit",
-    "entries": []
+    "status": "partially_verified",
+    "entries": [
+      {
+        "provider_id": "vultr",
+        "status": "not_registered",
+        "evidence": "user_statement",
+        "checked_at": "2026-11-03",
+        "credits_remaining_usd": 0,
+        "usage_usd": 0
+      }
+    ]
   },
-  "change_history": [],
+  "change_history": [
+    {
+      "at": "2026-11-03",
+      "kind": "account_and_promotion_enrichment",
+      "entity_ids": [
+        "vultr",
+        "vultr-agent-rush-2026"
+      ],
+      "summary": "User confirms no Vultr account; official event requirements checked; secondary-only gift code claims separated."
+    }
+  ],
   "source_policy": {
     "official_sources_required_for_verified_claims": true,
     "checkout_verification_separate": true,
