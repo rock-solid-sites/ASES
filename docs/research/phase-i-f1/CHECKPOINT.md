@@ -369,3 +369,7 @@ Completed the previously parked C11 correlation control after the concrete SQLit
 ## 2026-11-03 SQLite full holder recovery tranche start
 
 Preregistered `SQLite-Full-Holder-Recovery.md`: actual unchanged holder and valid finite accept request, disposable added expression index to make one valid value exceed a connection-local page cap, compare capped failure vs 64-page neighboring success, capture real SQLite code, client ACK/uncertainty, independent exact bytes/integrity and cold holder recovery. Test-only index changes physical schema/profile; no original-schema disk-exhaustion or power-loss claim.
+
+## 2026-11-03 SQLite full holder recovery checkpoint
+
+Two valid accept-one cases on unchanged holder with temporary synthetic growth index: actual writer at 4096-byte pages, count 3/max 3, hit real SQLITE_FULL code 13 during UPDATE, client EOF with no success; separate reader integrity `ok` and cold holder recovered exact last acknowledged zero bytes/full view after kill/reap. Neighbor max 64 committed/ACKed one and both readers recovered exact one. Setup/index succeeded; this is write-stage failure, not error at COMMIT, host exhaustion, original-schema fault or power-loss evidence. Raw output, full hashes, budgets and qualified limits in `SQLite-Full-Holder-Recovery.md`. Resume cursor: independent conformance check of fixture instrumentation, actual error and recovery evidence; if further tests are authorized, investigate another distinct error/commit boundary rather than assuming this covers all SQLITE_FULL paths. F1/F5 remain incomplete.
