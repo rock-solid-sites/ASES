@@ -1,0 +1,91 @@
+{
+  "bounds": {
+    "host_confinement": false,
+    "manager_calls": 3,
+    "record_root": "temporary directory",
+    "successful_transitions_before_replay": 2,
+    "worker": false
+  },
+  "decision": {
+    "expected_stale_denial": false,
+    "fresh_current_positive_pass": true,
+    "invariant_counterexample": true,
+    "observed_selector_unchanged": false,
+    "qualification": "assumption-stress only: direct harness retained and resubmitted an old state object; no in-profile caller path established"
+  },
+  "preregistration": "MANAGEMENT-CURRENTNESS-PREREGISTRATION.md",
+  "steps": [
+    {
+      "record": "record-000001.json",
+      "sha256": "f4c3771d3d32e48694c42898dc4b09fc9a74ec51c983d6b45104533fcb78221b",
+      "step": "bootstrap"
+    },
+    {
+      "current_ingress": null,
+      "parent_C": "Q",
+      "record": "record-000002.json",
+      "response": {
+        "old_effective": {
+          "C": [
+            "read"
+          ],
+          "D": [
+            "read"
+          ]
+        },
+        "record": "record-000002.json",
+        "record_sha256": "3b3b3ce50ad8ae8bbecb568a1bdbe720be9126aee1d267468f6cb9c6b35fb04e",
+        "result": "COMMITTED"
+      },
+      "sha256": "3b3b3ce50ad8ae8bbecb568a1bdbe720be9126aee1d267468f6cb9c6b35fb04e",
+      "step": "fresh_authorized_move"
+    },
+    {
+      "activation_events": [
+        {
+          "actor": "initial-manager",
+          "ingress": "W-L5",
+          "op": "separately-authorized_activation"
+        }
+      ],
+      "current_ingress": "W-L5",
+      "parent_C": "Q",
+      "record": "record-000003.json",
+      "response": {
+        "ingress": "W-L5",
+        "record": "record-000003.json",
+        "record_sha256": "1ac02330f7bd2ecdc00d41ae8f0e88dfbf69851befdc43e61a779d1f098efee7",
+        "result": "COMMITTED"
+      },
+      "sha256": "1ac02330f7bd2ecdc00d41ae8f0e88dfbf69851befdc43e61a779d1f098efee7",
+      "step": "fresh_authorized_activation"
+    },
+    {
+      "previous_current_sha256": "1ac02330f7bd2ecdc00d41ae8f0e88dfbf69851befdc43e61a779d1f098efee7",
+      "response": {
+        "old_effective": {
+          "C": [
+            "read"
+          ],
+          "D": [
+            "read"
+          ]
+        },
+        "record": "record-000004.json",
+        "record_sha256": "3b3b3ce50ad8ae8bbecb568a1bdbe720be9126aee1d267468f6cb9c6b35fb04e",
+        "result": "COMMITTED"
+      },
+      "selected_current_ingress": null,
+      "selected_event_ops": [
+        "bootstrap",
+        "authorized_sealed_whole_move"
+      ],
+      "selected_parent_C": "Q",
+      "selected_record": "record-000004.json",
+      "selected_sha256": "3b3b3ce50ad8ae8bbecb568a1bdbe720be9126aee1d267468f6cb9c6b35fb04e",
+      "selector_after": "record-000004.json",
+      "selector_before": "record-000003.json",
+      "step": "stale_authorized_move_replay"
+    }
+  ]
+}
