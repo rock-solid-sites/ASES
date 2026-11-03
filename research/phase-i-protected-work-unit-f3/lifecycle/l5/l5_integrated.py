@@ -102,6 +102,23 @@ def manager_roundtrip(client,server,req,st,root):
    else:
     name,h=commit(root,st,{'op':'authorized_sealed_whole_move','actor':q['authorized_by'],'from':'P','to':'Q','included':['C','D'],'old_effective':prior})
     result={'result':'COMMITTED','record':name,'record_sha256':h,'old_effective':prior}
+ elif ok and q.get('op')=='authorize_grant':
+  if (not graph_valid(st) or st['current_ingress'] is not None
+      or st['work_units']['C']['parent']!='Q'
+      or any(u['active'] or not u['sealed'] for u in st['work_units'].values())):
+   result={'result':'DENY','reason':'grant-requires-current-inactive-sealed-moved-state'}
+  elif (set(q)!={'op','authorized_by','credential','unit','capability'}
+        or q.get('unit') not in {'C','D'} or q.get('capability')!='write'):
+   result={'result':'DENY','reason':'unsupported-grant'}
+  else:
+   target=q['unit']; unit=st['work_units'][target]; parent=unit['parent']
+   if ('latent_ceiling' not in unit or 'write' in unit['latent_ceiling']
+       or 'write' not in unit['grants'] or 'write' not in permissions(st,parent)):
+    result={'result':'DENY','reason':'grant-not-supported-by-current-path'}
+   else:
+    unit['latent_ceiling']=sorted(set(unit['latent_ceiling'])|{'write'})
+    name,h=commit(root,st,{'op':'separately-authorized_grant','actor':q['authorized_by'],'unit':target,'capability':'write'})
+    result={'result':'COMMITTED','record':name,'record_sha256':h,'unit':target,'capability':'write'}
  elif ok and q.get('op')=='authorize_activate':
   if (not graph_valid(st) or st['current_ingress'] is not None
       or st['work_units']['C']['parent'] not in {'P','Q'}
