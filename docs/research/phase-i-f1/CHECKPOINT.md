@@ -365,3 +365,7 @@ Two real independent SQLite writers, two supervised schedules: transactional ref
 ## 2026-11-03 independently varied observation fields checkpoint
 
 Completed the previously parked C11 correlation control after the concrete SQLite bridge: 16 opaque worlds × full retention and four single-field erasures = 80 fixed F1 histories/640 commits. Reference has zero mismatches/collisions; each erased field has 16 own-field mismatches, other fields unchanged, and eight indistinguishable world pairs differing only in that field. Product exhausted; no transition graph enumeration. Raw evidence/hashes and abstract limitations in `Independent-Observation-Fields.md`. F1/F5 remain incomplete; fresh independent conformance review of new tranches is next, with any further real resource enforcement remaining separately scoped.
+
+## 2026-11-03 SQLite full holder recovery tranche start
+
+Preregistered `SQLite-Full-Holder-Recovery.md`: actual unchanged holder and valid finite accept request, disposable added expression index to make one valid value exceed a connection-local page cap, compare capped failure vs 64-page neighboring success, capture real SQLite code, client ACK/uncertainty, independent exact bytes/integrity and cold holder recovery. Test-only index changes physical schema/profile; no original-schema disk-exhaustion or power-loss claim.
