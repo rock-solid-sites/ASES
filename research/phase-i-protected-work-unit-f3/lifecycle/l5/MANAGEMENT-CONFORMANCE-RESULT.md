@@ -14,6 +14,8 @@ Activation now requires a valid current record with no current ingress, all unit
 - Fresh authorized activation through the handler committed `record-000003.json`, SHA-256 `fc899329c71de4108f871dcfbbec0a338de9ab9010444182dd00084910fd23c4`.
 - Replaying the authentic stale bootstrap state denied with `management-state-not-current`; selector and all files in the disposable protected store were byte-identical before/after.
 - Wrong credential denied with `management-authorization-required`; selector and store remained byte-identical.
+- Wrong principal with the valid shared test credential also denied with `management-authorization-required`; selector and store remained byte-identical.
+- The C-under-P positive activation route now has a pure disposable-record test through `manager_roundtrip`; it commits the `separately-authorized_activation` event. The C-under-Q post-move activation is likewise exercised through the handler.
 - An inactive but unsealed current activation fixture denied with `activation-requires-current-inactive-sealed-state`; selector and store remained byte-identical. This malformed current record was directly published by the test fixture and is not a manager-reachable history.
 - Existing ancestor-use pure policy controls continue to pass.
 
@@ -21,4 +23,4 @@ Reproduce from this directory with `python3 -m py_compile l5_integrated.py test_
 
 ## Remaining evidence gap
 
-The existing safe moved path now exercises activation through the handler, and the former positive control does too. The test still uses a local socketpair/helper rather than a live trusted manager process. The single-holder assumption supplies serialization and current in-memory ownership; the code does not establish concurrent check-and-commit safety. Landlock is unavailable in this environment, so the integrated worker path was not run. This is not host L5 acceptance, F3 acceptance, or a production security claim.
+The existing safe moved path and former positive control now exercise activation through the handler. Wrong-principal and wrong-credential checks are separate, but both use a shared test credential and helper-local actor string; this does not establish physical manager identity or production authentication. The next smallest route/authority test, if the host environment becomes available, is to exercise the manager handler through the selected live IPC route and independently observe the peer/credential binding before activation. The current test uses a local socketpair/helper rather than a live trusted manager process. The single-holder assumption supplies serialization and current in-memory ownership; the code does not establish concurrent check-and-commit safety. Landlock is unavailable in this environment, so the integrated worker path was not run. This is not host L5 acceptance, F3 acceptance, or a production security claim.

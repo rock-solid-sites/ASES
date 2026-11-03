@@ -80,6 +80,20 @@
     },
     {
       "byte_identical": true,
+      "case": "wrong_principal",
+      "response": {
+        "reason": "management-authorization-required",
+        "result": "DENY"
+      },
+      "store_hashes": {
+        "CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "record-000001.json": "93f9e6d84a3ce01ad3176da9c4398bde856c2cff0df3a8492d536e583eeeb583",
+        "record-000002.json": "b5100b89e554d99c6c58613e362f10613d8dd9faf85f4c4e2543674f775e337b",
+        "record-000003.json": "fc899329c71de4108f871dcfbbec0a338de9ab9010444182dd00084910fd23c4"
+      }
+    },
+    {
+      "byte_identical": true,
       "case": "unsealed_fixture",
       "reachable_through_manager": false,
       "response": {
@@ -88,6 +102,22 @@
       },
       "store_hash_after": "d8e7fb415a7e39cd935a1a62d4ae17dfff72457fd3f82dacc17a3a9507d34534",
       "store_hash_before": "d8e7fb415a7e39cd935a1a62d4ae17dfff72457fd3f82dacc17a3a9507d34534"
+    },
+    {
+      "case": "positive_parent_p",
+      "event": {
+        "actor": "initial-manager",
+        "ingress": "W-L5",
+        "op": "separately-authorized_activation"
+      },
+      "record": "record-000002.json",
+      "record_sha256": "de1a739b9e2ba07512832347c3f29091e38ea3cd2da381716669d1a3a12ba4ae",
+      "response": {
+        "ingress": "W-L5",
+        "record": "record-000002.json",
+        "record_sha256": "de1a739b9e2ba07512832347c3f29091e38ea3cd2da381716669d1a3a12ba4ae",
+        "result": "COMMITTED"
+      }
     }
   ]
 }

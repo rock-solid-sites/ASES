@@ -113,6 +113,15 @@ def main():
                                'byte_identical': before_hashes == after_hashes})
         print('PASS: wrong credential denied; selector and all stored bytes unchanged')
 
+        before = snapshot(root)
+        wrong_principal = call(root, active, 'authorize_activate', credential=l5.CREDENTIAL,
+                               authorized_by='stale-manager')
+        assert wrong_principal == {'result': 'DENY', 'reason': 'management-authorization-required'}
+        assert before == snapshot(root)
+        trace['steps'].append({'case': 'wrong_principal', 'response': wrong_principal,
+                               'store_hashes': snapshot_hash(before)[0], 'byte_identical': True})
+        print('PASS: wrong principal with valid shared credential denied; store unchanged')
+
     # Malformed current authority fixture: C is moved but Q is unsealed while
     # every unit remains inactive. This is an input precondition test, not a
     # claimed reachable manager transition.
@@ -133,6 +142,23 @@ def main():
                                'reachable_through_manager': False})
         print('PASS: unsealed activation input denied; selector and store unchanged')
         print('LIMIT: unsealed fixture is directly published and is not a manager-reachable history')
+
+    # Preserve the integrated positive-control topology: C remains below P,
+    # and authorized activation itself goes through the management handler.
+    with tempfile.TemporaryDirectory(prefix='ases-manager-positive-p-') as td:
+        root = Path(td)
+        positive = state(parent='P', parent_grants=['read', 'write'])
+        publish(root, positive)
+        activated = call(root, positive, 'authorize_activate')
+        assert activated['result'] == 'COMMITTED'
+        _, selected = l5.load_current(root)
+        assert selected['current_ingress'] == 'W-L5'
+        assert selected['events'][-1]['op'] == 'separately-authorized_activation'
+        trace['steps'].append({'case': 'positive_parent_p', 'response': activated,
+                               'record': activated['record'],
+                               'record_sha256': hashlib.sha256((root / 'protected' / activated['record']).read_bytes()).hexdigest(),
+                               'event': selected['events'][-1]})
+        print('PASS: compliant C-under-P positive activation commits through manager')
 
     trace['decision'] = {'fresh_activation_through_manager': True,
                          'stale_state_denied_without_store_change': True,
