@@ -349,3 +349,7 @@ Preregistered `Active-Capacity-Reassignment.md`: one in-flight use starts after 
 ## 2026-11-03 active capacity reassignment checkpoint
 
 Four fixed histories (30 F1 commits, one F1 denial, eight wrapper commits, one wrapper denial): S begins use after an old quiescence check; reference denies reassignment after abstract loss and C consumption, stale-snapshot mutant reassigns and C consumes while S remains active, violating one-unit and holder observations. Completion and quiet positive controls permit C use. This selected exclusive-use policy uses fixture-only reassignment/completion and stipulated independent activity survival, not real resource enforcement. Raw traces/hashes in `Active-Capacity-Reassignment.md`. F1/F5 remain incomplete. Resume: fresh independent conformance review of C11, disposition and active-use additions; then investigate independently current activity observation/ordering rather than adding a general resource runtime.
+
+## 2026-11-03 independently varied observation fields tranche start
+
+The previous C11 two-world atoms covary; preregistered `Independent-Observation-Fields.md` to cross all 16 value tuples and erase each field separately. This tests individual distinguishability without assuming four perfectly correlated inputs, retaining the abstract wrapper limits and F1 loss sequence.
