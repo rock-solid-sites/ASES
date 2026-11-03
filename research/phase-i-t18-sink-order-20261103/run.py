@@ -626,6 +626,7 @@ def run_f4_experiment(output: Path) -> dict[str, Any]:
             recovered, recovery_status, recovery_stderr = cold_recover(journal)
             scenario = {
                 "client_observation": client_result,
+                "client_process_returncode": client.returncode if client is not None else None,
                 "client_stderr": client_stderr,
                 "sink_process_returncode": kill_status,
                 "cold_recovery_process_returncode": recovery_status,
@@ -646,6 +647,7 @@ def run_f4_experiment(output: Path) -> dict[str, Any]:
                 for item in recovered.get("effects", [])
             )
             assertions[f"{case}_ack_observation"] = observed_ack == expected_ack
+            assertions[f"{case}_client_process_exited_cleanly"] = client.returncode == 0
             assertions[f"{case}_cold_effect_count"] = effect_valid
             assertions[f"{case}_cold_effect_bytes_and_hash"] = exact_payload_valid
             assertions[f"{case}_fresh_recovery_process_succeeded"] = recovery_status == 0 and recovered.get("ok") is True
@@ -655,6 +657,7 @@ def run_f4_experiment(output: Path) -> dict[str, Any]:
         "schema": "ases.phase-i.t18-f4-sink-cut-result.v1",
         "source_commit": "8b3c7e06aaab97122d2fcdaf2ee891e62667154b",
         "t18_experiment_commit": "b631bfae01faff1f32a8f81993386cdc3a36eb63",
+        "f4_implementation_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "f4_preregistration_commit": "b7404d7a2a73b2f4dd5e39ffcafaedb29f98f97f",
         "boundary": "sink effect record appended and fsync returned; HTTP success follows",
         "retry_semantics": "No retry was issued after an unknown accepted-before-ACK result; duplicate remains possible under a permissive sink and is not suppressed or ruled out.",
@@ -667,7 +670,7 @@ def run_f4_experiment(output: Path) -> dict[str, Any]:
         },
         "scenarios": scenarios,
         "assertions": assertions,
-        "pass": all(assertions.values()) and len(assertions) == 20,
+        "pass": all(assertions.values()) and len(assertions) == 24,
         "untested": [
             "retry after ambiguous accepted-before-ACK (documented as duplicate-possible, not run)",
             "power-loss/device-cache durability, kernel crash, filesystem faults, journal corruption/rollback",
