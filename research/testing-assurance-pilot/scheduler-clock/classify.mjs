@@ -6,6 +6,7 @@
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
+import { minimumLateness, gitlabReadback } from './readback-v2.mjs';
 
 const iso = (ms) => new Date(ms).toISOString();
 function timestamp(value, label) {
@@ -79,7 +80,7 @@ export function classify(snapshot) {
       id:arm.id, source_status:arm.source?.status || 'UNKNOWN',
       expected_slots_elapsed:armSlots.length,
       run_creations_since_first_slot:afterStart.length,
-      run_events:afterStart.map(x=>({id:x.id, event:x.event, created_at:x.created_at, run_started_at:x.run_started_at || null, job_started_at:'NOT_OBSERVED_FROM_RUN_LIST', status:x.status, conclusion:x.conclusion, url:x.html_url})),
+      run_events:afterStart.map(x=>({id:x.id, event:x.event, created_at:x.created_at, run_started_at:x.run_started_at || null, job_started_at:'NOT_OBSERVED_FROM_RUN_LIST', status:x.status, conclusion:x.conclusion, url:x.html_url, ...minimumLateness(arm.first_evaluable_utc,arm.interval_minutes,x.created_at)})),
       slot_observations:slotReport,
       run_to_nominal_slot_attribution:'UNAVAILABLE_FROM_GITHUB_RUN_LIST',
       execution_summary:afterStart.length ? 'RUN_CREATION_OBSERVED_NOT_SLOT_ATTRIBUTED' : 'NO_NEW_RUN_AS_OF_QUERY',
@@ -88,6 +89,12 @@ export function classify(snapshot) {
       note:'Missing observations can reflect delay, event non-delivery, incomplete provider data or observer faults; not automatically a failed executed job.'
     };
   });
+  const gitlab = snapshot.gitlab ? gitlabReadback({
+    pipelines:snapshot.gitlab.pipelines,
+    schedules:snapshot.gitlab.schedules,
+    scheduleQueryStatus:snapshot.gitlab.schedule_source?.status || 'UNAVAILABLE',
+    pipelineQueryStatus:snapshot.gitlab.source?.status || 'ERROR'
+  }) : null;
   return {
     schema_version:'0.1', as_of_utc:snapshot.as_of_utc,
     claim:'Compare source-attributed scheduling observations without collapsing execution into claim confidence or acceptance',
@@ -99,6 +106,7 @@ export function classify(snapshot) {
         'Provider scheduled timestamp may be offset from nominal UTC cron minute',
         'No independent evidence of events absent from D1']},
     github,
+    ...(gitlab ? {gitlab} : {}),
     external_dispatch:{execution:snapshot.external_dispatch?.enabled===false ? 'NOT_RUN_BY_DESIGN':'REQUIRES_DISPATCH_EVIDENCE',
       claimed_success:'NOT_EVALUATED'},
     archive:{source_metadata_snapshot:'RECORDED_IN_PROJECT_REPOSITORY_ON_COMMIT',
