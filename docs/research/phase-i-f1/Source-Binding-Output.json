@@ -1,0 +1,75 @@
+{
+  "baseline": {
+    "attempted_transitions": 12,
+    "binding_enforced": true,
+    "committed_transitions": 4,
+    "denied_by": {
+      "source-association-mismatch": 4,
+      "stale-evidence (C6)": 4
+    },
+    "denied_transitions": 8,
+    "state_limit": 100,
+    "states": 8,
+    "truncated": false,
+    "violating_transitions": 0,
+    "witnesses": {
+      "old_with_current": {
+        "generation": 3,
+        "outcome": "deny",
+        "physical_source_invariant": true,
+        "reason": "source-association-mismatch",
+        "source": "old"
+      },
+      "replacement_current": {
+        "generation": 3,
+        "outcome": "commit",
+        "physical_source_invariant": true,
+        "reason": null,
+        "source": "replacement"
+      },
+      "replacement_stale": {
+        "generation": 2,
+        "outcome": "deny",
+        "physical_source_invariant": true,
+        "reason": "stale-evidence (C6)",
+        "source": "replacement"
+      }
+    }
+  },
+  "weakened_binding": {
+    "attempted_transitions": 12,
+    "binding_enforced": false,
+    "committed_transitions": 8,
+    "denied_by": {
+      "stale-evidence (C6)": 4
+    },
+    "denied_transitions": 4,
+    "state_limit": 100,
+    "states": 8,
+    "truncated": false,
+    "violating_transitions": 4,
+    "witnesses": {
+      "old_with_current": {
+        "generation": 3,
+        "outcome": "commit",
+        "physical_source_invariant": false,
+        "reason": null,
+        "source": "old"
+      },
+      "replacement_current": {
+        "generation": 3,
+        "outcome": "commit",
+        "physical_source_invariant": true,
+        "reason": null,
+        "source": "replacement"
+      },
+      "replacement_stale": {
+        "generation": 2,
+        "outcome": "deny",
+        "physical_source_invariant": true,
+        "reason": "stale-evidence (C6)",
+        "source": "replacement"
+      }
+    }
+  }
+}
