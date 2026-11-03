@@ -1,0 +1,246 @@
+{
+  "abstract_fixture_ids": [
+    "T18-use-current-sink-order-after-revocation",
+    "T18-exact-obligation-delivery-after-replacement"
+  ],
+  "assertions": {
+    "delayed_v1_rejected_after_replacement": true,
+    "detached_check_mutation_admits_stale_effect_after_replacement": true,
+    "event_log_has_replacement_before_stale_denial": true,
+    "live_v1_accepted": true,
+    "new_v2_accepted": true,
+    "obligation_committed_before_replacement": true,
+    "old_exact_obligation_delivered_after_replacement": true,
+    "ordered_effect_set_is_live_new_and_precommitted_only": true,
+    "replacement_acknowledged": true
+  },
+  "environment": {
+    "host": "loopback-only disposable subprocess; ephemeral TCP port",
+    "journal": "temporary JSONL append + fsync per committed effect/obligation/replacement",
+    "kernel": "6.18.57",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14"
+  },
+  "pass": true,
+  "preregistration_commit": "a4f1c493d943f4e06d0a8ed5f097ecb9c9265ed2",
+  "scenarios": {
+    "detached_check_mutation": {
+      "authority_replacement": [
+        200,
+        {
+          "authority_version": 2,
+          "outcome": "replaced"
+        }
+      ],
+      "delayed_old_error": [],
+      "delayed_old_v1": [
+        201,
+        {
+          "event_seq": 4,
+          "outcome": "accepted"
+        }
+      ],
+      "journal": [
+        "{\"current_version\": 2, \"event\": \"authority_replaced\", \"previous_version\": 1, \"seq\": 3}",
+        "{\"accepted_under_version\": 2, \"check_mode\": \"detached-check\", \"event\": \"effect_accepted\", \"payload\": \"x-stale-mutant\", \"presented_version\": 1, \"request_id\": \"stale-v1-mutant\", \"seq\": 4}"
+      ],
+      "status": {
+        "authority_version": 2,
+        "effects": [
+          {
+            "accepted_under_version": 2,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "x-stale-mutant",
+            "presented_version": 1,
+            "request_id": "stale-v1-mutant",
+            "seq": 4
+          }
+        ],
+        "events": [
+          {
+            "allowed": true,
+            "event": "detached_permission_read",
+            "observed_version": 1,
+            "presented_version": 1,
+            "request_id": "stale-v1-mutant",
+            "seq": 1
+          },
+          {
+            "event": "request_held",
+            "mode": "detached-check",
+            "request_id": "stale-v1-mutant",
+            "seq": 2
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 3
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "x-stale-mutant",
+            "presented_version": 1,
+            "request_id": "stale-v1-mutant",
+            "seq": 4
+          }
+        ],
+        "waiting": 0
+      }
+    },
+    "sink_ordered": {
+      "authority_replacement": [
+        200,
+        {
+          "authority_version": 2,
+          "outcome": "replaced"
+        }
+      ],
+      "delayed_old_error": [],
+      "delayed_old_v1": [
+        409,
+        {
+          "outcome": "rejected"
+        }
+      ],
+      "exact_obligation_after_replacement": [
+        201,
+        {
+          "event_seq": 7,
+          "outcome": "accepted"
+        }
+      ],
+      "journal": [
+        "{\"accepted_under_version\": 1, \"check_mode\": \"sink-ordered\", \"event\": \"effect_accepted\", \"payload\": \"x-live\", \"presented_version\": 1, \"request_id\": \"live-v1\", \"seq\": 1}",
+        "{\"committed_under_version\": 1, \"event\": \"obligation_committed\", \"obligation_id\": \"q-1\", \"payload\": \"x-exact-obligation\", \"payload_sha256\": \"34d119cf00b876d5a6a42f85f02ddc29edf08d54c60b4ec062e5fd872db26637\", \"seq\": 2}",
+        "{\"current_version\": 2, \"event\": \"authority_replaced\", \"previous_version\": 1, \"seq\": 4}",
+        "{\"accepted_under_version\": 2, \"check_mode\": \"sink-ordered\", \"event\": \"effect_accepted\", \"payload\": \"x-new-current\", \"presented_version\": 2, \"request_id\": \"live-v2\", \"seq\": 6}",
+        "{\"accepted_under_version\": 2, \"check_mode\": \"committed-exact-obligation\", \"event\": \"effect_accepted\", \"obligation_id\": \"q-1\", \"payload\": \"x-exact-obligation\", \"payload_sha256\": \"34d119cf00b876d5a6a42f85f02ddc29edf08d54c60b4ec062e5fd872db26637\", \"request_id\": \"obligation:q-1\", \"seq\": 7}"
+      ],
+      "live_v1": [
+        201,
+        {
+          "event_seq": 1,
+          "outcome": "accepted"
+        }
+      ],
+      "new_current_v2": [
+        201,
+        {
+          "event_seq": 6,
+          "outcome": "accepted"
+        }
+      ],
+      "obligation_commit_v1": [
+        201,
+        {
+          "event_seq": 2,
+          "outcome": "committed"
+        }
+      ],
+      "status": {
+        "authority_version": 2,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "x-live",
+            "presented_version": 1,
+            "request_id": "live-v1",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "x-new-current",
+            "presented_version": 2,
+            "request_id": "live-v2",
+            "seq": 6
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "committed-exact-obligation",
+            "event": "effect_accepted",
+            "obligation_id": "q-1",
+            "payload": "x-exact-obligation",
+            "payload_sha256": "34d119cf00b876d5a6a42f85f02ddc29edf08d54c60b4ec062e5fd872db26637",
+            "request_id": "obligation:q-1",
+            "seq": 7
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "x-live",
+            "presented_version": 1,
+            "request_id": "live-v1",
+            "seq": 1
+          },
+          {
+            "committed_under_version": 1,
+            "event": "obligation_committed",
+            "obligation_id": "q-1",
+            "payload": "x-exact-obligation",
+            "payload_sha256": "34d119cf00b876d5a6a42f85f02ddc29edf08d54c60b4ec062e5fd872db26637",
+            "seq": 2
+          },
+          {
+            "event": "request_held",
+            "mode": "sink-ordered",
+            "request_id": "stale-v1",
+            "seq": 3
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 4
+          },
+          {
+            "current_version": 2,
+            "event": "sink_rejected",
+            "presented_version": 1,
+            "reason": "authority changed before sink acceptance",
+            "request_id": "stale-v1",
+            "seq": 5
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "x-new-current",
+            "presented_version": 2,
+            "request_id": "live-v2",
+            "seq": 6
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "committed-exact-obligation",
+            "event": "effect_accepted",
+            "obligation_id": "q-1",
+            "payload": "x-exact-obligation",
+            "payload_sha256": "34d119cf00b876d5a6a42f85f02ddc29edf08d54c60b4ec062e5fd872db26637",
+            "request_id": "obligation:q-1",
+            "seq": 7
+          }
+        ],
+        "waiting": 0
+      }
+    }
+  },
+  "schema": "ases.phase-i.t18-sink-order-result.v1",
+  "source_commit": "8b3c7e06aaab97122d2fcdaf2ee891e62667154b",
+  "untested": [
+    "Landlock/seccomp/SELinux confinement (no host confinement claim)",
+    "OS process kill at the acceptance/ack boundary, machine power loss or storage faults",
+    "rollback resistance, remote authentication, network intermediaries or arbitrary sinks",
+    "multi-sink total ordering, multiple concurrent revocations or unbounded schedules"
+  ]
+}
