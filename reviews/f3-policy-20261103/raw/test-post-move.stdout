@@ -1,0 +1,873 @@
+{
+  "bounds": {
+    "denial_cases": 11,
+    "enumerated": false,
+    "mutation_cases": 1,
+    "positive_sequences": 1,
+    "truncated": false
+  },
+  "denials": [
+    {
+      "case": "bad_credential",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "wrong",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "management-authorization-required",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      },
+      "store_before": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      }
+    },
+    {
+      "case": "bad_principal",
+      "request": {
+        "authorized_by": "wrong",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "management-authorization-required",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      },
+      "store_before": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      }
+    },
+    {
+      "case": "D_before_C",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "D"
+      },
+      "response": {
+        "reason": "grant-not-supported-by-current-path",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      },
+      "store_before": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      }
+    },
+    {
+      "case": "unsupported_unit",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "P"
+      },
+      "response": {
+        "reason": "unsupported-grant",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      },
+      "store_before": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      }
+    },
+    {
+      "case": "unsupported_capability",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "execute",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "unsupported-grant",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      },
+      "store_before": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      }
+    },
+    {
+      "case": "no_parent_write",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "grant-not-supported-by-current-path",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "687e6e26c312ccc192619fe4de874183b9ce4fc2783afa76d1693206b4e44081"
+      },
+      "store_before": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "687e6e26c312ccc192619fe4de874183b9ce4fc2783afa76d1693206b4e44081"
+      }
+    },
+    {
+      "case": "no_target_local_write",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "grant-not-supported-by-current-path",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "0b20f6b24188e8631d1d6bac3802903bd90a4344a9bfb2c20f11b3049d2e9fc4"
+      },
+      "store_before": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "0b20f6b24188e8631d1d6bac3802903bd90a4344a9bfb2c20f11b3049d2e9fc4"
+      }
+    },
+    {
+      "case": "unsealed",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "grant-requires-current-inactive-sealed-moved-state",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "76faec1da978e3ee94ae1453ac133c2fe7a6621054a17b43c8d89cd83dd53ba8"
+      },
+      "store_before": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "76faec1da978e3ee94ae1453ac133c2fe7a6621054a17b43c8d89cd83dd53ba8"
+      }
+    },
+    {
+      "case": "active",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "grant-requires-current-inactive-sealed-moved-state",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "f82a97ced6ac7980b37070e4e857636a7c2439ddac9d80a4498bfa6492b46339"
+      },
+      "store_before": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "f82a97ced6ac7980b37070e4e857636a7c2439ddac9d80a4498bfa6492b46339"
+      }
+    },
+    {
+      "case": "stale_record",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "management-state-not-current",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "6cfe392fbbc7639f68580bced17fcbaba57421854b352b7a9892f28019001091"
+      },
+      "store_before": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "6cfe392fbbc7639f68580bced17fcbaba57421854b352b7a9892f28019001091"
+      }
+    },
+    {
+      "case": "already_granted",
+      "request": {
+        "authorized_by": "initial-manager",
+        "capability": "write",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_grant",
+        "unit": "C"
+      },
+      "response": {
+        "reason": "grant-not-supported-by-current-path",
+        "result": "DENY"
+      },
+      "state_unchanged": true,
+      "store_after": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "d0e6eed86944e13aa26baa89ab8a81437263a0befd96fe3d3b2a64071e382d54"
+      },
+      "store_before": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "d0e6eed86944e13aa26baa89ab8a81437263a0befd96fe3d3b2a64071e382d54"
+      }
+    }
+  ],
+  "mutant": {
+    "C_only_grant": {
+      "capability": "write",
+      "record": "record-000003.json",
+      "record_sha256": "92e273dab9cf3ba30df0de6e70a3c703efcdbb79c991875dea6a6efe7729890d",
+      "result": "COMMITTED",
+      "unit": "C"
+    },
+    "D_observation": {
+      "activation": {
+        "ingress": "W-L5",
+        "record": "record-000004.json",
+        "record_sha256": "0e1ee7e4e6b201a233034fcd0813f48f6fe00a69f9b63613d225e1a30492700b",
+        "result": "COMMITTED"
+      },
+      "old_ingress_read_allowed": false,
+      "old_ingress_write_allowed": false,
+      "read_allowed": true,
+      "request": {
+        "authorized_by": "initial-manager",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_activate"
+      },
+      "rights": [
+        "read",
+        "write"
+      ],
+      "selected_record": {
+        "current_ingress": "W-L5",
+        "events": [
+          {
+            "op": "bootstrap"
+          },
+          {
+            "actor": "initial-manager",
+            "from": "P",
+            "included": [
+              "C",
+              "D"
+            ],
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "op": "authorized_sealed_whole_move",
+            "to": "Q"
+          },
+          {
+            "actor": "initial-manager",
+            "capability": "write",
+            "op": "separately-authorized_grant",
+            "unit": "C"
+          },
+          {
+            "actor": "initial-manager",
+            "ingress": "W-L5",
+            "op": "separately-authorized_activation"
+          }
+        ],
+        "schema": 1,
+        "work_units": {
+          "C": {
+            "accepted_contents": [
+              {
+                "identity": "accepted-x",
+                "object": "objects/x.bin",
+                "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                "size": 28
+              }
+            ],
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "C",
+            "latent_ceiling": [
+              "read",
+              "write"
+            ],
+            "parent": "Q",
+            "sealed": false
+          },
+          "D": {
+            "accepted_contents": [],
+            "active": true,
+            "depends_on": [
+              "C"
+            ],
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "D",
+            "latent_ceiling": [
+              "read",
+              "write"
+            ],
+            "parent": "C",
+            "sealed": false
+          },
+          "P": {
+            "active": true,
+            "grants": [
+              "read"
+            ],
+            "id": "P",
+            "parent": null,
+            "sealed": false
+          },
+          "Q": {
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "Q",
+            "parent": null,
+            "sealed": false
+          }
+        }
+      },
+      "write_allowed": true
+    },
+    "independent_observer_violation": "D write enabled without its own grant",
+    "move": {
+      "old_effective": {
+        "C": [
+          "read"
+        ],
+        "D": [
+          "read"
+        ]
+      },
+      "record": "record-000002.json",
+      "record_sha256": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+      "result": "COMMITTED"
+    },
+    "mutant_source_sha256": "792e6da1716d36202793bc1e43a253b1cd0549f3b1ce5bcfdda0634f380ac487"
+  },
+  "positive": {
+    "C_grant": {
+      "capability": "write",
+      "record": "record-000003.json",
+      "record_sha256": "d0e6eed86944e13aa26baa89ab8a81437263a0befd96fe3d3b2a64071e382d54",
+      "result": "COMMITTED",
+      "unit": "C"
+    },
+    "C_only": {
+      "activation": {
+        "ingress": "W-L5",
+        "record": "record-000004.json",
+        "record_sha256": "761636e3a4a4e4759ffa04b5515451f032b4c640efaada0888fa6f7908e267f8",
+        "result": "COMMITTED"
+      },
+      "old_ingress_read_allowed": false,
+      "old_ingress_write_allowed": false,
+      "read_allowed": true,
+      "request": {
+        "authorized_by": "initial-manager",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_activate"
+      },
+      "rights": [
+        "read"
+      ],
+      "selected_record": {
+        "current_ingress": "W-L5",
+        "events": [
+          {
+            "op": "bootstrap"
+          },
+          {
+            "actor": "initial-manager",
+            "from": "P",
+            "included": [
+              "C",
+              "D"
+            ],
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "op": "authorized_sealed_whole_move",
+            "to": "Q"
+          },
+          {
+            "actor": "initial-manager",
+            "capability": "write",
+            "op": "separately-authorized_grant",
+            "unit": "C"
+          },
+          {
+            "actor": "initial-manager",
+            "ingress": "W-L5",
+            "op": "separately-authorized_activation"
+          }
+        ],
+        "schema": 1,
+        "work_units": {
+          "C": {
+            "accepted_contents": [
+              {
+                "identity": "accepted-x",
+                "object": "objects/x.bin",
+                "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                "size": 28
+              }
+            ],
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "C",
+            "latent_ceiling": [
+              "read",
+              "write"
+            ],
+            "parent": "Q",
+            "sealed": false
+          },
+          "D": {
+            "accepted_contents": [],
+            "active": true,
+            "depends_on": [
+              "C"
+            ],
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "D",
+            "latent_ceiling": [
+              "read"
+            ],
+            "parent": "C",
+            "sealed": false
+          },
+          "P": {
+            "active": true,
+            "grants": [
+              "read"
+            ],
+            "id": "P",
+            "parent": null,
+            "sealed": false
+          },
+          "Q": {
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "Q",
+            "parent": null,
+            "sealed": false
+          }
+        }
+      },
+      "write_allowed": false
+    },
+    "C_request": {
+      "authorized_by": "initial-manager",
+      "capability": "write",
+      "credential": "test-manager-credential-not-a-production-secret",
+      "op": "authorize_grant",
+      "unit": "C"
+    },
+    "D_grant": {
+      "capability": "write",
+      "record": "record-000004.json",
+      "record_sha256": "5fdc4d742c71442fa058183282a443c74c5664c79ca9ff8558ba0069585f43c3",
+      "result": "COMMITTED",
+      "unit": "D"
+    },
+    "D_request": {
+      "authorized_by": "initial-manager",
+      "capability": "write",
+      "credential": "test-manager-credential-not-a-production-secret",
+      "op": "authorize_grant",
+      "unit": "D"
+    },
+    "accepted_bytes_hex": "61636365707465642d706f73742d6d6f76652d636f6e74656e74000a",
+    "accepted_identity": "accepted-x",
+    "accepted_sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+    "both": {
+      "activation": {
+        "ingress": "W-L5",
+        "record": "record-000005.json",
+        "record_sha256": "5234fb4c15f569322be6688340219561a781091f7bf3f8ab44cff66f6c77b126",
+        "result": "COMMITTED"
+      },
+      "old_ingress_read_allowed": false,
+      "old_ingress_write_allowed": false,
+      "read_allowed": true,
+      "request": {
+        "authorized_by": "initial-manager",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_activate"
+      },
+      "rights": [
+        "read",
+        "write"
+      ],
+      "selected_record": {
+        "current_ingress": "W-L5",
+        "events": [
+          {
+            "op": "bootstrap"
+          },
+          {
+            "actor": "initial-manager",
+            "from": "P",
+            "included": [
+              "C",
+              "D"
+            ],
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "op": "authorized_sealed_whole_move",
+            "to": "Q"
+          },
+          {
+            "actor": "initial-manager",
+            "capability": "write",
+            "op": "separately-authorized_grant",
+            "unit": "C"
+          },
+          {
+            "actor": "initial-manager",
+            "capability": "write",
+            "op": "separately-authorized_grant",
+            "unit": "D"
+          },
+          {
+            "actor": "initial-manager",
+            "ingress": "W-L5",
+            "op": "separately-authorized_activation"
+          }
+        ],
+        "schema": 1,
+        "work_units": {
+          "C": {
+            "accepted_contents": [
+              {
+                "identity": "accepted-x",
+                "object": "objects/x.bin",
+                "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                "size": 28
+              }
+            ],
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "C",
+            "latent_ceiling": [
+              "read",
+              "write"
+            ],
+            "parent": "Q",
+            "sealed": false
+          },
+          "D": {
+            "accepted_contents": [],
+            "active": true,
+            "depends_on": [
+              "C"
+            ],
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "D",
+            "latent_ceiling": [
+              "read",
+              "write"
+            ],
+            "parent": "C",
+            "sealed": false
+          },
+          "P": {
+            "active": true,
+            "grants": [
+              "read"
+            ],
+            "id": "P",
+            "parent": null,
+            "sealed": false
+          },
+          "Q": {
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "Q",
+            "parent": null,
+            "sealed": false
+          }
+        }
+      },
+      "write_allowed": true
+    },
+    "files": {
+      "protected/CURRENT": "12f36584182f52c1642d56ccddf1ab926cec01d66c74b12d5e030e5e60f52e58",
+      "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+      "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+      "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+      "protected/record-000003.json": "d0e6eed86944e13aa26baa89ab8a81437263a0befd96fe3d3b2a64071e382d54",
+      "protected/record-000004.json": "5fdc4d742c71442fa058183282a443c74c5664c79ca9ff8558ba0069585f43c3"
+    },
+    "move": {
+      "old_effective": {
+        "C": [
+          "read"
+        ],
+        "D": [
+          "read"
+        ]
+      },
+      "record": "record-000002.json",
+      "record_sha256": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+      "result": "COMMITTED"
+    },
+    "move_only": {
+      "activation": {
+        "ingress": "W-L5",
+        "record": "record-000003.json",
+        "record_sha256": "f82a97ced6ac7980b37070e4e857636a7c2439ddac9d80a4498bfa6492b46339",
+        "result": "COMMITTED"
+      },
+      "old_ingress_read_allowed": false,
+      "old_ingress_write_allowed": false,
+      "read_allowed": true,
+      "request": {
+        "authorized_by": "initial-manager",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_activate"
+      },
+      "rights": [
+        "read"
+      ],
+      "selected_record": {
+        "current_ingress": "W-L5",
+        "events": [
+          {
+            "op": "bootstrap"
+          },
+          {
+            "actor": "initial-manager",
+            "from": "P",
+            "included": [
+              "C",
+              "D"
+            ],
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "op": "authorized_sealed_whole_move",
+            "to": "Q"
+          },
+          {
+            "actor": "initial-manager",
+            "ingress": "W-L5",
+            "op": "separately-authorized_activation"
+          }
+        ],
+        "schema": 1,
+        "work_units": {
+          "C": {
+            "accepted_contents": [
+              {
+                "identity": "accepted-x",
+                "object": "objects/x.bin",
+                "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                "size": 28
+              }
+            ],
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "C",
+            "latent_ceiling": [
+              "read"
+            ],
+            "parent": "Q",
+            "sealed": false
+          },
+          "D": {
+            "accepted_contents": [],
+            "active": true,
+            "depends_on": [
+              "C"
+            ],
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "D",
+            "latent_ceiling": [
+              "read"
+            ],
+            "parent": "C",
+            "sealed": false
+          },
+          "P": {
+            "active": true,
+            "grants": [
+              "read"
+            ],
+            "id": "P",
+            "parent": null,
+            "sealed": false
+          },
+          "Q": {
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "Q",
+            "parent": null,
+            "sealed": false
+          }
+        }
+      },
+      "write_allowed": false
+    }
+  }
+}
