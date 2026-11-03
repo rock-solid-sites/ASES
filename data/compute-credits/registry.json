@@ -752,20 +752,20 @@
       "type": "new_customer_trial",
       "advertised_value": 300,
       "value_unit": "USD",
-      "details": null,
+      "details": "User reports $10 deposit required for $300 credit in Google Vertex/Google Cloud signup flow; verify product scope and whether this is a hold or refundable deposit before treating as standard Google Cloud free trial",
       "credit_expiry": "90 days",
       "first_seen_at": null,
       "last_checked_at": "2026-11-03",
-      "status": "baseline_unverified",
+      "status": "deposit_requirement_reported",
       "eligible_existing_account": null,
       "requires_new_account": null,
-      "minimum_spend_usd": null,
+      "minimum_spend_usd": 10,
       "deposit_refundable": null,
       "eligible_cpu_vm": null,
       "region_restrictions": null,
       "redemption_deadline_utc": null,
       "source_urls": [],
-      "evidence_level": "monitoring_baseline_not_freshly_verified",
+      "evidence_level": "user_observed_signup_2026-11-03; exact program identity not yet verified",
       "alert_state": "notified_or_baseline"
     },
     {
@@ -1013,22 +1013,22 @@
       "id": "vultr-general-signup",
       "provider_id": "vultr",
       "type": "welcome_offer",
-      "advertised_value": null,
-      "value_unit": null,
-      "details": "do not conflate with Agent Rush",
+      "advertised_value": 300,
+      "value_unit": "USD",
+      "details": "$300 voucher conditional on $5 deposit shown in user's current signup flow; payment verification additionally blocked",
       "credit_expiry": "unknown",
       "first_seen_at": null,
       "last_checked_at": "2026-11-03",
       "status": "blocked_for_user",
       "eligible_existing_account": null,
       "requires_new_account": null,
-      "minimum_spend_usd": null,
+      "minimum_spend_usd": 5,
       "deposit_refundable": null,
       "eligible_cpu_vm": null,
       "region_restrictions": null,
       "redemption_deadline_utc": null,
       "source_urls": [],
-      "evidence_level": "monitoring_baseline_not_freshly_verified",
+      "evidence_level": "user_observed_checkout_2026-11-03",
       "alert_state": "do_not_notify_until_payment_eligibility_changes",
       "account_specific_fit": "Not currently accessible: signup blocked by card verification rejecting Revolut and Wise as prepaid"
     },
@@ -1176,6 +1176,15 @@
         "vultr"
       ],
       "summary": "User reports Vultr $0 card linking rejects Revolut and Wise as prepaid; provider temporarily nonviable. Suppress promotional recommendations."
+    },
+    {
+      "at": "2026-11-03",
+      "kind": "signup_friction_update",
+      "entity_ids": [
+        "vultr-general-signup",
+        "gcp-300-90d"
+      ],
+      "summary": "User observed $5 deposit for Vultr $300 voucher and $10 deposit for Google Vertex/Cloud $300 credit; refundability and program identity remain unverified."
     }
   ],
   "source_policy": {
