@@ -317,3 +317,7 @@ Preregistered `Two-Store-Crash-Cuts.md`: five concrete process-loss cuts through
 ## 2026-11-03 two-store crash cuts checkpoint
 
 Five real writer SIGKILL/recovery histories with separately committed SQLite stores, valid old/new images and fresh readers: record-first middle cut recovered authority 1/witness 0 and admitted stale old under preregistered weaker eligibility rule; witness-first middle cut recovered authority 0/witness 1 and refused both; initial and both completed orders accepted their correct image. Syntax passed and every file integrity check passed. Raw values and hashes in `Two-Store-Crash-Cuts.md`. The recovered authority epoch/hash was available to the observer: a separate exact-authority comparison could fail closed in the record-first gap and is not tested by this run. These are controlled process-loss observations, not general conclusions about all readers, atomicity, nonrollback storage or F1/F5 completion. Next: explicitly test this exact comparison as a separate post-result discriminator with meaningful positive controls.
+
+## 2026-11-03 exact-authority crash cuts tranche start
+
+Preregistered direct epoch/digest agreement against both recovered authority and witness at the same five actual process-loss cuts. The two intermediate cuts should fail closed while initial and complete controls accept current. Exact authority itself is assumed correct and non-rollback; this is not a repair or cross-store atomicity proof.
