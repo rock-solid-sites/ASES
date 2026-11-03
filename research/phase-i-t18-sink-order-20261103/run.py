@@ -9,6 +9,7 @@ import http.server
 import json
 import os
 import platform
+import select
 import subprocess
 import sys
 import tempfile
@@ -31,6 +32,12 @@ class SinkState:
         self.events: list[dict[str, Any]] = []
         self.effects: list[dict[str, Any]] = []
         self.obligations: dict[str, str] = {}
+        if mode == "f4" and journal.exists():
+            for line in journal.read_bytes().splitlines():
+                event = json.loads(line)
+                self.events.append(event)
+                if event.get("event") == "effect_accepted":
+                    self.effects.append(event)
 
     def emit_locked(self, name: str, **fields: Any) -> dict[str, Any]:
         event = {"seq": len(self.events) + 1, "event": name, **fields}
@@ -225,6 +232,43 @@ def make_handler(state: SinkState):
                 self.send_json(201, {"outcome": "accepted", "event_seq": event["seq"]})
                 return
 
+            if self.path == "/effect" and state.mode == "f4":
+                request_id = str(data["request_id"])
+                payload = str(data["payload"])
+                cut = str(data["cut"])
+                payload_hash = hashlib.sha256(payload.encode()).hexdigest()
+                if cut == "preaccept":
+                    with state.lock:
+                        state.waiting += 1
+                        state.emit_locked("request_waiting_before_accept", request_id=request_id)
+                    state.gate.wait(30.0)
+                    self.send_json(201, {"outcome": "accepted"})
+                    return
+                if cut == "early_ack":
+                    with state.lock:
+                        state.waiting += 1
+                        state.emit_locked("early_ack_waiting_before_accept", request_id=request_id)
+                    self.send_json(201, {"outcome": "accepted"})
+                    state.gate.wait(30.0)
+                    return
+                with state.lock:
+                    event = state.emit_locked(
+                        "effect_accepted",
+                        request_id=request_id,
+                        payload=payload,
+                        payload_utf8_hex=payload.encode().hex(),
+                        payload_sha256=payload_hash,
+                        acceptance_boundary="journal append + fsync returned",
+                    )
+                    if cut == "after_accept_before_ack":
+                        state.waiting += 1
+                        state.emit_locked("accepted_waiting_before_ack", request_id=request_id,
+                                          accepted_event_seq=event["seq"])
+                if cut == "after_accept_before_ack":
+                    state.gate.wait(30.0)
+                self.send_json(201, {"outcome": "accepted", "event_seq": event["seq"]})
+                return
+
             self.send_json(404, {"error": "unknown route"})
 
     return Handler
@@ -267,8 +311,12 @@ class RunningSink:
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
         )
         assert self.process.stdout is not None
-        ready_line = self.process.stdout.readline().strip()
+        readable, _, _ = select.select([self.process.stdout], [], [], 3.0)
+        ready_line = self.process.stdout.readline().strip() if readable else ""
         if not ready_line:
+            if self.process.poll() is None:
+                self.process.kill()
+                self.process.wait(timeout=2.0)
             error = self.process.stderr.read() if self.process.stderr else ""
             raise RuntimeError(f"sink did not become ready: {error}")
         ready = json.loads(ready_line)
@@ -282,6 +330,16 @@ class RunningSink:
             except subprocess.TimeoutExpired:
                 self.process.kill()
                 self.process.wait(timeout=2.0)
+
+    def kill_and_reap(self) -> int:
+        if self.process.poll() is None:
+            self.process.kill()
+        result = self.process.wait(timeout=2.0)
+        if self.process.stdout:
+            self.process.stdout.close()
+        if self.process.stderr:
+            self.process.stderr.close()
+        return result
 
     def __enter__(self) -> "RunningSink":
         return self
@@ -437,13 +495,200 @@ def run_experiment(output: Path) -> dict[str, Any]:
     return result
 
 
+def client_main(port: int, request_id: str, payload: str, cut: str) -> int:
+    try:
+        status, body = call(port, "POST", "/effect", {
+            "request_id": request_id, "payload": payload, "cut": cut,
+        })
+        print(json.dumps({"http_status": status, "body": body}, sort_keys=True), flush=True)
+        return 0
+    except Exception as exc:
+        print(json.dumps({"http_status": None, "error": f"{type(exc).__name__}: {exc}"}, sort_keys=True), flush=True)
+        return 0
+
+
+def recover_main(journal: Path) -> int:
+    raw = journal.read_bytes() if journal.exists() else b""
+    records: list[dict[str, Any]] = []
+    try:
+        if raw and not raw.endswith(b"\n"):
+            raise ValueError("journal has an unterminated/truncated final record")
+        lines = raw.splitlines(keepends=True)
+        for index, line in enumerate(lines, start=1):
+            if not line.endswith(b"\n"):
+                raise ValueError(f"record {index} is incomplete")
+            event = json.loads(line)
+            if event.get("seq") != index:
+                raise ValueError(f"record sequence mismatch at {index}")
+            records.append(event)
+        effects = []
+        for event in records:
+            if event.get("event") != "effect_accepted":
+                continue
+            payload_bytes = bytes.fromhex(event["payload_utf8_hex"])
+            payload_hash = hashlib.sha256(payload_bytes).hexdigest()
+            if payload_hash != event.get("payload_sha256"):
+                raise ValueError(f"payload hash mismatch at record {event['seq']}")
+            effects.append({
+                "seq": event["seq"],
+                "request_id": event["request_id"],
+                "payload_base64": __import__("base64").b64encode(payload_bytes).decode(),
+                "payload_utf8_hex": payload_bytes.hex(),
+                "payload_sha256": payload_hash,
+            })
+        result = {"ok": True, "journal_bytes": len(raw), "record_count": len(records), "effects": effects}
+        print(json.dumps(result, sort_keys=True), flush=True)
+        return 0
+    except Exception as exc:
+        print(json.dumps({"ok": False, "journal_bytes": len(raw), "error": f"{type(exc).__name__}: {exc}"}, sort_keys=True), flush=True)
+        return 2
+
+
+def read_child_json(proc: subprocess.Popen[str], label: str) -> tuple[dict[str, Any], str]:
+    try:
+        stdout, stderr = proc.communicate(timeout=4.0)
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        stdout, stderr = proc.communicate(timeout=2.0)
+        raise RuntimeError(f"{label} exceeded timeout; stdout={stdout!r} stderr={stderr!r}")
+    if not stdout.strip():
+        raise RuntimeError(f"{label} produced no result (exit {proc.returncode}): {stderr}")
+    return json.loads(stdout.strip().splitlines()[-1]), stderr
+
+
+def wait_for_event(sink: RunningSink, event_name: str, timeout: float = 2.0) -> dict[str, Any]:
+    deadline = time.monotonic() + timeout
+    last: dict[str, Any] = {}
+    while time.monotonic() < deadline:
+        last = latest_status(sink)
+        if any(event.get("event") == event_name for event in last["events"]):
+            return last
+        time.sleep(0.01)
+    raise RuntimeError(f"sink did not reach {event_name}: {last}")
+
+
+def cold_recover(journal: Path) -> tuple[dict[str, Any], int, str]:
+    proc = subprocess.run(
+        [sys.executable, str(Path(__file__).resolve()), "--recover", str(journal)],
+        text=True, capture_output=True, timeout=4.0,
+    )
+    if not proc.stdout.strip():
+        raise RuntimeError(f"cold recovery produced no output: {proc.stderr}")
+    return json.loads(proc.stdout.strip().splitlines()[-1]), proc.returncode, proc.stderr
+
+
+def run_f4_experiment(output: Path) -> dict[str, Any]:
+    scenarios: dict[str, Any] = {}
+    assertions: dict[str, bool] = {}
+    payload = "phase-i-t18-effect-π\nimmutable payload\x00tail"
+    cases = ("uninterrupted", "preaccept", "accepted_before_ack", "early_ack_mutant")
+    with tempfile.TemporaryDirectory(prefix="ases-t18-f4-") as temporary:
+        root = Path(temporary)
+        for case in cases:
+            case_root = root / case
+            journal = case_root / "sink-effects.jsonl"
+            cut = {
+                "uninterrupted": "normal",
+                "preaccept": "preaccept",
+                "accepted_before_ack": "after_accept_before_ack",
+                "early_ack_mutant": "early_ack",
+            }[case]
+            sink = RunningSink("f4", case_root)
+            client = subprocess.Popen(
+                [sys.executable, str(Path(__file__).resolve()), "--client", str(sink.port),
+                 f"effect-{case}", payload, cut],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            )
+            if case == "uninterrupted":
+                client_result, client_stderr = read_child_json(client, "uninterrupted client")
+                kill_status = sink.kill_and_reap()
+            elif case == "preaccept":
+                wait_for_event(sink, "request_waiting_before_accept")
+                kill_status = sink.kill_and_reap()
+                client_result, client_stderr = read_child_json(client, "preaccept client")
+            elif case == "accepted_before_ack":
+                wait_for_event(sink, "accepted_waiting_before_ack")
+                kill_status = sink.kill_and_reap()
+                client_result, client_stderr = read_child_json(client, "accepted-before-ack client")
+            else:
+                wait_for_event(sink, "early_ack_waiting_before_accept")
+                client_result, client_stderr = read_child_json(client, "early-ack mutant client")
+                kill_status = sink.kill_and_reap()
+
+            recovered, recovery_status, recovery_stderr = cold_recover(journal)
+            scenario = {
+                "client_observation": client_result,
+                "client_stderr": client_stderr,
+                "sink_process_returncode": kill_status,
+                "cold_recovery_process_returncode": recovery_status,
+                "cold_recovery_stderr": recovery_stderr,
+                "recovered": recovered,
+                "journal_raw_hex": journal.read_bytes().hex() if journal.exists() else "",
+                "journal_sha256": hashlib.sha256(journal.read_bytes() if journal.exists() else b"").hexdigest(),
+            }
+            scenarios[case] = scenario
+            effect_count = len(recovered.get("effects", []))
+            expected_ack = case in ("uninterrupted", "early_ack_mutant")
+            observed_ack = client_result.get("http_status") == 201
+            expected_effect = 0 if case in ("preaccept", "early_ack_mutant") else 1
+            effect_valid = effect_count == expected_effect
+            exact_payload_valid = all(
+                item.get("payload_utf8_hex") == payload.encode().hex()
+                and item.get("payload_sha256") == hashlib.sha256(payload.encode()).hexdigest()
+                for item in recovered.get("effects", [])
+            )
+            assertions[f"{case}_ack_observation"] = observed_ack == expected_ack
+            assertions[f"{case}_cold_effect_count"] = effect_valid
+            assertions[f"{case}_cold_effect_bytes_and_hash"] = exact_payload_valid
+            assertions[f"{case}_fresh_recovery_process_succeeded"] = recovery_status == 0 and recovered.get("ok") is True
+            assertions[f"{case}_sink_was_killed_and_reaped"] = kill_status == -9
+
+    result = {
+        "schema": "ases.phase-i.t18-f4-sink-cut-result.v1",
+        "source_commit": "8b3c7e06aaab97122d2fcdaf2ee891e62667154b",
+        "t18_experiment_commit": "b631bfae01faff1f32a8f81993386cdc3a36eb63",
+        "f4_preregistration_commit": "b7404d7a2a73b2f4dd5e39ffcafaedb29f98f97f",
+        "boundary": "sink effect record appended and fsync returned; HTTP success follows",
+        "retry_semantics": "No retry was issued after an unknown accepted-before-ACK result; duplicate remains possible under a permissive sink and is not suppressed or ruled out.",
+        "payload_reference_sha256": hashlib.sha256(payload.encode()).hexdigest(),
+        "environment": {
+            "python": platform.python_version(),
+            "platform": platform.platform(),
+            "kernel": platform.release(),
+            "host": "loopback-only disposable child sink; ephemeral TCP port",
+        },
+        "scenarios": scenarios,
+        "assertions": assertions,
+        "pass": all(assertions.values()) and len(assertions) == 20,
+        "untested": [
+            "retry after ambiguous accepted-before-ACK (documented as duplicate-possible, not run)",
+            "power-loss/device-cache durability, kernel crash, filesystem faults, journal corruption/rollback",
+            "host confinement, production/F3 sink conformance, remote authentication, arbitrary effects",
+        ],
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    print(json.dumps({"output": str(output), "pass": result["pass"], "assertions": assertions}, indent=2, sort_keys=True))
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path)
     parser.add_argument("--server", nargs=2, metavar=("MODE", "JOURNAL"))
+    parser.add_argument("--f4-output", type=Path)
+    parser.add_argument("--client", nargs=4, metavar=("PORT", "REQUEST_ID", "PAYLOAD", "CUT"))
+    parser.add_argument("--recover", type=Path)
     args = parser.parse_args()
     if args.server:
         return serve(args.server[0], Path(args.server[1]))
+    if args.client:
+        return client_main(int(args.client[0]), args.client[1], args.client[2], args.client[3])
+    if args.recover:
+        return recover_main(args.recover)
+    if args.f4_output:
+        result = run_f4_experiment(args.f4_output)
+        return 0 if result["pass"] else 1
     output = args.output or Path("results.json")
     result = run_experiment(output)
     return 0 if result["pass"] else 1
