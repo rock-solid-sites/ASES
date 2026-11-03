@@ -341,3 +341,7 @@ Preregistered `Stale-Disposition-Recovery.md`: compare an earlier empty check an
 ## 2026-11-03 stale disposition across recovery checkpoint
 
 Five fixed histories: earlier empty check followed by creation of unaccepted z, stop and recovery; reference refuses S removal, stale-check mutant removes S and independent observer detects z unbounded. Empty reference/mutant both remove; transfer control moves z to present Q then removes S safely. 34 inherited commits, nine wrapper commits, two wrapper denials; no search. Raw transitions/hashes and assumptions in `Stale-Disposition-Recovery.md`; check-and-remove atomicity, complete inventory and candidate retention are assumed, not host-enforced. Remaining next item: resource reservation/reassignment across loss only if a concrete conservation/currentness distinction can be isolated independently of this disposition case. F1 and F5 remain incomplete.
+
+## 2026-11-03 active capacity reassignment tranche start
+
+Preregistered `Active-Capacity-Reassignment.md`: one in-flight use starts after an old quiescence check, survives abstract stop, and competes with reassignment/new use. Reference checks active use at reassignment; stale-snapshot mutant permits overlap. Quiet and completion controls provide nonvacuity. Reassignment/completion are fixture-only extensions and selected exclusive-use policy; no host enforcement or universal resource semantics claim.
