@@ -61,3 +61,21 @@ Additional synthetic Go generalization and tiny-fixture cost controls are **pend
 **Recommendation so far:** keep feature **off by default** on an unmerged development PR. Further investigate whether the ratio of changed files to total files, indexing duration and backup/validation costs predicts a reuse win; qualify a minimal decision record for later optional ASES Processor work. No live production service change, deletion, B2 transfer or automatic artifact eviction. No independent durable CI archive read-back: `ARCHIVE_NOT_VERIFIED`.
 
 **Authority rule:** preserving the upstream evidence, failed diagnostic episodes and corrections under the draft ASES testing/assurance method is a project-local evidence trial. This record does not silently promote the methodology proposal or change any canonical production guarantee.
+
+## 6. Later results addendum — 2026-11-03, after the initial record
+
+The preceding section's **pending** classification describes its state at original authorship; it is intentionally retained as chronology rather than silently edited away.
+
+[Final completed expanded CI 41689657899](https://github.com/rock-solid-sites/ases-plugins/actions/runs/41689657899), development commit `d16f68aec5c1a5df13f68fa7c328bff780abfe81`, passed the existing historical-source provenance check, eight unit/fault controls, baseline and seeded two-commit TypeScript MCP/restart sequences, incompatible-version rejection, intentionally corrupted staged DB with clean fallback, source+graph query oracles, earlier cross-checkout source integrity, and the two new generalization controls.
+
+**Go generalization:** Synthetic 74-file Go source with a real second Git revision: copied-index sync **503 ms**, clean initialization **788 ms**, index-copy overhead about **2 ms**. Checked graph status, symbols, removed/added file, direct expected source symbols and a known caller relationship. All matched fresh reference. This is a **synthetic Go fixture** and does not resolve CodeGraph 1.6.0's known Rust module-scope issue, nor establish correct arbitrary Go graph extraction.
+
+**Tiny-repository control:** Two-commit synthetic TypeScript fixture: clean indexing **1,190 ms** versus seeded sync **988 ms + 39 ms** online backup, approximately **14%** less measured work on one runner. The hypothesis that a tiny repository must be slower under reuse was **not supported in this one sample**. More sizes and repeated timings are necessary before a threshold can be derived.
+
+**Larger TypeScript repetition:** The same 160-module class recorded **1,991 ms** clean versus **1,029 ms sync + 54 ms backup**; this is approximately **46%** less measured work on that runner. Compare with the earlier same-class sample (954 ms clean vs 769 ms sync + 55 ms backup; ~14% less). The substantial variability precludes treating either result as a predictive general speedup. Both paths maintain separate published indexes; no claim of persistent storage reduction.
+
+**Additional invariant:** seed selection now also requires the **exact canonical repository URL**, not merely the 16-hex truncated hash, and the same Git object-ID format, with unit controls for colliding-short-hash identities and priority among multiple compatible previous commits. Engine-version and extraction-version validation remain in place. A documented opt-in flag is present in the recovered runtime README/`.env.example`.
+
+**Decision:** H/S research receives positive evidence to continue with an isolated, **off-by-default** mechanism; **no production release, merge or automatic reuse threshold is authorized**. Next consequential falsifiers are real repositories, larger and sustained WAL writers, process-kill boundaries, concurrent cross-process access, resource/I/O monitoring, engine version/extraction changes and outcome-level agent work. The Go/tiny tests change the earlier pending classification only in the narrow scopes stated above.
+
+**Archive:** `ARCHIVE_NOT_VERIFIED` remains unchanged. GitHub Actions logs and repository commits are direct/native evidence, not independent long-term archive readback. No Backblaze B2 upload or deletion occurred.
