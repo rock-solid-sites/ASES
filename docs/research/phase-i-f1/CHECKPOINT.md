@@ -321,3 +321,7 @@ Five real writer SIGKILL/recovery histories with separately committed SQLite sto
 ## 2026-11-03 exact-authority crash cuts tranche start
 
 Preregistered direct epoch/digest agreement against both recovered authority and witness at the same five actual process-loss cuts. The two intermediate cuts should fail closed while initial and complete controls accept current. Exact authority itself is assumed correct and non-rollback; this is not a repair or cross-store atomicity proof.
+
+## 2026-11-03 exact-authority crash cuts checkpoint and resume cursor
+
+Exact authority-and-witness agreement at five real SIGKILL cuts refused both images in either middle disagreement window; initial and both completed positive controls accepted exactly the expected current candidate. Fresh process readers, correct writer exit statuses and all four integrity checks per case passed. Commands, raw output and hashes are in `Exact-Authority-Crash-Cuts.md`. Availability is lost in the gap; currentness/nonrollback of both records and trusted mapping remain unproved. Independent fresh-context conformance check is outstanding. Resume queue after review: smallest distinct resource reservation/removal/recovery case, e.g. committed multi-unit reservation, release or reassignment interrupted around process loss; preregister exact accounting semantics and independent positive/negative controls before execution. Do not conflate reservation release with consumption or assume atomic cross-store recovery. F1 and F5 remain incomplete.
