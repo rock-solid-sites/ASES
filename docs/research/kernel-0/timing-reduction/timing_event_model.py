@@ -166,20 +166,24 @@ def types(q: model.Request) -> dict:
     return {"reads": frozenset(reads), "writes": frozenset(writes)}
 
 
-def minimal_style(q: model.Request, s: State) -> frozenset:
+def minimal_style(q: model.Request, s: State, p=PROFILES[0]) -> frozenset:
     """Approximate minimal observation style for q at s (declared, testable).
 
-    Includes every field the guard/effect touches whose value actually changes
-    the oracle's outcome or published effect; such fields are, by construction,
-    relevant for that (s, q). Fields that provably cannot alter the outcome of
-    any legal operation of the same kind are declared irrelevant.
+    Heuristic only: probes one alternative per declared touched field. A missed
+    alternative, illegal perturbation, or interaction can hide a dependency.
+    Pairwise observational checks are required to assess sufficiency.
     """
     touched = types(q)["reads"] | types(q)["writes"]
     keep = set()
-    ref_out, ref_kind = resolve(s, q)
+    ref_out, ref_kind = resolve(s, q, p)
     for field in touched:
-        alt = replace(s, **{field: _other_value(getattr(s, field))})
-        out, kind = resolve(alt, q)
+        value = getattr(s, field)
+        if field == "parents":
+            value = value[:3] + ((0 if value[3] == -1 else -1),)
+        else:
+            value = _other_value(value)
+        alt = replace(s, **{field: value})
+        out, kind = resolve(alt, q, p)
         if kind != ref_kind or encode_word(out) != encode_word(ref_out):
             keep.add(field)
     # A field the oracle deliberately ignores cannot be relevant (e.g. the
@@ -229,7 +233,7 @@ def run_correspondence(deadline: float) -> dict:
             for q in CATALOG:
                 per["catalog_offers"] += 1
                 ref_out, ref_kind = resolve(s, q, prof)
-                minimal = minimal_style(q, s)
+                minimal = minimal_style(q, s, prof)
                 kinds = necessary_by_kind.setdefault(q.kind, {})
                 kinds[minimal] = kinds.get(minimal, 0) + 1
                 styles = (ALL_FIELDS, minimal) if len(minimal) < len(FIELDS) else (ALL_FIELDS,)
@@ -277,7 +281,7 @@ def run_correspondence(deadline: float) -> dict:
             s = decode_word(word)
             residue["legal_states_checked"] += 1
             for q in sample_offers:
-                mask = minimal_style(q, s)
+                mask = minimal_style(q, s, prof)
                 residue["narrowest_style_per_offer_kind"].setdefault(q.kind, set()).add(mask)
                 project(s, mask)
                 outcome, kind = resolve(s, q, prof)
