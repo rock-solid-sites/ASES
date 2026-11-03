@@ -101,3 +101,22 @@ test('GitLab scheduled pipeline can be observed without claiming slot identity',
 test('GitLab failed pipeline API query is an observer failure', () => {
   assert.equal(gitlabReadback({pipelineQueryStatus:'ERROR'}).status,'OBSERVER_UNAVAILABLE');
 });
+
+test('classify integrates new readback evidence without altering frozen snapshot', async () => {
+  const {classify}=await import('./classify.mjs');
+  const input={
+    schema_version:'0.1',as_of_utc:'2026-11-03T00:29:00Z',
+    cloud:{first_evaluable_utc:'2026-11-02T01:39:00Z',interval_minutes:30,source:{status:'ERROR'}},
+    github:[{id:'ases',first_evaluable_utc:'2026-11-02T03:13:00Z',interval_minutes:180,source:{status:'OK'},runs:[
+      {id:41530651460,event:'schedule',created_at:'2026-11-02T21:41:32Z',conclusion:'success',status:'completed'}
+    ]}],
+    gitlab:{source:{status:'OK'},schedule_source:{status:'UNAVAILABLE'},pipelines:[{id:3016894193,source:'api',status:'success'}]},
+    external_dispatch:{enabled:false}
+  };
+  const result=classify(input);
+  assert.equal(result.github[0].run_events[0].minimum_lateness_ms,1712000);
+  assert.equal(result.github[0].run_events[0].latest_possible_slot_utc,'2026-11-02T21:13:00.000Z');
+  assert.equal(result.gitlab.status,'CONFIGURATION_UNVERIFIED');
+  assert.equal(result.gitlab.expected_slots,null);
+  assert.equal(result.external_dispatch.execution,'NOT_RUN_BY_DESIGN');
+});
