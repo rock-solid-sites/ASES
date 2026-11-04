@@ -47,7 +47,12 @@ class SinkState:
             payload = (json.dumps(event, sort_keys=True) + "\n").encode()
             fd = os.open(self.journal, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
             try:
-                os.write(fd, payload)
+                offset = 0
+                while offset < len(payload):
+                    written = os.write(fd, payload[offset:])
+                    if written <= 0:
+                        raise OSError("journal write made no progress")
+                    offset += written
                 os.fsync(fd)
             finally:
                 os.close(fd)
