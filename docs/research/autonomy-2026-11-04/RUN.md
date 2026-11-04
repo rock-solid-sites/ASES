@@ -37,3 +37,13 @@ F1 96e3e62 published (prior increments 4f083b6, 1e76f93): live witness test, res
 Fresh COMMIT review 2881a50bc0280804f0d6920b046f5776272bfec9 remote verified: original raw plus independent rerun corroborates claim, explicitly checks prior ACK equality absent from harness assertion. No product defect found. F4 reviewer doing bounded repair-only followup (no sink rerun). Two total workers launched, at most one active at this checkpoint. All reviewers same-family, no formal cross-family claim.
 
 Next: Kernel independent hand-derived reset/reissue boundary vectors rather than another shared-oracle battery; unavailable simulator must be restored only with recorded pinned package/hash. No physical timing claim or blocked Kernel-contract route retry. Then cold publication/index validation, or next concrete F3 concurrency premise discriminator. Usage remains unknown.
+
+## Kernel/F3 and distinct F4 write-count failure
+
+Kernel50e5bc151b3d08ed84df55bc452f8766afa2090e pushed. Independent literal21-cycle RTL path matches; two disposable RTL mutants detected. Fresh same-family arithmetic review5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490 independently decodes every literal, no wrong expectation found; no simulator rerun/full correspondence or physical timing claim.
+
+F3cc7574f pushed: two actual managers pass same old-state checks, then sequential releases yield two COMMITTED replies but selected activation image loses earlier move. This falsifies multi-manager extension, not declared serialized-holder profile. Both serialized controls discriminate. ENOSYS/native/L6/L7 blockers retained; no policy repair for excluded profile.
+
+New isolated branch research/autonomy-20261104-f4-write-count43ddd00 (red d1c411e): injected partial-return writes expose original one-write count defect,201/truncated recovery refusal. Minimal write-all/zero-progress repair verified by same shim, zero-return no-success/EMPTY and post-send regression. Original cross-layer branch/source left unchanged. Historical provenance checker pins original source and is deliberately inapplicable to changed sink; replay old evidence at old pins. One fresh bounded same-family short_write_check active (caller native gpt-6-luna/high), third worker total; no concurrency>1 so far, no nested delegation/errors.
+
+Next: integrate pending short-write review, cold fetch/restore indexed artifacts from remote and validate. Actual usage remaining still unknown; preserve publication reserve, no speculative parallel launches.

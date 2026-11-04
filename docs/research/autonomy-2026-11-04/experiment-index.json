@@ -9,14 +9,14 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 2
+    "workers_launched": 3
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
     "research/autonomy-20261103-f1": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
-    "research/autonomy-20261103-f3-policy": "81ce1c2c6b5b7fe606efcfcfb0e35e6605d2d891",
-    "research/autonomy-20261103-kernel": "2566c97707f89a32d3f84fb4a63e5c8184977491",
-    "research/autonomy-20261103-run": "d30fe9ff682425ba4bd729e20be0417a84cf6df9",
+    "research/autonomy-20261103-f3-policy": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
+    "research/autonomy-20261103-kernel": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
+    "research/autonomy-20261103-run": "1f832f918fc4efd641b59d7b99b2860a19d5fbe4",
     "review/autonomy-20261103-evidence": "c81ec439ea803d35a2a0edb3cf2317f048c03201",
     "review/autonomy-20261103-f1-bridge": "ccd2d524856943193d484e52159481da3f00fdd5",
     "review/autonomy-20261103-f1-check": "74d6e2c59630b37b34d48fa4a65c8d2f2859758d",
@@ -25,8 +25,10 @@
     "review/autonomy-20261103-kernel-pairs": "23a49c77fe3b334622c7e1a374cd2b0fc34918ef",
     "review/autonomy-20261103-rtl-check": "4ca75181845a9437cfc632bcc979b5a093bebafa",
     "review/autonomy-20261103-sqlite-failure": "99228226b2c27370531f26ff7c5ceda776f0ce98",
-    "review/autonomy-20261104-f4-check": "5c5880515672abef98d4c8a1379acb35188e4cb9",
-    "review/autonomy-20261104-f1-commit-check": "2881a50bc0280804f0d6920b046f5776272bfec9"
+    "review/autonomy-20261104-f4-check": "8622de052e067b046f4feadc6f68642e05312bf7",
+    "review/autonomy-20261104-f1-commit-check": "2881a50bc0280804f0d6920b046f5776272bfec9",
+    "research/autonomy-20261104-f4-write-count": "43ddd00633ecf4d909021a47f89052f1dca1cfcf",
+    "review/autonomy-20261104-kernel-literals": "5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490"
   },
   "checkpoints": [
     {
@@ -147,10 +149,16 @@
           "sha256": "b4702b50c89b0cc1d596a436eae993d74cd8ee1c8dcbf467ba02fd2a55fb5e61"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261104-f4-check",
+          "sha": "8622de052e067b046f4feadc6f68642e05312bf7",
+          "independence": "same-family repair followup, checker rerun/direct mutation; no sink rerun"
+        }
+      ],
       "dependencies": [],
       "blockers": [],
-      "next_discriminator": "Bounded independent diff check",
+      "next_discriminator": "Actual F2 bootstrap/revoke mapping or selected native sink",
       "supersedes": []
     },
     {
@@ -258,7 +266,7 @@
       "source_branch": "research/autonomy-20261103-f1",
       "source_sha": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
       "implementation": "docs/research/phase-i-f1/round2_model_timeout.py",
-      "command": "timeout 30 python3 docs/research/phase-i-f1/round2_model_timeout.py",
+      "command": "timeout 15 python3 docs/research/phase-i-f1/round2_model_timeout.py",
       "environment": {
         "host": "authorized disposable Cloud",
         "capabilities": [
@@ -281,15 +289,147 @@
       "blockers": [],
       "next_discriminator": "Budgeted complete/resumable context only if consequential uncertainty justifies cost",
       "supersedes": []
+    },
+    {
+      "id": "R2-KERNEL-LITERAL-RTL",
+      "stream": "Kernel-0",
+      "claim": "Selected digital reset/issuance/content/invalid boundaries without shared executable oracle",
+      "source_branch": "research/autonomy-20261103-kernel",
+      "source_sha": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
+      "implementation": "docs/research/kernel-0/timing-reduction/evidence/round2_rtl_boundaries.py",
+      "command": "timeout 30 python3 docs/research/kernel-0/timing-reduction/evidence/round2_rtl_boundaries.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "subprocess",
+          "Icarus12.0"
+        ]
+      },
+      "status": "executed_observed",
+      "observed_result": "21 hand-derived literal cycles pass; reset-priority and issuance-erasure mutants fail at16/6",
+      "limits": "Independent profile only; specification/encoding premises shared; no physical timing or full correspondence",
+      "raw_evidence": [
+        {
+          "path": "docs/research/kernel-0/timing-reduction/evidence/round2-rtl-boundaries.raw.json",
+          "sha256": "9bca4d2e4f90a3110b523a3178b9e99dbc9a0888d4be70f7c8d09b8573f88751"
+        }
+      ],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261104-kernel-literals",
+          "sha": "5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490",
+          "independence": "fresh-stream same-family independent arithmetic; no simulator rerun"
+        }
+      ],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Different profile/independent full expectation construction only if needed",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F3-MANAGER-OVERLAP",
+      "stream": "F3",
+      "claim": "Does currentness precheck permit extending L5 to overlapping managers?",
+      "source_branch": "research/autonomy-20261103-f3-policy",
+      "source_sha": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
+      "implementation": "research/phase-i-protected-work-unit-f3/lifecycle/l5/round2_manager_overlap.py",
+      "command": "timeout 30 python3 research/phase-i-protected-work-unit-f3/lifecycle/l5/round2_manager_overlap.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "subprocess",
+          "synthetic policy socketpair"
+        ]
+      },
+      "status": "falsified_counterexample",
+      "observed_result": "Both real processes pass old-state checks/COMMIT; activation publication loses prior acknowledged move. Serialized stale control denies; refreshed serial control preserves move",
+      "limits": "Outside declared single serialized-holder premise; synthetic policy fixture/test credential, no native enforcement",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-protected-work-unit-f3/lifecycle/l5/round2-manager-overlap.raw.json",
+          "sha256": "922db35a69d132929f6d4d7cfb7f021095e6e104261cb5f807582baeebdfe69c"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Identify actual sole-holder enforcement or atomic currentness/publication boundary",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F4-SHORT-WRITE-RED",
+      "stream": "cross-layer",
+      "claim": "One write return is sufficient for durable-success journal contract",
+      "source_branch": "research/autonomy-20261104-f4-write-count",
+      "source_sha": "43ddd00633ecf4d909021a47f89052f1dca1cfcf",
+      "implementation": "research/phase-i-t18-sink-order-20261103/short-write/probe.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/short-write/probe.py baseline",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "subprocess",
+          "loopback HTTP"
+        ]
+      },
+      "status": "falsified_counterexample",
+      "observed_result": "API shim writes half/returns count; original sink201 with truncated journal refused by fresh reader; normal positive201 valid",
+      "limits": "Controlled API injection, not spontaneous OS fault; baseline pinned589cee0",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/short-write/baseline.raw.json",
+          "sha256": "d9be95a1e1aae5b6ec3197e1121bf509ceaf8b5e42bf3fd87a7a2857fe2bf103"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Write-all repair and zero-progress control",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F4-SHORT-WRITE-REPAIR",
+      "stream": "cross-layer",
+      "claim": "Account complete record bytes before fsync/success; refuse no progress",
+      "source_branch": "research/autonomy-20261104-f4-write-count",
+      "source_sha": "43ddd00633ecf4d909021a47f89052f1dca1cfcf",
+      "implementation": "research/phase-i-t18-sink-order-20261103/short-write/probe.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/short-write/probe.py fixed",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "subprocess",
+          "loopback HTTP"
+        ]
+      },
+      "status": "executed_observed",
+      "observed_result": "Corrected short shim loops to complete exact fresh-readable record/201; zero-return no success/EMPTY; postsend201,200,409,201",
+      "limits": "Not fsync failure, partial exception rollback, directory persistence or power-loss proof. Original cross-layer branch preserved",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/short-write/fixed.raw.json",
+          "sha256": "30bc7d8520a8503297e9c489f15edcdf88bcd09858df5d4277f3ea2f9a8f821d"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/short-write/postsend-regression.raw.json",
+          "sha256": "11bb6c1c963c84a6075c7a6f8c4caeb9c30091366219c7c1697c52532c0c93f1"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Independent check of injection and repair; cold remote restoration",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
-    "F4 retained gates and strict missing/empty recovery",
-    "T18 original detached mutant post-replacement initiation",
-    "F1 external currentness premise and COMMIT boundary",
-    "F1 full-model timeout scope",
-    "Kernel independent expectations (blocked contract route excluded)",
-    "F3 host enforcement ENOSYS, L6/L7 open"
+    "Frozen F2 T18 remains prepared-only: explicit real create/grant/activate/revoke bootstrap mapping absent",
+    "Full F4 power-loss/storage-loss/retry obligations open; local process death only",
+    "Trusted nonrollback external currentness and coupling to actual protected acceptance",
+    "F1 C11 independent durable source/provenance, wider resource/lifecycle and complete-model scope",
+    "Kernel independent full correspondence/physical timing/capture-publication and minimality obligations",
+    "F3 sole-holder enforcement, real credential revocation/native confinement ENOSYS; L6/L7 open",
+    "Formal cross-family F5 review absent",
+    "Cold publication restoration pending"
   ],
   "blocked_routes": [
     "Kernel-contract platform safety-filter investigation: do not retry",
