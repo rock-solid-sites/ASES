@@ -68,7 +68,9 @@ def main():
         z=cases['zero_return_fixed'];assert z['client']['http_status'] is None and z['fresh_reader']['observation']['state']=='EMPTY'
         assert len(z['write_observations'])==1
     assert all(c['sink_exit']==-9 for c in cases.values())
-    print(json.dumps({'schema':'ases.f4-short-write.v1','phase':phase,'source_revision':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+    print(json.dumps({'schema':'ases.f4-short-write.v1','phase':phase,'execution_base_sha':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+                      'selected_source_origin':('git:589cee0:'+str(SOURCE.name) if phase=='baseline' else 'working_tree'),
+                      'execution_base_semantics':'HEAD at invocation; source_sha256 identifies selected source bytes, including uncommitted changes',
                       'source_sha256':hashlib.sha256(source.encode()).hexdigest(),'runner_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                       'payload_hex':PAYLOAD.encode().hex(),'environment':{'platform':platform.platform(),'python':sys.version,'executable':sys.executable,
                                                                        'executable_sha256':hashlib.sha256(Path(sys.executable).read_bytes()).hexdigest()},'cases':cases},indent=2,sort_keys=True))
