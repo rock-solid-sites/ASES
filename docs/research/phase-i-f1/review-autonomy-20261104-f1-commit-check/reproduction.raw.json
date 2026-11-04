@@ -1,0 +1,465 @@
+{
+  "cases": {
+    "held_reader": {
+      "after": {
+        "integrity": "ok",
+        "pid": 1896,
+        "profile": "independent",
+        "root": "work",
+        "stats": {
+          "max_page_count": 4294967294,
+          "page_count": 2,
+          "page_size": 4096
+        },
+        "version": 1,
+        "view": {
+          "content": "accepted\u0000zero\n",
+          "cycle": [
+            0,
+            0,
+            0
+          ],
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+        "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+      },
+      "before": {
+        "integrity": "ok",
+        "pid": 1887,
+        "profile": "independent",
+        "root": "work",
+        "stats": {
+          "max_page_count": 4294967294,
+          "page_count": 2,
+          "page_size": 4096
+        },
+        "version": 1,
+        "view": {
+          "content": "accepted\u0000zero\n",
+          "cycle": [
+            0,
+            0,
+            0
+          ],
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+        "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+      },
+      "bootstrap_exit": {
+        "exit": -9,
+        "pid": 1880,
+        "stderr": ""
+      },
+      "client": {
+        "kind": "EOFError",
+        "message": "holder lost"
+      },
+      "cold_exit": {
+        "exit": -9,
+        "pid": 1897,
+        "stderr": ""
+      },
+      "cold_read": {
+        "outcome": "read",
+        "state": {
+          "content": "accepted\u0000zero\n",
+          "cycle": [
+            0,
+            0,
+            0
+          ],
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "files": {
+        "store.sqlite": 8192,
+        "trace.jsonl": 736
+      },
+      "holder_exit": {
+        "exit": -9,
+        "pid": 1889,
+        "stderr": "Exception in thread Thread-2 (handle):\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/threading.py\", line 1075, in _bootstrap_inner\n"
+      },
+      "lock_info": {
+        "pid": 1888,
+        "stage": "read_lock_held",
+        "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804"
+      },
+      "lock_release": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"pid\": 1888, \"stage\": \"released\"}\n"
+      },
+      "locker_alive_before_release": true,
+      "prior_ack": {
+        "outcome": "commit",
+        "state": {
+          "content": "accepted\u0000zero\n",
+          "cycle": [
+            0,
+            0,
+            0
+          ],
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "trace": [
+        {
+          "end_ns": 455339358047,
+          "in_transaction": true,
+          "outcome": "completed",
+          "sql": "BEGIN IMMEDIATE",
+          "start_ns": 455339292053
+        },
+        {
+          "end_ns": 455339396882,
+          "in_transaction": true,
+          "outcome": "completed",
+          "sql": "SELECT root, profile, version, view FROM kernel WHERE id=1",
+          "start_ns": 455339383274
+        },
+        {
+          "end_ns": 455339524311,
+          "in_transaction": true,
+          "outcome": "completed",
+          "sql": "UPDATE kernel SET view=? WHERE id=1",
+          "start_ns": 455339481615
+        },
+        {
+          "code": 5,
+          "end_ns": 455440258499,
+          "in_transaction": true,
+          "message": "database is locked",
+          "name": "SQLITE_BUSY",
+          "outcome": "error",
+          "sql": "COMMIT",
+          "start_ns": 455339533177
+        },
+        {
+          "end_ns": 455440335282,
+          "in_transaction": false,
+          "outcome": "completed",
+          "sql": "ROLLBACK",
+          "start_ns": 455440287855
+        }
+      ]
+    },
+    "released_control": {
+      "after": {
+        "integrity": "ok",
+        "pid": 1865,
+        "profile": "independent",
+        "root": "work",
+        "stats": {
+          "max_page_count": 4294967294,
+          "page_count": 2,
+          "page_size": 4096
+        },
+        "version": 1,
+        "view": {
+          "content": "accepted\u0000one\n",
+          "cycle": [
+            0,
+            0,
+            0
+          ],
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "view_sha256": "feaf9b3efd728119b71d013995f7cba9c3117ced661cb50b8e03794c2a09405b",
+        "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030306f6e655c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+      },
+      "before": {
+        "integrity": "ok",
+        "pid": 1856,
+        "profile": "independent",
+        "root": "work",
+        "stats": {
+          "max_page_count": 4294967294,
+          "page_count": 2,
+          "page_size": 4096
+        },
+        "version": 1,
+        "view": {
+          "content": "accepted\u0000zero\n",
+          "cycle": [
+            0,
+            0,
+            0
+          ],
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        },
+        "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+        "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+      },
+      "bootstrap_exit": {
+        "exit": -9,
+        "pid": 1849,
+        "stderr": ""
+      },
+      "client": {
+        "kind": "reply",
+        "reply": {
+          "outcome": "commit",
+          "state": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      "cold_exit": {
+        "exit": -9,
+        "pid": 1866,
+        "stderr": ""
+      },
+      "cold_read": {
+        "outcome": "read",
+        "state": {
+          "content": "accepted\u0000one\n",
+          "cycle": [
+            0,
+            0,
+            0
+          ],
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "files": {
+        "store.sqlite": 8192,
+        "trace.jsonl": 555
+      },
+      "holder_exit": {
+        "exit": -9,
+        "pid": 1858,
+        "stderr": ""
+      },
+      "lock_info": {
+        "pid": 1857,
+        "stage": "read_lock_held",
+        "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804"
+      },
+      "lock_release": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"pid\": 1857, \"stage\": \"released\"}\n"
+      },
+      "locker_alive_before_release": false,
+      "prior_ack": {
+        "outcome": "commit",
+        "state": {
+          "content": "accepted\u0000zero\n",
+          "cycle": [
+            0,
+            0,
+            0
+          ],
+          "data": [
+            0,
+            0
+          ],
+          "established": true,
+          "issued": 1,
+          "parents": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "rights": [
+            7,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "trace": [
+        {
+          "end_ns": 454983290965,
+          "in_transaction": true,
+          "outcome": "completed",
+          "sql": "BEGIN IMMEDIATE",
+          "start_ns": 454983189933
+        },
+        {
+          "end_ns": 454983332939,
+          "in_transaction": true,
+          "outcome": "completed",
+          "sql": "SELECT root, profile, version, view FROM kernel WHERE id=1",
+          "start_ns": 454983318510
+        },
+        {
+          "end_ns": 454983474278,
+          "in_transaction": true,
+          "outcome": "completed",
+          "sql": "UPDATE kernel SET view=? WHERE id=1",
+          "start_ns": 454983426381
+        },
+        {
+          "end_ns": 454983514828,
+          "in_transaction": false,
+          "outcome": "completed",
+          "sql": "COMMIT",
+          "start_ns": 454983483577
+        }
+      ]
+    }
+  },
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sqlite": "3.53.1"
+  },
+  "hashes": {
+    "kernel-0/kernel0_recovery_check.py": "970f674ebb45e8f281a31eb3315247e4dad5286cab7876a0709b8e2cdaf6d349",
+    "kernel-0/kernel0_recovery_service.py": "f5fd5e1118046dd8fd6d3357d56f9bcad91e8fe572f5bf4706dc7c8fd0b3ff13",
+    "phase-i-f1/round2_commit_busy.py": "2548dc663e3b703a992f346c830f4cccd98b275869f3598343a3528a803ebca4",
+    "phase-i-f1/sqlite_full_holder_recovery.py": "641ba1e9186c6ef8bf5a4ffaf3dd003508845902437baf7a1338d5f6da2c583a"
+  },
+  "schema": "ases.f1-commit-busy.v1",
+  "source_revision": "7201fdf89c53b03edcc2683a20d36842f3719f1c"
+}
