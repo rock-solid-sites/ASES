@@ -28,19 +28,80 @@ class SinkState:
         self.lock = threading.Lock()
         self.gate = threading.Event()
         self.version = 1
+        self.next_seq = 1
         self.waiting = 0
         self.events: list[dict[str, Any]] = []
         self.effects: list[dict[str, Any]] = []
         self.obligations: dict[str, str] = {}
+        if mode in ("sink-ordered", "detached-check") and journal.exists():
+            raise ValueError("existing journal requires explicit recovery mode")
+        if mode == "recover-ordered":
+            self.recover_ordered()
         if mode == "f4" and journal.exists():
             for line in journal.read_bytes().splitlines():
                 event = json.loads(line)
                 self.events.append(event)
                 if event.get("event") == "effect_accepted":
                     self.effects.append(event)
+                self.next_seq = max(self.next_seq, event["seq"] + 1)
+
+    def recover_ordered(self) -> None:
+        # Explicit selected profile: trusted current same-host journal, bootstrap v1.
+        with self.journal.open("rb") as stream:
+            raw = stream.read(65537)
+        if not raw or len(raw) > 65536 or not raw.endswith(b"\n"):
+            raise ValueError("empty, oversized or truncated recovery journal")
+        def unique(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError("duplicate journal key")
+                result[key] = value
+            return result
+        last = 0
+        for line in raw.splitlines():
+            event = json.loads(line, object_pairs_hook=unique)
+            if (not isinstance(event, dict) or type(event.get("seq")) is not int
+                    or event["seq"] <= last):
+                raise ValueError("invalid durable sequence")
+            name = event.get("event")
+            if name == "authority_replaced":
+                if (type(event.get("previous_version")) is not int
+                        or type(event.get("current_version")) is not int
+                        or event["previous_version"] != self.version
+                        or event["current_version"] != self.version + 1):
+                    raise ValueError("replacement continuity mismatch")
+                self.version = event["current_version"]
+            elif name == "obligation_committed":
+                if (event.get("committed_under_version") != self.version
+                        or not isinstance(event.get("obligation_id"), str)
+                        or not isinstance(event.get("payload"), str)
+                        or hashlib.sha256(event["payload"].encode()).hexdigest() != event.get("payload_sha256")):
+                    raise ValueError("invalid committed obligation")
+                self.obligations[event["obligation_id"]] = event["payload"]
+            elif name == "effect_accepted":
+                if (not isinstance(event.get("request_id"), str)
+                        or not isinstance(event.get("payload"), str)
+                        or event.get("accepted_under_version") != self.version):
+                    raise ValueError("invalid ordered effect")
+                mode = event.get("check_mode")
+                if mode == "committed-exact-obligation":
+                    if (event.get("obligation_id") not in self.obligations
+                            or self.obligations[event["obligation_id"]] != event["payload"]
+                            or hashlib.sha256(event["payload"].encode()).hexdigest() != event.get("payload_sha256")):
+                        raise ValueError("effect lacks exact committed obligation")
+                elif mode not in ("sink-ordered", "recover-ordered") or event.get("presented_version") != self.version:
+                    raise ValueError("effect is not current ordered use")
+                self.effects.append(event)
+            else:
+                raise ValueError("unsupported ordered journal event")
+            self.events.append(event)
+            last = event["seq"]
+        self.next_seq = last + 1
 
     def emit_locked(self, name: str, **fields: Any) -> dict[str, Any]:
-        event = {"seq": len(self.events) + 1, "event": name, **fields}
+        event = {"seq": self.next_seq, "event": name, **fields}
+        self.next_seq += 1
         self.events.append(event)
         if name in ("effect_accepted", "obligation_committed", "authority_replaced"):
             self.journal.parent.mkdir(parents=True, exist_ok=True)
