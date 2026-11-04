@@ -1,0 +1,718 @@
+{
+  "cases": {
+    "overlap": {
+      "accepted_bytes_hex": "61636365707465642d706f73742d6d6f76652d636f6e74656e74000a",
+      "exits": [
+        0,
+        0
+      ],
+      "files": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "f30f2808901d9b892baa5d6e9e2893730ef30c70e053acc2376197868b7eb6ce"
+      },
+      "final": {
+        "current_ingress": "W-L5",
+        "events": [
+          {
+            "op": "bootstrap"
+          },
+          {
+            "actor": "initial-manager",
+            "ingress": "W-L5",
+            "op": "separately-authorized_activation"
+          }
+        ],
+        "schema": 1,
+        "work_units": {
+          "C": {
+            "accepted_contents": [
+              {
+                "identity": "accepted-x",
+                "object": "objects/x.bin",
+                "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                "size": 28
+              }
+            ],
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "C",
+            "parent": "P",
+            "sealed": false
+          },
+          "D": {
+            "accepted_contents": [],
+            "active": true,
+            "depends_on": [
+              "C"
+            ],
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "D",
+            "parent": "C",
+            "sealed": false
+          },
+          "P": {
+            "active": true,
+            "grants": [
+              "read"
+            ],
+            "id": "P",
+            "parent": null,
+            "sealed": false
+          },
+          "Q": {
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "Q",
+            "parent": null,
+            "sealed": false
+          }
+        }
+      },
+      "gates": [
+        {
+          "base_record": "record-000001.json",
+          "event": {
+            "actor": "initial-manager",
+            "from": "P",
+            "included": [
+              "C",
+              "D"
+            ],
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "op": "authorized_sealed_whole_move",
+            "to": "Q"
+          },
+          "ns": 966986572504,
+          "pid": 3155,
+          "stage": "commit_entry_after_manager_checks"
+        },
+        {
+          "base_record": "record-000001.json",
+          "event": {
+            "actor": "initial-manager",
+            "ingress": "W-L5",
+            "op": "separately-authorized_activation"
+          },
+          "ns": 966987805426,
+          "pid": 3156,
+          "stage": "commit_entry_after_manager_checks"
+        }
+      ],
+      "initial": {
+        "current_ingress": null,
+        "events": [
+          {
+            "op": "bootstrap"
+          }
+        ],
+        "schema": 1,
+        "work_units": {
+          "C": {
+            "accepted_contents": [
+              {
+                "identity": "accepted-x",
+                "object": "objects/x.bin",
+                "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                "size": 28
+              }
+            ],
+            "active": false,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "C",
+            "parent": "P",
+            "sealed": true
+          },
+          "D": {
+            "accepted_contents": [],
+            "active": false,
+            "depends_on": [
+              "C"
+            ],
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "D",
+            "parent": "C",
+            "sealed": true
+          },
+          "P": {
+            "active": false,
+            "grants": [
+              "read"
+            ],
+            "id": "P",
+            "parent": null,
+            "sealed": true
+          },
+          "Q": {
+            "active": false,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "Q",
+            "parent": null,
+            "sealed": true
+          }
+        }
+      },
+      "interpretation": "two acknowledged operations; selected state loses prior move",
+      "records": {
+        "record-000001.json": {
+          "current_ingress": null,
+          "events": [
+            {
+              "op": "bootstrap"
+            }
+          ],
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "identity": "accepted-x",
+                  "object": "objects/x.bin",
+                  "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                  "size": 28
+                }
+              ],
+              "active": false,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": true
+            },
+            "D": {
+              "accepted_contents": [],
+              "active": false,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": true
+            },
+            "P": {
+              "active": false,
+              "grants": [
+                "read"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": true
+            },
+            "Q": {
+              "active": false,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": true
+            }
+          }
+        },
+        "record-000002.json": {
+          "current_ingress": null,
+          "events": [
+            {
+              "op": "bootstrap"
+            },
+            {
+              "actor": "initial-manager",
+              "from": "P",
+              "included": [
+                "C",
+                "D"
+              ],
+              "old_effective": {
+                "C": [
+                  "read"
+                ],
+                "D": [
+                  "read"
+                ]
+              },
+              "op": "authorized_sealed_whole_move",
+              "to": "Q"
+            }
+          ],
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "identity": "accepted-x",
+                  "object": "objects/x.bin",
+                  "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                  "size": 28
+                }
+              ],
+              "active": false,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "latent_ceiling": [
+                "read"
+              ],
+              "parent": "Q",
+              "sealed": true
+            },
+            "D": {
+              "accepted_contents": [],
+              "active": false,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "latent_ceiling": [
+                "read"
+              ],
+              "parent": "C",
+              "sealed": true
+            },
+            "P": {
+              "active": false,
+              "grants": [
+                "read"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": true
+            },
+            "Q": {
+              "active": false,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": true
+            }
+          }
+        },
+        "record-000003.json": {
+          "current_ingress": "W-L5",
+          "events": [
+            {
+              "op": "bootstrap"
+            },
+            {
+              "actor": "initial-manager",
+              "ingress": "W-L5",
+              "op": "separately-authorized_activation"
+            }
+          ],
+          "schema": 1,
+          "work_units": {
+            "C": {
+              "accepted_contents": [
+                {
+                  "identity": "accepted-x",
+                  "object": "objects/x.bin",
+                  "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                  "size": 28
+                }
+              ],
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "C",
+              "parent": "P",
+              "sealed": false
+            },
+            "D": {
+              "accepted_contents": [],
+              "active": true,
+              "depends_on": [
+                "C"
+              ],
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "D",
+              "parent": "C",
+              "sealed": false
+            },
+            "P": {
+              "active": true,
+              "grants": [
+                "read"
+              ],
+              "id": "P",
+              "parent": null,
+              "sealed": false
+            },
+            "Q": {
+              "active": true,
+              "grants": [
+                "read",
+                "write"
+              ],
+              "id": "Q",
+              "parent": null,
+              "sealed": false
+            }
+          }
+        }
+      },
+      "replies": [
+        {
+          "ns": 966988663565,
+          "pid": 3155,
+          "request": {
+            "authorized_by": "initial-manager",
+            "child": "C",
+            "credential": "test-manager-credential-not-a-production-secret",
+            "destination": "Q",
+            "op": "authorize_move"
+          },
+          "response": {
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "record": "record-000002.json",
+            "record_sha256": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+            "result": "COMMITTED"
+          },
+          "stage": "reply"
+        },
+        {
+          "ns": 966996584106,
+          "pid": 3156,
+          "request": {
+            "authorized_by": "initial-manager",
+            "credential": "test-manager-credential-not-a-production-secret",
+            "op": "authorize_activate"
+          },
+          "response": {
+            "ingress": "W-L5",
+            "record": "record-000003.json",
+            "record_sha256": "f30f2808901d9b892baa5d6e9e2893730ef30c70e053acc2376197868b7eb6ce",
+            "result": "COMMITTED"
+          },
+          "stage": "reply"
+        }
+      ],
+      "selected_record": "record-000003.json",
+      "stderr": [
+        "",
+        ""
+      ]
+    },
+    "serial_fresh": {
+      "activation_reply": {
+        "ingress": "W-L5",
+        "record": "record-000003.json",
+        "record_sha256": "f82a97ced6ac7980b37070e4e857636a7c2439ddac9d80a4498bfa6492b46339",
+        "result": "COMMITTED"
+      },
+      "activation_request": {
+        "authorized_by": "initial-manager",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_activate"
+      },
+      "files_after": {
+        "protected/CURRENT": "aff590be35b069ecdcfae17812148363ddc10d04a48d3eaf10b835d62bc3b087",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "protected/record-000003.json": "f82a97ced6ac7980b37070e4e857636a7c2439ddac9d80a4498bfa6492b46339"
+      },
+      "files_before": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      },
+      "final": {
+        "current_ingress": "W-L5",
+        "events": [
+          {
+            "op": "bootstrap"
+          },
+          {
+            "actor": "initial-manager",
+            "from": "P",
+            "included": [
+              "C",
+              "D"
+            ],
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "op": "authorized_sealed_whole_move",
+            "to": "Q"
+          },
+          {
+            "actor": "initial-manager",
+            "ingress": "W-L5",
+            "op": "separately-authorized_activation"
+          }
+        ],
+        "schema": 1,
+        "work_units": {
+          "C": {
+            "accepted_contents": [
+              {
+                "identity": "accepted-x",
+                "object": "objects/x.bin",
+                "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                "size": 28
+              }
+            ],
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "C",
+            "latent_ceiling": [
+              "read"
+            ],
+            "parent": "Q",
+            "sealed": false
+          },
+          "D": {
+            "accepted_contents": [],
+            "active": true,
+            "depends_on": [
+              "C"
+            ],
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "D",
+            "latent_ceiling": [
+              "read"
+            ],
+            "parent": "C",
+            "sealed": false
+          },
+          "P": {
+            "active": true,
+            "grants": [
+              "read"
+            ],
+            "id": "P",
+            "parent": null,
+            "sealed": false
+          },
+          "Q": {
+            "active": true,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "Q",
+            "parent": null,
+            "sealed": false
+          }
+        }
+      },
+      "move": {
+        "old_effective": {
+          "C": [
+            "read"
+          ],
+          "D": [
+            "read"
+          ]
+        },
+        "record": "record-000002.json",
+        "record_sha256": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "result": "COMMITTED"
+      },
+      "selected_record": "record-000003.json"
+    },
+    "serial_stale": {
+      "activation_reply": {
+        "reason": "management-state-not-current",
+        "result": "DENY"
+      },
+      "activation_request": {
+        "authorized_by": "initial-manager",
+        "credential": "test-manager-credential-not-a-production-secret",
+        "op": "authorize_activate"
+      },
+      "files_after": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      },
+      "files_before": {
+        "protected/CURRENT": "260f915af66c0ebdc72d69757d6121e4d2f1855f399a99d97731bf165f3d537b",
+        "protected/objects/x.bin": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+        "protected/record-000001.json": "0a8413fd79f0866f4beb57ae2837027333ea2319b88a7ca7e81f9cef9be062ea",
+        "protected/record-000002.json": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15"
+      },
+      "final": {
+        "current_ingress": null,
+        "events": [
+          {
+            "op": "bootstrap"
+          },
+          {
+            "actor": "initial-manager",
+            "from": "P",
+            "included": [
+              "C",
+              "D"
+            ],
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "op": "authorized_sealed_whole_move",
+            "to": "Q"
+          }
+        ],
+        "schema": 1,
+        "work_units": {
+          "C": {
+            "accepted_contents": [
+              {
+                "identity": "accepted-x",
+                "object": "objects/x.bin",
+                "sha256": "3b65704201c68bb6dc743d927cce524ded26ee998292a42e7b4035d0617f349b",
+                "size": 28
+              }
+            ],
+            "active": false,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "C",
+            "latent_ceiling": [
+              "read"
+            ],
+            "parent": "Q",
+            "sealed": true
+          },
+          "D": {
+            "accepted_contents": [],
+            "active": false,
+            "depends_on": [
+              "C"
+            ],
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "D",
+            "latent_ceiling": [
+              "read"
+            ],
+            "parent": "C",
+            "sealed": true
+          },
+          "P": {
+            "active": false,
+            "grants": [
+              "read"
+            ],
+            "id": "P",
+            "parent": null,
+            "sealed": true
+          },
+          "Q": {
+            "active": false,
+            "grants": [
+              "read",
+              "write"
+            ],
+            "id": "Q",
+            "parent": null,
+            "sealed": true
+          }
+        }
+      },
+      "move": {
+        "old_effective": {
+          "C": [
+            "read"
+          ],
+          "D": [
+            "read"
+          ]
+        },
+        "record": "record-000002.json",
+        "record_sha256": "b9262a911c5168d732d2975fcbfe9d1231ff977cf0ff971698e76d427998bd15",
+        "result": "COMMITTED"
+      },
+      "selected_record": "record-000002.json"
+    }
+  },
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "schema": "ases.f3-manager-overlap.v1",
+  "source_hashes": {
+    "l5_integrated.py": "7216dbb401afa01c01ef5f72a5c45555d5525678799aa30164a7eafce4076fd8",
+    "round2_manager_overlap.py": "28e1b7c6e273446912021b4671299e83e3b253b60896539cd604681188a5043d",
+    "test_management_conformance.py": "b8db19dacd218e73c1a888a6a5ca7a4ee7567f840e485055e92998db993b57f1",
+    "test_post_move_grant.py": "fdb7d5569fb1a528771aa2da2898a85f4a7a93250ff366baea41559fad3b223e"
+  },
+  "source_revision": "5108a33480c91356d67b42b098eb77b466c441c8"
+}
