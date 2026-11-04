@@ -9,11 +9,11 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 1
+    "workers_launched": 2
   },
   "branch_tips": {
-    "research/autonomy-20261103-cross-layer": "407a3453a5e69c0babc9e109cebe14c02a9e96e1",
-    "research/autonomy-20261103-f1": "ac58266c5e75f15fb43f8314023350fa170d49cb",
+    "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
+    "research/autonomy-20261103-f1": "faadb396229a19be460a1884a182ace62c19b2c1",
     "research/autonomy-20261103-f3-policy": "81ce1c2c6b5b7fe606efcfcfb0e35e6605d2d891",
     "research/autonomy-20261103-kernel": "2566c97707f89a32d3f84fb4a63e5c8184977491",
     "research/autonomy-20261103-run": "d30fe9ff682425ba4bd729e20be0417a84cf6df9",
@@ -24,7 +24,8 @@
     "review/autonomy-20261103-f3-policy": "6c52cecc5cbfbca5b89ab670a1faa68d01d79f52",
     "review/autonomy-20261103-kernel-pairs": "23a49c77fe3b334622c7e1a374cd2b0fc34918ef",
     "review/autonomy-20261103-rtl-check": "4ca75181845a9437cfc632bcc979b5a093bebafa",
-    "review/autonomy-20261103-sqlite-failure": "99228226b2c27370531f26ff7c5ceda776f0ce98"
+    "review/autonomy-20261103-sqlite-failure": "99228226b2c27370531f26ff7c5ceda776f0ce98",
+    "review/autonomy-20261104-f4-check": "5c5880515672abef98d4c8a1379acb35188e4cb9"
   },
   "checkpoints": [
     {
@@ -54,7 +55,7 @@
         ],
         "usage": "unknown"
       },
-      "status": "executed_observed",
+      "status": "independently_reproduced",
       "observed_result": "4 fixed cases: normal 201/one exact effect; preaccept no reply/MISSING; accepted no reply/one effect; early ACK 201/MISSING. Live/cold readers agree. Empty/MISSING/malformed/truncated controls distinct. Checker missing-metadata controls refused.",
       "limits": "Source-ordered fsync return, not syscall/power-loss evidence; no retries/F3/full F4",
       "raw_evidence": [
@@ -63,12 +64,18 @@
           "sha256": "55dddea4e7a767d6e2f0d896c9ada17034e7ff8e7045ebc7d9bb833b133a1488"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261104-f4-check",
+          "sha": "5c5880515672abef98d4c8a1379acb35188e4cb9",
+          "independence": "fresh-context same-family; F4 two-case rerun, detached raw/source only"
+        }
+      ],
       "dependencies": [
         "962785f preregistration"
       ],
       "blockers": [],
-      "next_discriminator": "Independent fixed-claim check",
+      "next_discriminator": "Checker provenance repair independently checked, then actual bootstrap/revoke mapping or distinct F1 boundary",
       "supersedes": []
     },
     {
@@ -97,12 +104,82 @@
           "sha256": "535083716112dff67e2e420335f666f1a86a375c378e871169cd5c69ff462740"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261104-f4-check",
+          "sha": "5c5880515672abef98d4c8a1379acb35188e4cb9",
+          "independence": "fresh-context same-family; F4 two-case rerun, detached raw/source only"
+        }
+      ],
       "dependencies": [
         "0a52b9b preregistration"
       ],
       "blockers": [],
       "next_discriminator": "Independent mapping check; explicit F2 bootstrap/revoke semantics",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F4-CHECKER-REPAIR",
+      "stream": "cross-layer",
+      "claim": "Checker binds structural verdict to retained sink and runner metadata",
+      "source_branch": "research/autonomy-20261103-cross-layer",
+      "source_sha": "5d45805764a42a7464e0963d1715ae009dccac57",
+      "implementation": "research/phase-i-t18-sink-order-20261103/check_f4_gates.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/check_f4_gates.py",
+      "environment": {
+        "host": "authorized disposable Codex Cloud",
+        "capabilities": [
+          "subprocess",
+          "read-only JSON"
+        ]
+      },
+      "status": "executed_observed",
+      "observed_result": "Pre-fix wrong source/hash still supported; repaired base/sink/runner checks reject 7 mutations while baseline remains supported",
+      "limits": "Finite local schedules; no power loss/full stream closure. Repair does not authenticate execution.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/round2-checker-provenance.red.json",
+          "sha256": "c6a527f24522d07bca00c3054127cbbb1ba55b26e69e83d669cb66afc2cb5353"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/round2-f4-gates.provenance-fixed.check.json",
+          "sha256": "b4702b50c89b0cc1d596a436eae993d74cd8ee1c8dcbf467ba02fd2a55fb5e61"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Bounded independent diff check",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F1-COMMIT-BUSY",
+      "stream": "F1",
+      "claim": "No success ACK after real COMMIT failure following UPDATE success",
+      "source_branch": "research/autonomy-20261103-f1",
+      "source_sha": "faadb396229a19be460a1884a182ace62c19b2c1",
+      "implementation": "docs/research/phase-i-f1/round2_commit_busy.py",
+      "command": "timeout 30 python3 docs/research/phase-i-f1/round2_commit_busy.py",
+      "environment": {
+        "host": "authorized disposable Codex Cloud",
+        "capabilities": [
+          "subprocess",
+          "SQLite"
+        ]
+      },
+      "status": "executed_observed",
+      "observed_result": "Held reader causes SQLITE_BUSY at COMMIT, transaction open then rollback; EOF/no ACK, exact old cold recovery. Released reader commits/ACKs/new recovery.",
+      "limits": "Finite local schedules; no power loss/full stream closure. Repair does not authenticate execution.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-commit-busy.raw.json",
+          "sha256": "577f18d90dfe7db3d9e7390d3240e3e343c867b6371678f40da9f8b533101b77"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Fresh-context check active; live witness ordering next",
       "supersedes": []
     }
   ],

@@ -21,3 +21,11 @@ Worktrees: /workspace/ases-run coordinator, /workspace/ases-cross cross-layer; o
 Cross-layer 407a345 (prior increment 0a52b9b) pushed. F4 retained gates, strict reader, four cases and four file controls executed; original detached-check post-replacement test denies stale request as predicted. Existing post-send baseline/bypass positive/negative controls retained without rerun. Index carries exact pins and raw digests. One fresh-context same-family check active (`f4_check`, caller-selected native gpt-6-luna/high); no nested delegation or other workers. Scope excludes result writeups/prior reviews until first verdict, own report-only branch. No claim of cross-family independence. Coordinator proceeds F1 while check runs.
 
 Read November 2 testing/debugging/ontology proposal sources at f8c700a; applied falsifiable hypotheses, instrument qualification and scoped interpretation provisionally, no promotion. Historical review branches inspected; F1 full-model timeout remains inconclusive. No native Landlock retry or blocked Kernel-contract route.
+
+## COMMIT boundary and review correction
+
+F1 7201fdf pushed: actual held reader permits UPDATE but COMMIT returns SQLITE_BUSY (5); transaction rolled back, client EOF/no ACK, exact prior acknowledged state recovered independently and by fresh holder. Released-reader control commits/ACKs/recover new. No actual I/O-failure/power-loss claim. Live witness ordering preregistration follows on F1 branch.
+
+F4 independent operational check 5c5880515672abef98d4c8a1379acb35188e4cb9 pushed/remote verified: two-case reproduction supports process-loss distinction, detached post-send inspected. Report detects harness provenance gap: source/hash corruption did not affect checker verdict. Coordinator reproduced red controls, repaired bounded binding checks at cross-layer 5d45805, baseline and 7 negative controls pass. This is harness correction, not sink defect; original evidence unchanged. Formal cross-family review remains absent.
+
+Second worker only: f1_commit_check, caller native gpt-6.1-terra/high, fresh-context bounded check of 7201fdf. F4 checker idle; no more than one active so far. Actual usage unknown, no allowance/concurrency errors observed. Restart cursor: execute live-witness ordering prereg; integrate pending COMMIT review and obtain bounded provenance diff check if useful.
