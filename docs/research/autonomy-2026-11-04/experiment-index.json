@@ -16,7 +16,7 @@
     "research/autonomy-20261103-f1": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
     "research/autonomy-20261103-f3-policy": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
     "research/autonomy-20261103-kernel": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
-    "research/autonomy-20261103-run": "1f832f918fc4efd641b59d7b99b2860a19d5fbe4",
+    "research/autonomy-20261103-run": "113ea9afac9dc0e30839951be4d611e2e2d58a81",
     "review/autonomy-20261103-evidence": "c81ec439ea803d35a2a0edb3cf2317f048c03201",
     "review/autonomy-20261103-f1-bridge": "ccd2d524856943193d484e52159481da3f00fdd5",
     "review/autonomy-20261103-f1-check": "74d6e2c59630b37b34d48fa4a65c8d2f2859758d",
@@ -27,8 +27,9 @@
     "review/autonomy-20261103-sqlite-failure": "99228226b2c27370531f26ff7c5ceda776f0ce98",
     "review/autonomy-20261104-f4-check": "8622de052e067b046f4feadc6f68642e05312bf7",
     "review/autonomy-20261104-f1-commit-check": "2881a50bc0280804f0d6920b046f5776272bfec9",
-    "research/autonomy-20261104-f4-write-count": "43ddd00633ecf4d909021a47f89052f1dca1cfcf",
-    "review/autonomy-20261104-kernel-literals": "5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490"
+    "research/autonomy-20261104-f4-write-count": "31118f0f9ca14554570791b6f824d3f708f4f8a2",
+    "review/autonomy-20261104-kernel-literals": "5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490",
+    "review/autonomy-20261104-f4-write-count": "96ec2096a7ff6d8f29128adc560a29c1a2f5e81b"
   },
   "checkpoints": [
     {
@@ -79,7 +80,9 @@
       ],
       "blockers": [],
       "next_discriminator": "Checker provenance repair independently checked, then actual bootstrap/revoke mapping or distinct F1 boundary",
-      "supersedes": []
+      "supersedes": [
+        "H-F4-GATE-PREREG"
+      ]
     },
     {
       "id": "R2-T18-DETACHED-POSTSEND",
@@ -380,10 +383,16 @@
           "sha256": "d9be95a1e1aae5b6ec3197e1121bf509ceaf8b5e42bf3fd87a7a2857fe2bf103"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261104-f4-write-count",
+          "sha": "96ec2096a7ff6d8f29128adc560a29c1a2f5e81b",
+          "independence": "fresh model context/source/raw inspection only; shared experimental checkout, review branch created retrospectively; no rerun or formal cross-family independence"
+        }
+      ],
       "dependencies": [],
       "blockers": [],
-      "next_discriminator": "Write-all repair and zero-progress control",
+      "next_discriminator": "Actual selected sink storage failure envelope; preserve API-injection and power-loss distinction",
       "supersedes": []
     },
     {
@@ -414,10 +423,207 @@
           "sha256": "11bb6c1c963c84a6075c7a6f8c4caeb9c30091366219c7c1697c52532c0c93f1"
         }
       ],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261104-f4-write-count",
+          "sha": "96ec2096a7ff6d8f29128adc560a29c1a2f5e81b",
+          "independence": "fresh model context/source/raw inspection only; shared experimental checkout, review branch created retrospectively; no rerun or formal cross-family independence"
+        }
+      ],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Actual selected sink storage failure envelope; preserve API-injection and power-loss distinction",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F4-EXECUTION-PROVENANCE",
+      "stream": "cross-layer",
+      "claim": "Distinguish invocation HEAD from exact source bytes on uncommitted execution",
+      "source_branch": "research/autonomy-20261104-f4-write-count",
+      "source_sha": "31118f0f9ca14554570791b6f824d3f708f4f8a2",
+      "implementation": "research/phase-i-t18-sink-order-20261103/short-write/check_provenance.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/short-write/check_provenance.py",
+      "environment": {
+        "host": "Codex Cloud; see pinned source/raw for recorded host",
+        "required_capabilities": "read-only git and recorded tool prerequisites"
+      },
+      "status": "executed_observed",
+      "observed_result": "Baseline source matches invocation HEAD; fixed source differs from its invocation HEAD but matches committed implementation43ddd00. Both wrong-digest controls refused. Future runner names execution_base_sha explicitly.",
+      "limits": "Retrospective source binding, not authenticated execution or reconstructed contemporaneous dirty-state observation",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/short-write/execution-provenance.check.json",
+          "sha256": "3ec65cda1b40e06a047ed648933231b22794d83c9b6eb12095af176576f0be12"
+        }
+      ],
       "reviewers": [],
       "dependencies": [],
       "blockers": [],
-      "next_discriminator": "Independent check of injection and repair; cold remote restoration",
+      "next_discriminator": "Require invocation-base/source-hash distinction in future run metadata",
+      "supersedes": []
+    },
+    {
+      "id": "R2-REMOTE-COLD-RESTORE",
+      "stream": "coordination",
+      "claim": "Can a fresh remote-only clone restore pinned indexed raw/source artifacts?",
+      "source_branch": "research/autonomy-20261103-run",
+      "source_sha": "113ea9afac9dc0e30839951be4d611e2e2d58a81",
+      "implementation": "docs/research/autonomy-2026-11-04/cold_restore.py",
+      "command": "python3 docs/research/autonomy-2026-11-04/cold_restore.py",
+      "environment": {
+        "host": "Codex Cloud; see pinned source/raw for recorded host",
+        "required_capabilities": "read-only git and recorded tool prerequisites"
+      },
+      "status": "executed_observed",
+      "observed_result": "11 experiment implementations/13 raw artifacts restored from GitHub with matching digests; tampered digest rejected;11.278s",
+      "limits": "Index snapshot atcc10d3d; same coordinator/host; not independent archive, clean-machine execution or long-term retention proof",
+      "raw_evidence": [
+        {
+          "path": "docs/research/autonomy-2026-11-04/cold-restoration.raw.json",
+          "sha256": "b25db02857b0403083c3a907b33e52c3e13222f95f2dce43997d190a73990449"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Recheck newly added index records and publish final cursor",
+      "supersedes": []
+    },
+    {
+      "id": "H-T18-POSTSEND",
+      "stream": "cross-layer",
+      "claim": "Prepared T18 send-after-replacement selected analogue",
+      "source_branch": "research/autonomy-20261103-cross-layer",
+      "source_sha": "9f63593b84ac433c71ac635eb6fdc654301cf854",
+      "implementation": "research/phase-i-t18-sink-order-20261103/post_replacement_send.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/post_replacement_send.py",
+      "environment": {
+        "host": "Codex Cloud; see pinned source/raw for recorded host",
+        "required_capabilities": "read-only git and recorded tool prerequisites"
+      },
+      "status": "executed_observed",
+      "observed_result": "Already executed Nov3: baseline stale409/no effect, bypass stale201/effect, current before/after positives; explicit invocation/reply/event/journal evidence",
+      "limits": "Version replacement selected as revoke analogue; real frozen bootstrap/currentness mapping absent",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/post-replacement-send-raw.json",
+          "sha256": "4ea421134ac56a604c771a980e0c6548dcbfbd277486759be7d57e111aaa7d38"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/post-replacement-send-check.json",
+          "sha256": "a9c50f1df32ee868555988c38db0a3b0064899bef7391f0b6b08f1bea86c141f"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Actual create/grant/activate/revoke-to-sink mapping",
+      "supersedes": []
+    },
+    {
+      "id": "H-F4-GATE-PREREG",
+      "stream": "cross-layer",
+      "claim": "Historical first unfinished retained-gate test at Round2 start",
+      "source_branch": "research/autonomy-20261103-cross-layer",
+      "source_sha": "962785f926345d7909eb690f5e81d72a1c65f5d0",
+      "implementation": "research/phase-i-t18-sink-order-20261103/F4-GATE-QUALIFICATION-PREREGISTRATION.md",
+      "command": "",
+      "environment": {
+        "host": "Codex Cloud; see pinned source/raw for recorded host",
+        "required_capabilities": "read-only git and recorded tool prerequisites"
+      },
+      "status": "preregistered_not_executed",
+      "observed_result": "No implementation/execution at historical pin; Round2 R2-F4-GATES subsequently executed it",
+      "limits": "Historical status only; not an assertion that test remains unexecuted now",
+      "raw_evidence": [],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "See R2-F4-GATES",
+      "supersedes": []
+    },
+    {
+      "id": "H-F2-T18-FROZEN",
+      "stream": "F2",
+      "claim": "Frozen T18 use-current fixture execution",
+      "source_branch": "research/autonomy-20261103-cross-layer",
+      "source_sha": "9f63593b84ac433c71ac635eb6fdc654301cf854",
+      "implementation": "docs/architecture/core-substrate/fixtures-f2/fixtures.json",
+      "command": "",
+      "environment": {
+        "host": "Codex Cloud; see pinned source/raw for recorded host",
+        "required_capabilities": "read-only git and recorded tool prerequisites"
+      },
+      "status": "preregistered_not_executed",
+      "observed_result": "Prepared-only fixture retained; selected concrete analogues do not execute its complete bootstrap/host semantics",
+      "limits": "Do not equate matching selected ordering with aggregate F2/T18 acceptance",
+      "raw_evidence": [],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [
+        "No actual selected F3 sink/bootstrap/revoke correspondence"
+      ],
+      "next_discriminator": "Real selected authorization-to-sink mapping with positive/control paths",
+      "supersedes": []
+    },
+    {
+      "id": "H-F1-FULLMODEL-TIMEOUT",
+      "stream": "F1",
+      "claim": "Independent full-model comparator result",
+      "source_branch": "review/autonomy-20261103-f1-check",
+      "source_sha": "74d6e2c59630b37b34d48fa4a65c8d2f2859758d",
+      "implementation": "docs/research/phase-i-f1/phase_i_f1_model.py",
+      "command": "timeout 40 python3 docs/research/phase-i-f1/phase_i_f1_model.py",
+      "environment": {
+        "host": "Codex Cloud; see pinned source/raw for recorded host",
+        "required_capabilities": "read-only git and recorded tool prerequisites"
+      },
+      "status": "timed_out_inconclusive",
+      "observed_result": "Historical40s/1GiB cap exited124/no result; not pass/fail",
+      "limits": "Round2 first-context diagnosis is a different bounded run",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1-check/raw/phase_i_f1_model.stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "docs/research/phase-i-f1-check/raw/phase_i_f1_model.stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "See R2-F1-MODEL-SCOPE; declare complete scoped verification before spending more",
+      "supersedes": []
+    },
+    {
+      "id": "H-F3-NATIVE-BLOCKER",
+      "stream": "F3",
+      "claim": "Native positive control and host confinement",
+      "source_branch": "review/autonomy-20261103-f3",
+      "source_sha": "c2c117568858fb179d7bb61e04ade42f7728e12f",
+      "implementation": "research/phase-i-protected-work-unit-f3/lifecycle/l1/l1.py",
+      "command": "",
+      "environment": {
+        "host": "Codex Cloud; see pinned source/raw for recorded host",
+        "required_capabilities": "read-only git and recorded tool prerequisites"
+      },
+      "status": "blocked_environment",
+      "observed_result": "Historical Landlock ABI probe returns-1/errno38 ENOSYS; no suitable alternate authorized host established",
+      "limits": "No repeated native attempt; policy simulation cannot establish confinement",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-protected-work-unit-f3/reviews/evidence-autonomy-20261103-f3/landlock-rerun.stdout.txt",
+          "sha256": "46810e8c6965828d36fc470c0ecb090f866bf95d563ffe353e9d47c47d35cf35"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [
+        "Required kernel facility unavailable in prior concrete probe"
+      ],
+      "next_discriminator": "Only a separately authorized suitable host can remove blocker",
       "supersedes": []
     }
   ],
@@ -429,10 +635,11 @@
     "Kernel independent full correspondence/physical timing/capture-publication and minimality obligations",
     "F3 sole-holder enforcement, real credential revocation/native confinement ENOSYS; L6/L7 open",
     "Formal cross-family F5 review absent",
-    "Cold publication restoration pending"
+    "Final cold restoration of expanded index; archive independence/retention remain open"
   ],
   "blocked_routes": [
     "Kernel-contract platform safety-filter investigation: do not retry",
     "Native Landlock previously ENOSYS; no suitable alternate host established"
-  ]
+  ],
+  "source_revision_semantics": "Each experiment source_sha pins committed implementation/evidence. Some original raw source_revision fields record HEAD at invocation before code commit; exact executed bytes are separately identified by source hashes. Preserve raw and consult source-provenance qualification rather than relabel historical execution."
 }

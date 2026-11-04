@@ -55,3 +55,21 @@ Next cheap durability discriminator: clone coordinator from GitHub into a new te
 ## Remote evidence restoration observed
 
 cold_restore.py executed from published cc10d3d: new remote-only clone, all indexed refs fetched,11 experiment implementations and13 raw artifacts restored; pinned raw digests all verified, existing3 invalid-index controls rejected and separate wrong-digest control rejected. Elapsed11.278 s. No prior local Git object reference used. This is same-coordinator remote retrieval, not an independent archive/clean-machine behavioral reproduction or long-term retention promise. Raw output retained here; explicit JSON Schema and dependency-free validator now also check implementation presence/type structure.
+
+## Source provenance and reviewer isolation qualification
+
+Short-write reviewer96ec209 confirms fresh model context and no result/prereg/prior-review access before first verdict, but used /workspace/ases-f4-write directly at43ddd00 and published only FIXED-CLAIM-CHECK.md onto the experimental branch. No source/raw edits or rerun. Requested separate worktree was NOT used. Coordinator preserved research history and subsequently created review/autonomy-20261104-f4-write-count at96ec209; that branch is retrospective, not proof of original isolation. Findings are same-family source/raw checks with shared-checkout limits, not formal independent reproduction.
+
+Continuation31118f0 qualifies the raw invocation HEAD versus source content mismatch without rewriting logs: fixed raw's invocation HEAD d1c411e has baseline sink; its actual recorded hash matches repaired sink at43ddd00. New retrospective checker binds both source hashes to implementation commits, distinguishes invocation base, rejects altered digests. Future runner naming fixed; syntax checked, no behavioral rerun solely for metadata. Index adds historical prepared-only/blocked/timeout statuses so a resumer will not infer full F2/F3/F4 closure.
+
+Three workers total, no nested delegation, at most one active. All idle/completed now. Usage UNKNOWN; no actual platform allowance or concurrency error occurred. Planning reserve preserved through direct primary experiments and bounded reviews. Main/original work branch remains e388b9e7477fb5aa2041027c6a6552529f42cd2f clean; no experimental merges or canonical-policy changes.
+
+## Current next discriminator / restart cursor
+
+1. Use experiment-index.json and validate_index.py; raw source_revision can mean invocation base, see provenance qualification.
+2. Highest-consequence open boundary is actual selected authority-to-sink currentness/acceptance with trustworthy nonrollback state and F2 bootstrap/revoke correspondence. Current disposable analogues do not supply it.
+3. F3 requires real sole-holder enforcement and suitable native host for L6/L7; ENOSYS remains blocked. Overlap test is outside serialized premise, no repair adopted.
+4. F1 full comparator remains inconclusive; no larger blind timeout. Kernel literal path is supported, full independent expectations and physical timing remain open. Blocked Kernel-contract route must not be retried.
+5. Before new expensive work, inspect short-write API-fault limits and any newly available execution/usage information. Exact source and review tips in index. Three worker contexts available but no automatic new delegation.
+
+Expanded18-record index validated locally, pinned artifact digests/implementation paths checked, invalid-index controls rejected. Next immediate housekeeping discriminator: remote-only cold restoration of expanded index, then record current exact tips/clock and durable checkpoint. Do not portray an unexposed remaining allowance as exhausted.
