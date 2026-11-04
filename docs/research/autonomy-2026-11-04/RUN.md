@@ -96,3 +96,5 @@ No active children or delegated work left. Completed primary increments include 
 | review/autonomy-20261104-kernel-literals | `5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490` |
 
 Coordinator row denotes pre-publication checkpoint parent; final commit is discoverable from branch head. Actual remaining allowance/consumption never exposed; no exhaustion claim. Primary next discriminator remains real trusted nonrollback authority coupled to actual selected sink acceptance and explicit F2 bootstrap/revoke mapping. Host/kernel and cross-family acceptance blockers remain.
+
+Measured clock checkpoint23:30:59 UTC minus first23:05:52 UTC =25m07s. This measures elapsed runtime only; remaining window/usage unknown. All increments published; no claim that an unreported allowance was exhausted.

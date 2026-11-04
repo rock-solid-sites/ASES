@@ -16,7 +16,7 @@
     "research/autonomy-20261103-f1": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
     "research/autonomy-20261103-f3-policy": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
     "research/autonomy-20261103-kernel": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
-    "research/autonomy-20261103-run": "113ea9afac9dc0e30839951be4d611e2e2d58a81",
+    "research/autonomy-20261103-run": "52bbec4f62878704c5fb44af53b86eb1ec0f7a03",
     "review/autonomy-20261103-evidence": "c81ec439ea803d35a2a0edb3cf2317f048c03201",
     "review/autonomy-20261103-f1-bridge": "ccd2d524856943193d484e52159481da3f00fdd5",
     "review/autonomy-20261103-f1-check": "74d6e2c59630b37b34d48fa4a65c8d2f2859758d",
@@ -39,6 +39,10 @@
     {
       "utc": "2026-11-04",
       "state": "F4 gates and detached post-send published; isolated same-family check active"
+    },
+    {
+      "utc": "2026-11-04T23:30:59Z",
+      "state": "All substantive increments pushed;18-record expanded remote restore succeeds;3 workers completed, no active delegation; usage unknown; measured elapsed25m07s from first clock"
     }
   ],
   "experiments": [
@@ -467,7 +471,7 @@
       "stream": "coordination",
       "claim": "Can a fresh remote-only clone restore pinned indexed raw/source artifacts?",
       "source_branch": "research/autonomy-20261103-run",
-      "source_sha": "113ea9afac9dc0e30839951be4d611e2e2d58a81",
+      "source_sha": "52bbec4f62878704c5fb44af53b86eb1ec0f7a03",
       "implementation": "docs/research/autonomy-2026-11-04/cold_restore.py",
       "command": "python3 docs/research/autonomy-2026-11-04/cold_restore.py",
       "environment": {
@@ -475,18 +479,22 @@
         "required_capabilities": "read-only git and recorded tool prerequisites"
       },
       "status": "executed_observed",
-      "observed_result": "11 experiment implementations/13 raw artifacts restored from GitHub with matching digests; tampered digest rejected;11.278s",
-      "limits": "Index snapshot atcc10d3d; same coordinator/host; not independent archive, clean-machine execution or long-term retention proof",
+      "observed_result": "Remote-only snapshots:11 records/13 raw artifacts and expanded18 records/20 raw artifacts restored with matching pinned digests/implementations; altered digest rejected. Times11.278s/8.865s.",
+      "limits": "Two explicitly pinned index snapshots, same coordinator/host and GitHub; not independent archive, behavioral clean-machine reproduction or retention guarantee",
       "raw_evidence": [
         {
           "path": "docs/research/autonomy-2026-11-04/cold-restoration.raw.json",
           "sha256": "b25db02857b0403083c3a907b33e52c3e13222f95f2dce43997d190a73990449"
+        },
+        {
+          "path": "docs/research/autonomy-2026-11-04/cold-restoration-expanded.raw.json",
+          "sha256": "9dc3ff481d4d7956dfa864090194e3e5ec709c885c9634596e6afe6e087b3bd0"
         }
       ],
       "reviewers": [],
       "dependencies": [],
       "blockers": [],
-      "next_discriminator": "Recheck newly added index records and publish final cursor",
+      "next_discriminator": "Independent archive retention/restore or new substantive source evidence; do not repeat successful cold checks without changes",
       "supersedes": []
     },
     {
@@ -635,11 +643,17 @@
     "Kernel independent full correspondence/physical timing/capture-publication and minimality obligations",
     "F3 sole-holder enforcement, real credential revocation/native confinement ENOSYS; L6/L7 open",
     "Formal cross-family F5 review absent",
-    "Final cold restoration of expanded index; archive independence/retention remain open"
+    "Independent evidence archive/long-term retention unestablished; both remote-only cold checks completed"
   ],
   "blocked_routes": [
     "Kernel-contract platform safety-filter investigation: do not retry",
     "Native Landlock previously ENOSYS; no suitable alternate host established"
   ],
-  "source_revision_semantics": "Each experiment source_sha pins committed implementation/evidence. Some original raw source_revision fields record HEAD at invocation before code commit; exact executed bytes are separately identified by source hashes. Preserve raw and consult source-provenance qualification rather than relabel historical execution."
+  "source_revision_semantics": "Each experiment source_sha pins committed implementation/evidence. Some original raw source_revision fields record HEAD at invocation before code commit; exact executed bytes are separately identified by source hashes. Preserve raw and consult source-provenance qualification rather than relabel historical execution.",
+  "elapsed_observed": {
+    "from_utc": "2026-11-04T23:05:52Z",
+    "to_utc": "2026-11-04T23:30:59Z",
+    "seconds": 1507,
+    "meaning": "measured checkpoint elapsed; not guaranteed window or remaining quota"
+  }
 }
