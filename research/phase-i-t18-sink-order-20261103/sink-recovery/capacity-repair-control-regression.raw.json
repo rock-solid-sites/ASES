@@ -1,0 +1,346 @@
+{
+  "refusals": {
+    "duplicate_json_key": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20312c22736571223a317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c2022736571223a20337d0a",
+      "journal_sha256": "c3849e361b57967f43b5d0ea3f1e0d09c316b872d712464ff2b3811d6feb1862",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 63, in recover_ordered\n    event = json.loads(line, object_pairs_hook=unique)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py\", line 359, in loads\n    return cls(**kw).decode(s)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 338, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 354, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 58, in unique\n    raise ValueError(\"duplicate journal key\")\nValueError: duplicate journal key\n",
+      "stdout": ""
+    },
+    "duplicate_sequence": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c2022736571223a20317d0a",
+      "journal_sha256": "572d279bd0a093b29d0867608bdb4be21c2bee3bc546e1a78005dae74d21ff88",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 66, in recover_ordered\n    raise ValueError(\"invalid durable sequence\")\nValueError: invalid durable sequence\n",
+      "stdout": ""
+    },
+    "empty": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "",
+      "journal_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 53, in recover_ordered\n    raise ValueError(\"empty, oversized or truncated recovery journal\")\nValueError: empty, oversized or truncated recovery journal\n",
+      "stdout": ""
+    },
+    "implicit_fresh_existing": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c2022736571223a20337d0a",
+      "journal_sha256": "8e92a9f9220d7f3503a3bad5915b8f4b5a9d192b983965ffb6b06c762059123e",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 37, in __init__\n    raise ValueError(\"existing journal requires explicit recovery mode\")\nValueError: existing journal requires explicit recovery mode\n",
+      "stdout": ""
+    },
+    "missing": {
+      "exit": 1,
+      "journal_exists": false,
+      "journal_raw_hex": null,
+      "journal_sha256": null,
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 50, in recover_ordered\n    with self.journal.open(\"rb\") as stream:\n         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/ases-sink-recovery-controls-c2ipev1l/missing/journal.jsonl'\n",
+      "stdout": ""
+    },
+    "missing_obligation": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a202272657461696e65642d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202263316539666166653161393033396564343863326336363464383464356562303163313338306333326665636234633966336364643562366462383864366132222c2022726571756573745f6964223a20226f626c69676174696f6e3a71222c2022736571223a20337d0a",
+      "journal_sha256": "785685e8cde579151ba608716943e5a279541f1da5442b800d5b888d0d367c4c",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 94, in recover_ordered\n    raise ValueError(\"effect lacks exact committed obligation\")\nValueError: effect lacks exact committed obligation\n",
+      "stdout": ""
+    },
+    "truncated": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c202273657122",
+      "journal_sha256": "0475b84077a0e0d7edbac004e5fee18eea8fc3cd71d9b5e9f882c99d779c0f0f",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 53, in recover_ordered\n    raise ValueError(\"empty, oversized or truncated recovery journal\")\nValueError: empty, oversized or truncated recovery journal\n",
+      "stdout": ""
+    },
+    "unknown_event": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a2022756e6b6e6f776e2d6576656e74222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c2022736571223a20337d0a",
+      "journal_sha256": "cf806b3fa758d641bb65a7bf4510aa0a20b51727b0f4a19518ad21f5234619f4",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 101, in recover_ordered\n    raise ValueError(\"unsupported ordered journal event\")\nValueError: unsupported ordered journal event\n",
+      "stdout": ""
+    },
+    "wrong_obligation_hash": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a202272657461696e65642d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202230303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a202272657461696e65642d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202263316539666166653161393033396564343863326336363464383464356562303163313338306333326665636234633966336364643562366462383864366132222c2022726571756573745f6964223a20226f626c69676174696f6e3a71222c2022736571223a20337d0a",
+      "journal_sha256": "05ecacdb0ab0abee932bf680306b6798ace064ee2535befd75f18667545a2014",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 81, in recover_ordered\n    raise ValueError(\"invalid committed obligation\")\nValueError: invalid committed obligation\n",
+      "stdout": ""
+    },
+    "wrong_replacement": {
+      "exit": 1,
+      "journal_exists": true,
+      "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20392c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c2022736571223a20337d0a",
+      "journal_sha256": "c99fd5440268670cb476a3f5ab749eee548f1c724bb5763fb735dadd510342fd",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 73, in recover_ordered\n    raise ValueError(\"replacement continuity mismatch\")\nValueError: replacement continuity mismatch\n",
+      "stdout": ""
+    }
+  },
+  "runner_sha256": "8ad9549c7278c7c9627b89136239108445bf6e609b0a975e0d145220b6405a31",
+  "schema": "ases.sink-recovery-controls.v1",
+  "sequence_gap": {
+    "after_call": {
+      "completion_monotonic_ns": 3033904900903,
+      "request": {
+        "body": {
+          "authority_version": 2,
+          "payload": "new-current",
+          "request_id": "gap-after"
+        },
+        "method": "POST",
+        "path": "/submit"
+      },
+      "response": {
+        "body": {
+          "event_seq": 5,
+          "outcome": "accepted"
+        },
+        "status": 201
+      },
+      "start_monotonic_ns": 3033903920697
+    },
+    "after_status": {
+      "authority_version": 2,
+      "effects": [
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "live",
+          "presented_version": 1,
+          "request_id": "gap-positive",
+          "seq": 1
+        },
+        {
+          "accepted_under_version": 2,
+          "check_mode": "recover-ordered",
+          "event": "effect_accepted",
+          "payload": "new-current",
+          "presented_version": 2,
+          "request_id": "gap-after",
+          "seq": 5
+        }
+      ],
+      "events": [
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "live",
+          "presented_version": 1,
+          "request_id": "gap-positive",
+          "seq": 1
+        },
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "gap-q",
+          "payload": "exact",
+          "payload_sha256": "fa79d4746c21cd960a17b92db8976ddef95a7e20b590721f8e0fa7847a05e486",
+          "seq": 3
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 4
+        },
+        {
+          "accepted_under_version": 2,
+          "check_mode": "recover-ordered",
+          "event": "effect_accepted",
+          "payload": "new-current",
+          "presented_version": 2,
+          "request_id": "gap-after",
+          "seq": 5
+        }
+      ],
+      "waiting": 0
+    },
+    "before_calls": [
+      {
+        "completion_monotonic_ns": 3033831128140,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "live",
+            "request_id": "gap-positive"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3033821033600
+      },
+      {
+        "completion_monotonic_ns": 3033832472586,
+        "request": {
+          "body": {
+            "authority_version": 0,
+            "payload": "stale",
+            "request_id": "gap-denied"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "outcome": "rejected"
+          },
+          "status": 409
+        },
+        "start_monotonic_ns": 3033831131964
+      },
+      {
+        "completion_monotonic_ns": 3033833495261,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "obligation_id": "gap-q",
+            "payload": "exact"
+          },
+          "method": "POST",
+          "path": "/commit-obligation"
+        },
+        "response": {
+          "body": {
+            "event_seq": 3,
+            "outcome": "committed"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3033832474578
+      },
+      {
+        "completion_monotonic_ns": 3033834658671,
+        "request": {
+          "body": {},
+          "method": "POST",
+          "path": "/replace"
+        },
+        "response": {
+          "body": {
+            "authority_version": 2,
+            "outcome": "replaced"
+          },
+          "status": 200
+        },
+        "start_monotonic_ns": 3033833496976
+      }
+    ],
+    "before_status": {
+      "authority_version": 2,
+      "effects": [
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "live",
+          "presented_version": 1,
+          "request_id": "gap-positive",
+          "seq": 1
+        }
+      ],
+      "events": [
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "live",
+          "presented_version": 1,
+          "request_id": "gap-positive",
+          "seq": 1
+        },
+        {
+          "current_version": 1,
+          "event": "sink_rejected",
+          "presented_version": 0,
+          "reason": "authority changed before sink acceptance",
+          "request_id": "gap-denied",
+          "seq": 2
+        },
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "gap-q",
+          "payload": "exact",
+          "payload_sha256": "fa79d4746c21cd960a17b92db8976ddef95a7e20b590721f8e0fa7847a05e486",
+          "seq": 3
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 4
+        }
+      ],
+      "waiting": 0
+    },
+    "exits": [
+      -9,
+      -9
+    ],
+    "journal_after": {
+      "exists": true,
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226c697665222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226761702d706f736974697665222c2022736571223a20317d0a7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a20226761702d71222c20227061796c6f6164223a20226578616374222c20227061796c6f61645f736861323536223a202266613739643437343663323163643936306131376239326462383937366464656639356137653230623539303732316638653066613738343761303565343836222c2022736571223a20337d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20347d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a20227265636f7665722d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226e65772d63757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226761702d6166746572222c2022736571223a20357d0a",
+      "sha256": "7456b93cf54b35195619c718942f2cc8ecebd9b68be8424d36cd633c3a9c79a6"
+    },
+    "journal_before": {
+      "exists": true,
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226c697665222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226761702d706f736974697665222c2022736571223a20317d0a7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a20226761702d71222c20227061796c6f6164223a20226578616374222c20227061796c6f61645f736861323536223a202266613739643437343663323163643936306131376239326462383937366464656639356137653230623539303732316638653066613738343761303565343836222c2022736571223a20337d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20347d0a",
+      "sha256": "f14b814068132368712a22499ff1e8dbbceac45d229369640a0d62ac0bed0d9f"
+    },
+    "restored_status": {
+      "authority_version": 2,
+      "effects": [
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "live",
+          "presented_version": 1,
+          "request_id": "gap-positive",
+          "seq": 1
+        }
+      ],
+      "events": [
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "live",
+          "presented_version": 1,
+          "request_id": "gap-positive",
+          "seq": 1
+        },
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "gap-q",
+          "payload": "exact",
+          "payload_sha256": "fa79d4746c21cd960a17b92db8976ddef95a7e20b590721f8e0fa7847a05e486",
+          "seq": 3
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 4
+        }
+      ],
+      "waiting": 0
+    }
+  },
+  "source_sha256": "d7ffa1fc67d16aedf24d252f42ed4876e76c370c6bfeef8789415da74aa2792f"
+}

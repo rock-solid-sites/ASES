@@ -73,7 +73,8 @@ class SinkState:
                     raise ValueError("replacement continuity mismatch")
                 self.version = event["current_version"]
             elif name == "obligation_committed":
-                if (event.get("committed_under_version") != self.version
+                if (type(event.get("committed_under_version")) is not int
+                        or event.get("committed_under_version") != self.version
                         or not isinstance(event.get("obligation_id"), str)
                         or not isinstance(event.get("payload"), str)
                         or hashlib.sha256(event["payload"].encode()).hexdigest() != event.get("payload_sha256")):
@@ -82,6 +83,7 @@ class SinkState:
             elif name == "effect_accepted":
                 if (not isinstance(event.get("request_id"), str)
                         or not isinstance(event.get("payload"), str)
+                        or type(event.get("accepted_under_version")) is not int
                         or event.get("accepted_under_version") != self.version):
                     raise ValueError("invalid ordered effect")
                 mode = event.get("check_mode")
@@ -90,7 +92,9 @@ class SinkState:
                             or self.obligations[event["obligation_id"]] != event["payload"]
                             or hashlib.sha256(event["payload"].encode()).hexdigest() != event.get("payload_sha256")):
                         raise ValueError("effect lacks exact committed obligation")
-                elif mode not in ("sink-ordered", "recover-ordered") or event.get("presented_version") != self.version:
+                elif (mode not in ("sink-ordered", "recover-ordered")
+                        or type(event.get("presented_version")) is not int
+                        or event.get("presented_version") != self.version):
                     raise ValueError("effect is not current ordered use")
                 self.effects.append(event)
             else:
@@ -101,11 +105,13 @@ class SinkState:
 
     def emit_locked(self, name: str, **fields: Any) -> dict[str, Any]:
         event = {"seq": self.next_seq, "event": name, **fields}
-        self.next_seq += 1
-        self.events.append(event)
         if name in ("effect_accepted", "obligation_committed", "authority_replaced"):
             self.journal.parent.mkdir(parents=True, exist_ok=True)
             payload = (json.dumps(event, sort_keys=True) + "\n").encode()
+            if self.mode in ("sink-ordered", "recover-ordered"):
+                current_size = self.journal.stat().st_size if self.journal.exists() else 0
+                if current_size + len(payload) > 65536:
+                    raise OSError("ordered journal capacity exhausted before append")
             fd = os.open(self.journal, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
             try:
                 offset = 0
@@ -117,6 +123,8 @@ class SinkState:
                 os.fsync(fd)
             finally:
                 os.close(fd)
+        self.next_seq += 1
+        self.events.append(event)
         if name == "effect_accepted":
             self.effects.append(event)
         return event
@@ -242,13 +250,13 @@ def make_handler(state: SinkState):
             if self.path == "/replace":
                 with state.lock:
                     previous = state.version
-                    state.version += 1
+                    new_version = previous + 1
                     state.emit_locked(
                         "authority_replaced",
                         previous_version=previous,
-                        current_version=state.version,
+                        current_version=new_version,
                     )
-                    new_version = state.version
+                    state.version = new_version
                 state.gate.set()
                 self.send_json(200, {"outcome": "replaced", "authority_version": new_version})
                 return
@@ -267,7 +275,6 @@ def make_handler(state: SinkState):
                         )
                         self.send_json(409, {"outcome": "rejected"})
                         return
-                    state.obligations[obligation_id] = payload
                     event = state.emit_locked(
                         "obligation_committed",
                         obligation_id=obligation_id,
@@ -275,6 +282,7 @@ def make_handler(state: SinkState):
                         payload_sha256=hashlib.sha256(payload.encode()).hexdigest(),
                         committed_under_version=state.version,
                     )
+                    state.obligations[obligation_id] = payload
                 self.send_json(201, {"outcome": "committed", "event_seq": event["seq"]})
                 return
 
