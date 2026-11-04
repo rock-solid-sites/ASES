@@ -9,7 +9,7 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 3
+    "workers_launched": 4
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
@@ -29,7 +29,8 @@
     "review/autonomy-20261104-f1-commit-check": "2881a50bc0280804f0d6920b046f5776272bfec9",
     "research/autonomy-20261104-f4-write-count": "31118f0f9ca14554570791b6f824d3f708f4f8a2",
     "review/autonomy-20261104-kernel-literals": "5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490",
-    "review/autonomy-20261104-f4-write-count": "96ec2096a7ff6d8f29128adc560a29c1a2f5e81b"
+    "review/autonomy-20261104-f4-write-count": "96ec2096a7ff6d8f29128adc560a29c1a2f5e81b",
+    "research/autonomy-20261104-sink-recovery": "bace97e115e6ff0e9d25afcb4ac66ba2ff3d2b85"
   },
   "checkpoints": [
     {
@@ -47,6 +48,10 @@
     {
       "utc": "2026-11-04T23:44:42Z",
       "state": "Continued on explicit user instruction; holder-lock discriminator committed/pushed; sink restart discriminator next. Usage unknown; no new model workers launched."
+    },
+    {
+      "utc": "2026-11-04",
+      "state": "Serving restart baseline counterexamples and explicit recovery repair pushed. Fourth worker allocated bounded replay check; accidental result/prereg snippets contaminated first-verdict independence, now explicitly non-independent adversarial check only."
     }
   ],
   "experiments": [
@@ -669,6 +674,78 @@
       "dependencies": [],
       "blockers": [],
       "next_discriminator": "Ensure guard is mandatory and protects lock object/descriptor scope in selected realization; sink actual restart follows",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-SERVING-RESTART-RED",
+      "stream": "cross-layer",
+      "claim": "Does serving-sink restart retain ACKed replacement and committed exact obligation?",
+      "source_branch": "research/autonomy-20261104-sink-recovery",
+      "source_sha": "e0d51e7ffd7f2e4a2bde90c28d3dceea100fb5bd",
+      "implementation": "research/phase-i-t18-sink-order-20261103/sink-recovery/probe.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/sink-recovery/probe.py baseline",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "loopback HTTP",
+          "SIGKILL/reap",
+          "journal replay"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "falsified_counterexample",
+      "observed_result": "Retained journal identical at restart, but baseline serves v1 again: stale1 accepts/current2 denies; exact prior q delivery denies",
+      "limits": "New selected serving-recovery extension only. Trusted correct/current same-host journal, bootstrap1 and logical-root premise; not frozen F2 execution, nonrollback, power loss, native confinement or general retry proof.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/baseline.raw.json",
+          "sha256": "4529fa7ea14c4f6f10c38c5e1a0baf7601904f626f9efaec4e6fd51982414045"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Explicit validated durable-state reconstruction before serving",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-SERVING-RESTART-REPAIR",
+      "stream": "cross-layer",
+      "claim": "Recover selected ordered authority/obligations/effects from actual retained journal before readiness",
+      "source_branch": "research/autonomy-20261104-sink-recovery",
+      "source_sha": "bace97e115e6ff0e9d25afcb4ac66ba2ff3d2b85",
+      "implementation": "research/phase-i-t18-sink-order-20261103/sink-recovery/probe.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/sink-recovery/probe.py fixed",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "loopback HTTP",
+          "SIGKILL/reap",
+          "journal replay"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Explicit recover-ordered serves version2, stale409/current201, exact q201;10 cold invalid-start controls refuse; genuine diagnostic gap1,3,4 becomes1,3,4,5; write-count regressions pass",
+      "limits": "New selected serving-recovery extension only. Trusted correct/current same-host journal, bootstrap1 and logical-root premise; not frozen F2 execution, nonrollback, power loss, native confinement or general retry proof.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/fixed.raw.json",
+          "sha256": "75b335abc50834e06e698b8573262a2a39bdff05c37f7dac77c683680afdd176"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/controls.raw.json",
+          "sha256": "49717a50e165fcc9f74739ff6957ee8c827604e34ce93cf4862b3baa40a4043f"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/write-count-regression.raw.json",
+          "sha256": "4bab60abcbe887b37f01826f7e37acb0d467a39d8ae5629e5ae0456c5a740ca8"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Adversarial replay check; actual selected root/currentness/host authority binding",
       "supersedes": []
     }
   ],
