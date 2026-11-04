@@ -1,0 +1,413 @@
+{
+  "base_sha256": "b5861948fe185fb4c99230122817968a019d14020e769310c498d79e61a6ca14",
+  "cases": {
+    "current_positive": {
+      "admitted": true,
+      "exchange": {
+        "request": {
+          "candidate": {
+            "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+            "epoch": 1
+          },
+          "nonce": "e39d2e89c5366ff430c8eb3d56bf7c3f",
+          "op": "admit"
+        },
+        "response": {
+          "admitted": true,
+          "current": {
+            "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+            "epoch": 1
+          },
+          "nonce": "e39d2e89c5366ff430c8eb3d56bf7c3f",
+          "pid": 2084,
+          "seq": 4
+        }
+      },
+      "reason": "serialized-endpoint"
+    },
+    "detached_stale_accept": {
+      "admitted": true,
+      "cached_exchange": {
+        "request": {
+          "nonce": "f39580b522e4473eb193dc51cd321cf0",
+          "op": "query"
+        },
+        "response": {
+          "current": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "nonce": "f39580b522e4473eb193dc51cd321cf0",
+          "pid": 2084,
+          "seq": 2
+        }
+      },
+      "known_current_at_admission": {
+        "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+        "epoch": 1
+      }
+    },
+    "endpoint_missing": {
+      "admitted": false,
+      "reason": "endpoint-unavailable"
+    },
+    "endpoint_rolled_back": {
+      "admitted": true,
+      "exchange": {
+        "request": {
+          "candidate": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "nonce": "110b9e3c87ce1307d5157bf8cb3c3f06",
+          "op": "admit"
+        },
+        "response": {
+          "admitted": true,
+          "current": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "nonce": "110b9e3c87ce1307d5157bf8cb3c3f06",
+          "pid": 2088,
+          "seq": 1
+        }
+      },
+      "reason": "serialized-endpoint"
+    },
+    "initial_positive": {
+      "admitted": true,
+      "exchange": {
+        "request": {
+          "candidate": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "nonce": "c1655ad2523974ceb7dfdeee3b141ab9",
+          "op": "admit"
+        },
+        "response": {
+          "admitted": true,
+          "current": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "nonce": "c1655ad2523974ceb7dfdeee3b141ab9",
+          "pid": 2084,
+          "seq": 1
+        }
+      },
+      "reason": "serialized-endpoint"
+    },
+    "replayed_response": {
+      "admitted": false,
+      "fresh_request": {
+        "nonce": "dbda1b4e45e37bae5200a4868d77a45f",
+        "op": "query"
+      },
+      "old_response": {
+        "current": {
+          "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+          "epoch": 0
+        },
+        "nonce": "f39580b522e4473eb193dc51cd321cf0",
+        "pid": 2084,
+        "seq": 2
+      }
+    },
+    "serialized_stale_reject": {
+      "admitted": false,
+      "exchange": {
+        "request": {
+          "candidate": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "nonce": "0726c2ac7c34d9106bede50f8fc12780",
+          "op": "admit"
+        },
+        "response": {
+          "admitted": false,
+          "current": {
+            "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+            "epoch": 1
+          },
+          "nonce": "0726c2ac7c34d9106bede50f8fc12780",
+          "pid": 2084,
+          "seq": 5
+        }
+      },
+      "reason": "serialized-endpoint"
+    }
+  },
+  "endpoint_exit": {
+    "exit": -9,
+    "pid": 2084,
+    "stderr": "",
+    "stdout": ""
+  },
+  "endpoint_survived_local_rollback": true,
+  "endpoint_transcript": [
+    {
+      "request": {
+        "candidate": {
+          "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+          "epoch": 0
+        },
+        "nonce": "c1655ad2523974ceb7dfdeee3b141ab9",
+        "op": "admit"
+      },
+      "response": {
+        "admitted": true,
+        "current": {
+          "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+          "epoch": 0
+        },
+        "nonce": "c1655ad2523974ceb7dfdeee3b141ab9",
+        "pid": 2084,
+        "seq": 1
+      }
+    },
+    {
+      "request": {
+        "nonce": "f39580b522e4473eb193dc51cd321cf0",
+        "op": "query"
+      },
+      "response": {
+        "current": {
+          "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+          "epoch": 0
+        },
+        "nonce": "f39580b522e4473eb193dc51cd321cf0",
+        "pid": 2084,
+        "seq": 2
+      }
+    },
+    {
+      "request": {
+        "current": {
+          "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+          "epoch": 1
+        },
+        "nonce": "bf728a8577a9d2485e65ba557cc44926",
+        "op": "advance"
+      },
+      "response": {
+        "current": {
+          "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+          "epoch": 1
+        },
+        "nonce": "bf728a8577a9d2485e65ba557cc44926",
+        "pid": 2084,
+        "seq": 3
+      }
+    },
+    {
+      "request": {
+        "candidate": {
+          "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+          "epoch": 1
+        },
+        "nonce": "e39d2e89c5366ff430c8eb3d56bf7c3f",
+        "op": "admit"
+      },
+      "response": {
+        "admitted": true,
+        "current": {
+          "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+          "epoch": 1
+        },
+        "nonce": "e39d2e89c5366ff430c8eb3d56bf7c3f",
+        "pid": 2084,
+        "seq": 4
+      }
+    },
+    {
+      "request": {
+        "candidate": {
+          "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+          "epoch": 0
+        },
+        "nonce": "0726c2ac7c34d9106bede50f8fc12780",
+        "op": "admit"
+      },
+      "response": {
+        "admitted": false,
+        "current": {
+          "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+          "epoch": 1
+        },
+        "nonce": "0726c2ac7c34d9106bede50f8fc12780",
+        "pid": 2084,
+        "seq": 5
+      }
+    },
+    {
+      "request": {
+        "nonce": "dbda1b4e45e37bae5200a4868d77a45f",
+        "op": "query"
+      },
+      "response": {
+        "current": {
+          "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+          "epoch": 1
+        },
+        "nonce": "dbda1b4e45e37bae5200a4868d77a45f",
+        "pid": 2084,
+        "seq": 6
+      }
+    }
+  ],
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "identities": {
+    "new": {
+      "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+      "epoch": 1
+    },
+    "old": {
+      "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+      "epoch": 0
+    }
+  },
+  "local_current": {
+    "exit": 0,
+    "observation": {
+      "authority": {
+        "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+        "epoch": 1,
+        "integrity": "ok"
+      },
+      "candidates": {
+        "new": {
+          "identity": {
+            "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+            "epoch": 1
+          },
+          "integrity": "ok",
+          "locally_admitted": true
+        },
+        "old": {
+          "identity": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "integrity": "ok",
+          "locally_admitted": false
+        }
+      },
+      "pid": 2086,
+      "witness": {
+        "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+        "epoch": 1,
+        "integrity": "ok"
+      }
+    },
+    "stderr": ""
+  },
+  "local_initial": {
+    "exit": 0,
+    "observation": {
+      "authority": {
+        "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+        "epoch": 0,
+        "integrity": "ok"
+      },
+      "candidates": {
+        "new": {
+          "identity": {
+            "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+            "epoch": 1
+          },
+          "integrity": "ok",
+          "locally_admitted": false
+        },
+        "old": {
+          "identity": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "integrity": "ok",
+          "locally_admitted": true
+        }
+      },
+      "pid": 2085,
+      "witness": {
+        "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+        "epoch": 0,
+        "integrity": "ok"
+      }
+    },
+    "stderr": ""
+  },
+  "local_rolled": {
+    "exit": 0,
+    "observation": {
+      "authority": {
+        "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+        "epoch": 0,
+        "integrity": "ok"
+      },
+      "candidates": {
+        "new": {
+          "identity": {
+            "digest": "fdf15e0a14e94004a6858b4d06b63f15644474367072de4a90d1c55dfd71f520",
+            "epoch": 1
+          },
+          "integrity": "ok",
+          "locally_admitted": false
+        },
+        "old": {
+          "identity": {
+            "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+            "epoch": 0
+          },
+          "integrity": "ok",
+          "locally_admitted": true
+        }
+      },
+      "pid": 2087,
+      "witness": {
+        "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+        "epoch": 0,
+        "integrity": "ok"
+      }
+    },
+    "stderr": ""
+  },
+  "rolled_endpoint_exit": {
+    "exit": -9,
+    "pid": 2088,
+    "stderr": "",
+    "stdout": ""
+  },
+  "rolled_endpoint_transcript": [
+    {
+      "request": {
+        "candidate": {
+          "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+          "epoch": 0
+        },
+        "nonce": "110b9e3c87ce1307d5157bf8cb3c3f06",
+        "op": "admit"
+      },
+      "response": {
+        "admitted": true,
+        "current": {
+          "digest": "378e964613df2e958771ce8ff95a7d43db69a0565a98ebbcdb2e6be9faec313d",
+          "epoch": 0
+        },
+        "nonce": "110b9e3c87ce1307d5157bf8cb3c3f06",
+        "pid": 2088,
+        "seq": 1
+      }
+    }
+  ],
+  "schema": "ases.f1-live-witness.v1",
+  "source_revision": "faadb396229a19be460a1884a182ace62c19b2c1",
+  "source_sha256": "6c3c919c6a4484f5826c9e147f21bd413c324b869eb7fab13c7d541dba12f290"
+}
