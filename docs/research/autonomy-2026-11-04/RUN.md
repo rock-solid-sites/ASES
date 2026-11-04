@@ -73,3 +73,26 @@ Three workers total, no nested delegation, at most one active. All idle/complete
 5. Before new expensive work, inspect short-write API-fault limits and any newly available execution/usage information. Exact source and review tips in index. Three worker contexts available but no automatic new delegation.
 
 Expanded18-record index validated locally, pinned artifact digests/implementation paths checked, invalid-index controls rejected. Next immediate housekeeping discriminator: remote-only cold restoration of expanded index, then record current exact tips/clock and durable checkpoint. Do not portray an unexposed remaining allowance as exhausted.
+
+## Expanded remote restoration / durable checkpoint
+
+Remote-only clone at 11a20259b7c63adeef05ce1c88a673d352bd7eb0 validated18 records/20 raw artifacts in 8.864588979000018 s. Pinned bytes and implementations recover; corrupted digest refused. This does not establish external archive independence or future retention. Expanded raw is separately retained; earlier11-record cold run remains unchanged.
+
+No active children or delegated work left. Completed primary increments include retained F4 gates, original detached post-send nondiscrimination, actual F1 COMMIT lock failure, live witness ordering/rollback premise, new competing-claim process-death cuts, bounded timeout diagnosis, independently calculated RTL boundaries, F3 manager-overlap premise counterexample, and scoped short-write defect/repair. Three same-family checker contexts supplied bounded verification, with short-write shared-checkout deviation explicitly recorded. No aggregate F1–F5/Phase I closure.
+
+### Source and review tips at checkpoint
+
+| Branch | Exact SHA |
+|---|---|
+| research/autonomy-20261103-cross-layer | `5d45805764a42a7464e0963d1715ae009dccac57` |
+| research/autonomy-20261103-f1 | `96e3e62f3534ca3b145a1af7bca976857124a2c4` |
+| research/autonomy-20261103-f3-policy | `cc7574fc057755863fd0f0bab227e77e535d0eaf` |
+| research/autonomy-20261103-kernel | `50e5bc151b3d08ed84df55bc452f8766afa2090e` |
+| research/autonomy-20261103-run | `11a20259b7c63adeef05ce1c88a673d352bd7eb0` |
+| research/autonomy-20261104-f4-write-count | `31118f0f9ca14554570791b6f824d3f708f4f8a2` |
+| review/autonomy-20261104-f1-commit-check | `2881a50bc0280804f0d6920b046f5776272bfec9` |
+| review/autonomy-20261104-f4-check | `8622de052e067b046f4feadc6f68642e05312bf7` |
+| review/autonomy-20261104-f4-write-count | `96ec2096a7ff6d8f29128adc560a29c1a2f5e81b` |
+| review/autonomy-20261104-kernel-literals | `5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490` |
+
+Coordinator row denotes pre-publication checkpoint parent; final commit is discoverable from branch head. Actual remaining allowance/consumption never exposed; no exhaustion claim. Primary next discriminator remains real trusted nonrollback authority coupled to actual selected sink acceptance and explicit F2 bootstrap/revoke mapping. Host/kernel and cross-family acceptance blockers remain.
