@@ -1,0 +1,295 @@
+{
+  "schema": "ases.t18-detached-postsend.v1",
+  "source_sha256": "63d52186d3cd4cb64ad471b6b017a3406506930fb926be3e0da648e03de21b23",
+  "runner_sha256": "b5c89d2b33a1f28125ad6b0d6aa3bce8aee9faa9840676a3cd601a6080ef5551",
+  "environment": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "steps": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/submit",
+        "body": {
+          "authority_version": 1,
+          "request_id": "before",
+          "payload": "positive-v1"
+        }
+      },
+      "start_monotonic_ns": 212028318591,
+      "completion_monotonic_ns": 212040367288,
+      "response": {
+        "status": 201,
+        "body": {
+          "event_seq": 2,
+          "outcome": "accepted"
+        }
+      },
+      "status": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v1",
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "allowed": true,
+            "event": "detached_permission_read",
+            "observed_version": 1,
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v1",
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 2
+          }
+        ],
+        "waiting": 0
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/replace",
+        "body": {}
+      },
+      "start_monotonic_ns": 212041262478,
+      "completion_monotonic_ns": 212042095906,
+      "response": {
+        "status": 200,
+        "body": {
+          "authority_version": 2,
+          "outcome": "replaced"
+        }
+      },
+      "status": {
+        "authority_version": 2,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v1",
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "allowed": true,
+            "event": "detached_permission_read",
+            "observed_version": 1,
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v1",
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 2
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 3
+          }
+        ],
+        "waiting": 0
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/submit",
+        "body": {
+          "authority_version": 1,
+          "request_id": "stale",
+          "payload": "stale-v1"
+        }
+      },
+      "start_monotonic_ns": 212042835432,
+      "completion_monotonic_ns": 212043538278,
+      "response": {
+        "status": 409,
+        "body": {
+          "outcome": "rejected"
+        }
+      },
+      "status": {
+        "authority_version": 2,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v1",
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "allowed": true,
+            "event": "detached_permission_read",
+            "observed_version": 1,
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v1",
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 2
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 3
+          },
+          {
+            "allowed": false,
+            "event": "detached_permission_read",
+            "observed_version": 2,
+            "presented_version": 1,
+            "request_id": "stale",
+            "seq": 4
+          },
+          {
+            "event": "sink_rejected",
+            "reason": "stale detached check",
+            "request_id": "stale",
+            "seq": 5
+          }
+        ],
+        "waiting": 0
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/submit",
+        "body": {
+          "authority_version": 2,
+          "request_id": "current",
+          "payload": "positive-v2"
+        }
+      },
+      "start_monotonic_ns": 212044289374,
+      "completion_monotonic_ns": 212044895608,
+      "response": {
+        "status": 201,
+        "body": {
+          "event_seq": 7,
+          "outcome": "accepted"
+        }
+      },
+      "status": {
+        "authority_version": 2,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v1",
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 2
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v2",
+            "presented_version": 2,
+            "request_id": "current",
+            "seq": 7
+          }
+        ],
+        "events": [
+          {
+            "allowed": true,
+            "event": "detached_permission_read",
+            "observed_version": 1,
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v1",
+            "presented_version": 1,
+            "request_id": "before",
+            "seq": 2
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 3
+          },
+          {
+            "allowed": false,
+            "event": "detached_permission_read",
+            "observed_version": 2,
+            "presented_version": 1,
+            "request_id": "stale",
+            "seq": 4
+          },
+          {
+            "event": "sink_rejected",
+            "reason": "stale detached check",
+            "request_id": "stale",
+            "seq": 5
+          },
+          {
+            "allowed": true,
+            "event": "detached_permission_read",
+            "observed_version": 2,
+            "presented_version": 2,
+            "request_id": "current",
+            "seq": 6
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "detached-check",
+            "event": "effect_accepted",
+            "payload": "positive-v2",
+            "presented_version": 2,
+            "request_id": "current",
+            "seq": 7
+          }
+        ],
+        "waiting": 0
+      }
+    }
+  ],
+  "sink_exit": -9,
+  "journal_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202264657461636865642d636865636b222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022706f7369746976652d7631222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f7265222c2022736571223a20327d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20337d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202264657461636865642d636865636b222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022706f7369746976652d7632222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a202263757272656e74222c2022736571223a20377d0a",
+  "journal_sha256": "cf4b534e3311eec84675aad0d5bee2870927b29424a114d71338f8a77e4c9c5c",
+  "interpretation": "Original detached mutant does not discriminate in post-replacement initiation schedule"
+}

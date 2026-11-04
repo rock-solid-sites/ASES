@@ -1,0 +1,5 @@
+# Original detached mode under post-replacement initiation
+
+Preregistered at 0a52b9b. Executed unchanged run.py detached-check mode. Response sequence 201 / 200 / 409 / 201. Replacement response completes before stale request invocation. The stale detached_permission_read observes version 2 with allowed=false after replacement; no stale effect in complete status or journal. Both current positive requests succeed. Sink SIGKILL/reaped (-9). This mutant does NOT discriminate this schedule; prior held-before-replacement stale acceptance remains valid. Different bypass mutant at 9f63593 remains the weakened control for the post-send schedule.
+
+Command: `timeout 30 python3 research/phase-i-t18-sink-order-20261103/round2_detached.py > research/phase-i-t18-sink-order-20261103/round2-detached.raw.json`, exit 0. Exact client markers, source/runner hashes, journal bytes/hash and event snapshots retained. No missing-event synthesis, frozen fixture execution, F3 route, power loss, or aggregate closure. Next: isolate correspondence check across all three modes, including explicit bootstrap mapping if pursuing full T18.
