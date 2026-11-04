@@ -9,6 +9,11 @@ HERE=Path(__file__).resolve().parent
 
 def check(d):
     try:
+        # source_revision is the pre-implementation base, not a claim the runner existed there.
+        assert d['source_revision']=='962785f926345d7909eb690f5e81d72a1c65f5d0'
+        assert d['hashes']['run.py']=='63d52186d3cd4cb64ad471b6b017a3406506930fb926be3e0da648e03de21b23'
+        for source in ['run.py','f4_gate_qualification.py']:
+            assert hashlib.sha256((HERE/source).read_bytes()).hexdigest()==d['hashes'][source]
         for name, c in d['cases'].items():
             assert c['sink_exit']==-9 and c['client_exit']==0
             assert c['client_stderr']==''
@@ -56,11 +61,14 @@ def check(d):
 def main():
     d=json.loads((HERE/'round2-f4-gates.raw.json').read_text())
     result={'baseline':check(d),'controls':{}}
-    for label in ['missing_gate','missing_file_observation','missing_client','truncated_journal']:
+    for label in ['missing_gate','missing_file_observation','missing_client','truncated_journal','wrong_base_revision','wrong_sink_hash','wrong_runner_hash']:
         bad=copy.deepcopy(d)
         if label=='missing_gate': bad['cases']['accepted']['status']['events'].pop()
         elif label=='missing_file_observation': del bad['cases']['preaccept']['journal_after']['exists']
         elif label=='missing_client': del bad['cases']['accepted']['client']
+        elif label=='wrong_base_revision': bad['source_revision']='0'*40
+        elif label=='wrong_sink_hash': bad['hashes']['run.py']='0'*64
+        elif label=='wrong_runner_hash': bad['hashes']['f4_gate_qualification.py']='0'*64
         else: bad['cases']['normal']['journal_after']['raw_hex']=bad['cases']['normal']['journal_after']['raw_hex'][:-10]
         result['controls'][label]=check(bad)
     print(json.dumps(result,indent=2))

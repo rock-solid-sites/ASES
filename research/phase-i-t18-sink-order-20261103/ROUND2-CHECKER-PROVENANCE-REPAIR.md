@@ -1,0 +1,7 @@
+# Checker provenance gap and bounded repair
+
+Fresh-context same-family reviewer at review/autonomy-20261104-f4-check / 5c5880515672abef98d4c8a1379acb35188e4cb9 reproduced selected process-death observations. It found checker success persisted after in-memory corruption of source_revision or run.py hash. This is a harness assurance gap, not a sink behavior defect. Original checker scoped itself to observations, but its result could be overread as validating retained provenance.
+
+Direct pre-fix discriminator on 407a345 independently corroborates both altered metadata controls still return SUPPORTED; retained in round2-checker-provenance.red.json. Repair adds explicit frozen sink hash and preimplementation base pin, and checks raw runner/sink hashes against actual retained files. Base pin 962785f denotes inherited source, not implementation commit of new runner (which is 0a52b9b). No claim that raw self-reported metadata authenticates execution or process identity.
+
+Post-fix command `python3 research/phase-i-t18-sink-order-20261103/check_f4_gates.py > research/phase-i-t18-sink-order-20261103/round2-f4-gates.provenance-fixed.check.json` exits 0. Baseline still supported; original four controls plus wrong base, wrong sink hash and wrong runner hash all refused. No sink rerun or original-output rewrite. Initial manifest still pins historical checker; updated files have separate round2-provenance-SHA256SUMS. Next: independent bounded diff check; no new expensive test needed for the already reproduced cases.
