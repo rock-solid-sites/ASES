@@ -1,0 +1,338 @@
+{
+  "A": {
+    "calls": [
+      {
+        "completion_monotonic_ns": 2775488464440,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "obligation_id": "q",
+            "payload": "logical-root-A-exact-\u03c0"
+          },
+          "method": "POST",
+          "path": "/commit-obligation"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "committed"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 2775476686537
+      },
+      {
+        "completion_monotonic_ns": 2775489554905,
+        "request": {
+          "body": {},
+          "method": "POST",
+          "path": "/replace"
+        },
+        "response": {
+          "body": {
+            "authority_version": 2,
+            "outcome": "replaced"
+          },
+          "status": 200
+        },
+        "start_monotonic_ns": 2775488466897
+      }
+    ],
+    "journal": {
+      "exists": true,
+      "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d412d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202264623539383864623361383939376165333662656132636664666633346532363732363861333066623732313865383664393638303630646637663338373565222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a",
+      "sha256": "e1bc9eddf0879e80c4300cf9ce6030cbfe94c3624c8d38ec970d124dca85cacc"
+    },
+    "sink_exit": -9,
+    "status": {
+      "authority_version": 2,
+      "effects": [],
+      "events": [
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "q",
+          "payload": "logical-root-A-exact-\u03c0",
+          "payload_sha256": "db5988db3a8997ae36bea2cfdff34e267268a30fb7218e86d968060df7f3875e",
+          "seq": 1
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 2
+        }
+      ],
+      "waiting": 0
+    }
+  },
+  "A_after_swap_authentic_B_bytes": {
+    "exists": true,
+    "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d422d65786163742d5c7530336232222c20227061796c6f61645f736861323536223a202231396561316234366631306238633364623032323564383730393335386238333637613737343637333537663666613135313161383137383833386230356665222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a",
+    "sha256": "0f602620a0b0be4287f10a218a886bbabef8bfc2bd92b35052f7ae311084bfd3"
+  },
+  "A_before_swap": {
+    "exists": true,
+    "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d412d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202264623539383864623361383939376165333662656132636664666633346532363732363861333066623732313865383664393638303630646637663338373565222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d412d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202264623539383864623361383939376165333662656132636664666633346532363732363861333066623732313865383664393638303630646637663338373565222c2022726571756573745f6964223a20226f626c69676174696f6e3a71222c2022736571223a20337d0a",
+    "sha256": "b69adec20b47e313853eed67b9f271d627754d4a53adac920a02e28e2632844d"
+  },
+  "B": {
+    "calls": [
+      {
+        "completion_monotonic_ns": 2775558156035,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "obligation_id": "q",
+            "payload": "logical-root-B-exact-\u03b2"
+          },
+          "method": "POST",
+          "path": "/commit-obligation"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "committed"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 2775556822249
+      },
+      {
+        "completion_monotonic_ns": 2775559161125,
+        "request": {
+          "body": {},
+          "method": "POST",
+          "path": "/replace"
+        },
+        "response": {
+          "body": {
+            "authority_version": 2,
+            "outcome": "replaced"
+          },
+          "status": 200
+        },
+        "start_monotonic_ns": 2775558158202
+      }
+    ],
+    "journal": {
+      "exists": true,
+      "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d422d65786163742d5c7530336232222c20227061796c6f61645f736861323536223a202231396561316234366631306238633364623032323564383730393335386238333637613737343637333537663666613135313161383137383833386230356665222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a",
+      "sha256": "0f602620a0b0be4287f10a218a886bbabef8bfc2bd92b35052f7ae311084bfd3"
+    },
+    "sink_exit": -9,
+    "status": {
+      "authority_version": 2,
+      "effects": [],
+      "events": [
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "q",
+          "payload": "logical-root-B-exact-\u03b2",
+          "payload_sha256": "19ea1b46f10b8c3db0225d8709358b8367a77467357f6fa1511a8178838b05fe",
+          "seq": 1
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 2
+        }
+      ],
+      "waiting": 0
+    }
+  },
+  "correct_A_recovery": {
+    "delivery": {
+      "completion_monotonic_ns": 2775630852188,
+      "request": {
+        "body": {
+          "obligation_id": "q"
+        },
+        "method": "POST",
+        "path": "/deliver-obligation"
+      },
+      "response": {
+        "body": {
+          "event_seq": 3,
+          "outcome": "accepted"
+        },
+        "status": 201
+      },
+      "start_monotonic_ns": 2775629380140
+    },
+    "final_status": {
+      "authority_version": 2,
+      "effects": [
+        {
+          "accepted_under_version": 2,
+          "check_mode": "committed-exact-obligation",
+          "event": "effect_accepted",
+          "obligation_id": "q",
+          "payload": "logical-root-A-exact-\u03c0",
+          "payload_sha256": "db5988db3a8997ae36bea2cfdff34e267268a30fb7218e86d968060df7f3875e",
+          "request_id": "obligation:q",
+          "seq": 3
+        }
+      ],
+      "events": [
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "q",
+          "payload": "logical-root-A-exact-\u03c0",
+          "payload_sha256": "db5988db3a8997ae36bea2cfdff34e267268a30fb7218e86d968060df7f3875e",
+          "seq": 1
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 2
+        },
+        {
+          "accepted_under_version": 2,
+          "check_mode": "committed-exact-obligation",
+          "event": "effect_accepted",
+          "obligation_id": "q",
+          "payload": "logical-root-A-exact-\u03c0",
+          "payload_sha256": "db5988db3a8997ae36bea2cfdff34e267268a30fb7218e86d968060df7f3875e",
+          "request_id": "obligation:q",
+          "seq": 3
+        }
+      ],
+      "waiting": 0
+    },
+    "initial_status": {
+      "authority_version": 2,
+      "effects": [],
+      "events": [
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "q",
+          "payload": "logical-root-A-exact-\u03c0",
+          "payload_sha256": "db5988db3a8997ae36bea2cfdff34e267268a30fb7218e86d968060df7f3875e",
+          "seq": 1
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 2
+        }
+      ],
+      "waiting": 0
+    },
+    "journal": {
+      "exists": true,
+      "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d412d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202264623539383864623361383939376165333662656132636664666633346532363732363861333066623732313865383664393638303630646637663338373565222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d412d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202264623539383864623361383939376165333662656132636664666633346532363732363861333066623732313865383664393638303630646637663338373565222c2022726571756573745f6964223a20226f626c69676174696f6e3a71222c2022736571223a20337d0a",
+      "sha256": "b69adec20b47e313853eed67b9f271d627754d4a53adac920a02e28e2632844d"
+    },
+    "sink_exit": -9
+  },
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_base_sha": "fe77388ec3538c564ced2083680a395af5479775",
+  "fixture_expected_A_payload_hex": "6c6f676963616c2d726f6f742d412d65786163742dcf80",
+  "interpretation": "Valid replay and payload digest accept authentic B journal at A path; expected root remains a trusted external/custody premise",
+  "schema": "ases.sink-root-affinity.v1",
+  "source_hashes": {
+    "root_affinity.py": "2276f67c1b5a8bc195ebfac29a1cd83bf45f157ae7fde61428b32640159ee014",
+    "run.py": "5e76bbe5f3772c9e9616c6dc92311e2d590fcefb3d02ba15fd037673acf52337"
+  },
+  "swapped_A_recovery": {
+    "delivery": {
+      "completion_monotonic_ns": 2775697005987,
+      "request": {
+        "body": {
+          "obligation_id": "q"
+        },
+        "method": "POST",
+        "path": "/deliver-obligation"
+      },
+      "response": {
+        "body": {
+          "event_seq": 3,
+          "outcome": "accepted"
+        },
+        "status": 201
+      },
+      "start_monotonic_ns": 2775695982694
+    },
+    "final_status": {
+      "authority_version": 2,
+      "effects": [
+        {
+          "accepted_under_version": 2,
+          "check_mode": "committed-exact-obligation",
+          "event": "effect_accepted",
+          "obligation_id": "q",
+          "payload": "logical-root-B-exact-\u03b2",
+          "payload_sha256": "19ea1b46f10b8c3db0225d8709358b8367a77467357f6fa1511a8178838b05fe",
+          "request_id": "obligation:q",
+          "seq": 3
+        }
+      ],
+      "events": [
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "q",
+          "payload": "logical-root-B-exact-\u03b2",
+          "payload_sha256": "19ea1b46f10b8c3db0225d8709358b8367a77467357f6fa1511a8178838b05fe",
+          "seq": 1
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 2
+        },
+        {
+          "accepted_under_version": 2,
+          "check_mode": "committed-exact-obligation",
+          "event": "effect_accepted",
+          "obligation_id": "q",
+          "payload": "logical-root-B-exact-\u03b2",
+          "payload_sha256": "19ea1b46f10b8c3db0225d8709358b8367a77467357f6fa1511a8178838b05fe",
+          "request_id": "obligation:q",
+          "seq": 3
+        }
+      ],
+      "waiting": 0
+    },
+    "initial_status": {
+      "authority_version": 2,
+      "effects": [],
+      "events": [
+        {
+          "committed_under_version": 1,
+          "event": "obligation_committed",
+          "obligation_id": "q",
+          "payload": "logical-root-B-exact-\u03b2",
+          "payload_sha256": "19ea1b46f10b8c3db0225d8709358b8367a77467357f6fa1511a8178838b05fe",
+          "seq": 1
+        },
+        {
+          "current_version": 2,
+          "event": "authority_replaced",
+          "previous_version": 1,
+          "seq": 2
+        }
+      ],
+      "waiting": 0
+    },
+    "journal": {
+      "exists": true,
+      "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d422d65786163742d5c7530336232222c20227061796c6f61645f736861323536223a202231396561316234366631306238633364623032323564383730393335386238333637613737343637333537663666613135313161383137383833386230356665222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a20226c6f676963616c2d726f6f742d422d65786163742d5c7530336232222c20227061796c6f61645f736861323536223a202231396561316234366631306238633364623032323564383730393335386238333637613737343637333537663666613135313161383137383833386230356665222c2022726571756573745f6964223a20226f626c69676174696f6e3a71222c2022736571223a20337d0a",
+      "sha256": "571acb56b3c2486c3288c641ba10e722350c355735b777a6b99b532f343e5c84"
+    },
+    "sink_exit": -9
+  }
+}
