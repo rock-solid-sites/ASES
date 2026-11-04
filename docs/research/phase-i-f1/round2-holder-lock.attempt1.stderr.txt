@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/workspace/ases-f1/docs/research/phase-i-f1/round2_holder_lock.py", line 158, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/workspace/ases-f1/docs/research/phase-i-f1/round2_holder_lock.py", line 151, in main
+    cases={n:case(Path(td)/n,n) for n in ['ordinary','retained_descriptor','replaced_lock_object']}
+             ^^^^^^^^^^^^^^^^^^
+  File "/workspace/ases-f1/docs/research/phase-i-f1/round2_holder_lock.py", line 93, in case
+    setup(root);owned=[];retainer=None
+    ^^^^^^^^^^^
+  File "/workspace/ases-f1/docs/research/phase-i-f1/round2_holder_lock.py", line 78, in setup
+    root.mkdir();inherited.check.setup(root/'store.sqlite')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ases-f1/docs/research/kernel-0/kernel0_recovery_check.py", line 204, in setup
+    h = Holder(path, profile)
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ases-f1/docs/research/kernel-0/kernel0_recovery_check.py", line 167, in __init__
+    ready(self.proc)
+  File "/workspace/ases-f1/docs/research/kernel-0/kernel0_recovery_check.py", line 76, in ready
+    raise AssertionError((line, proc.stderr.read().decode()))
+AssertionError: (b'', 'Traceback (most recent call last):\n  File "/workspace/ases-f1/docs/research/kernel-0/kernel0_recovery_service.py", line 149, in <module>\n    serve(config)\n  File "/workspace/ases-f1/docs/research/kernel-0/kernel0_recovery_service.py", line 137, in serve\n    thread.start()\n  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/threading.py", line 994, in start\n    _start_new_thread(self._bootstrap, ())\nRuntimeError: can\'t start new thread\n')
