@@ -13,7 +13,7 @@
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
-    "research/autonomy-20261103-f1": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
+    "research/autonomy-20261103-f1": "53952b7316626b886b4e74b54d30ae4ad135ef96",
     "research/autonomy-20261103-f3-policy": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
     "research/autonomy-20261103-kernel": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
     "research/autonomy-20261103-run": "52bbec4f62878704c5fb44af53b86eb1ec0f7a03",
@@ -43,6 +43,10 @@
     {
       "utc": "2026-11-04T23:30:59Z",
       "state": "All substantive increments pushed;18-record expanded remote restore succeeds;3 workers completed, no active delegation; usage unknown; measured elapsed25m07s from first clock"
+    },
+    {
+      "utc": "2026-11-04T23:44:42Z",
+      "state": "Continued on explicit user instruction; holder-lock discriminator committed/pushed; sink restart discriminator next. Usage unknown; no new model workers launched."
     }
   ],
   "experiments": [
@@ -632,6 +636,39 @@
         "Required kernel facility unavailable in prior concrete probe"
       ],
       "next_discriminator": "Only a separately authorized suitable host can remove blocker",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F1-HOLDER-LOCK",
+      "stream": "F1/F3",
+      "claim": "Concrete cooperative holder exclusion and retained-lock/path-object premises",
+      "source_branch": "research/autonomy-20261103-f1",
+      "source_sha": "53952b7316626b886b4e74b54d30ae4ad135ef96",
+      "implementation": "docs/research/phase-i-f1/round2_holder_lock.py",
+      "command": "timeout 45 python3 docs/research/phase-i-f1/round2_holder_lock.py",
+      "environment": {
+        "host": "Linux Cloud authorized disposable",
+        "capabilities": [
+          "flock",
+          "SCM_RIGHTS",
+          "SIGSTOP/SIGCONT",
+          "real SQLite holder"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Same-inode B refuses during A life/stop; after kill/reap takeover recovers ACKed content. Transferred FD blocks takeover until keeper closes. Unlinked/recreated lock permits two live services with ACKs.",
+      "limits": "3 fixed schedules, cooperative guard/stable protected inode and FD ownership premises; no native confinement, physical-source revocation or power loss. Two harness failures preserved, one-lane bootstrap/wire corrected.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-holder-lock.raw.json",
+          "sha256": "88ae2e6466c8417afe6ccb43e9e9a51dc311345aa458fa920b646b40ddba2211"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Ensure guard is mandatory and protects lock object/descriptor scope in selected realization; sink actual restart follows",
       "supersedes": []
     }
   ],
