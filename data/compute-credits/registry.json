@@ -1130,6 +1130,41 @@
       "evidence_level": "official_event_page; credit expiry and country eligibility not established",
       "alert_state": "tracked_no_cpu_credit_notification",
       "account_specific_fit": "Useful GPU experiment resource, not interchangeable with 8GB CPU VM credit"
+    },
+    {
+      "id": "ibm-vpc1000-2026",
+      "provider_id": "ibm-cloud",
+      "type": "vpc_compute_credit",
+      "advertised_value": 1000,
+      "value_unit": "USD",
+      "details": "IBM 2026 official free-tier page specifies 120-day credit for Bare Metal for VPC and surrounding VPC products; IBM product blog describes eligible virtual servers. Exact ordinary VSI eligibility for current 2026 terms must be confirmed before valuing as general-purpose CPU credit.",
+      "credit_expiry": "120 days after redemption",
+      "first_seen_at": "2026-11-04",
+      "last_checked_at": "2026-11-04",
+      "status": "officially_listed_eligibility_pending",
+      "eligible_existing_account": true,
+      "requires_new_account": false,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": null,
+      "region_restrictions": null,
+      "redemption_deadline_utc": "2026-12-31T23:59:59Z",
+      "source_urls": [
+        "https://www.ibm.com/products/cloud/free",
+        "https://www.ibm.com/products/offers-and-discounts",
+        "https://www.ibm.com/new/announcements/new-smartnic-brings-exciting-changes-to-ibm-cloud-bare-metal-servers-vpc",
+        "https://www.ibm.com/new/product-blog/5-ways-to-use-ibm-cloud-vpc-credits"
+      ],
+      "evidence_level": "official 2026 IBM page confirms 120 days and Dec 31 2026; official older terms confirm existing accounts and virtual server use, current checkout not tested",
+      "alert_state": "newly_discovered_requires_eligibility_check",
+      "account_specific_fit": "Potential existing-account value; IBM requires credit card on file; acceptance of Revolut/Wise unknown",
+      "stacking": "not stackable per IBM announcement",
+      "eligible_account_types": [
+        "Paygo",
+        "Subscription",
+        "Enterprise Savings Plan"
+      ],
+      "compute_hourly_usd": null
     }
   ],
   "account_inventory": {
@@ -1200,6 +1235,14 @@
         "gcp-300-90d"
       ],
       "summary": "User confirms $5/$10 are actual deposits rather than refundable authorization/test holds. Treatment of unused deposited balance remains unknown."
+    },
+    {
+      "at": "2026-11-04",
+      "kind": "newly_discovered_official_promotion",
+      "entity_ids": [
+        "ibm-vpc1000-2026"
+      ],
+      "summary": "IBM $1000 VPC credit still officially listed for 2026, 120 days, Dec 31 deadline; old IBM announcement permits existing customers, but current CPU VSI scope and card eligibility unverified."
     }
   ],
   "source_policy": {
