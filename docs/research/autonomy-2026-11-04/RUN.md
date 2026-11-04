@@ -15,3 +15,9 @@ F1 next: concrete trusted-external-witness discriminator or real COMMIT failure,
 ## Restart cursor
 
 Worktrees: /workspace/ases-run coordinator, /workspace/ases-cross cross-layer; original /workspace/ASES untouched. Continue retained F4 gate preregistration. After meaningful experiment commit/push stream; add exact SHA/digests/status to index, validate and publish coordinator. Usage unknown; conserve reserve.
+
+## First executed checkpoint
+
+Cross-layer 407a345 (prior increment 0a52b9b) pushed. F4 retained gates, strict reader, four cases and four file controls executed; original detached-check post-replacement test denies stale request as predicted. Existing post-send baseline/bypass positive/negative controls retained without rerun. Index carries exact pins and raw digests. One fresh-context same-family check active (`f4_check`, caller-selected native gpt-6-luna/high); no nested delegation or other workers. Scope excludes result writeups/prior reviews until first verdict, own report-only branch. No claim of cross-family independence. Coordinator proceeds F1 while check runs.
+
+Read November 2 testing/debugging/ontology proposal sources at f8c700a; applied falsifiable hypotheses, instrument qualification and scoped interpretation provisionally, no promotion. Historical review branches inspected; F1 full-model timeout remains inconclusive. No native Landlock retry or blocked Kernel-contract route.

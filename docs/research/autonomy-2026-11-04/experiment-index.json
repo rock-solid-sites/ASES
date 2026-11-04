@@ -9,10 +9,10 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 0
+    "workers_launched": 1
   },
   "branch_tips": {
-    "research/autonomy-20261103-cross-layer": "962785f926345d7909eb690f5e81d72a1c65f5d0",
+    "research/autonomy-20261103-cross-layer": "407a3453a5e69c0babc9e109cebe14c02a9e96e1",
     "research/autonomy-20261103-f1": "ac58266c5e75f15fb43f8314023350fa170d49cb",
     "research/autonomy-20261103-f3-policy": "81ce1c2c6b5b7fe606efcfcfb0e35e6605d2d891",
     "research/autonomy-20261103-kernel": "2566c97707f89a32d3f84fb4a63e5c8184977491",
@@ -30,9 +30,82 @@
     {
       "utc": "2026-11-04T23:05:52Z",
       "state": "Fetched current heads; retained F4 gate evidence is first unfinished test"
+    },
+    {
+      "utc": "2026-11-04",
+      "state": "F4 gates and detached post-send published; isolated same-family check active"
     }
   ],
-  "experiments": [],
+  "experiments": [
+    {
+      "id": "R2-F4-GATES",
+      "stream": "cross-layer",
+      "claim": "F4 selected acceptance/ACK process-death boundary; retained gates and missing/empty distinction",
+      "source_branch": "research/autonomy-20261103-cross-layer",
+      "source_sha": "407a3453a5e69c0babc9e109cebe14c02a9e96e1",
+      "implementation": "research/phase-i-t18-sink-order-20261103/f4_gate_qualification.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/f4_gate_qualification.py",
+      "environment": {
+        "host": "authorized disposable Codex Cloud",
+        "capabilities": [
+          "loopback HTTP",
+          "subprocess",
+          "local filesystem"
+        ],
+        "usage": "unknown"
+      },
+      "status": "executed_observed",
+      "observed_result": "4 fixed cases: normal 201/one exact effect; preaccept no reply/MISSING; accepted no reply/one effect; early ACK 201/MISSING. Live/cold readers agree. Empty/MISSING/malformed/truncated controls distinct. Checker missing-metadata controls refused.",
+      "limits": "Source-ordered fsync return, not syscall/power-loss evidence; no retries/F3/full F4",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/round2-f4-gates.raw.json",
+          "sha256": "55dddea4e7a767d6e2f0d896c9ada17034e7ff8e7045ebc7d9bb833b133a1488"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "962785f preregistration"
+      ],
+      "blockers": [],
+      "next_discriminator": "Independent fixed-claim check",
+      "supersedes": []
+    },
+    {
+      "id": "R2-T18-DETACHED-POSTSEND",
+      "stream": "cross-layer",
+      "claim": "Whether original detached mutant discriminates post-replacement initiated stale request",
+      "source_branch": "research/autonomy-20261103-cross-layer",
+      "source_sha": "407a3453a5e69c0babc9e109cebe14c02a9e96e1",
+      "implementation": "research/phase-i-t18-sink-order-20261103/round2_detached.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/round2_detached.py",
+      "environment": {
+        "host": "authorized disposable Codex Cloud",
+        "capabilities": [
+          "loopback HTTP",
+          "subprocess",
+          "local filesystem"
+        ],
+        "usage": "unknown"
+      },
+      "status": "executed_observed",
+      "observed_result": "201,200,409,201; detached check sees v2 and denies old request; no stale effect",
+      "limits": "Nondiscriminating in this schedule; prior held-before-replace violation preserved. Selected version-replace analogue, not frozen F2 execution",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/round2-detached.raw.json",
+          "sha256": "535083716112dff67e2e420335f666f1a86a375c378e871169cd5c69ff462740"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "0a52b9b preregistration"
+      ],
+      "blockers": [],
+      "next_discriminator": "Independent mapping check; explicit F2 bootstrap/revoke semantics",
+      "supersedes": []
+    }
+  ],
   "unfinished_work": [
     "F4 retained gates and strict missing/empty recovery",
     "T18 original detached mutant post-replacement initiation",
