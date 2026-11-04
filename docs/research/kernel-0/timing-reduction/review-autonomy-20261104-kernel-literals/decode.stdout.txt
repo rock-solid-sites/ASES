@@ -1,0 +1,25 @@
+00 rst=1 valid=0 p=7fff op=15 actor=7 target=3 value=7 other=3 auth=1 -> 000000 est=0 xy=0,0 content=0 issued=0 rights=[0, 0, 0, 0] parent=0 result=0/0
+01 rst=0 valid=0 p=7fff op=15 actor=7 target=3 value=7 other=3 auth=1 -> 000000 est=0 xy=0,0 content=0 issued=0 rights=[0, 0, 0, 0] parent=0 result=0/0
+02 rst=0 valid=1 p=4040 op=establish actor=4 target=0 value=0 other=0 auth=1 -> 000001 est=1 xy=0,0 content=0 issued=0 rights=[0, 0, 0, 0] parent=0 result=1/1
+03 rst=0 valid=1 p=4e41 op=grant actor=4 target=0 value=7 other=0 auth=1 -> 000711 est=1 xy=0,0 content=0 issued=1 rights=[7, 0, 0, 0] parent=0 result=1/1
+04 rst=0 valid=1 p=4207 op=accept actor=0 target=0 value=1 other=0 auth=1 -> 000719 est=1 xy=0,0 content=1 issued=1 rights=[7, 0, 0, 0] parent=0 result=1/1
+05 rst=0 valid=1 p=4384 op=delegate actor=0 target=3 value=1 other=0 auth=1 -> 120799 est=1 xy=0,0 content=1 issued=9 rights=[7, 0, 0, 1] parent=1 result=1/1
+06 rst=0 valid=1 p=4042 op=restrict actor=4 target=0 value=0 other=0 auth=1 -> 000099 est=1 xy=0,0 content=1 issued=9 rights=[0, 0, 0, 0] parent=0 result=1/1
+07 rst=0 valid=1 p=4e41 op=grant actor=4 target=0 value=7 other=0 auth=1 -> 000099 est=1 xy=0,0 content=1 issued=9 rights=[0, 0, 0, 0] parent=0 result=1/0
+08 rst=0 valid=1 p=42c1 op=grant actor=4 target=1 value=1 other=0 auth=1 -> 0008b9 est=1 xy=0,0 content=1 issued=b rights=[0, 1, 0, 0] parent=0 result=1/1
+09 rst=0 valid=1 p=4215 op=set actor=1 target=0 value=1 other=0 auth=1 -> 0008bb est=1 xy=1,0 content=1 issued=b rights=[0, 1, 0, 0] parent=0 result=1/1
+10 rst=0 valid=1 p=4018 op=resume actor=1 target=0 value=0 other=0 auth=1 -> 0008bb est=1 xy=1,0 content=1 issued=b rights=[0, 1, 0, 0] parent=0 result=1/0
+11 rst=0 valid=1 p=4218 op=resume actor=1 target=0 value=1 other=0 auth=1 -> 0008bb est=1 xy=1,0 content=1 issued=b rights=[0, 1, 0, 0] parent=0 result=1/1
+12 rst=0 valid=1 p=0016 op=flip actor=1 target=0 value=0 other=0 auth=0 -> 0008bb est=1 xy=1,0 content=1 issued=b rights=[0, 1, 0, 0] parent=0 result=1/0
+13 rst=0 valid=1 p=4076 op=flip actor=7 target=0 value=0 other=0 auth=1 -> 0008bb est=1 xy=1,0 content=1 issued=b rights=[0, 1, 0, 0] parent=0 result=1/0
+14 rst=0 valid=0 p=4016 op=flip actor=1 target=0 value=0 other=0 auth=1 -> 0008bb est=1 xy=1,0 content=1 issued=b rights=[0, 1, 0, 0] parent=0 result=0/0
+15 rst=0 valid=1 p=4016 op=flip actor=1 target=0 value=0 other=0 auth=1 -> 0008b9 est=1 xy=0,0 content=1 issued=b rights=[0, 1, 0, 0] parent=0 result=1/1
+16 rst=1 valid=1 p=4016 op=flip actor=1 target=0 value=0 other=0 auth=1 -> 000000 est=0 xy=0,0 content=0 issued=0 rights=[0, 0, 0, 0] parent=0 result=0/0
+17 rst=0 valid=1 p=4016 op=flip actor=1 target=0 value=0 other=0 auth=1 -> 000000 est=0 xy=0,0 content=0 issued=0 rights=[0, 0, 0, 0] parent=0 result=1/0
+18 rst=0 valid=1 p=4e41 op=grant actor=4 target=0 value=7 other=0 auth=1 -> 000000 est=0 xy=0,0 content=0 issued=0 rights=[0, 0, 0, 0] parent=0 result=1/0
+19 rst=0 valid=1 p=4040 op=establish actor=4 target=0 value=0 other=0 auth=1 -> 000001 est=1 xy=0,0 content=0 issued=0 rights=[0, 0, 0, 0] parent=0 result=1/1
+20 rst=0 valid=1 p=4e41 op=grant actor=4 target=0 value=7 other=0 auth=1 -> 000711 est=1 xy=0,0 content=0 issued=1 rights=[7, 0, 0, 0] parent=0 result=1/1
+source hashes and literal raw vector copy match pin
+reference compile exit 0 simulation exit 0 stdout: 'PASS sequential cycles=21\n/workspace/ases-kernel/docs/research/kernel-0/direct-rtl/sequence_tb.v:37: $finish called at 63000 (1ps)\n'
+reset_loses_precedence compile exit 0 simulation exit 1 stdout: 'FATAL: /workspace/ases-kernel/docs/research/kernel-0/direct-rtl/sequence_tb.v:30: sequence=16 state=0008bb expected=000000 outcome=1/1 expected=0/0\n       Time: 51000  Scope: sequence_tb\n'
+restriction_erases_issued compile exit 0 simulation exit 1 stdout: 'FATAL: /workspace/ases-kernel/docs/research/kernel-0/direct-rtl/sequence_tb.v:30: sequence=6 state=000089 expected=000099 outcome=1/1 expected=1/1\n       Time: 21000  Scope: sequence_tb\n'
