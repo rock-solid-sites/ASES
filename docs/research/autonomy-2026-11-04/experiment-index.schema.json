@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ases:autonomy:experiment-index:1",
+  "title": "ASES autonomous experiment index v1",
+  "type": "object",
+  "required": [
+    "schema",
+    "schema_version",
+    "run_date",
+    "usage",
+    "branch_tips",
+    "checkpoints",
+    "experiments",
+    "unfinished_work",
+    "blocked_routes"
+  ],
+  "properties": {
+    "schema": {
+      "const": "ases.autonomy.experiment-index"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "run_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "usage": {
+      "type": "object"
+    },
+    "branch_tips": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{40}$"
+      }
+    },
+    "checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "unfinished_work": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocked_routes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "experiments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/experiment"
+      }
+    }
+  },
+  "$defs": {
+    "experiment": {
+      "type": "object",
+      "required": [
+        "id",
+        "stream",
+        "claim",
+        "source_branch",
+        "source_sha",
+        "implementation",
+        "command",
+        "environment",
+        "status",
+        "observed_result",
+        "limits",
+        "raw_evidence",
+        "reviewers",
+        "dependencies",
+        "blockers",
+        "next_discriminator",
+        "supersedes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "stream": {
+          "type": "string"
+        },
+        "claim": {
+          "type": "string"
+        },
+        "source_branch": {
+          "type": "string"
+        },
+        "implementation": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        },
+        "observed_result": {
+          "type": "string"
+        },
+        "limits": {
+          "type": "string"
+        },
+        "next_discriminator": {
+          "type": "string"
+        },
+        "source_sha": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "status": {
+          "enum": [
+            "executed_observed",
+            "independently_reproduced",
+            "source_reviewed_only",
+            "preregistered_not_executed",
+            "blocked_environment",
+            "timed_out_inconclusive",
+            "falsified_counterexample"
+          ]
+        },
+        "environment": {
+          "type": "object"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "supersedes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "raw_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        },
+        "reviewers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "branch",
+              "sha",
+              "independence"
+            ],
+            "properties": {
+              "branch": {
+                "type": "string"
+              },
+              "sha": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{40}$"
+              },
+              "independence": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

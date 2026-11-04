@@ -51,3 +51,7 @@ Next: integrate pending short-write review, cold fetch/restore indexed artifacts
 ## Cold restoration preregistration
 
 Next cheap durability discriminator: clone coordinator from GitHub into a new temporary repository (no local clone/reference or existing object reuse), fetch all indexed branch refs, execute versioned index validator against pinned raw digests, read every implementation at its pin, and corrupt one digest only in the disposable clone to require rejection. Source branch tips may advance; compare recorded snapshot with observed remote tips, never reset. This checks remote recoverability now, not independent storage retention, archival durability, new-host test execution or F5 independence. Shell/network cap60s/call, temporary clone removed. Publish script first, then retain actual output.
+
+## Remote evidence restoration observed
+
+cold_restore.py executed from published cc10d3d: new remote-only clone, all indexed refs fetched,11 experiment implementations and13 raw artifacts restored; pinned raw digests all verified, existing3 invalid-index controls rejected and separate wrong-digest control rejected. Elapsed11.278 s. No prior local Git object reference used. This is same-coordinator remote retrieval, not an independent archive/clean-machine behavioral reproduction or long-term retention promise. Raw output retained here; explicit JSON Schema and dependency-free validator now also check implementation presence/type structure.

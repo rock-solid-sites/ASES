@@ -19,11 +19,15 @@ def validate(d, artifacts=True):
         for key in ['id','stream','claim','source_branch','source_sha','implementation','command','environment','status','observed_result','limits','raw_evidence','reviewers','dependencies','blockers','next_discriminator','supersedes']:
             assert key in e, (e.get('id'),key)
         assert e['id'] not in ids; ids.add(e['id'])
+        assert all(isinstance(e[k],str) for k in ['id','stream','claim','source_branch','implementation','command','observed_result','limits','next_discriminator'])
+        assert isinstance(e['environment'],dict)
         assert e['status'] in STATUSES
         assert re.fullmatch('[a-f0-9]{40}',e['source_sha'])
         assert all(isinstance(e[k],list) for k in ['raw_evidence','reviewers','dependencies','blockers','supersedes'])
         if e['status'] in {'executed_observed','independently_reproduced','falsified_counterexample'}:
             assert e['raw_evidence'] and e['command'] and e['observed_result']
+        if artifacts:
+            subprocess.check_output(['git','cat-file','-e',e['source_sha']+':'+e['implementation']])
         for r in e['reviewers']:
             assert re.fullmatch('[a-f0-9]{40}',r['sha']) and r['branch'] and r['independence']
         for a in e['raw_evidence']:
