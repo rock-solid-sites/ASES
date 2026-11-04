@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/workspace/ases-f1/docs/research/phase-i-f1/round2_capacity_cuts.py", line 112, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/ases-f1/docs/research/phase-i-f1/round2_capacity_cuts.py", line 106, in main
+    cases={n:case(Path(td),n) for n in ['kill_before_commit','kill_after_commit','detached_after_commit']}
+             ^^^^^^^^^^^^^^^^
+  File "/workspace/ases-f1/docs/research/phase-i-f1/round2_capacity_cuts.py", line 79, in case
+    decision=receive(b,events['B'])
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ases-f1/docs/research/phase-i-f1/round2_capacity_cuts.py", line 40, in receive
+    assert select.select([p.stdout],[],[],4)[0], 'event timeout'
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+AssertionError: event timeout
