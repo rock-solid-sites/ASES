@@ -13,7 +13,7 @@
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
-    "research/autonomy-20261103-f1": "faadb396229a19be460a1884a182ace62c19b2c1",
+    "research/autonomy-20261103-f1": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
     "research/autonomy-20261103-f3-policy": "81ce1c2c6b5b7fe606efcfcfb0e35e6605d2d891",
     "research/autonomy-20261103-kernel": "2566c97707f89a32d3f84fb4a63e5c8184977491",
     "research/autonomy-20261103-run": "d30fe9ff682425ba4bd729e20be0417a84cf6df9",
@@ -25,7 +25,8 @@
     "review/autonomy-20261103-kernel-pairs": "23a49c77fe3b334622c7e1a374cd2b0fc34918ef",
     "review/autonomy-20261103-rtl-check": "4ca75181845a9437cfc632bcc979b5a093bebafa",
     "review/autonomy-20261103-sqlite-failure": "99228226b2c27370531f26ff7c5ceda776f0ce98",
-    "review/autonomy-20261104-f4-check": "5c5880515672abef98d4c8a1379acb35188e4cb9"
+    "review/autonomy-20261104-f4-check": "5c5880515672abef98d4c8a1379acb35188e4cb9",
+    "review/autonomy-20261104-f1-commit-check": "2881a50bc0280804f0d6920b046f5776272bfec9"
   },
   "checkpoints": [
     {
@@ -167,7 +168,7 @@
           "SQLite"
         ]
       },
-      "status": "executed_observed",
+      "status": "independently_reproduced",
       "observed_result": "Held reader causes SQLITE_BUSY at COMMIT, transaction open then rollback; EOF/no ACK, exact old cold recovery. Released reader commits/ACKs/new recovery.",
       "limits": "Finite local schedules; no power loss/full stream closure. Repair does not authenticate execution.",
       "raw_evidence": [
@@ -176,10 +177,109 @@
           "sha256": "577f18d90dfe7db3d9e7390d3240e3e343c867b6371678f40da9f8b533101b77"
         }
       ],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261104-f1-commit-check",
+          "sha": "2881a50bc0280804f0d6920b046f5776272bfec9",
+          "independence": "fresh-context same-family source/raw and one disposable rerun"
+        }
+      ],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Actual COMMIT I/O failure only if justified by selected storage guarantee; currentness and resource cuts follow",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F1-LIVE-WITNESS",
+      "stream": "F1",
+      "claim": "External currentness witness must remain current and serialize with admission",
+      "source_branch": "research/autonomy-20261103-f1",
+      "source_sha": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
+      "implementation": "docs/research/phase-i-f1/round2_live_witness.py",
+      "command": "timeout 30 python3 docs/research/phase-i-f1/round2_live_witness.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "SQLite",
+          "subprocess"
+        ],
+        "limits": "256MiB/child; bounded timeout"
+      },
+      "status": "executed_observed",
+      "observed_result": "Cached genuine reply admits coherent stale pair after endpoint advance; serialized endpoint denies stale/admits current; nonce replay and unavailable fail closed; rolled-back endpoint admits old",
+      "limits": "Trusted pipe/current bootstrap/exclusive advance and endpoint outside rollback domain are premises. Admission decision only, no actual protected effect",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-live-witness.raw.json",
+          "sha256": "d61c31dfa8de159f38aab207fca15dcbc0ce08914451047c43cc47c2422794bc"
+        }
+      ],
       "reviewers": [],
       "dependencies": [],
       "blockers": [],
-      "next_discriminator": "Fresh-context check active; live witness ordering next",
+      "next_discriminator": "Selected real nonrollback authority coupled to effect acceptance",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F1-CAPACITY-CUTS",
+      "stream": "F1",
+      "claim": "Guarded resource claims across precommit versus committed/lost-ACK writer death",
+      "source_branch": "research/autonomy-20261103-f1",
+      "source_sha": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
+      "implementation": "docs/research/phase-i-f1/round2_capacity_cuts.py",
+      "command": "timeout 30 python3 docs/research/phase-i-f1/round2_capacity_cuts.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "SQLite",
+          "subprocess"
+        ],
+        "limits": "256MiB/child; bounded timeout"
+      },
+      "status": "executed_observed",
+      "observed_result": "Precommit A death permits B only; postcommit/no-ACK A survives and B denies; detached B control yields A+B claims/effects",
+      "limits": "3 new fixed prototype schedules; attempt1 text buffering failure preserved/corrected. Not unchanged holder/external physical enforcement",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-capacity-cuts.raw.json",
+          "sha256": "cd00537ba26193fa0d56faf595332c9f04ebd00cb2c97d85b1f4d9a2be4b460b"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Actual selected acceptance boundary or different resource configuration",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F1-MODEL-SCOPE",
+      "stream": "F1",
+      "claim": "Investigate prior full-model timeout as scope/resource limitation",
+      "source_branch": "research/autonomy-20261103-f1",
+      "source_sha": "96e3e62f3534ca3b145a1af7bca976857124a2c4",
+      "implementation": "docs/research/phase-i-f1/round2_model_timeout.py",
+      "command": "timeout 30 python3 docs/research/phase-i-f1/round2_model_timeout.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "SQLite",
+          "subprocess"
+        ],
+        "limits": "256MiB/child; bounded timeout"
+      },
+      "status": "timed_out_inconclusive",
+      "observed_result": "Import succeeds; cap100 explicit bound exception; 5s default first-context timeout progresses to seen16207/queue2941/commits143185 at4.5s; peak56928KiB",
+      "limits": "Different instrumented run does not retroactively diagnose exact 40s run; no full-model result",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-model-timeout.raw.json",
+          "sha256": "9a740d4e9280ec020242845de74ab8c417dbd1b6acac500fbb2cb2f88b841b99"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Budgeted complete/resumable context only if consequential uncertainty justifies cost",
       "supersedes": []
     }
   ],
