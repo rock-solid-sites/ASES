@@ -30,7 +30,8 @@
     "research/autonomy-20261104-f4-write-count": "31118f0f9ca14554570791b6f824d3f708f4f8a2",
     "review/autonomy-20261104-kernel-literals": "5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490",
     "review/autonomy-20261104-f4-write-count": "96ec2096a7ff6d8f29128adc560a29c1a2f5e81b",
-    "research/autonomy-20261104-sink-recovery": "bace97e115e6ff0e9d25afcb4ac66ba2ff3d2b85"
+    "research/autonomy-20261104-sink-recovery": "9aa1988e2e6b688e61c0770e2786cbab498b5839",
+    "review/autonomy-20261104-sink-recovery": "822ef102d5b428458f41a83081b26a03169c8c71"
   },
   "checkpoints": [
     {
@@ -727,7 +728,7 @@
       },
       "status": "executed_observed",
       "observed_result": "Explicit recover-ordered serves version2, stale409/current201, exact q201;10 cold invalid-start controls refuse; genuine diagnostic gap1,3,4 becomes1,3,4,5; write-count regressions pass",
-      "limits": "New selected serving-recovery extension only. Trusted correct/current same-host journal, bootstrap1 and logical-root premise; not frozen F2 execution, nonrollback, power loss, native confinement or general retry proof.",
+      "limits": "New selected serving-recovery extension only. Trusted correct/current same-host journal, bootstrap1 and logical-root premise; not frozen F2 execution, nonrollback, power loss, native confinement or general retry proof. Review found Boolean-as-integer parsing and source cap mismatch; later repair indexed separately.",
       "raw_evidence": [
         {
           "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/fixed.raw.json",
@@ -742,10 +743,128 @@
           "sha256": "4bab60abcbe887b37f01826f7e37acb0d467a39d8ae5629e5ae0456c5a740ca8"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261104-sink-recovery",
+          "sha": "822ef102d5b428458f41a83081b26a03169c8c71",
+          "independence": "disclosed non-independent adversarial source/raw check after producer-writeup exposure; one new Boolean replay execution"
+        }
+      ],
       "dependencies": [],
       "blockers": [],
       "next_discriminator": "Adversarial replay check; actual selected root/currentness/host authority binding",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-ROOT-AFFINITY",
+      "stream": "cross-layer",
+      "claim": "Does valid replay identify intended logical sink root without trusted external binding?",
+      "source_branch": "research/autonomy-20261104-sink-recovery",
+      "source_sha": "37dd93b32cdbd56776267d84ed741d814a9165ce",
+      "implementation": "research/phase-i-t18-sink-order-20261103/sink-recovery/root_affinity.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/sink-recovery/root_affinity.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "loopback HTTP",
+          "journal",
+          "SIGKILL/reap"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "falsified_counterexample",
+      "observed_result": "Correct A delivers A; authentic B journal substituted at A path delivers B under same q/version2, hashes valid",
+      "limits": "Outside correct-journal custody premise; logical roots fixture-only; no root marker schema adopted",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/root-affinity.raw.json",
+          "sha256": "d149b6188d5327faf95285d18d6807256cea1c733ca4df23e50626b5f0efd6e3"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Select actual trusted expected-root/custody source if removing premise",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-RECOVERY-CAP-RED",
+      "stream": "cross-layer",
+      "claim": "Can actual ACKed writes grow outside explicit recovery size domain?",
+      "source_branch": "research/autonomy-20261104-sink-recovery",
+      "source_sha": "b96785ee933efb8e7b339f6b0d0c3d46a018ca8e",
+      "implementation": "research/phase-i-t18-sink-order-20261103/sink-recovery/capacity.py",
+      "command": "timeout 45 python3 research/phase-i-t18-sink-order-20261103/sink-recovery/capacity.py baseline",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "loopback HTTP",
+          "journal",
+          "SIGKILL/reap"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "falsified_counterexample",
+      "observed_result": "9 actual7KiB writes all201; valid journal65961 bytes; cold explicit recovery refuses above65536",
+      "limits": "New history exceeds earlier bounded domain; no malformed data/storage fault or power loss",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/capacity-baseline.raw.json",
+          "sha256": "d040b8439dae9375cd71835ef1fea66c0d1084d67710effc62483f774d6b2b14"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Matching admission guard and exact-cap controls",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-CAP-TYPES-REPAIR",
+      "stream": "cross-layer",
+      "claim": "Preserve bounded recoverability on admission and strict integer version replay",
+      "source_branch": "research/autonomy-20261104-sink-recovery",
+      "source_sha": "9aa1988e2e6b688e61c0770e2786cbab498b5839",
+      "implementation": "research/phase-i-t18-sink-order-20261103/sink-recovery/capacity.py",
+      "command": "timeout 45 python3 research/phase-i-t18-sink-order-20261103/sink-recovery/capacity.py fixed",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "loopback HTTP",
+          "journal",
+          "SIGKILL/reap"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Over-cap use/obligation fail without journal/new live authority/obligation; small actions recover, exact65536-byte journal recovers;6 Boolean/float controls refuse; restart/gap/write-count regressions pass",
+      "limits": "Capacity-related availability remains bounded; arbitrary partial-write/fsync exceptions not transactional; no full F4/currentness/root assurance",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/capacity-fixed.raw.json",
+          "sha256": "b8089a8a4dad771a9b6650724e70bb6f5ff36dc350486ef3452016bbeeba3c1c"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/version-types-fixed.raw.json",
+          "sha256": "9624f19e18345c66c032c92325007453feb35bb70cebe5fae08aa2c244617a5d"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/capacity-repair-regression.raw.json",
+          "sha256": "f3f5d102b11b2d0f544c5e5d23be51cb7e45937ad89642d6aa25a787ab0f8580"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/capacity-repair-control-regression.raw.json",
+          "sha256": "6c7b4b33b81fbd8c0fa5db3751a7f425ce24085a67aaaf77c44b773a33005f60"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-recovery/capacity-repair-write-regression.raw.json",
+          "sha256": "a0eb34c6c821dc5f68923fe6d99fd736d50f01c7d26440a3fd8a9aedf54c65ac"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Partial append exception and subsequent ACK boundary; reserve for safety actions only if stronger liveness selected",
       "supersedes": []
     }
   ],
