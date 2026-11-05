@@ -88,6 +88,24 @@ jobs:
           esac
           python3 assurance/docs/research/phase-i-assurance/evidence_contract.py "$E" --execution "$EXECUTION" > "$RUNNER_TEMP/phase-i-case-manifest.json"
           cp "$RUNNER_TEMP/phase-i-case-manifest.json" "$E/manifest.json"
+      - name: Independently reconstruct F4 publication and receipt histories
+        if: matrix.case.name == 'f4-published-cut' || matrix.case.name == 'f4-receipt-loss'
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/phase-i-evidence"
+          case "$CASE_NAME" in
+            f4-published-cut) MODE=cut ;;
+            f4-receipt-loss) MODE=receipt ;;
+            *) exit 2 ;;
+          esac
+          if ! python3 assurance/docs/research/phase-i-assurance/f4_trace_refinement.py --case "$MODE" --raw "$E/raw.json" > "$E/f4-refinement.json" 2> "$E/f4-refinement.stderr"; then
+            cat "$E/f4-refinement.stderr" >&2
+            exit 1
+          fi
+          cat "$E/f4-refinement.json"
       - name: Retain independent replay evidence
         if: always()
         uses: actions/upload-artifact@v4
