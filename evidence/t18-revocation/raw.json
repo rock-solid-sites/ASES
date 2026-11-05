@@ -1,0 +1,2795 @@
+{
+  "base_sha256": "6b1d759b87b13d32bdc7c5f31a64c15d5a63296d77bc2f16ecc6b0e7795a9d59",
+  "cases": {
+    "equality_only": {
+      "exit": -9,
+      "exit_ns": 3544628264272,
+      "final_journal": {
+        "exists": true,
+        "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022706f73742d7265766f6b65222c2022736571223a20362c2022756e6974223a202243227d0a",
+        "sha256": "b05f3dd6cbdd47f9f65b53f3c5a8588b81b9ad7e6037272e65da2cc2663f3f62"
+      },
+      "fixture_id": "T18-use-current-sink-order-after-revocation",
+      "ready_ns": 3544615551837,
+      "restart": {
+        "end_ns": 3544706180918,
+        "exit": 1,
+        "journal_after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022706f73742d7265766f6b65222c2022736571223a20362c2022756e6974223a202243227d0a",
+          "sha256": "b05f3dd6cbdd47f9f65b53f3c5a8588b81b9ad7e6037272e65da2cc2663f3f62"
+        },
+        "pid_not_recorded": true,
+        "start_ns": 3544628264479,
+        "stderr": "Traceback (most recent call last):\n  File \"/tmp/ases-managed-t18-xxdr9zs7/mutant/managed-revocation/managed_sink.py\", line 158, in <module>\n    serve(Path(sys.argv[2]))\n  File \"/tmp/ases-managed-t18-xxdr9zs7/mutant/managed-revocation/managed_sink.py\", line 113, in serve\n    state = State(journal)\n            ^^^^^^^^^^^^^^\n  File \"/tmp/ases-managed-t18-xxdr9zs7/mutant/managed-revocation/managed_sink.py\", line 22, in __init__\n    super().__init__('sink-ordered', journal)  # Existing journal always refuses.\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-managed-t18-xxdr9zs7/mutant/run.py\", line 43, in __init__\n    raise ValueError(\"existing journal requires explicit recovery mode\")\nValueError: existing journal requires explicit recovery mode\n",
+        "stdout": ""
+      },
+      "sink_pid": 2795,
+      "source_sha256": "2a653a8ef7da4f75a43eeeef30e825ae01e99b1ba8e1fd5db973f84f572cd460",
+      "start_ns": 3544550278730,
+      "steps": [
+        {
+          "end_ns": 3544617076064,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a",
+            "sha256": "78417567faa0714542e271dc985cf2822613aed30879855133fa20dc8a0b45fe"
+          },
+          "label": "create",
+          "observed": {
+            "active": false,
+            "authority_version": 0,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              }
+            ],
+            "granted": false,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/create"
+          },
+          "response": {
+            "body": {
+              "authority_version": 0,
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544615554822,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544619074281,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a",
+            "sha256": "c769d75cc26aa3f1a70c28e8a9f89da87d4e433e74b84ca7e1d0f22fc4afe955"
+          },
+          "label": "grant",
+          "observed": {
+            "active": false,
+            "authority_version": 1,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/grant"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 2,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544618110208,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544620792880,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a",
+            "sha256": "f6b7417976183ad0586089ea35a3484964be3c4c1e3ee702658bdcb707c047ef"
+          },
+          "label": "activate",
+          "observed": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1
+            },
+            "path": "/activate"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 3,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544619873704,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544622862503,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20342c2022756e6974223a202243227d0a",
+            "sha256": "db95f747fbe681328c359f3f237ab4738758a82345085bef47cf51a7a48217c5"
+          },
+          "label": "before-positive",
+          "observed": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 4,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 4,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "before-x",
+              "request_id": "before-positive"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 4,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_ns": 3544621982871,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544624717803,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20352c2022756e6974223a202243227d0a",
+            "sha256": "29df1d1e0add942fed289e8d05f7eed9facd999e04b5bfe08c41708c511bd993"
+          },
+          "label": "revoke",
+          "observed": {
+            "active": false,
+            "authority_version": 1,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 4,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 5,
+                "unit": "C"
+              }
+            ],
+            "granted": false,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/revoke"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 5,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544623780777,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544626384845,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a2022706f73742d7265766f6b65222c2022736571223a20362c2022756e6974223a202243227d0a",
+            "sha256": "b05f3dd6cbdd47f9f65b53f3c5a8588b81b9ad7e6037272e65da2cc2663f3f62"
+          },
+          "label": "post-revoke",
+          "observed": {
+            "active": false,
+            "authority_version": 1,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "x",
+                "payload_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "post-revoke",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "x",
+                "payload_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "post-revoke",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "granted": false,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "x",
+              "request_id": "post-revoke"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 6,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_ns": 3544625397852,
+          "status_code": 200
+        }
+      ],
+      "variant": "equality_only"
+    },
+    "exact_obligation": {
+      "exit": -9,
+      "exit_ns": 3544779121139,
+      "final_journal": {
+        "exists": true,
+        "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f7265706c61636564222c2022686f6c646572223a20226e6577222c2022706f736974696f6e223a202270222c202270726576696f75735f686f6c646572223a20226f6c64222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226f626c69676174696f6e3a6d222c2022736571223a20372c2022756e6974223a202243227d0a",
+        "sha256": "d8f90717537cea4f61edf7c16fb2bcf35a58243acc50f236e5606214f20589bb"
+      },
+      "fixture_id": "T18-exact-obligation-delivery-after-replacement",
+      "ready_ns": 3544763627131,
+      "restart": {
+        "end_ns": 3544840592762,
+        "exit": 1,
+        "journal_after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f7265706c61636564222c2022686f6c646572223a20226e6577222c2022706f736974696f6e223a202270222c202270726576696f75735f686f6c646572223a20226f6c64222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226f626c69676174696f6e3a6d222c2022736571223a20372c2022756e6974223a202243227d0a",
+          "sha256": "d8f90717537cea4f61edf7c16fb2bcf35a58243acc50f236e5606214f20589bb"
+        },
+        "pid_not_recorded": true,
+        "start_ns": 3544779121368,
+        "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-t18-revocation-check/research/phase-i-t18-sink-order-20261103/managed-revocation/managed_sink.py\", line 158, in <module>\n    serve(Path(sys.argv[2]))\n  File \"/workspace/ases-t18-revocation-check/research/phase-i-t18-sink-order-20261103/managed-revocation/managed_sink.py\", line 113, in serve\n    state = State(journal)\n            ^^^^^^^^^^^^^^\n  File \"/workspace/ases-t18-revocation-check/research/phase-i-t18-sink-order-20261103/managed-revocation/managed_sink.py\", line 22, in __init__\n    super().__init__('sink-ordered', journal)  # Existing journal always refuses.\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-t18-revocation-check/research/phase-i-t18-sink-order-20261103/run.py\", line 43, in __init__\n    raise ValueError(\"existing journal requires explicit recovery mode\")\nValueError: existing journal requires explicit recovery mode\n",
+        "stdout": ""
+      },
+      "sink_pid": 2809,
+      "source_sha256": "c87f8444b0c3bc8e03d60754d83271348b79e863eab8142ff38da91f7f894a6a",
+      "start_ns": 3544706257288,
+      "steps": [
+        {
+          "end_ns": 3544764966310,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a",
+            "sha256": "78417567faa0714542e271dc985cf2822613aed30879855133fa20dc8a0b45fe"
+          },
+          "label": "create",
+          "observed": {
+            "active": false,
+            "authority_version": 0,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              }
+            ],
+            "granted": false,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/create"
+          },
+          "response": {
+            "body": {
+              "authority_version": 0,
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544763631177,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544766923655,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a",
+            "sha256": "c769d75cc26aa3f1a70c28e8a9f89da87d4e433e74b84ca7e1d0f22fc4afe955"
+          },
+          "label": "grant",
+          "observed": {
+            "active": false,
+            "authority_version": 1,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/grant"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 2,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544765963150,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544768965103,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a",
+            "sha256": "f6b7417976183ad0586089ea35a3484964be3c4c1e3ee702658bdcb707c047ef"
+          },
+          "label": "activate",
+          "observed": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1
+            },
+            "path": "/activate"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 3,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544767919370,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544771035018,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20342c2022756e6974223a202243227d0a",
+            "sha256": "bd6a1a839b1ec683e47a51592ac13fec4771468dc32619f361b45ab6cc77ba36"
+          },
+          "label": "commit-before-fixture",
+          "observed": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "committed_under_version": 1,
+                "event": "obligation_committed",
+                "obligation_id": "m",
+                "payload": "x",
+                "payload_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {
+              "m": "x"
+            },
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "obligation_id": "m",
+              "payload": "x"
+            },
+            "path": "/commit-obligation"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 4,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_ns": 3544770012875,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544773150407,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f7265706c61636564222c2022686f6c646572223a20226e6577222c2022706f736974696f6e223a202270222c202270726576696f75735f686f6c646572223a20226f6c64222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a",
+            "sha256": "19c3754083c67a0ec9acf01e83a118a0bac838735b94a50761428b9a57052005"
+          },
+          "label": "replace",
+          "observed": {
+            "active": false,
+            "authority_version": 2,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "committed_under_version": 1,
+                "event": "obligation_committed",
+                "obligation_id": "m",
+                "payload": "x",
+                "payload_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 2,
+                "event": "managed_replaced",
+                "holder": "new",
+                "position": "p",
+                "previous_holder": "old",
+                "previous_version": 1,
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "new",
+            "obligations": {
+              "m": "x"
+            },
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "holder": "new"
+            },
+            "path": "/replace"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "event_seq": 5,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544771944430,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544774887433,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f7265706c61636564222c2022686f6c646572223a20226e6577222c2022706f736974696f6e223a202270222c202270726576696f75735f686f6c646572223a20226f6c64222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a",
+            "sha256": "19c3754083c67a0ec9acf01e83a118a0bac838735b94a50761428b9a57052005"
+          },
+          "label": "replacement-inactive",
+          "observed": {
+            "active": false,
+            "authority_version": 2,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "committed_under_version": 1,
+                "event": "obligation_committed",
+                "obligation_id": "m",
+                "payload": "x",
+                "payload_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 2,
+                "event": "managed_replaced",
+                "holder": "new",
+                "position": "p",
+                "previous_holder": "old",
+                "previous_version": 1,
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "new",
+            "obligations": {
+              "m": "x"
+            },
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 2,
+              "payload": "not-x-current",
+              "request_id": "replacement-inactive"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "outcome": "rejected"
+            },
+            "status": 409
+          },
+          "start_ns": 3544774025386,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544776882268,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20322c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20332c2022756e6974223a202243227d0a7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20342c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f7265706c61636564222c2022686f6c646572223a20226e6577222c2022706f736974696f6e223a202270222c202270726576696f75735f686f6c646572223a20226f6c64222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a20226d222c20227061796c6f6164223a202278222c20227061796c6f61645f736861323536223a202232643731313634326237323662303434303136323763613966626163333266356338353330666231393033636334646230323235383731373932316134383831222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226f626c69676174696f6e3a6d222c2022736571223a20372c2022756e6974223a202243227d0a",
+            "sha256": "d8f90717537cea4f61edf7c16fb2bcf35a58243acc50f236e5606214f20589bb"
+          },
+          "label": "m",
+          "observed": {
+            "active": false,
+            "authority_version": 2,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 2,
+                "check_mode": "committed-exact-obligation",
+                "event": "effect_accepted",
+                "obligation_id": "m",
+                "payload": "x",
+                "payload_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "request_id": "obligation:m",
+                "seq": 7,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "committed_under_version": 1,
+                "event": "obligation_committed",
+                "obligation_id": "m",
+                "payload": "x",
+                "payload_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 2,
+                "event": "managed_replaced",
+                "holder": "new",
+                "position": "p",
+                "previous_holder": "old",
+                "previous_version": 1,
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "committed-exact-obligation",
+                "event": "effect_accepted",
+                "obligation_id": "m",
+                "payload": "x",
+                "payload_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "request_id": "obligation:m",
+                "seq": 7,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "new",
+            "obligations": {
+              "m": "x"
+            },
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "obligation_id": "m"
+            },
+            "path": "/deliver-obligation"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "event_seq": 7,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_ns": 3544775830953,
+          "status_code": 200
+        }
+      ],
+      "variant": "exact_obligation"
+    },
+    "reference": {
+      "exit": -9,
+      "exit_ns": 3544484774285,
+      "final_journal": {
+        "exists": true,
+        "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20392c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a2031312c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202266726573682d78222c20227061796c6f61645f736861323536223a202230646632653338356433653562313761346436636462356163663938303832306438393332666462613365366538303130616264366466643733636334346165222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20322c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a202266726573682d706f736974697665222c2022736571223a2031322c2022756e6974223a202243227d0a",
+        "sha256": "5fa6c79438320a18c1e4007a6df51b095235c6353b3c177751c2573fb91e7192"
+      },
+      "fixture_id": "T18-use-current-sink-order-after-revocation",
+      "ready_ns": 3544450115915,
+      "restart": {
+        "end_ns": 3544550197967,
+        "exit": 1,
+        "journal_after": {
+          "exists": true,
+          "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20392c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a2031312c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202266726573682d78222c20227061796c6f61645f736861323536223a202230646632653338356433653562313761346436636462356163663938303832306438393332666462613365366538303130616264366466643733636334346165222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20322c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a202266726573682d706f736974697665222c2022736571223a2031322c2022756e6974223a202243227d0a",
+          "sha256": "5fa6c79438320a18c1e4007a6df51b095235c6353b3c177751c2573fb91e7192"
+        },
+        "pid_not_recorded": true,
+        "start_ns": 3544484774470,
+        "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-t18-revocation-check/research/phase-i-t18-sink-order-20261103/managed-revocation/managed_sink.py\", line 158, in <module>\n    serve(Path(sys.argv[2]))\n  File \"/workspace/ases-t18-revocation-check/research/phase-i-t18-sink-order-20261103/managed-revocation/managed_sink.py\", line 113, in serve\n    state = State(journal)\n            ^^^^^^^^^^^^^^\n  File \"/workspace/ases-t18-revocation-check/research/phase-i-t18-sink-order-20261103/managed-revocation/managed_sink.py\", line 22, in __init__\n    super().__init__('sink-ordered', journal)  # Existing journal always refuses.\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-t18-revocation-check/research/phase-i-t18-sink-order-20261103/run.py\", line 43, in __init__\n    raise ValueError(\"existing journal requires explicit recovery mode\")\nValueError: existing journal requires explicit recovery mode\n",
+        "stdout": ""
+      },
+      "sink_pid": 2767,
+      "source_sha256": "c87f8444b0c3bc8e03d60754d83271348b79e863eab8142ff38da91f7f894a6a",
+      "start_ns": 3544388138124,
+      "steps": [
+        {
+          "end_ns": 3544459372618,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a",
+            "sha256": "78417567faa0714542e271dc985cf2822613aed30879855133fa20dc8a0b45fe"
+          },
+          "label": "create",
+          "observed": {
+            "active": false,
+            "authority_version": 0,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              }
+            ],
+            "granted": false,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/create"
+          },
+          "response": {
+            "body": {
+              "authority_version": 0,
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544450118741,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544461434445,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a",
+            "sha256": "78417567faa0714542e271dc985cf2822613aed30879855133fa20dc8a0b45fe"
+          },
+          "label": "after-create",
+          "observed": {
+            "active": false,
+            "authority_version": 0,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              }
+            ],
+            "granted": false,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 0,
+              "payload": "not-x-create",
+              "request_id": "after-create"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 0,
+              "outcome": "rejected"
+            },
+            "status": 409
+          },
+          "start_ns": 3544460444021,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544463308896,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a",
+            "sha256": "78afe938098cc3461bd22ebddfbebb8cd3c235be37d13723cd212d1933ae7961"
+          },
+          "label": "grant",
+          "observed": {
+            "active": false,
+            "authority_version": 1,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/grant"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 3,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544462351197,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544465063081,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a",
+            "sha256": "78afe938098cc3461bd22ebddfbebb8cd3c235be37d13723cd212d1933ae7961"
+          },
+          "label": "after-grant",
+          "observed": {
+            "active": false,
+            "authority_version": 1,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "not-x-grant",
+              "request_id": "after-grant"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "outcome": "rejected"
+            },
+            "status": 409
+          },
+          "start_ns": 3544464192763,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544466916370,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a",
+            "sha256": "275601e6474c7ff4d4514c9704173f1151ffa4a6f26515b1cf10b0a2ea08b530"
+          },
+          "label": "activate",
+          "observed": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "effects": [],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1
+            },
+            "path": "/activate"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 5,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544465982981,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544469068506,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a",
+            "sha256": "aa7816bec5222378fe518816a23cf17b16950889182aa79dc9dea8d96481e7e5"
+          },
+          "label": "before-positive",
+          "observed": {
+            "active": true,
+            "authority_version": 1,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "before-x",
+              "request_id": "before-positive"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 6,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_ns": 3544467989274,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544471455839,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a",
+            "sha256": "d7a60bb3dc29023663d67f612765a5d52aa17dae975506bd1750b893e37c9f32"
+          },
+          "label": "revoke",
+          "observed": {
+            "active": false,
+            "authority_version": 1,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 7,
+                "unit": "C"
+              }
+            ],
+            "granted": false,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/revoke"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 7,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544470274382,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544473374661,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a",
+            "sha256": "d7a60bb3dc29023663d67f612765a5d52aa17dae975506bd1750b893e37c9f32"
+          },
+          "label": "post-revoke",
+          "observed": {
+            "active": false,
+            "authority_version": 1,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 7,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 8,
+                "unit": "C"
+              }
+            ],
+            "granted": false,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "x",
+              "request_id": "post-revoke"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "outcome": "rejected"
+            },
+            "status": 409
+          },
+          "start_ns": 3544472357541,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544475186520,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20392c2022756e6974223a202243227d0a",
+            "sha256": "1b30e69ad74dc33f0ddff0af839123b7eeac67bf4e81d2d49ba5a0bdd3079be8"
+          },
+          "label": "regrant",
+          "observed": {
+            "active": false,
+            "authority_version": 2,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 7,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 8,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 2,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 1,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 9,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {},
+            "path": "/grant"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "event_seq": 9,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544474250275,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544477076046,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20392c2022756e6974223a202243227d0a",
+            "sha256": "1b30e69ad74dc33f0ddff0af839123b7eeac67bf4e81d2d49ba5a0bdd3079be8"
+          },
+          "label": "regrant-inactive",
+          "observed": {
+            "active": false,
+            "authority_version": 2,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 7,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 8,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 2,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 1,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 9,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 10,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 2,
+              "payload": "not-x-regrant",
+              "request_id": "regrant-inactive"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "outcome": "rejected"
+            },
+            "status": 409
+          },
+          "start_ns": 3544476108321,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544478916264,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20392c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a2031312c2022756e6974223a202243227d0a",
+            "sha256": "b2b124109d8fa7be00925d4dfdc203dfae3b2f6ed956fb71f63f2e6148dc73d5"
+          },
+          "label": "reactivate",
+          "observed": {
+            "active": true,
+            "authority_version": 2,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 7,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 8,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 2,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 1,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 9,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 10,
+                "unit": "C"
+              },
+              {
+                "current_version": 2,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 11,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 2
+            },
+            "path": "/activate"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "event_seq": 11,
+              "outcome": "accepted"
+            },
+            "status": 200
+          },
+          "start_ns": 3544478029375,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544480933714,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20392c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a2031312c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202266726573682d78222c20227061796c6f61645f736861323536223a202230646632653338356433653562313761346436636462356163663938303832306438393332666462613365366538303130616264366466643733636334346165222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20322c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a202266726573682d706f736974697665222c2022736571223a2031322c2022756e6974223a202243227d0a",
+            "sha256": "5fa6c79438320a18c1e4007a6df51b095235c6353b3c177751c2573fb91e7192"
+          },
+          "label": "fresh-positive",
+          "observed": {
+            "active": true,
+            "authority_version": 2,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "fresh-x",
+                "payload_sha256": "0df2e385d3e5b17a4d6cdb5acf980820d8932fdba3e6e8010abd6dfd73cc44ae",
+                "position": "p",
+                "presented_version": 2,
+                "profile": "flat-managed-v1",
+                "request_id": "fresh-positive",
+                "seq": 12,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 7,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 8,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 2,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 1,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 9,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 10,
+                "unit": "C"
+              },
+              {
+                "current_version": 2,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 11,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "fresh-x",
+                "payload_sha256": "0df2e385d3e5b17a4d6cdb5acf980820d8932fdba3e6e8010abd6dfd73cc44ae",
+                "position": "p",
+                "presented_version": 2,
+                "profile": "flat-managed-v1",
+                "request_id": "fresh-positive",
+                "seq": 12,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 2,
+              "payload": "fresh-x",
+              "request_id": "fresh-positive"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "event_seq": 12,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_ns": 3544479860917,
+          "status_code": 200
+        },
+        {
+          "end_ns": 3544482786499,
+          "journal": {
+            "exists": true,
+            "raw_hex": "7b2263757272656e745f76657273696f6e223a20302c20226576656e74223a20226d616e616765645f63726561746564222c2022686f6c646572223a20226f6c64222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20312c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20302c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20332c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a20352c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f72652d78222c20227061796c6f61645f736861323536223a202265383835623363666131626237323936653134303630363266653338333531376137333861616435346266626332393536383139303439626263376533343334222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a20226265666f72652d706f736974697665222c2022736571223a20362c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20312c20226576656e74223a20226d616e616765645f7265766f6b6564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20372c2022756e6974223a202243227d0a7b22616c6c6f77223a20747275652c202263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f6772616e746564222c2022706f736974696f6e223a202270222c202270726576696f75735f76657273696f6e223a20312c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c20227269676874223a20227772697465222c2022736571223a20392c2022756e6974223a202243227d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a20226d616e616765645f616374697661746564222c2022706f736974696f6e223a202270222c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022736571223a2031312c2022756e6974223a202243227d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a20226d616e616765642d7573652d63757272656e74222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202266726573682d78222c20227061796c6f61645f736861323536223a202230646632653338356433653562313761346436636462356163663938303832306438393332666462613365366538303130616264366466643733636334346165222c2022706f736974696f6e223a202270222c202270726573656e7465645f76657273696f6e223a20322c202270726f66696c65223a2022666c61742d6d616e616765642d7631222c2022726571756573745f6964223a202266726573682d706f736974697665222c2022736571223a2031322c2022756e6974223a202243227d0a",
+            "sha256": "5fa6c79438320a18c1e4007a6df51b095235c6353b3c177751c2573fb91e7192"
+          },
+          "label": "old-negative",
+          "observed": {
+            "active": true,
+            "authority_version": 2,
+            "created": true,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "fresh-x",
+                "payload_sha256": "0df2e385d3e5b17a4d6cdb5acf980820d8932fdba3e6e8010abd6dfd73cc44ae",
+                "position": "p",
+                "presented_version": 2,
+                "profile": "flat-managed-v1",
+                "request_id": "fresh-positive",
+                "seq": 12,
+                "unit": "C"
+              }
+            ],
+            "events": [
+              {
+                "current_version": 0,
+                "event": "managed_created",
+                "holder": "old",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 1,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 2,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 1,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 0,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 3,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 4,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 5,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 1,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "before-x",
+                "payload_sha256": "e885b3cfa1bb7296e1406062fe383517a738aad54bfbc2956819049bbc7e3434",
+                "position": "p",
+                "presented_version": 1,
+                "profile": "flat-managed-v1",
+                "request_id": "before-positive",
+                "seq": 6,
+                "unit": "C"
+              },
+              {
+                "current_version": 1,
+                "event": "managed_revoked",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 7,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 8,
+                "unit": "C"
+              },
+              {
+                "allow": true,
+                "current_version": 2,
+                "event": "managed_granted",
+                "position": "p",
+                "previous_version": 1,
+                "profile": "flat-managed-v1",
+                "right": "write",
+                "seq": 9,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 10,
+                "unit": "C"
+              },
+              {
+                "current_version": 2,
+                "event": "managed_activated",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 11,
+                "unit": "C"
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "managed-use-current",
+                "event": "effect_accepted",
+                "payload": "fresh-x",
+                "payload_sha256": "0df2e385d3e5b17a4d6cdb5acf980820d8932fdba3e6e8010abd6dfd73cc44ae",
+                "position": "p",
+                "presented_version": 2,
+                "profile": "flat-managed-v1",
+                "request_id": "fresh-positive",
+                "seq": 12,
+                "unit": "C"
+              },
+              {
+                "event": "managed_rejected",
+                "path": "/submit",
+                "position": "p",
+                "profile": "flat-managed-v1",
+                "seq": 13,
+                "unit": "C"
+              }
+            ],
+            "granted": true,
+            "holder": "old",
+            "obligations": {},
+            "persistence_failed": false,
+            "position": "p",
+            "profile": "flat-managed-v1",
+            "unit": "C"
+          },
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "not-x-old",
+              "request_id": "old-negative"
+            },
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "outcome": "rejected"
+            },
+            "status": 409
+          },
+          "start_ns": 3544481764743,
+          "status_code": 200
+        }
+      ],
+      "variant": "reference"
+    }
+  },
+  "environment": {
+    "address_space_limit": 268435456,
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "max_child_concurrency": 1,
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_sha": "7ed639cd0fc8c938dbc68eb8ca1892e54900713c",
+  "fixture_sha256": "bdc8cbeb5e917c10f23add99ab8dd88a9d2212d1d9f52be0a7e5c178e1eb6f65",
+  "fixtures": [
+    {
+      "assumption": "Use-current profile: post-revocation sink acceptance must be excluded at the sink ordering boundary, independently of T18 exact-obligation delivery.",
+      "events": [
+        {
+          "ack": true,
+          "ev": "revoke",
+          "unit": "C"
+        },
+        {
+          "ev": "sink_send",
+          "msg": "post-revoke",
+          "unit": "C"
+        },
+        {
+          "atom": "x",
+          "ev": "sink_accept",
+          "msg": "post-revoke"
+        },
+        {
+          "ev": "sink_reply",
+          "msg": "post-revoke"
+        }
+      ],
+      "execution_note": "f2lib has no sink-side current-authority ordering event; fixture retained unexecuted instead of treating sink_send or detached revocation state as evidence.",
+      "expected_observation": {
+        "sink": "rejected",
+        "store": {
+          "content.x.sink_accept": 0
+        }
+      },
+      "id": "T18-use-current-sink-order-after-revocation",
+      "initial_state": {
+        "events": [
+          {
+            "ev": "create",
+            "exp": true,
+            "unit": "C"
+          },
+          {
+            "allow": true,
+            "ev": "grant",
+            "right": "write",
+            "unit": "C"
+          },
+          {
+            "ev": "activate",
+            "unit": "C"
+          }
+        ]
+      },
+      "status": "prepared-only",
+      "trace": "T18"
+    },
+    {
+      "assumption": "Under exact-obligation profile, replacement of producer does not cancel an already-authorized delivery; no current-use profile is claimed.",
+      "events": [
+        {
+          "ev": "position_advance",
+          "pos": "p",
+          "to": "new",
+          "unit": "C"
+        },
+        {
+          "ev": "sink_send",
+          "msg": "m"
+        },
+        {
+          "atom": "x",
+          "ev": "sink_accept",
+          "msg": "m"
+        },
+        {
+          "ev": "sink_reply",
+          "msg": "m"
+        }
+      ],
+      "expected_observation": {
+        "sink": "accepted"
+      },
+      "id": "T18-exact-obligation-delivery-after-replacement",
+      "initial_state": {
+        "store": {
+          "positions": {
+            "p": {
+              "gen": 1,
+              "holder": "old",
+              "unit": "C"
+            }
+          }
+        }
+      },
+      "status": "executed",
+      "trace": "T18"
+    }
+  ],
+  "mutation": {
+    "after": "return self.created and token == self.version",
+    "before": "return self.created and self.granted and self.active and token == self.version",
+    "sha256": "2a653a8ef7da4f75a43eeeef30e825ae01e99b1ba8e1fd5db973f84f572cd460"
+  },
+  "runner_sha256": "3b2b47931e9f78e49fee7fefb19b05776792691ca663091781988b8192b036e4",
+  "schema": "ases.t18.managed-history",
+  "source_sha256": "c87f8444b0c3bc8e03d60754d83271348b79e863eab8142ff38da91f7f894a6a",
+  "version": 1
+}

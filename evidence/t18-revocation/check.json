@@ -1,0 +1,55 @@
+{
+  "all_checks_pass": true,
+  "basis": "Independent audit of one bounded probe output plus direct source and fixture inspection; no separate implementation or cross-family independence claim.",
+  "cases": {
+    "equality_only": {
+      "fixture_id": "T18-use-current-sink-order-after-revocation",
+      "restart_exit": 1,
+      "sink_exit": -9,
+      "step_count": 6,
+      "variant": "equality_only"
+    },
+    "exact_obligation": {
+      "fixture_id": "T18-exact-obligation-delivery-after-replacement",
+      "restart_exit": 1,
+      "sink_exit": -9,
+      "step_count": 7,
+      "variant": "exact_obligation"
+    },
+    "reference": {
+      "fixture_id": "T18-use-current-sink-order-after-revocation",
+      "restart_exit": 1,
+      "sink_exit": -9,
+      "step_count": 13,
+      "variant": "reference"
+    }
+  },
+  "checks": {
+    "acknowledged_revoke_precedes_later_request": true,
+    "all_journals_integral_monotone_and_effect_views_match": true,
+    "all_processes_killed_restart_refused_and_journals_unchanged": true,
+    "all_response_timestamps_monotone": true,
+    "all_success_acks_reference_same_persisted_event": true,
+    "bounded_address_space": true,
+    "equality_only_mutation_detected_by_stale_use": true,
+    "execution_commit_matches_pre_run_head": true,
+    "fixture_hash_matches": true,
+    "imported_runner_hash_matches": true,
+    "managed_sink_hash_matches": true,
+    "one_child_sink_at_a_time": true,
+    "post_replacement_exact_delivery_matches_prior_commit": true,
+    "probe_hash_matches": true,
+    "reference_old_write_rejected_without_x_effect": true,
+    "replacement_ack_precedes_delivery_request": true,
+    "replacement_makes_current_use_inactive": true,
+    "revoke_state_and_event_precede_denial": true
+  },
+  "limitations": [
+    "Unauthenticated loopback manager routes are assumed trusted; caller isolation was not tested.",
+    "Only one revoke and one holder replacement were exercised.",
+    "No crash at ACK boundaries, recovery, rollback resistance, power loss, remote sink, arbitrary sink, or host confinement claim.",
+    "Managed sink only; no full F2/F4/native enforcement claim."
+  ],
+  "schema": "independent-t18-revocation-audit.v1",
+  "verdict": "SUPPORTED_WITHIN_SELECTED_FLAT_C_P_TRUSTED_LOCAL_MANAGER_SCOPE"
+}
