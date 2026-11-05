@@ -1,0 +1,26 @@
+{
+  "cases": {
+    "eligibility": {
+      "observation": "stale eligible tuple denied by actual live witness",
+      "status": "SUPPORTED"
+    },
+    "generation": {
+      "observation": "live witness knows revoke, generation unchanged; stale x ACKed/retained",
+      "status": "COUNTEREXAMPLE"
+    }
+  },
+  "incomplete_controls": {
+    "missing_publication_ack": {
+      "reason": "'end_ns'",
+      "status": "INCOMPLETE"
+    },
+    "missing_witness_exchange": {
+      "reason": "'witness_log'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 2,
+  "owned_children": 12,
+  "protocol_controls": "positive/nonce/reset/missing as predicted",
+  "qualification": "selected trusted supervisor/endpoint; coordinator checker, no independent review"
+}

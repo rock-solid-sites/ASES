@@ -1,0 +1,30 @@
+{
+  "cases": {
+    "barrier": {
+      "scope": "selected revoke publication/ACK ordering",
+      "status": "SUPPORTED"
+    },
+    "delayed": {
+      "scope": "selected revoke publication/ACK ordering",
+      "status": "COUNTEREXAMPLE"
+    }
+  },
+  "incomplete_controls": {
+    "missing_local_revoke_bytes": {
+      "reason": "'journal'",
+      "status": "INCOMPLETE"
+    },
+    "missing_publication": {
+      "reason": "'publication_log'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 2,
+  "owned_children": 17,
+  "publication_failures": {
+    "missing": "local durable revoke; witness already killed/reaped; no success revoke ACK",
+    "reject": "local durable revoke; witness rejected without update; no success revoke ACK",
+    "wrong_nonce": "local and witness updated; unusable nonce response; no success revoke ACK"
+  },
+  "qualification": "selected trusted-manager revoke path only; no independent barrier review"
+}
