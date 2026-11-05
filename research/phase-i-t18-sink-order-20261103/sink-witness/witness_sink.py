@@ -21,7 +21,7 @@ def projection(state, profile):
 
 def witness_server(root):
     lock = threading.Lock()
-    state = dict(current=None, publication=0, wrong_nonce=False, log=[])
+    state = dict(current=None, publication=0, wrong_nonce=False, publish_fault='none', log=[])
     class Handler(managed.base.make_handler(None)):
         def do_GET(self):
             if self.path != '/status':
@@ -33,13 +33,21 @@ def witness_server(root):
             data = self.read_json()
             start = time.monotonic_ns()
             with lock:
+                status = 200
                 if self.path == '/publish':
                     # Trusted supervisor; monotonic freshness is an external premise.
-                    state['current'] = {key:data['state'][key] for key in FIELDS}
-                    state['publication'] += 1
-                    reply = dict(outcome='published',publication=state['publication'])
+                    if state['publish_fault'] == 'reject':
+                        status, reply = 503, dict(outcome='publication-rejected')
+                    else:
+                        state['current'] = {key:data['state'][key] for key in FIELDS}
+                        state['publication'] += 1
+                        reply = dict(outcome='published',publication=state['publication'],root=root,pid=os.getpid(),
+                                     state=state['current'],nonce='wrong-publication-nonce' if state['publish_fault']=='wrong_nonce' else data.get('nonce'))
                 elif self.path == '/fault':
-                    state['wrong_nonce'] = bool(data['wrong_nonce'])
+                    if 'wrong_nonce' in data:
+                        state['wrong_nonce'] = bool(data['wrong_nonce'])
+                    if 'publish_fault' in data:
+                        state['publish_fault'] = data['publish_fault']
                     reply = dict(outcome='configured')
                 elif self.path == '/check':
                     profile = data['profile']
@@ -51,9 +59,9 @@ def witness_server(root):
                                  publication=state['publication'])
                 else:
                     self.send_json(404,dict(error='unknown route')); return
-                state['log'].append(dict(path=self.path,request=data,response=reply,
+                state['log'].append(dict(path=self.path,request=data,response=reply,response_status=status,
                                          start_ns=start,end_ns=time.monotonic_ns()))
-            self.send_json(200,reply)
+            self.send_json(status,reply)
     server = http.server.ThreadingHTTPServer(('127.0.0.1',0),Handler)
     server.daemon_threads = True
     print(json.dumps(dict(ready=True,port=server.server_address[1],pid=os.getpid())),flush=True)
