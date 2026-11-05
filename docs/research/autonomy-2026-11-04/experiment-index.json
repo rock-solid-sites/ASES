@@ -9,7 +9,7 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 4
+    "workers_launched": 5
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
@@ -32,7 +32,9 @@
     "review/autonomy-20261104-f4-write-count": "96ec2096a7ff6d8f29128adc560a29c1a2f5e81b",
     "research/autonomy-20261104-sink-recovery": "9aa1988e2e6b688e61c0770e2786cbab498b5839",
     "review/autonomy-20261104-sink-recovery": "822ef102d5b428458f41a83081b26a03169c8c71",
-    "research/autonomy-20261104-sink-io-failure": "d4a780b275d1d2ef48cfc8a10f5350671a52fa7b"
+    "research/autonomy-20261104-sink-io-failure": "d4a780b275d1d2ef48cfc8a10f5350671a52fa7b",
+    "research/autonomy-20261105-prefix-recovery": "4f8f3ff822de536e3c17250229f97e98ddab8272",
+    "review/autonomy-20261105-prefix-recovery": "812bc0518c7ed94df0a0ca40a5718151780a62c7"
   },
   "checkpoints": [
     {
@@ -942,6 +944,130 @@
       "dependencies": [],
       "blockers": [],
       "next_discriminator": "Explicit append-only interrupted-tail recovery without oracle-injected ACK boundary; preserve strict default",
+      "supersedes": []
+    },
+    {
+      "id": "R2-PREFIX-RECOVERY",
+      "stream": "cross-layer",
+      "claim": "Explicit recovery of validated complete records under trusted interrupted-new-unACKed-tail relation",
+      "source_branch": "research/autonomy-20261105-prefix-recovery",
+      "source_sha": "041a48c4489351855eb056377d6df043e98416d1",
+      "implementation": "research/phase-i-t18-sink-order-20261103/prefix-recovery/probe.py",
+      "command": "timeout 45 python3 research/phase-i-t18-sink-order-20261103/prefix-recovery/probe.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "local HTTP",
+          "file quarantine/atomic rename",
+          "SIGKILL/reap at pre-ready gates"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "independently_reproduced",
+      "observed_result": "Uninterrupted/quarantined-gate-kill/published-gate-kill recover prior ACKed prefix, retain exact original quarantine, accept fresh effect and survive strict second restart;7 refusal controls and complete3-record positive; regressions pass",
+      "limits": "Correct current root/journal, append-only earlier intact complete records, no later success; file shape cannot establish this premise; not generic corruption or power-loss recovery",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/raw.json",
+          "sha256": "77bacf22352f59fdb5139582f6261cda43d8ae4ce9988bc8938aaf825c29fa41"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/io-regression.raw.json",
+          "sha256": "d468c82ade7ff5909d87d6109134a42cb9525b85e870443fec87d0e93c25873b"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/capacity-regression.raw.json",
+          "sha256": "1cbd6fd2ffd67729e90b97ed2b4f3c40f2e58c01295e29d396a8fcc7f403406b"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/ordered-regression.raw.json",
+          "sha256": "cee67f76dfc2fb3a96a401313d8ac8de9c315f171dfadbd492bfb04e949afb3a"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/types-regression.raw.json",
+          "sha256": "c9fcad1c07db0a5e7cf049a6d458530edc878ab69394598d1d5c69a027e43bed"
+        }
+      ],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-prefix-recovery",
+          "sha": "812bc0518c7ed94df0a0ca40a5718151780a62c7",
+          "independence": "fresh-context same-family isolated pinned worktree; primary rerun plus2 independent gate checks; no writeup exposure before verdict; initial relative-path setup corrected"
+        }
+      ],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Qualify actual deployment fault relation/currentness; prepared-temp discriminator separate",
+      "supersedes": []
+    },
+    {
+      "id": "R2-PREFIX-ACK-TRUNCATION-CONTROL",
+      "stream": "cross-layer",
+      "claim": "Would prefix mode recover every ACKed effect under arbitrary tail truncation?",
+      "source_branch": "research/autonomy-20261105-prefix-recovery",
+      "source_sha": "041a48c4489351855eb056377d6df043e98416d1",
+      "implementation": "research/phase-i-t18-sink-order-20261103/prefix-recovery/probe.py",
+      "command": "timeout 45 python3 research/phase-i-t18-sink-order-20261103/prefix-recovery/probe.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "local HTTP",
+          "file quarantine/atomic rename",
+          "SIGKILL/reap at pre-ready gates"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "falsified_counterexample",
+      "observed_result": "Actual3-ACK journal last record truncated; explicit prefix mode returns2 effects. Deliberately outside selected new-unACKed-tail relation.",
+      "limits": "Contrary control forbids universal corruption/rollback claim or enabling prefix mode based on framing alone",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/raw.json",
+          "sha256": "77bacf22352f59fdb5139582f6261cda43d8ae4ce9988bc8938aaf825c29fa41"
+        }
+      ],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-prefix-recovery",
+          "sha": "812bc0518c7ed94df0a0ca40a5718151780a62c7",
+          "independence": "fresh-context same-family isolated pinned worktree; primary rerun plus2 independent gate checks; no writeup exposure before verdict; initial relative-path setup corrected"
+        }
+      ],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Use strict default unless trusted fault relation supplied",
+      "supersedes": []
+    },
+    {
+      "id": "R2-PREFIX-PREPARED-CUT",
+      "stream": "cross-layer",
+      "claim": "Unpublished prepared prefix must not supersede current journal across holder death",
+      "source_branch": "research/autonomy-20261105-prefix-recovery",
+      "source_sha": "4f8f3ff822de536e3c17250229f97e98ddab8272",
+      "implementation": "research/phase-i-t18-sink-order-20261103/prefix-recovery/prepared_cut.py",
+      "command": "timeout 45 python3 research/phase-i-t18-sink-order-20261103/prefix-recovery/prepared_cut.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "local HTTP",
+          "file quarantine/atomic rename",
+          "SIGKILL/reap at pre-ready gates"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Kill after prepared temp fsync before rename; both original temp and substituted authentic different valid temp ignored/overwritten, prior version1/ACKed A recovers, fresh effect and strict restart succeed",
+      "limits": "Same-host atomic rename/current original/sole writer; prepared substitution is obsolete-material control, not general root protection",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/prepared-cut.raw.json",
+          "sha256": "5229bf310289f64d2c181bdc86cb9c5e4361fbc1b3be702b12689f14d93456de"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Independent scope check only if consequential; move to open Kernel resource tradeoff",
       "supersedes": []
     }
   ],
