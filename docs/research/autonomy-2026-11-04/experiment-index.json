@@ -61,7 +61,9 @@
     "research/autonomy-20261105-c11-history": "beefbab9b9aac12a70e3329b5129463fd69e5a0c",
     "review/autonomy-20261105-f1-consumer": "652430469f7d06cf0f43a452c7d4d99b5fe81a76",
     "review/autonomy-20261105-latent-diagnostic": "fb0745bf1da636b6553ca06b657cec3ce6eb3662",
-    "research/autonomy-20261105-resource-occupancy": "ce7515ba42387c411f5e81969a64ff9789ebea0c"
+    "research/autonomy-20261105-resource-occupancy": "ce7515ba42387c411f5e81969a64ff9789ebea0c",
+    "research/autonomy-20261105-resource-commit": "ff4ea8ba87f3d88008c30a5a3943e4223f05ab45",
+    "review/autonomy-20261105-resource-occupancy": "10bd899ce6041eaf16e42a6ecfaa0b0bc9b75b86"
   },
   "checkpoints": [
     {
@@ -155,6 +157,10 @@
     {
       "utc": "2026-11-05T05:47:36Z",
       "state": "Native resource ce7515b pushed/index47; one bounded Luna reviewer active,12 historical workers/no nested delegation. Next actual native-bind/SQL-COMMIT failure boundary if useful. Quota unknown."
+    },
+    {
+      "utc": "2026-11-05T05:56:25Z",
+      "state": "Native prepared/COMMIT failure extension pushed; parent independent review10bd899 integrated.48 indexed entries,12 workers historical/all completed. No allowance error, quota unknown. Next choose consequential new obligation, preserve reserve."
     }
   ],
   "experiments": [
@@ -1924,7 +1930,7 @@
         "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
         "sqlite": "3.53.1"
       },
-      "status": "executed_observed",
+      "status": "independently_reproduced",
       "observed_result": "Owned A SQL release ACK leaves native listener busy. Deliberate ledger-only B ACK/row then EADDRINUSE; explicit cleanup logged. Native-before-COMMIT/ACK path denies busy/ROLLBACK and succeeds after actual close. A death releases without survivor, but transferred same-inode/address listener keeper survives A reap and blocks B until fd closed. B death frees native endpoint while durable B row remains.10 owned children/max2.",
       "limits": "Selected owned ephemeral bind/listen resource at ACK, no app traffic/confinement/real credential revocation/Landlock/durable native restoration or generic C3/C5/F1 closure. Native bind occurs before SQLCOMMIT; whole-effect failure atomicity untested. Initial checker absence control contradicted captured wire and correctly VIOLATION; fixed omission INCOMPLETE, same raw re-audited, no native rerun.",
       "raw_evidence": [
@@ -1941,10 +1947,61 @@
           "sha256": "b01e065cd1cdbf691f0729a05fae7815a46f4ab64a799b1ab01c5614aa228656"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-resource-occupancy",
+          "sha": "10bd899ce6041eaf16e42a6ecfaa0b0bc9b75b86",
+          "independence": "Fresh native Luna/high isolated worktree atce7515b; pre-run source/requirement prediction reported, one native rerun and independent read-only spot audit. Same-family operational evidence, not cross-family proof. Report-only correction makes BEGIN->bind/listen->INSERT->COMMIT->ACK and limited C3 mapping explicit; raw/audit unchanged."
+        }
+      ],
       "dependencies": [],
       "blockers": [],
-      "next_discriminator": "Independent bounded native audit in progress; then native prepared bind followed by actual SQL COMMIT failure under an explicit tentative-effect contract",
+      "next_discriminator": "Native prepared binding/actual COMMIT_BUSY extension executed separately; whole-effect failure/visibility contract remains qualified",
+      "supersedes": []
+    },
+    {
+      "id": "R2-F1-NATIVE-PREPARED-COMMIT",
+      "stream": "F1",
+      "claim": "Actual native prepared reservation remains externally observable while SQLite claim is uncommitted and may later fail COMMIT",
+      "source_branch": "research/autonomy-20261105-resource-commit",
+      "source_sha": "ff4ea8ba87f3d88008c30a5a3943e4223f05ab45",
+      "implementation": "docs/research/phase-i-f1/resource-occupancy/commit_failure_probe.py",
+      "command": "python3 docs/research/phase-i-f1/resource-occupancy/commit_failure_probe.py > /tmp/native-commit.json && python3 docs/research/phase-i-f1/resource-occupancy/check_commit_failure.py /tmp/native-commit.json",
+      "environment": {
+        "address_space_bytes": 268435456,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+        "sqlite": "3.53.1"
+      },
+      "status": "executed_observed",
+      "observed_result": "Parent native bind getsEADDRINUSE while real SQL reader sees empty/uncommitted ledger. Held-reader COMMIT100ms returnsSQLITE_BUSY5/active transaction and native still held, then explicit rollback/close/no success ACK/no claim. Released-reader positive COMMIT/ACK succeeds; actual precommit SIGKILL recovers no claim/native free.3 owned children/max1. Missing error/visibility incomplete; contradictory wire violation; source pins verified.",
+      "limits": "Tentative reservation is real observed history, not proof of failure-atomic whole effect or universal denial semantics. Selected ACK promise not silently broadened. No app traffic/confinement/credentials/power loss/durable native restore or generic C1/C3/C5/F1 closure. Initial omission control contradicted wire; failed checker stderr preserved, shared omission helper fixed, same raw re-audited without native rerun.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/resource-occupancy/commit-failure.raw.json",
+          "sha256": "b69520406b7db3aea6f74aa6c3dcbe92717247fa95caa644f10e60af6998d9ff"
+        },
+        {
+          "path": "docs/research/phase-i-f1/resource-occupancy/commit-failure.check.json",
+          "sha256": "bdba195067c5047a9241563f14351c2aed700bddd28d4d92d64983aacce38e03"
+        },
+        {
+          "path": "docs/research/phase-i-f1/resource-occupancy/commit-failure.check.attempt1.stderr.txt",
+          "sha256": "1effe382b0bb329750c7f1276200c1a2632badae5f4b506f4465d46edec517c7"
+        },
+        {
+          "path": "docs/research/phase-i-f1/resource-occupancy/commit-failure.parent-reaudit.json",
+          "sha256": "7de678f54b6807e97783e54b81cf74593ec0cefb665db321c552491f004b9e75"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-F1-NATIVE-RESOURCE-OCCUPANCY"
+      ],
+      "blockers": [],
+      "next_discriminator": "Choose actual preparation/visibility contract or another consequential open obligation; no blanket failure-atomicity claim from ACK order",
       "supersedes": []
     }
   ],
@@ -2023,15 +2080,6 @@
       "limits": "fresh context in original isolated worktree; not independent proof execution or formal cross-family review"
     }
   ],
-  "active_work": [
-    {
-      "task": "native_resource_check",
-      "branch": "review/autonomy-20261105-resource-occupancy",
-      "source_sha": "ce7515ba42387c411f5e81969a64ff9789ebea0c",
-      "state": "bounded source prediction and one reproduction/audit in precreated isolated worktree",
-      "caller_route": "gpt-6-luna/high native; not self-reported identity",
-      "delegation_depth": 1
-    }
-  ],
+  "active_work": [],
   "checkpoint_time_note": "Earlier checkpoint UTC labels sometimes used the most recent observed clock, not exact event/publication time. Raw monotonic traces and git commit timestamps retain actual event/source evidence; new checkpoints use host UTC at index-write time."
 }
