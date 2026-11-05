@@ -28,7 +28,7 @@
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
-    "research/autonomy-20261103-f1": "53952b7316626b886b4e74b54d30ae4ad135ef96",
+    "research/autonomy-20261103-f1": "fffdb281ba062187f8df5c83fba6fb42ae97ef61",
     "research/autonomy-20261103-f3-policy": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
     "research/autonomy-20261103-kernel": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
     "research/autonomy-20261103-run": "33d12eaf494fd4de1d9dd6c94c9e76f47b5f7ae1",
@@ -137,6 +137,10 @@
     {
       "utc": "2026-11-05T05:13:41Z",
       "state": "C11 input boundary9aaf60a pushed; baseline3fac758 preserved, repair e0ba50f, actual malformed image unchanged.41 records; no active workers. Next one bounded original-model budget discriminator if justified; no quota estimate."
+    },
+    {
+      "utc": "2026-11-05T05:13:41Z",
+      "state": "F1 first-context9bee206 completes in7.22s; named Obs collisionfffdb28 pushed.43 indexed records. Next phase-checkpoint original full40s/1GiB review route, no changes/optimization and no full acceptance assumption."
     }
   ],
   "experiments": [
@@ -1692,6 +1696,80 @@
       "blockers": [],
       "next_discriminator": "Bounded original full-model first-context budget discrimination or other stronger open question; avoid expanding routine field examples",
       "supersedes": []
+    },
+    {
+      "stream": "F1",
+      "source_branch": "research/autonomy-20261103-f1",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "unchanged original finite model",
+          "bounded Python process"
+        ],
+        "child_virtual_bytes": 268435456
+      },
+      "reviewers": [],
+      "blockers": [],
+      "supersedes": [],
+      "id": "R2-F1-FIRST-CONTEXT-COMPLETE",
+      "claim": "Discriminate original5s first-context timeout from completion under one30s parent budget without changing model/context/memory bound",
+      "source_sha": "9bee2068c62f7295677856343fa1c163e05783db",
+      "implementation": "docs/research/phase-i-f1/round2_model_budget.py",
+      "command": "python3 docs/research/phase-i-f1/round2_model_budget.py",
+      "status": "executed_observed",
+      "observed_result": "Original containment-and-grants completes18208 states/192656 committed transitions/zero invariant violations. Wall7.21897s, child CPU7.215515s, peak RSS65896KiB; no timeout/stderr, source unchanged. Separate observation diagnostic24 groups/24 collisions/equivalent=false.",
+      "limits": "One context and original observation diagnostic only; full driver/other contexts/semantic checks/witnesses/attacks not run. Exit0 is diagnostic completion, not true equivalence or F1 acceptance. Abstract model, no host/physical evidence.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-model-budget.raw.json",
+          "sha256": "54c2a98adb32e61ab6242f54ec95478de15c5a1af74c4a1c808599981bcc6a45"
+        },
+        {
+          "path": "docs/research/phase-i-f1/round2-model-budget.check.json",
+          "sha256": "a31ee7151f7edd2d3249f23d606e58561981c84c1879ef7b70d1a8b7e467633b"
+        }
+      ],
+      "dependencies": [
+        "R2-F1-MODEL-SCOPE"
+      ],
+      "next_discriminator": "Named two-history witness then original full-driver phase checkpoint under original review resource profile"
+    },
+    {
+      "stream": "F1",
+      "source_branch": "research/autonomy-20261103-f1",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "unchanged original finite model",
+          "bounded Python process"
+        ],
+        "child_virtual_bytes": 268435456
+      },
+      "reviewers": [],
+      "blockers": [],
+      "supersedes": [],
+      "id": "R2-F1-OBSERVATION-WITNESS",
+      "claim": "Original diagnostic Obs suffices to determine next protected use admission",
+      "source_sha": "fffdb281ba062187f8df5c83fba6fb42ae97ef61",
+      "implementation": "docs/research/phase-i-f1/round2_observation_witness.py",
+      "command": "python3 docs/research/phase-i-f1/round2_observation_witness.py",
+      "status": "falsified_counterexample",
+      "observed_result": "Initial versus grant P/C SINK/RW histories share exact declared Obs but next C/SINK/W/origin3 denies versus commits. Original guard, independent use oracle and actual resolve agree; original diagnostic on2 Nodes returns equivalent=false. Actual grants distinguish this pair.",
+      "limits": "Diagnostic projection insufficiency, not product authorization defect. Only2 reachable histories, no general sufficient/minimal representation/schema or full driver acceptance. No BFS rerun or physical/host claim.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-observation-witness.raw.json",
+          "sha256": "b54e1a3e7c188774c3429cee8a35767d7e317c5758c0c7f3fcb22e4fc3896e66"
+        },
+        {
+          "path": "docs/research/phase-i-f1/round2-observation-witness.check.json",
+          "sha256": "cd7455b7e6794d136656e463228bd64cf16c41e4cb7fc9cf7a5927125be6e8c3"
+        }
+      ],
+      "dependencies": [
+        "R2-F1-FIRST-CONTEXT-COMPLETE"
+      ],
+      "next_discriminator": "Original full-driver phase telemetry; preserve already-recorded context-inapplicable semantic-helper caveat from Nov3 independent review"
     }
   ],
   "unfinished_work": [
