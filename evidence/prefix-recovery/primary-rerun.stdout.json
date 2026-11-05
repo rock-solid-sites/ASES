@@ -1,0 +1,941 @@
+{
+  "complete_positive": {
+    "files": {
+      "sink-effects.jsonl": {
+        "bytes": 576,
+        "sha256": "96b4b82df55e943bfd5a13c03013a7569d0192f57a794b3d5bf05c968269d76b"
+      }
+    },
+    "journal": {
+      "exists": true,
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61667465722d6661696c7572652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261667465722d6661696c757265222c2022736571223a20337d0a",
+      "sha256": "96b4b82df55e943bfd5a13c03013a7569d0192f57a794b3d5bf05c968269d76b"
+    },
+    "sink_exit": -9,
+    "status": {
+      "authority_version": 1,
+      "effects": [
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "journal-ack-before-\u03c0",
+          "presented_version": 1,
+          "request_id": "ack-before",
+          "seq": 1
+        },
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "journal-fault-once-\u03c0",
+          "presented_version": 1,
+          "request_id": "fault-once",
+          "seq": 2
+        },
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "journal-after-failure-\u03c0",
+          "presented_version": 1,
+          "request_id": "after-failure",
+          "seq": 3
+        }
+      ],
+      "events": [
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "journal-ack-before-\u03c0",
+          "presented_version": 1,
+          "request_id": "ack-before",
+          "seq": 1
+        },
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "journal-fault-once-\u03c0",
+          "presented_version": 1,
+          "request_id": "fault-once",
+          "seq": 2
+        },
+        {
+          "accepted_under_version": 1,
+          "check_mode": "sink-ordered",
+          "event": "effect_accepted",
+          "payload": "journal-after-failure-\u03c0",
+          "presented_version": 1,
+          "request_id": "after-failure",
+          "seq": 3
+        }
+      ],
+      "persistence_failed": false,
+      "recovery_info": {
+        "mode": "strict-no-tail",
+        "tail_bytes": 0
+      },
+      "waiting": 0
+    }
+  },
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_base_sha": "041a48c4489351855eb056377d6df043e98416d1",
+  "fault_fixture_original_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+  "histories": {
+    "cut-published": {
+      "after": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued-exact-\u03c0",
+            "presented_version": 1,
+            "request_id": "post-prefix",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued-exact-\u03c0",
+            "presented_version": 1,
+            "request_id": "post-prefix",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "mode": "strict-no-tail",
+          "tail_bytes": 0
+        },
+        "waiting": 0
+      },
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 388,
+            "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e7565642d65786163742d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022706f73742d707265666978222c2022736571223a20327d0a",
+          "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued-exact-\u03c0",
+              "presented_version": 1,
+              "request_id": "post-prefix",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued-exact-\u03c0",
+              "presented_version": 1,
+              "request_id": "post-prefix",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "first_exit": -9,
+      "gate": {
+        "exit": -9,
+        "files_at_gate": {
+          "sink-effects.jsonl": {
+            "bytes": 190,
+            "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "gate": "published",
+        "journal_at_gate": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "pid": 8036,
+        "stderr": "",
+        "stdout": ""
+      },
+      "journal_after": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e7565642d65786163742d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022706f73742d707265666978222c2022736571223a20327d0a",
+        "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+      },
+      "journal_restored": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "new_call": {
+        "completion_monotonic_ns": 4165404540964,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continued-exact-\u03c0",
+            "request_id": "post-prefix"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 4165403591859
+      },
+      "quarantine_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "quarantine_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "mode": "strict-no-tail",
+          "tail_bytes": 0
+        },
+        "waiting": 0
+      }
+    },
+    "cut-quarantined": {
+      "after": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued-exact-\u03c0",
+            "presented_version": 1,
+            "request_id": "post-prefix",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued-exact-\u03c0",
+            "presented_version": 1,
+            "request_id": "post-prefix",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 388,
+            "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e7565642d65786163742d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022706f73742d707265666978222c2022736571223a20327d0a",
+          "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued-exact-\u03c0",
+              "presented_version": 1,
+              "request_id": "post-prefix",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued-exact-\u03c0",
+              "presented_version": 1,
+              "request_id": "post-prefix",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "first_exit": -9,
+      "gate": {
+        "exit": -9,
+        "files_at_gate": {
+          "sink-effects.jsonl": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "gate": "quarantined",
+        "journal_at_gate": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "pid": 8029,
+        "stderr": "",
+        "stdout": ""
+      },
+      "journal_after": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e7565642d65786163742d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022706f73742d707265666978222c2022736571223a20327d0a",
+        "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+      },
+      "journal_restored": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "new_call": {
+        "completion_monotonic_ns": 4165205170190,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continued-exact-\u03c0",
+            "request_id": "post-prefix"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 4165204143902
+      },
+      "quarantine_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "quarantine_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      }
+    },
+    "uninterrupted": {
+      "after": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued-exact-\u03c0",
+            "presented_version": 1,
+            "request_id": "post-prefix",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued-exact-\u03c0",
+            "presented_version": 1,
+            "request_id": "post-prefix",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 388,
+            "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e7565642d65786163742d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022706f73742d707265666978222c2022736571223a20327d0a",
+          "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued-exact-\u03c0",
+              "presented_version": 1,
+              "request_id": "post-prefix",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued-exact-\u03c0",
+              "presented_version": 1,
+              "request_id": "post-prefix",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "first_exit": -9,
+      "gate": null,
+      "journal_after": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e7565642d65786163742d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022706f73742d707265666978222c2022736571223a20327d0a",
+        "sha256": "1d61ab2e7a794ed18fe08dc0992ca0483c36600d853a7443f80e3c9c63db88eb"
+      },
+      "journal_restored": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "new_call": {
+        "completion_monotonic_ns": 4165007871790,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continued-exact-\u03c0",
+            "request_id": "post-prefix"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 4165006864394
+      },
+      "quarantine_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "quarantine_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      }
+    }
+  },
+  "oracle_prior_ACK_prefix_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+  "outside_relation_ACKed_truncation": {
+    "actual_prior_ACK": {
+      "completion_monotonic_ns": 3714190534534,
+      "request": {
+        "body": {
+          "authority_version": 1,
+          "payload": "journal-after-failure-\u03c0",
+          "request_id": "after-failure"
+        },
+        "method": "POST",
+        "path": "/submit"
+      },
+      "response": {
+        "body": {
+          "event_seq": 3,
+          "outcome": "accepted"
+        },
+        "status": 201
+      },
+      "start_monotonic_ns": 3714189699913
+    },
+    "full_original_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61667465722d6661696c7572652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261667465722d6661696c757265222c2022736571223a20337d0a",
+    "interpretation": "accepted2/3 prior ACKed records: file shape cannot establish interrupted-new-unACKed-tail premise",
+    "recovery": {
+      "files": {
+        "sink-effects.jsonl": {
+          "bytes": 380,
+          "sha256": "b08c484d2e9f7b6c7b38069c83943203608d026e12b88f8a5a53bc919382034f"
+        },
+        "sink-effects.jsonl.quarantine-ee12584b26da38a5d4cb72e069cc7a09c6ab520d3e15185074433f779c41ff1e": {
+          "bytes": 478,
+          "sha256": "ee12584b26da38a5d4cb72e069cc7a09c6ab520d3e15185074433f779c41ff1e"
+        }
+      },
+      "journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a",
+        "sha256": "b08c484d2e9f7b6c7b38069c83943203608d026e12b88f8a5a53bc919382034f"
+      },
+      "sink_exit": -9,
+      "status": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-fault-once-\u03c0",
+            "presented_version": 1,
+            "request_id": "fault-once",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-fault-once-\u03c0",
+            "presented_version": 1,
+            "request_id": "fault-once",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "ee12584b26da38a5d4cb72e069cc7a09c6ab520d3e15185074433f779c41ff1e",
+          "prefix_sha256": "b08c484d2e9f7b6c7b38069c83943203608d026e12b88f8a5a53bc919382034f",
+          "quarantine": "sink-effects.jsonl.quarantine-ee12584b26da38a5d4cb72e069cc7a09c6ab520d3e15185074433f779c41ff1e",
+          "tail_bytes": 98,
+          "tail_sha256": "02b3104d6f3820cd1301de17fe66f2d65af98782833b6d9d2527e4a7088c4124"
+        },
+        "waiting": 0
+      }
+    },
+    "truncated_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a"
+  },
+  "refusals": {
+    "boolean_prefix": {
+      "exit": 1,
+      "files_after": {
+        "sink-effects.jsonl": {
+          "bytes": 200,
+          "sha256": "01becc1559b192f208445186831ee17f8d3046592d5de260cffe57b56e4a91a2"
+        }
+      },
+      "files_before": {
+        "sink-effects.jsonl": {
+          "bytes": 200,
+          "sha256": "01becc1559b192f208445186831ee17f8d3046592d5de260cffe57b56e4a91a2"
+        }
+      },
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20747275652c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7061727469616c",
+      "sha256": "01becc1559b192f208445186831ee17f8d3046592d5de260cffe57b56e4a91a2",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 874, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 860, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 413, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 46, in __init__\n    self.recover_prefix(recovery_gate)\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 69, in recover_prefix\n    self.recover_ordered(prefix)  # Refuse any invalid complete record first.\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 151, in recover_ordered\n    raise ValueError(\"effect is not current ordered use\")\nValueError: effect is not current ordered use\n",
+      "stdout": ""
+    },
+    "duplicate_seq_after_sync_error": {
+      "exit": 1,
+      "files_after": {
+        "sink-effects.jsonl": {
+          "bytes": 576,
+          "sha256": "b4c681370a89aaaad282f0b206db0d8269e8e220a129dcba19a5e91035ebb661"
+        }
+      },
+      "files_before": {
+        "sink-effects.jsonl": {
+          "bytes": 576,
+          "sha256": "b4c681370a89aaaad282f0b206db0d8269e8e220a129dcba19a5e91035ebb661"
+        }
+      },
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61667465722d6661696c7572652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261667465722d6661696c757265222c2022736571223a20327d0a",
+      "sha256": "b4c681370a89aaaad282f0b206db0d8269e8e220a129dcba19a5e91035ebb661",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 874, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 860, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 413, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 46, in __init__\n    self.recover_prefix(recovery_gate)\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 62, in recover_prefix\n    self.recover_ordered(raw)\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 119, in recover_ordered\n    raise ValueError(\"invalid durable sequence\")\nValueError: invalid durable sequence\n",
+      "stdout": ""
+    },
+    "later_ACK_behind_malformed_tail": {
+      "exit": 1,
+      "files_after": {
+        "sink-effects.jsonl": {
+          "bytes": 481,
+          "sha256": "404b416f1bff6bde5b62717880146f87bed3d87b2f87584793ccdf5e74ed3ee2"
+        }
+      },
+      "files_before": {
+        "sink-effects.jsonl": {
+          "bytes": 481,
+          "sha256": "404b416f1bff6bde5b62717880146f87bed3d87b2f87584793ccdf5e74ed3ee2"
+        }
+      },
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f617b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61667465722d6661696c7572652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261667465722d6661696c757265222c2022736571223a20327d0a",
+      "sha256": "404b416f1bff6bde5b62717880146f87bed3d87b2f87584793ccdf5e74ed3ee2",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 874, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 860, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 413, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 46, in __init__\n    self.recover_prefix(recovery_gate)\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 62, in recover_prefix\n    self.recover_ordered(raw)\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 116, in recover_ordered\n    event = json.loads(line, object_pairs_hook=unique)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py\", line 359, in loads\n    return cls(**kw).decode(s)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 338, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 354, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ^^^^^^^^^^^^^^^^^^^^^^\njson.decoder.JSONDecodeError: Expecting ':' delimiter: line 1 column 98 (char 97)\n",
+      "stdout": ""
+    },
+    "malformed_complete_then_tail": {
+      "exit": 1,
+      "files_after": {
+        "sink-effects.jsonl": {
+          "bytes": 206,
+          "sha256": "811759b130f272ad04714f1393de97572045649ab1bf33d9128d89c9b832c70f"
+        }
+      },
+      "files_before": {
+        "sink-effects.jsonl": {
+          "bytes": 206,
+          "sha256": "811759b130f272ad04714f1393de97572045649ab1bf33d9128d89c9b832c70f"
+        }
+      },
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a6e6f742d6a736f6e0a7061727469616c",
+      "sha256": "811759b130f272ad04714f1393de97572045649ab1bf33d9128d89c9b832c70f",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 874, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 860, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 413, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 46, in __init__\n    self.recover_prefix(recovery_gate)\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 69, in recover_prefix\n    self.recover_ordered(prefix)  # Refuse any invalid complete record first.\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 116, in recover_ordered\n    event = json.loads(line, object_pairs_hook=unique)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py\", line 359, in loads\n    return cls(**kw).decode(s)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 338, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 356, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n",
+      "stdout": ""
+    },
+    "no_complete_prefix": {
+      "exit": 1,
+      "files_after": {
+        "sink-effects.jsonl": {
+          "bytes": 8,
+          "sha256": "c3cbb64b1e95827cfe69efc3c340f89040108b1557548db868ad5c16e13780a5"
+        }
+      },
+      "files_before": {
+        "sink-effects.jsonl": {
+          "bytes": 8,
+          "sha256": "c3cbb64b1e95827cfe69efc3c340f89040108b1557548db868ad5c16e13780a5"
+        }
+      },
+      "raw_hex": "7b22736571223a31",
+      "sha256": "c3cbb64b1e95827cfe69efc3c340f89040108b1557548db868ad5c16e13780a5",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 874, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 860, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 413, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 46, in __init__\n    self.recover_prefix(recovery_gate)\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 67, in recover_prefix\n    raise ValueError(\"no complete validated prefix\")\nValueError: no complete validated prefix\n",
+      "stdout": ""
+    },
+    "strict_default_partial": {
+      "exit": 1,
+      "files_after": {
+        "sink-effects.jsonl": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "files_before": {
+        "sink-effects.jsonl": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 874, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 860, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 413, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 44, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 106, in recover_ordered\n    raise ValueError(\"empty, oversized or truncated recovery journal\")\nValueError: empty, oversized or truncated recovery journal\n",
+      "stdout": ""
+    },
+    "wrong_quarantine": {
+      "exit": 1,
+      "files_after": {
+        "sink-effects.jsonl": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 5,
+          "sha256": "8810ad581e59f2bc3928b261707a71308f7e139eb04820366dc4d5c18d980225"
+        }
+      },
+      "files_before": {
+        "sink-effects.jsonl": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 5,
+          "sha256": "8810ad581e59f2bc3928b261707a71308f7e139eb04820366dc4d5c18d980225"
+        }
+      },
+      "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 874, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 860, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 413, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 46, in __init__\n    self.recover_prefix(recovery_gate)\n  File \"/workspace/ases-prefix-recovery-check/research/phase-i-t18-sink-order-20261103/run.py\", line 74, in recover_prefix\n    raise ValueError(\"quarantine content mismatch\")\nValueError: quarantine content mismatch\n",
+      "stdout": ""
+    }
+  },
+  "schema": "ases.prefix-recovery.v1",
+  "source_hashes": {
+    "probe.py": "71656aeb2bd64605138d56add510b8b1014b61ad43e172ba15ea5e6f788e7371",
+    "run.py": "a1185881e18b2611b373753ee0fabb8ecc68175f6948a950759a123c8fd027cb"
+  }
+}
