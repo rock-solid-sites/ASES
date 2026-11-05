@@ -21,8 +21,11 @@ from pathlib import Path
 from typing import Any
 
 
+ORDERED_MODES = ("sink-ordered", "recover-ordered", "recover-ordered-prefix")
+
+
 class SinkState:
-    def __init__(self, mode: str, journal: Path):
+    def __init__(self, mode: str, journal: Path, recovery_gate=None):
         self.mode = mode
         self.journal = journal
         self.lock = threading.Lock()
@@ -30,6 +33,7 @@ class SinkState:
         self.version = 1
         self.next_seq = 1
         self.persistence_failed = False
+        self.recovery_info = None
         self.waiting = 0
         self.events: list[dict[str, Any]] = []
         self.effects: list[dict[str, Any]] = []
@@ -38,6 +42,8 @@ class SinkState:
             raise ValueError("existing journal requires explicit recovery mode")
         if mode == "recover-ordered":
             self.recover_ordered()
+        if mode == "recover-ordered-prefix":
+            self.recover_prefix(recovery_gate)
         if mode == "f4" and journal.exists():
             for line in journal.read_bytes().splitlines():
                 event = json.loads(line)
@@ -46,10 +52,56 @@ class SinkState:
                     self.effects.append(event)
                 self.next_seq = max(self.next_seq, event["seq"] + 1)
 
-    def recover_ordered(self) -> None:
-        # Explicit selected profile: trusted current same-host journal, bootstrap v1.
+    def recover_prefix(self, recovery_gate=None) -> None:
+        # Opt-in append-only interrupted-tail profile, never arbitrary corruption.
         with self.journal.open("rb") as stream:
             raw = stream.read(65537)
+        if not raw or len(raw) > 65536:
+            raise ValueError("empty or oversized prefix recovery journal")
+        if raw.endswith(b"\n"):
+            self.recover_ordered(raw)
+            self.recovery_info = {"mode": "strict-no-tail", "tail_bytes": 0}
+            return
+        cut = raw.rfind(b"\n") + 1
+        if cut == 0:
+            raise ValueError("no complete validated prefix")
+        prefix, tail = raw[:cut], raw[cut:]
+        self.recover_ordered(prefix)  # Refuse any invalid complete record first.
+        original_hash = hashlib.sha256(raw).hexdigest()
+        quarantine = self.journal.with_name(self.journal.name + ".quarantine-" + original_hash)
+        if quarantine.exists():
+            if quarantine.read_bytes() != raw:
+                raise ValueError("quarantine content mismatch")
+        else:
+            with quarantine.open("xb") as stream:
+                stream.write(raw)
+                stream.flush()
+                os.fsync(stream.fileno())
+        if recovery_gate:
+            recovery_gate("quarantined")
+        prepared = self.journal.with_name(self.journal.name + ".prefix.tmp")
+        with prepared.open("wb") as stream:
+            stream.write(prefix)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(prepared, self.journal)
+        if recovery_gate:
+            recovery_gate("published")
+        self.recovery_info = {
+            "mode": "append-only-interrupted-tail",
+            "original_sha256": original_hash,
+            "prefix_sha256": hashlib.sha256(prefix).hexdigest(),
+            "tail_sha256": hashlib.sha256(tail).hexdigest(),
+            "tail_bytes": len(tail),
+            "quarantine": quarantine.name,
+            "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+        }
+
+    def recover_ordered(self, raw=None) -> None:
+        # Explicit selected profile: trusted current same-host journal, bootstrap v1.
+        if raw is None:
+            with self.journal.open("rb") as stream:
+                raw = stream.read(65537)
         if not raw or len(raw) > 65536 or not raw.endswith(b"\n"):
             raise ValueError("empty, oversized or truncated recovery journal")
         def unique(pairs):
@@ -93,7 +145,7 @@ class SinkState:
                             or self.obligations[event["obligation_id"]] != event["payload"]
                             or hashlib.sha256(event["payload"].encode()).hexdigest() != event.get("payload_sha256")):
                         raise ValueError("effect lacks exact committed obligation")
-                elif (mode not in ("sink-ordered", "recover-ordered")
+                elif (mode not in ORDERED_MODES
                         or type(event.get("presented_version")) is not int
                         or event.get("presented_version") != self.version):
                     raise ValueError("effect is not current ordered use")
@@ -111,7 +163,7 @@ class SinkState:
                 raise OSError("persistence fault requires explicit recovery before durable use")
             self.journal.parent.mkdir(parents=True, exist_ok=True)
             payload = (json.dumps(event, sort_keys=True) + "\n").encode()
-            if self.mode in ("sink-ordered", "recover-ordered"):
+            if self.mode in ORDERED_MODES:
                 current_size = self.journal.stat().st_size if self.journal.exists() else 0
                 if current_size + len(payload) > 65536:
                     raise OSError("ordered journal capacity exhausted before append")
@@ -165,6 +217,7 @@ def make_handler(state: SinkState):
                 data = {
                     "authority_version": state.version,
                     "persistence_failed": state.persistence_failed,
+                    "recovery_info": state.recovery_info,
                     "waiting": state.waiting,
                     "events": list(state.events),
                     "effects": list(state.effects),
@@ -356,8 +409,8 @@ def make_handler(state: SinkState):
     return Handler
 
 
-def serve(mode: str, journal: Path) -> int:
-    state = SinkState(mode, journal)
+def serve(mode: str, journal: Path, recovery_gate=None) -> int:
+    state = SinkState(mode, journal, recovery_gate)
     server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), make_handler(state))
     server.daemon_threads = True
     print(json.dumps({"ready": True, "port": server.server_address[1]}), flush=True)
@@ -791,11 +844,20 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--server", nargs=2, metavar=("MODE", "JOURNAL"))
     parser.add_argument("--f4-output", type=Path)
+    parser.add_argument("--recovery-gate", choices=("quarantined", "published"))
+    parser.add_argument("--recovery-event-fd", type=int)
+    parser.add_argument("--recovery-release-fd", type=int)
     parser.add_argument("--client", nargs=4, metavar=("PORT", "REQUEST_ID", "PAYLOAD", "CUT"))
     parser.add_argument("--recover", type=Path)
     args = parser.parse_args()
     if args.server:
-        return serve(args.server[0], Path(args.server[1]))
+        def recovery_gate(stage):
+            if stage == args.recovery_gate:
+                os.write(args.recovery_event_fd, b"G")
+                os.read(args.recovery_release_fd, 1)
+        if args.recovery_gate and (args.recovery_event_fd is None or args.recovery_release_fd is None):
+            parser.error("recovery gate requires both owned supervisor pipe descriptors")
+        return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)
     if args.client:
         return client_main(int(args.client[0]), args.client[1], args.client[2], args.client[3])
     if args.recover:
