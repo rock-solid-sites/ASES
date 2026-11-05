@@ -128,25 +128,49 @@ def audit(kind, data):
     require(set(data["cases"]) == names, "case coverage set changed")
     observations = {}
     for name, case in sorted(data["cases"].items()):
+        require(case["name" if kind == "f1" else "kind"] == name, "case label/provenance mismatch")
         verdict = checker(case)
         require((verdict == "COUNTEREXAMPLE") == (name in bad), "wrong semantic classification")
         observations[name] = verdict
-    witness = copy.deepcopy(data["cases"][next(iter(sorted(names - bad)))])
+    negatives = {}
     if kind == "f1":
-        witness["independent_reader"]["observation"]["view_sha256"] = "0" * 64
+        require(data["cases"]["atomic-A"]["independent_reader"]["observation"]["view"] ==
+                data["cases"]["atomic-B"]["independent_reader"]["observation"]["view"],
+                "two positive worlds have differing core content views")
+        require(data["cases"]["atomic-A"]["independent_reader"]["observation"]["observation_sha256"] !=
+                data["cases"]["atomic-B"]["independent_reader"]["observation"]["observation_sha256"],
+                "two positive worlds did not preserve distinct opaque observations")
+        witness_name = "atomic-A"
     elif kind == "l5":
-        witness["after_process"]["state"]["work_units"]["C"]["parent"] = "forged"
+        witness_name = "after_selector"
     else:
-        witness["final_before_exit"]["live"] = False if witness["kind"] == "creator-first" else True
-    try:
-        checker(witness)
-    except BadEvidence:
-        negative_rejected = True
-    else:
-        negative_rejected = False
-    require(negative_rejected, "tampered valid neighbor escaped independent projection")
+        witness_name = "guarded"
+    for variant in ("raw_integrity", "semantic_violation"):
+        witness = copy.deepcopy(data["cases"][witness_name])
+        if kind == "f1":
+            if variant == "raw_integrity":
+                witness["independent_reader"]["observation"]["view_sha256"] = "0" * 64
+            else:
+                witness["recovered_query"]["response"]["consumer_query"]["required"] = {"forged": True}
+        elif kind == "l5":
+            if variant == "raw_integrity":
+                witness["after_process"]["state"]["work_units"]["C"]["parent"] = "forged"
+            else:
+                witness["write"]["frame"]["result"]["reply"]["allowed"] = True
+        else:
+            if variant == "raw_integrity":
+                witness = copy.deepcopy(data["cases"]["creator-first"])
+                witness["final_before_exit"]["files"]["z"]["sha256"] = "0" * 64
+            else:
+                witness["creator_attempt"]["frame"]["reply"]["sqlite_errorcode"] = 0
+        try:
+            checker(witness)
+        except BadEvidence:
+            negatives[variant] = "REJECTED"
+        else:
+            raise BadEvidence("tampered valid neighbor escaped projection: " + variant)
     return {"case": kind, "assessments": observations,
-            "negative_control_rejected": negative_rejected,
+            "negative_controls": negatives,
             "oracle_qualification": "independent raw-evidence projection only; not complete implementation refinement"}
 
 
