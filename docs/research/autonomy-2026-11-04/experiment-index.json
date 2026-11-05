@@ -37,7 +37,7 @@
     "review/autonomy-20261105-prefix-recovery": "812bc0518c7ed94df0a0ca40a5718151780a62c7",
     "research/autonomy-20261105-kernel-encoding": "d20a6e3f144443f49e958f5fce8d16909821a63d",
     "review/autonomy-20261105-kernel-encoding": "614df5fb981ce9b03586f08e9d051e21946796b1",
-    "research/autonomy-20261105-t18-revocation": "7ed639cd0fc8c938dbc68eb8ca1892e54900713c"
+    "research/autonomy-20261105-t18-revocation": "aefdd5ece043190a76e8f14434aca9e9ec156038"
   },
   "checkpoints": [
     {
@@ -83,6 +83,10 @@
     {
       "utc": "2026-11-05T01:58:50Z",
       "state": "T18 managed revocation7ed639c pushed; fresh bounded Luna check in isolated precreated worktree. Next ACKed revoke/restart replay; no native enforcement claim."
+    },
+    {
+      "utc": "2026-11-05T02:03:19Z",
+      "state": "Managed replay executed/pushed aefdd5e; current journal retains revoke, older authentic prefix rolls eligibility back. Next live witness in actual sink path; usage unknown."
     }
   ],
   "experiments": [
@@ -1237,6 +1241,53 @@
       ],
       "blockers": [],
       "next_discriminator": "Replay actual acknowledged revocation/eligibility before managed readiness; independent review in progress",
+      "supersedes": []
+    },
+    {
+      "id": "R2-MANAGED-REVOKE-REPLAY",
+      "stream": "cross-layer",
+      "claim": "Selected same-current-journal recovery retains ACKed revocation/eligibility and exact obligations before ready",
+      "source_branch": "research/autonomy-20261105-t18-revocation",
+      "source_sha": "aefdd5ece043190a76e8f14434aca9e9ec156038",
+      "implementation": "research/phase-i-t18-sink-order-20261103/managed-revocation/replay_probe.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/managed-revocation/replay_probe.py > /tmp/managed-replay.json && python3 research/phase-i-t18-sink-order-20261103/managed-revocation/check_replay.py /tmp/managed-replay.json",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "same actual journal across process restarts",
+          "trusted local manager",
+          "loopback",
+          "bounded strict replay"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Actual ACKed revoke survives restart with gen1/grant=false/active=false; token1 denied, grant2 then activate2 required, two positive ACKs survive second restart. Exact m/x survives replacement/restart. Replay-resurrection mutant201/x, strict later refusal.10 invalid startups refuse unchanged;20 owned distinct children/max1. Older authentic prefix accepts old1: explicit rollback limit.",
+      "limits": "Selected flat C/p trusted current journal/root and supervisor. No external freshness, root authentication, native host/credentials, physical power loss, hierarchy/concurrent-writer or aggregate acceptance. Older-prefix rollback case intentionally copies bytes in separate root, reference histories do not. Independent primary review does not cover replay extension.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/managed-revocation/replay.raw.json",
+          "sha256": "0df6eea6b695229ad5964cd95ad29909f9a9c160ee94e70a859c43807b88f377"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/managed-revocation/replay.check.json",
+          "sha256": "bf819442bca4815c2e654102944e1e0f287207f61b128a53ddf7cf1f22b30949"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/managed-revocation/replay-fresh-regression.raw.json",
+          "sha256": "ffb376dea17334ecbbab02ee4c228bd829473e82e63be1a0e8a09e7ed8267d95"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/managed-revocation/replay-fresh-regression.check.json",
+          "sha256": "abcfa252b70daf1f66382969d2e0ae91d6204191fe513485b13ffabfca9bab61"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-T18-MANAGED-REVOCATION"
+      ],
+      "blockers": [],
+      "next_discriminator": "Live nonrolled witness: issued-generation equality versus eligibility/control-state binding in actual sink acceptance",
       "supersedes": []
     }
   ],
