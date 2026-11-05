@@ -1,0 +1,27 @@
+{
+  "cases": {
+    "atomic-A": "SUPPORTED: committed content and exact observations recovered together",
+    "atomic-B": "SUPPORTED: committed content and exact observations recovered together",
+    "atomic-before": "SUPPORTED: uncommitted content and observation writes rolled back together",
+    "split-ack": "SUPPORTED CONTROL: delayed evidence commit completed before ACK",
+    "split-gap": "COUNTEREXAMPLE: committed content recovered with only prior evidence"
+  },
+  "checks": {
+    "actual_inherited_gate_and_caller_ack_state": true,
+    "bootstrap_acknowledged_zero_content_pair_retained_before_accept": true,
+    "independent_fresh_sqlite_read_and_integrity": true,
+    "recovery_without_original_tuple_input": true,
+    "same_core_view_distinct_observation_tuples": true,
+    "sql_ordering_read_from_trace": true
+  },
+  "review_class": "potentially producer-exposed reproduction/adversarial source check; not a clean-room independent reproduction",
+  "scope": "Trusted accepted opaque observations and SQLite process termination on one live host; not authenticity, provenance truth, physical power loss, schema/minimality, full C11/F1 closure, or formal cross-family proof.",
+  "source_raw_scope_assessment": {
+    "bootstrap_bundle_after_successful_new_acceptance_was_not_tested": true,
+    "genesis_created_by_project_are_opaque_per_world_fixture_inputs": true,
+    "observation_row_is_latest_only_and_replaces_prior_bundle": true,
+    "stable_work_unit_identity_or_historical_observation_policy_demonstrated": false
+  },
+  "status": "COUNTEREXAMPLE",
+  "verdict": "The delayed second SQLite transaction violates this selected C11 acceptance contract: a process can die after accepted content commits and before the matching required observations commit."
+}

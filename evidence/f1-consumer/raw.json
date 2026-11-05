@@ -1,0 +1,1913 @@
+{
+  "cases": {
+    "atomic-A": {
+      "accept": {
+        "end_ns": 14156460750196,
+        "error": "EOFError",
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000one\n"
+        },
+        "response": null,
+        "start_ns": 14156459753503
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 14156416787846,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14156415651364
+          },
+          {
+            "end_ns": 14156418132690,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14156416791871
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                6
+              ]
+            ],
+            "observation_mode": "atomic",
+            "observations": {
+              "consumer_evidence": "bootstrap-consumer_evidence",
+              "created_by": "bootstrap-created_by",
+              "identity_genesis": "bootstrap-identity_genesis",
+              "project": "bootstrap-project"
+            },
+            "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-A/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-A/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 14156419280460,
+          "pid": 7276,
+          "ready_ns": 14156415633564,
+          "start_ns": 14156371681685,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence A / \u03bc",
+        "created_by": "creator-A",
+        "identity_genesis": "genesis-A",
+        "project": "project-A"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "791ce5340c48f727d892db7685c0a96e06ff400776ffdb0ae91a7a083a9c762d"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "b81554ab19ddd775c5d76f6a754cc1193c26443cabe049dcf2bf697d4cdb322e"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 436,
+          "sha256": "bc4ef19974e85384a47f99525757b0534d14d427349445b9d84dfad3a904173b"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "791ce5340c48f727d892db7685c0a96e06ff400776ffdb0ae91a7a083a9c762d"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "1e65615c58ff510078f9fe73c957a33f6daba6af316a7af9333b45dc82bb11ba"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "b81554ab19ddd775c5d76f6a754cc1193c26443cabe049dcf2bf697d4cdb322e"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 436,
+          "sha256": "bc4ef19974e85384a47f99525757b0534d14d427349445b9d84dfad3a904173b"
+        }
+      },
+      "gate": {
+        "observed_ns": 14156460329266,
+        "pid": 7278,
+        "raw_hex": "47",
+        "stage": "durable"
+      },
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 14156544636602,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": "d4ee385a6a4553160a697a339a1423b1b455e010cf9ed552aeb6c0ea3509e34f",
+          "observation_utf8_hex": "7b2261636365707465645f636f6e74656e74223a202261636365707465645c75303030306f6e655c6e222c20227265717569726564223a207b22636f6e73756d65725f65766964656e6365223a202261636365707465642065766964656e63652041202f205c7530336263222c2022637265617465645f6279223a202263726561746f722d41222c20226964656e746974795f67656e65736973223a202267656e657369732d41222c202270726f6a656374223a202270726f6a6563742d41227d7d",
+          "pid": 7283,
+          "query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "view": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "feaf9b3efd728119b71d013995f7cba9c3117ced661cb50b8e03794c2a09405b",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030306f6e655c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 7283,
+        "start_ns": 14156499870733,
+        "stderr": ""
+      },
+      "mode": "atomic",
+      "name": "atomic-A",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              6
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-A/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-A/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14156499849762,
+        "pid": 7281,
+        "ready_ns": 14156498038605,
+        "start_ns": 14156461730104,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 14156498729148,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 14156498045156
+      },
+      "stage": "durable",
+      "world": "A",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              6
+            ]
+          ],
+          "gate": {
+            "event_fd": 8,
+            "kind": "accept",
+            "lane": 0,
+            "release_fd": 9,
+            "stage": "durable"
+          },
+          "observation_mode": "atomic",
+          "observations": {
+            "consumer_evidence": "accepted evidence A / \u03bc",
+            "created_by": "creator-A",
+            "identity_genesis": "genesis-A",
+            "project": "project-A"
+          },
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-A/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-A/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14156461459735,
+        "pid": 7278,
+        "ready_ns": 14156459451872,
+        "start_ns": 14156419367005,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 14156459953089,
+          "in_transaction": true,
+          "pid": 7278,
+          "sql": "BEGIN",
+          "start_ns": 14156459888255
+        },
+        {
+          "end_ns": 14156460172602,
+          "in_transaction": true,
+          "pid": 7278,
+          "sql": "UPDATE",
+          "start_ns": 14156460115090
+        },
+        {
+          "end_ns": 14156460240777,
+          "in_transaction": true,
+          "pid": 7278,
+          "sql": "INSERT",
+          "start_ns": 14156460194093
+        },
+        {
+          "end_ns": 14156460285989,
+          "in_transaction": false,
+          "pid": 7278,
+          "sql": "COMMIT",
+          "start_ns": 14156460249449
+        }
+      ]
+    },
+    "atomic-B": {
+      "accept": {
+        "end_ns": 14156619893484,
+        "error": "EOFError",
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000one\n"
+        },
+        "response": null,
+        "start_ns": 14156619028798
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 14156582029633,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14156581138354
+          },
+          {
+            "end_ns": 14156582742506,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14156582031413
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                8
+              ]
+            ],
+            "observation_mode": "atomic",
+            "observations": {
+              "consumer_evidence": "bootstrap-consumer_evidence",
+              "created_by": "bootstrap-created_by",
+              "identity_genesis": "bootstrap-identity_genesis",
+              "project": "bootstrap-project"
+            },
+            "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-B/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-B/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 14156583866542,
+          "pid": 7284,
+          "ready_ns": 14156581121312,
+          "start_ns": 14156545282374,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence B / \u03bc",
+        "created_by": "creator-B",
+        "identity_genesis": "genesis-B",
+        "project": "project-B"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "256b72026fecc1d81db02ba955b076f66e60bf40990dc43d5bafa6a0de0e925a"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "ccef285e4e04f343a28a6732a6a5881a5e934b743a614900be24ae5775962bd0"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 436,
+          "sha256": "4d078ff22c4a1834382da66bd57a99e751e9088f1c33d9e2e4fb4c2c8c61be3b"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "256b72026fecc1d81db02ba955b076f66e60bf40990dc43d5bafa6a0de0e925a"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "fa7f6d4396e1e4e84c8cb12314952f3dfc5eee596ba511a20f81c5562fc0f604"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "ccef285e4e04f343a28a6732a6a5881a5e934b743a614900be24ae5775962bd0"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 436,
+          "sha256": "4d078ff22c4a1834382da66bd57a99e751e9088f1c33d9e2e4fb4c2c8c61be3b"
+        }
+      },
+      "gate": {
+        "observed_ns": 14156619475417,
+        "pid": 7286,
+        "raw_hex": "47",
+        "stage": "durable"
+      },
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 14156704937286,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": "6323940fb725b841f365a2614a4a715e93b5f42f7ad57ef42c9a1be3a7d56304",
+          "observation_utf8_hex": "7b2261636365707465645f636f6e74656e74223a202261636365707465645c75303030306f6e655c6e222c20227265717569726564223a207b22636f6e73756d65725f65766964656e6365223a202261636365707465642065766964656e63652042202f205c7530336263222c2022637265617465645f6279223a202263726561746f722d42222c20226964656e746974795f67656e65736973223a202267656e657369732d42222c202270726f6a656374223a202270726f6a6563742d42227d7d",
+          "pid": 7291,
+          "query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": {
+              "consumer_evidence": "accepted evidence B / \u03bc",
+              "created_by": "creator-B",
+              "identity_genesis": "genesis-B",
+              "project": "project-B"
+            },
+            "status": "available"
+          },
+          "view": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "feaf9b3efd728119b71d013995f7cba9c3117ced661cb50b8e03794c2a09405b",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030306f6e655c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 7291,
+        "start_ns": 14156661664977,
+        "stderr": ""
+      },
+      "mode": "atomic",
+      "name": "atomic-B",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              8
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-B/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-B/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14156661644062,
+        "pid": 7289,
+        "ready_ns": 14156659667167,
+        "start_ns": 14156620826350,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 14156660514493,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": {
+              "consumer_evidence": "accepted evidence B / \u03bc",
+              "created_by": "creator-B",
+              "identity_genesis": "genesis-B",
+              "project": "project-B"
+            },
+            "status": "available"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 14156659674780
+      },
+      "stage": "durable",
+      "world": "B",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              8
+            ]
+          ],
+          "gate": {
+            "event_fd": 10,
+            "kind": "accept",
+            "lane": 0,
+            "release_fd": 11,
+            "stage": "durable"
+          },
+          "observation_mode": "atomic",
+          "observations": {
+            "consumer_evidence": "accepted evidence B / \u03bc",
+            "created_by": "creator-B",
+            "identity_genesis": "genesis-B",
+            "project": "project-B"
+          },
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-B/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-B/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14156620611028,
+        "pid": 7286,
+        "ready_ns": 14156618828592,
+        "start_ns": 14156583940156,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 14156619172042,
+          "in_transaction": true,
+          "pid": 7286,
+          "sql": "BEGIN",
+          "start_ns": 14156619110723
+        },
+        {
+          "end_ns": 14156619325961,
+          "in_transaction": true,
+          "pid": 7286,
+          "sql": "UPDATE",
+          "start_ns": 14156619279255
+        },
+        {
+          "end_ns": 14156619388299,
+          "in_transaction": true,
+          "pid": 7286,
+          "sql": "INSERT",
+          "start_ns": 14156619345215
+        },
+        {
+          "end_ns": 14156619431698,
+          "in_transaction": false,
+          "pid": 7286,
+          "sql": "COMMIT",
+          "start_ns": 14156619396983
+        }
+      ]
+    },
+    "atomic-before": {
+      "accept": {
+        "end_ns": 14156945026477,
+        "error": "EOFError",
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000one\n"
+        },
+        "response": null,
+        "start_ns": 14156944163541
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 14156903953220,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14156903049459
+          },
+          {
+            "end_ns": 14156904926770,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14156903954824
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                12
+              ]
+            ],
+            "observation_mode": "atomic",
+            "observations": {
+              "consumer_evidence": "bootstrap-consumer_evidence",
+              "created_by": "bootstrap-created_by",
+              "identity_genesis": "bootstrap-identity_genesis",
+              "project": "bootstrap-project"
+            },
+            "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-before/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-before/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 14156906054876,
+          "pid": 7300,
+          "ready_ns": 14156903035321,
+          "start_ns": 14156865129199,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence A / \u03bc",
+        "created_by": "creator-A",
+        "identity_genesis": "genesis-A",
+        "project": "project-A"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "1474b86496de2a2edd9835181ad436fb6b0528b6c481ba0c1683eda937b0e544"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "1c992acc5f486f7aef4238e915808802a0fcbf0ec1e34fb46b749c362477e08f"
+        },
+        "store.sqlite-journal": {
+          "bytes": 8720,
+          "sha256": "87c52904c0cc9e7cf94e57839badb6120d2c232e08d19c1cea29d43ed7e9951b"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 326,
+          "sha256": "7e1bad5f151604f4338f6d44e44b3fef9d3c1a4d429def04f3ccc5903bfab0f3"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "1474b86496de2a2edd9835181ad436fb6b0528b6c481ba0c1683eda937b0e544"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "f8613b363aee3190f729297d3be0d55ba12351d16563e54c73c1f52b0a213dbe"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "1c992acc5f486f7aef4238e915808802a0fcbf0ec1e34fb46b749c362477e08f"
+        },
+        "store.sqlite-journal": {
+          "bytes": 8720,
+          "sha256": "87c52904c0cc9e7cf94e57839badb6120d2c232e08d19c1cea29d43ed7e9951b"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 326,
+          "sha256": "7e1bad5f151604f4338f6d44e44b3fef9d3c1a4d429def04f3ccc5903bfab0f3"
+        }
+      },
+      "gate": {
+        "observed_ns": 14156944619083,
+        "pid": 7302,
+        "raw_hex": "47",
+        "stage": "prepared"
+      },
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 14157023967191,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": "a94e0d2840e69491b9eeaafb8b969b765abe4f83122b211232abe8a1dd6a72e5",
+          "observation_utf8_hex": "7b2261636365707465645f636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20227265717569726564223a207b22636f6e73756d65725f65766964656e6365223a2022626f6f7473747261702d636f6e73756d65725f65766964656e6365222c2022637265617465645f6279223a2022626f6f7473747261702d637265617465645f6279222c20226964656e746974795f67656e65736973223a2022626f6f7473747261702d6964656e746974795f67656e65736973222c202270726f6a656374223a2022626f6f7473747261702d70726f6a656374227d7d",
+          "pid": 7307,
+          "query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "bootstrap-consumer_evidence",
+              "created_by": "bootstrap-created_by",
+              "identity_genesis": "bootstrap-identity_genesis",
+              "project": "bootstrap-project"
+            },
+            "status": "available"
+          },
+          "view": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 7307,
+        "start_ns": 14156983483690,
+        "stderr": ""
+      },
+      "mode": "atomic",
+      "name": "atomic-before",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              12
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-before/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-before/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14156983463327,
+        "pid": 7305,
+        "ready_ns": 14156981303406,
+        "start_ns": 14156945977182,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 14156982334834,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "bootstrap-consumer_evidence",
+              "created_by": "bootstrap-created_by",
+              "identity_genesis": "bootstrap-identity_genesis",
+              "project": "bootstrap-project"
+            },
+            "status": "available"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 14156981320751
+      },
+      "stage": "prepared",
+      "world": "A",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              12
+            ]
+          ],
+          "gate": {
+            "event_fd": 14,
+            "kind": "accept",
+            "lane": 0,
+            "release_fd": 15,
+            "stage": "prepared"
+          },
+          "observation_mode": "atomic",
+          "observations": {
+            "consumer_evidence": "accepted evidence A / \u03bc",
+            "created_by": "creator-A",
+            "identity_genesis": "genesis-A",
+            "project": "project-A"
+          },
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/atomic-before/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/atomic-before/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14156945746050,
+        "pid": 7302,
+        "ready_ns": 14156943926963,
+        "start_ns": 14156906124941,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 14156944329559,
+          "in_transaction": true,
+          "pid": 7302,
+          "sql": "BEGIN",
+          "start_ns": 14156944268334
+        },
+        {
+          "end_ns": 14156944486002,
+          "in_transaction": true,
+          "pid": 7302,
+          "sql": "UPDATE",
+          "start_ns": 14156944438884
+        },
+        {
+          "end_ns": 14156944547609,
+          "in_transaction": true,
+          "pid": 7302,
+          "sql": "INSERT",
+          "start_ns": 14156944505226
+        }
+      ]
+    },
+    "split-ack": {
+      "accept": {
+        "end_ns": 14157097488501,
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000one\n"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "outcome": "commit",
+          "state": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 14157096520342
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 14157059586399,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14157058688481
+          },
+          {
+            "end_ns": 14157060292357,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14157059588047
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                14
+              ]
+            ],
+            "observation_mode": "atomic",
+            "observations": {
+              "consumer_evidence": "bootstrap-consumer_evidence",
+              "created_by": "bootstrap-created_by",
+              "identity_genesis": "bootstrap-identity_genesis",
+              "project": "bootstrap-project"
+            },
+            "path": "/tmp/ases-c11-sqlite-wax6g6et/split-ack/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-wax6g6et/split-ack/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 14157061419337,
+          "pid": 7308,
+          "ready_ns": 14157058671593,
+          "start_ns": 14157024710464,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence A / \u03bc",
+        "created_by": "creator-A",
+        "identity_genesis": "genesis-A",
+        "project": "project-A"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "605d5dea11c89abc47bc286b3e66d1ec536810c0bc5330bf3fa7effd52116d42"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "c4544cdf297a8b16e6e72924fc7a5eb6a7b1104f22432279792a8999618a1cc1"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "472ab0dc1ea7199a9e0d6228d187020dd5d3cc4751792ce1cbdceea25c5f8800"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "605d5dea11c89abc47bc286b3e66d1ec536810c0bc5330bf3fa7effd52116d42"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "323ee55f485aec0d6174c0b5c207b74d609c8bb548e7160a8e0dd18751680c5a"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "c4544cdf297a8b16e6e72924fc7a5eb6a7b1104f22432279792a8999618a1cc1"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "472ab0dc1ea7199a9e0d6228d187020dd5d3cc4751792ce1cbdceea25c5f8800"
+        }
+      },
+      "gate": null,
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 14157180135767,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": "d4ee385a6a4553160a697a339a1423b1b455e010cf9ed552aeb6c0ea3509e34f",
+          "observation_utf8_hex": "7b2261636365707465645f636f6e74656e74223a202261636365707465645c75303030306f6e655c6e222c20227265717569726564223a207b22636f6e73756d65725f65766964656e6365223a202261636365707465642065766964656e63652041202f205c7530336263222c2022637265617465645f6279223a202263726561746f722d41222c20226964656e746974795f67656e65736973223a202267656e657369732d41222c202270726f6a656374223a202270726f6a6563742d41227d7d",
+          "pid": 7314,
+          "query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "view": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "feaf9b3efd728119b71d013995f7cba9c3117ced661cb50b8e03794c2a09405b",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030306f6e655c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 7314,
+        "start_ns": 14157136564467,
+        "stderr": ""
+      },
+      "mode": "split",
+      "name": "split-ack",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              14
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/split-ack/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/split-ack/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14157136541924,
+        "pid": 7312,
+        "ready_ns": 14157133917797,
+        "start_ns": 14157098897684,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 14157135350217,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 14157133923257
+      },
+      "stage": null,
+      "world": "A",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              14
+            ]
+          ],
+          "observation_mode": "split",
+          "observations": {
+            "consumer_evidence": "accepted evidence A / \u03bc",
+            "created_by": "creator-A",
+            "identity_genesis": "genesis-A",
+            "project": "project-A"
+          },
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/split-ack/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/split-ack/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14157098615159,
+        "pid": 7310,
+        "ready_ns": 14157096504771,
+        "start_ns": 14157061491110,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 14157096695446,
+          "in_transaction": true,
+          "pid": 7310,
+          "sql": "BEGIN",
+          "start_ns": 14157096636728
+        },
+        {
+          "end_ns": 14157096845422,
+          "in_transaction": true,
+          "pid": 7310,
+          "sql": "UPDATE",
+          "start_ns": 14157096800721
+        },
+        {
+          "end_ns": 14157096886034,
+          "in_transaction": false,
+          "pid": 7310,
+          "sql": "COMMIT",
+          "start_ns": 14157096857576
+        },
+        {
+          "end_ns": 14157096916746,
+          "in_transaction": true,
+          "pid": 7310,
+          "sql": "BEGIN",
+          "start_ns": 14157096903301
+        },
+        {
+          "end_ns": 14157096976109,
+          "in_transaction": true,
+          "pid": 7310,
+          "sql": "INSERT",
+          "start_ns": 14157096931350
+        },
+        {
+          "end_ns": 14157096999041,
+          "in_transaction": false,
+          "pid": 7310,
+          "sql": "COMMIT",
+          "start_ns": 14157096981963
+        }
+      ]
+    },
+    "split-gap": {
+      "accept": {
+        "end_ns": 14156786383460,
+        "error": "EOFError",
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000one\n"
+        },
+        "response": null,
+        "start_ns": 14156785639771
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 14156745440752,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14156744518876
+          },
+          {
+            "end_ns": 14156746356097,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": {
+                  "consumer_evidence": "bootstrap-consumer_evidence",
+                  "created_by": "bootstrap-created_by",
+                  "identity_genesis": "bootstrap-identity_genesis",
+                  "project": "bootstrap-project"
+                },
+                "status": "available"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 14156745442279
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                10
+              ]
+            ],
+            "observation_mode": "atomic",
+            "observations": {
+              "consumer_evidence": "bootstrap-consumer_evidence",
+              "created_by": "bootstrap-created_by",
+              "identity_genesis": "bootstrap-identity_genesis",
+              "project": "bootstrap-project"
+            },
+            "path": "/tmp/ases-c11-sqlite-wax6g6et/split-gap/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-wax6g6et/split-gap/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 14156747478539,
+          "pid": 7292,
+          "ready_ns": 14156744501018,
+          "start_ns": 14156705542508,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence A / \u03bc",
+        "created_by": "creator-A",
+        "identity_genesis": "genesis-A",
+        "project": "project-A"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "8b023d46f160c523e8fa92ad00be99b4ff7946e5d8439494a68469908c023620"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "93295c4a9e79da7eebed51bccc11c17b1198b6417c2f008f5c07182bc7d71395"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 327,
+          "sha256": "91e4d9691ba6db9a38eb9ac9da0d384ad85606b21499875eb32f3b15ad6a43d4"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 872,
+          "sha256": "8b023d46f160c523e8fa92ad00be99b4ff7946e5d8439494a68469908c023620"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "58f9d30356706b5617890f61bda5041a0c5067ac040173843677e65c288e943f"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "93295c4a9e79da7eebed51bccc11c17b1198b6417c2f008f5c07182bc7d71395"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 327,
+          "sha256": "91e4d9691ba6db9a38eb9ac9da0d384ad85606b21499875eb32f3b15ad6a43d4"
+        }
+      },
+      "gate": {
+        "observed_ns": 14156786009543,
+        "pid": 7294,
+        "raw_hex": "47",
+        "stage": "durable"
+      },
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 14156864478196,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": "a94e0d2840e69491b9eeaafb8b969b765abe4f83122b211232abe8a1dd6a72e5",
+          "observation_utf8_hex": "7b2261636365707465645f636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20227265717569726564223a207b22636f6e73756d65725f65766964656e6365223a2022626f6f7473747261702d636f6e73756d65725f65766964656e6365222c2022637265617465645f6279223a2022626f6f7473747261702d637265617465645f6279222c20226964656e746974795f67656e65736973223a2022626f6f7473747261702d6964656e746974795f67656e65736973222c202270726f6a656374223a2022626f6f7473747261702d70726f6a656374227d7d",
+          "pid": 7299,
+          "query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": null,
+            "status": "incompatible_required_observations",
+            "stored_content": "accepted\u0000zero\n"
+          },
+          "view": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "feaf9b3efd728119b71d013995f7cba9c3117ced661cb50b8e03794c2a09405b",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030306f6e655c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 7299,
+        "start_ns": 14156824055026,
+        "stderr": ""
+      },
+      "mode": "split",
+      "name": "split-gap",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              10
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/split-gap/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/split-gap/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14156824031560,
+        "pid": 7297,
+        "ready_ns": 14156822219767,
+        "start_ns": 14156787357622,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 14156822879005,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": null,
+            "status": "incompatible_required_observations",
+            "stored_content": "accepted\u0000zero\n"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000one\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 14156822225643
+      },
+      "stage": "durable",
+      "world": "A",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              10
+            ]
+          ],
+          "gate": {
+            "event_fd": 12,
+            "kind": "accept",
+            "lane": 0,
+            "release_fd": 13,
+            "stage": "durable"
+          },
+          "observation_mode": "split",
+          "observations": {
+            "consumer_evidence": "accepted evidence A / \u03bc",
+            "created_by": "creator-A",
+            "identity_genesis": "genesis-A",
+            "project": "project-A"
+          },
+          "path": "/tmp/ases-c11-sqlite-wax6g6et/split-gap/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-wax6g6et/split-gap/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 14156787130985,
+        "pid": 7294,
+        "ready_ns": 14156785381522,
+        "start_ns": 14156747551569,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 14156785781949,
+          "in_transaction": true,
+          "pid": 7294,
+          "sql": "BEGIN",
+          "start_ns": 14156785724223
+        },
+        {
+          "end_ns": 14156785931298,
+          "in_transaction": true,
+          "pid": 7294,
+          "sql": "UPDATE",
+          "start_ns": 14156785885373
+        },
+        {
+          "end_ns": 14156785972129,
+          "in_transaction": false,
+          "pid": 7294,
+          "sql": "COMMIT",
+          "start_ns": 14156785943115
+        }
+      ]
+    }
+  },
+  "environment": {
+    "address_space_bytes": 268435456,
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sqlite": "3.53.1"
+  },
+  "execution_sha": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
+  "schema": "ases.f1-c11-sqlite-history",
+  "source_hashes": {
+    "kernel-0/kernel0_finite_model.py": "c9c429b0400df6e044d30b71befaeb810657430372fb1088f9e62631c8965083",
+    "kernel-0/kernel0_recovery_check.py": "970f674ebb45e8f281a31eb3315247e4dad5286cab7876a0709b8e2cdaf6d349",
+    "kernel-0/kernel0_recovery_service.py": "f5fd5e1118046dd8fd6d3357d56f9bcad91e8fe572f5bf4706dc7c8fd0b3ff13",
+    "kernel-0/kernel0_service.py": "f11c54b9318a54512487d087b10aeb2878a111bffe8cc8fa58391f4e716c2084",
+    "phase-i-f1/c11-sqlite/c11_service.py": "864e43153e069247c6c2557dc5cb2ce7c51795c612a20515c2be0cb82c9a2c28",
+    "phase-i-f1/c11-sqlite/probe.py": "c6f2e7de00754ec310e00cafc60b527d34609d4ead68c1b5be4a0fce1fdcd627"
+  },
+  "version": 1
+}
