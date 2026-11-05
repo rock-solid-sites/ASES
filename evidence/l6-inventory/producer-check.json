@@ -1,0 +1,34 @@
+{
+  "cases": {
+    "empty_positive": {
+      "observation": "independently empty sealed unit removal succeeds",
+      "status": "SUPPORTED"
+    },
+    "interrupted_disposition": {
+      "observation": "post-disposition-COMMIT/pre-unlink kill leaves no success ACK; fresh sealed management rejects old logical x, retains z, denies premature removal and completes explicit cleanup/disposition/empty removal",
+      "status": "SUPPORTED"
+    },
+    "orphan_catalog_mutant": {
+      "observation": "counterexample: all catalog rows empty yet actual unregistered candidate survives logical removal; no native exposure claim",
+      "status": "SUPPORTED"
+    },
+    "orphan_reference": {
+      "observation": "actual fsynced unregistered candidate survives SQL rollback/process death; enclosing-directory guard denies removal unchanged",
+      "status": "SUPPORTED"
+    }
+  },
+  "controls": {
+    "contradictory_inventory": {
+      "reason": "catalog/directory inventory contradiction",
+      "status": "VIOLATION"
+    },
+    "missing_recovery_observation": {
+      "reason": "'after_kill'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 1,
+  "owned_children": 8,
+  "qualification": "flat enclosing-root/all cooperative writers/trusted management and process-loss profile; policy/store evidence, no native confinement/full L6/T13/T23/F3/F4 or power-loss closure",
+  "source_hashes_verified": true
+}

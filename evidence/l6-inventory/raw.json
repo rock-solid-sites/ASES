@@ -1,0 +1,3426 @@
+{
+  "cases": {
+    "empty_positive": {
+      "children": [
+        {
+          "events": [
+            {
+              "frame": {
+                "event": "READY",
+                "ns": 22291625158719,
+                "pid": 16788,
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {},
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291625365502,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+              },
+              "raw_line": "{\"event\": \"READY\", \"ns\": 22291625158719, \"pid\": 16788, \"snapshot\": {\"dependencies\": [], \"files\": {}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291625365502, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+              "received_ns": 22291625486320
+            },
+            {
+              "frame": {
+                "end_ns": 22291625925549,
+                "event": "RESPONSE",
+                "pid": 16788,
+                "reply": {
+                  "directory_removed": true,
+                  "logical_unit_removed": true,
+                  "profile": "directory-inventory",
+                  "result": "COMMITTED"
+                },
+                "request": {
+                  "op": "remove"
+                },
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {},
+                  "integrity_check": "ok",
+                  "live": false,
+                  "objects_directory_exists": false,
+                  "observation_ns": 22291626188666,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291624872280,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291624887997,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291625618016,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291625634491,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291625854578,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291625868102,
+                    "sql": "UPDATE unit SET live=0"
+                  },
+                  {
+                    "ns": 22291625892566,
+                    "sql": "COMMIT"
+                  }
+                ],
+                "start_ns": 22291625609592
+              },
+              "raw_line": "{\"end_ns\": 22291625925549, \"event\": \"RESPONSE\", \"pid\": 16788, \"reply\": {\"directory_removed\": true, \"logical_unit_removed\": true, \"profile\": \"directory-inventory\", \"result\": \"COMMITTED\"}, \"request\": {\"op\": \"remove\"}, \"snapshot\": {\"dependencies\": [], \"files\": {}, \"integrity_check\": \"ok\", \"live\": false, \"objects_directory_exists\": false, \"observation_ns\": 22291626188666, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291624872280, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291624887997, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291625618016, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291625634491, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291625854578, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291625868102, \"sql\": \"UPDATE unit SET live=0\"}, {\"ns\": 22291625892566, \"sql\": \"COMMIT\"}], \"start_ns\": 22291625609592}\n",
+              "received_ns": 22291626295547,
+              "request_started_ns": 22291625501826
+            }
+          ],
+          "exit": 0,
+          "exit_ns": 22291633659815,
+          "pid": 16788,
+          "ready_ns": 22291625500342,
+          "start_ns": 22291600893941,
+          "stderr": ""
+        }
+      ],
+      "final": {
+        "dependencies": [],
+        "files": {},
+        "integrity_check": "ok",
+        "live": false,
+        "objects_directory_exists": false,
+        "observation_ns": 22291633888128,
+        "reconstruction_status": "current-logical-records",
+        "sealed": true,
+        "unknown_files": []
+      },
+      "removal": {
+        "frame": {
+          "end_ns": 22291625925549,
+          "event": "RESPONSE",
+          "pid": 16788,
+          "reply": {
+            "directory_removed": true,
+            "logical_unit_removed": true,
+            "profile": "directory-inventory",
+            "result": "COMMITTED"
+          },
+          "request": {
+            "op": "remove"
+          },
+          "snapshot": {
+            "dependencies": [],
+            "files": {},
+            "integrity_check": "ok",
+            "live": false,
+            "objects_directory_exists": false,
+            "observation_ns": 22291626188666,
+            "reconstruction_status": "current-logical-records",
+            "sealed": true,
+            "unknown_files": []
+          },
+          "sql_trace": [
+            {
+              "ns": 22291624872280,
+              "sql": "PRAGMA journal_mode=DELETE"
+            },
+            {
+              "ns": 22291624887997,
+              "sql": "PRAGMA synchronous=FULL"
+            },
+            {
+              "ns": 22291625618016,
+              "sql": "BEGIN IMMEDIATE"
+            },
+            {
+              "ns": 22291625634491,
+              "sql": "SELECT live FROM unit"
+            },
+            {
+              "ns": 22291625854578,
+              "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+            },
+            {
+              "ns": 22291625868102,
+              "sql": "UPDATE unit SET live=0"
+            },
+            {
+              "ns": 22291625892566,
+              "sql": "COMMIT"
+            }
+          ],
+          "start_ns": 22291625609592
+        },
+        "raw_line": "{\"end_ns\": 22291625925549, \"event\": \"RESPONSE\", \"pid\": 16788, \"reply\": {\"directory_removed\": true, \"logical_unit_removed\": true, \"profile\": \"directory-inventory\", \"result\": \"COMMITTED\"}, \"request\": {\"op\": \"remove\"}, \"snapshot\": {\"dependencies\": [], \"files\": {}, \"integrity_check\": \"ok\", \"live\": false, \"objects_directory_exists\": false, \"observation_ns\": 22291626188666, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291624872280, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291624887997, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291625618016, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291625634491, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291625854578, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291625868102, \"sql\": \"UPDATE unit SET live=0\"}, {\"ns\": 22291625892566, \"sql\": \"COMMIT\"}], \"start_ns\": 22291625609592}\n",
+        "received_ns": 22291626295547,
+        "request_started_ns": 22291625501826
+      }
+    },
+    "interrupted_disposition": {
+      "after_kill": {
+        "dependencies": [
+          {
+            "disposed": 1,
+            "kind": "accepted",
+            "name": "x",
+            "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+            "size": 38
+          },
+          {
+            "disposed": 0,
+            "kind": "candidate",
+            "name": "z",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        ],
+        "files": {
+          "x": {
+            "inode": 10107,
+            "mode": 384,
+            "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+            "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+            "size": 38
+          },
+          "z": {
+            "inode": 10109,
+            "mode": 384,
+            "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        },
+        "integrity_check": "ok",
+        "live": true,
+        "objects_directory_exists": true,
+        "observation_ns": 22291564861362,
+        "reconstruction_status": "current-logical-records",
+        "sealed": true,
+        "unknown_files": []
+      },
+      "before": {
+        "dependencies": [
+          {
+            "disposed": 0,
+            "kind": "accepted",
+            "name": "x",
+            "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+            "size": 38
+          },
+          {
+            "disposed": 0,
+            "kind": "candidate",
+            "name": "z",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        ],
+        "files": {
+          "x": {
+            "inode": 10107,
+            "mode": 384,
+            "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+            "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+            "size": 38
+          },
+          "z": {
+            "inode": 10109,
+            "mode": 384,
+            "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        },
+        "integrity_check": "ok",
+        "live": true,
+        "objects_directory_exists": true,
+        "observation_ns": 22291538000348,
+        "reconstruction_status": "current-logical-records",
+        "sealed": true,
+        "unknown_files": []
+      },
+      "children": [
+        {
+          "events": [
+            {
+              "frame": {
+                "event": "READY",
+                "ns": 22291527512675,
+                "pid": 16785,
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {},
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291527788545,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+              },
+              "raw_line": "{\"event\": \"READY\", \"ns\": 22291527512675, \"pid\": 16785, \"snapshot\": {\"dependencies\": [], \"files\": {}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291527788545, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+              "received_ns": 22291527916501
+            },
+            {
+              "frame": {
+                "end_ns": 22291528453404,
+                "event": "RESPONSE",
+                "pid": 16785,
+                "reply": {
+                  "kind": "accepted",
+                  "name": "x",
+                  "result": "COMMITTED",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8"
+                },
+                "request": {
+                  "kind": "accepted",
+                  "name": "x",
+                  "op": "put",
+                  "payload": "accepted x with retained identity / \u03bc"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 0,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    }
+                  ],
+                  "files": {
+                    "x": {
+                      "inode": 10107,
+                      "mode": 384,
+                      "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291528707582,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291527220916,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291527236702,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291528118675,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291528136620,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291528407602,
+                    "sql": "INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)"
+                  },
+                  {
+                    "ns": 22291528428704,
+                    "sql": "COMMIT"
+                  }
+                ],
+                "start_ns": 22291528030981
+              },
+              "raw_line": "{\"end_ns\": 22291528453404, \"event\": \"RESPONSE\", \"pid\": 16785, \"reply\": {\"kind\": \"accepted\", \"name\": \"x\", \"result\": \"COMMITTED\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\"}, \"request\": {\"kind\": \"accepted\", \"name\": \"x\", \"op\": \"put\", \"payload\": \"accepted x with retained identity / \\u03bc\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 0, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291528707582, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291527220916, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291527236702, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291528118675, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291528136620, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291528407602, \"sql\": \"INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)\"}, {\"ns\": 22291528428704, \"sql\": \"COMMIT\"}], \"start_ns\": 22291528030981}\n",
+              "received_ns": 22291528923449,
+              "request_started_ns": 22291527932704
+            },
+            {
+              "frame": {
+                "end_ns": 22291529358565,
+                "event": "RESPONSE",
+                "pid": 16785,
+                "reply": {
+                  "kind": "candidate",
+                  "name": "z",
+                  "result": "COMMITTED",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375"
+                },
+                "request": {
+                  "kind": "candidate",
+                  "name": "z",
+                  "op": "put",
+                  "payload": "unaccepted durable candidate z / \u03bc"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 0,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "x": {
+                      "inode": 10107,
+                      "mode": 384,
+                      "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291529657883,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291527220916,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291527236702,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291528118675,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291528136620,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291528407602,
+                    "sql": "INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)"
+                  },
+                  {
+                    "ns": 22291528428704,
+                    "sql": "COMMIT"
+                  },
+                  {
+                    "ns": 22291529018414,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291529030356,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291529316598,
+                    "sql": "INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)"
+                  },
+                  {
+                    "ns": 22291529337778,
+                    "sql": "COMMIT"
+                  }
+                ],
+                "start_ns": 22291529011013
+              },
+              "raw_line": "{\"end_ns\": 22291529358565, \"event\": \"RESPONSE\", \"pid\": 16785, \"reply\": {\"kind\": \"candidate\", \"name\": \"z\", \"result\": \"COMMITTED\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\"}, \"request\": {\"kind\": \"candidate\", \"name\": \"z\", \"op\": \"put\", \"payload\": \"unaccepted durable candidate z / \\u03bc\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 0, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291529657883, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291527220916, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291527236702, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291528118675, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291528136620, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291528407602, \"sql\": \"INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)\"}, {\"ns\": 22291528428704, \"sql\": \"COMMIT\"}, {\"ns\": 22291529018414, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291529030356, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291529316598, \"sql\": \"INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)\"}, {\"ns\": 22291529337778, \"sql\": \"COMMIT\"}], \"start_ns\": 22291529011013}\n",
+              "received_ns": 22291529754897,
+              "request_started_ns": 22291528949281
+            },
+            {
+              "frame": {
+                "end_ns": 22291529916938,
+                "event": "RESPONSE",
+                "pid": 16785,
+                "reply": {
+                  "kind": "accepted",
+                  "name": "x",
+                  "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                  "result": "READ",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8"
+                },
+                "request": {
+                  "name": "x",
+                  "op": "read"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 0,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "x": {
+                      "inode": 10107,
+                      "mode": 384,
+                      "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291530155293,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291527220916,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291527236702,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291528118675,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291528136620,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291528407602,
+                    "sql": "INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)"
+                  },
+                  {
+                    "ns": 22291528428704,
+                    "sql": "COMMIT"
+                  },
+                  {
+                    "ns": 22291529018414,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291529030356,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291529316598,
+                    "sql": "INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)"
+                  },
+                  {
+                    "ns": 22291529337778,
+                    "sql": "COMMIT"
+                  },
+                  {
+                    "ns": 22291529873899,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+                  }
+                ],
+                "start_ns": 22291529848602
+              },
+              "raw_line": "{\"end_ns\": 22291529916938, \"event\": \"RESPONSE\", \"pid\": 16785, \"reply\": {\"kind\": \"accepted\", \"name\": \"x\", \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"result\": \"READ\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\"}, \"request\": {\"name\": \"x\", \"op\": \"read\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 0, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291530155293, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291527220916, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291527236702, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291528118675, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291528136620, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291528407602, \"sql\": \"INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)\"}, {\"ns\": 22291528428704, \"sql\": \"COMMIT\"}, {\"ns\": 22291529018414, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291529030356, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291529316598, \"sql\": \"INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)\"}, {\"ns\": 22291529337778, \"sql\": \"COMMIT\"}, {\"ns\": 22291529873899, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}], \"start_ns\": 22291529848602}\n",
+              "received_ns": 22291530257809,
+              "request_started_ns": 22291529788234
+            }
+          ],
+          "exit": 0,
+          "exit_ns": 22291537689115,
+          "pid": 16785,
+          "ready_ns": 22291527930442,
+          "start_ns": 22291501350313,
+          "stderr": ""
+        },
+        {
+          "events": [
+            {
+              "frame": {
+                "event": "READY",
+                "ns": 22291562694076,
+                "pid": 16786,
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 0,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "x": {
+                      "inode": 10107,
+                      "mode": 384,
+                      "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291562960601,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+              },
+              "raw_line": "{\"event\": \"READY\", \"ns\": 22291562694076, \"pid\": 16786, \"snapshot\": {\"dependencies\": [{\"disposed\": 0, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291562960601, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+              "received_ns": 22291563083231
+            },
+            {
+              "frame": {
+                "event": "GATE",
+                "in_transaction": false,
+                "local_dependency_rows": 2,
+                "ns": 22291563329740,
+                "phase": "disposition-committed-before-unlink-reply",
+                "pid": 16786,
+                "sql_trace": [
+                  {
+                    "ns": 22291562148560,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291562164263,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291563236765,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291563253119,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291563270183,
+                    "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291563285554,
+                    "sql": "UPDATE dependencies SET disposed=1 WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291563307968,
+                    "sql": "COMMIT"
+                  },
+                  {
+                    "ns": 22291563339442,
+                    "sql": "SELECT COUNT(*) FROM dependencies"
+                  }
+                ]
+              },
+              "raw_line": "{\"event\": \"GATE\", \"in_transaction\": false, \"local_dependency_rows\": 2, \"ns\": 22291563329740, \"phase\": \"disposition-committed-before-unlink-reply\", \"pid\": 16786, \"sql_trace\": [{\"ns\": 22291562148560, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291562164263, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291563236765, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291563253119, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291563270183, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291563285554, \"sql\": \"UPDATE dependencies SET disposed=1 WHERE name='x'\"}, {\"ns\": 22291563307968, \"sql\": \"COMMIT\"}, {\"ns\": 22291563339442, \"sql\": \"SELECT COUNT(*) FROM dependencies\"}]}\n",
+              "received_ns": 22291563416082,
+              "request_started_ns": 22291563105052
+            }
+          ],
+          "exit": -9,
+          "exit_ns": 22291564552005,
+          "pid": 16786,
+          "ready_ns": 22291563103276,
+          "start_ns": 22291538013739,
+          "stderr": ""
+        },
+        {
+          "events": [
+            {
+              "frame": {
+                "event": "READY",
+                "ns": 22291588467706,
+                "pid": 16787,
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 1,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "x": {
+                      "inode": 10107,
+                      "mode": 384,
+                      "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291588839649,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+              },
+              "raw_line": "{\"event\": \"READY\", \"ns\": 22291588467706, \"pid\": 16787, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291588839649, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+              "received_ns": 22291588950390
+            },
+            {
+              "frame": {
+                "end_ns": 22291589446863,
+                "event": "RESPONSE",
+                "pid": 16787,
+                "reply": {
+                  "reason": "logically-disposed",
+                  "result": "DENY"
+                },
+                "request": {
+                  "name": "x",
+                  "op": "read"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 1,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "x": {
+                      "inode": 10107,
+                      "mode": 384,
+                      "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291589829306,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291587984950,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291588056867,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291589416906,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+                  }
+                ],
+                "start_ns": 22291589322400
+              },
+              "raw_line": "{\"end_ns\": 22291589446863, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"reason\": \"logically-disposed\", \"result\": \"DENY\"}, \"request\": {\"name\": \"x\", \"op\": \"read\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291589829306, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}], \"start_ns\": 22291589322400}\n",
+              "received_ns": 22291589918533,
+              "request_started_ns": 22291588978666
+            },
+            {
+              "frame": {
+                "end_ns": 22291590035227,
+                "event": "RESPONSE",
+                "pid": 16787,
+                "reply": {
+                  "kind": "candidate",
+                  "name": "z",
+                  "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                  "result": "READ",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375"
+                },
+                "request": {
+                  "name": "z",
+                  "op": "read"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 1,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "x": {
+                      "inode": 10107,
+                      "mode": 384,
+                      "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291590278418,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291587984950,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291588056867,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291589416906,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291589994651,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+                  }
+                ],
+                "start_ns": 22291589985717
+              },
+              "raw_line": "{\"end_ns\": 22291590035227, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"kind\": \"candidate\", \"name\": \"z\", \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"result\": \"READ\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\"}, \"request\": {\"name\": \"z\", \"op\": \"read\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291590278418, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}], \"start_ns\": 22291589985717}\n",
+              "received_ns": 22291590356281,
+              "request_started_ns": 22291589935832
+            },
+            {
+              "frame": {
+                "end_ns": 22291590829369,
+                "event": "RESPONSE",
+                "pid": 16787,
+                "reply": {
+                  "inventory": [
+                    "x",
+                    "z"
+                  ],
+                  "reason": "durable-dependents-remain",
+                  "result": "DENY"
+                },
+                "request": {
+                  "op": "remove"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 1,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "x": {
+                      "inode": 10107,
+                      "mode": 384,
+                      "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291591037968,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291587984950,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291588056867,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291589416906,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291589994651,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291590425010,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291590438186,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291590809303,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291590821281,
+                    "sql": "ROLLBACK"
+                  }
+                ],
+                "start_ns": 22291590414134
+              },
+              "raw_line": "{\"end_ns\": 22291590829369, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"inventory\": [\"x\", \"z\"], \"reason\": \"durable-dependents-remain\", \"result\": \"DENY\"}, \"request\": {\"op\": \"remove\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291591037968, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}], \"start_ns\": 22291590414134}\n",
+              "received_ns": 22291591119320,
+              "request_started_ns": 22291590372628
+            },
+            {
+              "frame": {
+                "end_ns": 22291591252230,
+                "event": "RESPONSE",
+                "pid": 16787,
+                "reply": {
+                  "cleanup": true,
+                  "name": "x",
+                  "result": "COMMITTED"
+                },
+                "request": {
+                  "name": "x",
+                  "op": "cleanup"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 1,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291591457581,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291587984950,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291588056867,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291589416906,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291589994651,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291590425010,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291590438186,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291590809303,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291590821281,
+                    "sql": "ROLLBACK"
+                  },
+                  {
+                    "ns": 22291591195870,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291591203874,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291591215773,
+                    "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291591243546,
+                    "sql": "COMMIT"
+                  }
+                ],
+                "start_ns": 22291591190404
+              },
+              "raw_line": "{\"end_ns\": 22291591252230, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"cleanup\": true, \"name\": \"x\", \"result\": \"COMMITTED\"}, \"request\": {\"name\": \"x\", \"op\": \"cleanup\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291591457581, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291591195870, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591203874, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591215773, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291591243546, \"sql\": \"COMMIT\"}], \"start_ns\": 22291591190404}\n",
+              "received_ns": 22291591529555,
+              "request_started_ns": 22291591136669
+            },
+            {
+              "frame": {
+                "end_ns": 22291591830268,
+                "event": "RESPONSE",
+                "pid": 16787,
+                "reply": {
+                  "inventory": [
+                    "z"
+                  ],
+                  "reason": "durable-dependents-remain",
+                  "result": "DENY"
+                },
+                "request": {
+                  "op": "remove"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 1,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 0,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {
+                    "z": {
+                      "inode": 10109,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291592040149,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291587984950,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291588056867,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291589416906,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291589994651,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291590425010,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291590438186,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291590809303,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291590821281,
+                    "sql": "ROLLBACK"
+                  },
+                  {
+                    "ns": 22291591195870,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291591203874,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291591215773,
+                    "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291591243546,
+                    "sql": "COMMIT"
+                  },
+                  {
+                    "ns": 22291591599172,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291591606848,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291591820053,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291591824806,
+                    "sql": "ROLLBACK"
+                  }
+                ],
+                "start_ns": 22291591596386
+              },
+              "raw_line": "{\"end_ns\": 22291591830268, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"inventory\": [\"z\"], \"reason\": \"durable-dependents-remain\", \"result\": \"DENY\"}, \"request\": {\"op\": \"remove\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291592040149, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291591195870, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591203874, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591215773, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291591243546, \"sql\": \"COMMIT\"}, {\"ns\": 22291591599172, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591606848, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591820053, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291591824806, \"sql\": \"ROLLBACK\"}], \"start_ns\": 22291591596386}\n",
+              "received_ns": 22291592112110,
+              "request_started_ns": 22291591545003
+            },
+            {
+              "frame": {
+                "end_ns": 22291592250873,
+                "event": "RESPONSE",
+                "pid": 16787,
+                "reply": {
+                  "logical_disposition": true,
+                  "name": "z",
+                  "result": "COMMITTED"
+                },
+                "request": {
+                  "name": "z",
+                  "op": "dispose"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 1,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 1,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {},
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291592433530,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291587984950,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291588056867,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291589416906,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291589994651,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291590425010,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291590438186,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291590809303,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291590821281,
+                    "sql": "ROLLBACK"
+                  },
+                  {
+                    "ns": 22291591195870,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291591203874,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291591215773,
+                    "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291591243546,
+                    "sql": "COMMIT"
+                  },
+                  {
+                    "ns": 22291591599172,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291591606848,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291591820053,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291591824806,
+                    "sql": "ROLLBACK"
+                  },
+                  {
+                    "ns": 22291592159370,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291592166753,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291592171717,
+                    "sql": "SELECT disposed FROM dependencies WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291592190013,
+                    "sql": "UPDATE dependencies SET disposed=1 WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291592211044,
+                    "sql": "COMMIT"
+                  }
+                ],
+                "start_ns": 22291592154282
+              },
+              "raw_line": "{\"end_ns\": 22291592250873, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"logical_disposition\": true, \"name\": \"z\", \"result\": \"COMMITTED\"}, \"request\": {\"name\": \"z\", \"op\": \"dispose\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 1, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291592433530, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291591195870, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591203874, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591215773, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291591243546, \"sql\": \"COMMIT\"}, {\"ns\": 22291591599172, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591606848, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591820053, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291591824806, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291592159370, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291592166753, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291592171717, \"sql\": \"SELECT disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291592190013, \"sql\": \"UPDATE dependencies SET disposed=1 WHERE name='z'\"}, {\"ns\": 22291592211044, \"sql\": \"COMMIT\"}], \"start_ns\": 22291592154282}\n",
+              "received_ns": 22291592505276,
+              "request_started_ns": 22291592129866
+            },
+            {
+              "frame": {
+                "end_ns": 22291592829914,
+                "event": "RESPONSE",
+                "pid": 16787,
+                "reply": {
+                  "directory_removed": true,
+                  "logical_unit_removed": true,
+                  "profile": "directory-inventory",
+                  "result": "COMMITTED"
+                },
+                "request": {
+                  "op": "remove"
+                },
+                "snapshot": {
+                  "dependencies": [
+                    {
+                      "disposed": 1,
+                      "kind": "accepted",
+                      "name": "x",
+                      "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                      "size": 38
+                    },
+                    {
+                      "disposed": 1,
+                      "kind": "candidate",
+                      "name": "z",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  ],
+                  "files": {},
+                  "integrity_check": "ok",
+                  "live": false,
+                  "objects_directory_exists": false,
+                  "observation_ns": 22291592982025,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291587984950,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291588056867,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291589416906,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291589994651,
+                    "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291590425010,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291590438186,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291590809303,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291590821281,
+                    "sql": "ROLLBACK"
+                  },
+                  {
+                    "ns": 22291591195870,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291591203874,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291591215773,
+                    "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+                  },
+                  {
+                    "ns": 22291591243546,
+                    "sql": "COMMIT"
+                  },
+                  {
+                    "ns": 22291591599172,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291591606848,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291591820053,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291591824806,
+                    "sql": "ROLLBACK"
+                  },
+                  {
+                    "ns": 22291592159370,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291592166753,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291592171717,
+                    "sql": "SELECT disposed FROM dependencies WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291592190013,
+                    "sql": "UPDATE dependencies SET disposed=1 WHERE name='z'"
+                  },
+                  {
+                    "ns": 22291592211044,
+                    "sql": "COMMIT"
+                  },
+                  {
+                    "ns": 22291592549530,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291592556596,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291592764982,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291592774294,
+                    "sql": "UPDATE unit SET live=0"
+                  },
+                  {
+                    "ns": 22291592797803,
+                    "sql": "COMMIT"
+                  }
+                ],
+                "start_ns": 22291592546941
+              },
+              "raw_line": "{\"end_ns\": 22291592829914, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"directory_removed\": true, \"logical_unit_removed\": true, \"profile\": \"directory-inventory\", \"result\": \"COMMITTED\"}, \"request\": {\"op\": \"remove\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 1, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {}, \"integrity_check\": \"ok\", \"live\": false, \"objects_directory_exists\": false, \"observation_ns\": 22291592982025, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291591195870, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591203874, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591215773, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291591243546, \"sql\": \"COMMIT\"}, {\"ns\": 22291591599172, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591606848, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591820053, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291591824806, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291592159370, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291592166753, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291592171717, \"sql\": \"SELECT disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291592190013, \"sql\": \"UPDATE dependencies SET disposed=1 WHERE name='z'\"}, {\"ns\": 22291592211044, \"sql\": \"COMMIT\"}, {\"ns\": 22291592549530, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291592556596, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291592764982, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291592774294, \"sql\": \"UPDATE unit SET live=0\"}, {\"ns\": 22291592797803, \"sql\": \"COMMIT\"}], \"start_ns\": 22291592546941}\n",
+              "received_ns": 22291593060731,
+              "request_started_ns": 22291592522790
+            }
+          ],
+          "exit": 0,
+          "exit_ns": 22291600341360,
+          "pid": 16787,
+          "ready_ns": 22291588973977,
+          "start_ns": 22291564872933,
+          "stderr": ""
+        }
+      ],
+      "final": {
+        "dependencies": [
+          {
+            "disposed": 1,
+            "kind": "accepted",
+            "name": "x",
+            "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+            "size": 38
+          },
+          {
+            "disposed": 1,
+            "kind": "candidate",
+            "name": "z",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        ],
+        "files": {},
+        "integrity_check": "ok",
+        "live": false,
+        "objects_directory_exists": false,
+        "observation_ns": 22291600602334,
+        "reconstruction_status": "current-logical-records",
+        "sealed": true,
+        "unknown_files": []
+      },
+      "gate": {
+        "frame": {
+          "event": "GATE",
+          "in_transaction": false,
+          "local_dependency_rows": 2,
+          "ns": 22291563329740,
+          "phase": "disposition-committed-before-unlink-reply",
+          "pid": 16786,
+          "sql_trace": [
+            {
+              "ns": 22291562148560,
+              "sql": "PRAGMA journal_mode=DELETE"
+            },
+            {
+              "ns": 22291562164263,
+              "sql": "PRAGMA synchronous=FULL"
+            },
+            {
+              "ns": 22291563236765,
+              "sql": "BEGIN IMMEDIATE"
+            },
+            {
+              "ns": 22291563253119,
+              "sql": "SELECT live FROM unit"
+            },
+            {
+              "ns": 22291563270183,
+              "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+            },
+            {
+              "ns": 22291563285554,
+              "sql": "UPDATE dependencies SET disposed=1 WHERE name='x'"
+            },
+            {
+              "ns": 22291563307968,
+              "sql": "COMMIT"
+            },
+            {
+              "ns": 22291563339442,
+              "sql": "SELECT COUNT(*) FROM dependencies"
+            }
+          ]
+        },
+        "raw_line": "{\"event\": \"GATE\", \"in_transaction\": false, \"local_dependency_rows\": 2, \"ns\": 22291563329740, \"phase\": \"disposition-committed-before-unlink-reply\", \"pid\": 16786, \"sql_trace\": [{\"ns\": 22291562148560, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291562164263, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291563236765, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291563253119, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291563270183, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291563285554, \"sql\": \"UPDATE dependencies SET disposed=1 WHERE name='x'\"}, {\"ns\": 22291563307968, \"sql\": \"COMMIT\"}, {\"ns\": 22291563339442, \"sql\": \"SELECT COUNT(*) FROM dependencies\"}]}\n",
+        "received_ns": 22291563416082,
+        "request_started_ns": 22291563105052
+      },
+      "original_steps": [
+        {
+          "frame": {
+            "end_ns": 22291528453404,
+            "event": "RESPONSE",
+            "pid": 16785,
+            "reply": {
+              "kind": "accepted",
+              "name": "x",
+              "result": "COMMITTED",
+              "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8"
+            },
+            "request": {
+              "kind": "accepted",
+              "name": "x",
+              "op": "put",
+              "payload": "accepted x with retained identity / \u03bc"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 0,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                }
+              ],
+              "files": {
+                "x": {
+                  "inode": 10107,
+                  "mode": 384,
+                  "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                }
+              },
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291528707582,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291527220916,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291527236702,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291528118675,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291528136620,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291528407602,
+                "sql": "INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)"
+              },
+              {
+                "ns": 22291528428704,
+                "sql": "COMMIT"
+              }
+            ],
+            "start_ns": 22291528030981
+          },
+          "raw_line": "{\"end_ns\": 22291528453404, \"event\": \"RESPONSE\", \"pid\": 16785, \"reply\": {\"kind\": \"accepted\", \"name\": \"x\", \"result\": \"COMMITTED\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\"}, \"request\": {\"kind\": \"accepted\", \"name\": \"x\", \"op\": \"put\", \"payload\": \"accepted x with retained identity / \\u03bc\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 0, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291528707582, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291527220916, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291527236702, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291528118675, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291528136620, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291528407602, \"sql\": \"INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)\"}, {\"ns\": 22291528428704, \"sql\": \"COMMIT\"}], \"start_ns\": 22291528030981}\n",
+          "received_ns": 22291528923449,
+          "request_started_ns": 22291527932704
+        },
+        {
+          "frame": {
+            "end_ns": 22291529358565,
+            "event": "RESPONSE",
+            "pid": 16785,
+            "reply": {
+              "kind": "candidate",
+              "name": "z",
+              "result": "COMMITTED",
+              "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375"
+            },
+            "request": {
+              "kind": "candidate",
+              "name": "z",
+              "op": "put",
+              "payload": "unaccepted durable candidate z / \u03bc"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 0,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 0,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {
+                "x": {
+                  "inode": 10107,
+                  "mode": 384,
+                  "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                "z": {
+                  "inode": 10109,
+                  "mode": 384,
+                  "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              },
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291529657883,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291527220916,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291527236702,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291528118675,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291528136620,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291528407602,
+                "sql": "INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)"
+              },
+              {
+                "ns": 22291528428704,
+                "sql": "COMMIT"
+              },
+              {
+                "ns": 22291529018414,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291529030356,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291529316598,
+                "sql": "INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)"
+              },
+              {
+                "ns": 22291529337778,
+                "sql": "COMMIT"
+              }
+            ],
+            "start_ns": 22291529011013
+          },
+          "raw_line": "{\"end_ns\": 22291529358565, \"event\": \"RESPONSE\", \"pid\": 16785, \"reply\": {\"kind\": \"candidate\", \"name\": \"z\", \"result\": \"COMMITTED\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\"}, \"request\": {\"kind\": \"candidate\", \"name\": \"z\", \"op\": \"put\", \"payload\": \"unaccepted durable candidate z / \\u03bc\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 0, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291529657883, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291527220916, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291527236702, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291528118675, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291528136620, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291528407602, \"sql\": \"INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)\"}, {\"ns\": 22291528428704, \"sql\": \"COMMIT\"}, {\"ns\": 22291529018414, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291529030356, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291529316598, \"sql\": \"INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)\"}, {\"ns\": 22291529337778, \"sql\": \"COMMIT\"}], \"start_ns\": 22291529011013}\n",
+          "received_ns": 22291529754897,
+          "request_started_ns": 22291528949281
+        },
+        {
+          "frame": {
+            "end_ns": 22291529916938,
+            "event": "RESPONSE",
+            "pid": 16785,
+            "reply": {
+              "kind": "accepted",
+              "name": "x",
+              "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+              "result": "READ",
+              "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8"
+            },
+            "request": {
+              "name": "x",
+              "op": "read"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 0,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 0,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {
+                "x": {
+                  "inode": 10107,
+                  "mode": 384,
+                  "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                "z": {
+                  "inode": 10109,
+                  "mode": 384,
+                  "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              },
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291530155293,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291527220916,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291527236702,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291528118675,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291528136620,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291528407602,
+                "sql": "INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)"
+              },
+              {
+                "ns": 22291528428704,
+                "sql": "COMMIT"
+              },
+              {
+                "ns": 22291529018414,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291529030356,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291529316598,
+                "sql": "INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)"
+              },
+              {
+                "ns": 22291529337778,
+                "sql": "COMMIT"
+              },
+              {
+                "ns": 22291529873899,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+              }
+            ],
+            "start_ns": 22291529848602
+          },
+          "raw_line": "{\"end_ns\": 22291529916938, \"event\": \"RESPONSE\", \"pid\": 16785, \"reply\": {\"kind\": \"accepted\", \"name\": \"x\", \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"result\": \"READ\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\"}, \"request\": {\"name\": \"x\", \"op\": \"read\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 0, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291530155293, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291527220916, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291527236702, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291528118675, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291528136620, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291528407602, \"sql\": \"INSERT INTO dependencies VALUES('x','accepted','a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8',38,0)\"}, {\"ns\": 22291528428704, \"sql\": \"COMMIT\"}, {\"ns\": 22291529018414, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291529030356, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291529316598, \"sql\": \"INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)\"}, {\"ns\": 22291529337778, \"sql\": \"COMMIT\"}, {\"ns\": 22291529873899, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}], \"start_ns\": 22291529848602}\n",
+          "received_ns": 22291530257809,
+          "request_started_ns": 22291529788234
+        }
+      ],
+      "recovered_ready": {
+        "frame": {
+          "event": "READY",
+          "ns": 22291588467706,
+          "pid": 16787,
+          "snapshot": {
+            "dependencies": [
+              {
+                "disposed": 1,
+                "kind": "accepted",
+                "name": "x",
+                "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                "size": 38
+              },
+              {
+                "disposed": 0,
+                "kind": "candidate",
+                "name": "z",
+                "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                "size": 35
+              }
+            ],
+            "files": {
+              "x": {
+                "inode": 10107,
+                "mode": 384,
+                "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                "size": 38
+              },
+              "z": {
+                "inode": 10109,
+                "mode": 384,
+                "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                "size": 35
+              }
+            },
+            "integrity_check": "ok",
+            "live": true,
+            "objects_directory_exists": true,
+            "observation_ns": 22291588839649,
+            "reconstruction_status": "current-logical-records",
+            "sealed": true,
+            "unknown_files": []
+          },
+          "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+        },
+        "raw_line": "{\"event\": \"READY\", \"ns\": 22291588467706, \"pid\": 16787, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291588839649, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+        "received_ns": 22291588950390
+      },
+      "recovered_steps": [
+        {
+          "frame": {
+            "end_ns": 22291589446863,
+            "event": "RESPONSE",
+            "pid": 16787,
+            "reply": {
+              "reason": "logically-disposed",
+              "result": "DENY"
+            },
+            "request": {
+              "name": "x",
+              "op": "read"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 1,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 0,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {
+                "x": {
+                  "inode": 10107,
+                  "mode": 384,
+                  "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                "z": {
+                  "inode": 10109,
+                  "mode": 384,
+                  "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              },
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291589829306,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291587984950,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291588056867,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291589416906,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+              }
+            ],
+            "start_ns": 22291589322400
+          },
+          "raw_line": "{\"end_ns\": 22291589446863, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"reason\": \"logically-disposed\", \"result\": \"DENY\"}, \"request\": {\"name\": \"x\", \"op\": \"read\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291589829306, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}], \"start_ns\": 22291589322400}\n",
+          "received_ns": 22291589918533,
+          "request_started_ns": 22291588978666
+        },
+        {
+          "frame": {
+            "end_ns": 22291590035227,
+            "event": "RESPONSE",
+            "pid": 16787,
+            "reply": {
+              "kind": "candidate",
+              "name": "z",
+              "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+              "result": "READ",
+              "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375"
+            },
+            "request": {
+              "name": "z",
+              "op": "read"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 1,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 0,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {
+                "x": {
+                  "inode": 10107,
+                  "mode": 384,
+                  "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                "z": {
+                  "inode": 10109,
+                  "mode": 384,
+                  "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              },
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291590278418,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291587984950,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291588056867,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291589416906,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291589994651,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+              }
+            ],
+            "start_ns": 22291589985717
+          },
+          "raw_line": "{\"end_ns\": 22291590035227, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"kind\": \"candidate\", \"name\": \"z\", \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"result\": \"READ\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\"}, \"request\": {\"name\": \"z\", \"op\": \"read\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291590278418, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}], \"start_ns\": 22291589985717}\n",
+          "received_ns": 22291590356281,
+          "request_started_ns": 22291589935832
+        },
+        {
+          "frame": {
+            "end_ns": 22291590829369,
+            "event": "RESPONSE",
+            "pid": 16787,
+            "reply": {
+              "inventory": [
+                "x",
+                "z"
+              ],
+              "reason": "durable-dependents-remain",
+              "result": "DENY"
+            },
+            "request": {
+              "op": "remove"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 1,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 0,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {
+                "x": {
+                  "inode": 10107,
+                  "mode": 384,
+                  "raw_hex": "6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                "z": {
+                  "inode": 10109,
+                  "mode": 384,
+                  "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              },
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291591037968,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291587984950,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291588056867,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291589416906,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291589994651,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+              },
+              {
+                "ns": 22291590425010,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291590438186,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291590809303,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291590821281,
+                "sql": "ROLLBACK"
+              }
+            ],
+            "start_ns": 22291590414134
+          },
+          "raw_line": "{\"end_ns\": 22291590829369, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"inventory\": [\"x\", \"z\"], \"reason\": \"durable-dependents-remain\", \"result\": \"DENY\"}, \"request\": {\"op\": \"remove\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"x\": {\"inode\": 10107, \"mode\": 384, \"raw_hex\": \"6163636570746564207820776974682072657461696e6564206964656e74697479202f20cebc\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, \"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291591037968, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}], \"start_ns\": 22291590414134}\n",
+          "received_ns": 22291591119320,
+          "request_started_ns": 22291590372628
+        },
+        {
+          "frame": {
+            "end_ns": 22291591252230,
+            "event": "RESPONSE",
+            "pid": 16787,
+            "reply": {
+              "cleanup": true,
+              "name": "x",
+              "result": "COMMITTED"
+            },
+            "request": {
+              "name": "x",
+              "op": "cleanup"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 1,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 0,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {
+                "z": {
+                  "inode": 10109,
+                  "mode": 384,
+                  "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              },
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291591457581,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291587984950,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291588056867,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291589416906,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291589994651,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+              },
+              {
+                "ns": 22291590425010,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291590438186,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291590809303,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291590821281,
+                "sql": "ROLLBACK"
+              },
+              {
+                "ns": 22291591195870,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291591203874,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291591215773,
+                "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291591243546,
+                "sql": "COMMIT"
+              }
+            ],
+            "start_ns": 22291591190404
+          },
+          "raw_line": "{\"end_ns\": 22291591252230, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"cleanup\": true, \"name\": \"x\", \"result\": \"COMMITTED\"}, \"request\": {\"name\": \"x\", \"op\": \"cleanup\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291591457581, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291591195870, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591203874, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591215773, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291591243546, \"sql\": \"COMMIT\"}], \"start_ns\": 22291591190404}\n",
+          "received_ns": 22291591529555,
+          "request_started_ns": 22291591136669
+        },
+        {
+          "frame": {
+            "end_ns": 22291591830268,
+            "event": "RESPONSE",
+            "pid": 16787,
+            "reply": {
+              "inventory": [
+                "z"
+              ],
+              "reason": "durable-dependents-remain",
+              "result": "DENY"
+            },
+            "request": {
+              "op": "remove"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 1,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 0,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {
+                "z": {
+                  "inode": 10109,
+                  "mode": 384,
+                  "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              },
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291592040149,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291587984950,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291588056867,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291589416906,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291589994651,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+              },
+              {
+                "ns": 22291590425010,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291590438186,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291590809303,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291590821281,
+                "sql": "ROLLBACK"
+              },
+              {
+                "ns": 22291591195870,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291591203874,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291591215773,
+                "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291591243546,
+                "sql": "COMMIT"
+              },
+              {
+                "ns": 22291591599172,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291591606848,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291591820053,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291591824806,
+                "sql": "ROLLBACK"
+              }
+            ],
+            "start_ns": 22291591596386
+          },
+          "raw_line": "{\"end_ns\": 22291591830268, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"inventory\": [\"z\"], \"reason\": \"durable-dependents-remain\", \"result\": \"DENY\"}, \"request\": {\"op\": \"remove\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 0, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {\"z\": {\"inode\": 10109, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291592040149, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291591195870, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591203874, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591215773, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291591243546, \"sql\": \"COMMIT\"}, {\"ns\": 22291591599172, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591606848, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591820053, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291591824806, \"sql\": \"ROLLBACK\"}], \"start_ns\": 22291591596386}\n",
+          "received_ns": 22291592112110,
+          "request_started_ns": 22291591545003
+        },
+        {
+          "frame": {
+            "end_ns": 22291592250873,
+            "event": "RESPONSE",
+            "pid": 16787,
+            "reply": {
+              "logical_disposition": true,
+              "name": "z",
+              "result": "COMMITTED"
+            },
+            "request": {
+              "name": "z",
+              "op": "dispose"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 1,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 1,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {},
+              "integrity_check": "ok",
+              "live": true,
+              "objects_directory_exists": true,
+              "observation_ns": 22291592433530,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291587984950,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291588056867,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291589416906,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291589994651,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+              },
+              {
+                "ns": 22291590425010,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291590438186,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291590809303,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291590821281,
+                "sql": "ROLLBACK"
+              },
+              {
+                "ns": 22291591195870,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291591203874,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291591215773,
+                "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291591243546,
+                "sql": "COMMIT"
+              },
+              {
+                "ns": 22291591599172,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291591606848,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291591820053,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291591824806,
+                "sql": "ROLLBACK"
+              },
+              {
+                "ns": 22291592159370,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291592166753,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291592171717,
+                "sql": "SELECT disposed FROM dependencies WHERE name='z'"
+              },
+              {
+                "ns": 22291592190013,
+                "sql": "UPDATE dependencies SET disposed=1 WHERE name='z'"
+              },
+              {
+                "ns": 22291592211044,
+                "sql": "COMMIT"
+              }
+            ],
+            "start_ns": 22291592154282
+          },
+          "raw_line": "{\"end_ns\": 22291592250873, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"logical_disposition\": true, \"name\": \"z\", \"result\": \"COMMITTED\"}, \"request\": {\"name\": \"z\", \"op\": \"dispose\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 1, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291592433530, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291591195870, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591203874, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591215773, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291591243546, \"sql\": \"COMMIT\"}, {\"ns\": 22291591599172, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591606848, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591820053, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291591824806, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291592159370, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291592166753, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291592171717, \"sql\": \"SELECT disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291592190013, \"sql\": \"UPDATE dependencies SET disposed=1 WHERE name='z'\"}, {\"ns\": 22291592211044, \"sql\": \"COMMIT\"}], \"start_ns\": 22291592154282}\n",
+          "received_ns": 22291592505276,
+          "request_started_ns": 22291592129866
+        },
+        {
+          "frame": {
+            "end_ns": 22291592829914,
+            "event": "RESPONSE",
+            "pid": 16787,
+            "reply": {
+              "directory_removed": true,
+              "logical_unit_removed": true,
+              "profile": "directory-inventory",
+              "result": "COMMITTED"
+            },
+            "request": {
+              "op": "remove"
+            },
+            "snapshot": {
+              "dependencies": [
+                {
+                  "disposed": 1,
+                  "kind": "accepted",
+                  "name": "x",
+                  "sha256": "a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8",
+                  "size": 38
+                },
+                {
+                  "disposed": 1,
+                  "kind": "candidate",
+                  "name": "z",
+                  "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                  "size": 35
+                }
+              ],
+              "files": {},
+              "integrity_check": "ok",
+              "live": false,
+              "objects_directory_exists": false,
+              "observation_ns": 22291592982025,
+              "reconstruction_status": "current-logical-records",
+              "sealed": true,
+              "unknown_files": []
+            },
+            "sql_trace": [
+              {
+                "ns": 22291587984950,
+                "sql": "PRAGMA journal_mode=DELETE"
+              },
+              {
+                "ns": 22291588056867,
+                "sql": "PRAGMA synchronous=FULL"
+              },
+              {
+                "ns": 22291589416906,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291589994651,
+                "sql": "SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'"
+              },
+              {
+                "ns": 22291590425010,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291590438186,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291590809303,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291590821281,
+                "sql": "ROLLBACK"
+              },
+              {
+                "ns": 22291591195870,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291591203874,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291591215773,
+                "sql": "SELECT disposed FROM dependencies WHERE name='x'"
+              },
+              {
+                "ns": 22291591243546,
+                "sql": "COMMIT"
+              },
+              {
+                "ns": 22291591599172,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291591606848,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291591820053,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291591824806,
+                "sql": "ROLLBACK"
+              },
+              {
+                "ns": 22291592159370,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291592166753,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291592171717,
+                "sql": "SELECT disposed FROM dependencies WHERE name='z'"
+              },
+              {
+                "ns": 22291592190013,
+                "sql": "UPDATE dependencies SET disposed=1 WHERE name='z'"
+              },
+              {
+                "ns": 22291592211044,
+                "sql": "COMMIT"
+              },
+              {
+                "ns": 22291592549530,
+                "sql": "BEGIN IMMEDIATE"
+              },
+              {
+                "ns": 22291592556596,
+                "sql": "SELECT live FROM unit"
+              },
+              {
+                "ns": 22291592764982,
+                "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+              },
+              {
+                "ns": 22291592774294,
+                "sql": "UPDATE unit SET live=0"
+              },
+              {
+                "ns": 22291592797803,
+                "sql": "COMMIT"
+              }
+            ],
+            "start_ns": 22291592546941
+          },
+          "raw_line": "{\"end_ns\": 22291592829914, \"event\": \"RESPONSE\", \"pid\": 16787, \"reply\": {\"directory_removed\": true, \"logical_unit_removed\": true, \"profile\": \"directory-inventory\", \"result\": \"COMMITTED\"}, \"request\": {\"op\": \"remove\"}, \"snapshot\": {\"dependencies\": [{\"disposed\": 1, \"kind\": \"accepted\", \"name\": \"x\", \"sha256\": \"a30e9c422bd1b9914042039a78c6faab35772d6b6b53ab071b87b2db713718d8\", \"size\": 38}, {\"disposed\": 1, \"kind\": \"candidate\", \"name\": \"z\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}], \"files\": {}, \"integrity_check\": \"ok\", \"live\": false, \"objects_directory_exists\": false, \"observation_ns\": 22291592982025, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"sql_trace\": [{\"ns\": 22291587984950, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291588056867, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291589416906, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291589994651, \"sql\": \"SELECT kind,sha256,size,disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291590425010, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291590438186, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291590809303, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291590821281, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291591195870, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591203874, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591215773, \"sql\": \"SELECT disposed FROM dependencies WHERE name='x'\"}, {\"ns\": 22291591243546, \"sql\": \"COMMIT\"}, {\"ns\": 22291591599172, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291591606848, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291591820053, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291591824806, \"sql\": \"ROLLBACK\"}, {\"ns\": 22291592159370, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291592166753, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291592171717, \"sql\": \"SELECT disposed FROM dependencies WHERE name='z'\"}, {\"ns\": 22291592190013, \"sql\": \"UPDATE dependencies SET disposed=1 WHERE name='z'\"}, {\"ns\": 22291592211044, \"sql\": \"COMMIT\"}, {\"ns\": 22291592549530, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291592556596, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291592764982, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291592774294, \"sql\": \"UPDATE unit SET live=0\"}, {\"ns\": 22291592797803, \"sql\": \"COMMIT\"}], \"start_ns\": 22291592546941}\n",
+          "received_ns": 22291593060731,
+          "request_started_ns": 22291592522790
+        }
+      ]
+    },
+    "orphan_catalog_mutant": {
+      "after_kill": {
+        "dependencies": [],
+        "files": {
+          "z": {
+            "inode": 10099,
+            "mode": 384,
+            "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        },
+        "integrity_check": "ok",
+        "live": true,
+        "objects_directory_exists": true,
+        "observation_ns": 22291465621594,
+        "reconstruction_status": "unresolved-unregistered-material",
+        "sealed": true,
+        "unknown_files": [
+          "z"
+        ]
+      },
+      "before_kill": {
+        "dependencies": [],
+        "files": {
+          "z": {
+            "inode": 10099,
+            "mode": 384,
+            "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        },
+        "integrity_check": "ok",
+        "live": true,
+        "objects_directory_exists": true,
+        "observation_ns": 22291464267905,
+        "reconstruction_status": "unresolved-unregistered-material",
+        "sealed": true,
+        "unknown_files": [
+          "z"
+        ]
+      },
+      "children": [
+        {
+          "events": [
+            {
+              "frame": {
+                "event": "READY",
+                "ns": 22291463045384,
+                "pid": 16783,
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {},
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291463251297,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+              },
+              "raw_line": "{\"event\": \"READY\", \"ns\": 22291463045384, \"pid\": 16783, \"snapshot\": {\"dependencies\": [], \"files\": {}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291463251297, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+              "received_ns": 22291463350560
+            },
+            {
+              "frame": {
+                "event": "GATE",
+                "in_transaction": true,
+                "local_dependency_rows": 1,
+                "ns": 22291463871810,
+                "phase": "file-fsynced-row-uncommitted",
+                "pid": 16783,
+                "sql_trace": [
+                  {
+                    "ns": 22291462746770,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291462762721,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291463504494,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291463517284,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291463848841,
+                    "sql": "INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)"
+                  },
+                  {
+                    "ns": 22291463883464,
+                    "sql": "SELECT COUNT(*) FROM dependencies"
+                  }
+                ]
+              },
+              "raw_line": "{\"event\": \"GATE\", \"in_transaction\": true, \"local_dependency_rows\": 1, \"ns\": 22291463871810, \"phase\": \"file-fsynced-row-uncommitted\", \"pid\": 16783, \"sql_trace\": [{\"ns\": 22291462746770, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291462762721, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291463504494, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291463517284, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291463848841, \"sql\": \"INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)\"}, {\"ns\": 22291463883464, \"sql\": \"SELECT COUNT(*) FROM dependencies\"}]}\n",
+              "received_ns": 22291463945976,
+              "request_started_ns": 22291463369480
+            }
+          ],
+          "exit": -9,
+          "exit_ns": 22291465394882,
+          "pid": 16783,
+          "ready_ns": 22291463367480,
+          "start_ns": 22291438704140,
+          "stderr": ""
+        },
+        {
+          "events": [
+            {
+              "frame": {
+                "event": "READY",
+                "ns": 22291491182886,
+                "pid": 16784,
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {
+                    "z": {
+                      "inode": 10099,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291491412279,
+                  "reconstruction_status": "unresolved-unregistered-material",
+                  "sealed": true,
+                  "unknown_files": [
+                    "z"
+                  ]
+                },
+                "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+              },
+              "raw_line": "{\"event\": \"READY\", \"ns\": 22291491182886, \"pid\": 16784, \"snapshot\": {\"dependencies\": [], \"files\": {\"z\": {\"inode\": 10099, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291491412279, \"reconstruction_status\": \"unresolved-unregistered-material\", \"sealed\": true, \"unknown_files\": [\"z\"]}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+              "received_ns": 22291492378640
+            },
+            {
+              "frame": {
+                "end_ns": 22291493135458,
+                "event": "RESPONSE",
+                "pid": 16784,
+                "reply": {
+                  "logical_unit_removed": true,
+                  "physical_boundary_removed": false,
+                  "profile": "catalog-only",
+                  "result": "COMMITTED"
+                },
+                "request": {
+                  "op": "remove",
+                  "profile": "catalog-only"
+                },
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {
+                    "z": {
+                      "inode": 10099,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": false,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291493361138,
+                  "reconstruction_status": "unresolved-unregistered-material",
+                  "sealed": true,
+                  "unknown_files": [
+                    "z"
+                  ]
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291490816716,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291490832164,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291492487688,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291492517288,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291492908044,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291492922441,
+                    "sql": "UPDATE unit SET live=0"
+                  },
+                  {
+                    "ns": 22291492938902,
+                    "sql": "COMMIT"
+                  }
+                ],
+                "start_ns": 22291492476271
+              },
+              "raw_line": "{\"end_ns\": 22291493135458, \"event\": \"RESPONSE\", \"pid\": 16784, \"reply\": {\"logical_unit_removed\": true, \"physical_boundary_removed\": false, \"profile\": \"catalog-only\", \"result\": \"COMMITTED\"}, \"request\": {\"op\": \"remove\", \"profile\": \"catalog-only\"}, \"snapshot\": {\"dependencies\": [], \"files\": {\"z\": {\"inode\": 10099, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": false, \"objects_directory_exists\": true, \"observation_ns\": 22291493361138, \"reconstruction_status\": \"unresolved-unregistered-material\", \"sealed\": true, \"unknown_files\": [\"z\"]}, \"sql_trace\": [{\"ns\": 22291490816716, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291490832164, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291492487688, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291492517288, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291492908044, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291492922441, \"sql\": \"UPDATE unit SET live=0\"}, {\"ns\": 22291492938902, \"sql\": \"COMMIT\"}], \"start_ns\": 22291492476271}\n",
+              "received_ns": 22291493469407,
+              "request_started_ns": 22291492398277
+            }
+          ],
+          "exit": 0,
+          "exit_ns": 22291500834477,
+          "pid": 16784,
+          "ready_ns": 22291492396377,
+          "start_ns": 22291465632826,
+          "stderr": ""
+        }
+      ],
+      "final": {
+        "dependencies": [],
+        "files": {
+          "z": {
+            "inode": 10099,
+            "mode": 384,
+            "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        },
+        "integrity_check": "ok",
+        "live": false,
+        "objects_directory_exists": true,
+        "observation_ns": 22291501098206,
+        "reconstruction_status": "unresolved-unregistered-material",
+        "sealed": true,
+        "unknown_files": [
+          "z"
+        ]
+      },
+      "gate": {
+        "frame": {
+          "event": "GATE",
+          "in_transaction": true,
+          "local_dependency_rows": 1,
+          "ns": 22291463871810,
+          "phase": "file-fsynced-row-uncommitted",
+          "pid": 16783,
+          "sql_trace": [
+            {
+              "ns": 22291462746770,
+              "sql": "PRAGMA journal_mode=DELETE"
+            },
+            {
+              "ns": 22291462762721,
+              "sql": "PRAGMA synchronous=FULL"
+            },
+            {
+              "ns": 22291463504494,
+              "sql": "BEGIN IMMEDIATE"
+            },
+            {
+              "ns": 22291463517284,
+              "sql": "SELECT live FROM unit"
+            },
+            {
+              "ns": 22291463848841,
+              "sql": "INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)"
+            },
+            {
+              "ns": 22291463883464,
+              "sql": "SELECT COUNT(*) FROM dependencies"
+            }
+          ]
+        },
+        "raw_line": "{\"event\": \"GATE\", \"in_transaction\": true, \"local_dependency_rows\": 1, \"ns\": 22291463871810, \"phase\": \"file-fsynced-row-uncommitted\", \"pid\": 16783, \"sql_trace\": [{\"ns\": 22291462746770, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291462762721, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291463504494, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291463517284, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291463848841, \"sql\": \"INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)\"}, {\"ns\": 22291463883464, \"sql\": \"SELECT COUNT(*) FROM dependencies\"}]}\n",
+        "received_ns": 22291463945976,
+        "request_started_ns": 22291463369480
+      },
+      "removal": {
+        "frame": {
+          "end_ns": 22291493135458,
+          "event": "RESPONSE",
+          "pid": 16784,
+          "reply": {
+            "logical_unit_removed": true,
+            "physical_boundary_removed": false,
+            "profile": "catalog-only",
+            "result": "COMMITTED"
+          },
+          "request": {
+            "op": "remove",
+            "profile": "catalog-only"
+          },
+          "snapshot": {
+            "dependencies": [],
+            "files": {
+              "z": {
+                "inode": 10099,
+                "mode": 384,
+                "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                "size": 35
+              }
+            },
+            "integrity_check": "ok",
+            "live": false,
+            "objects_directory_exists": true,
+            "observation_ns": 22291493361138,
+            "reconstruction_status": "unresolved-unregistered-material",
+            "sealed": true,
+            "unknown_files": [
+              "z"
+            ]
+          },
+          "sql_trace": [
+            {
+              "ns": 22291490816716,
+              "sql": "PRAGMA journal_mode=DELETE"
+            },
+            {
+              "ns": 22291490832164,
+              "sql": "PRAGMA synchronous=FULL"
+            },
+            {
+              "ns": 22291492487688,
+              "sql": "BEGIN IMMEDIATE"
+            },
+            {
+              "ns": 22291492517288,
+              "sql": "SELECT live FROM unit"
+            },
+            {
+              "ns": 22291492908044,
+              "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+            },
+            {
+              "ns": 22291492922441,
+              "sql": "UPDATE unit SET live=0"
+            },
+            {
+              "ns": 22291492938902,
+              "sql": "COMMIT"
+            }
+          ],
+          "start_ns": 22291492476271
+        },
+        "raw_line": "{\"end_ns\": 22291493135458, \"event\": \"RESPONSE\", \"pid\": 16784, \"reply\": {\"logical_unit_removed\": true, \"physical_boundary_removed\": false, \"profile\": \"catalog-only\", \"result\": \"COMMITTED\"}, \"request\": {\"op\": \"remove\", \"profile\": \"catalog-only\"}, \"snapshot\": {\"dependencies\": [], \"files\": {\"z\": {\"inode\": 10099, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": false, \"objects_directory_exists\": true, \"observation_ns\": 22291493361138, \"reconstruction_status\": \"unresolved-unregistered-material\", \"sealed\": true, \"unknown_files\": [\"z\"]}, \"sql_trace\": [{\"ns\": 22291490816716, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291490832164, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291492487688, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291492517288, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291492908044, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291492922441, \"sql\": \"UPDATE unit SET live=0\"}, {\"ns\": 22291492938902, \"sql\": \"COMMIT\"}], \"start_ns\": 22291492476271}\n",
+        "received_ns": 22291493469407,
+        "request_started_ns": 22291492398277
+      },
+      "weak": true
+    },
+    "orphan_reference": {
+      "after_kill": {
+        "dependencies": [],
+        "files": {
+          "z": {
+            "inode": 10091,
+            "mode": 384,
+            "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        },
+        "integrity_check": "ok",
+        "live": true,
+        "objects_directory_exists": true,
+        "observation_ns": 22291401922019,
+        "reconstruction_status": "unresolved-unregistered-material",
+        "sealed": true,
+        "unknown_files": [
+          "z"
+        ]
+      },
+      "before_kill": {
+        "dependencies": [],
+        "files": {
+          "z": {
+            "inode": 10091,
+            "mode": 384,
+            "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        },
+        "integrity_check": "ok",
+        "live": true,
+        "objects_directory_exists": true,
+        "observation_ns": 22291400431109,
+        "reconstruction_status": "unresolved-unregistered-material",
+        "sealed": true,
+        "unknown_files": [
+          "z"
+        ]
+      },
+      "children": [
+        {
+          "events": [
+            {
+              "frame": {
+                "event": "READY",
+                "ns": 22291398801667,
+                "pid": 16781,
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {},
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291399157513,
+                  "reconstruction_status": "current-logical-records",
+                  "sealed": true,
+                  "unknown_files": []
+                },
+                "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+              },
+              "raw_line": "{\"event\": \"READY\", \"ns\": 22291398801667, \"pid\": 16781, \"snapshot\": {\"dependencies\": [], \"files\": {}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291399157513, \"reconstruction_status\": \"current-logical-records\", \"sealed\": true, \"unknown_files\": []}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+              "received_ns": 22291399282074
+            },
+            {
+              "frame": {
+                "event": "GATE",
+                "in_transaction": true,
+                "local_dependency_rows": 1,
+                "ns": 22291399863288,
+                "phase": "file-fsynced-row-uncommitted",
+                "pid": 16781,
+                "sql_trace": [
+                  {
+                    "ns": 22291398401593,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291398422199,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291399444787,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291399462807,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291399840112,
+                    "sql": "INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)"
+                  },
+                  {
+                    "ns": 22291399876958,
+                    "sql": "SELECT COUNT(*) FROM dependencies"
+                  }
+                ]
+              },
+              "raw_line": "{\"event\": \"GATE\", \"in_transaction\": true, \"local_dependency_rows\": 1, \"ns\": 22291399863288, \"phase\": \"file-fsynced-row-uncommitted\", \"pid\": 16781, \"sql_trace\": [{\"ns\": 22291398401593, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291398422199, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291399444787, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291399462807, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291399840112, \"sql\": \"INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)\"}, {\"ns\": 22291399876958, \"sql\": \"SELECT COUNT(*) FROM dependencies\"}]}\n",
+              "received_ns": 22291399977945,
+              "request_started_ns": 22291399305069
+            }
+          ],
+          "exit": -9,
+          "exit_ns": 22291401653912,
+          "pid": 16781,
+          "ready_ns": 22291399302842,
+          "start_ns": 22291372818492,
+          "stderr": ""
+        },
+        {
+          "events": [
+            {
+              "frame": {
+                "event": "READY",
+                "ns": 22291429554152,
+                "pid": 16782,
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {
+                    "z": {
+                      "inode": 10091,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291429942747,
+                  "reconstruction_status": "unresolved-unregistered-material",
+                  "sealed": true,
+                  "unknown_files": [
+                    "z"
+                  ]
+                },
+                "source_sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+              },
+              "raw_line": "{\"event\": \"READY\", \"ns\": 22291429554152, \"pid\": 16782, \"snapshot\": {\"dependencies\": [], \"files\": {\"z\": {\"inode\": 10091, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291429942747, \"reconstruction_status\": \"unresolved-unregistered-material\", \"sealed\": true, \"unknown_files\": [\"z\"]}, \"source_sha256\": \"baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c\"}\n",
+              "received_ns": 22291430036825
+            },
+            {
+              "frame": {
+                "end_ns": 22291430486240,
+                "event": "RESPONSE",
+                "pid": 16782,
+                "reply": {
+                  "inventory": [
+                    "z"
+                  ],
+                  "reason": "durable-dependents-remain",
+                  "result": "DENY"
+                },
+                "request": {
+                  "op": "remove",
+                  "profile": "directory-inventory"
+                },
+                "snapshot": {
+                  "dependencies": [],
+                  "files": {
+                    "z": {
+                      "inode": 10091,
+                      "mode": 384,
+                      "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                      "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                      "size": 35
+                    }
+                  },
+                  "integrity_check": "ok",
+                  "live": true,
+                  "objects_directory_exists": true,
+                  "observation_ns": 22291430774304,
+                  "reconstruction_status": "unresolved-unregistered-material",
+                  "sealed": true,
+                  "unknown_files": [
+                    "z"
+                  ]
+                },
+                "sql_trace": [
+                  {
+                    "ns": 22291429057112,
+                    "sql": "PRAGMA journal_mode=DELETE"
+                  },
+                  {
+                    "ns": 22291429074650,
+                    "sql": "PRAGMA synchronous=FULL"
+                  },
+                  {
+                    "ns": 22291430136108,
+                    "sql": "BEGIN IMMEDIATE"
+                  },
+                  {
+                    "ns": 22291430205455,
+                    "sql": "SELECT live FROM unit"
+                  },
+                  {
+                    "ns": 22291430469084,
+                    "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+                  },
+                  {
+                    "ns": 22291430478417,
+                    "sql": "ROLLBACK"
+                  }
+                ],
+                "start_ns": 22291430123061
+              },
+              "raw_line": "{\"end_ns\": 22291430486240, \"event\": \"RESPONSE\", \"pid\": 16782, \"reply\": {\"inventory\": [\"z\"], \"reason\": \"durable-dependents-remain\", \"result\": \"DENY\"}, \"request\": {\"op\": \"remove\", \"profile\": \"directory-inventory\"}, \"snapshot\": {\"dependencies\": [], \"files\": {\"z\": {\"inode\": 10091, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291430774304, \"reconstruction_status\": \"unresolved-unregistered-material\", \"sealed\": true, \"unknown_files\": [\"z\"]}, \"sql_trace\": [{\"ns\": 22291429057112, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291429074650, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291430136108, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291430205455, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291430469084, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291430478417, \"sql\": \"ROLLBACK\"}], \"start_ns\": 22291430123061}\n",
+              "received_ns": 22291430850134,
+              "request_started_ns": 22291430055338
+            }
+          ],
+          "exit": 0,
+          "exit_ns": 22291438133060,
+          "pid": 16782,
+          "ready_ns": 22291430053578,
+          "start_ns": 22291401934004,
+          "stderr": ""
+        }
+      ],
+      "final": {
+        "dependencies": [],
+        "files": {
+          "z": {
+            "inode": 10091,
+            "mode": 384,
+            "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+            "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+            "size": 35
+          }
+        },
+        "integrity_check": "ok",
+        "live": true,
+        "objects_directory_exists": true,
+        "observation_ns": 22291438411341,
+        "reconstruction_status": "unresolved-unregistered-material",
+        "sealed": true,
+        "unknown_files": [
+          "z"
+        ]
+      },
+      "gate": {
+        "frame": {
+          "event": "GATE",
+          "in_transaction": true,
+          "local_dependency_rows": 1,
+          "ns": 22291399863288,
+          "phase": "file-fsynced-row-uncommitted",
+          "pid": 16781,
+          "sql_trace": [
+            {
+              "ns": 22291398401593,
+              "sql": "PRAGMA journal_mode=DELETE"
+            },
+            {
+              "ns": 22291398422199,
+              "sql": "PRAGMA synchronous=FULL"
+            },
+            {
+              "ns": 22291399444787,
+              "sql": "BEGIN IMMEDIATE"
+            },
+            {
+              "ns": 22291399462807,
+              "sql": "SELECT live FROM unit"
+            },
+            {
+              "ns": 22291399840112,
+              "sql": "INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)"
+            },
+            {
+              "ns": 22291399876958,
+              "sql": "SELECT COUNT(*) FROM dependencies"
+            }
+          ]
+        },
+        "raw_line": "{\"event\": \"GATE\", \"in_transaction\": true, \"local_dependency_rows\": 1, \"ns\": 22291399863288, \"phase\": \"file-fsynced-row-uncommitted\", \"pid\": 16781, \"sql_trace\": [{\"ns\": 22291398401593, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291398422199, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291399444787, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291399462807, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291399840112, \"sql\": \"INSERT INTO dependencies VALUES('z','candidate','8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375',35,0)\"}, {\"ns\": 22291399876958, \"sql\": \"SELECT COUNT(*) FROM dependencies\"}]}\n",
+        "received_ns": 22291399977945,
+        "request_started_ns": 22291399305069
+      },
+      "removal": {
+        "frame": {
+          "end_ns": 22291430486240,
+          "event": "RESPONSE",
+          "pid": 16782,
+          "reply": {
+            "inventory": [
+              "z"
+            ],
+            "reason": "durable-dependents-remain",
+            "result": "DENY"
+          },
+          "request": {
+            "op": "remove",
+            "profile": "directory-inventory"
+          },
+          "snapshot": {
+            "dependencies": [],
+            "files": {
+              "z": {
+                "inode": 10091,
+                "mode": 384,
+                "raw_hex": "756e61636365707465642064757261626c652063616e646964617465207a202f20cebc",
+                "sha256": "8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375",
+                "size": 35
+              }
+            },
+            "integrity_check": "ok",
+            "live": true,
+            "objects_directory_exists": true,
+            "observation_ns": 22291430774304,
+            "reconstruction_status": "unresolved-unregistered-material",
+            "sealed": true,
+            "unknown_files": [
+              "z"
+            ]
+          },
+          "sql_trace": [
+            {
+              "ns": 22291429057112,
+              "sql": "PRAGMA journal_mode=DELETE"
+            },
+            {
+              "ns": 22291429074650,
+              "sql": "PRAGMA synchronous=FULL"
+            },
+            {
+              "ns": 22291430136108,
+              "sql": "BEGIN IMMEDIATE"
+            },
+            {
+              "ns": 22291430205455,
+              "sql": "SELECT live FROM unit"
+            },
+            {
+              "ns": 22291430469084,
+              "sql": "SELECT COUNT(*) FROM dependencies WHERE disposed=0"
+            },
+            {
+              "ns": 22291430478417,
+              "sql": "ROLLBACK"
+            }
+          ],
+          "start_ns": 22291430123061
+        },
+        "raw_line": "{\"end_ns\": 22291430486240, \"event\": \"RESPONSE\", \"pid\": 16782, \"reply\": {\"inventory\": [\"z\"], \"reason\": \"durable-dependents-remain\", \"result\": \"DENY\"}, \"request\": {\"op\": \"remove\", \"profile\": \"directory-inventory\"}, \"snapshot\": {\"dependencies\": [], \"files\": {\"z\": {\"inode\": 10091, \"mode\": 384, \"raw_hex\": \"756e61636365707465642064757261626c652063616e646964617465207a202f20cebc\", \"sha256\": \"8b4d6b2b04b04303bf3aabf4c315dca09baca50157a84857cef2039aa36bd375\", \"size\": 35}}, \"integrity_check\": \"ok\", \"live\": true, \"objects_directory_exists\": true, \"observation_ns\": 22291430774304, \"reconstruction_status\": \"unresolved-unregistered-material\", \"sealed\": true, \"unknown_files\": [\"z\"]}, \"sql_trace\": [{\"ns\": 22291429057112, \"sql\": \"PRAGMA journal_mode=DELETE\"}, {\"ns\": 22291429074650, \"sql\": \"PRAGMA synchronous=FULL\"}, {\"ns\": 22291430136108, \"sql\": \"BEGIN IMMEDIATE\"}, {\"ns\": 22291430205455, \"sql\": \"SELECT live FROM unit\"}, {\"ns\": 22291430469084, \"sql\": \"SELECT COUNT(*) FROM dependencies WHERE disposed=0\"}, {\"ns\": 22291430478417, \"sql\": \"ROLLBACK\"}], \"start_ns\": 22291430123061}\n",
+        "received_ns": 22291430850134,
+        "request_started_ns": 22291430055338
+      },
+      "weak": false
+    }
+  },
+  "end_ns": 22291633908488,
+  "environment": {
+    "address_space_bytes": 268435456,
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sqlite": "3.53.1"
+  },
+  "execution_sha": "b5b91fcb017c31ffec697f357228e3a3eef25313",
+  "schema": "ases.l6.durable-inventory",
+  "source_hashes": {
+    "check.py": "67bfd5e278f48d2d3f823feede296cc8f20aa873615aa19ccc325a39415f9efe",
+    "probe.py": "76a636d08666f2b89fe33a4c95b82d857e9d8bd56b5540d59145146e36c5ee09",
+    "store.py": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+  },
+  "start_ns": 22291329297019,
+  "version": 1
+}
