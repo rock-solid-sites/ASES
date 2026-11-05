@@ -14,6 +14,14 @@ def need(v,msg):
     if not v:raise Incomplete(msg)
 def expect(v,msg):
     if not v:raise Violation(msg)
+def omit_frame_field(value,key):
+    """Synthetic missing-evidence control keeps decoded/wire observations coherent."""
+    result=copy.deepcopy(value)
+    if key!='wire_utf8_hex':
+        wire=json.loads(bytes.fromhex(result['wire_utf8_hex']));wire.pop(key,None)
+        result['wire_utf8_hex']=json.dumps(wire,sort_keys=True).encode().hex()
+    del result[key]
+    return result
 def frame(value,stage):
     need(value['stage']==stage and type(value['pid']) is int,'missing actor/frame identity')
     wire=json.loads(bytes.fromhex(value['wire_utf8_hex']))
@@ -76,9 +84,8 @@ def main():
     assert all(v['status']=='SUPPORTED' for v in result.values()),result
     no_transfer=copy.deepcopy(d['cases']['retained']);del no_transfer['keeper_ready']['wire_utf8_hex']
     contradiction=copy.deepcopy(d['cases']['live']);del contradiction['acquisition']['first']['native']
-    no_native=copy.deepcopy(contradiction)
-    wire=json.loads(bytes.fromhex(no_native['acquisition']['first']['wire_utf8_hex']));del wire['native']
-    no_native['acquisition']['first']['wire_utf8_hex']=json.dumps(wire,sort_keys=True).encode().hex()
+    no_native=copy.deepcopy(d['cases']['live'])
+    no_native['acquisition']['first']=omit_frame_field(no_native['acquisition']['first'],'native')
     incomplete=dict(missing_transfer_evidence=check(no_transfer),missing_native_evidence=check(no_native))
     assert all(v['status']=='INCOMPLETE' for v in incomplete.values()),incomplete
     contradictory=check(contradiction);assert contradictory['status']=='VIOLATION',contradictory

@@ -1,0 +1,34 @@
+{
+  "cases": {
+    "busy": {
+      "observation": "native prepare was externally visible; actual COMMIT_BUSY then rollback/close, no success ACK/claim",
+      "status": "SUPPORTED"
+    },
+    "killed": {
+      "observation": "actual SIGKILL before COMMIT, no success ACK, native free/no claim after recovery",
+      "status": "SUPPORTED"
+    },
+    "released": {
+      "observation": "released-reader positive COMMIT/ACK and native backing; native released on B death/durable row remains",
+      "status": "SUPPORTED"
+    }
+  },
+  "contradictory_evidence_control": {
+    "reason": "raw frame mismatch",
+    "status": "VIOLATION"
+  },
+  "incomplete_controls": {
+    "missing_commit_error": {
+      "reason": "'failure'",
+      "status": "INCOMPLETE"
+    },
+    "missing_native_visibility": {
+      "reason": "'native_while_uncommitted'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 1,
+  "owned_children": 3,
+  "qualification": "visible tentative reservation and actual SQL failure, not failure-atomic whole effect or universal denial semantics",
+  "source_hashes_verified": true
+}

@@ -1,0 +1,502 @@
+{
+  "cases": {
+    "busy": {
+      "continue_ns": 17504663301537,
+      "initial_native_close_ns": 17504625931078,
+      "kind": "busy",
+      "live_native_probe": null,
+      "native_after": {
+        "bound": true,
+        "end_ns": 17504770031696,
+        "identity": {
+          "accepting": 1,
+          "address": [
+            "127.0.0.1",
+            44221
+          ],
+          "device": 8,
+          "inode": 52472
+        },
+        "start_ns": 17504770013029
+      },
+      "native_while_uncommitted": {
+        "bound": false,
+        "end_ns": 17504663289104,
+        "errno": 98,
+        "error": "OSError",
+        "start_ns": 17504663261918
+      },
+      "outcome": {
+        "failure": {
+          "error": "OperationalError",
+          "in_transaction_before_cleanup": true,
+          "native_identity_before_cleanup": {
+            "accepting": 1,
+            "address": [
+              "127.0.0.1",
+              44221
+            ],
+            "device": 8,
+            "inode": 50786
+          },
+          "sqlite_errorcode": 5,
+          "sqlite_errorname": "SQLITE_BUSY"
+        },
+        "native_closed_ns": 17504764251482,
+        "ns": 17504764255376,
+        "parent_received_ns": 17504764406886,
+        "pid": 11484,
+        "sql_trace": [
+          {
+            "end_ns": 17504662983677,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "BEGIN",
+            "start_ns": 17504662970209
+          },
+          {
+            "end_ns": 17504663091808,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "INSERT",
+            "start_ns": 17504663052022
+          },
+          {
+            "end_ns": 17504764094492,
+            "in_transaction": true,
+            "outcome": "error",
+            "sql": "COMMIT",
+            "sqlite_errorcode": 5,
+            "sqlite_errorname": "SQLITE_BUSY",
+            "start_ns": 17504663366339
+          },
+          {
+            "end_ns": 17504764239437,
+            "in_transaction": false,
+            "outcome": "returned",
+            "sql": "ROLLBACK",
+            "start_ns": 17504764119276
+          }
+        ],
+        "stage": "acquisition_commit_error",
+        "success_ack": false,
+        "wire_utf8_hex": "7b226661696c757265223a207b226572726f72223a20224f7065726174696f6e616c4572726f72222c2022696e5f7472616e73616374696f6e5f6265666f72655f636c65616e7570223a20747275652c20226e61746976655f6964656e746974795f6265666f72655f636c65616e7570223a207b22616363657074696e67223a20312c202261646472657373223a205b223132372e302e302e31222c2034343232315d2c2022646576696365223a20382c2022696e6f6465223a2035303738367d2c202273716c6974655f6572726f72636f6465223a20352c202273716c6974655f6572726f726e616d65223a202253514c4954455f42555359227d2c20226e61746976655f636c6f7365645f6e73223a2031373530343736343235313438322c20226e73223a2031373530343736343235353337362c2022706964223a2031313438342c202273716c5f7472616365223a205b7b22656e645f6e73223a2031373530343636323938333637372c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022424547494e222c202273746172745f6e73223a2031373530343636323937303230397d2c207b22656e645f6e73223a2031373530343636333039313830382c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022494e53455254222c202273746172745f6e73223a2031373530343636333035323032327d2c207b22656e645f6e73223a2031373530343736343039343439322c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a20226572726f72222c202273716c223a2022434f4d4d4954222c202273716c6974655f6572726f72636f6465223a20352c202273716c6974655f6572726f726e616d65223a202253514c4954455f42555359222c202273746172745f6e73223a2031373530343636333336363333397d2c207b22656e645f6e73223a2031373530343736343233393433372c2022696e5f7472616e73616374696f6e223a2066616c73652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022524f4c4c4241434b222c202273746172745f6e73223a2031373530343736343131393237367d5d2c20227374616765223a20226163717569736974696f6e5f636f6d6d69745f6572726f72222c2022737563636573735f61636b223a2066616c73657d"
+      },
+      "parent_allocated": {
+        "bound": true,
+        "end_ns": 17504625908803,
+        "identity": {
+          "accepting": 1,
+          "address": [
+            "127.0.0.1",
+            44221
+          ],
+          "device": 8,
+          "inode": 52466
+        },
+        "start_ns": 17504625752149
+      },
+      "port": 44221,
+      "prepared": {
+        "busy_timeout_ms": 100,
+        "native": {
+          "bound": true,
+          "end_ns": 17504663039882,
+          "identity": {
+            "accepting": 1,
+            "address": [
+              "127.0.0.1",
+              44221
+            ],
+            "device": 8,
+            "inode": 50786
+          },
+          "start_ns": 17504663004369
+        },
+        "ns": 17504663099151,
+        "parent_received_ns": 17504663258036,
+        "pid": 11484,
+        "sql_trace": [
+          {
+            "end_ns": 17504662983677,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "BEGIN",
+            "start_ns": 17504662970209
+          },
+          {
+            "end_ns": 17504663091808,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "INSERT",
+            "start_ns": 17504663052022
+          }
+        ],
+        "stage": "native_prepared",
+        "wire_utf8_hex": "7b22627573795f74696d656f75745f6d73223a203130302c20226e6174697665223a207b22626f756e64223a20747275652c2022656e645f6e73223a2031373530343636333033393838322c20226964656e74697479223a207b22616363657074696e67223a20312c202261646472657373223a205b223132372e302e302e31222c2034343232315d2c2022646576696365223a20382c2022696e6f6465223a2035303738367d2c202273746172745f6e73223a2031373530343636333030343336397d2c20226e73223a2031373530343636333039393135312c2022706964223a2031313438342c202273716c5f7472616365223a205b7b22656e645f6e73223a2031373530343636323938333637372c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022424547494e222c202273746172745f6e73223a2031373530343636323937303230397d2c207b22656e645f6e73223a2031373530343636333039313830382c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022494e53455254222c202273746172745f6e73223a2031373530343636333035323032327d5d2c20227374616765223a20226e61746976655f7072657061726564227d"
+      },
+      "process": {
+        "exit": 0,
+        "exit_ns": 17504769753054,
+        "pid": 11484,
+        "remaining_stdout_hex": "",
+        "role": "--B",
+        "start_ns": 17504626083614,
+        "stderr": ""
+      },
+      "reader_after_failed_commit": {
+        "in_transaction": true,
+        "ns": 17504764411928
+      },
+      "reader_at_gate": {
+        "claims": [],
+        "in_transaction": true,
+        "ns": 17504663295136
+      },
+      "reader_held": {
+        "claims": [],
+        "in_transaction": true,
+        "journal_mode": "delete",
+        "pid": 11483,
+        "snapshot_ns": 17504626015313,
+        "start_ns": 17504625970014
+      },
+      "reader_release": {
+        "end_ns": 17504769775447,
+        "in_transaction": false,
+        "start_ns": 17504769761937
+      },
+      "recovered_ledger": {
+        "claims": [],
+        "end_ns": 17504770010975,
+        "integrity": "ok",
+        "start_ns": 17504769802254
+      }
+    },
+    "killed": {
+      "continue_ns": null,
+      "initial_native_close_ns": 17504814324753,
+      "kind": "killed",
+      "live_native_probe": null,
+      "native_after": {
+        "bound": true,
+        "end_ns": 17504851818584,
+        "identity": {
+          "accepting": 1,
+          "address": [
+            "127.0.0.1",
+            57425
+          ],
+          "device": 8,
+          "inode": 52487
+        },
+        "start_ns": 17504851805577
+      },
+      "native_while_uncommitted": {
+        "bound": false,
+        "end_ns": 17504851177058,
+        "errno": 98,
+        "error": "OSError",
+        "start_ns": 17504851152919
+      },
+      "outcome": null,
+      "parent_allocated": {
+        "bound": true,
+        "end_ns": 17504814314576,
+        "identity": {
+          "accepting": 1,
+          "address": [
+            "127.0.0.1",
+            57425
+          ],
+          "device": 8,
+          "inode": 52481
+        },
+        "start_ns": 17504814186273
+      },
+      "port": 57425,
+      "prepared": {
+        "busy_timeout_ms": 100,
+        "native": {
+          "bound": true,
+          "end_ns": 17504850958050,
+          "identity": {
+            "accepting": 1,
+            "address": [
+              "127.0.0.1",
+              57425
+            ],
+            "device": 8,
+            "inode": 50800
+          },
+          "start_ns": 17504850926312
+        },
+        "ns": 17504851009649,
+        "parent_received_ns": 17504851147147,
+        "pid": 11486,
+        "sql_trace": [
+          {
+            "end_ns": 17504850908326,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "BEGIN",
+            "start_ns": 17504850896974
+          },
+          {
+            "end_ns": 17504851003371,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "INSERT",
+            "start_ns": 17504850969003
+          }
+        ],
+        "stage": "native_prepared",
+        "wire_utf8_hex": "7b22627573795f74696d656f75745f6d73223a203130302c20226e6174697665223a207b22626f756e64223a20747275652c2022656e645f6e73223a2031373530343835303935383035302c20226964656e74697479223a207b22616363657074696e67223a20312c202261646472657373223a205b223132372e302e302e31222c2035373432355d2c2022646576696365223a20382c2022696e6f6465223a2035303830307d2c202273746172745f6e73223a2031373530343835303932363331327d2c20226e73223a2031373530343835313030393634392c2022706964223a2031313438362c202273716c5f7472616365223a205b7b22656e645f6e73223a2031373530343835303930383332362c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022424547494e222c202273746172745f6e73223a2031373530343835303839363937347d2c207b22656e645f6e73223a2031373530343835313030333337312c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022494e53455254222c202273746172745f6e73223a2031373530343835303936393030337d5d2c20227374616765223a20226e61746976655f7072657061726564227d"
+      },
+      "process": {
+        "exit": -9,
+        "exit_ns": 17504851626871,
+        "pid": 11486,
+        "remaining_stdout_hex": "",
+        "role": "--B",
+        "start_ns": 17504814393259,
+        "stderr": ""
+      },
+      "reader_after_failed_commit": null,
+      "reader_at_gate": {
+        "claims": [],
+        "in_transaction": true,
+        "ns": 17504851180210
+      },
+      "reader_held": {
+        "claims": [],
+        "in_transaction": true,
+        "journal_mode": "delete",
+        "pid": 11483,
+        "snapshot_ns": 17504814386280,
+        "start_ns": 17504814355103
+      },
+      "reader_release": {
+        "end_ns": 17504851641162,
+        "in_transaction": false,
+        "start_ns": 17504851630174
+      },
+      "recovered_ledger": {
+        "claims": [],
+        "end_ns": 17504851804406,
+        "integrity": "ok",
+        "start_ns": 17504851663585
+      }
+    },
+    "released": {
+      "continue_ns": 17504812627927,
+      "initial_native_close_ns": 17504770395247,
+      "kind": "released",
+      "live_native_probe": {
+        "bound": false,
+        "end_ns": 17504813062512,
+        "errno": 98,
+        "error": "OSError",
+        "start_ns": 17504812839289
+      },
+      "native_after": {
+        "bound": true,
+        "end_ns": 17504813988471,
+        "identity": {
+          "accepting": 1,
+          "address": [
+            "127.0.0.1",
+            49881
+          ],
+          "device": 8,
+          "inode": 52480
+        },
+        "start_ns": 17504813974894
+      },
+      "native_while_uncommitted": {
+        "bound": false,
+        "end_ns": 17504812605020,
+        "errno": 98,
+        "error": "OSError",
+        "start_ns": 17504812548180
+      },
+      "outcome": {
+        "native": {
+          "bound": true,
+          "end_ns": 17504812372790,
+          "identity": {
+            "accepting": 1,
+            "address": [
+              "127.0.0.1",
+              49881
+            ],
+            "device": 8,
+            "inode": 51673
+          },
+          "start_ns": 17504812338017
+        },
+        "ns": 17504812730411,
+        "parent_received_ns": 17504812836848,
+        "pid": 11485,
+        "sql_trace": [
+          {
+            "end_ns": 17504812318254,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "BEGIN",
+            "start_ns": 17504812305797
+          },
+          {
+            "end_ns": 17504812425743,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "INSERT",
+            "start_ns": 17504812384981
+          },
+          {
+            "end_ns": 17504812727756,
+            "in_transaction": false,
+            "outcome": "returned",
+            "sql": "COMMIT",
+            "start_ns": 17504812694893
+          }
+        ],
+        "stage": "acquisition_ack",
+        "wire_utf8_hex": "7b226e6174697665223a207b22626f756e64223a20747275652c2022656e645f6e73223a2031373530343831323337323739302c20226964656e74697479223a207b22616363657074696e67223a20312c202261646472657373223a205b223132372e302e302e31222c2034393838315d2c2022646576696365223a20382c2022696e6f6465223a2035313637337d2c202273746172745f6e73223a2031373530343831323333383031377d2c20226e73223a2031373530343831323733303431312c2022706964223a2031313438352c202273716c5f7472616365223a205b7b22656e645f6e73223a2031373530343831323331383235342c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022424547494e222c202273746172745f6e73223a2031373530343831323330353739377d2c207b22656e645f6e73223a2031373530343831323432353734332c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022494e53455254222c202273746172745f6e73223a2031373530343831323338343938317d2c207b22656e645f6e73223a2031373530343831323732373735362c2022696e5f7472616e73616374696f6e223a2066616c73652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022434f4d4d4954222c202273746172745f6e73223a2031373530343831323639343839337d5d2c20227374616765223a20226163717569736974696f6e5f61636b227d"
+      },
+      "parent_allocated": {
+        "bound": true,
+        "end_ns": 17504770383834,
+        "identity": {
+          "accepting": 1,
+          "address": [
+            "127.0.0.1",
+            49881
+          ],
+          "device": 8,
+          "inode": 52473
+        },
+        "start_ns": 17504770265018
+      },
+      "port": 49881,
+      "prepared": {
+        "busy_timeout_ms": 100,
+        "native": {
+          "bound": true,
+          "end_ns": 17504812372790,
+          "identity": {
+            "accepting": 1,
+            "address": [
+              "127.0.0.1",
+              49881
+            ],
+            "device": 8,
+            "inode": 51673
+          },
+          "start_ns": 17504812338017
+        },
+        "ns": 17504812432584,
+        "parent_received_ns": 17504812544664,
+        "pid": 11485,
+        "sql_trace": [
+          {
+            "end_ns": 17504812318254,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "BEGIN",
+            "start_ns": 17504812305797
+          },
+          {
+            "end_ns": 17504812425743,
+            "in_transaction": true,
+            "outcome": "returned",
+            "sql": "INSERT",
+            "start_ns": 17504812384981
+          }
+        ],
+        "stage": "native_prepared",
+        "wire_utf8_hex": "7b22627573795f74696d656f75745f6d73223a203130302c20226e6174697665223a207b22626f756e64223a20747275652c2022656e645f6e73223a2031373530343831323337323739302c20226964656e74697479223a207b22616363657074696e67223a20312c202261646472657373223a205b223132372e302e302e31222c2034393838315d2c2022646576696365223a20382c2022696e6f6465223a2035313637337d2c202273746172745f6e73223a2031373530343831323333383031377d2c20226e73223a2031373530343831323433323538342c2022706964223a2031313438352c202273716c5f7472616365223a205b7b22656e645f6e73223a2031373530343831323331383235342c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022424547494e222c202273746172745f6e73223a2031373530343831323330353739377d2c207b22656e645f6e73223a2031373530343831323432353734332c2022696e5f7472616e73616374696f6e223a20747275652c20226f7574636f6d65223a202272657475726e6564222c202273716c223a2022494e53455254222c202273746172745f6e73223a2031373530343831323338343938317d5d2c20227374616765223a20226e61746976655f7072657061726564227d"
+      },
+      "process": {
+        "exit": -9,
+        "exit_ns": 17504813795337,
+        "pid": 11485,
+        "remaining_stdout_hex": "",
+        "role": "--B",
+        "start_ns": 17504770463218,
+        "stderr": ""
+      },
+      "reader_after_failed_commit": null,
+      "reader_at_gate": {
+        "claims": [],
+        "in_transaction": true,
+        "ns": 17504812609318
+      },
+      "reader_held": {
+        "claims": [],
+        "in_transaction": true,
+        "journal_mode": "delete",
+        "pid": 11483,
+        "snapshot_ns": 17504770455324,
+        "start_ns": 17504770425521
+      },
+      "reader_release": {
+        "end_ns": 17504812627412,
+        "in_transaction": false,
+        "start_ns": 17504812618654
+      },
+      "recovered_ledger": {
+        "claims": [
+          "B"
+        ],
+        "end_ns": 17504813973253,
+        "integrity": "ok",
+        "start_ns": 17504813824582
+      }
+    }
+  },
+  "children": [
+    {
+      "exit": 0,
+      "exit_ns": 17504769753054,
+      "pid": 11484,
+      "remaining_stdout_hex": "",
+      "role": "--B",
+      "start_ns": 17504626083614,
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 17504813795337,
+      "pid": 11485,
+      "remaining_stdout_hex": "",
+      "role": "--B",
+      "start_ns": 17504770463218,
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 17504851626871,
+      "pid": 11486,
+      "remaining_stdout_hex": "",
+      "role": "--B",
+      "start_ns": 17504814393259,
+      "stderr": ""
+    }
+  ],
+  "environment": {
+    "address_space_bytes": 268435456,
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sqlite": "3.53.1"
+  },
+  "execution_sha": "2d9ffda228dc008e4c9a951b6e2049513a21d022",
+  "schema": "ases.native-prepared-commit-failure",
+  "source_hashes": {
+    "commit_failure_probe.py": "c612d00cbea8c30f8e0c18a4e1da12e0646b095bf703a4488dc6643bcba6290b",
+    "probe.py": "c89add697764f4b76fb610c0c955ad0bcf903bbca33b947bd9756051d90d6297"
+  },
+  "version": 1
+}

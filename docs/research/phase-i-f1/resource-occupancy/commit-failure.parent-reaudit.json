@@ -1,0 +1,40 @@
+{
+  "cases": {
+    "live": {
+      "durable_claim_survives_ephemeral_native_release": true,
+      "observation": "ledger conservation, actual acquisition and descriptor lifetime distinguished",
+      "status": "SUPPORTED",
+      "weak_ledger_only_unbacked_ack": true
+    },
+    "retained": {
+      "durable_claim_survives_ephemeral_native_release": true,
+      "observation": "ledger conservation, actual acquisition and descriptor lifetime distinguished",
+      "status": "SUPPORTED",
+      "weak_ledger_only_unbacked_ack": false
+    },
+    "terminated": {
+      "durable_claim_survives_ephemeral_native_release": true,
+      "observation": "ledger conservation, actual acquisition and descriptor lifetime distinguished",
+      "status": "SUPPORTED",
+      "weak_ledger_only_unbacked_ack": false
+    }
+  },
+  "contradictory_evidence_control": {
+    "reason": "raw frame mismatch",
+    "status": "VIOLATION"
+  },
+  "incomplete_controls": {
+    "missing_native_evidence": {
+      "reason": "'native'",
+      "status": "INCOMPLETE"
+    },
+    "missing_transfer_evidence": {
+      "reason": "'wire_utf8_hex'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 2,
+  "owned_children": 10,
+  "qualification": "selected owned ephemeral listener backing at ACK, not host confinement/durable native restoration or failure of prior SQL-only scope",
+  "source_hash_verified": true
+}

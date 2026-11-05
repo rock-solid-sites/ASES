@@ -62,10 +62,12 @@ def check(c):
 def main():
     d=json.loads(Path(sys.argv[1]).read_bytes());result={k:check(c) for k,c in d['cases'].items()}
     assert all(v['status']=='SUPPORTED' for v in result.values()),result
-    no_error=copy.deepcopy(d['cases']['busy']);del no_error['outcome']['failure']
+    contradiction=copy.deepcopy(d['cases']['busy']);del contradiction['outcome']['failure']
+    no_error=copy.deepcopy(d['cases']['busy']);no_error['outcome']=base.omit_frame_field(no_error['outcome'],'failure')
     no_visibility=copy.deepcopy(d['cases']['busy']);del no_visibility['native_while_uncommitted']
     incomplete=dict(missing_commit_error=check(no_error),missing_native_visibility=check(no_visibility))
     assert all(v['status']=='INCOMPLETE' for v in incomplete.values()),incomplete
+    contradictory=check(contradiction);assert contradictory['status']=='VIOLATION',contradictory
     children=d['children'];assert len(children)==len({c['pid'] for c in children})==3
     children.sort(key=lambda c:c['start_ns'])
     assert all(c['exit'] in (-9,0) and not c['stderr'] and not c['remaining_stdout_hex'] for c in children)
@@ -74,5 +76,6 @@ def main():
         raw=subprocess.check_output(['git','show',d['execution_sha']+':docs/research/phase-i-f1/resource-occupancy/'+name])
         assert hashlib.sha256(raw).hexdigest()==digest
     print(json.dumps(dict(cases=result,incomplete_controls=incomplete,owned_children=len(children),maximum_observed_child_concurrency=1,
+                          contradictory_evidence_control=contradictory,
                           source_hashes_verified=True,qualification='visible tentative reservation and actual SQL failure, not failure-atomic whole effect or universal denial semantics'),indent=2,sort_keys=True))
 if __name__=='__main__':main()
