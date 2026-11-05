@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import re
 import secrets
+import socket
 import sys
 import threading
 import time
@@ -32,7 +33,7 @@ def validate_cut(cut):
         raise ValueError('invalid typed cut fields')
 
 def witness_server(root):
-    lock=threading.Lock();state=dict(current=None,revision=0,reject_publish=False,log=[])
+    lock=threading.Lock();state=dict(current=None,revision=0,reject_publish=False,drop_publish_reply_once=False,log=[])
     class Handler(managed.base.make_handler(None)):
         def do_GET(self):
             if self.path!='/status':self.send_json(404,dict(error='unknown route'));return
@@ -40,7 +41,7 @@ def witness_server(root):
         def do_POST(self):
             data=self.read_json();start=time.monotonic_ns()
             with lock:
-                status=200
+                status=200;suppress=False
                 def envelope(**fields):return dict(root=root,pid=os.getpid(),nonce=data.get('nonce'),revision=state['revision'],current=state['current'],**fields)
                 try:
                     if data.get('root')!=root or not isinstance(data.get('nonce'),str):raise ValueError('root/nonce missing')
@@ -57,12 +58,23 @@ def witness_server(root):
                               or data['previous']!=state['current']):status,reply=409,envelope(published=False,reason='stale-cas')
                         else:
                             state['current']=data['candidate'];state['revision']+=1;reply=envelope(published=True)
+                            if state['drop_publish_reply_once']:
+                                state['drop_publish_reply_once']=False;suppress=True
                     elif self.path=='/fault':
                         if type(data.get('reject_publish')) is not bool:raise ValueError('Boolean fault flag required')
+                        if 'drop_publish_reply_once' in data:
+                            if type(data['drop_publish_reply_once']) is not bool:raise ValueError('Boolean drop flag required')
+                            state['drop_publish_reply_once']=data['drop_publish_reply_once']
                         state['reject_publish']=data['reject_publish'];reply=envelope(configured=True)
                     else:status,reply=404,envelope(error='unknown route')
                 except (ValueError,KeyError,TypeError) as error:status,reply=400,envelope(error=str(error))
-                state['log'].append(dict(path=self.path,request=data,response=reply,status=status,start_ns=start,end_ns=time.monotonic_ns()))
+                state['log'].append(dict(path=self.path,request=data,response=reply,status=status,reply_suppressed=suppress,
+                                        start_ns=start,end_ns=time.monotonic_ns()))
+            if suppress:
+                self.close_connection=True
+                try:self.connection.shutdown(socket.SHUT_RDWR)
+                except OSError:pass
+                self.connection.close();return
             self.send_json(status,reply)
     server=http.server.ThreadingHTTPServer(('127.0.0.1',0),Handler);server.daemon_threads=True
     print(json.dumps(dict(ready=True,port=server.server_address[1],pid=os.getpid())),flush=True)
