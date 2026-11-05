@@ -1,0 +1,33 @@
+{
+  "controls": {
+    "contradictory_exit": {
+      "reason": "induction tool failed/exceeded bound",
+      "status": "VIOLATION"
+    },
+    "missing_proof": {
+      "reason": "'compact-public-induct'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "result": {
+    "no_reset_control": "arbitrary independent initial-state counterexample, not a reachable-after-reset product defect",
+    "proofs": {
+      "compact": {
+        "base_length": 1,
+        "induction_success": true,
+        "initial_constraints": [
+          "\\armed = 1'0"
+        ]
+      },
+      "original": {
+        "base_length": 1,
+        "induction_success": true,
+        "initial_constraints": [
+          "\\armed = 1'0"
+        ]
+      }
+    },
+    "qualification": "Public output induction after sampled trusted synchronous reset; only assurance monitor initialized, product registers initially unconstrained. Shared formal toolchain/two-state edge model; not independent original-semantics or physical/hardware-fault proof.",
+    "status": "SUPPORTED"
+  }
+}
