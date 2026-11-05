@@ -47,7 +47,9 @@
     "review/autonomy-20261105-kernel-encoding": "614df5fb981ce9b03586f08e9d051e21946796b1",
     "research/autonomy-20261105-t18-revocation": "aefdd5ece043190a76e8f14434aca9e9ec156038",
     "review/autonomy-20261105-t18-revocation": "3deeb71278063039b82a358d239a5f079212b38b",
-    "research/autonomy-20261105-sink-witness": "7ee48372c38da079cfdf8aca8c186956f80a2de8"
+    "research/autonomy-20261105-sink-witness": "7ee48372c38da079cfdf8aca8c186956f80a2de8",
+    "research/autonomy-20261105-witness-publication": "854b0089f9869fc3fde39164358c5bf200af8269",
+    "review/autonomy-20261105-sink-witness": "a158bb957cfc6b11980b773980353e61db7839cd"
   },
   "checkpoints": [
     {
@@ -101,6 +103,10 @@
     {
       "utc": "2026-11-05T04:36:57Z",
       "state": "Actual sink live witness projection evidence7ee4837 pushed; isolated bounded Luna check active. User reports allowance reset after9% warning; current remaining unknown. Next publication barrier discriminator."
+    },
+    {
+      "utc": "2026-11-05T04:41:45Z",
+      "state": "Revoke witness-publication854b008 pushed, delayed-update counterexample and3 partial outcomes. Independent sink projection checka158bb95 integrated; all9 workers finished. Next inspect governing C11 or actual no-ACK process cuts."
     }
   ],
   "experiments": [
@@ -1328,7 +1334,7 @@
         ],
         "address_space_bytes": 268435456
       },
-      "status": "executed_observed",
+      "status": "independently_reproduced",
       "observed_result": "Same live witness knows revoked grant/active=false but issued gen1 unchanged; generation-only reply permits actual stale x201 and cold retention. Eligibility tuple denies/no x. Retained-current denial, actual nonce-fault/reset/missing-witness controls pass.12 owned distinct children, max2. Missing publication/exchange metadata incomplete.",
       "limits": "Trusted supervisor synchronizes witness publish ACK before tested rollback/send; not supplied by manager mechanism. No external authentication/nonrollback trust establishment, atomic distributed management, physical power loss, minimal tuple/schema, accepted-history rollback repair, native host or aggregate F1/F4 closure. Finite selected profile.",
       "raw_evidence": [
@@ -1341,13 +1347,66 @@
           "sha256": "d6c231667e3ff17f72b39ada2fde699ee43a6cd40374d86190f3027ac2b8875a"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-sink-witness",
+          "sha": "a158bb957cfc6b11980b773980353e61db7839cd",
+          "independence": "Fresh native Luna/high precreated isolated worktree at7ee4837; source-derived verdict before producer writeups, one primary rerun and separately authored audit. Operational same-family isolation; no cross-family claim. Excludes publication barrier extension."
+        }
+      ],
       "dependencies": [
         "R2-MANAGED-REVOKE-REPLAY",
         "R2-F1-LIVE-WITNESS"
       ],
       "blockers": [],
       "next_discriminator": "Actual revoke ACK with withheld full-state witness publication; publish-before-ACK barrier and unavailable/failed publication response",
+      "supersedes": []
+    },
+    {
+      "id": "R2-REVOKE-WITNESS-PUBLICATION",
+      "stream": "cross-layer",
+      "claim": "Selected revoke success ACK requires validated witness publication to exclude post-ACK stale use after authentic local rollback",
+      "source_branch": "research/autonomy-20261105-witness-publication",
+      "source_sha": "854b0089f9869fc3fde39164358c5bf200af8269",
+      "implementation": "research/phase-i-t18-sink-order-20261103/witness-publication/probe.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/witness-publication/probe.py > /tmp/witness-publication.json && python3 research/phase-i-t18-sink-order-20261103/witness-publication/check.py /tmp/witness-publication.json",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "trusted live loopback witness",
+          "actual local revoke append/fsync",
+          "authentic earlier journal restoration",
+          "owned child termination"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Delayed full-state publication after actual revoke200 permits post-ACK x201/cold retention; later publication denies future use. Selected revoke publish-before-ACK barrier denies after older-prefix restart. Publication reject, wrong nonce after remote commit, and killed witness all503/local_control_committed=true; cold local revoke retained.17 owned children/max2. Prior guard regressions pass.",
+      "limits": "Revoke path only, trusted management/endpoint/root/nonrollback premises. No general distributed atomicity/liveness, source authentication, physical power loss, other transitions, durable retry identifiers or universal F1/F4 closure. Initial projection review does not cover barrier. No auto-publication of possibly rolled startup state.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/witness-publication/raw.json",
+          "sha256": "624f3e6d0f7b25de5555d85bef6636eb1e59f1a3b57f94b76a4f1e380fe7db4e"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/witness-publication/check.json",
+          "sha256": "dadd80e098a6f31868a2b2dc6c8e386c253e390d5abe7ad52938dd0b52799622"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/witness-publication/guard-regression.raw.json",
+          "sha256": "275d15b2a80ef979f7af24798696140b2775a98f00ad9332e4cbe500a8725155"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/witness-publication/guard-regression.check.json",
+          "sha256": "d6c231667e3ff17f72b39ada2fde699ee43a6cd40374d86190f3027ac2b8875a"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-SINK-LIVE-WITNESS-PROJECTION"
+      ],
+      "blockers": [],
+      "next_discriminator": "Actual termination after local revoke commit and after witness publication before reply; classify unknown outcome without inventing C11 operation identity requirement",
       "supersedes": []
     }
   ],
