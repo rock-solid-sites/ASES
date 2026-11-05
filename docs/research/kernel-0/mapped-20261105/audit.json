@@ -1,0 +1,50 @@
+{
+  "controls": {
+    "contradicted_proof_exit": {
+      "reason": "unexpected job exit",
+      "status": "VIOLATION"
+    },
+    "missing_circuit_manifest": {
+      "reason": "'circuits'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "result": {
+    "mutation_clock_frames": {
+      "1": {
+        "gate_committed": 0,
+        "gold_committed": 0,
+        "reset": 1,
+        "trigger": 1,
+        "valid": 0
+      },
+      "2": {
+        "gate_committed": 1,
+        "gold_committed": 0,
+        "reset": 1,
+        "trigger": 1,
+        "valid": 1
+      },
+      "3": {
+        "gate_committed": 1,
+        "gold_committed": 0,
+        "reset": 0,
+        "trigger": 1,
+        "valid": 1
+      },
+      "4": {
+        "gate_committed": 0,
+        "gold_committed": 0,
+        "reset": 1,
+        "trigger": 0,
+        "valid": 0
+      }
+    },
+    "proven_equivalence_points": {
+      "compact": 60,
+      "original": 46
+    },
+    "qualification": "all tool equivalence points proved plus separate top-output reset-base steps2..4; no unconditional resetless or independent full-semantics proof",
+    "status": "SUPPORTED"
+  }
+}

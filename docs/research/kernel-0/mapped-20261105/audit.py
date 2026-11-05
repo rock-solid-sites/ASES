@@ -37,14 +37,26 @@ def audit(d):
                    and '-prove trigger 0 -prove-skip 1' in script,'explicit post-reset bounded proof absent')
         mutation=(OUT/'mutant-reset-base.stdout.txt').read_text()
         expect(d['mutation']['counterexample_exists'] and 'SAT proof finished - model found: FAIL!' in mutation,'mutation failed without semantic counterexample')
-        frames={}
-        for step,signal,value in re.findall(r'^\s+([1-4])\s+\\(reset|valid|trigger|gold_committed|gate_committed)\s+(\d+)\s+',mutation,re.M):
-            frames.setdefault(int(step),{})[signal]=int(value)
+        # On -verify failure Yosys's buffered text table may end mid-row. Its
+        # independently written WaveJSON model retains all four clock frames.
+        model=json.loads((OUT/'mutant-counterexample.json').read_bytes());frames={}
+        for row in model['signal']:
+            if row['name'] not in ('reset','valid','trigger','gold_committed','gate_committed'):continue
+            previous=None
+            for step,symbol in enumerate(row['wave']):
+                if symbol in '01':previous=int(symbol)
+                elif symbol=='.':pass
+                elif symbol=='4':previous=None
+                else:raise Incomplete('unhandled scalar WaveJSON symbol')
+                if step:frames.setdefault(step,{})[row['name']]=previous
+        if set(frames)!=set(range(1,5)) or any(value is None for frame in frames.values() for value in frame.values()):
+            raise Incomplete('missing concrete scalar clock frame')
         expect(frames[1]['reset']==1 and any(step>=2 and f['valid']==f['trigger']==1
                    and f['gold_committed']!=f['gate_committed'] for step,f in frames.items()),'post-initial-reset mutation witness absent')
         return dict(status='SUPPORTED',proven_equivalence_points=counts,mutation_clock_frames=frames,
                     qualification='all tool equivalence points proved plus separate top-output reset-base steps2..4; no unconditional resetless or independent full-semantics proof')
     except Violation as error:return dict(status='VIOLATION',reason=str(error))
+    except Incomplete as error:return dict(status='INCOMPLETE',reason=str(error))
     except (KeyError,IndexError,TypeError,FileNotFoundError) as error:return dict(status='INCOMPLETE',reason=str(error))
 def main():
     d=json.loads((HERE/'result.json').read_bytes());result=audit(d);assert result['status']=='SUPPORTED',result
