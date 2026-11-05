@@ -1,0 +1,267 @@
+
+-- Running command `read_verilog docs/research/kernel-0/direct-rtl/kernel0.v docs/research/kernel-0/encoding-20261105/compact.v docs/research/kernel-0/encoding-20261105/contracts.v; hierarchy -top codec_contract; prep -top codec_contract -flatten; sat -prove bad 0 -show state_in -verify' --
+
+1. Executing Verilog-2005 frontend: docs/research/kernel-0/direct-rtl/kernel0.v
+Parsing Verilog input from `docs/research/kernel-0/direct-rtl/kernel0.v' to AST representation.
+Generating RTLIL representation for module `\kernel0_step'.
+Generating RTLIL representation for module `\kernel0_machine'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: docs/research/kernel-0/encoding-20261105/compact.v
+Parsing Verilog input from `docs/research/kernel-0/encoding-20261105/compact.v' to AST representation.
+Generating RTLIL representation for module `\kernel0_encode'.
+Generating RTLIL representation for module `\kernel0_decode'.
+Generating RTLIL representation for module `\kernel0_compact_step'.
+Generating RTLIL representation for module `\kernel0_compact_machine'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: docs/research/kernel-0/encoding-20261105/contracts.v
+Parsing Verilog input from `docs/research/kernel-0/encoding-20261105/contracts.v' to AST representation.
+Generating RTLIL representation for module `\codec_contract'.
+Generating RTLIL representation for module `\step_contract'.
+Successfully finished Verilog frontend.
+
+4. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1. Analyzing design hierarchy..
+Top module:  \codec_contract
+Used module:     \kernel0_decode
+Used module:     \kernel0_encode
+
+4.2. Analyzing design hierarchy..
+Top module:  \codec_contract
+Used module:     \kernel0_decode
+Used module:     \kernel0_encode
+Removing unused module `\step_contract'.
+Removing unused module `\kernel0_compact_machine'.
+Removing unused module `\kernel0_compact_step'.
+Removing unused module `\kernel0_machine'.
+Removing unused module `\kernel0_step'.
+Removed 5 unused modules.
+Mapping positional arguments of cell codec_contract.dec (kernel0_decode).
+Mapping positional arguments of cell codec_contract.enc (kernel0_encode).
+
+5. Executing PREP pass.
+
+5.1. Executing HIERARCHY pass (managing design hierarchy).
+
+5.1.1. Analyzing design hierarchy..
+Top module:  \codec_contract
+Used module:     \kernel0_decode
+Used module:     \kernel0_encode
+
+5.1.2. Analyzing design hierarchy..
+Top module:  \codec_contract
+Used module:     \kernel0_decode
+Used module:     \kernel0_encode
+Removed 0 unused modules.
+
+5.2. Executing PROC pass (convert processes to netlists).
+
+5.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+5.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+5.2.4. Executing PROC_INIT pass (extract init attributes).
+
+5.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+5.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+5.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+5.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+5.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+5.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+5.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_encode.
+<suppressed ~9 debug messages>
+Optimizing module codec_contract.
+Optimizing module kernel0_decode.
+<suppressed ~3 debug messages>
+
+5.3. Executing FLATTEN pass (flatten design).
+Deleting now unused module kernel0_encode.
+Deleting now unused module kernel0_decode.
+<suppressed ~2 debug messages>
+
+5.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module codec_contract.
+
+5.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \codec_contract..
+Removed 0 unused cells and 8 unused wires.
+<suppressed ~1 debug messages>
+
+5.6. Executing CHECK pass (checking for obvious problems).
+Checking module codec_contract...
+Found and reported 0 problems.
+
+5.7. Executing OPT pass (performing simple optimizations).
+
+5.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module codec_contract.
+
+5.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\codec_contract'.
+<suppressed ~21 debug messages>
+Removed a total of 7 cells.
+
+5.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \codec_contract..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+5.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \codec_contract.
+Performed a total of 0 changes.
+
+5.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\codec_contract'.
+Removed a total of 0 cells.
+
+5.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \codec_contract..
+Removed 0 unused cells and 7 unused wires.
+<suppressed ~1 debug messages>
+
+5.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module codec_contract.
+
+5.7.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \codec_contract..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+5.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \codec_contract.
+Performed a total of 0 changes.
+
+5.7.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\codec_contract'.
+Removed a total of 0 cells.
+
+5.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \codec_contract..
+
+5.7.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module codec_contract.
+
+5.7.14. Finished OPT passes. (There is nothing left to do.)
+
+5.8. Executing WREDUCE pass (reducing word size of cells).
+Removed top 31 bits (of 32) from port B of cell codec_contract.$flatten\dec.$ge$docs/research/kernel-0/encoding-20261105/compact.v:15$556 ($ge).
+Removed top 29 bits (of 32) from port B of cell codec_contract.$flatten\dec.$le$docs/research/kernel-0/encoding-20261105/compact.v:15$557 ($le).
+Removed top 2 bits (of 5) from mux cell codec_contract.$flatten\dec.$ternary$docs/research/kernel-0/encoding-20261105/compact.v:15$560 ($mux).
+Removed top 28 bits (of 32) from port B of cell codec_contract.$flatten\dec.$ge$docs/research/kernel-0/encoding-20261105/compact.v:16$561 ($ge).
+Removed top 28 bits (of 32) from port B of cell codec_contract.$flatten\dec.$le$docs/research/kernel-0/encoding-20261105/compact.v:16$562 ($le).
+Removed top 2 bits (of 5) from port B of cell codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 2 bits (of 5) from mux cell codec_contract.$flatten\dec.$ternary$docs/research/kernel-0/encoding-20261105/compact.v:16$566 ($mux).
+Removed top 28 bits (of 32) from port B of cell codec_contract.$flatten\dec.$ge$docs/research/kernel-0/encoding-20261105/compact.v:17$567 ($ge).
+Removed top 27 bits (of 32) from port B of cell codec_contract.$flatten\dec.$le$docs/research/kernel-0/encoding-20261105/compact.v:17$568 ($le).
+Removed top 1 bits (of 5) from port B of cell codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 2 bits (of 5) from mux cell codec_contract.$flatten\dec.$ternary$docs/research/kernel-0/encoding-20261105/compact.v:17$572 ($mux).
+Removed top 2 bits (of 5) from port A of cell codec_contract.$flatten\enc.$add$docs/research/kernel-0/encoding-20261105/compact.v:6$538 ($add).
+Removed top 2 bits (of 5) from port B of cell codec_contract.$flatten\enc.$add$docs/research/kernel-0/encoding-20261105/compact.v:6$538 ($add).
+Removed top 1 bits (of 5) from port Y of cell codec_contract.$flatten\enc.$add$docs/research/kernel-0/encoding-20261105/compact.v:6$538 ($add).
+Removed top 1 bits (of 5) from port A of cell codec_contract.$flatten\enc.$add$docs/research/kernel-0/encoding-20261105/compact.v:7$540 ($add).
+Removed top 2 bits (of 5) from port B of cell codec_contract.$flatten\enc.$add$docs/research/kernel-0/encoding-20261105/compact.v:7$540 ($add).
+Removed top 2 bits (of 5) from port Y of cell codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 2 bits (of 5) from port A of cell codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 2 bits (of 5) from port Y of cell codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 2 bits (of 5) from port A of cell codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 1 bits (of 4) from port B of cell codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 2 bits (of 5) from wire codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:16$564_Y.
+Removed top 2 bits (of 5) from wire codec_contract.$flatten\dec.$sub$docs/research/kernel-0/encoding-20261105/compact.v:17$570_Y.
+
+5.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \codec_contract..
+Removed 0 unused cells and 5 unused wires.
+<suppressed ~1 debug messages>
+
+5.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.11. Executing OPT pass (performing simple optimizations).
+
+5.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module codec_contract.
+
+5.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\codec_contract'.
+Removed a total of 0 cells.
+
+5.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \codec_contract..
+
+5.11.4. Finished fast OPT passes.
+
+5.12. Printing statistics.
+
+=== codec_contract ===
+
+   Number of wires:                 45
+   Number of wire bits:            224
+   Number of public wires:          20
+   Number of public wire bits:     175
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 33
+     $add                            2
+     $ge                             3
+     $le                             3
+     $logic_and                      7
+     $logic_not                      2
+     $logic_or                       3
+     $mux                            7
+     $ne                             1
+     $reduce_bool                    3
+     $sub                            2
+
+5.13. Executing CHECK pass (checking for obvious problems).
+Checking module codec_contract...
+Found and reported 0 problems.
+
+6. Executing SAT pass (solving SAT problems in the circuit).
+
+Setting up SAT problem:
+Final constraint equation: { } = { }
+Imported 33 cells to SAT database.
+Import proof-constraint: \bad = 1'0
+Final proof equation: \bad = 1'0
+Import show expression: \state_in
+
+Solving problem with 664 variables and 1781 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+

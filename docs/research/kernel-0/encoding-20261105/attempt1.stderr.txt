@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/run.py", line 109, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/run.py", line 58, in main
+    result,out,err=ys(name,script,expected)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/run.py", line 38, in ys
+    result,out,err=job(name,[TOOLS/'yosys','-Q','-T','-s',path],expected)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/run.py", line 27, in job
+    p=subprocess.run(cmd,text=True,capture_output=True,timeout=45,preexec_fn=limit)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: '/usr/bin/time'

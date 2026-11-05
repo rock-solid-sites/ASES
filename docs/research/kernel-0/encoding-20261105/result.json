@@ -1,0 +1,260 @@
+{
+  "contracts_and_controls": {
+    "codec": {
+      "argv": [
+        "/tmp/ases-round2-synthesis/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/evidence/codec.ys"
+      ],
+      "elapsed_seconds": 0.06246044300041831,
+      "exit": 0,
+      "script_path": "codec.ys",
+      "script_sha256": "19ea90aab1edd4fe4d10d10bc2327c67e277411420795a57f408f9023d6bd336",
+      "stderr_path": "codec.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "codec.stdout.txt",
+      "stdout_sha256": "4e0dc67db67edb0ad4fa61930b65b819cb5cc958cdce08964bfa7b66b9ee2651",
+      "time_metrics": "{\"elapsed_seconds\": 0.0623594979997506, \"max_rss_kib\": 14936, \"exit\": 0, \"timed_out\": false}\n"
+    },
+    "literal": {
+      "binary_sha256": "ff8a28a303a618c5f2971612a48e4ada018a7f6ea22b236654410e63a0eb33fb",
+      "compile": {
+        "argv": [
+          "/tmp/ases-round2-rtl/root/usr/bin/iverilog",
+          "-B",
+          "/tmp/ases-round2-rtl/root/usr/lib/x86_64-linux-gnu/ivl",
+          "-g2012",
+          "-s",
+          "sequence_tb",
+          "-o",
+          "/tmp/ases-compact-rtl-ti02imrn/literal.vvp",
+          "/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v",
+          "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v",
+          "/tmp/ases-compact-rtl-ti02imrn/compact-sequence.v"
+        ],
+        "elapsed_seconds": 0.021939730000667623,
+        "exit": 0,
+        "stderr_path": "literal-compile.stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "literal-compile.stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "time_metrics": "{\"elapsed_seconds\": 0.021860614000615897, \"max_rss_kib\": 7948, \"exit\": 0, \"timed_out\": false}\n"
+      },
+      "simulate": {
+        "argv": [
+          "/tmp/ases-round2-rtl/root/usr/bin/vvp",
+          "/tmp/ases-compact-rtl-ti02imrn/literal.vvp",
+          "+vectors=/workspace/ases-kernel-encoding/docs/research/kernel-0/timing-reduction/evidence/round2-rtl-boundaries.vectors"
+        ],
+        "elapsed_seconds": 0.011584224999751314,
+        "exit": 0,
+        "stderr_path": "literal.stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "literal.stdout.txt",
+        "stdout_sha256": "38a8c72362623331117398aaa279581fd53cc3f44720d1c0ab00ec33b5495700",
+        "time_metrics": "{\"elapsed_seconds\": 0.011502131999804988, \"max_rss_kib\": 7956, \"exit\": 0, \"timed_out\": false}\n"
+      }
+    },
+    "mutant-codec": {
+      "argv": [
+        "/tmp/ases-round2-synthesis/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/evidence/mutant-codec.ys"
+      ],
+      "elapsed_seconds": 0.06308402700051374,
+      "exit": 1,
+      "script_path": "mutant-codec.ys",
+      "script_sha256": "8a1f3a318f5296699e53105aca11fc5b142525d3b1d78ffce6ffb73980147243",
+      "stderr_path": "mutant-codec.stderr.txt",
+      "stderr_sha256": "8e79acc8c131396f3cefc96bc86fb08950866c074005a08541791b51b723301f",
+      "stdout_path": "mutant-codec.stdout.txt",
+      "stdout_sha256": "a37d48d4e6141427539a91c2f83de592f0aded15f5da642158894425b517ad36",
+      "time_metrics": "{\"elapsed_seconds\": 0.06295899700035079, \"max_rss_kib\": 14868, \"exit\": 1, \"timed_out\": false}\n"
+    },
+    "mutant-literal": {
+      "binary_sha256": "fcca6f01ad337791fc63ed3fc7ccc42155594aa0906052607db24b2aba4188ba",
+      "compile": {
+        "argv": [
+          "/tmp/ases-round2-rtl/root/usr/bin/iverilog",
+          "-B",
+          "/tmp/ases-round2-rtl/root/usr/lib/x86_64-linux-gnu/ivl",
+          "-g2012",
+          "-s",
+          "sequence_tb",
+          "-o",
+          "/tmp/ases-compact-rtl-ti02imrn/mutant-literal.vvp",
+          "/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v",
+          "/tmp/ases-compact-rtl-ti02imrn/compact-mutant.v",
+          "/tmp/ases-compact-rtl-ti02imrn/compact-sequence.v"
+        ],
+        "elapsed_seconds": 0.011987290999968536,
+        "exit": 0,
+        "stderr_path": "mutant-literal-compile.stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "mutant-literal-compile.stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "time_metrics": "{\"elapsed_seconds\": 0.011886190999575774, \"max_rss_kib\": 7960, \"exit\": 0, \"timed_out\": false}\n"
+      },
+      "simulate": {
+        "argv": [
+          "/tmp/ases-round2-rtl/root/usr/bin/vvp",
+          "/tmp/ases-compact-rtl-ti02imrn/mutant-literal.vvp",
+          "+vectors=/workspace/ases-kernel-encoding/docs/research/kernel-0/timing-reduction/evidence/round2-rtl-boundaries.vectors"
+        ],
+        "elapsed_seconds": 0.012494622000303934,
+        "exit": 1,
+        "stderr_path": "mutant-literal.stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "mutant-literal.stdout.txt",
+        "stdout_sha256": "94d8d6fd86e2df0d38d2d1dd616ae9a7c9e8659c026188393a252541208a011c",
+        "time_metrics": "{\"elapsed_seconds\": 0.011987449000116612, \"max_rss_kib\": 7960, \"exit\": 1, \"timed_out\": false}\n"
+      }
+    },
+    "step": {
+      "argv": [
+        "/tmp/ases-round2-synthesis/root/usr/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/evidence/step.ys"
+      ],
+      "elapsed_seconds": 0.8621281519999684,
+      "exit": 0,
+      "script_path": "step.ys",
+      "script_sha256": "d665b3c849f6b2569b292de48fc0115bdab3ef836b0c7965b24393a281e16636",
+      "stderr_path": "step.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "step.stdout.txt",
+      "stdout_sha256": "d1a4ca150ec478bac60970022feff57b416f01dd90593f4bb878a8c3d32b6f77",
+      "time_metrics": "{\"elapsed_seconds\": 0.8618408140000611, \"max_rss_kib\": 47200, \"exit\": 0, \"timed_out\": false}\n"
+    }
+  },
+  "elapsed_seconds": 5.355484407999938,
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_base_sha": "c8f1c6fe8652bab748d384698fb471e8fb6698dc",
+  "limits": "Independent profile; frozen transition reused; shape-constrained codec/step SAT plus21 literal cycles, not universal Kernel semantics/minimality or physical timing",
+  "packages": {
+    "abc": "647287c7cfe518af90dbfea71316484aa0ca7cdac130450a1a17b9030a118e58",
+    "yosys": "00cb3419d9c2e8964e588cbfa8a46b8d0ff4b391083a53a82d49ec1c2766330b"
+  },
+  "schema": "ases.kernel.compact-encoding.v1",
+  "source_hashes_after": {
+    "direct-rtl/kernel0.v": "1263db8957756be80f1e1e92d8f5dcd3f20d22ef01c070af64f3daec2ac0e0a6",
+    "direct-rtl/sequence_tb.v": "c80f95850a0a21247281f3c8c70492c8aae8f673d1b3b01c0ed2126ce8116b8c",
+    "encoding-20261105/compact.v": "dad46392c8c93528b6dfd30ee53278958f41e0b9a51e047e79ae30214f33757d",
+    "encoding-20261105/contracts.v": "06b3f2e3127fad6deae4a5494fe1070553d62cc338f44f4bd77af82b4b7853d5",
+    "encoding-20261105/run.py": "7e4f586d7bbda9dfc8b330e761d9c31317eb2f9fcfda0c851b7c76779e7efbdf",
+    "timing-reduction/evidence/round2-rtl-boundaries.vectors": "ec5d693543aaeb357cd11686472b54732337cd410e93609a2058f925f9099805"
+  },
+  "source_hashes_before": {
+    "direct-rtl/kernel0.v": "1263db8957756be80f1e1e92d8f5dcd3f20d22ef01c070af64f3daec2ac0e0a6",
+    "direct-rtl/sequence_tb.v": "c80f95850a0a21247281f3c8c70492c8aae8f673d1b3b01c0ed2126ce8116b8c",
+    "encoding-20261105/compact.v": "dad46392c8c93528b6dfd30ee53278958f41e0b9a51e047e79ae30214f33757d",
+    "encoding-20261105/contracts.v": "06b3f2e3127fad6deae4a5494fe1070553d62cc338f44f4bd77af82b4b7853d5",
+    "encoding-20261105/run.py": "7e4f586d7bbda9dfc8b330e761d9c31317eb2f9fcfda0c851b7c76779e7efbdf",
+    "timing-reduction/evidence/round2-rtl-boundaries.vectors": "ec5d693543aaeb357cd11686472b54732337cd410e93609a2058f925f9099805"
+  },
+  "synthesis": {
+    "baseline": {
+      "cell_types": {
+        "$_AND_": 297,
+        "$_MUX_": 37,
+        "$_NOT_": 88,
+        "$_OR_": 244,
+        "$_SDFFE_PP0P_": 22,
+        "$_SDFF_PP0_": 2,
+        "$_XOR_": 9
+      },
+      "combinational_cells": 675,
+      "ff_cells": 24,
+      "job": {
+        "argv": [
+          "/tmp/ases-round2-synthesis/root/usr/bin/yosys",
+          "-Q",
+          "-T",
+          "-s",
+          "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/evidence/synth-baseline.ys"
+        ],
+        "elapsed_seconds": 1.9733885030000238,
+        "exit": 0,
+        "script_path": "synth-baseline.ys",
+        "script_sha256": "6caf1e678e3872722e5488a9592023fb8ad9cc53ffbc6f0993a28265e1aa7d94",
+        "stderr_path": "synth-baseline.stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "synth-baseline.stdout.txt",
+        "stdout_sha256": "971662fee28d1c89a02b7bb8511791b604dca6af3017b2b7118ea6930691d891",
+        "time_metrics": "{\"elapsed_seconds\": 1.9732710389998829, \"max_rss_kib\": 74688, \"exit\": 0, \"timed_out\": false}\n"
+      },
+      "latches": 0,
+      "logic_levels": 22,
+      "memories": 0,
+      "netlist_sha256": "2022aff028d1505455eb7270ed15a93deaa97f4e899c4f15c1b6a5443bb188bc",
+      "stats_path": "baseline-stats.json",
+      "total_cells": 699
+    },
+    "compact": {
+      "cell_types": {
+        "$_AND_": 312,
+        "$_MUX_": 46,
+        "$_NOT_": 85,
+        "$_OR_": 333,
+        "$_SDFFE_PP0P_": 18,
+        "$_SDFF_PP0_": 2,
+        "$_XOR_": 8
+      },
+      "combinational_cells": 784,
+      "ff_cells": 20,
+      "job": {
+        "argv": [
+          "/tmp/ases-round2-synthesis/root/usr/bin/yosys",
+          "-Q",
+          "-T",
+          "-s",
+          "/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/evidence/synth-compact.ys"
+        ],
+        "elapsed_seconds": 2.2002302669998244,
+        "exit": 0,
+        "script_path": "synth-compact.ys",
+        "script_sha256": "388ef930afad2d4a9591363e2706e9c38f1674a8f6389158383b4f72476bec36",
+        "stderr_path": "synth-compact.stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "synth-compact.stdout.txt",
+        "stdout_sha256": "61b50ee86b36dd3efd7ec9e5b918bc2c2097c170bc6dfbd044e39de1d00e866c",
+        "time_metrics": "{\"elapsed_seconds\": 2.200009023000348, \"max_rss_kib\": 87852, \"exit\": 0, \"timed_out\": false}\n"
+      },
+      "latches": 0,
+      "logic_levels": 32,
+      "memories": 0,
+      "netlist_sha256": "b257c34da15ae81711551dff826341dab6fad057c0ac5276a479c6403de95cbb",
+      "stats_path": "compact-stats.json",
+      "total_cells": 804
+    }
+  },
+  "tool_sha256": {
+    "/tmp/ases-round2-rtl/root/usr/bin/iverilog": "99633b21371b5fc6ddc3156c9402c10e2915a94feb99ddc5eb01ba8f02758462",
+    "/tmp/ases-round2-rtl/root/usr/bin/vvp": "dc287630d71c187dcf258a9d3c7d4aa77d2c3c2c4c7515debe91d000ea40c1df",
+    "/tmp/ases-round2-synthesis/root/usr/bin/berkeley-abc": "e7ab203c8579e6b9d2dc19f6dbd002470c1255d60752aed9f4fe0e891dabc642",
+    "/tmp/ases-round2-synthesis/root/usr/bin/yosys": "eab19f0fdb020345b5b6b469f702dc92f20a7c617c3e93a6e149edbfd8955b10"
+  },
+  "versions": {
+    "abc": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "ABC command line: \"version\".\n\nUC Berkeley, ABC 1.01 (compiled Feb  7 2023 01:39:45)\n"
+    },
+    "yosys": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "Yosys 0.23 (git sha1 7ce5011c24b)\n"
+    }
+  }
+}

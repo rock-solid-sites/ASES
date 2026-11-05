@@ -1,0 +1,1281 @@
+
+-- Executing script file `/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/evidence/step.ys' --
+
+1. Executing Verilog-2005 frontend: /workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v
+Parsing Verilog input from `/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v' to AST representation.
+Generating RTLIL representation for module `\kernel0_step'.
+Generating RTLIL representation for module `\kernel0_machine'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: /workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v
+Parsing Verilog input from `/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v' to AST representation.
+Generating RTLIL representation for module `\kernel0_encode'.
+Generating RTLIL representation for module `\kernel0_decode'.
+Generating RTLIL representation for module `\kernel0_compact_step'.
+Generating RTLIL representation for module `\kernel0_compact_machine'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: /workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/contracts.v
+Parsing Verilog input from `/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/contracts.v' to AST representation.
+Generating RTLIL representation for module `\codec_contract'.
+Generating RTLIL representation for module `\step_contract'.
+Successfully finished Verilog frontend.
+
+4. Executing PREP pass.
+
+4.1. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1.1. Analyzing design hierarchy..
+Top module:  \step_contract
+Used module:     \kernel0_decode
+Used module:     \kernel0_compact_step
+Used module:         \kernel0_encode
+Used module:         \kernel0_step
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+
+4.1.2. Executing AST frontend in derive mode using pre-parsed AST for module `\kernel0_step'.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+Generating RTLIL representation for module `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step'.
+
+4.1.3. Analyzing design hierarchy..
+Top module:  \step_contract
+Used module:     \kernel0_decode
+Used module:     \kernel0_compact_step
+Used module:         \kernel0_encode
+Used module:         $paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step
+Used module:     \kernel0_step
+
+4.1.4. Analyzing design hierarchy..
+Top module:  \step_contract
+Used module:     \kernel0_decode
+Used module:     \kernel0_compact_step
+Used module:         \kernel0_encode
+Used module:         $paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step
+Used module:     \kernel0_step
+Removing unused module `\codec_contract'.
+Removing unused module `\kernel0_compact_machine'.
+Removing unused module `\kernel0_machine'.
+Removed 3 unused modules.
+Mapping positional arguments of cell step_contract.next_state (kernel0_decode).
+Mapping positional arguments of cell step_contract.compact (kernel0_compact_step).
+Mapping positional arguments of cell step_contract.original (kernel0_step).
+Mapping positional arguments of cell step_contract.initial_state (kernel0_decode).
+Mapping positional arguments of cell kernel0_compact_step.enc (kernel0_encode).
+Mapping positional arguments of cell kernel0_compact_step.original ($paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step).
+Mapping positional arguments of cell kernel0_compact_step.dec (kernel0_decode).
+
+4.2. Executing PROC pass (convert processes to netlists).
+
+4.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 40 switch rules as full_case in process $proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617 in module $paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.
+Marked 40 switch rules as full_case in process $proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28 in module kernel0_step.
+Removed a total of 0 dead cases.
+
+4.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 100 assignments to connections.
+
+4.2.4. Executing PROC_INIT pass (extract init attributes).
+
+4.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+4.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~80 debug messages>
+
+4.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+     1/200: $9\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1120
+     2/200: $8\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1111
+     3/200: $7\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1107
+     4/200: $6\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1103
+     5/200: $5\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1099
+     6/200: $4\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1095
+     7/200: $3\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1086
+     8/200: $2\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1074
+     9/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result[0:0]$1069
+    10/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.i[31:0]$1070
+    11/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.parent_rights[2:0]$1067
+    12/200: $6\proposed[21:0] [21:17]
+    13/200: $18\proposed[21:0] [2]
+    14/200: $18\proposed[21:0] [3]
+    15/200: $12\admitted[0:0]
+    16/200: $18\proposed[21:0] [0]
+    17/200: $18\proposed[21:0] [1]
+    18/200: $6$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$611[21:0]$1035
+    19/200: $6$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$610[21:0]$1034
+    20/200: $6$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$612[31:0]$1036
+    21/200: $6$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$615[31:0]$1039
+    22/200: $6$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$614[21:0]$1038
+    23/200: $6$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$613[21:0]$1037
+    24/200: $11\admitted[0:0]
+    25/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$615[31:0]$1033
+    26/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$614[21:0]$1032
+    27/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$613[21:0]$1031
+    28/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$612[31:0]$1030
+    29/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$611[21:0]$1029
+    30/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$610[21:0]$1028
+    31/200: $10\admitted[0:0]
+    32/200: $17\proposed[21:0]
+    33/200: $5\needed[2:0]
+    34/200: $6\proposed[21:0] [16:8]
+    35/200: $15\proposed[7:7]
+    36/200: $16\proposed[21:17] [2:0]
+    37/200: $9\admitted[0:0]
+    38/200: $6\proposed[21:0] [7]
+    39/200: $6\proposed[21:0] [6:0]
+    40/200: $18\proposed[21:0] [21:4]
+    41/200: $16\proposed[21:17] [4:3]
+    42/200: $14\proposed[21:17] [2:0]
+    43/200: $8\admitted[0:0]
+    44/200: $13\proposed[21:0]
+    45/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$608[21:0]$973
+    46/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$607[21:0]$972
+    47/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$609[31:0]$974
+    48/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$605[21:0]$970
+    49/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$604[21:0]$969
+    50/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$606[31:0]$971
+    51/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$602[21:0]$967
+    52/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$601[21:0]$966
+    53/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$603[31:0]$968
+    54/200: $9\proposed[21:0] [21:17]
+    55/200: $11\proposed[21:17] [2:0]
+    56/200: $12\proposed[21:20]
+    57/200: $10\proposed[21:20]
+    58/200: $7\admitted[0:0]
+    59/200: $9\proposed[21:0] [16:0]
+    60/200: $11\proposed[21:17] [4:3]
+    61/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$599[21:0]$931
+    62/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$598[21:0]$930
+    63/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$600[31:0]$932
+    64/200: $7\proposed[21:0] [21:20]
+    65/200: $6\admitted[0:0]
+    66/200: $7\proposed[21:0] [19:0]
+    67/200: $8\proposed[21:20]
+    68/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$596[21:0]$898
+    69/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$595[21:0]$897
+    70/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$597[31:0]$899
+    71/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$593[21:0]$895
+    72/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$592[21:0]$894
+    73/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$594[31:0]$896
+    74/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$597[31:0]$870
+    75/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$596[21:0]$869
+    76/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$595[21:0]$868
+    77/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$594[31:0]$867
+    78/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$593[21:0]$866
+    79/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$592[21:0]$865
+    80/200: $5\admitted[0:0]
+    81/200: $14\proposed[21:17] [4:3]
+    82/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$615[31:0]$888
+    83/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$614[21:0]$887
+    84/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$613[21:0]$886
+    85/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$612[31:0]$885
+    86/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$611[21:0]$884
+    87/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$610[21:0]$883
+    88/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$609[31:0]$882
+    89/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$608[21:0]$881
+    90/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$607[21:0]$880
+    91/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$606[31:0]$879
+    92/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$605[21:0]$878
+    93/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$604[21:0]$877
+    94/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$603[31:0]$876
+    95/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$602[21:0]$875
+    96/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$601[21:0]$874
+    97/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$600[31:0]$873
+    98/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$599[21:0]$872
+    99/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$598[21:0]$871
+   100/200: $4\needed[2:0]
+   101/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$615[31:0]$864
+   102/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$614[21:0]$863
+   103/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$613[21:0]$862
+   104/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$612[31:0]$861
+   105/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$611[21:0]$860
+   106/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$610[21:0]$859
+   107/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$609[31:0]$858
+   108/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$608[21:0]$857
+   109/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$607[21:0]$856
+   110/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$606[31:0]$855
+   111/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$605[21:0]$854
+   112/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$604[21:0]$853
+   113/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$603[31:0]$852
+   114/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$602[21:0]$851
+   115/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$601[21:0]$850
+   116/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$600[31:0]$849
+   117/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$599[21:0]$848
+   118/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$598[21:0]$847
+   119/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$597[31:0]$846
+   120/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$596[21:0]$845
+   121/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$595[21:0]$844
+   122/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$594[31:0]$843
+   123/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$593[21:0]$842
+   124/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$592[21:0]$841
+   125/200: $3\needed[2:0]
+   126/200: $4\admitted[0:0]
+   127/200: $5\proposed[21:0]
+   128/200: $2\proposed[21:0] [21:4]
+   129/200: $2\proposed[21:0] [2:1]
+   130/200: $4\proposed[3:3]
+   131/200: $3\proposed[0:0]
+   132/200: $2\admitted[0:0]
+   133/200: $2\proposed[21:0] [3]
+   134/200: $3\admitted[0:0]
+   135/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$615[31:0]$839
+   136/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$614[21:0]$838
+   137/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$613[21:0]$837
+   138/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$612[31:0]$836
+   139/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$611[21:0]$835
+   140/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$610[21:0]$834
+   141/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$609[31:0]$833
+   142/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$608[21:0]$832
+   143/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$607[21:0]$831
+   144/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$606[31:0]$830
+   145/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$605[21:0]$829
+   146/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$604[21:0]$828
+   147/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$603[31:0]$827
+   148/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$602[21:0]$826
+   149/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$601[21:0]$825
+   150/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$600[31:0]$824
+   151/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$599[21:0]$823
+   152/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$598[21:0]$822
+   153/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$597[31:0]$821
+   154/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$596[21:0]$820
+   155/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$595[21:0]$819
+   156/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$594[31:0]$818
+   157/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$593[21:0]$817
+   158/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$592[21:0]$816
+   159/200: $2\needed[2:0]
+   160/200: $2\proposed[21:0] [0]
+   161/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$615[31:0]$814
+   162/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$614[21:0]$813
+   163/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$613[21:0]$812
+   164/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$612[31:0]$811
+   165/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$611[21:0]$810
+   166/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$610[21:0]$809
+   167/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$609[31:0]$808
+   168/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$608[21:0]$807
+   169/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$607[21:0]$806
+   170/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$606[31:0]$805
+   171/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$605[21:0]$804
+   172/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$604[21:0]$803
+   173/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$603[31:0]$802
+   174/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$602[21:0]$801
+   175/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$601[21:0]$800
+   176/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$600[31:0]$799
+   177/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$599[21:0]$798
+   178/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$598[21:0]$797
+   179/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$597[31:0]$796
+   180/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$596[21:0]$795
+   181/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$595[21:0]$794
+   182/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$594[31:0]$793
+   183/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$593[21:0]$792
+   184/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$592[21:0]$791
+   185/200: $1\needed[2:0]
+   186/200: $1\admitted[0:0]
+   187/200: $1\proposed[21:0]
+   188/200: $9\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$788
+   189/200: $8\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$779
+   190/200: $7\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$775
+   191/200: $6\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$771
+   192/200: $5\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$767
+   193/200: $4\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$763
+   194/200: $3\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$754
+   195/200: $2\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$742
+   196/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result[0:0]$737
+   197/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.i[31:0]$738
+   198/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.parent_rights[2:0]$735
+   199/200: $1\wellformed[0:0]
+   200/200: $1\actor_rights[2:0]
+Creating decoders for process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+     1/200: $9\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$531
+     2/200: $8\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$522
+     3/200: $7\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$518
+     4/200: $6\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$514
+     5/200: $5\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$510
+     6/200: $4\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$506
+     7/200: $3\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$497
+     8/200: $2\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$485
+     9/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result[0:0]$480
+    10/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.i[31:0]$481
+    11/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.parent_rights[2:0]$478
+    12/200: $6\proposed[21:0] [21:17]
+    13/200: $18\proposed[21:0] [2]
+    14/200: $18\proposed[21:0] [3]
+    15/200: $12\admitted[0:0]
+    16/200: $18\proposed[21:0] [0]
+    17/200: $18\proposed[21:0] [1]
+    18/200: $6$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$22[21:0]$446
+    19/200: $6$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$21[21:0]$445
+    20/200: $6$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$23[31:0]$447
+    21/200: $6$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$26[31:0]$450
+    22/200: $6$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$25[21:0]$449
+    23/200: $6$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$24[21:0]$448
+    24/200: $11\admitted[0:0]
+    25/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$26[31:0]$444
+    26/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$25[21:0]$443
+    27/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$24[21:0]$442
+    28/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$23[31:0]$441
+    29/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$22[21:0]$440
+    30/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$21[21:0]$439
+    31/200: $10\admitted[0:0]
+    32/200: $17\proposed[21:0]
+    33/200: $5\needed[2:0]
+    34/200: $6\proposed[21:0] [16:8]
+    35/200: $15\proposed[7:7]
+    36/200: $16\proposed[21:17] [2:0]
+    37/200: $9\admitted[0:0]
+    38/200: $6\proposed[21:0] [7]
+    39/200: $6\proposed[21:0] [6:0]
+    40/200: $18\proposed[21:0] [21:4]
+    41/200: $16\proposed[21:17] [4:3]
+    42/200: $14\proposed[21:17] [2:0]
+    43/200: $8\admitted[0:0]
+    44/200: $13\proposed[21:0]
+    45/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$19[21:0]$384
+    46/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$18[21:0]$383
+    47/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$20[31:0]$385
+    48/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$16[21:0]$381
+    49/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$15[21:0]$380
+    50/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$17[31:0]$382
+    51/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$13[21:0]$378
+    52/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$12[21:0]$377
+    53/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$14[31:0]$379
+    54/200: $9\proposed[21:0] [21:17]
+    55/200: $11\proposed[21:17] [2:0]
+    56/200: $12\proposed[21:20]
+    57/200: $10\proposed[21:20]
+    58/200: $7\admitted[0:0]
+    59/200: $9\proposed[21:0] [16:0]
+    60/200: $11\proposed[21:17] [4:3]
+    61/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$10[21:0]$342
+    62/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$9[21:0]$341
+    63/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$11[31:0]$343
+    64/200: $7\proposed[21:0] [21:20]
+    65/200: $6\admitted[0:0]
+    66/200: $7\proposed[21:0] [19:0]
+    67/200: $8\proposed[21:20]
+    68/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$7[21:0]$309
+    69/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$6[21:0]$308
+    70/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$8[31:0]$310
+    71/200: $5$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$4[21:0]$306
+    72/200: $5$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$3[21:0]$305
+    73/200: $5$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$5[31:0]$307
+    74/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$8[31:0]$281
+    75/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$7[21:0]$280
+    76/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$6[21:0]$279
+    77/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$5[31:0]$278
+    78/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$4[21:0]$277
+    79/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$3[21:0]$276
+    80/200: $5\admitted[0:0]
+    81/200: $14\proposed[21:17] [4:3]
+    82/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$26[31:0]$299
+    83/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$25[21:0]$298
+    84/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$24[21:0]$297
+    85/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$23[31:0]$296
+    86/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$22[21:0]$295
+    87/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$21[21:0]$294
+    88/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$20[31:0]$293
+    89/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$19[21:0]$292
+    90/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$18[21:0]$291
+    91/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$17[31:0]$290
+    92/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$16[21:0]$289
+    93/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$15[21:0]$288
+    94/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$14[31:0]$287
+    95/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$13[21:0]$286
+    96/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$12[21:0]$285
+    97/200: $4$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$11[31:0]$284
+    98/200: $4$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$10[21:0]$283
+    99/200: $4$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$9[21:0]$282
+   100/200: $4\needed[2:0]
+   101/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$26[31:0]$275
+   102/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$25[21:0]$274
+   103/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$24[21:0]$273
+   104/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$23[31:0]$272
+   105/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$22[21:0]$271
+   106/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$21[21:0]$270
+   107/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$20[31:0]$269
+   108/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$19[21:0]$268
+   109/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$18[21:0]$267
+   110/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$17[31:0]$266
+   111/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$16[21:0]$265
+   112/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$15[21:0]$264
+   113/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$14[31:0]$263
+   114/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$13[21:0]$262
+   115/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$12[21:0]$261
+   116/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$11[31:0]$260
+   117/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$10[21:0]$259
+   118/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$9[21:0]$258
+   119/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$8[31:0]$257
+   120/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$7[21:0]$256
+   121/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$6[21:0]$255
+   122/200: $3$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$5[31:0]$254
+   123/200: $3$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$4[21:0]$253
+   124/200: $3$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$3[21:0]$252
+   125/200: $3\needed[2:0]
+   126/200: $4\admitted[0:0]
+   127/200: $5\proposed[21:0]
+   128/200: $2\proposed[21:0] [21:4]
+   129/200: $2\proposed[21:0] [2:1]
+   130/200: $4\proposed[3:3]
+   131/200: $3\proposed[0:0]
+   132/200: $2\admitted[0:0]
+   133/200: $2\proposed[21:0] [3]
+   134/200: $3\admitted[0:0]
+   135/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$26[31:0]$250
+   136/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$25[21:0]$249
+   137/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$24[21:0]$248
+   138/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$23[31:0]$247
+   139/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$22[21:0]$246
+   140/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$21[21:0]$245
+   141/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$20[31:0]$244
+   142/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$19[21:0]$243
+   143/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$18[21:0]$242
+   144/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$17[31:0]$241
+   145/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$16[21:0]$240
+   146/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$15[21:0]$239
+   147/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$14[31:0]$238
+   148/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$13[21:0]$237
+   149/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$12[21:0]$236
+   150/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$11[31:0]$235
+   151/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$10[21:0]$234
+   152/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$9[21:0]$233
+   153/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$8[31:0]$232
+   154/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$7[21:0]$231
+   155/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$6[21:0]$230
+   156/200: $2$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$5[31:0]$229
+   157/200: $2$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$4[21:0]$228
+   158/200: $2$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$3[21:0]$227
+   159/200: $2\needed[2:0]
+   160/200: $2\proposed[21:0] [0]
+   161/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$26[31:0]$225
+   162/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$25[21:0]$224
+   163/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$24[21:0]$223
+   164/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$23[31:0]$222
+   165/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$22[21:0]$221
+   166/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$21[21:0]$220
+   167/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$20[31:0]$219
+   168/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$19[21:0]$218
+   169/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$18[21:0]$217
+   170/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$17[31:0]$216
+   171/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$16[21:0]$215
+   172/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$15[21:0]$214
+   173/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$14[31:0]$213
+   174/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$13[21:0]$212
+   175/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$12[21:0]$211
+   176/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$11[31:0]$210
+   177/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$10[21:0]$209
+   178/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$9[21:0]$208
+   179/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$8[31:0]$207
+   180/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$7[21:0]$206
+   181/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$6[21:0]$205
+   182/200: $1$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$5[31:0]$204
+   183/200: $1$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$4[21:0]$203
+   184/200: $1$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$3[21:0]$202
+   185/200: $1\needed[2:0]
+   186/200: $1\admitted[0:0]
+   187/200: $1\proposed[21:0]
+   188/200: $9\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$199
+   189/200: $8\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$190
+   190/200: $7\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$186
+   191/200: $6\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$182
+   192/200: $5\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$178
+   193/200: $4\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$174
+   194/200: $3\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$165
+   195/200: $2\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$153
+   196/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result[0:0]$148
+   197/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.i[31:0]$149
+   198/200: $1\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.parent_rights[2:0]$146
+   199/200: $1\wellformed[0:0]
+   200/200: $1\actor_rights[2:0]
+
+4.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\state_out' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\commit' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\proposed' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\admitted' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\wellformed' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\current_rights' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\actor_rights' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\needed' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.$result' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.s' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.r0' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.r1' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.r2' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.r3' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.parent_rights' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.parent' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$591.i' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$592' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$593' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$594' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$595' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$596' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$597' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$598' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$599' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$600' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$601' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$602' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$603' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$604' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$605' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$606' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$607' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$608' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$609' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$610' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$611' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$612' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$613' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$614' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$615' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.$result' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.s' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.r0' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.r1' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.r2' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.r3' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.parent_rights' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.parent' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$616.i' from process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+No latch inferred for signal `\kernel0_step.\state_out' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\commit' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\proposed' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\admitted' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\wellformed' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\current_rights' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\actor_rights' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\needed' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.$result' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.s' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.r0' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.r1' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.r2' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.r3' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.parent_rights' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.parent' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:76$2.i' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$3' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$4' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:86$5' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$6' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$7' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:87$8' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$9' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$10' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:92$11' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$12' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$13' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$14' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$15' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$16' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:107$17' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$18' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$19' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:108$20' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$21' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$22' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$23' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$24' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$25' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$26' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.$result' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.s' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.r0' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.r1' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.r2' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.r3' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.parent_rights' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.parent' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+No latch inferred for signal `\kernel0_step.\valid_state$func$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:143$27.i' from process `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+
+4.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+4.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 40 empty switches in `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+Removing empty process `$paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$617'.
+Found and cleaned up 40 empty switches in `\kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+Removing empty process `kernel0_step.$proc$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:53$28'.
+Cleaned up 80 empty switches.
+
+4.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module step_contract.
+Optimizing module kernel0_compact_step.
+Optimizing module kernel0_decode.
+<suppressed ~3 debug messages>
+Optimizing module kernel0_encode.
+<suppressed ~9 debug messages>
+Optimizing module $paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.
+<suppressed ~92 debug messages>
+Optimizing module kernel0_step.
+<suppressed ~92 debug messages>
+
+4.3. Executing FLATTEN pass (flatten design).
+Deleting now unused module kernel0_compact_step.
+Deleting now unused module kernel0_decode.
+Deleting now unused module kernel0_encode.
+Deleting now unused module $paramod$85fa1469fa5879359ae823bae88071980987f29a\kernel0_step.
+Deleting now unused module kernel0_step.
+<suppressed ~7 debug messages>
+
+4.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module step_contract.
+
+4.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \step_contract..
+Removed 1134 unused cells and 2680 unused wires.
+<suppressed ~1149 debug messages>
+
+4.6. Executing CHECK pass (checking for obvious problems).
+Checking module step_contract...
+Found and reported 0 problems.
+
+4.7. Executing OPT pass (performing simple optimizations).
+
+4.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module step_contract.
+
+4.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\step_contract'.
+<suppressed ~1884 debug messages>
+Removed a total of 628 cells.
+
+4.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \step_contract..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $flatten\compact.\original.$procmux$2941: \compact.original.state_in -> { \compact.original.state_in [21:1] 1'0 }
+      Replacing known input bits on port A of cell $flatten\compact.\original.$procmux$1673: \compact.original.state_in [6:0] -> { \compact.original.state_in [6:1] 1'1 }
+      Replacing known input bits on port B of cell $flatten\compact.\original.$procmux$2972: \compact.original.state_in [0] -> 1'1
+      Replacing known input bits on port A of cell $flatten\compact.\original.$procmux$2171: \compact.original.state_in [19:0] -> { \compact.original.state_in [19:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\original.$procmux$3749: \original.state_in -> { \original.state_in [21:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\original.$procmux$3457: \original.state_in [0] -> 1'1
+      Replacing known input bits on port A of cell $flatten\original.$procmux$3953: \original.state_in -> { \original.state_in [21:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\original.$procmux$4226: \original.state_in [16:0] -> { \original.state_in [16:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\original.$procmux$4358: \original.state_in [19:0] -> { \original.state_in [19:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\compact.\original.$procmux$1562: \compact.original.state_in -> { \compact.original.state_in [21:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\compact.\original.$procmux$1270: \compact.original.state_in [0] -> 1'1
+      Replacing known input bits on port A of cell $flatten\compact.\original.$procmux$1766: \compact.original.state_in -> { \compact.original.state_in [21:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\original.$procmux$5128: \original.state_in -> { \original.state_in [21:1] 1'0 }
+      Replacing known input bits on port A of cell $flatten\original.$procmux$3860: \original.state_in [6:0] -> { \original.state_in [6:1] 1'1 }
+      Replacing known input bits on port B of cell $flatten\original.$procmux$5159: \original.state_in [0] -> 1'1
+      Replacing known input bits on port A of cell $flatten\compact.\original.$procmux$2039: \compact.original.state_in [16:0] -> { \compact.original.state_in [16:1] 1'1 }
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2193.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2195.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2197.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2200.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2202.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1618.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2423.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2426.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2428.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2935.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2937.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2944.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2946.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2952.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2958.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2965.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2967.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2974.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2976.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2982.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2988.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2995.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2997.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3153.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3240.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3246.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3252.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3258.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3264.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3270.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3276.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$3282.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1958.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2064.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2067.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2069.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2025.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2028.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1960.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1615.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1962.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1965.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1967.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1980.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1982.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1984.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1986.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1620.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1629.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1631.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1634.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1636.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2173.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2030.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1645.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1647.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1650.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1652.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1663.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1666.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1668.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1604.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1989.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1991.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1678.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1681.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2041.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1683.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2135.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1127.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1133.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1139.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1145.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1151.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1157.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1163.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1696.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1698.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2043.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2046.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2137.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1613.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1700.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1703.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1705.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2175.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2003.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2140.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2142.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2178.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2005.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2007.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1169.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2180.
+    dead port 2/2 on $mux $flatten\original.$procmux$3314.
+    dead port 2/2 on $mux $flatten\original.$procmux$3320.
+    dead port 2/2 on $mux $flatten\original.$procmux$3326.
+    dead port 2/2 on $mux $flatten\original.$procmux$3332.
+    dead port 2/2 on $mux $flatten\original.$procmux$3338.
+    dead port 2/2 on $mux $flatten\original.$procmux$3344.
+    dead port 2/2 on $mux $flatten\original.$procmux$3350.
+    dead port 2/2 on $mux $flatten\original.$procmux$3356.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1714.
+    dead port 2/2 on $mux $flatten\original.$procmux$3378.
+    dead port 1/2 on $mux $flatten\original.$procmux$3381.
+    dead port 2/2 on $mux $flatten\original.$procmux$3383.
+    dead port 2/2 on $mux $flatten\original.$procmux$3394.
+    dead port 2/2 on $mux $flatten\original.$procmux$3396.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1191.
+    dead port 2/2 on $mux $flatten\original.$procmux$3398.
+    dead port 1/2 on $mux $flatten\original.$procmux$3401.
+    dead port 2/2 on $mux $flatten\original.$procmux$3403.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1194.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1196.
+    dead port 2/2 on $mux $flatten\original.$procmux$3416.
+    dead port 2/2 on $mux $flatten\original.$procmux$3418.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1716.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2154.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1207.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1209.
+    dead port 2/2 on $mux $flatten\original.$procmux$3420.
+    dead port 1/2 on $mux $flatten\original.$procmux$3423.
+    dead port 2/2 on $mux $flatten\original.$procmux$3425.
+    dead port 2/2 on $mux $flatten\original.$procmux$3436.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1719.
+    dead port 2/2 on $mux $flatten\original.$procmux$3438.
+    dead port 2/2 on $mux $flatten\original.$procmux$3440.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1721.
+    dead port 2/2 on $mux $flatten\original.$procmux$3442.
+    dead port 1/2 on $mux $flatten\original.$procmux$3445.
+    dead port 2/2 on $mux $flatten\original.$procmux$3447.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1211.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1214.
+    dead port 2/2 on $mux $flatten\original.$procmux$3460.
+    dead port 2/2 on $mux $flatten\original.$procmux$3462.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1216.
+    dead port 2/2 on $mux $flatten\original.$procmux$3464.
+    dead port 1/2 on $mux $flatten\original.$procmux$3467.
+    dead port 2/2 on $mux $flatten\original.$procmux$3469.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1229.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1231.
+    dead port 2/2 on $mux $flatten\original.$procmux$3481.
+    dead port 2/2 on $mux $flatten\original.$procmux$3483.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1233.
+    dead port 2/2 on $mux $flatten\original.$procmux$3485.
+    dead port 1/2 on $mux $flatten\original.$procmux$3488.
+    dead port 2/2 on $mux $flatten\original.$procmux$3490.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1236.
+    dead port 2/2 on $mux $flatten\original.$procmux$3629.
+    dead port 2/2 on $mux $flatten\original.$procmux$3631.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1238.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1249.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1251.
+    dead port 2/2 on $mux $flatten\original.$procmux$3633.
+    dead port 1/2 on $mux $flatten\original.$procmux$3636.
+    dead port 2/2 on $mux $flatten\original.$procmux$3638.
+    dead port 2/2 on $mux $flatten\original.$procmux$3736.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1253.
+    dead port 2/2 on $mux $flatten\original.$procmux$3738.
+    dead port 1/2 on $mux $flatten\original.$procmux$3741.
+    dead port 2/2 on $mux $flatten\original.$procmux$3743.
+    dead port 2/2 on $mux $flatten\original.$procmux$3751.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1255.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1258.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1260.
+    dead port 2/2 on $mux $flatten\original.$procmux$3753.
+    dead port 1/2 on $mux $flatten\original.$procmux$3756.
+    dead port 2/2 on $mux $flatten\original.$procmux$3758.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1273.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1275.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1751.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1277.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1280.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1282.
+    dead port 2/2 on $mux $flatten\original.$procmux$3786.
+    dead port 1/2 on $mux $flatten\original.$procmux$3789.
+    dead port 2/2 on $mux $flatten\original.$procmux$3791.
+    dead port 2/2 on $mux $flatten\original.$procmux$3800.
+    dead port 2/2 on $mux $flatten\original.$procmux$3802.
+    dead port 1/2 on $mux $flatten\original.$procmux$3805.
+    dead port 2/2 on $mux $flatten\original.$procmux$3807.
+    dead port 2/2 on $mux $flatten\original.$procmux$3816.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1294.
+    dead port 2/2 on $mux $flatten\original.$procmux$3818.
+    dead port 1/2 on $mux $flatten\original.$procmux$3821.
+    dead port 2/2 on $mux $flatten\original.$procmux$3823.
+    dead port 2/2 on $mux $flatten\original.$procmux$3832.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1296.
+    dead port 2/2 on $mux $flatten\original.$procmux$3834.
+    dead port 1/2 on $mux $flatten\original.$procmux$3837.
+    dead port 2/2 on $mux $flatten\original.$procmux$3839.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1753.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1756.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1298.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1301.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1303.
+    dead port 2/2 on $mux $flatten\original.$procmux$3850.
+    dead port 1/2 on $mux $flatten\original.$procmux$3853.
+    dead port 2/2 on $mux $flatten\original.$procmux$3855.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1758.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1442.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1444.
+    dead port 2/2 on $mux $flatten\original.$procmux$3865.
+    dead port 1/2 on $mux $flatten\original.$procmux$3868.
+    dead port 2/2 on $mux $flatten\original.$procmux$3870.
+    dead port 2/2 on $mux $flatten\original.$procmux$3883.
+    dead port 2/2 on $mux $flatten\original.$procmux$3885.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1768.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1446.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1449.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1451.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1549.
+    dead port 2/2 on $mux $flatten\original.$procmux$3887.
+    dead port 1/2 on $mux $flatten\original.$procmux$3890.
+    dead port 2/2 on $mux $flatten\original.$procmux$3892.
+    dead port 2/2 on $mux $flatten\original.$procmux$3901.
+    dead port 2/2 on $mux $flatten\original.$procmux$3903.
+    dead port 1/2 on $mux $flatten\original.$procmux$3906.
+    dead port 2/2 on $mux $flatten\original.$procmux$3908.
+    dead port 2/2 on $mux $flatten\original.$procmux$3938.
+    dead port 2/2 on $mux $flatten\original.$procmux$3940.
+    dead port 1/2 on $mux $flatten\original.$procmux$3943.
+    dead port 2/2 on $mux $flatten\original.$procmux$3945.
+    dead port 2/2 on $mux $flatten\original.$procmux$3955.
+    dead port 2/2 on $mux $flatten\original.$procmux$3957.
+    dead port 1/2 on $mux $flatten\original.$procmux$3960.
+    dead port 2/2 on $mux $flatten\original.$procmux$3962.
+    dead port 2/2 on $mux $flatten\original.$procmux$4126.
+    dead port 2/2 on $mux $flatten\original.$procmux$4128.
+    dead port 1/2 on $mux $flatten\original.$procmux$4131.
+    dead port 2/2 on $mux $flatten\original.$procmux$4133.
+    dead port 2/2 on $mux $flatten\original.$procmux$4145.
+    dead port 2/2 on $mux $flatten\original.$procmux$4147.
+    dead port 2/2 on $mux $flatten\original.$procmux$4149.
+    dead port 1/2 on $mux $flatten\original.$procmux$4152.
+    dead port 2/2 on $mux $flatten\original.$procmux$4154.
+    dead port 2/2 on $mux $flatten\original.$procmux$4167.
+    dead port 2/2 on $mux $flatten\original.$procmux$4169.
+    dead port 2/2 on $mux $flatten\original.$procmux$4171.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1551.
+    dead port 2/2 on $mux $flatten\original.$procmux$4173.
+    dead port 1/2 on $mux $flatten\original.$procmux$4176.
+    dead port 2/2 on $mux $flatten\original.$procmux$4178.
+    dead port 2/2 on $mux $flatten\original.$procmux$4190.
+    dead port 2/2 on $mux $flatten\original.$procmux$4192.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1554.
+    dead port 2/2 on $mux $flatten\original.$procmux$4194.
+    dead port 1/2 on $mux $flatten\original.$procmux$4197.
+    dead port 2/2 on $mux $flatten\original.$procmux$4199.
+    dead port 2/2 on $mux $flatten\original.$procmux$4210.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1556.
+    dead port 2/2 on $mux $flatten\original.$procmux$4212.
+    dead port 1/2 on $mux $flatten\original.$procmux$4215.
+    dead port 2/2 on $mux $flatten\original.$procmux$4217.
+    dead port 2/2 on $mux $flatten\original.$procmux$4228.
+    dead port 2/2 on $mux $flatten\original.$procmux$4230.
+    dead port 1/2 on $mux $flatten\original.$procmux$4233.
+    dead port 2/2 on $mux $flatten\original.$procmux$4235.
+    dead port 2/2 on $mux $flatten\original.$procmux$4247.
+    dead port 2/2 on $mux $flatten\original.$procmux$4249.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1564.
+    dead port 2/2 on $mux $flatten\original.$procmux$4251.
+    dead port 1/2 on $mux $flatten\original.$procmux$4254.
+    dead port 2/2 on $mux $flatten\original.$procmux$4256.
+    dead port 2/2 on $mux $flatten\original.$procmux$4322.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1770.
+    dead port 2/2 on $mux $flatten\original.$procmux$4324.
+    dead port 1/2 on $mux $flatten\original.$procmux$4327.
+    dead port 2/2 on $mux $flatten\original.$procmux$4329.
+    dead port 2/2 on $mux $flatten\original.$procmux$4341.
+    dead port 2/2 on $mux $flatten\original.$procmux$4343.
+    dead port 1/2 on $mux $flatten\original.$procmux$4346.
+    dead port 2/2 on $mux $flatten\original.$procmux$4348.
+    dead port 2/2 on $mux $flatten\original.$procmux$4360.
+    dead port 2/2 on $mux $flatten\original.$procmux$4362.
+    dead port 1/2 on $mux $flatten\original.$procmux$4365.
+    dead port 2/2 on $mux $flatten\original.$procmux$4367.
+    dead port 2/2 on $mux $flatten\original.$procmux$4380.
+    dead port 2/2 on $mux $flatten\original.$procmux$4382.
+    dead port 2/2 on $mux $flatten\original.$procmux$4384.
+    dead port 1/2 on $mux $flatten\original.$procmux$4387.
+    dead port 2/2 on $mux $flatten\original.$procmux$4389.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1773.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1566.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1569.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1571.
+    dead port 2/2 on $mux $flatten\original.$procmux$4610.
+    dead port 1/2 on $mux $flatten\original.$procmux$4613.
+    dead port 2/2 on $mux $flatten\original.$procmux$4615.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1775.
+    dead port 1/2 on $mux $flatten\original.$procmux$5122.
+    dead port 2/2 on $mux $flatten\original.$procmux$5124.
+    dead port 1/2 on $mux $flatten\original.$procmux$5131.
+    dead port 2/2 on $mux $flatten\original.$procmux$5133.
+    dead port 2/2 on $mux $flatten\original.$procmux$5139.
+    dead port 2/2 on $mux $flatten\original.$procmux$5145.
+    dead port 2/2 on $mux $flatten\original.$procmux$5152.
+    dead port 2/2 on $mux $flatten\original.$procmux$5154.
+    dead port 2/2 on $mux $flatten\original.$procmux$5161.
+    dead port 2/2 on $mux $flatten\original.$procmux$5163.
+    dead port 2/2 on $mux $flatten\original.$procmux$5169.
+    dead port 2/2 on $mux $flatten\original.$procmux$5175.
+    dead port 2/2 on $mux $flatten\original.$procmux$5182.
+    dead port 2/2 on $mux $flatten\original.$procmux$5184.
+    dead port 2/2 on $mux $flatten\original.$procmux$5340.
+    dead port 2/2 on $mux $flatten\original.$procmux$5427.
+    dead port 2/2 on $mux $flatten\original.$procmux$5433.
+    dead port 2/2 on $mux $flatten\original.$procmux$5439.
+    dead port 2/2 on $mux $flatten\original.$procmux$5445.
+    dead port 2/2 on $mux $flatten\original.$procmux$5451.
+    dead port 2/2 on $mux $flatten\original.$procmux$5457.
+    dead port 2/2 on $mux $flatten\original.$procmux$5463.
+    dead port 2/2 on $mux $flatten\original.$procmux$5469.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1939.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2156.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2010.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2048.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2060.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$2159.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2161.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1941.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2012.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1944.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1946.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2062.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$2023.
+    dead port 2/2 on $mux $flatten\compact.\original.$procmux$1599.
+    dead port 1/2 on $mux $flatten\compact.\original.$procmux$1602.
+Removed 328 multiplexer ports.
+<suppressed ~40 debug messages>
+
+4.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \step_contract.
+    New ctrl vector for $pmux cell $flatten\original.$procmux$3476: { $flatten\compact.\original.$procmux$1186_CMP [0] $flatten\compact.\original.$procmux$1186_CMP [1] $auto$opt_reduce.cc:134:opt_pmux$5498 }
+    New ctrl vector for $pmux cell $flatten\compact.\original.$procmux$1289: { $flatten\compact.\original.$procmux$1186_CMP [0] $flatten\compact.\original.$procmux$1186_CMP [1] $auto$opt_reduce.cc:134:opt_pmux$5500 }
+  Optimizing cells in module \step_contract.
+Performed a total of 4 changes.
+
+4.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\step_contract'.
+<suppressed ~621 debug messages>
+Removed a total of 207 cells.
+
+4.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \step_contract..
+Removed 0 unused cells and 1021 unused wires.
+<suppressed ~1 debug messages>
+
+4.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module step_contract.
+
+4.7.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \step_contract..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~21 debug messages>
+
+4.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \step_contract.
+Performed a total of 0 changes.
+
+4.7.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\step_contract'.
+Removed a total of 0 cells.
+
+4.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \step_contract..
+
+4.7.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module step_contract.
+
+4.7.14. Finished OPT passes. (There is nothing left to do.)
+
+4.8. Executing WREDUCE pass (reducing word size of cells).
+Removed top 2 bits (of 5) from mux cell step_contract.$flatten\initial_state.$ternary$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$572 ($mux).
+Removed top 2 bits (of 5) from mux cell step_contract.$flatten\initial_state.$ternary$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$566 ($mux).
+Removed top 2 bits (of 5) from mux cell step_contract.$flatten\initial_state.$ternary$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:15$560 ($mux).
+Removed top 29 bits (of 32) from port A of cell step_contract.$flatten\original.$not$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:47$526 ($not).
+Removed top 21 bits (of 22) from port A of cell step_contract.$flatten\original.$not$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$469 ($not).
+Removed top 29 bits (of 32) from port A of cell step_contract.$flatten\original.$not$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:112$429 ($not).
+Removed top 28 bits (of 32) from port A of cell step_contract.$flatten\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$387 ($add).
+Removed top 29 bits (of 32) from port A of cell step_contract.$flatten\original.$not$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:91$337 ($not).
+Removed top 29 bits (of 32) from port A of cell step_contract.$flatten\original.$not$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:47$194 ($not).
+Removed top 28 bits (of 32) from port A of cell step_contract.$flatten\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:60$77 ($add).
+Removed top 2 bits (of 5) from port A of cell step_contract.$flatten\compact.\enc.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:6$538 ($add).
+Removed top 2 bits (of 5) from port B of cell step_contract.$flatten\compact.\enc.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:6$538 ($add).
+Removed top 1 bits (of 5) from port Y of cell step_contract.$flatten\compact.\enc.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:6$538 ($add).
+Removed top 1 bits (of 5) from port A of cell step_contract.$flatten\compact.\enc.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:7$540 ($add).
+Removed top 2 bits (of 5) from port B of cell step_contract.$flatten\compact.\enc.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:7$540 ($add).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$662 ($add).
+Removed top 29 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$lt$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:60$664 ($lt).
+Removed top 30 bits (of 32) from port A of cell step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:60$665 ($mul).
+Removed top 27 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:60$665 ($mul).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$667 ($add).
+Removed top 30 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$lt$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:66$685 ($lt).
+Removed top 30 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$lt$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:66$687 ($lt).
+Removed top 30 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$lt$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:68$693 ($lt).
+Removed top 30 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$lt$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:69$701 ($lt).
+Removed top 30 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$lt$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:69$703 ($lt).
+Removed top 29 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$lt$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:72$724 ($lt).
+Removed top 29 bits (of 32) from port A of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:85$890 ($add).
+Removed top 28 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:85$890 ($add).
+Removed top 27 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$shiftx$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$891 ($shiftx).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$903 ($sub).
+Converting cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$903 ($sub) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$903 ($sub).
+Removed top 19 bits (of 22) from port Y of cell step_contract.$flatten\compact.\original.$and$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$906 ($and).
+Removed top 19 bits (of 22) from port A of cell step_contract.$flatten\compact.\original.$shift$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$909 ($shift).
+Removed top 28 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$914 ($sub).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$914 ($sub).
+Converting cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$914 ($sub) from signed to unsigned.
+Removed top 27 bits (of 33) from port Y of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$914 ($sub).
+Removed top 1 bits (of 5) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$914 ($sub).
+Removed top 1 bits (of 6) from port Y of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$914 ($sub).
+Removed top 28 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$neg$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$915 ($neg).
+Removed top 10 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$shift$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$919 ($shift).
+Removed top 29 bits (of 32) from port A of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:100$956 ($add).
+Removed top 28 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:100$956 ($add).
+Removed top 27 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$shiftx$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$957 ($shiftx).
+Removed top 30 bits (of 32) from port A of cell step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:101$960 ($mul).
+Removed top 28 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:101$960 ($mul).
+Removed top 28 bits (of 32) from port A of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:101$961 ($add).
+Removed top 28 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:101$961 ($add).
+Removed top 27 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:101$961 ($add).
+Removed top 27 bits (of 32) from port A of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$962 ($add).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$962 ($add).
+Removed top 26 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$962 ($add).
+Removed top 25 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$shiftx$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$963 ($shiftx).
+Removed top 30 bits (of 32) from port A of cell step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$975 ($mul).
+Removed top 28 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$975 ($mul).
+Removed top 10 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$shift$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$983 ($shift).
+Removed top 1 bits (of 3) from port A of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:103$987 ($add).
+Removed top 2 bits (of 3) from port B of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:103$987 ($add).
+Removed top 26 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$992 ($sub).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$992 ($sub).
+Converting cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$992 ($sub) from signed to unsigned.
+Removed top 25 bits (of 33) from port Y of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$992 ($sub).
+Removed top 1 bits (of 7) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$992 ($sub).
+Removed top 1 bits (of 8) from port Y of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$992 ($sub).
+Removed top 26 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$neg$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$993 ($neg).
+Removed top 19 bits (of 22) from port Y of cell step_contract.$flatten\compact.\original.$and$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$995 ($and).
+Removed top 19 bits (of 22) from port A of cell step_contract.$flatten\compact.\original.$shift$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$998 ($shift).
+Removed top 28 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1003 ($sub).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1003 ($sub).
+Converting cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1003 ($sub) from signed to unsigned.
+Removed top 27 bits (of 33) from port Y of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1003 ($sub).
+Removed top 1 bits (of 5) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1003 ($sub).
+Removed top 1 bits (of 6) from port Y of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1003 ($sub).
+Removed top 28 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$neg$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1004 ($neg).
+Removed top 10 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$shift$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1008 ($shift).
+Removed top 1 bits (of 2) from port B of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:114$1022 ($add).
+Removed top 2 bits (of 3) from port A of cell step_contract.$flatten\compact.\original.$shl$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:120$1023 ($shl).
+Removed top 31 bits (of 32) from port A of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$1040 ($add).
+Removed top 29 bits (of 32) from port Y of cell step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$1040 ($add).
+Removed top 29 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1041 ($sub).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1041 ($sub).
+Converting cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1041 ($sub) from signed to unsigned.
+Removed top 28 bits (of 33) from port Y of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1041 ($sub).
+Removed top 1 bits (of 4) from port A of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1041 ($sub).
+Removed top 1 bits (of 5) from port Y of cell step_contract.$flatten\compact.\original.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1041 ($sub).
+Removed top 29 bits (of 33) from port A of cell step_contract.$flatten\compact.\original.$neg$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1042 ($neg).
+Removed top 28 bits (of 32) from port B of cell step_contract.$flatten\compact.\original.$shiftx$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1056 ($shiftx).
+Removed top 1 bits (of 2) from port B of cell step_contract.$flatten\compact.\original.$procmux$1181_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell step_contract.$flatten\compact.\original.$procmux$1186_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell step_contract.$flatten\compact.\original.$procmux$1186_CMP1 ($eq).
+Removed top 1 bits (of 4) from port B of cell step_contract.$flatten\compact.\original.$procmux$1186_CMP2 ($eq).
+Removed top 1 bits (of 4) from port B of cell step_contract.$flatten\compact.\original.$procmux$1187_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell step_contract.$flatten\compact.\original.$procmux$1188_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell step_contract.$flatten\compact.\original.$procmux$1189_CMP0 ($eq).
+Removed top 3 bits (of 4) from port B of cell step_contract.$flatten\compact.\original.$procmux$1190_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell step_contract.$flatten\compact.\original.$procmux$3294_CMP0 ($eq).
+Removed top 29 bits (of 32) from port B of cell step_contract.$flatten\compact.\dec.$le$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:15$557 ($le).
+Removed top 28 bits (of 32) from port B of cell step_contract.$flatten\compact.\dec.$ge$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$561 ($ge).
+Removed top 28 bits (of 32) from port B of cell step_contract.$flatten\compact.\dec.$le$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$562 ($le).
+Removed top 2 bits (of 5) from port B of cell step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 2 bits (of 5) from port Y of cell step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 2 bits (of 5) from port A of cell step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 28 bits (of 32) from port B of cell step_contract.$flatten\compact.\dec.$ge$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$567 ($ge).
+Removed top 27 bits (of 32) from port B of cell step_contract.$flatten\compact.\dec.$le$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$568 ($le).
+Removed top 1 bits (of 5) from port B of cell step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 2 bits (of 5) from port Y of cell step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 2 bits (of 5) from port A of cell step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 1 bits (of 4) from port B of cell step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\compact.\dec.$ge$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:15$556 ($ge).
+Removed top 2 bits (of 5) from mux cell step_contract.$flatten\next_state.$ternary$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$572 ($mux).
+Removed top 1 bits (of 5) from port B of cell step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 2 bits (of 5) from port Y of cell step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 2 bits (of 5) from port A of cell step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 1 bits (of 4) from port B of cell step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570 ($sub).
+Removed top 27 bits (of 32) from port B of cell step_contract.$flatten\next_state.$le$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$568 ($le).
+Removed top 28 bits (of 32) from port B of cell step_contract.$flatten\next_state.$ge$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$567 ($ge).
+Removed top 2 bits (of 5) from mux cell step_contract.$flatten\next_state.$ternary$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$566 ($mux).
+Removed top 2 bits (of 5) from port B of cell step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 2 bits (of 5) from port Y of cell step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 2 bits (of 5) from port A of cell step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$564 ($sub).
+Removed top 28 bits (of 32) from port B of cell step_contract.$flatten\next_state.$le$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$562 ($le).
+Removed top 28 bits (of 32) from port B of cell step_contract.$flatten\next_state.$ge$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$561 ($ge).
+Removed top 2 bits (of 5) from mux cell step_contract.$flatten\next_state.$ternary$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:15$560 ($mux).
+Removed top 29 bits (of 32) from port B of cell step_contract.$flatten\next_state.$le$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:15$557 ($le).
+Removed top 31 bits (of 32) from port B of cell step_contract.$flatten\next_state.$ge$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:15$556 ($ge).
+Removed top 2 bits (of 5) from wire step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$564_Y.
+Removed top 2 bits (of 5) from wire step_contract.$flatten\compact.\dec.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570_Y.
+Removed top 1 bits (of 5) from wire step_contract.$flatten\compact.\enc.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:6$538_Y.
+Removed top 26 bits (of 32) from wire step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$962_Y.
+Removed top 28 bits (of 32) from wire step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:100$956_Y.
+Removed top 31 bits (of 32) from wire step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:101$961_Y.
+Removed top 29 bits (of 32) from wire step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:128$1040_Y.
+Removed top 28 bits (of 32) from wire step_contract.$flatten\compact.\original.$add$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:85$890_Y.
+Removed top 19 bits (of 22) from wire step_contract.$flatten\compact.\original.$and$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$906_Y.
+Removed top 19 bits (of 22) from wire step_contract.$flatten\compact.\original.$and$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$995_Y.
+Removed top 21 bits (of 22) from wire step_contract.$flatten\compact.\original.$extend$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:129$1057_Y.
+Removed top 28 bits (of 32) from wire step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:101$960_Y.
+Removed top 28 bits (of 32) from wire step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:102$975_Y.
+Removed top 27 bits (of 32) from wire step_contract.$flatten\compact.\original.$mul$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:60$665_Y.
+Removed top 1 bits (of 22) from wire step_contract.$flatten\compact.\original.$or$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1050_Y.
+Removed top 10 bits (of 32) from wire step_contract.$flatten\compact.\original.$shift$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$1008_Y.
+Removed top 10 bits (of 32) from wire step_contract.$flatten\compact.\original.$shift$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$919_Y.
+Removed top 10 bits (of 32) from wire step_contract.$flatten\compact.\original.$shift$/workspace/ases-kernel-encoding/docs/research/kernel-0/direct-rtl/kernel0.v:0$983_Y.
+Removed top 2 bits (of 5) from wire step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:16$564_Y.
+Removed top 2 bits (of 5) from wire step_contract.$flatten\next_state.$sub$/workspace/ases-kernel-encoding/docs/research/kernel-0/encoding-20261105/compact.v:17$570_Y.
+
+4.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \step_contract..
+Removed 0 unused cells and 26 unused wires.
+<suppressed ~1 debug messages>
+
+4.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+4.11. Executing OPT pass (performing simple optimizations).
+
+4.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module step_contract.
+
+4.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\step_contract'.
+<suppressed ~6 debug messages>
+Removed a total of 2 cells.
+
+4.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \step_contract..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+4.11.4. Finished fast OPT passes.
+
+4.12. Printing statistics.
+
+=== step_contract ===
+
+   Number of wires:                419
+   Number of wire bits:           3193
+   Number of public wires:         111
+   Number of public wire bits:     953
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                349
+     $add                           13
+     $and                           14
+     $eq                            19
+     $ge                             6
+     $le                             6
+     $logic_and                     73
+     $logic_not                     26
+     $logic_or                      14
+     $lt                             7
+     $mul                            3
+     $mux                           80
+     $ne                             4
+     $neg                            5
+     $not                           10
+     $or                             7
+     $pmux                          14
+     $reduce_bool                   18
+     $reduce_or                      4
+     $shift                         10
+     $shiftx                         6
+     $shl                            1
+     $sub                            9
+
+4.13. Executing CHECK pass (checking for obvious problems).
+Checking module step_contract...
+Found and reported 0 problems.
+
+5. Executing SAT pass (solving SAT problems in the circuit).
+
+Setting up SAT problem:
+Final constraint equation: { } = { }
+Imported 349 cells to SAT database.
+Import proof-constraint: \bad = 1'0
+Final proof equation: \bad = 1'0
+Import show expression: \proposal
+Import show expression: \state_in
+
+Solving problem with 17679 variables and 49043 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+
