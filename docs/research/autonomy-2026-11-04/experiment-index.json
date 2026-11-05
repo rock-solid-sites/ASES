@@ -58,7 +58,7 @@
     "research/autonomy-20261105-witness-publication": "dbcb70c25f662f4d3ce41a0e671ebd2343b7a610",
     "review/autonomy-20261105-sink-witness": "a158bb957cfc6b11980b773980353e61db7839cd",
     "research/autonomy-20261105-f1-consumer-evidence": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
-    "research/autonomy-20261105-c11-history": "9aaf60a029406d95e730aa5201b0e276d43cb7cf",
+    "research/autonomy-20261105-c11-history": "beefbab9b9aac12a70e3329b5129463fd69e5a0c",
     "review/autonomy-20261105-f1-consumer": "652430469f7d06cf0f43a452c7d4d99b5fe81a76",
     "review/autonomy-20261105-latent-diagnostic": "fb0745bf1da636b6553ca06b657cec3ce6eb3662"
   },
@@ -146,6 +146,10 @@
     {
       "utc": "2026-11-05T05:24:47Z",
       "state": "Full-driver79cf4a2 identifies all-context timeout with227533 seen; C8 e035dec trace/independent reviewfb0745b.45 records. Next C11 absent entire acceptance tuple in recovered runtime;11 workers historical/all done, quota unknown."
+    },
+    {
+      "utc": "2026-11-05T05:33:37Z",
+      "state": "C11 unavailable-input baseline db557fb/repair e27180b/evidence published;46 indexed records. Next physical resource occupancy versus guarded SQL claim; no active agents, quota unknown."
     }
   ],
   "experiments": [
@@ -1853,6 +1857,51 @@
         "R2-F1-FULL-DRIVER-PHASES"
       ],
       "next_discriminator": "C11 recovery with unavailable acceptance tuple: actual new content admission after valid read-only recovery, not another field-type example"
+    },
+    {
+      "id": "R2-C11-UNAVAILABLE-INPUT",
+      "stream": "F1",
+      "claim": "Valid recovered evidence permits current reads but cannot supply a missing required tuple for new content commitment",
+      "source_branch": "research/autonomy-20261105-c11-history",
+      "source_sha": "beefbab9b9aac12a70e3329b5129463fd69e5a0c",
+      "implementation": "docs/research/phase-i-f1/c11-history/unavailable_input.py",
+      "command": "python3 docs/research/phase-i-f1/c11-history/unavailable_input.py fixed > /tmp/unavailable.json && python3 docs/research/phase-i-f1/c11-history/check_unavailable_input.py /tmp/unavailable.json",
+      "environment": {
+        "address_space_bytes": 268435456,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+        "sqlite": "3.53.1"
+      },
+      "status": "executed_observed",
+      "observed_result": "Baseline valid no-tuple recovery read succeeds, then new content COMMIT without companion update/no usable ACK; next startup refuses incompatible binding. Proposal availability guard denies before UPDATE/COMMIT with tuple missing, old ACKed pair retained/readable. Explicit tuple positive still ACKs/recovers.8 owned children/max1 per phase, source pins verified.",
+      "limits": "Selected content-changing acceptance profile, conservative denial may reduce availability for archived reselection. No new trusted input channel, provenance/source truth, nonrollback, power loss, concurrency, generic C9/C11/F1 completion. Current read sufficiency not new acceptance authority; no independent new guard review.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/c11-history/unavailable-input.baseline.raw.json",
+          "sha256": "f6834a7149165ba653eb2f50bb3c2c20e294c945976d1c9d39f9b686e7758262"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/unavailable-input.baseline.check.json",
+          "sha256": "d7ff125030075c0bace04652db814514d3a49ba3e22647391e73544acbbd63b8"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/unavailable-input.fixed.raw.json",
+          "sha256": "bea3e90e27a62e5cc095d3d85a19e686dd728188bc321320b196a053c91e93b3"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/unavailable-input.fixed.check.json",
+          "sha256": "21b28add688f85eb3f53470a6e7962cca6fb608197879ca31cc1e4cd4112881f"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-C11-PRECOMMIT-VALIDATION"
+      ],
+      "blockers": [],
+      "next_discriminator": "Native resource occupancy versus ledger release, including retained descriptor across process death, under a selected exclusive resource profile",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
