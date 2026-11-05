@@ -60,7 +60,8 @@
     "research/autonomy-20261105-f1-consumer-evidence": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
     "research/autonomy-20261105-c11-history": "beefbab9b9aac12a70e3329b5129463fd69e5a0c",
     "review/autonomy-20261105-f1-consumer": "652430469f7d06cf0f43a452c7d4d99b5fe81a76",
-    "review/autonomy-20261105-latent-diagnostic": "fb0745bf1da636b6553ca06b657cec3ce6eb3662"
+    "review/autonomy-20261105-latent-diagnostic": "fb0745bf1da636b6553ca06b657cec3ce6eb3662",
+    "research/autonomy-20261105-resource-occupancy": "ce7515ba42387c411f5e81969a64ff9789ebea0c"
   },
   "checkpoints": [
     {
@@ -150,6 +151,10 @@
     {
       "utc": "2026-11-05T05:33:37Z",
       "state": "C11 unavailable-input baseline db557fb/repair e27180b/evidence published;46 indexed records. Next physical resource occupancy versus guarded SQL claim; no active agents, quota unknown."
+    },
+    {
+      "utc": "2026-11-05T05:47:36Z",
+      "state": "Native resource ce7515b pushed/index47; one bounded Luna reviewer active,12 historical workers/no nested delegation. Next actual native-bind/SQL-COMMIT failure boundary if useful. Quota unknown."
     }
   ],
   "experiments": [
@@ -1902,18 +1907,57 @@
       "blockers": [],
       "next_discriminator": "Native resource occupancy versus ledger release, including retained descriptor across process death, under a selected exclusive resource profile",
       "supersedes": []
+    },
+    {
+      "id": "R2-F1-NATIVE-RESOURCE-OCCUPANCY",
+      "stream": "F1",
+      "claim": "SQL capacity/release and original process death do not establish actual native exclusive resource availability while a listener reference survives",
+      "source_branch": "research/autonomy-20261105-resource-occupancy",
+      "source_sha": "ce7515ba42387c411f5e81969a64ff9789ebea0c",
+      "implementation": "docs/research/phase-i-f1/resource-occupancy/probe.py",
+      "command": "python3 docs/research/phase-i-f1/resource-occupancy/probe.py > /tmp/resource-occupancy.json && python3 docs/research/phase-i-f1/resource-occupancy/check.py /tmp/resource-occupancy.json",
+      "environment": {
+        "address_space_bytes": 268435456,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+        "sqlite": "3.53.1"
+      },
+      "status": "executed_observed",
+      "observed_result": "Owned A SQL release ACK leaves native listener busy. Deliberate ledger-only B ACK/row then EADDRINUSE; explicit cleanup logged. Native-before-COMMIT/ACK path denies busy/ROLLBACK and succeeds after actual close. A death releases without survivor, but transferred same-inode/address listener keeper survives A reap and blocks B until fd closed. B death frees native endpoint while durable B row remains.10 owned children/max2.",
+      "limits": "Selected owned ephemeral bind/listen resource at ACK, no app traffic/confinement/real credential revocation/Landlock/durable native restoration or generic C3/C5/F1 closure. Native bind occurs before SQLCOMMIT; whole-effect failure atomicity untested. Initial checker absence control contradicted captured wire and correctly VIOLATION; fixed omission INCOMPLETE, same raw re-audited, no native rerun.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/resource-occupancy/raw.json",
+          "sha256": "a1db79a4b7ba2d07669da008b6d0834878b973479f2cf052e460b6d3c7f8ec97"
+        },
+        {
+          "path": "docs/research/phase-i-f1/resource-occupancy/check.json",
+          "sha256": "7de678f54b6807e97783e54b81cf74593ec0cefb665db321c552491f004b9e75"
+        },
+        {
+          "path": "docs/research/phase-i-f1/resource-occupancy/check.attempt1.stderr.txt",
+          "sha256": "b01e065cd1cdbf691f0729a05fae7815a46f4ab64a799b1ab01c5614aa228656"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Independent bounded native audit in progress; then native prepared bind followed by actual SQL COMMIT failure under an explicit tentative-effect contract",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
-    "Frozen F2 T18 remains prepared-only: explicit real create/grant/activate/revoke bootstrap mapping absent",
-    "Full F4 power-loss/storage-loss/retry obligations open; local process death only",
-    "Trusted nonrollback external currentness and coupling to actual protected acceptance",
-    "F1 C11 independent durable source/provenance, wider resource/lifecycle and complete-model scope",
-    "Kernel independent full correspondence/physical timing/capture-publication and minimality obligations",
-    "F3 sole-holder enforcement, real credential revocation/native confinement ENOSYS; L6/L7 open",
-    "Formal cross-family F5 review absent",
-    "Independent evidence archive/long-term retention unestablished; both remote-only cold checks completed",
-    "Next concrete C11 SQLite-holder consumer evidence acceptance/retention discriminator; previous crossed fields were stipulated abstract observations. Freeze atomic versus separate-commit contract before code; no schema mandate or authenticity claim."
+    "Frozen f2lib T18 use-current fixture remains prepared-only; standalone real flat C/p create/grant/activate/revoke/send mapping is executed/reviewed, while generic/full F2 and native enforcement correspondence remain open.",
+    "Full F4 storage/power-loss, generic failure/retry/whole-effect guarantees remain open; selected actual process-death/current-journal and prefix profiles are bounded evidence only.",
+    "Trusted source-authenticated/nonrollback external authority/currentness remains a premise; live generation alone falsified, eligibility and revoke publish-before-ACK paths tested conditionally, general distributed coupling/other transitions open.",
+    "F1 actual C11 latest coupling/history/type guards/unavailable-new-input denial executed, but intrinsic stable identity/provenance truth, arbitrary accepted histories and full conformance remain open; original broad all model context timed out after four complete contexts.",
+    "Native resource acquisition at ACK versus ledger release/descriptor lifetime executed; failure atomicity between native bind and SQL COMMIT, durable native restoration/reconciliation and wider resource semantics open.",
+    "Kernel stronger independent full correspondence, physical timing, capture/publication witness and minimality remain open; compact encoding has conditional source proofs/basic-cell costs only.",
+    "F3 native confinement/real credential revocation, sole-holder premise beyond tested cooperative guards, concurrent-manager safety and L6/L7 remain open; previous Landlock ENOSYS is not retried.",
+    "Formal cross-family F5 review absent; operational isolated native worker checks are same-family and scoped.",
+    "Independent archive/long-term retention unestablished; remote-only cold snapshots including36 records/67 raw digests used same host/GitHub origin and do not execute every experiment on a clean machine."
   ],
   "blocked_routes": [
     "Kernel-contract platform safety-filter investigation: do not retry",
@@ -1978,5 +2022,16 @@
       "sha": "614df5fb981ce9b03586f08e9d051e21946796b1",
       "limits": "fresh context in original isolated worktree; not independent proof execution or formal cross-family review"
     }
-  ]
+  ],
+  "active_work": [
+    {
+      "task": "native_resource_check",
+      "branch": "review/autonomy-20261105-resource-occupancy",
+      "source_sha": "ce7515ba42387c411f5e81969a64ff9789ebea0c",
+      "state": "bounded source prediction and one reproduction/audit in precreated isolated worktree",
+      "caller_route": "gpt-6-luna/high native; not self-reported identity",
+      "delegation_depth": 1
+    }
+  ],
+  "checkpoint_time_note": "Earlier checkpoint UTC labels sometimes used the most recent observed clock, not exact event/publication time. Raw monotonic traces and git commit timestamps retain actual event/source evidence; new checkpoints use host UTC at index-write time."
 }
