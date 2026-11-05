@@ -9,7 +9,7 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 5
+    "workers_launched": 6
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
@@ -34,7 +34,8 @@
     "review/autonomy-20261104-sink-recovery": "822ef102d5b428458f41a83081b26a03169c8c71",
     "research/autonomy-20261104-sink-io-failure": "d4a780b275d1d2ef48cfc8a10f5350671a52fa7b",
     "research/autonomy-20261105-prefix-recovery": "4f8f3ff822de536e3c17250229f97e98ddab8272",
-    "review/autonomy-20261105-prefix-recovery": "812bc0518c7ed94df0a0ca40a5718151780a62c7"
+    "review/autonomy-20261105-prefix-recovery": "812bc0518c7ed94df0a0ca40a5718151780a62c7",
+    "research/autonomy-20261105-kernel-encoding": "d20a6e3f144443f49e958f5fce8d16909821a63d"
   },
   "checkpoints": [
     {
@@ -56,6 +57,10 @@
     {
       "utc": "2026-11-04",
       "state": "Serving restart baseline counterexamples and explicit recovery repair pushed. Fourth worker allocated bounded replay check; accidental result/prereg snippets contaminated first-verdict independence, now explicitly non-independent adversarial check only."
+    },
+    {
+      "utc": "2026-11-05T00:34:38Z",
+      "state": "Cloud control-plane observed pending/current, failure null; shell experiments paused. GitHub connector remains accessible; preserving completed compact-encoding data and interrupted review cursor."
     }
   ],
   "experiments": [
@@ -1069,6 +1074,61 @@
       "blockers": [],
       "next_discriminator": "Independent scope check only if consequential; move to open Kernel resource tradeoff",
       "supersedes": []
+    },
+    {
+      "id": "R2-KERNEL-COMPACT-ENCODING",
+      "stream": "Kernel-0",
+      "claim": "Conditional18-bit register representation refinement and same-flow resource tradeoff",
+      "source_branch": "research/autonomy-20261105-kernel-encoding",
+      "source_sha": "d20a6e3f144443f49e958f5fce8d16909821a63d",
+      "implementation": "docs/research/kernel-0/encoding-20261105/run.py",
+      "command": "timeout 180 python3 docs/research/kernel-0/encoding-20261105/run.py",
+      "environment": {
+        "host": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "capabilities": [
+          "native Yosys0.23",
+          "ABC1.01",
+          "Icarus12",
+          "Linux wait4"
+        ],
+        "job_address_space_bytes": 536870912,
+        "job_timeout_seconds": 45
+      },
+      "status": "executed_observed",
+      "observed_result": "Codec/step source SAT pass; decoder mutant fails codec SAT and literal cycle8;21 literal cycles pass. Same-flow FF24->20, combinational cells675->784, total699->804, logic levels22->32. Synthesis wall1.973/2.200s; child peak RSS74688/87852KiB. Smaller register costs more mapped logic/levels in this candidate.",
+      "limits": "Independent profile, frozen transition reused, shape-constrained proof not independent semantics/minimality. Basic cells/levels are not physical timing/area/frequency; post-ABC equivalence not run. Invocation HEAD differs from implementation commit; source hashes retained. Initial missing/usr/bin/time setup failure preserved; measurement changed to wait4 only.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/kernel-0/encoding-20261105/result.json",
+          "sha256": "cc24c25a565520af21ee7076229bd733f95b179da3d1789f9aafd722230ab06b"
+        },
+        {
+          "path": "docs/research/kernel-0/encoding-20261105/evidence/codec.stdout.txt",
+          "sha256": "4e0dc67db67edb0ad4fa61930b65b819cb5cc958cdce08964bfa7b66b9ee2651"
+        },
+        {
+          "path": "docs/research/kernel-0/encoding-20261105/evidence/step.stdout.txt",
+          "sha256": "d1a4ca150ec478bac60970022feff57b416f01dd90593f4bb878a8c3d32b6f77"
+        },
+        {
+          "path": "docs/research/kernel-0/encoding-20261105/evidence/baseline-stats.json",
+          "sha256": "02d862ae6f75b4b660bb15a06e4cccb5e9a3226f4ecaf59bb6052a828a6b1015"
+        },
+        {
+          "path": "docs/research/kernel-0/encoding-20261105/evidence/compact-stats.json",
+          "sha256": "feeb109231c48c2b448855f294a75fee0da0c51bc28f25d8219f039262b593c4"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "Frozen legality: at most one active a0/a1/a2 rights mask",
+        "c8f1c6fe8652bab748d384698fb471e8fb6698dc packet"
+      ],
+      "blockers": [
+        "Review task interrupted during selected environment pending startup; no independent review result claimed"
+      ],
+      "next_discriminator": "Resume pinned independent encoding review after environment ready; do not optimize another encoding merely to manufacture improvement",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
@@ -1099,6 +1159,22 @@
       "event": "cybersecurity UI warning: This content cannot be shown",
       "affected_action": "unknown; no matching new tool rejection visible",
       "disposition": "recorded; no reroute/retry of blocked content; historical blocked Kernel-contract route remains blocked"
+    },
+    {
+      "utc": "2026-11-05T00:34:38Z",
+      "source": "cloud_environment_status",
+      "event": "selected environment observed_phase=pending; desired running; connectivity connected; observations_current=true; failure=null",
+      "affected_action": "workspace execution and encoding review interrupted",
+      "disposition": "waited for startup; no new shell experiment/model worker; GitHub read/write used only for authorized durable publication, not to retry blocked content"
+    }
+  ],
+  "pending_reviews": [
+    {
+      "task": "encoding_check",
+      "branch": "review/autonomy-20261105-kernel-encoding",
+      "pinned_source": "d20a6e3f144443f49e958f5fce8d16909821a63d",
+      "status": "interrupted",
+      "limits": "No completed verdict or verified publication available; resume only when selected environment ready"
     }
   ]
 }
