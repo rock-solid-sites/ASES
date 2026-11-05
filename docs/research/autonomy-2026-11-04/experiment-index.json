@@ -34,6 +34,14 @@
         "fork_turns": "none",
         "status": "completed",
         "nested_delegation": false
+      },
+      {
+        "task": "l6_inventory_check",
+        "model_route": "gpt-6.1-terra",
+        "reasoning_effort": "high",
+        "fork_turns": "none",
+        "status": "active",
+        "nested_delegation": false
       }
     ]
   },
@@ -81,7 +89,8 @@
     "research/autonomy-20261105-published-cut": "26db6db361be986cdd168045f510f5567ee9df53",
     "research/autonomy-20261105-published-cut-receipt-loss": "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9",
     "review/autonomy-20261105-published-cut-receipt": "ae5a45804ea555fdb19d50a03c114f94a33eabb6",
-    "research/autonomy-20261105-kernel-mapped": "ea3f20cd13cf11e6b1105975b7b1988f481986ad"
+    "research/autonomy-20261105-kernel-mapped": "ea3f20cd13cf11e6b1105975b7b1988f481986ad",
+    "research/autonomy-20261105-l6-inventory": "b5b91fcb017c31ffec697f357228e3a3eef25313"
   },
   "checkpoints": [
     {
@@ -203,6 +212,10 @@
     {
       "utc": "2026-11-05T07:04:39Z",
       "state": "Direct reset inductionea3f20c pushed;55 records. Next inspect/freeze bounded actual durable dependency disposition, no active workers/known quota."
+    },
+    {
+      "utc": "2026-11-05T07:13:21Z",
+      "state": "L6 inventoryb5b91fc pushed;56 records. One bounded fresh Terra/high source-first review active; next T15 actual creator/remover race."
     }
   ],
   "experiments": [
@@ -2326,6 +2339,43 @@
       "blockers": [],
       "next_discriminator": "Different governing obligation; bounded L6/T13/T23 durable unaccepted dependency disposition and interruption can proceed as policy/store tests while native enforcement remains blocked",
       "supersedes": []
+    },
+    {
+      "id": "R2-L6-DURABLE-INVENTORY-DISPOSITION",
+      "stream": "F3-lifecycle-cross-layer",
+      "claim": "Selected T13/T23 store/policy subset: all-dependency catalog emptiness can omit durable unregistered material; complete enclosing-root check and explicit logical disposition preserve survivors",
+      "source_branch": "research/autonomy-20261105-l6-inventory",
+      "source_sha": "b5b91fcb017c31ffec697f357228e3a3eef25313",
+      "implementation": "research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/probe.py",
+      "command": "timeout 45 python3 research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/probe.py > /tmp/l6.json && python3 research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/check.py /tmp/l6.json",
+      "environment": {
+        "address_space_bytes": 268435456,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+        "sqlite": "3.53.1"
+      },
+      "status": "executed_observed",
+      "observed_result": "Actual fsynced unaccepted z and uncommitted row gate/SIGKILL: catalog rolls back to0 while exact z persists. Fresh management reports unresolved; directory guard denies unchanged, catalog-only mutation admits logical removal with bytes present. Accepted x/candidate z actual ACKs; disposition x COMMIT/pre-unlink kill, root-only sealed reconstruction denies old logical x/retains z, guards removal then explicit cleanup/dispose/empty rmdir positive. Four cases/8 children/max1; missing recovery INCOMPLETE/contradiction VIOLATION.",
+      "limits": "New flat store/policy candidate, no existing L5 API defect or native host exposure/confinement claim. Trusted enclosing-root/all cooperative creators/serialized SQLite management. EOF remainder not separately drained; gate source blocks reply, no response observed is not universal absence evidence. Final SQL removal/rmdir interruption, secure erasure/raw descriptors, native enforcement, power loss and full L6/T13/T23/F3/F4 remain open.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/raw.json",
+          "sha256": "7e486a8206935c11be9fb84b0422b78a9ca898d9acf04af0fa7361257a310ea4"
+        },
+        {
+          "path": "research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/check.json",
+          "sha256": "e32c830d01db9db64ad2e0e2ea98889e761291324bd1cde31f3b839d42ebf6bd"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [
+        "Native confinement remains blocked by previously observed Landlock ENOSYS; not retried"
+      ],
+      "next_discriminator": "T15 actual new-dependent creation during empty scan/removal; detached scan vs held common write boundary, capture EOF remainder in new harness without repeating this evidence",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
@@ -2404,6 +2454,15 @@
       "limits": "fresh context in original isolated worktree; not independent proof execution or formal cross-family review"
     }
   ],
-  "active_work": [],
+  "active_work": [
+    {
+      "task": "l6_inventory_check",
+      "branch": "review/autonomy-20261105-l6-inventory",
+      "source_sha": "b5b91fcb017c31ffec697f357228e3a3eef25313",
+      "model_route": "gpt-6.1-terra",
+      "reasoning_effort": "high",
+      "scope": "source-first one primary rerun and independent raw audit, no nested work"
+    }
+  ],
   "checkpoint_time_note": "Earlier checkpoint UTC labels sometimes used the most recent observed clock, not exact event/publication time. Raw monotonic traces and git commit timestamps retain actual event/source evidence; new checkpoints use host UTC at index-write time."
 }
