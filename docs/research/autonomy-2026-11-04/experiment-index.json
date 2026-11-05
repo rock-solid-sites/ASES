@@ -37,7 +37,8 @@
     "review/autonomy-20261105-prefix-recovery": "812bc0518c7ed94df0a0ca40a5718151780a62c7",
     "research/autonomy-20261105-kernel-encoding": "d20a6e3f144443f49e958f5fce8d16909821a63d",
     "review/autonomy-20261105-kernel-encoding": "614df5fb981ce9b03586f08e9d051e21946796b1",
-    "research/autonomy-20261105-t18-revocation": "aefdd5ece043190a76e8f14434aca9e9ec156038"
+    "research/autonomy-20261105-t18-revocation": "aefdd5ece043190a76e8f14434aca9e9ec156038",
+    "review/autonomy-20261105-t18-revocation": "3deeb71278063039b82a358d239a5f079212b38b"
   },
   "checkpoints": [
     {
@@ -1218,7 +1219,7 @@
         ],
         "address_space_bytes": 268435456
       },
-      "status": "executed_observed",
+      "status": "independently_reproduced",
       "observed_result": "Actual revoke ACK precedes send; reference old-generation1 still equals lastissued1 but409/no x; eligibility-omitting mutation201/x. Separate exact m/x retained across p old->new/gen2 replacement; ordinary current-use2 before activation denied. Regrant2/activation and original replacement controls pass; all managed restart attempts explicitly refuse.",
       "limits": "Flat C/p under trusted manager/current root/journal. New standalone concrete profile; frozen f2lib fixture stays prepared-only. No real credential/native host/nonrollback/recovery/power-loss or aggregate F2/F4 claim. Restart attempt PID missing, synchronous completion/time/stderr retained.",
       "raw_evidence": [
@@ -1235,12 +1236,18 @@
           "sha256": "554fe44a9a86332a6cc58d80f3d9f34b9066f89ad23ec3b9af1f7dabc4e03931"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-t18-revocation",
+          "sha": "3deeb71278063039b82a358d239a5f079212b38b",
+          "independence": "Fresh native Luna/high context in precreated isolated branch at7ed639c; source-derived verdict before producer writeups, one primary rerun plus separately authored18-check audit. Operationally isolated, no formal cross-family independence. Covers original managed case, not later replay."
+        }
+      ],
       "dependencies": [
         "R2-CONTINUOUS-PREFIX-HISTORY"
       ],
       "blockers": [],
-      "next_discriminator": "Replay actual acknowledged revocation/eligibility before managed readiness; independent review in progress",
+      "next_discriminator": "Replay extension executed separately; actual live witness generation versus eligibility projection next",
       "supersedes": []
     },
     {
