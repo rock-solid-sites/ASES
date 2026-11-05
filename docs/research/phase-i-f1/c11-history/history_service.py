@@ -8,12 +8,29 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/'c11-sqlite'))
 import c11_service as c11
 
+def validate_required(observations):
+    if (not isinstance(observations,dict) or set(observations)!=set(c11.FIELDS)
+            or not all(isinstance(observations[key],str) for key in c11.FIELDS)):
+        raise ValueError('invalid required observation fields')
+
 def enrich(profile):
     original_query=c11.query
     def query(db):
         current=original_query(db)
-        raw=[row[0] for row in db.execute('SELECT record FROM consumer_archive ORDER BY accepted_content')]
-        if profile=='archive':records=[json.loads(row,object_pairs_hook=c11.core.unique_object) for row in raw]
+        rows=db.execute('SELECT accepted_content,record FROM consumer_archive ORDER BY accepted_content').fetchall()
+        raw=[row[1] for row in rows]
+        archived=[]
+        for content,encoded in rows:
+            record=json.loads(encoded,object_pairs_hook=c11.core.unique_object)
+            if (not isinstance(record,dict) or set(record)!= {'accepted_content','required'}
+                    or not isinstance(content,str) or record['accepted_content']!=content):
+                raise ValueError('invalid accepted archive binding')
+            validate_required(record['required']);archived.append(record)
+        if profile=='archive':
+            if current['accepted_content'] is not None:
+                if (current['status']!='available' or dict(accepted_content=current['accepted_content'],required=current['required']) not in archived):
+                    raise ValueError('current accepted observations unavailable from archive')
+            records=archived
         else:
             records=[dict(accepted_content=current['accepted_content'],required=current['required'])] if current['status']=='available' else []
         return dict(current,retained_records=records,archive_rows_raw_hex=[row.encode().hex() for row in raw])
@@ -23,11 +40,13 @@ def serve(config):
     profile=config['retention_profile']
     if profile not in ('latest','archive'):raise ValueError('unknown selected retention profile')
     observations=config.get('observations')
+    if observations is not None:validate_required(observations)
     original_store=c11.persistent.Store
     class Store(original_store):
         def __init__(self,*args):
             super().__init__(*args)
             self.db.execute('SELECT record FROM consumer_archive')
+            c11.query(self.db)  # Validate existing semantic records before ready.
         def write(self,state):
             super().write(state)
             if profile!='archive' or observations is None or state.content is None:return
