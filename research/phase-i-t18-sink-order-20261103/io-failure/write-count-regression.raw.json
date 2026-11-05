@@ -1,0 +1,126 @@
+{
+  "cases": {
+    "short_return_fixed": {
+      "client": {
+        "body": {
+          "event_seq": 1,
+          "outcome": "accepted"
+        },
+        "http_status": 201
+      },
+      "fresh_reader": {
+        "exit": 0,
+        "observation": {
+          "effects": [
+            {
+              "payload_hex": "73686f72742d77726974652d6566666563742dcf800a696d6d757461626c65",
+              "payload_sha256": "2fd3f190f24115f1c3e938e6d746b019011db2159254515b7ad24a767769fab4",
+              "request_id": "short_return_fixed",
+              "seq": 1
+            }
+          ],
+          "sha256": "39ea1f47e249100373655c5662df2217739221b09acfc6f05a28688d1f9c4e16",
+          "state": "VALID"
+        },
+        "stderr": "",
+        "stdout": "{\"effects\": [{\"payload_hex\": \"73686f72742d77726974652d6566666563742dcf800a696d6d757461626c65\", \"payload_sha256\": \"2fd3f190f24115f1c3e938e6d746b019011db2159254515b7ad24a767769fab4\", \"request_id\": \"short_return_fixed\", \"seq\": 1}], \"sha256\": \"39ea1f47e249100373655c5662df2217739221b09acfc6f05a28688d1f9c4e16\", \"state\": \"VALID\"}\n"
+      },
+      "journal": {
+        "exists": true,
+        "raw_hex": "7b22616363657074616e63655f626f756e64617279223a20226a6f75726e616c20617070656e64202b206673796e632072657475726e6564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202273686f72742d77726974652d6566666563742d5c75303363305c6e696d6d757461626c65222c20227061796c6f61645f736861323536223a202232666433663139306632343131356631633365393338653664373436623031393031316462323135393235343531356237616432346137363737363966616234222c20227061796c6f61645f757466385f686578223a20223733363836663732373432643737373236393734363532643635363636363635363337343264636638303061363936643664373537343631363236633635222c2022726571756573745f6964223a202273686f72745f72657475726e5f6669786564222c2022736571223a20317d0a",
+        "sha256": "39ea1f47e249100373655c5662df2217739221b09acfc6f05a28688d1f9c4e16"
+      },
+      "sink_exit": -9,
+      "sink_stderr": "",
+      "sink_stdout": "",
+      "source_sha256": "0fc5df3afb26ab31082e1864817453ca033180a4ebba7291156bc26de6ca794b",
+      "write_observations": [
+        {
+          "requested": 356,
+          "returned": 178
+        },
+        {
+          "requested": 178,
+          "returned": 89
+        },
+        {
+          "requested": 89,
+          "returned": 44
+        },
+        {
+          "requested": 45,
+          "returned": 22
+        },
+        {
+          "requested": 23,
+          "returned": 11
+        },
+        {
+          "requested": 12,
+          "returned": 6
+        },
+        {
+          "requested": 6,
+          "returned": 3
+        },
+        {
+          "requested": 3,
+          "returned": 1
+        },
+        {
+          "requested": 2,
+          "returned": 1
+        },
+        {
+          "requested": 1,
+          "returned": 1
+        }
+      ]
+    },
+    "zero_return_fixed": {
+      "client": {
+        "error": "RemoteDisconnected: Remote end closed connection without response",
+        "http_status": null
+      },
+      "fresh_reader": {
+        "exit": 0,
+        "observation": {
+          "effects": [],
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "state": "EMPTY"
+        },
+        "stderr": "",
+        "stdout": "{\"effects\": [], \"sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"state\": \"EMPTY\"}\n"
+      },
+      "journal": {
+        "exists": true,
+        "raw_hex": "",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sink_exit": -9,
+      "sink_stderr": "----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 47066)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-round2-shortwrite-jv12395x/zero_return_fixed/sink.py\", line 344, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-round2-shortwrite-jv12395x/zero_return_fixed/sink.py\", line 132, in emit_locked\n    raise OSError(\"journal write made no progress\")\nOSError: journal write made no progress\n----------------------------------------\n",
+      "sink_stdout": "",
+      "source_sha256": "bf2aa70d69d50a45656e0b19d939f99c5b053b72b147716b255a7ac870528a69",
+      "write_observations": [
+        {
+          "requested": 355,
+          "returned": 0
+        }
+      ]
+    }
+  },
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_base_semantics": "HEAD at invocation; source_sha256 identifies selected source bytes, including uncommitted changes",
+  "execution_base_sha": "f845e5ff59eecb182e96646b5438ed5e4fa0433b",
+  "payload_hex": "73686f72742d77726974652d6566666563742dcf800a696d6d757461626c65",
+  "phase": "fixed",
+  "runner_sha256": "a706d3e6fdb7c66128c1d37589f0f4a4dc78b716a45d91fd8b88da2f90810a49",
+  "schema": "ases.f4-short-write.v1",
+  "selected_source_origin": "working_tree",
+  "source_sha256": "43a2bf13794c37b688f42694aeee94a08cae2b938ce0aecd7490f6dff45678f5"
+}

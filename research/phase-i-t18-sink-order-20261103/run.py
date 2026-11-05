@@ -29,6 +29,7 @@ class SinkState:
         self.gate = threading.Event()
         self.version = 1
         self.next_seq = 1
+        self.persistence_failed = False
         self.waiting = 0
         self.events: list[dict[str, Any]] = []
         self.effects: list[dict[str, Any]] = []
@@ -106,23 +107,29 @@ class SinkState:
     def emit_locked(self, name: str, **fields: Any) -> dict[str, Any]:
         event = {"seq": self.next_seq, "event": name, **fields}
         if name in ("effect_accepted", "obligation_committed", "authority_replaced"):
+            if self.persistence_failed:
+                raise OSError("persistence fault requires explicit recovery before durable use")
             self.journal.parent.mkdir(parents=True, exist_ok=True)
             payload = (json.dumps(event, sort_keys=True) + "\n").encode()
             if self.mode in ("sink-ordered", "recover-ordered"):
                 current_size = self.journal.stat().st_size if self.journal.exists() else 0
                 if current_size + len(payload) > 65536:
                     raise OSError("ordered journal capacity exhausted before append")
-            fd = os.open(self.journal, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
             try:
-                offset = 0
-                while offset < len(payload):
-                    written = os.write(fd, payload[offset:])
-                    if written <= 0:
-                        raise OSError("journal write made no progress")
-                    offset += written
-                os.fsync(fd)
-            finally:
-                os.close(fd)
+                fd = os.open(self.journal, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+                try:
+                    offset = 0
+                    while offset < len(payload):
+                        written = os.write(fd, payload[offset:])
+                        if written <= 0:
+                            raise OSError("journal write made no progress")
+                        offset += written
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+            except OSError:
+                self.persistence_failed = True
+                raise
         self.next_seq += 1
         self.events.append(event)
         if name == "effect_accepted":
@@ -157,6 +164,7 @@ def make_handler(state: SinkState):
             with state.lock:
                 data = {
                     "authority_version": state.version,
+                    "persistence_failed": state.persistence_failed,
                     "waiting": state.waiting,
                     "events": list(state.events),
                     "effects": list(state.effects),
