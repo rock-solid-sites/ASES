@@ -25,7 +25,17 @@
       "elapsed": "5h31m05s",
       "corrects": "ledger mistakenly said7h31m05s; wall time includes waits/interruption, not model usage"
     },
-    "launch_count_note": "Legacy numeric counter7 was stale. Ledger records13 completed bounded review tasks plus an interrupted encoding attempt; exact whole-session launcher count was not reconstructed. Current live tree shows5 retained completed agents/0 active, no new delegation in this increment."
+    "launch_count_note": "Legacy numeric counter7 was stale. Ledger records13 completed bounded review tasks plus an interrupted encoding attempt; exact whole-session launcher count was not reconstructed. Current live tree shows5 retained completed agents/0 active, no new delegation in this increment.",
+    "observed_launches_since_2026_11_05_064519": [
+      {
+        "task": "published_cut_receipt_check",
+        "model_route": "gpt-6-luna",
+        "reasoning_effort": "high",
+        "fork_turns": "none",
+        "status": "completed",
+        "nested_delegation": false
+      }
+    ]
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
@@ -69,7 +79,9 @@
     "review/autonomy-20261105-sink-writer-exclusion": "81e57133dde74db1263d2e8be4a6e8dabbdeea55",
     "research/autonomy-20261105-authority-cut": "f1e8b73a1a7dfc607642940565c049ecc69a1183",
     "research/autonomy-20261105-published-cut": "26db6db361be986cdd168045f510f5567ee9df53",
-    "research/autonomy-20261105-published-cut-receipt-loss": "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9"
+    "research/autonomy-20261105-published-cut-receipt-loss": "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9",
+    "review/autonomy-20261105-published-cut-receipt": "ae5a45804ea555fdb19d50a03c114f94a33eabb6",
+    "research/autonomy-20261105-kernel-mapped": "d871eead1ead6c08a43cbea0a597549580226e2f"
   },
   "checkpoints": [
     {
@@ -183,6 +195,10 @@
     {
       "utc": "2026-11-05T06:50:34Z",
       "state": "Receipt-loss9226cd4 pushed;52 indexed records. Next one bounded fresh native source-first reviewer; no current active workers, usage unknown."
+    },
+    {
+      "utc": "2026-11-05T06:58:12Z",
+      "state": "Receipt-loss independent checkae5a458 and mapped-circuitd871eea integrated;54 records, all completed increments pushed. Next direct public-output temporal induction at fixed bound, no active workers."
     }
   ],
   "experiments": [
@@ -2169,12 +2185,98 @@
           "sha256": "1049ea046bb1f8867ea29745422c3ce8bfc098df1b8723d48698654471362e4c"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-published-cut-receipt",
+          "sha": "ae5a45804ea555fdb19d50a03c114f94a33eabb6",
+          "independence": "Fresh native Luna/high source-first isolated checkout, one primary run and independently authored raw audit; same-family operational reproduction, no cross-family claim. Receipt-loss three cases only; parent four-case rollback/mutation not rerun."
+        }
+      ],
       "dependencies": [
         "R2-PUBLISHED-CUT-ACK-AND-STARTUP"
       ],
       "blockers": [],
       "next_discriminator": "Independent source-first raw check of current-cut/reply-loss ordering and scope, then a different governing obligation rather than more field faults",
+      "supersedes": []
+    },
+    {
+      "id": "R2-PUBLISHED-CUT-RECEIPT-INDEPENDENT-CHECK",
+      "stream": "cross-layer-review",
+      "claim": "Independent operational reproduction of selected actual publication receipt-loss/rejection/current-file recovery observations",
+      "source_branch": "review/autonomy-20261105-published-cut-receipt",
+      "source_sha": "ae5a45804ea555fdb19d50a03c114f94a33eabb6",
+      "implementation": "evidence/published-cut-receipt/audit.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss/probe.py > /tmp/review-receipt.json && python3 evidence/published-cut-receipt/audit.py /tmp/review-receipt.json",
+      "environment": {
+        "address_space_bytes": 268435456,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "status": "independently_reproduced",
+      "observed_result": "One isolated primary run and independent raw audit support successful remote CAS/lost reply503 vs rejection-before-update503, fresh matching-cut next access, prior ACK/unACKed/later events retained by two real recoveries, rejection no-discard startup refusal.11 children/max2; source-first prediction saved; coordinator read-only audit rerun passes.",
+      "limits": "Same-family operational evidence only, source/compiler/runtime/trusted root/genesis/live nonrolled witness premises; no witness durable recovery/hostile rollback resistance, actual power loss, repair of genuinely divergent cut or generic C7/F4 closure. Parent four-case prototype not independently rerun.",
+      "raw_evidence": [
+        {
+          "path": "evidence/published-cut-receipt/raw.json",
+          "sha256": "fe9e3b6d3007b20d05f1d607f08f042ba5ce72444a307d8b2b6489f381daf620"
+        },
+        {
+          "path": "evidence/published-cut-receipt/audit.json",
+          "sha256": "aebebc8f78ceef809d589f324ccdea344ee3f51c3d14d31e0ddc69a14adeecee"
+        },
+        {
+          "path": "evidence/published-cut-receipt/source-prediction.md",
+          "sha256": "a9c112ca4b2e82ed917dd4fd0086773cd0fd6356c6ed5391ed0e96f19004a216"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-PUBLISHED-CUT-RECEIPT-LOSS"
+      ],
+      "blockers": [],
+      "next_discriminator": "Another governing obligation; retain independent scope and trust limits rather than expand synthetic field faults",
+      "supersedes": []
+    },
+    {
+      "id": "R2-KERNEL-POST-ABC-CORRESPONDENCE",
+      "stream": "Kernel-0",
+      "claim": "Newly retained independent-profile original/compact post-ABC circuits match RTL at all Yosys equivalence points plus a separately established public reset base",
+      "source_branch": "research/autonomy-20261105-kernel-mapped",
+      "source_sha": "d871eead1ead6c08a43cbea0a597549580226e2f",
+      "implementation": "docs/research/kernel-0/mapped-20261105/run.py",
+      "command": "timeout 180 python3 docs/research/kernel-0/mapped-20261105/run.py && python3 docs/research/kernel-0/mapped-20261105/audit.py",
+      "environment": {
+        "address_space_bytes": 536870912,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "status": "executed_observed",
+      "observed_result": "Seven jobs complete in10.101s total:46 original/60 compact equivalence points proved/0 unproved, public-output reset-base SAT steps2..4 pass. Post-map committed-output mutation compiles then semantic FAIL with complete WaveJSON/VCD; valid1 gold0/gate1 at steps2/3. First text-table audit incomplete because buffered stdout partial; preserved, corrected parser checks same complete WaveJSON without tool rerun. Missing manifest INCOMPLETE/contradicted exit VIOLATION.",
+      "limits": "equiv_induct is convergence after equal matched histories; separate top reset base does not by itself establish every internal initialization relation or independent unbounded semantics proof. Same mapping/formal toolchain trusted, two-state synchronous edge model only. Not physical timing, resetless startup, hardware fault guarantee, minimality or other profiles; newly generated netlists only.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/kernel-0/mapped-20261105/result.json",
+          "sha256": "790c998b56ba1ff0033c1f0ad1799ebbfea5a7b218226c6ef1d06f6ad1ea50e8"
+        },
+        {
+          "path": "docs/research/kernel-0/mapped-20261105/audit.json",
+          "sha256": "93a3b7f82890bf972031168ba374d94876ab0dc960517f836f187e036a57698b"
+        },
+        {
+          "path": "docs/research/kernel-0/mapped-20261105/evidence/mutant-counterexample.json",
+          "sha256": "6f0ec936847cdb8be8cd1f459a6bb76ec6b743c94f5ceb0631d5839a592ce0eb"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-KERNEL-COMPACT-ENCODING"
+      ],
+      "blockers": [],
+      "next_discriminator": "Direct public-output miter temporal induction with explicit initial reset, fixed small maxsteps, avoiding internal-equivalence initialization linkage; preserve timeout/inconclusive if encountered",
       "supersedes": []
     }
   ],
