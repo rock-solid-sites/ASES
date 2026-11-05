@@ -84,6 +84,8 @@ class SinkState:
             stream.write(prefix)
             stream.flush()
             os.fsync(stream.fileno())
+        if recovery_gate:
+            recovery_gate("prepared")
         os.replace(prepared, self.journal)
         if recovery_gate:
             recovery_gate("published")
@@ -844,7 +846,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--server", nargs=2, metavar=("MODE", "JOURNAL"))
     parser.add_argument("--f4-output", type=Path)
-    parser.add_argument("--recovery-gate", choices=("quarantined", "published"))
+    parser.add_argument("--recovery-gate", choices=("quarantined", "prepared", "published"))
     parser.add_argument("--recovery-event-fd", type=int)
     parser.add_argument("--recovery-release-fd", type=int)
     parser.add_argument("--client", nargs=4, metavar=("PORT", "REQUEST_ID", "PAYLOAD", "CUT"))

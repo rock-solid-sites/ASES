@@ -1,0 +1,475 @@
+{
+  "cases": {
+    "prepared_original": {
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 382,
+            "sha256": "2ba867c64710e488a57f143c20846444a06d811b4d9b2cb5e7e63392e49fff49"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756564222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202270726570617265642d636f6e74696e756564222c2022736571223a20327d0a",
+          "sha256": "2ba867c64710e488a57f143c20846444a06d811b4d9b2cb5e7e63392e49fff49"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued",
+              "presented_version": 1,
+              "request_id": "prepared-continued",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued",
+              "presented_version": 1,
+              "request_id": "prepared-continued",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "exit": -9,
+      "files_after_substitution": {
+        "sink-effects.jsonl": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "sink-effects.jsonl.prefix.tmp": {
+          "bytes": 190,
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "files_before_substitution": {
+        "sink-effects.jsonl": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "sink-effects.jsonl.prefix.tmp": {
+          "bytes": 190,
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "final": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued",
+            "presented_version": 1,
+            "request_id": "prepared-continued",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued",
+            "presented_version": 1,
+            "request_id": "prepared-continued",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "gate": {
+        "exit": -9,
+        "files_at_gate": {
+          "sink-effects.jsonl": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          },
+          "sink-effects.jsonl.prefix.tmp": {
+            "bytes": 190,
+            "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "gate": "prepared",
+        "journal_at_gate": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "pid": 8090,
+        "stderr": "",
+        "stdout": ""
+      },
+      "new_call": {
+        "completion_monotonic_ns": 4195161867046,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continued",
+            "request_id": "prepared-continued"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 4195160694977
+      },
+      "prepared_original_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+      "prepared_replaced_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      }
+    },
+    "prepared_other_valid_journal": {
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 382,
+            "sha256": "2ba867c64710e488a57f143c20846444a06d811b4d9b2cb5e7e63392e49fff49"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756564222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202270726570617265642d636f6e74696e756564222c2022736571223a20327d0a",
+          "sha256": "2ba867c64710e488a57f143c20846444a06d811b4d9b2cb5e7e63392e49fff49"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued",
+              "presented_version": 1,
+              "request_id": "prepared-continued",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continued",
+              "presented_version": 1,
+              "request_id": "prepared-continued",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "exit": -9,
+      "files_after_substitution": {
+        "sink-effects.jsonl": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "sink-effects.jsonl.prefix.tmp": {
+          "bytes": 305,
+          "sha256": "f4f6650bec9d6b0d46d7803d62d0b6573e22a8ec0c827ec7c51f3e63e68b237c"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "files_before_substitution": {
+        "sink-effects.jsonl": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "sink-effects.jsonl.prefix.tmp": {
+          "bytes": 190,
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "final": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued",
+            "presented_version": 1,
+            "request_id": "prepared-continued",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continued",
+            "presented_version": 1,
+            "request_id": "prepared-continued",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "gate": {
+        "exit": -9,
+        "files_at_gate": {
+          "sink-effects.jsonl": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          },
+          "sink-effects.jsonl.prefix.tmp": {
+            "bytes": 190,
+            "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "gate": "prepared",
+        "journal_at_gate": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "pid": 8097,
+        "stderr": "",
+        "stdout": ""
+      },
+      "new_call": {
+        "completion_monotonic_ns": 4195362950853,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continued",
+            "request_id": "prepared-continued"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 4195362008468
+      },
+      "prepared_original_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+      "prepared_replaced_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a202272657461696e65642d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202263316539666166653161393033396564343863326336363464383464356562303163313338306333326665636234633966336364643562366462383864366132222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      }
+    }
+  },
+  "execution_base_sha": "cc8d2154f93fff748372f39e16503c4bc2198f25",
+  "limits": "same-host current journal and interrupted-new-tail premise; prepared temp is explicitly uncommitted",
+  "runner_sha256": "4af90a5e400c3ce741825f54c99de0d91cb1afc4a6abb9ba6e21aab990bf5fff",
+  "schema": "ases.prefix-prepared-cut.v1",
+  "source_sha256": "3dcb7f66f7e712778e275034e13cf21e845b0348a2c15fcd93bc465fd8823149"
+}
