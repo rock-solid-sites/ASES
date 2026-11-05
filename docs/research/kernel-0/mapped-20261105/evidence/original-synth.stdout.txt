@@ -1,0 +1,1385 @@
+
+-- Executing script file `/workspace/ases-kernel-mapped/docs/research/kernel-0/mapped-20261105/evidence/original-synth.ys' --
+
+1. Executing Verilog-2005 frontend: /workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v
+Parsing Verilog input from `/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v' to AST representation.
+Generating RTLIL representation for module `\kernel0_step'.
+Generating RTLIL representation for module `\kernel0_machine'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: /workspace/ases-kernel-mapped/docs/research/kernel-0/encoding-20261105/compact.v
+Parsing Verilog input from `/workspace/ases-kernel-mapped/docs/research/kernel-0/encoding-20261105/compact.v' to AST representation.
+Generating RTLIL representation for module `\kernel0_encode'.
+Generating RTLIL representation for module `\kernel0_decode'.
+Generating RTLIL representation for module `\kernel0_compact_step'.
+Generating RTLIL representation for module `\kernel0_compact_machine'.
+Successfully finished Verilog frontend.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+
+3. Executing AST frontend in derive mode using pre-parsed AST for module `\kernel0_machine'.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+Generating RTLIL representation for module `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_machine'.
+
+4. Executing SYNTH pass.
+
+4.1. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1.1. Analyzing design hierarchy..
+Top module:  \kernel0_machine
+Used module:     \kernel0_step
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+
+4.1.2. Executing AST frontend in derive mode using pre-parsed AST for module `\kernel0_step'.
+Parameter \COUPLED = 0
+Parameter \EXCLUSIVE = 0
+Generating RTLIL representation for module `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step'.
+
+4.1.3. Analyzing design hierarchy..
+Top module:  \kernel0_machine
+Used module:     $paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step
+
+4.1.4. Analyzing design hierarchy..
+Top module:  \kernel0_machine
+Used module:     $paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step
+Removing unused module `\kernel0_compact_machine'.
+Removing unused module `\kernel0_compact_step'.
+Removing unused module `\kernel0_decode'.
+Removing unused module `\kernel0_encode'.
+Removing unused module `\kernel0_step'.
+Removed 5 unused modules.
+
+4.2. Executing PROC pass (convert processes to netlists).
+
+4.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:163$581 in module kernel0_machine.
+Marked 40 switch rules as full_case in process $proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609 in module $paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.
+Removed a total of 0 dead cases.
+
+4.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 2 redundant assignments.
+Promoted 50 assignments to connections.
+
+4.2.4. Executing PROC_INIT pass (extract init attributes).
+
+4.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+4.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~42 debug messages>
+
+4.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\kernel0_machine.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:163$581'.
+     1/3: $0\committed[0:0]
+     2/3: $0\resolved[0:0]
+     3/3: $0\state[21:0]
+Creating decoders for process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+     1/200: $9\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1112
+     2/200: $8\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1103
+     3/200: $7\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1099
+     4/200: $6\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1095
+     5/200: $5\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1091
+     6/200: $4\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1087
+     7/200: $3\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1078
+     8/200: $2\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1066
+     9/200: $1\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result[0:0]$1061
+    10/200: $1\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.i[31:0]$1062
+    11/200: $1\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.parent_rights[2:0]$1059
+    12/200: $6\proposed[21:0] [21:17]
+    13/200: $18\proposed[21:0] [2]
+    14/200: $18\proposed[21:0] [3]
+    15/200: $12\admitted[0:0]
+    16/200: $18\proposed[21:0] [0]
+    17/200: $18\proposed[21:0] [1]
+    18/200: $6$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$603[21:0]$1027
+    19/200: $6$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$602[21:0]$1026
+    20/200: $6$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$604[31:0]$1028
+    21/200: $6$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$607[31:0]$1031
+    22/200: $6$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$606[21:0]$1030
+    23/200: $6$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$605[21:0]$1029
+    24/200: $11\admitted[0:0]
+    25/200: $5$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$607[31:0]$1025
+    26/200: $5$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$606[21:0]$1024
+    27/200: $5$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$605[21:0]$1023
+    28/200: $5$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$604[31:0]$1022
+    29/200: $5$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$603[21:0]$1021
+    30/200: $5$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$602[21:0]$1020
+    31/200: $10\admitted[0:0]
+    32/200: $17\proposed[21:0]
+    33/200: $5\needed[2:0]
+    34/200: $6\proposed[21:0] [16:8]
+    35/200: $15\proposed[7:7]
+    36/200: $16\proposed[21:17] [2:0]
+    37/200: $9\admitted[0:0]
+    38/200: $6\proposed[21:0] [7]
+    39/200: $6\proposed[21:0] [6:0]
+    40/200: $18\proposed[21:0] [21:4]
+    41/200: $16\proposed[21:17] [4:3]
+    42/200: $14\proposed[21:17] [2:0]
+    43/200: $8\admitted[0:0]
+    44/200: $13\proposed[21:0]
+    45/200: $5$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$600[21:0]$965
+    46/200: $5$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$599[21:0]$964
+    47/200: $5$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$601[31:0]$966
+    48/200: $5$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$597[21:0]$962
+    49/200: $5$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$596[21:0]$961
+    50/200: $5$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$598[31:0]$963
+    51/200: $5$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$594[21:0]$959
+    52/200: $5$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$593[21:0]$958
+    53/200: $5$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$595[31:0]$960
+    54/200: $9\proposed[21:0] [21:17]
+    55/200: $11\proposed[21:17] [2:0]
+    56/200: $12\proposed[21:20]
+    57/200: $10\proposed[21:20]
+    58/200: $7\admitted[0:0]
+    59/200: $9\proposed[21:0] [16:0]
+    60/200: $11\proposed[21:17] [4:3]
+    61/200: $5$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$591[21:0]$923
+    62/200: $5$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$590[21:0]$922
+    63/200: $5$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$592[31:0]$924
+    64/200: $7\proposed[21:0] [21:20]
+    65/200: $6\admitted[0:0]
+    66/200: $7\proposed[21:0] [19:0]
+    67/200: $8\proposed[21:20]
+    68/200: $5$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$588[21:0]$890
+    69/200: $5$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$587[21:0]$889
+    70/200: $5$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$589[31:0]$891
+    71/200: $5$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$585[21:0]$887
+    72/200: $5$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$584[21:0]$886
+    73/200: $5$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$586[31:0]$888
+    74/200: $4$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$589[31:0]$862
+    75/200: $4$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$588[21:0]$861
+    76/200: $4$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$587[21:0]$860
+    77/200: $4$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$586[31:0]$859
+    78/200: $4$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$585[21:0]$858
+    79/200: $4$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$584[21:0]$857
+    80/200: $5\admitted[0:0]
+    81/200: $14\proposed[21:17] [4:3]
+    82/200: $4$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$607[31:0]$880
+    83/200: $4$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$606[21:0]$879
+    84/200: $4$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$605[21:0]$878
+    85/200: $4$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$604[31:0]$877
+    86/200: $4$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$603[21:0]$876
+    87/200: $4$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$602[21:0]$875
+    88/200: $4$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$601[31:0]$874
+    89/200: $4$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$600[21:0]$873
+    90/200: $4$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$599[21:0]$872
+    91/200: $4$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$598[31:0]$871
+    92/200: $4$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$597[21:0]$870
+    93/200: $4$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$596[21:0]$869
+    94/200: $4$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$595[31:0]$868
+    95/200: $4$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$594[21:0]$867
+    96/200: $4$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$593[21:0]$866
+    97/200: $4$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$592[31:0]$865
+    98/200: $4$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$591[21:0]$864
+    99/200: $4$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$590[21:0]$863
+   100/200: $4\needed[2:0]
+   101/200: $3$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$607[31:0]$856
+   102/200: $3$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$606[21:0]$855
+   103/200: $3$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$605[21:0]$854
+   104/200: $3$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$604[31:0]$853
+   105/200: $3$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$603[21:0]$852
+   106/200: $3$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$602[21:0]$851
+   107/200: $3$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$601[31:0]$850
+   108/200: $3$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$600[21:0]$849
+   109/200: $3$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$599[21:0]$848
+   110/200: $3$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$598[31:0]$847
+   111/200: $3$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$597[21:0]$846
+   112/200: $3$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$596[21:0]$845
+   113/200: $3$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$595[31:0]$844
+   114/200: $3$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$594[21:0]$843
+   115/200: $3$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$593[21:0]$842
+   116/200: $3$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$592[31:0]$841
+   117/200: $3$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$591[21:0]$840
+   118/200: $3$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$590[21:0]$839
+   119/200: $3$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$589[31:0]$838
+   120/200: $3$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$588[21:0]$837
+   121/200: $3$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$587[21:0]$836
+   122/200: $3$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$586[31:0]$835
+   123/200: $3$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$585[21:0]$834
+   124/200: $3$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$584[21:0]$833
+   125/200: $3\needed[2:0]
+   126/200: $4\admitted[0:0]
+   127/200: $5\proposed[21:0]
+   128/200: $2\proposed[21:0] [21:4]
+   129/200: $2\proposed[21:0] [2:1]
+   130/200: $4\proposed[3:3]
+   131/200: $3\proposed[0:0]
+   132/200: $2\admitted[0:0]
+   133/200: $2\proposed[21:0] [3]
+   134/200: $3\admitted[0:0]
+   135/200: $2$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$607[31:0]$831
+   136/200: $2$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$606[21:0]$830
+   137/200: $2$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$605[21:0]$829
+   138/200: $2$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$604[31:0]$828
+   139/200: $2$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$603[21:0]$827
+   140/200: $2$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$602[21:0]$826
+   141/200: $2$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$601[31:0]$825
+   142/200: $2$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$600[21:0]$824
+   143/200: $2$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$599[21:0]$823
+   144/200: $2$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$598[31:0]$822
+   145/200: $2$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$597[21:0]$821
+   146/200: $2$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$596[21:0]$820
+   147/200: $2$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$595[31:0]$819
+   148/200: $2$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$594[21:0]$818
+   149/200: $2$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$593[21:0]$817
+   150/200: $2$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$592[31:0]$816
+   151/200: $2$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$591[21:0]$815
+   152/200: $2$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$590[21:0]$814
+   153/200: $2$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$589[31:0]$813
+   154/200: $2$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$588[21:0]$812
+   155/200: $2$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$587[21:0]$811
+   156/200: $2$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$586[31:0]$810
+   157/200: $2$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$585[21:0]$809
+   158/200: $2$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$584[21:0]$808
+   159/200: $2\needed[2:0]
+   160/200: $2\proposed[21:0] [0]
+   161/200: $1$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$607[31:0]$806
+   162/200: $1$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$606[21:0]$805
+   163/200: $1$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$605[21:0]$804
+   164/200: $1$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$604[31:0]$803
+   165/200: $1$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$603[21:0]$802
+   166/200: $1$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$602[21:0]$801
+   167/200: $1$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$601[31:0]$800
+   168/200: $1$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$600[21:0]$799
+   169/200: $1$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$599[21:0]$798
+   170/200: $1$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$598[31:0]$797
+   171/200: $1$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$597[21:0]$796
+   172/200: $1$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$596[21:0]$795
+   173/200: $1$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$595[31:0]$794
+   174/200: $1$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$594[21:0]$793
+   175/200: $1$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$593[21:0]$792
+   176/200: $1$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$592[31:0]$791
+   177/200: $1$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$591[21:0]$790
+   178/200: $1$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$590[21:0]$789
+   179/200: $1$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$589[31:0]$788
+   180/200: $1$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$588[21:0]$787
+   181/200: $1$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$587[21:0]$786
+   182/200: $1$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$586[31:0]$785
+   183/200: $1$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$585[21:0]$784
+   184/200: $1$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$584[21:0]$783
+   185/200: $1\needed[2:0]
+   186/200: $1\admitted[0:0]
+   187/200: $1\proposed[21:0]
+   188/200: $9\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$780
+   189/200: $8\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$771
+   190/200: $7\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$767
+   191/200: $6\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$763
+   192/200: $5\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$759
+   193/200: $4\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$755
+   194/200: $3\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$746
+   195/200: $2\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$734
+   196/200: $1\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result[0:0]$729
+   197/200: $1\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.i[31:0]$730
+   198/200: $1\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.parent_rights[2:0]$727
+   199/200: $1\wellformed[0:0]
+   200/200: $1\actor_rights[2:0]
+
+4.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\state_out' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\commit' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\proposed' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\admitted' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\wellformed' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\current_rights' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\actor_rights' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\needed' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.r0' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.s' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.$result' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.r1' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.r2' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.r3' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.parent_rights' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.parent' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:76$583.i' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$584' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$585' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:86$586' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$587' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$588' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:87$589' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$590' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$591' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$592' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$593' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$594' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$595' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$596' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$597' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$598' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$599' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$600' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:108$601' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$602' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$603' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$604' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$mask$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$605' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$data$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$606' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$bitselwrite$sel$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$607' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.$result' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.s' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.r0' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.r1' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.r2' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.r3' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.parent_rights' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.parent' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+No latch inferred for signal `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.\valid_state$func$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:143$608.i' from process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+
+4.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\kernel0_machine.\state' using process `\kernel0_machine.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:163$581'.
+  created $dff cell `$procdff$3313' with positive edge clock.
+Creating register for signal `\kernel0_machine.\resolved' using process `\kernel0_machine.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:163$581'.
+  created $dff cell `$procdff$3314' with positive edge clock.
+Creating register for signal `\kernel0_machine.\committed' using process `\kernel0_machine.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:163$581'.
+  created $dff cell `$procdff$3315' with positive edge clock.
+
+4.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 2 empty switches in `\kernel0_machine.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:163$581'.
+Removing empty process `kernel0_machine.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:163$581'.
+Found and cleaned up 40 empty switches in `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+Removing empty process `$paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.$proc$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:53$609'.
+Cleaned up 42 empty switches.
+
+4.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+Optimizing module $paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.
+<suppressed ~92 debug messages>
+
+4.3. Executing FLATTEN pass (flatten design).
+Deleting now unused module $paramod$0bc30d0c6d1047b48d1053fdc4f16f588db5af76\kernel0_step.
+<suppressed ~1 debug messages>
+
+4.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+<suppressed ~23 debug messages>
+
+4.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 567 unused cells and 1360 unused wires.
+<suppressed ~598 debug messages>
+
+4.6. Executing CHECK pass (checking for obvious problems).
+Checking module kernel0_machine...
+Found and reported 0 problems.
+
+4.7. Executing OPT pass (performing simple optimizations).
+
+4.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+<suppressed ~723 debug messages>
+Removed a total of 241 cells.
+
+4.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $flatten\transition.$procmux$1565: \state -> { \state [21:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\transition.$procmux$1273: \state [0] -> 1'1
+      Replacing known input bits on port A of cell $flatten\transition.$procmux$1769: \state -> { \state [21:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\transition.$procmux$2042: \state [16:0] -> { \state [16:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\transition.$procmux$2174: \state [19:0] -> { \state [19:1] 1'1 }
+      Replacing known input bits on port A of cell $flatten\transition.$procmux$2944: \state -> { \state [21:1] 1'0 }
+      Replacing known input bits on port A of cell $flatten\transition.$procmux$1676: \state [6:0] -> { \state [6:1] 1'1 }
+      Replacing known input bits on port B of cell $flatten\transition.$procmux$2975: \state [0] -> 1'1
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1130.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1136.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1142.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1148.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1154.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1160.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1166.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1172.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1194.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1197.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1199.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1210.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1212.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1214.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1217.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1219.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1232.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1234.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1236.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1239.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1241.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1252.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1254.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1256.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1258.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1261.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1263.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1276.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1278.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1280.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1283.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1285.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1297.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1299.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1301.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1304.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1306.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1445.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1447.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1449.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1452.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1454.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1552.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1554.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1557.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1559.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1567.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1569.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1572.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1574.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1602.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1605.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1607.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1616.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1618.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1621.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1623.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1632.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1634.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1637.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1639.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1648.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1650.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1653.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1655.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1666.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1669.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1671.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1681.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1684.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1686.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1699.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1701.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1703.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1706.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1708.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1717.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1719.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1722.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1724.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1754.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1756.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1759.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1761.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1771.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1773.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1776.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1778.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1942.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1944.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1947.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1949.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1961.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1963.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1965.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1968.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1970.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1983.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1985.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1987.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1989.
+    dead port 1/2 on $mux $flatten\transition.$procmux$1992.
+    dead port 2/2 on $mux $flatten\transition.$procmux$1994.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2006.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2008.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2010.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2013.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2015.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2026.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2028.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2031.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2033.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2044.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2046.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2049.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2051.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2063.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2065.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2067.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2070.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2072.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2138.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2140.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2143.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2145.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2157.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2159.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2162.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2164.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2176.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2178.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2181.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2183.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2196.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2198.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2200.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2203.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2205.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2426.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2429.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2431.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2938.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2940.
+    dead port 1/2 on $mux $flatten\transition.$procmux$2947.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2949.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2955.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2961.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2968.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2970.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2977.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2979.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2985.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2991.
+    dead port 2/2 on $mux $flatten\transition.$procmux$2998.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3000.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3156.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3243.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3249.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3255.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3261.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3267.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3273.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3279.
+    dead port 2/2 on $mux $flatten\transition.$procmux$3285.
+Removed 164 multiplexer ports.
+<suppressed ~20 debug messages>
+
+4.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+    New ctrl vector for $pmux cell $flatten\transition.$procmux$1292: { $flatten\transition.$procmux$1189_CMP [0] $flatten\transition.$procmux$1189_CMP [1] $auto$opt_reduce.cc:134:opt_pmux$3317 }
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 2 changes.
+
+4.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.7.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.7.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 0 unused cells and 348 unused wires.
+<suppressed ~1 debug messages>
+
+4.7.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.7.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.7.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~20 debug messages>
+
+4.7.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 0 changes.
+
+4.7.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.7.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.7.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+
+4.7.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.7.16. Finished OPT passes. (There is nothing left to do.)
+
+4.8. Executing FSM pass (extract and optimize FSM).
+
+4.8.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+4.8.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+4.8.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+4.8.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+
+4.8.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+4.8.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+4.8.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+4.8.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+4.9. Executing OPT pass (performing simple optimizations).
+
+4.9.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.9.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.9.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~20 debug messages>
+
+4.9.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 0 changes.
+
+4.9.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.9.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$3315 ($dff) from module kernel0_machine (D = $logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:170$582_Y, Q = \committed, rval = 1'0).
+Adding SRST signal on $procdff$3314 ($dff) from module kernel0_machine (D = \valid, Q = \resolved, rval = 1'0).
+Adding SRST signal on $procdff$3313 ($dff) from module kernel0_machine (D = $procmux$1121_Y, Q = \state, rval = 22'0000000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$3320 ($sdff) from module kernel0_machine (D = \transition.proposed, Q = \state).
+
+4.9.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 5 unused cells and 4 unused wires.
+<suppressed ~6 debug messages>
+
+4.9.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.9.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.9.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~17 debug messages>
+
+4.9.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 0 changes.
+
+4.9.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.9.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.9.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+
+4.9.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.9.16. Finished OPT passes. (There is nothing left to do.)
+
+4.10. Executing WREDUCE pass (reducing word size of cells).
+Removed top 1 bits (of 2) from port B of cell kernel0_machine.$flatten\transition.$procmux$3297_CMP0 ($eq).
+Removed top 3 bits (of 4) from port B of cell kernel0_machine.$flatten\transition.$procmux$1193_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell kernel0_machine.$flatten\transition.$procmux$1192_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell kernel0_machine.$flatten\transition.$procmux$1191_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell kernel0_machine.$flatten\transition.$procmux$1190_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell kernel0_machine.$flatten\transition.$procmux$1189_CMP2 ($eq).
+Removed top 1 bits (of 4) from port B of cell kernel0_machine.$flatten\transition.$procmux$1189_CMP1 ($eq).
+Removed top 1 bits (of 4) from port B of cell kernel0_machine.$flatten\transition.$procmux$1189_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell kernel0_machine.$flatten\transition.$procmux$1184_CMP0 ($eq).
+Removed top 29 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$not$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:47$1107 ($not).
+Removed top 21 bits (of 22) from port A of cell kernel0_machine.$flatten\transition.$not$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$1050 ($not).
+Converting cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$1034 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$1034 ($neg).
+Removed top 31 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$1032 ($add).
+Removed top 29 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$1032 ($add).
+Removed top 2 bits (of 3) from port A of cell kernel0_machine.$flatten\transition.$shl$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:120$1015 ($shl).
+Removed top 1 bits (of 2) from port B of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:114$1014 ($add).
+Removed top 29 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$not$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:112$1010 ($not).
+Removed top 10 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$shift$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$1000 ($shift).
+Converting cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$996 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$996 ($neg).
+Removed top 19 bits (of 22) from port Y of cell kernel0_machine.$flatten\transition.$and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$987 ($and).
+Converting cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$985 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$985 ($neg).
+Removed top 28 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$982 ($add).
+Removed top 1 bits (of 3) from port A of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:103$979 ($add).
+Removed top 2 bits (of 3) from port B of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:103$979 ($add).
+Removed top 10 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$shift$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$975 ($shift).
+Converting cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$971 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$971 ($neg).
+Removed top 30 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$967 ($mul).
+Removed top 28 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$967 ($mul).
+Removed top 30 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:101$952 ($mul).
+Removed top 28 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:101$952 ($mul).
+Removed top 29 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:100$948 ($add).
+Removed top 28 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:100$948 ($add).
+Removed top 28 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$926 ($add).
+Removed top 28 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$926 ($add).
+Removed top 27 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$926 ($add).
+Removed top 29 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$not$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:91$918 ($not).
+Removed top 10 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$shift$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$911 ($shift).
+Converting cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$907 ($neg) from signed to unsigned.
+Removed top 1 bits (of 33) from port A of cell kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$907 ($neg).
+Removed top 19 bits (of 22) from port Y of cell kernel0_machine.$flatten\transition.$and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$898 ($and).
+Removed top 29 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:85$882 ($add).
+Removed top 28 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:85$882 ($add).
+Removed top 29 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$not$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:47$775 ($not).
+Removed top 29 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:72$716 ($lt).
+Removed top 30 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:69$695 ($lt).
+Removed top 30 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:69$693 ($lt).
+Removed top 30 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:68$685 ($lt).
+Removed top 30 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:66$679 ($lt).
+Removed top 30 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:66$677 ($lt).
+Removed top 28 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$658 ($add).
+Removed top 30 bits (of 32) from port A of cell kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$657 ($mul).
+Removed top 27 bits (of 32) from port Y of cell kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$657 ($mul).
+Removed top 29 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$656 ($lt).
+Removed top 26 bits (of 32) from port B of cell kernel0_machine.$flatten\transition.$shiftx$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$655 ($shiftx).
+Removed top 27 bits (of 32) from wire kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$654_Y.
+Removed top 28 bits (of 32) from wire kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:100$948_Y.
+Removed top 29 bits (of 32) from wire kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$1032_Y.
+Removed top 28 bits (of 32) from wire kernel0_machine.$flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:85$882_Y.
+Removed top 19 bits (of 22) from wire kernel0_machine.$flatten\transition.$and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$898_Y.
+Removed top 19 bits (of 22) from wire kernel0_machine.$flatten\transition.$and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$987_Y.
+Removed top 21 bits (of 22) from wire kernel0_machine.$flatten\transition.$extend$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:129$1049_Y.
+Removed top 28 bits (of 32) from wire kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:101$952_Y.
+Removed top 28 bits (of 32) from wire kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$967_Y.
+Removed top 27 bits (of 32) from wire kernel0_machine.$flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$657_Y.
+Removed top 1 bits (of 33) from wire kernel0_machine.$flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$1034_Y.
+Removed top 10 bits (of 32) from wire kernel0_machine.$flatten\transition.$shift$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$1000_Y.
+Removed top 10 bits (of 32) from wire kernel0_machine.$flatten\transition.$shift$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$911_Y.
+Removed top 10 bits (of 32) from wire kernel0_machine.$flatten\transition.$shift$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$975_Y.
+
+4.11. Executing PEEPOPT pass (run peephole optimizers).
+
+4.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 0 unused cells and 14 unused wires.
+<suppressed ~1 debug messages>
+
+4.13. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module kernel0_machine:
+  creating $macc model for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:100$948 ($add).
+  creating $macc model for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:103$979 ($add).
+  creating $macc model for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$982 ($add).
+  creating $macc model for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:114$1014 ($add).
+  creating $macc model for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$1032 ($add).
+  creating $macc model for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$658 ($add).
+  creating $macc model for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:85$882 ($add).
+  creating $macc model for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$926 ($add).
+  creating $macc model for $flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:101$952 ($mul).
+  creating $macc model for $flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$967 ($mul).
+  creating $macc model for $flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$657 ($mul).
+  creating $macc model for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$1034 ($neg).
+  creating $macc model for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$907 ($neg).
+  creating $macc model for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$971 ($neg).
+  creating $macc model for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$985 ($neg).
+  creating $macc model for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$996 ($neg).
+  merging $macc model for $flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:102$967 into $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$926.
+  creating $alu model for $macc $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$985.
+  creating $alu model for $macc $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$971.
+  creating $alu model for $macc $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$907.
+  creating $alu model for $macc $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$1034.
+  creating $alu model for $macc $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$996.
+  creating $alu model for $macc $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:85$882.
+  creating $alu model for $macc $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$658.
+  creating $alu model for $macc $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$1032.
+  creating $alu model for $macc $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:114$1014.
+  creating $alu model for $macc $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$982.
+  creating $alu model for $macc $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:103$979.
+  creating $alu model for $macc $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:100$948.
+  creating $macc cell for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:92$926: $auto$alumacc.cc:365:replace_macc$3338
+  creating $macc cell for $flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$657: $auto$alumacc.cc:365:replace_macc$3339
+  creating $macc cell for $flatten\transition.$mul$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:101$952: $auto$alumacc.cc:365:replace_macc$3340
+  creating $alu model for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$656 ($lt): new $alu
+  creating $alu model for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:66$677 ($lt): new $alu
+  creating $alu model for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:66$679 ($lt): new $alu
+  creating $alu model for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:68$685 ($lt): new $alu
+  creating $alu model for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:69$693 ($lt): new $alu
+  creating $alu model for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:69$695 ($lt): new $alu
+  creating $alu model for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:72$716 ($lt): new $alu
+  creating $alu model for $flatten\transition.$eq$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:63$661 ($eq): merged with $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$656.
+  creating $alu model for $flatten\transition.$eq$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:68$686 ($eq): merged with $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:66$677.
+  creating $alu cell for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:72$716: $auto$alumacc.cc:485:replace_alu$3348
+  creating $alu cell for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:69$695: $auto$alumacc.cc:485:replace_alu$3353
+  creating $alu cell for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:69$693: $auto$alumacc.cc:485:replace_alu$3364
+  creating $alu cell for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:68$685: $auto$alumacc.cc:485:replace_alu$3375
+  creating $alu cell for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:66$679: $auto$alumacc.cc:485:replace_alu$3386
+  creating $alu cell for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:66$677, $flatten\transition.$eq$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:68$686: $auto$alumacc.cc:485:replace_alu$3397
+  creating $alu cell for $flatten\transition.$lt$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$656, $flatten\transition.$eq$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:63$661: $auto$alumacc.cc:485:replace_alu$3408
+  creating $alu cell for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:100$948: $auto$alumacc.cc:485:replace_alu$3415
+  creating $alu cell for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:107$982: $auto$alumacc.cc:485:replace_alu$3418
+  creating $alu cell for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:114$1014: $auto$alumacc.cc:485:replace_alu$3421
+  creating $alu cell for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:103$979: $auto$alumacc.cc:485:replace_alu$3424
+  creating $alu cell for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:128$1032: $auto$alumacc.cc:485:replace_alu$3427
+  creating $alu cell for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:60$658: $auto$alumacc.cc:485:replace_alu$3430
+  creating $alu cell for $flatten\transition.$add$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:85$882: $auto$alumacc.cc:485:replace_alu$3433
+  creating $alu cell for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$996: $auto$alumacc.cc:485:replace_alu$3436
+  creating $alu cell for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$1034: $auto$alumacc.cc:485:replace_alu$3439
+  creating $alu cell for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$907: $auto$alumacc.cc:485:replace_alu$3442
+  creating $alu cell for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$971: $auto$alumacc.cc:485:replace_alu$3445
+  creating $alu cell for $flatten\transition.$neg$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:0$985: $auto$alumacc.cc:485:replace_alu$3448
+  created 19 $alu and 3 $macc cells.
+
+4.14. Executing SHARE pass (SAT-based resource sharing).
+
+4.15. Executing OPT pass (performing simple optimizations).
+
+4.15.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+<suppressed ~1 debug messages>
+
+4.15.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+<suppressed ~11 debug messages>
+Removed a total of 3 cells.
+
+4.15.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~17 debug messages>
+
+4.15.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 0 changes.
+
+4.15.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.15.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.15.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 1 unused cells and 15 unused wires.
+<suppressed ~2 debug messages>
+
+4.15.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.15.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.15.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~17 debug messages>
+
+4.15.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 0 changes.
+
+4.15.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.15.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.15.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+
+4.15.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.15.16. Finished OPT passes. (There is nothing left to do.)
+
+4.16. Executing MEMORY pass.
+
+4.16.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+4.16.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+4.16.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+4.16.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+4.16.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+4.16.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+
+4.16.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+4.16.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+4.16.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+
+4.16.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+4.17. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+
+4.18. Executing OPT pass (performing simple optimizations).
+
+4.18.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+<suppressed ~499 debug messages>
+
+4.18.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+<suppressed ~11 debug messages>
+Removed a total of 3 cells.
+
+4.18.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.18.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 11 unused cells and 258 unused wires.
+<suppressed ~12 debug messages>
+
+4.18.5. Finished fast OPT passes.
+
+4.19. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+4.20. Executing OPT pass (performing simple optimizations).
+
+4.20.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+<suppressed ~2 debug messages>
+
+4.20.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.20.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~19 debug messages>
+
+4.20.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 0 changes.
+
+4.20.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.20.6. Executing OPT_SHARE pass.
+    Found cells that share an operand and can be merged by moving the $pmux $flatten\transition.$procmux$3299 in front of them:
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:73$726
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:72$719
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:71$712
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:70$705
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:69$698
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:68$691
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:65$675
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:64$672
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:63$667
+
+4.20.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.20.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 0 unused cells and 9 unused wires.
+<suppressed ~1 debug messages>
+
+4.20.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+<suppressed ~1 debug messages>
+
+4.20.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.20.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~20 debug messages>
+
+4.20.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+    New ctrl vector for $pmux cell $flatten\transition.$procmux$3299: { $flatten\transition.$procmux$1191_CMP $auto$opt_reduce.cc:134:opt_pmux$3878 }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:128:opt_pmux$3877: { $flatten\transition.$eq$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:77$807_Y $flatten\transition.$procmux$1189_CMP $flatten\transition.$procmux$1190_CMP $flatten\transition.$procmux$1192_CMP $flatten\transition.$procmux$1193_CMP $flatten\transition.$procmux$3300_CMP }
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 2 changes.
+
+4.20.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.20.14. Executing OPT_SHARE pass.
+    Found cells that share an operand and can be merged by moving the $pmux $auto$opt_share.cc:243:merge_operators$3875 in front of them:
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:73$724
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:72$717
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:71$710
+
+    Found cells that share an operand and can be merged by moving the $pmux $auto$opt_share.cc:243:merge_operators$3875 in front of them:
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:70$703
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:69$696
+
+    Found cells that share an operand and can be merged by moving the $pmux $auto$opt_share.cc:243:merge_operators$3875 in front of them:
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:68$689
+        $flatten\transition.$logic_and$/workspace/ases-kernel-mapped/docs/research/kernel-0/direct-rtl/kernel0.v:64$670
+
+4.20.15. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.20.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 0 unused cells and 7 unused wires.
+<suppressed ~1 debug messages>
+
+4.20.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+<suppressed ~3 debug messages>
+
+4.20.18. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.20.19. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~23 debug messages>
+
+4.20.20. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+    New ctrl vector for $pmux cell $auto$opt_share.cc:243:merge_operators$3875: { $flatten\transition.$procmux$1192_CMP $auto$opt_reduce.cc:134:opt_pmux$3893 $auto$opt_reduce.cc:134:opt_pmux$3891 $auto$opt_reduce.cc:134:opt_pmux$3889 }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:128:opt_pmux$3888: { $flatten\transition.$procmux$1189_CMP [4:2] $flatten\transition.$procmux$3300_CMP }
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 2 changes.
+
+4.20.21. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+4.20.22. Executing OPT_SHARE pass.
+
+4.20.23. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.20.24. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 1 unused cells and 2 unused wires.
+<suppressed ~2 debug messages>
+
+4.20.25. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.20.26. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.20.27. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \kernel0_machine..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~23 debug messages>
+
+4.20.28. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \kernel0_machine.
+Performed a total of 0 changes.
+
+4.20.29. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+Removed a total of 0 cells.
+
+4.20.30. Executing OPT_SHARE pass.
+
+4.20.31. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.20.32. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+
+4.20.33. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+
+4.20.34. Finished OPT passes. (There is nothing left to do.)
+
+4.21. Executing TECHMAP pass (map to technology primitives).
+
+4.21.1. Executing Verilog-2005 frontend: /tmp/ases-round2-synthesis/root/usr/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/tmp/ases-round2-synthesis/root/usr/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+4.21.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $sdffe.
+Using extmapper simplemap for cells of type $sdff.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $not.
+Using template $paramod$78e969f2586efcf3a5b0b0440bcca0db83d5cca2\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_and.
+Using template $paramod$fc972a7a46956c1788f3cb5257b53c8f1df2d0cc\_90_alu for cells of type $alu.
+Using extmapper maccmap for cells of type $macc.
+  add 2'11 * \proposal [8:7] (2x2 bits, unsigned)
+  add 5'01000 (5 bits, unsigned)
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $reduce_or.
+Using extmapper simplemap for cells of type $mux.
+Using template $paramod$c5c783b17ab1d780abfad8cfe6563a0a7b47a3b0\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $eq.
+Using template $paramod$85df5dc01c7df96a7d8e5f1fdf76ce9ac452af63\_90_pmux for cells of type $pmux.
+Using template $paramod$2407ada40cc3dda6c6015be2b49b748cddb5a800\_90_pmux for cells of type $pmux.
+Using template $paramod$7e708ae28ab761f11d0fb59d3ffc72f6a4baf5d9\_90_alu for cells of type $alu.
+Using template $paramod$2e0cc1d171695aa7e0671b7fbe20133f48dc3787\_90_pmux for cells of type $pmux.
+Using template $paramod$1aae2e481057835cbb335f7135d1019c7cf8d22d\_90_pmux for cells of type $pmux.
+Using template $paramod$1e99ce38f701dd11f85f107c1bfc7d0aa5d10769\_90_pmux for cells of type $pmux.
+Using template $paramod$constmap:172fcd64e62af134fdfec0561b7a67c814cb35e9$paramod$acab91008190b32924112bf46c28a6a0c7beedd7\_90_shift_ops_shr_shl_sshl_sshr for cells of type $shl.
+Using template $paramod$d31bf4d7d72e59528d18fbd4f322e9d608532043\_90_pmux for cells of type $pmux.
+Using template $paramod$d629d85c8826a74239b9178d1930215a43b0ceb0\_90_pmux for cells of type $pmux.
+Using template $paramod$77db613179eb70c5e4e5c5aca72d602a7c6017b6\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $logic_or.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $ne.
+Using template $paramod$b3c20b05d9b1fc2c940ef2f6c917486aead042e8\_90_alu for cells of type $alu.
+Using template $paramod$99501223b6f7e5af250351eeb57edb5403a5ad0b\_90_alu for cells of type $alu.
+Using template $paramod$constmap:14a21dd7673c21ec050a4ef95fb5a82244d7f5cc$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx for cells of type $shift.
+Using template $paramod$constmap:bd86bf61c3a42fabc98a6a22628717fad6e793ad$paramod$32277b31496fd0782f8785871cc6d495e2c67409\_90_shift_shiftx for cells of type $shiftx.
+Analyzing pattern of constant bits for this cell:
+  Constant input on bit 0 of port A: 1'1
+Creating constmapped module `$paramod$constmap:710a2c89727a67a0260e1fb528cde6f4f42e098f$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx'.
+
+4.21.46. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$constmap:710a2c89727a67a0260e1fb528cde6f4f42e098f$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$4813.
+    dead port 2/2 on $mux $procmux$4807.
+    dead port 2/2 on $mux $procmux$4801.
+    dead port 2/2 on $mux $procmux$4795.
+    dead port 2/2 on $mux $procmux$4789.
+    dead port 2/2 on $mux $procmux$4783.
+Removed 6 multiplexer ports.
+<suppressed ~1101 debug messages>
+
+4.21.47. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$constmap:710a2c89727a67a0260e1fb528cde6f4f42e098f$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx.
+<suppressed ~28 debug messages>
+Removed 0 unused cells and 11 unused wires.
+Using template $paramod$constmap:710a2c89727a67a0260e1fb528cde6f4f42e098f$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx for cells of type $shift.
+Using template $paramod$constmap:467a9323c8e30f8abd13387e89c17c5765caabb6$paramod$052ea786b5650a598a4ccc218790431069003307\_90_shift_shiftx for cells of type $shift.
+Using template $paramod$constmap:b7fd0e34e0696b6168388ef252aa17cf9157ce9d$paramod$42731bf51241654378f29a53647561dd4e27d0aa\_90_shift_shiftx for cells of type $shift.
+Analyzing pattern of constant bits for this cell:
+  Constant input on bit 0 of port A: 1'1
+  Constant input on bit 1 of port A: 1'1
+  Constant input on bit 2 of port A: 1'1
+Creating constmapped module `$paramod$constmap:b9660d568953277e402feb4f737b38800a9585b0$paramod$42731bf51241654378f29a53647561dd4e27d0aa\_90_shift_shiftx'.
+
+4.21.58. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$constmap:b9660d568953277e402feb4f737b38800a9585b0$paramod$42731bf51241654378f29a53647561dd4e27d0aa\_90_shift_shiftx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$5488.
+    dead port 2/2 on $mux $procmux$5482.
+    dead port 2/2 on $mux $procmux$5476.
+    dead port 2/2 on $mux $procmux$5470.
+    dead port 2/2 on $mux $procmux$5464.
+    dead port 2/2 on $mux $procmux$5458.
+Removed 6 multiplexer ports.
+<suppressed ~587 debug messages>
+
+4.21.59. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$constmap:b9660d568953277e402feb4f737b38800a9585b0$paramod$42731bf51241654378f29a53647561dd4e27d0aa\_90_shift_shiftx.
+<suppressed ~28 debug messages>
+Removed 0 unused cells and 11 unused wires.
+Using template $paramod$constmap:b9660d568953277e402feb4f737b38800a9585b0$paramod$42731bf51241654378f29a53647561dd4e27d0aa\_90_shift_shiftx for cells of type $shift.
+Using template $paramod$175e67c02b86e96b1288b9dc100122520d7240d8\_90_alu for cells of type $alu.
+Analyzing pattern of constant bits for this cell:
+  Constant input on bit 0 of port A: 1'0
+Creating constmapped module `$paramod$constmap:18bc3096720e7d2805cb1afa730adfd2fa1a2b66$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx'.
+
+4.21.62. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$constmap:18bc3096720e7d2805cb1afa730adfd2fa1a2b66$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$4813.
+    dead port 2/2 on $mux $procmux$4807.
+    dead port 2/2 on $mux $procmux$4801.
+    dead port 2/2 on $mux $procmux$4795.
+    dead port 2/2 on $mux $procmux$4789.
+    dead port 2/2 on $mux $procmux$4783.
+Removed 6 multiplexer ports.
+<suppressed ~38 debug messages>
+
+4.21.63. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$constmap:18bc3096720e7d2805cb1afa730adfd2fa1a2b66$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx.
+<suppressed ~36 debug messages>
+Removed 51 unused cells and 71 unused wires.
+Using template $paramod$constmap:18bc3096720e7d2805cb1afa730adfd2fa1a2b66$paramod$a67bc404260cfca602f2460b3a60c4a7660339e4\_90_shift_shiftx for cells of type $shift.
+Using template $paramod$constmap:fb2caebc0143cfb4f4db72414a3302ed29a432d5$paramod$fa85212871f4433a9d2dde6983e403c7943137ff\_90_shift_shiftx for cells of type $shiftx.
+Using template $paramod$constmap:96d03404b18944f07c012b66446e316c72257a81$paramod$89c5537c2ea51cf7d1a68808f2adde83591cdfef\_90_shift_shiftx for cells of type $shiftx.
+  add \proposal [6:4] * 2'11 (3x2 bits, unsigned)
+Using template $paramod$79fc7abbb3333dbd5736999d565fd903198fb1eb\_90_alu for cells of type $alu.
+Using template $paramod$adbaf76fa5a3091a329503792521395f8ff4d1a4\_90_alu for cells of type $alu.
+Using template $paramod$b3b6ac92d800c6f07aa48f510f923d86a674e5a7\_90_pmux for cells of type $pmux.
+Using template $paramod$constmap:208abe1ee5db6644f94da125af0e6f8acee1c5fb$paramod$847818b648e3497cf291732568806af5297346cb\_90_shift_shiftx for cells of type $shiftx.
+  add 2'11 * \proposal [13:12] (2x2 bits, unsigned)
+Using template $paramod$constmap:802be82b69ebb2f3a6f6e26dde81c660bab67b60$paramod$7be0b0156b89aefc4d0caa0e231175ab1f1673c6\_90_shift_shiftx for cells of type $shiftx.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000001 for cells of type $lcu.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod$740b056ede97228d3eae64ea2fdc81f0a33e0fe7\_90_alu for cells of type $alu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000010 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000011 for cells of type $lcu.
+Using template $paramod$b18e16801adf491a64caa0542270798e5d4ac6b6\_90_alu for cells of type $alu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000100001 for cells of type $lcu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000000101 for cells of type $fa.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000100 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000101 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~3118 debug messages>
+
+4.22. Executing OPT pass (performing simple optimizations).
+
+4.22.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module kernel0_machine.
+<suppressed ~7719 debug messages>
+
+4.22.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\kernel0_machine'.
+<suppressed ~1599 debug messages>
+Removed a total of 533 cells.
+
+4.22.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.22.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \kernel0_machine..
+Removed 679 unused cells and 1971 unused wires.
+<suppressed ~680 debug messages>
+
+4.22.5. Finished fast OPT passes.
+
+4.23. Executing HIERARCHY pass (managing design hierarchy).
+
+4.23.1. Analyzing design hierarchy..
+Top module:  \kernel0_machine
+
+4.23.2. Analyzing design hierarchy..
+Top module:  \kernel0_machine
+Removed 0 unused modules.
+
+4.24. Printing statistics.
+
+=== kernel0_machine ===
+
+   Number of wires:                596
+   Number of wire bits:           8620
+   Number of public wires:          40
+   Number of public wire bits:     312
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               2142
+     $_AND_                        353
+     $_MUX_                       1104
+     $_NOT_                        176
+     $_OR_                         456
+     $_SDFFE_PP0P_                  22
+     $_SDFF_PP0_                     2
+     $_XOR_                         29
+
+4.25. Executing CHECK pass (checking for obvious problems).
+Checking module kernel0_machine...
+Found and reported 0 problems.
+
+5. Executing ABC pass (technology mapping using ABC).
+
+5.1. Extracting gate netlist of module `\kernel0_machine' to `<abc-temp-dir>/input.blif'..
+Extracted 2118 gates and 2159 wires to a netlist network with 38 inputs and 23 outputs.
+
+5.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/berkeley-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 8 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+5.1.2. Re-integrating ABC results.
+ABC RESULTS:               NOT cells:       88
+ABC RESULTS:               MUX cells:       37
+ABC RESULTS:               XOR cells:        9
+ABC RESULTS:               AND cells:      297
+ABC RESULTS:                OR cells:      244
+ABC RESULTS:        internal signals:     2098
+ABC RESULTS:           input signals:       38
+ABC RESULTS:          output signals:       23
+Removing temp directory.
+Removed 0 unused cells and 620 unused wires.
+
+6. Executing CHECK pass (checking for obvious problems).
+Checking module kernel0_machine...
+Found and reported 0 problems.
+Renaming module \kernel0_machine to \mapped_original.
+
+7. Executing Verilog backend.
+
+7.1. Executing BMUXMAP pass.
+
+7.2. Executing DEMUXMAP pass.
+Dumping module `\mapped_original'.
