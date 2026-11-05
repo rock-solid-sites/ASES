@@ -48,7 +48,7 @@
     "research/autonomy-20261105-t18-revocation": "aefdd5ece043190a76e8f14434aca9e9ec156038",
     "review/autonomy-20261105-t18-revocation": "3deeb71278063039b82a358d239a5f079212b38b",
     "research/autonomy-20261105-sink-witness": "7ee48372c38da079cfdf8aca8c186956f80a2de8",
-    "research/autonomy-20261105-witness-publication": "854b0089f9869fc3fde39164358c5bf200af8269",
+    "research/autonomy-20261105-witness-publication": "dbcb70c25f662f4d3ce41a0e671ebd2343b7a610",
     "review/autonomy-20261105-sink-witness": "a158bb957cfc6b11980b773980353e61db7839cd"
   },
   "checkpoints": [
@@ -107,6 +107,10 @@
     {
       "utc": "2026-11-05T04:41:45Z",
       "state": "Revoke witness-publication854b008 pushed, delayed-update counterexample and3 partial outcomes. Independent sink projection checka158bb95 integrated; all9 workers finished. Next inspect governing C11 or actual no-ACK process cuts."
+    },
+    {
+      "utc": "2026-11-05T04:46:20Z",
+      "state": "Actual3 pre-reply cut evidence dbcb70c pushed;36 indexed experiments. Next remote-only restoration then concrete C11 retention discriminator. All9 workers completed, remaining allowance unknown after operator reset."
     }
   ],
   "experiments": [
@@ -1408,6 +1412,45 @@
       "blockers": [],
       "next_discriminator": "Actual termination after local revoke commit and after witness publication before reply; classify unknown outcome without inventing C11 operation identity requirement",
       "supersedes": []
+    },
+    {
+      "id": "R2-MANAGEMENT-PRE-REPLY-CUTS",
+      "stream": "cross-layer",
+      "claim": "C12 missing success response does not imply no control commitment; selected actual pre-reply death cuts reconstruct different definite outcomes",
+      "source_branch": "research/autonomy-20261105-witness-publication",
+      "source_sha": "dbcb70c25f662f4d3ce41a0e671ebd2343b7a610",
+      "implementation": "research/phase-i-t18-sink-order-20261103/witness-publication/cuts_probe.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/witness-publication/cuts_probe.py > /tmp/publication-cuts.json && python3 research/phase-i-t18-sink-order-20261103/witness-publication/check_cuts.py /tmp/publication-cuts.json",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "actual source/PID/stage-bound gate evidence",
+          "owned process SIGKILL/reap",
+          "same surviving actual journal",
+          "live witness outside sink process"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "All3 held HTTP revoke calls lose response: before local commit neither local nor witness revoked/current use201; after local commit only local revoked/use409; after validated witness publish both revoked/use409. Same-journal replay/second restart retain prior ACKs. Uninterrupted200 after publication.14 owned children/max2, missing gate/reply incomplete.",
+      "limits": "Actual process death and returned durability APIs, not physical power loss. Current correct journal/root and trusted manager/witness premises. No operation identity/retry/distributed atomicity/liveness/C11 or aggregate acceptance. Gate data only observer, never recovery input; no journal fixture restoration.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/witness-publication/cuts.raw.json",
+          "sha256": "dc3457bb066ad961e7907a529cd7a9507198951b569882c8ef893df72cb7caf8"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/witness-publication/cuts.check.json",
+          "sha256": "bfed8e5a9d97c6fbd1cc32415d39cf6eaaacf5710b919567156e437981ef2567"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-REVOKE-WITNESS-PUBLICATION"
+      ],
+      "blockers": [],
+      "next_discriminator": "Concrete C11 accepted consumer evidence with existing SQLite holder: same-transaction retention versus separate-commit loss, after remote index restoration",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
@@ -1418,7 +1461,8 @@
     "Kernel independent full correspondence/physical timing/capture-publication and minimality obligations",
     "F3 sole-holder enforcement, real credential revocation/native confinement ENOSYS; L6/L7 open",
     "Formal cross-family F5 review absent",
-    "Independent evidence archive/long-term retention unestablished; both remote-only cold checks completed"
+    "Independent evidence archive/long-term retention unestablished; both remote-only cold checks completed",
+    "Next concrete C11 SQLite-holder consumer evidence acceptance/retention discriminator; previous crossed fields were stipulated abstract observations. Freeze atomic versus separate-commit contract before code; no schema mandate or authenticity claim."
   ],
   "blocked_routes": [
     "Kernel-contract platform safety-filter investigation: do not retry",
