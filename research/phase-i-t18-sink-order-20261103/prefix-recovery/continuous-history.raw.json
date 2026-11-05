@@ -1,0 +1,1785 @@
+{
+  "bounds": {
+    "children": 19,
+    "enumerated": false,
+    "histories": 4,
+    "max_concurrent_owned_children": 1
+  },
+  "cases": {
+    "prepared": {
+      "actual_writer_history": {
+        "acknowledged_journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "cold": {
+          "exit": 1,
+          "ready": false,
+          "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 876, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 862, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 415, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 44, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 108, in recover_ordered\n    raise ValueError(\"empty, oversized or truncated recovery journal\")\nValueError: empty, oversized or truncated recovery journal\n",
+          "stdout": ""
+        },
+        "fault": {
+          "error": "RemoteDisconnected: Remote end closed connection without response",
+          "request": {
+            "authority_version": 1,
+            "payload": "journal-fault-once-\u03c0",
+            "request_id": "fault-once"
+          },
+          "response": null
+        },
+        "first": {
+          "completion_monotonic_ns": 2419316695482,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "journal-ack-before-\u03c0",
+              "request_id": "ack-before"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 2419315285908
+        },
+        "io_trace": [
+          {
+            "requested": 190,
+            "returned": 190,
+            "stage": "write_returned"
+          },
+          {
+            "stage": "sync_returned"
+          },
+          {
+            "requested": 190,
+            "returned": 95,
+            "stage": "partial_write_then_exception"
+          }
+        ],
+        "journal_after_fault": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "journal_after_later": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "later": {
+          "error": "RemoteDisconnected: Remote end closed connection without response",
+          "request": {
+            "authority_version": 1,
+            "payload": "journal-after-failure-\u03c0",
+            "request_id": "after-failure"
+          },
+          "response": null
+        },
+        "shim_source_sha256": "9c6fb72003c3d845175fd5c7772abc2d62f497e1cab4721aff27255a30506153",
+        "sink_exit": -9,
+        "sink_stderr": "----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 54090)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-continuous-history-zkudxp93/prepared/shim_sink.py\", line 328, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/prepared/shim_sink.py\", line 203, in emit_locked\n    written = _io_write(fd, payload[offset:])\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/prepared/shim_sink.py\", line 37, in _io_write\n    raise OSError(5, 'injected exception after partial append')\nOSError: [Errno 5] injected exception after partial append\n----------------------------------------\n----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 54112)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-continuous-history-zkudxp93/prepared/shim_sink.py\", line 328, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/prepared/shim_sink.py\", line 191, in emit_locked\n    raise OSError(\"persistence fault requires explicit recovery before durable use\")\nOSError: persistence fault requires explicit recovery before durable use\n----------------------------------------\n",
+        "sink_stdout": "",
+        "status_after_fault": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": true,
+          "recovery_info": null,
+          "waiting": 0
+        },
+        "status_after_later": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": true,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "after": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continuous-retained-\u03c0",
+            "presented_version": 1,
+            "request_id": "continuous-new",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continuous-retained-\u03c0",
+            "presented_version": 1,
+            "request_id": "continuous-new",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "after_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756f75732d72657461696e65642d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022636f6e74696e756f75732d6e6577222c2022736571223a20327d0a",
+        "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+      },
+      "child_pids": [
+        1560,
+        1566,
+        1567,
+        1568,
+        1572
+      ],
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 395,
+            "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756f75732d72657461696e65642d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022636f6e74696e756f75732d6e6577222c2022736571223a20327d0a",
+          "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continuous-retained-\u03c0",
+              "presented_version": 1,
+              "request_id": "continuous-new",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continuous-retained-\u03c0",
+              "presented_version": 1,
+              "request_id": "continuous-new",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "files": {
+        "sink-effects.jsonl": {
+          "bytes": 395,
+          "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "gate": {
+        "exit": -9,
+        "files_at_gate": {
+          "sink-effects.jsonl": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          },
+          "sink-effects.jsonl.prefix.tmp": {
+            "bytes": 190,
+            "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "gate": "prepared",
+        "journal_at_gate": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "pid": 1567,
+        "stderr": "",
+        "stdout": ""
+      },
+      "journal_path": "/tmp/ases-continuous-history-zkudxp93/prepared/state/sink-effects.jsonl",
+      "marks": {
+        "final_cold_reaped_ns": 2419583202516,
+        "gate_done_ns": 2419454584720,
+        "gate_start_ns": 2419395774261,
+        "io_done_ns": 2419395736290,
+        "io_start_ns": 2419246499782,
+        "new_sink_reaped_ns": 2419521694921,
+        "recovery_ready_ns": 2419517478601
+      },
+      "name": "prepared",
+      "new_call": {
+        "completion_monotonic_ns": 2419519610511,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continuous-retained-\u03c0",
+            "request_id": "continuous-new"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 2419518712767
+      },
+      "new_sink_exit": -9,
+      "quarantine_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "quarantine_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "restored_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "same_surviving_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+        "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+      },
+      "stage": "prepared"
+    },
+    "published": {
+      "actual_writer_history": {
+        "acknowledged_journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "cold": {
+          "exit": 1,
+          "ready": false,
+          "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 876, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 862, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 415, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 44, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 108, in recover_ordered\n    raise ValueError(\"empty, oversized or truncated recovery journal\")\nValueError: empty, oversized or truncated recovery journal\n",
+          "stdout": ""
+        },
+        "fault": {
+          "error": "RemoteDisconnected: Remote end closed connection without response",
+          "request": {
+            "authority_version": 1,
+            "payload": "journal-fault-once-\u03c0",
+            "request_id": "fault-once"
+          },
+          "response": null
+        },
+        "first": {
+          "completion_monotonic_ns": 2419654516135,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "journal-ack-before-\u03c0",
+              "request_id": "ack-before"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 2419653192112
+        },
+        "io_trace": [
+          {
+            "requested": 190,
+            "returned": 190,
+            "stage": "write_returned"
+          },
+          {
+            "stage": "sync_returned"
+          },
+          {
+            "requested": 190,
+            "returned": 95,
+            "stage": "partial_write_then_exception"
+          }
+        ],
+        "journal_after_fault": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "journal_after_later": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "later": {
+          "error": "RemoteDisconnected: Remote end closed connection without response",
+          "request": {
+            "authority_version": 1,
+            "payload": "journal-after-failure-\u03c0",
+            "request_id": "after-failure"
+          },
+          "response": null
+        },
+        "shim_source_sha256": "fa0117df78ab6a00909822e4f54c2a82bd226f9cd58c35afa1404f2aed99ea37",
+        "sink_exit": -9,
+        "sink_stderr": "----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 32936)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-continuous-history-zkudxp93/published/shim_sink.py\", line 328, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/published/shim_sink.py\", line 203, in emit_locked\n    written = _io_write(fd, payload[offset:])\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/published/shim_sink.py\", line 37, in _io_write\n    raise OSError(5, 'injected exception after partial append')\nOSError: [Errno 5] injected exception after partial append\n----------------------------------------\n----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 32956)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-continuous-history-zkudxp93/published/shim_sink.py\", line 328, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/published/shim_sink.py\", line 191, in emit_locked\n    raise OSError(\"persistence fault requires explicit recovery before durable use\")\nOSError: persistence fault requires explicit recovery before durable use\n----------------------------------------\n",
+        "sink_stdout": "",
+        "status_after_fault": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": true,
+          "recovery_info": null,
+          "waiting": 0
+        },
+        "status_after_later": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": true,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "after": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continuous-retained-\u03c0",
+            "presented_version": 1,
+            "request_id": "continuous-new",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continuous-retained-\u03c0",
+            "presented_version": 1,
+            "request_id": "continuous-new",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "mode": "strict-no-tail",
+          "tail_bytes": 0
+        },
+        "waiting": 0
+      },
+      "after_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756f75732d72657461696e65642d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022636f6e74696e756f75732d6e6577222c2022736571223a20327d0a",
+        "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+      },
+      "child_pids": [
+        1574,
+        1580,
+        1581,
+        1582,
+        1586
+      ],
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 395,
+            "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756f75732d72657461696e65642d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022636f6e74696e756f75732d6e6577222c2022736571223a20327d0a",
+          "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continuous-retained-\u03c0",
+              "presented_version": 1,
+              "request_id": "continuous-new",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continuous-retained-\u03c0",
+              "presented_version": 1,
+              "request_id": "continuous-new",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "files": {
+        "sink-effects.jsonl": {
+          "bytes": 395,
+          "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "gate": {
+        "exit": -9,
+        "files_at_gate": {
+          "sink-effects.jsonl": {
+            "bytes": 190,
+            "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "gate": "published",
+        "journal_at_gate": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "pid": 1581,
+        "stderr": "",
+        "stdout": ""
+      },
+      "journal_path": "/tmp/ases-continuous-history-zkudxp93/published/state/sink-effects.jsonl",
+      "marks": {
+        "final_cold_reaped_ns": 2419930121103,
+        "gate_done_ns": 2419800874646,
+        "gate_start_ns": 2419738404946,
+        "io_done_ns": 2419738364005,
+        "io_start_ns": 2419583348760,
+        "new_sink_reaped_ns": 2419866009353,
+        "recovery_ready_ns": 2419861339347
+      },
+      "name": "published",
+      "new_call": {
+        "completion_monotonic_ns": 2419863987625,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continuous-retained-\u03c0",
+            "request_id": "continuous-new"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 2419862878388
+      },
+      "new_sink_exit": -9,
+      "quarantine_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "quarantine_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "mode": "strict-no-tail",
+          "tail_bytes": 0
+        },
+        "waiting": 0
+      },
+      "restored_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "same_surviving_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+        "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+      },
+      "stage": "published"
+    },
+    "quarantined": {
+      "actual_writer_history": {
+        "acknowledged_journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "cold": {
+          "exit": 1,
+          "ready": false,
+          "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 876, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 862, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 415, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 44, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 108, in recover_ordered\n    raise ValueError(\"empty, oversized or truncated recovery journal\")\nValueError: empty, oversized or truncated recovery journal\n",
+          "stdout": ""
+        },
+        "fault": {
+          "error": "RemoteDisconnected: Remote end closed connection without response",
+          "request": {
+            "authority_version": 1,
+            "payload": "journal-fault-once-\u03c0",
+            "request_id": "fault-once"
+          },
+          "response": null
+        },
+        "first": {
+          "completion_monotonic_ns": 2418972080251,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "journal-ack-before-\u03c0",
+              "request_id": "ack-before"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 2418970626981
+        },
+        "io_trace": [
+          {
+            "requested": 190,
+            "returned": 190,
+            "stage": "write_returned"
+          },
+          {
+            "stage": "sync_returned"
+          },
+          {
+            "requested": 190,
+            "returned": 95,
+            "stage": "partial_write_then_exception"
+          }
+        ],
+        "journal_after_fault": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "journal_after_later": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "later": {
+          "error": "RemoteDisconnected: Remote end closed connection without response",
+          "request": {
+            "authority_version": 1,
+            "payload": "journal-after-failure-\u03c0",
+            "request_id": "after-failure"
+          },
+          "response": null
+        },
+        "shim_source_sha256": "3dfaac0cb2e4882763fc0d755b97260a24c8f32949e0cb730b2bb56cc46aba3c",
+        "sink_exit": -9,
+        "sink_stderr": "----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 37586)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-continuous-history-zkudxp93/quarantined/shim_sink.py\", line 328, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/quarantined/shim_sink.py\", line 203, in emit_locked\n    written = _io_write(fd, payload[offset:])\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/quarantined/shim_sink.py\", line 37, in _io_write\n    raise OSError(5, 'injected exception after partial append')\nOSError: [Errno 5] injected exception after partial append\n----------------------------------------\n----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 37610)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-continuous-history-zkudxp93/quarantined/shim_sink.py\", line 328, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/quarantined/shim_sink.py\", line 191, in emit_locked\n    raise OSError(\"persistence fault requires explicit recovery before durable use\")\nOSError: persistence fault requires explicit recovery before durable use\n----------------------------------------\n",
+        "sink_stdout": "",
+        "status_after_fault": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": true,
+          "recovery_info": null,
+          "waiting": 0
+        },
+        "status_after_later": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": true,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "after": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continuous-retained-\u03c0",
+            "presented_version": 1,
+            "request_id": "continuous-new",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continuous-retained-\u03c0",
+            "presented_version": 1,
+            "request_id": "continuous-new",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "after_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756f75732d72657461696e65642d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022636f6e74696e756f75732d6e6577222c2022736571223a20327d0a",
+        "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+      },
+      "child_pids": [
+        1546,
+        1552,
+        1553,
+        1554,
+        1558
+      ],
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 395,
+            "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756f75732d72657461696e65642d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022636f6e74696e756f75732d6e6577222c2022736571223a20327d0a",
+          "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continuous-retained-\u03c0",
+              "presented_version": 1,
+              "request_id": "continuous-new",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continuous-retained-\u03c0",
+              "presented_version": 1,
+              "request_id": "continuous-new",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "files": {
+        "sink-effects.jsonl": {
+          "bytes": 395,
+          "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "gate": {
+        "exit": -9,
+        "files_at_gate": {
+          "sink-effects.jsonl": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "gate": "quarantined",
+        "journal_at_gate": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "pid": 1553,
+        "stderr": "",
+        "stdout": ""
+      },
+      "journal_path": "/tmp/ases-continuous-history-zkudxp93/quarantined/state/sink-effects.jsonl",
+      "marks": {
+        "final_cold_reaped_ns": 2419246354272,
+        "gate_done_ns": 2419112215795,
+        "gate_start_ns": 2419050993304,
+        "io_done_ns": 2419050954321,
+        "io_start_ns": 2418902762772,
+        "new_sink_reaped_ns": 2419182497487,
+        "recovery_ready_ns": 2419178060108
+      },
+      "name": "quarantined",
+      "new_call": {
+        "completion_monotonic_ns": 2419180391436,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continuous-retained-\u03c0",
+            "request_id": "continuous-new"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 2419179340129
+      },
+      "new_sink_exit": -9,
+      "quarantine_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "quarantine_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "restored_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "same_surviving_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+        "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+      },
+      "stage": "quarantined"
+    },
+    "uninterrupted": {
+      "actual_writer_history": {
+        "acknowledged_journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+          "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+        },
+        "cold": {
+          "exit": 1,
+          "ready": false,
+          "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 876, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 862, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 415, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 44, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py\", line 108, in recover_ordered\n    raise ValueError(\"empty, oversized or truncated recovery journal\")\nValueError: empty, oversized or truncated recovery journal\n",
+          "stdout": ""
+        },
+        "fault": {
+          "error": "RemoteDisconnected: Remote end closed connection without response",
+          "request": {
+            "authority_version": 1,
+            "payload": "journal-fault-once-\u03c0",
+            "request_id": "fault-once"
+          },
+          "response": null
+        },
+        "first": {
+          "completion_monotonic_ns": 2418687976981,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "journal-ack-before-\u03c0",
+              "request_id": "ack-before"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 2418678848388
+        },
+        "io_trace": [
+          {
+            "requested": 190,
+            "returned": 190,
+            "stage": "write_returned"
+          },
+          {
+            "stage": "sync_returned"
+          },
+          {
+            "requested": 190,
+            "returned": 95,
+            "stage": "partial_write_then_exception"
+          }
+        ],
+        "journal_after_fault": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "journal_after_later": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        },
+        "later": {
+          "error": "RemoteDisconnected: Remote end closed connection without response",
+          "request": {
+            "authority_version": 1,
+            "payload": "journal-after-failure-\u03c0",
+            "request_id": "after-failure"
+          },
+          "response": null
+        },
+        "shim_source_sha256": "53f5c14e370a296093cf22d78dd9d32ba416fd9b5f1229b9dd4a80a703cd21ce",
+        "sink_exit": -9,
+        "sink_stderr": "----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 51150)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-continuous-history-zkudxp93/uninterrupted/shim_sink.py\", line 328, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/uninterrupted/shim_sink.py\", line 203, in emit_locked\n    written = _io_write(fd, payload[offset:])\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/uninterrupted/shim_sink.py\", line 37, in _io_write\n    raise OSError(5, 'injected exception after partial append')\nOSError: [Errno 5] injected exception after partial append\n----------------------------------------\n----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 51178)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-continuous-history-zkudxp93/uninterrupted/shim_sink.py\", line 328, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-continuous-history-zkudxp93/uninterrupted/shim_sink.py\", line 191, in emit_locked\n    raise OSError(\"persistence fault requires explicit recovery before durable use\")\nOSError: persistence fault requires explicit recovery before durable use\n----------------------------------------\n",
+        "sink_stdout": "",
+        "status_after_fault": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": true,
+          "recovery_info": null,
+          "waiting": 0
+        },
+        "status_after_later": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": true,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "after": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continuous-retained-\u03c0",
+            "presented_version": 1,
+            "request_id": "continuous-new",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered-prefix",
+            "event": "effect_accepted",
+            "payload": "continuous-retained-\u03c0",
+            "presented_version": 1,
+            "request_id": "continuous-new",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "after_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756f75732d72657461696e65642d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022636f6e74696e756f75732d6e6577222c2022736571223a20327d0a",
+        "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+      },
+      "child_pids": [
+        1533,
+        1539,
+        1540,
+        1544
+      ],
+      "cold": {
+        "files": {
+          "sink-effects.jsonl": {
+            "bytes": 395,
+            "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+          },
+          "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+            "bytes": 285,
+            "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+          }
+        },
+        "journal": {
+          "exists": true,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f7264657265642d707265666978222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a2022636f6e74696e756f75732d72657461696e65642d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022636f6e74696e756f75732d6e6577222c2022736571223a20327d0a",
+          "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+        },
+        "sink_exit": -9,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continuous-retained-\u03c0",
+              "presented_version": 1,
+              "request_id": "continuous-new",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered-prefix",
+              "event": "effect_accepted",
+              "payload": "continuous-retained-\u03c0",
+              "presented_version": 1,
+              "request_id": "continuous-new",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "files": {
+        "sink-effects.jsonl": {
+          "bytes": 395,
+          "sha256": "6b545ad7fd67f301490f4748c46817d855286db2c0db42229f3178e283b7e95e"
+        },
+        "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e": {
+          "bytes": 285,
+          "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+        }
+      },
+      "gate": null,
+      "journal_path": "/tmp/ases-continuous-history-zkudxp93/uninterrupted/state/sink-effects.jsonl",
+      "marks": {
+        "final_cold_reaped_ns": 2418902483313,
+        "io_done_ns": 2418769433293,
+        "io_start_ns": 2418600252564,
+        "new_sink_reaped_ns": 2418837419478,
+        "recovery_ready_ns": 2418833083756
+      },
+      "name": "uninterrupted",
+      "new_call": {
+        "completion_monotonic_ns": 2418835355166,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "continuous-retained-\u03c0",
+            "request_id": "continuous-new"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 2418834345249
+      },
+      "new_sink_exit": -9,
+      "quarantine_raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+      "quarantine_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": {
+          "limits": "new unterminated append tail only; not arbitrary acknowledged-data truncation",
+          "mode": "append-only-interrupted-tail",
+          "original_sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "prefix_sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a",
+          "quarantine": "sink-effects.jsonl.quarantine-795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e",
+          "tail_bytes": 95,
+          "tail_sha256": "2c778e313bb672635a0c16d2897a25fbe06909f91ddc6e0e7acbc5a27ebb2faf"
+        },
+        "waiting": 0
+      },
+      "restored_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "same_surviving_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+        "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+      },
+      "stage": null
+    }
+  },
+  "children": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/tmp/ases-continuous-history-zkudxp93/uninterrupted/shim_sink.py",
+        "--server",
+        "sink-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/uninterrupted/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2418696721805,
+      "pid": 1533,
+      "start_ns": 2418608783169
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/uninterrupted/state/sink-effects.jsonl"
+      ],
+      "exit": 1,
+      "exit_observed_ns": 2418769326552,
+      "pid": 1539,
+      "start_ns": 2418696751930
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered-prefix",
+        "/tmp/ases-continuous-history-zkudxp93/uninterrupted/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2418837411262,
+      "pid": 1540,
+      "start_ns": 2418769535769
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/uninterrupted/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2418902391844,
+      "pid": 1544,
+      "start_ns": 2418837496982
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/tmp/ases-continuous-history-zkudxp93/quarantined/shim_sink.py",
+        "--server",
+        "sink-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/quarantined/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2418980762256,
+      "pid": 1546,
+      "start_ns": 2418910639239
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/quarantined/state/sink-effects.jsonl"
+      ],
+      "exit": 1,
+      "exit_observed_ns": 2419050845260,
+      "pid": 1552,
+      "start_ns": 2418980779149
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered-prefix",
+        "/tmp/ases-continuous-history-zkudxp93/quarantined/state/sink-effects.jsonl",
+        "--recovery-gate",
+        "quarantined",
+        "--recovery-event-fd",
+        "4",
+        "--recovery-release-fd",
+        "5"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419112203942,
+      "pid": 1553,
+      "start_ns": 2419051017199
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered-prefix",
+        "/tmp/ases-continuous-history-zkudxp93/quarantined/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419182489352,
+      "pid": 1554,
+      "start_ns": 2419112282819
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/quarantined/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419246277729,
+      "pid": 1558,
+      "start_ns": 2419182606177
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/tmp/ases-continuous-history-zkudxp93/prepared/shim_sink.py",
+        "--server",
+        "sink-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/prepared/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419325814200,
+      "pid": 1560,
+      "start_ns": 2419253679610
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/prepared/state/sink-effects.jsonl"
+      ],
+      "exit": 1,
+      "exit_observed_ns": 2419395629171,
+      "pid": 1566,
+      "start_ns": 2419325830091
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered-prefix",
+        "/tmp/ases-continuous-history-zkudxp93/prepared/state/sink-effects.jsonl",
+        "--recovery-gate",
+        "prepared",
+        "--recovery-event-fd",
+        "4",
+        "--recovery-release-fd",
+        "5"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419454546961,
+      "pid": 1567,
+      "start_ns": 2419395791970
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered-prefix",
+        "/tmp/ases-continuous-history-zkudxp93/prepared/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419521687159,
+      "pid": 1568,
+      "start_ns": 2419454655451
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/prepared/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419583124413,
+      "pid": 1572,
+      "start_ns": 2419521775875
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/tmp/ases-continuous-history-zkudxp93/published/shim_sink.py",
+        "--server",
+        "sink-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/published/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419664158346,
+      "pid": 1574,
+      "start_ns": 2419590855222
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/published/state/sink-effects.jsonl"
+      ],
+      "exit": 1,
+      "exit_observed_ns": 2419738247138,
+      "pid": 1580,
+      "start_ns": 2419664173743
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered-prefix",
+        "/tmp/ases-continuous-history-zkudxp93/published/state/sink-effects.jsonl",
+        "--recovery-gate",
+        "published",
+        "--recovery-event-fd",
+        "4",
+        "--recovery-release-fd",
+        "5"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419800862674,
+      "pid": 1581,
+      "start_ns": 2419738422225
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered-prefix",
+        "/tmp/ases-continuous-history-zkudxp93/published/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419866002148,
+      "pid": 1582,
+      "start_ns": 2419800973468
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/ases-prefix-recovery/research/phase-i-t18-sink-order-20261103/run.py",
+        "--server",
+        "recover-ordered",
+        "/tmp/ases-continuous-history-zkudxp93/published/state/sink-effects.jsonl"
+      ],
+      "exit": -9,
+      "exit_observed_ns": 2419930042059,
+      "pid": 1586,
+      "start_ns": 2419866087350
+    }
+  ],
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_base_sha": "cf736f15405006f0bfb9b1036266bfdb1861b404",
+  "schema": "ases.continuous-prefix-history.v1",
+  "source_hashes": {
+    "io-failure/probe.py": "601df675f9b4a3f5404dca8c5cbe5dd71e4c6433c5686461b64504ed305f5c3a",
+    "prefix-recovery/continuous_history.py": "7732f7bc7aeacebc1db490d16a1aa1eca2e2504190ea875041b9fee5e774d7a9",
+    "prefix-recovery/probe.py": "71656aeb2bd64605138d56add510b8b1014b61ad43e172ba15ea5e6f788e7371",
+    "run.py": "3dcb7f66f7e712778e275034e13cf21e845b0348a2c15fcd93bc465fd8823149"
+  }
+}
