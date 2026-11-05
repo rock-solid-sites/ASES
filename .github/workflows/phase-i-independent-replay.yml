@@ -243,3 +243,58 @@ jobs:
           name: phase-i-bounded-model-${{ matrix.model }}-${{ github.run_id }}
           path: ${{ runner.temp }}/bounded-model/
           retention-days: 30
+
+  concrete-observation-projection:
+    name: Independent concrete projection - ${{ matrix.case.name }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - name: f1
+            sha: 29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a
+            dir: docs/research/phase-i-f1/c11-sqlite
+          - name: l5
+            sha: 51b34aface9340b7e6821b8c40dc62ca38da15e2
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts
+          - name: l6
+            sha: 0f348fda050e67f3d9081a7fc22078eddc547a61
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/race
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: assurance
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.case.sha }}
+          path: target
+      - name: Regenerate actual process/SQLite evidence at pinned source
+        shell: bash
+        env:
+          CASE_DIR: ${{ matrix.case.dir }}
+          CASE_SHA: ${{ matrix.case.sha }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/concrete-projection"
+          E="$RUNNER_TEMP/concrete-projection"
+          test "$(git -C target rev-parse HEAD)" = "$CASE_SHA"
+          { echo "source_sha=$CASE_SHA"; echo "assurance_sha=$GITHUB_SHA"; python3 --version; uname -a; } > "$E/environment.txt"
+          (cd target && timeout 180 python3 "$CASE_DIR/probe.py" > "$E/raw.json" 2> "$E/probe.stderr")
+      - name: Independently project raw observations without original checker
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/concrete-projection"
+          python3 assurance/docs/research/phase-i-assurance/concrete_projection.py --case "$CASE_NAME" --raw "$E/raw.json" > "$E/projected.json" 2> "$E/projected.stderr"
+          cat "$E/projected.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-concrete-projection-${{ matrix.case.name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/concrete-projection/
+          retention-days: 30
