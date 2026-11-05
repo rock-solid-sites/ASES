@@ -1,0 +1,34 @@
+{
+  "cases": {
+    "forged_same_sequence": {
+      "observation": "coherent self-hashed same-authority/seq/length payload mutation rejected by published cut before ready",
+      "status": "SUPPORTED"
+    },
+    "positive": {
+      "observation": "actual management/x/q/y ACKs follow validated publication and same-file recovery retains all commitments",
+      "status": "SUPPORTED"
+    },
+    "publication_rejected": {
+      "observation": "publication rejection preserves local unACKed record, blocks later append/startup without pretending two-store atomicity",
+      "status": "SUPPORTED"
+    },
+    "rollback": {
+      "observation": "authentic older same-authority cut rejected before ready, current witness unchanged",
+      "status": "SUPPORTED"
+    }
+  },
+  "incomplete_controls": {
+    "missing_startup_observation": {
+      "reason": "'startup_refusal'",
+      "status": "INCOMPLETE"
+    },
+    "missing_success_ack": {
+      "reason": "'response'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 2,
+  "owned_children": 13,
+  "qualification": "trusted live published-cut witness/current root/serialized writer; divergence availability unresolved, no power loss/nonrollback establishment or generic C7/F4 proof",
+  "source_hashes_verified": true
+}
