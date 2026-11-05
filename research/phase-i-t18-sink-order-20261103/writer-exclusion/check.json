@@ -1,0 +1,31 @@
+{
+  "cases": {
+    "guarded_restart": {
+      "observation": "cooperative guard excludes second pre-append startup; actual kill/recovery retains two ACKs/seq1,2",
+      "status": "SUPPORTED"
+    },
+    "nonparticipating_writer": {
+      "observation": "both ready before append, two actual201/seq1, strict recovery refuses; all ACKed bytes still present",
+      "status": "COUNTEREXAMPLE"
+    },
+    "original_overlap": {
+      "observation": "both ready before append, two actual201/seq1, strict recovery refuses; all ACKed bytes still present",
+      "status": "COUNTEREXAMPLE"
+    }
+  },
+  "distinct_roots": "both acquired/ACKed/cold recovered independently",
+  "incomplete_controls": {
+    "missing_recovery_bytes": {
+      "reason": "'recovered_ready_journal'",
+      "status": "INCOMPLETE"
+    },
+    "missing_startup": {
+      "reason": "'startup_observed_ns'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 2,
+  "owned_children": 15,
+  "qualification": "trusted cooperative all-writer/stable-inode/current-root profile; no untrusted confinement, root authentication, power loss or aggregate F4/F1 closure",
+  "source_hashes_verified": true
+}

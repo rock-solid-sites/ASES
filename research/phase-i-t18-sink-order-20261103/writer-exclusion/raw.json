@@ -1,0 +1,1437 @@
+{
+  "cases": {
+    "distinct_roots": {
+      "A": {
+        "exit": -9,
+        "exit_ns": 18200613258601,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/distinct/A/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12118,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18200410440003,
+        "startup_frame": {
+          "guard": {
+            "device": 34,
+            "inode": 9961,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/distinct/A/sink-writer.lock"
+          },
+          "port": 44125,
+          "ready": true
+        },
+        "startup_observed_ns": 18200532793345,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034343132352c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f64697374696e63742f412f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393936317d7d0a",
+        "stderr": ""
+      },
+      "B": {
+        "exit": -9,
+        "exit_ns": 18200615032978,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/distinct/B/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12119,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18200532858239,
+        "startup_frame": {
+          "guard": {
+            "device": 34,
+            "inode": 9963,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/distinct/B/sink-writer.lock"
+          },
+          "port": 43905,
+          "ready": true
+        },
+        "startup_observed_ns": 18200604179988,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034333930352c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f64697374696e63742f422f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393936337d7d0a",
+        "stderr": ""
+      },
+      "cold": [
+        {
+          "journal": {
+            "exists": true,
+            "ns": 18200696305395,
+            "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d726f6f742d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022726f6f742d41222c2022736571223a20317d0a",
+            "sha256": "b45079bcc94edb5072175d6db4bdde9f2acb6215b42cfb1b9e7aea91108a7918"
+          },
+          "process": {
+            "exit": -9,
+            "exit_ns": 18200696805488,
+            "guarded": true,
+            "journal_path": "/tmp/ases-sink-writer-ajaps6vb/distinct/A/sink-effects.jsonl",
+            "mode": "recover-ordered",
+            "pid": 12124,
+            "ready": true,
+            "remaining_stdout_hex": "",
+            "start_ns": 18200615099595,
+            "startup_frame": {
+              "guard": {
+                "device": 34,
+                "inode": 9961,
+                "path": "/tmp/ases-sink-writer-ajaps6vb/distinct/A/sink-writer.lock"
+              },
+              "port": 40691,
+              "ready": true
+            },
+            "startup_observed_ns": 18200694859528,
+            "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034303639312c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f64697374696e63742f412f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393936317d7d0a",
+            "stderr": ""
+          },
+          "status": {
+            "authority_version": 1,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "payload-root-A",
+                "presented_version": 1,
+                "request_id": "root-A",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "payload-root-A",
+                "presented_version": 1,
+                "request_id": "root-A",
+                "seq": 1
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        },
+        {
+          "journal": {
+            "exists": true,
+            "ns": 18200763679027,
+            "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d726f6f742d42222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022726f6f742d42222c2022736571223a20317d0a",
+            "sha256": "d4ae28925accc2d8fd0c76e9a41f3612cceae145799886b33ef1d032c7fd5835"
+          },
+          "process": {
+            "exit": -9,
+            "exit_ns": 18200764499075,
+            "guarded": true,
+            "journal_path": "/tmp/ases-sink-writer-ajaps6vb/distinct/B/sink-effects.jsonl",
+            "mode": "recover-ordered",
+            "pid": 12126,
+            "ready": true,
+            "remaining_stdout_hex": "",
+            "start_ns": 18200696857059,
+            "startup_frame": {
+              "guard": {
+                "device": 34,
+                "inode": 9963,
+                "path": "/tmp/ases-sink-writer-ajaps6vb/distinct/B/sink-writer.lock"
+              },
+              "port": 38753,
+              "ready": true
+            },
+            "startup_observed_ns": 18200760897811,
+            "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033383735332c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f64697374696e63742f422f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393936337d7d0a",
+            "stderr": ""
+          },
+          "status": {
+            "authority_version": 1,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "payload-root-B",
+                "presented_version": 1,
+                "request_id": "root-B",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "payload-root-B",
+                "presented_version": 1,
+                "request_id": "root-B",
+                "seq": 1
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        }
+      ],
+      "first": {
+        "end_ns": 18200606810612,
+        "journal": {
+          "exists": true,
+          "ns": 18200608654486,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d726f6f742d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022726f6f742d41222c2022736571223a20317d0a",
+          "sha256": "b45079bcc94edb5072175d6db4bdde9f2acb6215b42cfb1b9e7aea91108a7918"
+        },
+        "request": {
+          "authority_version": 1,
+          "payload": "payload-root-A",
+          "request_id": "root-A"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_ns": 18200604201729,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-root-A",
+              "presented_version": 1,
+              "request_id": "root-A",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-root-A",
+              "presented_version": 1,
+              "request_id": "root-A",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "second": {
+        "end_ns": 18200610871953,
+        "journal": {
+          "exists": true,
+          "ns": 18200612701290,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d726f6f742d42222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a2022726f6f742d42222c2022736571223a20317d0a",
+          "sha256": "d4ae28925accc2d8fd0c76e9a41f3612cceae145799886b33ef1d032c7fd5835"
+        },
+        "request": {
+          "authority_version": 1,
+          "payload": "payload-root-B",
+          "request_id": "root-B"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_ns": 18200608658261,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-root-B",
+              "presented_version": 1,
+              "request_id": "root-B",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-root-B",
+              "presented_version": 1,
+              "request_id": "root-B",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      }
+    },
+    "guarded_restart": {
+      "A": {
+        "exit": -9,
+        "exit_ns": 18199866727003,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12098,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18199735939118,
+        "startup_frame": {
+          "guard": {
+            "device": 34,
+            "inode": 9954,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+          },
+          "port": 33025,
+          "ready": true
+        },
+        "startup_observed_ns": 18199790916243,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033333032352c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+        "stderr": ""
+      },
+      "after_fresh": {
+        "exists": true,
+        "ns": 18199932152363,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d6669727374222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226669727374222c2022736571223a20317d0a",
+        "sha256": "a30d5bbc5cfb0bdd5cdc0b64c5c92a2053f7abbf4b2ccdb327105000073c2fcc"
+      },
+      "blocked_B": {
+        "exit": 75,
+        "exit_ns": 18199863287130,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12099,
+        "ready": false,
+        "remaining_stdout_hex": "",
+        "start_ns": 18199790967930,
+        "startup_frame": {
+          "guard": {
+            "device": 34,
+            "inode": 9954,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+          },
+          "ready": false,
+          "reason": "writer-guard-busy"
+        },
+        "startup_observed_ns": 18199854838289,
+        "startup_raw_hex": "7b227265616479223a2066616c73652c2022726561736f6e223a20227772697465722d67756172642d62757379222c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+        "stderr": ""
+      },
+      "cold": {
+        "exit": -9,
+        "exit_ns": 18200100533369,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+        "mode": "recover-ordered",
+        "pid": 12107,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18200026035707,
+        "startup_frame": {
+          "guard": {
+            "device": 34,
+            "inode": 9954,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+          },
+          "port": 43431,
+          "ready": true
+        },
+        "startup_observed_ns": 18200096057978,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034333433312c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+        "stderr": ""
+      },
+      "final": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-first",
+            "presented_version": 1,
+            "request_id": "first",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-second",
+            "presented_version": 1,
+            "request_id": "second",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-first",
+            "presented_version": 1,
+            "request_id": "first",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "recover-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-second",
+            "presented_version": 1,
+            "request_id": "second",
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      },
+      "final_journal": {
+        "exists": true,
+        "ns": 18200098636509,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d6669727374222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226669727374222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d7365636f6e64222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20227365636f6e64222c2022736571223a20327d0a",
+        "sha256": "ba81a6b83349114534797ce14f1862845715bd84fc88e4ccc484b98b4e3c2e5e"
+      },
+      "first": {
+        "end_ns": 18199864917320,
+        "journal": {
+          "exists": true,
+          "ns": 18199865973195,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d6669727374222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226669727374222c2022736571223a20317d0a",
+          "sha256": "a30d5bbc5cfb0bdd5cdc0b64c5c92a2053f7abbf4b2ccdb327105000073c2fcc"
+        },
+        "request": {
+          "authority_version": 1,
+          "payload": "payload-first",
+          "request_id": "first"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_ns": 18199863326429,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-first",
+              "presented_version": 1,
+              "request_id": "first",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-first",
+              "presented_version": 1,
+              "request_id": "first",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "fresh_refusal": {
+        "exit": 1,
+        "exit_ns": 18199932106409,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12102,
+        "ready": false,
+        "remaining_stdout_hex": "",
+        "start_ns": 18199866759567,
+        "startup_frame": {
+          "error": "ValueError",
+          "guard": {
+            "device": 34,
+            "inode": 9954,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+          },
+          "ready": false,
+          "reason": "existing journal requires explicit recovery mode"
+        },
+        "startup_observed_ns": 18199920284882,
+        "startup_raw_hex": "7b227265616479223a2066616c73652c2022726561736f6e223a20226578697374696e67206a6f75726e616c207265717569726573206578706c69636974207265636f76657279206d6f6465222c20226572726f72223a202256616c75654572726f72222c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+        "stderr": ""
+      },
+      "journal_after_block": {
+        "exists": false,
+        "ns": 18199863323617,
+        "raw_hex": "",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "journal_before": {
+        "exists": false,
+        "ns": 18199790946300,
+        "raw_hex": "",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "recovered": {
+        "exit": -9,
+        "exit_ns": 18200026001973,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+        "mode": "recover-ordered",
+        "pid": 12103,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18199932175278,
+        "startup_frame": {
+          "guard": {
+            "device": 34,
+            "inode": 9954,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+          },
+          "port": 40375,
+          "ready": true
+        },
+        "startup_observed_ns": 18200020595671,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034303337352c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+        "stderr": ""
+      },
+      "recovered_ready_journal": {
+        "exists": true,
+        "ns": 18200022151358,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d6669727374222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226669727374222c2022736571223a20317d0a",
+        "sha256": "a30d5bbc5cfb0bdd5cdc0b64c5c92a2053f7abbf4b2ccdb327105000073c2fcc"
+      },
+      "restored": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-first",
+            "presented_version": 1,
+            "request_id": "first",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-first",
+            "presented_version": 1,
+            "request_id": "first",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      },
+      "second": {
+        "end_ns": 18200023949343,
+        "journal": {
+          "exists": true,
+          "ns": 18200025022074,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d6669727374222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226669727374222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a20227265636f7665722d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d7365636f6e64222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20227365636f6e64222c2022736571223a20327d0a",
+          "sha256": "ba81a6b83349114534797ce14f1862845715bd84fc88e4ccc484b98b4e3c2e5e"
+        },
+        "request": {
+          "authority_version": 1,
+          "payload": "payload-second",
+          "request_id": "second"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_ns": 18200022154266,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-first",
+              "presented_version": 1,
+              "request_id": "first",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-second",
+              "presented_version": 1,
+              "request_id": "second",
+              "seq": 2
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-first",
+              "presented_version": 1,
+              "request_id": "first",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "recover-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-second",
+              "presented_version": 1,
+              "request_id": "second",
+              "seq": 2
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      }
+    },
+    "nonparticipating_writer": {
+      "A": {
+        "exit": -9,
+        "exit_ns": 18200331544068,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12109,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18200100619744,
+        "startup_frame": {
+          "guard": {
+            "device": 34,
+            "inode": 9957,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-writer.lock"
+          },
+          "port": 36997,
+          "ready": true
+        },
+        "startup_observed_ns": 18200216828636,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033363939372c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f6d697865642f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935377d7d0a",
+        "stderr": ""
+      },
+      "A_final": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-A",
+            "presented_version": 1,
+            "request_id": "A",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-A",
+            "presented_version": 1,
+            "request_id": "A",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      },
+      "B": {
+        "exit": -9,
+        "exit_ns": 18200332232101,
+        "guarded": false,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12110,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18200217066828,
+        "startup_frame": {
+          "port": 38043,
+          "ready": true
+        },
+        "startup_observed_ns": 18200319207501,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033383034337d0a",
+        "stderr": ""
+      },
+      "B_final": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-B",
+            "presented_version": 1,
+            "request_id": "B",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-B",
+            "presented_version": 1,
+            "request_id": "B",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      },
+      "after": {
+        "exists": true,
+        "ns": 18200330197700,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202241222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d42222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202242222c2022736571223a20317d0a",
+        "sha256": "e088c4f40c641eca8911194b3debf0e85d241415ce48864d50c624f0a64efa87"
+      },
+      "after_cold": {
+        "exists": true,
+        "ns": 18200410259196,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202241222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d42222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202242222c2022736571223a20317d0a",
+        "sha256": "e088c4f40c641eca8911194b3debf0e85d241415ce48864d50c624f0a64efa87"
+      },
+      "cold": {
+        "exit": 1,
+        "exit_ns": 18200410209940,
+        "guarded": true,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-effects.jsonl",
+        "mode": "recover-ordered",
+        "pid": 12117,
+        "ready": false,
+        "remaining_stdout_hex": "",
+        "start_ns": 18200332277898,
+        "startup_frame": {
+          "error": "ValueError",
+          "guard": {
+            "device": 34,
+            "inode": 9957,
+            "path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-writer.lock"
+          },
+          "ready": false,
+          "reason": "invalid durable sequence"
+        },
+        "startup_observed_ns": 18200400854568,
+        "startup_raw_hex": "7b227265616479223a2066616c73652c2022726561736f6e223a2022696e76616c69642064757261626c652073657175656e6365222c20226572726f72223a202256616c75654572726f72222c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f6d697865642f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935377d7d0a",
+        "stderr": ""
+      },
+      "cold_status": null,
+      "first": {
+        "end_ns": 18200323404592,
+        "journal": {
+          "exists": true,
+          "ns": 18200325380481,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202241222c2022736571223a20317d0a",
+          "sha256": "72036d5e12bec000437a864db3c15f3810f7fde27ebd4df38e652012e5834dc2"
+        },
+        "request": {
+          "authority_version": 1,
+          "payload": "payload-A",
+          "request_id": "A"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_ns": 18200319329799,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-A",
+              "presented_version": 1,
+              "request_id": "A",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-A",
+              "presented_version": 1,
+              "request_id": "A",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "journal_after_A_ready": {
+        "exists": false,
+        "ns": 18200216939760,
+        "raw_hex": "",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "journal_before_requests": {
+        "exists": false,
+        "ns": 18200319322862,
+        "raw_hex": "",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mixed": true,
+      "second": {
+        "end_ns": 18200327255797,
+        "journal": {
+          "exists": true,
+          "ns": 18200328252494,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202241222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d42222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202242222c2022736571223a20317d0a",
+          "sha256": "e088c4f40c641eca8911194b3debf0e85d241415ce48864d50c624f0a64efa87"
+        },
+        "request": {
+          "authority_version": 1,
+          "payload": "payload-B",
+          "request_id": "B"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_ns": 18200325384900,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-B",
+              "presented_version": 1,
+              "request_id": "B",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-B",
+              "presented_version": 1,
+              "request_id": "B",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      }
+    },
+    "original_overlap": {
+      "A": {
+        "exit": -9,
+        "exit_ns": 18199665101482,
+        "guarded": false,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/original/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12089,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18199473559655,
+        "startup_frame": {
+          "port": 43361,
+          "ready": true
+        },
+        "startup_observed_ns": 18199575072742,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034333336317d0a",
+        "stderr": ""
+      },
+      "A_final": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-A",
+            "presented_version": 1,
+            "request_id": "A",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-A",
+            "presented_version": 1,
+            "request_id": "A",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      },
+      "B": {
+        "exit": -9,
+        "exit_ns": 18199665643807,
+        "guarded": false,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/original/sink-effects.jsonl",
+        "mode": "sink-ordered",
+        "pid": 12090,
+        "ready": true,
+        "remaining_stdout_hex": "",
+        "start_ns": 18199575143153,
+        "startup_frame": {
+          "port": 37115,
+          "ready": true
+        },
+        "startup_observed_ns": 18199647664708,
+        "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033373131357d0a",
+        "stderr": ""
+      },
+      "B_final": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-B",
+            "presented_version": 1,
+            "request_id": "B",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "payload-B",
+            "presented_version": 1,
+            "request_id": "B",
+            "seq": 1
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      },
+      "after": {
+        "exists": true,
+        "ns": 18199664467238,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202241222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d42222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202242222c2022736571223a20317d0a",
+        "sha256": "e088c4f40c641eca8911194b3debf0e85d241415ce48864d50c624f0a64efa87"
+      },
+      "after_cold": {
+        "exists": true,
+        "ns": 18199735888549,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202241222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d42222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202242222c2022736571223a20317d0a",
+        "sha256": "e088c4f40c641eca8911194b3debf0e85d241415ce48864d50c624f0a64efa87"
+      },
+      "cold": {
+        "exit": 1,
+        "exit_ns": 18199735847536,
+        "guarded": false,
+        "journal_path": "/tmp/ases-sink-writer-ajaps6vb/original/sink-effects.jsonl",
+        "mode": "recover-ordered",
+        "pid": 12097,
+        "ready": false,
+        "remaining_stdout_hex": "",
+        "start_ns": 18199665678696,
+        "startup_frame": null,
+        "startup_observed_ns": 18199735754345,
+        "startup_raw_hex": "",
+        "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 876, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 862, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 415, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 44, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 121, in recover_ordered\n    raise ValueError(\"invalid durable sequence\")\nValueError: invalid durable sequence\n"
+      },
+      "cold_status": null,
+      "first": {
+        "end_ns": 18199658792372,
+        "journal": {
+          "exists": true,
+          "ns": 18199660063001,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202241222c2022736571223a20317d0a",
+          "sha256": "72036d5e12bec000437a864db3c15f3810f7fde27ebd4df38e652012e5834dc2"
+        },
+        "request": {
+          "authority_version": 1,
+          "payload": "payload-A",
+          "request_id": "A"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_ns": 18199647707213,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-A",
+              "presented_version": 1,
+              "request_id": "A",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-A",
+              "presented_version": 1,
+              "request_id": "A",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      },
+      "journal_after_A_ready": {
+        "exists": false,
+        "ns": 18199575118202,
+        "raw_hex": "",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "journal_before_requests": {
+        "exists": false,
+        "ns": 18199647703335,
+        "raw_hex": "",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mixed": false,
+      "second": {
+        "end_ns": 18199661708267,
+        "journal": {
+          "exists": true,
+          "ns": 18199662668763,
+          "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d41222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202241222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20227061796c6f61642d42222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202242222c2022736571223a20317d0a",
+          "sha256": "e088c4f40c641eca8911194b3debf0e85d241415ce48864d50c624f0a64efa87"
+        },
+        "request": {
+          "authority_version": 1,
+          "payload": "payload-B",
+          "request_id": "B"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_ns": 18199660066955,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-B",
+              "presented_version": 1,
+              "request_id": "B",
+              "seq": 1
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "payload-B",
+              "presented_version": 1,
+              "request_id": "B",
+              "seq": 1
+            }
+          ],
+          "persistence_failed": false,
+          "recovery_info": null,
+          "waiting": 0
+        }
+      }
+    }
+  },
+  "children": [
+    {
+      "exit": -9,
+      "exit_ns": 18199665101482,
+      "guarded": false,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/original/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12089,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18199473559655,
+      "startup_frame": {
+        "port": 43361,
+        "ready": true
+      },
+      "startup_observed_ns": 18199575072742,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034333336317d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18199665643807,
+      "guarded": false,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/original/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12090,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18199575143153,
+      "startup_frame": {
+        "port": 37115,
+        "ready": true
+      },
+      "startup_observed_ns": 18199647664708,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033373131357d0a",
+      "stderr": ""
+    },
+    {
+      "exit": 1,
+      "exit_ns": 18199735847536,
+      "guarded": false,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/original/sink-effects.jsonl",
+      "mode": "recover-ordered",
+      "pid": 12097,
+      "ready": false,
+      "remaining_stdout_hex": "",
+      "start_ns": 18199665678696,
+      "startup_frame": null,
+      "startup_observed_ns": 18199735754345,
+      "startup_raw_hex": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 876, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 862, in main\n    return serve(args.server[0], Path(args.server[1]), recovery_gate if args.recovery_gate else None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 415, in serve\n    state = SinkState(mode, journal, recovery_gate)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 44, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-writer-exclusion/research/phase-i-t18-sink-order-20261103/run.py\", line 121, in recover_ordered\n    raise ValueError(\"invalid durable sequence\")\nValueError: invalid durable sequence\n"
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18199866727003,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12098,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18199735939118,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9954,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+        },
+        "port": 33025,
+        "ready": true
+      },
+      "startup_observed_ns": 18199790916243,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033333032352c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": 75,
+      "exit_ns": 18199863287130,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12099,
+      "ready": false,
+      "remaining_stdout_hex": "",
+      "start_ns": 18199790967930,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9954,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+        },
+        "ready": false,
+        "reason": "writer-guard-busy"
+      },
+      "startup_observed_ns": 18199854838289,
+      "startup_raw_hex": "7b227265616479223a2066616c73652c2022726561736f6e223a20227772697465722d67756172642d62757379222c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": 1,
+      "exit_ns": 18199932106409,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12102,
+      "ready": false,
+      "remaining_stdout_hex": "",
+      "start_ns": 18199866759567,
+      "startup_frame": {
+        "error": "ValueError",
+        "guard": {
+          "device": 34,
+          "inode": 9954,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+        },
+        "ready": false,
+        "reason": "existing journal requires explicit recovery mode"
+      },
+      "startup_observed_ns": 18199920284882,
+      "startup_raw_hex": "7b227265616479223a2066616c73652c2022726561736f6e223a20226578697374696e67206a6f75726e616c207265717569726573206578706c69636974207265636f76657279206d6f6465222c20226572726f72223a202256616c75654572726f72222c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18200026001973,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+      "mode": "recover-ordered",
+      "pid": 12103,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18199932175278,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9954,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+        },
+        "port": 40375,
+        "ready": true
+      },
+      "startup_observed_ns": 18200020595671,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034303337352c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18200100533369,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-effects.jsonl",
+      "mode": "recover-ordered",
+      "pid": 12107,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18200026035707,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9954,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/reference/sink-writer.lock"
+        },
+        "port": 43431,
+        "ready": true
+      },
+      "startup_observed_ns": 18200096057978,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034333433312c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f7265666572656e63652f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935347d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18200331544068,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12109,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18200100619744,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9957,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-writer.lock"
+        },
+        "port": 36997,
+        "ready": true
+      },
+      "startup_observed_ns": 18200216828636,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033363939372c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f6d697865642f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935377d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18200332232101,
+      "guarded": false,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12110,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18200217066828,
+      "startup_frame": {
+        "port": 38043,
+        "ready": true
+      },
+      "startup_observed_ns": 18200319207501,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033383034337d0a",
+      "stderr": ""
+    },
+    {
+      "exit": 1,
+      "exit_ns": 18200410209940,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-effects.jsonl",
+      "mode": "recover-ordered",
+      "pid": 12117,
+      "ready": false,
+      "remaining_stdout_hex": "",
+      "start_ns": 18200332277898,
+      "startup_frame": {
+        "error": "ValueError",
+        "guard": {
+          "device": 34,
+          "inode": 9957,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/mixed/sink-writer.lock"
+        },
+        "ready": false,
+        "reason": "invalid durable sequence"
+      },
+      "startup_observed_ns": 18200400854568,
+      "startup_raw_hex": "7b227265616479223a2066616c73652c2022726561736f6e223a2022696e76616c69642064757261626c652073657175656e6365222c20226572726f72223a202256616c75654572726f72222c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f6d697865642f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393935377d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18200613258601,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/distinct/A/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12118,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18200410440003,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9961,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/distinct/A/sink-writer.lock"
+        },
+        "port": 44125,
+        "ready": true
+      },
+      "startup_observed_ns": 18200532793345,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034343132352c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f64697374696e63742f412f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393936317d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18200615032978,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/distinct/B/sink-effects.jsonl",
+      "mode": "sink-ordered",
+      "pid": 12119,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18200532858239,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9963,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/distinct/B/sink-writer.lock"
+        },
+        "port": 43905,
+        "ready": true
+      },
+      "startup_observed_ns": 18200604179988,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034333930352c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f64697374696e63742f422f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393936337d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18200696805488,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/distinct/A/sink-effects.jsonl",
+      "mode": "recover-ordered",
+      "pid": 12124,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18200615099595,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9961,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/distinct/A/sink-writer.lock"
+        },
+        "port": 40691,
+        "ready": true
+      },
+      "startup_observed_ns": 18200694859528,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2034303639312c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f64697374696e63742f412f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393936317d7d0a",
+      "stderr": ""
+    },
+    {
+      "exit": -9,
+      "exit_ns": 18200764499075,
+      "guarded": true,
+      "journal_path": "/tmp/ases-sink-writer-ajaps6vb/distinct/B/sink-effects.jsonl",
+      "mode": "recover-ordered",
+      "pid": 12126,
+      "ready": true,
+      "remaining_stdout_hex": "",
+      "start_ns": 18200696857059,
+      "startup_frame": {
+        "guard": {
+          "device": 34,
+          "inode": 9963,
+          "path": "/tmp/ases-sink-writer-ajaps6vb/distinct/B/sink-writer.lock"
+        },
+        "port": 38753,
+        "ready": true
+      },
+      "startup_observed_ns": 18200760897811,
+      "startup_raw_hex": "7b227265616479223a20747275652c2022706f7274223a2033383735332c20226775617264223a207b2270617468223a20222f746d702f617365732d73696e6b2d7772697465722d616a6170733676622f64697374696e63742f422f73696e6b2d7772697465722e6c6f636b222c2022646576696365223a2033342c2022696e6f6465223a20393936337d7d0a",
+      "stderr": ""
+    }
+  ],
+  "environment": {
+    "address_space_bytes": 268435456,
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_sha": "c806ef43839892c72d5a730166705568fb9d16d3",
+  "schema": "ases.sink-writer-exclusion",
+  "source_hashes": {
+    "run.py": "3dcb7f66f7e712778e275034e13cf21e845b0348a2c15fcd93bc465fd8823149",
+    "writer-exclusion/guarded_sink.py": "08cfe9d019631448f9570e418762d48326959bbedf89ac37fc41f380b2ef4133",
+    "writer-exclusion/probe.py": "d31473bcd0d70553351e18b927d96d4d842a890d6bd3cced7ac25e0c78f48f32"
+  },
+  "version": 1
+}
