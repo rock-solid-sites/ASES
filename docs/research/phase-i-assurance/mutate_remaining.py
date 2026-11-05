@@ -47,7 +47,7 @@ elif a.case=="cut":
     audit("forged-published-hash","positive",lambda c:c["witness_after_ack"]["current"].update(journal_sha256="0"*64))
     audit("rollback-accepted-on-startup","rollback",lambda c:c["startup_refusal"]["frame"].update(ready=True))
     audit("witness-not-live","positive",lambda c:c.update(witness_alive=False))
-    audit("unacknowledged-commit-hidden","rejected_publication",lambda c:next(s for s in c["original"]["steps"] if s["label"]=="local-unACKed-z")["response"]["body"].update(local_control_committed=False))
+    audit("unacknowledged-commit-hidden","publication_rejected",lambda c:next(s for s in c["original"]["steps"] if s["label"]=="local-unACKed-z")["response"]["body"].update(local_control_committed=False))
 else:
     audit("missing-witness","lost",lambda c:c.pop("witness_after_z"))
     audit("witness-revision-not-advanced","lost",lambda c:c["witness_after_z"].update(revision=c["witness_before"]["revision"]))
