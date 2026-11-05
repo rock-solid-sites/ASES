@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/ases-f1-consumer/docs/research/phase-i-f1/c11-sqlite/check.py", line 85, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/ases-f1-consumer/docs/research/phase-i-f1/c11-sqlite/check.py", line 67, in main
+    assert results['split-gap']['status']=='COUNTEREXAMPLE',results
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'atomic-A': {'status': 'VIOLATION', 'reason': 'actual locally committed protected content not recovered'}, 'atomic-B': {'status': 'VIOLATION', 'reason': 'actual locally committed protected content not recovered'}, 'atomic-before': {'status': 'VIOLATION', 'reason': 'uncommitted data survived as accepted'}, 'split-ack': {'status': 'VIOLATION', 'reason': 'actual locally committed protected content not recovered'}, 'split-gap': {'status': 'VIOLATION', 'reason': 'actual locally committed protected content not recovered'}}

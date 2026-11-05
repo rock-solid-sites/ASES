@@ -1,0 +1,1821 @@
+{
+  "cases": {
+    "atomic-A": {
+      "accept": {
+        "end_ns": 13936545779573,
+        "error": "EOFError",
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000zero\n"
+        },
+        "response": null,
+        "start_ns": 13936544453230
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 13936499290303,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13936498165099
+          },
+          {
+            "end_ns": 13936499906986,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13936499294870
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                6
+              ]
+            ],
+            "observation_mode": "atomic",
+            "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-A/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-A/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 13936503168483,
+          "pid": 6724,
+          "ready_ns": 13936498150166,
+          "start_ns": 13936457056255,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence A / \u03bc",
+        "created_by": "creator-A",
+        "identity_genesis": "genesis-A",
+        "project": "project-A"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "ce57516ce9ecc73eff705a4a88bdb8fd63ac5432243eba1433a88d08ce255019"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "b348975a442a885dc27171f45242b79f10fe8498de3be65b7c2f1b6ae9d4f800"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 436,
+          "sha256": "0d93fa5806923d14573f478230603443112159f4a22c5581138f6048b217c56e"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "ce57516ce9ecc73eff705a4a88bdb8fd63ac5432243eba1433a88d08ce255019"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "cae2953ee30addaf710f4aa102e153fecef7c17cea567d8fe1e4477f4274e319"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "b348975a442a885dc27171f45242b79f10fe8498de3be65b7c2f1b6ae9d4f800"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 436,
+          "sha256": "0d93fa5806923d14573f478230603443112159f4a22c5581138f6048b217c56e"
+        }
+      },
+      "gate": {
+        "observed_ns": 13936545145894,
+        "pid": 6726,
+        "raw_hex": "47",
+        "stage": "durable"
+      },
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 13936626793160,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": "e4937153b055c15589cb4856ba63bb518e29659942bb0a957d122a57b7dc898e",
+          "observation_utf8_hex": "7b2261636365707465645f636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20227265717569726564223a207b22636f6e73756d65725f65766964656e6365223a202261636365707465642065766964656e63652041202f205c7530336263222c2022637265617465645f6279223a202263726561746f722d41222c20226964656e746974795f67656e65736973223a202267656e657369732d41222c202270726f6a656374223a202270726f6a6563742d41227d7d",
+          "pid": 6731,
+          "query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "view": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 6731,
+        "start_ns": 13936585560237,
+        "stderr": ""
+      },
+      "mode": "atomic",
+      "name": "atomic-A",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              6
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-A/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-A/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13936585539489,
+        "pid": 6729,
+        "ready_ns": 13936583605198,
+        "start_ns": 13936546545907,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 13936584406147,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 13936583610187
+      },
+      "stage": "durable",
+      "world": "A",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              6
+            ]
+          ],
+          "gate": {
+            "event_fd": 8,
+            "kind": "accept",
+            "lane": 0,
+            "release_fd": 9,
+            "stage": "durable"
+          },
+          "observation_mode": "atomic",
+          "observations": {
+            "consumer_evidence": "accepted evidence A / \u03bc",
+            "created_by": "creator-A",
+            "identity_genesis": "genesis-A",
+            "project": "project-A"
+          },
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-A/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-A/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13936546283408,
+        "pid": 6726,
+        "ready_ns": 13936544259065,
+        "start_ns": 13936503253605,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 13936544666691,
+          "in_transaction": true,
+          "pid": 6726,
+          "sql": "BEGIN",
+          "start_ns": 13936544591095
+        },
+        {
+          "end_ns": 13936544823739,
+          "in_transaction": true,
+          "pid": 6726,
+          "sql": "UPDATE",
+          "start_ns": 13936544786611
+        },
+        {
+          "end_ns": 13936545019821,
+          "in_transaction": true,
+          "pid": 6726,
+          "sql": "INSERT",
+          "start_ns": 13936544845833
+        },
+        {
+          "end_ns": 13936545065641,
+          "in_transaction": false,
+          "pid": 6726,
+          "sql": "COMMIT",
+          "start_ns": 13936545032537
+        }
+      ]
+    },
+    "atomic-B": {
+      "accept": {
+        "end_ns": 13936714896370,
+        "error": "EOFError",
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000zero\n"
+        },
+        "response": null,
+        "start_ns": 13936713956525
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 13936677120862,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13936676319282
+          },
+          {
+            "end_ns": 13936677689039,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13936677123975
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                8
+              ]
+            ],
+            "observation_mode": "atomic",
+            "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-B/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-B/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 13936678811890,
+          "pid": 6732,
+          "ready_ns": 13936676306789,
+          "start_ns": 13936627375841,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence B / \u03bc",
+        "created_by": "creator-B",
+        "identity_genesis": "genesis-B",
+        "project": "project-B"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "08ae127acc19c3b33664c15ecf0f4f6aafbaeac3b8dc7435b807c08db322773b"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "414c8234cbd6562013e7c8edfc1f07187ae606c61ad657b10d244a368a6945ce"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 436,
+          "sha256": "93bf8c2d714d278f834dc6e6f0b84ac1a8a45393f943f1e28f607434733506f3"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "08ae127acc19c3b33664c15ecf0f4f6aafbaeac3b8dc7435b807c08db322773b"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "073722cdb1c41d8d0ff180648ca1b3faa0e797f49962c255c491a4cbba27cbf4"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "414c8234cbd6562013e7c8edfc1f07187ae606c61ad657b10d244a368a6945ce"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 436,
+          "sha256": "93bf8c2d714d278f834dc6e6f0b84ac1a8a45393f943f1e28f607434733506f3"
+        }
+      },
+      "gate": {
+        "observed_ns": 13936714420399,
+        "pid": 6734,
+        "raw_hex": "47",
+        "stage": "durable"
+      },
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 13936798091025,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": "dfea907ea04fa62bc58131f0bde7dfdda4443fe935ea7bb4908722dc2b842f81",
+          "observation_utf8_hex": "7b2261636365707465645f636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20227265717569726564223a207b22636f6e73756d65725f65766964656e6365223a202261636365707465642065766964656e63652042202f205c7530336263222c2022637265617465645f6279223a202263726561746f722d42222c20226964656e746974795f67656e65736973223a202267656e657369732d42222c202270726f6a656374223a202270726f6a6563742d42227d7d",
+          "pid": 6739,
+          "query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "accepted evidence B / \u03bc",
+              "created_by": "creator-B",
+              "identity_genesis": "genesis-B",
+              "project": "project-B"
+            },
+            "status": "available"
+          },
+          "view": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 6739,
+        "start_ns": 13936757164120,
+        "stderr": ""
+      },
+      "mode": "atomic",
+      "name": "atomic-B",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              8
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-B/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-B/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13936757146579,
+        "pid": 6737,
+        "ready_ns": 13936755218121,
+        "start_ns": 13936715802215,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 13936755980548,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "accepted evidence B / \u03bc",
+              "created_by": "creator-B",
+              "identity_genesis": "genesis-B",
+              "project": "project-B"
+            },
+            "status": "available"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 13936755222959
+      },
+      "stage": "durable",
+      "world": "B",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              8
+            ]
+          ],
+          "gate": {
+            "event_fd": 10,
+            "kind": "accept",
+            "lane": 0,
+            "release_fd": 11,
+            "stage": "durable"
+          },
+          "observation_mode": "atomic",
+          "observations": {
+            "consumer_evidence": "accepted evidence B / \u03bc",
+            "created_by": "creator-B",
+            "identity_genesis": "genesis-B",
+            "project": "project-B"
+          },
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-B/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-B/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13936715545427,
+        "pid": 6734,
+        "ready_ns": 13936713795469,
+        "start_ns": 13936678877387,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 13936714118629,
+          "in_transaction": true,
+          "pid": 6734,
+          "sql": "BEGIN",
+          "start_ns": 13936714051103
+        },
+        {
+          "end_ns": 13936714263598,
+          "in_transaction": true,
+          "pid": 6734,
+          "sql": "UPDATE",
+          "start_ns": 13936714229296
+        },
+        {
+          "end_ns": 13936714338353,
+          "in_transaction": true,
+          "pid": 6734,
+          "sql": "INSERT",
+          "start_ns": 13936714283413
+        },
+        {
+          "end_ns": 13936714378764,
+          "in_transaction": false,
+          "pid": 6734,
+          "sql": "COMMIT",
+          "start_ns": 13936714347026
+        }
+      ]
+    },
+    "atomic-before": {
+      "accept": {
+        "end_ns": 13937046389789,
+        "error": "EOFError",
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000zero\n"
+        },
+        "response": null,
+        "start_ns": 13937045564648
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 13937004140143,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13937003367450
+          },
+          {
+            "end_ns": 13937004692132,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13937004141993
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                12
+              ]
+            ],
+            "observation_mode": "atomic",
+            "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-before/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-before/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 13937005809654,
+          "pid": 6748,
+          "ready_ns": 13937003356176,
+          "start_ns": 13936969678405,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence A / \u03bc",
+        "created_by": "creator-A",
+        "identity_genesis": "genesis-A",
+        "project": "project-A"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "90fde41247aa2674aa83b16aa1b32c523e470f1704272c323fabccbed6897b5d"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "4395c8f28dfe92c6ff1270f1f1d3db414a860039e05806d3376d62e9286641af"
+        },
+        "store.sqlite-journal": {
+          "bytes": 4616,
+          "sha256": "fd1be3efeb88ecd1bdb511b3daeb09d4973d520aa64c6f7dd78e6df8cf410344"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 326,
+          "sha256": "111796b90d18b2b9c92742cd790a289714e56e56e5a2432f577c4d682b9055fc"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "90fde41247aa2674aa83b16aa1b32c523e470f1704272c323fabccbed6897b5d"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "670fbae0b671f0cda72787a3c45fd03fca2ba63fa6decd035540034f2fd46c39"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "4395c8f28dfe92c6ff1270f1f1d3db414a860039e05806d3376d62e9286641af"
+        },
+        "store.sqlite-journal": {
+          "bytes": 4616,
+          "sha256": "fd1be3efeb88ecd1bdb511b3daeb09d4973d520aa64c6f7dd78e6df8cf410344"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 326,
+          "sha256": "111796b90d18b2b9c92742cd790a289714e56e56e5a2432f577c4d682b9055fc"
+        }
+      },
+      "gate": {
+        "observed_ns": 13937046050269,
+        "pid": 6750,
+        "raw_hex": "47",
+        "stage": "prepared"
+      },
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 13937132670234,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": null,
+          "observation_utf8_hex": null,
+          "pid": 6755,
+          "query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": null,
+            "status": "missing_required_observations"
+          },
+          "view": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 6755,
+        "start_ns": 13937084734244,
+        "stderr": ""
+      },
+      "mode": "atomic",
+      "name": "atomic-before",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              12
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-before/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-before/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13937084716019,
+        "pid": 6753,
+        "ready_ns": 13937082787993,
+        "start_ns": 13937047493737,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 13937083554665,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": null,
+            "status": "missing_required_observations"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 13937082792772
+      },
+      "stage": "prepared",
+      "world": "A",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              12
+            ]
+          ],
+          "gate": {
+            "event_fd": 14,
+            "kind": "accept",
+            "lane": 0,
+            "release_fd": 15,
+            "stage": "prepared"
+          },
+          "observation_mode": "atomic",
+          "observations": {
+            "consumer_evidence": "accepted evidence A / \u03bc",
+            "created_by": "creator-A",
+            "identity_genesis": "genesis-A",
+            "project": "project-A"
+          },
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/atomic-before/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/atomic-before/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13937047187593,
+        "pid": 6750,
+        "ready_ns": 13937045433089,
+        "start_ns": 13937005871749,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 13937045756888,
+          "in_transaction": true,
+          "pid": 6750,
+          "sql": "BEGIN",
+          "start_ns": 13937045690344
+        },
+        {
+          "end_ns": 13937045905144,
+          "in_transaction": true,
+          "pid": 6750,
+          "sql": "UPDATE",
+          "start_ns": 13937045869850
+        },
+        {
+          "end_ns": 13937045985245,
+          "in_transaction": true,
+          "pid": 6750,
+          "sql": "INSERT",
+          "start_ns": 13937045925817
+        }
+      ]
+    },
+    "split-ack": {
+      "accept": {
+        "end_ns": 13937210866138,
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000zero\n"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "outcome": "commit",
+          "state": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 13937209922870
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 13937172214605,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13937171422485
+          },
+          {
+            "end_ns": 13937172853977,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13937172216261
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                14
+              ]
+            ],
+            "observation_mode": "atomic",
+            "path": "/tmp/ases-c11-sqlite-vegc8isr/split-ack/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-vegc8isr/split-ack/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 13937173982655,
+          "pid": 6756,
+          "ready_ns": 13937171410693,
+          "start_ns": 13937133324185,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence A / \u03bc",
+        "created_by": "creator-A",
+        "identity_genesis": "genesis-A",
+        "project": "project-A"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "3a304aec11917233b5a8db6170dc70ca7b6df59e6bb6305d9a40f6e780ed53ce"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "b348975a442a885dc27171f45242b79f10fe8498de3be65b7c2f1b6ae9d4f800"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "eb14108b4cab7f7dce8c7b56d6014a71f991530ecf545074048e7a4b928eae36"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "3a304aec11917233b5a8db6170dc70ca7b6df59e6bb6305d9a40f6e780ed53ce"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "daa8c78bc5f2a6ea95a5980944878361cda7cc14bf0d53b16352487349a376a0"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "b348975a442a885dc27171f45242b79f10fe8498de3be65b7c2f1b6ae9d4f800"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "eb14108b4cab7f7dce8c7b56d6014a71f991530ecf545074048e7a4b928eae36"
+        }
+      },
+      "gate": null,
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 13937295542402,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": "e4937153b055c15589cb4856ba63bb518e29659942bb0a957d122a57b7dc898e",
+          "observation_utf8_hex": "7b2261636365707465645f636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20227265717569726564223a207b22636f6e73756d65725f65766964656e6365223a202261636365707465642065766964656e63652041202f205c7530336263222c2022637265617465645f6279223a202263726561746f722d41222c20226964656e746974795f67656e65736973223a202267656e657369732d41222c202270726f6a656374223a202270726f6a6563742d41227d7d",
+          "pid": 6762,
+          "query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "view": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 6762,
+        "start_ns": 13937254291246,
+        "stderr": ""
+      },
+      "mode": "split",
+      "name": "split-ack",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              14
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/split-ack/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/split-ack/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13937254271214,
+        "pid": 6760,
+        "ready_ns": 13937252355386,
+        "start_ns": 13937212238911,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 13937253120640,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": {
+              "consumer_evidence": "accepted evidence A / \u03bc",
+              "created_by": "creator-A",
+              "identity_genesis": "genesis-A",
+              "project": "project-A"
+            },
+            "status": "available"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 13937252359446
+      },
+      "stage": null,
+      "world": "A",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              14
+            ]
+          ],
+          "observation_mode": "split",
+          "observations": {
+            "consumer_evidence": "accepted evidence A / \u03bc",
+            "created_by": "creator-A",
+            "identity_genesis": "genesis-A",
+            "project": "project-A"
+          },
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/split-ack/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/split-ack/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13937212095016,
+        "pid": 6758,
+        "ready_ns": 13937209911658,
+        "start_ns": 13937174052873,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 13937210096586,
+          "in_transaction": true,
+          "pid": 6758,
+          "sql": "BEGIN",
+          "start_ns": 13937210025325
+        },
+        {
+          "end_ns": 13937210242477,
+          "in_transaction": true,
+          "pid": 6758,
+          "sql": "UPDATE",
+          "start_ns": 13937210207651
+        },
+        {
+          "end_ns": 13937210269328,
+          "in_transaction": false,
+          "pid": 6758,
+          "sql": "COMMIT",
+          "start_ns": 13937210255198
+        },
+        {
+          "end_ns": 13937210299683,
+          "in_transaction": true,
+          "pid": 6758,
+          "sql": "BEGIN",
+          "start_ns": 13937210286541
+        },
+        {
+          "end_ns": 13937210364845,
+          "in_transaction": true,
+          "pid": 6758,
+          "sql": "INSERT",
+          "start_ns": 13937210313224
+        },
+        {
+          "end_ns": 13937210397960,
+          "in_transaction": false,
+          "pid": 6758,
+          "sql": "COMMIT",
+          "start_ns": 13937210370405
+        }
+      ]
+    },
+    "split-gap": {
+      "accept": {
+        "end_ns": 13936880250236,
+        "error": "EOFError",
+        "request": {
+          "kind": "accept",
+          "other": 0,
+          "target": 0,
+          "value": "accepted\u0000zero\n"
+        },
+        "response": null,
+        "start_ns": 13936879372777
+      },
+      "bootstrap": {
+        "calls": [
+          {
+            "end_ns": 13936839862532,
+            "request": {
+              "kind": "establish",
+              "other": 0,
+              "target": 0,
+              "value": 0
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 0,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13936839134156
+          },
+          {
+            "end_ns": 13936840480418,
+            "request": {
+              "kind": "grant",
+              "other": 0,
+              "target": 0,
+              "value": 7
+            },
+            "response": {
+              "consumer_query": {
+                "accepted_content": "accepted\u0000zero\n",
+                "required": null,
+                "status": "missing_required_observations"
+              },
+              "outcome": "commit",
+              "state": {
+                "content": "accepted\u0000zero\n",
+                "cycle": [
+                  0,
+                  0,
+                  0
+                ],
+                "data": [
+                  0,
+                  0
+                ],
+                "established": true,
+                "issued": 1,
+                "parents": [
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
+                "rights": [
+                  7,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "start_ns": 13936839865435
+          }
+        ],
+        "process": {
+          "config": {
+            "channels": [
+              [
+                -1,
+                10
+              ]
+            ],
+            "observation_mode": "atomic",
+            "path": "/tmp/ases-c11-sqlite-vegc8isr/split-gap/store.sqlite",
+            "profile": "independent",
+            "root": "work",
+            "trace": "/tmp/ases-c11-sqlite-vegc8isr/split-gap/bootstrap.trace.jsonl"
+          },
+          "exit": -9,
+          "exit_ns": 13936841765552,
+          "pid": 6740,
+          "ready_ns": 13936839122806,
+          "start_ns": 13936798706093,
+          "stderr": ""
+        }
+      },
+      "declared_original_observations": {
+        "consumer_evidence": "accepted evidence A / \u03bc",
+        "created_by": "creator-A",
+        "identity_genesis": "genesis-A",
+        "project": "project-A"
+      },
+      "files_at_loss": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "ea89522133f944fc30a81cee8445c6850e63e51dc849a58c20f7928f6cd588a3"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "4395c8f28dfe92c6ff1270f1f1d3db414a860039e05806d3376d62e9286641af"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 327,
+          "sha256": "02699bdfe7d1ad5b0a52554d0167a732cbff5e2501bbb474083683cca7d83158"
+        }
+      },
+      "final_files": {
+        "bootstrap.trace.jsonl": {
+          "bytes": 654,
+          "sha256": "ea89522133f944fc30a81cee8445c6850e63e51dc849a58c20f7928f6cd588a3"
+        },
+        "recovered.trace.jsonl": {
+          "bytes": 220,
+          "sha256": "356b8074989f32302929754c7cdede4482b5497669154b0c36f128af47ad9139"
+        },
+        "store.sqlite": {
+          "bytes": 12288,
+          "sha256": "4395c8f28dfe92c6ff1270f1f1d3db414a860039e05806d3376d62e9286641af"
+        },
+        "writer.trace.jsonl": {
+          "bytes": 327,
+          "sha256": "02699bdfe7d1ad5b0a52554d0167a732cbff5e2501bbb474083683cca7d83158"
+        }
+      },
+      "gate": {
+        "observed_ns": 13936879809491,
+        "pid": 6742,
+        "raw_hex": "47",
+        "stage": "durable"
+      },
+      "independent_reader": {
+        "exit": 0,
+        "exit_ns": 13936969051777,
+        "observation": {
+          "integrity": "ok",
+          "observation_sha256": null,
+          "observation_utf8_hex": null,
+          "pid": 6747,
+          "query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": null,
+            "status": "missing_required_observations"
+          },
+          "view": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          },
+          "view_sha256": "d0ff51f2ff4921da90ed171c6a6c345348a2afba85f31943bb307ba812a43804",
+          "view_utf8_hex": "7b22636f6e74656e74223a202261636365707465645c75303030307a65726f5c6e222c20226379636c65223a205b302c20302c20305d2c202264617461223a205b302c20305d2c202265737461626c6973686564223a20747275652c2022697373756564223a20312c2022706172656e7473223a205b2d312c202d312c202d312c202d315d2c2022726967687473223a205b372c20302c20302c20305d7d"
+        },
+        "pid": 6747,
+        "start_ns": 13936919897682,
+        "stderr": ""
+      },
+      "mode": "split",
+      "name": "split-gap",
+      "recovered": {
+        "config": {
+          "channels": [
+            [
+              0,
+              10
+            ]
+          ],
+          "observation_mode": "atomic",
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/split-gap/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/split-gap/recovered.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13936919880593,
+        "pid": 6745,
+        "ready_ns": 13936918039263,
+        "start_ns": 13936881143400,
+        "stderr": ""
+      },
+      "recovered_query": {
+        "end_ns": 13936918751657,
+        "request": {
+          "kind": "read"
+        },
+        "response": {
+          "consumer_query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": null,
+            "status": "missing_required_observations"
+          },
+          "outcome": "read",
+          "state": {
+            "content": "accepted\u0000zero\n",
+            "cycle": [
+              0,
+              0,
+              0
+            ],
+            "data": [
+              0,
+              0
+            ],
+            "established": true,
+            "issued": 1,
+            "parents": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "rights": [
+              7,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "start_ns": 13936918043618
+      },
+      "stage": "durable",
+      "world": "A",
+      "writer": {
+        "config": {
+          "channels": [
+            [
+              0,
+              10
+            ]
+          ],
+          "gate": {
+            "event_fd": 12,
+            "kind": "accept",
+            "lane": 0,
+            "release_fd": 13,
+            "stage": "durable"
+          },
+          "observation_mode": "split",
+          "observations": {
+            "consumer_evidence": "accepted evidence A / \u03bc",
+            "created_by": "creator-A",
+            "identity_genesis": "genesis-A",
+            "project": "project-A"
+          },
+          "path": "/tmp/ases-c11-sqlite-vegc8isr/split-gap/store.sqlite",
+          "profile": "independent",
+          "root": "work",
+          "trace": "/tmp/ases-c11-sqlite-vegc8isr/split-gap/writer.trace.jsonl"
+        },
+        "exit": -9,
+        "exit_ns": 13936880936992,
+        "pid": 6742,
+        "ready_ns": 13936879232301,
+        "start_ns": 13936841840947,
+        "stderr": ""
+      },
+      "writer_trace": [
+        {
+          "end_ns": 13936879554983,
+          "in_transaction": true,
+          "pid": 6742,
+          "sql": "BEGIN",
+          "start_ns": 13936879484093
+        },
+        {
+          "end_ns": 13936879740054,
+          "in_transaction": true,
+          "pid": 6742,
+          "sql": "UPDATE",
+          "start_ns": 13936879701845
+        },
+        {
+          "end_ns": 13936879768241,
+          "in_transaction": false,
+          "pid": 6742,
+          "sql": "COMMIT",
+          "start_ns": 13936879753515
+        }
+      ]
+    }
+  },
+  "environment": {
+    "address_space_bytes": 268435456,
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sqlite": "3.53.1"
+  },
+  "execution_sha": "fb6a80ea4970c36cdea6ca1132c37d942858a268",
+  "schema": "ases.f1-c11-sqlite-history",
+  "source_hashes": {
+    "kernel-0/kernel0_finite_model.py": "c9c429b0400df6e044d30b71befaeb810657430372fb1088f9e62631c8965083",
+    "kernel-0/kernel0_recovery_check.py": "970f674ebb45e8f281a31eb3315247e4dad5286cab7876a0709b8e2cdaf6d349",
+    "kernel-0/kernel0_recovery_service.py": "f5fd5e1118046dd8fd6d3357d56f9bcad91e8fe572f5bf4706dc7c8fd0b3ff13",
+    "kernel-0/kernel0_service.py": "f11c54b9318a54512487d087b10aeb2878a111bffe8cc8fa58391f4e716c2084",
+    "phase-i-f1/c11-sqlite/c11_service.py": "4255fe7ed8851cf992de1662acb536f9f73aea5b06a7d07cce5b5562632acef6",
+    "phase-i-f1/c11-sqlite/probe.py": "65d60a55197d1a0599a9ec499001d46306a3014807faabd2f2a5e0ac45c554d7"
+  },
+  "version": 1
+}
