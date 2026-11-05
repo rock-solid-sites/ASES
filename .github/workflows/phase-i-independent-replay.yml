@@ -183,3 +183,25 @@ jobs:
           name: phase-i-remaining-mutation-${{ matrix.case.name }}-${{ github.run_id }}
           path: ${{ runner.temp }}/remaining-mutations/
           retention-days: 30
+
+  abstract-state-exploration:
+    name: Independent bounded F4 state exploration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Explore valid model and prove mutant is detected within bound
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/state-exploration"
+          python3 docs/research/phase-i-assurance/abstract_state_explorer.py > "$RUNNER_TEMP/state-exploration/result.json"
+          cat "$RUNNER_TEMP/state-exploration/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-abstract-state-exploration-${{ github.run_id }}
+          path: ${{ runner.temp }}/state-exploration/
+          retention-days: 30
