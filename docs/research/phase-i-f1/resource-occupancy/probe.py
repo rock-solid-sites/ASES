@@ -25,8 +25,13 @@ def identity(sock):
 def db_open(path):
     db=sqlite3.connect(path,isolation_level=None,timeout=2);db.execute('PRAGMA synchronous=FULL');return db
 def sql(db,trace,statement,args=()):
-    start=time.monotonic_ns();result=db.execute(statement,args)
-    trace.append(dict(sql=statement.split()[0],start_ns=start,end_ns=time.monotonic_ns(),in_transaction=db.in_transaction))
+    start=time.monotonic_ns()
+    try:result=db.execute(statement,args)
+    except sqlite3.Error as error:
+        trace.append(dict(sql=statement.split()[0],start_ns=start,end_ns=time.monotonic_ns(),in_transaction=db.in_transaction,
+                          outcome='error',sqlite_errorcode=error.sqlite_errorcode,sqlite_errorname=error.sqlite_errorname))
+        raise
+    trace.append(dict(sql=statement.split()[0],start_ns=start,end_ns=time.monotonic_ns(),in_transaction=db.in_transaction,outcome='returned'))
     return result
 def native(port):
     start=time.monotonic_ns();sock=socket.socket()
@@ -72,6 +77,7 @@ def keeper(fd):
 
 def contender(config):
     db=db_open(config['db']);trace=[]
+    if 'busy_timeout_ms' in config:db.execute('PRAGMA busy_timeout='+str(int(config['busy_timeout_ms'])))
     sql(db,trace,'BEGIN IMMEDIATE')
     count=db.execute('SELECT COUNT(*) FROM claims').fetchone()[0]
     if count>=1:
@@ -85,7 +91,18 @@ def contender(config):
     sock,result=native(config['port'])
     if sock is None:
         sql(db,trace,'ROLLBACK');emit('denied',reason='native-resource-busy',native=result,sql_trace=trace);return
-    sql(db,trace,'INSERT INTO claims VALUES(?)',('B',));sql(db,trace,'COMMIT')
+    sql(db,trace,'INSERT INTO claims VALUES(?)',('B',))
+    if config.get('prepare_gate'):
+        emit('native_prepared',native=result,sql_trace=trace,busy_timeout_ms=db.execute('PRAGMA busy_timeout').fetchone()[0])
+        assert json.loads(sys.stdin.readline())['op']=='commit'
+    try:sql(db,trace,'COMMIT')
+    except sqlite3.Error as error:
+        failure=dict(error=type(error).__name__,sqlite_errorcode=error.sqlite_errorcode,sqlite_errorname=error.sqlite_errorname,
+                     in_transaction_before_cleanup=db.in_transaction,native_identity_before_cleanup=identity(sock))
+        if db.in_transaction:sql(db,trace,'ROLLBACK')
+        sock.close();closed_ns=time.monotonic_ns()
+        emit('acquisition_commit_error',failure=failure,sql_trace=trace,native_closed_ns=closed_ns,success_ack=False)
+        return
     emit('acquisition_ack',native=result,sql_trace=trace)
     assert json.loads(sys.stdin.readline())['op']=='close'
     sock.close();sql(db,trace,'BEGIN IMMEDIATE');sql(db,trace,'DELETE FROM claims WHERE holder=?',('B',));sql(db,trace,'COMMIT')
