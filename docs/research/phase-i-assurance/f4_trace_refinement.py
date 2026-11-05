@@ -48,6 +48,7 @@ def validate_steps(original, failures_allowed=True):
     previous_rows = journal(original["ready_journal"]) if original["ready_journal"]["exists"] else []
     previous_hash = original["ready_journal"]["sha256"] if original["ready_journal"]["exists"] else None
     previous_revision = None
+    unresolved_remote_receipt = False
     result = []
     for step in original["steps"]:
         need(previous_end < step["start_ns"] < step["end_ns"] < original["exit_ns"],
@@ -73,9 +74,11 @@ def validate_steps(original, failures_allowed=True):
                  pub["response"]["current"]["journal_sha256"] == step["journal"]["sha256"],
                  "ACK revision/current cut not actually returned")
             if previous_revision is not None:
-                need(body["published_revision"] == previous_revision + 1,
+                increment = body["published_revision"] - previous_revision
+                need(increment == (2 if unresolved_remote_receipt else 1),
                      "publication revision skipped, duplicated or rolled back")
             previous_revision = body["published_revision"]
+            unresolved_remote_receipt = False
             result.append({"event": step["label"], "transition": "local_commit/publish/ack",
                            "event_seq": rows[-1]["seq"], "published_revision": previous_revision})
         else:
@@ -86,15 +89,25 @@ def validate_steps(original, failures_allowed=True):
                  "failure response inconsistent with local journal changes")
             if not locally_committed:
                 need(step["journal"]["sha256"] == previous_hash, "failed no-commit changed journal")
+            elif pub["status"] is None and pub.get("error"):
+                unresolved_remote_receipt = True
             result.append({"event": step["label"], "transition": "local_commit/unknown_or_rejected" if locally_committed
                            else "operation_refused", "event_seq": rows[-1]["seq"]})
-        # For an effect ACK, independently check the exact appended request identity/payload.
+        # Check both 201 variants, effect acceptance and committed obligation.
         if status == 201:
             expected = step["body"]
-            need(rows[-1]["event"] == "effect_accepted" and
-                 rows[-1]["request_id"] == expected["request_id"] and
-                 rows[-1]["payload"] == expected["payload"],
-                 "effect ACK not tied to exact durable request")
+            if step["path"] == "/submit":
+                need(rows[-1]["event"] == "effect_accepted" and
+                     rows[-1]["request_id"] == expected["request_id"] and
+                     rows[-1]["payload"] == expected["payload"],
+                     "effect ACK not tied to exact durable request")
+            elif step["path"] == "/commit-obligation":
+                need(rows[-1]["event"] == "obligation_committed" and
+                     rows[-1]["obligation_id"] == expected["obligation_id"] and
+                     rows[-1]["payload"] == expected["payload"],
+                     "obligation ACK not tied to exact durable obligation")
+            else:
+                raise BadF4Trace("unrecognized 201 operation")
         previous_rows = rows
         previous_hash = step["journal"]["sha256"]
     return result
