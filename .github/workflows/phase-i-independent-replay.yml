@@ -70,3 +70,28 @@ jobs:
           path: ${{ runner.temp }}/phase-i-evidence/
           if-no-files-found: warn
           retention-days: 30
+
+  evidence-contract:
+    name: Evidence contract positive and adversarial controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Exercise evidence contract with deliberate invalid cases
+        run: |
+          cd docs/research/phase-i-assurance
+          python3 -m unittest -v test_evidence_contract.py
+      - name: Record test harness manifest
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/assurance-contract"
+          python3 docs/research/phase-i-assurance/evidence_contract.py docs/research/phase-i-assurance --execution PASS > "$RUNNER_TEMP/assurance-contract/manifest.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-evidence-contract-${{ github.run_id }}
+          path: ${{ runner.temp }}/assurance-contract/
+          retention-days: 30
