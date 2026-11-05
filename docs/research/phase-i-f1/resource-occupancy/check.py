@@ -75,9 +75,13 @@ def main():
     d=json.loads(Path(sys.argv[1]).read_bytes());result={k:check(v) for k,v in d['cases'].items()}
     assert all(v['status']=='SUPPORTED' for v in result.values()),result
     no_transfer=copy.deepcopy(d['cases']['retained']);del no_transfer['keeper_ready']['wire_utf8_hex']
-    no_native=copy.deepcopy(d['cases']['live']);del no_native['acquisition']['first']['native']
+    contradiction=copy.deepcopy(d['cases']['live']);del contradiction['acquisition']['first']['native']
+    no_native=copy.deepcopy(contradiction)
+    wire=json.loads(bytes.fromhex(no_native['acquisition']['first']['wire_utf8_hex']));del wire['native']
+    no_native['acquisition']['first']['wire_utf8_hex']=json.dumps(wire,sort_keys=True).encode().hex()
     incomplete=dict(missing_transfer_evidence=check(no_transfer),missing_native_evidence=check(no_native))
     assert all(v['status']=='INCOMPLETE' for v in incomplete.values()),incomplete
+    contradictory=check(contradiction);assert contradictory['status']=='VIOLATION',contradictory
     children=d['children'];assert len(children)==len({c['pid'] for c in children})==10
     events=[]
     for c in children:
@@ -89,5 +93,6 @@ def main():
     source=subprocess.check_output(['git','show',d['execution_sha']+':docs/research/phase-i-f1/resource-occupancy/probe.py'])
     assert hashlib.sha256(source).hexdigest()==d['source_sha256']
     print(json.dumps(dict(cases=result,incomplete_controls=incomplete,owned_children=len(children),maximum_observed_child_concurrency=maximum,
+                          contradictory_evidence_control=contradictory,
                           source_hash_verified=True,qualification='selected owned ephemeral listener backing at ACK, not host confinement/durable native restoration or failure of prior SQL-only scope'),indent=2,sort_keys=True))
 if __name__=='__main__':main()
