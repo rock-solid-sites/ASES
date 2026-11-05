@@ -1,0 +1,699 @@
+{
+  "base_semantics": "HEAD at invocation; source hashes identify actual executed bytes",
+  "cases": {
+    "authority": {
+      "after": [
+        {
+          "completion_monotonic_ns": 4048218989385,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "stale-after-restart",
+              "request_id": "after-stale"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "outcome": "rejected"
+            },
+            "status": 409
+          },
+          "start_monotonic_ns": 4048218093719,
+          "status": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current",
+                "presented_version": 2,
+                "request_id": "before-v2",
+                "seq": 3
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current",
+                "presented_version": 2,
+                "request_id": "before-v2",
+                "seq": 3
+              },
+              {
+                "current_version": 2,
+                "event": "sink_rejected",
+                "presented_version": 1,
+                "reason": "authority changed before sink acceptance",
+                "request_id": "after-stale",
+                "seq": 4
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        },
+        {
+          "completion_monotonic_ns": 4048220817572,
+          "request": {
+            "body": {
+              "authority_version": 2,
+              "payload": "current-after-restart",
+              "request_id": "after-current"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 5,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 4048219734273,
+          "status": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current",
+                "presented_version": 2,
+                "request_id": "before-v2",
+                "seq": 3
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "recover-ordered",
+                "event": "effect_accepted",
+                "payload": "current-after-restart",
+                "presented_version": 2,
+                "request_id": "after-current",
+                "seq": 5
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current",
+                "presented_version": 2,
+                "request_id": "before-v2",
+                "seq": 3
+              },
+              {
+                "current_version": 2,
+                "event": "sink_rejected",
+                "presented_version": 1,
+                "reason": "authority changed before sink acceptance",
+                "request_id": "after-stale",
+                "seq": 4
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "recover-ordered",
+                "event": "effect_accepted",
+                "payload": "current-after-restart",
+                "presented_version": 2,
+                "request_id": "after-current",
+                "seq": 5
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        }
+      ],
+      "before": [
+        {
+          "completion_monotonic_ns": 4048149295150,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "payload": "before",
+              "request_id": "before-v1"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 1,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 4048139469207,
+          "status": {
+            "authority_version": 1,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        },
+        {
+          "completion_monotonic_ns": 4048151265289,
+          "request": {
+            "body": {},
+            "method": "POST",
+            "path": "/replace"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "outcome": "replaced"
+            },
+            "status": 200
+          },
+          "start_monotonic_ns": 4048150403161,
+          "status": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        },
+        {
+          "completion_monotonic_ns": 4048152820564,
+          "request": {
+            "body": {
+              "authority_version": 2,
+              "payload": "current",
+              "request_id": "before-v2"
+            },
+            "method": "POST",
+            "path": "/submit"
+          },
+          "response": {
+            "body": {
+              "event_seq": 3,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 4048151916746,
+          "status": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current",
+                "presented_version": 2,
+                "request_id": "before-v2",
+                "seq": 3
+              }
+            ],
+            "events": [
+              {
+                "accepted_under_version": 1,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "before",
+                "presented_version": 1,
+                "request_id": "before-v1",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "sink-ordered",
+                "event": "effect_accepted",
+                "payload": "current",
+                "presented_version": 2,
+                "request_id": "before-v2",
+                "seq": 3
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        }
+      ],
+      "first_exit": -9,
+      "journal_after": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c2022736571223a20337d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a20227265636f7665722d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e742d61667465722d72657374617274222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a202261667465722d63757272656e74222c2022736571223a20357d0a",
+        "sha256": "cf6a88d1b8a321de82f3558724d1b852121a51a9a2f5380dcb779a5c24a35ae5"
+      },
+      "journal_before": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c2022736571223a20337d0a",
+        "sha256": "8e92a9f9220d7f3503a3bad5915b8f4b5a9d192b983965ffb6b06c762059123e"
+      },
+      "restored_journal_before_requests": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226265666f7265222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226265666f72652d7631222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a202263757272656e74222c202270726573656e7465645f76657273696f6e223a20322c2022726571756573745f6964223a20226265666f72652d7632222c2022736571223a20337d0a",
+        "sha256": "8e92a9f9220d7f3503a3bad5915b8f4b5a9d192b983965ffb6b06c762059123e"
+      },
+      "restored_status": {
+        "authority_version": 2,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "before",
+            "presented_version": 1,
+            "request_id": "before-v1",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "current",
+            "presented_version": 2,
+            "request_id": "before-v2",
+            "seq": 3
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "before",
+            "presented_version": 1,
+            "request_id": "before-v1",
+            "seq": 1
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 2
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "current",
+            "presented_version": 2,
+            "request_id": "before-v2",
+            "seq": 3
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      },
+      "second_exit": -9,
+      "status_before": {
+        "authority_version": 2,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "before",
+            "presented_version": 1,
+            "request_id": "before-v1",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "current",
+            "presented_version": 2,
+            "request_id": "before-v2",
+            "seq": 3
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "before",
+            "presented_version": 1,
+            "request_id": "before-v1",
+            "seq": 1
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 2
+          },
+          {
+            "accepted_under_version": 2,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "current",
+            "presented_version": 2,
+            "request_id": "before-v2",
+            "seq": 3
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      }
+    },
+    "obligation": {
+      "after": [
+        {
+          "completion_monotonic_ns": 4048357488324,
+          "request": {
+            "body": {
+              "obligation_id": "q"
+            },
+            "method": "POST",
+            "path": "/deliver-obligation"
+          },
+          "response": {
+            "body": {
+              "event_seq": 3,
+              "outcome": "accepted"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 4048356447349,
+          "status": {
+            "authority_version": 2,
+            "effects": [
+              {
+                "accepted_under_version": 2,
+                "check_mode": "committed-exact-obligation",
+                "event": "effect_accepted",
+                "obligation_id": "q",
+                "payload": "retained-exact-\u03c0",
+                "payload_sha256": "c1e9fafe1a9039ed48c2c664d84d5eb01c1380c32fecb4c9f3cdd5b6db88d6a2",
+                "request_id": "obligation:q",
+                "seq": 3
+              }
+            ],
+            "events": [
+              {
+                "committed_under_version": 1,
+                "event": "obligation_committed",
+                "obligation_id": "q",
+                "payload": "retained-exact-\u03c0",
+                "payload_sha256": "c1e9fafe1a9039ed48c2c664d84d5eb01c1380c32fecb4c9f3cdd5b6db88d6a2",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              },
+              {
+                "accepted_under_version": 2,
+                "check_mode": "committed-exact-obligation",
+                "event": "effect_accepted",
+                "obligation_id": "q",
+                "payload": "retained-exact-\u03c0",
+                "payload_sha256": "c1e9fafe1a9039ed48c2c664d84d5eb01c1380c32fecb4c9f3cdd5b6db88d6a2",
+                "request_id": "obligation:q",
+                "seq": 3
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        }
+      ],
+      "before": [
+        {
+          "completion_monotonic_ns": 4048286045264,
+          "request": {
+            "body": {
+              "authority_version": 1,
+              "obligation_id": "q",
+              "payload": "retained-exact-\u03c0"
+            },
+            "method": "POST",
+            "path": "/commit-obligation"
+          },
+          "response": {
+            "body": {
+              "event_seq": 1,
+              "outcome": "committed"
+            },
+            "status": 201
+          },
+          "start_monotonic_ns": 4048284904705,
+          "status": {
+            "authority_version": 1,
+            "effects": [],
+            "events": [
+              {
+                "committed_under_version": 1,
+                "event": "obligation_committed",
+                "obligation_id": "q",
+                "payload": "retained-exact-\u03c0",
+                "payload_sha256": "c1e9fafe1a9039ed48c2c664d84d5eb01c1380c32fecb4c9f3cdd5b6db88d6a2",
+                "seq": 1
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        },
+        {
+          "completion_monotonic_ns": 4048287677342,
+          "request": {
+            "body": {},
+            "method": "POST",
+            "path": "/replace"
+          },
+          "response": {
+            "body": {
+              "authority_version": 2,
+              "outcome": "replaced"
+            },
+            "status": 200
+          },
+          "start_monotonic_ns": 4048286814137,
+          "status": {
+            "authority_version": 2,
+            "effects": [],
+            "events": [
+              {
+                "committed_under_version": 1,
+                "event": "obligation_committed",
+                "obligation_id": "q",
+                "payload": "retained-exact-\u03c0",
+                "payload_sha256": "c1e9fafe1a9039ed48c2c664d84d5eb01c1380c32fecb4c9f3cdd5b6db88d6a2",
+                "seq": 1
+              },
+              {
+                "current_version": 2,
+                "event": "authority_replaced",
+                "previous_version": 1,
+                "seq": 2
+              }
+            ],
+            "persistence_failed": false,
+            "recovery_info": null,
+            "waiting": 0
+          }
+        }
+      ],
+      "first_exit": -9,
+      "journal_after": {
+        "exists": true,
+        "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a202272657461696e65642d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202263316539666166653161393033396564343863326336363464383464356562303163313338306333326665636234633966336364643562366462383864366132222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20322c2022636865636b5f6d6f6465223a2022636f6d6d69747465642d65786163742d6f626c69676174696f6e222c20226576656e74223a20226566666563745f6163636570746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a202272657461696e65642d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202263316539666166653161393033396564343863326336363464383464356562303163313338306333326665636234633966336364643562366462383864366132222c2022726571756573745f6964223a20226f626c69676174696f6e3a71222c2022736571223a20337d0a",
+        "sha256": "dd26353f7cf58230e4f99a8f7c826031798bd71927a00a252e398741ce6aa2fd"
+      },
+      "journal_before": {
+        "exists": true,
+        "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a202272657461696e65642d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202263316539666166653161393033396564343863326336363464383464356562303163313338306333326665636234633966336364643562366462383864366132222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a",
+        "sha256": "f4f6650bec9d6b0d46d7803d62d0b6573e22a8ec0c827ec7c51f3e63e68b237c"
+      },
+      "restored_journal_before_requests": {
+        "exists": true,
+        "raw_hex": "7b22636f6d6d69747465645f756e6465725f76657273696f6e223a20312c20226576656e74223a20226f626c69676174696f6e5f636f6d6d6974746564222c20226f626c69676174696f6e5f6964223a202271222c20227061796c6f6164223a202272657461696e65642d65786163742d5c7530336330222c20227061796c6f61645f736861323536223a202263316539666166653161393033396564343863326336363464383464356562303163313338306333326665636234633966336364643562366462383864366132222c2022736571223a20317d0a7b2263757272656e745f76657273696f6e223a20322c20226576656e74223a2022617574686f726974795f7265706c61636564222c202270726576696f75735f76657273696f6e223a20312c2022736571223a20327d0a",
+        "sha256": "f4f6650bec9d6b0d46d7803d62d0b6573e22a8ec0c827ec7c51f3e63e68b237c"
+      },
+      "restored_status": {
+        "authority_version": 2,
+        "effects": [],
+        "events": [
+          {
+            "committed_under_version": 1,
+            "event": "obligation_committed",
+            "obligation_id": "q",
+            "payload": "retained-exact-\u03c0",
+            "payload_sha256": "c1e9fafe1a9039ed48c2c664d84d5eb01c1380c32fecb4c9f3cdd5b6db88d6a2",
+            "seq": 1
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      },
+      "second_exit": -9,
+      "status_before": {
+        "authority_version": 2,
+        "effects": [],
+        "events": [
+          {
+            "committed_under_version": 1,
+            "event": "obligation_committed",
+            "obligation_id": "q",
+            "payload": "retained-exact-\u03c0",
+            "payload_sha256": "c1e9fafe1a9039ed48c2c664d84d5eb01c1380c32fecb4c9f3cdd5b6db88d6a2",
+            "seq": 1
+          },
+          {
+            "current_version": 2,
+            "event": "authority_replaced",
+            "previous_version": 1,
+            "seq": 2
+          }
+        ],
+        "persistence_failed": false,
+        "recovery_info": null,
+        "waiting": 0
+      }
+    }
+  },
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_base_sha": "628b97b6d9bfacf3f2f6a188f7091a8efaf2db99",
+  "phase": "fixed",
+  "schema": "ases.serving-sink-recovery.v1",
+  "source_hashes": {
+    "probe.py": "faaf04cb82071933c0c9984390f87ee49f3924cf3c83ef367e7a75a0b9b9d359",
+    "run.py": "a1185881e18b2611b373753ee0fabb8ecc68175f6948a950759a123c8fd027cb"
+  }
+}
