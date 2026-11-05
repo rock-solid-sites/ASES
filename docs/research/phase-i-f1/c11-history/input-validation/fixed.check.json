@@ -1,0 +1,36 @@
+{
+  "cases": {
+    "conflict": {
+      "observation": "same-content conflicting evidence caused no ACK and actual ROLLBACK, prior accepted records retained",
+      "status": "SUPPORTED"
+    },
+    "missing": {
+      "observation": "invalid required config refused before ready/no RPC; earlier accepted pair retained",
+      "status": "SUPPORTED"
+    },
+    "type": {
+      "observation": "invalid required config refused before ready/no RPC; earlier accepted pair retained",
+      "status": "SUPPORTED"
+    },
+    "valid": {
+      "observation": "well-typed new content/evidence ACKed and recovered",
+      "status": "SUPPORTED"
+    }
+  },
+  "incomplete_controls": {
+    "missing_diagnostic_bytes": {
+      "reason": "'latest_raw_hex'",
+      "status": "INCOMPLETE"
+    },
+    "missing_startup_observation": {
+      "reason": "'ready'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 1,
+  "owned_children": 18,
+  "phase": "fixed",
+  "qualification": "negative input controls outside completed well-typed premise; field presence/types, not source truth/authentication or full C9/C11",
+  "retained_invalid_artifact": "retained actual malformed database refused before ready, unchanged digest",
+  "source_hashes_verified_at_execution_pin": true
+}

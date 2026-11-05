@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Separate invalid config, committed malformed data, conflicts and startup refusal."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import sys
+import subprocess
 
 class Incomplete(Exception):pass
 class Violation(Exception):pass
@@ -72,7 +74,12 @@ def main():
     children.append(artifact['process']);children.sort(key=lambda c:c['start_ns'])
     assert len(children)==len({c['pid'] for c in children})==18
     assert all(c['exit'] in (-9,0,1) for c in children) and all(a['exit_ns']<b['start_ns'] for a,b in zip(children,children[1:]))
+    for path,digest in data['source_hashes'].items():
+        source=subprocess.check_output(['git','show',data['execution_sha']+':docs/research/'+path])
+        assert hashlib.sha256(source).hexdigest()==digest
+    assert hashlib.sha256((Path(__file__).resolve().parent/'invalid-missing.sqlite').read_bytes()).hexdigest()==artifact['before_sha256']
     print(json.dumps(dict(phase=phase,cases=result,retained_invalid_artifact=artifact_result,incomplete_controls=incomplete,
+                          source_hashes_verified_at_execution_pin=True,
                           owned_children=len(children),maximum_observed_child_concurrency=1,
                           qualification='negative input controls outside completed well-typed premise; field presence/types, not source truth/authentication or full C9/C11'),indent=2,sort_keys=True))
 if __name__=='__main__':main()
