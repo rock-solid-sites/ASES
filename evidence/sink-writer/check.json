@@ -1,0 +1,11 @@
+{
+  "audit": "PASS",
+  "distinct_roots": "SUPPORTED: different guard inodes and independently recovered effects",
+  "execution_sha": "55aee5131141c82c9a6cd2e6418e02890a6291d8",
+  "guarded_restart": "SUPPORTED: same guard device/inode through profile; second cooperative startup exits 75 before append; fresh mode refuses; kill/recovery resumes same journal at seq=2",
+  "nonparticipating_writer": "COUNTEREXAMPLE: unguarded writer joins despite guarded owner and produces a second ACK at seq=1",
+  "original_overlap": "COUNTEREXAMPLE: both ready before requests; two actual HTTP 201/seq=1; strict cold recovery refuses and leaves the two acknowledged records byte-identical",
+  "owned_children": 15,
+  "scope_limit": "Advisory flock coordinates participating processes only. No untrusted-host confinement, root authentication, power-loss behavior, or aggregate F4/F1/cross-family claim. Strict refusal does not mean accepted contents disappeared.",
+  "source_hashes_pre_run_verified": true
+}
