@@ -18,12 +18,87 @@ base.ORDERED_MODES += ('managed',)
 
 
 class State(base.SinkState):
-    def __init__(self, journal):
-        super().__init__('sink-ordered', journal)  # Existing journal always refuses.
+    def __init__(self, journal, recover=False):
+        super().__init__('managed' if recover else 'sink-ordered', journal)
         self.mode = 'managed'
         self.version = 0
         self.created = self.granted = self.active = False
         self.holder = 'old'
+        if recover:
+            self.replay()
+
+    def replay(self):
+        # Current trusted same-root journal is a premise, not established by parsing.
+        with self.journal.open('rb') as stream:
+            raw = stream.read(65537)
+        if not raw or len(raw) > 65536 or not raw.endswith(b'\n'):
+            raise ValueError('empty, oversized or truncated managed journal')
+        def unique(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError('duplicate managed journal key')
+                result[key] = value
+            return result
+        last = 0
+        for line in raw.splitlines():
+            event = json.loads(line, object_pairs_hook=unique)
+            def require(condition):
+                if not condition:
+                    raise ValueError('invalid managed transition')
+            require(isinstance(event, dict))
+            require(type(event.get('seq')) is int and event['seq'] > last)
+            require(event.get('profile') == 'flat-managed-v1' and event.get('unit') == 'C' and event.get('position') == 'p')
+            name = event.get('event')
+            def current(key='current_version'):
+                return type(event.get(key)) is int and event[key] == self.version
+            def advance():
+                return (current('previous_version') and type(event.get('current_version')) is int
+                        and event['current_version'] == self.version + 1)
+            if name == 'managed_created':
+                require(not self.created and current() and event.get('holder') == 'old')
+                self.created = True
+            elif name == 'managed_granted':
+                require(self.created and not self.granted and advance()
+                        and event.get('right') == 'write' and event.get('allow') is True)
+                self.version += 1
+                self.granted, self.active = True, False
+            elif name == 'managed_activated':
+                require(self.granted and not self.active and current())
+                self.active = True
+            elif name == 'managed_revoked':
+                require(self.created and self.granted and current() and event.get('right') == 'write')
+                self.granted = self.active = False
+            elif name == 'managed_replaced':
+                require(self.created and self.granted and advance() and event.get('previous_holder') == self.holder
+                        and isinstance(event.get('holder'), str) and event['holder'] != self.holder)
+                self.version += 1
+                self.holder, self.active = event['holder'], False
+            elif name in ('obligation_committed', 'effect_accepted'):
+                payload = event.get('payload')
+                require(isinstance(payload, str))
+                require(hashlib.sha256(payload.encode()).hexdigest() == event.get('payload_sha256'))
+                if name == 'obligation_committed':
+                    key = event.get('obligation_id')
+                    require(current('committed_under_version') and self.created and self.granted and self.active
+                            and isinstance(key, str) and key not in self.obligations)
+                    self.obligations[key] = payload
+                else:
+                    require(current('accepted_under_version') and isinstance(event.get('request_id'), str))
+                    if event.get('check_mode') == 'managed-use-current':
+                        require(current('presented_version') and self.created and self.granted and self.active)
+                    elif event.get('check_mode') == 'committed-exact-obligation':
+                        key = event.get('obligation_id')
+                        require(isinstance(key, str) and key in self.obligations and self.obligations[key] == payload)
+                    else:
+                        raise ValueError('unsupported managed effect profile')
+                    self.effects.append(event)
+            else:
+                raise ValueError('unsupported managed journal event')
+            self.events.append(event)
+            last = event['seq']
+        require(self.created)
+        self.next_seq = last + 1
 
     def eligible(self, token):
         return self.created and self.granted and self.active and token == self.version
@@ -109,8 +184,8 @@ class State(base.SinkState):
             outcome='accepted', event_seq=event['seq'], authority_version=self.version)
 
 
-def serve(journal):
-    state = State(journal)
+def serve(journal, recover=False):
+    state = State(journal, recover)
     class Handler(base.make_handler(state)):
         def do_GET(self):
             if self.path != '/status':
@@ -137,11 +212,11 @@ def serve(journal):
 
 
 class RunningSink(base.RunningSink):
-    def __init__(self, source, root):
+    def __init__(self, source, root, recover=False):
         self.root = root
         root.mkdir(parents=True, exist_ok=True)
         self.journal = root / 'sink-effects.jsonl'
-        self.process = subprocess.Popen([sys.executable, str(source), '--server', str(self.journal)],
+        self.process = subprocess.Popen([sys.executable, str(source), '--recover' if recover else '--server', str(self.journal)],
                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         readable, _, _ = select.select([self.process.stdout], [], [], 3)
         line = self.process.stdout.readline() if readable else ''
@@ -153,6 +228,6 @@ class RunningSink(base.RunningSink):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3 or sys.argv[1] != '--server':
-        raise SystemExit('usage: managed_sink.py --server JOURNAL')
-    serve(Path(sys.argv[2]))
+    if len(sys.argv) != 3 or sys.argv[1] not in ('--server', '--recover'):
+        raise SystemExit('usage: managed_sink.py {--server|--recover} JOURNAL')
+    serve(Path(sys.argv[2]), sys.argv[1] == '--recover')
