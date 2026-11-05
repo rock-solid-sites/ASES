@@ -33,7 +33,7 @@
     "research/autonomy-20261104-sink-recovery": "9aa1988e2e6b688e61c0770e2786cbab498b5839",
     "review/autonomy-20261104-sink-recovery": "822ef102d5b428458f41a83081b26a03169c8c71",
     "research/autonomy-20261104-sink-io-failure": "d4a780b275d1d2ef48cfc8a10f5350671a52fa7b",
-    "research/autonomy-20261105-prefix-recovery": "4f8f3ff822de536e3c17250229f97e98ddab8272",
+    "research/autonomy-20261105-prefix-recovery": "bacf8f7d85fd10674554f5b7ef6415fc770e7f4a",
     "review/autonomy-20261105-prefix-recovery": "812bc0518c7ed94df0a0ca40a5718151780a62c7",
     "research/autonomy-20261105-kernel-encoding": "d20a6e3f144443f49e958f5fce8d16909821a63d",
     "review/autonomy-20261105-kernel-encoding": "614df5fb981ce9b03586f08e9d051e21946796b1"
@@ -74,6 +74,10 @@
     {
       "utc": "2026-11-05T01:33:19Z",
       "state": "Execution access restored and repository/checkpoints preserved. Full30-record index/digests validated locally; resumed encoding audit published. Next continuous F4 history removes prior raw-fixture-copy boundary. Usage remains unknown."
+    },
+    {
+      "utc": "2026-11-05T01:44:35Z",
+      "state": "Continuous4-history F4 source/raw/checker committed/pushed; no fixture restoration,19 owned children/max1. Next exact frozen T18 revocation semantics/eligibility discriminator, native L6/L7 blocker retained."
     }
   ],
   "experiments": [
@@ -1145,6 +1149,46 @@
       ],
       "blockers": [],
       "next_discriminator": "Do not infer physical timing or optimize another candidate without a new hypothesis; return to continuous F4 history refinement",
+      "supersedes": []
+    },
+    {
+      "id": "R2-CONTINUOUS-PREFIX-HISTORY",
+      "stream": "cross-layer",
+      "claim": "Selected continuous real ACK/failure/recovery history without oracle journal fixture restoration",
+      "source_branch": "research/autonomy-20261105-prefix-recovery",
+      "source_sha": "bacf8f7d85fd10674554f5b7ef6415fc770e7f4a",
+      "implementation": "research/phase-i-t18-sink-order-20261103/prefix-recovery/continuous_history.py",
+      "command": "timeout 45 python3 research/phase-i-t18-sink-order-20261103/prefix-recovery/continuous_history.py && python3 research/phase-i-t18-sink-order-20261103/prefix-recovery/check_continuous_history.py",
+      "environment": {
+        "host": "authorized disposable Cloud restored",
+        "capabilities": [
+          "same surviving actual journal",
+          "scoped partial-append API exception",
+          "local HTTP",
+          "pre-ready SIGKILL/reap"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "4 actual histories: original ACK, partial append failure/latch, same-file recovery with none/quarantined/prepared/published cuts, new ACK and strict restart.19 owned children/max1 concurrent. Raw checker supports common selected order; dropped ACK mutation VIOLATION, missing ACK/exit/gate metadata INCOMPLETE.",
+      "limits": "Finite selected same-host/current-root/append-only-new-unACKed-tail profile, distinct fixture request IDs. Initial successful run lacked per-child exit timestamps and is preserved; later instrumentation execution recorded them. Not exhaustive refinement, native host, F2 bootstrap or power loss.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/continuous-history.raw.json",
+          "sha256": "a65a5e94a3976ef2990cf3a51ed3ffca6c2c3b9308aceb8f0a19d5c981b5b91e"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/prefix-recovery/continuous-history.check.json",
+          "sha256": "aaeea14f2a8d088079eadbbbac8ec4127dab9e5ab6121fa198b07acb3c0e1b24"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-SINK-IO-ERROR-LATCH",
+        "R2-PREFIX-RECOVERY"
+      ],
+      "blockers": [],
+      "next_discriminator": "Explicit revocation versus replacement and separate grant/activation at selected sink; preserve incomplete full F2 mapping",
       "supersedes": []
     }
   ],
