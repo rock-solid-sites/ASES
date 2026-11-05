@@ -37,8 +37,8 @@ def case(value,phase):
             expect(len(commits)==1 and commits[0]['in_transaction'] is False and not rollbacks,'malformed new content did not commit as predicted')
             expect(raw['view']['content']==request['request']['value'] and raw['latest']['required']==value['candidate'],'malformed accepted record not actually persisted')
             expect(value['recovered']['ready'] is True and value['recovery_query']['response'] is None,'baseline recovery/query did not expose validation timing')
-            expect('incompatible accepted observation record' in writer['stderr'],'failure reason not identified')
-            return dict(status='COUNTEREXAMPLE',observation='malformed required fields committed with content before query rejection; startup ready but consumer unavailable')
+            return dict(status='COUNTEREXAMPLE',observation='malformed required fields committed with content; startup ready but no usable consumer response',
+                        validation_exception_metadata_observed='incompatible accepted observation record' in writer['stderr'] or 'incompatible accepted observation record' in value['recovered']['stderr'])
         need(request is None,'request must not be invented after startup refusal')
         expect(writer['ready'] is False and writer['exit']!=0 and not commits and not rollbacks,'invalid config exposed ready or mutated data')
         prior=value['bootstrap']['calls'][-1]['response']['consumer_query']

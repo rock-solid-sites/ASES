@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/ases-c11-history/docs/research/phase-i-f1/c11-history/input-validation/check.py", line 78, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/ases-c11-history/docs/research/phase-i-f1/c11-history/input-validation/check.py", line 55, in main
+    assert all(v['status']==('COUNTEREXAMPLE' if phase=='baseline' and k in ('missing','type') else 'SUPPORTED') for k,v in result.items()),result
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'conflict': {'status': 'SUPPORTED', 'observation': 'same-content conflicting evidence caused no ACK and actual ROLLBACK, prior accepted records retained'}, 'missing': {'status': 'VIOLATION', 'reason': 'failure reason not identified'}, 'type': {'status': 'VIOLATION', 'reason': 'failure reason not identified'}, 'valid': {'status': 'SUPPORTED', 'observation': 'well-typed new content/evidence ACKed and recovered'}}

@@ -1,0 +1,37 @@
+{
+  "cases": {
+    "conflict": {
+      "observation": "same-content conflicting evidence caused no ACK and actual ROLLBACK, prior accepted records retained",
+      "status": "SUPPORTED"
+    },
+    "missing": {
+      "observation": "malformed required fields committed with content; startup ready but no usable consumer response",
+      "status": "COUNTEREXAMPLE",
+      "validation_exception_metadata_observed": false
+    },
+    "type": {
+      "observation": "malformed required fields committed with content; startup ready but no usable consumer response",
+      "status": "COUNTEREXAMPLE",
+      "validation_exception_metadata_observed": false
+    },
+    "valid": {
+      "observation": "well-typed new content/evidence ACKed and recovered",
+      "status": "SUPPORTED"
+    }
+  },
+  "incomplete_controls": {
+    "missing_diagnostic_bytes": {
+      "reason": "'latest_raw_hex'",
+      "status": "INCOMPLETE"
+    },
+    "missing_startup_observation": {
+      "reason": "'ready'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 1,
+  "owned_children": 18,
+  "phase": "baseline",
+  "qualification": "negative input controls outside completed well-typed premise; field presence/types, not source truth/authentication or full C9/C11",
+  "retained_invalid_artifact": "ready then consumer query failed on retained malformed database"
+}
