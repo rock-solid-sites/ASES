@@ -17,7 +17,14 @@
         "source": "user messages, message-specific timestamps unavailable",
         "remaining_after_reset": "unknown"
       }
-    ]
+    ],
+    "wall_time_correction": {
+      "start_utc": "2026-11-04T23:05:52Z",
+      "checkpoint_utc": "2026-11-05T04:36:57Z",
+      "elapsed_seconds": 19865,
+      "elapsed": "5h31m05s",
+      "corrects": "ledger mistakenly said7h31m05s; wall time includes waits/interruption, not model usage"
+    }
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
@@ -50,7 +57,9 @@
     "research/autonomy-20261105-sink-witness": "7ee48372c38da079cfdf8aca8c186956f80a2de8",
     "research/autonomy-20261105-witness-publication": "dbcb70c25f662f4d3ce41a0e671ebd2343b7a610",
     "review/autonomy-20261105-sink-witness": "a158bb957cfc6b11980b773980353e61db7839cd",
-    "research/autonomy-20261105-f1-consumer-evidence": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a"
+    "research/autonomy-20261105-f1-consumer-evidence": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
+    "research/autonomy-20261105-c11-history": "9b1be4167abff82ab8061d1c39cce317135fe452",
+    "review/autonomy-20261105-f1-consumer": "652430469f7d06cf0f43a452c7d4d99b5fe81a76"
   },
   "checkpoints": [
     {
@@ -116,6 +125,10 @@
     {
       "utc": "2026-11-05T04:56:00Z",
       "state": "Concrete C11 corrected physical evidence29ec396 pushed, failed harness746e20a preserved; isolated bounded Luna review active.39 indexed records. Current usage unknown after operator reset."
+    },
+    {
+      "utc": "2026-11-05T05:04:37Z",
+      "state": "Required C11 history9b1be41 pushed; parent review65243046 potentially exposed, not independent.40 records. Next precommit required-input validation; all10 workers done, quota unknown."
     }
   ],
   "experiments": [
@@ -1539,7 +1552,13 @@
         ],
         "address_space_bytes": 268435456
       },
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-f1-consumer",
+          "sha": "652430469f7d06cf0f43a452c7d4d99b5fe81a76",
+          "independence": "Potentially producer-exposed reproduction/adversarial source check, NOT clean-room independent: broad docs rg may have surfaced prohibited snippets before prediction. One primary rerun and separately authored audit; covers29ec396 latest-pair experiment only."
+        }
+      ],
       "blockers": [],
       "supersedes": [],
       "id": "R2-C11-PHYSICAL-COUPLING",
@@ -1548,7 +1567,7 @@
       "command": "python3 docs/research/phase-i-f1/c11-sqlite/probe.py > /tmp/c11-sqlite.json && python3 docs/research/phase-i-f1/c11-sqlite/check.py /tmp/c11-sqlite.json",
       "status": "executed_observed",
       "observed_result": "Atomic post-COMMIT A/B recover exact distinct trusted tuples with identical core view/content. Split gap after new content COMMIT retains incompatible old evidence, new required tuple unavailable/no ACK. Atomic pre-COMMIT retains prior ACKed pair; uninterrupted split completes two commits/ACK. Fresh holder receives no original tuple, independent reader agrees/integrity ok.20 owned children/max1.",
-      "limits": "Selected experimental acceptance contract with trusted opaque observations, no provenance truth/authentication, arbitrary consumers, canonical/minimal schema, nonrollback, physical power loss or F1/C11 closure. Parent holder unchanged. Initial harness failure separately preserved and qualified.",
+      "limits": "Selected experimental acceptance contract with trusted opaque observations, no provenance truth/authentication, arbitrary consumers, canonical/minimal schema, nonrollback, physical power loss or F1/C11 closure. Parent holder unchanged. Initial harness failure separately preserved and qualified. Reviewer source/raw check confirms singleton upsert overwrites prior bundles; opaque per-acceptance identity fields do not establish stable WU identity. Historical-retention discriminator is separate continuation.",
       "raw_evidence": [
         {
           "path": "docs/research/phase-i-f1/c11-sqlite/raw.json",
@@ -1562,7 +1581,46 @@
       "dependencies": [
         "R2-C11-HARNESS-SETUP-ERROR"
       ],
-      "next_discriminator": "Independent corrected physical-case audit underway; then select genuinely new remaining governing obligation, not repeated abstract field product"
+      "next_discriminator": "Stable-field required-history continuation executed separately; next malformed/conflicting required observations before commit"
+    },
+    {
+      "id": "R2-C11-REQUIRED-HISTORY",
+      "stream": "F1",
+      "claim": "Atomic latest content/observation coupling alone cannot retain independently required older consumer evidence; selected same-transaction archive discriminator",
+      "source_branch": "research/autonomy-20261105-c11-history",
+      "source_sha": "9b1be4167abff82ab8061d1c39cce317135fe452",
+      "implementation": "docs/research/phase-i-f1/c11-history/probe.py",
+      "command": "python3 docs/research/phase-i-f1/c11-history/probe.py > /tmp/c11-history.json && python3 docs/research/phase-i-f1/c11-history/check.py /tmp/c11-history.json",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "actual original single-lane holder/SQLite COMMIT",
+          "stable opaque three-field fixture",
+          "actual old evidence A/B then common new M",
+          "SIGKILL/fresh query/read-only reader"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Latest-A/B actual logical consumer query/core view/latest serialized row identical after acceptance despite different required older evidence; older evidence unavailable. Archive-A/B retain both exact accepted record sets in same transaction and distinguish A/B after current-journal recovery.16 owned children/max1, missing record/reply observations incomplete.",
+      "limits": "Selected two-acceptance required-history profile under trusted opaque identity/acceptance and current root. No all-physical-byte indistinguishability, intrinsic identity truth, source authentication, nonrollback, physical power loss, arbitrary histories/consumers, minimal schema, generic C11/F1 closure. Conflict branch source-reviewed only; no independent archive review.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/c11-history/raw.json",
+          "sha256": "dd6ed0f06731f1674d83a7841b8eff9a22cc8ba023d598c37219cc145a876deb"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/check.json",
+          "sha256": "295f4fb3f9e6441f94581f3801ba44777cb141d0a82b83ef46fff5dc1acd313d"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-C11-PHYSICAL-COUPLING"
+      ],
+      "blockers": [],
+      "next_discriminator": "Malformed required observation input or same-content conflicting bundle: validate before commitment versus only query after commitment",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
