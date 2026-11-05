@@ -534,17 +534,19 @@
         "usage_usd": null
       },
       "billing": {
-        "hourly_cpu_available": null,
-        "stopped_instance_billed": null,
+        "hourly_cpu_available": true,
+        "stopped_instance_billed": false,
         "storage_extra": null,
-        "network_extra": null
+        "network_extra": null,
+        "stopped_disk_billed": true,
+        "per_second": true
       },
       "reliability": {
         "operating_history_verified": false,
         "cpu_fair_use_verified": false
       },
-      "official_url": null,
-      "last_verified_at": null
+      "official_url": "https://www.daytona.io/pricing",
+      "last_verified_at": "2026-11-05"
     },
     {
       "id": "e2b",
@@ -699,6 +701,25 @@
       ],
       "verified_at": "2026-11-03",
       "notes": "Dedicated CPU reference; $60 monthly advertised; credit service eligibility not confirmed."
+    },
+    {
+      "id": "daytona-2vcpu-8gib-15gib-estimate",
+      "provider_id": "daytona",
+      "name": "2 vCPU, 8 GiB RAM, 15 GiB reserved disk (calculated)",
+      "ram_gb": 8,
+      "vcpu": 2,
+      "architecture": null,
+      "hourly_usd": 0.23148,
+      "storage_included_gb": 5,
+      "storage_reserved_gb": 15,
+      "network_included_gb": null,
+      "region": null,
+      "pricing_evidence": "calculated_from_official_per_resource_pricing_not_checkout_verified",
+      "source_urls": [
+        "https://www.daytona.io/pricing"
+      ],
+      "verified_at": "2026-11-05",
+      "notes": "2*0.0504 + 8*0.0162 + (15-5)*0.000108 = $0.23148/h, not including network or taxes; correction: numeric hourly_usd uses exact formula below"
     }
   ],
   "promotions": [
@@ -1165,6 +1186,33 @@
         "Enterprise Savings Plan"
       ],
       "compute_hourly_usd": null
+    },
+    {
+      "id": "daytona-200-free-compute-2026",
+      "provider_id": "daytona",
+      "type": "general_free_compute",
+      "advertised_value": 200,
+      "value_unit": "USD",
+      "details": "Official pricing advertises $200 in free compute, no credit card required to start; free balance not applicable to GPU. Exact eligibility, amount granted to existing accounts and expiry require wallet verification. Tier 1 email verified allows 10 vCPU/10 GiB RAM/30 GiB storage per tier table; docs show a contradictory 20GiB in lower limits table.",
+      "credit_expiry": null,
+      "first_seen_at": "2026-11-05",
+      "last_checked_at": "2026-11-05",
+      "status": "officially_advertised_account_eligibility_unverified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": 0,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/billing",
+        "https://www.daytona.io/docs/limits"
+      ],
+      "evidence_level": "official_pricing_and_billing; account balance unverified",
+      "alert_state": "new_discovery",
+      "account_specific_fit": "Potentially valuable for ephemeral ASES tests; user's Daytona account known but entitlement not checked"
     }
   ],
   "account_inventory": {
@@ -1243,6 +1291,15 @@
         "ibm-vpc1000-2026"
       ],
       "summary": "IBM $1000 VPC credit still officially listed for 2026, 120 days, Dec 31 deadline; old IBM announcement permits existing customers, but current CPU VSI scope and card eligibility unverified."
+    },
+    {
+      "at": "2026-11-05",
+      "kind": "new_officially_advertised_credit_discovery",
+      "entity_ids": [
+        "daytona-200-free-compute-2026",
+        "daytona-2vcpu-8gib-15gib-estimate"
+      ],
+      "summary": "Daytona officially advertises $200 free CPU sandbox compute without card, 2vCPU/8GiB illustrative $0.23148/h with 15GiB disk; existing-account balance and expiry unknown."
     }
   ],
   "source_policy": {
