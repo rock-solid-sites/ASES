@@ -9,7 +9,15 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 7
+    "workers_launched": 7,
+    "operator_reports": [
+      {
+        "observed_at_utc": "2026-11-05T04:32:56Z",
+        "report": "9% left; then usage has reset; continue",
+        "source": "user messages, message-specific timestamps unavailable",
+        "remaining_after_reset": "unknown"
+      }
+    ]
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
@@ -38,7 +46,8 @@
     "research/autonomy-20261105-kernel-encoding": "d20a6e3f144443f49e958f5fce8d16909821a63d",
     "review/autonomy-20261105-kernel-encoding": "614df5fb981ce9b03586f08e9d051e21946796b1",
     "research/autonomy-20261105-t18-revocation": "aefdd5ece043190a76e8f14434aca9e9ec156038",
-    "review/autonomy-20261105-t18-revocation": "3deeb71278063039b82a358d239a5f079212b38b"
+    "review/autonomy-20261105-t18-revocation": "3deeb71278063039b82a358d239a5f079212b38b",
+    "research/autonomy-20261105-sink-witness": "7ee48372c38da079cfdf8aca8c186956f80a2de8"
   },
   "checkpoints": [
     {
@@ -88,6 +97,10 @@
     {
       "utc": "2026-11-05T02:03:19Z",
       "state": "Managed replay executed/pushed aefdd5e; current journal retains revoke, older authentic prefix rolls eligibility back. Next live witness in actual sink path; usage unknown."
+    },
+    {
+      "utc": "2026-11-05T04:36:57Z",
+      "state": "Actual sink live witness projection evidence7ee4837 pushed; isolated bounded Luna check active. User reports allowance reset after9% warning; current remaining unknown. Next publication barrier discriminator."
     }
   ],
   "experiments": [
@@ -1295,6 +1308,46 @@
       ],
       "blockers": [],
       "next_discriminator": "Live nonrolled witness: issued-generation equality versus eligibility/control-state binding in actual sink acceptance",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-LIVE-WITNESS-PROJECTION",
+      "stream": "cross-layer",
+      "claim": "Live issued-generation witness insufficiency versus eligibility tuple at actual ordinary sink acceptance after revoke/rollback",
+      "source_branch": "research/autonomy-20261105-sink-witness",
+      "source_sha": "7ee48372c38da079cfdf8aca8c186956f80a2de8",
+      "implementation": "research/phase-i-t18-sink-order-20261103/sink-witness/probe.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/sink-witness/probe.py > /tmp/sink-witness.json && python3 research/phase-i-t18-sink-order-20261103/sink-witness/check.py /tmp/sink-witness.json",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "separate live loopback witness outside journal rollback",
+          "actual nonce query inside sink lock before append/ACK",
+          "authentic journal rollback",
+          "owned process kill/reap"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Same live witness knows revoked grant/active=false but issued gen1 unchanged; generation-only reply permits actual stale x201 and cold retention. Eligibility tuple denies/no x. Retained-current denial, actual nonce-fault/reset/missing-witness controls pass.12 owned distinct children, max2. Missing publication/exchange metadata incomplete.",
+      "limits": "Trusted supervisor synchronizes witness publish ACK before tested rollback/send; not supplied by manager mechanism. No external authentication/nonrollback trust establishment, atomic distributed management, physical power loss, minimal tuple/schema, accepted-history rollback repair, native host or aggregate F1/F4 closure. Finite selected profile.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-witness/raw.json",
+          "sha256": "b0719e2275306c539f54f6b1cfc685f78ce3cdbf098651b6a185a7657805269b"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/sink-witness/check.json",
+          "sha256": "d6c231667e3ff17f72b39ada2fde699ee43a6cd40374d86190f3027ac2b8875a"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-MANAGED-REVOKE-REPLAY",
+        "R2-F1-LIVE-WITNESS"
+      ],
+      "blockers": [],
+      "next_discriminator": "Actual revoke ACK with withheld full-state witness publication; publish-before-ACK barrier and unavailable/failed publication response",
       "supersedes": []
     }
   ],
