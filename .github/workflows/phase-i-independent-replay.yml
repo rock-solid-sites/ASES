@@ -136,3 +136,50 @@ jobs:
           name: phase-i-mutation-${{ matrix.case.name }}-${{ github.run_id }}
           path: ${{ runner.temp }}/mutation-evidence/
           retention-days: 30
+
+  remaining-checker-mutations:
+    name: Remaining checker mutation - ${{ matrix.case.name }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - name: l5
+            sha: 51b34aface9340b7e6821b8c40dc62ca38da15e2
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts
+          - name: l6
+            sha: 0f348fda050e67f3d9081a7fc22078eddc547a61
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/race
+          - name: cut
+            sha: 26db6db361be986cdd168045f510f5567ee9df53
+            dir: research/phase-i-t18-sink-order-20261103/published-cut
+          - name: receipt
+            sha: 9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9
+            dir: research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: assurance
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.case.sha }}
+          path: target
+      - name: Mutate observed semantics
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+          CASE_DIR: ${{ matrix.case.dir }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/remaining-mutations"
+          python3 assurance/docs/research/phase-i-assurance/mutate_remaining.py --case "$CASE_NAME" --source "target/$CASE_DIR" > "$RUNNER_TEMP/remaining-mutations/results.json"
+          cat "$RUNNER_TEMP/remaining-mutations/results.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-remaining-mutation-${{ matrix.case.name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/remaining-mutations/
+          retention-days: 30
