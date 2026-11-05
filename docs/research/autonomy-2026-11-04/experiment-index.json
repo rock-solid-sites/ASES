@@ -24,7 +24,7 @@
     "research/autonomy-20261103-f1": "53952b7316626b886b4e74b54d30ae4ad135ef96",
     "research/autonomy-20261103-f3-policy": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
     "research/autonomy-20261103-kernel": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
-    "research/autonomy-20261103-run": "b758f540840805fcb31540de95daa6103ab0e660",
+    "research/autonomy-20261103-run": "33d12eaf494fd4de1d9dd6c94c9e76f47b5f7ae1",
     "review/autonomy-20261103-evidence": "c81ec439ea803d35a2a0edb3cf2317f048c03201",
     "review/autonomy-20261103-f1-bridge": "ccd2d524856943193d484e52159481da3f00fdd5",
     "review/autonomy-20261103-f1-check": "74d6e2c59630b37b34d48fa4a65c8d2f2859758d",
@@ -1450,6 +1450,39 @@
       ],
       "blockers": [],
       "next_discriminator": "Concrete C11 accepted consumer evidence with existing SQLite holder: same-transaction retention versus separate-commit loss, after remote index restoration",
+      "supersedes": []
+    },
+    {
+      "id": "R2-COLD-RESTORE-36",
+      "stream": "coordinator",
+      "claim": "Fresh remote-only restoration validates36 indexed implementations and67 raw artifact digests after new Round2 publications",
+      "source_branch": "research/autonomy-20261103-run",
+      "source_sha": "33d12eaf494fd4de1d9dd6c94c9e76f47b5f7ae1",
+      "implementation": "docs/research/autonomy-2026-11-04/cold_restore.py",
+      "command": "python3 docs/research/autonomy-2026-11-04/cold_restore.py",
+      "environment": {
+        "host": "same authorized Cloud coordinator",
+        "capabilities": [
+          "GitHub origin read",
+          "fresh temporary git clone",
+          "exact indexed source objects"
+        ]
+      },
+      "status": "executed_observed",
+      "observed_result": "Fresh single-branch clone of6226c61 then fetch every indexed branch validates36 records/67 raw artifacts and implementation presence; corrupted digest rejected against fetched bytes.11.8034s actual elapsed.",
+      "limits": "Same host/coordinator and GitHub origin, not an independent archive, clean-machine execution of experiments, long-term retention or power-loss proof. Snapshot predates this restoration record.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/autonomy-2026-11-04/cold-restoration-36.raw.json",
+          "sha256": "9af5d37b75aef087f25e26fc8278ddb3bce603ef8b916bf24a0ea3d0793b0db9"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-MANAGEMENT-PRE-REPLY-CUTS"
+      ],
+      "blockers": [],
+      "next_discriminator": "Concrete physical C11 metadata/content coupling; independent archive only if authorized/available, no repeated restoration solely for logs",
       "supersedes": []
     }
   ],
