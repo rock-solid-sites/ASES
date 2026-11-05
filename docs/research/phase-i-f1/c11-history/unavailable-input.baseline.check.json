@@ -1,0 +1,21 @@
+{
+  "cases": {
+    "explicit": {
+      "observation": "explicit required tuple accepts new content and recovers",
+      "status": "SUPPORTED"
+    },
+    "unavailable": {
+      "observation": "valid recovered read did not provide new required tuple; new content nevertheless committed without usable ACK",
+      "status": "COUNTEREXAMPLE"
+    }
+  },
+  "incomplete_control": {
+    "reason": "'response'",
+    "status": "INCOMPLETE"
+  },
+  "maximum_observed_child_concurrency": 1,
+  "owned_children": 8,
+  "phase": "baseline",
+  "qualification": "current retained evidence versus new acceptance input, selected profile only; no source truth/nonrollback/power-loss/full C11 proof",
+  "source_hashes_verified": true
+}
