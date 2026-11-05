@@ -85,6 +85,10 @@ def manifest(root):
     results = []
     for path in sorted(root.rglob("*")):
         relative = path.relative_to(root)
+        # Output manifest is deliberately outside the captured file set.
+        # Defensively exclude a root-level manifest even if shell redirection created it.
+        if relative == Path("manifest.json"):
+            continue
         if any(x in (".git", "__pycache__", ".pytest_cache") for x in relative.parts) or path.suffix == ".pyc":
             continue
         if path.is_symlink():
