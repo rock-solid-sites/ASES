@@ -80,15 +80,25 @@ jobs:
         with:
           persist-credentials: false
       - name: Exercise evidence contract with deliberate invalid cases
+        id: contract_tests
         run: |
           cd docs/research/phase-i-assurance
           python3 -m unittest -v test_evidence_contract.py
       - name: Record test harness manifest
         if: always()
         shell: bash
+        env:
+          CONTRACT_OUTCOME: ${{ steps.contract_tests.outcome }}
         run: |
           mkdir -p "$RUNNER_TEMP/assurance-contract"
-          python3 docs/research/phase-i-assurance/evidence_contract.py docs/research/phase-i-assurance --execution PASS > "$RUNNER_TEMP/assurance-contract/manifest.json"
+          case "$CONTRACT_OUTCOME" in
+            success) EXECUTION=PASS ;;
+            failure) EXECUTION=FAIL ;;
+            cancelled) EXECUTION=CANCELLED ;;
+            skipped) EXECUTION=NOT_RUN ;;
+            *) EXECUTION=ERROR ;;
+          esac
+          python3 docs/research/phase-i-assurance/evidence_contract.py docs/research/phase-i-assurance --execution "$EXECUTION" > "$RUNNER_TEMP/assurance-contract/manifest.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -204,4 +214,32 @@ jobs:
         with:
           name: phase-i-abstract-state-exploration-${{ github.run_id }}
           path: ${{ runner.temp }}/state-exploration/
+          retention-days: 30
+
+  bounded-reference-models:
+    name: Bounded independent model - ${{ matrix.model }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        model: [f1, f3-l5, f3-l6]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Enumerate abstract states and reject unsafe mutants
+        shell: bash
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/bounded-model"
+          python3 docs/research/phase-i-assurance/bounded_f1_f3_models.py --model "$MODEL" > "$RUNNER_TEMP/bounded-model/result.json"
+          cat "$RUNNER_TEMP/bounded-model/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-bounded-model-${{ matrix.model }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/bounded-model/
           retention-days: 30
