@@ -31,7 +31,8 @@
     "review/autonomy-20261104-kernel-literals": "5c4e3184eaa4f8be1fb3ab387a55c172b9bcd490",
     "review/autonomy-20261104-f4-write-count": "96ec2096a7ff6d8f29128adc560a29c1a2f5e81b",
     "research/autonomy-20261104-sink-recovery": "9aa1988e2e6b688e61c0770e2786cbab498b5839",
-    "review/autonomy-20261104-sink-recovery": "822ef102d5b428458f41a83081b26a03169c8c71"
+    "review/autonomy-20261104-sink-recovery": "822ef102d5b428458f41a83081b26a03169c8c71",
+    "research/autonomy-20261104-sink-io-failure": "d4a780b275d1d2ef48cfc8a10f5350671a52fa7b"
   },
   "checkpoints": [
     {
@@ -865,6 +866,82 @@
       "dependencies": [],
       "blockers": [],
       "next_discriminator": "Partial append exception and subsequent ACK boundary; reserve for safety actions only if stronger liveness selected",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-IO-ERROR-RED",
+      "stream": "cross-layer",
+      "claim": "No later success may extend a journal after uncertain append/sync error",
+      "source_branch": "research/autonomy-20261104-sink-io-failure",
+      "source_sha": "f845e5ff59eecb182e96646b5438ed5e4fa0433b",
+      "implementation": "research/phase-i-t18-sink-order-20261103/io-failure/probe.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/io-failure/probe.py baseline",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "scoped API fault shim",
+          "actual journal writes",
+          "serving restart"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "falsified_counterexample",
+      "observed_result": "Partial append error then later201 leaves malformed tail and cold refusal. Complete-write/sync exception then later201 reuses seq2; cold refuses duplicate seq. Healthy3-case control succeeds.",
+      "limits": "EIO deliberately injected, actual bytes written. Original sync-recovery prediction falsified; failed initial assertion/source retained.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/io-failure/baseline.raw.json",
+          "sha256": "738bcd7479c6b505a09e3ac645b27c5ebf2ce37a7c61d54353b2c060be214931"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Explicit append-only interrupted-tail recovery without oracle-injected ACK boundary; preserve strict default",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-IO-ERROR-LATCH",
+      "stream": "cross-layer",
+      "claim": "No later success may extend a journal after uncertain append/sync error",
+      "source_branch": "research/autonomy-20261104-sink-io-failure",
+      "source_sha": "d4a780b275d1d2ef48cfc8a10f5350671a52fa7b",
+      "implementation": "research/phase-i-t18-sink-order-20261103/io-failure/probe.py",
+      "command": "timeout 30 python3 research/phase-i-t18-sink-order-20261103/io-failure/probe.py fixed",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "scoped API fault shim",
+          "actual journal writes",
+          "serving restart"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Latch storage error, later durable use has no success and cannot extend uncertain journal. Partial tail remains refused; full unACKed sync-error record cold-recovers as unknown whole effect. Normal/capacity/short-write regressions pass.",
+      "limits": "Does not restore ACKed-prefix availability after partial tail; no physical fsync/power-loss proof. Deterministic capacity rejection remains non-latching.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/io-failure/fixed.raw.json",
+          "sha256": "9f097ae9d5b9498a65979f1ac63db081f9d7bb0e484fb90f8fabb920b2c1c33e"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/io-failure/capacity-regression.raw.json",
+          "sha256": "025d14d9ad152fefbde9aed9c9eef47a7d7e6b1bcbb9d8fef37d324bbd7f7628"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/io-failure/recovery-regression.raw.json",
+          "sha256": "178e4b50ba09e40066462e0601db6d36aa68bbc8240bc6d361e437434f690260"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/io-failure/write-count-regression.raw.json",
+          "sha256": "d6e2af48de62185aa3a7fccb7c5841261e21c9f2687af6a358ad0ebf0f6297f6"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "Explicit append-only interrupted-tail recovery without oracle-injected ACK boundary; preserve strict default",
       "supersedes": []
     }
   ],
