@@ -37,3 +37,23 @@ Maintain a traceability ledger: requirement -> invariant -> abstraction boundary
 
 ## Operations
 Open a draft PR from `research/phase-i-ci-assurance-20261105` to `main` to keep review isolated. Inspect workflow runs, jobs, logs and artifacts after each change. Do not retry failing runs blindly; isolate runner/setup/harness/product faults with a minimal discriminating test. Never replace or rewrite Sol's original evidence; this suite is an independent replay and audit.
+
+## Proposal-methodology reconciliation (2026-11-05; experimental)
+
+The relevant candidate sources are on `proposal/testing-and-assurance-method-2026-11-01`, under `docs/proposals/2026-11-02-testing-debugging-ontology/`: `testing-and-assurance-method.md`, `debugging-and-fault-isolation-method.md`, `ontology-conformance-reviewer.md`, `integration-plan.md`, and `cross-conversation-reconciliation-2026-11-02.md`. They are **proposal-only**, not adopted global policy. This CI branch is a pilot and does not promote them.
+
+The proposal requires separate axes for execution (PASS/FAIL/ERROR/INCONCLUSIVE/BLOCKED/CANCELLED/SKIPPED/NOT_RUN), claim evaluation (SUPPORTED_WITHIN_SCOPE/CONTRADICTED/UNRESOLVED/NOT_TESTABLE_AS_STATED), evidence quality (QUALIFIED/PARTIALLY_QUALIFIED/UNQUALIFIED), and authorized acceptance (ACCEPT/REVISE/DEFER/REJECT/ESCALATE). A CI job's success is not operator acceptance. Off-provider archive completeness is a separate boolean, not inferred from GitHub artifact upload.
+
+The accompanying `evidence_contract.py` is a deliberately **conservative experimental pilot**: SHA-256 manifest generation and a claim classifier with positive and adversarial self-tests. It cannot claim qualified evidence without independently checked oracle and both negative and valid-neighbor controls. The existing six replay jobs currently run original probes and original checkers; these are **reproducibility checks, not independent-oracle qualification**. They do not yet produce the full portable manifest, frozen pre-run rationale, off-provider archive, or independently qualified claim. Do not treat their green status as a completed assurance case.
+
+### Next pilot acceptance criteria
+- Generate a common structured manifest for each case and route, with source/spec/harness revision, environment, seeds, exact command, outcome, artifacts and hashes, claim ID, before-run falsifier, and explicit WHAT-NOT-TESTED.
+- Add independent-oracle controls: known invalid evidence rejected, legitimate neighbor accepted, and an intentionally broken checker detected; preserve original raw records.
+- Demonstrate that archive failure is independently visible. Select project-owned off-provider storage only after deciding access, retention, expected volume, capacity, backup, and integrity checks. Never call a GitHub artifact durable off-provider archival.
+- Compare a second CI route only after the common manifest can be consumed without rewriting the claim; cross-provider replay is reproducibility, not oracle independence.
+- Preserve raw successes and failures, and append corrections/supersessions instead of overwriting original reasoning. Capture reviewer provenance and potential common-mode bias.
+- Apply the debugging proposal's smallest-discriminating-test loop to every failure, distinguishing target defect, checker defect, runner failure, and archive failure.
+- Evaluate the *methodology itself* with planted broken tests, valid controls, missing archive, no-new-test justification, and cross-provider portability. Record time, storage, false positives/negatives, and added assurance value.
+
+### Baseline execution
+GitHub Actions run [42034883130](https://github.com/rock-solid-sites/ASES/actions/runs/42034883130) completed six source-specific replay jobs successfully (F1 C11, F3 L5, F3 L6, F4 writer exclusion, F4 published cut, F4 receipt loss). The result is bounded replay success only; independent oracle and external archive remain outstanding.
