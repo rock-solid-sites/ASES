@@ -1,0 +1,40 @@
+{
+  "cases": {
+    "before_local": {
+      "after_recovery_status": 201,
+      "caller": "no success response",
+      "local_revoke_committed": false,
+      "status": "SUPPORTED",
+      "witness_revoke_published": false
+    },
+    "local_committed": {
+      "after_recovery_status": 409,
+      "caller": "no success response",
+      "local_revoke_committed": true,
+      "status": "SUPPORTED",
+      "witness_revoke_published": false
+    },
+    "witness_published": {
+      "after_recovery_status": 409,
+      "caller": "no success response",
+      "local_revoke_committed": true,
+      "status": "SUPPORTED",
+      "witness_revoke_published": true
+    }
+  },
+  "incomplete_controls": {
+    "missing_gate": {
+      "reason": "'gate'",
+      "status": "INCOMPLETE"
+    },
+    "missing_reply": {
+      "reason": "'response'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "interpretation": "same no-success-response category, three definite local/remote outcomes; no automatic retry inference",
+  "maximum_observed_child_concurrency": 2,
+  "owned_children": 14,
+  "qualification": "actual process termination/current same journal, not physical power loss or independent review",
+  "uninterrupted": "success200 after validated publication"
+}
