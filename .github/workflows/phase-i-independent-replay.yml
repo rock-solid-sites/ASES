@@ -95,3 +95,44 @@ jobs:
           name: phase-i-evidence-contract-${{ github.run_id }}
           path: ${{ runner.temp }}/assurance-contract/
           retention-days: 30
+
+  checker-mutation:
+    name: Checker mutation audit - ${{ matrix.case.name }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - name: f1
+            sha: 29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a
+            dir: docs/research/phase-i-f1/c11-sqlite
+          - name: f4
+            sha: 55aee5131141c82c9a6cd2e6418e02890a6291d8
+            dir: research/phase-i-t18-sink-order-20261103/writer-exclusion
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: assurance
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.case.sha }}
+          path: target
+      - name: Adversarial checker mutation audit
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+          CASE_DIR: ${{ matrix.case.dir }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/mutation-evidence"
+          python3 assurance/docs/research/phase-i-assurance/mutate_checkers.py --case "$CASE_NAME" --source "target/$CASE_DIR" > "$RUNNER_TEMP/mutation-evidence/result.json"
+          cat "$RUNNER_TEMP/mutation-evidence/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-mutation-${{ matrix.case.name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/mutation-evidence/
+          retention-days: 30
