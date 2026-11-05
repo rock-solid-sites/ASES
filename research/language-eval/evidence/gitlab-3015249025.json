@@ -1,0 +1,395 @@
+{
+  "schema_version": 1,
+  "kind": "ases_language_evaluation_ci_trace_extracted",
+  "scope": "CI emitted results; GitLab archive not retrieved directly",
+  "source": {
+    "provider": "GitLab",
+    "project": "rock-solid-sites-group/rock-solid-sites-project",
+    "pipeline_id": 3015249025,
+    "job_id": 17647454543,
+    "pipeline_url": "https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/pipelines/3015249025",
+    "job_url": "https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/jobs/17647454543",
+    "source_sha": "42a386d679c99de9eaea394a338ee2ea2469d6a2",
+    "observed_date": "2026-11-01"
+  },
+  "environment": {
+    "rustc": "1.99.1",
+    "ghc": "9.0.2",
+    "os": "linux",
+    "architecture": "amd64",
+    "runner": "GitLab shared small AMD64",
+    "ram_mebibytes": 7954
+  },
+  "ci_emitted_results": {
+    "differential.json": {
+      "checked_per_language": 2050,
+      "generated_cases": 1001,
+      "golden_cases": 24,
+      "result": "PASS",
+      "seed": 20261101,
+      "timing": {
+        "haskell": {
+          "first_seconds": 0.037581,
+          "repeat_seconds": 0.035741
+        },
+        "rust": {
+          "first_seconds": 0.016934,
+          "repeat_seconds": 0.01483
+        }
+      }
+    },
+    "wire-conformance.json": {
+      "checks": {
+        "haskell": 16,
+        "rust": 16
+      },
+      "result": "PASS",
+      "wire_cases_per_language": 16
+    },
+    "differential-optimized.json": {
+      "checked_per_language": 2050,
+      "generated_cases": 1001,
+      "golden_cases": 24,
+      "result": "PASS",
+      "seed": 20261101,
+      "timing": {
+        "haskell": {
+          "first_seconds": 0.027225,
+          "repeat_seconds": 0.025618
+        },
+        "rust": {
+          "first_seconds": 0.007255,
+          "repeat_seconds": 0.005368
+        }
+      }
+    },
+    "wire-optimized.json": {
+      "checks": {
+        "haskell": 16,
+        "rust": 16
+      },
+      "result": "PASS",
+      "wire_cases_per_language": 16
+    },
+    "bench-development.json": {
+      "cases_per_invocation": 12300,
+      "input_bytes": 3382813,
+      "iterations": 9,
+      "measurements": {
+        "haskell": {
+          "median_ms": 427.287,
+          "p95_ms": 429.912,
+          "samples_ms": [
+            429.069,
+            428.357,
+            425.51,
+            425.342,
+            426.563,
+            428.717,
+            429.912,
+            426.697,
+            427.287
+          ]
+        },
+        "rust": {
+          "median_ms": 131.181,
+          "p95_ms": 131.776,
+          "samples_ms": [
+            131.776,
+            131.231,
+            131.22,
+            131.214,
+            130.561,
+            131.181,
+            129.973,
+            128.891,
+            130.716
+          ]
+        }
+      },
+      "result": "PASS",
+      "warmup_iterations": 2
+    },
+    "bench-optimized.json": {
+      "cases_per_invocation": 12300,
+      "input_bytes": 3382813,
+      "iterations": 9,
+      "measurements": {
+        "haskell": {
+          "median_ms": 257.991,
+          "p95_ms": 261.826,
+          "samples_ms": [
+            261.826,
+            257.228,
+            257.025,
+            257.4,
+            260.14,
+            257.991,
+            256.867,
+            258.646,
+            259.735
+          ]
+        },
+        "rust": {
+          "median_ms": 20.741,
+          "p95_ms": 21.262,
+          "samples_ms": [
+            21.262,
+            20.593,
+            20.283,
+            20.924,
+            20.667,
+            20.912,
+            20.533,
+            20.94,
+            20.741
+          ]
+        }
+      },
+      "result": "PASS",
+      "warmup_iterations": 2
+    },
+    "decision-core-dev.json": {
+      "cases": 1025,
+      "expected_checksum": {
+        "accepted_count": 13497,
+        "charge_sum": 1296197,
+        "evaluations": 246000,
+        "reason_sum": 1341137
+      },
+      "iterations": 7,
+      "kind": "admission-decision-loop-no-per-case-json",
+      "measurements": {
+        "haskell": {
+          "core_median_ms": 517.0812,
+          "core_p95_ms": 523.4293,
+          "process_median_ms": 546.8685,
+          "samples": [
+            {
+              "core_ms": 515.7381,
+              "process_ms": 545.3653
+            },
+            {
+              "core_ms": 520.0888,
+              "process_ms": 549.7705
+            },
+            {
+              "core_ms": 515.1056,
+              "process_ms": 544.8123
+            },
+            {
+              "core_ms": 514.2534,
+              "process_ms": 543.954
+            },
+            {
+              "core_ms": 523.4293,
+              "process_ms": 553.2421
+            },
+            {
+              "core_ms": 518.5259,
+              "process_ms": 548.401
+            },
+            {
+              "core_ms": 517.0812,
+              "process_ms": 546.8685
+            }
+          ]
+        },
+        "rust": {
+          "core_median_ms": 24.2298,
+          "core_p95_ms": 28.6947,
+          "process_median_ms": 32.0546,
+          "samples": [
+            {
+              "core_ms": 28.6947,
+              "process_ms": 36.574
+            },
+            {
+              "core_ms": 24.1843,
+              "process_ms": 32.0546
+            },
+            {
+              "core_ms": 24.2227,
+              "process_ms": 32.1022
+            },
+            {
+              "core_ms": 24.352,
+              "process_ms": 32.2537
+            },
+            {
+              "core_ms": 24.2298,
+              "process_ms": 31.9856
+            },
+            {
+              "core_ms": 24.1286,
+              "process_ms": 31.8985
+            },
+            {
+              "core_ms": 24.333,
+              "process_ms": 32.0511
+            }
+          ]
+        }
+      },
+      "passes": 240,
+      "result": "PASS",
+      "scope": "native monotonic timing after one JSON parse and before summary encoding",
+      "warmups": 2
+    },
+    "decision-core-optimized.json": {
+      "cases": 1025,
+      "expected_checksum": {
+        "accepted_count": 13497,
+        "charge_sum": 1296197,
+        "evaluations": 246000,
+        "reason_sum": 1341137
+      },
+      "iterations": 7,
+      "kind": "admission-decision-loop-no-per-case-json",
+      "measurements": {
+        "haskell": {
+          "core_median_ms": 31.6143,
+          "core_p95_ms": 32.7104,
+          "process_median_ms": 52.9923,
+          "samples": [
+            {
+              "core_ms": 31.7467,
+              "process_ms": 53.797
+            },
+            {
+              "core_ms": 32.7104,
+              "process_ms": 54.2878
+            },
+            {
+              "core_ms": 31.6143,
+              "process_ms": 52.8275
+            },
+            {
+              "core_ms": 31.5613,
+              "process_ms": 52.9923
+            },
+            {
+              "core_ms": 31.5999,
+              "process_ms": 53.0799
+            },
+            {
+              "core_ms": 31.3819,
+              "process_ms": 52.8233
+            },
+            {
+              "core_ms": 31.6843,
+              "process_ms": 52.9291
+            }
+          ]
+        },
+        "rust": {
+          "core_median_ms": 2.5328,
+          "core_p95_ms": 2.5846,
+          "process_median_ms": 4.3018,
+          "samples": [
+            {
+              "core_ms": 2.5846,
+              "process_ms": 4.3781
+            },
+            {
+              "core_ms": 2.5151,
+              "process_ms": 4.293
+            },
+            {
+              "core_ms": 2.4541,
+              "process_ms": 4.1837
+            },
+            {
+              "core_ms": 2.5048,
+              "process_ms": 4.3018
+            },
+            {
+              "core_ms": 2.5328,
+              "process_ms": 4.3051
+            },
+            {
+              "core_ms": 2.5426,
+              "process_ms": 4.2922
+            },
+            {
+              "core_ms": 2.5737,
+              "process_ms": 4.3281
+            }
+          ]
+        }
+      },
+      "passes": 240,
+      "result": "PASS",
+      "scope": "native monotonic timing after one JSON parse and before summary encoding",
+      "warmups": 2
+    },
+    "differential-edited.json": {
+      "checked_per_language": 2050,
+      "generated_cases": 1001,
+      "golden_cases": 24,
+      "result": "PASS",
+      "seed": 20261101,
+      "timing": {
+        "haskell": {
+          "first_seconds": 0.027591,
+          "repeat_seconds": 0.025099
+        },
+        "rust": {
+          "first_seconds": 0.007306,
+          "repeat_seconds": 0.005347
+        }
+      }
+    },
+    "wire-edited.json": {
+      "checks": {
+        "haskell": 16,
+        "rust": 16
+      },
+      "result": "PASS",
+      "wire_cases_per_language": 16
+    }
+  },
+  "build_maximum_rss_lines": [
+    "results/haskell-o0-warm.time:\tMaximum resident set size (kbytes): 162616",
+    "results/haskell-o0.time:\tMaximum resident set size (kbytes): 331484",
+    "results/haskell-o2-warm.time:\tMaximum resident set size (kbytes): 162984",
+    "results/haskell-o2.time:\tMaximum resident set size (kbytes): 330952",
+    "results/rust-debug-warm.time:\tMaximum resident set size (kbytes): 20084",
+    "results/rust-debug.time:\tMaximum resident set size (kbytes): 273876",
+    "results/rust-release-warm.time:\tMaximum resident set size (kbytes): 20120",
+    "results/rust-release.time:\tMaximum resident set size (kbytes): 279872",
+    "results/haskell-o0-edited.time:\tMaximum resident set size (kbytes): 331572",
+    "results/haskell-o0-warm.time:\tMaximum resident set size (kbytes): 162616",
+    "results/haskell-o0.time:\tMaximum resident set size (kbytes): 331484",
+    "results/haskell-o2-edited.time:\tMaximum resident set size (kbytes): 330916",
+    "results/haskell-o2-warm.time:\tMaximum resident set size (kbytes): 162984",
+    "results/haskell-o2.time:\tMaximum resident set size (kbytes): 330952",
+    "results/rust-debug-edited.time:\tMaximum resident set size (kbytes): 162704",
+    "results/rust-debug-warm.time:\tMaximum resident set size (kbytes): 20084",
+    "results/rust-debug.time:\tMaximum resident set size (kbytes): 273876",
+    "results/rust-release-edited.time:\tMaximum resident set size (kbytes): 166652",
+    "results/rust-release-warm.time:\tMaximum resident set size (kbytes): 20120",
+    "results/rust-release.time:\tMaximum resident set size (kbytes): 279872"
+  ],
+  "compiler_completion_lines": [
+    "Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.00s",
+    "Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s",
+    "Finished `release` profile [optimized] target(s) in 7.87s",
+    "Finished `release` profile [optimized] target(s) in 0.01s",
+    "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s",
+    "Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.23s",
+    "Finished `release` profile [optimized] target(s) in 0.74s"
+  ],
+  "executable_size_lines": [
+    "7140016 source/research/language-eval/rust/target/debug/ases-admit-rs",
+    "634400 source/research/language-eval/rust/target/release/ases-admit-rs",
+    "18008048 /tmp/ases-admit-hs",
+    "17945160 /tmp/ases-admit-hs-opt"
+  ],
+  "notes": [
+    "Data extracted from authenticated GitLab job trace, not from zipped artifacts",
+    "Core loop times come from language-native monotonic timers",
+    "Edited Haskell compile wall-clock exact measurements remain in GitLab artifact .time files not exposed by the current connector",
+    "Provider account credentials and runner tokens are intentionally not included"
+  ]
+}

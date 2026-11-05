@@ -1,0 +1,1256 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "gitlab_ci_trace_emitted_structured_p3_result",
+  "source_repository": "rock-solid-sites/ASES",
+  "source_commit": "c53a240340096b8eabe0cb69c89096d43a377a6c",
+  "source_branch": "research/rust-haskell-admission-2026-11-01",
+  "observed_in": {
+    "provider": "GitLab",
+    "project_id": 88367140,
+    "project": "rock-solid-sites-group/rock-solid-sites-project",
+    "pipeline_id": 3015407990,
+    "job_id": 17648412225,
+    "url": "https://gitlab.com/rock-solid-sites-group/rock-solid-sites-project/-/jobs/17648412225",
+    "job_status": "success"
+  },
+  "copy_scope": "Structured 37,494-byte pilot JSON payload emitted in CI job trace; not a byte-for-byte copy of provider artifact ZIP",
+  "independent_archive_of_full_ci_artifacts": "NOT_VERIFIED",
+  "pilot_result": {
+    "baseline": {
+      "haskell": {
+        "legacy-full": {
+          "checked": 1025,
+          "execute_elapsed_ms": 28.645,
+          "first_mismatches": [],
+          "mismatch_count": 0,
+          "mismatch_reason_histogram": {}
+        },
+        "p1-five": {
+          "checked": 5,
+          "execute_elapsed_ms": 2.023,
+          "first_mismatches": [],
+          "mismatch_count": 0,
+          "mismatch_reason_histogram": {}
+        },
+        "p3-new-boundaries": {
+          "checked": 6,
+          "execute_elapsed_ms": 1.897,
+          "first_mismatches": [],
+          "mismatch_count": 0,
+          "mismatch_reason_histogram": {}
+        }
+      },
+      "rust": {
+        "legacy-full": {
+          "checked": 1025,
+          "execute_elapsed_ms": 7.186,
+          "first_mismatches": [],
+          "mismatch_count": 0,
+          "mismatch_reason_histogram": {}
+        },
+        "p1-five": {
+          "checked": 5,
+          "execute_elapsed_ms": 1.196,
+          "first_mismatches": [],
+          "mismatch_count": 0,
+          "mismatch_reason_histogram": {}
+        },
+        "p3-new-boundaries": {
+          "checked": 6,
+          "execute_elapsed_ms": 0.976,
+          "first_mismatches": [],
+          "mismatch_count": 0,
+          "mismatch_reason_histogram": {}
+        }
+      }
+    },
+    "limitations": [
+      "Hand-selected mutations are not a general mutation-score estimate",
+      "Existing generated suite shares logic with a Python reference oracle",
+      "Neither system is a real concurrent funding or reservation engine",
+      "Compilers and test execution are not production infrastructure",
+      "Complete external archive is NOT_VERIFIED until independently stored"
+    ],
+    "mutants": [
+      {
+        "actual_negative": {
+          "accepted": true,
+          "charge_cents": 0,
+          "id": "capacity-over-p3",
+          "reason": "admitted"
+        },
+        "actual_positive": {
+          "accepted": true,
+          "charge_cents": 0,
+          "id": "capacity-exact-p3",
+          "reason": "admitted"
+        },
+        "boundary_detected": true,
+        "build": {
+          "build_elapsed_ms": 821.062,
+          "exact_replacement": {
+            "from": "if c.reserved > c.capacity || c.requested > c.capacity - c.reserved {",
+            "to": "if false { // P3 mutant: capacity guard disabled"
+          },
+          "operator": "capacity",
+          "source_sha256": "89c89a6a4d27a32a6c881aa56a32f38996c88e98e601e342d3772aa474cc412a"
+        },
+        "kind": "capacity",
+        "language": "rust",
+        "negative_boundary": "capacity-over-p3",
+        "positive_boundary": "capacity-exact-p3",
+        "suite_results": {
+          "legacy-full": {
+            "checked": 1025,
+            "execute_elapsed_ms": 6.224,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "capacity-exceeded",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "capacity-exceeded",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "capacity-exceeded",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "invalid-overreserved",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "invalid-overreserved",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "invalid-overreserved",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0000",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0000",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0000",
+                  "reason": "spend-cap-exceeded"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0001",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0001",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0001",
+                  "reason": "paid-opt-in-required"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0002",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0002",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0002",
+                  "reason": "paid-opt-in-required"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0003",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0003",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0003",
+                  "reason": "spend-cap-exceeded"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0004",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0004",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0004",
+                  "reason": "paid-opt-in-required"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0006",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0006",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0006",
+                  "reason": "spend-cap-exceeded"
+                }
+              }
+            ],
+            "mismatch_count": 592,
+            "mismatch_reason_histogram": {
+              "capacity-exceeded": 592
+            }
+          },
+          "p1-five": {
+            "checked": 5,
+            "execute_elapsed_ms": 1.164,
+            "first_mismatches": [],
+            "mismatch_count": 0,
+            "mismatch_reason_histogram": {}
+          },
+          "p3-new-boundaries": {
+            "checked": 6,
+            "execute_elapsed_ms": 0.99,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "capacity-over-p3",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "capacity-over-p3",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "capacity-over-p3",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 1,
+            "mismatch_reason_histogram": {
+              "capacity-exceeded": 1
+            }
+          }
+        }
+      },
+      {
+        "actual_negative": {
+          "accepted": true,
+          "charge_cents": 40,
+          "id": "wallet-over-p3",
+          "reason": "admitted"
+        },
+        "actual_positive": {
+          "accepted": true,
+          "charge_cents": 40,
+          "id": "wallet-exact-p3",
+          "reason": "admitted"
+        },
+        "boundary_detected": true,
+        "build": {
+          "build_elapsed_ms": 807.244,
+          "exact_replacement": {
+            "from": "if c.wallet < c.wallet_floor || charge > c.wallet - c.wallet_floor {",
+            "to": "if false { // P3 mutant: wallet-floor guard disabled"
+          },
+          "operator": "wallet-floor",
+          "source_sha256": "2b1a1dfdaadb1f1e9fd3136f168d0139d24fb2c8f63a1afb88ba895bd0b6f2ce"
+        },
+        "kind": "wallet-floor",
+        "language": "rust",
+        "negative_boundary": "wallet-over-p3",
+        "positive_boundary": "wallet-exact-p3",
+        "suite_results": {
+          "legacy-full": {
+            "checked": 1025,
+            "execute_elapsed_ms": 5.997,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "prepaid-wallet-floor",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "prepaid-wallet-floor",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 40,
+                  "id": "prepaid-wallet-floor",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0109",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0109",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 730,
+                  "id": "generated-0109",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0171",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0171",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 560,
+                  "id": "generated-0171",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0211",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0211",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 912,
+                  "id": "generated-0211",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0251",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0251",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 1188,
+                  "id": "generated-0251",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0346",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0346",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 1192,
+                  "id": "generated-0346",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0357",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0357",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "generated-0357",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0526",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0526",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 1161,
+                  "id": "generated-0526",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 12,
+            "mismatch_reason_histogram": {
+              "wallet-floor-exceeded": 12
+            }
+          },
+          "p1-five": {
+            "checked": 5,
+            "execute_elapsed_ms": 1.064,
+            "first_mismatches": [],
+            "mismatch_count": 0,
+            "mismatch_reason_histogram": {}
+          },
+          "p3-new-boundaries": {
+            "checked": 6,
+            "execute_elapsed_ms": 0.942,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "wallet-over-p3",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "wallet-over-p3",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 40,
+                  "id": "wallet-over-p3",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 1,
+            "mismatch_reason_histogram": {
+              "wallet-floor-exceeded": 1
+            }
+          }
+        }
+      },
+      {
+        "actual_negative": {
+          "accepted": true,
+          "charge_cents": 40,
+          "id": "spend-over-p3",
+          "reason": "admitted"
+        },
+        "actual_positive": {
+          "accepted": true,
+          "charge_cents": 40,
+          "id": "spend-exact-p3",
+          "reason": "admitted"
+        },
+        "boundary_detected": true,
+        "build": {
+          "build_elapsed_ms": 816.073,
+          "exact_replacement": {
+            "from": "} else if c.liability > c.spend_cap || charge > c.spend_cap - c.liability {",
+            "to": "} else if false { // P3 mutant: spend-cap guard disabled"
+          },
+          "operator": "spend-cap",
+          "source_sha256": "27cdf1d9fcfe6904398a18166eec1cc612684e781b7397094c2b0f874c4e47e2"
+        },
+        "kind": "spend-cap",
+        "language": "rust",
+        "negative_boundary": "spend-over-p3",
+        "positive_boundary": "spend-exact-p3",
+        "suite_results": {
+          "legacy-full": {
+            "checked": 1025,
+            "execute_elapsed_ms": 5.402,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "free-spill-cap",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "free-spill-cap",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 10,
+                  "id": "free-spill-cap",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "postpaid-cap",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "postpaid-cap",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 40,
+                  "id": "postpaid-cap",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0079",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0079",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 1760,
+                  "id": "generated-0079",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0089",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0089",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 891,
+                  "id": "generated-0089",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0102",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0102",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 2516,
+                  "id": "generated-0102",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0121",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0121",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 408,
+                  "id": "generated-0121",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0128",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0128",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 250,
+                  "id": "generated-0128",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0145",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0145",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "generated-0145",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 48,
+            "mismatch_reason_histogram": {
+              "spend-cap-exceeded": 48
+            }
+          },
+          "p1-five": {
+            "checked": 5,
+            "execute_elapsed_ms": 1.043,
+            "first_mismatches": [],
+            "mismatch_count": 0,
+            "mismatch_reason_histogram": {}
+          },
+          "p3-new-boundaries": {
+            "checked": 6,
+            "execute_elapsed_ms": 0.938,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "spend-over-p3",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "spend-over-p3",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 40,
+                  "id": "spend-over-p3",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 1,
+            "mismatch_reason_histogram": {
+              "spend-cap-exceeded": 1
+            }
+          }
+        }
+      },
+      {
+        "actual_negative": {
+          "accepted": true,
+          "charge_cents": 0,
+          "id": "capacity-over-p3",
+          "reason": "admitted"
+        },
+        "actual_positive": {
+          "accepted": true,
+          "charge_cents": 0,
+          "id": "capacity-exact-p3",
+          "reason": "admitted"
+        },
+        "boundary_detected": true,
+        "build": {
+          "build_elapsed_ms": 1517.129,
+          "exact_replacement": {
+            "from": "| reserved c > capacity c || requested c > capacity c - reserved c = deny \"capacity-exceeded\"",
+            "to": "| False = deny \"capacity-exceeded\" -- P3 mutant"
+          },
+          "operator": "capacity",
+          "source_sha256": "c25b972f6f0f2538e8236c2000bda213cd05a15f5501134f92239892dafa4dfb"
+        },
+        "kind": "capacity",
+        "language": "haskell",
+        "negative_boundary": "capacity-over-p3",
+        "positive_boundary": "capacity-exact-p3",
+        "suite_results": {
+          "legacy-full": {
+            "checked": 1025,
+            "execute_elapsed_ms": 27.09,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "capacity-exceeded",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "capacity-exceeded",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "capacity-exceeded",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "invalid-overreserved",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "invalid-overreserved",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "invalid-overreserved",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0000",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0000",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0000",
+                  "reason": "spend-cap-exceeded"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0001",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0001",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0001",
+                  "reason": "paid-opt-in-required"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0002",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0002",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0002",
+                  "reason": "paid-opt-in-required"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0003",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0003",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0003",
+                  "reason": "spend-cap-exceeded"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0004",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0004",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0004",
+                  "reason": "paid-opt-in-required"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0006",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "generated-0006",
+                "observed": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0006",
+                  "reason": "spend-cap-exceeded"
+                }
+              }
+            ],
+            "mismatch_count": 592,
+            "mismatch_reason_histogram": {
+              "capacity-exceeded": 592
+            }
+          },
+          "p1-five": {
+            "checked": 5,
+            "execute_elapsed_ms": 1.989,
+            "first_mismatches": [],
+            "mismatch_count": 0,
+            "mismatch_reason_histogram": {}
+          },
+          "p3-new-boundaries": {
+            "checked": 6,
+            "execute_elapsed_ms": 1.755,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "capacity-over-p3",
+                  "reason": "capacity-exceeded"
+                },
+                "id": "capacity-over-p3",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "capacity-over-p3",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 1,
+            "mismatch_reason_histogram": {
+              "capacity-exceeded": 1
+            }
+          }
+        }
+      },
+      {
+        "actual_negative": {
+          "accepted": true,
+          "charge_cents": 40,
+          "id": "wallet-over-p3",
+          "reason": "admitted"
+        },
+        "actual_positive": {
+          "accepted": true,
+          "charge_cents": 40,
+          "id": "wallet-exact-p3",
+          "reason": "admitted"
+        },
+        "boundary_detected": true,
+        "build": {
+          "build_elapsed_ms": 1516.215,
+          "exact_replacement": {
+            "from": "| fundingMode c == \"prepaid\" && (wallet c < walletFloor c",
+            "to": "| fundingMode c == \"prepaid\" && False && (wallet c < walletFloor c"
+          },
+          "operator": "wallet-floor",
+          "source_sha256": "baadd4af3f5004509c2f42bf356c707e174bc070426d239059589417c79d99e9"
+        },
+        "kind": "wallet-floor",
+        "language": "haskell",
+        "negative_boundary": "wallet-over-p3",
+        "positive_boundary": "wallet-exact-p3",
+        "suite_results": {
+          "legacy-full": {
+            "checked": 1025,
+            "execute_elapsed_ms": 27.165,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "prepaid-wallet-floor",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "prepaid-wallet-floor",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 40,
+                  "id": "prepaid-wallet-floor",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0109",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0109",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 730,
+                  "id": "generated-0109",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0171",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0171",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 560,
+                  "id": "generated-0171",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0211",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0211",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 912,
+                  "id": "generated-0211",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0251",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0251",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 1188,
+                  "id": "generated-0251",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0346",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0346",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 1192,
+                  "id": "generated-0346",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0357",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0357",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "generated-0357",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0526",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "generated-0526",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 1161,
+                  "id": "generated-0526",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 12,
+            "mismatch_reason_histogram": {
+              "wallet-floor-exceeded": 12
+            }
+          },
+          "p1-five": {
+            "checked": 5,
+            "execute_elapsed_ms": 2.022,
+            "first_mismatches": [],
+            "mismatch_count": 0,
+            "mismatch_reason_histogram": {}
+          },
+          "p3-new-boundaries": {
+            "checked": 6,
+            "execute_elapsed_ms": 1.772,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "wallet-over-p3",
+                  "reason": "wallet-floor-exceeded"
+                },
+                "id": "wallet-over-p3",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 40,
+                  "id": "wallet-over-p3",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 1,
+            "mismatch_reason_histogram": {
+              "wallet-floor-exceeded": 1
+            }
+          }
+        }
+      },
+      {
+        "actual_negative": {
+          "accepted": true,
+          "charge_cents": 40,
+          "id": "spend-over-p3",
+          "reason": "admitted"
+        },
+        "actual_positive": {
+          "accepted": true,
+          "charge_cents": 40,
+          "id": "spend-exact-p3",
+          "reason": "admitted"
+        },
+        "boundary_detected": true,
+        "build": {
+          "build_elapsed_ms": 1517.228,
+          "exact_replacement": {
+            "from": "| fundingMode c /= \"prepaid\" && (liability c > spendCap c",
+            "to": "| fundingMode c /= \"prepaid\" && False && (liability c > spendCap c"
+          },
+          "operator": "spend-cap",
+          "source_sha256": "43bb078d2e1722921b3fe992d8730cfe432961e1f49ff189a1ecae1fca83d661"
+        },
+        "kind": "spend-cap",
+        "language": "haskell",
+        "negative_boundary": "spend-over-p3",
+        "positive_boundary": "spend-exact-p3",
+        "suite_results": {
+          "legacy-full": {
+            "checked": 1025,
+            "execute_elapsed_ms": 29.197,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "free-spill-cap",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "free-spill-cap",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 10,
+                  "id": "free-spill-cap",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "postpaid-cap",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "postpaid-cap",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 40,
+                  "id": "postpaid-cap",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0079",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0079",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 1760,
+                  "id": "generated-0079",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0089",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0089",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 891,
+                  "id": "generated-0089",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0102",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0102",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 2516,
+                  "id": "generated-0102",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0121",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0121",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 408,
+                  "id": "generated-0121",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0128",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0128",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 250,
+                  "id": "generated-0128",
+                  "reason": "admitted"
+                }
+              },
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "generated-0145",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "generated-0145",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 0,
+                  "id": "generated-0145",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 48,
+            "mismatch_reason_histogram": {
+              "spend-cap-exceeded": 48
+            }
+          },
+          "p1-five": {
+            "checked": 5,
+            "execute_elapsed_ms": 2.071,
+            "first_mismatches": [],
+            "mismatch_count": 0,
+            "mismatch_reason_histogram": {}
+          },
+          "p3-new-boundaries": {
+            "checked": 6,
+            "execute_elapsed_ms": 1.778,
+            "first_mismatches": [
+              {
+                "expected": {
+                  "accepted": false,
+                  "charge_cents": 0,
+                  "id": "spend-over-p3",
+                  "reason": "spend-cap-exceeded"
+                },
+                "id": "spend-over-p3",
+                "observed": {
+                  "accepted": true,
+                  "charge_cents": 40,
+                  "id": "spend-over-p3",
+                  "reason": "admitted"
+                }
+              }
+            ],
+            "mismatch_count": 1,
+            "mismatch_reason_histogram": {
+              "spend-cap-exceeded": 1
+            }
+          }
+        }
+      }
+    ],
+    "pilot": "EDASES-P3",
+    "plan_sha256": "fec26e009b84f0863c4023bf3ec92f09af36bd45668cc48a345e22286881cfac",
+    "schema_version": 1,
+    "source_sha256": {
+      "haskell": "3af4c8cde3c5059ccc39f95cf2be064a94779bc15586c881e78d9f39fd758343",
+      "rust": "06bc843abc6fbf85440f144e05b35398e000f7d4f515aa2fa5e018e2a91d1d1f"
+    },
+    "status": "PASS",
+    "suite_definitions": {
+      "legacy-full": {
+        "cases": 1025
+      },
+      "p1-five": {
+        "cases": 5
+      },
+      "p3-new-boundaries": {
+        "cases": 6
+      }
+    },
+    "summary": {
+      "caught_by_existing_full": 6,
+      "caught_by_new_boundaries": 6,
+      "caught_by_original_five": 0,
+      "mutants_compiled": 6,
+      "new_boundary_detected": 6
+    },
+    "total_pilot_elapsed_ms": 7197.183
+  }
+}
