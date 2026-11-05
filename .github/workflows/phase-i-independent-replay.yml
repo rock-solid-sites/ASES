@@ -5,7 +5,7 @@ on:
       - research/phase-i-ci-assurance-20261105
     paths:
       - '.github/workflows/phase-i-independent-replay.yml'
-      - 'docs/research/phase-i-assurance/**'
+      - 'docs/research/phase-i-assurance/*.py'
   workflow_dispatch:
 
 permissions:
@@ -49,6 +49,7 @@ jobs:
           persist-credentials: false
           ref: ${{ matrix.case.sha }}
       - name: Execute source-specific probe and checker
+        id: replay_checks
         shell: bash
         env:
           CASE_DIR: ${{ matrix.case.dir }}
@@ -57,18 +58,43 @@ jobs:
           set -Eeuo pipefail
           mkdir -p "$RUNNER_TEMP/phase-i-evidence"
           E="$RUNNER_TEMP/phase-i-evidence"
+          test "$(git rev-parse HEAD)" = "$CASE_SHA"
           { echo "case_dir=$CASE_DIR"; echo "source_sha=$CASE_SHA"; echo "workflow_sha=$GITHUB_SHA"; uname -a; python3 --version; git rev-parse HEAD; } > "$E/environment.txt"
           sha256sum "$CASE_DIR/probe.py" "$CASE_DIR/check.py" > "$E/source-sha256.txt"
           timeout 180 python3 "$CASE_DIR/probe.py" > "$E/raw.json" 2> "$E/probe.stderr"
           timeout 120 python3 "$CASE_DIR/check.py" "$E/raw.json" > "$E/check.stdout" 2> "$E/check.stderr"
           cat "$E/check.stdout"
+      - name: Checkout current assurance classifier for case-scoped manifest
+        if: always()
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: assurance
+      - name: Write verified evidence manifest with actual execution status
+        if: always()
+        shell: bash
+        env:
+          REPLAY_OUTCOME: ${{ steps.replay_checks.outcome }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/phase-i-evidence"
+          mkdir -p "$E"
+          case "$REPLAY_OUTCOME" in
+            success) EXECUTION=PASS ;;
+            failure) EXECUTION=FAIL ;;
+            cancelled) EXECUTION=CANCELLED ;;
+            skipped) EXECUTION=NOT_RUN ;;
+            *) EXECUTION=ERROR ;;
+          esac
+          python3 assurance/docs/research/phase-i-assurance/evidence_contract.py "$E" --execution "$EXECUTION" > "$RUNNER_TEMP/phase-i-case-manifest.json"
+          cp "$RUNNER_TEMP/phase-i-case-manifest.json" "$E/manifest.json"
       - name: Retain independent replay evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: phase-i-${{ matrix.case.name }}-${{ github.run_id }}
           path: ${{ runner.temp }}/phase-i-evidence/
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 30
 
   evidence-contract:
