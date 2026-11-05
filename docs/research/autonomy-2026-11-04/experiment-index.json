@@ -9,7 +9,7 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 6
+    "workers_launched": 7
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
@@ -35,7 +35,8 @@
     "research/autonomy-20261104-sink-io-failure": "d4a780b275d1d2ef48cfc8a10f5350671a52fa7b",
     "research/autonomy-20261105-prefix-recovery": "4f8f3ff822de536e3c17250229f97e98ddab8272",
     "review/autonomy-20261105-prefix-recovery": "812bc0518c7ed94df0a0ca40a5718151780a62c7",
-    "research/autonomy-20261105-kernel-encoding": "d20a6e3f144443f49e958f5fce8d16909821a63d"
+    "research/autonomy-20261105-kernel-encoding": "d20a6e3f144443f49e958f5fce8d16909821a63d",
+    "review/autonomy-20261105-kernel-encoding": "614df5fb981ce9b03586f08e9d051e21946796b1"
   },
   "checkpoints": [
     {
@@ -69,6 +70,10 @@
     {
       "utc": "2026-11-05T00:43:34Z",
       "state": "Actual read-only command rejected: no usable execution environment. Control-plane pending/current, failure null. Shell work and interrupted encoding review cannot proceed;30 indexed records and completed evidence already published."
+    },
+    {
+      "utc": "2026-11-05T01:33:19Z",
+      "state": "Execution access restored and repository/checkpoints preserved. Full30-record index/digests validated locally; resumed encoding audit published. Next continuous F4 history removes prior raw-fixture-copy boundary. Usage remains unknown."
     }
   ],
   "experiments": [
@@ -1127,15 +1132,19 @@
           "sha256": "feeb109231c48c2b448855f294a75fee0da0c51bc28f25d8219f039262b593c4"
         }
       ],
-      "reviewers": [],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-kernel-encoding",
+          "sha": "614df5fb981ce9b03586f08e9d051e21946796b1",
+          "independence": "fresh-context same-family isolated worktree source/raw audit only, no SAT/simulation/synthesis rerun; conditional proof/resource interpretation corroborated"
+        }
+      ],
       "dependencies": [
         "Frozen legality: at most one active a0/a1/a2 rights mask",
         "c8f1c6fe8652bab748d384698fb471e8fb6698dc packet"
       ],
-      "blockers": [
-        "Review task interrupted during selected environment pending startup; no independent review result claimed"
-      ],
-      "next_discriminator": "Resume pinned independent encoding review after environment ready; do not optimize another encoding merely to manufacture improvement",
+      "blockers": [],
+      "next_discriminator": "Do not infer physical timing or optimize another candidate without a new hypothesis; return to continuous F4 history refinement",
       "supersedes": []
     }
   ],
@@ -1181,22 +1190,36 @@
       "event": "No usable execution environment is available. Wait for an environment to become available before using this tool.",
       "affected_action": "pwd in/workspace; no experiment executed",
       "disposition": "Confirmed execution-access platform boundary; no alternate host/model/paid fallback or restriction bypass. Completed data preserved through GitHub."
-    }
-  ],
-  "pending_reviews": [
+    },
     {
-      "task": "encoding_check",
-      "branch": "review/autonomy-20261105-kernel-encoding",
-      "pinned_source": "d20a6e3f144443f49e958f5fce8d16909821a63d",
-      "status": "interrupted",
-      "limits": "No completed verdict or verified publication available; resume only when selected environment ready"
+      "utc": "2026-11-05T01:33:19Z",
+      "source": "exec_command_and_environment_status",
+      "event": "pwd succeeds; environment running/current; repository worktrees preserved, temporary synthesis binaries absent",
+      "disposition": "Fetched GitHub coordinator commits and fast-forwarded clean local branch; full30-record validator passed; restored exact tool packages; resumed bounded review, cause of earlier outage remains unknown"
     }
   ],
+  "pending_reviews": [],
   "coordinator_tip_semantics": "Coordinator entry is the verified pre-publication parent snapshot; the live branch can be newer because this index is itself committed there.",
   "execution_blocker": {
-    "state": "blocked_environment",
+    "state": "resolved",
     "observed_utc": "2026-11-05T00:43:34Z",
     "evidence": "Actual pwd probe rejected: no usable execution environment; supported status pending/current with failure null",
-    "resume": "Wait for selected environment ready, fetch current coordinator API commits, rerun full index validator and resume encoding_check at d20a6e3f144443f49e958f5fce8d16909821a63d without new route"
-  }
+    "resume": "Wait for selected environment ready, fetch current coordinator API commits, rerun full index validator and resume encoding_check at d20a6e3f144443f49e958f5fce8d16909821a63d without new route",
+    "resolved_utc": "2026-11-05T01:33:19Z",
+    "resolution": "pwd succeeds; supported status running/current; worktrees preserved and full30-record local validator passes; temporary tools absent and restored at same hashes"
+  },
+  "review_attempts": [
+    {
+      "task": "encoding_check",
+      "status": "interrupted",
+      "reason": "selected environment unavailable; no committed review artifact"
+    },
+    {
+      "task": "encoding_review_resumed",
+      "status": "source_reviewed_only",
+      "branch": "review/autonomy-20261105-kernel-encoding",
+      "sha": "614df5fb981ce9b03586f08e9d051e21946796b1",
+      "limits": "fresh context in original isolated worktree; not independent proof execution or formal cross-family review"
+    }
+  ]
 }
