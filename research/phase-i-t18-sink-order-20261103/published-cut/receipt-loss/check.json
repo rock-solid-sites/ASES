@@ -1,0 +1,28 @@
+{
+  "cases": {
+    "lost": {
+      "observation": "actual witness update; lost response yields503/local committed, fresh check permits later access and current-file recovery",
+      "status": "SUPPORTED"
+    },
+    "positive": {
+      "observation": "actual witness update; validated reply yields201; later access/recovery positive",
+      "status": "SUPPORTED"
+    },
+    "rejected": {
+      "observation": "delivered publication rejection: old witness cut, retained local z, later/no-startup denial",
+      "status": "SUPPORTED"
+    }
+  },
+  "contradictory_revision": {
+    "reason": "actual successful z witness update absent",
+    "status": "VIOLATION"
+  },
+  "maximum_observed_child_concurrency": 2,
+  "missing_witness_evidence": {
+    "reason": "'witness_after_z'",
+    "status": "INCOMPLETE"
+  },
+  "owned_children": 11,
+  "qualification": "conditional trusted live witness and current root; no absent-effect inference from missing receipt, no divergence reconciliation or generic C7/F4 proof",
+  "source_hashes_verified": true
+}
