@@ -1,0 +1,30 @@
+{
+  "cases": {
+    "creator-first": {
+      "observation": "creator actual COMMIT/ACK first; ordinary guarded removal denies and exact candidate remains readable by management",
+      "status": "SUPPORTED"
+    },
+    "detached": {
+      "observation": "detached empty scan followed by actual creator ACK permits stale logical removal with live dependent; cold management refuses without discarding bytes",
+      "status": "SUPPORTED"
+    },
+    "guarded": {
+      "observation": "held common write transaction yields actual pre-file SQLITE_BUSY; empty removal succeeds, later same creator denies removed unit, cold tombstone unchanged",
+      "status": "SUPPORTED"
+    }
+  },
+  "controls": {
+    "contradictory_wire": {
+      "reason": "wire/parsed frame contradiction",
+      "status": "VIOLATION"
+    },
+    "missing_creator_observation": {
+      "reason": "'creator_attempt'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 2,
+  "owned_children": 8,
+  "qualification": "selected flat-root/cooperative creators/SQLite serialization; logical store policy, not native confinement/full T12/T15/L6/F3/F4 or power-loss guarantee",
+  "source_hashes_verified": true
+}
