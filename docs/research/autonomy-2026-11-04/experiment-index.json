@@ -81,7 +81,7 @@
     "research/autonomy-20261105-published-cut": "26db6db361be986cdd168045f510f5567ee9df53",
     "research/autonomy-20261105-published-cut-receipt-loss": "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9",
     "review/autonomy-20261105-published-cut-receipt": "ae5a45804ea555fdb19d50a03c114f94a33eabb6",
-    "research/autonomy-20261105-kernel-mapped": "d871eead1ead6c08a43cbea0a597549580226e2f"
+    "research/autonomy-20261105-kernel-mapped": "ea3f20cd13cf11e6b1105975b7b1988f481986ad"
   },
   "checkpoints": [
     {
@@ -199,6 +199,10 @@
     {
       "utc": "2026-11-05T06:58:12Z",
       "state": "Receipt-loss independent checkae5a458 and mapped-circuitd871eea integrated;54 records, all completed increments pushed. Next direct public-output temporal induction at fixed bound, no active workers."
+    },
+    {
+      "utc": "2026-11-05T07:04:39Z",
+      "state": "Direct reset inductionea3f20c pushed;55 records. Next inspect/freeze bounded actual durable dependency disposition, no active workers/known quota."
     }
   ],
   "experiments": [
@@ -2277,6 +2281,50 @@
       ],
       "blockers": [],
       "next_discriminator": "Direct public-output miter temporal induction with explicit initial reset, fixed small maxsteps, avoiding internal-equivalence initialization linkage; preserve timeout/inconclusive if encountered",
+      "supersedes": []
+    },
+    {
+      "id": "R2-KERNEL-PUBLIC-RESET-INDUCTION",
+      "stream": "Kernel-0",
+      "claim": "Direct public-output induction establishes retained original/compact mapped-circuit correspondence after sampled trusted reset without internal matching-point initialization assumptions",
+      "source_branch": "research/autonomy-20261105-kernel-mapped",
+      "source_sha": "ea3f20cd13cf11e6b1105975b7b1988f481986ad",
+      "implementation": "docs/research/kernel-0/mapped-20261105/public-induction/corrected_run.py",
+      "command": "timeout 100 python3 docs/research/kernel-0/mapped-20261105/public-induction/corrected_run.py && python3 docs/research/kernel-0/mapped-20261105/public-induction/audit.py",
+      "environment": {
+        "address_space_bytes": 536870912,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "status": "executed_observed",
+      "observed_result": "Initial2 proof attempts reject incompatible -prove-skip/-tempinduct before SAT, retained as harness failure. Fixed explicit assurance reset monitor: both actual base/temporal induction length1 pass, total3.562s, only initconstraint armed0/no product init assumptions. Arbitrary later inputs and arbitrary-length histories under two-state synchronous model. No-reset semantic counterexample retained. Missing proof INCOMPLETE/contradictory exit VIOLATION; no re-synthesis/control rerun.",
+      "limits": "Trusted shared Yosys/SAT/toolchain and initial synchronous reset premises. Does not independently prove original semantics, physical timing/analog/clock hazards, resetless start, machine power-loss/hardware-fault guarantees, other profiles, minimality or Kernel closure. Monitor is assurance scaffolding only.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/kernel-0/mapped-20261105/public-induction/result.json",
+          "sha256": "fcec85565cfe139bdbfe9be2f91b9c3688eb76561a182d658d5eabb43348728d"
+        },
+        {
+          "path": "docs/research/kernel-0/mapped-20261105/public-induction/corrected/result.json",
+          "sha256": "3f23a428421330170bcd4bdf2e65a9b8e803f3d28a48b8cde8f73d7e6e43cb17"
+        },
+        {
+          "path": "docs/research/kernel-0/mapped-20261105/public-induction/audit.json",
+          "sha256": "d42758c8e82e4a35f6b0a0c5cfe294893dd45f8ee21c52089bbcb7f75176e825"
+        },
+        {
+          "path": "docs/research/kernel-0/mapped-20261105/public-induction/evidence/no-reset-counterexample.json",
+          "sha256": "3f9bae270a8772262c94cc087b7efe710b75ff7d6d145ab6aececf098aab2d67"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-KERNEL-POST-ABC-CORRESPONDENCE"
+      ],
+      "blockers": [],
+      "next_discriminator": "Different governing obligation; bounded L6/T13/T23 durable unaccepted dependency disposition and interruption can proceed as policy/store tests while native enforcement remains blocked",
       "supersedes": []
     }
   ],
