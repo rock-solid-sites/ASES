@@ -68,7 +68,8 @@
     "research/autonomy-20261105-sink-writer-exclusion": "55aee5131141c82c9a6cd2e6418e02890a6291d8",
     "review/autonomy-20261105-sink-writer-exclusion": "81e57133dde74db1263d2e8be4a6e8dabbdeea55",
     "research/autonomy-20261105-authority-cut": "f1e8b73a1a7dfc607642940565c049ecc69a1183",
-    "research/autonomy-20261105-published-cut": "26db6db361be986cdd168045f510f5567ee9df53"
+    "research/autonomy-20261105-published-cut": "26db6db361be986cdd168045f510f5567ee9df53",
+    "research/autonomy-20261105-published-cut-receipt-loss": "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9"
   },
   "checkpoints": [
     {
@@ -178,6 +179,10 @@
     {
       "utc": "2026-11-05T06:46:52Z",
       "state": "Published-cut26db6db pushed;51 indexed records. Four cases and13 children/max2; next actual lost-publication response. No active workers, remaining usage unknown."
+    },
+    {
+      "utc": "2026-11-05T06:50:34Z",
+      "state": "Receipt-loss9226cd4 pushed;52 indexed records. Next one bounded fresh native source-first reviewer; no current active workers, usage unknown."
     }
   ],
   "experiments": [
@@ -2135,6 +2140,42 @@
       "blockers": [],
       "next_discriminator": "Successful witness publication with actual missing response versus rejection before update; inspect later actual current-file access/recovery without assuming missing receipt means absent publication",
       "supersedes": []
+    },
+    {
+      "id": "R2-PUBLISHED-CUT-RECEIPT-LOSS",
+      "stream": "cross-layer",
+      "claim": "A missing validated publication receipt does not imply absent witness update; fresh actual current-cut comparison distinguishes selected outcomes",
+      "source_branch": "research/autonomy-20261105-published-cut-receipt-loss",
+      "source_sha": "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9",
+      "implementation": "research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss/probe.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss/probe.py > /tmp/receipt.json && python3 research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss/check.py /tmp/receipt.json",
+      "environment": {
+        "address_space_bytes": 268435456,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "status": "executed_observed",
+      "observed_result": "Actual successful witness CAS then unsent reply/closed HTTP gives sink RemoteDisconnected and503/local committed. Fresh nonce/current-cut check permits later201 and same-file recovery/second cold retain prior/unACKed/later events. Rejection-before-update leaves old witness, later/startup deny unchanged. Ordinary201 positive; missing witness INCOMPLETE/contradictory revision VIOLATION.11 children/max2.",
+      "limits": "Trusted genesis/source/root/cooperative writer/live nonrolled witness premises. No actual witness restart/power loss, repair of genuinely divergent older witness, maximal availability or general C7/F4/F1 closure. Same503/local committed can hide different remote outcomes.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss/raw.json",
+          "sha256": "6426b0246213c994ac1a764d5746c3f5148e0df9cd8d04ab36b050d182211e0a"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss/check.json",
+          "sha256": "1049ea046bb1f8867ea29745422c3ce8bfc098df1b8723d48698654471362e4c"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-PUBLISHED-CUT-ACK-AND-STARTUP"
+      ],
+      "blockers": [],
+      "next_discriminator": "Independent source-first raw check of current-cut/reply-loss ordering and scope, then a different governing obligation rather than more field faults",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
@@ -2147,7 +2188,7 @@
     "F3 native confinement/real credential revocation, sole-holder premise beyond tested cooperative guards, concurrent-manager safety and L6/L7 remain open; previous Landlock ENOSYS is not retried.",
     "Formal cross-family F5 review absent; operational isolated native worker checks are same-family and scoped.",
     "Independent archive/long-term retention unestablished; remote-only cold snapshots including36 records/67 raw digests used same host/GitHub origin and do not execute every experiment on a clean machine.",
-    "Published-cut profile rejects controlled rollback/mutation and preserves publication-rejected local divergence, but actual lost publication response, divergence reconciliation, durable witness recovery and hostile-source/root trust remain open."
+    "Published-cut profile rejects controlled rollback/mutation and preserves publication-rejected local divergence, but divergence reconciliation, durable witness recovery and hostile-source/root trust remain open."
   ],
   "blocked_routes": [
     "Kernel-contract platform safety-filter investigation: do not retry",
