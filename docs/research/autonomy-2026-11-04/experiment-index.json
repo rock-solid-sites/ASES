@@ -50,7 +50,7 @@
     "research/autonomy-20261103-f1": "e035deca60e817a860889cbc69805f09ee32c685",
     "research/autonomy-20261103-f3-policy": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
     "research/autonomy-20261103-kernel": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
-    "research/autonomy-20261103-run": "33d12eaf494fd4de1d9dd6c94c9e76f47b5f7ae1",
+    "research/autonomy-20261103-run": "32b2a41ac80957ba145ad4f9a0d1b6eb07d68502",
     "review/autonomy-20261103-evidence": "c81ec439ea803d35a2a0edb3cf2317f048c03201",
     "review/autonomy-20261103-f1-bridge": "ccd2d524856943193d484e52159481da3f00fdd5",
     "review/autonomy-20261103-f1-check": "74d6e2c59630b37b34d48fa4a65c8d2f2859758d",
@@ -221,6 +221,10 @@
     {
       "utc": "2026-11-05T07:19:40Z",
       "state": "L6 parent independent check6d20333 and actual phantom0f348fd integrated;58 records. All workers done, next remote restoration of expanded artifacts."
+    },
+    {
+      "utc": "2026-11-05T07:23:35Z",
+      "state": "Remote-only58-record/126-artifact restoration32b2a41 indexed;59 records. Next selected actual L5 move publication cuts, all workers done/usage unknown."
     }
   ],
   "experiments": [
@@ -2464,6 +2468,33 @@
       ],
       "blockers": [],
       "next_discriminator": "Remote-only restoration of expanded index/source/raw/netlist pins after new branches, then a different unfinished boundary; avoid more identical SQL schedules",
+      "supersedes": []
+    },
+    {
+      "id": "R2-REMOTE-COLD-RESTORE-58",
+      "stream": "evidence-durability",
+      "claim": "Expanded58-record snapshot implementation/raw pins are restorable from current GitHub branches without local Git object borrowing",
+      "source_branch": "research/autonomy-20261103-run",
+      "source_sha": "32b2a41ac80957ba145ad4f9a0d1b6eb07d68502",
+      "implementation": "docs/research/autonomy-2026-11-04/cold_restore.py",
+      "command": "python3 docs/research/autonomy-2026-11-04/cold_restore.py",
+      "environment": {
+        "remote": "https://github.com/rock-solid-sites/ASES.git",
+        "host": "same managed coordinator host; fresh temporary remote-only clone"
+      },
+      "status": "executed_observed",
+      "observed_result": "Fresh remote-only clone at coordinator0fc91fe, explicit remote branch fetches restore58 implementation pins and126 raw digests; dependency-free validator passes. Tampered raw digest rejected. Actual9.5183s; no experiment behavior rerun.",
+      "limits": "Same host/remote origin, no independent archive, clean-machine execution, long-term retention or witness-data durability proof. Snapshot excludes its later self-record and future increments.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/autonomy-2026-11-04/cold-restoration-58.raw.json",
+          "sha256": "d79eaf3abdf482583793ec6fb59a8aefcde05699da25f3ee8bb347885a1d7c40"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [],
+      "blockers": [],
+      "next_discriminator": "New actual L5 move publication interruption boundaries: same-ref original record/selector replacement gates, current-file cold old/new whole relation and weakened split-publication control; no native host inference",
       "supersedes": []
     }
   ],
