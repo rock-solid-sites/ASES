@@ -57,6 +57,14 @@ def serve(config):
             elif existing[0]!=record:
                 raise ValueError('conflicting accepted consumer observation binding')
     c11.persistent.Store=Store
+    original_boundary=c11.persistent.Boundary
+    class Boundary(original_boundary):
+        def propose(self,current,context,proposal):
+            candidate=super().propose(current,context,proposal)
+            if observations is None and candidate is not None and candidate.content!=current.content:
+                return None  # Retained evidence is not new acceptance input.
+            return candidate
+    c11.persistent.Boundary=Boundary
     enrich(profile)
     c11.serve(config)
 
