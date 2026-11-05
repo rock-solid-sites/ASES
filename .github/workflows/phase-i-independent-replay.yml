@@ -318,6 +318,15 @@ jobs:
           E="$RUNNER_TEMP/concrete-projection"
           python3 assurance/docs/research/phase-i-assurance/concrete_projection.py --case "$CASE_NAME" --raw "$E/raw.json" > "$E/projected.json" 2> "$E/projected.stderr"
           cat "$E/projected.json"
+      - name: Reconstruct transition histories and reject six invalid-history controls
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/concrete-projection"
+          python3 assurance/docs/research/phase-i-assurance/trace_refinement.py --case "$CASE_NAME" --raw "$E/raw.json" > "$E/refinement.json" 2> "$E/refinement.stderr"
+          cat "$E/refinement.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
