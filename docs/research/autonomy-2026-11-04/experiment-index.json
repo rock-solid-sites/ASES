@@ -28,7 +28,7 @@
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
-    "research/autonomy-20261103-f1": "fffdb281ba062187f8df5c83fba6fb42ae97ef61",
+    "research/autonomy-20261103-f1": "e035deca60e817a860889cbc69805f09ee32c685",
     "research/autonomy-20261103-f3-policy": "cc7574fc057755863fd0f0bab227e77e535d0eaf",
     "research/autonomy-20261103-kernel": "50e5bc151b3d08ed84df55bc452f8766afa2090e",
     "research/autonomy-20261103-run": "33d12eaf494fd4de1d9dd6c94c9e76f47b5f7ae1",
@@ -59,7 +59,8 @@
     "review/autonomy-20261105-sink-witness": "a158bb957cfc6b11980b773980353e61db7839cd",
     "research/autonomy-20261105-f1-consumer-evidence": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
     "research/autonomy-20261105-c11-history": "9aaf60a029406d95e730aa5201b0e276d43cb7cf",
-    "review/autonomy-20261105-f1-consumer": "652430469f7d06cf0f43a452c7d4d99b5fe81a76"
+    "review/autonomy-20261105-f1-consumer": "652430469f7d06cf0f43a452c7d4d99b5fe81a76",
+    "review/autonomy-20261105-latent-diagnostic": "fb0745bf1da636b6553ca06b657cec3ce6eb3662"
   },
   "checkpoints": [
     {
@@ -141,6 +142,10 @@
     {
       "utc": "2026-11-05T05:13:41Z",
       "state": "F1 first-context9bee206 completes in7.22s; named Obs collisionfffdb28 pushed.43 indexed records. Next phase-checkpoint original full40s/1GiB review route, no changes/optimization and no full acceptance assumption."
+    },
+    {
+      "utc": "2026-11-05T05:24:47Z",
+      "state": "Full-driver79cf4a2 identifies all-context timeout with227533 seen; C8 e035dec trace/independent reviewfb0745b.45 records. Next C11 absent entire acceptance tuple in recovered runtime;11 workers historical/all done, quota unknown."
     }
   ],
   "experiments": [
@@ -1770,6 +1775,84 @@
         "R2-F1-FIRST-CONTEXT-COMPLETE"
       ],
       "next_discriminator": "Original full-driver phase telemetry; preserve already-recorded context-inapplicable semantic-helper caveat from Nov3 independent review"
+    },
+    {
+      "stream": "F1",
+      "source_branch": "research/autonomy-20261103-f1",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "original finite model and predicates",
+          "bounded Python diagnostic"
+        ]
+      },
+      "blockers": [],
+      "supersedes": [],
+      "id": "R2-F1-FULL-DRIVER-PHASES",
+      "claim": "Locate original full-driver40s timeout limiting phase under matched1GiB profile without changing model/function results",
+      "source_sha": "79cf4a20527007bc0a62706f6fb9229602b3eec9",
+      "implementation": "docs/research/phase-i-f1/round2_full_driver_checkpoint.py",
+      "command": "python3 docs/research/phase-i-f1/round2_full_driver_checkpoint.py",
+      "status": "timed_out_inconclusive",
+      "observed_result": "Four BFS contexts complete:18208/24/684/120 states, zero invariant violations. Original semantic/observation outputs retained. At39s broad all context seen227533/queued158039/commits872333; parent40s kill/reap, no end report. Actual wall40.0162s/CPU40.0095s/peakRSS620016KiB.",
+      "limits": "No broad completion/other later contexts/witness/attack/final acceptance. Telemetry overhead unquantified,1GiB virtual limit distinct from RSS. Known context-inapplicable helper caveat predates run; do not suppress all failures or equate0 invariant violations to full pass. Abstract, no host/physical evidence.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-full-driver.raw.json",
+          "sha256": "21190debddf312c63d88700a12292fb9d1cd9c84e2867e08772910ab83fca048"
+        },
+        {
+          "path": "docs/research/phase-i-f1/round2-full-driver.check.json",
+          "sha256": "58164708cbe8b99ccfac73c84eb41fc3ef55f3dd07507f9563aa7f05ceb4fb15"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-F1-FIRST-CONTEXT-COMPLETE"
+      ],
+      "next_discriminator": "Interpret concrete latent helper failure with named descendant/relocation control; no repeated full-budget doubling solely for counts"
+    },
+    {
+      "stream": "F1",
+      "source_branch": "research/autonomy-20261103-f1",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "original finite model and predicates",
+          "bounded Python diagnostic"
+        ]
+      },
+      "blockers": [],
+      "supersedes": [],
+      "id": "R2-F1-C8-LATENT-DIAGNOSTIC",
+      "claim": "Discriminate stored-local latent predicate failure from tested effective-path C8 descendant/relocation widening",
+      "source_sha": "e035deca60e817a860889cbc69805f09ee32c685",
+      "implementation": "docs/research/phase-i-f1/round2_latent_diagnostic.py",
+      "command": "python3 docs/research/phase-i-f1/round2_latent_diagnostic.py",
+      "status": "independently_reproduced",
+      "observed_result": "Reference reachable prefix has D localRW/effectiveR, helper false; subsequent descendant/relocation RW attempts deny, reads commit. Weak latent retention helper passes but both tested writes commit. Unrestricted write positive passes. Guard/oracle/resolve agree; independent bounded requirement/source review and one rerun corroborate trace distinction.",
+      "limits": "Specific trace, not universal C8 conformance or proof every stored-local normalization mandate absent. No model/canonical checker repair. Separate source-restated oracle plus shared implementation, operational fresh same-family review not formal cross-family proof. No host/power-loss/minimal schema/F1 closure.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/round2-latent-diagnostic.raw.json",
+          "sha256": "165c8b684edf2722736d6b79f71b91083ff0db00d9f832d1aabc8bac91ad3cf0"
+        },
+        {
+          "path": "docs/research/phase-i-f1/round2-latent-diagnostic.check.json",
+          "sha256": "39268f5d57a31bd7f248b5c1e8b33cff0cba9b0cc9388fbaf0460746a3a24a4c"
+        }
+      ],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-latent-diagnostic",
+          "sha": "fb0745bf1da636b6553ca06b657cec3ce6eb3662",
+          "independence": "Fresh native Terra/high precreated isolated worktree ate035dec, explicit allowed source/requirements files and provisional verdict before producer writeups; one tiny script rerun. Operational independence only, same family/shared test/model, no cross-family proof."
+        }
+      ],
+      "dependencies": [
+        "R2-F1-FULL-DRIVER-PHASES"
+      ],
+      "next_discriminator": "C11 recovery with unavailable acceptance tuple: actual new content admission after valid read-only recovery, not another field-type example"
     }
   ],
   "unfinished_work": [
