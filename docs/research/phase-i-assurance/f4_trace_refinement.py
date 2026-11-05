@@ -90,7 +90,7 @@ def validate_steps(original, failures_allowed=True):
                            else "operation_refused", "event_seq": rows[-1]["seq"]})
         # For an effect ACK, independently check the exact appended request identity/payload.
         if status == 201:
-            expected = step["request"]
+            expected = step["body"]
             need(rows[-1]["event"] == "effect_accepted" and
                  rows[-1]["request_id"] == expected["request_id"] and
                  rows[-1]["payload"] == expected["payload"],
