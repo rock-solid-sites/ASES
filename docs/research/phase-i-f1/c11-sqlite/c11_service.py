@@ -33,10 +33,13 @@ def query(db):
     if row is None:
         return dict(status='not_accepted' if content is None else 'missing_required_observations',accepted_content=content,required=None)
     record=json.loads(row[0],object_pairs_hook=core.unique_object)
-    if (set(record)!= {'accepted_content','required'} or record['accepted_content']!=content
+    if (set(record)!= {'accepted_content','required'} or not isinstance(record['accepted_content'],str)
             or not isinstance(record['required'],dict) or set(record['required'])!=set(FIELDS)
             or not all(isinstance(record['required'][key],str) for key in FIELDS)):
         raise ValueError('incompatible accepted observation record')
+    if record['accepted_content']!=content:
+        return dict(status='incompatible_required_observations',accepted_content=content,required=None,
+                    stored_content=record['accepted_content'])
     return dict(status='available',**record)
 
 def serve(config):

@@ -23,6 +23,7 @@ import kernel0_finite_model as model
 HERE=Path(__file__).resolve().parent;SOURCE=HERE/'c11_service.py'
 WORLDS={name:dict(identity_genesis='genesis-'+name,created_by='creator-'+name,project='project-'+name,
                   consumer_evidence='accepted evidence '+name+' / μ') for name in ('A','B')}
+BOOTSTRAP={key:'bootstrap-'+key for key in service.FIELDS}
 
 class Holder:
     def __init__(self,path,label,mode='atomic',observations=None,context=0,stage=None):
@@ -76,12 +77,12 @@ def one(root,name,world,mode,stage):
     with sqlite3.connect(path,isolation_level=None) as db:
         db.execute('PRAGMA synchronous=FULL')
         db.execute('CREATE TABLE consumer_observations(id INTEGER PRIMARY KEY CHECK(id=1),record TEXT NOT NULL)')
-    bootstrap=Holder(path,'bootstrap',context=-1)
+    bootstrap=Holder(path,'bootstrap',observations=BOOTSTRAP,context=-1)
     try:
         setup=[bootstrap.call(inherited.wire(q)) for q in (model.Request('establish'),model.Request('grant',target=0,value=7))]
     finally:bootstrap_exit=bootstrap.close()
     writer=Holder(path,'writer',mode,WORLDS[world],stage=stage)
-    request=inherited.wire(model.Request('accept',0,value=0))
+    request=inherited.wire(model.Request('accept',0,value=1))
     if stage:
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
             future=executor.submit(writer.call,request)

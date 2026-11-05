@@ -40,20 +40,24 @@ def case(value):
         expect(len(update)==1 and update[0]['in_transaction'] is True,'actual protected-content UPDATE missing')
         if stage=='prepared':
             expect(not commits and len(insert)==1 and insert[0]['in_transaction'] is True,'prepared transaction evidence')
-            expect(query['status']=='not_accepted' and query['accepted_content'] is None and query['required'] is None,'uncommitted data survived as accepted')
-            expect(raw['observation_utf8_hex'] is None,'uncommitted metadata retained')
-            return dict(status='SUPPORTED',observation='pre-COMMIT both accepted content and observations absent')
-        expect(commits and commits[0]['in_transaction'] is False and raw['view']['content']==query['accepted_content']=='zero',
+            prior=value['bootstrap']['calls'][-1]['response']
+            expect(query==prior['consumer_query'] and raw['view']==prior['state'],'pre-COMMIT prior ACKed pair changed')
+            expect(raw['observation_utf8_hex'] is not None,'prior accepted observations disappeared')
+            return dict(status='SUPPORTED',observation='pre-COMMIT prior ACKed content and observation pair retained')
+        expect(commits and commits[0]['in_transaction'] is False and raw['view']['content']==query['accepted_content']==accept['request']['value'],
                'actual locally committed protected content not recovered')
         if value['mode']=='split' and stage=='durable':
             expect(not insert and len(commits)==1,'split gap already wrote observations')
-            expect(query['status']=='missing_required_observations' and query['required'] is None and raw['observation_utf8_hex'] is None,
+            expect(query['status']=='incompatible_required_observations' and query['required'] is None and raw['observation_utf8_hex'] is not None,
                    'split gap did not expose metadata loss')
-            return dict(status='COUNTEREXAMPLE',observation='content COMMIT survived, required observations absent, caller no ACK')
+            prior=value['bootstrap']['calls'][-1]['response']['consumer_query']
+            stored=json.loads(bytes.fromhex(raw['observation_utf8_hex']))
+            expect(stored=={'accepted_content':prior['accepted_content'],'required':prior['required']},'split gap does not retain exact prior observations')
+            return dict(status='COUNTEREXAMPLE',observation='new content COMMIT survived with incompatible prior evidence; new required observations missing, no ACK')
         expect(query['status']=='available' and query['required']==value['declared_original_observations'],'required accepted observations not retained')
         record=bytes.fromhex(raw['observation_utf8_hex'])
         expect(hashlib.sha256(record).hexdigest()==raw['observation_sha256'],'accepted observation raw digest')
-        expect(json.loads(record)=={'accepted_content':'zero','required':value['declared_original_observations']},'raw accepted bundle differs')
+        expect(json.loads(record)=={'accepted_content':accept['request']['value'],'required':value['declared_original_observations']},'raw accepted bundle differs')
         expect(len(insert)==1 and insert[0]['in_transaction'] is True,'accepted observation insert missing')
         if value['mode']=='atomic':expect(insert[0]['end_ns']<commits[0]['start_ns'] and len(commits)==1,'observations not in original transaction')
         else:expect(commits[0]['end_ns']<insert[0]['start_ns']<commits[1]['start_ns'],'separate-commit positive order')
