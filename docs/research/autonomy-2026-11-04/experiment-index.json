@@ -63,7 +63,9 @@
     "review/autonomy-20261105-latent-diagnostic": "fb0745bf1da636b6553ca06b657cec3ce6eb3662",
     "research/autonomy-20261105-resource-occupancy": "ce7515ba42387c411f5e81969a64ff9789ebea0c",
     "research/autonomy-20261105-resource-commit": "ff4ea8ba87f3d88008c30a5a3943e4223f05ab45",
-    "review/autonomy-20261105-resource-occupancy": "10bd899ce6041eaf16e42a6ecfaa0b0bc9b75b86"
+    "review/autonomy-20261105-resource-occupancy": "10bd899ce6041eaf16e42a6ecfaa0b0bc9b75b86",
+    "research/autonomy-20261105-sink-writer-exclusion": "55aee5131141c82c9a6cd2e6418e02890a6291d8",
+    "review/autonomy-20261105-sink-writer-exclusion": "81e57133dde74db1263d2e8be4a6e8dabbdeea55"
   },
   "checkpoints": [
     {
@@ -161,6 +163,10 @@
     {
       "utc": "2026-11-05T05:56:25Z",
       "state": "Native prepared/COMMIT failure extension pushed; parent independent review10bd899 integrated.48 indexed entries,12 workers historical/all completed. No allowance error, quota unknown. Next choose consequential new obligation, preserve reserve."
+    },
+    {
+      "utc": "2026-11-05T06:11:05Z",
+      "state": "Sink writer55aee51 + isolated check81e57133 pushed/integrated;49 records.13 historical workers/all done; no quota/concurrency error. Next authority-current vs whole accepted-cut discriminator with actual live witness."
     }
   ],
   "experiments": [
@@ -2002,6 +2008,48 @@
       ],
       "blockers": [],
       "next_discriminator": "Choose actual preparation/visibility contract or another consequential open obligation; no blanket failure-atomicity claim from ACK order",
+      "supersedes": []
+    },
+    {
+      "id": "R2-SINK-WRITER-EXCLUSION",
+      "stream": "cross-layer",
+      "claim": "Fresh journal existence check does not realize one-writer premise; selected stable-inode cooperative guard before validation supports actual same-journal recovery",
+      "source_branch": "research/autonomy-20261105-sink-writer-exclusion",
+      "source_sha": "55aee5131141c82c9a6cd2e6418e02890a6291d8",
+      "implementation": "research/phase-i-t18-sink-order-20261103/writer-exclusion/probe.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/writer-exclusion/probe.py > /tmp/sink-writers.json && python3 research/phase-i-t18-sink-order-20261103/writer-exclusion/check.py /tmp/sink-writers.json",
+      "environment": {
+        "address_space_bytes": 268435456,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "status": "independently_reproduced",
+      "observed_result": "Original two sinks both ready before same-journal append: two actual201/seq1, separate live views, strict cold refusal with bytes preserved. Guard excludes second pre-append startup; actual owner kill, fresh existing refusal, explicit recovery/new seq2/second cold retain both ACKs. Nonparticipating writer bypasses advisory guard; distinct roots independent.15 owned children/max2. Isolated source prediction/one rerun/independent audit confirms.",
+      "limits": "Cooperative all-writer/stable-inode/trusted-root profile only, no host confinement/root authentication/real credentials/power loss/generic F4/F1 closure. Journal lacks writer PID/root identity; caller/process/port metadata supplies selected attribution. Initial worktree stale tracking ref was corrected by explicit fetch+research-only merge of currentbacf8f7 before code/behavior, no reset/force/main merge.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/writer-exclusion/raw.json",
+          "sha256": "e423f5302f7db69696c7aac39ab19d600b6f43ed9c1f3e8e996ab27d4ae8acea"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/writer-exclusion/check.json",
+          "sha256": "aa2a083df1a8d7c7b90351e4a4c011825055e2114c8b492ed7fc6c5c47c887b3"
+        }
+      ],
+      "reviewers": [
+        {
+          "branch": "review/autonomy-20261105-sink-writer-exclusion",
+          "sha": "81e57133dde74db1263d2e8be4a6e8dabbdeea55",
+          "independence": "Fresh native Luna/high precreated worktree at55aee51; source-prediction.md before producer writeups, one primary run plus separately authored read-only audit. Operational same-family/shared implementation only, no cross-family proof."
+        }
+      ],
+      "dependencies": [
+        "R2-CONTINUOUS-PREFIX-HISTORY"
+      ],
+      "blockers": [],
+      "next_discriminator": "Genuinely current live authority eligibility versus stale accepted-content/obligation cut: same authority does not imply current whole journal",
       "supersedes": []
     }
   ],
