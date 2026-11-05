@@ -312,20 +312,20 @@ The incoming task should already establish: chosen controller and execution host
 
 ## 11. Windows PC → IT3812: shortest safe agent entry (documentation update, 2026-11-05)
 
-**Use when the controller actually runs on the user's Windows PC and the work should run on the VPS.** The existing Windows OpenSSH client profile/alias is \`it3812\` (client-local, not DNS); the target login was \`claude-code\`. **The older October route referenced Tailscale. Network routing may have changed since then.** This addendum has **not** verified a live November 5 connection, and the October IP/port and provider credentials should not be treated as today's fixed routing truth. Read the current local SSH profile instead of embedding a historical address in a new agent prompt.
+**Use when the controller actually runs on the user's Windows PC and the work should run on the VPS.** The existing Windows OpenSSH client profile/alias is `it3812` (client-local, not DNS); the target login was `claude-code`. **The older October route referenced Tailscale. Network routing may have changed since then.** This addendum has **not** verified a live November 5 connection, and the October IP/port and provider credentials should not be treated as today's fixed routing truth. Read the current local SSH profile instead of embedding a historical address in a new agent prompt.
 
 ### First connect (PowerShell on the PC)
 
-\`\`\`powershell
+```powershell
 # Inspect local configuration without exposing key material.
 ssh -G it3812 | Select-String '^(hostname|port|user|identityfile) '
 # One bounded, harmless remote identity check.
 ssh -o ConnectTimeout=8 it3812 'hostname; id -un; pwd'
-\`\`\`
+```
 
-The success condition is the expected Ubuntu VPS and authorized user, not merely exit code zero. If the alias resolves to a retired Tailscale address or the observed host is unexpected, stop and inspect the user's current OpenSSH config/runbook; **do not silently guess a new IP, disable host-key checking, copy secrets, provision a new tunnel, or replace the user's access path**. A normal \`ssh it3812\` may be required if the configured route uses an interactive security key or approved authentication prompt.
+The success condition is the expected Ubuntu VPS and authorized user, not merely exit code zero. If the alias resolves to a retired Tailscale address or the observed host is unexpected, stop and inspect the user's current OpenSSH config/runbook; **do not silently guess a new IP, disable host-key checking, copy secrets, provision a new tunnel, or replace the user's access path**. A normal `ssh it3812` may be required if the configured route uses an interactive security key or approved authentication prompt.
 
-Once connected, perform work **in-place on the VPS**. Do not SSH back into the VPS from its own shell. Do not re-run discovery or repeatedly authenticate per subtask. Keep a persistent session where appropriate and use existing repo/worktrees; verify \`git status\` and worktree occupancy before changes. To run a small remote command from the PC, use one SSH invocation. For multi-line scripts susceptible to Windows PowerShell 5.1 quoting and variable expansion, use the already documented base64 file transfer under section 2, **for non-secret scripts only**; pass large prompts as ordinary local/remote files, not giant command-line literals. The base64 route is not encrypted storage and provides no authorization by itself.
+Once connected, perform work **in-place on the VPS**. Do not SSH back into the VPS from its own shell. Do not re-run discovery or repeatedly authenticate per subtask. Keep a persistent session where appropriate and use existing repo/worktrees; verify `git status` and worktree occupancy before changes. To run a small remote command from the PC, use one SSH invocation. For multi-line scripts susceptible to Windows PowerShell 5.1 quoting and variable expansion, use the already documented base64 file transfer under section 2, **for non-secret scripts only**; pass large prompts as ordinary local/remote files, not giant command-line literals. The base64 route is not encrypted storage and provides no authorization by itself.
 
 ### Codex Desktop, OpenCode Desktop, and already-running agents
 
@@ -337,10 +337,10 @@ A desktop agent can use the Windows alias **only if its shell executes on that W
 
 | Observation | Next action |
 | --- | --- |
-| \`ssh -G it3812\` cannot resolve an alias | Inspect current PC \`~/.ssh/config\`; the alias is a local profile, not global DNS |
+| `ssh -G it3812` cannot resolve an alias | Inspect current PC `~/.ssh/config`; the alias is a local profile, not global DNS |
 | Alias resolves but TCP/SSH fails | Confirm whether its configured hostname is current; distinguish retired Tailscale route from direct public SSH. Preserve existing host-key trust |
-| Login succeeds but \`hostname\`/\`id -un\` disagree | Stop; verify host/account before running task scripts |
+| Login succeeds but `hostname`/`id -un` disagree | Stop; verify host/account before running task scripts |
 | Remote task runs but shell reports launcher missing | Use VPS-local paths from section 3 after a single check; do not install or restart unrelated applications |
-| Prompt has complex quotes, \`$()\`, backticks or Bash heredocs | Put a non-secret script in a file and send as base64 per section 2, rather than endlessly escaping PowerShell |
+| Prompt has complex quotes, `$()`, backticks or Bash heredocs | Put a non-secret script in a file and send as base64 per section 2, rather than endlessly escaping PowerShell |
 
 **Validation status:** instructions and route classification updated from canonical October evidence and operator-reported changes; **PC→VPS live SSH not executed in this documentation update**. A later successful PC canary should record the date, observed target identity, whether the active alias used direct SSH or another existing route, and any revised launcher paths without disclosing network secrets or key material.
