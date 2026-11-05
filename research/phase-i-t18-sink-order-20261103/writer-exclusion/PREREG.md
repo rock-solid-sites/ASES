@@ -36,3 +36,9 @@ journal and actual power loss/storage/authority rollback. No whole F2/F4/F1 comp
 root authentication, uncooperative-writer exclusion or physical power-loss claim. Next
 consequential discriminator depends on observed failure; do not promote flock into F3
 native confinement or repeat forbidden/unavailable Kernel/Landlock routes.
+
+Source-selection correction before any implementation/execution: initial fetch updated
+FETCH_HEAD tobacf8f7 but left explicit remote-tracking ref at4f8f3ff; continuation was
+mistakenly created from that stale ref. Ref explicitly refreshed and currentbacf8f7
+integrated by research-only merge preserving both published histories before tests.
+No reset/rebase/force-push, no main/canonical merge, no behavioral run on old source.
