@@ -1,0 +1,640 @@
+{
+  "cases": {
+    "healthy": {
+      "acknowledged_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "cold": {
+        "readiness": {
+          "port": 46077,
+          "ready": true
+        },
+        "ready": true,
+        "status": {
+          "authority_version": 1,
+          "effects": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-fault-once-\u03c0",
+              "presented_version": 1,
+              "request_id": "fault-once",
+              "seq": 2
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-after-failure-\u03c0",
+              "presented_version": 1,
+              "request_id": "after-failure",
+              "seq": 3
+            }
+          ],
+          "events": [
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-ack-before-\u03c0",
+              "presented_version": 1,
+              "request_id": "ack-before",
+              "seq": 1
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-fault-once-\u03c0",
+              "presented_version": 1,
+              "request_id": "fault-once",
+              "seq": 2
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "sink-ordered",
+              "event": "effect_accepted",
+              "payload": "journal-after-failure-\u03c0",
+              "presented_version": 1,
+              "request_id": "after-failure",
+              "seq": 3
+            }
+          ],
+          "waiting": 0
+        }
+      },
+      "fault": {
+        "completion_monotonic_ns": 3685332211746,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "journal-fault-once-\u03c0",
+            "request_id": "fault-once"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3685330957463
+      },
+      "first": {
+        "completion_monotonic_ns": 3685330919586,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "journal-ack-before-\u03c0",
+            "request_id": "ack-before"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3685320912251
+      },
+      "io_trace": [
+        {
+          "requested": 190,
+          "returned": 190,
+          "stage": "write_returned"
+        },
+        {
+          "stage": "sync_returned"
+        },
+        {
+          "requested": 190,
+          "returned": 190,
+          "stage": "write_returned"
+        },
+        {
+          "stage": "sync_returned"
+        },
+        {
+          "requested": 196,
+          "returned": 196,
+          "stage": "write_returned"
+        },
+        {
+          "stage": "sync_returned"
+        }
+      ],
+      "journal_after_fault": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a",
+        "sha256": "b08c484d2e9f7b6c7b38069c83943203608d026e12b88f8a5a53bc919382034f"
+      },
+      "journal_after_later": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61667465722d6661696c7572652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261667465722d6661696c757265222c2022736571223a20337d0a",
+        "sha256": "96b4b82df55e943bfd5a13c03013a7569d0192f57a794b3d5bf05c968269d76b"
+      },
+      "later": {
+        "completion_monotonic_ns": 3685334082053,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "journal-after-failure-\u03c0",
+            "request_id": "after-failure"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 3,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3685333198162
+      },
+      "shim_source_sha256": "fa569ba3d91eb2259b5217438d83ca9f34d6bf7d2294b81c27a981b09f334726",
+      "sink_exit": -9,
+      "sink_stderr": "",
+      "sink_stdout": "",
+      "status_after_fault": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-fault-once-\u03c0",
+            "presented_version": 1,
+            "request_id": "fault-once",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-fault-once-\u03c0",
+            "presented_version": 1,
+            "request_id": "fault-once",
+            "seq": 2
+          }
+        ],
+        "waiting": 0
+      },
+      "status_after_later": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-fault-once-\u03c0",
+            "presented_version": 1,
+            "request_id": "fault-once",
+            "seq": 2
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-after-failure-\u03c0",
+            "presented_version": 1,
+            "request_id": "after-failure",
+            "seq": 3
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-fault-once-\u03c0",
+            "presented_version": 1,
+            "request_id": "fault-once",
+            "seq": 2
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-after-failure-\u03c0",
+            "presented_version": 1,
+            "request_id": "after-failure",
+            "seq": 3
+          }
+        ],
+        "waiting": 0
+      }
+    },
+    "partial": {
+      "acknowledged_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "cold": {
+        "exit": 1,
+        "ready": false,
+        "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 63, in recover_ordered\n    event = json.loads(line, object_pairs_hook=unique)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py\", line 359, in loads\n    return cls(**kw).decode(s)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 338, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py\", line 354, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ^^^^^^^^^^^^^^^^^^^^^^\njson.decoder.JSONDecodeError: Expecting ':' delimiter: line 1 column 98 (char 97)\n",
+        "stdout": ""
+      },
+      "fault": {
+        "error": "RemoteDisconnected: Remote end closed connection without response",
+        "request": {
+          "authority_version": 1,
+          "payload": "journal-fault-once-\u03c0",
+          "request_id": "fault-once"
+        },
+        "response": null
+      },
+      "first": {
+        "completion_monotonic_ns": 3685474458338,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "journal-ack-before-\u03c0",
+            "request_id": "ack-before"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3685473244745
+      },
+      "io_trace": [
+        {
+          "requested": 190,
+          "returned": 190,
+          "stage": "write_returned"
+        },
+        {
+          "stage": "sync_returned"
+        },
+        {
+          "requested": 190,
+          "returned": 95,
+          "stage": "partial_write_then_exception"
+        },
+        {
+          "requested": 196,
+          "returned": 196,
+          "stage": "write_returned"
+        },
+        {
+          "stage": "sync_returned"
+        }
+      ],
+      "journal_after_fault": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f61",
+        "sha256": "795aeef5264e56db3a4c2f1eff81331873ec418c1280cfda529dbf90cade1c8e"
+      },
+      "journal_after_later": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f617b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61667465722d6661696c7572652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261667465722d6661696c757265222c2022736571223a20327d0a",
+        "sha256": "404b416f1bff6bde5b62717880146f87bed3d87b2f87584793ccdf5e74ed3ee2"
+      },
+      "later": {
+        "completion_monotonic_ns": 3685482248788,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "journal-after-failure-\u03c0",
+            "request_id": "after-failure"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3685481070767
+      },
+      "shim_source_sha256": "04b5f3c67a8b0fee83c9f385b4f477755fccc15721df104b6acafda403c5c395",
+      "sink_exit": -9,
+      "sink_stderr": "----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 48164)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-sink-io-wk81t15l/partial/shim_sink.py\", line 265, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-sink-io-wk81t15l/partial/shim_sink.py\", line 145, in emit_locked\n    written = _io_write(fd, payload[offset:])\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-sink-io-wk81t15l/partial/shim_sink.py\", line 34, in _io_write\n    raise OSError(5, 'injected exception after partial append')\nOSError: [Errno 5] injected exception after partial append\n----------------------------------------\n",
+      "sink_stdout": "",
+      "status_after_fault": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "waiting": 0
+      },
+      "status_after_later": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-after-failure-\u03c0",
+            "presented_version": 1,
+            "request_id": "after-failure",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-after-failure-\u03c0",
+            "presented_version": 1,
+            "request_id": "after-failure",
+            "seq": 2
+          }
+        ],
+        "waiting": 0
+      }
+    },
+    "sync": {
+      "acknowledged_journal": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a",
+        "sha256": "30f21a4b0fb730bd26151cbb4ee63f85dda3491e2cb3867eca9e84193766350a"
+      },
+      "cold": {
+        "exit": 1,
+        "ready": false,
+        "stderr": "Traceback (most recent call last):\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 804, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 790, in main\n    return serve(args.server[0], Path(args.server[1]))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 352, in serve\n    state = SinkState(mode, journal)\n            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 39, in __init__\n    self.recover_ordered()\n  File \"/workspace/ases-sink-io/research/phase-i-t18-sink-order-20261103/run.py\", line 66, in recover_ordered\n    raise ValueError(\"invalid durable sequence\")\nValueError: invalid durable sequence\n",
+        "stdout": ""
+      },
+      "fault": {
+        "error": "RemoteDisconnected: Remote end closed connection without response",
+        "request": {
+          "authority_version": 1,
+          "payload": "journal-fault-once-\u03c0",
+          "request_id": "fault-once"
+        },
+        "response": null
+      },
+      "first": {
+        "completion_monotonic_ns": 3685623875434,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "journal-ack-before-\u03c0",
+            "request_id": "ack-before"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 1,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3685622510047
+      },
+      "io_trace": [
+        {
+          "requested": 190,
+          "returned": 190,
+          "stage": "write_returned"
+        },
+        {
+          "stage": "sync_returned"
+        },
+        {
+          "requested": 190,
+          "returned": 190,
+          "stage": "write_returned"
+        },
+        {
+          "stage": "injected_sync_exception"
+        },
+        {
+          "requested": 196,
+          "returned": 196,
+          "stage": "write_returned"
+        },
+        {
+          "stage": "sync_returned"
+        }
+      ],
+      "journal_after_fault": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a",
+        "sha256": "b08c484d2e9f7b6c7b38069c83943203608d026e12b88f8a5a53bc919382034f"
+      },
+      "journal_after_later": {
+        "exists": true,
+        "raw_hex": "7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61636b2d6265666f72652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261636b2d6265666f7265222c2022736571223a20317d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d6661756c742d6f6e63652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a20226661756c742d6f6e6365222c2022736571223a20327d0a7b2261636365707465645f756e6465725f76657273696f6e223a20312c2022636865636b5f6d6f6465223a202273696e6b2d6f726465726564222c20226576656e74223a20226566666563745f6163636570746564222c20227061796c6f6164223a20226a6f75726e616c2d61667465722d6661696c7572652d5c7530336330222c202270726573656e7465645f76657273696f6e223a20312c2022726571756573745f6964223a202261667465722d6661696c757265222c2022736571223a20327d0a",
+        "sha256": "b4c681370a89aaaad282f0b206db0d8269e8e220a129dcba19a5e91035ebb661"
+      },
+      "later": {
+        "completion_monotonic_ns": 3685630961667,
+        "request": {
+          "body": {
+            "authority_version": 1,
+            "payload": "journal-after-failure-\u03c0",
+            "request_id": "after-failure"
+          },
+          "method": "POST",
+          "path": "/submit"
+        },
+        "response": {
+          "body": {
+            "event_seq": 2,
+            "outcome": "accepted"
+          },
+          "status": 201
+        },
+        "start_monotonic_ns": 3685629917103
+      },
+      "shim_source_sha256": "392c566cb15987b20a27e63b8bb2dd427a75b090c9a204b2b55c51d7e407a52e",
+      "sink_exit": -9,
+      "sink_stderr": "----------------------------------------\nException occurred during processing of request from ('127.0.0.1', 42856)\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 697, in process_request_thread\n    self.finish_request(request, client_address)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 362, in finish_request\n    self.RequestHandlerClass(request, client_address, self)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py\", line 766, in __init__\n    self.handle()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 440, in handle\n    self.handle_one_request()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py\", line 428, in handle_one_request\n    method()\n  File \"/tmp/ases-sink-io-wk81t15l/sync/shim_sink.py\", line 265, in do_POST\n    event = state.emit_locked(\n            ^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ases-sink-io-wk81t15l/sync/shim_sink.py\", line 149, in emit_locked\n    _io_sync(fd)\n  File \"/tmp/ases-sink-io-wk81t15l/sync/shim_sink.py\", line 45, in _io_sync\n    raise OSError(5, 'injected sync API exception')\nOSError: [Errno 5] injected sync API exception\n----------------------------------------\n",
+      "sink_stdout": "",
+      "status_after_fault": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          }
+        ],
+        "waiting": 0
+      },
+      "status_after_later": {
+        "authority_version": 1,
+        "effects": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-after-failure-\u03c0",
+            "presented_version": 1,
+            "request_id": "after-failure",
+            "seq": 2
+          }
+        ],
+        "events": [
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-ack-before-\u03c0",
+            "presented_version": 1,
+            "request_id": "ack-before",
+            "seq": 1
+          },
+          {
+            "accepted_under_version": 1,
+            "check_mode": "sink-ordered",
+            "event": "effect_accepted",
+            "payload": "journal-after-failure-\u03c0",
+            "presented_version": 1,
+            "request_id": "after-failure",
+            "seq": 2
+          }
+        ],
+        "waiting": 0
+      }
+    }
+  },
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "execution_base_sha": "5617907dcdf41603639c70cf75181af41851f44a",
+  "phase": "baseline",
+  "schema": "ases.sink-io-failure.v1",
+  "source_hashes": {
+    "probe.py": "601df675f9b4a3f5404dca8c5cbe5dd71e4c6433c5686461b64504ed305f5c3a",
+    "run.py": "d7ffa1fc67d16aedf24d252f42ed4876e76c370c6bfeef8789415da74aa2792f"
+  }
+}
