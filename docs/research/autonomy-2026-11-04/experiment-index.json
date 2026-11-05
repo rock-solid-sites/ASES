@@ -58,7 +58,7 @@
     "research/autonomy-20261105-witness-publication": "dbcb70c25f662f4d3ce41a0e671ebd2343b7a610",
     "review/autonomy-20261105-sink-witness": "a158bb957cfc6b11980b773980353e61db7839cd",
     "research/autonomy-20261105-f1-consumer-evidence": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
-    "research/autonomy-20261105-c11-history": "9b1be4167abff82ab8061d1c39cce317135fe452",
+    "research/autonomy-20261105-c11-history": "9aaf60a029406d95e730aa5201b0e276d43cb7cf",
     "review/autonomy-20261105-f1-consumer": "652430469f7d06cf0f43a452c7d4d99b5fe81a76"
   },
   "checkpoints": [
@@ -133,6 +133,10 @@
     {
       "utc": "2026-11-05T05:06:42Z",
       "state": "All40 completed indexed records/source/evidence pushed. New required-observation validation preregistered at research/autonomy-20261105-c11-history cfb72eb, no negative-input run yet. Direct coordinator execution, no active workers, quota unknown."
+    },
+    {
+      "utc": "2026-11-05T05:13:41Z",
+      "state": "C11 input boundary9aaf60a pushed; baseline3fac758 preserved, repair e0ba50f, actual malformed image unchanged.41 records; no active workers. Next one bounded original-model budget discriminator if justified; no quota estimate."
     }
   ],
   "experiments": [
@@ -1624,6 +1628,69 @@
       ],
       "blockers": [],
       "next_discriminator": "Malformed required observation input or same-content conflicting bundle: validate before commitment versus only query after commitment",
+      "supersedes": []
+    },
+    {
+      "id": "R2-C11-PRECOMMIT-VALIDATION",
+      "stream": "F1",
+      "claim": "Selected required observation presence/types and current/archive bindings must be validated before commitment/exposure, separately from provenance truth",
+      "source_branch": "research/autonomy-20261105-c11-history",
+      "source_sha": "9aaf60a029406d95e730aa5201b0e276d43cb7cf",
+      "implementation": "docs/research/phase-i-f1/c11-history/input-validation/probe.py",
+      "command": "python3 docs/research/phase-i-f1/c11-history/input-validation/probe.py fixed > /tmp/c11-input-fixed.json && python3 docs/research/phase-i-f1/c11-history/input-validation/check.py /tmp/c11-input-fixed.json; baseline reproduction at6b332ae before retained fixture exists",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "actual single-lane SQLite holder",
+          "deliberately malformed required input",
+          "original committed malformed SQLite fixture",
+          "pre-ready startup observation and diagnostic SQL reads"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Baseline missing field/integer evidence commits actual content/archive/latest then loses usable response; fresh ready/query unusable despite SQL integrity ok. Fixed presence/types before startup + existing archive/current validation refuses invalid configs and retained malformed DB before ready unchanged. Positive and real conflict ROLLBACK survive; baseline/fixed18 children each/max1; earlier archive regression passes. Source hashes verified at actual execution pins.",
+      "limits": "Negative input controls outside prior well-typed premise, not semantic truth/authentication or generic C9/C11 closure. Partial traceback, exception class absent due kill-after-EOF race; initial checker assertion retained, same raw re-audited without behavioral rerun. Actual committed malformed fixture retained, not repaired. Process/live-host SQLite APIs not physical power loss.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/c11-history/input-validation/baseline.raw.json",
+          "sha256": "55600936e61129e27b4be0b8b5e69bcc29cf2bdcb55a7a8d318f9ea7d81bb430"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/input-validation/baseline.check.json",
+          "sha256": "4f6843369d01726d00f9bfb791567ccd279edb01c4951c84fce4d4ab7f2ea560"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/input-validation/fixed.raw.json",
+          "sha256": "f066d169bbde575f0776e5d7a4edb054e59f2499b249b41fb121b2ab66685639"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/input-validation/fixed.check.json",
+          "sha256": "fb6bcfa845c0b6a57ef98d063d111ef6dcf9c67616f2b239e95cd8077e50f907"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/input-validation/history-regression.raw.json",
+          "sha256": "8bf839b28eea87e3d1f93499cc13e0a8401a8399c2da7cf09236bc7e95ebaaca"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/input-validation/history-regression.check.json",
+          "sha256": "295f4fb3f9e6441f94581f3801ba44777cb141d0a82b83ef46fff5dc1acd313d"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/input-validation/invalid-missing.sqlite",
+          "sha256": "1754f0b21fb37d8563f79fd9198ce8a7ac5bd84c06879bbf0a9258e866c16f07"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-history/input-validation/baseline.check.attempt1.stderr.txt",
+          "sha256": "d248c05315432bbccfe694c10d109ec2f8a7de9ba92c1d67b549bcd236b7c73d"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-C11-REQUIRED-HISTORY"
+      ],
+      "blockers": [],
+      "next_discriminator": "Bounded original full-model first-context budget discrimination or other stronger open question; avoid expanding routine field examples",
       "supersedes": []
     }
   ],
