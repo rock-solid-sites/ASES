@@ -181,8 +181,8 @@ def l5_history(c):
     initial = selected_state(old)
     need(old["ns"] < ch[0]["start_ns"] < ch[0]["ready_ns"] < ch[0]["exit_ns"] <
          after["ns"] < ch[1]["start_ns"] < ch[1]["ready_ns"] <
-         c["activation"]["start_ns"] < c["activation"]["end_ns"] <
-         c["write"]["start_ns"] < c["write"]["end_ns"] < ch[1]["exit_ns"],
+         c["activation"]["frame"]["start_ns"] < c["activation"]["frame"]["end_ns"] <
+         c["write"]["frame"]["start_ns"] < c["write"]["frame"]["end_ns"] < ch[1]["exit_ns"],
          "move/recovery/activation/write history not serializable")
     need(initial["work_units"]["C"]["parent"] == "P", "not an original P-root starting state")
     add("old_selected", {"selected": old["selected"], "parent_c": "P"})
@@ -383,7 +383,7 @@ def mutations(kind, cases):
             ("missing_move_transcript", lambda x: x["children"][0]["events"].pop()),
             ("selector_not_selected_raw", lambda x: x["after_process"].update(selected="record-000001.json")),
             ("cold_reconstruction_mismatch", lambda x: x["cold_ready"]["frame"]["snapshot"].update(selected="bad")),
-            ("write_before_activation", lambda x: x["write"].update(start_ns=x["activation"]["start_ns"])),
+            ("write_before_activation", lambda x: x["write"]["frame"].update(start_ns=x["activation"]["frame"]["start_ns"])),
             ("unauthorized_D_write", lambda x: x["write"]["frame"]["result"]["reply"].update(allowed=True)),
             ("missing_activation_event", lambda x: x["children"][1]["events"].pop(1)),
         ]
