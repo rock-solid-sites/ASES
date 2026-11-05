@@ -76,6 +76,11 @@ def main():
     rollback=data['rollback_limit']; session(rollback)
     assert rollback['steps'][0]['response']['status'] == 201
     assert rollback['ready_status']['authority_version']==1 and rollback['ready_status']['active'] is True
+    children=[c[part] for c in data['cases'].values() for part in ('writer','recovery','cold')]
+    children += list(data['invalid_controls'].values()) + [rollback]
+    children.sort(key=lambda c:c['start_ns'])
+    assert len({c['pid'] for c in children})==len(children)==20
+    assert all(a['exit_ns'] < b['start_ns'] for a,b in zip(children,children[1:]))
     no_ack=copy.deepcopy(data['cases']['reference']); del no_ack['writer']['steps'][-1]['response']
     no_journal=copy.deepcopy(data['cases']['reference']); del no_journal['recovery']['ready_journal']
     controls=dict(missing_revoke_ack=history(no_ack),missing_recovery_bytes=history(no_journal))
@@ -84,6 +89,7 @@ def main():
     for name,key in [('managed_sink.py','source_sha256'),('replay_probe.py','runner_sha256'),('probe.py','helper_sha256')]:
         assert hashlib.sha256((root/name).read_bytes()).hexdigest()==data[key]
     print(json.dumps(dict(histories=results,invalid_startup_controls=len(data['invalid_controls']),
+                          owned_processes=len(children),maximum_observed_child_concurrency=1,
                           missing_evidence_controls=controls,rollback_limit='older authentic prefix accepted; no nonrollback witness',
                           qualification='coordinator read-only checker, no independent replay review'),indent=2,sort_keys=True))
 

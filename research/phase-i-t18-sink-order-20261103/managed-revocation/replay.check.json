@@ -1,0 +1,31 @@
+{
+  "histories": {
+    "exact_obligation": {
+      "scope": "selected current-journal managed replay history",
+      "status": "SUPPORTED"
+    },
+    "reference": {
+      "scope": "selected current-journal managed replay history",
+      "status": "SUPPORTED"
+    },
+    "replay_resurrection": {
+      "reason": "recovery state mismatch: granted",
+      "status": "VIOLATION"
+    }
+  },
+  "invalid_startup_controls": 10,
+  "maximum_observed_child_concurrency": 1,
+  "missing_evidence_controls": {
+    "missing_recovery_bytes": {
+      "reason": "'ready_journal'",
+      "status": "INCOMPLETE"
+    },
+    "missing_revoke_ack": {
+      "reason": "'response'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "owned_processes": 20,
+  "qualification": "coordinator read-only checker, no independent replay review",
+  "rollback_limit": "older authentic prefix accepted; no nonrollback witness"
+}
