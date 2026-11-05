@@ -49,7 +49,8 @@
     "review/autonomy-20261105-t18-revocation": "3deeb71278063039b82a358d239a5f079212b38b",
     "research/autonomy-20261105-sink-witness": "7ee48372c38da079cfdf8aca8c186956f80a2de8",
     "research/autonomy-20261105-witness-publication": "dbcb70c25f662f4d3ce41a0e671ebd2343b7a610",
-    "review/autonomy-20261105-sink-witness": "a158bb957cfc6b11980b773980353e61db7839cd"
+    "review/autonomy-20261105-sink-witness": "a158bb957cfc6b11980b773980353e61db7839cd",
+    "research/autonomy-20261105-f1-consumer-evidence": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a"
   },
   "checkpoints": [
     {
@@ -111,6 +112,10 @@
     {
       "utc": "2026-11-05T04:46:20Z",
       "state": "Actual3 pre-reply cut evidence dbcb70c pushed;36 indexed experiments. Next remote-only restoration then concrete C11 retention discriminator. All9 workers completed, remaining allowance unknown after operator reset."
+    },
+    {
+      "utc": "2026-11-05T04:56:00Z",
+      "state": "Concrete C11 corrected physical evidence29ec396 pushed, failed harness746e20a preserved; isolated bounded Luna review active.39 indexed records. Current usage unknown after operator reset."
     }
   ],
   "experiments": [
@@ -1484,6 +1489,80 @@
       "blockers": [],
       "next_discriminator": "Concrete physical C11 metadata/content coupling; independent archive only if authorized/available, no repeated restoration solely for logs",
       "supersedes": []
+    },
+    {
+      "stream": "F1",
+      "source_branch": "research/autonomy-20261105-f1-consumer-evidence",
+      "implementation": "docs/research/phase-i-f1/c11-sqlite/probe.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "original physical single-lane SQLite holder",
+          "actual inherited gate/SIGKILL",
+          "fresh recovery and separate read-only process"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "reviewers": [],
+      "blockers": [],
+      "supersedes": [],
+      "id": "R2-C11-HARNESS-SETUP-ERROR",
+      "claim": "Initial concrete C11 setup assumption: establishment leaves no accepted content, literal zero label matches actual accepted bytes",
+      "source_sha": "746e20a9965741a62c7c391926d0924645008727",
+      "command": "python3 docs/research/phase-i-f1/c11-sqlite/probe.py > /tmp/c11-attempt1.json && python3 docs/research/phase-i-f1/c11-sqlite/check.py /tmp/c11-attempt1.json",
+      "status": "executed_observed",
+      "observed_result": "Five physical cases executed; checker nonzero. Actual core establishment already ACKs accepted zero bytes including NUL/newline; pre-COMMIT correctly recovered that prior content. Wrong empty-bootstrap/literal assumptions were harness errors, not product loss. Source fb6a80e and all failed raw/checker stderr preserved.",
+      "limits": "Intended C11 claim inconclusive in this initial harness. Explicit corrected preregistration at746e20a precedes corrected run; no retrospective pass.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/c11-sqlite/attempt1.raw.json",
+          "sha256": "3ca8043e58ed5954bfb2a0a9fea87e16628da80b0dab4541134b51e5897918e9"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-sqlite/attempt1.check.stderr.txt",
+          "sha256": "8296c047d05c317301c206d0830ae55edc58c16fd0fce0c6b081597037fc680d"
+        }
+      ],
+      "dependencies": [],
+      "next_discriminator": "Correct bootstrap accepted observations and different tested accept bytes, compare prior ACK on pre-COMMIT cut"
+    },
+    {
+      "stream": "F1",
+      "source_branch": "research/autonomy-20261105-f1-consumer-evidence",
+      "implementation": "docs/research/phase-i-f1/c11-sqlite/probe.py",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "original physical single-lane SQLite holder",
+          "actual inherited gate/SIGKILL",
+          "fresh recovery and separate read-only process"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "reviewers": [],
+      "blockers": [],
+      "supersedes": [],
+      "id": "R2-C11-PHYSICAL-COUPLING",
+      "claim": "Actual accepted consumer observations require sufficient coupling with content across selected SQLite process loss; concrete same-transaction versus split-commit comparison",
+      "source_sha": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
+      "command": "python3 docs/research/phase-i-f1/c11-sqlite/probe.py > /tmp/c11-sqlite.json && python3 docs/research/phase-i-f1/c11-sqlite/check.py /tmp/c11-sqlite.json",
+      "status": "executed_observed",
+      "observed_result": "Atomic post-COMMIT A/B recover exact distinct trusted tuples with identical core view/content. Split gap after new content COMMIT retains incompatible old evidence, new required tuple unavailable/no ACK. Atomic pre-COMMIT retains prior ACKed pair; uninterrupted split completes two commits/ACK. Fresh holder receives no original tuple, independent reader agrees/integrity ok.20 owned children/max1.",
+      "limits": "Selected experimental acceptance contract with trusted opaque observations, no provenance truth/authentication, arbitrary consumers, canonical/minimal schema, nonrollback, physical power loss or F1/C11 closure. Parent holder unchanged. Initial harness failure separately preserved and qualified.",
+      "raw_evidence": [
+        {
+          "path": "docs/research/phase-i-f1/c11-sqlite/raw.json",
+          "sha256": "413e56336b405cf6c867b84617ba2e95db2faf2142fd9d731692e4864943680c"
+        },
+        {
+          "path": "docs/research/phase-i-f1/c11-sqlite/check.json",
+          "sha256": "6655ffc0485f9e24633dd9c30aaedb3b257f430033d2b36a134d3257194f2233"
+        }
+      ],
+      "dependencies": [
+        "R2-C11-HARNESS-SETUP-ERROR"
+      ],
+      "next_discriminator": "Independent corrected physical-case audit underway; then select genuinely new remaining governing obligation, not repeated abstract field product"
     }
   ],
   "unfinished_work": [
