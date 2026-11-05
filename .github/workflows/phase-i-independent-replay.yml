@@ -109,6 +109,12 @@ jobs:
           fi
           python3 assurance/docs/research/phase-i-assurance/evidence_contract.py "$E" --execution "$EXECUTION" > "$RUNNER_TEMP/phase-i-case-manifest.json"
           cp "$RUNNER_TEMP/phase-i-case-manifest.json" "$E/manifest.json"
+      - name: Independently verify complete case artifact set and SHA256
+        if: always()
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 assurance/docs/research/phase-i-assurance/verify_capture.py "$RUNNER_TEMP/phase-i-evidence"
       - name: Retain independent replay evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -130,7 +136,7 @@ jobs:
         id: contract_tests
         run: |
           cd docs/research/phase-i-assurance
-          python3 -m unittest -v test_evidence_contract.py
+          python3 -m unittest -v test_evidence_contract.py test_verify_capture.py
       - name: Record test harness manifest
         if: always()
         shell: bash
@@ -146,7 +152,14 @@ jobs:
             *) EXECUTION=ERROR ;;
           esac
           cp docs/research/phase-i-assurance/*.py "$RUNNER_TEMP/assurance-contract/"
-          python3 docs/research/phase-i-assurance/evidence_contract.py "$RUNNER_TEMP/assurance-contract" --execution "$EXECUTION" > "$RUNNER_TEMP/assurance-contract/manifest.json"
+          python3 docs/research/phase-i-assurance/evidence_contract.py "$RUNNER_TEMP/assurance-contract" --execution "$EXECUTION" > "$RUNNER_TEMP/assurance-contract-manifest.json"
+          cp "$RUNNER_TEMP/assurance-contract-manifest.json" "$RUNNER_TEMP/assurance-contract/manifest.json"
+      - name: Verify contract source capture against its own manifest
+        if: always()
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 docs/research/phase-i-assurance/verify_capture.py "$RUNNER_TEMP/assurance-contract"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -363,6 +376,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Collect this run's original CI artifacts
         uses: actions/download-artifact@v4
         with:
@@ -388,6 +404,18 @@ jobs:
           (cd "$OUT" && sha256sum phase-i-evidence.tar.gz) > "$OUT/archive-sha256.txt"
           test "$COUNT" -eq 20
           echo "Complete source collection and archive restore verified"
+      - name: Verify all seven embedded evidence manifests independently
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          COUNT=0
+          for manifest in "$RUNNER_TEMP"/collected/*/manifest.json; do
+            test -f "$manifest"
+            python3 docs/research/phase-i-assurance/verify_capture.py "$(dirname "$manifest")"
+            COUNT=$((COUNT + 1))
+          done
+          test "$COUNT" -eq 7
+          echo "Verified $COUNT complete, exact-file-set manifests"
       - name: Retain export for off-provider transfer
         if: always()
         uses: actions/upload-artifact@v4
