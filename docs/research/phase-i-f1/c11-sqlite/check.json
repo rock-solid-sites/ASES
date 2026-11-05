@@ -1,0 +1,38 @@
+{
+  "cases": {
+    "atomic-A": {
+      "observation": "exact accepted observation bytes recovered without original tuple input",
+      "status": "SUPPORTED"
+    },
+    "atomic-B": {
+      "observation": "exact accepted observation bytes recovered without original tuple input",
+      "status": "SUPPORTED"
+    },
+    "atomic-before": {
+      "observation": "pre-COMMIT prior ACKed content and observation pair retained",
+      "status": "SUPPORTED"
+    },
+    "split-ack": {
+      "observation": "exact accepted observation bytes recovered without original tuple input",
+      "status": "SUPPORTED"
+    },
+    "split-gap": {
+      "observation": "new content COMMIT survived with incompatible prior evidence; new required observations missing, no ACK",
+      "status": "COUNTEREXAMPLE"
+    }
+  },
+  "distinct_observation_worlds_same_core_view": true,
+  "incomplete_controls": {
+    "missing_accept": {
+      "reason": "missing acceptance reply/no-reply observation",
+      "status": "INCOMPLETE"
+    },
+    "missing_recovered_observations": {
+      "reason": "'consumer_query'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 1,
+  "owned_children": 20,
+  "qualification": "trusted accepted opaque observations, actual SQLite process loss; no authenticity/schema/minimality/general C11 closure"
+}
