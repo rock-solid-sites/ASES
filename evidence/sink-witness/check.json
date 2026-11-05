@@ -1,0 +1,37 @@
+{
+  "cases": {
+    "eligibility": {
+      "actual_query_nonce_echoed": true,
+      "cold_replay_preserved_x_effect": false,
+      "durable_x_effect": false,
+      "rolled_submit_status": 409,
+      "witness_process_pid": 4753,
+      "witness_publication": 2,
+      "witness_revoked_at_same_generation": true
+    },
+    "generation": {
+      "actual_query_nonce_echoed": true,
+      "cold_replay_preserved_x_effect": true,
+      "durable_x_effect": true,
+      "rolled_submit_status": 201,
+      "witness_process_pid": 4719,
+      "witness_publication": 2,
+      "witness_revoked_at_same_generation": true
+    }
+  },
+  "execution_sha": "7ee48372c38da079cfdf8aca8c186956f80a2de8",
+  "protocol_controls": "positive, bad nonce, reset, and missing-witness controls matched actual sink outcomes",
+  "raw_sha256": "a1969ac6d05cf20e857c7c7cc9107dc5ee22fcfccf9b3b9c2d3b82b28d0ec297",
+  "schema": "ases.sink-witness-independent-audit",
+  "scope_limit": "selected trusted supervisor/endpoint and synchronized publication premise; process liveness was observed, independent source authentication was not tested",
+  "source_hashes": {
+    "managed-revocation/managed_sink.py": "7134618da4241942f2343748e44ae3d3e339e6d5f22c0681f539d404d0c8247f",
+    "managed-revocation/probe.py": "3b2b47931e9f78e49fee7fefb19b05776792691ca663091781988b8192b036e4",
+    "managed-revocation/replay_probe.py": "925df1268c9417eedc64ecd6b37649b53abb345a209899f9a6d6dbec654c2903",
+    "run.py": "6b1d759b87b13d32bdc7c5f31a64c15d5a63296d77bc2f16ecc6b0e7795a9d59",
+    "sink-witness/probe.py": "3aebaa42a1d1c18230aeb94a3a20293af64ccdf853063aa5ddc0bbbee6b36048",
+    "sink-witness/witness_sink.py": "9dba728645bd7d49f4f1313bac4636729540dd7757da1514a6f7bdcd7835aa76"
+  },
+  "verdict": "generation-only live witness failed to stop actual post-revoke acceptance; eligibility-tuple comparison denied it",
+  "version": 1
+}
