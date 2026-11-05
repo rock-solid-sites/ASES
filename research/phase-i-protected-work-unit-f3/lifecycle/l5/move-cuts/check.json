@@ -1,0 +1,42 @@
+{
+  "cases": {
+    "after_record": {
+      "observation": "actual old/new whole move cold state and retained bytes; write denied after separate activation",
+      "status": "SUPPORTED"
+    },
+    "after_selector": {
+      "observation": "actual old/new whole move cold state and retained bytes; write denied after separate activation",
+      "status": "SUPPORTED"
+    },
+    "before_record": {
+      "observation": "actual old/new whole move cold state and retained bytes; write denied after separate activation",
+      "status": "SUPPORTED"
+    },
+    "split-mutant": {
+      "observation": "split-publication control selects sealed graph-valid half move; cold activation permits concrete forbidden D-write",
+      "status": "SUPPORTED"
+    },
+    "uninterrupted": {
+      "observation": "actual old/new whole move cold state and retained bytes; write denied after separate activation",
+      "status": "SUPPORTED"
+    },
+    "write-positive": {
+      "observation": "actual old/new whole move cold state and retained bytes; write positive",
+      "status": "SUPPORTED"
+    }
+  },
+  "controls": {
+    "contradictory_selected_record": {
+      "reason": "selected raw record differs from reported state",
+      "status": "VIOLATION"
+    },
+    "missing_postreap_state": {
+      "reason": "'after_process'",
+      "status": "INCOMPLETE"
+    }
+  },
+  "maximum_observed_child_concurrency": 1,
+  "owned_children": 12,
+  "qualification": "synthetic existing accepted fixture/trusted single-holder live filesystem; process loss only, no fsync/native confinement/full T12/F3/F4 or power-loss claim",
+  "source_hashes_verified": true
+}
