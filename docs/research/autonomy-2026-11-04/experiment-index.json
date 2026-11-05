@@ -9,7 +9,7 @@
       "checks": 0.2,
       "coordination": 0.2
     },
-    "workers_launched": 7,
+    "workers_launched": "unknown",
     "operator_reports": [
       {
         "observed_at_utc": "2026-11-05T04:32:56Z",
@@ -24,7 +24,8 @@
       "elapsed_seconds": 19865,
       "elapsed": "5h31m05s",
       "corrects": "ledger mistakenly said7h31m05s; wall time includes waits/interruption, not model usage"
-    }
+    },
+    "launch_count_note": "Legacy numeric counter7 was stale. Ledger records13 completed bounded review tasks plus an interrupted encoding attempt; exact whole-session launcher count was not reconstructed. Current live tree shows5 retained completed agents/0 active, no new delegation in this increment."
   },
   "branch_tips": {
     "research/autonomy-20261103-cross-layer": "5d45805764a42a7464e0963d1715ae009dccac57",
@@ -66,7 +67,8 @@
     "review/autonomy-20261105-resource-occupancy": "10bd899ce6041eaf16e42a6ecfaa0b0bc9b75b86",
     "research/autonomy-20261105-sink-writer-exclusion": "55aee5131141c82c9a6cd2e6418e02890a6291d8",
     "review/autonomy-20261105-sink-writer-exclusion": "81e57133dde74db1263d2e8be4a6e8dabbdeea55",
-    "research/autonomy-20261105-authority-cut": "f1e8b73a1a7dfc607642940565c049ecc69a1183"
+    "research/autonomy-20261105-authority-cut": "f1e8b73a1a7dfc607642940565c049ecc69a1183",
+    "research/autonomy-20261105-published-cut": "26db6db361be986cdd168045f510f5567ee9df53"
   },
   "checkpoints": [
     {
@@ -172,6 +174,10 @@
     {
       "utc": "2026-11-05T06:25:00Z",
       "state": "Authority/current accepted-cut counterexample pushed;50 indexed records. Next conditional published-cut witness profile/ACK coupling if cost-effective; all13 workers done, quota unknown."
+    },
+    {
+      "utc": "2026-11-05T06:46:52Z",
+      "state": "Published-cut26db6db pushed;51 indexed records. Four cases and13 children/max2; next actual lost-publication response. No active workers, remaining usage unknown."
     }
   ],
   "experiments": [
@@ -2093,6 +2099,42 @@
       "blockers": [],
       "next_discriminator": "Explicit published-cut witness/candidate journal binding plus local-persist/external-publication-before-success-ACK; preserve failure-closed divergence rather than claim two-store atomicity",
       "supersedes": []
+    },
+    {
+      "id": "R2-PUBLISHED-CUT-ACK-AND-STARTUP",
+      "stream": "cross-layer",
+      "claim": "Conditional live published-cut witness binds actual journal bytes plus authority, validated before success ACK and startup; divergent local commits remain explicit",
+      "source_branch": "research/autonomy-20261105-published-cut",
+      "source_sha": "26db6db361be986cdd168045f510f5567ee9df53",
+      "implementation": "research/phase-i-t18-sink-order-20261103/published-cut/probe.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/published-cut/probe.py > /tmp/published-cut.json && python3 research/phase-i-t18-sink-order-20261103/published-cut/check.py /tmp/published-cut.json",
+      "environment": {
+        "address_space_bytes": 268435456,
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "status": "executed_observed",
+      "observed_result": "Four histories: current-file recovery retains actual x/q/y ACKs; authentic older same-authority prefix and coherent same-seq/length self-hashed mutation refused before READY; rejected publication returns503/local committed, retains z, blocks later append and startup unchanged. Stale CAS409; missing ACK/startup evidence INCOMPLETE.13 children/max2.",
+      "limits": "Trusted live source/root/genesis/cooperative stable-inode writers and witness nonrollback across selected file fault are premises. Exact-byte profile, not minimal schema or native confinement. Divergence reconciliation/availability open; no independent reproduction, witness durable recovery, power loss, full C7/F4/F1 or two-store atomicity.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/published-cut/raw.json",
+          "sha256": "0de0468f422bdc76fe7832a20bd08b5bb4b8e9a9b65390df304dbcc912799d6c"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/published-cut/check.json",
+          "sha256": "ff737b4421dd156473bff73636257da2c6745ada7e17af4870694e3948c4f5a5"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-AUTHORITY-VERSUS-ACCEPTED-CUT"
+      ],
+      "blockers": [],
+      "next_discriminator": "Successful witness publication with actual missing response versus rejection before update; inspect later actual current-file access/recovery without assuming missing receipt means absent publication",
+      "supersedes": []
     }
   ],
   "unfinished_work": [
@@ -2104,7 +2146,8 @@
     "Kernel stronger independent full correspondence, physical timing, capture/publication witness and minimality remain open; compact encoding has conditional source proofs/basic-cell costs only.",
     "F3 native confinement/real credential revocation, sole-holder premise beyond tested cooperative guards, concurrent-manager safety and L6/L7 remain open; previous Landlock ENOSYS is not retried.",
     "Formal cross-family F5 review absent; operational isolated native worker checks are same-family and scoped.",
-    "Independent archive/long-term retention unestablished; remote-only cold snapshots including36 records/67 raw digests used same host/GitHub origin and do not execute every experiment on a clean machine."
+    "Independent archive/long-term retention unestablished; remote-only cold snapshots including36 records/67 raw digests used same host/GitHub origin and do not execute every experiment on a clean machine.",
+    "Published-cut profile rejects controlled rollback/mutation and preserves publication-rejected local divergence, but actual lost publication response, divergence reconciliation, durable witness recovery and hostile-source/root trust remain open."
   ],
   "blocked_routes": [
     "Kernel-contract platform safety-filter investigation: do not retry",
