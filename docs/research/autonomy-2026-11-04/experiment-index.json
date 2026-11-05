@@ -36,7 +36,8 @@
     "research/autonomy-20261105-prefix-recovery": "bacf8f7d85fd10674554f5b7ef6415fc770e7f4a",
     "review/autonomy-20261105-prefix-recovery": "812bc0518c7ed94df0a0ca40a5718151780a62c7",
     "research/autonomy-20261105-kernel-encoding": "d20a6e3f144443f49e958f5fce8d16909821a63d",
-    "review/autonomy-20261105-kernel-encoding": "614df5fb981ce9b03586f08e9d051e21946796b1"
+    "review/autonomy-20261105-kernel-encoding": "614df5fb981ce9b03586f08e9d051e21946796b1",
+    "research/autonomy-20261105-t18-revocation": "7ed639cd0fc8c938dbc68eb8ca1892e54900713c"
   },
   "checkpoints": [
     {
@@ -78,6 +79,10 @@
     {
       "utc": "2026-11-05T01:44:35Z",
       "state": "Continuous4-history F4 source/raw/checker committed/pushed; no fixture restoration,19 owned children/max1. Next exact frozen T18 revocation semantics/eligibility discriminator, native L6/L7 blocker retained."
+    },
+    {
+      "utc": "2026-11-05T01:58:50Z",
+      "state": "T18 managed revocation7ed639c pushed; fresh bounded Luna check in isolated precreated worktree. Next ACKed revoke/restart replay; no native enforcement claim."
     }
   ],
   "experiments": [
@@ -1189,6 +1194,49 @@
       ],
       "blockers": [],
       "next_discriminator": "Explicit revocation versus replacement and separate grant/activation at selected sink; preserve incomplete full F2 mapping",
+      "supersedes": []
+    },
+    {
+      "id": "R2-T18-MANAGED-REVOCATION",
+      "stream": "cross-layer",
+      "claim": "Selected explicit create/grant/activate/revoke and send-after-revoke-ACK T18 correspondence, distinct from exact-obligation replacement",
+      "source_branch": "research/autonomy-20261105-t18-revocation",
+      "source_sha": "7ed639cd0fc8c938dbc68eb8ca1892e54900713c",
+      "implementation": "research/phase-i-t18-sink-order-20261103/managed-revocation/probe.py",
+      "command": "python3 research/phase-i-t18-sink-order-20261103/managed-revocation/probe.py > /tmp/managed-t18.json && python3 research/phase-i-t18-sink-order-20261103/managed-revocation/check.py /tmp/managed-t18.json",
+      "environment": {
+        "host": "authorized disposable Cloud",
+        "capabilities": [
+          "loopback HTTP",
+          "trusted local management",
+          "append/fsync-return",
+          "owned child kill/reap"
+        ],
+        "address_space_bytes": 268435456
+      },
+      "status": "executed_observed",
+      "observed_result": "Actual revoke ACK precedes send; reference old-generation1 still equals lastissued1 but409/no x; eligibility-omitting mutation201/x. Separate exact m/x retained across p old->new/gen2 replacement; ordinary current-use2 before activation denied. Regrant2/activation and original replacement controls pass; all managed restart attempts explicitly refuse.",
+      "limits": "Flat C/p under trusted manager/current root/journal. New standalone concrete profile; frozen f2lib fixture stays prepared-only. No real credential/native host/nonrollback/recovery/power-loss or aggregate F2/F4 claim. Restart attempt PID missing, synchronous completion/time/stderr retained.",
+      "raw_evidence": [
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/managed-revocation/raw.json",
+          "sha256": "5c6b5dcdaabb617db2a00b835e66a32cfe86c32b8c9b5ae9e3625f871e3561b5"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/managed-revocation/check.json",
+          "sha256": "abcfa252b70daf1f66382969d2e0ae91d6204191fe513485b13ffabfca9bab61"
+        },
+        {
+          "path": "research/phase-i-t18-sink-order-20261103/managed-revocation/replacement-regression.raw.json",
+          "sha256": "554fe44a9a86332a6cc58d80f3d9f34b9066f89ad23ec3b9af1f7dabc4e03931"
+        }
+      ],
+      "reviewers": [],
+      "dependencies": [
+        "R2-CONTINUOUS-PREFIX-HISTORY"
+      ],
+      "blockers": [],
+      "next_discriminator": "Replay actual acknowledged revocation/eligibility before managed readiness; independent review in progress",
       "supersedes": []
     }
   ],
