@@ -1,0 +1,22 @@
+{
+  "cases": {
+    "lost": {
+      "finding": "Witness CAS advanced to the actual receipt-z journal before suppressing its reply; sink returned 503 with local commit recorded, then a fresh check admitted the next operation and two same-file cold recoveries retained prior ACK, z, and later effect.",
+      "status": "SUPPORTED"
+    },
+    "positive": {
+      "finding": "Delivered publication receipt produced the positive ACK; later operation and current-file recovery retained journal effects.",
+      "status": "SUPPORTED"
+    },
+    "rejected": {
+      "finding": "Delivered 503 rejection left witness at the old cut; z remained locally committed, later append was blocked, and startup refused without changing the journal.",
+      "status": "SUPPORTED"
+    }
+  },
+  "execution_sha": "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9",
+  "max_concurrency": 2,
+  "owned_children": 11,
+  "qualification": "One selected live witness/current-root receipt-loss experiment. Does not establish witness power-loss durability, nonrollback against hostile storage, reconciliation of genuine divergence, or generic C7/F4 proof.",
+  "schema": "ases.published-cut-receipt-loss",
+  "source_hashes_verified": true
+}
