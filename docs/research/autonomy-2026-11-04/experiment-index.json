@@ -65,6 +65,10 @@
     {
       "utc": "2026-11-05T00:38:39Z",
       "state": "GitHub readback exactly matches remote index/ledger updates;5 encoding artifact digests checked in V8. Selected environment still pending/current with failure null. Full local validator rerun and interrupted review await readiness."
+    },
+    {
+      "utc": "2026-11-05T00:43:34Z",
+      "state": "Actual read-only command rejected: no usable execution environment. Control-plane pending/current, failure null. Shell work and interrupted encoding review cannot proceed;30 indexed records and completed evidence already published."
     }
   ],
   "experiments": [
@@ -1152,9 +1156,9 @@
   "source_revision_semantics": "Each experiment source_sha pins committed implementation/evidence. Some original raw source_revision fields record HEAD at invocation before code commit; exact executed bytes are separately identified by source hashes. Preserve raw and consult source-provenance qualification rather than relabel historical execution.",
   "elapsed_observed": {
     "from_utc": "2026-11-04T23:05:52Z",
-    "to_utc": "2026-11-04T23:30:59Z",
-    "seconds": 1507,
-    "meaning": "measured checkpoint elapsed; not guaranteed window or remaining quota"
+    "to_utc": "2026-11-05T00:43:34Z",
+    "seconds": 5862,
+    "meaning": "Measured wall elapsed including platform startup wait; not CPU/model consumption or remaining allowance"
   },
   "platform_events": [
     {
@@ -1170,6 +1174,13 @@
       "event": "selected environment observed_phase=pending; desired running; connectivity connected; observations_current=true; failure=null",
       "affected_action": "workspace execution and encoding review interrupted",
       "disposition": "waited for startup; no new shell experiment/model worker; GitHub read/write used only for authorized durable publication, not to retry blocked content"
+    },
+    {
+      "utc": "2026-11-05T00:43:34Z",
+      "source": "exec_command_readonly_probe",
+      "event": "No usable execution environment is available. Wait for an environment to become available before using this tool.",
+      "affected_action": "pwd in/workspace; no experiment executed",
+      "disposition": "Confirmed execution-access platform boundary; no alternate host/model/paid fallback or restriction bypass. Completed data preserved through GitHub."
     }
   ],
   "pending_reviews": [
@@ -1181,5 +1192,11 @@
       "limits": "No completed verdict or verified publication available; resume only when selected environment ready"
     }
   ],
-  "coordinator_tip_semantics": "Coordinator entry is the verified pre-publication parent snapshot; the live branch can be newer because this index is itself committed there."
+  "coordinator_tip_semantics": "Coordinator entry is the verified pre-publication parent snapshot; the live branch can be newer because this index is itself committed there.",
+  "execution_blocker": {
+    "state": "blocked_environment",
+    "observed_utc": "2026-11-05T00:43:34Z",
+    "evidence": "Actual pwd probe rejected: no usable execution environment; supported status pending/current with failure null",
+    "resume": "Wait for selected environment ready, fetch current coordinator API commits, rerun full index validator and resume encoding_check at d20a6e3f144443f49e958f5fce8d16909821a63d without new route"
+  }
 }
