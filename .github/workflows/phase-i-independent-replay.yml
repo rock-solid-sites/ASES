@@ -70,25 +70,8 @@ jobs:
         with:
           persist-credentials: false
           path: assurance
-      - name: Write verified evidence manifest with actual execution status
-        if: always()
-        shell: bash
-        env:
-          REPLAY_OUTCOME: ${{ steps.replay_checks.outcome }}
-        run: |
-          set -Eeuo pipefail
-          E="$RUNNER_TEMP/phase-i-evidence"
-          mkdir -p "$E"
-          case "$REPLAY_OUTCOME" in
-            success) EXECUTION=PASS ;;
-            failure) EXECUTION=FAIL ;;
-            cancelled) EXECUTION=CANCELLED ;;
-            skipped) EXECUTION=NOT_RUN ;;
-            *) EXECUTION=ERROR ;;
-          esac
-          python3 assurance/docs/research/phase-i-assurance/evidence_contract.py "$E" --execution "$EXECUTION" > "$RUNNER_TEMP/phase-i-case-manifest.json"
-          cp "$RUNNER_TEMP/phase-i-case-manifest.json" "$E/manifest.json"
       - name: Independently reconstruct F4 publication and receipt histories
+        id: f4_refinement
         if: matrix.case.name == 'f4-published-cut' || matrix.case.name == 'f4-receipt-loss'
         shell: bash
         env:
@@ -106,6 +89,26 @@ jobs:
             exit 1
           fi
           cat "$E/f4-refinement.json"
+      - name: Write verified evidence manifest with actual execution status
+        if: always()
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+          REPLAY_OUTCOME: ${{ steps.replay_checks.outcome }}
+          F4_OUTCOME: ${{ steps.f4_refinement.outcome }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/phase-i-evidence"
+          mkdir -p "$E"
+          if [[ "$CASE_NAME" == "f4-published-cut" || "$CASE_NAME" == "f4-receipt-loss" ]]; then
+            if [[ "$REPLAY_OUTCOME" == "success" && "$F4_OUTCOME" == "success" ]]; then EXECUTION=PASS; else EXECUTION=FAIL; fi
+          elif [[ "$REPLAY_OUTCOME" == "success" && "$F4_OUTCOME" == "skipped" ]]; then
+            EXECUTION=PASS
+          else
+            EXECUTION=FAIL
+          fi
+          python3 assurance/docs/research/phase-i-assurance/evidence_contract.py "$E" --execution "$EXECUTION" > "$RUNNER_TEMP/phase-i-case-manifest.json"
+          cp "$RUNNER_TEMP/phase-i-case-manifest.json" "$E/manifest.json"
       - name: Retain independent replay evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -142,7 +145,8 @@ jobs:
             skipped) EXECUTION=NOT_RUN ;;
             *) EXECUTION=ERROR ;;
           esac
-          python3 docs/research/phase-i-assurance/evidence_contract.py docs/research/phase-i-assurance --execution "$EXECUTION" > "$RUNNER_TEMP/assurance-contract/manifest.json"
+          cp docs/research/phase-i-assurance/*.py "$RUNNER_TEMP/assurance-contract/"
+          python3 docs/research/phase-i-assurance/evidence_contract.py "$RUNNER_TEMP/assurance-contract" --execution "$EXECUTION" > "$RUNNER_TEMP/assurance-contract/manifest.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -350,4 +354,45 @@ jobs:
         with:
           name: phase-i-concrete-projection-${{ matrix.case.name }}-${{ github.run_id }}
           path: ${{ runner.temp }}/concrete-projection/
+          retention-days: 30
+
+  evidence-export:
+    name: Evidence export bundle (not off-provider)
+    if: always()
+    needs: [replay, evidence-contract, checker-mutation, remaining-checker-mutations, abstract-state-exploration, bounded-reference-models, concrete-observation-projection]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Collect this run's original CI artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: phase-i-*
+          path: ${{ runner.temp }}/collected
+          merge-multiple: false
+      - name: Build and restore-verify export bundle
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: |
+          set -Eeuo pipefail
+          SRC="$RUNNER_TEMP/collected"
+          OUT="$RUNNER_TEMP/evidence-export"
+          mkdir -p "$SRC" "$OUT" "$RUNNER_TEMP/evidence-restored"
+          COUNT=$(find "$SRC" -mindepth 1 -maxdepth 1 -type d | wc -l)
+          { echo "source_provider=GitHub Actions"; echo "run_id=$RUN_ID"; echo "source_commit=$SOURCE_COMMIT"; echo "source_artifacts=$COUNT"; echo "expected_artifacts=20"; echo "off_provider_archive_verified=false"; echo "encrypted=false"; } > "$OUT/provenance.txt"
+          (cd "$SRC" && find . -type f -print0 | sort -z | xargs -0 -r sha256sum) > "$OUT/SHA256SUMS"
+          tar -C "$SRC" -czf "$OUT/phase-i-evidence.tar.gz" .
+          tar -C "$RUNNER_TEMP/evidence-restored" -xzf "$OUT/phase-i-evidence.tar.gz"
+          (cd "$RUNNER_TEMP/evidence-restored" && sha256sum -c "$OUT/SHA256SUMS") > "$OUT/restore-verification.txt"
+          (cd "$OUT" && sha256sum phase-i-evidence.tar.gz) > "$OUT/archive-sha256.txt"
+          test "$COUNT" -eq 20
+          echo "Complete source collection and archive restore verified"
+      - name: Retain export for off-provider transfer
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-i-evidence-export-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence-export/
+          if-no-files-found: error
           retention-days: 30
