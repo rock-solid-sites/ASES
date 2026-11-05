@@ -1,0 +1,22 @@
+# Frozen bounded register-encoding experiment
+
+Research only; no canonical representation/minimality or timing claim. User priority permits a bounded implementation/resource discriminator. Governing frozen law/encoding: Kernel-0-Finite-Model.md, Kernel-0-Abstract-Semantics.md and Kernel-0-Direct-RTL-Result.md. Source base50e5bc1. Original independent-profile kernel0.v transition remains unchanged.
+
+Question/predictions: can frozen at-most-one active a0/a1/a2 rights constraint reduce the authoritative register from22 to18 bits while preserving all effects/ACKs? Does the decoder/encoder make combinational cells or longest basic-cell path worse, despite4 fewer registers? Competing tradeoff outcomes must be reported; no optimization loop to manufacture an improvement.
+
+Reuse/necessity: retain actual kernel0_step and public22-bit decoded state output; new wrapper changes only register representation. Existing sequence_tb and21 literal hand-derived vectors reused. Dense enumeration of all states would introduce a large lookup; generic RTL state-minimization not needed to answer this structural encoding question. No runtime interpreter/controller/new primitives. Short disposable RTL/Python experiment in existing hardware language/toolchain, not maintained application or production release.
+
+Frozen18-bit layout: low8 bits identical; bits8..12 encode position0 rights as0 for none,1..7 for a0 masks1..7,8..14 for a1 masks1..7,15..21 for a2 masks1..7. Bits13..15 retain a3 rights;16..17 retain parent. Encode/decode all22 legal position0 cases. Reserved codes22..31 are outside legal representation, refuse commitment/hold register. Illegal original inputs with multiple active position0 contexts excluded by frozen legality; no global minimality claim. Explicit decoded22-bit observation still provided, so decode logic cost counts.
+
+Precompute22-row codec table and test inverse/reserved classification. Implement encode/decode, compact_step reusing original transition and compact_machine with same clk/reset/valid/proposal/state/resolved/committed interface. State machine PRIMARY: reset and every clock/valid resolution boundary unchanged. No UI, persistence, host enforcement or external service.
+
+Acceptance:
+1. SAT prove decode(encode(wide))==wide for all22-bit inputs with at most one active position0 rights mask (stronger shape domain than full legal states).
+2. SAT prove compact-step decoded successor and commitment equal original kernel0_step for every18-bit valid code/all15-bit proposals in independent profile; full semantics still rely on reused frozen transition.
+3. Reuse21 independent literal cycles against compact machine, including reset collision/stutters/issuance/resume.
+4. Disposable decoder offset mutant for a1 must fail identity SAT and literal cycle8. Do not claim checker sensitivity if it fails only syntax/setup.
+5. Compare baseline vs compact under identical Yosys0.23/ABC1.01 basic-gate flow: FF count, combinational/basic total cells, latches/memories and longest combinational cell levels. Report wall/peak RSS from actual child measurements where available. Counts/levels are technology-independent proxies, NOT physical delay, area, FPGA LUTs, frequency or timing closure.
+
+Tool feasibility already observed, no host install: Debian Yosys0.23-6 package SHA00cb3419d9c2e8964e588cbfa8a46b8d0ff4b391083a53a82d49ec1c2766330b; Berkeley ABC1.01+20221019git70cb339+dfsg-4 SHA647287c7cfe518af90dbfea71316484aa0ca7cdac130450a1a17b9030a118e58. Extracted /tmp/ases-round2-synthesis/root; dynamic libraries resolve. Prior Icarus12 package/hash/path reused from Round2 RTL. Exact source/tool/version/script/netlist hashes/raw/commands retained. Per job<=45s/512MiB; whole runner<=180s; stop if tool incompatible rather than silently swap route. Package URLs under deb.debian.org/debian/pool/main/{y/yosys,b/berkeley-abc}/ with filenames above; source listing retrieval recorded as setup, no upstream defect investigation.
+
+Residual task (direct coordinator, no delegation): implement frozen codecs/wrapper/miter, prove/test controls, run one same-flow independent-profile synthesis pair, preserve all outputs including any timeout/mismatch/tradeoff, commit/push this isolated branch and index. No other profiles or speculative redesign unless a concrete failure requires the smallest correction. Independent post-build checking receives fixed artifact/claim, not this process packet.
