@@ -22,6 +22,7 @@ from typing import Any
 
 
 ORDERED_MODES = ("sink-ordered", "recover-ordered", "recover-ordered-prefix")
+DURABLE_EVENTS = ("effect_accepted", "obligation_committed", "authority_replaced")
 
 
 class SinkState:
@@ -160,7 +161,7 @@ class SinkState:
 
     def emit_locked(self, name: str, **fields: Any) -> dict[str, Any]:
         event = {"seq": self.next_seq, "event": name, **fields}
-        if name in ("effect_accepted", "obligation_committed", "authority_replaced"):
+        if name in DURABLE_EVENTS:
             if self.persistence_failed:
                 raise OSError("persistence fault requires explicit recovery before durable use")
             self.journal.parent.mkdir(parents=True, exist_ok=True)
