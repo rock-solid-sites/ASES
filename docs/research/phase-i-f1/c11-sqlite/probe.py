@@ -26,7 +26,7 @@ WORLDS={name:dict(identity_genesis='genesis-'+name,created_by='creator-'+name,pr
 BOOTSTRAP={key:'bootstrap-'+key for key in service.FIELDS}
 
 class Holder:
-    def __init__(self,path,label,mode='atomic',observations=None,context=0,stage=None,extra_config=None,service_source=None):
+    def __init__(self,path,label,mode='atomic',observations=None,context=0,stage=None,extra_config=None,service_source=None,allow_startup_failure=False):
         self.client,server=socket.socketpair();self.client.settimeout(3)
         self.event,event_write=os.pipe();release_read,self.release=os.pipe()
         config=dict(path=str(path),root='work',profile='independent',channels=[[context,server.fileno()]],
@@ -41,9 +41,17 @@ class Holder:
         self.process=subprocess.Popen([sys.executable,str(service_source or SOURCE),json.dumps(config)],pass_fds=fds,
                                       stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=0)
         server.close();os.close(event_write);os.close(release_read)
-        assert select.select([self.process.stdout],[],[],3)[0],'holder startup timeout'
-        assert self.process.stdout.readline()==b'ready\n','holder startup failure'
-        self.meta.update(pid=self.process.pid,ready_ns=time.monotonic_ns())
+        readable=select.select([self.process.stdout],[],[],3)[0]
+        line=self.process.stdout.readline() if readable else b''
+        self.meta.update(pid=self.process.pid,ready=line==b'ready\n')
+        if not self.meta['ready']:
+            if not readable:self.process.kill()
+            out,err=self.process.communicate(timeout=3)
+            self.meta.update(exit=self.process.returncode,exit_ns=time.monotonic_ns(),stdout=(line+out).decode(),stderr=err.decode())
+            self.client.close();os.close(self.event);os.close(self.release)
+            if not allow_startup_failure:raise RuntimeError('holder startup failure: '+self.meta['stderr'])
+            return
+        self.meta['ready_ns']=time.monotonic_ns()
     def call(self,request):
         result=dict(request=request,start_ns=time.monotonic_ns())
         try:
@@ -56,6 +64,7 @@ class Holder:
         assert os.read(self.event,1)==b'G'
         return dict(stage=self.meta['config']['gate']['stage'],pid=self.process.pid,observed_ns=time.monotonic_ns(),raw_hex='47')
     def close(self,close_client=True):
+        if not self.meta['ready']:return self.meta
         self.process.kill();self.meta['exit']=self.process.wait(timeout=3);self.meta['exit_ns']=time.monotonic_ns()
         self.meta['stderr']=self.process.stderr.read().decode()
         self.process.stdout.close();self.process.stderr.close()
