@@ -14,7 +14,9 @@ CIPHER="$BACKUP_OUTPUT/evidence.tar.gz.age"
 age -r "$AGE_RECIPIENT" -o "$CIPHER" "$SOURCE_TAR"
 sha256sum "$SOURCE_TAR" > "$BACKUP_OUTPUT/plaintext.sha256"
 sha256sum "$CIPHER" > "$BACKUP_OUTPUT/ciphertext.sha256"
-KEY="ases/phase-i/$RUN_ID/$SOURCE_COMMIT/evidence.tar.gz.age"
+RUN_ATTEMPT="${RUN_ATTEMPT:-1}"
+[[ "$RUN_ATTEMPT" =~ ^[1-9][0-9]*$ ]] || { echo "Invalid run attempt"; exit 1; }
+KEY="ases/phase-i/$RUN_ID/attempt-$RUN_ATTEMPT/$SOURCE_COMMIT/evidence.tar.gz.age"
 export RCLONE_CONFIG_R2_TYPE=s3 RCLONE_CONFIG_R2_PROVIDER=Cloudflare
 export RCLONE_CONFIG_R2_ENDPOINT="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
 export RCLONE_CONFIG_R2_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID"
