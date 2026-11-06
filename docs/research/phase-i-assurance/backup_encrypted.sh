@@ -11,6 +11,9 @@ RAW_SIZE=$(stat -c %s "$SOURCE_TAR")
 test "$RAW_SIZE" -le 50000000
 [[ "$AGE_RECIPIENT" =~ ^age1[0-9a-z]+$ ]] || { echo "Require an age PUBLIC recipient"; exit 1; }
 CIPHER="$BACKUP_OUTPUT/evidence.tar.gz.age"
+# A failed or interrupted readback must not strand the temporary encrypted copy.
+# Failed attempts need to be repeatable without overwriting an immutable remote key.
+trap 'rm -f -- "$CIPHER" "$BACKUP_OUTPUT"/readback-*.age' EXIT
 age -r "$AGE_RECIPIENT" -o "$CIPHER" "$SOURCE_TAR"
 sha256sum "$SOURCE_TAR" > "$BACKUP_OUTPUT/plaintext.sha256"
 sha256sum "$CIPHER" > "$BACKUP_OUTPUT/ciphertext.sha256"
