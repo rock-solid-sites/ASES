@@ -9,6 +9,22 @@ observations, object identity and bytes, containment and latent rights, inventor
 physical material, sink authority, local effects, publication and knowledge of receipt.
 Equality of content hashes is insufficient for equality of accepted observation worlds.
 
+## Native interfaces and trust boundaries
+
+| Interface | Native identity types | Trusted inputs and assumptions | Missing cross-component binding |
+| --- | --- | --- | --- |
+| F1 C11 | root/profile/schema in SQLite; integer channel context; two admitted content strings; four opaque string observations | Supervisor associates inherited socket with context and supplies truthful observations; current SQLite file/interpretation, runtime and host trusted | No L5 unit/object, L6 dependency identity or F4 authority version; observations are optional on cold holder configuration. |
+| L5 | fixed names P/C/Q/D; accepted identity string and object path/hash/size; fixed W-L5 ingress | Trusted current filesystem/manager, static test credential, one holder; atomic replaces under a surviving host | No F1 acceptance verifier; no native L6 lifecycle link; no F4 use-point fencing. Matching credential is not physical manager authentication. |
+| L6 | one implicit unit per root, no unit-ID column; flat lowercase object name; accepted/candidate kind; hash/size/disposed | Trusted management input, complete flat enclosing root, all cooperative writers take BEGIN IMMEDIATE; SQLite FULL/DELETE | Equal bytes do not distinguish F1 opaque evidence worlds; `x` is only an adapter alias; L5's graph/store are not inventoried. |
+| F4 | flat constant C/p; integer authority version and holder label; opaque request ID/payload; witness root string, nonce and typed cut | Trusted bootstrap/publisher/witness, live witness memory, stable-root writer-lock inode, local management channel, journal and host | Descendant, acceptance provenance and L6 unit lifecycle are not admission inputs; copied payload identity confers no authority. |
+
+The envelope used here is an **adapter-defined data type**, not a type accepted as
+authority by these interfaces. The aliases are retained for observation; the harness
+does not promote them into Kernel definitions. Source truth, current applicability,
+host isolation and retention are distinct obligations.
+
+## Transition observations
+
 | Concrete observation / linearization candidate | Proposed abstract meaning | Required premise / result |
 | --- | --- | --- |
 | F1 `BEGIN IMMEDIATE`; read current kernel row | Start guarded proposal | SQLite serializes the relevant local state, not other components. |
@@ -64,3 +80,14 @@ but does not add cross-store identity or authority to the native sink.
 These are domain/transition adequacy gaps. Additional model depth or repetition of the
 same selected traces cannot close them. Local steps can refine separate local contracts
 while their asserted common Work Unit interpretation fails C1/C2/C3/C8/C9/C10.
+
+More precisely, the proposed relation reads the F1 pair from its two SQLite rows, L5
+content/authority from CURRENT and the selected object, inventory from L6's live row,
+dependencies and actual files, and local/published/known outcome from F4's journal and
+wire exchange. Under the declared **use-current D-effect** interpretation, each new
+F4 effect must have eligible D authority and a live owning inventory domain at its
+acceptance point. The captured denial/publication history has no such step. Mapping
+it to a separately authorized audit event would change the requested effect meaning.
+Likewise, ignoring the incompatible F1 observation row would erase required C11
+observations rather than establish refinement. These are falsifying traces for that
+proposed relation, not a proof that every possible trusted composite is impossible.

@@ -1,0 +1,462 @@
+{
+  "minimality": "manual shortest useful suffixes under retained reachable prefixes; no global minimality proof",
+  "witnesses": {
+    "checker-false-rejection": {
+      "case": "valid-rejection-gap",
+      "parent": {
+        "path": "attempt-02/raw.json",
+        "sha256": "1be5441d43927aff7af58f773e63a89289c6900b7204489e1369d65fbb35a4ae"
+      },
+      "steps": [
+        {
+          "event": "invalid-version-request-denied",
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "outcome": "rejected"
+            },
+            "raw": "{\"authority_version\": 1, \"outcome\": \"rejected\"}",
+            "status": 409
+          }
+        },
+        {
+          "event": "valid-version-request-accepted",
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 5,
+              "outcome": "accepted",
+              "published_journal_sha256": "ac744a661c97ee303999a24e83814fa8065a9e5d10dd072845721662bf5840d5",
+              "published_revision": 5
+            },
+            "raw": "{\"authority_version\": 1, \"event_seq\": 5, \"outcome\": \"accepted\", \"published_journal_sha256\": \"ac744a661c97ee303999a24e83814fa8065a9e5d10dd072845721662bf5840d5\", \"published_revision\": 5}",
+            "status": 201
+          }
+        },
+        {
+          "event": "durable-journal",
+          "rows": [
+            {
+              "current_version": 0,
+              "event": "managed_created",
+              "holder": "old",
+              "position": "p",
+              "profile": "flat-managed-v1",
+              "seq": 1,
+              "unit": "C"
+            },
+            {
+              "allow": true,
+              "current_version": 1,
+              "event": "managed_granted",
+              "position": "p",
+              "previous_version": 0,
+              "profile": "flat-managed-v1",
+              "right": "write",
+              "seq": 2,
+              "unit": "C"
+            },
+            {
+              "current_version": 1,
+              "event": "managed_activated",
+              "position": "p",
+              "profile": "flat-managed-v1",
+              "seq": 3,
+              "unit": "C"
+            },
+            {
+              "accepted_under_version": 1,
+              "check_mode": "managed-use-current",
+              "event": "effect_accepted",
+              "payload": "{\"accepted_observations\":{\"consumer_evidence\":\"{\\\"causal_id\\\":\\\"sol-20261106:valid-rejection-gap\\\",\\\"content_sha256\\\":\\\"0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8\\\"}\",\"created_by\":\"trusted-test-supervisor\",\"identity_genesis\":\"work:C:sol-20261106:valid-rejection-gap\",\"project\":\"ASES-independent-integration\"},\"causal_id\":\"sol-20261106:valid-rejection-gap\",\"content\":\"accepted\\u0000one\\n\",\"content_sha256\":\"0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8\",\"descendant\":\"D\",\"sink_position\":\"p\",\"unit\":\"C\"}",
+              "payload_sha256": "eef7980d812934e64f016bf66cee8b254b727b01622cd40553c9d90348839309",
+              "position": "p",
+              "presented_version": 1,
+              "profile": "flat-managed-v1",
+              "request_id": "sol-20261106:valid-rejection-gap",
+              "seq": 5,
+              "unit": "C"
+            }
+          ]
+        },
+        {
+          "event": "prior-checker",
+          "native_sequence": [
+            1,
+            2,
+            3,
+            5
+          ],
+          "reason": "journal durable event sequence is not contiguous"
+        }
+      ]
+    },
+    "cold-accept-without-evidence": {
+      "case": "recovered-accept-missing-observations",
+      "parent": {
+        "path": "recovery-01/raw.json",
+        "sha256": "991d35653f5be074d503bb6dffb74b9d5e9fa42f56b902acf9338843c46cfe44"
+      },
+      "steps": [
+        {
+          "binding": {
+            "consumer_evidence": "accepted world A",
+            "created_by": "trusted-test-supervisor",
+            "identity_genesis": "work:C:recovered-accept-missing-observations",
+            "project": "ASES-independent-integration"
+          },
+          "content": "accepted\u0000one\n",
+          "event": "already-accepted-pair"
+        },
+        {
+          "event": "cold-holder",
+          "observations_configured": false,
+          "pid": 1813
+        },
+        {
+          "event": "accept",
+          "request": {
+            "kind": "accept",
+            "other": 0,
+            "target": 0,
+            "value": "accepted\u0000zero\n"
+          },
+          "response": {
+            "consumer_query": {
+              "accepted_content": "accepted\u0000zero\n",
+              "required": null,
+              "status": "incompatible_required_observations",
+              "stored_content": "accepted\u0000one\n"
+            },
+            "outcome": "commit",
+            "state": {
+              "content": "accepted\u0000zero\n",
+              "cycle": [
+                0,
+                0,
+                0
+              ],
+              "data": [
+                0,
+                0
+              ],
+              "established": true,
+              "issued": 1,
+              "parents": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "rights": [
+                7,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "sql": [
+            {
+              "end_ns": 578886122079,
+              "in_transaction": true,
+              "pid": 1813,
+              "sql": "BEGIN",
+              "start_ns": 578885977071
+            },
+            {
+              "end_ns": 578886216702,
+              "in_transaction": false,
+              "pid": 1813,
+              "sql": "ROLLBACK",
+              "start_ns": 578886194508
+            },
+            {
+              "end_ns": 578887074244,
+              "in_transaction": true,
+              "pid": 1813,
+              "sql": "BEGIN",
+              "start_ns": 578886997769
+            },
+            {
+              "end_ns": 578887237320,
+              "in_transaction": true,
+              "pid": 1813,
+              "sql": "UPDATE",
+              "start_ns": 578887155516
+            },
+            {
+              "end_ns": 578888740685,
+              "in_transaction": false,
+              "pid": 1813,
+              "sql": "COMMIT",
+              "start_ns": 578887249388
+            }
+          ]
+        },
+        {
+          "content": "accepted\u0000zero\n",
+          "event": "independent-cold-read",
+          "query": {
+            "accepted_content": "accepted\u0000zero\n",
+            "required": null,
+            "status": "incompatible_required_observations",
+            "stored_content": "accepted\u0000one\n"
+          },
+          "stored_observation": {
+            "accepted_content": "accepted\u0000one\n",
+            "required": {
+              "consumer_evidence": "accepted world A",
+              "created_by": "trusted-test-supervisor",
+              "identity_genesis": "work:C:recovered-accept-missing-observations",
+              "project": "ASES-independent-integration"
+            }
+          }
+        }
+      ]
+    },
+    "independent-lifecycle": {
+      "case": "removed-inventory",
+      "parent": {
+        "path": "attempt-02/raw.json",
+        "sha256": "1be5441d43927aff7af58f773e63a89289c6900b7204489e1369d65fbb35a4ae"
+      },
+      "steps": [
+        {
+          "event": "alias",
+          "mapping": {
+            "l5_identity": "sol-20261106:removed-inventory",
+            "l5_unit": "C",
+            "l6_envelope": {
+              "accepted_observations": {
+                "consumer_evidence": "{\"causal_id\":\"sol-20261106:removed-inventory\",\"content_sha256\":\"0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8\"}",
+                "created_by": "trusted-test-supervisor",
+                "identity_genesis": "work:C:sol-20261106:removed-inventory",
+                "project": "ASES-independent-integration"
+              },
+              "causal_id": "sol-20261106:removed-inventory",
+              "content": "accepted\u0000one\n",
+              "content_sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "descendant": "D",
+              "sink_position": "p",
+              "unit": "C"
+            },
+            "l6_name": "x",
+            "route_from_descendant": "D",
+            "sink_position": "p",
+            "sink_unit": "C",
+            "test_only": true
+          }
+        },
+        {
+          "event": "inventory-removed",
+          "files": {},
+          "live": false,
+          "response": {
+            "directory_removed": true,
+            "logical_unit_removed": true,
+            "profile": "directory-inventory",
+            "result": "COMMITTED"
+          }
+        },
+        {
+          "accepted_contents": [
+            {
+              "bridge_envelope": {
+                "accepted_observations": {
+                  "consumer_evidence": "{\"causal_id\":\"sol-20261106:removed-inventory\",\"content_sha256\":\"0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8\"}",
+                  "created_by": "trusted-test-supervisor",
+                  "identity_genesis": "work:C:sol-20261106:removed-inventory",
+                  "project": "ASES-independent-integration"
+                },
+                "causal_id": "sol-20261106:removed-inventory",
+                "content": "accepted\u0000one\n",
+                "content_sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+                "descendant": "D",
+                "sink_position": "p",
+                "unit": "C"
+              },
+              "identity": "sol-20261106:removed-inventory",
+              "object": "objects/x.bin",
+              "sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+              "size": 13
+            }
+          ],
+          "event": "L5-survivor"
+        },
+        {
+          "event": "downstream-effect",
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 4,
+              "outcome": "accepted",
+              "published_journal_sha256": "9943fe3329389d0aa01b660faa981f94a0246901d5da57d8ab513a6c74afac1b",
+              "published_revision": 5
+            },
+            "raw": "{\"authority_version\": 1, \"event_seq\": 4, \"outcome\": \"accepted\", \"published_journal_sha256\": \"9943fe3329389d0aa01b660faa981f94a0246901d5da57d8ab513a6c74afac1b\", \"published_revision\": 5}",
+            "status": 201
+          }
+        }
+      ]
+    },
+    "source-denial-downstream-publication": {
+      "case": "attenuated-descendant",
+      "parent": {
+        "path": "attempt-02/raw.json",
+        "sha256": "1be5441d43927aff7af58f773e63a89289c6900b7204489e1369d65fbb35a4ae"
+      },
+      "steps": [
+        {
+          "envelope": {
+            "accepted_observations": {
+              "consumer_evidence": "{\"causal_id\":\"sol-20261106:attenuated-descendant\",\"content_sha256\":\"0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8\"}",
+              "created_by": "trusted-test-supervisor",
+              "identity_genesis": "work:C:sol-20261106:attenuated-descendant",
+              "project": "ASES-independent-integration"
+            },
+            "causal_id": "sol-20261106:attenuated-descendant",
+            "content": "accepted\u0000one\n",
+            "content_sha256": "0892e4a48fb86251184b1332b5ee6e7a64b2c5835ecb483e85609de7a2c965f8",
+            "descendant": "D",
+            "sink_position": "p",
+            "unit": "C"
+          },
+          "event": "accepted-identity"
+        },
+        {
+          "ceiling_C": [
+            "read"
+          ],
+          "ceiling_D": [
+            "read"
+          ],
+          "event": "selected-moved-state",
+          "ingress": "W-L5",
+          "parent_C": "Q"
+        },
+        {
+          "event": "D-write",
+          "response": {
+            "allowed": false,
+            "result": "DENY"
+          }
+        },
+        {
+          "event": "F4-submit",
+          "publication_exchange": {
+            "end_ns": 486328133938,
+            "path": "/publish",
+            "request": {
+              "candidate": {
+                "authority": {
+                  "active": true,
+                  "authority_version": 1,
+                  "created": true,
+                  "granted": true,
+                  "holder": "old"
+                },
+                "journal_sha256": "04548df805fba498f4243b90108db9bafd68bc49d453e6c884027edc8ac8f312"
+              },
+              "expected_revision": 4,
+              "nonce": "67edecd2cbdc96936434840b623c9400",
+              "previous": {
+                "authority": {
+                  "active": true,
+                  "authority_version": 1,
+                  "created": true,
+                  "granted": true,
+                  "holder": "old"
+                },
+                "journal_sha256": "f6b7417976183ad0586089ea35a3484964be3c4c1e3ee702658bdcb707c047ef"
+              },
+              "root": "sol-20261106:attenuated-descendant"
+            },
+            "response": {
+              "current": {
+                "authority": {
+                  "active": true,
+                  "authority_version": 1,
+                  "created": true,
+                  "granted": true,
+                  "holder": "old"
+                },
+                "journal_sha256": "04548df805fba498f4243b90108db9bafd68bc49d453e6c884027edc8ac8f312"
+              },
+              "nonce": "67edecd2cbdc96936434840b623c9400",
+              "pid": 1418,
+              "published": true,
+              "revision": 5,
+              "root": "sol-20261106:attenuated-descendant"
+            },
+            "start_ns": 486328119627,
+            "status": 200
+          },
+          "response": {
+            "body": {
+              "authority_version": 1,
+              "event_seq": 4,
+              "outcome": "accepted",
+              "published_journal_sha256": "04548df805fba498f4243b90108db9bafd68bc49d453e6c884027edc8ac8f312",
+              "published_revision": 5
+            },
+            "raw": "{\"authority_version\": 1, \"event_seq\": 4, \"outcome\": \"accepted\", \"published_journal_sha256\": \"04548df805fba498f4243b90108db9bafd68bc49d453e6c884027edc8ac8f312\", \"published_revision\": 5}",
+            "status": 201
+          }
+        }
+      ]
+    },
+    "stale-manager-success": {
+      "case": "competing-l5-managers",
+      "parent": {
+        "path": "attempt-02/raw.json",
+        "sha256": "1be5441d43927aff7af58f773e63a89289c6900b7204489e1369d65fbb35a4ae"
+      },
+      "steps": [
+        {
+          "event": "mover-blocked-after-record",
+          "ns": 489514418732,
+          "phase": "after_record",
+          "pid": 1610,
+          "selected": "record-000001.json"
+        },
+        {
+          "end_ns": 489518265248,
+          "event": "rival-activation",
+          "pid": 1611,
+          "reply": {
+            "ingress": "W-L5",
+            "record": "record-000002.json",
+            "record_sha256": "d386c69e85f6e236cf1582fee01b97414afd8bff9dc68143d7a7db93cc462019",
+            "result": "COMMITTED"
+          },
+          "start_ns": 489517335076
+        },
+        {
+          "end_ns": 489522574181,
+          "event": "move-success-reply",
+          "pid": 1610,
+          "reply": {
+            "old_effective": {
+              "C": [
+                "read"
+              ],
+              "D": [
+                "read"
+              ]
+            },
+            "record": "record-000002.json",
+            "record_sha256": "d386c69e85f6e236cf1582fee01b97414afd8bff9dc68143d7a7db93cc462019",
+            "result": "COMMITTED"
+          }
+        },
+        {
+          "active_C": true,
+          "event": "cold-selected-state",
+          "parent_C": "P",
+          "selected": "record-000002.json"
+        }
+      ]
+    }
+  }
+}

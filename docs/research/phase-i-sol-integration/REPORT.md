@@ -17,6 +17,12 @@ integration is not established: the L5 experiment starts from a synthetic accept
 fixture, L6 owns a different lifecycle/domain, and F4 has a different authority contract.
 No invariant was weakened, component replaced, or canonical policy changed.
 
+The authorized fallback is therefore an adversarial review of the model-to-implementation
+obligations, backed by a **partial native-component harness**. This does not prove that
+every possible trusted composition is impossible. A bridge with an explicit effect,
+identity, ownership and ordering contract could change the result; none is implemented
+or verified by the pinned services.
+
 The most direct continuation counterexample is in F1's wrapper: after an accepted pair
 and a cold restart without original observations, a new acceptance returns COMMIT while
 leaving the old incompatible evidence binding. The main composition counterexample is
@@ -137,6 +143,11 @@ stderr is empty. Bootstrap and read-only reader subprocesses are additional shor
 processes recorded through their outputs/commands, not included in that count. Native
 campaign runtime was approximately 5.89s plus 0.81s; no CPU/memory/cost measurement is
 claimed. Runtime: Python 3.12.14, SQLite 3.53.1, Linux 6.18.57; executable hashes are in raw.
+The final reproduction script re-executed those same 18 cases once after the harness's
+bootstrap-evidence correction, preserving its separate capture as `reproduction-01`.
+That repetition verifies reproducibility of the script; it is not additional independent
+oracle evidence. The `stale-token`/sequence-gap cases use pre-grant version 0; actual
+overlapping authorized stale writers are tested in L5, not claimed from those F4 cases.
 
 Run [reproduce.sh](reproduce.sh) for a new capture. The committed captures can be checked
 offline with the observer. The existing evidence-contract/capture verifier's 34 tests
