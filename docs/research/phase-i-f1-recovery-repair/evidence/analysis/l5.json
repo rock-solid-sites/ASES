@@ -1,0 +1,56 @@
+{
+  "cases": {
+    "exclusive-bypass": {
+      "observation": "WRONG_MOVE_ACK_REPRODUCED",
+      "parent": "P",
+      "scope": "unguarded writer allowed"
+    },
+    "exclusive-kill-after-record": {
+      "observation": "SUPPORTED_WITHIN_COOPERATIVE_SCOPE",
+      "parent": "Q"
+    },
+    "exclusive-kill-after-selector": {
+      "observation": "SUPPORTED_WITHIN_COOPERATIVE_SCOPE",
+      "parent": "Q"
+    },
+    "exclusive-overlap": {
+      "observation": "SUPPORTED_WITHIN_COOPERATIVE_SCOPE",
+      "parent": "Q"
+    },
+    "exclusive-serial": {
+      "observation": "SUPPORTED_WITHIN_COOPERATIVE_SCOPE",
+      "parent": "Q"
+    },
+    "generation-bypass": {
+      "observation": "WRONG_MOVE_ACK_REPRODUCED",
+      "parent": "P",
+      "scope": "unguarded writer allowed"
+    },
+    "generation-kill-after-record": {
+      "observation": "FAIL_CLOSED_BUT_PROGRESS_BLOCKED",
+      "parent": "P"
+    },
+    "generation-kill-after-selector": {
+      "observation": "SUPPORTED_WITHIN_COOPERATIVE_SCOPE",
+      "parent": "Q"
+    },
+    "generation-overlap": {
+      "observation": "SUPPORTED_WITHIN_COOPERATIVE_SCOPE",
+      "parent": "Q"
+    },
+    "generation-serial": {
+      "observation": "SUPPORTED_WITHIN_COOPERATIVE_SCOPE",
+      "parent": "Q"
+    },
+    "original-overlap": {
+      "observation": "WRONG_MOVE_ACK_REPRODUCED",
+      "parent": "P",
+      "scope": "unguarded writer allowed"
+    }
+  },
+  "conclusion": "Exclusive writer is the smaller tested cooperative candidate; generation fence blocks prepublication crash recovery; neither resists unguarded writers; direct atomic CURRENT CAS not implemented.",
+  "invalid_control": {
+    "outcome": "REJECTED",
+    "reason": "acknowledged move not retained"
+  }
+}
