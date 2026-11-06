@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/phase-i-independent-replay.yml'
       - 'docs/research/phase-i-assurance/*.py'
+      - 'docs/research/phase-i-assurance/*.sh'
   workflow_dispatch:
 
 permissions:
@@ -392,10 +393,41 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  actual-crypto-restore:
+    name: Real age cryptography, synthetic end-to-end restoration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install real age encryption binary
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq age
+      - name: Encrypt, decrypt, and reject tampered or wrong-key evidence
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/crypto-restore"
+          { age --version; python3 --version; } > "$RUNNER_TEMP/crypto-restore/environment.txt"
+          cd docs/research/phase-i-assurance
+          python3 -m unittest -v test_real_age_backup.py 2>&1 | tee "$RUNNER_TEMP/crypto-restore/real-age-tests.txt"
+          printf '{"mode":"ephemeral synthetic data only","actual_age_encryption":true,"actual_age_private_key_restore":true,"r2_provider_tested":false,"idrive_provider_tested":false,"persistent_private_key_tested":false}\n' > "$RUNNER_TEMP/crypto-restore/attestation.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-real-crypto-restore-${{ github.run_id }}
+          path: ${{ runner.temp }}/crypto-restore/
+          if-no-files-found: error
+          retention-days: 30
+
   evidence-export:
     name: Evidence export bundle (not off-provider)
     if: always()
-    needs: [replay, evidence-contract, checker-mutation, remaining-checker-mutations, abstract-state-exploration, bounded-reference-models, concrete-observation-projection, cross-boundary-composition]
+    needs: [replay, evidence-contract, checker-mutation, remaining-checker-mutations, abstract-state-exploration, bounded-reference-models, concrete-observation-projection, cross-boundary-composition, actual-crypto-restore]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -419,13 +451,13 @@ jobs:
           OUT="$RUNNER_TEMP/evidence-export"
           mkdir -p "$SRC" "$OUT" "$RUNNER_TEMP/evidence-restored"
           COUNT=$(find "$SRC" -mindepth 1 -maxdepth 1 -type d | wc -l)
-          { echo "source_provider=GitHub Actions"; echo "run_id=$RUN_ID"; echo "source_commit=$SOURCE_COMMIT"; echo "source_artifacts=$COUNT"; echo "expected_artifacts=21"; echo "off_provider_archive_verified=false"; echo "encrypted=false"; } > "$OUT/provenance.txt"
+          { echo "source_provider=GitHub Actions"; echo "run_id=$RUN_ID"; echo "source_commit=$SOURCE_COMMIT"; echo "source_artifacts=$COUNT"; echo "expected_artifacts=22"; echo "off_provider_archive_verified=false"; echo "encrypted=false"; } > "$OUT/provenance.txt"
           (cd "$SRC" && find . -type f -print0 | sort -z | xargs -0 -r sha256sum) > "$OUT/SHA256SUMS"
           tar -C "$SRC" -czf "$OUT/phase-i-evidence.tar.gz" .
           tar -C "$RUNNER_TEMP/evidence-restored" -xzf "$OUT/phase-i-evidence.tar.gz"
           (cd "$RUNNER_TEMP/evidence-restored" && sha256sum -c "$OUT/SHA256SUMS") > "$OUT/restore-verification.txt"
           (cd "$OUT" && sha256sum phase-i-evidence.tar.gz) > "$OUT/archive-sha256.txt"
-          test "$COUNT" -eq 21
+          test "$COUNT" -eq 22
           echo "Complete source collection and archive restore verified"
       - name: Verify all seven embedded evidence manifests independently
         shell: bash
@@ -497,6 +529,7 @@ jobs:
           BACKUP_OUTPUT: ${{ runner.temp }}/backup-status
           SOURCE_COMMIT: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
           AGE_RECIPIENT: ${{ vars.ASES_BACKUP_AGE_RECIPIENT }}
           R2_ACCOUNT_ID: ${{ vars.ASES_R2_ACCOUNT_ID }}
           R2_ACCESS_KEY_ID: ${{ secrets.ASES_R2_ACCESS_KEY_ID }}
