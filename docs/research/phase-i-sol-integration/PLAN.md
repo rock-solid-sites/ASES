@@ -79,3 +79,19 @@ smallest missing interface is identified. Preserve targeted local positive/negat
 controls, exact sources, raw traces, limitations, transition mapping, claim disposition,
 and prioritized obligations; commit/push and create a draft PR. Avoid ordinary CI,
 storage provisioning, production changes, and broad framework development.
+
+## Follow-up frozen after attempt-02, before its deciding execution
+
+Attempt-01 failed in this harness because a function shadowed the HTTP module; preserved
+as instrument failure. Attempt-02 completed the initial 16 cases. It observed source
+denial with downstream publication, stale manager success, and evidence replacement
+on reconfigured non-accept writes. These are observations pending independent mapping.
+
+One cheaper and stronger F1 discriminator now follows from the interface: start a cold
+holder with **no observations**, as the original recovery experiment does, then request
+a new native content acceptance. Predict either a denial preserving the paired state,
+or a commit/ACK with an old incompatible evidence bundle. The latter refutes a general
+continuation invariant even though it does not refute the original five-case result.
+Add a neighboring recovered holder explicitly supplied fresh observations, and retain
+the original read-only/no-observation recovery case. Do not call a missing-input denial
+a liveness failure or change the frozen C11 five-case claim.
