@@ -1,0 +1,113 @@
+name: Phase I historical evidence backfill (experimental)
+on:
+  push:
+    branches:
+      - research/phase-i-ci-assurance-20261105
+    paths:
+      - '.github/workflows/phase-i-evidence-backfill.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: phase-i-backfill-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  historical-backfill:
+    name: Download, hash and archive selected historical CI artifacts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fetch eight frozen historical run artifact sets
+        id: collect
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/historical-backfill"
+          mkdir -p "$E/raw" "$E/output"
+          python3 docs/research/phase-i-assurance/backfill_evidence.py \
+            --inventory docs/research/phase-i-assurance/BACKFILL-INVENTORY-20261106.json \
+            --workspace "$E/raw" \
+            --archive "$E/output/historical-evidence.tar.gz" \
+            --repository "$GITHUB_REPOSITORY" \
+            --fetch > "$E/output/collection-report.json"
+          cat "$E/output/collection-report.json"
+          (cd "$E/output" && sha256sum historical-evidence.tar.gz) > "$E/output/sha256.txt"
+          python3 - "$E/output/collection-report.json" <<'PY'
+          import json,sys
+          s=json.load(open(sys.argv[1]))
+          with open(__import__('os').environ['GITHUB_STEP_SUMMARY'],'a') as out:
+              out.write(f"Historical artifacts: **{s['observed_artifacts']}/{s['expected_artifacts']}**; collection complete: **{s['source_collection_complete']}**.\n")
+          PY
+      - name: Preserve the verified historical collection inside GitHub
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-i-historical-backfill-${{ github.run_id }}
+          path: ${{ runner.temp }}/historical-backfill/output/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Check private encryption and R2 credentials
+        id: gate
+        if: always()
+        shell: bash
+        env:
+          COLLECT: ${{ steps.collect.outcome }}
+          AGE_RECIPIENT: ${{ vars.ASES_BACKUP_AGE_RECIPIENT }}
+          R2_ACCOUNT_ID: ${{ vars.ASES_R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.ASES_R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.ASES_R2_SECRET_ACCESS_KEY }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/historical-backfill/output"
+          if [[ "$COLLECT" != success ]]; then
+            STATUS=BLOCKED_NO_VERIFIED_LOCAL_EXPORT
+          elif [[ -z "$AGE_RECIPIENT" || -z "$R2_ACCOUNT_ID" || -z "$R2_ACCESS_KEY_ID" || -z "$R2_SECRET_ACCESS_KEY" ]]; then
+            STATUS=BLOCKED_NOT_CONFIGURED
+          else
+            STATUS=READY
+          fi
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          echo "Encrypted historical backfill: **$STATUS**" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$STATUS" != READY ]]; then
+            echo "No off-provider historical backup was attempted." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Encrypt and restore-verify remote historical ciphertext
+        if: steps.gate.outputs.status == 'READY'
+        shell: bash
+        env:
+          SOURCE_TAR: ${{ runner.temp }}/historical-backfill/output/historical-evidence.tar.gz
+          BACKUP_OUTPUT: ${{ runner.temp }}/historical-backfill/status
+          SOURCE_COMMIT: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          AGE_RECIPIENT: ${{ vars.ASES_BACKUP_AGE_RECIPIENT }}
+          R2_ACCOUNT_ID: ${{ vars.ASES_R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.ASES_R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.ASES_R2_SECRET_ACCESS_KEY }}
+          E2_ENDPOINT: ${{ vars.ASES_E2_ENDPOINT }}
+          E2_BUCKET: ${{ vars.ASES_E2_BUCKET }}
+          E2_ACCESS_KEY_ID: ${{ secrets.ASES_E2_ACCESS_KEY_ID }}
+          E2_SECRET_ACCESS_KEY: ${{ secrets.ASES_E2_SECRET_ACCESS_KEY }}
+        run: |
+          set -Eeuo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq age rclone
+          bash docs/research/phase-i-assurance/backup_encrypted.sh
+          echo "Encrypted historical ciphertext readback verified. Offline key-based decryption remains UNTESTED." >> "$GITHUB_STEP_SUMMARY"
+      - name: Preserve encrypted transfer status separately
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-i-historical-transfer-status-${{ github.run_id }}
+          path: ${{ runner.temp }}/historical-backfill/status/
+          if-no-files-found: ignore
+          retention-days: 30
