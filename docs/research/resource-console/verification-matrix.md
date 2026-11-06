@@ -40,7 +40,7 @@ All items below are **planned tests**, not executed claims. Follow existing ASES
 | V08 | Provider API failures leave prior snapshot marked stale/unavailable rather than deleting history or creating a false zero. | Fault-injected 429/500/timeout tests, historical snapshot comparison | F03–F06 |
 | V09 | Provider-specific TTL/rate limits respected, no provider API call when inactive, reporting lag visibly represented. | Mock clock/provider logs, counted requests and timestamps | F05 |
 | V10 | SQLite snapshots survive restart, interruption and collector shutdown; repeated source events deduplicate without rewriting evidence. | DB query/digest before/after fault, crash/reopen tests | F06 |
-| V11 | Human and agent queries produce matching values, provenance, source revision and truth classifications from one projection. | Golden fixtures for REST and UI view model | F04, F09 |
+| V11 | Human and agent queries produce matching values, provenance, source revision and evidence-kind, freshness and dispute classifications from one projection. | Golden fixtures for REST and UI view model | F04, F09 |
 | V12 | Browser and client cannot call privileged controller/provider mutation, execute shell, view secrets or access unrestricted local sockets. | Auth negative tests, CSRF/cross-origin tests, route/method denial, leak scan | F10, F12, F13 |
 | V13 | Metrics distinguish processes, services, sessions, jobs, provider resources and unattributed usage; no fabricated joins or Work Unit claims. | Identity collision fixtures and source reference checks | F14 |
 | V14 | Resource-use targets measured on real target host: PSS/RSS, CPU, I/O, startup/shutdown and provider request volume in idle and active states. | Reproducible command output, host version, repetition and baseline | F01, F02, F05 |
@@ -62,7 +62,7 @@ Critical counterexample traces:
 
 ## Resource budget and measurement
 
-Record host/OS architecture, CPU, RAM, background load and network environment. Collect an idle baseline over at least 60 seconds, repeat with dashboard static page open for 60 seconds, then active with local metrics, and finally 60 seconds after last-session shutdown. Capture \`ps\`, \`systemctl\` state, cgroup information, PSS via \`/proc/<pid>/smaps_rollup\` where authorized, CPU-time deltas, I/O and request counts. Exclude the pre-existing ingress explicitly; report measured deltas rather than fictitious absolute zero host usage.
+Record host/OS architecture, CPU, RAM, background load and network environment. Collect an idle baseline over at least 60 seconds, repeat with dashboard static page open for 60 seconds, then active with local metrics, and finally 60 seconds after last-session shutdown. Capture `ps`, `systemctl` state, cgroup information, PSS via `/proc/<pid>/smaps_rollup` where authorized, CPU-time deltas, I/O and request counts. Exclude the pre-existing ingress explicitly; report measured deltas rather than fictitious absolute zero host usage.
 
 Provisional goals: 0 resident console application PSS at idle, <=100 MiB active non-browser backend PSS, clean disconnect shutdown target <=5s, abrupt loss <=30s after last heartbeat. Set a justified CPU threshold using repeat baseline and 1 Hz local collector; never silently relax a failed goal.
 
@@ -77,6 +77,6 @@ Provisional goals: 0 resident console application PSS at idle, <=100 MiB active 
 
 ## Evidence record format
 
-Each result should include test ID, fixture/scenario, environment and commit SHA, input/source revision, observation time, outcome (\`passed\`, \`failed\`, \`not_run\`, \`blocked\`), measured values where relevant, evidence paths/hashes, and explicit limits. Tests performed only on synthetic fixtures do not validate the production VPS.
+Each result should include test ID, fixture/scenario, environment and commit SHA, input/source revision, observation time, outcome (`passed`, `failed`, `not_run`, `blocked`), measured values where relevant, evidence paths/hashes, and explicit limits. Tests performed only on synthetic fixtures do not validate the production VPS.
 
 **Current status: all tests NOT RUN; no live console implementation is claimed in this document.**
