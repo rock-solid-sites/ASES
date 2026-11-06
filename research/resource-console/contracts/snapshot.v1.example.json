@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "synthetic-20261106-0001",
+  "generated_at": "2026-11-06T00:00:00Z",
+  "source_revisions": [
+    {
+      "ref": "synthetic_fixture",
+      "revision": "v1",
+      "as_of": "2026-11-06T00:00:00Z"
+    }
+  ],
+  "resources": [
+    {
+      "resource_id": "github/codespaces",
+      "provider_id": "github",
+      "product_id": "codespaces",
+      "account_ref": "symbolic-account",
+      "kind": "remote_compute",
+      "capabilities": [
+        "remote_build"
+      ],
+      "access_routes": [
+        {
+          "kind": "provider_api",
+          "operations": [
+            "list"
+          ],
+          "verification": "unverified"
+        }
+      ],
+      "meters": [
+        {
+          "meter_id": "compute",
+          "unit": "core_hours",
+          "period": "billing_cycle",
+          "remaining": null,
+          "observed_at": null,
+          "source_ref": "synthetic_fixture",
+          "reason": "No verified account-scoped balance",
+          "evidence_kind": "unknown",
+          "freshness": "unknown",
+          "dispute_status": "unknown"
+        }
+      ]
+    },
+    {
+      "resource_id": "local/test-host",
+      "provider_id": "local",
+      "product_id": "ubuntu-host",
+      "account_ref": null,
+      "kind": "host",
+      "capabilities": [
+        "resource_metrics"
+      ],
+      "access_routes": [
+        {
+          "kind": "local_cli",
+          "operations": [
+            "read_metrics"
+          ],
+          "verification": "unverified"
+        }
+      ],
+      "meters": [
+        {
+          "meter_id": "cpu.utilization",
+          "unit": "percent",
+          "period": "instant",
+          "remaining": null,
+          "value": 12.5,
+          "observed_at": "2026-11-06T00:00:00Z",
+          "source_ref": "synthetic_fixture",
+          "reason": "Synthetic metric; not a live VPS observation",
+          "evidence_kind": "estimate",
+          "freshness": "unknown",
+          "dispute_status": "clear"
+        }
+      ]
+    }
+  ]
+}
