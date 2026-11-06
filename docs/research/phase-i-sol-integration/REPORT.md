@@ -48,7 +48,8 @@ solely as the instrument under adversarial test.
 The architectural comparator is **Phase-I-Closure §7 C1–C13**, especially exact effect,
 common order, full-path restrictions, compatible recovery, complete disposition,
 retained observations and outcome uncertainty. **Phase-I-Verification F4** requires one
-explanation of the whole history. Both were read at the pinned F1 commit. Kernel-0's
+explanation of the whole history. Both were read at the pinned F1 commit and their bytes
+were verified identical across all five component pins. Kernel-0's
 Evidence Packet and abstract-semantics assumptions distinguish authority from caller
 identity, historical evidence from current permission, and local commitment from ACK.
 The testing/debugging ontology at `f8c700af…` was consulted as a proposal, not policy.
@@ -151,7 +152,9 @@ overlapping authorized stale writers are tested in L5, not claimed from those F4
 
 Run [reproduce.sh](reproduce.sh) for a new capture. The committed captures can be checked
 offline with the observer. The existing evidence-contract/capture verifier's 34 tests
-passed; a separate complete-file-set SHA256 readback covers this evidence directory.
+passed; a separate complete-file-set SHA256 readback covers all 334 captured files.
+[LOCAL-CHECKS.json](LOCAL-CHECKS.json) records exact source-byte comparisons and a clean
+temporary-directory restore whose observer output matched the original evaluation.
 The classifier deliberately remains partially qualified/unresolved because oracle
 independence is not independently established. Checksums establish captured-byte integrity,
 not truthful source authority or research correctness. Evidence is committed to this
