@@ -445,6 +445,7 @@ jobs:
         env:
           RUN_ID: ${{ github.run_id }}
           SOURCE_COMMIT: ${{ github.sha }}
+          UPSTREAM_RESULTS_JSON: ${{ toJSON(needs) }}
         run: |
           set -Eeuo pipefail
           SRC="$RUNNER_TEMP/collected"
@@ -457,20 +458,40 @@ jobs:
           tar -C "$RUNNER_TEMP/evidence-restored" -xzf "$OUT/phase-i-evidence.tar.gz"
           (cd "$RUNNER_TEMP/evidence-restored" && sha256sum -c "$OUT/SHA256SUMS") > "$OUT/restore-verification.txt"
           (cd "$OUT" && sha256sum phase-i-evidence.tar.gz) > "$OUT/archive-sha256.txt"
-          test "$COUNT" -eq 22
-          echo "Complete source collection and archive restore verified"
-      - name: Verify all seven embedded evidence manifests independently
+          printf '%s\n' "$UPSTREAM_RESULTS_JSON" > "$OUT/upstream-results.json"
+          UPSTREAM_OK=$(python3 -c 'import json,sys; x=json.load(open(sys.argv[1])); print("true" if x and all(v.get("result")=="success" for v in x.values()) else "false")' "$OUT/upstream-results.json")
+          if [[ "$COUNT" -eq 22 && "$UPSTREAM_OK" == "true" ]]; then
+            COLLECTION=COMPLETE
+          else
+            COLLECTION=INCOMPLETE
+            echo "::warning::Evidence collection is INCOMPLETE; exporting available files and failures without acceptance claims."
+          fi
+          printf '{"collection":"%s","source_artifacts":%s,"expected_artifacts":22,"all_upstream_jobs_successful":%s,"archive_roundtrip_verified":true,"external_archive_verified":false}\n' "$COLLECTION" "$COUNT" "$UPSTREAM_OK" > "$OUT/collection-status.json"
+          echo "Source evidence collection: **$COLLECTION** ($COUNT/22 artifacts); archive SHA256 restored" >> "$GITHUB_STEP_SUMMARY"
+      - name: Audit all available embedded manifests without discarding failed-run evidence
         shell: bash
         run: |
           set -Eeuo pipefail
-          COUNT=0
+          OUT="$RUNNER_TEMP/evidence-export"
+          OBSERVED=0
+          VERIFIED=0
           for manifest in "$RUNNER_TEMP"/collected/*/manifest.json; do
-            test -f "$manifest"
-            python3 docs/research/phase-i-assurance/verify_capture.py "$(dirname "$manifest")"
-            COUNT=$((COUNT + 1))
+            [[ -f "$manifest" ]] || continue
+            OBSERVED=$((OBSERVED+1))
+            if python3 docs/research/phase-i-assurance/verify_capture.py "$(dirname "$manifest")" >> "$OUT/manifest-verification.txt" 2>&1; then
+              VERIFIED=$((VERIFIED+1))
+            else
+              echo "FAILED: $(dirname "$manifest")" >> "$OUT/manifest-verification.txt"
+            fi
           done
-          test "$COUNT" -eq 7
-          echo "Verified $COUNT complete, exact-file-set manifests"
+          if [[ "$OBSERVED" -eq 7 && "$VERIFIED" -eq 7 ]]; then
+            QUALIFIED=true
+          else
+            QUALIFIED=false
+            echo "::warning::Some source evidence manifests are missing or failed verification; raw evidence remains preserved."
+          fi
+          printf '{"expected_manifests":7,"observed_manifests":%s,"verified_manifests":%s,"complete_verification":%s}\n' "$OBSERVED" "$VERIFIED" "$QUALIFIED" > "$OUT/manifest-status.json"
+          echo "Source manifest verification: **$VERIFIED/$OBSERVED** (expected 7)" >> "$GITHUB_STEP_SUMMARY"
       - name: Retain export for off-provider transfer
         if: always()
         uses: actions/upload-artifact@v4
