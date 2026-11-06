@@ -42,8 +42,8 @@ def step(s,e,mutant=""):
         if not s.online or s.content: return None
         return replace(s,content=1,evidence=0 if mutant=="split_accept" else 1)
     if e=="ack_accept":
-        if not s.online or s.f1_ack or not s.content: return None
-        if not s.evidence and mutant!="ack_without_evidence": return None
+        if not s.online or s.f1_ack: return None
+        if (not s.content or not s.evidence) and mutant!="ack_without_evidence": return None
         return replace(s,f1_ack=1)
     if e=="attach_object":
         if not s.online or s.object or (not s.f1_ack and mutant!="unbound_import"): return None
