@@ -70,7 +70,7 @@ def step(s,e,mutant=""):
         if s.owner_epoch!=s.writer_epoch: return None
         return replace(s,published=1,witness_revision=s.witness_revision+1,rechecked=False)
     if e=="ack_publication":
-        if not s.online or s.ack: return None
+        if not s.online or s.ack or s.receipt_lost: return None
         matched=(s.local==s.published==1 and s.owner_epoch==s.writer_epoch)
         if not matched and mutant!="premature_ack": return None
         return replace(s,ack=1,ack_validated=matched)
@@ -82,7 +82,7 @@ def step(s,e,mutant=""):
     if e=="recheck_cut":
         if not s.online or not s.receipt_lost or s.rechecked: return None
         if s.owner_epoch!=s.writer_epoch and mutant!="stale_recheck": return None
-        return replace(s,rechecked=True,ack_validated=False)
+        return replace(s,rechecked=True)
     if e=="revoke_writer":
         if not s.online or s.owner_epoch>1: return None
         return replace(s,owner_epoch=2)
