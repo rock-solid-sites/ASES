@@ -35,6 +35,7 @@ class S:
     writer_epoch: int=1
     receipt_lost: bool=False
     rechecked: bool=False
+    stale_recheck_observed: bool=False
     online: bool=True
 
 def step(s,e,mutant=""):
@@ -82,7 +83,8 @@ def step(s,e,mutant=""):
     if e=="recheck_cut":
         if not s.online or not s.receipt_lost or s.rechecked: return None
         if s.owner_epoch!=s.writer_epoch and mutant!="stale_recheck": return None
-        return replace(s,rechecked=True)
+        return replace(s,rechecked=True,
+                       stale_recheck_observed=(s.owner_epoch!=s.writer_epoch))
     if e=="revoke_writer":
         if not s.online or s.owner_epoch>1: return None
         return replace(s,owner_epoch=2)
@@ -101,7 +103,7 @@ def invariant(s):
             (not s.f1_ack or s.content==s.evidence==1) and
             (not s.object or s.f1_ack==1) and
             (not s.moved or (s.sealed and s.ceiling=="read")) and
-            not s.forbidden_effect and
+            not s.forbidden_effect and not s.stale_recheck_observed and
             not (s.removed and s.object) and
             s.ack<=s.published<=s.local<=s.object and
             (not s.ack or s.ack_validated) and
@@ -134,7 +136,7 @@ def search(mutant="",depth=DEPTH):
 
 MUTANTS=("split_accept","ack_without_evidence","unbound_import","split_move",
          "write_after_move","uncommitted_publish","premature_ack",
-         "lost_receipt_is_ack","orphan_removal")
+         "lost_receipt_is_ack","orphan_removal","stale_recheck")
 
 def validate_neighbors():
     cases={
@@ -146,6 +148,8 @@ def validate_neighbors():
                                   "seal_unit","activate","append_event","publish","lose_receipt","recheck_cut"),
         "fenced_writer":("accept_pair","ack_accept","attach_object","seal_unit",
                          "activate","append_event","revoke_writer"),
+        "receipt_lost_then_fenced":("accept_pair","ack_accept","attach_object","seal_unit",
+                                    "activate","append_event","publish","lose_receipt","revoke_writer"),
     }
     final={}
     for name,history in cases.items():
@@ -157,6 +161,8 @@ def validate_neighbors():
             s=t
         if name=="fenced_writer":
             assert step(s,"publish") is None,"stale owner published"
+        if name=="receipt_lost_then_fenced":
+            assert step(s,"recheck_cut") is None,"stale writer bypassed fenced cut"
         if name=="move_then_recover":
             assert step(s,"write_d") is None,"moved work unit wrote"
         final[name]={"events":len(history),"safe":True}
