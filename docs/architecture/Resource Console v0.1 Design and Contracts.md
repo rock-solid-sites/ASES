@@ -70,6 +70,7 @@ All numeric quantities use explicit unit and period; timestamps are UTC ISO-8601
     "resource_id": "github/codespaces",
     "provider_id": "github",
     "product_id": "codespaces",
+    "kind": "remote_compute",
     "account_ref": "symbolic-account",
     "capabilities": ["remote_build"],
     "access_routes": [{"kind": "provider_api", "operations": ["list"], "verification": "unverified"}],
