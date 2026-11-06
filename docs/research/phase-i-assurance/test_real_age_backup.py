@@ -40,11 +40,24 @@ class AgeRestoreTests(unittest.TestCase):
         subprocess.run(["age-keygen", "-o", str(self.second_identity)],
                        check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         self.payload = b"ASES synthetic evidence\x00\x01\xff and a small journal\n"
-        self.source = self.root / "evidence.tar.gz"
-        with tarfile.open(self.source, "w:gz") as archive:
+        self.inner = self.root / "phase-i-evidence.tar.gz"
+        with tarfile.open(self.inner, "w:gz") as archive:
             entry = tarfile.TarInfo("research/raw-evidence.bin")
             entry.size = len(self.payload)
             archive.addfile(entry, io.BytesIO(self.payload))
+        # Encrypt the entire exported envelope, including failure/qualification metadata.
+        self.collection = b'{"collection":"INCOMPLETE","source_artifacts":1,"expected_artifacts":22}'
+        self.manifest = b'{"complete_verification":false,"verified_manifests":0}'
+        self.source = self.root / "complete-evidence-export.tar.gz"
+        with tarfile.open(self.source, "w:gz") as archive:
+            for name, raw in (
+                ("phase-i-evidence.tar.gz", self.inner.read_bytes()),
+                ("collection-status.json", self.collection),
+                ("manifest-status.json", self.manifest),
+            ):
+                entry = tarfile.TarInfo(name)
+                entry.size = len(raw)
+                archive.addfile(entry, io.BytesIO(raw))
         self.before_hash = sha(self.source.read_bytes())
         self.status = self.root / "backup-status"
         self.remote = self.root / "fake-s3"
@@ -92,9 +105,30 @@ class AgeRestoreTests(unittest.TestCase):
         self.assertEqual(ok.returncode, 0, ok.stderr)
         self.assertEqual(sha(restored.read_bytes()), self.before_hash)
         with tarfile.open(restored, "r:gz") as tar:
-            self.assertEqual(tar.extractfile("research/raw-evidence.bin").read(), self.payload)
+            self.assertEqual(tar.extractfile("collection-status.json").read(), self.collection)
+            self.assertEqual(tar.extractfile("manifest-status.json").read(), self.manifest)
+            inner = tar.extractfile("phase-i-evidence.tar.gz").read()
+            self.assertEqual(sha(inner), sha(self.inner.read_bytes()))
+            with tarfile.open(fileobj=io.BytesIO(inner), mode="r:gz") as nested:
+                self.assertEqual(nested.extractfile("research/raw-evidence.bin").read(), self.payload)
         bad, _ = self.restore(files[0], self.second_identity)
         self.assertNotEqual(bad.returncode, 0, "wrong private identity decrypted a real age ciphertext")
+
+    def test_same_attempt_refuses_mutation_but_new_attempt_preserves_both(self):
+        first = self.run_backup()
+        self.assertEqual(first.returncode, 0, first.stderr)
+        same = self.run_backup()
+        self.assertNotEqual(same.returncode, 0, "same immutable object key was silently overwritten")
+        self.env["RUN_ATTEMPT"] = "2"
+        again = self.run_backup()
+        self.assertEqual(again.returncode, 0, again.stderr)
+        copies = list(self.remote.rglob("*.age"))
+        self.assertEqual(len(copies), 2)
+        self.assertEqual(len({p.parent.name for p in copies}), 2)
+        for cipher in copies:
+            result, recovered = self.restore(cipher, self.identity)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(sha(recovered.read_bytes()), self.before_hash)
 
     def test_real_ciphertext_rejects_tampering(self):
         self.assertEqual(self.run_backup().returncode, 0)
