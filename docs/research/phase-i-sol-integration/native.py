@@ -208,7 +208,7 @@ def f1_boot(source, root, observations, gate=None):
     subprocess.run([sys.executable, str(persistent), "--initialize", canonical(config)], check=True, timeout=5)
     with sqlite3.connect(root / "store.sqlite") as db:
         db.execute("CREATE TABLE consumer_observations(id INTEGER PRIMARY KEY CHECK(id=1),record TEXT NOT NULL)")
-    admin = F1(source, root, observations, -1)
+    admin = F1(source, root, {key: "bootstrap-" + key for key in observations}, -1)
     try:
         establish = admin.call("establish")
         grant = admin.call("grant", value=7)
@@ -437,9 +437,29 @@ def run(sources, out, cases):
     return cases
 
 
+def recovery_followup(sources, out, cases):
+    source = sources / "f1/docs/research/phase-i-f1/c11-sqlite/c11_service.py"
+    for fresh in (False, True):
+        label = "recovered-accept-" + ("fresh-observations" if fresh else "missing-observations")
+        root = out / "state" / label / "f1"
+        observations = dict(identity_genesis="work:C:" + label, created_by="trusted-test-supervisor",
+                            project="ASES-independent-integration", consumer_evidence="accepted world A")
+        original = f1_boot(source, root, observations)
+        next_observations = dict(observations, consumer_evidence="accepted world B") if fresh else None
+        cold = F1(source, root, next_observations)
+        try:
+            read = cold.call("read")
+            accepted = cold.call("accept", value="accepted\x00zero\n")
+        finally:
+            cold.close()
+        cases[label] = dict(original=original, recovered_read=read, configured_observations=next_observations,
+                            accept=accepted, final=f1_read(source, root))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", type=Path, required=True, help="new, nonexistent evidence directory")
+    parser.add_argument("--recovery-only", action="store_true", help="bounded follow-up in PLAN.md")
     args = parser.parse_args()
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=False)
@@ -457,7 +477,7 @@ def main():
             sources = Path(directory)
             data["sources"] = export_sources(sources)
             data["cases"] = {}
-            run(sources, out, data["cases"])
+            (recovery_followup if args.recovery_only else run)(sources, out, data["cases"])
     except BaseException:
         data["harness_error"] = traceback.format_exc()
         code = 1
