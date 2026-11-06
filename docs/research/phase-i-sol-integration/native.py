@@ -8,7 +8,7 @@ import argparse
 import concurrent.futures
 import ctypes
 import hashlib
-import http.client
+import http.client as http_client
 import importlib.util
 import json
 import os
@@ -147,7 +147,7 @@ class Child:
 
 def http(port, path, data=None):
     start = time.monotonic_ns()
-    conn = http.client.HTTPConnection("127.0.0.1", port, timeout=5)
+    conn = http_client.HTTPConnection("127.0.0.1", port, timeout=5)
     raw = None if data is None else canonical(data).encode()
     try:
         conn.request("GET" if data is None else "POST", path, raw,
@@ -284,7 +284,7 @@ class F4:
         self.w.close()
 
 
-def run(sources, out):
+def run(sources, out, cases):
     f1 = sources / "f1/docs/research/phase-i-f1/c11-sqlite/c11_service.py"
     l5dir = sources / "l5/research/phase-i-protected-work-unit-f3/lifecycle/l5"
     l6dir = sources / "l6/research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory"
@@ -292,7 +292,6 @@ def run(sources, out):
     l5 = module("l5_integrated", l5dir / "l5_integrated.py")
     fixture = module("test_management_conformance", l5dir / "test_management_conformance.py")
     inventory = module("inventory_bootstrap", l6dir / "store.py")
-    cases = {}
 
     def origin(name, stage=None):
         root = out / "state" / name
@@ -457,7 +456,8 @@ def main():
         with tempfile.TemporaryDirectory(prefix="ases-native-sources-") as directory:
             sources = Path(directory)
             data["sources"] = export_sources(sources)
-            data["cases"] = run(sources, out)
+            data["cases"] = {}
+            run(sources, out, data["cases"])
     except BaseException:
         data["harness_error"] = traceback.format_exc()
         code = 1
