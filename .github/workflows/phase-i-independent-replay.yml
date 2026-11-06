@@ -136,7 +136,7 @@ jobs:
         id: contract_tests
         run: |
           cd docs/research/phase-i-assurance
-          python3 -m unittest -v test_evidence_contract.py test_verify_capture.py
+          python3 -m unittest -v test_evidence_contract.py test_verify_capture.py test_backup_pipeline.py
       - name: Record test harness manifest
         if: always()
         shell: bash
