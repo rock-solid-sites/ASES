@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/rock-solid-sites/ASES/blob/proposal/resource-console-v01-2026-11-06/research/resource-console/contracts/snapshot.v1.schema.json",
+  "$id": "urn:ases:resource-console:snapshot:v1",
   "title": "ASES Resource Console read-only snapshot projection v1 (EXPERIMENTAL)",
   "type": "object",
   "required": [
@@ -178,9 +178,11 @@
         "unit",
         "period",
         "remaining",
-        "truth",
+        "evidence_kind",
         "observed_at",
-        "source_ref"
+        "source_ref",
+        "freshness",
+        "dispute_status"
       ],
       "properties": {
         "meter_id": {
@@ -209,17 +211,6 @@
             "null"
           ]
         },
-        "truth": {
-          "enum": [
-            "measured",
-            "provider_reported",
-            "user_reported",
-            "estimated",
-            "unknown",
-            "stale",
-            "disputed"
-          ]
-        },
         "observed_at": {
           "type": [
             "string",
@@ -243,6 +234,30 @@
             "null"
           ],
           "format": "date-time"
+        },
+        "evidence_kind": {
+          "enum": [
+            "runtime_measurement",
+            "provider_report",
+            "user_report",
+            "published_claim",
+            "estimate",
+            "unknown"
+          ]
+        },
+        "freshness": {
+          "enum": [
+            "fresh",
+            "stale",
+            "unknown"
+          ]
+        },
+        "dispute_status": {
+          "enum": [
+            "clear",
+            "disputed",
+            "unknown"
+          ]
         }
       },
       "additionalProperties": false,
@@ -250,12 +265,12 @@
         {
           "if": {
             "properties": {
-              "truth": {
+              "evidence_kind": {
                 "const": "unknown"
               }
             },
             "required": [
-              "truth"
+              "evidence_kind"
             ]
           },
           "then": {
