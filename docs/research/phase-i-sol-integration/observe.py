@@ -267,6 +267,33 @@ def prior_checker_probe(cases):
     return results
 
 
+def check_findings(results):
+    """Verify reproduction of findings, never label the unsafe system invariant green."""
+    require(results["authorized-neighbor"]["source_write"] and not
+            results["authorized-neighbor"]["proposed_composition_violations"], "authorized neighbor did not work")
+    require(not results["attenuated-descendant"]["source_write"] and
+            len(results["attenuated-descendant"]["proposed_composition_violations"]) == 1, "authority counterexample not reproduced")
+    require(not results["removed-inventory"]["inventory_live"] and
+            len(results["removed-inventory"]["proposed_composition_violations"]) == 1, "lifecycle counterexample not reproduced")
+    require(results["competing-l5-managers"]["move_ack"] == "COMMITTED" and
+            results["competing-l5-managers"]["actual_parent"] == "P", "stale manager counterexample not reproduced")
+    require(results["same-observations"]["accepted_evidence_unchanged"] and not
+            results["changed-observations"]["accepted_evidence_unchanged"], "evidence lifetime contrast not reproduced")
+    require(results["recovered-accept-missing-observations"]["ack"] == "commit" and not
+            results["recovered-accept-missing-observations"]["paired"] and
+            results["recovered-accept-fresh-observations"]["paired"], "recovery accept contrast not reproduced")
+    require(results["f1-kill-durable"]["paired"] and results["f1-kill-durable"]["accepted_target"] and
+            results["f1-kill-prepared"]["paired"] and not results["f1-kill-prepared"]["accepted_target"], "F1 crash prefix contrast")
+    require(results["l6-kill-before-catalog"] == dict(unknown=["x"], live=True, removal="DENY"), "L6 debris guard")
+    require(results["removal-race-guarded"]["creator"] == "DENY" and
+            results["removal-race-guarded"]["removal"] == "COMMITTED" and
+            results["removal-race-creator-first"]["creator"] == "COMMITTED" and
+            results["removal-race-creator-first"]["removal"] == "DENY", "valid inventory orderings")
+    require(not results["removal-race-detached"]["live"] and
+            results["removal-race-detached"]["files"] == ["x"], "detached mutation did not strand content")
+    return "FINDINGS_REPRODUCED_INCLUDING_UNSAFE_HISTORIES"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("captures", nargs="+", type=Path)
@@ -282,6 +309,7 @@ def main():
     controls = negative_controls(cases)
     print(json.dumps(dict(cases=results, invalid_controls=controls, persisted_sqlite_readbacks=readbacks,
                           prior_checker_probe=prior_checker_probe(cases),
+                          reproduction=check_findings(results),
                           scope="selected native histories; trusted test import; same-investigator independent rules; no universal refinement"), sort_keys=True, indent=2))
 
 
