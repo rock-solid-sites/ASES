@@ -1,0 +1,271 @@
+{
+  "cases": {
+    "attenuated-descendant": {
+      "identity": "MATCHED_BY_TEST_ADAPTER",
+      "inventory_live": true,
+      "local_publication": {
+        "effects": 1,
+        "sequence": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "success_acks": 4
+      },
+      "proposed_composition_violations": [
+        "downstream effect despite no descendant write authority"
+      ],
+      "source_write": false
+    },
+    "authorized-neighbor": {
+      "identity": "MATCHED_BY_TEST_ADAPTER",
+      "inventory_live": true,
+      "local_publication": {
+        "effects": 1,
+        "sequence": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "success_acks": 4
+      },
+      "proposed_composition_violations": [],
+      "source_write": true
+    },
+    "changed-observations": {
+      "accepted_evidence_unchanged": false,
+      "content_unchanged": true,
+      "operation": "commit"
+    },
+    "competing-l5-managers": {
+      "actual_active": true,
+      "actual_parent": "P",
+      "move_ack": "COMMITTED",
+      "move_receipt_hash_matches_selected": true
+    },
+    "f1-kill-durable": {
+      "accepted_target": true,
+      "ack": null,
+      "downstream": [],
+      "paired": true
+    },
+    "f1-kill-prepared": {
+      "accepted_target": false,
+      "ack": null,
+      "downstream": [],
+      "paired": true
+    },
+    "l6-kill-before-catalog": {
+      "live": true,
+      "removal": "DENY",
+      "unknown": [
+        "x"
+      ]
+    },
+    "lost-receipt": {
+      "identity": "MATCHED_BY_TEST_ADAPTER",
+      "inventory_live": true,
+      "local_publication": {
+        "effects": 2,
+        "sequence": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "success_acks": 4
+      },
+      "proposed_composition_violations": [],
+      "source_write": true
+    },
+    "publication-rejected": {
+      "identity": "MATCHED_BY_TEST_ADAPTER",
+      "inventory_live": true,
+      "local_publication": {
+        "effects": 1,
+        "sequence": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "success_acks": 3
+      },
+      "proposed_composition_violations": [],
+      "source_write": true
+    },
+    "recovered-accept-fresh-observations": {
+      "ack": "commit",
+      "consumer_query": "available",
+      "new_content": "accepted\u0000zero\n",
+      "paired": true,
+      "stored_binding": "accepted\u0000zero\n"
+    },
+    "recovered-accept-missing-observations": {
+      "ack": "commit",
+      "consumer_query": "incompatible_required_observations",
+      "new_content": "accepted\u0000zero\n",
+      "paired": false,
+      "stored_binding": "accepted\u0000one\n"
+    },
+    "removal-race-creator-first": {
+      "creator": "COMMITTED",
+      "files": [
+        "x"
+      ],
+      "live": true,
+      "removal": "DENY"
+    },
+    "removal-race-detached": {
+      "creator": "COMMITTED",
+      "files": [
+        "x"
+      ],
+      "live": false,
+      "removal": "COMMITTED"
+    },
+    "removal-race-guarded": {
+      "creator": "DENY",
+      "files": [],
+      "live": false,
+      "removal": "COMMITTED"
+    },
+    "removed-inventory": {
+      "identity": "MATCHED_BY_TEST_ADAPTER",
+      "inventory_live": false,
+      "local_publication": {
+        "effects": 1,
+        "sequence": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "success_acks": 4
+      },
+      "proposed_composition_violations": [
+        "downstream effect despite inventory unit removed"
+      ],
+      "source_write": true
+    },
+    "same-observations": {
+      "accepted_evidence_unchanged": true,
+      "content_unchanged": true,
+      "operation": "commit"
+    },
+    "stale-token": {
+      "identity": "MATCHED_BY_TEST_ADAPTER",
+      "inventory_live": true,
+      "local_publication": {
+        "effects": 1,
+        "sequence": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "success_acks": 4
+      },
+      "proposed_composition_violations": [],
+      "source_write": true
+    },
+    "valid-rejection-gap": {
+      "identity": "MATCHED_BY_TEST_ADAPTER",
+      "inventory_live": true,
+      "local_publication": {
+        "effects": 1,
+        "sequence": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "success_acks": 4
+      },
+      "proposed_composition_violations": [],
+      "source_write": true
+    }
+  },
+  "invalid_controls": [
+    {
+      "control": "swapped_causal_identity",
+      "reason": "L5 causal identity",
+      "verdict": "REJECTED"
+    },
+    {
+      "control": "different_opaque_world",
+      "reason": "F1 accepted evidence identity",
+      "verdict": "REJECTED"
+    },
+    {
+      "control": "wrong_inventory_alias",
+      "reason": "test-only L6 binding",
+      "verdict": "REJECTED"
+    },
+    {
+      "control": "forged_source_permission",
+      "reason": "L5 decision differs from path authority",
+      "verdict": "REJECTED"
+    },
+    {
+      "control": "forged_ACK_hash",
+      "reason": "ACK journal digest",
+      "verdict": "REJECTED"
+    },
+    {
+      "control": "wrong_receipt_revision",
+      "reason": "publication revision",
+      "verdict": "REJECTED"
+    },
+    {
+      "control": "missing_remote_publication",
+      "reason": "ACK without unique successful witness exchange",
+      "verdict": "REJECTED"
+    },
+    {
+      "control": "corrupt_journal_bytes",
+      "reason": "byte digest",
+      "verdict": "REJECTED"
+    }
+  ],
+  "persisted_sqlite_readbacks": {
+    "integration": [
+      "attenuated-descendant",
+      "authorized-neighbor",
+      "changed-observations",
+      "competing-l5-managers",
+      "f1-kill-durable",
+      "f1-kill-prepared",
+      "l6-kill-before-catalog",
+      "lost-receipt",
+      "publication-rejected",
+      "removal-race-creator-first",
+      "removal-race-detached",
+      "removal-race-guarded",
+      "removed-inventory",
+      "same-observations",
+      "stale-token",
+      "valid-rejection-gap"
+    ],
+    "recovery": [
+      "recovered-accept-fresh-observations",
+      "recovered-accept-missing-observations"
+    ]
+  },
+  "prior_checker_probe": {
+    "authorized-neighbor": {
+      "independent": "VALID_LOCAL_HISTORY",
+      "prior": "ACCEPTED"
+    },
+    "valid-rejection-gap": {
+      "independent": "VALID_LOCAL_HISTORY",
+      "prior": "REJECTED",
+      "reason": "journal durable event sequence is not contiguous"
+    }
+  },
+  "reproduction": "FINDINGS_REPRODUCED_INCLUDING_UNSAFE_HISTORIES",
+  "scope": "selected native histories; trusted test import; same-investigator independent rules; no universal refinement"
+}
