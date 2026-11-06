@@ -369,10 +369,33 @@ jobs:
           path: ${{ runner.temp }}/concrete-projection/
           retention-days: 30
 
+  cross-boundary-composition:
+    name: Bounded cross-boundary F1/F3/F4 composition
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check synthetic composition and nine fault mutants
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/composition"
+          python3 docs/research/phase-i-assurance/composition_state_explorer.py > "$RUNNER_TEMP/composition/result.json"
+          cat "$RUNNER_TEMP/composition/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-composition-${{ github.run_id }}
+          path: ${{ runner.temp }}/composition/
+          if-no-files-found: error
+          retention-days: 30
+
   evidence-export:
     name: Evidence export bundle (not off-provider)
     if: always()
-    needs: [replay, evidence-contract, checker-mutation, remaining-checker-mutations, abstract-state-exploration, bounded-reference-models, concrete-observation-projection]
+    needs: [replay, evidence-contract, checker-mutation, remaining-checker-mutations, abstract-state-exploration, bounded-reference-models, concrete-observation-projection, cross-boundary-composition]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -396,13 +419,13 @@ jobs:
           OUT="$RUNNER_TEMP/evidence-export"
           mkdir -p "$SRC" "$OUT" "$RUNNER_TEMP/evidence-restored"
           COUNT=$(find "$SRC" -mindepth 1 -maxdepth 1 -type d | wc -l)
-          { echo "source_provider=GitHub Actions"; echo "run_id=$RUN_ID"; echo "source_commit=$SOURCE_COMMIT"; echo "source_artifacts=$COUNT"; echo "expected_artifacts=20"; echo "off_provider_archive_verified=false"; echo "encrypted=false"; } > "$OUT/provenance.txt"
+          { echo "source_provider=GitHub Actions"; echo "run_id=$RUN_ID"; echo "source_commit=$SOURCE_COMMIT"; echo "source_artifacts=$COUNT"; echo "expected_artifacts=21"; echo "off_provider_archive_verified=false"; echo "encrypted=false"; } > "$OUT/provenance.txt"
           (cd "$SRC" && find . -type f -print0 | sort -z | xargs -0 -r sha256sum) > "$OUT/SHA256SUMS"
           tar -C "$SRC" -czf "$OUT/phase-i-evidence.tar.gz" .
           tar -C "$RUNNER_TEMP/evidence-restored" -xzf "$OUT/phase-i-evidence.tar.gz"
           (cd "$RUNNER_TEMP/evidence-restored" && sha256sum -c "$OUT/SHA256SUMS") > "$OUT/restore-verification.txt"
           (cd "$OUT" && sha256sum phase-i-evidence.tar.gz) > "$OUT/archive-sha256.txt"
-          test "$COUNT" -eq 20
+          test "$COUNT" -eq 21
           echo "Complete source collection and archive restore verified"
       - name: Verify all seven embedded evidence manifests independently
         shell: bash
