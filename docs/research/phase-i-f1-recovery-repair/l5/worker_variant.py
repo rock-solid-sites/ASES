@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 import sys
 
+sys.dont_write_bytecode = True
+
 SOURCE = Path(__file__).resolve().parents[2] / "phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts/worker.py"
 spec = importlib.util.spec_from_file_location("original_l5_guard_dependency", SOURCE)
 worker = importlib.util.module_from_spec(spec)

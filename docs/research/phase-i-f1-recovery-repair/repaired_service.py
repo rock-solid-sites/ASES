@@ -7,6 +7,8 @@ import sqlite3
 import sys
 import threading
 
+sys.dont_write_bytecode = True  # Preserve the pinned source capture's exact file set.
+
 ORIGINAL = Path(__file__).resolve().parent.parent / "phase-i-sol-integration/evidence/sources/f1/docs/research/phase-i-f1/c11-sqlite/c11_service.py"
 spec = importlib.util.spec_from_file_location("original_c11_repair_dependency", ORIGINAL)
 original = importlib.util.module_from_spec(spec)

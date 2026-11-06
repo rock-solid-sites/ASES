@@ -13,6 +13,8 @@ import sys
 import time
 import traceback
 
+sys.dont_write_bytecode = True
+
 HERE = Path(__file__).resolve().parent
 SOURCE = HERE.parents[1] / "phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts/worker.py"
 VARIANT = HERE / "worker_variant.py"
@@ -47,7 +49,7 @@ def setup(root):
 
 class Child:
     def __init__(self, root, mode="original", phase="none"):
-        argv = [sys.executable, str(SOURCE), str(root), phase] if mode == "original" else [sys.executable, str(VARIANT), mode, str(root), phase]
+        argv = [sys.executable, "-B", str(SOURCE), str(root), phase] if mode == "original" else [sys.executable, "-B", str(VARIANT), mode, str(root), phase]
         self.meta = dict(argv=argv, mode=mode, phase=phase, start_ns=time.monotonic_ns(), frames=[])
         self.p = subprocess.Popen(argv, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=0)
         PROCESSES.append(self)

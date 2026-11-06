@@ -43,7 +43,7 @@ def snapshot(path):
 
 def independent(path):
     started = time.monotonic_ns()
-    child = subprocess.run([sys.executable, str(Path(__file__).resolve()), "--snapshot", str(path)],
+    child = subprocess.run([sys.executable, "-B", str(Path(__file__).resolve()), "--snapshot", str(path)],
                            text=True, capture_output=True, timeout=5, check=True)
     return dict(start_ns=started, end_ns=time.monotonic_ns(), returncode=child.returncode,
                 stdout=child.stdout, stderr=child.stderr, snapshot=json.loads(child.stdout))
@@ -66,7 +66,7 @@ class Holder:
             fds += [gate_write, release_read]
         self.meta = dict(source=str(source), source_sha256=sha(source.read_bytes()), config=config,
                          start_ns=time.monotonic_ns(), operations=[])
-        self.p = subprocess.Popen([sys.executable, str(source), json.dumps(config)],
+        self.p = subprocess.Popen([sys.executable, "-B", str(source), json.dumps(config)],
                                   pass_fds=fds, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=0)
         PROCESSES.append(self)
         server.close()
@@ -134,11 +134,11 @@ def bootstrap(root, source, repaired=False):
     initialize = ORIGINAL.parent.parent.parent / "kernel-0/kernel0_recovery_service.py"
     path = root / "store.sqlite"
     config = dict(path=str(path), root="work", profile="independent")
-    subprocess.run([sys.executable, str(initialize), "--initialize", json.dumps(config)], check=True, timeout=5)
+    subprocess.run([sys.executable, "-B", str(initialize), "--initialize", json.dumps(config)], check=True, timeout=5)
     with sqlite3.connect(path) as db:
         db.execute("CREATE TABLE consumer_observations(id INTEGER PRIMARY KEY CHECK(id=1),record TEXT NOT NULL)")
     if repaired:
-        subprocess.run([sys.executable, str(source), "--prepare", str(path)], check=True, timeout=5, capture_output=True)
+        subprocess.run([sys.executable, "-B", str(source), "--prepare", str(path)], check=True, timeout=5, capture_output=True)
     manager = Holder(source, root, configuration("bootstrap", B, repaired), -1)
     try:
         established = manager.call("establish")
@@ -259,9 +259,9 @@ def repaired_cases(out, source):
                 original.close()
         before = independent(root / "store.sqlite")
         if label == "no-auto-prepare":
-            argv = [sys.executable, str(source), json.dumps(dict(path=str(root / "store.sqlite"), root="work", profile="independent", channels=[], trace=str(root / "startup-sql.jsonl")))]
+            argv = [sys.executable, "-B", str(source), json.dumps(dict(path=str(root / "store.sqlite"), root="work", profile="independent", channels=[], trace=str(root / "startup-sql.jsonl")))]
         else:
-            argv = [sys.executable, str(source), "--prepare", str(root / "store.sqlite")]
+            argv = [sys.executable, "-B", str(source), "--prepare", str(root / "store.sqlite")]
         start = time.monotonic_ns()
         attempt = subprocess.run(argv, text=True, capture_output=True, timeout=5)
         cases[label] = dict(prefix=prefix, before=before, attempt=dict(argv=argv, start_ns=start,
