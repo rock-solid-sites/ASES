@@ -124,7 +124,7 @@ class AgeRestoreTests(unittest.TestCase):
         self.assertEqual(again.returncode, 0, again.stderr)
         copies = list(self.remote.rglob("*.age"))
         self.assertEqual(len(copies), 2)
-        self.assertEqual(len({p.parent.name for p in copies}), 2)
+        self.assertEqual({p.parent.parent.name for p in copies}, {"attempt-1", "attempt-2"})
         for cipher in copies:
             result, recovered = self.restore(cipher, self.identity)
             self.assertEqual(result.returncode, 0, result.stderr)
