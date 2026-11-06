@@ -71,7 +71,7 @@ class AgeRestoreTests(unittest.TestCase):
                               capture_output=True, text=True, timeout=15)
 
     def restore(self, cipher, identity):
-        restored = self.root / ("restored-" + identity.stem + ".tar.gz")
+        restored = self.root / ("restored-" + identity.stem + "-" + sha(str(cipher).encode())[:12] + ".tar.gz")
         attempt = subprocess.run(["age", "-d", "-i", str(identity),
                                   "-o", str(restored), str(cipher)],
                                  capture_output=True, text=True, timeout=15)
