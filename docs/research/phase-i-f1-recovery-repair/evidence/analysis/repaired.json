@@ -1,0 +1,153 @@
+{
+  "case_results": {
+    "cold-fresh": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 3
+    },
+    "cold-missing": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "config-nonaccept": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "fail-current-insert": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 3
+    },
+    "fail-retained-insert": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 3
+    },
+    "failed-then-valid": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 3
+    },
+    "invalid-bad-field-type": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "invalid-extra-field": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "invalid-list": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "invalid-missing-field": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "invalid-non-string-subject": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "invalid-null": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "invalid-wrong-subject": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "kill-durable": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 3
+    },
+    "kill-prepared": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "legacy-unbound": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "no-auto-prepare": {
+      "disposition": "REFUSED_UNCHANGED"
+    },
+    "prepare-original-incompatible": {
+      "disposition": "REFUSED_UNCHANGED"
+    },
+    "prepare-original-valid": {
+      "disposition": "PREPARED_EXACT_ORIGINAL_PAIR"
+    },
+    "readonly": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "same-bytes-worlds": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 3
+    },
+    "same-content-invalid": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    },
+    "stale-subject": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 3
+    },
+    "unchanged": {
+      "disposition": "CONTRACT_SATISFIED",
+      "retained_pairs": 2
+    }
+  },
+  "contract_violations": {},
+  "invalid_evidence_controls": [
+    {
+      "name": "lost-old-evidence",
+      "outcome": "REJECTED",
+      "reason": "previous accepted observations disappeared"
+    },
+    {
+      "name": "unbound-new-content",
+      "outcome": "REJECTED",
+      "reason": "committed content/evidence are incompatible"
+    },
+    {
+      "name": "swapped-opaque-world",
+      "outcome": "REJECTED",
+      "reason": "current accepted pair not retained"
+    },
+    {
+      "name": "false-denial",
+      "outcome": "REJECTED",
+      "reason": "operation outcome: expected commit"
+    },
+    {
+      "name": "corrupt-snapshot",
+      "outcome": "REJECTED",
+      "reason": "reader stdout differs"
+    }
+  ],
+  "oracle": "independent rules; no repair import; same investigator, no clean-room claim",
+  "satisfies_tested_contract": true,
+  "sqlite_readbacks": [
+    "cold-fresh",
+    "cold-missing",
+    "config-nonaccept",
+    "fail-current-insert",
+    "fail-retained-insert",
+    "failed-then-valid",
+    "invalid-bad-field-type",
+    "invalid-extra-field",
+    "invalid-list",
+    "invalid-missing-field",
+    "invalid-non-string-subject",
+    "invalid-null",
+    "invalid-wrong-subject",
+    "kill-durable",
+    "kill-prepared",
+    "legacy-unbound",
+    "no-auto-prepare",
+    "prepare-original-incompatible",
+    "prepare-original-valid",
+    "readonly",
+    "same-bytes-worlds",
+    "same-content-invalid",
+    "stale-subject",
+    "unchanged"
+  ]
+}
