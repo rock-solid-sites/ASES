@@ -46,14 +46,14 @@ The implementation must not create an always-on API process merely to serve stat
 
 | Existing artifact | Fields or role to reuse | Boundary / incompatibility |
 |---|---|---|
-| \`research/provider-registry/known_accounts_v1.json\` | \`records[].id\`, \`provider\`, \`account_evidence\`, \`claims[]\`, \`usage.status\`, \`usage.meters[]\`, \`verification_next\` | Reported registrations and historical claims, **not** fresh authenticated balances. Private identifiers stay outside public repo. |
-| \`research/provider-registry/inventory_schema_v1.json\` | Schema of known-account / potential-offer source material | Do not replace or silently broaden its truth states. Mapping into view schema is explicit/versioned. |
-| \`research/provider-registry/manifest_v0.py\` | Experimental capabilities, meters, facts, source/status/revision model | Research validator only; do not require Python runtime in maintained console or treat its \`active\` enum as live admission authority. |
-| \`research/provider-registry/resource-router-integration-map-2026-11-03.json\` | Responsibility boundaries, source authority and known gaps | Identifies incomplete/unmerged components, not a working runtime. |
-| \`data/compute-credits/registry.json\` | Provider discovery, offers, billed/stopped semantics, candidate credit opportunities | Separate from verified account entitlements; some balances and provider access are unknown. |
-| \`docs/research/Resource Solver Specification Reconciliation 2026-11-02.md\` | Account/payer/product/meter scope, observation TTL, event and billing distinctions | Advice, reservation and controlled execution are out of console scope. |
-| \`feature/resource-control-runtime-2026-11-02/resource-control/\` | Future candidate read-only event/usage integration and identity mapping | Unmerged, mock only, not current UI authority or production adapter. |
-| \`docs/architecture/Execution Engine Vision.md\`, Kernel-0 evidence packet | Conceptual exclusions and downward dependency boundaries | Console does not define Work Units, Observer, Kernel primitives or methodological transitions. |
+| `research/provider-registry/known_accounts_v1.json` | `records[].id`, `provider`, `account_evidence`, `claims[]`, `usage.status`, `usage.meters[]`, `verification_next` | Reported registrations and historical claims, **not** fresh authenticated balances. Private identifiers stay outside public repo. |
+| `research/provider-registry/inventory_schema_v1.json` | Schema of known-account / potential-offer source material | Do not replace or silently broaden its truth states. Mapping into view schema is explicit/versioned. |
+| `research/provider-registry/manifest_v0.py` | Experimental capabilities, meters, facts, source/status/revision model | Research validator only; do not require Python runtime in maintained console or treat its `active` enum as live admission authority. |
+| `research/provider-registry/resource-router-integration-map-2026-11-03.json` | Responsibility boundaries, source authority and known gaps | Identifies incomplete/unmerged components, not a working runtime. |
+| `data/compute-credits/registry.json` | Provider discovery, offers, billed/stopped semantics, candidate credit opportunities | Separate from verified account entitlements; some balances and provider access are unknown. |
+| `docs/research/Resource Solver Specification Reconciliation 2026-11-02.md` | Account/payer/product/meter scope, observation TTL, event and billing distinctions | Advice, reservation and controlled execution are out of console scope. |
+| `feature/resource-control-runtime-2026-11-02/resource-control/` | Future candidate read-only event/usage integration and identity mapping | Unmerged, mock only, not current UI authority or production adapter. |
+| `docs/architecture/Execution Engine Vision.md`, Kernel-0 evidence packet | Conceptual exclusions and downward dependency boundaries | Console does not define Work Units, Observer, Kernel primitives or methodological transitions. |
 
 **Identity rule:** provider, product, account, payer, agent session, job/attempt, environment and meter each retain distinct IDs. A source lacking one reports the missing identity or unattributed usage; no synthetic join becomes a fact.
 
@@ -61,7 +61,7 @@ The implementation must not create an always-on API process merely to serve stat
 
 All numeric quantities use explicit unit and period; timestamps are UTC ISO-8601; query responses expose projection revision, source revision and observation time independently. Example shape, with **synthetic** data:
 
-\`\`\`json
+```json
 {
   "schema_version": 1,
   "snapshot_id": "sample-001",
@@ -78,15 +78,17 @@ All numeric quantities use explicit unit and period; timestamps are UTC ISO-8601
       "unit": "core_hours",
       "period": "billing_cycle",
       "remaining": null,
-      "truth": "unknown",
+      "evidence_kind": "unknown",
+      "freshness": "unknown",
+      "dispute_status": "unknown",
       "observed_at": null,
       "source_ref": "known_accounts_v1.json"
     }]
   }]
 }
-\`\`\`
+```
 
-Per-metric \`truth\` distinguishes \`measured\`, \`provider_reported\`, \`user_reported\`, \`estimated\`, \`unknown\`, \`stale\`, and \`disputed\`. Provenance also includes original evidence category, collector identity, retrieved/observed timestamps, effective period, applicable account/payer, TTL and source reference when available. A provider-reported charge is **not** the same as settled billing; inference is never automatically promoted to verification. If source fields are insufficient, preserve null and expose a reason.
+Per-metric `evidence_kind` distinguishes runtime measurements, provider reports, user reports, published claims, estimates and unknowns; orthogonal `freshness` and `dispute_status` fields retain staleness/conflict without overwriting provenance. Provenance also includes original evidence category, collector identity, retrieved/observed timestamps, effective period, applicable account/payer, TTL and source reference when available. A provider-reported charge is **not** the same as settled billing; inference is never automatically promoted to verification. If source fields are insufficient, preserve null and expose a reason.
 
 Provide a changed-since cursor plus immutable snapshot IDs to avoid converting delayed observations into a continuous but false real-time balance. UI history is an observation record, not reconstructed Kernel history.
 
@@ -94,20 +96,20 @@ Provide a changed-since cursor plus immutable snapshot IDs to avoid converting d
 
 | Method / route (candidate) | Purpose | Effect |
 |---|---|---|
-| \`GET /v1/resources\` | Filtered read projection with truth/freshness | Read-only |
-| \`GET /v1/observations?cursor=…\` | Incremental metric/event projection | Read-only |
-| \`GET /v1/history?resource_id=…\` | Historical observations | Read-only |
-| \`POST /v1/monitor/sessions\` | Explicit Start: create one authenticated monitor lease; idempotency key | Transient local session only |
-| \`PUT /v1/monitor/sessions/{lease}/heartbeat\` | Extend current lease | Transient local session only |
-| \`DELETE /v1/monitor/sessions/{lease}\` | Explicit Stop and revoke lease | Transient local session only |
+| `GET /v1/resources` | Filtered read projection with evidence kind, freshness and dispute status | Read-only |
+| `GET /v1/observations?cursor=…` | Incremental metric/event projection | Read-only |
+| `GET /v1/history?resource_id=…` | Historical observations | Read-only |
+| `POST /v1/monitor/sessions` | Explicit Start: create one authenticated monitor lease; idempotency key | Transient local session only |
+| `PUT /v1/monitor/sessions/{lease}/heartbeat` | Extend current lease | Transient local session only |
+| `DELETE /v1/monitor/sessions/{lease}` | Explicit Stop and revoke lease | Transient local session only |
 
-No generic \`POST /execute\`, \`/shell\`, \`/provider\`, \`/kernel\`, \`/reserve\`, or \`/approve\` capability is exposed. Authorization, rate limiting, method scoping, caller identity and anti-CSRF/origin checking apply even behind private ingress; no bearer credentials in URL parameters or browser bundles.
+No generic `POST /execute`, `/shell`, `/provider`, `/kernel`, `/reserve`, or `/approve` capability is exposed. Authorization, rate limiting, method scoping, caller identity and anti-CSRF/origin checking apply even behind private ingress; no bearer credentials in URL parameters or browser bundles.
 
 ## Dashboard session model (SUPPLEMENTARY state modeling)
 
-States \`inactive\`, \`starting\`, \`active\`, \`stopping\`, \`expired\`, \`failed\`; these are **UI/monitor lifecycle states, not authoritative Engine/Kernel states**. Each tab has a separately identified renewable lease; the server tracks a generation counter and last heartbeat, and can discard stale callbacks. Additional tabs extend collection only through their own explicit Start. On final stop/expiry, the backend terminates owned collector process group, closes DB cleanly, and exits. Stopping this group **must never stop an observed service**.
+States `inactive`, `starting`, `active`, `stopping`, `expired`, `failed`; these are **UI/monitor lifecycle states, not authoritative Engine/Kernel states**. Each tab has a separately identified renewable lease; the server tracks a generation counter and last heartbeat, and can discard stale callbacks. Additional tabs extend collection only through their own explicit Start. On final stop/expiry, the backend terminates owned collector process group, closes DB cleanly, and exits. Stopping this group **must never stop an observed service**.
 
-Normal browser disconnect should request immediate lease cancellation. Lost connectivity cannot be reliably distinguished from a temporary pause; a 30-second fail-safe expiry is a test target. If WebSocket/SSE is selected, the heartbeat and lease semantics remain independently necessary; \`beforeunload\` is not a correctness mechanism. Browser visibility suspension should be tested on mobile.
+Normal browser disconnect should request immediate lease cancellation. Lost connectivity cannot be reliably distinguished from a temporary pause; a 30-second fail-safe expiry is a test target. If WebSocket/SSE is selected, the heartbeat and lease semantics remain independently necessary; `beforeunload` is not a correctness mechanism. Browser visibility suspension should be tested on mobile.
 
 When the dashboard is inactive, source snapshots may be stale. Static resources and cached historical reads may be served without starting collectors, but an explicit human action is required to initiate new polling. If API startup itself triggers a process, its idle lifetime must be bounded; only Start should activate collectors.
 
