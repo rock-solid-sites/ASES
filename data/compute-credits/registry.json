@@ -1158,11 +1158,11 @@
       "type": "vpc_compute_credit",
       "advertised_value": 1000,
       "value_unit": "USD",
-      "details": "IBM 2026 official free-tier page specifies 120-day credit for Bare Metal for VPC and surrounding VPC products; IBM product blog describes eligible virtual servers. Exact ordinary VSI eligibility for current 2026 terms must be confirmed before valuing as general-purpose CPU credit.",
+      "details": "IBM 2026 official free-tier page specifies 120-day credit for Bare Metal for VPC and surrounding VPC products; IBM product blog describes eligible virtual servers. Exact ordinary VSI eligibility for current 2026 terms must be confirmed before valuing as general-purpose CPU credit. Current official 2026 free-tier page explicitly markets bare-metal VPC and surround services; older IBM article discusses VSI but cites 2025 expiry. Do not assume 2026 code covers normal VSI.",
       "credit_expiry": "120 days after redemption",
       "first_seen_at": "2026-11-04",
-      "last_checked_at": "2026-11-04",
-      "status": "officially_listed_eligibility_pending",
+      "last_checked_at": "2026-11-06",
+      "status": "scope_conflict_not_actionable_for_cpu_vm",
       "eligible_existing_account": true,
       "requires_new_account": false,
       "minimum_spend_usd": null,
@@ -1177,7 +1177,7 @@
         "https://www.ibm.com/new/product-blog/5-ways-to-use-ibm-cloud-vpc-credits"
       ],
       "evidence_level": "official 2026 IBM page confirms 120 days and Dec 31 2026; official older terms confirm existing accounts and virtual server use, current checkout not tested",
-      "alert_state": "newly_discovered_requires_eligibility_check",
+      "alert_state": "hold_until_2026_vsi_eligibility_confirmed",
       "account_specific_fit": "Potential existing-account value; IBM requires credit card on file; acceptance of Revolut/Wise unknown",
       "stacking": "not stackable per IBM announcement",
       "eligible_account_types": [
@@ -1213,6 +1213,56 @@
       "evidence_level": "official_pricing_and_billing; account balance unverified",
       "alert_state": "new_discovery",
       "account_specific_fit": "Potentially valuable for ephemeral ASES tests; user's Daytona account known but entitlement not checked"
+    },
+    {
+      "id": "modal-starter-30-monthly-2026",
+      "provider_id": "modal",
+      "type": "recurring_free_allowance",
+      "advertised_value": 30,
+      "value_unit": "USD_per_month",
+      "details": "Starter $30/month CPU/GPU/memory compute allowance; includes Functions and Sandboxes, excludes Shared Endpoints. Sandbox CPU and RAM billed 3x base list rate. Existing account eligibility depends on current tier.",
+      "credit_expiry": "monthly_reset",
+      "first_seen_at": "2026-11-06",
+      "last_checked_at": "2026-11-06",
+      "status": "evergreen_baseline_not_new",
+      "eligible_existing_account": true,
+      "requires_new_account": false,
+      "minimum_spend_usd": 0,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "source_urls": [
+        "https://modal.com/pricing"
+      ],
+      "evidence_level": "official_current_pricing",
+      "alert_state": "do_not_notify_evergreen",
+      "account_specific_fit": "Modal account previously reported; tier/balance unverified"
+    },
+    {
+      "id": "scaleway-founders-1000-eur",
+      "provider_id": "scaleway",
+      "type": "startup_application",
+      "advertised_value": 1000,
+      "value_unit": "EUR",
+      "details": "Founders program: business under five years, fewer than 50 employees, not already Scaleway customer; 12-month validity; approval within 21 working days. Company eligibility and country restrictions unverified.",
+      "credit_expiry": "12 months after award",
+      "first_seen_at": "2026-11-06",
+      "last_checked_at": "2026-11-06",
+      "status": "conditional_startup_program_not_new",
+      "eligible_existing_account": false,
+      "requires_new_account": true,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": null,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "source_urls": [
+        "https://www.scaleway.com/fr/programme-founders/"
+      ],
+      "evidence_level": "official_program_page",
+      "alert_state": "do_not_notify_until_eligible",
+      "account_specific_fit": "Eligibility not established"
     }
   ],
   "account_inventory": {
@@ -1300,6 +1350,16 @@
         "daytona-2vcpu-8gib-15gib-estimate"
       ],
       "summary": "Daytona officially advertises $200 free CPU sandbox compute without card, 2vCPU/8GiB illustrative $0.23148/h with 15GiB disk; existing-account balance and expiry unknown."
+    },
+    {
+      "at": "2026-11-06",
+      "kind": "scope_correction_and_baselines",
+      "entity_ids": [
+        "ibm-vpc1000-2026",
+        "modal-starter-30-monthly-2026",
+        "scaleway-founders-1000-eur"
+      ],
+      "summary": "Flagged IBM VPC1000 2026 bare-metal vs older 2025 VSI scope conflict; recorded Modal recurring $30 compute allowance and conditional Scaleway founders credits as non-new baselines."
     }
   ],
   "source_policy": {
