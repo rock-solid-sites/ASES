@@ -546,7 +546,7 @@ jobs:
         if: steps.gate.outputs.status == 'READY'
         shell: bash
         env:
-          SOURCE_TAR: ${{ runner.temp }}/export/phase-i-evidence.tar.gz
+          SOURCE_TAR: ${{ runner.temp }}/complete-evidence-export.tar.gz
           BACKUP_OUTPUT: ${{ runner.temp }}/backup-status
           SOURCE_COMMIT: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
@@ -563,6 +563,14 @@ jobs:
           set -Eeuo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y -qq age rclone
+          EXPORT="$RUNNER_TEMP/export"
+          for file in phase-i-evidence.tar.gz SHA256SUMS archive-sha256.txt provenance.txt collection-status.json manifest-status.json upstream-results.json; do
+            test -s "$EXPORT/$file"
+          done
+          # Preserve the export's completeness/qualification metadata inside ciphertext.
+          tar -C "$EXPORT" -czf "$SOURCE_TAR" .
+          tar -tzf "$SOURCE_TAR" | grep -Fx './collection-status.json'
+          tar -tzf "$SOURCE_TAR" | grep -Fx './manifest-status.json'
           bash docs/research/phase-i-assurance/backup_encrypted.sh
           echo "Encrypted remote ciphertext readback complete. A private-key decrypt-and-restore test is still required." >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
