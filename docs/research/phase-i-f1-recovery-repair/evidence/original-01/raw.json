@@ -1,0 +1,51 @@
+{
+  "commit": "ab975b4ec195d97c46d1b36036c3ba732485680b",
+  "ended_ns": 32220273431720,
+  "environment": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sqlite": "3.53.1"
+  },
+  "error": "Traceback (most recent call last):\n  File \"/workspace/ASES/docs/research/phase-i-f1-recovery-repair/probe.py\", line 190, in main\n    data[\"cases\"] = baseline(out)\n                    ^^^^^^^^^^^^^\n  File \"/workspace/ASES/docs/research/phase-i-f1-recovery-repair/probe.py\", line 160, in baseline\n    prefix = bootstrap(root, ORIGINAL)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ASES/docs/research/phase-i-f1-recovery-repair/probe.py\", line 144, in bootstrap\n    established = manager.call(\"establish\")\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ASES/docs/research/phase-i-f1-recovery-repair/probe.py\", line 86, in call\n    self.conn.sendall((json.dumps(request) + \"\\n\").encode())\nPermissionError: [Errno 1] Operation not permitted\n",
+  "execution": "ERROR",
+  "pin": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
+  "probe_sha256": "e7e6b567756ed4ce992d16ef740c93c4f0da6185076ee04badc23cb2ed8d2d62",
+  "processes": [
+    {
+      "config": {
+        "channels": [
+          [
+            -1,
+            5
+          ]
+        ],
+        "observation_mode": "atomic",
+        "observations": {
+          "consumer_evidence": "bootstrap:consumer_evidence",
+          "created_by": "bootstrap:created_by",
+          "identity_genesis": "bootstrap:identity_genesis",
+          "project": "bootstrap:project"
+        },
+        "path": "/workspace/ASES/docs/research/phase-i-f1-recovery-repair/evidence/original-01/state/cold-missing/store.sqlite",
+        "profile": "independent",
+        "root": "work",
+        "trace": "/workspace/ASES/docs/research/phase-i-f1-recovery-repair/evidence/original-01/state/cold-missing/sql-32220155607543.jsonl"
+      },
+      "exit": -9,
+      "exit_ns": 32220269429319,
+      "operations": [],
+      "pid": 3931,
+      "ready_ns": 32220268193062,
+      "ready_raw": "ready\n",
+      "source": "/workspace/ASES/docs/research/phase-i-sol-integration/evidence/sources/f1/docs/research/phase-i-f1/c11-sqlite/c11_service.py",
+      "source_sha256": "864e43153e069247c6c2557dc5cb2ce7c51795c612a20515c2be0cb82c9a2c28",
+      "sql": [],
+      "start_ns": 32220155683297,
+      "stderr": "Exception in thread Thread-1 (handle):\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/threading.py\", line 1075, in _bootstrap_inner\n    self.run()\n",
+      "stdout_tail": ""
+    }
+  ],
+  "started_ns": 32219932523231
+}
