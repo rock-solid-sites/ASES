@@ -153,21 +153,120 @@ def bootstrap(root, source, repaired=False):
     return dict(establish=established, grant=granted, accept=accepted, independent=independent(path))
 
 
-def baseline(out):
+def baseline(out, source=ORIGINAL, repaired=False, only=None):
     cases = {}
     for label in ("cold-missing", "cold-fresh", "readonly", "unchanged", "failed-then-valid", "config-nonaccept"):
+        if only and label not in only:
+            continue
         root = out / "state" / label
-        prefix = bootstrap(root, ORIGINAL)
-        config = configuration("B", B) if label in ("cold-fresh", "failed-then-valid", "config-nonaccept") else {}
-        holder = Holder(ORIGINAL, root, config, -1 if label == "config-nonaccept" else 0)
+        prefix = bootstrap(root, source, repaired)
+        config = configuration("B", B, repaired) if label in ("cold-fresh", "failed-then-valid", "config-nonaccept") else {}
+        holder = Holder(source, root, config, -1 if label == "config-nonaccept" else 0)
         try:
             read = holder.call("read")
             denied = holder.call("accept", "outside-native-domain") if label == "failed-then-valid" else None
+            after_denial = independent(root / "store.sqlite") if denied else None
             op = holder.call("read") if label == "readonly" else holder.call("restrict", value=3) if label == "config-nonaccept" else holder.call("accept", A if label == "unchanged" else B)
         finally:
             holder.close()
-        cases[label] = dict(prefix=prefix, read=read, denied=denied, operation=op,
+        cases[label] = dict(prefix=prefix, read=read, denied=denied, after_denial=after_denial, operation=op,
                             final=independent(root / "store.sqlite"))
+    return cases
+
+
+def repaired_cases(out, source):
+    cases = baseline(out, source, True)
+    invalid = {
+        "null": None,
+        "list": [],
+        "wrong-subject": dict(accepted_content=A, required=WORLDS["B"]),
+        "non-string-subject": dict(accepted_content=False, required=WORLDS["B"]),
+        "missing-field": dict(accepted_content=B, required={k: v for k, v in WORLDS["B"].items() if k != "project"}),
+        "bad-field-type": dict(accepted_content=B, required=dict(WORLDS["B"], project=False)),
+        "extra-field": dict(accepted_content=B, required=WORLDS["B"], unexpected=True),
+    }
+    for suffix, bundle in invalid.items():
+        label = "invalid-" + suffix
+        root = out / "state" / label
+        prefix = bootstrap(root, source, True)
+        holder = Holder(source, root, dict(acceptance_bundle=bundle))
+        try:
+            op = holder.call("accept", B)
+        finally:
+            holder.close()
+        cases[label] = dict(prefix=prefix, operation=op, final=independent(root / "store.sqlite"))
+
+    for label in ("stale-subject", "legacy-unbound", "same-content-invalid", "same-bytes-worlds", "kill-prepared", "kill-durable", "fail-current-insert", "fail-retained-insert"):
+        root = out / "state" / label
+        prefix = bootstrap(root, source, True)
+        extra = {}
+        if label == "stale-subject":
+            first = Holder(source, root, configuration("B", B, True))
+            try:
+                extra["earlier"] = first.call("accept", B)
+            finally:
+                first.close()
+            extra["before"] = independent(root / "store.sqlite")
+            config, value = configuration("A", A, True), B
+        elif label == "legacy-unbound":
+            config, value = configuration("B", B), B
+        elif label == "same-content-invalid":
+            config, value = dict(acceptance_bundle=None), A
+        elif label == "same-bytes-worlds":
+            config, value = configuration("C", A, True), A
+        else:
+            config, value = configuration("B", B, True), B
+        if label.startswith("fail-"):
+            table = "consumer_observations" if label == "fail-current-insert" else "retained_observations"
+            with sqlite3.connect(root / "store.sqlite") as db:
+                db.execute("CREATE TRIGGER injected BEFORE INSERT ON " + table + " BEGIN SELECT RAISE(ABORT,'injected-transaction-failure'); END")
+        gate = label.split("-", 1)[1] if label.startswith("kill-") else None
+        holder = Holder(source, root, config, gate=gate)
+        try:
+            op = holder.cut(value) if gate else holder.call("accept", value)
+            if label == "same-bytes-worlds":
+                extra["after_first"] = independent(root / "store.sqlite")
+                extra["duplicate"] = holder.call("accept", value)
+        finally:
+            holder.close()
+        extra["after_operation"] = independent(root / "store.sqlite")
+        if label.startswith("fail-"):
+            with sqlite3.connect(root / "store.sqlite") as db:
+                db.execute("DROP TRIGGER injected")
+            fresh = Holder(source, root, configuration("B", B, True))
+            try:
+                extra["later_valid"] = fresh.call("accept", B)
+            finally:
+                fresh.close()
+        if label == "same-bytes-worlds":
+            extra["recoveries"] = []
+            for _ in range(2):
+                cold = Holder(source, root)
+                try:
+                    extra["recoveries"].append(dict(read=cold.call("read"), reaccept=cold.call("accept", A)))
+                finally:
+                    cold.close()
+        cases[label] = dict(prefix=prefix, operation=op, final=independent(root / "store.sqlite"), **extra)
+
+    for label in ("prepare-original-valid", "prepare-original-incompatible", "no-auto-prepare"):
+        root = out / "state" / label
+        prefix = bootstrap(root, ORIGINAL)
+        if label == "prepare-original-incompatible":
+            original = Holder(ORIGINAL, root)
+            try:
+                original.call("accept", B)
+            finally:
+                original.close()
+        before = independent(root / "store.sqlite")
+        if label == "no-auto-prepare":
+            argv = [sys.executable, str(source), json.dumps(dict(path=str(root / "store.sqlite"), root="work", profile="independent", channels=[], trace=str(root / "startup-sql.jsonl")))]
+        else:
+            argv = [sys.executable, str(source), "--prepare", str(root / "store.sqlite")]
+        start = time.monotonic_ns()
+        attempt = subprocess.run(argv, text=True, capture_output=True, timeout=5)
+        cases[label] = dict(prefix=prefix, before=before, attempt=dict(argv=argv, start_ns=start,
+                            end_ns=time.monotonic_ns(), exit=attempt.returncode, stdout=attempt.stdout,
+                            stderr=attempt.stderr), final=independent(root / "store.sqlite"))
     return cases
 
 
@@ -175,19 +274,29 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--snapshot", type=Path)
     parser.add_argument("--out", type=Path)
+    parser.add_argument("--mode", choices=("original", "repaired", "mutant"), default="original")
     args = parser.parse_args()
     if args.snapshot:
         print(json.dumps(snapshot(args.snapshot), sort_keys=True))
         return 0
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=False)
-    data = dict(pin=PIN, started_ns=time.monotonic_ns(), probe_sha256=sha(Path(__file__).read_bytes()),
+    data = dict(pin=PIN, mode=args.mode, started_ns=time.monotonic_ns(), probe_sha256=sha(Path(__file__).read_bytes()),
                 commit=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip(),
                 environment=dict(python=sys.version, sqlite=sqlite3.sqlite_version, platform=platform.platform(),
                                  executable=sys.executable, executable_sha256=sha(Path(sys.executable).read_bytes())))
     result = 0
     try:
-        data["cases"] = baseline(out)
+        source = HERE / "repaired_service.py"
+        if args.mode == "mutant":
+            original_text = source.read_text()
+            changed = original_text.replace("elif candidate.content != current.content or retained is None:", "elif False:  # MUTANT: omit missing-bundle admission protection")
+            assert changed != original_text
+            changed = changed.replace(next(line for line in changed.splitlines() if line.startswith("ORIGINAL = ")), "ORIGINAL = Path(" + repr(str(ORIGINAL)) + ")")
+            source = out / "missing_bundle_mutant.py"
+            source.write_text(changed)
+        data["cases"] = baseline(out) if args.mode == "original" else repaired_cases(out, source) if args.mode == "repaired" else baseline(out, source, True, {"cold-missing"})
+        data["source_hashes"] = {str(p): sha(p.read_bytes()) for p in (ORIGINAL, ORIGINAL.parent.parent.parent / "kernel-0/kernel0_recovery_service.py", ORIGINAL.parent.parent.parent / "kernel-0/kernel0_service.py", source) if p.exists()}
         data["execution"] = "PASS"
     except BaseException:
         data.update(execution="ERROR", error=traceback.format_exc())
