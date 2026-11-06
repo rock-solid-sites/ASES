@@ -26,8 +26,7 @@ bundle preserves its valid existing pair.
 From explicit variant preparation onward, all actually accepted pairs remain in one
 insert-only retention table. Preparation seeds the currently available original pair;
 it cannot reconstruct observations already discarded by the original implementation.
-This
-small additional representation meets the instruction not to discard old observations;
+This small additional representation meets the instruction not to discard old observations;
 it is not a new authority rule or general event log. Exact duplicates share a row.
 An explicit preparation step validates and retains an existing original pair, or
 prepares a trusted empty initial store. Ordinary recovery performs no schema creation,
@@ -137,6 +136,15 @@ Source pins: F1 `29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a`; L5
 `51b34aface9340b7e6821b8c40dc62ca38da15e2`. Exact original dependency files are retained
 in the unchanged PR #10 source capture. New sources, hashes, raw SQLite/SQL/process
 evidence and short reproduction results are retained on this branch.
+
+The final reproduction script was executed successfully after disabling Python bytecode
+cache writes into pinned dependencies. Its complete 197-file capture is retained in
+[final-reproduction.tar.gz](evidence/final-reproduction.tar.gz), with an internal SHA256
+manifest; a clean temporary restore passed the F1 checker and L5 comparison checker.
+The outer [manifest](evidence/manifest.json) covers 203 captured files, and PR #10's
+original 334-file capture still verifies exactly. This is local evidence retention,
+not an off-provider archive. [Final verification](evidence/analysis/final-verification.json)
+records sources and runtime: Python 3.12.14, SQLite 3.53.1, Linux 6.18.57.
 
 WHY: admission now validates the evidence binding before the single local commitment;
 unrelated configuration no longer changes accepted evidence. WHAT: before/after native
