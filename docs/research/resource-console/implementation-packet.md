@@ -34,15 +34,15 @@ last_updated: 2026-11-06
 Build a useful single-VPS dashboard showing local resource usage and recorded provider/account facts, with reusable read-only API for agents. The initial page stays inert until explicit Start. While active it updates live local metrics; when the last session ends or expires it terminates all dashboard-owned collector processes, retaining safe historical snapshots. Charts and lists label provider data freshness and unknowns. Under no condition does the console gain provider execution, agent stop, kernel/Engine, or resource solver admission authority.
 
 Accept the behavior and test obligations in:
-- \`docs/requirements/Resource Console v0.1 Requirements.md\`
-- \`docs/architecture/Resource Console v0.1 Design and Contracts.md\`
-- \`docs/research/resource-console/verification-matrix.md\`
+- `docs/requirements/Resource Console v0.1 Requirements.md`
+- `docs/architecture/Resource Console v0.1 Design and Contracts.md`
+- `docs/research/resource-console/verification-matrix.md`
 
 Avoid duplicating their normative content in implementation notes.
 
 ### Minimum source/reuse map
 
-Preserve \`research/provider-registry/known_accounts_v1.json\`, \`inventory_schema_v1.json\`, \`resource-router-integration-map-2026-11-03.json\`, \`data/compute-credits/registry.json\`, and historical research unchanged. Use an explicit read-only adapter for each source, with unknown/null preserved; do not merge opportunity records into account grants. The Rust controller under \`feature/resource-control-runtime-2026-11-02\` is experimental and **not** merged or live-connected; do not fork its mutable ledger for v0.1.
+Preserve `research/provider-registry/known_accounts_v1.json`, `inventory_schema_v1.json`, `resource-router-integration-map-2026-11-03.json`, `data/compute-credits/registry.json`, and historical research unchanged. Use an explicit read-only adapter for each source, with unknown/null preserved; do not merge opportunity records into account grants. The Rust controller under `feature/resource-control-runtime-2026-11-02` is experimental and **not** merged or live-connected; do not fork its mutable ledger for v0.1.
 
 ### Proposed minimal vertical slice
 
@@ -78,12 +78,12 @@ If a candidate mechanism fails, keep the required behavior and find the smallest
 
 ### Builder residual task (compact)
 
-\`\`\`text
+```text
 Operation: implement a bounded Resource Console v0.1 vertical slice on an isolated branch.
 Target: ASES project specifications in docs/requirements/Resource Console v0.1 Requirements.md, docs/architecture/Resource Console v0.1 Design and Contracts.md, and docs/research/resource-console/verification-matrix.md.
-Preserve provider-registry source truth states and current VPS private ingress; inspect that ingress before selecting activation and backend realization. Implement the smallest static Astro/React dashboard with explicit Start/Stop, real read-only local metrics and derived provider snapshots, SQLite history, and a matching read-only agent API. No producer authority, provider actions or Kernel/Engine implementation.
+Preserve provider-registry source evidence kinds and freshness states and current VPS private ingress; inspect that ingress before selecting activation and backend realization. Implement the smallest static Astro/React dashboard with explicit Start/Stop, real read-only local metrics and derived provider snapshots, SQLite history, and a matching read-only agent API. No producer authority, provider actions or Kernel/Engine implementation.
 First run the narrow discriminating tests for lazy launch, multi-session shutdown, abrupt-loss fallback, authentication, process isolation and resource overhead. If an assumption fails, return the measured incompatibility and smallest safe alternative. Validate all v0.1 acceptance cases; preserve evidence and list blocked live checks. Stop at an isolated working slice and PR; do not deploy to production without verified private ingress and permission boundaries.
-\`\`\`
+```
 
 ### Stopping condition
 
