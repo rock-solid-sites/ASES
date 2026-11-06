@@ -447,3 +447,74 @@ jobs:
           path: ${{ runner.temp }}/evidence-export/
           if-no-files-found: error
           retention-days: 30
+
+  encrypted-offprovider-backup:
+    name: Encrypted off-provider backup (explicit BLOCKED if unconfigured)
+    if: always()
+    needs: [evidence-export]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate backup script and credentials gate
+        id: gate
+        shell: bash
+        env:
+          EXPORT_RESULT: ${{ needs.evidence-export.result }}
+          AGE_RECIPIENT: ${{ vars.ASES_BACKUP_AGE_RECIPIENT }}
+          R2_ACCOUNT_ID: ${{ vars.ASES_R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.ASES_R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.ASES_R2_SECRET_ACCESS_KEY }}
+        run: |
+          set -Eeuo pipefail
+          bash -n docs/research/phase-i-assurance/backup_encrypted.sh
+          mkdir -p "$RUNNER_TEMP/backup-status"
+          if [[ "$EXPORT_RESULT" != "success" ]]; then
+            STATUS=BLOCKED_EXPORT_FAILED
+          elif [[ -z "$AGE_RECIPIENT" || -z "$R2_ACCOUNT_ID" || -z "$R2_ACCESS_KEY_ID" || -z "$R2_SECRET_ACCESS_KEY" ]]; then
+            STATUS=BLOCKED_NOT_CONFIGURED
+          else
+            STATUS=READY
+          fi
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          printf '{"backup_status":"%s","off_provider_archive_verified":false}\n' "$STATUS" > "$RUNNER_TEMP/backup-status/preflight.json"
+          echo "Off-provider backup preflight: **$STATUS**" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$STATUS" != "READY" ]]; then
+            echo "No off-provider backup was attempted or verified." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/download-artifact@v4
+        if: steps.gate.outputs.status == 'READY'
+        with:
+          name: phase-i-evidence-export-${{ github.run_id }}
+          path: ${{ runner.temp }}/export
+      - name: Encrypt and mirror to R2, optionally IDrive e2
+        if: steps.gate.outputs.status == 'READY'
+        shell: bash
+        env:
+          SOURCE_TAR: ${{ runner.temp }}/export/phase-i-evidence.tar.gz
+          BACKUP_OUTPUT: ${{ runner.temp }}/backup-status
+          SOURCE_COMMIT: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          AGE_RECIPIENT: ${{ vars.ASES_BACKUP_AGE_RECIPIENT }}
+          R2_ACCOUNT_ID: ${{ vars.ASES_R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.ASES_R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.ASES_R2_SECRET_ACCESS_KEY }}
+          E2_ENDPOINT: ${{ vars.ASES_E2_ENDPOINT }}
+          E2_BUCKET: ${{ vars.ASES_E2_BUCKET }}
+          E2_ACCESS_KEY_ID: ${{ secrets.ASES_E2_ACCESS_KEY_ID }}
+          E2_SECRET_ACCESS_KEY: ${{ secrets.ASES_E2_SECRET_ACCESS_KEY }}
+        run: |
+          set -Eeuo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq age rclone
+          bash docs/research/phase-i-assurance/backup_encrypted.sh
+          echo "Encrypted remote ciphertext readback complete. A private-key decrypt-and-restore test is still required." >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-backup-status-${{ github.run_id }}
+          path: ${{ runner.temp }}/backup-status/
+          if-no-files-found: error
+          retention-days: 30
