@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-07",
+  "as_of_utc": "2026-11-08",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -662,6 +662,29 @@
       },
       "official_url": "https://www.amd.com/",
       "last_verified_at": "2026-11-03"
+    },
+    {
+      "id": "zenlayer",
+      "name": "Zenlayer Cloud",
+      "category": "hourly_cpu_vm",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": true,
+        "stopped_instance_billed": null,
+        "storage_extra": true,
+        "network_extra": true
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://cloud.zenlayer.com/",
+      "last_verified_at": "2026-11-08"
     }
   ],
   "compute_offerings": [
@@ -1350,6 +1373,31 @@
       "evidence_level": "provider_official_not_checkout_verified",
       "alert_state": "not_priority_due_to_small_bonus_and_risk",
       "provider_id": "litekeep"
+    },
+    {
+      "id": "zenlayer-bf2026-topup-50",
+      "provider_id": "zenlayer",
+      "type": "existing_and_new_customer_topup_bonus",
+      "advertised_value": 50,
+      "value_unit": "USD_bonus_on_100_USD_deposit",
+      "details": "Official Black Friday partner landing page: top up $100, wallet becomes $150. Existing accounts eligible. Bonus nonwithdrawable, official page states bonus never expires. $25 first-order credit new accounts only; 30% partner rate requires partner signup and is not presumed applicable to existing accounts. Applies to Zenlayer cloud wallet, but exact 8/16/24 GiB VM prices, applicable regions, traffic and credit application to elastic compute require checkout verification. Forum report of a failed $50 credit and vendor contradictory reference to 50 yuan requires caution.",
+      "credit_expiry": "never (official claim for bonus balance)",
+      "first_seen_at": "2026-11-08",
+      "last_checked_at": "2026-11-08",
+      "status": "official_live_conditional_verify_checkout",
+      "eligible_existing_account": true,
+      "requires_new_account": false,
+      "minimum_spend_usd": 100,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": null,
+      "region_restrictions": null,
+      "redemption_deadline_utc": "2026-12-02",
+      "source_urls": [
+        "https://cloud.zenlayer.com/promotions/black-friday?partner=zenvm",
+        "https://lowendtalk.com/discussion/222905/black-friday-zenlayer-la-64gb-960gb-ssd-10gbps-68-20-mo-all-in-top-up-100-get-150"
+      ],
+      "evidence_level": "official_promotion_page_verified_2026-11-08_no_checkout",
+      "alert_state": "new_conditional_lead"
     }
   ],
   "account_inventory": {
@@ -1465,6 +1513,15 @@
         "litekeep-topup10-2026"
       ],
       "summary": "Verified official LiteKeep 2026 BLACK150 new-account first-deposit bonus and TOPUP10 existing-account top-up bonus, plus 6/8/16GB hourly rates. High $100 nonrefundable entry and unverified reliability/CPU policies; no purchase recommended."
+    },
+    {
+      "at": "2026-11-08",
+      "kind": "new_promotion_discovery",
+      "entity_ids": [
+        "zenlayer",
+        "zenlayer-bf2026-topup-50"
+      ],
+      "summary": "Official 2026 Nov 2-Dec 2 Zenlayer BF $100 top-up yields $150 wallet for existing/new customers, bonus claimed nonexpiring. 8GB+ VM prices and credit application unverified; community report of missing bonus and inconsistent vendor reply flagged."
     }
   ],
   "source_policy": {
