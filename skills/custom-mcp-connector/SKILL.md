@@ -48,6 +48,14 @@ Preserve the established connection route and credentials location. Distinguish 
 
 Acceptance is the user's exact client objective, not a Connected label or HTTP 200. For private connectors, corroborate a genuine ChatGPT-originated call with backend evidence. The September 2026 UI notes below are dated examples, not a current product contract.
 
+## Workspace-scoped cross-client canary (experimental, 2026-11-09)
+
+When a single MCP account must serve **multiple workspaces and multiple clients** (e.g., a separate Projektor Working Notes workspace used by Chat, Work, and Codex), do not infer workspace routing from `list_workspaces` or from a successful read of the default workspace.
+
+Run a bounded real-surface sequence: list accessible workspaces; explicitly select or address the target workspace through a documented connector operation; read one known test page; write/append a harmless test entry from one client; retrieve that exact new revision from each other client. Distinguish **not exposed**, **cannot select workspace**, **permission denied**, **write failed**, **read stale**, and **pass**. If the MCP has no supported workspace-selection or workspace-qualified resource operation, record that exact missing capability and implement the smallest route change before claiming support.
+
+For the ASES shared investigation notes pilot, use existing Projektor wiki write/patch operations; do not build another MCP tool. Keep any YAML validation structural (required fields/types/enums) and limited to designated notes, rather than pretending the validator evaluates test quality or enforces agent actions.
+
 ## Current observed ChatGPT MCP connection surface
 
 Observed 2026-09-26 on the working Strategy Code Graph setup.
