@@ -56,6 +56,12 @@ In Projektor, MCP requests are routed by the `/mcp/:workspaceId` URL. The 2026-1
 
 For the ASES shared investigation notes pilot, use existing Projektor wiki write/patch operations; do not build another MCP tool. Keep any YAML validation structural (required fields/types/enums) and limited to designated notes, rather than pretending the validator evaluates test quality or enforces agent actions.
 
+### Verified Projektor Work Notes pilot (2026-11-09)
+
+The `Projektor MCP` connection remains bound to Projects, while the separate `Work Notes` connection now reaches Agent Working Notes. The deployed Worker needed an MCP-path workspace-ID precedence fix over enabled hostname/subdomain routing; changing the URL or adding another account was not the repair. Live Chat acceptance covered a real wiki full read, section, revision, patch and re-read, plus cross-workspace not-found. The content-bearing getters `get_wiki_page`, `get_wiki_revision`, `get_playbook`, and `get_workflow` are **deployment-specifically** represented as `{data:<original result>}` in MCP, so read `data.content` and `data.revisionId`; the REST API is unchanged. The source-level patch and evidence are in `rock-solid-sites/ases-plugins/connectors/projektor`.
+
+One important diagnostic pitfall: after rolling back a Cloudflare Worker deployment, `content/v2` may expose the latest **uploaded** script rather than the actively **deployed** one. Inspect the actual deployed script and version when comparing the before/after code; otherwise a supposed 'clean baseline' can still carry an earlier experimental patch. Do not repeatedly rotate OAuth or reinstall the plugin when the correct authenticated route is already working. Independent Codex and Work surface tests are still required.
+
 ## Current observed ChatGPT MCP connection surface
 
 Observed 2026-09-26 on the working Strategy Code Graph setup.
