@@ -51,7 +51,9 @@ Preferred storage: a separate Projektor workspace for **agent Working Notes**, a
 - Use page revisions and section-addressed patches rather than repeatedly replacing full documents. Where supported, append experiment entries using an append operation; update only current-state sections.
 - **No GitHub commit per test**, separate dashboard, custom MCP, database migration, continuously running poller or workflow engine is initially required.
 
-The first gate is verifying **cross-instance access**. Existing Projektor operations may be tied to a single current workspace; availability of `list_workspaces` does **not** prove the MCP can select a second workspace. Test that one note is writable in Codex and immediately readable in Chat and Work; if not, adjust the connector's workspace selection/routing and test again. Merely creating a workspace is insufficient. Changes must leave the existing Projects workspace unaffected.
+**Workspace endpoint discovery (2026-11-09):** A new workspace named `Agent Working Notes` was created successfully with workspace ID `6160a41b-7ef2-41bf-a69e-20ad00710cb6`. The existing MCP connection remained bound to the original Projects workspace when tested after creation. The upstream Projektor server's MCP route is already `POST /mcp/:workspaceId`, and uses the workspace ID in the request path. Therefore, the smallest likely route is **a separate authenticated MCP connection to `https://projektor-rss.rss-tools.workers.dev/mcp/6160a41b-7ef2-41bf-a69e-20ad00710cb6`**, not modifying the server to add a workspace-switching tool. The authenticated route has **not** been tested with the new connection. The operator must authorize/add that connection in ChatGPT and configure corresponding connections in Work and Codex as supported. One session's connector visibility cannot prove the others' access. Do not modify or replace the working Projects MCP endpoint.
+
+After connecting, test that a note is writable in Codex and read from Chat and Work without changing the original workspace. If authentication fails, diagnose that boundary before modifying workspace routing. Merely creating a workspace or knowing its URL is not an acceptance test.
 
 Visibility means **on-demand current reads** across clients. Do not claim live push or automatic notifications unless tested.
 
@@ -98,7 +100,7 @@ For investigation records in the designated workspace only:
 
 **Do not implement** a causal-relevance classifier, test originality verifier, automatic stop/go authorization, retry prohibition, mandatory risk scoring, model-usage counter, large schema, inferred hypotheses, or arbitrary-text evaluation. An eventual execution-engine component may implement decision-level guards once empirical failure rates justify it.
 
-The validator may live in the Projektor write path or existing MCP adapter, whichever reliably covers the actual pilot clients with less code. If other clients can bypass MCP, do not claim universal server-side enforcement. Verify compatibility before deciding. A tiny parser/schema check is preferable to adding a new tool.
+The first implementation can be a **client-side YAML structural validator** invoked by the writing agent before the existing wiki create/patch operation, with its schema stored alongside the ASES pilot. Do not claim it is server-enforced or impossible to bypass. For server-wide enforcement, a future Änderung to the Projektor shared wiki write path would be required; defer that unless repeated validation failures justify it. This is deliberately lighter than adding or modifying the MCP.
 
 ## Agent update discipline
 
@@ -149,7 +151,7 @@ Compare with baseline behavior using redundant attempts, preventable stops, oper
 
 ## Implementation sequence (intentionally narrow)
 
-1. Test whether the existing connector supports selecting/operating in a second workspace from each client. If not, make **that** the minimum MCP change.
+1. Add the second workspace-specific MCP connection through the existing registration/authentication path and test it from each client. Do not add a workspace-switching tool without a demonstrated need.
 2. Establish separate workspace and parent-page-per-project organization.
 3. Implement the small YAML structural validator for designated notes; add valid/invalid tests.
 4. Update ASES MCP skills with the record-writing convention and tested tool route. Installed plugin skills may be pinned snapshots; source changes require whatever publishing/reload step their distribution uses.
