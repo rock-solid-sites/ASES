@@ -1,0 +1,159 @@
+---
+title: Shared Investigation Decision Records — Minimal Live-Notes Pilot
+program: ASES
+layer: Methodology
+document_type: Methodology Specification
+status: Draft
+authority: Experimental
+canonical_repository: ases
+depends_on:
+  - docs/standards/Documentation Standard.md
+  - AGENTS.md
+  - docs/research/2026-11-09-agent-recovery-investigation-treadmill-postmortem.md
+related_documents:
+  - docs/proposals/2026-11-02-testing-debugging-ontology/debugging-and-fault-isolation-method.md
+  - skills/workflow-orchestration/SKILL.md
+consumed_by:
+  - skills/workflow-orchestration/SKILL.md
+implements: []
+implemented_by: []
+supersedes: []
+superseded_by: []
+last_updated: 2026-11-09
+---
+
+# Shared investigation decision records — experimental proposal
+
+> **PROPOSAL, not active global ASES policy.** Pilot the smallest mechanism that helps agents retain their actual goal, use negative evidence, avoid redundant investigations, and avoid creating irrelevant blockers. This is a general-purpose method, not a physical-networking procedure or a kernel-state-machine concept.
+
+## Motivation
+
+The 8–9 November 2026 UniFi recovery incident documented a pattern in which agents made valid intermediate repairs but repeatedly checked the same downstream symptoms and stopped over requirements irrelevant to the next authorized action. The core ASES Debugging and Fault Isolation Method already articulates the right reasoning disciplines; an executable agent still failed to adhere to them during a long session. The proposed intervention is a **visible, continually updated decision record**, not a new architecture or specialist reviewer.
+
+Primary hypotheses to test:
+
+1. Keeping the original user-facing goal and live failing boundary visible reduces goal displacement.
+2. Requiring a concise result and implication after a meaningful test reduces equivalent retries and rediscovery.
+3. Requiring a specific reason for a blocker reduces unnecessary interruptions.
+4. Shared visibility lets another Chat/Work instance intervene earlier than a post-hoc summary.
+5. Structural validation may improve record consistency with negligible execution cost; **semantic enforcement remains a future execution-engine concern**.
+
+The method must apply to software builds, distributed systems, API integrations, deployments and any multi-stage work where local repairs can alter downstream state.
+
+## Storage and organization
+
+Preferred storage: a separate Projektor workspace for **agent Working Notes**, accessible through the existing Projektor MCP from Chat, Work and Codex. The operator need not use its application UI.
+
+- **Workspace:** Agent Working Notes (name provisional).
+- **One parent wiki page per project:** serves as the project's folder in the wiki tree (e.g., ASES, Trip'n, HMS, infrastructure). A page is created only for an actually used project.
+- **One child wiki page per investigation:** original goal, current state, upcoming decision, and chronological results. Stable slug/ID used for cross-instance retrieval.
+- **Multiple investigations per project** remain separate. Do not mix live working records with canonical research or project documentation.
+- **Canonical outputs** such as reviewed postmortems, specifications or source changes continue to live in their appropriate repositories. Projektor notes are ephemeral operational evidence, not automatically authoritative methodology.
+- Use page revisions and section-addressed patches rather than repeatedly replacing full documents. Where supported, append experiment entries using an append operation; update only current-state sections.
+- **No GitHub commit per test**, separate dashboard, custom MCP, database migration, continuously running poller or workflow engine is initially required.
+
+The first gate is verifying **cross-instance access**. Existing Projektor operations may be tied to a single current workspace; availability of `list_workspaces` does **not** prove the MCP can select a second workspace. Test that one note is writable in Codex and immediately readable in Chat and Work; if not, adjust the connector's workspace selection/routing and test again. Merely creating a workspace is insufficient. Changes must leave the existing Projects workspace unaffected.
+
+Visibility means **on-demand current reads** across clients. Do not claim live push or automatic notifications unless tested.
+
+## One lightweight record
+
+A note maintains a current snapshot plus an append-only experiment ledger. Suggested headings:
+
+1. `Goal and acceptance` — user-required outcome, material constraints, authorization; stable for the run unless the operator explicitly changes scope.
+2. `Current state` — what works, what fails, earliest established failure boundary, active competing explanations, recovery obligations.
+3. `Next decision` — specific question, predicted results and what each result would change.
+4. `Blockers` — only actual blockers, naming prevented operation, material consequence and independent work still available.
+5. `Experiment history` — brief observations and implications; do not overwrite negative findings.
+6. `Acceptance evidence` — original user-facing behavior, not merely intermediate green checks.
+
+Keep the **human-visible text readable**, and optionally use an embedded YAML document for machine-checkable fields. Example experiment:
+
+```yaml
+id: E-007
+question: Does the dependency respond?
+prediction: If upstream is down, the request will fail
+decision_value: Distinguish upstream outage from local authorization
+status: completed
+outcome: observed_failure
+observation: Dependency responded successfully
+implication: Upstream outage weakened; examine local authorization
+next_action: Probe the local authorization boundary
+```
+
+`outcome` describes the result of the actual test and must not conflate **test-instrument error** with target failure. Allow `success`, `observed_failure`, `inconclusive`, `test_error` as distinct outcomes. `status` may be `planned`, `completed`, or `interrupted`. An `interrupted` experiment records why the result was unavailable. The sample is illustrative; the pilot may simplify fields further if updates become burdensome.
+
+## Minimal YAML validation only
+
+The validator's job is **syntactic and structural**, not to determine whether the agent reasoned correctly.
+
+For investigation records in the designated workspace only:
+
+- Parse YAML and require stable field names, basic types and known enum values.
+- Require `original_goal` and `acceptance` at creation.
+- Require a question, predicted observation and decision value when an experiment is created.
+- Require an outcome, observation, implication and next action (or explicit no-action reason) when a completed experiment is written.
+- Allow partial progress, interrupted tests and unknowns to be represented without fabricating results.
+- Return precise, short validation errors with the rejected field. Do not silently repair records.
+- Do not impose validation on wiki pages in other workspaces or on unrelated notes.
+
+**Do not implement** a causal-relevance classifier, test originality verifier, automatic stop/go authorization, retry prohibition, mandatory risk scoring, model-usage counter, large schema, inferred hypotheses, or arbitrary-text evaluation. An eventual execution-engine component may implement decision-level guards once empirical failure rates justify it.
+
+The validator may live in the Projektor write path or existing MCP adapter, whichever reliably covers the actual pilot clients with less code. If other clients can bypass MCP, do not claim universal server-side enforcement. Verify compatibility before deciding. A tiny parser/schema check is preferable to adding a new tool.
+
+## Agent update discipline
+
+When the agent starts, it creates the note and records the **original objective unchanged**.
+
+Before a consequential experiment, record the question, predicted outcome and decision value. After the experiment, record the actual observation and its implication **before starting the next material experiment**. Update the current snapshot when understanding changes. Record a genuine blocker only with the specific blocked operation and consequence; continue independent work where possible.
+
+Do not add a record per trivial command or poll. Batch related read-only probes into one experiment if they answer the same question. A repeated test may be appropriate after a changed prerequisite or as a bounded intermittent-sampling experiment: say what changed and why the repetition can now answer something new.
+
+The operator and supervising agent can inspect the current note **during** execution and correct a speculative or irrelevant direction. The note does not replace ordinary operator reports or authorization; it makes them more evidence-based.
+
+Avoid storing credentials, setup codes, private addresses, customer data or other unnecessary secrets in workspace notes. Link to protected private evidence where essential.
+
+## Relationship to ASES
+
+- **EDASES research:** incident evidence, competing interpretations, negative findings, and comparison of pilot outcomes.
+- **ASES methodology:** this candidate practice is a specialization of the existing evidence-to-decision diagnostic loop, not a replacement for it. It remains experimental until tested.
+- **Execution engine:** richer semantic enforcement, resource orchestration and automatic detection of repeated low-information operations are deliberately deferred.
+- **MCP skills:** teach agents how to open/read/update the shared record with the existing Projektor tools. Skills are operational guidance and cannot make an unverified capability claim.
+
+The kernel's implementation primitives are not ASES methodological principles and are unrelated to the justification for this proposal.
+
+## Live pilot: recovered UniFi installation
+
+The immediate pilot investigation is **stability verification and bounded optimization**, not another open-ended repair:
+
+- Original objective: ensure the repaired controller and extenders remain stable; seek measured, low-risk improvements to Wi-Fi performance while preserving working internet.
+- Baseline: controller/database logs, evidence of new disk errors, uptime/reconnection events, wireless uplink quality, client reachability and coverage at meaningful locations.
+- Next decisions: only tests that distinguish a particular instability or plausible performance constraint; no speculative factory resets or broad configuration rework.
+- Changes: one justified reversible adjustment at a time, paired before/after measurement, revert when not beneficial.
+- Completion: operational behavior verified across a declared observation interval; remaining long-term uncertainty recorded rather than concealed.
+
+The pilot must use a note accessible to the supervising Chat conversation before extended work begins. If cross-client visibility fails, stop the **note integration test** and fix the connector route; this does not require stopping unrelated safe network checks.
+
+## Pilot acceptance, rejection and escalation
+
+Successful pilot evidence includes:
+
+- One note created in the correct project parent page and read from Chat, Work and Codex.
+- At least one experiment submitted before execution and completed afterward; older history remains retrievable.
+- A test-instrument error accurately classified and not treated as proof of target failure.
+- A repeated intervention explicitly justified by changed conditions, or avoided.
+- A proposed blocker either tied to the prevented operation or deferred when irrelevant.
+- Original acceptance checked independently of intermediary process status.
+- Validator rejects missing keys/invalid enum, accepts valid and legitimately interrupted records, and has no effect on existing workspace content.
+
+Compare with baseline behavior using redundant attempts, preventable stops, operator handoffs, cost to decisive result and acceptance quality. Also measure note-writing overhead and false blockers. If a lightweight record does not improve behavior, simplify or drop it before adding enforcement.
+
+## Implementation sequence (intentionally narrow)
+
+1. Test whether the existing connector supports selecting/operating in a second workspace from each client. If not, make **that** the minimum MCP change.
+2. Establish separate workspace and parent-page-per-project organization.
+3. Implement the small YAML structural validator for designated notes; add valid/invalid tests.
+4. Update ASES MCP skills with the record-writing convention and tested tool route. Installed plugin skills may be pinned snapshots; source changes require whatever publishing/reload step their distribution uses.
+5. Run the live UniFi stability/optimization pilot, observe behavior, and record follow-up research.
+
+**Stop expanding the implementation** once the cross-instance shared record and simple validation work. Add new machinery only in response to repeated measured failures.
