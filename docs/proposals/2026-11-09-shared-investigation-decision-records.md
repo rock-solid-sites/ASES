@@ -11,7 +11,6 @@ depends_on:
   - AGENTS.md
   - docs/research/2026-11-09-agent-recovery-investigation-treadmill-postmortem.md
 related_documents:
-  - docs/proposals/2026-11-02-testing-debugging-ontology/debugging-and-fault-isolation-method.md
   - skills/workflow-orchestration/SKILL.md
 consumed_by:
   - skills/workflow-orchestration/SKILL.md
@@ -28,7 +27,7 @@ last_updated: 2026-11-09
 
 ## Motivation
 
-The 8–9 November 2026 UniFi recovery incident documented a pattern in which agents made valid intermediate repairs but repeatedly checked the same downstream symptoms and stopped over requirements irrelevant to the next authorized action. The core ASES Debugging and Fault Isolation Method already articulates the right reasoning disciplines; an executable agent still failed to adhere to them during a long session. The proposed intervention is a **visible, continually updated decision record**, not a new architecture or specialist reviewer.
+The 8–9 November 2026 UniFi recovery incident documented a pattern in which agents made valid intermediate repairs but repeatedly checked the same downstream symptoms and stopped over requirements irrelevant to the next authorized action. The pending ASES Debugging and Fault Isolation Method draft (currently on the separate `proposal/testing-and-assurance-method-2026-11-01` branch) already articulates the right reasoning disciplines; an executable agent still failed to adhere to them during a long session. The proposed intervention is a **visible, continually updated decision record**, not a new architecture or specialist reviewer.
 
 Primary hypotheses to test:
 
