@@ -71,6 +71,7 @@ A note maintains a current snapshot plus an append-only experiment ledger. Sugge
 Keep the **human-visible text readable**, and optionally use an embedded YAML document for machine-checkable fields. Example experiment:
 
 ```yaml
+kind: experiment
 id: E-007
 question: Does the dependency respond?
 prediction: If upstream is down, the request will fail
@@ -83,6 +84,24 @@ next_action: Probe the local authorization boundary
 ```
 
 `outcome` describes the result of the actual test and must not conflate **test-instrument error** with target failure. Allow `success`, `observed_failure`, `inconclusive`, `test_error` as distinct outcomes. `status` may be `planned`, `completed`, or `interrupted`. An `interrupted` experiment records why the result was unavailable. The sample is illustrative; the pilot may simplify fields further if updates become burdensome.
+
+The initial validator uses **one `kind: state` YAML code fence** for the current snapshot, plus zero or more `kind: experiment` YAML code fences appended under the experiment-history heading. The human-readable Markdown headings surround these blocks. Example state record:
+
+```yaml
+kind: state
+original_goal: Restore working service
+acceptance: Router, dependent components and users work
+current:
+  working: [main service]
+  failing: [dependent client]
+next:
+  question: Which dependency first fails?
+  decision_value: Select the smallest useful test
+```
+
+The experiment example below is validated only when `kind: experiment` is present. For each completed experiment, include `status: completed`, `outcome`, `observation`, `implication` and `next_action`. `planned` entries may omit result fields.
+
+**Pilot checker:** `scripts/validate-investigation-note.py` in this branch; `python scripts/validate-investigation-note.py note.md` (requires PyYAML). It parses YAML code fences and checks only required text, status/outcome enums, exactly one state record and unique experiment IDs. It does not inspect other tool operations, verify the original goal against earlier revisions, adjudicate blocker relevance, or enforce append-only behavior. Those remain operator-visible expectations rather than mechanically guaranteed properties.
 
 ## Minimal YAML validation only
 
