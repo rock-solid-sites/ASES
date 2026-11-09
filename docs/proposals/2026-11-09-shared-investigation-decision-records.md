@@ -25,6 +25,16 @@ last_updated: 2026-11-09
 
 > **PROPOSAL, not active global ASES policy.** Pilot the smallest mechanism that helps agents retain their actual goal, use negative evidence, avoid redundant investigations, and avoid creating irrelevant blockers. This is a general-purpose method, not a physical-networking procedure or a kernel-state-machine concept.
 
+## Live pilot status — 2026-11-09 (empirical, not policy promotion)
+
+- The dedicated `Agent Working Notes` workspace is reachable through the separately installed **Work Notes** MCP; the original **Projektor MCP** continues to reach the five-project `Projects` workspace.
+- Project-level organization has been verified with native Work Notes projects **ASES** and **Trip'n**, which act as project folders. Investigations are scoped to their project; wiki parent-child nesting can be used for further grouping without creating a project for every experiment.
+- The deployed Projektor Worker initially resolved a common hostname before the MCP path workspace ID. A scoped correction fixed that. A second problem caused content-bearing MCP getters to return `{}` in this Chat interface despite successful wiki storage/list/search/patch. The live compatibility repair now returns affected MCP results inside `data` (e.g. `data.content`, `data.revisionId`); underlying REST and storage fields are unchanged. See the incident and reproducible source patch in `rock-solid-sites/ases-plugins/connectors/projektor`.
+- **Verified here:** full wiki page, named section, pagination cursor, historical wiki revision, workflow, playbook, original workspace control, wrong-workspace not-found, and creating/updating/re-reading the canary experiment. The canary was locally YAML-validated before writing and after completion.
+- **Validator:** `scripts/validate-investigation-note.py` is locally runnable with PyYAML; its 10-case suite (`python scripts/test_validate_investigation_note.py`) passed after two wrong-type inputs were changed from uncaught exceptions to structured errors. This checker is **not automatically invoked by Projektor writes** and does not enforce causal relevance.
+- **Unverified:** separate Work and Codex clients using the same workspace, tool-output compatibility with other MCP clients, and source patch persistence after future Wrangler/upstream deployments. Do not claim cross-client acceptance from Chat-only observations.
+- **Provenance:** the ASES Working Notes investigation is `ASES-1`; the live canary is wiki slug `ases-mcp-wiki-reader-canary-20261109` in the separate ASES working-notes project.
+
 ## Motivation
 
 The 8–9 November 2026 UniFi recovery incident documented a pattern in which agents made valid intermediate repairs but repeatedly checked the same downstream symptoms and stopped over requirements irrelevant to the next authorized action. The pending ASES Debugging and Fault Isolation Method draft (currently on the separate `proposal/testing-and-assurance-method-2026-11-01` branch) already articulates the right reasoning disciplines; an executable agent still failed to adhere to them during a long session. The proposed intervention is a **visible, continually updated decision record**, not a new architecture or specialist reviewer.
@@ -44,16 +54,14 @@ The method must apply to software builds, distributed systems, API integrations,
 Preferred storage: a separate Projektor workspace for **agent Working Notes**, accessible through the existing Projektor MCP from Chat, Work and Codex. The operator need not use its application UI.
 
 - **Workspace:** Agent Working Notes (name provisional).
-- **One parent wiki page per project:** serves as the project's folder in the wiki tree (e.g., ASES, Trip'n, HMS, infrastructure). A page is created only for an actually used project.
-- **One child wiki page per investigation:** original goal, current state, upcoming decision, and chronological results. Stable slug/ID used for cross-instance retrieval.
+- **One native working-notes project per actual project** (e.g., ASES, Trip'n) serves as the project folder; create these only when needed. Optional parent wiki pages can provide subfolders.
+- **One project-scoped wiki page per investigation:** original goal, current state, upcoming decision, and chronological results. Stable slug/ID used for cross-instance retrieval.
 - **Multiple investigations per project** remain separate. Do not mix live working records with canonical research or project documentation.
 - **Canonical outputs** such as reviewed postmortems, specifications or source changes continue to live in their appropriate repositories. Projektor notes are ephemeral operational evidence, not automatically authoritative methodology.
 - Use page revisions and section-addressed patches rather than repeatedly replacing full documents. Where supported, append experiment entries using an append operation; update only current-state sections.
 - **No GitHub commit per test**, separate dashboard, custom MCP, database migration, continuously running poller or workflow engine is initially required.
 
-**Workspace endpoint discovery (2026-11-09):** A new workspace named `Agent Working Notes` was created successfully with workspace ID `6160a41b-7ef2-41bf-a69e-20ad00710cb6`. The existing MCP connection remained bound to the original Projects workspace when tested after creation. The upstream Projektor server's MCP route is already `POST /mcp/:workspaceId`, and uses the workspace ID in the request path. Therefore, the smallest likely route is **a separate authenticated MCP connection to `https://projektor-rss.rss-tools.workers.dev/mcp/6160a41b-7ef2-41bf-a69e-20ad00710cb6`**, not modifying the server to add a workspace-switching tool. The authenticated route has **not** been tested with the new connection. The operator must authorize/add that connection in ChatGPT and configure corresponding connections in Work and Codex as supported. One session's connector visibility cannot prove the others' access. Do not modify or replace the working Projects MCP endpoint.
-
-After connecting, test that a note is writable in Codex and read from Chat and Work without changing the original workspace. If authentication fails, diagnose that boundary before modifying workspace routing. Merely creating a workspace or knowing its URL is not an acceptance test.
+**Workspace endpoint status (verified in Chat, 2026-11-09):** Projektor's MCP route `/mcp/:workspaceId` serves a separate workspace using its ID. The new Work Notes plugin is connected to `Agent Working Notes`; the existing Projektor plugin still serves `Projects`. The Cloudflare Worker required an MCP path-priority correction because hostname/subdomain routing initially masked the workspace ID. Both are now separately readable from this conversation. Agents must select the **correct named MCP connection**, not use the same tools interchangeably. This is **not proof** that distinct Codex and Work instances can access the connection until each performs its own canary. The Project workspace's behavior and records were preserved.
 
 Visibility means **on-demand current reads** across clients. Do not claim live push or automatic notifications unless tested.
 
