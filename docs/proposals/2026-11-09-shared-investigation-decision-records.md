@@ -100,7 +100,7 @@ For investigation records in the designated workspace only:
 
 **Do not implement** a causal-relevance classifier, test originality verifier, automatic stop/go authorization, retry prohibition, mandatory risk scoring, model-usage counter, large schema, inferred hypotheses, or arbitrary-text evaluation. An eventual execution-engine component may implement decision-level guards once empirical failure rates justify it.
 
-The first implementation can be a **client-side YAML structural validator** invoked by the writing agent before the existing wiki create/patch operation, with its schema stored alongside the ASES pilot. Do not claim it is server-enforced or impossible to bypass. For server-wide enforcement, a future Änderung to the Projektor shared wiki write path would be required; defer that unless repeated validation failures justify it. This is deliberately lighter than adding or modifying the MCP.
+The first implementation can be a **client-side YAML structural validator** invoked by the writing agent before the existing wiki create/patch operation, with its schema stored alongside the ASES pilot. Do not claim it is server-enforced or impossible to bypass. For server-wide enforcement, a future change to the Projektor shared wiki write path would be required; defer that unless repeated validation failures justify it. This is deliberately lighter than adding or modifying the MCP.
 
 ## Agent update discipline
 
