@@ -94,6 +94,21 @@ After work returns:
 
 Do not restart the full workflow when a targeted follow-up is enough. Do not advance merely because a phase has completed if decisive evidence is still missing.
 
+## Experimental shared investigation notes (opt-in pilot)
+
+For a prolonged, multi-step investigation **when the operator has enabled the shared-notes pilot**, use one existing Projektor working note as a live decision record. This is a small operational aid, not a required phase for trivial tasks or a replacement for canonical documentation. Consult `docs/proposals/2026-11-09-shared-investigation-decision-records.md` and the incident evidence in `docs/research/2026-11-09-agent-recovery-investigation-treadmill-postmortem.md`.
+
+- Preserve the **original user-facing objective and acceptance** unchanged. Keep current working/failing state and the earliest demonstrated failing boundary visible.
+- Before a material test, log the question, predicted result, and which next decision the result can change. Do not add an entry for every trivial command.
+- After a material test, record the actual outcome, evidence, implication, and next action. Distinguish a target failure, inconclusive result, and **test-instrument failure**.
+- Reuse negative evidence. When repeating an intervention, explicitly record the changed prerequisite or the bounded sampling reason. Do not repeat equivalent failures merely because a fresh run/session began.
+- When declaring a blocker, name the **specific blocked operation** and **credible consequence** of proceeding. Continue independent authorized work where possible; defer nonblocking cleanup.
+- If the operation changes persistent state, keep downstream recovery obligations visible until original-surface acceptance is verified or residual uncertainty is explicitly accepted.
+- Write via the existing Projektor MCP wiki create/patch operations, retaining the experiment history and using one parent wiki page per project and one child page per investigation. Never claim Chat/Work/Codex share access to a second workspace until that exact route is tested.
+- Use the minimal YAML shape check supplied by the pilot. The validator checks keys/types/statuses, **not** causal soundness, authorization, repeat suppression or semantic relevance. Do not introduce a new tool or enforcement service without observed need.
+
+The project-specific working note is for **live visibility**, not for converting every exploratory action into documentation. A supervising conversation may read it on demand; do not imply automatic push/streaming.
+
 ## Default decision table
 
 | Current condition | Next mode |
