@@ -12,7 +12,6 @@ depends_on:
 related_documents:
   - docs/research/registry/Failure-Matrix.md
   - docs/proposals/2026-11-09-shared-investigation-decision-records.md
-  - docs/proposals/2026-11-02-testing-debugging-ontology/debugging-and-fault-isolation-method.md
 consumed_by:
   - docs/proposals/2026-11-09-shared-investigation-decision-records.md
   - skills/workflow-orchestration/SKILL.md
@@ -101,7 +100,7 @@ The two failures are complementary:
 
 Both indicate loss of **objective-conditioned decision control**: local actions are no longer reliably evaluated against the user's unchanged original acceptance criterion, current evidence and the next consequential decision.
 
-The existing ASES debugging proposal and AGENTS rules already call for cheapest discriminating tests, original-surface acceptance, reuse of evidence, explicit negative results and operator-thinness. This case shows that general prose guidance was insufficient in an extended agent session. More prescriptive instructions alone would risk adding another burden.
+The pending ASES debugging proposal (currently on the separate `proposal/testing-and-assurance-method-2026-11-01` branch) and AGENTS rules already call for cheapest discriminating tests, original-surface acceptance, reuse of evidence, explicit negative results and operator-thinness. This case shows that general prose guidance was insufficient in an extended agent session. More prescriptive instructions alone would risk adding another burden.
 
 ## Candidate low-machinery response
 
