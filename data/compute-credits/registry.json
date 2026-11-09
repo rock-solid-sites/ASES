@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-08",
+  "as_of_utc": "2026-11-09",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -685,6 +685,29 @@
       },
       "official_url": "https://cloud.zenlayer.com/",
       "last_verified_at": "2026-11-08"
+    },
+    {
+      "id": "sandbase",
+      "name": "SandBase",
+      "category": "developer_execution",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": null,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://sandbase.ai",
+      "last_verified_at": "2026-11-09"
     }
   ],
   "compute_offerings": [
@@ -1032,11 +1055,11 @@
       "type": "discount",
       "advertised_value": 70,
       "value_unit": "percent",
-      "details": "regional VPC eligibility and conflicting deadlines require checkout confirmation",
+      "details": "regional VPC eligibility and conflicting deadlines require checkout confirmation IBM official localized offers pages crawled Nov 2026 state Sep 30 2026 deadline; treat as possibly expired despite earlier Dec 31 claims. Do not recommend as currently redeemable without newer authoritative terms.",
       "credit_expiry": "unknown",
       "first_seen_at": null,
-      "last_checked_at": "2026-11-03",
-      "status": "baseline_unverified",
+      "last_checked_at": "2026-11-09",
+      "status": "deadline_conflict_possible_expired",
       "eligible_existing_account": null,
       "requires_new_account": null,
       "minimum_spend_usd": null,
@@ -1044,7 +1067,9 @@
       "eligible_cpu_vm": null,
       "region_restrictions": null,
       "redemption_deadline_utc": null,
-      "source_urls": [],
+      "source_urls": [
+        "https://www.ibm.com/fr-fr/products/offers-and-discounts"
+      ],
       "evidence_level": "monitoring_baseline_not_freshly_verified",
       "alert_state": "notified_or_baseline"
     },
@@ -1398,6 +1423,31 @@
       ],
       "evidence_level": "official_promotion_page_verified_2026-11-08_no_checkout",
       "alert_state": "new_conditional_lead"
+    },
+    {
+      "id": "sandbase-free-e2b-sandbox-2026",
+      "provider_id": "sandbase",
+      "type": "temporary_free_sandbox_compute",
+      "advertised_value": 0,
+      "value_unit": "USD_per_sandbox_runtime_currently",
+      "details": "Provider's Nov 7 2026 article states E2B SDK-compatible sandbox create/run/stop free for now; models and data APIs billed separately. Numeric fair-use, RAM/vCPU capacity, concurrency, uptime, persistence, eligible regions, account verification and practical reliability unverified. SDK compatibility scoped to documented operations, not E2B parity. No independent execution or billing check. Do not infer 6GB+ capacity.",
+      "credit_expiry": "unknown; vendor says pricing announced before change",
+      "first_seen_at": "2026-11-09",
+      "last_checked_at": "2026-11-09",
+      "status": "official_vendor_claim_conditional",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": false,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "source_urls": [
+        "https://blog.sandbase.ai/free-e2b-alternative-ai-agents-2026/",
+        "https://blog.sandbase.ai/one-key-agent-stack-openrouter-sandbox/"
+      ],
+      "evidence_level": "vendor_article_2026-11-07_no_independent_test",
+      "alert_state": "conditional_research_only"
     }
   ],
   "account_inventory": {
@@ -1522,6 +1572,16 @@
         "zenlayer-bf2026-topup-50"
       ],
       "summary": "Official 2026 Nov 2-Dec 2 Zenlayer BF $100 top-up yields $150 wallet for existing/new customers, bonus claimed nonexpiring. 8GB+ VM prices and credit application unverified; community report of missing bonus and inconsistent vendor reply flagged."
+    },
+    {
+      "at": "2026-11-09",
+      "kind": "conditional_sandbox_discovery_and_ibm_deadline_warning",
+      "entity_ids": [
+        "sandbase",
+        "sandbase-free-e2b-sandbox-2026",
+        "ibm-regional-vpc-70-2026"
+      ],
+      "summary": "New vendor-documented free-for-now E2B-compatible SandBase sandboxes, 6GB+ limits unknown. IBM localized official offers page states Sep 30 expiry for regional 70% VPC promotion; flag conflicting older deadline."
     }
   ],
   "source_policy": {
