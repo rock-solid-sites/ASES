@@ -49,11 +49,11 @@ def validate(content):
         elif kind == "experiment":
             required_text(record, ("id", "question", "prediction", "decision_value"), label, errors)
             status = record.get("status")
-            if status not in STATUSES:
+            if not isinstance(status, str) or status not in STATUSES:
                 errors.append(f"{label}.status: expected one of {sorted(STATUSES)}")
             if status == "completed":
                 outcome = record.get("outcome")
-                if outcome not in OUTCOMES:
+                if not isinstance(outcome, str) or outcome not in OUTCOMES:
                     errors.append(f"{label}.outcome: expected one of {sorted(OUTCOMES)}")
                 required_text(record, ("observation", "implication", "next_action"), label, errors)
             if status == "interrupted":
