@@ -24,7 +24,7 @@ def main():
     owner, sink, witness, owner_pid = sys.argv[1:]
     owner = Path(owner)
     cli = subprocess.run(
-        [sys.executable, "-I", "-B", "/opt/owned-src/docs/research/phase-ii-native-ownership/owner_cli.py",
+        [sys.executable, "-B", "/opt/owned-src/docs/research/phase-ii-native-ownership/owner_cli.py",
          "--owner", str(owner)], input='{"op":"remove"}\n', text=True,
         capture_output=True, timeout=2, check=False)
     cli_refused_at_owner_store = (cli.returncode != 0 and "PermissionError" in cli.stderr
