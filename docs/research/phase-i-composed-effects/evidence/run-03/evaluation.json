@@ -1,0 +1,69 @@
+{
+  "cases": {
+    "allowed": {
+      "effects": 1,
+      "event_seq": 4,
+      "http": 201,
+      "published": true
+    },
+    "denied-and-retry-only-negative": {
+      "composed_effects": 0,
+      "composed_http": 409,
+      "retry_only_effects": 1,
+      "retry_only_http": 201
+    },
+    "kill-after-local-append": {
+      "cold_refused": true,
+      "gate": "after-append",
+      "local_effects": 1,
+      "reply": null,
+      "witness_published": false
+    },
+    "lost-receipt-l6-cold": {
+      "cold_retry_http": 200,
+      "conflict_http": 409,
+      "duplicate_effects": 0,
+      "first_http": 503,
+      "first_local_effects": 1,
+      "native_l6_removed": true,
+      "new_id_http": 409,
+      "same_retry_http": 200,
+      "witness_published": true
+    },
+    "remote-rejection": {
+      "cold_refused": true,
+      "conflict_while_cut_diverged_http": 503,
+      "duplicate_effects": 0,
+      "first_http": 503,
+      "local_effects": 1,
+      "retry_http": 503
+    },
+    "revoke-history": {
+      "effects": 1,
+      "historical_observation_http": 200,
+      "new_id_http": 409,
+      "revoke_http": 200
+    }
+  },
+  "checker_controls": [
+    {
+      "name": "source-denied-forged-success",
+      "rejected": true
+    },
+    {
+      "name": "retry-event-sequence-mismatch",
+      "rejected": true
+    },
+    {
+      "name": "same-id-conflict-made-exact",
+      "rejected": true
+    }
+  ],
+  "conclusion": "BOUNDED_COMPOSED_ADMISSION_RETRY_OBSERVATIONS",
+  "limitations": [
+    "The composed adapter omits retry.candidate's outer reply-label wrapper: after witness publication rejection, an exact retry returns published-cut-unavailable with local_control_committed=false, despite the retained original event. It does not return retry-observation-unresolved or local_event_seq.",
+    "While the witness cut diverges, its outer cut check also stops changed-payload same-ID requests with 503 before retry conflict classification. Identity conflict is observed with 409 under a valid matching witness cut after native L6 removal.",
+    "The fixture permits historical result reads after revoke; no production information-access policy is established."
+  ],
+  "scope": "test-only import mapping; cooperative native writers; selected histories"
+}
