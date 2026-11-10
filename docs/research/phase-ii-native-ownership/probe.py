@@ -15,6 +15,7 @@ import signal
 import sqlite3
 import subprocess
 import sys
+import tempfile
 import time
 import traceback
 
@@ -45,6 +46,7 @@ def load_module(name: str, path: Path):
 
 repair = load_module("ownership_f1_repair_probe", REPAIR / "probe.py")
 native = load_module("ownership_native_helpers", NATIVE_HELPERS_PATH)
+unix_transport = load_module("ownership_unix_transport", UNIX_TRANSPORT)
 
 
 def sha(raw: bytes) -> str:
@@ -168,8 +170,16 @@ class NativeF4:
         self.root = root
         self.root.mkdir(parents=True, exist_ok=False)
         os.chmod(self.root, 0o700)
-        self.socket_dir = self.root / "private"
-        self.socket_dir.mkdir(mode=0o700)
+        # Linux AF_UNIX pathname sockets have a short sun_path limit. Keep
+        # only endpoints in a fresh private /tmp directory; durable journal,
+        # config, and raw evidence remain under this capture's output root.
+        self.socket_dir = Path(tempfile.mkdtemp(prefix="a4u-", dir="/tmp"))
+        os.chmod(self.socket_dir, 0o700)
+        self.socket_dir_meta = {
+            "path": str(self.socket_dir), "uid": os.stat(self.socket_dir).st_uid,
+            "mode": oct(os.stat(self.socket_dir).st_mode & 0o777),
+            "dev": os.stat(self.socket_dir).st_dev, "ino": os.stat(self.socket_dir).st_ino,
+        }
         self.journal = self.root / "sink-effects.jsonl"
         self.config_path = self.root / "native-config.json"
         self.witness_root = witness_root
@@ -204,7 +214,7 @@ class NativeF4:
     @staticmethod
     def http(socket_path: Path, path: str, request: dict | None = None):
         method = "GET" if request is None else "POST"
-        status, body = native.call_unix(socket_path, method, path, request)
+        status, body = unix_transport.call_unix(socket_path, method, path, request)
         return {"status": status, "body": body, "raw": canonical(body)}
 
     def call(self, path: str, request: dict):
@@ -231,10 +241,11 @@ class NativeF4:
                 "witness_status": self.http(self.witness_socket, "/status"),
                 "calls": self.calls, "sink_process": self.sink.meta,
                 "witness_process": self.witness.meta, "config": self.config,
+                "socket_dir": self.socket_dir_meta,
                 "config_file_sha256": sha(self.config_path.read_bytes())}
 
-    def submit(self, envelope: dict):
-        return self.call("/submit", dict(authority_version=1,
+    def submit(self, envelope: dict, authority_version: int = 1):
+        return self.call("/submit", dict(authority_version=authority_version,
                                           request_id=envelope["request_id"],
                                           payload=canonical(envelope)))
 
@@ -263,12 +274,26 @@ class UnixChild:
                      "listen_socket": str(listen_socket),
                      "witness_socket": None if witness_socket is None else str(witness_socket),
                      "frames": []}
-        self.p = subprocess.Popen(self.meta["argv"], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        self.p = subprocess.Popen(self.meta["argv"], stdin=subprocess.PIPE,
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                   env=env, bufsize=0)
         self.meta["pid"] = self.p.pid
         PROCESSES.append(self.meta)
         self.ready = self.read_json(10)
         self.meta["ready"] = self.ready
+        try:
+            st = os.lstat(listen_socket)
+            self.meta["listen_socket_stat"] = {"dev": st.st_dev, "ino": st.st_ino,
+                                               "uid": st.st_uid, "mode": oct(st.st_mode & 0o777)}
+        except FileNotFoundError:
+            self.meta["listen_socket_stat"] = None
+        if witness_socket is not None:
+            try:
+                st = os.lstat(witness_socket)
+                self.meta["witness_socket_stat"] = {"dev": st.st_dev, "ino": st.st_ino,
+                                                    "uid": st.st_uid, "mode": oct(st.st_mode & 0o777)}
+            except FileNotFoundError:
+                self.meta["witness_socket_stat"] = None
 
     def read_json(self, timeout=10):
         if not select.select([self.p.stdout], [], [], timeout)[0]:
@@ -298,11 +323,14 @@ class UnixChild:
             if kill:
                 self.p.kill()
             else:
-                self.p.stdin.write(b'{"op":"stop"}\n')
+                if self.p.stdin is not None:
+                    self.p.stdin.write(b'{"op":"stop"}\n')
         self.meta["exit"] = self.p.wait(timeout=10)
         self.meta["exit_ns"] = time.monotonic_ns()
         self.meta["stdout_tail"] = self.p.stdout.read().decode(errors="replace")[-4096:]
         self.meta["stderr"] = self.p.stderr.read().decode(errors="replace")[-8192:]
+        if self.p.stdin is not None:
+            self.p.stdin.close()
         return self.meta
 
 
@@ -554,6 +582,11 @@ def main():
                            "witness": receipt_f4.witness_call("/status"),
                            "owner_after_kill": owner_at_gate}
         cold_ready = receipt_f4.cold_restart()
+        # Cold recovery starts sealed. Reopen the managed sink through its
+        # actual replacement/activation transitions so fresh-ID requests reach
+        # the native owner guard instead of dying at the outer cold gate.
+        post_cold_reopen = [receipt_f4.call("/replace", {"authority_version": 1}),
+                            receipt_f4.call("/activate", {"authority_version": 2})]
         retry = receipt_f4.submit(receipt_envelope)
         after_retry_snapshot = receipt_f4.snapshot()
         owner_check = OwnerProcess(receipt_owner)
@@ -566,18 +599,42 @@ def main():
                                "activate": current_owner.call({"op": "activate"})}
         moved_snapshot = current_owner.call({"op": "read"})["reply"]["snapshot"]
         fresh_denied = native_envelope(moved_snapshot, receipt_witness_root + ":after-move-denied")
-        denied_after_cold = receipt_f4.submit(fresh_denied)
+        denied_after_cold = receipt_f4.submit(fresh_denied, authority_version=2)
         historical_retry = receipt_f4.submit(receipt_envelope)
+        # Converge the exact published effect through owner-selected disposal,
+        # then distinguish a historic retry from a fresh request against the
+        # now-removed native authority domain.
+        transitions_disposal = {"seal": current_owner.call({"op": "seal"}),
+                                "dispose_child": current_owner.call({"op": "dispose_child", "unit": "D"})}
+        disposal_owner_snapshot = current_owner.call({"op": "read"})["reply"]["snapshot"]
+        disposal_registration_ids = [r["id"] for r in
+                                      disposal_owner_snapshot["state"]["native_owner"]["registrations"]]
+        transitions_disposal["dispose_content"] = [
+            current_owner.call({"op": "dispose_content", "id": registration_id})
+            for registration_id in disposal_registration_ids]
+        transitions_disposal["remove"] = current_owner.call({"op": "remove"})
+        removed_owner_snapshot = current_owner.call({"op": "read"})["reply"]["snapshot"]
+        historical_after_disposal = receipt_f4.submit(receipt_envelope)
+        removed_new_id = dict(receipt_envelope, request_id=receipt_witness_root + ":new-after-removal",
+                              epoch=removed_owner_snapshot["state"]["native_owner"]["epoch"],
+                              l5=removed_owner_snapshot["generation"])
+        denied_after_disposal = receipt_f4.submit(removed_new_id, authority_version=2)
         raw["cases"]["native-f4-receipt-cold"] = {
             "setup": receipt_setup, "witness_root": receipt_witness_root,
             "f4_lifecycle": receipt_f4.lifecycle_calls, "initial_ready": receipt_f4.witness.ready,
             "witness_init": receipt_f4.witness_init, "envelope": receipt_envelope,
             "journal_before": receipt_before, "lost_reply_call": lost_reply_call,
             "gate_and_owner_local_commit": receipt_at_gate, "cold_ready": cold_ready,
+            "post_cold_reopen": post_cold_reopen,
             "retry": retry, "snapshot_after_retry": after_retry_snapshot,
             "owner_after_retry": owner_after_retry, "transitions_after_retry": transitions_receipt,
             "moved_snapshot": moved_snapshot, "new_request_after_move": fresh_denied,
             "denied_after_cold": denied_after_cold, "historical_retry_after_move": historical_retry,
+            "disposition_transitions": transitions_disposal,
+            "owner_after_disposal": removed_owner_snapshot,
+            "historical_retry_after_disposal": historical_after_disposal,
+            "new_id_after_disposal": removed_new_id,
+            "denied_after_disposal": denied_after_disposal,
             "final_snapshot": receipt_f4.snapshot(), "f4_tree": tree(receipt_f4.root),
             "owner_tree": tree(receipt_owner), "f1_after": f1_raw(Path(receipt_setup["f1_root"]) / "store.sqlite"),
             "dead_sink_process": receipt_f4.dead_sink, "cold_sink_process": receipt_f4.sink.meta}

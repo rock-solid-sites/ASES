@@ -165,7 +165,7 @@ def check_native_no_f4(case: dict, raw: dict) -> None:
          "actual L5 manager did not move complete C/D subtree")
     need(derive_permissions(moved_state, "D") == {"read"},
          "post-move full D ancestry does not derive read-only authority")
-    need(frame_reply(case["move"]).get("manager", {}).get("result") == "COMMITTED",
+    need(frame_reply(case["move"]).get("result") == "COMMITTED",
          "native L5 manager did not commit the move")
     need(frame_reply(case["activate"]).get("result") == "COMMITTED",
          "native L5 activation did not commit")
@@ -196,6 +196,12 @@ def check_native_no_f4(case: dict, raw: dict) -> None:
     final_owner = owner_record(final_view)
     need(final_owner.get("lifecycle") == "removed" and final_owner.get("selected") is None,
          "cold readback does not retain logical removed state")
+    final_state = owner_state(final_view)
+    need("D" not in final_state.get("work_units", {}) and "C" not in final_state.get("work_units", {}),
+         "disposed C/D remain in the live owner graph")
+    tombstones = final_owner.get("disposed_units", {})
+    need("D" in tombstones and "C" in tombstones and final_owner.get("children", {}).get("D") == "disposed",
+         "native logical removal lacks actual disposed C/D tombstones")
     need(final_view.get("inventory", {}).get("live") is False
          and not final_view.get("inventory", {}).get("files")
          and final_view.get("inventory", {}).get("unknown_files") == [],
@@ -271,6 +277,29 @@ def check_native_f4(case: dict, label: str) -> None:
              "post-cold new-ID denial changed journal")
         need(case["snapshot_after_retry"]["witness_status"]["body"]["current"]["journal_sha256"]
              == case["retry"]["after"]["sha256"], "cold retry not freshly checked against published witness cut")
+        disposal = case["disposition_transitions"]
+        need(frame_reply(disposal["dispose_child"]).get("result") == "COMMITTED"
+             and len(disposal["dispose_content"]) == 1
+             and frame_reply(disposal["dispose_content"][0]).get("result") == "COMMITTED"
+             and frame_reply(disposal["remove"]).get("result") == "COMMITTED",
+             "F4 owner history did not explicitly dispose D/content and remove the domain")
+        removed_owner = case["owner_after_disposal"]
+        removed_state = owner_state(removed_owner)
+        removed_record = owner_record(removed_owner)
+        need(removed_record.get("lifecycle") == "removed" and removed_record.get("selected") is None
+             and "D" not in removed_state.get("work_units", {})
+             and "D" in removed_record.get("disposed_units", {}),
+             "F4 source domain did not reach native removed state with D tombstone")
+        after_disposal_retry = case["historical_retry_after_disposal"]
+        need(after_disposal_retry["response"].get("status") == 200
+             and after_disposal_retry["response"]["body"].get("outcome") == "already-accepted"
+             and after_disposal_retry["response"]["body"].get("event_seq") == 4
+             and after_disposal_retry["before"].get("sha256") == after_disposal_retry["after"].get("sha256"),
+             "published historical F4 effect did not remain an exact retry after native source disposal")
+        after_disposal_new = case["denied_after_disposal"]
+        need(after_disposal_new["response"].get("status") == 409
+             and after_disposal_new["before"].get("sha256") == after_disposal_new["after"].get("sha256"),
+             "new ID against removed native source was not denied without an append")
         tree = case["f4_tree"]
     journal_record = tree.get("sink-effects.jsonl")
     need(journal_record is not None, label + ": raw F4 journal absent")
@@ -291,7 +320,8 @@ def check_native_f4(case: dict, label: str) -> None:
 
 
 def verify_live_storage(raw: dict, case: dict, snapshot: dict, label: str) -> None:
-    root = Path(case["root"])
+    root = Path(case.get("root", case.get("setup", {}).get("owner_root", "")))
+    need(str(root) not in ("", "."), label + ": native owner root missing")
     owner = owner_record(snapshot)
     f1_path = Path(owner["source"]["db"])
     need(f1_path.is_file(), label + ": actual F1 DB missing")
