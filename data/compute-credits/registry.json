@@ -708,6 +708,29 @@
       },
       "official_url": "https://sandbase.ai",
       "last_verified_at": "2026-11-09"
+    },
+    {
+      "id": "blaxel",
+      "name": "Blaxel",
+      "category": "developer_execution",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": true,
+        "stopped_instance_billed": false,
+        "storage_extra": true,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://blaxel.ai/pricing",
+      "last_verified_at": "2026-11-10"
     }
   ],
   "compute_offerings": [
@@ -1055,22 +1078,23 @@
       "type": "discount",
       "advertised_value": 70,
       "value_unit": "percent",
-      "details": "regional VPC eligibility and conflicting deadlines require checkout confirmation IBM official localized offers pages crawled Nov 2026 state Sep 30 2026 deadline; treat as possibly expired despite earlier Dec 31 claims. Do not recommend as currently redeemable without newer authoritative terms.",
+      "details": "regional VPC eligibility and conflicting deadlines require checkout confirmation IBM official localized offers pages crawled Nov 2026 state Sep 30 2026 deadline; treat as possibly expired despite earlier Dec 31 claims. Do not recommend as currently redeemable without newer authoritative terms. Verified on multiple IBM official localized pages Nov 10: expired Sep 30 2026; Dec 31 date belongs to other IBM promotions, not this VPC discount.",
       "credit_expiry": "unknown",
       "first_seen_at": null,
-      "last_checked_at": "2026-11-09",
-      "status": "deadline_conflict_possible_expired",
+      "last_checked_at": "2026-11-10",
+      "status": "expired_official_deadline_2026-09-30",
       "eligible_existing_account": null,
       "requires_new_account": null,
       "minimum_spend_usd": null,
       "deposit_refundable": null,
       "eligible_cpu_vm": null,
       "region_restrictions": null,
-      "redemption_deadline_utc": null,
+      "redemption_deadline_utc": "2026-09-30",
       "source_urls": [
-        "https://www.ibm.com/fr-fr/products/offers-and-discounts"
+        "https://www.ibm.com/fr-fr/products/offers-and-discounts",
+        "https://www.ibm.com/de-de/products/offers-and-discounts"
       ],
-      "evidence_level": "monitoring_baseline_not_freshly_verified",
+      "evidence_level": "official_multiple_locales_confirm_2026-11-10",
       "alert_state": "notified_or_baseline"
     },
     {
@@ -1448,6 +1472,80 @@
       ],
       "evidence_level": "vendor_article_2026-11-07_no_independent_test",
       "alert_state": "conditional_research_only"
+    },
+    {
+      "id": "blaxel-payg-up-to-200-2026",
+      "provider_id": "blaxel",
+      "type": "signup_credit_conditional",
+      "advertised_value": 200,
+      "value_unit": "USD_up_to",
+      "details": "Official pay-as-you-go pricing advertises UP TO $200 credits, not guaranteed. Tier 0 10 sandboxes; Tier 1 $20/month top-up 50 sandboxes. Active compute $0.0000115 per GB RAM-second representative; standby snapshots $0.20/GB-month. Custom up to 256GB via sales. No verified individual account credit or 8GB quota.",
+      "source_urls": [
+        "https://blaxel.ai/pricing",
+        "https://blaxel.ai/solutions/workshops-and-education"
+      ],
+      "credit_expiry": "unknown",
+      "first_seen_at": "2026-11-10",
+      "last_checked_at": "2026-11-10",
+      "status": "official_claim_eligibility_unverified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": false,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "evidence_level": "official_provider_page_no_account_verification",
+      "alert_state": "research_only"
+    },
+    {
+      "id": "e2b-hobby-100-one-time-2026",
+      "provider_id": "e2b",
+      "type": "signup_credit",
+      "advertised_value": 100,
+      "value_unit": "USD_one_time",
+      "details": "Official Hobby: $100 one-time credits, no card, 20 concurrent sandboxes, max 1 hour sessions, default 2 vCPU 4GiB. Custom CPU/RAM require $150/month Pro plus usage. Not 8GB+ free tier.",
+      "source_urls": [
+        "https://e2b.dev/",
+        "https://e2b.dev/research"
+      ],
+      "credit_expiry": "unknown",
+      "first_seen_at": "2026-11-10",
+      "last_checked_at": "2026-11-10",
+      "status": "official_claim_eligibility_unverified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": false,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "evidence_level": "official_provider_page_no_account_verification",
+      "alert_state": "research_only"
+    },
+    {
+      "id": "e2b-research-20000-2026",
+      "provider_id": "e2b",
+      "type": "application_research_credit",
+      "advertised_value": 20000,
+      "value_unit": "USD_one_time_conditional",
+      "details": "Official research program advertises $20k credits plus Pro for early-stage startups and research teams at universities/public research institutes/nonprofits. Application and approval required; independent ASES eligibility unknown. Not guaranteed general signup credit.",
+      "source_urls": [
+        "https://e2b.dev/research"
+      ],
+      "credit_expiry": "unknown",
+      "first_seen_at": "2026-11-10",
+      "last_checked_at": "2026-11-10",
+      "status": "official_claim_eligibility_unverified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": false,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "evidence_level": "official_provider_page_no_account_verification",
+      "alert_state": "research_only"
     }
   ],
   "account_inventory": {
@@ -1582,6 +1680,18 @@
         "ibm-regional-vpc-70-2026"
       ],
       "summary": "New vendor-documented free-for-now E2B-compatible SandBase sandboxes, 6GB+ limits unknown. IBM localized official offers page states Sep 30 expiry for regional 70% VPC promotion; flag conflicting older deadline."
+    },
+    {
+      "at": "2026-11-10",
+      "kind": "ibm_expiry_correction_and_sandbox_provider_research",
+      "entity_ids": [
+        "ibm-regional-vpc-70-2026",
+        "blaxel",
+        "blaxel-payg-up-to-200-2026",
+        "e2b-hobby-100-one-time-2026",
+        "e2b-research-20000-2026"
+      ],
+      "summary": "Confirmed IBM regional VPC 70% promotion expired Sep 30 on multiple IBM pages; added Blaxel and E2B baseline/conditional credits with resource and billing constraints. No new guaranteed eligible 8GB+ hourly CPU offer."
     }
   ],
   "source_policy": {
