@@ -1,0 +1,7 @@
+{
+  "attempt": "initial post-spawn gate using inherited stdin",
+  "command": "CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup ASES_LAUNCH_EVIDENCE_DIR=/workspace/ases-launch/docs/research/phase-i-launch-intent/evidence/final /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --manifest-path resource-control/Cargo.toml",
+  "observed_failure": "controller was killed after the fixed worker wrote its marker, but the worker was not live at the subsequent /proc check",
+  "result": "FAIL",
+  "interpretation": "Inherited stdin did not provide a reliable worker hold gate under the Rust test harness. This instrumentation was replaced with a bounded test-owned release-file gate; the later native test passed and retained its evidence separately."
+}

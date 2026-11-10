@@ -273,6 +273,111 @@ fn restart_preserves_reservation_ack_and_single_launch_id() {
     assert_eq!(s.job("recovery").unwrap()["state"],"RUNNING");
     assert_eq!(balance(&mut s).available,70);
 }
+
+#[test]
+fn launch_intent_is_one_use_durable_and_observations_are_idempotent() {
+    use ases_resource_control::{BeginLaunchResult,LaunchObservation,ProcessIdentity,RecordLaunchObservationResult};
+    let (_d,_p,mut s)=setup(100,1);
+    let p=proposal("intent",40);
+    reserve(&mut s,&p);
+    let revision=s.catalog_version().unwrap();
+    s.acknowledge("intent","ack-intent",revision,now()).unwrap();
+    assert_error_contains(s.begin_launch("intent","wrong-revision",revision+1,now()),"catalog revision stale");
+    assert_eq!(s.job("intent").unwrap()["state"],"AUTHORIZED");
+    let first=s.begin_launch("intent","launch-intent",revision,now()).unwrap();
+    match first {
+        BeginLaunchResult::DispatchGranted(permit)=>{
+            assert_eq!(permit.job_id(),"intent");assert_eq!(permit.launch_id(),"launch-intent");
+        }
+        other=>panic!("first begin must grant dispatch exactly once: {other:?}"),
+    }
+    assert_eq!(s.job("intent").unwrap()["state"],"LAUNCHING");
+    assert_eq!(balance(&mut s).active_reserved_remaining,40);
+    assert_error_contains(s.reserve(&proposal("slot-contender",10),revision,now()),"concurrency exhausted");
+    assert_eq!(s.begin_launch("intent","launch-intent",revision,now()).unwrap(),
+        BeginLaunchResult::PendingObservation{job_id:"intent".into(),launch_id:"launch-intent".into()});
+    assert_error_contains(s.begin_launch("intent","different-launch",revision,now()),"conflicts");
+    assert_error_contains(s.finalize("intent","cancelled",now()),"outcome unknown");
+    assert_eq!(s.expire_unlaunched(now()+10_000).unwrap(),0);
+    assert_eq!(balance(&mut s).active_reserved_remaining,40);
+    let mut env=environment(1);env.source="catalog-changed-after-intent".into();
+    s.register_environment(&env).unwrap();
+    assert_eq!(s.begin_launch("intent","launch-intent",revision,now()).unwrap(),
+        BeginLaunchResult::PendingObservation{job_id:"intent".into(),launch_id:"launch-intent".into()});
+
+    let started=LaunchObservation::Started{process:ProcessIdentity{pid:1234,start_token:"start-abc".into()}};
+    assert_eq!(s.observe_launch("intent","launch-intent",&started,now()).unwrap(),RecordLaunchObservationResult::Started);
+    assert_eq!(s.observe_launch("intent","launch-intent",&started,now()).unwrap(),RecordLaunchObservationResult::Replay);
+    assert_eq!(s.begin_launch("intent","launch-intent",revision,now()).unwrap(),
+        BeginLaunchResult::RunningObservation{job_id:"intent".into(),launch_id:"launch-intent".into()});
+    let contradiction=LaunchObservation::DefinitelyNotCreated{error_kind:"NotFound".into(),detail:"contradiction".into()};
+    assert_error_contains(s.observe_launch("intent","launch-intent",&contradiction,now()),"conflicts");
+    assert_eq!(s.begin_launch("intent","launch-intent",revision,now()).unwrap(),
+        BeginLaunchResult::RunningObservation{job_id:"intent".into(),launch_id:"launch-intent".into()});
+    s.finalize("intent","completed",now()).unwrap();
+    reserve(&mut s,&proposal("after-intent",100));
+}
+
+#[test]
+fn mock_launch_profile_is_not_misreported_as_a_durable_intent() {
+    let (_d,_p,mut s)=setup(100,1);
+    let p=proposal("mock-profile",20);
+    running(&mut s,&p);
+    let revision=s.catalog_version().unwrap();
+    assert_error_contains(s.begin_launch("mock-profile","launch1",revision,now()),"another launch profile");
+    assert_eq!(s.job("mock-profile").unwrap()["state"],"RUNNING");
+    assert_eq!(s.launch_mock("mock-profile","launch1",now()).unwrap(),"RUNNING_REPLAY");
+}
+
+#[test]
+fn definite_noncreation_releases_slot_and_stale_catalog_blocks_intent() {
+    use ases_resource_control::{LaunchObservation,RecordLaunchObservationResult};
+    let (_d,_p,mut s)=setup(100,1);
+    let p=proposal("not-created",100);
+    reserve(&mut s,&p);
+    let revision=s.catalog_version().unwrap();
+    s.acknowledge("not-created","ack",revision,now()).unwrap();
+    s.begin_launch("not-created","launch",revision,now()).unwrap();
+    let failed=LaunchObservation::DefinitelyNotCreated{
+        error_kind:"PermissionDenied".into(),detail:"fixed worker spawn returned an OS error".into()};
+    assert_eq!(s.observe_launch("not-created","launch",&failed,now()).unwrap(),
+        RecordLaunchObservationResult::DefinitelyNotCreated);
+    assert_eq!(s.job("not-created").unwrap()["state"],"CLOSED");
+    assert_eq!(balance(&mut s).active_reserved_remaining,0);
+    reserve(&mut s,&proposal("after-failure",100));
+
+    let revision=s.catalog_version().unwrap();
+    s.acknowledge("after-failure","ack",revision,now()).unwrap();
+    let mut env=environment(1);env.source="refreshed-current-catalog".into();
+    s.register_environment(&env).unwrap();
+    assert_error_contains(s.begin_launch("after-failure","stale-launch",revision,now()),"catalog revision stale");
+    assert_eq!(s.job("after-failure").unwrap()["state"],"AUTHORIZED");
+}
+
+#[test]
+fn independent_begin_launch_contenders_receive_one_dispatch_capability() {
+    use ases_resource_control::BeginLaunchResult;
+    let (_d,path,mut initial)=setup(100,1);
+    let p=proposal("contended-launch",50);
+    reserve(&mut initial,&p);
+    let revision=initial.catalog_version().unwrap();
+    initial.acknowledge("contended-launch","ack",revision,now()).unwrap();
+    drop(initial);
+    let barrier=Arc::new(Barrier::new(5));
+    let mut tasks=Vec::new();
+    for _ in 0..4 {
+        let path=path.clone();let barrier=barrier.clone();
+        tasks.push(thread::spawn(move||{
+            let mut store=Store::open(&path).unwrap();
+            barrier.wait();
+            store.begin_launch("contended-launch","same-launch",revision,now()).unwrap()
+        }));
+    }
+    barrier.wait();
+    let results:Vec<_>=tasks.into_iter().map(|task|task.join().unwrap()).collect();
+    assert_eq!(results.iter().filter(|r|matches!(r,BeginLaunchResult::DispatchGranted(_))).count(),1);
+    assert_eq!(results.iter().filter(|r|matches!(r,BeginLaunchResult::PendingObservation{..})).count(),3);
+}
 #[test]
 fn expired_unlaunched_reservation_releases_capacity() {
     let (_d,_p,mut s)=setup(100,1);

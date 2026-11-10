@@ -1,0 +1,133 @@
+{
+  "balances": [
+    {
+      "account": "acct-native",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "meter-native",
+      "period": "test-period",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "worker-units"
+    }
+  ],
+  "controller_kill_signal": 9,
+  "controller_pid": 13053,
+  "events": [
+    {
+      "at": 1794314516,
+      "event_id": "native-job:reserved",
+      "job_id": "native-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "acct-native",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "meter-native"
+            }
+          ],
+          "environment_id": "env-native",
+          "estimated_wall_seconds": 300,
+          "forecast_context": null,
+          "job_id": "native-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-native"
+        }
+      }
+    },
+    {
+      "at": 1794314516,
+      "event_id": "native-job:ack:native-ack",
+      "job_id": "native-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "native-ack",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794314516,
+      "event_id": "launch-intent:native-job",
+      "job_id": "native-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "native-launch"
+      }
+    },
+    {
+      "at": 1794314516,
+      "event_id": "launch-observation:native-job",
+      "job_id": "native-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "native-launch",
+        "process": {
+          "pid": 13056,
+          "start_token": "390696"
+        }
+      }
+    }
+  ],
+  "gate": "worker-spawned",
+  "job": {
+    "ack_id": "native-ack",
+    "catalog_version": 3,
+    "expires_at": 1794315416,
+    "job_id": "native-job",
+    "launch_id": "native-launch",
+    "meters": [
+      {
+        "meter": "meter-native",
+        "observed": 0,
+        "overrun": 0,
+        "reserved": 50,
+        "unspent": 50
+      }
+    ],
+    "outcome": null,
+    "proposal": {
+      "account_id": "acct-native",
+      "claims": [
+        {
+          "amount": 50,
+          "meter_id": "meter-native"
+        }
+      ],
+      "environment_id": "env-native",
+      "estimated_wall_seconds": 300,
+      "forecast_context": null,
+      "job_id": "native-job",
+      "paid_spend_cap_currency": null,
+      "paid_spend_cap_micros": null,
+      "project_id": "project-native"
+    },
+    "state": "RUNNING"
+  },
+  "observation": "Started",
+  "pending_reopen_did_not_spawn_again": true,
+  "source_pin": "1fd05d896dde11f185610a4718c1245cfad1ffca",
+  "source_sha256": {
+    "src/lib.rs": "f3ae0bf5a8469d48b21d3ea247337b22f4fdba31e8db9eb408bad1c224383da1",
+    "tests/control.rs": "b901f6ce779b5543d293e8adfce83ed1a444cb02aca66336892e19bea56e476f",
+    "tests/native_launch.rs": "8bff54f33aada806310f3ed4c2625df60cd6af4bd85bf8dda859214d06a4f1ff"
+  },
+  "worker_alive_at_controller_kill": true,
+  "worker_exit_observed_after_release_file": true,
+  "worker_identity": {
+    "pid": 13056,
+    "start_token": "390696"
+  },
+  "worker_start_count": 1
+}
