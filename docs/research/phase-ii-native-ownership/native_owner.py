@@ -284,7 +284,9 @@ class Session:
             count = len(self.native["registrations"]) + 1
             require(self.native["epoch"] < 2**63 - 1, "native-epoch-exhausted")
             name = letters(count)
-            result = self.native_inventory(dict(op="put", name=name, kind="candidate", payload=pair["accepted_content"]))
+            preparation = dict(op="put", name=name, kind="candidate", payload=pair["accepted_content"])
+            if q.get("gate") == "material-before-catalog": preparation["gate"] = "precommit"
+            result = self.native_inventory(preparation)
             require(result["result"] == "COMMITTED", "native-material-preparation-refused")
             self.gate(q, "material-prepared")
             registration_id = self.native["domain_id"] + ":" + str(count)
