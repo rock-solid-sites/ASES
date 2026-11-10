@@ -13,15 +13,11 @@ def load(path):
     return module
 
 
-def main(argv):
-    if len(argv) != 8 or argv[1] != "--cold-sink" or argv[2] not in ("fresh", "recover") or argv[5] != "published-cut":
-        raise SystemExit("usage: cold_sink.py --cold-sink MODE JOURNAL PORT published-cut ROOT PINNED_CUT_SINK")
-    cut = load(Path(argv[7]))
-    original = cut.ORIGINAL_STATE
-
+def state_type(original, recover: bool):
+    """Return the boot-scoped cold gate around an existing managed state type."""
     class ColdSealedState(original):
         def __init__(self, *args, **kwargs):
-            self.cold_admission_open = argv[2] != "recover"
+            self.cold_admission_open = not recover
             self.replaced_this_boot = False
             super().__init__(*args, **kwargs)
 
@@ -58,7 +54,14 @@ def main(argv):
             return dict(super().snapshot(), cold_admission_open=self.cold_admission_open,
                         replaced_this_boot=self.replaced_this_boot)
 
-    cut.ORIGINAL_STATE = ColdSealedState
+    return ColdSealedState
+
+
+def main(argv):
+    if len(argv) != 8 or argv[1] != "--cold-sink" or argv[2] not in ("fresh", "recover") or argv[5] != "published-cut":
+        raise SystemExit("usage: cold_sink.py --cold-sink MODE JOURNAL PORT published-cut ROOT PINNED_CUT_SINK")
+    cut = load(Path(argv[7]))
+    cut.ORIGINAL_STATE = state_type(cut.ORIGINAL_STATE, argv[2] == "recover")
     return cut.serve_sink(Path(argv[3]), argv[2] == "recover", int(argv[4]), argv[6])
 
 
