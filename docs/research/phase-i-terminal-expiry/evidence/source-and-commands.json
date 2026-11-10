@@ -1,0 +1,13 @@
+{
+  "parent_commit": "9fb8a525c32b56b9191d3f33df9925939636dc9a",
+  "library_before_sha256": "c12ca0f65fe4ccc51e69f82cf8fd11c1967735727b84d38f4b25e6672d15188a",
+  "library_after_sha256": "ba70957da26d7caf3e74a8520b8deadc1a159de6ce7f8f5fe9f11c3e70d7ba16",
+  "regression_source_sha256": "be8c01a8a41a98757e2a5ca936d5499ab5b3f2a7785d6a8942d9f5054e092ae7",
+  "before_expected_exit": 101,
+  "after_exit": 0,
+  "clock_profile": "caller-supplied Unix-second test values; expiry at now()+951; no real elapsed-time claim",
+  "commands": {
+    "before": "CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_TARGET_DIR=/workspace/ases-resume/resource-control/target ASES_EXPIRY_EVIDENCE_DIR=/workspace/ases-expiry/docs/research/phase-i-terminal-expiry/evidence/before /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --manifest-path resource-control/Cargo.toml --locked --offline --test control expiry_is_terminal_and_cannot_be_rewritten_by_finalization -- --nocapture",
+    "after": "CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_TARGET_DIR=/workspace/ases-resume/resource-control/target ASES_EXPIRY_EVIDENCE_DIR=/workspace/ases-expiry/docs/research/phase-i-terminal-expiry/evidence/after /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --manifest-path resource-control/Cargo.toml --locked --offline --test control --test resume_view"
+  }
+}

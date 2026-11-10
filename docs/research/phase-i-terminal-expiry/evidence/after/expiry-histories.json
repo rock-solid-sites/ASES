@@ -1,0 +1,910 @@
+{
+  "histories": [
+    {
+      "after_events": [
+        {
+          "at": 1794319930,
+          "event_id": "terminal-expiry:reserved",
+          "job_id": "terminal-expiry",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "acct-a",
+              "claims": [
+                {
+                  "amount": 80,
+                  "meter_id": "core"
+                }
+              ],
+              "environment_id": "codespace",
+              "estimated_wall_seconds": 2700,
+              "forecast_context": {
+                "cores": 2,
+                "estimated_minutes": 45,
+                "origin": "pre-execution forecast"
+              },
+              "job_id": "terminal-expiry",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "project-a"
+            }
+          }
+        },
+        {
+          "at": 1794320881,
+          "event_id": "terminal-expiry:expired",
+          "job_id": "terminal-expiry",
+          "kind": "EXPIRED",
+          "payload": {}
+        }
+      ],
+      "after_job": {
+        "ack_id": null,
+        "catalog_version": 3,
+        "expires_at": 1794320830,
+        "job_id": "terminal-expiry",
+        "launch_id": null,
+        "meters": [
+          {
+            "meter": "core",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 80,
+            "unspent": 80
+          }
+        ],
+        "outcome": "expired",
+        "proposal": {
+          "account_id": "acct-a",
+          "claims": [
+            {
+              "amount": 80,
+              "meter_id": "core"
+            }
+          ],
+          "environment_id": "codespace",
+          "estimated_wall_seconds": 2700,
+          "forecast_context": {
+            "cores": 2,
+            "estimated_minutes": 45,
+            "origin": "pre-execution forecast"
+          },
+          "job_id": "terminal-expiry",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-a"
+        },
+        "state": "EXPIRED"
+      },
+      "after_view": {
+        "ok": {
+          "accountId": "acct-a",
+          "advisoryNextStep": "no_new_dispatch",
+          "currentCatalogRevision": 3,
+          "environmentId": "codespace",
+          "evidence": {
+            "launch": null,
+            "outcome": {
+              "eventId": "terminal-expiry:expired",
+              "kind": "EXPIRED",
+              "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "recordedAt": 1794320881
+            }
+          },
+          "jobCatalogRevision": 3,
+          "jobId": "terminal-expiry",
+          "launchId": null,
+          "outcome": "expired",
+          "presentLiveness": "unknown",
+          "profile": "unlaunched",
+          "projectId": "project-a",
+          "state": "EXPIRED"
+        }
+      },
+      "available": 100,
+      "before_events": [
+        {
+          "at": 1794319930,
+          "event_id": "terminal-expiry:reserved",
+          "job_id": "terminal-expiry",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "acct-a",
+              "claims": [
+                {
+                  "amount": 80,
+                  "meter_id": "core"
+                }
+              ],
+              "environment_id": "codespace",
+              "estimated_wall_seconds": 2700,
+              "forecast_context": {
+                "cores": 2,
+                "estimated_minutes": 45,
+                "origin": "pre-execution forecast"
+              },
+              "job_id": "terminal-expiry",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "project-a"
+            }
+          }
+        },
+        {
+          "at": 1794320881,
+          "event_id": "terminal-expiry:expired",
+          "job_id": "terminal-expiry",
+          "kind": "EXPIRED",
+          "payload": {}
+        }
+      ],
+      "before_job": {
+        "ack_id": null,
+        "catalog_version": 3,
+        "expires_at": 1794320830,
+        "job_id": "terminal-expiry",
+        "launch_id": null,
+        "meters": [
+          {
+            "meter": "core",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 80,
+            "unspent": 80
+          }
+        ],
+        "outcome": "expired",
+        "proposal": {
+          "account_id": "acct-a",
+          "claims": [
+            {
+              "amount": 80,
+              "meter_id": "core"
+            }
+          ],
+          "environment_id": "codespace",
+          "estimated_wall_seconds": 2700,
+          "forecast_context": {
+            "cores": 2,
+            "estimated_minutes": 45,
+            "origin": "pre-execution forecast"
+          },
+          "job_id": "terminal-expiry",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-a"
+        },
+        "state": "EXPIRED"
+      },
+      "before_view": {
+        "accountId": "acct-a",
+        "advisoryNextStep": "no_new_dispatch",
+        "currentCatalogRevision": 3,
+        "environmentId": "codespace",
+        "evidence": {
+          "launch": null,
+          "outcome": {
+            "eventId": "terminal-expiry:expired",
+            "kind": "EXPIRED",
+            "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            "recordedAt": 1794320881
+          }
+        },
+        "jobCatalogRevision": 3,
+        "jobId": "terminal-expiry",
+        "launchId": null,
+        "outcome": "expired",
+        "presentLiveness": "unknown",
+        "profile": "unlaunched",
+        "projectId": "project-a",
+        "state": "EXPIRED"
+      },
+      "finalize_result": {
+        "error": "conflict: finalization forbidden from state EXPIRED"
+      },
+      "repeat_expire_count": 0,
+      "requested_outcome": "completed",
+      "unchanged": true
+    },
+    {
+      "after_events": [
+        {
+          "at": 1794319930,
+          "event_id": "terminal-expiry:reserved",
+          "job_id": "terminal-expiry",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "acct-a",
+              "claims": [
+                {
+                  "amount": 80,
+                  "meter_id": "core"
+                }
+              ],
+              "environment_id": "codespace",
+              "estimated_wall_seconds": 2700,
+              "forecast_context": {
+                "cores": 2,
+                "estimated_minutes": 45,
+                "origin": "pre-execution forecast"
+              },
+              "job_id": "terminal-expiry",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "project-a"
+            }
+          }
+        },
+        {
+          "at": 1794320881,
+          "event_id": "terminal-expiry:expired",
+          "job_id": "terminal-expiry",
+          "kind": "EXPIRED",
+          "payload": {}
+        }
+      ],
+      "after_job": {
+        "ack_id": null,
+        "catalog_version": 3,
+        "expires_at": 1794320830,
+        "job_id": "terminal-expiry",
+        "launch_id": null,
+        "meters": [
+          {
+            "meter": "core",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 80,
+            "unspent": 80
+          }
+        ],
+        "outcome": "expired",
+        "proposal": {
+          "account_id": "acct-a",
+          "claims": [
+            {
+              "amount": 80,
+              "meter_id": "core"
+            }
+          ],
+          "environment_id": "codespace",
+          "estimated_wall_seconds": 2700,
+          "forecast_context": {
+            "cores": 2,
+            "estimated_minutes": 45,
+            "origin": "pre-execution forecast"
+          },
+          "job_id": "terminal-expiry",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-a"
+        },
+        "state": "EXPIRED"
+      },
+      "after_view": {
+        "ok": {
+          "accountId": "acct-a",
+          "advisoryNextStep": "no_new_dispatch",
+          "currentCatalogRevision": 3,
+          "environmentId": "codespace",
+          "evidence": {
+            "launch": null,
+            "outcome": {
+              "eventId": "terminal-expiry:expired",
+              "kind": "EXPIRED",
+              "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "recordedAt": 1794320881
+            }
+          },
+          "jobCatalogRevision": 3,
+          "jobId": "terminal-expiry",
+          "launchId": null,
+          "outcome": "expired",
+          "presentLiveness": "unknown",
+          "profile": "unlaunched",
+          "projectId": "project-a",
+          "state": "EXPIRED"
+        }
+      },
+      "available": 100,
+      "before_events": [
+        {
+          "at": 1794319930,
+          "event_id": "terminal-expiry:reserved",
+          "job_id": "terminal-expiry",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "acct-a",
+              "claims": [
+                {
+                  "amount": 80,
+                  "meter_id": "core"
+                }
+              ],
+              "environment_id": "codespace",
+              "estimated_wall_seconds": 2700,
+              "forecast_context": {
+                "cores": 2,
+                "estimated_minutes": 45,
+                "origin": "pre-execution forecast"
+              },
+              "job_id": "terminal-expiry",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "project-a"
+            }
+          }
+        },
+        {
+          "at": 1794320881,
+          "event_id": "terminal-expiry:expired",
+          "job_id": "terminal-expiry",
+          "kind": "EXPIRED",
+          "payload": {}
+        }
+      ],
+      "before_job": {
+        "ack_id": null,
+        "catalog_version": 3,
+        "expires_at": 1794320830,
+        "job_id": "terminal-expiry",
+        "launch_id": null,
+        "meters": [
+          {
+            "meter": "core",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 80,
+            "unspent": 80
+          }
+        ],
+        "outcome": "expired",
+        "proposal": {
+          "account_id": "acct-a",
+          "claims": [
+            {
+              "amount": 80,
+              "meter_id": "core"
+            }
+          ],
+          "environment_id": "codespace",
+          "estimated_wall_seconds": 2700,
+          "forecast_context": {
+            "cores": 2,
+            "estimated_minutes": 45,
+            "origin": "pre-execution forecast"
+          },
+          "job_id": "terminal-expiry",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-a"
+        },
+        "state": "EXPIRED"
+      },
+      "before_view": {
+        "accountId": "acct-a",
+        "advisoryNextStep": "no_new_dispatch",
+        "currentCatalogRevision": 3,
+        "environmentId": "codespace",
+        "evidence": {
+          "launch": null,
+          "outcome": {
+            "eventId": "terminal-expiry:expired",
+            "kind": "EXPIRED",
+            "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            "recordedAt": 1794320881
+          }
+        },
+        "jobCatalogRevision": 3,
+        "jobId": "terminal-expiry",
+        "launchId": null,
+        "outcome": "expired",
+        "presentLiveness": "unknown",
+        "profile": "unlaunched",
+        "projectId": "project-a",
+        "state": "EXPIRED"
+      },
+      "finalize_result": {
+        "error": "conflict: finalization forbidden from state EXPIRED"
+      },
+      "repeat_expire_count": 0,
+      "requested_outcome": "failed",
+      "unchanged": true
+    },
+    {
+      "after_events": [
+        {
+          "at": 1794319930,
+          "event_id": "terminal-expiry:reserved",
+          "job_id": "terminal-expiry",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "acct-a",
+              "claims": [
+                {
+                  "amount": 80,
+                  "meter_id": "core"
+                }
+              ],
+              "environment_id": "codespace",
+              "estimated_wall_seconds": 2700,
+              "forecast_context": {
+                "cores": 2,
+                "estimated_minutes": 45,
+                "origin": "pre-execution forecast"
+              },
+              "job_id": "terminal-expiry",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "project-a"
+            }
+          }
+        },
+        {
+          "at": 1794320881,
+          "event_id": "terminal-expiry:expired",
+          "job_id": "terminal-expiry",
+          "kind": "EXPIRED",
+          "payload": {}
+        }
+      ],
+      "after_job": {
+        "ack_id": null,
+        "catalog_version": 3,
+        "expires_at": 1794320830,
+        "job_id": "terminal-expiry",
+        "launch_id": null,
+        "meters": [
+          {
+            "meter": "core",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 80,
+            "unspent": 80
+          }
+        ],
+        "outcome": "expired",
+        "proposal": {
+          "account_id": "acct-a",
+          "claims": [
+            {
+              "amount": 80,
+              "meter_id": "core"
+            }
+          ],
+          "environment_id": "codespace",
+          "estimated_wall_seconds": 2700,
+          "forecast_context": {
+            "cores": 2,
+            "estimated_minutes": 45,
+            "origin": "pre-execution forecast"
+          },
+          "job_id": "terminal-expiry",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-a"
+        },
+        "state": "EXPIRED"
+      },
+      "after_view": {
+        "ok": {
+          "accountId": "acct-a",
+          "advisoryNextStep": "no_new_dispatch",
+          "currentCatalogRevision": 3,
+          "environmentId": "codespace",
+          "evidence": {
+            "launch": null,
+            "outcome": {
+              "eventId": "terminal-expiry:expired",
+              "kind": "EXPIRED",
+              "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "recordedAt": 1794320881
+            }
+          },
+          "jobCatalogRevision": 3,
+          "jobId": "terminal-expiry",
+          "launchId": null,
+          "outcome": "expired",
+          "presentLiveness": "unknown",
+          "profile": "unlaunched",
+          "projectId": "project-a",
+          "state": "EXPIRED"
+        }
+      },
+      "available": 100,
+      "before_events": [
+        {
+          "at": 1794319930,
+          "event_id": "terminal-expiry:reserved",
+          "job_id": "terminal-expiry",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "acct-a",
+              "claims": [
+                {
+                  "amount": 80,
+                  "meter_id": "core"
+                }
+              ],
+              "environment_id": "codespace",
+              "estimated_wall_seconds": 2700,
+              "forecast_context": {
+                "cores": 2,
+                "estimated_minutes": 45,
+                "origin": "pre-execution forecast"
+              },
+              "job_id": "terminal-expiry",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "project-a"
+            }
+          }
+        },
+        {
+          "at": 1794320881,
+          "event_id": "terminal-expiry:expired",
+          "job_id": "terminal-expiry",
+          "kind": "EXPIRED",
+          "payload": {}
+        }
+      ],
+      "before_job": {
+        "ack_id": null,
+        "catalog_version": 3,
+        "expires_at": 1794320830,
+        "job_id": "terminal-expiry",
+        "launch_id": null,
+        "meters": [
+          {
+            "meter": "core",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 80,
+            "unspent": 80
+          }
+        ],
+        "outcome": "expired",
+        "proposal": {
+          "account_id": "acct-a",
+          "claims": [
+            {
+              "amount": 80,
+              "meter_id": "core"
+            }
+          ],
+          "environment_id": "codespace",
+          "estimated_wall_seconds": 2700,
+          "forecast_context": {
+            "cores": 2,
+            "estimated_minutes": 45,
+            "origin": "pre-execution forecast"
+          },
+          "job_id": "terminal-expiry",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-a"
+        },
+        "state": "EXPIRED"
+      },
+      "before_view": {
+        "accountId": "acct-a",
+        "advisoryNextStep": "no_new_dispatch",
+        "currentCatalogRevision": 3,
+        "environmentId": "codespace",
+        "evidence": {
+          "launch": null,
+          "outcome": {
+            "eventId": "terminal-expiry:expired",
+            "kind": "EXPIRED",
+            "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            "recordedAt": 1794320881
+          }
+        },
+        "jobCatalogRevision": 3,
+        "jobId": "terminal-expiry",
+        "launchId": null,
+        "outcome": "expired",
+        "presentLiveness": "unknown",
+        "profile": "unlaunched",
+        "projectId": "project-a",
+        "state": "EXPIRED"
+      },
+      "finalize_result": {
+        "error": "conflict: finalization forbidden from state EXPIRED"
+      },
+      "repeat_expire_count": 0,
+      "requested_outcome": "cancelled",
+      "unchanged": true
+    },
+    {
+      "after_events": [
+        {
+          "at": 1794319930,
+          "event_id": "terminal-expiry:reserved",
+          "job_id": "terminal-expiry",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "acct-a",
+              "claims": [
+                {
+                  "amount": 80,
+                  "meter_id": "core"
+                }
+              ],
+              "environment_id": "codespace",
+              "estimated_wall_seconds": 2700,
+              "forecast_context": {
+                "cores": 2,
+                "estimated_minutes": 45,
+                "origin": "pre-execution forecast"
+              },
+              "job_id": "terminal-expiry",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "project-a"
+            }
+          }
+        },
+        {
+          "at": 1794320881,
+          "event_id": "terminal-expiry:expired",
+          "job_id": "terminal-expiry",
+          "kind": "EXPIRED",
+          "payload": {}
+        }
+      ],
+      "after_job": {
+        "ack_id": null,
+        "catalog_version": 3,
+        "expires_at": 1794320830,
+        "job_id": "terminal-expiry",
+        "launch_id": null,
+        "meters": [
+          {
+            "meter": "core",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 80,
+            "unspent": 80
+          }
+        ],
+        "outcome": "expired",
+        "proposal": {
+          "account_id": "acct-a",
+          "claims": [
+            {
+              "amount": 80,
+              "meter_id": "core"
+            }
+          ],
+          "environment_id": "codespace",
+          "estimated_wall_seconds": 2700,
+          "forecast_context": {
+            "cores": 2,
+            "estimated_minutes": 45,
+            "origin": "pre-execution forecast"
+          },
+          "job_id": "terminal-expiry",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-a"
+        },
+        "state": "EXPIRED"
+      },
+      "after_view": {
+        "ok": {
+          "accountId": "acct-a",
+          "advisoryNextStep": "no_new_dispatch",
+          "currentCatalogRevision": 3,
+          "environmentId": "codespace",
+          "evidence": {
+            "launch": null,
+            "outcome": {
+              "eventId": "terminal-expiry:expired",
+              "kind": "EXPIRED",
+              "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "recordedAt": 1794320881
+            }
+          },
+          "jobCatalogRevision": 3,
+          "jobId": "terminal-expiry",
+          "launchId": null,
+          "outcome": "expired",
+          "presentLiveness": "unknown",
+          "profile": "unlaunched",
+          "projectId": "project-a",
+          "state": "EXPIRED"
+        }
+      },
+      "available": 100,
+      "before_events": [
+        {
+          "at": 1794319930,
+          "event_id": "terminal-expiry:reserved",
+          "job_id": "terminal-expiry",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "acct-a",
+              "claims": [
+                {
+                  "amount": 80,
+                  "meter_id": "core"
+                }
+              ],
+              "environment_id": "codespace",
+              "estimated_wall_seconds": 2700,
+              "forecast_context": {
+                "cores": 2,
+                "estimated_minutes": 45,
+                "origin": "pre-execution forecast"
+              },
+              "job_id": "terminal-expiry",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "project-a"
+            }
+          }
+        },
+        {
+          "at": 1794320881,
+          "event_id": "terminal-expiry:expired",
+          "job_id": "terminal-expiry",
+          "kind": "EXPIRED",
+          "payload": {}
+        }
+      ],
+      "before_job": {
+        "ack_id": null,
+        "catalog_version": 3,
+        "expires_at": 1794320830,
+        "job_id": "terminal-expiry",
+        "launch_id": null,
+        "meters": [
+          {
+            "meter": "core",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 80,
+            "unspent": 80
+          }
+        ],
+        "outcome": "expired",
+        "proposal": {
+          "account_id": "acct-a",
+          "claims": [
+            {
+              "amount": 80,
+              "meter_id": "core"
+            }
+          ],
+          "environment_id": "codespace",
+          "estimated_wall_seconds": 2700,
+          "forecast_context": {
+            "cores": 2,
+            "estimated_minutes": 45,
+            "origin": "pre-execution forecast"
+          },
+          "job_id": "terminal-expiry",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-a"
+        },
+        "state": "EXPIRED"
+      },
+      "before_view": {
+        "accountId": "acct-a",
+        "advisoryNextStep": "no_new_dispatch",
+        "currentCatalogRevision": 3,
+        "environmentId": "codespace",
+        "evidence": {
+          "launch": null,
+          "outcome": {
+            "eventId": "terminal-expiry:expired",
+            "kind": "EXPIRED",
+            "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            "recordedAt": 1794320881
+          }
+        },
+        "jobCatalogRevision": 3,
+        "jobId": "terminal-expiry",
+        "launchId": null,
+        "outcome": "expired",
+        "presentLiveness": "unknown",
+        "profile": "unlaunched",
+        "projectId": "project-a",
+        "state": "EXPIRED"
+      },
+      "finalize_result": {
+        "error": "conflict: finalization forbidden from state EXPIRED"
+      },
+      "repeat_expire_count": 0,
+      "requested_outcome": "interrupted",
+      "unchanged": true
+    }
+  ],
+  "parent_source": "9fb8a525c32b56b9191d3f33df9925939636dc9a",
+  "positive_cancel": {
+    "ack_id": null,
+    "catalog_version": 3,
+    "expires_at": 1794320830,
+    "job_id": "valid-cancel",
+    "launch_id": null,
+    "meters": [
+      {
+        "meter": "core",
+        "observed": 0,
+        "overrun": 0,
+        "reserved": 80,
+        "unspent": 80
+      }
+    ],
+    "outcome": "cancelled",
+    "proposal": {
+      "account_id": "acct-a",
+      "claims": [
+        {
+          "amount": 80,
+          "meter_id": "core"
+        }
+      ],
+      "environment_id": "codespace",
+      "estimated_wall_seconds": 2700,
+      "forecast_context": {
+        "cores": 2,
+        "estimated_minutes": 45,
+        "origin": "pre-execution forecast"
+      },
+      "job_id": "valid-cancel",
+      "paid_spend_cap_currency": null,
+      "paid_spend_cap_micros": null,
+      "project_id": "project-a"
+    },
+    "state": "CLOSED"
+  },
+  "positive_view": {
+    "accountId": "acct-a",
+    "advisoryNextStep": "no_new_dispatch",
+    "currentCatalogRevision": 3,
+    "environmentId": "codespace",
+    "evidence": {
+      "launch": null,
+      "outcome": {
+        "eventId": "valid-cancel:final:cancelled",
+        "kind": "FINALIZED",
+        "payloadSha256": "64c90a868b7abd08b99b1a65e9b70365d1d901caafa5db05be3c077e7cecc0b3",
+        "recordedAt": 1794319930
+      }
+    },
+    "jobCatalogRevision": 3,
+    "jobId": "valid-cancel",
+    "launchId": null,
+    "outcome": "cancelled",
+    "presentLiveness": "unknown",
+    "profile": "unlaunched",
+    "projectId": "project-a",
+    "state": "CLOSED"
+  }
+}
