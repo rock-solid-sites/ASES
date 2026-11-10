@@ -387,6 +387,60 @@ fn expired_unlaunched_reservation_releases_capacity() {
     assert_eq!(balance(&mut s).available,100);
     assert_error_contains(s.launch_mock("expire","too-late",now()),"forbidden");
 }
+
+#[test]
+fn expiry_is_terminal_and_cannot_be_rewritten_by_finalization() {
+    let mut histories=Vec::new();
+    let mut valid=true;
+    for outcome in ["completed","failed","cancelled","interrupted"] {
+        let (_dir,_path,mut s)=setup(100,1);
+        let revision=s.catalog_version().unwrap();
+        s.reserve(&proposal("terminal-expiry",80),revision,now()).unwrap();
+        assert_eq!(s.expire_unlaunched(now()+951).unwrap(),1);
+        let before_job=s.job("terminal-expiry").unwrap();
+        let before_events=s.event_log(Some("terminal-expiry")).unwrap();
+        let before_view=serde_json::to_value(s.resume_view("terminal-expiry").unwrap()).unwrap();
+        let result=s.finalize("terminal-expiry",outcome,now()+952);
+        let refused=result.is_err();
+        let result_json=match result {
+            Ok(value)=>serde_json::json!({"ok":value}),
+            Err(error)=>serde_json::json!({"error":error.to_string()}),
+        };
+        let after_job=s.job("terminal-expiry").unwrap();
+        let after_events=s.event_log(Some("terminal-expiry")).unwrap();
+        let after_view=match s.resume_view("terminal-expiry") {
+            Ok(view)=>serde_json::json!({"ok":view}),
+            Err(error)=>serde_json::json!({"error":error.to_string()}),
+        };
+        let unchanged=before_job==after_job && before_events==after_events
+            && after_view.get("ok")==Some(&before_view);
+        let repeated_expiry=s.expire_unlaunched(now()+953).unwrap();
+        let available=balance(&mut s).available;
+        valid &= refused && unchanged && repeated_expiry==0 && available==100;
+        histories.push(serde_json::json!({"requested_outcome":outcome,
+            "before_job":before_job,"before_events":before_events,"before_view":before_view,
+            "finalize_result":result_json,"after_job":after_job,"after_events":after_events,
+            "after_view":after_view,"unchanged":unchanged,"available":available,
+            "repeat_expire_count":repeated_expiry}));
+    }
+    // Positive neighbor: a still-reserved job can explicitly cancel as before.
+    let (_dir,_path,mut s)=setup(100,1);
+    let revision=s.catalog_version().unwrap();
+    s.reserve(&proposal("valid-cancel",80),revision,now()).unwrap();
+    assert_eq!(s.finalize("valid-cancel","cancelled",now()).unwrap(),"CLOSED");
+    assert_eq!(s.finalize("valid-cancel","cancelled",now()).unwrap(),"CLOSED_REPLAY");
+    assert_eq!(balance(&mut s).available,100);
+    let evidence=serde_json::json!({"parent_source":"9fb8a525c32b56b9191d3f33df9925939636dc9a",
+        "histories":histories,"positive_cancel":s.job("valid-cancel").unwrap(),
+        "positive_view":s.resume_view("valid-cancel").unwrap()});
+    if let Some(root)=std::env::var_os("ASES_EXPIRY_EVIDENCE_DIR") {
+        let root=PathBuf::from(root);
+        std::fs::create_dir_all(&root).unwrap();
+        std::fs::write(root.join("expiry-histories.json"),serde_json::to_vec_pretty(&evidence).unwrap()).unwrap();
+    }
+    println!("{}",serde_json::to_string(&evidence).unwrap());
+    assert!(valid,"expired state was rewritten, or finalization changed its retained history/view");
+}
 #[test]
 fn finalized_observation_can_arrive_later() {
     let (_d,_p,mut s)=setup(100,2);
