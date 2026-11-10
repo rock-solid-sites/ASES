@@ -133,11 +133,24 @@ a replacement engine. Only grounded, narrow slices are to be selected.
 | 61 | Independent review and CI engineering | Not; excluded | Ordinary engineering activities, but explicitly not assigned to this campaign. |
 | 62 | Backup administration, production deployment, merging, billing or secret provisioning | Not assessed as work; excluded | These are outside the requested task. Their exclusion is scope control, not a cybersecurity accusation. |
 
+## Subsequently selected concrete continuations
+
+These refine the existing P5 topics above; neither changes the campaign's scope.
+
+| Activity | Cybersecurity or not | Assessment |
+|---|---|---|
+| Preserve EXPIRED as a terminal state during generic finalization | Not | Correct a local state-machine bug that produced contradictory EXPIRED and FINALIZED records; test all four terminal labels and the valid cancellation neighbor. |
+| Persist a bounded attention deadline across timer-owner failure | Not | Experimental implementation of the existing draft engine proposal's durable-timer/ATTENTION_REQUIRED hypothesis. A deadline produces a visible condition while a fixed local worker continues; it does not automatically terminate a worker. |
+
+The attention experiment is grounded in draft proposal commit
+`1e844cd65659f0250c69e0e29d419ee84d265b57` H4/H5 and Failure Matrix commit
+`47c26b2c26d01916d001b3ce7c50b56d68e2e11d`; its research status remains explicit.
+
 ## Decision
 
-All 60 in-scope activities above classify as **Not cybersecurity** under the
-activity-based distinction stated at the start. The two remaining rows record
-explicit exclusions. Nothing in this assessment justifies stopping the ASES-2
+All 60 original in-scope activities and both subsequently selected continuations
+classify as **Not cybersecurity** under the activity-based distinction stated
+at the start. Two further rows record explicit exclusions. Nothing in this assessment justifies stopping the ASES-2
 engineering campaign or seeking additional permission for its authorized local
 implementation and testing.
 
