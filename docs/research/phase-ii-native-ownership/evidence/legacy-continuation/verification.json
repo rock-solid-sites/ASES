@@ -1,0 +1,17 @@
+{
+  "purpose": "Focused regression of the existing #24 path after adding the optional native after_append hook; not independent CI",
+  "probe_command": "python -B docs/research/phase-i-continuation-stack/probe.py --out /tmp/ases4-legacy-continuation-20261110-01",
+  "checker_command": "python -B docs/research/phase-i-continuation-stack/check.py /tmp/ases4-legacy-continuation-20261110-01/raw.json",
+  "exit": 0,
+  "cases": 5,
+  "checker": {
+    "active_and_inactive_activate_only_denials": true,
+    "historical_lookup_survives_source_disposition": true,
+    "new_id_still_requires_current_source": true,
+    "remote_rejection_retains_local_outcome": true,
+    "source_bytes_certificates_versions_witnesses_checked": true,
+    "valid_retry_cold_activation_and_v2_effect": true
+  },
+  "raw_sha256": "f4ae67487b898ab7f1a13091904c7a0be6b53e4ae1d2d237aae751010ff57392",
+  "admission_sink_sha256": "e2c92f4de026934fefcc4d91f06efe64fd5072f68837ffa2fd94858902d197fd"
+}
