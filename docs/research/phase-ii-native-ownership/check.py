@@ -275,6 +275,15 @@ def check_native_f4(case: dict, label: str) -> None:
         need(case["denied_after_cold"]["before"].get("sha256")
              == case["denied_after_cold"]["after"].get("sha256"),
              "post-cold new-ID denial changed journal")
+        reopened = case["post_cold_reopen"]
+        need(len(reopened) == 2
+             and all(item["response"].get("status") == 200 for item in reopened)
+             and reopened[0]["response"]["body"].get("authority_version") == 2
+             and reopened[1]["response"]["body"].get("authority_version") == 2,
+             "cold managed F4 authority did not perform real replacement and activation to v2")
+        need(case["denied_after_cold"]["response"].get("status") == 409
+             and case["denied_after_cold"]["response"]["body"].get("reason") == "native-current-path-denied",
+             "fresh post-cold request did not reach the native moved-descendant guard")
         need(case["snapshot_after_retry"]["witness_status"]["body"]["current"]["journal_sha256"]
              == case["retry"]["after"]["sha256"], "cold retry not freshly checked against published witness cut")
         disposal = case["disposition_transitions"]
@@ -298,8 +307,9 @@ def check_native_f4(case: dict, label: str) -> None:
              "published historical F4 effect did not remain an exact retry after native source disposal")
         after_disposal_new = case["denied_after_disposal"]
         need(after_disposal_new["response"].get("status") == 409
+             and after_disposal_new["response"]["body"].get("reason") == "native-domain-not-live"
              and after_disposal_new["before"].get("sha256") == after_disposal_new["after"].get("sha256"),
-             "new ID against removed native source was not denied without an append")
+             "new ID at current F4 v2 against removed source missed native lifecycle denial")
         tree = case["f4_tree"]
     journal_record = tree.get("sink-effects.jsonl")
     need(journal_record is not None, label + ": raw F4 journal absent")

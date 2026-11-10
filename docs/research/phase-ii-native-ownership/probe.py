@@ -585,8 +585,7 @@ def main():
         # Cold recovery starts sealed. Reopen the managed sink through its
         # actual replacement/activation transitions so fresh-ID requests reach
         # the native owner guard instead of dying at the outer cold gate.
-        post_cold_reopen = [receipt_f4.call("/replace", {"authority_version": 1,
-                                                            "holder": "new"}),
+        post_cold_reopen = [receipt_f4.call("/replace", {"holder": "native-cold-recovery-holder"}),
                             receipt_f4.call("/activate", {"authority_version": 2})]
         retry = receipt_f4.submit(receipt_envelope)
         after_retry_snapshot = receipt_f4.snapshot()
