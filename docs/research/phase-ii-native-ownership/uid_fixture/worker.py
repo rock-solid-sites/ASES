@@ -23,13 +23,15 @@ def attempt(label, fn):
 def main():
     owner, sink, witness, owner_pid = sys.argv[1:]
     owner = Path(owner)
+    cli = subprocess.run(
+        [sys.executable, "-I", "-B", "/opt/owned-src/docs/research/phase-ii-native-ownership/owner_cli.py",
+         "--owner", str(owner)], input='{"op":"remove"}\n', text=True,
+        capture_output=True, timeout=2, check=False)
     actions = [
         attempt("protected-current-append", lambda: (owner / "protected/CURRENT").open("ab").write(b"tamper")),
         attempt("management-lock-unlink", lambda: (owner / "management-writer.lock").unlink()),
-        attempt("owner-cli-direct", lambda: subprocess.run(
-            [sys.executable, "-I", "-B", "/opt/owned-src/docs/research/phase-ii-native-ownership/owner_cli.py",
-             "--owner", str(owner)], input='{"op":"remove"}\\n', text=True,
-            capture_output=True, timeout=2, check=False).returncode),
+        {"name": "owner-cli-direct", "result": "refused" if cli.returncode else "allowed",
+         "returncode": cli.returncode, "stdout": cli.stdout[-512:], "stderr": cli.stderr[-1024:]},
         attempt("sink-unix-connect", lambda: connect(sink)),
         attempt("witness-unix-connect", lambda: connect(witness)),
         attempt("setuid-controller", lambda: os.setuid(2000)),

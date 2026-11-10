@@ -86,6 +86,14 @@ def main():
                ("protected-current-append", "management-lock-unlink", "sink-unix-connect",
                 "witness-unix-connect", "setuid-controller")):
             raise RuntimeError("UID-2001 attack unexpectedly crossed a native boundary")
+        if attack_actions["owner-cli-direct"]["result"] != "refused":
+            raise RuntimeError("UID-2001 direct native-owner CLI unexpectedly succeeded")
+        if any(item["result"] != "denied" for item in report["attack"]["owner_proc_fds"]):
+            raise RuntimeError("UID-2001 opened an owner-process descriptor")
+        descendant = json.loads(report["attack"]["fork_exec_descendant"]["stdout"])
+        if (descendant.get("setuid", {}).get("errno") != 1
+                or descendant.get("write", {}).get("errno") != 13):
+            raise RuntimeError("fork/exec descendant crossed the UID or protected-file boundary")
         attack.stop(kill=False)
         report["attack_process"] = {"exit": attack.exit, "stderr": attack.stderr}
         worker.stop(kill=False)
