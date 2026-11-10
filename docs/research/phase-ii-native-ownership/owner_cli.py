@@ -36,7 +36,8 @@ def main(argv):
                        or durable_inventory(after) != durable_inventory(before))
             reply = dict(result="RECOVERY_REQUIRED" if changed else "DENY",
                          reason=str(error), error=type(error).__name__,
-                         owner_selection_changed=changed)
+                         owner_selection_changed=after["selector"] != before["selector"],
+                         durable_phase_changed=changed)
         emit(dict(event="RESPONSE", request=request, reply=reply, snapshot=state.view()))
     return 0
 

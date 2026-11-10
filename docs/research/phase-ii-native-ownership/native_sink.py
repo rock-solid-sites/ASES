@@ -116,8 +116,10 @@ class NativeAdmission(legacy.Admission):
                         raw = (self.owner.root / "protected/objects" / item).read_bytes()
                         legacy.require(sha(raw) == digest and len(raw) == size,
                                        "native-live-material-integrity")
-                session.reserve_effect(effect["request_id"], sha(effect["payload"].encode()))
+                # Publication may fail after selecting its durable reservation.
+                # From this attempt onward, never report a no-effect denial.
                 reserved = True
+                session.reserve_effect(effect["request_id"], sha(effect["payload"].encode()))
                 self.active_session = session
                 certificate = dict(profile=PROFILE, native_registration=True,
                                    domain_id=owner["domain_id"], import_id=registration["id"],

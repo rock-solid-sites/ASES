@@ -52,6 +52,11 @@ outside that boundary.
   existing registration without new material/epoch. Same bytes/new opaque world
   are a distinct acceptance. Retain older registrations/material until authorized
   disposition; never modify/delete required F1 observations.
+  Native L6's local `kind=candidate` records the preparation origin; it is not
+  the global F3 acceptance authority. Its later F3-selected material remains a
+  live catalogued durable dependent. Consumers must read the protected native
+  registration, not promote a local kind label into accepted meaning. Both local
+  kinds equally block removal and receive the same physical integrity checks.
 - Preparation and acceptance are explicit recoverable stages, not an atomic
   cross-store transfer. Prepared-only material stays owned and blocks removal.
   Loss after CURRENT requires readback, never a no-effect denial. Unknown files
