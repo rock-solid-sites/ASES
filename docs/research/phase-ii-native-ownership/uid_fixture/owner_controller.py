@@ -43,6 +43,7 @@ def main():
                 emit({"event": "RESPONSE", "op": op, "frame": frame,
                       "f4": f4.snapshot()})
             elif op == "write" and set(q) == {"op", "payload"} and isinstance(q["payload"], str) \
+                    and bool(q["payload"]) \
                     and len(q["payload"].encode("utf-8")) <= 128:
                 counter += 1
                 request_id = q["payload"]
@@ -51,10 +52,19 @@ def main():
                 envelope = probe.native_envelope(snapshot, request_id)
                 envelope["kind"] = "use-current-descendant"
                 call = f4.submit(envelope)
+                journal = f4.snapshot()["journal"]
+                actual_events = []
+                if journal.get("exists"):
+                    for raw_line in bytes.fromhex(journal["raw_hex"]).splitlines():
+                        if raw_line:
+                            actual_events.append(json.loads(raw_line))
+                matching = [event for event in actual_events
+                            if event.get("event") == "effect_accepted"
+                            and event.get("request_id") == request_id]
                 emit({"event": "RESPONSE", "op": op, "request_id": request_id,
                       "payload": q["payload"], "envelope": envelope, "call": call,
                       "owner_after": owner.call({"op": "read"}),
-                      "journal": f4.snapshot()["journal"]})
+                      "journal": journal, "matching_actual_events": matching})
             elif op == "attenuate" and set(q) == {"op"}:
                 steps = [owner.call({"op": name}) for name in ("seal", "move", "activate")]
                 emit({"event": "RESPONSE", "op": op, "steps": steps,
