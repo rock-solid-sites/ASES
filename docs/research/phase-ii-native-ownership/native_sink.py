@@ -4,6 +4,7 @@ from contextlib import contextmanager
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sqlite3
 import sys
@@ -152,6 +153,10 @@ def attach_sink(owner, journal, witness_root):
     journal.parent.mkdir(parents=True, exist_ok=True)
     binding = dict(journal=str(journal.resolve()),
                    journal_parent_identity=legacy.identity(journal.parent), witness_root=witness_root)
+    socket_path = os.environ.get("ASES_NATIVE_WITNESS_SOCKET")
+    if socket_path:
+        endpoint = Path(socket_path).absolute()
+        binding["witness_endpoint"] = dict(path=str(endpoint), parent_identity=legacy.identity(endpoint.parent))
     with owner.locked() as session:
         native = session.state["native_owner"]
         prior = native.get("sink_binding")
@@ -206,6 +211,14 @@ def settle_from_native_sink(owner, sink, request_id):
 
 
 def main(argv):
+    listen_path = os.environ.get("ASES_NATIVE_LISTEN_SOCKET")
+    if listen_path:
+        from unix_transport import install, call_unix
+        witness_path = os.environ.get("ASES_NATIVE_WITNESS_SOCKET")
+        install(listen_path, witness_path)
+        if witness_path:
+            composed.admission.cut.managed.base.call = lambda _port, method, path, data=None: call_unix(
+                witness_path, method, path, data)
     if len(argv) == 3 and argv[1] == "--witness":
         return composed.admission.cut.witness_server(argv[2])
     if len(argv) != 8 or argv[1] != "--sink" or argv[2] not in ("fresh", "recover") or argv[5] != "published-cut":
