@@ -8,7 +8,7 @@ from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
-SOURCE_ROOT = HERE.parent / "phase-i-sol-integration/evidence/sources/f4/research/phase-i-t18-sink-order-20261103"
+SOURCE_ROOT = HERE.parent / "phase-i-sol-integration/evidence/sources/receipt/research/phase-i-t18-sink-order-20261103"
 CUT_SOURCE = SOURCE_ROOT / "published-cut/cut_sink.py"
 MANAGED_SOURCE = SOURCE_ROOT / "managed-revocation/managed_sink.py"
 RUN_SOURCE = SOURCE_ROOT / "run.py"
@@ -86,6 +86,11 @@ class RetryState(managed.State):
                          verified_revision=reply["revision"])
 
     def apply(self, path, data):
+        # Obligation operations are outside the frozen F4 request-ID contract.
+        # Refuse before the pinned implementation can append or deliver one.
+        if path in ("/commit-obligation", "/deliver-obligation"):
+            return 403, dict(outcome="unsupported-in-retry-candidate",
+                             reason="obligation workflows are outside the F4 experiment")
         if path == "/submit":
             request_id = data.get("request_id")
             payload = data.get("payload")
@@ -109,24 +114,6 @@ class RetryState(managed.State):
                 gate("after-append")
             return status, reply
 
-        if path == "/deliver-obligation":
-            key = data.get("obligation_id")
-            payload = self.obligations.get(key) if type(key) is str else None
-            request_id = "obligation:" + key if type(key) is str else None
-            previous = self.request_index.get(request_id)
-            if previous is not None:
-                if previous["payload"] != payload:
-                    return 409, dict(outcome="request-id-conflict",
-                                     event_seq=previous["seq"])
-                return self._observation(previous)
-            status, reply = super().apply(path, data)
-            if status == 201 and reply.get("outcome") == "accepted":
-                event = self.effects[-1]
-                if event["request_id"] in self.request_index:
-                    return 409, dict(outcome="request-id-conflict",
-                                     event_seq=self.request_index[event["request_id"]]["seq"])
-                self.request_index[event["request_id"]] = event
-            return status, reply
         return super().apply(path, data)
 
     def snapshot(self):

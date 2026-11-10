@@ -14,116 +14,104 @@ related_documents:
   - candidate.py
   - probe.py
   - check.py
+  - check_mutations.py
   - evidence/final/raw.json
 ---
 
 # Result
 
-The isolated candidate enforces one durable local `effect_accepted` event per
-request ID in the selected flat C/p profile. An exact retry is returned as an
-observation of the original event only after the existing receipt-aware wrapper
-freshly verifies that the live witness holds the complete current local cut. A
-same-ID/different-payload request returns conflict without appending bytes. A
-new ID still follows the pinned authority check and original append/publication
-path.
+The isolated candidate enforces at-most-once local `effect_accepted` journal
+acceptance per request ID for the tested flat C/p `/submit` path. Exact retries
+are observations of the original local event only after the pinned receipt-aware
+wrapper freshly verifies the complete current local cut at the witness. A
+same-ID payload conflict returns 409 without appending. This does not deliver an
+external effect or claim exactly-once delivery.
 
-This is **at-most-once local acceptance per ID** in the tested boundary. It is
-not exactly-once delivery to an external system, and it does not add a durable
-outbox or an automatic reconciliation path.
+`/commit-obligation` and `/deliver-obligation` return 403
+`unsupported-in-retry-candidate` before the pinned handler runs. Both histories
+leave journal bytes unchanged. Obligation commit or delivery therefore gains no
+retry contract or identity semantics in this experiment.
 
 # Native evidence
 
-The [frozen packet](PACKET.md) was implemented as a separate subclass and
-probe. The candidate reuses the pinned `cut_sink.py`, managed state, writer
-lock, append+fsync, live witness CAS, receipt handling, HTTP service and cold
-recovery. No pinned source capture was edited. An independent standard-library
-checker validates the raw journal bytes and digests, event sequence and
-payload hashes, a separate replay of the tested C/p authority transitions,
-witness/check replies, and the expected process and HTTP outcomes. It does not
-import [candidate.py](candidate.py).
+The candidate and probe execute the frozen receipt extension source capture
+`9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9`. The exact `published-cut/cut_sink.py`
+SHA-256 is `5bd76e093f20acb264b1d7e5688c7353822f6a13686fd9d4c18af56e33c7c5ed`;
+the checker pins this digest and also pins the receipt capture's managed sink
+and run source hashes. No pinned source capture was edited.
 
-The fresh baseline reproduces the incident: the real witness commits a
-publication, the relay drops only its reply, and the sink returns 503 with
-`local_control_committed=true`. Retrying the same ID and exact payload returns
-201 and adds a second `effect_accepted` row. The raw journal contains both IDs
-and payload bytes.
+The lost receipt uses the receipt source's own `drop_publish_reply_once`
+instrument. It is armed at the real witness, which commits `/publish`, records
+`reply_suppressed: true`, then closes the connection before sending its reply.
+There is no relay or proxy in this final run. The baseline returns 503 with
+`local_control_committed=true`; its retry returns 201 and creates a second row.
+The candidate returns 503 for the first attempt and 200 `already-accepted` on
+retry, preserving the original event sequence and accepted authority version.
+Same-process and cold-recovery retries each keep one row for that ID.
 
-With the candidate, the same real lost-reply sequence returns 503 for the first
-attempt, then 200 `already-accepted` on retry. The observation carries the
-original event sequence and accepted authority version, plus the current
-verified journal hash and witness revision. Same-process and cold-recovery
-histories each retain exactly one effect row. The checker also confirms:
+The native probe and independent raw-evidence checker passed 11 histories:
 
-- A same-ID payload that differs in exact UTF-8 bytes, including a composed vs
-decomposed Unicode spelling, returns 409 and leaves the journal digest
-unchanged.
-- A new ID still succeeds under current authority. A new ID with stale
-  authority is denied without journal bytes. An empty ID returns 400.
-- An effect accepted before native revoke remains observable with its original
-authority version after revoke, after a new live check of the current cut.
-- A real SIGKILL before append leaves the effect absent; cold recovery admits a
-  valid retry. A real SIGKILL after fsync but before publication preserves the
-  local event and cold startup refuses the divergent witness cut. A real
-  SIGKILL after publication but before the client reply allows cold recovery
-  and an observation retry without another append.
-- An explicit witness rejection is distinguished from lost reply. The first
-  response is 503 `cut-publication-rejected` with
-  `local_control_committed=true`. Under unresolved divergence, an existing
-  same-ID conflicting payload still returns 409 before witness checking; an
-  exact retry returns 503 `retry-observation-unresolved` with the original
-  local event sequence and committed flag. A fresh ID adds no bytes, and cold
-  recovery refuses the mismatch.
-- Restarting the in-memory witness without retained state makes sink recovery
-  refuse readiness. A valid legacy journal with two actual baseline rows for
-  one ID is rejected by candidate recovery instead of selecting either row.
+- Lost receipt baseline and candidate retry; payload conflict; a new ID; stale
+  authority; and observation after revoke.
+- Real SIGKILL before append, after local fsync but before publication, and after
+  publication but before the client reply.
+- Explicit remote publication rejection, refusal after divergent local commit,
+  and cold restart with a fresh empty witness.
+- Refusal of both obligation routes without journal change.
+- A journal capacity failure on both the initial request and exact retry. Both
+  return the underlying 503 error, append no row, and carry no no-effect outcome.
+- Rejection of a legacy journal containing a duplicate request ID.
 
-The parent receipt source pin is
-`9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9`. Pinned source file hashes and the
-complete raw process, gate, HTTP, witness, and journal capture are in
-[evidence/final/raw.json](evidence/final/raw.json); the independent verdict is
-also retained at [evidence/final/check.json](evidence/final/check.json). It is
-reproduced with:
+The independent checker reads raw journal bytes, verifies their digests and
+sequences, validates payload hashes, replays the tested authority transitions,
+checks fresh witness observations and original receipt fields, and checks
+process exits and stderr. `check_mutations.py` also passed three negative
+controls: a duplicate effect row with its journal bytes and digest recalculated,
+a false original event sequence, and a mismatched verified journal receipt were
+all rejected.
+
+Reproduce the native run and checks with:
 
 ```sh
-python3 docs/research/phase-i-effect-retry/probe.py --out docs/research/phase-i-effect-retry/evidence/<new-run>
-python3 docs/research/phase-i-effect-retry/check.py docs/research/phase-i-effect-retry/evidence/final/raw.json
+PYTHONDONTWRITEBYTECODE=1 python3 docs/research/phase-i-effect-retry/probe.py --out docs/research/phase-i-effect-retry/evidence/<new-run>
+PYTHONDONTWRITEBYTECODE=1 python3 docs/research/phase-i-effect-retry/check.py docs/research/phase-i-effect-retry/evidence/<new-run>/raw.json
+PYTHONDONTWRITEBYTECODE=1 python3 docs/research/phase-i-effect-retry/check_mutations.py docs/research/phase-i-effect-retry/evidence/<new-run>/raw.json
 ```
 
-The recorded final run passed all nine histories. It used actual local sink and
-witness processes, a disposable in-process HTTP relay for the dropped reply,
-and process gates at before-append, after-fsync/before-publication, and
-after-publication/before-client-reply. The checker returned PASS for all nine
-cases.
+The final retained artifacts are [raw.json](evidence/final/raw.json) and
+[check.json](evidence/final/check.json). This is finite local evidence under
+the pinned source, local process and trusted-root premises; it is not a
+production assurance result.
 
 # Boundary and remaining assumptions
 
-WHY: request identity belongs in the validated durable effect journal so a
-restart can reconstruct it; an in-memory cache would permit a duplicate after
-crash. An equal-ID retry is safe to report only when the live witness freshly
-confirms the exact current local cut. WHAT: baseline duplicate reproduction,
-actual dropped witness reply, exact journal readback, three process-kill gates,
-remote rejection, cold replay, invalid controls and independent raw checking.
-HOW CERTAIN: evidence-based for the finite local C/p histories under the pinned
-single-writer and trusted-root premises. WHAT-NOT-TESTED:
+WHY: request identity must be reconstructed from the durable accepted-event
+journal after restart; an in-memory cache would permit a second local acceptance.
+An equal-ID retry is safe to report only after the live witness verifies the
+complete current local cut. WHAT: real witness-side receipt suppression after
+commit, raw journal readback, process-kill gates, remote rejection, cold replay,
+obligation refusal, a failed append, and independent raw-evidence mutation
+controls. HOW CERTAIN: evidence-based for the finite tested `/submit` histories
+in flat C/p using the pinned receipt extension. WHAT-NOT-TESTED:
 
 - Trusted root custody, all external management entrypoints, and exclusion of
-  an unguarded same-UID writer. The inherited advisory writer lock remains
-  cooperative; see the separate custody boundary finding.
-- Witness durability, rollback detection, authentication beyond the existing
-  loopback nonce/root checks, or continued witness availability. Empty witness
-  restart was tested to refuse; durable witness recovery was not added.
-- Partial/torn writes and arbitrary storage faults. A torn journal remains a
-  native recovery failure; it is not converted to an accepted retry.
-- External side-effect execution or delivery. One journal acceptance is not a
-  claim that a remote effect occurred exactly once.
-- A production authorization policy for reading old accepted results after
-  revoke. The selected trusted local management boundary can observe retained
-  results; broader information-access policy remains absent.
-- Other roots, units, positions, obligation workflows, concurrent unguarded
+  an unguarded same-UID writer. The inherited advisory lock is cooperative.
+- Witness durability, rollback detection, broader authentication, or continued
+  witness availability. An empty witness restart was tested to refuse; durable
+  witness recovery was not added.
+- Partial/torn writes or arbitrary storage faults. The observed capacity error
+  does not append; other storage faults remain native recovery failures and are
+  not reclassified as successful or no-effect retries.
+- External side-effect execution or delivery. One journal acceptance says
+  nothing about an external system carrying out the effect.
+- A production policy for reading accepted results after revoke. The local
+  management boundary can observe retained results; broader access policy is
+  absent.
+- Other roots, units, positions, obligation workflows, unguarded concurrent
   mutation, storage migration, or broader history bounds.
 
-A local append followed by explicit remote rejection remains committed locally
-and unresolved remotely. The candidate labels that state; it does not roll back
-the event, append a second effect, or guess that publication succeeded. A fresh
-witness with no retained state also refuses rather than resetting genesis. No
+A local append followed by explicit remote rejection remains locally committed
+and remotely unresolved. The candidate exposes that distinction, does not
+append a second effect, and refuses cold recovery against the divergent cut. A
+fresh witness without retained state refuses rather than resetting genesis. No
 production migration or ASES-wide contract change follows from this experiment.

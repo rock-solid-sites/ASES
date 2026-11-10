@@ -6,9 +6,9 @@ from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
-SOURCES = HERE.parent / "phase-i-sol-integration/evidence/sources/f4/research/phase-i-t18-sink-order-20261103"
+SOURCES = HERE.parent / "phase-i-sol-integration/evidence/sources/receipt/research/phase-i-t18-sink-order-20261103"
 PINS = {
-    "published-cut/cut_sink.py": "394b68a4617a1c57c87ca0ad1babbd236d2dc3fc6bbf93b98b03ca39e8e08601",
+    "published-cut/cut_sink.py": "5bd76e093f20acb264b1d7e5688c7353822f6a13686fd9d4c18af56e33c7c5ed",
     "managed-revocation/managed_sink.py": "7134618da4241942f2343748e44ae3d3e339e6d5f22c0681f539d404d0c8247f",
     "run.py": "6b1d759b87b13d32bdc7c5f31a64c15d5a63296d77bc2f16ecc6b0e7795a9d59",
 }
@@ -105,6 +105,13 @@ def check_observation(case, frame_key):
     frame = case[frame_key]
     reply = frame["response"]
     need(frame["status"] == 200 and reply["outcome"] == "already-accepted", frame_key + " observation")
+    event = next((entry for entry in effect_events(case)
+                  if entry.get("request_id") == frame.get("request", {}).get("request_id")), None)
+    need(event is not None and reply.get("event_seq") == event["seq"]
+         and reply.get("accepted_authority_version") == event.get("accepted_under_version"),
+         frame_key + " original event receipt")
+    need(reply.get("verified_journal_sha256") == frame.get("journal_before_sha256")
+         == frame.get("journal_after_sha256"), frame_key + " verified journal receipt")
     status = case["capture"]["sink_status"]
     proof = next((entry for entry in status["cut_protocol_log"]
                   if entry.get("path") == "/check"
@@ -134,8 +141,7 @@ def check_capture(case):
     return raw, events
 
 
-def main(path):
-    raw = json.loads(Path(path).read_text())
+def validate(raw):
     need(raw["execution"] == "PASS", "probe did not pass")
     need(raw["pin"] == "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9", "receipt source pin")
     for rel, expected in PINS.items():
@@ -148,7 +154,8 @@ def main(path):
     cases = raw["cases"]
     need(set(cases) == {"baseline-lost-reply", "candidate-same-process", "candidate-cold-retry",
                         "kill-before-append", "kill-after-append", "kill-after-publication",
-                        "remote-rejection", "witness-restart-empty", "duplicate-journal"}, "case set")
+                        "remote-rejection", "witness-restart-empty", "duplicate-journal",
+                        "obligation-refusal", "append-failure"}, "case set")
 
     baseline = cases["baseline-lost-reply"]
     check_capture(baseline)
@@ -157,11 +164,11 @@ def main(path):
          "baseline lost reply must preserve uncertainty")
     need(baseline["retry"]["status"] == 201, "baseline same-ID retry accepted again")
     need([e["seq"] for e in effect_events(baseline)] == [4, 5], "baseline duplicate effect history")
-    dropped = [x for x in baseline["capture"]["proxy_log"]
-               if x.get("path") == "/publish" and x.get("response_dropped_after_upstream_commit")]
-    need(len(dropped) == 1 and dropped[0]["upstream_status"] == 200
-         and dropped[0]["upstream_response"].get("published") is True,
-         "baseline witness really committed before reply drop")
+    dropped = [x for x in baseline["capture"]["witness"]["response"]["log"]
+               if x.get("path") == "/publish" and x.get("reply_suppressed") is True]
+    need(len(dropped) == 1 and dropped[0]["status"] == 200
+         and dropped[0]["response"].get("published") is True,
+         "receipt witness committed before suppressing its own reply")
 
     same = cases["candidate-same-process"]
     check_capture(same)
@@ -169,8 +176,10 @@ def main(path):
     need(same["first"]["status"] == 503
          and same["first"]["response"]["local_control_committed"] is True,
          "candidate first publication uncertainty")
-    need(len([x for x in same["capture"]["proxy_log"] if x.get("response_dropped_after_upstream_commit")]) == 1,
-         "candidate actual reply drop")
+    suppressed = [x for x in same["capture"]["witness"]["response"]["log"]
+                  if x.get("path") == "/publish" and x.get("reply_suppressed") is True]
+    need(len(suppressed) == 1 and suppressed[0]["response"].get("published") is True,
+         "candidate actual receipt suppression")
     check_observation(same, "retry")
     need(same["retry"]["journal_after_sha256"] == same["retry"]["journal_before_sha256"],
          "same-process observation appends no bytes")
@@ -267,17 +276,54 @@ def main(path):
          and duplicate["candidate_restart"].get("reason") == "duplicate effect request_id in journal",
          "preexisting duplicate ID journal refused")
 
+    obligations = cases["obligation-refusal"]
+    check_capture(obligations)
+    for route in ("commit", "deliver"):
+        frame = obligations[route]
+        need(frame["status"] == 403
+             and frame["response"].get("outcome") == "unsupported-in-retry-candidate"
+             and frame["journal_before_sha256"] == frame["journal_after_sha256"],
+             route + " obligation route refused before append")
+    need(obligations["commit_unchanged_journal"] is True
+         and obligations["deliver_unchanged_journal"] is True
+         and not effect_events(obligations), "obligation refusal leaves journal unchanged")
+
+    failed = cases["append-failure"]
+    check_capture(failed)
+    for key in ("first", "retry"):
+        frame = failed[key]
+        need(frame["status"] == 503 and isinstance(frame["response"].get("error"), str)
+             and frame["response"].get("outcome") not in
+             ("not-found", "no-effect", "not-accepted", "already-absent"),
+             key + " failed append is not classified as no effect")
+    need(failed["first_unchanged_journal"] is True
+         and failed["retry_unchanged_journal"] is True
+         and not effect_events(failed), "capacity failures append no effect event")
+
+    for name in ("candidate-same-process", "candidate-cold-retry", "kill-before-append",
+                 "kill-after-append", "kill-after-publication", "remote-rejection",
+                 "witness-restart-empty", "obligation-refusal", "append-failure"):
+        unique_effect_ids(cases[name])
+
     # Every process used in the probe must be reaped and stderr-clean.
     for process in raw["processes"]:
         need("exit" in process and process["exit_ns"] > process["start_ns"], "process exit/reap evidence")
         need(not process["stderr"], "child stderr")
-    print(json.dumps({"verdict": "PASS", "cases": len(cases),
-                      "baseline_duplicate": len(effect_events(baseline)),
-                      "candidate_effect_counts": {name: len(effect_events(cases[name]))
-                                                  for name in cases if name != "duplicate-journal"},
-                      "explicit_rejection": first_reply["publication_reason"],
-                      "unresolved": ["single-writer/root custody", "honest live witness", "witness durability/rollback", "external side-effect delivery"]},
-                     sort_keys=True, indent=2))
+    return {"verdict": "PASS", "cases": len(cases),
+            "baseline_duplicate": len(effect_events(baseline)),
+            "candidate_effect_counts": {name: len(effect_events(cases[name]))
+                                        for name in cases if name != "duplicate-journal"},
+            "explicit_rejection": first_reply["publication_reason"],
+            "source_pin": raw["pin"],
+            "receipt_mechanism": "pinned witness suppresses one committed /publish reply",
+            "unresolved": ["single-writer/root custody", "honest live witness",
+                           "witness durability/rollback", "external side-effect delivery"]}
+
+
+def main(path):
+    summary = validate(json.loads(Path(path).read_text()))
+    print(json.dumps(summary, sort_keys=True, indent=2))
+    return summary
 
 
 if __name__ == "__main__":
