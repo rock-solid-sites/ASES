@@ -64,12 +64,11 @@ exclusion is explicitly unresolved.
 
 ## Reproduction and source identity
 
-From the `ases-cold` checkout, rerun the bounded probe and evidence checker:
+From the `ases-cold` checkout, use a new output directory and retain prior runs:
 
 ```sh
-rm -rf docs/research/phase-i-cold-activation/evidence/run-01
-python3 docs/research/phase-i-cold-activation/run.py --out docs/research/phase-i-cold-activation/evidence/run-01
-python3 docs/research/phase-i-cold-activation/check.py docs/research/phase-i-cold-activation/evidence/run-01/raw.json
+python3 -B docs/research/phase-i-cold-activation/run.py --out /tmp/ases-cold-new-run
+python3 -B docs/research/phase-i-cold-activation/check.py /tmp/ases-cold-new-run/raw.json
 ```
 
 The checker mutation controls can be reproduced with:
