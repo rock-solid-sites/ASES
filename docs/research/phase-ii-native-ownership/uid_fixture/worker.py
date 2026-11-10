@@ -27,10 +27,12 @@ def main():
         [sys.executable, "-I", "-B", "/opt/owned-src/docs/research/phase-ii-native-ownership/owner_cli.py",
          "--owner", str(owner)], input='{"op":"remove"}\n', text=True,
         capture_output=True, timeout=2, check=False)
+    cli_refused_at_owner_store = (cli.returncode != 0 and "PermissionError" in cli.stderr
+                                 and str(owner / "protected") in cli.stderr)
     actions = [
         attempt("protected-current-append", lambda: (owner / "protected/CURRENT").open("ab").write(b"tamper")),
         attempt("management-lock-unlink", lambda: (owner / "management-writer.lock").unlink()),
-        {"name": "owner-cli-direct", "result": "refused" if cli.returncode else "allowed",
+        {"name": "owner-cli-direct", "result": "refused" if cli_refused_at_owner_store else "allowed",
          "returncode": cli.returncode, "stdout": cli.stdout[-512:], "stderr": cli.stderr[-1024:]},
         attempt("sink-unix-connect", lambda: connect(sink)),
         attempt("witness-unix-connect", lambda: connect(witness)),
@@ -42,6 +44,8 @@ def main():
                                 lambda fd=fd: os.open(f"/proc/{owner_pid}/fd/{fd}", os.O_WRONLY)))
     child_code = r'''import errno,json,os
 r={"uid":os.getuid(),"euid":os.geteuid()}
+for line in open('/proc/self/status'):
+ if line.startswith(('Uid:','Gid:','Groups:','CapPrm:','CapEff:','NoNewPrivs:')): r[line.split(':',1)[0]]=line.split(':',1)[1].strip()
 try: os.setuid(2000); r["setuid"]="allowed"
 except OSError as e: r["setuid"]={"errno":e.errno,"name":errno.errorcode.get(e.errno)}
 try: open(os.environ["ASES_OWNER_CURRENT"],"ab").write(b"descendant") ; r["write"]="allowed"

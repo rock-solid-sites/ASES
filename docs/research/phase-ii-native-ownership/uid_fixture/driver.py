@@ -50,14 +50,17 @@ def main():
     try:
         ready = controller.line(timeout=30)
         report["controller_ready"] = ready
-        if controller.status.get("NoNewPrivs") != "1":
-            raise RuntimeError("UID-2000 controller missing no-new-privileges")
+        verify_controller_status(controller.status)
         owner_root = ready["owner_root"]
         worker = base.role_worker()
         report["worker_status"] = worker.status
         verify_worker_status(worker.status)
         worker.send({"task": "audit-fds", "store": owner_root})
         report["fd_audit"] = worker.line()
+        if (report["fd_audit"].get("writable_store_fds") != []
+                or report["fd_audit"].get("direct_path_write", {}).get("result") != "denied"
+                or report["fd_audit"].get("direct_invalid_fd_write", {}).get("result") != "denied"):
+            raise RuntimeError("worker descriptor/path audit found a writable protected route")
         manager = Controller(controller)
         report["authorized_neighbor"] = base.mediate(
             worker, manager, {"op": "write", "payload": "uid-authorized-neighbor"})
@@ -92,7 +95,13 @@ def main():
             raise RuntimeError("UID-2001 opened an owner-process descriptor")
         descendant = json.loads(report["attack"]["fork_exec_descendant"]["stdout"])
         if (descendant.get("setuid", {}).get("errno") != 1
-                or descendant.get("write", {}).get("errno") != 13):
+                or descendant.get("write", {}).get("errno") != 13
+                or descendant.get("Uid", "").split() != ["2001"] * 4
+                or descendant.get("Gid", "").split() != ["2001"] * 4
+                or descendant.get("Groups") != ""
+                or descendant.get("CapPrm") != "0000000000000000"
+                or descendant.get("CapEff") != "0000000000000000"
+                or descendant.get("NoNewPrivs") != "1"):
             raise RuntimeError("fork/exec descendant crossed the UID or protected-file boundary")
         attack.stop(kill=False)
         report["attack_process"] = {"exit": attack.exit, "stderr": attack.stderr}
@@ -141,6 +150,16 @@ def verify_worker_status(status):
             or status.get("CapEff") != "0000000000000000"
             or status.get("NoNewPrivs") != "1"):
         raise RuntimeError("UID-2001 worker does not match frozen capability boundary: " + repr(status))
+
+
+def verify_controller_status(status):
+    if (status.get("Uid", "").split() != ["2000"] * 4
+            or status.get("Gid", "").split() != ["2000"] * 4
+            or status.get("Groups") != ""
+            or status.get("CapPrm") != "0000000000000000"
+            or status.get("CapEff") != "0000000000000000"
+            or status.get("NoNewPrivs") != "1"):
+        raise RuntimeError("UID-2000 controller does not match frozen process boundary: " + repr(status))
 
 
 if __name__ == "__main__":
