@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import sqlite3
 import sys
 
 sys.dont_write_bytecode = True
@@ -129,7 +130,7 @@ class NativeAdmission(legacy.Admission):
                 yield certificate
                 self.event("local-append-returned", request_id=effect["request_id"])
                 self.gate("after-append")
-        except (ValueError, OSError, KeyError, TypeError) as error:
+        except (ValueError, OSError, sqlite3.Error, KeyError, TypeError) as error:
             if reserved:
                 self.event("native-reservation-outcome-unresolved", reason=str(error))
                 raise OSError("native-effect-requires-reconciliation:" + str(error)) from error
@@ -226,9 +227,10 @@ def main(argv):
                 if path == "/submit" and isinstance(data, dict):
                     request_id = data.get("request_id")
                     if isinstance(request_id, str) and request_id in self.request_index:
+                        admission.gate("before-settlement")
                         try:
                             reply = dict(reply, owner_effect=settle_from_native_sink(admission.owner, self, request_id))
-                        except (ValueError, OSError, KeyError, TypeError) as error:
+                        except (ValueError, OSError, sqlite3.Error, KeyError, TypeError) as error:
                             reply = dict(reply, owner_effect=dict(status="unresolved", reason=str(error)))
                 return status, reply
 
