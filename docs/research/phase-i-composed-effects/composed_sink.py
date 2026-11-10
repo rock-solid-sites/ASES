@@ -27,6 +27,41 @@ retry = load("composed_retry_sink", RETRY / "candidate.py")
 # admission hook inside the original managed append and receipt-aware wrapper.
 admission.cut.ORIGINAL_STATE = retry.RetryState
 
+# The outer cut check can refuse before RetryState sees an existing request.
+# Preserve the prior local commitment in that outcome instead of accidentally
+# presenting the duplicate as proof that no local acceptance happened.
+managed = admission.cut.managed
+original_serve = managed.serve
+
+
+def serve_with_retained_outcome(journal, recover=False):
+    generated = managed.State
+
+    class OutcomeState(generated):
+        def apply(self, path, data):
+            previous = None
+            if path == "/submit" and isinstance(data, dict):
+                request_id, payload = data.get("request_id"), data.get("payload")
+                if retry.RetryState._valid_text(request_id) and request_id:
+                    previous = self.request_index.get(request_id)
+                if previous is not None and previous["payload"] != payload:
+                    return 409, dict(outcome="request-id-conflict", event_seq=previous["seq"],
+                                     new_local_effect=False)
+            status, reply = super().apply(path, data)
+            if previous is not None and reply.get("outcome") == "published-cut-unavailable":
+                reply = dict(reply, outcome="retry-observation-unresolved", local_control_committed=True,
+                             local_event_seq=previous["seq"], new_local_effect=False)
+            return status, reply
+
+    managed.State = OutcomeState
+    try:
+        return original_serve(journal, recover)
+    finally:
+        managed.State = generated
+
+
+managed.serve = serve_with_retained_outcome
+
 if __name__ == "__main__":
     if len(sys.argv) == 3 and sys.argv[1] == "--witness":
         admission.cut.witness_server(sys.argv[2])

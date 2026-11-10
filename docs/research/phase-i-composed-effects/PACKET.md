@@ -56,3 +56,15 @@ Run positive, negative, restart and receipt-loss histories with independent raw
 checking and altered controls. Record exact which proposition each result proves.
 No universal native identity, global disposition, remote cancellation, external
 exactly-once delivery, durable witness or enforced all-writer custody is claimed.
+
+## Integration falsifier and correction
+
+The initial native composition retained one local event after publication
+rejection, but the outer cut guard refused a duplicate before retry state ran.
+Its generic `local_control_committed=false` reply lacked the original event
+context, and a known conflicting payload also received only unavailable-cut.
+The adapter now wraps that outer return boundary: known local ID conflicts
+refuse before remote observation; an unavailable exact retry reports the prior
+local sequence/commit and `new_local_effect=false`, never a successful remote
+observation. No new event is appended. Retain the initial trace and run the
+discriminator again against this specific correction.
