@@ -74,3 +74,16 @@ remain accepted obligations; no remote cancellation promise follows from removal
 
 Keep raw processes, bytes, SQL/gates and independently derived outcome checks.
 Finish on these results or an exact blocker, then continue to engine Priority 5.
+
+## Source-driven correction before final capture
+
+The first ten-history run established the material guard only. Further native
+source inspection exposed another necessary distinction: even with no accepted
+objects, the fixed L5 graph still contains child D depending on C. Empty material
+does not mean no child Work Units. L5 has no child disposition/removal transition.
+The final port therefore distinguishes `shared-work-unit` (default; includes D
+as a durable dependent and refuses) from `local-inventory` (explicitly narrower;
+native L6 removal under the joint material guard). The initially empty positive
+control uses only the latter. Add an empty-material/nonempty-child falsifier and
+an unknown empty-directory control. This correction preserves C8 completeness;
+it does not silently turn local removal into global destruction.
