@@ -225,6 +225,53 @@ pub struct Reservation {
     pub expires_at: i64,
     pub replayed: bool,
 }
+
+/// A non-cloneable, non-serializable dispatch grant returned only by the
+/// successful transition from AUTHORIZED to LAUNCHING. The trusted adapter must
+/// honor it once; the database prevents later begin calls from granting again.
+#[derive(Debug, PartialEq, Eq)]
+pub struct LaunchDispatch {
+    job_id: String,
+    launch_id: String,
+}
+impl LaunchDispatch {
+    pub fn job_id(&self) -> &str { &self.job_id }
+    pub fn launch_id(&self) -> &str { &self.launch_id }
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub enum BeginLaunchResult {
+    DispatchGranted(LaunchDispatch),
+    PendingObservation { job_id: String, launch_id: String },
+    RunningObservation { job_id: String, launch_id: String },
+}
+
+/// Process identity is retained as adapter evidence only. The ledger never
+/// treats a PID or start token as authorization to signal, adopt, or relaunch.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ProcessIdentity {
+    pub pid: u32,
+    pub start_token: String,
+}
+
+/// Observation input for the trusted local adapter boundary. This is typed and
+/// has no caller-controlled source/authority label; the caller still must be a
+/// trusted adapter because the local database cannot prove that observation.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(tag = "result", rename_all = "snake_case", deny_unknown_fields)]
+pub enum LaunchObservation {
+    Started { process: ProcessIdentity },
+    DefinitelyNotCreated { error_kind: String, detail: String },
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub enum RecordLaunchObservationResult {
+    Started,
+    DefinitelyNotCreated,
+    Replay,
+}
+
 pub struct Store { db: Connection }
 
 impl Store {
@@ -415,7 +462,7 @@ impl Store {
             return Err(Error::Invalid("environment account mismatch or unauthorized borrowing".into()));
         }
         if !env.fresh(at) { return Err(Error::Invalid("environment information stale or unverified".into())); }
-        let slots:i64=tx.query_row("SELECT COUNT(*) FROM jobs WHERE env=?1 AND state IN ('RESERVED','AUTHORIZED','RUNNING')",
+        let slots:i64=tx.query_row("SELECT COUNT(*) FROM jobs WHERE env=?1 AND state IN ('RESERVED','AUTHORIZED','LAUNCHING','RUNNING')",
                                    [&p.environment_id],|r|r.get(0))?;
         if slots >= i64::from(env.max_parallel) {
             return Err(Error::Conflict("environment concurrency exhausted".into()));
@@ -528,6 +575,140 @@ impl Store {
         tx.commit()?;
         Ok("AUTHORIZED".into())
     }
+
+    fn validate_launch_current(tx:&Transaction<'_>,p:&Proposal,version:i64,at:i64)->Result<()> {
+        let current:i64=tx.query_row("SELECT value FROM meta WHERE key='catalog_version'",[],|r|r.get(0))?;
+        if current!=version {return Err(Error::Conflict("launch catalog revision stale".into()));}
+        let account_raw:Option<String>=tx.query_row(
+            "SELECT data FROM accounts WHERE id=?1",[&p.account_id],|r|r.get(0)).optional()?;
+        let account_raw=account_raw.ok_or_else(||Error::Conflict("launch account missing".into()))?;
+        let account:crate::catalog::Account=serde_json::from_str(&account_raw)?;
+        if account.registration_status!="verified" || account.credential_status!="working" ||
+           account.entitlement_status!="active" || !account.fresh(at) ||
+           !account.allowed_projects.contains(&p.project_id) {
+            return Err(Error::Conflict("launch account entitlement stale or inactive".into()));
+        }
+        let env=Self::env(tx,&p.environment_id)?;
+        if env.account!=p.account_id || env.provider!=account.provider || !env.fresh(at) {
+            return Err(Error::Conflict("environment observation stale or unauthorized at launch".into()));
+        }
+        for claim in &p.claims {
+            let meter=Self::meter(tx,&claim.meter_id)?;
+            if meter.account!=p.account_id || meter.provider!=account.provider || !meter.fresh(at) ||
+               !meter.covers_forecast(at,p.estimated_wall_seconds) {
+                return Err(Error::Conflict(format!("meter {} stale or cannot cover launch forecast",meter.id)));
+            }
+            // The admitted reservation already reduces `available`; a negative
+            // balance means newer observed usage has consumed admitted capacity.
+            if Self::balance(tx,&claim.meter_id,at)?.available<0 {
+                return Err(Error::Conflict("resource overconsumed at launch".into()));
+            }
+        }
+        Ok(())
+    }
+
+    fn has_launch_intent(tx:&Transaction<'_>,job:&str,launch_id:&str)->Result<bool>{
+        let id=format!("launch-intent:{job}");
+        let prior:Option<(String,String)>=tx.query_row(
+            "SELECT kind,payload FROM events WHERE id=?1",[id],
+            |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
+        Ok(prior.is_some_and(|(kind,payload)|kind=="LAUNCH_INTENT" &&
+            serde_json::from_str::<Value>(&payload).ok().and_then(|v|v["launch_id"].as_str().map(str::to_string))
+                .as_deref()==Some(launch_id)))
+    }
+
+    /// Durably consume an authorization before a trusted local adapter attempts
+    /// spawn. Only DispatchGranted authorizes that one adapter attempt. Replays
+    /// are observations and never issue another dispatch capability.
+    pub fn begin_launch(&mut self,job:&str,launch_id:&str,expected_catalog:i64,at:i64)->Result<BeginLaunchResult>{
+        check_id(job,"job")?;check_id(launch_id,"launch")?;
+        let tx=self.db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let row:Option<(String,Option<String>,i64,Option<String>,Option<String>)>=tx.query_row(
+            "SELECT state,ack_id,catalog_version,launch_id,proposal FROM jobs WHERE id=?1",[job],
+            |r|Ok((r.get(0)?,r.get(1)?,r.get(2)?,r.get(3)?,r.get(4)?))).optional()?;
+        let (state,ack,version,prior,proposal)=row.ok_or_else(||Error::Invalid("unknown job".into()))?;
+        match state.as_str() {
+            "LAUNCHING"=>{
+                if prior.as_deref()!=Some(launch_id) {return Err(Error::Conflict("launch identity conflicts with pending intent".into()));}
+                if !Self::has_launch_intent(&tx,job,launch_id)? {return Err(Error::Conflict("pending launch lacks durable intent event".into()));}
+                tx.commit()?;
+                return Ok(BeginLaunchResult::PendingObservation{job_id:job.into(),launch_id:launch_id.into()});
+            }
+            "RUNNING"=>{
+                if prior.as_deref()!=Some(launch_id) {return Err(Error::Conflict("launch identity conflicts with running job".into()));}
+                if !Self::has_launch_intent(&tx,job,launch_id)? {return Err(Error::Conflict("running job belongs to another launch profile".into()));}
+                tx.commit()?;
+                return Ok(BeginLaunchResult::RunningObservation{job_id:job.into(),launch_id:launch_id.into()});
+            }
+            "AUTHORIZED"=>(),
+            _=>return Err(Error::Conflict(format!("launch forbidden from state {state}"))),
+        }
+        if ack.is_none() {return Err(Error::Conflict("launch authorization missing".into()));}
+        let expiry:i64=tx.query_row("SELECT expires_at FROM jobs WHERE id=?1",[job],|r|r.get(0))?;
+        if expiry<at {return Err(Error::Conflict("authorization expired".into()));}
+        if expected_catalog!=version {return Err(Error::Conflict("launch catalog revision stale".into()));}
+        let p:Proposal=serde_json::from_str(&proposal.ok_or_else(||Error::Conflict("launch proposal missing".into()))?)?;
+        Self::validate_launch_current(&tx,&p,version,at)?;
+        tx.execute("UPDATE jobs SET state='LAUNCHING',launch_id=?2 WHERE id=?1",params![job,launch_id])?;
+        Self::log(&tx,&format!("launch-intent:{job}"),Some(job),"LAUNCH_INTENT",at,
+                  json!({"launch_id":launch_id,"catalog_version":version,"dispatch_granted":true}))?;
+        tx.commit()?;
+        Ok(BeginLaunchResult::DispatchGranted(LaunchDispatch{job_id:job.into(),launch_id:launch_id.into()}))
+    }
+
+    /// Record a trusted local adapter's exact observation for a prior intent.
+    /// This method accepts adapter evidence, not caller-selected outcome labels.
+    pub fn observe_launch(&mut self,job:&str,launch_id:&str,observation:&LaunchObservation,at:i64)
+        ->Result<RecordLaunchObservationResult>{
+        check_id(job,"job")?;check_id(launch_id,"launch")?;
+        let (kind,payload)=match observation {
+            LaunchObservation::Started{process}=>{
+                if process.pid==0 {return Err(Error::Invalid("process identity PID must be nonzero".into()));}
+                nonblank(&process.start_token,"process start token")?;
+                ("LAUNCH_STARTED_OBSERVED",json!({"launch_id":launch_id,"process":process}))
+            }
+            LaunchObservation::DefinitelyNotCreated{error_kind,detail}=>{
+                check_id(error_kind,"spawn error kind")?;nonblank(detail,"spawn error detail")?;
+                ("LAUNCH_NOT_CREATED_OBSERVED",json!({"launch_id":launch_id,"error_kind":error_kind,
+                    "detail":detail}))
+            }
+        };
+        let event_id=format!("launch-observation:{job}");
+        let tx=self.db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let row:Option<(String,Option<String>)>=tx.query_row(
+            "SELECT state,launch_id FROM jobs WHERE id=?1",[job],
+            |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
+        let (state,prior_launch)=row.ok_or_else(||Error::Invalid("unknown job".into()))?;
+        if prior_launch.as_deref()!=Some(launch_id) || !Self::has_launch_intent(&tx,job,launch_id)? {
+            return Err(Error::Conflict("observation does not match durable launch intent".into()));
+        }
+        let prior:Option<(String,String)>=tx.query_row(
+            "SELECT kind,payload FROM events WHERE id=?1",[&event_id],
+            |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
+        if let Some((prior_kind,prior_payload))=prior {
+            if prior_kind==kind && serde_json::from_str::<Value>(&prior_payload)?==payload &&
+               (state=="RUNNING" || state=="CLOSED") {
+                tx.commit()?;return Ok(RecordLaunchObservationResult::Replay);
+            }
+            return Err(Error::Conflict("launch observation conflicts with prior observation".into()));
+        }
+        if state!="LAUNCHING" {return Err(Error::Conflict(format!("launch observation forbidden from state {state}")));}
+        match observation {
+            LaunchObservation::Started{..}=>{
+                tx.execute("UPDATE jobs SET state='RUNNING' WHERE id=?1",[job])?;
+            }
+            LaunchObservation::DefinitelyNotCreated{..}=>{
+                tx.execute("UPDATE jobs SET state='CLOSED',outcome='failed' WHERE id=?1",[job])?;
+            }
+        }
+        Self::log(&tx,&event_id,Some(job),kind,at,payload)?;
+        tx.commit()?;
+        Ok(match observation {
+            LaunchObservation::Started{..}=>RecordLaunchObservationResult::Started,
+            LaunchObservation::DefinitelyNotCreated{..}=>RecordLaunchObservationResult::DefinitelyNotCreated,
+        })
+    }
+
     /// Only an idempotent mock adapter is implemented. Never infer an external launch occurred.
     pub fn launch_mock(&mut self,job:&str,launch_id:&str,at:i64) -> Result<String> {
         check_id(job,"job")?;check_id(launch_id,"launch")?;
@@ -635,6 +816,9 @@ impl Store {
             "SELECT state,outcome FROM jobs WHERE id=?1",[job],
             |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
         let (state,old)=previous.ok_or_else(||Error::Invalid("unknown job".into()))?;
+        if state=="LAUNCHING" {
+            return Err(Error::Conflict("launch outcome unknown; reconciliation required before finalization".into()));
+        }
         if state=="CLOSED" {
             if old.as_deref()==Some(outcome) {tx.commit()?;return Ok("CLOSED_REPLAY".into());}
             return Err(Error::Conflict("terminal outcome already recorded".into()));
