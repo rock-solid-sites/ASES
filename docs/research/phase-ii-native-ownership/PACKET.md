@@ -65,16 +65,18 @@ outside that boundary.
   `move`/`activate` call actual L5 manager logic. `recover` validates the supported
   whole owner/material view, preserves work and publishes a fresh sealed epoch
   before explicit activation. Constructor/read does not mutate or bootstrap.
-- `dispose_child(D)` is an explicit sealed decision: drop D's live references,
-  mark it logically disposed, retain historical intrinsic metadata. Original fixed
-  graph nodes stay interpretable; native_owner distinguishes live vs disposed D.
+- `dispose_child(D)` is an explicit sealed decision: remove D from the CURRENT
+  live work_units graph and retain its historical intrinsic record in protected
+  disposed_units. Original L5 predicates govern only live supported active graphs;
+  the finite terminal profile validates historical structure without reviving D.
 - `dispose_content(id)` requires sealed/live domain, D disposed, no pending effect.
   Publish logical disposition in CURRENT before native L6 dispose/unlink. Lost
   cleanup remains bounded and blocks removal; explicit cleanup completes only a
   retained authorized decision. F1 source evidence is never erased.
 - `remove` requires all children/content/candidates dispositioned, no pending
   effects and complete actual inventory empty. Publish native logical removal,
-  then finish native L6 remove/rmdir. Report logical shared-domain disposition and
+  removing C from the live graph into issuer-retained disposed_units, then finish
+  native L6 remove/rmdir. Report logical shared-domain disposition and
   physical data-envelope cleanup separately; no secure erasure claim.
 
 ## F4 integration, parent-owned

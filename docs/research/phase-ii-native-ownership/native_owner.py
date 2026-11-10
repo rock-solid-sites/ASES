@@ -153,7 +153,8 @@ class Owner:
             epoch=1, source=dict(db=str(f1_db), identity=identity(f1_db)),
             inventory=dict(root="protected", identity=identity(protected)),
             custody=dict(root=identity(root), lock=identity(lock)), lifecycle="live",
-            children=dict(D="live"), registrations=[], selected=None, effects={}, sink_binding=None))
+            children=dict(D="live"), disposed_units={}, registrations=[], selected=None,
+            effects={}, sink_binding=None))
         require(l5.graph_valid(state), "native-initial-graph-invalid")
         publish(root, state, dict(op="native-establish-domain", domain_id=domain))
         sync_directory(root)
@@ -163,13 +164,36 @@ class Owner:
         name = (self.root / "protected/CURRENT").read_text().strip()
         require(re.fullmatch(r"record-[0-9]{6}\.json", name), "unsupported-native-selector")
         state = decode((self.root / "protected" / name).read_bytes())
-        require(type(state.get("schema")) is int and state["schema"] == 1
-                and l5.graph_valid(state), "unsupported-native-graph")
+        require(type(state.get("schema")) is int and state["schema"] == 1,
+                "unsupported-native-graph")
         owner = state.get("native_owner", {})
         require(owner.get("profile") == PROFILE and owner.get("lifecycle") in ("live", "removed")
                 and type(owner.get("epoch")) is int and 0 < owner["epoch"] < 2**63
                 and owner.get("children", {}).get("D") in ("live", "disposed"),
                 "unsupported-native-owner")
+        # A disposed unit is absent from the CURRENT live graph. Its intrinsic
+        # historical record remains protected at the issuer, not as an empty
+        # live child which could be omitted by an inventory assertion.
+        units, disposed = state["work_units"], owner.get("disposed_units", {})
+        require(isinstance(disposed, dict) and set(disposed) <= {"C", "D"}
+                and not (set(disposed) & set(units)), "unsupported-native-disposed-records")
+        if owner["children"]["D"] == "live":
+            require("D" in units and "D" not in disposed and owner["lifecycle"] == "live",
+                    "native-child-lifecycle-conflict")
+        else:
+            require("D" not in units and "D" in disposed, "disposed-child-still-in-live-graph")
+        if owner["lifecycle"] == "removed":
+            require("C" not in units and "C" in disposed
+                    and owner["children"]["D"] == "disposed"
+                    and all(r["status"] == "disposed" for r in owner["registrations"])
+                    and all(e["status"] == "published" for e in owner["effects"].values()),
+                    "native-removed-domain-has-live-dependents")
+        else:
+            require("C" in units and "C" not in disposed, "native-live-domain-missing-unit")
+        require(all(not u["active"] and u["sealed"] for u in disposed.values()),
+                "disposed-unit-has-active-relationship")
+        historical = dict(state, work_units=dict(units, **disposed))
+        require(l5.graph_valid(historical), "unsupported-native-structural-history")
         require(owner["custody"]["root"] == identity(self.root)
                 and owner["custody"]["lock"] == identity(self.root / "management-writer.lock")
                 and owner["inventory"]["identity"] == identity(self.root / "protected")
@@ -321,7 +345,7 @@ class Session:
             require(q.get("unit", "D") == "D" and self.native["children"]["D"] == "live", "not-live-native-child")
             require(not self.pending(), "pending-in-domain-effect")
             self.native["children"]["D"] = "disposed"
-            self.state["work_units"]["D"]["accepted_contents"] = []
+            self.native["disposed_units"]["D"] = self.state["work_units"].pop("D")
             self.commit(dict(op="native-dispose-child", unit="D")); return self.reply()
         if op == "dispose_content":
             require(self.native["children"]["D"] == "disposed" and not self.pending(), "native-dependent-or-effect-remains")
@@ -352,6 +376,7 @@ class Session:
             require(not snapshot["files"] and not snapshot["unknown_files"]
                     and not any(not r["disposed"] for r in snapshot["dependencies"]), "native-inventory-not-empty")
             self.native["lifecycle"] = "removed"
+            self.native["disposed_units"]["C"] = self.state["work_units"].pop("C")
             self.commit(dict(op="native-remove-domain"))
             return self.reply(inventory_reply=self.native_inventory(dict(op="remove")))
         raise ValueError("unsupported-native-owner-operation")
