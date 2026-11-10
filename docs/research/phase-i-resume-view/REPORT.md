@@ -38,6 +38,12 @@ or terminal evidence returns an error rather than a guessed projection. An
 unlaunched `CLOSED` job cannot be summarized as completed or failed merely
 because a matching terminal row was injected.
 
+An `AUTHORIZED` job whose recorded catalog revision is no longer current advises
+admission reconciliation rather than `begin_launch`, which would reject that
+stale decision. This does not cancel the job or release its reservation.
+`LAUNCHING` and `RUNNING` advice remains observation-oriented when the catalog
+changes, because a durable launch intent is not undone by later revisions.
+
 # Evidence
 
 The source runtime pin is `34be0f8eba606596aec6371d6e418fb08bdda011`; per-file

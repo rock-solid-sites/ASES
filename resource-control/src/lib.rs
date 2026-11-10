@@ -290,6 +290,7 @@ pub enum PresentLiveness { Unknown }
 pub enum AdvisoryNextStep {
     AuthorizeOrCancel,
     BeginLaunch,
+    ReconcileAdmission,
     ObserveOrReconcileLaunch,
     ObserveProcessOrCompletion,
     ObserveMockLifecycle,
@@ -1046,7 +1047,12 @@ impl Store {
                    not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() {
                     return Err(Error::Conflict("authorized job has incompatible launch evidence".into()));
                 }
-                (ResumeLaunchProfile::Unlaunched,None,None,AdvisoryNextStep::BeginLaunch)
+                let next=if job_revision==current_revision {
+                    AdvisoryNextStep::BeginLaunch
+                } else {
+                    AdvisoryNextStep::ReconcileAdmission
+                };
+                (ResumeLaunchProfile::Unlaunched,None,None,next)
             }
             RecordedJobState::Launching=>{
                 let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("LAUNCHING job lacks launch ID".into()))?;

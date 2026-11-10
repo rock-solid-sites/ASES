@@ -69,7 +69,7 @@ fn view_is_compact_typed_and_stale_catalog_is_advisory_only(){
     let stale=store.resume_view("resume-auth").unwrap();
     assert_eq!(stale.job_catalog_revision,revision);
     assert_eq!(stale.current_catalog_revision,revision+1);
-    assert_eq!(stale.advisory_next_step,AdvisoryNextStep::BeginLaunch);
+    assert_eq!(stale.advisory_next_step,AdvisoryNextStep::ReconcileAdmission);
     assert_eq!(serde_json::from_slice::<serde_json::Value>(&old_snapshot).unwrap()["currentCatalogRevision"],revision);
     assert!(store.begin_launch("resume-auth","late-launch",first.job_catalog_revision,now()).is_err(),
         "old serialized view metadata cannot bypass begin_launch current checks");
