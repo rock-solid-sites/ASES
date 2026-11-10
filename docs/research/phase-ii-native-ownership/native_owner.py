@@ -243,6 +243,19 @@ class Owner:
             f1.close()
 
     def apply(self, request):
+        allowed = {
+            "read": {"op"}, "accept": {"op", "expected_pair_sha256", "gate"},
+            "seal": {"op"}, "move": {"op"}, "activate": {"op"}, "recover": {"op"},
+            "dispose_child": {"op", "unit", "gate"},
+            "dispose_content": {"op", "id", "registration_id", "gate"},
+            "dispose_candidate": {"op", "name", "gate"},
+            "dispose_unknown": {"op", "name", "gate"},
+            "cleanup": {"op"}, "remove": {"op", "gate"},
+        }
+        require(isinstance(request, dict) and request.get("op") in allowed
+                and set(request) <= allowed[request["op"]], "unsupported-native-request-fields")
+        if "id" in request and "registration_id" in request:
+            require(request["id"] == request["registration_id"], "conflicting-registration-comparison")
         if request.get("op") == "read": return dict(result="READ", snapshot=self.view())
         with self.locked() as session:
             return session.apply(request)
