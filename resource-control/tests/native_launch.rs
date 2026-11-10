@@ -91,7 +91,7 @@ fn wait_for_file(path: &Path) {
 fn source_hashes() -> serde_json::Value {
     let root=PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let mut hashes=serde_json::Map::new();
-    for relative in ["src/lib.rs","tests/control.rs","tests/native_launch.rs"] {
+    for relative in ["src/lib.rs","tests/control.rs","tests/native_launch.rs","tests/resume_view.rs"] {
         let bytes=fs::read(root.join(relative)).unwrap();
         let digest=Sha256::digest(bytes);
         hashes.insert(relative.into(),json!(format!("{digest:x}")));
@@ -193,6 +193,15 @@ fn controller_kill_before_spawn_reopens_as_pending_without_redispatch() {
     assert!(!marker.exists(), "worker must not have spawned before the gate");
 
     let mut reopened = Store::open(&db).unwrap();
+    let events_before=reopened.event_log(Some("native-job")).unwrap();
+    let job_before=reopened.job("native-job").unwrap();
+    let balance_before=reopened.balances(now()).unwrap();
+    let view=reopened.resume_view("native-job").unwrap();
+    let repeated=reopened.resume_view("native-job").unwrap();
+    assert_eq!(view,repeated,"projection is stable across repeated reads");
+    assert_eq!(view.state,ases_resource_control::RecordedJobState::Launching);
+    assert_eq!(view.present_liveness,ases_resource_control::PresentLiveness::Unknown);
+    assert_eq!(view.advisory_next_step,ases_resource_control::AdvisoryNextStep::ObserveOrReconcileLaunch);
     assert_eq!(reopened.begin_launch("native-job", "native-launch", revision, now()).unwrap(),
         BeginLaunchResult::PendingObservation { job_id: "native-job".into(), launch_id: "native-launch".into() });
     assert_eq!(reopened.begin_launch("native-job", "native-launch", revision, now()).unwrap(),
@@ -201,13 +210,21 @@ fn controller_kill_before_spawn_reopens_as_pending_without_redispatch() {
     assert_eq!(reopened.job("native-job").unwrap()["state"], "LAUNCHING");
     let balances=reopened.balances(now()).unwrap();
     let events=reopened.event_log(Some("native-job")).unwrap();
+    assert_eq!(job_before,reopened.job("native-job").unwrap(),"view and pending replay do not release state");
+    assert_eq!(balance_before[0].active_reserved_remaining,balances[0].active_reserved_remaining,
+        "reservation remains after projection");
+    assert_eq!(balance_before[0].available,balances[0].available,
+        "projection does not release available capacity");
+    assert_eq!(events_before,events,"projection and pending replay write no events");
     persist_evidence("before-spawn-kill.json",json!({
-        "source_pin":"1fd05d896dde11f185610a4718c1245cfad1ffca",
+        "source_pin":"34be0f8eba606596aec6371d6e418fb08bdda011",
         "source_sha256":source_hashes(),"controller_pid":controller_pid,
         "controller_kill_signal":controller_exit.signal(),"gate":fs::read_to_string(gate).unwrap(),
         "worker_marker_exists":marker.exists(),"reopen_begin_result":"PendingObservation",
         "finalize_attempt":"rejected","job":reopened.job("native-job").unwrap(),
-        "balances":balances,"events":events
+        "balances":balances,"events":events,"resume_view":view,
+        "resume_view_bytes":serde_json::to_vec(&repeated).unwrap().len(),
+        "repeat_projection_equal":true,"projection_wrote_no_events":true
     }));
 }
 
@@ -237,6 +254,19 @@ fn controller_kill_after_fixed_worker_spawn_reopens_pending_until_observed() {
         BeginLaunchResult::PendingObservation { job_id: "native-job".into(), launch_id: "native-launch".into() });
     assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1,
         "pending observation must not spawn a second worker");
+    let pending_before=reopened.resume_view("native-job").unwrap();
+    let changed_env=Environment{id:"codespace".into(),account:"acct-a".into(),provider:"github".into(),
+        max_parallel:1,observed_at:now(),ttl_seconds:3600,source:"catalog-changed-after-intent".into()};
+    reopened.register_environment(&changed_env).unwrap();
+    let pending_after=reopened.resume_view("native-job").unwrap();
+    assert_eq!(pending_before.job_catalog_revision,revision);
+    assert_eq!(pending_after.current_catalog_revision,revision+1);
+    assert_eq!(pending_before.evidence.launch,pending_after.evidence.launch);
+    assert_eq!(pending_after.advisory_next_step,ases_resource_control::AdvisoryNextStep::ObserveOrReconcileLaunch);
+    assert_eq!(reopened.begin_launch("native-job","native-launch",revision,now()).unwrap(),
+        BeginLaunchResult::PendingObservation{job_id:"native-job".into(),launch_id:"native-launch".into()});
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(),1,
+        "stale projection advice still cannot redispatch");
     fs::write(&release,b"release\n").unwrap(); // Scoped file gate releases worker; no PID signal is used.
     let until = Instant::now() + Duration::from_secs(10);
     loop {
@@ -250,17 +280,31 @@ fn controller_kill_after_fixed_worker_spawn_reopens_pending_until_observed() {
     assert_eq!(reopened.observe_launch("native-job", "native-launch",
         &LaunchObservation::Started { process: ProcessIdentity { pid: worker.pid, start_token: worker.start_token.clone() } }, now()).unwrap(),
         RecordLaunchObservationResult::Started);
+    assert!(!matches!(process_state(worker.pid),Some((state,ref token))
+        if matches!(state,'R'|'S') && token==&worker.start_token),"fixed worker has exited before resume projection");
+    let events_before_view=reopened.event_log(Some("native-job")).unwrap();
+    let view=reopened.resume_view("native-job").unwrap();
+    let repeated=reopened.resume_view("native-job").unwrap();
+    assert_eq!(view,repeated);
+    assert_eq!(view.state,ases_resource_control::RecordedJobState::Running);
+    assert_eq!(view.profile,ases_resource_control::ResumeLaunchProfile::Intent);
+    assert_eq!(view.present_liveness,ases_resource_control::PresentLiveness::Unknown);
+    assert_eq!(view.advisory_next_step,ases_resource_control::AdvisoryNextStep::ObserveProcessOrCompletion);
+    assert_eq!(view.evidence.outcome.as_ref().unwrap().kind,"LAUNCH_STARTED_OBSERVED");
     assert!(matches!(reopened.begin_launch("native-job", "native-launch", revision, now()).unwrap(),
         BeginLaunchResult::RunningObservation { .. }));
     let balances=reopened.balances(now()).unwrap();
     let events=reopened.event_log(Some("native-job")).unwrap();
+    assert_eq!(events_before_view,events,"projection and running replay write no events");
     persist_evidence("after-worker-spawn-kill.json",json!({
-        "source_pin":"1fd05d896dde11f185610a4718c1245cfad1ffca",
+        "source_pin":"34be0f8eba606596aec6371d6e418fb08bdda011",
         "source_sha256":source_hashes(),"controller_pid":controller_pid,
         "controller_kill_signal":controller_exit.signal(),"gate":fs::read_to_string(gate).unwrap(),
         "worker_start_count":lines.len(),"worker_alive_at_controller_kill":true,
-        "worker_identity":worker,"worker_exit_observed_after_release_file":true,
+        "worker_identity":worker,"worker_exit_observed_before_resume_projection":true,
         "pending_reopen_did_not_spawn_again":true,"observation":"Started",
-        "job":reopened.job("native-job").unwrap(),"balances":balances,"events":events
+        "job":reopened.job("native-job").unwrap(),"balances":balances,"events":events,
+        "resume_view":view,"resume_view_bytes":serde_json::to_vec(&repeated).unwrap().len(),
+        "repeat_projection_equal":true,"projection_wrote_no_events":true
     }));
 }

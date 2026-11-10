@@ -1,0 +1,165 @@
+{
+  "balances": [
+    {
+      "account": "acct-native",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "meter-native",
+      "period": "test-period",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "worker-units"
+    }
+  ],
+  "controller_kill_signal": 9,
+  "controller_pid": 25659,
+  "events": [
+    {
+      "at": 1794317602,
+      "event_id": "native-job:reserved",
+      "job_id": "native-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "acct-native",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "meter-native"
+            }
+          ],
+          "environment_id": "env-native",
+          "estimated_wall_seconds": 300,
+          "forecast_context": null,
+          "job_id": "native-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "project-native"
+        }
+      }
+    },
+    {
+      "at": 1794317602,
+      "event_id": "native-job:ack:native-ack",
+      "job_id": "native-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "native-ack",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794317602,
+      "event_id": "launch-intent:native-job",
+      "job_id": "native-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "native-launch"
+      }
+    },
+    {
+      "at": 1794317602,
+      "event_id": "launch-observation:native-job",
+      "job_id": "native-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "native-launch",
+        "process": {
+          "pid": 25662,
+          "start_token": "699302"
+        }
+      }
+    }
+  ],
+  "gate": "worker-spawned",
+  "job": {
+    "ack_id": "native-ack",
+    "catalog_version": 3,
+    "expires_at": 1794318502,
+    "job_id": "native-job",
+    "launch_id": "native-launch",
+    "meters": [
+      {
+        "meter": "meter-native",
+        "observed": 0,
+        "overrun": 0,
+        "reserved": 50,
+        "unspent": 50
+      }
+    ],
+    "outcome": null,
+    "proposal": {
+      "account_id": "acct-native",
+      "claims": [
+        {
+          "amount": 50,
+          "meter_id": "meter-native"
+        }
+      ],
+      "environment_id": "env-native",
+      "estimated_wall_seconds": 300,
+      "forecast_context": null,
+      "job_id": "native-job",
+      "paid_spend_cap_currency": null,
+      "paid_spend_cap_micros": null,
+      "project_id": "project-native"
+    },
+    "state": "RUNNING"
+  },
+  "observation": "Started",
+  "pending_reopen_did_not_spawn_again": true,
+  "projection_wrote_no_events": true,
+  "repeat_projection_equal": true,
+  "resume_view": {
+    "accountId": "acct-native",
+    "advisoryNextStep": "observe_process_or_completion",
+    "currentCatalogRevision": 4,
+    "environmentId": "env-native",
+    "evidence": {
+      "launch": {
+        "eventId": "launch-intent:native-job",
+        "kind": "LAUNCH_INTENT",
+        "payloadSha256": "319a3888e614ffa52aa0e30f468692be0fae10a274b93cf724eca9a6187d95f1",
+        "recordedAt": 1794317602
+      },
+      "outcome": {
+        "eventId": "launch-observation:native-job",
+        "kind": "LAUNCH_STARTED_OBSERVED",
+        "payloadSha256": "6e46a5be879990bc6c2a4d3c8c62d3d3c7902356fe64b6597203ed9bb72e21dc",
+        "recordedAt": 1794317602
+      }
+    },
+    "jobCatalogRevision": 3,
+    "jobId": "native-job",
+    "launchId": "native-launch",
+    "outcome": null,
+    "presentLiveness": "unknown",
+    "profile": "intent",
+    "projectId": "project-native",
+    "state": "RUNNING"
+  },
+  "resume_view_bytes": 699,
+  "source_pin": "34be0f8eba606596aec6371d6e418fb08bdda011",
+  "source_sha256": {
+    "src/lib.rs": "c12ca0f65fe4ccc51e69f82cf8fd11c1967735727b84d38f4b25e6672d15188a",
+    "tests/control.rs": "b901f6ce779b5543d293e8adfce83ed1a444cb02aca66336892e19bea56e476f",
+    "tests/native_launch.rs": "25bee789a6cdd6541873412b5272b410c96394b254c35dfc3efb8ed75cd6dc69",
+    "tests/resume_view.rs": "5ea01875c99605e97def6f2ec2d68a3924fbc0f041f644478bbbc90292f83166"
+  },
+  "worker_alive_at_controller_kill": true,
+  "worker_exit_observed_before_resume_projection": true,
+  "worker_identity": {
+    "pid": 25662,
+    "start_token": "699302"
+  },
+  "worker_start_count": 1
+}

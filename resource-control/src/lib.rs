@@ -4,6 +4,7 @@
 use rusqlite::{params, Connection, OptionalExtension, Transaction, TransactionBehavior};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
 use std::fmt::{Display, Formatter};
 use std::path::Path;
 
@@ -270,6 +271,82 @@ pub enum RecordLaunchObservationResult {
     Started,
     DefinitelyNotCreated,
     Replay,
+}
+
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all="SCREAMING_SNAKE_CASE")]
+pub enum RecordedJobState { Reserved, Authorized, Launching, Running, Closed, Expired }
+
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all="snake_case")]
+pub enum ResumeLaunchProfile { Unlaunched, Intent, Mock }
+
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all="snake_case")]
+pub enum PresentLiveness { Unknown }
+
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all="snake_case")]
+pub enum AdvisoryNextStep {
+    AuthorizeOrCancel,
+    BeginLaunch,
+    ReconcileAdmission,
+    ObserveOrReconcileLaunch,
+    ObserveProcessOrCompletion,
+    ObserveMockLifecycle,
+    NoNewDispatch,
+}
+
+/// A bounded pointer into the existing event log. The referenced payload remains
+/// in SQLite and is represented here only by its SHA-256 digest.
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all="camelCase")]
+pub struct ResumeEvidencePointer {
+    pub event_id: String,
+    pub kind: String,
+    pub recorded_at: i64,
+    pub payload_sha256: String,
+}
+
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all="camelCase")]
+pub struct ResumeEvidence {
+    pub launch: Option<ResumeEvidencePointer>,
+    pub outcome: Option<ResumeEvidencePointer>,
+}
+
+/// Read-only context projection. Deliberately Serialize-only: this snapshot is
+/// not accepted as launch, recovery, or authorization input.
+#[derive(Clone, Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all="camelCase")]
+pub struct ResumeView {
+    pub job_id: String,
+    pub account_id: String,
+    pub project_id: String,
+    pub environment_id: String,
+    pub state: RecordedJobState,
+    pub profile: ResumeLaunchProfile,
+    pub job_catalog_revision: i64,
+    pub current_catalog_revision: i64,
+    pub launch_id: Option<String>,
+    pub outcome: Option<String>,
+    pub present_liveness: PresentLiveness,
+    pub evidence: ResumeEvidence,
+    pub advisory_next_step: AdvisoryNextStep,
+}
+
+struct ResumeEvent {
+    pointer: ResumeEvidencePointer,
+    payload: Value,
+}
+fn resume_event<'a>(events:&'a[ResumeEvent],kind:&str)->Result<Option<&'a ResumeEvent>>{
+    let mut found=events.iter().filter(|event|event.pointer.kind==kind);
+    let first=found.next();
+    if found.next().is_some(){return Err(Error::Conflict(format!("multiple {kind} events prevent resume interpretation")));}
+    Ok(first)
+}
+fn event_launch_matches(event:&ResumeEvent,launch_id:&str)->bool{
+    event.payload.get("launch_id").and_then(Value::as_str)==Some(launch_id)
 }
 
 pub struct Store { db: Connection }
@@ -865,6 +942,216 @@ impl Store {
                   "catalog_version":revision,"expires_at":expiry,"ack_id":ack,
                   "launch_id":launch,"outcome":outcome,"meters":charges}))
     }
+
+    /// Build a compact, read-only projection from one coherent SQLite snapshot.
+    /// It contains no forecast/transcript, no mutable history arrays, and no
+    /// dispatch or recovery token. Present process liveness is always UNKNOWN.
+    pub fn resume_view(&self,id:&str)->Result<ResumeView>{
+        check_id(id,"job")?;
+        let tx=self.db.unchecked_transaction()?;
+        let row:Option<(String,String,i64,Option<String>,Option<String>,Option<String>,String)>=tx.query_row(
+            "SELECT proposal,state,catalog_version,launch_id,outcome,ack_id,id FROM jobs WHERE id=?1",[id],
+            |r|Ok((r.get(0)?,r.get(1)?,r.get(2)?,r.get(3)?,r.get(4)?,r.get(5)?,r.get(6)?))).optional()?;
+        let (proposal_raw,state_raw,job_revision,launch_id,outcome,ack_id,stored_id)=
+            row.ok_or_else(||Error::Invalid("unknown job".into()))?;
+        if stored_id!=id {return Err(Error::Conflict("job identity mismatch in resume view".into()));}
+        let proposal:Proposal=serde_json::from_str(&proposal_raw)?;
+        if proposal.job_id!=id {return Err(Error::Conflict("proposal identity mismatch in resume view".into()));}
+        let current_revision:i64=tx.query_row("SELECT value FROM meta WHERE key='catalog_version'",[],|r|r.get(0))?;
+        let state=match state_raw.as_str(){
+            "RESERVED"=>RecordedJobState::Reserved,
+            "AUTHORIZED"=>RecordedJobState::Authorized,
+            "LAUNCHING"=>RecordedJobState::Launching,
+            "RUNNING"=>RecordedJobState::Running,
+            "CLOSED"=>RecordedJobState::Closed,
+            "EXPIRED"=>RecordedJobState::Expired,
+            _=>return Err(Error::Conflict(format!("unsupported recorded job state {state_raw}"))),
+        };
+
+        // Fetch only the finite event kinds that define the launch profile and
+        // terminal interpretation. Never load unbounded event/transcript arrays.
+        let mut stmt=tx.prepare(
+            "SELECT id,kind,at,payload FROM events WHERE job_id=?1 AND kind IN
+             ('AUTHORIZED','LAUNCH_INTENT','LAUNCH_STARTED_OBSERVED','LAUNCH_NOT_CREATED_OBSERVED',
+              'MOCK_LAUNCH','FINALIZED','EXPIRED') ORDER BY rowid LIMIT 8")?;
+        let rows=stmt.query_map([id],|r|Ok((r.get::<_,String>(0)?,r.get::<_,String>(1)?,
+                                           r.get::<_,i64>(2)?,r.get::<_,String>(3)?)))?;
+        let mut events=Vec::new();
+        for row in rows {
+            let (event_id,kind,recorded_at,payload_raw)=row?;
+            let payload:Value=serde_json::from_str(&payload_raw)?;
+            events.push(ResumeEvent{
+                pointer:ResumeEvidencePointer{event_id,kind,recorded_at,
+                    payload_sha256:format!("{:x}",Sha256::digest(payload_raw.as_bytes()))},
+                payload,
+            });
+        }
+        drop(stmt);
+        if events.len()>=8 {return Err(Error::Conflict("resume evidence exceeds bounded interpretation".into()));}
+        let authorized=resume_event(&events,"AUTHORIZED")?;
+        if ack_id.is_some()!=authorized.is_some() || authorized.is_some_and(|event|
+            event.payload.get("ack_id").and_then(Value::as_str)!=ack_id.as_deref() ||
+            event.payload.get("catalog_version").and_then(Value::as_i64)!=Some(job_revision)) {
+            return Err(Error::Conflict("authorization event disagrees with recorded job".into()));
+        }
+        let intent=resume_event(&events,"LAUNCH_INTENT")?;
+        let started=resume_event(&events,"LAUNCH_STARTED_OBSERVED")?;
+        let not_created=resume_event(&events,"LAUNCH_NOT_CREATED_OBSERVED")?;
+        let mock=resume_event(&events,"MOCK_LAUNCH")?;
+        let finalized=resume_event(&events,"FINALIZED")?;
+        let expired=resume_event(&events,"EXPIRED")?;
+        if intent.is_some() && mock.is_some() || started.is_some() && not_created.is_some() ||
+           finalized.is_some() && expired.is_some() {
+            return Err(Error::Conflict("conflicting launch profile evidence".into()));
+        }
+        if let Some(event)=intent {
+            if event.payload.get("dispatch_granted").and_then(Value::as_bool)!=Some(true) ||
+               event.payload.get("catalog_version").and_then(Value::as_i64)!=Some(job_revision) {
+                return Err(Error::Conflict("launch intent evidence does not match reserved decision".into()));
+            }
+        }
+        if let Some(event)=mock {
+            if event.payload.get("external_provider_launch").and_then(Value::as_bool)!=Some(false) {
+                return Err(Error::Conflict("mock launch evidence has unsupported profile".into()));
+            }
+        }
+        if let Some(event)=started {
+            let process=&event.payload["process"];
+            if process.get("pid").and_then(Value::as_u64).unwrap_or(0)==0 ||
+               process.get("start_token").and_then(Value::as_str).is_none_or(str::is_empty) {
+                return Err(Error::Conflict("started observation lacks process evidence".into()));
+            }
+        }
+        if let Some(event)=not_created {
+            if event.payload.get("error_kind").and_then(Value::as_str).is_none_or(str::is_empty) ||
+               event.payload.get("detail").and_then(Value::as_str).is_none_or(str::is_empty) {
+                return Err(Error::Conflict("non-creation observation lacks failure evidence".into()));
+            }
+        }
+        if let Some(event)=finalized {
+            if event.payload.get("outcome").and_then(Value::as_str)!=outcome.as_deref() {
+                return Err(Error::Conflict("terminal evidence disagrees with recorded outcome".into()));
+            }
+        }
+
+        let (profile,launch_pointer,outcome_pointer,next)=match state {
+            RecordedJobState::Reserved=>{
+                if ack_id.is_some() || launch_id.is_some() || outcome.is_some() || intent.is_some() || started.is_some() ||
+                   not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() {
+                    return Err(Error::Conflict("reserved job has incompatible launch evidence".into()));
+                }
+                (ResumeLaunchProfile::Unlaunched,None,None,AdvisoryNextStep::AuthorizeOrCancel)
+            }
+            RecordedJobState::Authorized=>{
+                if ack_id.is_none() || authorized.is_none() || launch_id.is_some() || outcome.is_some() || intent.is_some() || started.is_some() ||
+                   not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() {
+                    return Err(Error::Conflict("authorized job has incompatible launch evidence".into()));
+                }
+                let next=if job_revision==current_revision {
+                    AdvisoryNextStep::BeginLaunch
+                } else {
+                    AdvisoryNextStep::ReconcileAdmission
+                };
+                (ResumeLaunchProfile::Unlaunched,None,None,next)
+            }
+            RecordedJobState::Launching=>{
+                let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("LAUNCHING job lacks launch ID".into()))?;
+                if authorized.is_none() || intent.is_none_or(|event|!event_launch_matches(event,launch)) || started.is_some() ||
+                   not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() || outcome.is_some() {
+                    return Err(Error::Conflict("LAUNCHING job has missing or incompatible intent evidence".into()));
+                }
+                (ResumeLaunchProfile::Intent,Some(intent.unwrap().pointer.clone()),None,
+                 AdvisoryNextStep::ObserveOrReconcileLaunch)
+            }
+            RecordedJobState::Running=>{
+                let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("RUNNING job lacks launch ID".into()))?;
+                if authorized.is_none() {return Err(Error::Conflict("RUNNING job lacks authorization evidence".into()));}
+                if let Some(event)=intent {
+                    if !event_launch_matches(event,launch) || started.is_none_or(|observation|!event_launch_matches(observation,launch)) ||
+                       not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() || outcome.is_some() {
+                        return Err(Error::Conflict("intent-backed RUNNING state lacks matching start evidence".into()));
+                    }
+                    (ResumeLaunchProfile::Intent,Some(event.pointer.clone()),Some(started.unwrap().pointer.clone()),
+                     AdvisoryNextStep::ObserveProcessOrCompletion)
+                } else if let Some(event)=mock {
+                    if !event_launch_matches(event,launch) || started.is_some() || not_created.is_some() ||
+                       finalized.is_some() || expired.is_some() || outcome.is_some() {
+                        return Err(Error::Conflict("mock RUNNING state has incompatible evidence".into()));
+                    }
+                    (ResumeLaunchProfile::Mock,Some(event.pointer.clone()),None,
+                     AdvisoryNextStep::ObserveMockLifecycle)
+                } else {
+                    return Err(Error::Conflict("RUNNING job has no interpretable launch profile".into()));
+                }
+            }
+            RecordedJobState::Closed=>{
+                let terminal=outcome.as_deref().ok_or_else(||Error::Conflict("CLOSED job lacks outcome".into()))?;
+                if !["completed","failed","cancelled","interrupted"].contains(&terminal) || expired.is_some() {
+                    return Err(Error::Conflict("CLOSED job has unsupported terminal evidence".into()));
+                }
+                if let Some(event)=intent {
+                    let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("intent-backed CLOSED job lacks launch ID".into()))?;
+                    if authorized.is_none() || !event_launch_matches(event,launch) || mock.is_some() {
+                        return Err(Error::Conflict("CLOSED intent profile conflicts with launch evidence".into()));
+                    }
+                    if let Some(failed)=not_created {
+                        if !event_launch_matches(failed,launch) || started.is_some() || finalized.is_some() || terminal!="failed" {
+                            return Err(Error::Conflict("non-creation outcome conflicts with terminal state".into()));
+                        }
+                        (ResumeLaunchProfile::Intent,Some(event.pointer.clone()),Some(failed.pointer.clone()),
+                         AdvisoryNextStep::NoNewDispatch)
+                    } else {
+                        let start=started.ok_or_else(||Error::Conflict("CLOSED intent profile lacks start observation".into()))?;
+                        let final_event=finalized.ok_or_else(||Error::Conflict("CLOSED intent profile lacks finalization evidence".into()))?;
+                        if !event_launch_matches(start,launch) {
+                            return Err(Error::Conflict("start observation conflicts with launch ID".into()));
+                        }
+                        (ResumeLaunchProfile::Intent,Some(event.pointer.clone()),Some(final_event.pointer.clone()),
+                         AdvisoryNextStep::NoNewDispatch)
+                    }
+                } else if let Some(event)=mock {
+                    let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("mock CLOSED job lacks launch ID".into()))?;
+                    let final_event=finalized.ok_or_else(||Error::Conflict("mock CLOSED job lacks finalization evidence".into()))?;
+                    if authorized.is_none() || !event_launch_matches(event,launch) || started.is_some() || not_created.is_some() {
+                        return Err(Error::Conflict("mock CLOSED state has incompatible launch evidence".into()));
+                    }
+                    (ResumeLaunchProfile::Mock,Some(event.pointer.clone()),Some(final_event.pointer.clone()),
+                     AdvisoryNextStep::NoNewDispatch)
+                } else {
+                    let final_event=finalized.ok_or_else(||Error::Conflict("unlaunched CLOSED job lacks finalization evidence".into()))?;
+                    if launch_id.is_some() || started.is_some() || not_created.is_some() {
+                        return Err(Error::Conflict("unlaunched CLOSED job has launch evidence".into()));
+                    }
+                    if !["cancelled","interrupted"].contains(&terminal) ||
+                       terminal=="interrupted" && authorized.is_none() {
+                        return Err(Error::Conflict("unlaunched CLOSED outcome is unsupported by recorded authorization".into()));
+                    }
+                    (ResumeLaunchProfile::Unlaunched,None,Some(final_event.pointer.clone()),
+                     AdvisoryNextStep::NoNewDispatch)
+                }
+            }
+            RecordedJobState::Expired=>{
+                let event=expired.ok_or_else(||Error::Conflict("EXPIRED job lacks expiry evidence".into()))?;
+                if event.payload.as_object().is_none_or(|payload|!payload.is_empty()) ||
+                   outcome.as_deref()!=Some("expired") || launch_id.is_some() || intent.is_some() ||
+                   started.is_some() || not_created.is_some() || mock.is_some() || finalized.is_some() {
+                    return Err(Error::Conflict("EXPIRED job has incompatible evidence".into()));
+                }
+                (ResumeLaunchProfile::Unlaunched,None,Some(event.pointer.clone()),AdvisoryNextStep::NoNewDispatch)
+            }
+        };
+        let view=ResumeView{
+            job_id:id.into(),account_id:proposal.account_id,project_id:proposal.project_id,
+            environment_id:proposal.environment_id,state,profile,
+            job_catalog_revision:job_revision,current_catalog_revision:current_revision,
+            launch_id,outcome,present_liveness:PresentLiveness::Unknown,
+            evidence:ResumeEvidence{launch:launch_pointer,outcome:outcome_pointer},
+            advisory_next_step:next,
+        };
+        tx.commit()?;
+        Ok(view)
+    }
+
     pub fn event_log(&self,job:Option<&str>)->Result<Vec<Value>>{
         let sql=if job.is_some() {
             "SELECT id,job_id,kind,at,payload FROM events WHERE job_id=?1 ORDER BY at,rowid"
