@@ -87,6 +87,13 @@ retained decisions, never silently deletes unknown bytes. Physical names are not
 reused after disposition. Removed-domain cleanup may finish its already accepted
 empty-envelope removal; it never reactivates the removed Work Unit.
 
+`prepare_candidate(payload)` creates bounded **unaccepted** material through
+the same native owner/L6 path, with an issuer-allocated fresh name. It requires
+sealed/live C but no live D, so it remains eligible in an otherwise empty domain
+where removal is also eligible. This makes the creation/removal order test
+non-vacuous: creation first blocks removal; removal first refuses later creation.
+It does not accept a subject or replace the F1 evidence requirement for accept.
+
 ## F4 integration, parent-owned
 
 Extend existing #24/#15 append guard with a native-owner profile. Configuration

@@ -245,6 +245,7 @@ class Owner:
     def apply(self, request):
         allowed = {
             "read": {"op"}, "accept": {"op", "expected_pair_sha256", "gate"},
+            "prepare_candidate": {"op", "payload", "gate"},
             "seal": {"op"}, "move": {"op"}, "activate": {"op"}, "recover": {"op"},
             "dispose_child": {"op", "unit", "gate"},
             "dispose_content": {"op", "id", "registration_id", "gate"},
@@ -292,6 +293,14 @@ class Session:
 
     def pending(self): return any(e["status"] != "published" for e in self.native["effects"].values())
 
+    def material_name(self):
+        used = {r[0] for r in self.inventory.cx.execute("SELECT name FROM dependencies")}
+        used.update(self.native["disposed_unknown"])
+        number = 1
+        while letters(number) in used: number += 1
+        require(number <= 10000, "native-material-name-capacity-exhausted")
+        return letters(number)
+
     def reserve_effect(self, request_id, payload_sha256):
         require(request_id not in self.native["effects"], "native-effect-already-reserved")
         self.native["effects"][request_id] = dict(payload_sha256=payload_sha256, status="reserved")
@@ -320,6 +329,17 @@ class Session:
             self.commit(dict(op="native-recover-sealed"))
             return self.reply()
         require(self.native["lifecycle"] == "live", "native-domain-removed")
+        if op == "prepare_candidate":
+            require(self.sealed() and isinstance(q.get("payload"), str)
+                    and len(q["payload"].encode()) <= 65536, "unsupported-native-candidate")
+            name = self.material_name()
+            preparation = dict(op="put", name=name, kind="candidate", payload=q["payload"])
+            if q.get("gate") == "material-before-catalog": preparation["gate"] = "precommit"
+            reply = self.native_inventory(preparation)
+            require(reply["result"] == "COMMITTED", "native-candidate-preparation-refused")
+            self.gate(q, "material-prepared")
+            self.commit(dict(op="native-prepare-unaccepted-candidate", name=name))
+            return self.reply(name=name, accepted=False)
         if op == "accept":
             require(self.sealed() and self.native["children"]["D"] == "live", "accept-requires-live-sealed-domain")
             pair = read_f1_pair(self.f1)
@@ -330,12 +350,7 @@ class Session:
                 return self.reply(registration=prior, duplicate=True)
             count = len(self.native["registrations"]) + 1
             require(self.native["epoch"] < 2**63 - 1, "native-epoch-exhausted")
-            used = {r[0] for r in self.inventory.cx.execute("SELECT name FROM dependencies")}
-            used.update(self.native["disposed_unknown"])
-            number = 1
-            while letters(number) in used: number += 1
-            require(number <= 10000, "native-material-name-capacity-exhausted")
-            name = letters(number)
+            name = self.material_name()
             preparation = dict(op="put", name=name, kind="candidate", payload=pair["accepted_content"])
             if q.get("gate") == "material-before-catalog": preparation["gate"] = "precommit"
             result = self.native_inventory(preparation)
