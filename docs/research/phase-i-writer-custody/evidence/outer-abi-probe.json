@@ -1,0 +1,11 @@
+{
+  "execution_route": "approved exec_command require_escalated outside command sandbox",
+  "probe": "landlock-abi-query-only",
+  "machine": "x86_64",
+  "syscall": 444,
+  "flags": 1,
+  "result": -1,
+  "errno": 38,
+  "conclusion": "the tested outer command route also reports ENOSYS; no ruleset installed",
+  "limit": "does not distinguish absent kernel support from an outer runtime syscall filter"
+}
