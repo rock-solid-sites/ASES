@@ -244,7 +244,7 @@ def check_native_f4(case: dict, label: str) -> None:
         need(derive_permissions(moved_state, "D") == {"read"},
              "F4 denied request did not use actual read-only moved D path")
         tree = case["f4_tree"]
-    else:
+    elif label == "native-f4-receipt-cold":
         lost = case["lost_reply_call"]
         need("transport_error" in lost["response"], "gate kill did not lose caller reply")
         gate = case["gate_and_owner_local_commit"]["frame"]
@@ -310,6 +310,38 @@ def check_native_f4(case: dict, label: str) -> None:
              and after_disposal_new["response"]["body"].get("reason") == "native-domain-not-live"
              and after_disposal_new["before"].get("sha256") == after_disposal_new["after"].get("sha256"),
              "new ID at current F4 v2 against removed source missed native lifecycle denial")
+        tree = case["f4_tree"]
+    else:
+        gate = case["gate"]
+        need(gate.get("event") == "GATE" and gate.get("stage") == "after-append",
+             "actual after-append return-boundary gate missing")
+        request_id = case["envelope"]["request_id"]
+        local = owner_record(case["owner_local_at_gate"]).get("effects", {}).get(request_id)
+        need(isinstance(local, dict) and local.get("status") == "local" and local.get("seq") == 4
+             and isinstance(local.get("payload_sha256"), str),
+             "owner did not retain the actual append sequence at return-boundary gate")
+        response = case["error_response"]["response"]
+        need(response.get("status") == 503
+             and response.get("body", {}).get("outcome") == "native-effect-requires-reconciliation"
+             and response["body"].get("local_control_committed") is True
+             and response["body"].get("local_event_seq") == 4,
+             "EOF at append return was not reported as committed local effect requiring reconciliation")
+        ready = case["cold_ready"]
+        need(ready.get("ready") is False and ready.get("reason") == "published-cut-unavailable"
+             and ready.get("local_parse_complete") is True,
+             "cold start accepted an append whose witness cut was not published")
+        owner_final = owner_record(case["owner_final"])
+        need(owner_final.get("effects", {}).get(request_id) == local,
+             "cold refusal erased the local pending effect")
+        local_journal = check_file_record(label + "/journal", case["f4_tree"]["sink-effects.jsonl"])
+        accepted_rows = [json.loads(row) for row in local_journal.splitlines()
+                         if row and json.loads(row).get("event") == "effect_accepted"]
+        need(len(accepted_rows) == 1 and accepted_rows[0].get("seq") == 4
+             and accepted_rows[0].get("request_id") == request_id,
+             "after-append error did not preserve exactly one actual local F4 row")
+        current_cut = case["final_snapshot"]["witness_status"]["body"]["current"]["journal_sha256"]
+        need(current_cut != sha(local_journal),
+             "witness cut unexpectedly advanced past the pre-publication failure")
         tree = case["f4_tree"]
     journal_record = tree.get("sink-effects.jsonl")
     need(journal_record is not None, label + ": raw F4 journal absent")
@@ -589,6 +621,10 @@ def validate(raw: dict, raw_path: Path) -> dict:
         case = cases["native-f4-receipt-cold"]
         check_native_f4(case, "native-f4-receipt-cold")
         verify_live_storage(raw, case, case["moved_snapshot"], "native-f4-receipt-cold")
+    if "native-f4-after-append-eof" in cases:
+        case = cases["native-f4-after-append-eof"]
+        check_native_f4(case, "native-f4-after-append-eof")
+        verify_live_storage(raw, case, case["owner_final"], "native-f4-after-append-eof")
     result = {"status": "PASS", "case_count": len(cases), "source_count": len(sources),
               "raw_sha256": sha(raw_path.read_bytes())}
     return result

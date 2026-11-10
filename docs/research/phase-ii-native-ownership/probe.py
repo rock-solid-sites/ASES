@@ -780,6 +780,9 @@ def main():
         append_witness_root = append_snapshot["state"]["native_owner"]["domain_id"]
         append_f4 = NativeF4(append_root / "f4", append_owner, append_witness_root,
                              gate="after-append")
+        append_attached_owner = OwnerProcess(append_owner)
+        append_snapshot = append_attached_owner.call({"op": "read"})["reply"]["snapshot"]
+        append_attached_owner.close()
         append_id = append_witness_root + ":append-eof-1"
         append_envelope = native_envelope(append_snapshot, append_id)
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
@@ -800,7 +803,9 @@ def main():
             append_error_call = append_pending.result(timeout=10)
         append_f4.sink.close(True)
         append_cold_ready = append_f4.cold_restart()
-        append_retry = append_f4.submit(append_envelope)
+        # This gate is deliberately before a witness publish. Retain the
+        # actual cold refusal: the complete local row is not a published cut.
+        append_cold_process = append_f4.sink.close(True)
         append_final = append_f4.snapshot()
         append_owner_cold = OwnerProcess(append_owner)
         append_owner_final = append_owner_cold.snapshot()
@@ -811,7 +816,7 @@ def main():
             "envelope": append_envelope, "gate": append_gate,
             "owner_local_at_gate": append_local_snapshot,
             "error_response": append_error_call, "cold_ready": append_cold_ready,
-            "retry": append_retry, "final_snapshot": append_final,
+            "cold_sink_exit": append_cold_process, "final_snapshot": append_final,
             "owner_final": append_owner_final, "f4_tree": tree(append_f4.root),
             "owner_tree": tree(append_owner),
             "f1_after": f1_raw(Path(append_setup["f1_root"]) / "store.sqlite"),
