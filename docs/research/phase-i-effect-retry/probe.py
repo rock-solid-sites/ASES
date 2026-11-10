@@ -2,13 +2,11 @@
 """Native HTTP/process histories for the isolated durable-request retry candidate."""
 import argparse
 import hashlib
-import http.server
 import importlib.util
 import json
 import os
 from pathlib import Path
 import select
-import socket
 import signal
 import subprocess
 import sys
@@ -19,7 +17,7 @@ import traceback
 
 sys.dont_write_bytecode = True
 HERE = Path(__file__).resolve().parent
-SOURCES = HERE.parent / "phase-i-sol-integration/evidence/sources/f4/research/phase-i-t18-sink-order-20261103"
+SOURCES = HERE.parent / "phase-i-sol-integration/evidence/sources/receipt/research/phase-i-t18-sink-order-20261103"
 CUT_SOURCE = SOURCES / "published-cut/cut_sink.py"
 RUN_SOURCE = SOURCES / "run.py"
 CANDIDATE = HERE / "candidate.py"
@@ -91,77 +89,13 @@ class Child:
                          stderr=stderr, killed=kill)
 
 
-class LossProxy:
-    """Local disposable relay that commits at the real witness then drops one reply."""
-    def __init__(self, witness_port):
-        self.witness_port = witness_port
-        self.drop_next_publish = False
-        self.log = []
-        owner = self
-
-        class Handler(http.server.BaseHTTPRequestHandler):
-            protocol_version = "HTTP/1.1"
-            def log_message(self, *_args):
-                return
-            def do_GET(self):
-                self._forward("GET")
-            def do_POST(self):
-                self._forward("POST")
-            def _forward(self, method):
-                raw = self.rfile.read(int(self.headers.get("Content-Length", "0"))) if method == "POST" else b""
-                request = json.loads(raw) if raw else None
-                try:
-                    status, response = base.call(owner.witness_port, method, self.path, request)
-                    event = {"method": method, "path": self.path, "request": request,
-                             "upstream_status": status, "upstream_response": response,
-                             "start_ns": time.monotonic_ns()}
-                    drop = self.path == "/publish" and owner.drop_next_publish
-                    if drop:
-                        owner.drop_next_publish = False
-                        event["response_dropped_after_upstream_commit"] = True
-                        owner.log.append(event)
-                        self.close_connection = True
-                        try:
-                            self.connection.shutdown(socket.SHUT_RDWR)
-                        except OSError:
-                            pass
-                        self.connection.close()
-                        return
-                    body = json.dumps(response, sort_keys=True).encode()
-                    self.send_response(status)
-                    self.send_header("Content-Type", "application/json")
-                    self.send_header("Content-Length", str(len(body)))
-                    self.end_headers()
-                    self.wfile.write(body)
-                    self.wfile.flush()
-                    event["response_dropped_after_upstream_commit"] = False
-                    event["end_ns"] = time.monotonic_ns()
-                    owner.log.append(event)
-                except Exception as error:
-                    owner.log.append({"method": method, "path": self.path,
-                                      "error": type(error).__name__, "start_ns": time.monotonic_ns()})
-                    self.send_error(502)
-
-        self.server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
-        self.server.daemon_threads = True
-        self.port = self.server.server_address[1]
-        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
-        self.thread.start()
-
-    def close(self):
-        self.server.shutdown()
-        self.server.server_close()
-        self.thread.join(timeout=2)
-
-
 class History:
-    def __init__(self, name, root, candidate=True, proxy=False, sink_gate=None):
+    def __init__(self, name, root, candidate=True, sink_gate=None):
         self.name = name
         self.path = Path(root)
         self.path.mkdir(parents=True)
         self.journal = self.path / "sink-effects.jsonl"
         self.candidate = candidate
-        self.proxy = None
         self.frames = []
         self.children = []
         self.witness = self.start_witness()
@@ -171,9 +105,6 @@ class History:
                             "status": init_status, "response": init_reply})
         if init_status != 200:
             raise RuntimeError("witness init failed")
-        if proxy:
-            self.proxy = LossProxy(self.witness_port)
-        self.drop_enabled = False
         self.start_sink("fresh", sink_gate)
         self.port = self.sink_ready["port"]
         self.management_setup()
@@ -186,7 +117,15 @@ class History:
         return proc
 
     def endpoint(self):
-        return self.proxy.port if self.proxy else self.witness_port
+        return self.witness_port
+
+    def fault(self, **values):
+        request = {"root": ROOT, "nonce": "fault-" + self.name, **values}
+        status, response = base.call(self.witness_port, "POST", "/fault", request)
+        self.frames.append({"actor": "probe", "path": "/fault", "request": request,
+                            "status": status, "response": response})
+        if status != 200:
+            raise RuntimeError("witness fault setup failed")
 
     def start_sink(self, mode, gate_name=None):
         executable = CANDIDATE if self.candidate else CUT_SOURCE
@@ -246,7 +185,6 @@ class History:
         value = {"name": self.name, "candidate": self.candidate,
                  "frames": self.frames, "journal": self.capture_journal(),
                  "witness": self.witness_status(),
-                 "proxy_log": [] if self.proxy is None else self.proxy.log,
                  "children": [child.meta for child in self.children]}
         try:
             value["sink_status"] = self.status()[1]
@@ -255,8 +193,6 @@ class History:
         return value
 
     def close(self, kill_sink=False):
-        if self.proxy:
-            self.proxy.close()
         for child in reversed(self.children):
             if child.process.poll() is None:
                 child.stop(kill=kill_sink if child is getattr(self, "sink", None) else True)
@@ -296,9 +232,9 @@ def execute(out):
     with tempfile.TemporaryDirectory(prefix="phase-i-effect-retry-") as temp:
         base_dir = Path(temp)
         # Fresh baseline: the real witness commits publication but its reply is dropped.
-        h = History("baseline-lost-reply", base_dir / "baseline", candidate=False, proxy=True)
+        h = History("baseline-lost-reply", base_dir / "baseline", candidate=False)
         try:
-            h.proxy.drop_next_publish = True
+            h.fault(reject_publish=False, drop_publish_reply_once=True)
             first = h.submit("same-id", "exact-é-payload")
             retry = h.submit("same-id", "exact-é-payload")
             result["cases"]["baseline-lost-reply"] = {"first": first[2], "retry": retry[2],
@@ -307,9 +243,9 @@ def execute(out):
             h.close()
 
         # Candidate: same-process loss, conflict, distinct ID, stale-token denial, revoke observation.
-        h = History("candidate-same-process", base_dir / "candidate-same-process", candidate=True, proxy=True)
+        h = History("candidate-same-process", base_dir / "candidate-same-process", candidate=True)
         try:
-            h.proxy.drop_next_publish = True
+            h.fault(reject_publish=False, drop_publish_reply_once=True)
             first = h.submit("same-id", "exact-é-payload")
             retry = h.submit("same-id", "exact-é-payload")
             conflict = h.submit("same-id", "exact-e\u0301-payload")
@@ -327,9 +263,9 @@ def execute(out):
             h.close()
 
         # Candidate: lost client receipt followed by sink process loss and cold recovery.
-        h = History("candidate-cold-retry", base_dir / "candidate-cold-retry", candidate=True, proxy=True)
+        h = History("candidate-cold-retry", base_dir / "candidate-cold-retry", candidate=True)
         try:
-            h.proxy.drop_next_publish = True
+            h.fault(reject_publish=False, drop_publish_reply_once=True)
             first = h.submit("cold-id", "cold-payload")
             h.sink.stop(kill=True)
             restart = h.start_sink("recover")
@@ -398,6 +334,42 @@ def execute(out):
                 "exact_retry_unchanged_journal": after_conflict["sha256"] == after_exact["sha256"],
                 "blocked_request_unchanged_journal": after_exact["sha256"] == after["sha256"],
                 "restart": restart, "capture": h.result()}
+        finally:
+            h.close()
+
+        # Obligation routes are explicitly outside this bounded /submit contract.
+        # Each refusal must happen before any local journal append.
+        h = History("obligation-refusal", base_dir / "obligation-refusal", candidate=True)
+        try:
+            before = h.capture_journal()
+            commit = h.request("/commit-obligation", {"obligation_id": "outside-f4",
+                                                       "payload": "must-not-commit"})
+            after_commit = h.capture_journal()
+            deliver = h.request("/deliver-obligation", {"obligation_id": "outside-f4"})
+            after_deliver = h.capture_journal()
+            result["cases"]["obligation-refusal"] = {
+                "commit": commit[2], "deliver": deliver[2],
+                "commit_unchanged_journal": before["sha256"] == after_commit["sha256"],
+                "deliver_unchanged_journal": after_commit["sha256"] == after_deliver["sha256"],
+                "capture": h.result()}
+        finally:
+            h.close()
+
+        # Native journal capacity failure must remain an error/unknown attempt,
+        # never a retry response claiming no effect occurred.
+        h = History("append-failure", base_dir / "append-failure", candidate=True)
+        try:
+            request_id = "capacity-failure-id"
+            payload = "x" * 65536
+            first = h.submit(request_id, payload)
+            first_after = h.capture_journal()
+            retry = h.submit(request_id, payload)
+            retry_after = h.capture_journal()
+            result["cases"]["append-failure"] = {
+                "first": first[2], "retry": retry[2],
+                "first_unchanged_journal": first[2]["journal_before_sha256"] == first_after["sha256"],
+                "retry_unchanged_journal": first_after["sha256"] == retry_after["sha256"],
+                "capture": h.result()}
         finally:
             h.close()
 

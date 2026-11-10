@@ -16,6 +16,10 @@ reuses the existing tested implementation instead of rewriting its storage and
 protocol. New boundary decoding and discriminating crash/fault tests compensate
 for this bounded reuse; no maintained authority service is delivered.
 
+This experiment handles `/submit` only. `/commit-obligation` and
+`/deliver-obligation` are refused before append; obligation lifecycle and delivery
+semantics remain outside this packet. It performs no automatic external delivery.
+
 Key scope: fixed witness root + flat C/p + exact nonempty string request_id.
 Payload identity is exact UTF-8 bytes, not a caller-supplied hash or semantic JSON
 equivalence. Persist identity in the existing `effect_accepted` journal event,
@@ -62,8 +66,11 @@ native revoke. Remote rejection differs from lost receipt and blocks further
 append/recovery. Kill before append and after append before publication, actual
 kill after publication before caller reply if instrumentable. Restart witness
 with no retained state: cold sink refuses. Existing duplicate-ID original journal
-is rejected. Include valid neighboring fresh work after safe recovery, and retain
-raw local bytes, witness exchanges, frames and source hashes.
+is rejected. Capacity failure must not become a no-effect retry classification.
+Obligation routes must be refused with zero journal change. Include valid
+neighboring fresh work after safe recovery, and retain raw local bytes, witness
+exchanges, frames and source hashes. The checker must reject rehashed duplicate
+rows, a false original event sequence, and a mismatched observation receipt.
 
 Completion: establish bounded behavior or exact blocker, document the remaining
 custody/freshness assumptions and preservation of committed local effects; move
