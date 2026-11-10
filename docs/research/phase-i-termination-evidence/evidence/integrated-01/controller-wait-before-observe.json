@@ -1,0 +1,89 @@
+{
+  "controller_exit_signal": 9,
+  "controller_pid": 40230,
+  "exit_event_absent_before_reopen": true,
+  "explicit_observation": "Recorded",
+  "final_resume_view": {
+    "accountId": "term-account",
+    "advisoryNextStep": "finalize_observed_exit",
+    "currentCatalogRevision": 3,
+    "environmentId": "term-env",
+    "evidence": {
+      "launch": {
+        "eventId": "launch-intent:waited-job",
+        "kind": "LAUNCH_INTENT",
+        "payloadSha256": "5deaba42351edb0f58d9dec55f320fae7939f73ae31085d01e9b48aa8199adb2",
+        "recordedAt": 1794339482
+      },
+      "outcome": {
+        "eventId": "launch-exit:waited-job",
+        "kind": "LAUNCH_EXIT_OBSERVED",
+        "payloadSha256": "39afcb370ea5fc577efb4d2a7f42aedadb80a7735c3e9234187c3384a9e43501",
+        "recordedAt": 1794339482
+      }
+    },
+    "jobCatalogRevision": 3,
+    "jobId": "waited-job",
+    "launchId": "waited-launch",
+    "outcome": null,
+    "presentLiveness": "unknown",
+    "profile": "intent",
+    "projectId": "term-project",
+    "state": "RUNNING"
+  },
+  "finalize_rejections_before_observation": [
+    "cancelled",
+    "completed",
+    "failed",
+    "interrupted"
+  ],
+  "gate": "child-wait-returned-exit-not-yet-recorded\n",
+  "raw_child_wait": {
+    "controller_pid": 40230,
+    "process": {
+      "pid": 40232,
+      "start_token": "2887366"
+    },
+    "raw_code": 0,
+    "raw_signal": null,
+    "status": {
+      "code": 0,
+      "kind": "code"
+    },
+    "worker_pid": 40232
+  },
+  "resume_before_observation": {
+    "accountId": "term-account",
+    "advisoryNextStep": "observe_process_or_completion",
+    "currentCatalogRevision": 3,
+    "environmentId": "term-env",
+    "evidence": {
+      "launch": {
+        "eventId": "launch-intent:waited-job",
+        "kind": "LAUNCH_INTENT",
+        "payloadSha256": "5deaba42351edb0f58d9dec55f320fae7939f73ae31085d01e9b48aa8199adb2",
+        "recordedAt": 1794339482
+      },
+      "outcome": {
+        "eventId": "launch-observation:waited-job",
+        "kind": "LAUNCH_STARTED_OBSERVED",
+        "payloadSha256": "4e971c237bf6ef917018cde688dc8902323e076714ba183237d4ebb9d7f506ae",
+        "recordedAt": 1794339482
+      }
+    },
+    "jobCatalogRevision": 3,
+    "jobId": "waited-job",
+    "launchId": "waited-launch",
+    "outcome": null,
+    "presentLiveness": "unknown",
+    "profile": "intent",
+    "projectId": "term-project",
+    "state": "RUNNING"
+  },
+  "source_sha256": {
+    "src/lib.rs": "fa55a23336dbd5fc5b8934dc451d9efc4cdc222ff6e393d26fd343dc0a575b85",
+    "tests/native_launch.rs": "25bee789a6cdd6541873412b5272b410c96394b254c35dfc3efb8ed75cd6dc69",
+    "tests/native_termination.rs": "bd586da579f918a0256442eeb1762123668f4715e6a76a659980e44be8be89e9",
+    "tests/resume_view.rs": "0e67805df325e2c8a40c70d00188a0e357896a11694cf9c7b827e1397c059394"
+  }
+}

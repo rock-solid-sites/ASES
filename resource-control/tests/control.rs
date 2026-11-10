@@ -276,7 +276,8 @@ fn restart_preserves_reservation_ack_and_single_launch_id() {
 
 #[test]
 fn launch_intent_is_one_use_durable_and_observations_are_idempotent() {
-    use ases_resource_control::{BeginLaunchResult,LaunchObservation,ProcessIdentity,RecordLaunchObservationResult};
+    use ases_resource_control::{BeginLaunchResult,LaunchExitObservation,LaunchObservation,ProcessExitStatus,
+        ProcessIdentity,RecordLaunchExitResult,RecordLaunchObservationResult};
     let (_d,_p,mut s)=setup(100,1);
     let p=proposal("intent",40);
     reserve(&mut s,&p);
@@ -310,10 +311,17 @@ fn launch_intent_is_one_use_durable_and_observations_are_idempotent() {
     assert_eq!(s.observe_launch("intent","launch-intent",&started,now()).unwrap(),RecordLaunchObservationResult::Replay);
     assert_eq!(s.begin_launch("intent","launch-intent",revision,now()).unwrap(),
         BeginLaunchResult::RunningObservation{job_id:"intent".into(),launch_id:"launch-intent".into()});
+    assert_error_contains(s.finalize("intent","completed",now()),"observed process exit");
+    assert_eq!(balance(&mut s).active_reserved_remaining,40);
     let contradiction=LaunchObservation::DefinitelyNotCreated{error_kind:"NotFound".into(),detail:"contradiction".into()};
     assert_error_contains(s.observe_launch("intent","launch-intent",&contradiction,now()),"conflicts");
     assert_eq!(s.begin_launch("intent","launch-intent",revision,now()).unwrap(),
         BeginLaunchResult::RunningObservation{job_id:"intent".into(),launch_id:"launch-intent".into()});
+    let exit=LaunchExitObservation{process:ProcessIdentity{pid:1234,start_token:"start-abc".into()},
+        status:ProcessExitStatus::Code{code:0}};
+    assert_eq!(s.observe_launch_exit("intent","launch-intent",&exit,now()).unwrap(),RecordLaunchExitResult::Recorded);
+    assert_eq!(s.observe_launch_exit("intent","launch-intent",&exit,now()).unwrap(),RecordLaunchExitResult::Replay);
+    assert_eq!(balance(&mut s).active_reserved_remaining,40,"exit evidence alone holds reservation");
     s.finalize("intent","completed",now()).unwrap();
     reserve(&mut s,&proposal("after-intent",100));
 }
@@ -750,4 +758,58 @@ fn malformed_billing_window_rejected_with_valid_neighbor() {
     assert_error_contains(s.register_meter(&m),"invalid billing period");
     m.period_end=Some(121);
     assert!(s.register_meter(&m).is_ok());
+}
+
+#[test]
+fn expiry_is_terminal_and_cannot_be_rewritten_by_finalization() {
+    let mut histories=Vec::new();
+    let mut valid=true;
+    for outcome in ["completed","failed","cancelled","interrupted"] {
+        let (_dir,_path,mut s)=setup(100,1);
+        let revision=s.catalog_version().unwrap();
+        s.reserve(&proposal("terminal-expiry",80),revision,now()).unwrap();
+        assert_eq!(s.expire_unlaunched(now()+951).unwrap(),1);
+        let before_job=s.job("terminal-expiry").unwrap();
+        let before_events=s.event_log(Some("terminal-expiry")).unwrap();
+        let before_view=serde_json::to_value(s.resume_view("terminal-expiry").unwrap()).unwrap();
+        let result=s.finalize("terminal-expiry",outcome,now()+952);
+        let refused=result.is_err();
+        let result_json=match result {
+            Ok(value)=>serde_json::json!({"ok":value}),
+            Err(error)=>serde_json::json!({"error":error.to_string()}),
+        };
+        let after_job=s.job("terminal-expiry").unwrap();
+        let after_events=s.event_log(Some("terminal-expiry")).unwrap();
+        let after_view=match s.resume_view("terminal-expiry") {
+            Ok(view)=>serde_json::json!({"ok":view}),
+            Err(error)=>serde_json::json!({"error":error.to_string()}),
+        };
+        let unchanged=before_job==after_job && before_events==after_events
+            && after_view.get("ok")==Some(&before_view);
+        let repeated_expiry=s.expire_unlaunched(now()+953).unwrap();
+        let available=balance(&mut s).available;
+        valid &= refused && unchanged && repeated_expiry==0 && available==100;
+        histories.push(serde_json::json!({"requested_outcome":outcome,
+            "before_job":before_job,"before_events":before_events,"before_view":before_view,
+            "finalize_result":result_json,"after_job":after_job,"after_events":after_events,
+            "after_view":after_view,"unchanged":unchanged,"available":available,
+            "repeat_expire_count":repeated_expiry}));
+    }
+    // Positive neighbor: a still-reserved job can explicitly cancel as before.
+    let (_dir,_path,mut s)=setup(100,1);
+    let revision=s.catalog_version().unwrap();
+    s.reserve(&proposal("valid-cancel",80),revision,now()).unwrap();
+    assert_eq!(s.finalize("valid-cancel","cancelled",now()).unwrap(),"CLOSED");
+    assert_eq!(s.finalize("valid-cancel","cancelled",now()).unwrap(),"CLOSED_REPLAY");
+    assert_eq!(balance(&mut s).available,100);
+    let evidence=serde_json::json!({"parent_source":"9fb8a525c32b56b9191d3f33df9925939636dc9a",
+        "histories":histories,"positive_cancel":s.job("valid-cancel").unwrap(),
+        "positive_view":s.resume_view("valid-cancel").unwrap()});
+    if let Some(root)=std::env::var_os("ASES_EXPIRY_EVIDENCE_DIR") {
+        let root=PathBuf::from(root);
+        std::fs::create_dir_all(&root).unwrap();
+        std::fs::write(root.join("expiry-histories.json"),serde_json::to_vec_pretty(&evidence).unwrap()).unwrap();
+    }
+    println!("{}",serde_json::to_string(&evidence).unwrap());
+    assert!(valid,"expired state was rewritten, or finalization changed its retained history/view");
 }

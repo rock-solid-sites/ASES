@@ -1,0 +1,214 @@
+{
+  "balances_after": [
+    {
+      "account": "legacy-account",
+      "active_reserved_remaining": 0,
+      "available": 100,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "legacy-meter",
+      "period": "legacy-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "slots"
+    }
+  ],
+  "balances_before": [
+    {
+      "account": "legacy-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "legacy-meter",
+      "period": "legacy-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "slots"
+    }
+  ],
+  "child": {
+    "pid": 35249,
+    "start_token": "956176"
+  },
+  "child_live_after_finalize": true,
+  "events_after": [
+    {
+      "at": 1794320170,
+      "event_id": "legacy-running:reserved",
+      "job_id": "legacy-running",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "legacy-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "legacy-meter"
+            }
+          ],
+          "environment_id": "legacy-env",
+          "estimated_wall_seconds": 300,
+          "forecast_context": null,
+          "job_id": "legacy-running",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "legacy-project"
+        }
+      }
+    },
+    {
+      "at": 1794320170,
+      "event_id": "legacy-running:ack:legacy-ack",
+      "job_id": "legacy-running",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "legacy-ack",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794320170,
+      "event_id": "launch-intent:legacy-running",
+      "job_id": "legacy-running",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "legacy-launch"
+      }
+    },
+    {
+      "at": 1794320170,
+      "event_id": "launch-observation:legacy-running",
+      "job_id": "legacy-running",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "legacy-launch",
+        "process": {
+          "pid": 35249,
+          "start_token": "956176"
+        }
+      }
+    },
+    {
+      "at": 1794320170,
+      "event_id": "legacy-running:final:cancelled",
+      "job_id": "legacy-running",
+      "kind": "FINALIZED",
+      "payload": {
+        "outcome": "cancelled"
+      }
+    }
+  ],
+  "events_before": [
+    {
+      "at": 1794320170,
+      "event_id": "legacy-running:reserved",
+      "job_id": "legacy-running",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "legacy-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "legacy-meter"
+            }
+          ],
+          "environment_id": "legacy-env",
+          "estimated_wall_seconds": 300,
+          "forecast_context": null,
+          "job_id": "legacy-running",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "legacy-project"
+        }
+      }
+    },
+    {
+      "at": 1794320170,
+      "event_id": "legacy-running:ack:legacy-ack",
+      "job_id": "legacy-running",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "legacy-ack",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794320170,
+      "event_id": "launch-intent:legacy-running",
+      "job_id": "legacy-running",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "legacy-launch"
+      }
+    },
+    {
+      "at": 1794320170,
+      "event_id": "launch-observation:legacy-running",
+      "job_id": "legacy-running",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "legacy-launch",
+        "process": {
+          "pid": 35249,
+          "start_token": "956176"
+        }
+      }
+    }
+  ],
+  "exact_child_handle_wait_after_evidence": true,
+  "finalize_result": "CLOSED",
+  "job_after": {
+    "ack_id": "legacy-ack",
+    "catalog_version": 3,
+    "expires_at": 1794321070,
+    "job_id": "legacy-running",
+    "launch_id": "legacy-launch",
+    "meters": [
+      {
+        "meter": "legacy-meter",
+        "observed": 0,
+        "overrun": 0,
+        "reserved": 50,
+        "unspent": 50
+      }
+    ],
+    "outcome": "cancelled",
+    "proposal": {
+      "account_id": "legacy-account",
+      "claims": [
+        {
+          "amount": 50,
+          "meter_id": "legacy-meter"
+        }
+      ],
+      "environment_id": "legacy-env",
+      "estimated_wall_seconds": 300,
+      "forecast_context": null,
+      "job_id": "legacy-running",
+      "paid_spend_cap_currency": null,
+      "paid_spend_cap_micros": null,
+      "project_id": "legacy-project"
+    },
+    "state": "CLOSED"
+  },
+  "owned_child_try_wait_after_finalize": null,
+  "second_reservation": "RESERVED",
+  "source_commit": "9fb8a525c32b56b9191d3f33df9925939636dc9a",
+  "source_lib_sha256": "c12ca0f65fe4ccc51e69f82cf8fd11c1967735727b84d38f4b25e6672d15188a"
+}
