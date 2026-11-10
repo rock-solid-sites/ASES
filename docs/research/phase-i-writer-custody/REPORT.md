@@ -89,6 +89,14 @@ kill/reap histories are tested below, but only outside an OS-confined child.
 Further confined tests depend on an enforceable restriction and trusted custody
 boundary.
 
+A subsequent read-only ABI query was also run through the approved outer
+`exec_command` route (`require_escalated`, outside the command sandbox). It
+again returned `-1`, errno 38, on x86_64 syscall 444 with VERSION flag 1. Exact
+result is in `evidence/outer-abi-probe.json`. This rules out the simple claim
+that the tested ordinary command sandbox alone caused the missing interface;
+it still does not distinguish absent kernel support from an outer runtime
+filter. No ruleset, host configuration or process confinement was changed.
+
 # Minimum additional trust/process separation
 
 A follow-on needs a host/runtime that allows a trusted launcher to install
