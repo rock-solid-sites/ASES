@@ -137,6 +137,8 @@ class Admission:
 
                 l5root = Path(c["l5_root"])
                 selector, state = l5.load_current(l5root)
+                require(isinstance(state, dict) and type(state.get("schema")) is int
+                        and state["schema"] == 1, "unsupported-l5-interpretation")
                 raw_record = (l5root / "protected" / selector).read_bytes()
                 generation = dict(selector=selector, sha256=sha(raw_record))
                 require(envelope["l5"] == generation, "stale-l5-generation")

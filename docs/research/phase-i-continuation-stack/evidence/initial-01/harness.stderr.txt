@@ -1,0 +1,19 @@
+Initial integrated probe attempt ended before any native scenario was launched.
+The source-hash manifest named check.py before the checker file existed:
+
+Traceback (most recent call last):
+  File "/workspace/ases-continuation/docs/research/phase-i-continuation-stack/probe.py", line 283, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/ases-continuation/docs/research/phase-i-continuation-stack/probe.py", line 261, in main
+    hashes={str(path.relative_to(REPO)): sha(path.read_bytes()) for path in (
+                                             ^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/ases-continuation/docs/research/phase-i-continuation-stack/check.py'
+
+No state root or sink process was created by this failed attempt.
