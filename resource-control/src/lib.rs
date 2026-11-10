@@ -256,6 +256,21 @@ pub struct ProcessIdentity {
     pub start_token: String,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
+pub enum ProcessExitStatus {
+    Code { code: i32 },
+    Signal { signal: i32 },
+}
+
+/// Wait/reap evidence from the trusted adapter for the exact started process.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct LaunchExitObservation {
+    pub process: ProcessIdentity,
+    pub status: ProcessExitStatus,
+}
+
 /// Observation input for the trusted local adapter boundary. This is typed and
 /// has no caller-controlled source/authority label; the caller still must be a
 /// trusted adapter because the local database cannot prove that observation.
@@ -272,6 +287,9 @@ pub enum RecordLaunchObservationResult {
     DefinitelyNotCreated,
     Replay,
 }
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum RecordLaunchExitResult { Recorded, Replay }
 
 #[derive(Clone, Debug, Serialize, PartialEq, Eq)]
 #[serde(rename_all="SCREAMING_SNAKE_CASE")]
@@ -293,6 +311,7 @@ pub enum AdvisoryNextStep {
     ReconcileAdmission,
     ObserveOrReconcileLaunch,
     ObserveProcessOrCompletion,
+    FinalizeObservedExit,
     ObserveMockLifecycle,
     NoNewDispatch,
 }
@@ -694,6 +713,62 @@ impl Store {
                 .as_deref()==Some(launch_id)))
     }
 
+    fn started_process(tx:&Transaction<'_>,job:&str,launch_id:&str)->Result<ProcessIdentity>{
+        let id=format!("launch-observation:{job}");
+        let row:Option<(String,String)>=tx.query_row(
+            "SELECT kind,payload FROM events WHERE id=?1 AND job_id=?2",params![id,job],
+            |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
+        let (kind,raw)=row.ok_or_else(||Error::Conflict("started process evidence is missing".into()))?;
+        if kind!="LAUNCH_STARTED_OBSERVED" {return Err(Error::Conflict("started process event has wrong kind".into()));}
+        let payload:Value=serde_json::from_str(&raw)?;
+        if payload.get("launch_id").and_then(Value::as_str)!=Some(launch_id) {
+            return Err(Error::Conflict("started process evidence belongs to another launch".into()));
+        }
+        let process:ProcessIdentity=serde_json::from_value(payload.get("process").cloned()
+            .ok_or_else(||Error::Conflict("started process evidence is malformed".into()))?)?;
+        if process.pid==0 || process.start_token.trim().is_empty() {
+            return Err(Error::Conflict("started process evidence is malformed".into()));
+        }
+        Ok(process)
+    }
+
+    fn exit_observation(tx:&Transaction<'_>,job:&str,launch_id:&str)->Result<Option<LaunchExitObservation>>{
+        let id=format!("launch-exit:{job}");
+        let row:Option<(String,String)>=tx.query_row(
+            "SELECT kind,payload FROM events WHERE id=?1 AND job_id=?2",params![id,job],
+            |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
+        let Some((kind,raw))=row else{return Ok(None)};
+        if kind!="LAUNCH_EXIT_OBSERVED" {return Err(Error::Conflict("launch exit event has wrong kind".into()));}
+        let payload:Value=serde_json::from_str(&raw)?;
+        if payload.get("launch_id").and_then(Value::as_str)!=Some(launch_id) {
+            return Err(Error::Conflict("launch exit evidence belongs to another launch".into()));
+        }
+        let observation=LaunchExitObservation{
+            process:serde_json::from_value(payload.get("process").cloned()
+                .ok_or_else(||Error::Conflict("launch exit process evidence is malformed".into()))?)?,
+            status:serde_json::from_value(payload.get("status").cloned()
+                .ok_or_else(||Error::Conflict("launch exit status evidence is malformed".into()))?)?,
+        };
+        Self::validate_exit_observation(&observation)?;
+        let started=Self::started_process(tx,job,launch_id)?;
+        if observation.process!=started {
+            return Err(Error::Conflict("launch exit process does not match started process".into()));
+        }
+        Ok(Some(observation))
+    }
+
+    fn validate_exit_observation(observation:&LaunchExitObservation)->Result<()> {
+        if observation.process.pid==0 {return Err(Error::Invalid("process identity PID must be nonzero".into()));}
+        nonblank(&observation.process.start_token,"process start token")?;
+        match observation.status {
+            ProcessExitStatus::Code{code} if !(0..=255).contains(&code) =>
+                Err(Error::Invalid("process exit code must be between 0 and 255".into())),
+            ProcessExitStatus::Signal{signal} if !(1..=64).contains(&signal) =>
+                Err(Error::Invalid("process exit signal must be between 1 and 64".into())),
+            _=>Ok(()),
+        }
+    }
+
     /// Durably consume an authorization before a trusted local adapter attempts
     /// spawn. Only DispatchGranted authorizes that one adapter attempt. Replays
     /// are observations and never issue another dispatch capability.
@@ -784,6 +859,45 @@ impl Store {
             LaunchObservation::Started{..}=>RecordLaunchObservationResult::Started,
             LaunchObservation::DefinitelyNotCreated{..}=>RecordLaunchObservationResult::DefinitelyNotCreated,
         })
+    }
+
+    /// Record wait/reap evidence for the exact process already observed as
+    /// started. This records an exit observation only; finalization remains a
+    /// separate operation and still holds the reservation until it commits.
+    pub fn observe_launch_exit(&mut self,job:&str,launch_id:&str,observation:&LaunchExitObservation,at:i64)
+        ->Result<RecordLaunchExitResult>{
+        check_id(job,"job")?;check_id(launch_id,"launch")?;
+        Self::validate_exit_observation(observation)?;
+        let payload=json!({"launch_id":launch_id,"process":observation.process,"status":observation.status});
+        let tx=self.db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let row:Option<(String,Option<String>)>=tx.query_row(
+            "SELECT state,launch_id FROM jobs WHERE id=?1",[job],
+            |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
+        let (state,prior_launch)=row.ok_or_else(||Error::Invalid("unknown job".into()))?;
+        if prior_launch.as_deref()!=Some(launch_id) || !Self::has_launch_intent(&tx,job,launch_id)? {
+            return Err(Error::Conflict("exit observation does not match durable launch intent".into()));
+        }
+        let started=Self::started_process(&tx,job,launch_id)?;
+        if observation.process!=started {
+            return Err(Error::Conflict("exit observation process identity conflicts with started process".into()));
+        }
+        let prior:Option<(String,String)>=tx.query_row(
+            "SELECT kind,payload FROM events WHERE id=?1 AND job_id=?2",params![format!("launch-exit:{job}"),job],
+            |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
+        if let Some((kind,raw))=prior {
+            let recorded=Self::exit_observation(&tx,job,launch_id)?
+                .ok_or_else(||Error::Conflict("launch exit event is missing".into()))?;
+            if kind=="LAUNCH_EXIT_OBSERVED" && serde_json::from_str::<Value>(&raw)?==payload &&
+               recorded==*observation && matches!(state.as_str(),"RUNNING"|"CLOSED") {
+                tx.commit()?;
+                return Ok(RecordLaunchExitResult::Replay);
+            }
+            return Err(Error::Conflict("launch exit observation conflicts with prior evidence".into()));
+        }
+        if state!="RUNNING" {return Err(Error::Conflict(format!("launch exit observation forbidden from state {state}")));}
+        Self::log(&tx,&format!("launch-exit:{job}"),Some(job),"LAUNCH_EXIT_OBSERVED",at,payload)?;
+        tx.commit()?;
+        Ok(RecordLaunchExitResult::Recorded)
     }
 
     /// Only an idempotent mock adapter is implemented. Never infer an external launch occurred.
@@ -889,10 +1003,10 @@ impl Store {
             return Err(Error::Invalid("unsupported terminal outcome".into()));
         }
         let tx=self.db.transaction_with_behavior(TransactionBehavior::Immediate)?;
-        let previous:Option<(String,Option<String>)>=tx.query_row(
-            "SELECT state,outcome FROM jobs WHERE id=?1",[job],
-            |r|Ok((r.get(0)?,r.get(1)?))).optional()?;
-        let (state,old)=previous.ok_or_else(||Error::Invalid("unknown job".into()))?;
+        let previous:Option<(String,Option<String>,Option<String>)>=tx.query_row(
+            "SELECT state,outcome,launch_id FROM jobs WHERE id=?1",[job],
+            |r|Ok((r.get(0)?,r.get(1)?,r.get(2)?))).optional()?;
+        let (state,old,launch_id)=previous.ok_or_else(||Error::Invalid("unknown job".into()))?;
         if state=="LAUNCHING" {
             return Err(Error::Conflict("launch outcome unknown; reconciliation required before finalization".into()));
         }
@@ -905,6 +1019,36 @@ impl Store {
         }
         if state=="AUTHORIZED" && !["cancelled","interrupted"].contains(&outcome) {
             return Err(Error::Conflict("authorized but unlaunched job cannot claim completion".into()));
+        }
+        if state=="RUNNING" {
+            let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("running job lacks launch identity".into()))?;
+            let mut stmt=tx.prepare("SELECT id,kind,payload FROM events WHERE job_id=?1 AND kind IN ('LAUNCH_INTENT','MOCK_LAUNCH') ORDER BY rowid LIMIT 3")?;
+            let profiles=stmt.query_map([job],|r|Ok((r.get::<_,String>(0)?,r.get::<_,String>(1)?,r.get::<_,String>(2)?)))?
+                .collect::<rusqlite::Result<Vec<_>>>()?;
+            drop(stmt);
+            if profiles.len()!=1 {
+                return Err(Error::Conflict("running job has missing or mixed launch profile evidence".into()));
+            }
+            let (profile_id,profile_kind,profile_payload)=profiles.into_iter().next().unwrap();
+            if profile_kind=="LAUNCH_INTENT" {
+                let parsed:Value=serde_json::from_str(&profile_payload)?;
+                if profile_id!=format!("launch-intent:{job}") || parsed.get("launch_id").and_then(Value::as_str)!=Some(launch) ||
+                   parsed.get("dispatch_granted").and_then(Value::as_bool)!=Some(true) {
+                    return Err(Error::Conflict("running job has conflicting launch intent evidence".into()));
+                }
+                if Self::exit_observation(&tx,job,launch)?.is_none() {
+                    return Err(Error::Conflict("intent-backed running job requires observed process exit before finalization".into()));
+                }
+            } else if profile_kind=="MOCK_LAUNCH" {
+                if profile_id!=format!("{job}:launch:{launch}") ||
+                    !serde_json::from_str::<Value>(&profile_payload).ok().is_some_and(|v|
+                        v.get("launch_id").and_then(Value::as_str)==Some(launch) &&
+                        v.get("external_provider_launch").and_then(Value::as_bool)==Some(false)) {
+                    return Err(Error::Conflict("running job has unsupported launch profile".into()));
+                }
+            } else {
+                return Err(Error::Conflict("running job has unsupported launch profile".into()));
+            }
         }
         tx.execute("UPDATE jobs SET state='CLOSED',outcome=?2 WHERE id=?1",params![job,outcome])?;
         Self::log(&tx,&format!("{job}:final:{outcome}"),Some(job),"FINALIZED",at,json!({"outcome":outcome}))?;
@@ -973,7 +1117,7 @@ impl Store {
         let mut stmt=tx.prepare(
             "SELECT id,kind,at,payload FROM events WHERE job_id=?1 AND kind IN
              ('AUTHORIZED','LAUNCH_INTENT','LAUNCH_STARTED_OBSERVED','LAUNCH_NOT_CREATED_OBSERVED',
-              'MOCK_LAUNCH','FINALIZED','EXPIRED') ORDER BY rowid LIMIT 8")?;
+              'LAUNCH_EXIT_OBSERVED','MOCK_LAUNCH','FINALIZED','EXPIRED') ORDER BY rowid LIMIT 8")?;
         let rows=stmt.query_map([id],|r|Ok((r.get::<_,String>(0)?,r.get::<_,String>(1)?,
                                            r.get::<_,i64>(2)?,r.get::<_,String>(3)?)))?;
         let mut events=Vec::new();
@@ -997,10 +1141,12 @@ impl Store {
         let intent=resume_event(&events,"LAUNCH_INTENT")?;
         let started=resume_event(&events,"LAUNCH_STARTED_OBSERVED")?;
         let not_created=resume_event(&events,"LAUNCH_NOT_CREATED_OBSERVED")?;
+        let exited=resume_event(&events,"LAUNCH_EXIT_OBSERVED")?;
         let mock=resume_event(&events,"MOCK_LAUNCH")?;
         let finalized=resume_event(&events,"FINALIZED")?;
         let expired=resume_event(&events,"EXPIRED")?;
         if intent.is_some() && mock.is_some() || started.is_some() && not_created.is_some() ||
+           exited.is_some() && (started.is_none() || not_created.is_some() || mock.is_some()) ||
            finalized.is_some() && expired.is_some() {
             return Err(Error::Conflict("conflicting launch profile evidence".into()));
         }
@@ -1022,6 +1168,24 @@ impl Store {
                 return Err(Error::Conflict("started observation lacks process evidence".into()));
             }
         }
+        if let Some(event)=exited {
+            let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("exit observation lacks recorded launch ID".into()))?;
+            let start=started.ok_or_else(||Error::Conflict("exit observation lacks started process evidence".into()))?;
+            if !event_launch_matches(event,launch) || !event_launch_matches(start,launch) {
+                return Err(Error::Conflict("exit observation conflicts with launch identity".into()));
+            }
+            let process:ProcessIdentity=serde_json::from_value(event.payload.get("process").cloned()
+                .ok_or_else(||Error::Conflict("exit observation lacks process identity".into()))?)?;
+            let status:ProcessExitStatus=serde_json::from_value(event.payload.get("status").cloned()
+                .ok_or_else(||Error::Conflict("exit observation lacks wait status".into()))?)?;
+            let started_process:ProcessIdentity=serde_json::from_value(start.payload.get("process").cloned()
+                .ok_or_else(||Error::Conflict("started observation lacks process identity".into()))?)?;
+            Self::validate_exit_observation(&LaunchExitObservation{process:process.clone(),status})
+                .map_err(|e|Error::Conflict(format!("invalid exit evidence: {e}")))?;
+            if process!=started_process {
+                return Err(Error::Conflict("exit observation process differs from started process".into()));
+            }
+        }
         if let Some(event)=not_created {
             if event.payload.get("error_kind").and_then(Value::as_str).is_none_or(str::is_empty) ||
                event.payload.get("detail").and_then(Value::as_str).is_none_or(str::is_empty) {
@@ -1037,14 +1201,14 @@ impl Store {
         let (profile,launch_pointer,outcome_pointer,next)=match state {
             RecordedJobState::Reserved=>{
                 if ack_id.is_some() || launch_id.is_some() || outcome.is_some() || intent.is_some() || started.is_some() ||
-                   not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() {
+                   not_created.is_some() || exited.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() {
                     return Err(Error::Conflict("reserved job has incompatible launch evidence".into()));
                 }
                 (ResumeLaunchProfile::Unlaunched,None,None,AdvisoryNextStep::AuthorizeOrCancel)
             }
             RecordedJobState::Authorized=>{
                 if ack_id.is_none() || authorized.is_none() || launch_id.is_some() || outcome.is_some() || intent.is_some() || started.is_some() ||
-                   not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() {
+                   not_created.is_some() || exited.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() {
                     return Err(Error::Conflict("authorized job has incompatible launch evidence".into()));
                 }
                 let next=if job_revision==current_revision {
@@ -1057,7 +1221,7 @@ impl Store {
             RecordedJobState::Launching=>{
                 let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("LAUNCHING job lacks launch ID".into()))?;
                 if authorized.is_none() || intent.is_none_or(|event|!event_launch_matches(event,launch)) || started.is_some() ||
-                   not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() || outcome.is_some() {
+                   not_created.is_some() || exited.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() || outcome.is_some() {
                     return Err(Error::Conflict("LAUNCHING job has missing or incompatible intent evidence".into()));
                 }
                 (ResumeLaunchProfile::Intent,Some(intent.unwrap().pointer.clone()),None,
@@ -1071,11 +1235,13 @@ impl Store {
                        not_created.is_some() || mock.is_some() || finalized.is_some() || expired.is_some() || outcome.is_some() {
                         return Err(Error::Conflict("intent-backed RUNNING state lacks matching start evidence".into()));
                     }
-                    (ResumeLaunchProfile::Intent,Some(event.pointer.clone()),Some(started.unwrap().pointer.clone()),
-                     AdvisoryNextStep::ObserveProcessOrCompletion)
+                    let observation=exited.unwrap_or(started.unwrap());
+                    let next=if exited.is_some(){AdvisoryNextStep::FinalizeObservedExit}
+                        else{AdvisoryNextStep::ObserveProcessOrCompletion};
+                    (ResumeLaunchProfile::Intent,Some(event.pointer.clone()),Some(observation.pointer.clone()),next)
                 } else if let Some(event)=mock {
                     if !event_launch_matches(event,launch) || started.is_some() || not_created.is_some() ||
-                       finalized.is_some() || expired.is_some() || outcome.is_some() {
+                       exited.is_some() || finalized.is_some() || expired.is_some() || outcome.is_some() {
                         return Err(Error::Conflict("mock RUNNING state has incompatible evidence".into()));
                     }
                     (ResumeLaunchProfile::Mock,Some(event.pointer.clone()),None,
@@ -1095,13 +1261,14 @@ impl Store {
                         return Err(Error::Conflict("CLOSED intent profile conflicts with launch evidence".into()));
                     }
                     if let Some(failed)=not_created {
-                        if !event_launch_matches(failed,launch) || started.is_some() || finalized.is_some() || terminal!="failed" {
+                        if !event_launch_matches(failed,launch) || started.is_some() || exited.is_some() || finalized.is_some() || terminal!="failed" {
                             return Err(Error::Conflict("non-creation outcome conflicts with terminal state".into()));
                         }
                         (ResumeLaunchProfile::Intent,Some(event.pointer.clone()),Some(failed.pointer.clone()),
                          AdvisoryNextStep::NoNewDispatch)
                     } else {
                         let start=started.ok_or_else(||Error::Conflict("CLOSED intent profile lacks start observation".into()))?;
+                        let _exit=exited.ok_or_else(||Error::Conflict("CLOSED intent profile lacks process exit evidence".into()))?;
                         let final_event=finalized.ok_or_else(||Error::Conflict("CLOSED intent profile lacks finalization evidence".into()))?;
                         if !event_launch_matches(start,launch) {
                             return Err(Error::Conflict("start observation conflicts with launch ID".into()));
@@ -1112,14 +1279,14 @@ impl Store {
                 } else if let Some(event)=mock {
                     let launch=launch_id.as_deref().ok_or_else(||Error::Conflict("mock CLOSED job lacks launch ID".into()))?;
                     let final_event=finalized.ok_or_else(||Error::Conflict("mock CLOSED job lacks finalization evidence".into()))?;
-                    if authorized.is_none() || !event_launch_matches(event,launch) || started.is_some() || not_created.is_some() {
+                    if authorized.is_none() || !event_launch_matches(event,launch) || started.is_some() || not_created.is_some() || exited.is_some() {
                         return Err(Error::Conflict("mock CLOSED state has incompatible launch evidence".into()));
                     }
                     (ResumeLaunchProfile::Mock,Some(event.pointer.clone()),Some(final_event.pointer.clone()),
                      AdvisoryNextStep::NoNewDispatch)
                 } else {
                     let final_event=finalized.ok_or_else(||Error::Conflict("unlaunched CLOSED job lacks finalization evidence".into()))?;
-                    if launch_id.is_some() || started.is_some() || not_created.is_some() {
+                    if launch_id.is_some() || started.is_some() || not_created.is_some() || exited.is_some() {
                         return Err(Error::Conflict("unlaunched CLOSED job has launch evidence".into()));
                     }
                     if !["cancelled","interrupted"].contains(&terminal) ||
@@ -1134,7 +1301,7 @@ impl Store {
                 let event=expired.ok_or_else(||Error::Conflict("EXPIRED job lacks expiry evidence".into()))?;
                 if event.payload.as_object().is_none_or(|payload|!payload.is_empty()) ||
                    outcome.as_deref()!=Some("expired") || launch_id.is_some() || intent.is_some() ||
-                   started.is_some() || not_created.is_some() || mock.is_some() || finalized.is_some() {
+                   started.is_some() || not_created.is_some() || exited.is_some() || mock.is_some() || finalized.is_some() {
                     return Err(Error::Conflict("EXPIRED job has incompatible evidence".into()));
                 }
                 (ResumeLaunchProfile::Unlaunched,None,Some(event.pointer.clone()),AdvisoryNextStep::NoNewDispatch)

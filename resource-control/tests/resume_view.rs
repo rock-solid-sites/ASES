@@ -1,6 +1,7 @@
 use ases_resource_control::{
-    now, AdvisoryNextStep, BeginLaunchResult, Claim, Environment, LaunchObservation, Meter,
-    PresentLiveness, ProcessIdentity, Proposal, RecordedJobState, ResumeLaunchProfile,
+    now, AdvisoryNextStep, BeginLaunchResult, Claim, Environment, LaunchExitObservation,
+    LaunchObservation, Meter, PresentLiveness, ProcessExitStatus, ProcessIdentity, Proposal,
+    RecordedJobState, ResumeLaunchProfile,
     Store,
 };
 use ases_resource_control::catalog::Account;
@@ -116,6 +117,8 @@ fn maximum_valid_identity_and_two_evidence_pointers_fit_under_two_kib(){
     start_intent(&mut store,&p,revision,&launch_id);
     let started=LaunchObservation::Started{process:ProcessIdentity{pid:88,start_token:"test-start-token".into()}};
     store.observe_launch(&job_id,&launch_id,&started,now()).unwrap();
+    store.observe_launch_exit(&job_id,&launch_id,&LaunchExitObservation{
+        process:ProcessIdentity{pid:88,start_token:"test-start-token".into()},status:ProcessExitStatus::Code{code:0}},now()).unwrap();
     store.finalize(&job_id,"completed",now()).unwrap();
     let view=store.resume_view(&job_id).unwrap();
     let bytes=serde_json::to_vec(&view).unwrap();
@@ -167,6 +170,9 @@ fn terminal_and_expired_views_have_no_dispatch_advice_and_digest_exact_payload()
     start_intent(&mut store,&p,revision,"finished-launch");
     let started=LaunchObservation::Started{process:ProcessIdentity{pid:77,start_token:"worker-token".into()}};
     store.observe_launch(&p.job_id,"finished-launch",&started,now()).unwrap();
+    let exit=LaunchExitObservation{process:ProcessIdentity{pid:77,start_token:"worker-token".into()},
+        status:ProcessExitStatus::Code{code:0}};
+    store.observe_launch_exit(&p.job_id,"finished-launch",&exit,now()).unwrap();
     store.finalize(&p.job_id,"completed",now()).unwrap();
     let view=store.resume_view(&p.job_id).unwrap();
     assert_eq!(view.advisory_next_step,AdvisoryNextStep::NoNewDispatch);

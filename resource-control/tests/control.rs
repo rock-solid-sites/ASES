@@ -276,7 +276,8 @@ fn restart_preserves_reservation_ack_and_single_launch_id() {
 
 #[test]
 fn launch_intent_is_one_use_durable_and_observations_are_idempotent() {
-    use ases_resource_control::{BeginLaunchResult,LaunchObservation,ProcessIdentity,RecordLaunchObservationResult};
+    use ases_resource_control::{BeginLaunchResult,LaunchExitObservation,LaunchObservation,ProcessExitStatus,
+        ProcessIdentity,RecordLaunchExitResult,RecordLaunchObservationResult};
     let (_d,_p,mut s)=setup(100,1);
     let p=proposal("intent",40);
     reserve(&mut s,&p);
@@ -310,10 +311,17 @@ fn launch_intent_is_one_use_durable_and_observations_are_idempotent() {
     assert_eq!(s.observe_launch("intent","launch-intent",&started,now()).unwrap(),RecordLaunchObservationResult::Replay);
     assert_eq!(s.begin_launch("intent","launch-intent",revision,now()).unwrap(),
         BeginLaunchResult::RunningObservation{job_id:"intent".into(),launch_id:"launch-intent".into()});
+    assert_error_contains(s.finalize("intent","completed",now()),"observed process exit");
+    assert_eq!(balance(&mut s).active_reserved_remaining,40);
     let contradiction=LaunchObservation::DefinitelyNotCreated{error_kind:"NotFound".into(),detail:"contradiction".into()};
     assert_error_contains(s.observe_launch("intent","launch-intent",&contradiction,now()),"conflicts");
     assert_eq!(s.begin_launch("intent","launch-intent",revision,now()).unwrap(),
         BeginLaunchResult::RunningObservation{job_id:"intent".into(),launch_id:"launch-intent".into()});
+    let exit=LaunchExitObservation{process:ProcessIdentity{pid:1234,start_token:"start-abc".into()},
+        status:ProcessExitStatus::Code{code:0}};
+    assert_eq!(s.observe_launch_exit("intent","launch-intent",&exit,now()).unwrap(),RecordLaunchExitResult::Recorded);
+    assert_eq!(s.observe_launch_exit("intent","launch-intent",&exit,now()).unwrap(),RecordLaunchExitResult::Replay);
+    assert_eq!(balance(&mut s).active_reserved_remaining,40,"exit evidence alone holds reservation");
     s.finalize("intent","completed",now()).unwrap();
     reserve(&mut s,&proposal("after-intent",100));
 }
