@@ -16,7 +16,7 @@ import time
 import traceback
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parents[3]
+REPO = HERE.parents[2]
 REPAIR = REPO / "docs/research/phase-i-f1-recovery-repair"
 REPAIRED_F1 = REPAIR / "repaired_service.py"
 L5 = REPO / "docs/research/phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5"
@@ -81,8 +81,10 @@ def f1_raw(dbpath: Path) -> dict:
 class OwnerProcess:
     """One real owner CLI process, retaining exact stdio frames and exit state."""
 
-    def __init__(self, root: Path, gate: str | None = None):
-        argv = [sys.executable, "-B", str(OWNER_CLI), str(root)]
+    def __init__(self, root: Path, recover=False, gate: str | None = None):
+        argv = [sys.executable, "-B", str(OWNER_CLI), "--owner", str(root)]
+        if recover:
+            argv.append("--recover")
         if gate:
             argv += ["--gate", gate]
         self.meta = {"argv": argv, "start_ns": time.monotonic_ns(), "frames": []}
@@ -108,10 +110,11 @@ class OwnerProcess:
         self.p.stdin.flush()
         return self.read()
 
-    def gate_call(self, request: dict):
-        self.p.stdin.write((canonical(request) + "\n").encode())
-        self.p.stdin.flush()
-        return self.read()
+    def gate_call(self, request: dict, stage: str):
+        value = self.call(dict(request, gate=stage))
+        if value.get("event") != "GATE" or value.get("stage") != stage:
+            raise RuntimeError(f"expected native gate {stage}, got {value!r}")
+        return value
 
     def resume(self):
         self.p.stdin.write(b"continue\n")
@@ -138,14 +141,63 @@ class OwnerProcess:
 
 
 def setup_f1(root: Path) -> dict:
-    """Create the actual pinned repaired F1 service, including native accept."""
+    """Create actual F1 service after bootstrap/grant, before test-content accept."""
     root.mkdir(parents=True, exist_ok=False)
-    boot = repair.bootstrap(root, REPAIRED_F1, repaired=True)
+    dbpath = root / "store.sqlite"
+    initialize = repair.ORIGINAL.parent.parent.parent / "kernel-0/kernel0_recovery_service.py"
+    config = {"path": str(dbpath), "root": "work", "profile": "independent"}
+    subprocess.run([sys.executable, "-B", str(initialize), "--initialize", json.dumps(config)],
+                   check=True, timeout=5, capture_output=True)
+    with sqlite3.connect(dbpath) as db:
+        db.execute("CREATE TABLE consumer_observations(id INTEGER PRIMARY KEY CHECK(id=1),record TEXT NOT NULL)")
+    subprocess.run([sys.executable, "-B", str(REPAIRED_F1), "--prepare", str(dbpath)],
+                   check=True, timeout=5, capture_output=True)
+    manager = repair.Holder(REPAIRED_F1, root, repair.configuration("bootstrap", repair.B, True), -1)
+    try:
+        established = manager.call("establish")
+        granted = manager.call("grant", value=7)
+    finally:
+        manager.close()
+    boot = {"establish": established, "grant": granted}
     state = f1_raw(root / "store.sqlite")
-    if state["integrity"] != "ok" or not state["pair"]:
-        raise RuntimeError("native F1 bootstrap did not select retained accepted evidence")
+    if state["integrity"] != "ok" or state["selected"] is None or state["pair"]["accepted_content"] != repair.B:
+        raise RuntimeError("native F1 bootstrap was not the expected pre-test-accept state")
     return {"boot": boot, "state": state, "source": str(REPAIRED_F1),
             "source_sha256": sha(REPAIRED_F1.read_bytes()), "database": file_record(root / "store.sqlite")}
+
+
+def native_f1_accept(root: Path, bundle: dict, content: str) -> dict:
+    """Use the pinned F1 repaired service's real accept process and SQLite transaction."""
+    holder = repair.Holder(REPAIRED_F1, root, dict(acceptance_bundle=bundle))
+    try:
+        response = holder.call("accept", content)
+        meta = {"response": response, "operation": holder.meta["operations"][-1],
+                "process": holder.meta}
+    finally:
+        holder.close()
+    return meta
+
+
+def establish_owner(root: Path, f1_db: Path, created_by="ases4-test-issuer", project="native-owner-probe") -> dict:
+    argv = [sys.executable, "-B", str(OWNER_CLI), "--establish", str(root), str(f1_db), created_by, project]
+    start = time.monotonic_ns()
+    child = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    stdout, stderr = child.communicate(timeout=20)
+    exit_code = child.returncode
+    frame = None
+    if stdout.strip():
+        try:
+            frame = json.loads(stdout.strip().splitlines()[-1])
+        except json.JSONDecodeError:
+            pass
+    record = {"argv": argv, "pid": child.pid, "start_ns": start, "end_ns": time.monotonic_ns(),
+              "exit": exit_code, "stdout": stdout, "stderr": stderr, "frame": frame}
+    PROCESSES.append({"pid": child.pid, "argv": argv, "start_ns": start, "exit_ns": record["end_ns"],
+                      "exit": exit_code, "frames": [{"ns": record["end_ns"], "raw": stdout,
+                                                                  "value": frame}]})
+    if exit_code != 0 or not isinstance(frame, dict):
+        raise RuntimeError("native owner establishment failed: " + json.dumps(record, sort_keys=True))
+    return record
 
 
 def source_manifest() -> dict:
@@ -173,9 +225,28 @@ def main():
     raw = {"schema": "ases4-native-owner-probe-v1", "started_ns": time.monotonic_ns(),
            "sources": source_manifest(), "cases": {}, "processes": PROCESSES}
     try:
-        # Native histories are appended below once the public owner CLI contract
-        # is frozen by its implementation owner.
-        raw["status"] = "HARNESS_READY_NO_NATIVE_CASES"
+        # First discriminator: real F1 evidence, then owner-issued F3 identities
+        # and real native L5/L6 transitions with no parent F4 route configured.
+        state = out / "state" / "native-no-f4"
+        state.mkdir(parents=True)
+        f1root = state / "f1"
+        ownerroot = state / "owner"
+        f1 = setup_f1(f1root)
+        raw["f1_boot"] = f1
+        raw["f1_before_owner"] = f1_raw(f1root / "store.sqlite")
+        raw["establish"] = establish_owner(ownerroot, f1root / "store.sqlite")
+        initial_bundle = repair.configuration("A", CONTENT, True)["acceptance_bundle"]
+        raw["native_f1_accept"] = repair.native_f1_accept(f1root, initial_bundle, CONTENT)
+        raw["f1_after_accept"] = f1_raw(f1root / "store.sqlite")
+        owner = OwnerProcess(ownerroot)
+        raw["owner_ready"] = owner.meta["ready"]
+        raw["cases"]["native-no-f4"] = {"root": str(ownerroot), "initial_view": owner.call({"op": "view"})}
+        raw["cases"]["native-no-f4"]["source_after_establish"] = raw["f1_after_accept"]
+        raw["cases"]["native-no-f4"]["owner_tree_after_establish"] = tree(ownerroot)
+        owner.close()
+        raw["cases"]["native-no-f4"]["owner_process"] = owner.meta
+        raw["cases"]["native-no-f4"]["owner_tree_after_close"] = tree(ownerroot)
+        raw["status"] = "HARNESS_READY_FIRST_NATIVE_CASE"
     except BaseException as error:
         raw["failure"] = {"type": type(error).__name__, "message": str(error),
                           "traceback": traceback.format_exc()}

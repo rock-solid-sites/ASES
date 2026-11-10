@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parents[3]
+REPO = HERE.parents[2]
 
 
 def need(condition: bool, message: str) -> None:
