@@ -1,0 +1,205 @@
+{
+  "balances_after": [
+    [
+      "term-meter",
+      50,
+      50
+    ]
+  ],
+  "balances_before": [
+    [
+      "term-meter",
+      50,
+      50
+    ]
+  ],
+  "events_after": [
+    {
+      "at": 1794339482,
+      "event_id": "live-job:reserved",
+      "job_id": "live-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "term-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "term-meter"
+            }
+          ],
+          "environment_id": "term-env",
+          "estimated_wall_seconds": 300,
+          "forecast_context": null,
+          "job_id": "live-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "term-project"
+        }
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "live-job:ack:ack-live-job",
+      "job_id": "live-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-live-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-intent:live-job",
+      "job_id": "live-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "live-launch"
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-observation:live-job",
+      "job_id": "live-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "live-launch",
+        "process": {
+          "pid": 40228,
+          "start_token": "2887366"
+        }
+      }
+    }
+  ],
+  "events_before": [
+    {
+      "at": 1794339482,
+      "event_id": "live-job:reserved",
+      "job_id": "live-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "term-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "term-meter"
+            }
+          ],
+          "environment_id": "term-env",
+          "estimated_wall_seconds": 300,
+          "forecast_context": null,
+          "job_id": "live-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "term-project"
+        }
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "live-job:ack:ack-live-job",
+      "job_id": "live-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-live-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-intent:live-job",
+      "job_id": "live-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "live-launch"
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-observation:live-job",
+      "job_id": "live-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "live-launch",
+        "process": {
+          "pid": 40228,
+          "start_token": "2887366"
+        }
+      }
+    }
+  ],
+  "job_before": {
+    "ack_id": "ack-live-job",
+    "catalog_version": 3,
+    "expires_at": 1794340382,
+    "job_id": "live-job",
+    "launch_id": "live-launch",
+    "meters": [
+      {
+        "meter": "term-meter",
+        "observed": 0,
+        "overrun": 0,
+        "reserved": 50,
+        "unspent": 50
+      }
+    ],
+    "outcome": null,
+    "proposal": {
+      "account_id": "term-account",
+      "claims": [
+        {
+          "amount": 50,
+          "meter_id": "term-meter"
+        }
+      ],
+      "environment_id": "term-env",
+      "estimated_wall_seconds": 300,
+      "forecast_context": null,
+      "job_id": "live-job",
+      "paid_spend_cap_currency": null,
+      "paid_spend_cap_micros": null,
+      "project_id": "term-project"
+    },
+    "state": "RUNNING"
+  },
+  "second_reservation_rejected": true,
+  "source_sha256": {
+    "src/lib.rs": "fa55a23336dbd5fc5b8934dc451d9efc4cdc222ff6e393d26fd343dc0a575b85",
+    "tests/native_launch.rs": "25bee789a6cdd6541873412b5272b410c96394b254c35dfc3efb8ed75cd6dc69",
+    "tests/native_termination.rs": "bd586da579f918a0256442eeb1762123668f4715e6a76a659980e44be8be89e9",
+    "tests/resume_view.rs": "0e67805df325e2c8a40c70d00188a0e357896a11694cf9c7b827e1397c059394"
+  },
+  "terminal_rejections": [
+    [
+      "cancelled",
+      "conflict: intent-backed running job requires observed process exit before finalization"
+    ],
+    [
+      "completed",
+      "conflict: intent-backed running job requires observed process exit before finalization"
+    ],
+    [
+      "failed",
+      "conflict: intent-backed running job requires observed process exit before finalization"
+    ],
+    [
+      "interrupted",
+      "conflict: intent-backed running job requires observed process exit before finalization"
+    ]
+  ],
+  "worker": {
+    "pid": 40228,
+    "start_token": "2887366"
+  },
+  "worker_alive_during_rejections": true,
+  "worker_child_wait_code": 0
+}

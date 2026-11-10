@@ -36,6 +36,12 @@ sources and evidence intact in `/workspace/ases-termination`. They were preserve
 before reconstructing anything. The source owner reported a stale shared-target
 artifact and two fixture mistakes during initial runs; only the final raw
 capture and its suite log survive here, so no missing failed log is fabricated.
-The next integration step is retaining #28's terminal EXPIRED guard, then one
-affected test run before publication. The pre-integration capture remains exact
-and source hashes were verified on resumption.
+Integration retained #28's exact three-line terminal EXPIRED guard and its
+four-outcome regression from `3d24915b`, without copying unrelated evidence.
+The integrated offline/locked run passes 48 control, five resume-view, three
+exit-observation, four launch-target and eight termination-target tests. Its
+fresh source-bound observations and exact command are retained separately in
+`evidence/integrated-01`; the earlier native capture remains intact. All captured
+source hashes were checked against the corresponding implementation before
+publication. Initial shared-cache collisions were avoided with an explicit
+test debug profile; no dependency or host/toolchain configuration was changed.

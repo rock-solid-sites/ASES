@@ -1,0 +1,235 @@
+{
+  "balances_after_finalize": [
+    [
+      "term-meter",
+      0,
+      100
+    ]
+  ],
+  "balances_after_observation": [
+    [
+      "term-meter",
+      50,
+      50
+    ]
+  ],
+  "balances_before_exit": [
+    [
+      "term-meter",
+      50,
+      50
+    ]
+  ],
+  "child_wait_code": 0,
+  "cold_replay": "Replay",
+  "events_after_exit": [
+    {
+      "at": 1794339482,
+      "event_id": "exit-job:reserved",
+      "job_id": "exit-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "term-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "term-meter"
+            }
+          ],
+          "environment_id": "term-env",
+          "estimated_wall_seconds": 300,
+          "forecast_context": null,
+          "job_id": "exit-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "term-project"
+        }
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "exit-job:ack:ack-exit-job",
+      "job_id": "exit-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-exit-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-intent:exit-job",
+      "job_id": "exit-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "exit-launch"
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-observation:exit-job",
+      "job_id": "exit-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "exit-launch",
+        "process": {
+          "pid": 40241,
+          "start_token": "2887369"
+        }
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-exit:exit-job",
+      "job_id": "exit-job",
+      "kind": "LAUNCH_EXIT_OBSERVED",
+      "payload": {
+        "launch_id": "exit-launch",
+        "process": {
+          "pid": 40241,
+          "start_token": "2887369"
+        },
+        "status": {
+          "code": 0,
+          "kind": "code"
+        }
+      }
+    }
+  ],
+  "events_before_exit": [
+    {
+      "at": 1794339482,
+      "event_id": "exit-job:reserved",
+      "job_id": "exit-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "term-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "term-meter"
+            }
+          ],
+          "environment_id": "term-env",
+          "estimated_wall_seconds": 300,
+          "forecast_context": null,
+          "job_id": "exit-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "term-project"
+        }
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "exit-job:ack:ack-exit-job",
+      "job_id": "exit-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-exit-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-intent:exit-job",
+      "job_id": "exit-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "exit-launch"
+      }
+    },
+    {
+      "at": 1794339482,
+      "event_id": "launch-observation:exit-job",
+      "job_id": "exit-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "exit-launch",
+        "process": {
+          "pid": 40241,
+          "start_token": "2887369"
+        }
+      }
+    }
+  ],
+  "exit_event": {
+    "at": 1794339482,
+    "event_id": "launch-exit:exit-job",
+    "job_id": "exit-job",
+    "kind": "LAUNCH_EXIT_OBSERVED",
+    "payload": {
+      "launch_id": "exit-launch",
+      "process": {
+        "pid": 40241,
+        "start_token": "2887369"
+      },
+      "status": {
+        "code": 0,
+        "kind": "code"
+      }
+    }
+  },
+  "exit_observation": {
+    "process": {
+      "pid": 40241,
+      "start_token": "2887369"
+    },
+    "status": {
+      "code": 0,
+      "kind": "code"
+    }
+  },
+  "finalize": "CLOSED",
+  "finalize_replay": "CLOSED_REPLAY",
+  "next_launch_dispatch_granted": true,
+  "resume_view": {
+    "accountId": "term-account",
+    "advisoryNextStep": "finalize_observed_exit",
+    "currentCatalogRevision": 3,
+    "environmentId": "term-env",
+    "evidence": {
+      "launch": {
+        "eventId": "launch-intent:exit-job",
+        "kind": "LAUNCH_INTENT",
+        "payloadSha256": "3dee092507cfe17543b7335c64095fb7a167a57c144f456248e1be6e93f5f60e",
+        "recordedAt": 1794339482
+      },
+      "outcome": {
+        "eventId": "launch-exit:exit-job",
+        "kind": "LAUNCH_EXIT_OBSERVED",
+        "payloadSha256": "935d0a961ca7de4a44e639e2550e237d99b629b3200ed122c16e76d284c0d77d",
+        "recordedAt": 1794339482
+      }
+    },
+    "jobCatalogRevision": 3,
+    "jobId": "exit-job",
+    "launchId": "exit-launch",
+    "outcome": null,
+    "presentLiveness": "unknown",
+    "profile": "intent",
+    "projectId": "term-project",
+    "state": "RUNNING"
+  },
+  "resume_view_bytes": 671,
+  "source_sha256": {
+    "src/lib.rs": "fa55a23336dbd5fc5b8934dc451d9efc4cdc222ff6e393d26fd343dc0a575b85",
+    "tests/native_launch.rs": "25bee789a6cdd6541873412b5272b410c96394b254c35dfc3efb8ed75cd6dc69",
+    "tests/native_termination.rs": "bd586da579f918a0256442eeb1762123668f4715e6a76a659980e44be8be89e9",
+    "tests/resume_view.rs": "0e67805df325e2c8a40c70d00188a0e357896a11694cf9c7b827e1397c059394"
+  },
+  "worker": {
+    "pid": 40241,
+    "start_token": "2887369"
+  }
+}
