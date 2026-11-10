@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "docker",
+    "--host=unix:///var/run/docker.sock",
+    "run",
+    "--rm",
+    "--name",
+    "ases-uidcustody-27135-1794318768931634251",
+    "--label",
+    "org.ases.uid-task=uidcustody-27135-1794318768931634251",
+    "--network=none",
+    "--cpus=1",
+    "--memory=512m",
+    "--pids-limit=32",
+    "--cap-drop=ALL",
+    "--cap-add=CHOWN",
+    "--cap-add=DAC_OVERRIDE",
+    "--cap-add=SETUID",
+    "--cap-add=SETGID",
+    "--security-opt=no-new-privileges",
+    "ases-uid-custody:phase-i-20261110"
+  ],
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/opt/probe/driver.py\", line 414, in <module>\n    main()\n  File \"/opt/probe/driver.py\", line 408, in main\n    raw[\"cases\"][\"writable-fd-mutant\"] = fd_mutant_case()\n                                         ^^^^^^^^^^^^^^^^\n  File \"/opt/probe/driver.py\", line 364, in fd_mutant_case\n    frame = mutant.line()\n            ^^^^^^^^^^^^^\n  File \"/opt/probe/driver.py\", line 126, in line\n    raise RuntimeError(\"child stdout ended: \" + err[-1024:])\nRuntimeError: child stdout ended:   File \"<string>\", line 1\n    import os,json,fcntl; fd=int(os.environ['PASS_FD']); mode=fcntl.fcntl(fd,fcntl.F_GETFL)&os.O_ACCMODE; n=os.write(fd,b'\n                                                                                                                        ^\nSyntaxError: unterminated string literal (detected at line 1)\n\n",
+  "timed_out": false,
+  "buildkit_disabled_for_legacy_local_build": false,
+  "exact_container_cleanup": {
+    "exit": 0,
+    "reason": "no exact named container remains"
+  }
+}
