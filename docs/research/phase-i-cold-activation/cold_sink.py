@@ -22,6 +22,7 @@ def main(argv):
     class ColdSealedState(original):
         def __init__(self, *args, **kwargs):
             self.cold_admission_open = argv[2] != "recover"
+            self.replaced_this_boot = False
             super().__init__(*args, **kwargs)
 
         def eligible(self, token):
@@ -44,13 +45,18 @@ def main(argv):
             if path == "/submit" and (type(data.get("authority_version")) is not int
                     or not isinstance(data.get("request_id"), str) or not isinstance(data.get("payload"), str)):
                 return 400, {"error": "invalid submit input"}
+            if path == "/activate" and not self.cold_admission_open and not self.replaced_this_boot:
+                return 409, {"outcome": "fresh-replacement-required", "local_control_committed": False}
             status, reply = super().apply(path, data)
+            if path == "/replace" and status == 200 and reply.get("outcome") == "accepted":
+                self.replaced_this_boot = True
             if path == "/activate" and status == 200 and reply.get("outcome") == "accepted":
                 self.cold_admission_open = True
             return status, reply
 
         def snapshot(self):
-            return dict(super().snapshot(), cold_admission_open=self.cold_admission_open)
+            return dict(super().snapshot(), cold_admission_open=self.cold_admission_open,
+                        replaced_this_boot=self.replaced_this_boot)
 
     cut.ORIGINAL_STATE = ColdSealedState
     return cut.serve_sink(Path(argv[3]), argv[2] == "recover", int(argv[4]), argv[6])
