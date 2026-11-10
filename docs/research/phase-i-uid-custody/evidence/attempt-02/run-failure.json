@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "docker",
+    "--host=unix:///var/run/docker.sock",
+    "run",
+    "--rm",
+    "--network=none",
+    "--cpus=1",
+    "--memory=512m",
+    "--pids-limit=32",
+    "--cap-drop=ALL",
+    "--cap-add=CHOWN",
+    "--cap-add=DAC_OVERRIDE",
+    "--cap-add=SETUID",
+    "--cap-add=SETGID",
+    "--security-opt=no-new-privileges",
+    "ases-uid-custody:phase-i-20261110"
+  ],
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/opt/probe/driver.py\", line 379, in <module>\n    main()\n  File \"/opt/probe/driver.py\", line 361, in main\n    if not runtime_facts()[\"cap_exact\"]:\n           ^^^^^^^^^^^^^^^\n  File \"/opt/probe/driver.py\", line 349, in runtime_facts\n    \"native_source_hashes\": {str(p): sha(p.read_bytes()) for p in source_files},\n                                         ^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/pathlib.py\", line 1019, in read_bytes\n    with self.open(mode='rb') as f:\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/opt/probe/src/docs/research/phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5/l1/l1.py'\n",
+  "buildkit_disabled_for_legacy_local_build": false
+}

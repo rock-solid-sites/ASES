@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "docker",
+    "--host=unix:///var/run/docker.sock",
+    "run",
+    "--rm",
+    "--network=none",
+    "--cpus=1",
+    "--memory=512m",
+    "--pids-limit=32",
+    "--cap-drop=ALL",
+    "--cap-add=CHOWN",
+    "--cap-add=DAC_OVERRIDE",
+    "--cap-add=SETUID",
+    "--cap-add=SETGID",
+    "--security-opt=no-new-privileges",
+    "ases-uid-custody:phase-i-20261110"
+  ],
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/opt/probe/driver.py\", line 379, in <module>\n    main()\n  File \"/opt/probe/driver.py\", line 368, in main\n    raw[\"cases\"][\"kill-before-selector\"] = owner_kill_case(\n                                           ^^^^^^^^^^^^^^^^\n  File \"/opt/probe/driver.py\", line 293, in owner_kill_case\n    owner.stop(kill=True)\n  File \"/opt/probe/driver.py\", line 139, in stop\n    self.p.kill()\n  File \"/usr/local/lib/python3.12/subprocess.py\", line 2216, in kill\n    self.send_signal(signal.SIGKILL)\n  File \"/usr/local/lib/python3.12/subprocess.py\", line 2203, in send_signal\n    os.kill(self.pid, sig)\nPermissionError: [Errno 1] Operation not permitted\n",
+  "buildkit_disabled_for_legacy_local_build": false
+}
