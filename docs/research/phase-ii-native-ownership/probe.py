@@ -478,6 +478,100 @@ def candidate_removal_race(out: Path, label: str, creator_first: bool) -> dict:
             "owner_tree": tree(ownerroot), "f1_after": f1_raw(f1root / "store.sqlite")}
 
 
+def accepted_before_reply(out: Path, label: str) -> dict:
+    root = out / "state" / label
+    root.mkdir(parents=True)
+    f1root, ownerroot = root / "f1", root / "owner"
+    f1_setup = setup_f1(f1root)
+    before = f1_raw(f1root / "store.sqlite")
+    establishment = establish_owner(ownerroot, f1root / "store.sqlite")
+    bundle = repair.configuration("A", CONTENT, True)["acceptance_bundle"]
+    f1_accept = native_f1_accept(f1root, bundle, CONTENT)
+    f1_after_accept = f1_raw(f1root / "store.sqlite")
+    owner = OwnerProcess(ownerroot)
+    interrupted = owner.call({"op": "accept", "gate": "acceptance-selected"})
+    if interrupted.get("event") != "GATE" or interrupted.get("phase", interrupted.get("stage")) != "acceptance-selected":
+        raise RuntimeError("F3 acceptance did not reach actual CURRENT-selected/pre-ACK gate")
+    killed = owner.close(kill=True)
+    tree_after_kill = tree(ownerroot)
+    cold = OwnerProcess(ownerroot)
+    cold_view = cold.snapshot()
+    retry = cold.call({"op": "accept"})
+    after_retry = cold.snapshot()
+    cold.close()
+    return {"root": str(ownerroot), "f1_root": str(f1root), "f1_setup": f1_setup,
+            "f1_before": before, "establish": establishment, "f1_accept": f1_accept,
+            "f1_after_accept": f1_after_accept, "gate_frame": interrupted,
+            "killed_owner": killed, "owner_tree_after_kill": tree_after_kill,
+            "cold_view": cold_view, "retry": retry, "after_retry": after_retry,
+            "owner_tree_final": tree(ownerroot), "f1_after": f1_raw(f1root / "store.sqlite")}
+
+
+def disposition_crash(out: Path, label: str, gate: str) -> dict:
+    root = out / "state" / label
+    root.mkdir(parents=True)
+    f1root, ownerroot = root / "f1", root / "owner"
+    f1_setup = setup_f1(f1root)
+    before = f1_raw(f1root / "store.sqlite")
+    establishment = establish_owner(ownerroot, f1root / "store.sqlite")
+    bundle = repair.configuration("A", CONTENT, True)["acceptance_bundle"]
+    f1_accept = native_f1_accept(f1root, bundle, CONTENT)
+    f1_after_accept = f1_raw(f1root / "store.sqlite")
+    owner = OwnerProcess(ownerroot)
+    accepted = owner.call({"op": "accept"})
+    registration = accepted.get("reply", accepted)["registration"]["id"]
+    sealed = owner.call({"op": "seal"})
+    child = owner.call({"op": "dispose_child", "unit": "D"})
+    interrupted = owner.call({"op": "dispose_content", "id": registration, "gate": gate})
+    expected_phase = "disposition-committed-before-unlink-reply" if gate == "inventory-disposed" else gate
+    if interrupted.get("event") != "GATE" or interrupted.get("phase", interrupted.get("stage")) != expected_phase:
+        raise RuntimeError(f"disposition did not reach expected actual gate {expected_phase}: {interrupted!r}")
+    killed = owner.close(kill=True)
+    tree_after_kill = tree(ownerroot)
+    cold = OwnerProcess(ownerroot)
+    cold_view = cold.snapshot()
+    cleanup = cold.call({"op": "cleanup"})
+    removal = cold.call({"op": "remove"})
+    final = cold.call({"op": "read"})["reply"]["snapshot"]
+    cold.close()
+    return {"root": str(ownerroot), "f1_root": str(f1root), "f1_setup": f1_setup,
+            "f1_before": before, "establish": establishment, "f1_accept": f1_accept,
+            "f1_after_accept": f1_after_accept, "accepted": accepted, "registration_id": registration,
+            "seal": sealed, "dispose_child": child, "gate": gate, "gate_frame": interrupted,
+            "killed_owner": killed, "owner_tree_after_kill": tree_after_kill,
+            "cold_view": cold_view, "cleanup": cleanup, "remove": removal,
+            "final_view": final, "owner_tree_final": tree(ownerroot),
+            "f1_after": f1_raw(f1root / "store.sqlite")}
+
+
+def removal_selected_crash(out: Path, label: str) -> dict:
+    root = out / "state" / label
+    root.mkdir(parents=True)
+    f1root, ownerroot = root / "f1", root / "owner"
+    f1_setup = setup_f1(f1root)
+    before = f1_raw(f1root / "store.sqlite")
+    establishment = establish_owner(ownerroot, f1root / "store.sqlite")
+    owner = OwnerProcess(ownerroot)
+    sealed = owner.call({"op": "seal"})
+    child = owner.call({"op": "dispose_child", "unit": "D"})
+    interrupted = owner.call({"op": "remove", "gate": "domain-removal-selected"})
+    if interrupted.get("event") != "GATE" or interrupted.get("phase", interrupted.get("stage")) != "domain-removal-selected":
+        raise RuntimeError("logical owner removal did not reach native selected/pre-cleanup gate")
+    killed = owner.close(kill=True)
+    tree_after_kill = tree(ownerroot)
+    cold = OwnerProcess(ownerroot)
+    cold_view = cold.snapshot()
+    cleanup = cold.call({"op": "cleanup"})
+    final = cold.call({"op": "read"})["reply"]["snapshot"]
+    cold.close()
+    return {"root": str(ownerroot), "f1_root": str(f1root), "f1_setup": f1_setup,
+            "f1_before": before, "establish": establishment, "seal": sealed,
+            "dispose_child": child, "gate_frame": interrupted, "killed_owner": killed,
+            "owner_tree_after_kill": tree_after_kill, "cold_view": cold_view,
+            "cleanup": cleanup, "final_view": final, "owner_tree_final": tree(ownerroot),
+            "f1_after": f1_raw(f1root / "store.sqlite")}
+
+
 def setup_f1(root: Path) -> dict:
     """Create actual F1 service after bootstrap/grant, before test-content accept."""
     root.mkdir(parents=True, exist_ok=False)
@@ -582,6 +676,10 @@ def main():
         owner = OwnerProcess(ownerroot)
         raw["owner_ready"] = owner.meta["ready"]
         case = {"root": str(ownerroot), "initial_view": owner.snapshot()}
+        case["caller_pair_acceptance_attempt"] = owner.call({
+            "op": "accept", "pair": {"accepted_content": CONTENT,
+                                      "required": {"project": "caller-forged"}}})
+        case["view_after_forged_acceptance"] = owner.snapshot()
         case["accept_first"] = owner.call({"op": "accept"})
         case["view_after_first"] = owner.snapshot()
         case["accept_duplicate"] = owner.call({"op": "accept"})
@@ -643,6 +741,14 @@ def main():
             out, "native-candidate-creator-first", True)
         raw["cases"]["native-candidate-remover-first"] = candidate_removal_race(
             out, "native-candidate-remover-first", False)
+        raw["cases"]["native-acceptance-selected-crash"] = accepted_before_reply(
+            out, "native-acceptance-selected-crash")
+        raw["cases"]["native-disposition-selected-crash"] = disposition_crash(
+            out, "native-disposition-selected-crash", "disposition-selected")
+        raw["cases"]["native-inventory-disposed-crash"] = disposition_crash(
+            out, "native-inventory-disposed-crash", "inventory-disposed")
+        raw["cases"]["native-removal-selected-crash"] = removal_selected_crash(
+            out, "native-removal-selected-crash")
 
         # Integrate the parent-owned real F4 sink: one authorized append, a
         # caller-forged F1-world denial, then a fresh post-move D-write denial.
@@ -655,6 +761,15 @@ def main():
         attached_owner = OwnerProcess(f4_owner)
         attached_snapshot = attached_owner.call({"op": "read"})["reply"]["snapshot"]
         authorized_envelope = native_envelope(attached_snapshot, witness_root + ":authorized-1")
+        stale_epoch_envelope = dict(authorized_envelope,
+                                    request_id=witness_root + ":stale-epoch",
+                                    epoch=authorized_envelope["epoch"] - 1)
+        stale_epoch_call = f4.submit(stale_epoch_envelope)
+        stale_selector_envelope = dict(authorized_envelope,
+                                       request_id=witness_root + ":stale-selector",
+                                       l5=prepared["owner_accept"]["reply"]["snapshot"]["generation"])
+        stale_selector_call = f4.submit(stale_selector_envelope)
+        owner_after_stale = attached_owner.call({"op": "read"})["reply"]["snapshot"]
         authorized_call = f4.submit(authorized_envelope)
         owner_after_authorized = attached_owner.call({"op": "read"})["reply"]["snapshot"]
         forged = native_envelope(owner_after_authorized, witness_root + ":forged-world")
@@ -672,6 +787,9 @@ def main():
             "setup": prepared, "witness_root": witness_root, "f4_lifecycle": f4.lifecycle_calls,
             "f4_ready": f4.sink.ready, "witness_init": f4.witness_init,
             "attached_snapshot": attached_snapshot, "authorized_envelope": authorized_envelope,
+            "stale_epoch_envelope": stale_epoch_envelope, "stale_epoch_call": stale_epoch_call,
+            "stale_selector_envelope": stale_selector_envelope,
+            "stale_selector_call": stale_selector_call, "owner_after_stale": owner_after_stale,
             "authorized_call": authorized_call, "owner_after_authorized": owner_after_authorized,
             "forged_envelope": forged, "forged_call": forged_call,
             "transitions": transitions, "after_move_snapshot": after_move,

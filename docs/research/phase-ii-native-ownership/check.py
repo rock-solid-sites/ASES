@@ -116,6 +116,13 @@ def check_native_no_f4(case: dict, raw: dict) -> None:
          "owner bootstrap imported an accepted-object fixture")
     need(initial_owner.get("children", {}).get("D") == "live", "issuer did not create native D")
     need(initial.get("inventory", {}).get("dependencies") == [], "bootstrap inventory not empty")
+    forged_attempt = frame_reply(case["caller_pair_acceptance_attempt"])
+    forged_view = case["view_after_forged_acceptance"]
+    need(forged_attempt.get("result") == "DENY"
+         and forged_view.get("selector") == initial.get("selector")
+         and stable_inventory(forged_view.get("inventory", {}))
+         == stable_inventory(initial.get("inventory", {})),
+         "caller-supplied pair changed native acceptance/material before actual F1 reread")
 
     first = frame_reply(case["accept_first"])
     duplicate = frame_reply(case["accept_duplicate"])
@@ -229,6 +236,21 @@ def check_native_no_f4(case: dict, raw: dict) -> None:
 def check_native_f4(case: dict, label: str) -> None:
     if label == "native-f4-authorized-denied":
         authorized = case["authorized_call"]
+        for key, reason in (("stale_epoch_call", "stale-native-epoch"),
+                            ("stale_selector_call", "stale-native-selector")):
+            value = case[key]
+            need(value["response"].get("status") == 409
+                 and value["response"].get("body", {}).get("outcome") == "admission-denied"
+                 and value["response"]["body"].get("reason") == reason
+                 and value["response"]["body"].get("local_control_committed") is False,
+                 key + ": native F4 did not enforce exact stale epoch/selector reason")
+            need(value["before"].get("sha256") == value["after"].get("sha256"),
+                 key + ": stale native envelope changed journal")
+        before_stale = case["attached_snapshot"]
+        after_stale = case["owner_after_stale"]
+        need(before_stale.get("selector") == after_stale.get("selector")
+             and owner_record(before_stale).get("effects") == owner_record(after_stale).get("effects"),
+             "stale native request changed owner selector or effect reservation")
         need(authorized["response"].get("status") == 201, "authorized native F4 effect not accepted")
         need(authorized["response"]["body"].get("owner_effect", {}).get("status") == "published",
              "authorized effect did not reach owner published state")
@@ -499,6 +521,131 @@ def check_candidate_removal_race(case: dict, label: str, creator_first: bool) ->
          label + ": actual final L6 catalog not removed with disposed dependencies")
 
 
+def catalog_rows_from_tree(label: str, tree: dict) -> tuple[int, list[tuple], str]:
+    raw_catalog = check_file_record(label + "/catalog.sqlite", tree["protected/catalog.sqlite"])
+    db = sqlite3.connect(":memory:")
+    try:
+        db.deserialize(raw_catalog)
+        unit_live = db.execute("SELECT live FROM unit").fetchone()[0]
+        deps = db.execute("SELECT name,kind,sha256,size,disposed FROM dependencies ORDER BY name").fetchall()
+        integrity = db.execute("PRAGMA integrity_check").fetchone()[0]
+    finally:
+        db.close()
+    return unit_live, deps, integrity
+
+
+def check_acceptance_selected_crash(case: dict) -> None:
+    gate = case["gate_frame"]
+    need(gate.get("event") == "GATE" and gate.get("phase", gate.get("stage")) == "acceptance-selected",
+         "F3 acceptance lost-ack gate did not follow actual native CURRENT selection")
+    cold = case["cold_view"]
+    selected = owner_record(cold).get("selected")
+    registrations = owner_record(cold).get("registrations", [])
+    reg = next((item for item in registrations if item.get("id") == selected), None)
+    need(reg is not None and reg.get("status") == "live",
+         "cold read after acceptance gate lost the actual F3 registration")
+    f1 = case["f1_after_accept"]
+    check_f1_state("acceptance-gate F1", f1)
+    need(reg.get("pair") == f1.get("pair"),
+         "crash-selected F3 registration did not derive from actual selected F1 subject")
+    material = reg["metadata"]
+    name = Path(material["object"]).name
+    inventory = cold["inventory"]
+    row = next((item for item in inventory.get("dependencies", []) if item.get("name") == name), None)
+    need(row is not None and row.get("disposed") == 0 and row.get("sha256") == material["sha256"]
+         and row.get("size") == material["size"],
+         "acceptance gate lacks actual durable native L6 material row")
+    object_record = inventory.get("files", {}).get(name)
+    need(object_record is not None and check_file_record("accepted native material", object_record)
+         == f1["pair"]["accepted_content"].encode(),
+         "accepted F3 registration does not resolve to exact native bytes")
+    unit_live, raw_rows, integrity = catalog_rows_from_tree(
+        "acceptance tree", case["owner_tree_after_kill"])
+    need(unit_live == 1 and integrity == "ok"
+         and any(item[0] == name and item[1] == "candidate" and item[4] == 0 for item in raw_rows),
+         "raw post-kill L6 catalog did not retain prepared accepted material")
+    retry = frame_reply(case["retry"])
+    after = frame_snapshot(case["retry"])
+    need(retry.get("result") == "COMMITTED" and retry.get("duplicate") is True
+         and owner_record(after).get("selected") == selected,
+         "exact post-crash accept retry did not observe the selected registration as duplicate")
+    need(stable_inventory(after.get("inventory", {})) == stable_inventory(inventory)
+         and owner_record(after).get("epoch") == owner_record(cold).get("epoch"),
+         "post-crash duplicate added material or advanced epoch")
+    need(case["f1_after"]["view"] == f1["view"]
+         and case["f1_after"]["selected"] == f1["selected"]
+         and case["f1_after"]["retained"] == f1["retained"],
+         "accepted-before-reply recovery altered retained source F1 observations")
+
+
+def check_disposition_crash(case: dict, label: str, inventory_disposed: bool) -> None:
+    gate = case["gate_frame"]
+    expected = "disposition-committed-before-unlink-reply" if inventory_disposed else "disposition-selected"
+    need(gate.get("event") == "GATE" and gate.get("phase", gate.get("stage")) == expected,
+         label + ": actual native logical/L6 disposition gate missing")
+    cold = case["cold_view"]
+    reg = next((item for item in owner_record(cold).get("registrations", [])
+                if item.get("id") == case["registration_id"]), None)
+    need(reg is not None and reg.get("status") == "disposed"
+         and owner_record(cold).get("selected") is None,
+         label + ": cold state did not retain logical registration disposition")
+    name = Path(reg["metadata"]["object"]).name
+    row = next((item for item in cold["inventory"].get("dependencies", [])
+                if item.get("name") == name), None)
+    file_present = name in cold["inventory"].get("files", {})
+    need(row is not None and file_present and row.get("disposed") == int(inventory_disposed),
+         label + ": cold inventory does not show the actual interrupted side of L6 unlink")
+    if inventory_disposed:
+        need(gate.get("in_transaction") is False,
+             label + ": post-L6-COMMIT gate unexpectedly reports open transaction")
+    else:
+        need(gate.get("phase") == "disposition-selected",
+             label + ": owner CURRENT gate occurred after the L6 disposition")
+    need(frame_reply(case["cleanup"]).get("result") == "COMMITTED"
+         and frame_reply(case["remove"]).get("result") == "COMMITTED",
+         label + ": explicit cold cleanup did not finish retained disposition and removal")
+    final = case["final_view"]
+    need(owner_record(final).get("lifecycle") == "removed"
+         and final.get("inventory", {}).get("live") is False
+         and not final.get("inventory", {}).get("files")
+         and final.get("inventory", {}).get("objects_directory_exists") is False,
+         label + ": cleanup did not converge on removed/empty native storage")
+    unit_live, raw_rows, integrity = catalog_rows_from_tree(label, case["owner_tree_after_kill"])
+    need(integrity == "ok" and unit_live == 1
+         and any(item[0] == name and item[4] == int(inventory_disposed) for item in raw_rows),
+         label + ": raw post-kill L6 catalog disagrees with actual disposition point")
+    need(case["f1_after"]["view"] == case["f1_after_accept"]["view"]
+         and case["f1_after"]["selected"] == case["f1_after_accept"]["selected"]
+         and case["f1_after"]["retained"] == case["f1_after_accept"]["retained"],
+         label + ": interrupted disposal changed source F1 observations")
+
+
+def check_removal_selected_crash(case: dict) -> None:
+    gate = case["gate_frame"]
+    need(gate.get("event") == "GATE"
+         and gate.get("phase", gate.get("stage")) == "domain-removal-selected",
+         "native removal did not gate after logical CURRENT and before L6 cleanup")
+    cold = case["cold_view"]
+    need(owner_record(cold).get("lifecycle") == "removed"
+         and cold["inventory"].get("live") is True
+         and not cold["inventory"].get("files"),
+         "cold removal interruption does not retain the mixed logical/native phase")
+    live, rows, integrity = catalog_rows_from_tree("removal selected", case["owner_tree_after_kill"])
+    need(live == 1 and not rows and integrity == "ok",
+         "raw post-kill L6 catalog differs from the actual pre-removal cleanup point")
+    need(frame_reply(case["cleanup"]).get("result") == "COMMITTED",
+         "cold removed-domain cleanup did not finish selected physical removal")
+    final = case["final_view"]
+    need(owner_record(final).get("lifecycle") == "removed"
+         and final["inventory"].get("live") is False
+         and final["inventory"].get("objects_directory_exists") is False,
+         "cold selected-removal cleanup did not remove the data envelope")
+    need(case["f1_before"]["view"] == case["f1_after"]["view"]
+         and case["f1_before"]["selected"] == case["f1_after"]["selected"]
+         and case["f1_before"]["retained"] == case["f1_after"]["retained"],
+         "selected removal cleanup altered source F1 observations")
+
+
 def verify_live_storage(raw: dict, case: dict, snapshot: dict, label: str) -> None:
     root = Path(case.get("root", case.get("setup", {}).get("owner_root", "")))
     need(str(root) not in ("", "."), label + ": native owner root missing")
@@ -613,6 +760,16 @@ def validate(raw: dict, raw_path: Path) -> dict:
         check_candidate_removal_race(cases["native-candidate-creator-first"], "creator-first race", True)
     if "native-candidate-remover-first" in cases:
         check_candidate_removal_race(cases["native-candidate-remover-first"], "remover-first race", False)
+    if "native-acceptance-selected-crash" in cases:
+        check_acceptance_selected_crash(cases["native-acceptance-selected-crash"])
+    if "native-disposition-selected-crash" in cases:
+        check_disposition_crash(cases["native-disposition-selected-crash"],
+                                "logical disposition", False)
+    if "native-inventory-disposed-crash" in cases:
+        check_disposition_crash(cases["native-inventory-disposed-crash"],
+                                "L6 committed disposition", True)
+    if "native-removal-selected-crash" in cases:
+        check_removal_selected_crash(cases["native-removal-selected-crash"])
     if "native-f4-authorized-denied" in cases:
         case = cases["native-f4-authorized-denied"]
         check_native_f4(case, "native-f4-authorized-denied")
