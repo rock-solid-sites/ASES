@@ -238,7 +238,19 @@ def main(argv):
 
         class OwnerOutcomeState(generated):
             def apply(self, path, data):
-                status, reply = super().apply(path, data)
+                try:
+                    status, reply = super().apply(path, data)
+                except OSError as error:
+                    request_id = data.get("request_id") if isinstance(data, dict) else None
+                    effect = admission.owner.view()["state"]["native_owner"]["effects"].get(request_id)
+                    if path != "/submit" or effect is None:
+                        raise
+                    # A durable owner reservation may precede an uncertain local
+                    # write. The local-append case already has its actual seq.
+                    return 503, dict(outcome="native-effect-requires-reconciliation",
+                                     owner_reservation_committed=True,
+                                     local_control_committed=True if effect["status"] in ("local", "published") else None,
+                                     local_event_seq=effect.get("seq"), reason=str(error))
                 if path == "/submit" and isinstance(data, dict):
                     request_id = data.get("request_id")
                     if isinstance(request_id, str) and request_id in self.request_index:
