@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import hashlib
 import importlib.util
 import json
 import os
 from pathlib import Path
 import select
+import shutil
+import signal
 import sqlite3
 import subprocess
 import sys
@@ -22,6 +25,9 @@ REPAIRED_F1 = REPAIR / "repaired_service.py"
 L5 = REPO / "docs/research/phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5"
 L6 = REPO / "docs/research/phase-i-sol-integration/evidence/sources/l6/research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory"
 OWNER_CLI = HERE / "owner_cli.py"
+NATIVE_SINK = HERE / "native_sink.py"
+UNIX_TRANSPORT = HERE / "unix_transport.py"
+NATIVE_HELPERS_PATH = REPO / "docs/research/phase-i-sol-integration/native.py"
 CONTENT = "accepted\x00one\n"
 PROCESSES: list[dict] = []
 
@@ -38,6 +44,7 @@ def load_module(name: str, path: Path):
 
 
 repair = load_module("ownership_f1_repair_probe", REPAIR / "probe.py")
+native = load_module("ownership_native_helpers", NATIVE_HELPERS_PATH)
 
 
 def sha(raw: bytes) -> str:
@@ -46,6 +53,15 @@ def sha(raw: bytes) -> str:
 
 def canonical(value) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+
+
+def payload_from_frame(frame: dict) -> dict:
+    """Unwrap the fixed CLI response envelope while retaining the raw frame."""
+    for key in ("reply", "view", "snapshot"):
+        value = frame.get(key)
+        if isinstance(value, dict) and ("result" in value or "state" in value or "selector" in value):
+            return value
+    return frame
 
 
 def file_record(path: Path) -> dict:
@@ -94,6 +110,7 @@ class OwnerProcess:
         PROCESSES.append(self.meta)
         ready = self.read(timeout=10)
         self.meta["ready"] = ready
+        self.last_frame = ready
 
     def read(self, timeout=10):
         if not select.select([self.p.stdout], [], [], timeout)[0]:
@@ -108,11 +125,16 @@ class OwnerProcess:
     def call(self, request: dict):
         self.p.stdin.write((canonical(request) + "\n").encode())
         self.p.stdin.flush()
-        return self.read()
+        self.last_frame = self.read()
+        return self.last_frame
+
+    def snapshot(self):
+        return self.last_frame.get("snapshot")
 
     def gate_call(self, request: dict, stage: str):
         value = self.call(dict(request, gate=stage))
-        if value.get("event") != "GATE" or value.get("stage") != stage:
+        actual = value.get("phase", value.get("stage"))
+        if value.get("event") != "GATE" or actual != stage:
             raise RuntimeError(f"expected native gate {stage}, got {value!r}")
         return value
 
@@ -138,6 +160,179 @@ class OwnerProcess:
         self.p.stdout.close()
         self.p.stderr.close()
         return self.meta
+
+
+class NativeF4:
+    """Real parent-owned F4/witness processes using only the native-owner profile."""
+    def __init__(self, root: Path, owner_root: Path, witness_root: str, gate: str | None = None):
+        self.root = root
+        self.root.mkdir(parents=True, exist_ok=False)
+        os.chmod(self.root, 0o700)
+        self.socket_dir = self.root / "private"
+        self.socket_dir.mkdir(mode=0o700)
+        self.journal = self.root / "sink-effects.jsonl"
+        self.config_path = self.root / "native-config.json"
+        self.witness_root = witness_root
+        self.config = {"profile": "native-f3-owner-v1", "owner_root": str(owner_root)}
+        if gate:
+            self.config["gate"] = gate
+        self.config_path.write_text(canonical(self.config) + "\n")
+        self.witness_socket = self.socket_dir / "witness.sock"
+        self.witness = UnixChild([sys.executable, "-B", str(NATIVE_SINK), "--witness", witness_root],
+                                self.witness_socket)
+        self.witness_port = self.witness.ready.get("port", 0)
+        self.witness_init = self.http(self.witness_socket, "/init", dict(
+            root=witness_root, nonce="native-init-" + str(time.monotonic_ns()),
+            cut=dict(authority=dict(created=False, granted=False, active=False,
+                                    authority_version=0, holder="old"),
+                     journal_sha256=sha(b""))))
+        self.calls = []
+        self.start(recover=False)
+        self.lifecycle_calls = [self.call("/create", {}), self.call("/grant", {}),
+                                self.call("/activate", {"authority_version": 1})]
+
+    def start(self, recover: bool):
+        socket_name = "sink-cold.sock" if recover else "sink.sock"
+        self.sink_socket = self.socket_dir / socket_name
+        argv = [sys.executable, "-B", str(NATIVE_SINK), "--sink", "recover" if recover else "fresh",
+                str(self.journal), str(self.witness_port), "published-cut", self.witness_root,
+                str(self.config_path)]
+        self.sink = UnixChild(argv, self.sink_socket, self.witness_socket)
+        self.port = self.sink.ready.get("port", 0)
+        return self.sink.ready
+
+    @staticmethod
+    def http(socket_path: Path, path: str, request: dict | None = None):
+        method = "GET" if request is None else "POST"
+        status, body = native.call_unix(socket_path, method, path, request)
+        return {"status": status, "body": body, "raw": canonical(body)}
+
+    def call(self, path: str, request: dict):
+        before = native.blob(self.journal)
+        try:
+            response = self.http(self.sink_socket, path, request)
+        except Exception as error:
+            response = {"transport_error": type(error).__name__ + ":" + str(error)}
+        value = {"path": path, "request": request, "before": before,
+                 "after": native.blob(self.journal), "response": response}
+        self.calls.append(value)
+        return value
+
+    def witness_call(self, path: str, **fields):
+        return self.http(self.witness_socket, path,
+                         dict(root=self.witness_root, nonce="native-" + str(time.monotonic_ns()), **fields))
+
+    def snapshot(self):
+        try:
+            status = self.http(self.sink_socket, "/status")
+        except Exception as error:
+            status = {"transport_error": type(error).__name__ + ":" + str(error)}
+        return {"journal": native.blob(self.journal), "sink_status": status,
+                "witness_status": self.http(self.witness_socket, "/status"),
+                "calls": self.calls, "sink_process": self.sink.meta,
+                "witness_process": self.witness.meta, "config": self.config,
+                "config_file_sha256": sha(self.config_path.read_bytes())}
+
+    def submit(self, envelope: dict):
+        return self.call("/submit", dict(authority_version=1,
+                                          request_id=envelope["request_id"],
+                                          payload=canonical(envelope)))
+
+    def cold_restart(self):
+        self.dead_sink = self.sink.meta
+        self.config.pop("gate", None)
+        self.config_path.write_text(canonical(self.config) + "\n")
+        return self.start(recover=True)
+
+    def close(self, kill=True):
+        if getattr(self, "sink", None):
+            self.sink.close(kill)
+        self.witness.close(True)
+
+
+class UnixChild:
+    """Native source process on one private AF_UNIX socket with raw stdio capture."""
+    def __init__(self, argv, listen_socket: Path, witness_socket: Path | None = None):
+        env = os.environ.copy()
+        env["ASES_NATIVE_LISTEN_SOCKET"] = str(listen_socket)
+        if witness_socket is not None:
+            env["ASES_NATIVE_WITNESS_SOCKET"] = str(witness_socket)
+        else:
+            env.pop("ASES_NATIVE_WITNESS_SOCKET", None)
+        self.meta = {"argv": [str(v) for v in argv], "start_ns": time.monotonic_ns(),
+                     "listen_socket": str(listen_socket),
+                     "witness_socket": None if witness_socket is None else str(witness_socket),
+                     "frames": []}
+        self.p = subprocess.Popen(self.meta["argv"], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                  env=env, bufsize=0)
+        self.meta["pid"] = self.p.pid
+        PROCESSES.append(self.meta)
+        self.ready = self.read_json(10)
+        self.meta["ready"] = self.ready
+
+    def read_json(self, timeout=10):
+        if not select.select([self.p.stdout], [], [], timeout)[0]:
+            raise TimeoutError("native AF_UNIX child readiness/frame timeout")
+        raw = self.p.stdout.readline(4 * 1024 * 1024)
+        if not raw:
+            raise RuntimeError("native AF_UNIX child EOF: " + self.p.stderr.read().decode(errors="replace")[-4096:])
+        value = json.loads(raw)
+        self.meta["frames"].append({"ns": time.monotonic_ns(), "raw": raw.decode(errors="replace"), "value": value})
+        return value
+
+    def read(self):
+        raw = self.p.stdout.readline(4 * 1024 * 1024)
+        line = raw.decode(errors="replace")
+        if raw:
+            try:
+                value = json.loads(raw)
+            except json.JSONDecodeError:
+                value = None
+            self.meta["frames"].append({"ns": time.monotonic_ns(), "raw": line, "value": value})
+        return line
+
+    def close(self, kill=True):
+        if "exit" in self.meta:
+            return self.meta
+        if self.p.poll() is None:
+            if kill:
+                self.p.kill()
+            else:
+                self.p.stdin.write(b'{"op":"stop"}\n')
+        self.meta["exit"] = self.p.wait(timeout=10)
+        self.meta["exit_ns"] = time.monotonic_ns()
+        self.meta["stdout_tail"] = self.p.stdout.read().decode(errors="replace")[-4096:]
+        self.meta["stderr"] = self.p.stderr.read().decode(errors="replace")[-8192:]
+        return self.meta
+
+
+def native_envelope(snapshot: dict, request_id: str) -> dict:
+    state = snapshot["state"]
+    owner = state["native_owner"]
+    registration = next(r for r in owner["registrations"] if r["id"] == owner["selected"])
+    return {"kind": "use-current-descendant", "import_id": registration["id"],
+            "epoch": owner["epoch"], "pair": registration["pair"],
+            "l5": snapshot["generation"], "request_id": request_id}
+
+
+def setup_native_f3(case_root: Path, world="A", activate=True) -> dict:
+    case_root.mkdir(parents=True, exist_ok=False)
+    f1root, ownerroot = case_root / "f1", case_root / "owner"
+    f1 = setup_f1(f1root)
+    establishment = establish_owner(ownerroot, f1root / "store.sqlite")
+    bundle = repair.configuration(world, CONTENT, True)["acceptance_bundle"]
+    accepted_f1 = native_f1_accept(f1root, bundle, CONTENT)
+    owner = OwnerProcess(ownerroot)
+    accepted_f3 = owner.call({"op": "accept"})
+    activated = owner.call({"op": "activate"}) if activate else None
+    result = {"f1": f1, "f1_accept": accepted_f1, "establish": establishment,
+              "owner_accept": accepted_f3, "activation": activated,
+              "owner_ready": owner.meta["ready"], "owner_process": owner.meta,
+              "owner_root": str(ownerroot), "f1_root": str(f1root)}
+    owner.close()
+    result["owner_process"] = owner.meta
+    result["owner_tree_before_f4"] = tree(ownerroot)
+    return result
 
 
 def setup_f1(root: Path) -> dict:
@@ -208,7 +403,10 @@ def source_manifest() -> dict:
         "l5_core": L5 / "l5_integrated.py",
         "l6_store": L6 / "store.py",
         "l6_race_store": L6 / "race/race_store.py",
+        "native_owner": HERE / "native_owner.py",
         "owner_cli": OWNER_CLI,
+        "native_f4_sink": HERE / "native_sink.py",
+        "unix_transport": UNIX_TRANSPORT,
     }
     return {name: {"path": str(path), "sha256": sha(path.read_bytes())}
             for name, path in sources.items() if path.is_file()}
@@ -240,23 +438,153 @@ def main():
         raw["f1_after_accept"] = f1_raw(f1root / "store.sqlite")
         owner = OwnerProcess(ownerroot)
         raw["owner_ready"] = owner.meta["ready"]
-        case = {"root": str(ownerroot), "initial_view": owner.call({"op": "view"})}
+        case = {"root": str(ownerroot), "initial_view": owner.snapshot()}
         case["accept_first"] = owner.call({"op": "accept"})
-        case["view_after_first"] = owner.call({"op": "view"})
+        case["view_after_first"] = owner.snapshot()
         case["accept_duplicate"] = owner.call({"op": "accept"})
-        case["view_after_duplicate"] = owner.call({"op": "view"})
+        case["view_after_duplicate"] = owner.snapshot()
         changed_bundle = repair.configuration("C", CONTENT, True)["acceptance_bundle"]
         case["native_f1_same_bytes_changed_world"] = native_f1_accept(f1root, changed_bundle, CONTENT)
         case["f1_after_world_change"] = f1_raw(f1root / "store.sqlite")
         case["accept_changed_world"] = owner.call({"op": "accept"})
-        case["view_after_changed_world"] = owner.call({"op": "view"})
+        case["view_after_changed_world"] = owner.snapshot()
+        state_view = payload_from_frame(case["view_after_changed_world"])
+        owner_state = state_view.get("state", state_view)
+        native_record = owner_state.get("native_owner", {})
+        registration_ids = [r["id"] for r in native_record.get("registrations", [])]
+        for response in (case["accept_first"], case["accept_changed_world"]):
+            value = payload_from_frame(response)
+            registration_id = value.get("registration_id")
+            if registration_id and registration_id not in registration_ids:
+                registration_ids.append(registration_id)
+        case["registration_ids"] = registration_ids
+        case["seal"] = owner.call({"op": "seal"})
+        case["move"] = owner.call({"op": "move"})
+        case["activate"] = owner.call({"op": "activate"})
+        case["remove_blocked_active_domain"] = owner.call({"op": "remove"})
+        case["snapshot_after_active_remove_block"] = owner.call({"op": "read"})["reply"]["snapshot"]
+        case["seal_for_disposition"] = owner.call({"op": "seal"})
+        case["remove_blocked_live_child"] = owner.call({"op": "remove"})
+        case["snapshot_after_child_remove_block"] = owner.call({"op": "read"})["reply"]["snapshot"]
+        case["dispose_child"] = owner.call({"op": "dispose_child", "unit": "D"})
+        case["remove_blocked_live_material"] = owner.call({"op": "remove"})
+        case["snapshot_after_material_remove_block"] = owner.call({"op": "read"})["reply"]["snapshot"]
+        case["dispose_content"] = []
+        for registration_id in registration_ids:
+            case["dispose_content"].append(owner.call({"op": "dispose_content", "id": registration_id}))
+        case["remove"] = owner.call({"op": "remove"})
         case["source_after_acceptance"] = f1_raw(f1root / "store.sqlite")
         raw["cases"]["native-no-f4"] = case
-        raw["cases"]["native-no-f4"]["owner_tree_after_acceptance"] = tree(ownerroot)
+        raw["cases"]["native-no-f4"]["owner_tree_after_operations"] = tree(ownerroot)
         owner.close()
         raw["cases"]["native-no-f4"]["owner_process"] = owner.meta
         raw["cases"]["native-no-f4"]["owner_tree_after_close"] = tree(ownerroot)
-        raw["status"] = "HARNESS_READY_FIRST_NATIVE_CASE"
+        # Constructor/read is nonmutating. Recovery is deliberately omitted
+        # after logical removal; removed domains are not eligible to recover.
+        readback = OwnerProcess(ownerroot)
+        raw["cases"]["native-no-f4"]["cold_ready"] = readback.meta["ready"]
+        raw["cases"]["native-no-f4"]["cold_view"] = readback.snapshot()
+        readback.close()
+        raw["cases"]["native-no-f4"]["cold_process"] = readback.meta
+        raw["cases"]["native-no-f4"]["f1_after_remove"] = f1_raw(f1root / "store.sqlite")
+        raw["cases"]["native-no-f4"]["owner_tree_final"] = tree(ownerroot)
+
+        # Integrate the parent-owned real F4 sink: one authorized append, a
+        # caller-forged F1-world denial, then a fresh post-move D-write denial.
+        f4root = out / "state" / "native-f4-authorized-denied"
+        prepared = setup_native_f3(f4root, world="A", activate=True)
+        f4_owner = Path(prepared["owner_root"])
+        owner_snapshot = prepared["owner_ready"]["snapshot"]
+        witness_root = owner_snapshot["state"]["native_owner"]["domain_id"]
+        f4 = NativeF4(f4root / "f4", f4_owner, witness_root)
+        attached_owner = OwnerProcess(f4_owner)
+        attached_snapshot = attached_owner.call({"op": "read"})["reply"]["snapshot"]
+        authorized_envelope = native_envelope(attached_snapshot, witness_root + ":authorized-1")
+        authorized_call = f4.submit(authorized_envelope)
+        owner_after_authorized = attached_owner.call({"op": "read"})["reply"]["snapshot"]
+        forged = native_envelope(owner_after_authorized, witness_root + ":forged-world")
+        forged["pair"] = dict(forged["pair"], required=dict(forged["pair"]["required"],
+                                                                project="caller-forged-world"))
+        forged_call = f4.submit(forged)
+        transitions = {"seal": attached_owner.call({"op": "seal"}),
+                       "move": attached_owner.call({"op": "move"}),
+                       "activate": attached_owner.call({"op": "activate"})}
+        after_move = attached_owner.call({"op": "read"})["reply"]["snapshot"]
+        denied_envelope = native_envelope(after_move, witness_root + ":denied-after-move")
+        denied_call = f4.submit(denied_envelope)
+        owner_after_denial = attached_owner.call({"op": "read"})["reply"]["snapshot"]
+        raw["cases"]["native-f4-authorized-denied"] = {
+            "setup": prepared, "witness_root": witness_root, "f4_lifecycle": f4.lifecycle_calls,
+            "f4_ready": f4.sink.ready, "witness_init": f4.witness_init,
+            "attached_snapshot": attached_snapshot, "authorized_envelope": authorized_envelope,
+            "authorized_call": authorized_call, "owner_after_authorized": owner_after_authorized,
+            "forged_envelope": forged, "forged_call": forged_call,
+            "transitions": transitions, "after_move_snapshot": after_move,
+            "denied_envelope": denied_envelope, "denied_call": denied_call,
+            "owner_after_denial": owner_after_denial, "f4_snapshot": f4.snapshot(),
+            "f4_tree": tree(f4.root), "owner_tree": tree(f4_owner),
+            "f1_after": f1_raw(Path(prepared["f1_root"]) / "store.sqlite")}
+        attached_owner.close()
+        f4.close(True)
+
+        # Lost service reply after actual F4/witness publication but before the
+        # owner-side publication record. Cold recovery plus exact retry must
+        # settle one original journal event and never append a second one.
+        receipt_root = out / "state" / "native-f4-receipt-cold"
+        receipt_setup = setup_native_f3(receipt_root, world="A", activate=True)
+        receipt_owner = Path(receipt_setup["owner_root"])
+        receipt_snapshot = receipt_setup["owner_ready"]["snapshot"]
+        receipt_witness_root = receipt_snapshot["state"]["native_owner"]["domain_id"]
+        receipt_f4 = NativeF4(receipt_root / "f4", receipt_owner, receipt_witness_root,
+                              gate="before-settlement")
+        current_owner = OwnerProcess(receipt_owner)
+        current_snapshot = current_owner.call({"op": "read"})["reply"]["snapshot"]
+        receipt_envelope = native_envelope(current_snapshot, receipt_witness_root + ":lost-reply-1")
+        receipt_before = native.blob(receipt_f4.journal)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            pending = pool.submit(receipt_f4.submit, receipt_envelope)
+            gate_line = receipt_f4.sink.read()
+            gate_raw = json.loads(gate_line)
+            if gate_raw.get("event") != "GATE" or gate_raw.get("phase", gate_raw.get("stage")) != "before-settlement":
+                raise RuntimeError("expected actual post-publication before-settlement gate: " + canonical(gate_raw))
+            receipt_f4.sink.close(True)
+            lost_reply_call = pending.result(timeout=10)
+        owner_at_gate = current_owner.call({"op": "read"})["reply"]["snapshot"]
+        receipt_at_gate = {"frame": gate_raw, "journal": native.blob(receipt_f4.journal),
+                           "witness": receipt_f4.witness_call("/status"),
+                           "owner_after_kill": owner_at_gate}
+        cold_ready = receipt_f4.cold_restart()
+        retry = receipt_f4.submit(receipt_envelope)
+        after_retry_snapshot = receipt_f4.snapshot()
+        owner_check = OwnerProcess(receipt_owner)
+        owner_after_retry = owner_check.snapshot()
+        owner_check.close()
+        # A current-generation envelope after move is a new request and must be
+        # denied; exact historical retry remains a one-event observation.
+        transitions_receipt = {"seal": current_owner.call({"op": "seal"}),
+                               "move": current_owner.call({"op": "move"}),
+                               "activate": current_owner.call({"op": "activate"})}
+        moved_snapshot = current_owner.call({"op": "read"})["reply"]["snapshot"]
+        fresh_denied = native_envelope(moved_snapshot, receipt_witness_root + ":after-move-denied")
+        denied_after_cold = receipt_f4.submit(fresh_denied)
+        historical_retry = receipt_f4.submit(receipt_envelope)
+        raw["cases"]["native-f4-receipt-cold"] = {
+            "setup": receipt_setup, "witness_root": receipt_witness_root,
+            "f4_lifecycle": receipt_f4.lifecycle_calls, "initial_ready": receipt_f4.witness.ready,
+            "witness_init": receipt_f4.witness_init, "envelope": receipt_envelope,
+            "journal_before": receipt_before, "lost_reply_call": lost_reply_call,
+            "gate_and_owner_local_commit": receipt_at_gate, "cold_ready": cold_ready,
+            "retry": retry, "snapshot_after_retry": after_retry_snapshot,
+            "owner_after_retry": owner_after_retry, "transitions_after_retry": transitions_receipt,
+            "moved_snapshot": moved_snapshot, "new_request_after_move": fresh_denied,
+            "denied_after_cold": denied_after_cold, "historical_retry_after_move": historical_retry,
+            "final_snapshot": receipt_f4.snapshot(), "f4_tree": tree(receipt_f4.root),
+            "owner_tree": tree(receipt_owner), "f1_after": f1_raw(Path(receipt_setup["f1_root"]) / "store.sqlite"),
+            "dead_sink_process": receipt_f4.dead_sink, "cold_sink_process": receipt_f4.sink.meta}
+        current_owner.close()
+        receipt_f4.close(True)
+        raw["native_helper_events"] = native.EVENTS
+        raw["status"] = "PASS"
     except BaseException as error:
         raw["failure"] = {"type": type(error).__name__, "message": str(error),
                           "traceback": traceback.format_exc()}
