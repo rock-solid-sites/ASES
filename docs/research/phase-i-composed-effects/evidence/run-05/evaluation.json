@@ -1,0 +1,72 @@
+{
+  "cases": {
+    "allowed": {
+      "effects": 1,
+      "event_seq": 4,
+      "http": 201,
+      "published": true
+    },
+    "denied-and-retry-only-negative": {
+      "composed_effects": 0,
+      "composed_http": 409,
+      "retry_only_effects": 1,
+      "retry_only_http": 201
+    },
+    "kill-after-local-append": {
+      "cold_refused": true,
+      "gate": "after-append",
+      "local_effects": 1,
+      "reply": null,
+      "witness_published": false
+    },
+    "lost-receipt-l6-cold": {
+      "cold_retry_http": 200,
+      "conflict_http": 409,
+      "duplicate_effects": 0,
+      "first_http": 503,
+      "first_local_effects": 1,
+      "native_l6_removed": true,
+      "new_id_http": 409,
+      "same_retry_http": 200,
+      "witness_published": true
+    },
+    "remote-rejection": {
+      "cold_refused": true,
+      "conflict_while_cut_diverged_http": 409,
+      "duplicate_effects": 0,
+      "first_http": 503,
+      "local_effects": 1,
+      "new_local_effect": false,
+      "prior_local_sequence": 4,
+      "retry_http": 503,
+      "retry_outcome": "retry-observation-unresolved"
+    },
+    "revoke-history": {
+      "effects": 1,
+      "historical_observation_http": 200,
+      "new_id_http": 409,
+      "revoke_http": 200
+    }
+  },
+  "checker_controls": [
+    {
+      "name": "source-denied-forged-success",
+      "rejected": true
+    },
+    {
+      "name": "retry-event-sequence-mismatch",
+      "rejected": true
+    },
+    {
+      "name": "same-id-conflict-made-exact",
+      "rejected": true
+    }
+  ],
+  "conclusion": "BOUNDED_COMPOSED_ADMISSION_RETRY_OBSERVATIONS",
+  "limitations": [
+    "For a retained exact retry after witness publication rejection, the corrected outer outcome wrapper reports retry-observation-unresolved with the original local_event_seq and new_local_effect=false; the HTTP 503 does not prove remote success.",
+    "Known changed-payload IDs return request-id-conflict before witness observation, including while the witness cut diverges; this conflict path is shown to append no bytes.",
+    "The fixture permits historical result reads after revoke; no production information-access policy is established."
+  ],
+  "scope": "test-only import mapping; cooperative native writers; selected histories"
+}
