@@ -1,0 +1,116 @@
+{
+  "cases": {
+    "after-append-eof": {
+      "effects": 1,
+      "http": 503,
+      "local_control_committed": null,
+      "uncertain": true
+    },
+    "allowed": {
+      "effects": 1,
+      "http": 201,
+      "published": true
+    },
+    "audit-route": {
+      "effects": 0,
+      "http": 409
+    },
+    "f1-opaque-reaccept": {
+      "effects": 0,
+      "native_accept": true,
+      "old_request_http": 409,
+      "opaque_world_changed": true,
+      "same_bytes": true,
+      "source_generation_advanced": true
+    },
+    "guarded-writers": {
+      "f1": "locked",
+      "l5": "refused",
+      "l6": "locked",
+      "resumed_http": 201
+    },
+    "kill-after-append": {
+      "cold_refused": true,
+      "effects": 1,
+      "reply": null,
+      "witness_published": false
+    },
+    "kill-before-append": {
+      "cold_started": true,
+      "effects": 0
+    },
+    "l6-disposed-removed": {
+      "effects": 0,
+      "http": 409
+    },
+    "l6-remove-interleaved": {
+      "effects": 0,
+      "http": 409
+    },
+    "l6-unknown-material": {
+      "effects": 0,
+      "http": 409
+    },
+    "lost-receipt": {
+      "cold_recovered": true,
+      "deduplication": "not tested",
+      "http": 503,
+      "local_effects": 1,
+      "remotely_published": true
+    },
+    "missing-bundle-neighbor": {
+      "authorized_neighbor_http": 201,
+      "changed_content_accept": false,
+      "effects": 1,
+      "old_pair_preserved": true
+    },
+    "moved-attenuated": {
+      "descendant_write": false,
+      "effects": 0,
+      "http": 409
+    },
+    "root-retarget": {
+      "effects": 0,
+      "http": 409
+    },
+    "stale-generation": {
+      "current_authority_after_transition": true,
+      "effects": 0,
+      "http": 409,
+      "limitation": "does not demonstrate revocation of formerly enabled authority",
+      "old_selector_was_sealed": true
+    },
+    "wrong-epoch": {
+      "effects": 0,
+      "http": 409
+    },
+    "wrong-pair-subject": {
+      "effects": 0,
+      "http": 409
+    },
+    "wrong-pair-world": {
+      "effects": 0,
+      "http": 409
+    },
+    "wrong-subject": {
+      "effects": 0,
+      "http": 409
+    }
+  },
+  "checker_controls": [
+    {
+      "name": "denied-case-forged-success",
+      "rejected": true
+    },
+    {
+      "name": "lost-receipt-witness-cut-mismatch",
+      "rejected": true
+    },
+    {
+      "name": "same-byte-opaque-world-made-identical",
+      "rejected": true
+    }
+  ],
+  "conclusion": "BOUNDED_NATIVE_COMMIT_POINT_OBSERVATIONS",
+  "scope": "test-only import binding; cooperative native writers; selected histories only"
+}
