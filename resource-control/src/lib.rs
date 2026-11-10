@@ -1014,6 +1014,9 @@ impl Store {
             if old.as_deref()==Some(outcome) {tx.commit()?;return Ok("CLOSED_REPLAY".into());}
             return Err(Error::Conflict("terminal outcome already recorded".into()));
         }
+        if !matches!(state.as_str(),"RESERVED"|"AUTHORIZED"|"RUNNING") {
+            return Err(Error::Conflict(format!("finalization forbidden from state {state}")));
+        }
         if state=="RESERVED" && outcome!="cancelled" {
             return Err(Error::Conflict("unlaunched reservation can only be cancelled".into()));
         }
