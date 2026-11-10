@@ -305,7 +305,9 @@ class UnixChild:
         self.meta["frames"].append({"ns": time.monotonic_ns(), "raw": raw.decode(errors="replace"), "value": value})
         return value
 
-    def read(self):
+    def read(self, timeout=20):
+        if not select.select([self.p.stdout], [], [], timeout)[0]:
+            raise TimeoutError("native child frame timeout")
         raw = self.p.stdout.readline(4 * 1024 * 1024)
         line = raw.decode(errors="replace")
         if raw:
@@ -361,6 +363,119 @@ def setup_native_f3(case_root: Path, world="A", activate=True) -> dict:
     result["owner_process"] = owner.meta
     result["owner_tree_before_f4"] = tree(ownerroot)
     return result
+
+
+def preparation_crash(out: Path, label: str, gate: str) -> dict:
+    """Kill a real owner at either side of the native L6 put commit point."""
+    root = out / "state" / label
+    root.mkdir(parents=True)
+    f1root, ownerroot = root / "f1", root / "owner"
+    boot = setup_f1(f1root)
+    before = f1_raw(f1root / "store.sqlite")
+    establishment = establish_owner(ownerroot, f1root / "store.sqlite")
+    owner = OwnerProcess(ownerroot)
+    sealed = owner.call({"op": "seal"})
+    child_disposed = owner.call({"op": "dispose_child", "unit": "D"})
+    interrupted = owner.call({"op": "prepare_candidate", "payload": "unaccepted-native",
+                              "gate": gate})
+    gate_frame = interrupted
+    if interrupted.get("event") != "GATE":
+        raise RuntimeError(f"prepare crash did not reach native gate {gate}: {interrupted!r}")
+    if gate == "material-before-catalog" and interrupted.get("phase") != "file-fsynced-row-uncommitted":
+        raise RuntimeError(f"expected actual L6 precommit GATE, got {interrupted!r}")
+    if gate == "material-prepared" and interrupted.get("phase", interrupted.get("stage")) != "material-prepared":
+        raise RuntimeError(f"expected post-catalog/pre-CURRENT gate, got {interrupted!r}")
+    killed = owner.close(kill=True)
+    after_kill_tree = tree(ownerroot)
+    cold = OwnerProcess(ownerroot)
+    cold_view = cold.snapshot()
+    if gate == "material-before-catalog":
+        name = "objecta"
+        removal_before = cold.call({"op": "remove"})
+        repeat_before = cold.call({"op": "prepare_candidate", "payload": "second"})
+        dispositions = [cold.call({"op": "dispose_unknown", "name": name})]
+        cleanup = cold.call({"op": "cleanup"})
+    else:
+        name = "objecta"
+        removal_before = cold.call({"op": "remove"})
+        repeat_before = cold.call({"op": "prepare_candidate", "payload": "second"})
+        names = [name]
+        second = repeat_before.get("reply", {}).get("name")
+        if repeat_before.get("reply", {}).get("result") == "COMMITTED" and second:
+            names.append(second)
+        dispositions = [cold.call({"op": "dispose_candidate", "name": candidate})
+                        for candidate in names]
+        cleanup = cold.call({"op": "cleanup"})
+    removed = cold.call({"op": "remove"})
+    final_view = cold.call({"op": "read"})["reply"]["snapshot"]
+    cold.close()
+    after = f1_raw(f1root / "store.sqlite")
+    return {"root": str(ownerroot), "f1_root": str(f1root), "f1_boot": boot,
+            "f1_before": before, "establish": establishment, "sealed": sealed,
+            "child_disposed": child_disposed, "gate": gate, "gate_frame": gate_frame,
+            "killed_owner": killed, "owner_tree_after_kill": after_kill_tree,
+            "cold_ready": cold.meta["ready"], "cold_initial_view": cold_view,
+            "remove_before_disposition": removal_before,
+            "prepare_before_disposition": repeat_before,
+            "explicit_disposition": dispositions, "cleanup": cleanup,
+            "remove_after_disposition": removed, "final_view": final_view,
+            "owner_tree_final": tree(ownerroot), "f1_after": after}
+
+
+def candidate_removal_race(out: Path, label: str, creator_first: bool) -> dict:
+    """Hold real owner/L6 guards at a shared eligible state and contend."""
+    root = out / "state" / label
+    root.mkdir(parents=True)
+    f1root, ownerroot = root / "f1", root / "owner"
+    setup = setup_f1(f1root)
+    establishment = establish_owner(ownerroot, f1root / "store.sqlite")
+    prepare = OwnerProcess(ownerroot)
+    sealed = prepare.call({"op": "seal"})
+    child_disposed = prepare.call({"op": "dispose_child", "unit": "D"})
+    prepare.close()
+    if creator_first:
+        creator = OwnerProcess(ownerroot)
+        gate = creator.call({"op": "prepare_candidate", "payload": "race-candidate",
+                             "gate": "material-before-catalog"})
+        if gate.get("event") != "GATE" or gate.get("phase") != "file-fsynced-row-uncommitted":
+            raise RuntimeError("creator-first race did not reach native L6 precommit gate")
+        contender = OwnerProcess(ownerroot)
+        competing_remove = contender.call({"op": "remove"})
+        creator_commit = creator.resume()
+        creator.close()
+        contender.close()
+        after_create = OwnerProcess(ownerroot)
+        remove_after_create = after_create.call({"op": "remove"})
+        dispose = after_create.call({"op": "dispose_candidate", "name": "objecta"})
+        cleanup = after_create.call({"op": "cleanup"})
+        final_remove = after_create.call({"op": "remove"})
+        final_view = after_create.call({"op": "read"})["reply"]["snapshot"]
+        after_create.close()
+        return {"root": str(ownerroot), "f1_root": str(f1root), "f1_setup": setup,
+                "establish": establishment, "seal": sealed, "dispose_child": child_disposed,
+                "order": "creator-first", "creator_gate": gate,
+                "contender_remove_while_busy": competing_remove, "creator_commit": creator_commit,
+                "remove_after_create": remove_after_create, "dispose_candidate": dispose,
+                "cleanup": cleanup, "remove_after_disposition": final_remove,
+                "final_view": final_view, "owner_tree": tree(ownerroot),
+                "f1_after": f1_raw(f1root / "store.sqlite")}
+    remover = OwnerProcess(ownerroot)
+    gate = remover.gate_call({"op": "remove"}, "domain-removal-selected")
+    contender = OwnerProcess(ownerroot)
+    competing_create = contender.call({"op": "prepare_candidate", "payload": "race-candidate"})
+    remover_commit = remover.resume()
+    remover.close()
+    contender.close()
+    cold = OwnerProcess(ownerroot)
+    create_after_remove = cold.call({"op": "prepare_candidate", "payload": "race-candidate"})
+    final_view = cold.call({"op": "read"})["reply"]["snapshot"]
+    cold.close()
+    return {"root": str(ownerroot), "f1_root": str(f1root), "f1_setup": setup,
+            "establish": establishment, "seal": sealed, "dispose_child": child_disposed,
+            "order": "remover-first", "remover_gate": gate,
+            "contender_create_while_busy": competing_create, "remover_commit": remover_commit,
+            "create_after_remove": create_after_remove, "final_view": final_view,
+            "owner_tree": tree(ownerroot), "f1_after": f1_raw(f1root / "store.sqlite")}
 
 
 def setup_f1(root: Path) -> dict:
@@ -517,6 +632,18 @@ def main():
         raw["cases"]["native-no-f4"]["f1_after_remove"] = f1_raw(f1root / "store.sqlite")
         raw["cases"]["native-no-f4"]["owner_tree_final"] = tree(ownerroot)
 
+        # Native L6 interruption controls on opposite sides of its catalog
+        # commit. Both require explicit, digest-bound disposition before the
+        # issuer may complete removal.
+        raw["cases"]["native-unknown-precommit"] = preparation_crash(
+            out, "native-unknown-precommit", "material-before-catalog")
+        raw["cases"]["native-candidate-after-catalog"] = preparation_crash(
+            out, "native-candidate-after-catalog", "material-prepared")
+        raw["cases"]["native-candidate-creator-first"] = candidate_removal_race(
+            out, "native-candidate-creator-first", True)
+        raw["cases"]["native-candidate-remover-first"] = candidate_removal_race(
+            out, "native-candidate-remover-first", False)
+
         # Integrate the parent-owned real F4 sink: one authorized append, a
         # caller-forged F1-world denial, then a fresh post-move D-write denial.
         f4root = out / "state" / "native-f4-authorized-denied"
@@ -640,6 +767,56 @@ def main():
             "dead_sink_process": receipt_f4.dead_sink, "cold_sink_process": receipt_f4.sink.meta}
         current_owner.close()
         receipt_f4.close(True)
+
+        # Actual accepted append followed by EOF at the native return boundary:
+        # this must return reconciliation-required with the known local seq,
+        # then cold exact retry must settle that same event without a second row.
+        append_root = out / "state" / "native-f4-after-append-eof"
+        append_setup = setup_native_f3(append_root, world="A", activate=True)
+        append_owner = Path(append_setup["owner_root"])
+        append_owner_view = OwnerProcess(append_owner)
+        append_snapshot = append_owner_view.snapshot()
+        append_owner_view.close()
+        append_witness_root = append_snapshot["state"]["native_owner"]["domain_id"]
+        append_f4 = NativeF4(append_root / "f4", append_owner, append_witness_root,
+                             gate="after-append")
+        append_id = append_witness_root + ":append-eof-1"
+        append_envelope = native_envelope(append_snapshot, append_id)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            append_pending = pool.submit(append_f4.submit, append_envelope)
+            try:
+                append_line = append_f4.sink.read(timeout=15)
+            except TimeoutError:
+                no_gate_result = append_pending.result(timeout=10)
+                raise RuntimeError("expected post-append gate, no sink frame; submit result="
+                                   + canonical(no_gate_result))
+            append_gate = json.loads(append_line)
+            if append_gate.get("event") != "GATE" or append_gate.get("stage") != "after-append":
+                raise RuntimeError("expected actual post-append/pre-return gate: " + canonical(append_gate))
+            append_owner_process = OwnerProcess(append_owner)
+            append_local_snapshot = append_owner_process.snapshot()
+            append_owner_process.close()
+            append_f4.sink.p.stdin.close()
+            append_error_call = append_pending.result(timeout=10)
+        append_f4.sink.close(True)
+        append_cold_ready = append_f4.cold_restart()
+        append_retry = append_f4.submit(append_envelope)
+        append_final = append_f4.snapshot()
+        append_owner_cold = OwnerProcess(append_owner)
+        append_owner_final = append_owner_cold.snapshot()
+        append_owner_cold.close()
+        raw["cases"]["native-f4-after-append-eof"] = {
+            "setup": append_setup, "witness_root": append_witness_root,
+            "f4_lifecycle": append_f4.lifecycle_calls, "witness_init": append_f4.witness_init,
+            "envelope": append_envelope, "gate": append_gate,
+            "owner_local_at_gate": append_local_snapshot,
+            "error_response": append_error_call, "cold_ready": append_cold_ready,
+            "retry": append_retry, "final_snapshot": append_final,
+            "owner_final": append_owner_final, "f4_tree": tree(append_f4.root),
+            "owner_tree": tree(append_owner),
+            "f1_after": f1_raw(Path(append_setup["f1_root"]) / "store.sqlite"),
+            "dead_sink_process": append_f4.dead_sink, "cold_sink_process": append_f4.sink.meta}
+        append_f4.close(True)
         raw["native_helper_events"] = native.EVENTS
         raw["status"] = "PASS"
     except BaseException as error:

@@ -329,6 +329,144 @@ def check_native_f4(case: dict, label: str) -> None:
          label + ": F4 append certificate does not bind exact native envelope")
 
 
+def check_preparation_crash(case: dict, label: str, precommit: bool) -> None:
+    gate = case["gate_frame"]
+    need(gate.get("event") == "GATE", label + ": no actual native L6 gate")
+    if precommit:
+        need(gate.get("phase") == "file-fsynced-row-uncommitted" and gate.get("in_transaction") is True,
+             label + ": did not stop at the native fsynced-file/uncommitted-row boundary")
+        expected_unknown = ["objecta"]
+    else:
+        need(gate.get("phase", gate.get("stage")) == "material-prepared",
+             label + ": did not stop after native L6 commit before owner CURRENT")
+        expected_unknown = []
+    initial = case["cold_initial_view"]
+    inventory = initial["inventory"]
+    need(inventory.get("unknown_files") == expected_unknown,
+         label + ": cold native inventory did not classify interrupted physical bytes")
+    if precommit:
+        need("objecta" in inventory.get("files", {}) and
+             not any(row["name"] == "objecta" for row in inventory.get("dependencies", [])),
+             label + ": unknown file was silently catalogued")
+        need(frame_reply(case["prepare_before_disposition"]).get("result") == "DENY",
+             label + ": later candidate creation ignored unknown file")
+    else:
+        rows = [row for row in inventory.get("dependencies", []) if row["name"] == "objecta"]
+        need(len(rows) == 1 and rows[0].get("kind") == "candidate" and rows[0].get("disposed") == 0,
+             label + ": catalogued but unselected candidate not retained as dependency")
+        second = frame_reply(case["prepare_before_disposition"])
+        need(second.get("result") == "COMMITTED" and second.get("accepted") is False
+             and second.get("name") != "objecta",
+             label + ": post-recovery candidate preparation was not a fresh native identity")
+    refused = frame_reply(case["remove_before_disposition"])
+    need(refused.get("result") == "DENY" and refused.get("reason") == "native-inventory-not-empty",
+         label + ": removal ignored surviving prepared/unknown material")
+    initial_selector = initial.get("selector")
+    need(frame_snapshot(case["remove_before_disposition"]).get("selector") == initial_selector,
+         label + ": refusal changed native CURRENT")
+    dispositions = case["explicit_disposition"]
+    need(isinstance(dispositions, list) and dispositions and
+         all(frame_reply(item).get("result") == "COMMITTED" for item in dispositions),
+         label + ": explicit native dispositions were not committed")
+    need(frame_reply(case["cleanup"]).get("result") == "COMMITTED",
+         label + ": native cleanup did not finish explicit dispositions")
+    need(frame_reply(case["remove_after_disposition"]).get("result") == "COMMITTED",
+         label + ": authorized dispositions did not unblock removal")
+    final = case["final_view"]
+    final_inventory = final.get("inventory", {})
+    need(owner_record(final).get("lifecycle") == "removed"
+         and final_inventory.get("live") is False and not final_inventory.get("files")
+         and not final_inventory.get("unknown_files"),
+         label + ": cold final owner/inventory state not removed and empty")
+    before, after = case["f1_before"], case["f1_after"]
+    need(before["view"] == after["view"] and before["selected"] == after["selected"]
+         and before["retained"] == after["retained"] and before["integrity"] == after["integrity"] == "ok",
+         label + ": native crash/disposition altered source F1 observations")
+    # Independently inspect the actual SQLite bytes captured after owner kill.
+    catalog_record = case["owner_tree_after_kill"].get("protected/catalog.sqlite")
+    need(catalog_record is not None, label + ": raw pre-recovery L6 catalog missing")
+    catalog_bytes = check_file_record(label + "/catalog-after-kill", catalog_record)
+    db = sqlite3.connect(":memory:")
+    try:
+        db.deserialize(catalog_bytes)
+        raw_rows = db.execute("SELECT name,kind,sha256,size,disposed FROM dependencies ORDER BY name").fetchall()
+        integrity = db.execute("PRAGMA integrity_check").fetchone()[0]
+    finally:
+        db.close()
+    need(integrity == "ok", label + ": raw post-kill catalog integrity")
+    if precommit:
+        need(not any(row[0] == "objecta" for row in raw_rows),
+             label + ": pre-COMMIT crash left a cataloged row")
+    else:
+        need(any(row[0] == "objecta" and row[1] == "candidate" and row[4] == 0 for row in raw_rows),
+             label + ": post-COMMIT crash lacks durable candidate row")
+
+
+def check_candidate_removal_race(case: dict, label: str, creator_first: bool) -> None:
+    tree = case["owner_tree"]
+    selector, selected = selected_state_from_tree(label, tree)
+    final = case["final_view"]
+    need(selector == final.get("selector") and selected == owner_state(final),
+         label + ": final raw CURRENT differs from cold owner view")
+    if creator_first:
+        gate = case["creator_gate"]
+        need(gate.get("event") == "GATE" and gate.get("phase") == "file-fsynced-row-uncommitted",
+             label + ": candidate creator did not hold actual native L6 precommit gate")
+        contender = frame_reply(case["contender_remove_while_busy"])
+        need(contender.get("result") == "DENY" and contender.get("reason") == "database is locked"
+             and contender.get("owner_selection_changed") is False
+             and contender.get("durable_phase_changed") is False,
+             label + ": real remove contender did not fail without mutation while creator held guards")
+        created = frame_reply(case["creator_commit"])
+        need(created.get("result") == "COMMITTED" and created.get("accepted") is False
+             and created.get("name") == "objecta", label + ": unaccepted candidate creation did not commit")
+        blocked = frame_reply(case["remove_after_create"])
+        need(blocked.get("result") == "DENY" and blocked.get("reason") == "native-inventory-not-empty",
+             label + ": creator-first order did not make removal ineligible")
+        need(frame_reply(case["dispose_candidate"]).get("result") == "COMMITTED"
+             and frame_reply(case["cleanup"]).get("result") == "COMMITTED"
+             and frame_reply(case["remove_after_disposition"]).get("result") == "COMMITTED",
+             label + ": explicit candidate disposition did not allow removal to complete")
+        need(owner_record(final).get("lifecycle") == "removed"
+             and final["inventory"].get("files") == {},
+             label + ": creator-first final state did not remove all dependent bytes")
+    else:
+        gate = case["remover_gate"]
+        need(gate.get("event") == "GATE"
+             and gate.get("phase", gate.get("stage")) == "domain-removal-selected",
+             label + ": remover did not hold native logical-removal gate")
+        contender = frame_reply(case["contender_create_while_busy"])
+        need(contender.get("result") == "DENY" and contender.get("reason") == "database is locked"
+             and contender.get("owner_selection_changed") is False
+             and contender.get("durable_phase_changed") is False,
+             label + ": real create contender did not fail without mutation while remover held guards")
+        need(frame_reply(case["remover_commit"]).get("result") == "COMMITTED",
+             label + ": remover-first order did not complete")
+        denied = frame_reply(case["create_after_remove"])
+        need(denied.get("result") == "DENY" and denied.get("reason") == "native-domain-removed"
+             and denied.get("owner_selection_changed") is False
+             and denied.get("durable_phase_changed") is False,
+             label + ": later native candidate creation was not denied by removed source lifecycle")
+        need(owner_record(final).get("lifecycle") == "removed"
+             and final["inventory"].get("files") == {},
+             label + ": remover-first final inventory is not empty")
+    need(case["f1_setup"]["state"]["view"] == case["f1_after"]["view"]
+         and case["f1_setup"]["state"]["selected"] == case["f1_after"]["selected"]
+         and case["f1_setup"]["state"]["retained"] == case["f1_after"]["retained"],
+         label + ": competing native owner operations altered source F1 evidence")
+    catalog_bytes = check_file_record(label + "/final-catalog", tree["protected/catalog.sqlite"])
+    db = sqlite3.connect(":memory:")
+    try:
+        db.deserialize(catalog_bytes)
+        unit_live = db.execute("SELECT live FROM unit").fetchone()[0]
+        deps = db.execute("SELECT name,disposed FROM dependencies ORDER BY name").fetchall()
+        integrity = db.execute("PRAGMA integrity_check").fetchone()[0]
+    finally:
+        db.close()
+    need(integrity == "ok" and unit_live == 0 and all(disposed for _, disposed in deps),
+         label + ": actual final L6 catalog not removed with disposed dependencies")
+
+
 def verify_live_storage(raw: dict, case: dict, snapshot: dict, label: str) -> None:
     root = Path(case.get("root", case.get("setup", {}).get("owner_root", "")))
     need(str(root) not in ("", "."), label + ": native owner root missing")
@@ -435,6 +573,14 @@ def validate(raw: dict, raw_path: Path) -> dict:
                 state = json.loads(selected_bytes)
                 need(type(state.get("schema")) is int and state["schema"] == 1,
                      "selected native L5 record schema")
+    if "native-unknown-precommit" in cases:
+        check_preparation_crash(cases["native-unknown-precommit"], "unknown pre-COMMIT", True)
+    if "native-candidate-after-catalog" in cases:
+        check_preparation_crash(cases["native-candidate-after-catalog"], "candidate post-COMMIT", False)
+    if "native-candidate-creator-first" in cases:
+        check_candidate_removal_race(cases["native-candidate-creator-first"], "creator-first race", True)
+    if "native-candidate-remover-first" in cases:
+        check_candidate_removal_race(cases["native-candidate-remover-first"], "remover-first race", False)
     if "native-f4-authorized-denied" in cases:
         case = cases["native-f4-authorized-denied"]
         check_native_f4(case, "native-f4-authorized-denied")
