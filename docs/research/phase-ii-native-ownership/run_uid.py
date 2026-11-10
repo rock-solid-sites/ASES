@@ -79,7 +79,7 @@ def main():
             destination = context / "src" / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, destination)
-            hashes[str(relative)] = sha(source.read_bytes())
+            hashes[str(relative)] = sha(destination.read_bytes())
         dockerfile = fixture / "Dockerfile"
         shutil.copyfile(dockerfile, context / "Dockerfile")
         (context / ".dockerignore").write_text("**/__pycache__\n**/*.pyc\n")
