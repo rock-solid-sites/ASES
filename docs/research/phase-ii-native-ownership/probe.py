@@ -236,13 +236,23 @@ def main():
         raw["f1_before_owner"] = f1_raw(f1root / "store.sqlite")
         raw["establish"] = establish_owner(ownerroot, f1root / "store.sqlite")
         initial_bundle = repair.configuration("A", CONTENT, True)["acceptance_bundle"]
-        raw["native_f1_accept"] = repair.native_f1_accept(f1root, initial_bundle, CONTENT)
+        raw["native_f1_accept"] = native_f1_accept(f1root, initial_bundle, CONTENT)
         raw["f1_after_accept"] = f1_raw(f1root / "store.sqlite")
         owner = OwnerProcess(ownerroot)
         raw["owner_ready"] = owner.meta["ready"]
-        raw["cases"]["native-no-f4"] = {"root": str(ownerroot), "initial_view": owner.call({"op": "view"})}
-        raw["cases"]["native-no-f4"]["source_after_establish"] = raw["f1_after_accept"]
-        raw["cases"]["native-no-f4"]["owner_tree_after_establish"] = tree(ownerroot)
+        case = {"root": str(ownerroot), "initial_view": owner.call({"op": "view"})}
+        case["accept_first"] = owner.call({"op": "accept"})
+        case["view_after_first"] = owner.call({"op": "view"})
+        case["accept_duplicate"] = owner.call({"op": "accept"})
+        case["view_after_duplicate"] = owner.call({"op": "view"})
+        changed_bundle = repair.configuration("C", CONTENT, True)["acceptance_bundle"]
+        case["native_f1_same_bytes_changed_world"] = native_f1_accept(f1root, changed_bundle, CONTENT)
+        case["f1_after_world_change"] = f1_raw(f1root / "store.sqlite")
+        case["accept_changed_world"] = owner.call({"op": "accept"})
+        case["view_after_changed_world"] = owner.call({"op": "view"})
+        case["source_after_acceptance"] = f1_raw(f1root / "store.sqlite")
+        raw["cases"]["native-no-f4"] = case
+        raw["cases"]["native-no-f4"]["owner_tree_after_acceptance"] = tree(ownerroot)
         owner.close()
         raw["cases"]["native-no-f4"]["owner_process"] = owner.meta
         raw["cases"]["native-no-f4"]["owner_tree_after_close"] = tree(ownerroot)
