@@ -16,6 +16,7 @@ import time
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 PIN = "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9"
+PRE_FIX = "b85fd935"
 PATHS = ("research/phase-i-t18-sink-order-20261103/published-cut/cut_sink.py",
          "research/phase-i-t18-sink-order-20261103/managed-revocation/managed_sink.py",
          "research/phase-i-t18-sink-order-20261103/run.py")
@@ -98,6 +99,7 @@ def verify_payload(pub, payload):
         [r for r in records if r.get("event") == "effect_accepted"], embedded)
         if record.get("request_id", "").endswith(":x")]
     return {"journal_bytes_hex": raw.hex(), "journal_sha256": sha(raw),
+            "expected_preloss_payload": payload,
             "preloss_bytes_exactly_once": len(preloss) == 1 and preloss[0][1].get("content") == payload,
             "effect_request_ids": [record.get("request_id") for record in records if record.get("event") == "effect_accepted"],
             "journal_lines": records}
@@ -105,6 +107,8 @@ def verify_payload(pub, payload):
 
 def run(out):
     out.mkdir(parents=True, exist_ok=True)
+    if any(out.iterdir()):
+        raise FileExistsError("output directory must be new and empty: " + str(out))
     native = module("native_helpers", HERE.parent / "phase-i-sol-integration/native.py")
     pinned = export_source(out)
     cold_script = str(HERE / "cold_sink.py")
@@ -122,6 +126,7 @@ def run(out):
     old_reply = pub.submit(env | {"causal_id": "cold-original:y"}, version=1)
     results["original"] = {"old_token_after_actual_reap": old_reply,
                             "recovered_status": native.http(pub.port, "/status")["body"],
+                            "witness": native.http(pub.wp, "/status")["body"],
                             "preserved_prefix": verify_payload(pub, payload),
                             "reaped_process": pub.killed_sink_meta,
                             "processes": pub.sink.meta}
@@ -196,6 +201,9 @@ def run(out):
     pub.port = pub.sink.ready.get("port")
     second_cold = native.http(pub.port, "/status")["body"]
     second_old_denial = pub.submit(env | {"causal_id": "between:old"}, version=1)
+    before_intermediate_activate = native.blob(pub.journal)
+    intermediate_activate = pub.call("/activate", {"authority_version": 2})
+    after_intermediate_activate = native.blob(pub.journal)
     second_replace = pub.call("/replace", {"holder": "replacement-after-kill"})
     second_replace_status = native.http(pub.port, "/status")["body"]
     second_activation = pub.call("/activate", {"authority_version": 3})
@@ -203,9 +211,42 @@ def run(out):
     results["kill_between"] = {"first_replacement": replacement, "first_replacement_status": replacement_cut,
         "reaped_between_process": first_reaped,
         "second_cold_status": second_cold, "second_cold_old_token": second_old_denial,
+        "intermediate_activate": intermediate_activate,
+        "intermediate_activate_did_not_append": before_intermediate_activate == after_intermediate_activate,
+        "before_intermediate_activate_journal": before_intermediate_activate,
+        "after_intermediate_activate_journal": after_intermediate_activate,
         "fresh_replacement_required": second_replace, "after_second_replacement": second_replace_status,
         "second_activation": second_activation, "second_fresh_effect": second_fresh,
-        "preserved_prefix": verify_payload(pub, payload), "witness": native.http(pub.wp, "/status")["body"]}
+        "preserved_prefix": verify_payload(pub, payload), "final_status": native.http(pub.port, "/status")["body"],
+        "witness": native.http(pub.wp, "/status")["body"]}
+    pub.close()
+
+    # Preserve and run the immediately previous cold wrapper as a direct
+    # comparator: it sealed on boot but let native activation through after a
+    # replacement had been replayed with active=false.
+    controls = out / "controls"
+    controls.mkdir()
+    prior_source = controls / "prior_cold_sink.py"
+    prior_source.write_bytes(subprocess.check_output(
+        ["git", "show", PRE_FIX + ":docs/research/phase-i-cold-activation/cold_sink.py"], cwd=REPO))
+    control_root = out / "state" / "prior-code-activate-hole"
+    pub, env, payload = make_f4(native, pinned, control_root, "cold-prior-control")
+    kill_and_recover(native, pub, str(prior_source), pinned)
+    first_replace = pub.call("/replace", {"holder": "control-holder-one"})
+    pub.sink.close()
+    after_replace_process = pub.sink.meta
+    pub.sink = native.Child([sys.executable, str(prior_source), "--cold-sink", "recover", pub.journal,
+                             pub.wp, "published-cut", pub.identity, pinned])
+    pub.port = pub.sink.ready.get("port")
+    prior_activate = pub.call("/activate", {"authority_version": 2})
+    results["prior_code_control"] = {"source_commit": PRE_FIX,
+        "source_sha256": sha(prior_source.read_bytes()), "first_replacement": first_replace,
+        "reaped_process_after_replace": after_replace_process,
+        "cold_status": native.http(pub.port, "/status")["body"],
+        "activate_without_fresh_replacement": prior_activate,
+        "final_status": native.http(pub.port, "/status")["body"],
+        "final_witness": native.http(pub.wp, "/status")["body"],
+        "preserved_prefix": verify_payload(pub, payload)}
     pub.close()
 
     # The receipt witness can commit replacement then drop only its reply.
@@ -219,6 +260,8 @@ def run(out):
     activate_after_readback = pub.call("/activate", {"authority_version": local_readback["authority_version"]})
     results["lost_reply"] = {"fault": fault, "replace_reply": reply_lost, "local_readback": local_readback,
         "witness_readback": witness_readback, "activation_after_exact_readback": activate_after_readback,
+        "final_status": native.http(pub.port, "/status")["body"],
+        "final_witness": native.http(pub.wp, "/status")["body"],
         "preserved_prefix": verify_payload(pub, payload), "calls": pub.calls}
     pub.close()
 
@@ -229,6 +272,6 @@ def run(out):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--out", type=Path, default=HERE / "evidence" / "run-01")
+    parser.add_argument("--out", type=Path, default=HERE / "evidence" / "run-02")
     args = parser.parse_args()
     print(run(args.out))
