@@ -79,6 +79,14 @@ outside that boundary.
   native L6 remove/rmdir. Report logical shared-domain disposition and
   physical data-envelope cleanup separately; no secure erasure claim.
 
+Prepared-only catalogued candidates and actual unknown flat files need explicit
+`dispose_candidate` / `dispose_unknown` authorization. The latter checks the
+complete native inventory and absence of a live registration, then retains an
+exact byte-digest/size disposition decision before unlink. Cleanup completes only
+retained decisions, never silently deletes unknown bytes. Physical names are not
+reused after disposition. Removed-domain cleanup may finish its already accepted
+empty-envelope removal; it never reactivates the removed Work Unit.
+
 ## F4 integration, parent-owned
 
 Extend existing #24/#15 append guard with a native-owner profile. Configuration

@@ -153,7 +153,8 @@ class Owner:
             epoch=1, source=dict(db=str(f1_db), identity=identity(f1_db)),
             inventory=dict(root="protected", identity=identity(protected)),
             custody=dict(root=identity(root), lock=identity(lock)), lifecycle="live",
-            children=dict(D="live"), disposed_units={}, registrations=[], selected=None,
+            children=dict(D="live"), disposed_units={}, disposed_candidates={},
+            disposed_unknown={}, registrations=[], selected=None,
             effects={}, sink_binding=None))
         require(l5.graph_valid(state), "native-initial-graph-invalid")
         publish(root, state, dict(op="native-establish-domain", domain_id=domain))
@@ -291,6 +292,15 @@ class Session:
 
     def apply(self, q):
         op = q["op"]
+        if self.native["lifecycle"] == "removed" and op == "cleanup":
+            snapshot = l6.snapshot(self.inventory.root)
+            require(not snapshot["files"] and not any(not r["disposed"] for r in snapshot["dependencies"]),
+                    "removed-domain-has-surviving-material")
+            if snapshot["live"]:
+                self.native_inventory(dict(op="remove"))
+            elif snapshot["objects_directory_exists"]:
+                (self.inventory.root / "objects").rmdir()
+            return self.reply()
         if op == "recover":
             require(self.native["lifecycle"] == "live", "native-domain-removed")
             self._seal()
@@ -307,7 +317,12 @@ class Session:
                 return self.reply(registration=prior, duplicate=True)
             count = len(self.native["registrations"]) + 1
             require(self.native["epoch"] < 2**63 - 1, "native-epoch-exhausted")
-            name = letters(count)
+            used = {r[0] for r in self.inventory.cx.execute("SELECT name FROM dependencies")}
+            used.update(self.native["disposed_unknown"])
+            number = 1
+            while letters(number) in used: number += 1
+            require(number <= 10000, "native-material-name-capacity-exhausted")
+            name = letters(number)
             preparation = dict(op="put", name=name, kind="candidate", payload=pair["accepted_content"])
             if q.get("gate") == "material-before-catalog": preparation["gate"] = "precommit"
             result = self.native_inventory(preparation)
@@ -341,6 +356,31 @@ class Session:
             finally:
                 client.close(); server.close()
         require(self.sealed(), "disposition-requires-sealed-domain")
+        if op in ("dispose_candidate", "dispose_unknown"):
+            name = q.get("name")
+            require(isinstance(name, str) and re.fullmatch("[a-z]+", name), "invalid-material-name")
+            require(not self.pending(), "pending-in-domain-effect")
+            require(not any(r["status"] == "live" and Path(r["metadata"]["object"]).name == name
+                            for r in self.native["registrations"]), "material-is-live-accepted-content")
+            snapshot = l6.snapshot(self.inventory.root)
+            item = snapshot["files"].get(name)
+            require(item is not None, "missing-material-for-disposition")
+            if op == "dispose_candidate":
+                row = self.inventory.cx.execute(
+                    "SELECT kind,sha256,size,disposed FROM dependencies WHERE name=?", (name,)).fetchone()
+                require(row == ("candidate", item["sha256"], item["size"], 0), "not-live-native-candidate")
+                self.native["disposed_candidates"][name] = dict(sha256=item["sha256"], size=item["size"])
+                self.commit(dict(op="native-dispose-prepared-candidate", name=name))
+                self.native_inventory(dict(op="dispose", name=name))
+            else:
+                require(name in snapshot["unknown_files"], "material-is-not-unknown")
+                self.native["disposed_unknown"][name] = dict(sha256=item["sha256"], size=item["size"])
+                self.commit(dict(op="native-dispose-unknown-material", name=name))
+                self.gate(q, "unknown-disposition-selected")
+                path = self.inventory.root / "objects" / name
+                require(digest(path.read_bytes()) == item["sha256"], "unknown-material-changed")
+                path.unlink(); sync_directory(path.parent)
+            return self.reply()
         if op == "dispose_child":
             require(q.get("unit", "D") == "D" and self.native["children"]["D"] == "live", "not-live-native-child")
             require(not self.pending(), "pending-in-domain-effect")
@@ -367,6 +407,17 @@ class Session:
                 row = self.inventory.cx.execute("SELECT disposed FROM dependencies WHERE name=?", (name,)).fetchone()
                 if row and not row[0]: self.native_inventory(dict(op="dispose", name=name))
                 elif (self.inventory.root / "objects" / name).exists(): self.native_inventory(dict(op="cleanup", name=name))
+            for name in self.native["disposed_candidates"]:
+                row = self.inventory.cx.execute("SELECT disposed FROM dependencies WHERE name=?", (name,)).fetchone()
+                require(row is not None, "candidate-disposition-catalog-missing")
+                if not row[0]: self.native_inventory(dict(op="dispose", name=name))
+                elif (self.inventory.root / "objects" / name).exists(): self.native_inventory(dict(op="cleanup", name=name))
+            for name, expected in self.native["disposed_unknown"].items():
+                path = self.inventory.root / "objects" / name
+                if path.exists():
+                    require(not path.is_symlink() and digest(path.read_bytes()) == expected["sha256"]
+                            and path.stat().st_size == expected["size"], "unknown-disposition-input-changed")
+                    path.unlink(); sync_directory(path.parent)
             return self.reply()
         if op == "remove":
             require(self.native["children"]["D"] == "disposed", "native-child-remains")
@@ -378,6 +429,7 @@ class Session:
             self.native["lifecycle"] = "removed"
             self.native["disposed_units"]["C"] = self.state["work_units"].pop("C")
             self.commit(dict(op="native-remove-domain"))
+            self.gate(q, "domain-removal-selected")
             return self.reply(inventory_reply=self.native_inventory(dict(op="remove")))
         raise ValueError("unsupported-native-owner-operation")
 
