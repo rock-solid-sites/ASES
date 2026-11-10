@@ -25,11 +25,15 @@ def main(argv):
     for line in sys.stdin:
         request = json.loads(line)
         if request.get("op") == "stop": break
-        before = state.view()["selector"]
+        before = state.view()
         try:
             reply = state.apply(request)
         except Exception as error:
-            changed = state.view()["selector"] != before
+            after = state.view()
+            durable_inventory = lambda view: {k: v for k, v in view["inventory"].items()
+                                              if k != "observation_ns"}
+            changed = (after["selector"] != before["selector"]
+                       or durable_inventory(after) != durable_inventory(before))
             reply = dict(result="RECOVERY_REQUIRED" if changed else "DENY",
                          reason=str(error), error=type(error).__name__,
                          owner_selection_changed=changed)

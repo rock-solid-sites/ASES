@@ -199,6 +199,15 @@ class Owner:
             require(state["native_owner"]["source"] == source, "native-source-retargeted")
             inventory = l6.Store(self.root / "protected")
             inventory.cx.execute("BEGIN IMMEDIATE")
+            for registration in state["native_owner"]["registrations"]:
+                if registration["status"] != "live": continue
+                meta = registration["metadata"]
+                l5.verified_content(self.root, meta)
+                row = inventory.cx.execute(
+                    "SELECT sha256,size,disposed FROM dependencies WHERE name=?",
+                    (Path(meta["object"]).name,)).fetchone()
+                require(row == (meta["sha256"], meta["size"], 0),
+                        "native-live-registration-inventory-mismatch")
             yield Session(self, f1, inventory, selector, state)
         finally:
             if inventory is not None:
@@ -273,6 +282,7 @@ class Session:
             if prior and prior["status"] == "live" and prior["pair"] == pair:
                 return self.reply(registration=prior, duplicate=True)
             count = len(self.native["registrations"]) + 1
+            require(self.native["epoch"] < 2**63 - 1, "native-epoch-exhausted")
             name = letters(count)
             result = self.native_inventory(dict(op="put", name=name, kind="candidate", payload=pair["accepted_content"]))
             require(result["result"] == "COMMITTED", "native-material-preparation-refused")
