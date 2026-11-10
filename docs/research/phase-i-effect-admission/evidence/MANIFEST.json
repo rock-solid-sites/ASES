@@ -1,0 +1,62 @@
+{
+  "artifact_sha256": {
+    "cloud-01/evaluation.json": "04d52f3dc10bba62dbeb168c55446a9c43fe0c01984e72c6ebbef32758fda03c",
+    "cloud-01/native-state.tar.gz": "4bcea52efebd5bc7902d380ce0d438f5420f0fc08308c3a31e3b768d3ea0686a",
+    "cloud-01/raw.json": "803ad5ce9d4116b6767ee8349e59055c8585f31b528ba5bd85d259221440bea2",
+    "cloud-05/evaluation.json": "791ea9ed1c823d36ed02131ecb57e034e44b0f7bb42d4f448f4b8115b48328de",
+    "cloud-05/raw.json": "9edad7d44047f118cce2bd8b570a11a22dc79249fb11af23ccef77d25c4bf417",
+    "cloud-05/raw.json.gz": "e2c991cdd77db6eabec0f367dd3bc2c534f2fac9403b4de11793daa02b5cf390",
+    "instrumentation-failures/attempt-01-config-order.raw.json.gz": "2584a902598609c0e72c71329ec60cb12dca3fa0e850ee75412b4239bc32f775",
+    "instrumentation-failures/attempt-02-after-append-timeout.raw.json.gz": "1714d726061c1ee70d72272108e2986e7354ab7ba763134a78733387eba5472c",
+    "instrumentation-failures/attempt-03-checker-serialization.raw.json.gz": "fcfba8832089ba20f449810a8c4915bb41d09c70f1ee86cca0057ab62b21642d"
+  },
+  "capture": "cloud-05",
+  "execution": "PASS",
+  "frozen_component_commits": {
+    "f1": "29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a",
+    "f4": "26db6db361be986cdd168045f510f5567ee9df53",
+    "l5": "51b34aface9340b7e6821b8c40dc62ca38da15e2",
+    "l6": "0f348fda050e67f3d9081a7fc22078eddc547a61",
+    "receipt": "9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9"
+  },
+  "harness_sha256": {
+    "admission.py": "ccec62c70989fb18fa68813cbf59f56292f1c40742063eb1e382b37ab8395599",
+    "admission_sink.py": "62cdb479a523e252f5b6a8cdd65fc2960021010eefcecd5591a9e6a6ae538a66",
+    "check.py": "5a72e700b29919521f1630b97a8121b2eda3fe1351c2d45424c8b8b0f39ee6df",
+    "probe.py": "ff18cc84a0aab334d95c772ed685a8a0dece0f451d11082c5f7591919801d580",
+    "reproduce.sh": "572c299769cc118719adf6b5a1fe7f11aa6a56b5ed58287e25150a94c2fd45da"
+  },
+  "independent_checker": "PASS",
+  "instrumentation_failures_retained": [
+    "attempt-01-config-order: sink supervisor accessed configuration before assigning it",
+    "attempt-02-after-append-timeout: harness waited for a second gate after the configured after-append gate",
+    "attempt-03-checker-serialization: native histories completed, but new interleaving observations were not copied into the result frame"
+  ],
+  "integration_cases": 19,
+  "managed_child_processes": 82,
+  "recorded_events": 174,
+  "reproduction_command": "PYTHONDONTWRITEBYTECODE=1 bash docs/research/phase-i-effect-admission/reproduce.sh docs/research/phase-i-effect-admission/evidence/cloud-05",
+  "results": {
+    "EOF after local append": "EOF at the native after-append gate returned HTTP 503 with recovery-required uncertainty and one local effect; it was not reported as HTTP 409/local_control_committed=false.",
+    "SIGKILL after append": "one durable local effect, no reply, witness remained at old cut, cold sink refused published-cut-unavailable",
+    "SIGKILL before append": "zero effect; cold sink ready",
+    "allowed": "HTTP 201; one effect locally committed and remotely published",
+    "cooperative guards": "F1 and L6 SQLite writer attempts were locked; the L5 exclusive-lock contender exited 75/REFUSED; request resumed and returned HTTP 201",
+    "invalid import or evidence inputs": "wrong subject, epoch, content subject, and equal-byte alternate opaque world each returned HTTP 409 with no effect",
+    "inventory and custody": "disposed/removed inventory before request, L6 removal during pre-admission, unknown debris, and L5 root inode retarget each returned HTTP 409 with no effect",
+    "lost publication receipt": "HTTP 503 after one effect was published; cold recovery ready; retry/deduplication not tested",
+    "missing-bundle denial with authorized neighbor": "Native repaired F1 denied changed-content accept without a bundle and preserved the old accepted generation; the still-current authorized F4 neighbor returned HTTP 201 with one effect.",
+    "moved-attenuated": "HTTP 409; zero journal-byte change",
+    "native F1 same-byte opaque reaccept": "Native repaired F1 committed a different opaque evidence pair for identical accepted bytes while F4 was paused before admission; the stale request returned HTTP 409 with zero journal change.",
+    "raw checker qualification": "Three altered raw controls were rejected: forged denied-case success, lost-receipt witness-cut mismatch, and same-byte opaque-world control made identical.",
+    "separate obligation route": "HTTP 409; zero effect",
+    "stale-generation": "HTTP 409 after a sealed selector was moved and activated during pre-admission; this does not test revocation of formerly enabled authority"
+  },
+  "scope_limits": [
+    "test-only trusted import mapping and opaque-evidence truth",
+    "cooperative participation in F1, L5 and L6 guards; unguarded same-UID L5 writers can bypass flock",
+    "stale-generation case is sealed-to-active, not a formerly authorized effect revoked before append",
+    "no native source authentication, full ASES identity issuance, hostile-host protection, physical power-loss, or global Work Unit proof",
+    "receipt retry and deduplication are outside this probe"
+  ]
+}

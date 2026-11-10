@@ -1,0 +1,82 @@
+{
+  "cases": {
+    "allowed": {
+      "effects": 1,
+      "http": 201,
+      "published": true
+    },
+    "audit-route": {
+      "effects": 0,
+      "http": 409
+    },
+    "guarded-writers": {
+      "f1": "locked",
+      "l5": "refused",
+      "l6": "locked",
+      "resumed_http": 201
+    },
+    "kill-after-append": {
+      "cold_refused": true,
+      "effects": 1,
+      "reply": null,
+      "witness_published": false
+    },
+    "kill-before-append": {
+      "cold_started": true,
+      "effects": 0
+    },
+    "l6-disposed-removed": {
+      "effects": 0,
+      "http": 409
+    },
+    "l6-remove-interleaved": {
+      "effects": 0,
+      "http": 409
+    },
+    "l6-unknown-material": {
+      "effects": 0,
+      "http": 409
+    },
+    "lost-receipt": {
+      "cold_recovered": true,
+      "deduplication": "not tested",
+      "http": 503,
+      "local_effects": 1,
+      "remotely_published": true
+    },
+    "moved-attenuated": {
+      "descendant_write": false,
+      "effects": 0,
+      "http": 409
+    },
+    "root-retarget": {
+      "effects": 0,
+      "http": 409
+    },
+    "stale-generation": {
+      "current_authority_after_transition": true,
+      "effects": 0,
+      "http": 409,
+      "limitation": "does not demonstrate revocation of formerly enabled authority",
+      "old_selector_was_sealed": true
+    },
+    "wrong-epoch": {
+      "effects": 0,
+      "http": 409
+    },
+    "wrong-pair-subject": {
+      "effects": 0,
+      "http": 409
+    },
+    "wrong-pair-world": {
+      "effects": 0,
+      "http": 409
+    },
+    "wrong-subject": {
+      "effects": 0,
+      "http": 409
+    }
+  },
+  "conclusion": "BOUNDED_NATIVE_COMMIT_POINT_OBSERVATIONS",
+  "scope": "test-only import binding; cooperative native writers; selected histories only"
+}
