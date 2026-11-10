@@ -104,11 +104,13 @@ def main():
         facts["exact_container_inspection"] = inspection
         if inspection["exit"] == 0 and inspection["stdout"].split("|", 1)[0] == task:
             facts["exact_container_cleanup"] = docker(["container", "rm", "--force", task], timeout=15)
+        facts["completed_task_image_cleanup"] = docker(["image", "rm", tag], timeout=30)
         (out / "failure.json").write_text(json.dumps(facts, indent=2) + "\n")
         raise RuntimeError("native UID run failed; exact output retained")
     raw = json.loads(run["stdout"])
     raw["outer"] = facts
     raw["outer"]["ended_ns"] = time.time_ns()
+    raw["outer"]["completed_task_image_cleanup"] = docker(["image", "rm", tag], timeout=30)
     (out / "raw.json").write_text(json.dumps(raw, sort_keys=True, indent=2) + "\n")
     print(json.dumps(dict(output=str(out), image_id=image["stdout"].strip(),
                           runtime_sources=len(hashes), status=raw.get("status", raw.get("execution")))))
