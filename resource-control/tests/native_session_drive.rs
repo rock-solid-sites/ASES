@@ -1,7 +1,7 @@
 //! Bounded native session consumer histories through resource-session and the
 //! actual gateway. Every profile executable is this fixed test binary.
 use ases_resource_control::{now, Claim, Environment, Meter, Proposal, Store};
-use ases_resource_control::access::{Grant, Policy};
+use ases_resource_control::access::Policy;
 use ases_resource_control::catalog::Account;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
@@ -145,10 +145,8 @@ fn wait_for(path: &Path, timeout: Duration) {
 fn event_count(snapshot: &Value, kind: &str) -> usize {
     snapshot.as_array().unwrap().iter().filter(|event| event["kind"] == kind).count()
 }
-fn record(records: &mut Vec<Value>, phase: &str, command: Value, output: &Output, before: Value, after: Value) {
-    records.push(json!({"phase":phase,"command":command,"exit_code":output.status.code(),
-        "stdout":String::from_utf8_lossy(&output.stdout),"stderr":String::from_utf8_lossy(&output.stderr),
-        "events_before":before,"events_after":after}));
+fn release_after(path: PathBuf, delay: Duration) -> thread::JoinHandle<()> {
+    thread::spawn(move || { thread::sleep(delay); fs::write(path,b"natural completion\n").unwrap(); })
 }
 fn source_hashes() -> Value {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
@@ -203,7 +201,9 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     let success_profile = profile(&success_dir,&success_marker,&success_release,0);
     let success_gateway = Gateway::start(&success_dir,"gateway-success",&success_db,&success_profile);
     let success_before = events(&success_db,success_job);
+    let success_release_thread=release_after(success_release.clone(),Duration::from_millis(100));
     let success_output = invoke_drive(&success_gateway.socket,success_job,success_launch,success_revision,"completed",5000);
+    success_release_thread.join().unwrap();
     let success_response = parse_output(&success_output);
     let success_after = events(&success_db,success_job);
     assert_eq!(success_output.status.code(),Some(0),"driver success: {success_response}");
@@ -238,7 +238,9 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     let nonzero_profile = profile(&nonzero_dir,&nonzero_marker,&nonzero_release,7);
     let nonzero_gateway = Gateway::start(&nonzero_dir,"gateway-nonzero",&nonzero_db,&nonzero_profile);
     let nonzero_before = events(&nonzero_db,nonzero_job);
+    let nonzero_release_thread=release_after(nonzero_release.clone(),Duration::from_millis(100));
     let nonzero_output = invoke_drive(&nonzero_gateway.socket,nonzero_job,nonzero_launch,nonzero_revision,"failed",5000);
+    nonzero_release_thread.join().unwrap();
     let nonzero_response = parse_output(&nonzero_output);
     let nonzero_after = events(&nonzero_db,nonzero_job);
     assert_eq!(nonzero_output.status.code(),Some(0),"explicit nonzero outcome finalizes: {nonzero_response}");
@@ -358,6 +360,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     let proxy=drop_finalize_reply_once(proxy_path.clone(),lost_gateway.socket.clone(),finalize_seen_tx,forward_finalize_rx);
     wait_for(&proxy_path,Duration::from_secs(5));
     let before_driver=events(&lost_db,lost_job);
+    let lost_release_thread=release_after(lost_release.clone(),Duration::from_millis(100));
     let driver_socket=proxy_path.clone();
     let driver_thread=thread::spawn(move || invoke_drive(&driver_socket,lost_job,lost_launch,lost_revision,"completed",5000));
     finalize_seen_rx.recv_timeout(Duration::from_secs(10)).expect("driver never issued finalize");
@@ -370,6 +373,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     assert_eq!(worker_lines(&lost_marker).len(),1);
     forward_finalize_tx.send(()).unwrap();
     let driver_output=driver_thread.join().expect("driver subprocess waiter panicked");
+    lost_release_thread.join().unwrap();
     let proxy_capture=proxy.join().expect("bounded finalization-drop proxy panicked");
     let driver_reply=parse_output(&driver_output);
     let after_finalize=events(&lost_db,lost_job);
@@ -406,6 +410,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
         "events_before_finalize":before_finalize,"events_after_finalize_reply_loss":after_finalize,
         "balances_before_finalize":balances_before_finalize,"balances_after_finalize":balances_after_finalize,
         "worker_launch_counter":worker_lines(&lost_marker),
+        "worker_exit_marker":lost_exited.exists(),
         "fresh_resume_after_unknown":{"exit_code":resume_output.status.code(),"stdout":String::from_utf8_lossy(&resume_output.stdout),"stderr":String::from_utf8_lossy(&resume_output.stderr)}});
     histories.insert("actual_finalize_committed_reply_lost".into(),lost_history);
     drop(lost_gateway);
