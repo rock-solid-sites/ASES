@@ -1,0 +1,43 @@
+{
+  "workdir": "/workspace/ases-local-execution/resource-control",
+  "command": "ASES_LOCAL_COLD_EVIDENCE_DIR=/workspace/ases-local-execution/docs/research/phase-ii-local-execution/evidence/cold CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --test native_local_cold -- --nocapture",
+  "result": {
+    "passed": 2,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 0
+  },
+  "history_tests": 1,
+  "commit": "45c3090daa9b55a7614bbd29aa728374f1be5162",
+  "source_sha256": {
+    "resource-control/src/bin/resource-gateway.rs": "d15c31ac194993765a1327a755aed60797afeeb5bab5645db80774835053175f",
+    "resource-control/src/local.rs": "0a9655d11bf90f6fcd9bbc157e5a9128d3fb399033756fae4f095ef9bafe1833",
+    "resource-control/src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "resource-control/src/main.rs": "f92f0bfa773a0088dac95d229a5a2cb0790d58170131a22c35d160495b87213b",
+    "resource-control/tests/native_local_cold.rs": "0327c25aa245ed170984a6d6cc3c86e24f6fd41f77a24d2a0cc158f3c3ba3c7f"
+  },
+  "cold_history_sha256": "3d6b13f61a935af5c8c7f8bbc279d2823331b9bee7ab6c336e052f2b3c117236",
+  "captured_records": {
+    "cold_unknown_history": 10,
+    "durable_exit_then_cold_finalize": 4
+  },
+  "worker_launch_counters": {
+    "cold_unknown_history": 1,
+    "durable_exit_then_cold_finalize": 1
+  },
+  "observations": {
+    "cold_resume_state": "unknown",
+    "cold_launch_replay_child_count": 1,
+    "cold_finalize_without_exit_ok": false,
+    "durable_exit_cold_resume_state": "unknown",
+    "cold_finalize_with_durable_exit_ok": true
+  },
+  "what_not_tested": [
+    "whole-host power loss",
+    "hostile same-UID code",
+    "arbitrary programs",
+    "remote providers",
+    "general process containment",
+    "authority/catalog change cancellation"
+  ]
+}
