@@ -1,0 +1,54 @@
+{
+  "workdir": "/workspace/ases-local-execution/resource-control",
+  "command": "ASES_LOCAL_CLIENT_EVIDENCE_DIR=/workspace/ases-local-execution/docs/research/phase-ii-local-execution/evidence/client CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --test native_session_client -- --nocapture",
+  "result": {
+    "passed": 2,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 0
+  },
+  "native_history_tests": 1,
+  "commit": "b11ca4dd5ade6afc6bf6d88cdd41d8aa65bcc98c",
+  "source_sha256": {
+    "resource-control/src/bin/resource-session.rs": "de9a1031954bd15a7d6de81979b9c408f870b7ba26e2200da3c2e409cb6ff68a",
+    "resource-control/src/bin/resource-gateway.rs": "d15c31ac194993765a1327a755aed60797afeeb5bab5645db80774835053175f",
+    "resource-control/src/local.rs": "02d20614355fd256b2e17708bbf39d961c8ee74011d494dca1952be54a0100f6",
+    "resource-control/src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "resource-control/tests/native_session_client.rs": "9e149db83603d47cce0fde5f336e2c100512127c3c717cde457f41c0d34352ac"
+  },
+  "history_sha256": "ff1143577f13a9794ab9671dfdcd7ec635db891f730adc963e6a3bf65205bee2",
+  "histories": {
+    "cold_resume_and_actual_policy": {
+      "client_calls": 3,
+      "worker_launches": 1
+    },
+    "hot_launch_resume_stop_finalize": {
+      "client_calls": 5,
+      "worker_launches": 1
+    },
+    "natural_completion_via_fresh_poll": {
+      "client_calls": 3,
+      "worker_launches": 1
+    },
+    "server_error_after_durable_intent": {
+      "client_calls": 2,
+      "worker_launches": 0
+    }
+  },
+  "observations": {
+    "hot_fresh_resume_no_redispatch": true,
+    "hot_stop_exit_observed_before_finalize": true,
+    "natural_code_zero_observed_by_fresh_poll": true,
+    "cold_resume_unknown_no_redispatch": true,
+    "actual_viewer_peer_policy_denial": true,
+    "spawn_server_error_retains_launching_intent_and_capacity": true,
+    "server_error_is_not_classified_as_transport_unknown": true
+  },
+  "what_not_tested": [
+    "remote providers",
+    "hostile same-UID code",
+    "whole-host power loss",
+    "arbitrary executable delegation",
+    "automatic retry or hidden recovery"
+  ]
+}
