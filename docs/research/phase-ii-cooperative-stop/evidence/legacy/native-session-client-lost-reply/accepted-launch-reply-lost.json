@@ -1,0 +1,895 @@
+{
+  "balances_after_finalize": [
+    {
+      "account": "session-client-account",
+      "active_reserved_remaining": 0,
+      "available": 100,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "session-client-meter",
+      "period": "session-client-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "balances_before_finalize": [
+    {
+      "account": "session-client-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "session-client-meter",
+      "period": "session-client-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "catalog_revision": 3,
+  "how_certain": "experimental; proxy captured actual successful gateway reply, Store event and balance snapshots, worker identity, and client unknown result",
+  "job_id": "session-lost-reply-job",
+  "launch_id": "session-lost-reply-launch",
+  "proxy_role": "bounded transport fixture only; it forwards once and is not an authority or lifecycle witness",
+  "records": [
+    {
+      "balances_after_launch": [
+        {
+          "account": "session-client-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "session-client-meter",
+          "period": "session-client-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "client": {
+        "argv_after_executable": [
+          "/tmp/.tmpZBYuim/drop-reply-proxy.sock",
+          "launch",
+          "session-lost-reply-job",
+          "session-lost-reply-launch",
+          "3"
+        ],
+        "exit_code": 4,
+        "stderr": "",
+        "stdout": "{\"error\":\"response was empty, malformed, or truncated\",\"ok\":false,\"outcome\":\"outcome_unknown\"}\n"
+      },
+      "events_after": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        }
+      ],
+      "job_after_launch": {
+        "ack_id": "ack-session-lost-reply-job",
+        "catalog_version": 3,
+        "expires_at": 1794406840,
+        "job_id": "session-lost-reply-job",
+        "launch_id": "session-lost-reply-launch",
+        "meters": [
+          {
+            "meter": "session-client-meter",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 50,
+            "unspent": 50
+          }
+        ],
+        "outcome": null,
+        "proposal": {
+          "account_id": "session-client-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "session-client-meter"
+            }
+          ],
+          "environment_id": "session-client-environment",
+          "estimated_wall_seconds": 90,
+          "forecast_context": null,
+          "job_id": "session-lost-reply-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "session-client-project"
+        },
+        "state": "RUNNING"
+      },
+      "phase": "actual-launch-reply-lost-after-gateway-acceptance",
+      "proxy_capture": {
+        "actual_gateway_response": {
+          "ok": true,
+          "result": {
+            "job_id": "session-lost-reply-job",
+            "launch_id": "session-lost-reply-launch",
+            "state": "running"
+          }
+        },
+        "actual_reply_discarded": true,
+        "additional_client_connections": 0,
+        "forwarded_once": true,
+        "request": {
+          "expected_catalog": 3,
+          "job_id": "session-lost-reply-job",
+          "launch_id": "session-lost-reply-launch",
+          "op": "local_launch"
+        }
+      },
+      "worker_launch_counter": [
+        {
+          "pid": 10045,
+          "start_token": "347672",
+          "worker": "fixed-session-worker"
+        }
+      ]
+    },
+    {
+      "argv_after_executable": [
+        "/tmp/.tmpZBYuim/gateway-lost-reply.sock",
+        "resume",
+        "session-lost-reply-job",
+        "session-lost-reply-launch"
+      ],
+      "events_after": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        }
+      ],
+      "exit_code": 0,
+      "phase": "fresh-resume-after-lost-reply",
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"local_state\":\"owned_child_unobserved\",\"resume_view\":{\"accountId\":\"session-client-account\",\"advisoryNextStep\":\"observe_process_or_completion\",\"currentCatalogRevision\":3,\"environmentId\":\"session-client-environment\",\"evidence\":{\"launch\":{\"eventId\":\"launch-intent:session-lost-reply-job\",\"kind\":\"LAUNCH_INTENT\",\"payloadSha256\":\"b91bf3f4d50a1fd1272a4d76ab9f692b7c8457211871a3beb72dffe70e570ec4\",\"recordedAt\":1794405940},\"outcome\":{\"eventId\":\"launch-observation:session-lost-reply-job\",\"kind\":\"LAUNCH_STARTED_OBSERVED\",\"payloadSha256\":\"e6e1469948d5c15b0d74d63772467793c3003361a719c5726e8c64921997642d\",\"recordedAt\":1794405940}},\"jobCatalogRevision\":3,\"jobId\":\"session-lost-reply-job\",\"launchId\":\"session-lost-reply-launch\",\"outcome\":null,\"presentLiveness\":\"unknown\",\"profile\":\"intent\",\"projectId\":\"session-client-project\",\"state\":\"RUNNING\"},\"stop\":null}}\n"
+    },
+    {
+      "argv_after_executable": [
+        "/tmp/.tmpZBYuim/gateway-lost-reply.sock",
+        "launch",
+        "session-lost-reply-job",
+        "session-lost-reply-launch",
+        "3"
+      ],
+      "events_after": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        }
+      ],
+      "exit_code": 0,
+      "phase": "explicit-exact-launch-replay-no-redispatch",
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"exit\":null,\"job_id\":\"session-lost-reply-job\",\"launch_id\":\"session-lost-reply-launch\",\"state\":\"running\"}}\n"
+    },
+    {
+      "argv_after_executable": [
+        "/tmp/.tmpZBYuim/gateway-lost-reply.sock",
+        "stop",
+        "session-lost-reply-job",
+        "session-lost-reply-launch",
+        "session-lost-reply-stop"
+      ],
+      "events_after": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "local-stop:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "stop_id": "session-lost-reply-stop"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-exit:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            },
+            "status": {
+              "kind": "signal",
+              "signal": 9
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        }
+      ],
+      "exit_code": 0,
+      "phase": "fresh-stop-owned-child",
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"exit\":{\"signal\":9},\"job_id\":\"session-lost-reply-job\",\"launch_id\":\"session-lost-reply-launch\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"session-lost-reply-stop\"}}\n"
+    },
+    {
+      "argv_after_executable": [
+        "/tmp/.tmpZBYuim/gateway-lost-reply.sock",
+        "finalize",
+        "session-lost-reply-job",
+        "session-lost-reply-launch",
+        "completed"
+      ],
+      "events_after": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "local-stop:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "stop_id": "session-lost-reply-stop"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-exit:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            },
+            "status": {
+              "kind": "signal",
+              "signal": 9
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:final:completed",
+          "job_id": "session-lost-reply-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "completed"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:reserved",
+          "job_id": "session-lost-reply-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "session-client-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "session-client-meter"
+                }
+              ],
+              "environment_id": "session-client-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "session-lost-reply-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "session-client-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "session-lost-reply-job:ack:ack-session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-session-lost-reply-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "session-lost-reply-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "local-stop:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "stop_id": "session-lost-reply-stop"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-exit:session-lost-reply-job",
+          "job_id": "session-lost-reply-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "session-lost-reply-launch",
+            "process": {
+              "pid": 10045,
+              "start_token": "347672"
+            },
+            "status": {
+              "kind": "signal",
+              "signal": 9
+            }
+          }
+        }
+      ],
+      "exit_code": 0,
+      "phase": "fresh-finalize-releases-capacity",
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"session-lost-reply-job\",\"launch_id\":\"session-lost-reply-launch\",\"outcome\":\"completed\"}}\n"
+    }
+  ],
+  "source_sha256": {
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/bin/resource-session.rs": "5e03d90721c376479b934a075178e869a67fdcd4fedff1f8c887e40d1b57d56e",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "d8a89b5ef7f85ace36db5349c9faeb791dc5c9f770992bbdea907633f39b4d14",
+    "tests/native_session_client.rs": "113befd95e4d3dc798cde60071fcc19ff5acf58592f5e9e3caf92863ee372c1c"
+  },
+  "what": "fresh resource-session process, bounded one-forward proxy, actual SO_PEERCRED gateway and fixed worker",
+  "what_not_tested": [
+    "hostile same-UID proxy",
+    "remote provider",
+    "whole-host power loss",
+    "arbitrary executable delegation",
+    "client automatic retry"
+  ],
+  "why": "a lost client reply does not undo the gateway's one-use dispatch or durable start evidence",
+  "worker_launch_counter": [
+    {
+      "pid": 10045,
+      "start_token": "347672",
+      "worker": "fixed-session-worker"
+    }
+  ]
+}

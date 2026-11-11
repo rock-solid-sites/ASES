@@ -1,0 +1,46 @@
+   Compiling ases-resource-control v0.1.0 (/workspace/ases-cooperative-stop/resource-control)
+    Finished `test` profile [unoptimized] target(s) in 1.10s
+     Running tests/native_local_cold.rs (/workspace/ases-local-execution/resource-control/target/debug/deps/native_local_cold-0e5d0857d497b4ac)
+
+running 2 tests
+test cold_gateway_fixed_worker ... ok
+test actual_gateway_loss_preserves_unknown_and_capacity ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+     Running tests/native_local_contention.rs (/workspace/ases-local-execution/resource-control/target/debug/deps/native_local_contention-d6b1aba02bccb33b)
+
+running 3 tests
+test contention_fixed_worker ... ok
+test lost_hot_gateway_reply_replay_observes_one_child_without_redispatch ... ok
+test two_gateways_contend_for_one_dispatch_and_only_child_owner_can_stop ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/native_local_gateway.rs (/workspace/ases-local-execution/resource-control/target/debug/deps/native_local_gateway-b2c73c3f3c77f921)
+
+running 4 tests
+test actual_viewer_peer_is_denied_local_execution_without_state_change ... ok
+test local_gateway_fixed_worker ... ok
+test post_intent_spawn_failure_stays_unknown_and_holds_reservation ... ok
+test gateway_owns_one_fixed_child_and_stop_is_durable_exact_and_separate_from_finalize ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/native_session_client.rs (/workspace/ases-local-execution/resource-control/target/debug/deps/native_session_client-0525217b6dcd50af)
+
+running 3 tests
+test fresh_session_client_drives_hot_cold_and_server_error_histories ... ok
+test session_client_fixed_worker ... ok
+test actual_client_loses_accepted_launch_reply_then_recovers_without_redispatch ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
+
+     Running tests/native_session_drive.rs (/workspace/ases-local-execution/resource-control/target/debug/deps/native_session_drive-bd4af54a970bbfb4)
+
+running 2 tests
+test session_drive_fixed_worker ... ok
+test native_driver_natural_nonzero_budget_cold_and_lost_reply_histories ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.02s
+

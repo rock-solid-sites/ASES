@@ -1,0 +1,240 @@
+{
+  "records": [
+    {
+      "gateway_a": {
+        "ok": true,
+        "result": {
+          "job_id": "contended-job",
+          "launch_id": "contended-launch",
+          "state": "running"
+        }
+      },
+      "gateway_b": {
+        "ok": true,
+        "result": {
+          "exit": null,
+          "job_id": "contended-job",
+          "launch_id": "contended-launch",
+          "state": "unknown"
+        }
+      },
+      "phase": "concurrent-launch",
+      "request": {
+        "expected_catalog": 3,
+        "job_id": "contended-job",
+        "launch_id": "contended-launch",
+        "op": "local_launch"
+      },
+      "worker_count": 1
+    },
+    {
+      "events": [
+        {
+          "at": 1794405940,
+          "event_id": "contended-job:reserved",
+          "job_id": "contended-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "contention-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "contention-meter"
+                }
+              ],
+              "environment_id": "contention-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "contended-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "contention-project"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "contended-job:ack:ack-contended-job",
+          "job_id": "contended-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-contended-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-intent:contended-job",
+          "job_id": "contended-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "contended-launch"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-observation:contended-job",
+          "job_id": "contended-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "contended-launch",
+            "process": {
+              "pid": 10021,
+              "start_token": "347660"
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "local-stop:contended-job",
+          "job_id": "contended-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "contended-launch",
+            "stop_id": "shared-stop"
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "launch-exit:contended-job",
+          "job_id": "contended-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "contended-launch",
+            "process": {
+              "pid": 10021,
+              "start_token": "347660"
+            },
+            "status": {
+              "kind": "signal",
+              "signal": 9
+            }
+          }
+        },
+        {
+          "at": 1794405940,
+          "event_id": "contended-job:final:cancelled",
+          "job_id": "contended-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "finalize": {
+        "ok": true,
+        "result": {
+          "finalization": "CLOSED",
+          "job_id": "contended-job",
+          "launch_id": "contended-launch",
+          "outcome": "cancelled"
+        }
+      },
+      "owner_resume_with_stop_selector": {
+        "ok": true,
+        "result": {
+          "local_state": "owned_child_unobserved",
+          "resume_view": {
+            "accountId": "contention-account",
+            "advisoryNextStep": "observe_process_or_completion",
+            "currentCatalogRevision": 3,
+            "environmentId": "contention-environment",
+            "evidence": {
+              "launch": {
+                "eventId": "launch-intent:contended-job",
+                "kind": "LAUNCH_INTENT",
+                "payloadSha256": "7b1f4a896cb96023f444ce6151063c253f6735e344eeeeda1bfaeafdc07656b4",
+                "recordedAt": 1794405940
+              },
+              "outcome": {
+                "eventId": "launch-observation:contended-job",
+                "kind": "LAUNCH_STARTED_OBSERVED",
+                "payloadSha256": "1c8313798ef59e6915db615814661f618064fc64d9571b916182a21293eee19a",
+                "recordedAt": 1794405940
+              }
+            },
+            "jobCatalogRevision": 3,
+            "jobId": "contended-job",
+            "launchId": "contended-launch",
+            "outcome": null,
+            "presentLiveness": "unknown",
+            "profile": "intent",
+            "projectId": "contention-project",
+            "state": "RUNNING"
+          },
+          "stop": {
+            "event_id": "local-stop:contended-job",
+            "kind": "LOCAL_STOP_REQUESTED",
+            "launch_id": "contended-launch",
+            "payload_sha256": "86d97ee14dd016b42ae05affc8f48c3bd78c0c3f46425b8f21e14701e17ffc63",
+            "recorded_at": 1794405940,
+            "stop_id": "shared-stop"
+          }
+        }
+      },
+      "owner_stop": {
+        "ok": true,
+        "result": {
+          "exit": {
+            "signal": 9
+          },
+          "job_id": "contended-job",
+          "launch_id": "contended-launch",
+          "replayed": true,
+          "state": "exit_observed",
+          "stop_id": "shared-stop"
+        }
+      },
+      "phase": "loser-cannot-signal-or-finalize-before-exit",
+      "pid_rejection": {
+        "error": "unknown field `pid`, expected one of `op`, `job_id`, `launch_id`, `stop_id`",
+        "ok": false
+      },
+      "premature_finalize": {
+        "error": "conflict: intent-backed running job requires observed process exit before finalization",
+        "ok": false
+      },
+      "remaining_after_exit": 50,
+      "remaining_after_finalize": 0,
+      "request_pid": {
+        "job_id": "contended-job",
+        "launch_id": "contended-launch",
+        "op": "local_stop",
+        "pid": 10021,
+        "stop_id": "shared-stop"
+      },
+      "unknown_stop": {
+        "ok": true,
+        "result": {
+          "job_id": "contended-job",
+          "launch_id": "contended-launch",
+          "replayed": false,
+          "state": "unknown",
+          "stop_id": "shared-stop"
+        }
+      }
+    },
+    {
+      "phase": "malformed-stop-payload-fails-closed",
+      "response": {
+        "error": "conflict: retained local stop payload is unsupported",
+        "ok": false
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "d8a89b5ef7f85ace36db5349c9faeb791dc5c9f770992bbdea907633f39b4d14",
+    "tests/native_local_contention.rs": "b6235f4c1b235420bfc14311e44bcce2578db3aa2597136ddf96dff2d942bf8f"
+  },
+  "worker": {
+    "pid": 10021,
+    "start_token": "347660"
+  }
+}

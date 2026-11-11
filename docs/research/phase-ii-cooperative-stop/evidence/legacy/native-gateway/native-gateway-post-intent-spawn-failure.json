@@ -1,0 +1,113 @@
+{
+  "balances_after_failure": [
+    {
+      "account": "local-test-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "local-test-meter",
+      "period": "local-gateway-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "events_after_failure": [
+    {
+      "at": 1794405940,
+      "event_id": "spawn-failure-job:reserved",
+      "job_id": "spawn-failure-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "spawn-failure-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "spawn-failure-job:ack:ack-spawn-failure-job",
+      "job_id": "spawn-failure-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-spawn-failure-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-intent:spawn-failure-job",
+      "job_id": "spawn-failure-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "spawn-failure-launch"
+      }
+    }
+  ],
+  "finalize_request": {
+    "job_id": "spawn-failure-job",
+    "launch_id": "spawn-failure-launch",
+    "op": "local_finalize",
+    "outcome": "failed"
+  },
+  "finalize_response": {
+    "error": "conflict: launch outcome unknown; reconciliation required before finalization",
+    "ok": false
+  },
+  "replay_request": {
+    "expected_catalog": 3,
+    "job_id": "spawn-failure-job",
+    "launch_id": "spawn-failure-launch",
+    "op": "local_launch"
+  },
+  "replay_response": {
+    "ok": true,
+    "result": {
+      "exit": null,
+      "job_id": "spawn-failure-job",
+      "launch_id": "spawn-failure-launch",
+      "state": "unknown"
+    }
+  },
+  "request": {
+    "expected_catalog": 3,
+    "job_id": "spawn-failure-job",
+    "launch_id": "spawn-failure-launch",
+    "op": "local_launch"
+  },
+  "response": {
+    "error": "io: No such file or directory (os error 2)",
+    "ok": false
+  },
+  "source_sha256": {
+    "../docs/research/phase-ii-local-execution/INTERFACE.md": "5652663bc64bc1d62ca983d9e01b69a6b874c6a262dd1c50ad157559ec8791b5",
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "d8a89b5ef7f85ace36db5349c9faeb791dc5c9f770992bbdea907633f39b4d14",
+    "tests/native_local_gateway.rs": "cae411d1aa763cd5be96d5fb94ab7817588af60edc20108a21e074ede823c3a0",
+    "tests/native_termination.rs": "bd586da579f918a0256442eeb1762123668f4715e6a76a659980e44be8be89e9"
+  },
+  "trusted_profile_program": "/tmp/.tmp06yvLx/absent-fixed-worker",
+  "worker_marker_exists": false
+}
