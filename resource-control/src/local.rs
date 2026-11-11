@@ -228,7 +228,7 @@ impl LocalSupervisor {
             if let Some(status)=owned.child.try_wait()?{owned.exited=Some(exit_status(status)?);}
         }
         if owned.exited.is_some(){
-            let observed=record_owned_exit(store,job,launch,owned,at)?;
+            let observed=record_owned_exit(store,job,launch,owned)?;
             return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));
         }
         let plan=LocalStopPlan::Graceful{launch_id:launch.into(),stop_id:stop_id.into(),grace_ms};
@@ -247,7 +247,7 @@ impl LocalSupervisor {
                 let error=std::io::Error::last_os_error();
                 if error.raw_os_error()==Some(libc::ESRCH){
                     if let Some(status)=owned.child.try_wait()?{owned.exited=Some(exit_status(status)?);}
-                    if owned.exited.is_some(){let observed=record_owned_exit(store,job,launch,owned,at)?;return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));}
+                    if owned.exited.is_some(){let observed=record_owned_exit(store,job,launch,owned)?;return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));}
                     return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,None));
                 }
                 return Err(Error::Io(error));
@@ -258,7 +258,7 @@ impl LocalSupervisor {
                 if let Some(status)=owned.child.try_wait()?{owned.exited=Some(exit_status(status)?);}
             }
             if owned.exited.is_some(){
-                let observed=record_owned_exit(store,job,launch,owned,at)?;
+                let observed=record_owned_exit(store,job,launch,owned)?;
                 return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));
             }
             let deadline=owned.stop_progress.as_ref().unwrap().deadline;
@@ -271,12 +271,12 @@ impl LocalSupervisor {
                 match owned.child.kill(){
                     Ok(())=>{
                         owned.exited=Some(exit_status(owned.child.wait()?)?);
-                        let observed=record_owned_exit(store,job,launch,owned,at)?;
+                        let observed=record_owned_exit(store,job,launch,owned)?;
                         return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));
                     }
                     Err(error) if error.raw_os_error()==Some(libc::ESRCH)=>{
                         if let Some(status)=owned.child.try_wait()?{owned.exited=Some(exit_status(status)?);}
-                        if owned.exited.is_some(){let observed=record_owned_exit(store,job,launch,owned,at)?;return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));}
+                        if owned.exited.is_some(){let observed=record_owned_exit(store,job,launch,owned)?;return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));}
                         return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,None));
                     }
                     Err(error)=>return Err(Error::Io(error)),
@@ -323,9 +323,11 @@ impl LocalSupervisor {
         Ok(json!({"finalization":result,"job_id":job,"launch_id":launch,"outcome":outcome}))
     }
 }
-fn record_owned_exit(store:&mut Store,job:&str,launch:&str,owned:&OwnedChild,at:i64)->Result<Option<ProcessExitStatus>>{
+fn record_owned_exit(store:&mut Store,job:&str,launch:&str,owned:&OwnedChild)->Result<Option<ProcessExitStatus>>{
     let (Some(process),Some(status))=(&owned.process,&owned.exited)else{return Ok(None)};
-    store.observe_launch_exit(job,launch,&LaunchExitObservation{process:process.clone(),status:status.clone()},at)?;
+    // Wait evidence is timestamped when the retained Child actually reports it,
+    // not with the earlier stop-request clock sample.
+    store.observe_launch_exit(job,launch,&LaunchExitObservation{process:process.clone(),status:status.clone()},crate::now())?;
     Ok(Some(status.clone()))
 }
 fn graceful_stop_reply(job:&str,launch:&str,stop_id:&str,grace_ms:u64,replayed:bool,owned:&OwnedChild,exit:Option<ProcessExitStatus>)->Value{
