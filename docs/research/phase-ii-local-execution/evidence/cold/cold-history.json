@@ -1,0 +1,2577 @@
+{
+  "catalog_revision": 3,
+  "durable_exit_cold_finalize_history": {
+    "catalog_revision": 3,
+    "gateway_after_loss_event_snapshot": [
+      {
+        "at": 1794403368,
+        "event_id": "cold-exit-observed-job:reserved",
+        "job_id": "cold-exit-observed-job",
+        "kind": "RESERVED",
+        "payload": {
+          "catalog_version": 3,
+          "estimated_cash_micros": 0,
+          "forecast": {
+            "account_id": "cold-test-account",
+            "claims": [
+              {
+                "amount": 50,
+                "meter_id": "cold-test-meter"
+              }
+            ],
+            "environment_id": "cold-test-environment",
+            "estimated_wall_seconds": 60,
+            "forecast_context": null,
+            "job_id": "cold-exit-observed-job",
+            "paid_spend_cap_currency": null,
+            "paid_spend_cap_micros": null,
+            "project_id": "cold-test-project"
+          }
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "AUTHORIZED",
+        "payload": {
+          "ack_id": "cold-test-ack-cold-exit-observed-job",
+          "catalog_version": 3
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "launch-intent:cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "LAUNCH_INTENT",
+        "payload": {
+          "catalog_version": 3,
+          "dispatch_granted": true,
+          "launch_id": "cold-exit-observed-launch"
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "launch-observation:cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "LAUNCH_STARTED_OBSERVED",
+        "payload": {
+          "launch_id": "cold-exit-observed-launch",
+          "process": {
+            "pid": 3296,
+            "start_token": "90401"
+          }
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "local-stop:cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "LOCAL_STOP_REQUESTED",
+        "payload": {
+          "launch_id": "cold-exit-observed-launch",
+          "stop_id": "hot-stop-exit-1"
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "launch-exit:cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "LAUNCH_EXIT_OBSERVED",
+        "payload": {
+          "launch_id": "cold-exit-observed-launch",
+          "process": {
+            "pid": 3296,
+            "start_token": "90401"
+          },
+          "status": {
+            "kind": "signal",
+            "signal": 9
+          }
+        }
+      }
+    ],
+    "gateway_before_loss_event_snapshot": [
+      {
+        "at": 1794403368,
+        "event_id": "cold-exit-observed-job:reserved",
+        "job_id": "cold-exit-observed-job",
+        "kind": "RESERVED",
+        "payload": {
+          "catalog_version": 3,
+          "estimated_cash_micros": 0,
+          "forecast": {
+            "account_id": "cold-test-account",
+            "claims": [
+              {
+                "amount": 50,
+                "meter_id": "cold-test-meter"
+              }
+            ],
+            "environment_id": "cold-test-environment",
+            "estimated_wall_seconds": 60,
+            "forecast_context": null,
+            "job_id": "cold-exit-observed-job",
+            "paid_spend_cap_currency": null,
+            "paid_spend_cap_micros": null,
+            "project_id": "cold-test-project"
+          }
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "AUTHORIZED",
+        "payload": {
+          "ack_id": "cold-test-ack-cold-exit-observed-job",
+          "catalog_version": 3
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "launch-intent:cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "LAUNCH_INTENT",
+        "payload": {
+          "catalog_version": 3,
+          "dispatch_granted": true,
+          "launch_id": "cold-exit-observed-launch"
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "launch-observation:cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "LAUNCH_STARTED_OBSERVED",
+        "payload": {
+          "launch_id": "cold-exit-observed-launch",
+          "process": {
+            "pid": 3296,
+            "start_token": "90401"
+          }
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "local-stop:cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "LOCAL_STOP_REQUESTED",
+        "payload": {
+          "launch_id": "cold-exit-observed-launch",
+          "stop_id": "hot-stop-exit-1"
+        }
+      },
+      {
+        "at": 1794403368,
+        "event_id": "launch-exit:cold-exit-observed-job",
+        "job_id": "cold-exit-observed-job",
+        "kind": "LAUNCH_EXIT_OBSERVED",
+        "payload": {
+          "launch_id": "cold-exit-observed-launch",
+          "process": {
+            "pid": 3296,
+            "start_token": "90401"
+          },
+          "status": {
+            "kind": "signal",
+            "signal": 9
+          }
+        }
+      }
+    ],
+    "held_balances_before_cold_finalize": [
+      {
+        "account": "cold-test-account",
+        "active_reserved_remaining": 50,
+        "available": 50,
+        "effective_consumed": 0,
+        "fresh": true,
+        "guard": 0,
+        "limit": 100,
+        "local_observed": 0,
+        "meter_id": "cold-test-meter",
+        "period": "cold-gateway-test",
+        "provider_complete_through": null,
+        "provider_reported": null,
+        "unit": "units"
+      }
+    ],
+    "job_id": "cold-exit-observed-job",
+    "launch_id": "cold-exit-observed-launch",
+    "records": [
+      {
+        "events_after": [
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:reserved",
+            "job_id": "cold-exit-observed-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "cold-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "cold-test-meter"
+                  }
+                ],
+                "environment_id": "cold-test-environment",
+                "estimated_wall_seconds": 60,
+                "forecast_context": null,
+                "job_id": "cold-exit-observed-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "cold-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "cold-test-ack-cold-exit-observed-job",
+              "catalog_version": 3
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-intent:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_INTENT",
+            "payload": {
+              "catalog_version": 3,
+              "dispatch_granted": true,
+              "launch_id": "cold-exit-observed-launch"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-observation:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              }
+            }
+          }
+        ],
+        "events_before": [
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:reserved",
+            "job_id": "cold-exit-observed-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "cold-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "cold-test-meter"
+                  }
+                ],
+                "environment_id": "cold-test-environment",
+                "estimated_wall_seconds": 60,
+                "forecast_context": null,
+                "job_id": "cold-exit-observed-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "cold-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "cold-test-ack-cold-exit-observed-job",
+              "catalog_version": 3
+            }
+          }
+        ],
+        "phase": "hot-launch",
+        "request": {
+          "expected_catalog": 3,
+          "job_id": "cold-exit-observed-job",
+          "launch_id": "cold-exit-observed-launch",
+          "op": "local_launch"
+        },
+        "response": {
+          "ok": true,
+          "result": {
+            "job_id": "cold-exit-observed-job",
+            "launch_id": "cold-exit-observed-launch",
+            "state": "running"
+          }
+        }
+      },
+      {
+        "events_after": [
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:reserved",
+            "job_id": "cold-exit-observed-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "cold-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "cold-test-meter"
+                  }
+                ],
+                "environment_id": "cold-test-environment",
+                "estimated_wall_seconds": 60,
+                "forecast_context": null,
+                "job_id": "cold-exit-observed-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "cold-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "cold-test-ack-cold-exit-observed-job",
+              "catalog_version": 3
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-intent:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_INTENT",
+            "payload": {
+              "catalog_version": 3,
+              "dispatch_granted": true,
+              "launch_id": "cold-exit-observed-launch"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-observation:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "local-stop:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LOCAL_STOP_REQUESTED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "stop_id": "hot-stop-exit-1"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-exit:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_EXIT_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              },
+              "status": {
+                "kind": "signal",
+                "signal": 9
+              }
+            }
+          }
+        ],
+        "events_before": [
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:reserved",
+            "job_id": "cold-exit-observed-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "cold-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "cold-test-meter"
+                  }
+                ],
+                "environment_id": "cold-test-environment",
+                "estimated_wall_seconds": 60,
+                "forecast_context": null,
+                "job_id": "cold-exit-observed-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "cold-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "cold-test-ack-cold-exit-observed-job",
+              "catalog_version": 3
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-intent:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_INTENT",
+            "payload": {
+              "catalog_version": 3,
+              "dispatch_granted": true,
+              "launch_id": "cold-exit-observed-launch"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-observation:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              }
+            }
+          }
+        ],
+        "phase": "hot-stop-wait-exit",
+        "request": {
+          "job_id": "cold-exit-observed-job",
+          "launch_id": "cold-exit-observed-launch",
+          "op": "local_stop",
+          "stop_id": "hot-stop-exit-1"
+        },
+        "response": {
+          "ok": true,
+          "result": {
+            "exit": {
+              "signal": 9
+            },
+            "job_id": "cold-exit-observed-job",
+            "launch_id": "cold-exit-observed-launch",
+            "replayed": false,
+            "state": "exit_observed",
+            "stop_id": "hot-stop-exit-1"
+          }
+        }
+      },
+      {
+        "events_after": [
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:reserved",
+            "job_id": "cold-exit-observed-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "cold-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "cold-test-meter"
+                  }
+                ],
+                "environment_id": "cold-test-environment",
+                "estimated_wall_seconds": 60,
+                "forecast_context": null,
+                "job_id": "cold-exit-observed-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "cold-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "cold-test-ack-cold-exit-observed-job",
+              "catalog_version": 3
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-intent:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_INTENT",
+            "payload": {
+              "catalog_version": 3,
+              "dispatch_granted": true,
+              "launch_id": "cold-exit-observed-launch"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-observation:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "local-stop:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LOCAL_STOP_REQUESTED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "stop_id": "hot-stop-exit-1"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-exit:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_EXIT_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              },
+              "status": {
+                "kind": "signal",
+                "signal": 9
+              }
+            }
+          }
+        ],
+        "events_before": [
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:reserved",
+            "job_id": "cold-exit-observed-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "cold-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "cold-test-meter"
+                  }
+                ],
+                "environment_id": "cold-test-environment",
+                "estimated_wall_seconds": 60,
+                "forecast_context": null,
+                "job_id": "cold-exit-observed-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "cold-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "cold-test-ack-cold-exit-observed-job",
+              "catalog_version": 3
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-intent:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_INTENT",
+            "payload": {
+              "catalog_version": 3,
+              "dispatch_granted": true,
+              "launch_id": "cold-exit-observed-launch"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-observation:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "local-stop:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LOCAL_STOP_REQUESTED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "stop_id": "hot-stop-exit-1"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-exit:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_EXIT_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              },
+              "status": {
+                "kind": "signal",
+                "signal": 9
+              }
+            }
+          }
+        ],
+        "phase": "cold-resume-with-exit",
+        "request": {
+          "job_id": "cold-exit-observed-job",
+          "launch_id": "cold-exit-observed-launch",
+          "op": "local_resume"
+        },
+        "response": {
+          "ok": true,
+          "result": {
+            "local_state": "unknown",
+            "resume_view": {
+              "accountId": "cold-test-account",
+              "advisoryNextStep": "finalize_observed_exit",
+              "currentCatalogRevision": 3,
+              "environmentId": "cold-test-environment",
+              "evidence": {
+                "launch": {
+                  "eventId": "launch-intent:cold-exit-observed-job",
+                  "kind": "LAUNCH_INTENT",
+                  "payloadSha256": "e828969fc7d4a223121db1aeab80610733571e8d2e0c7c714438e5ad71d74994",
+                  "recordedAt": 1794403368
+                },
+                "outcome": {
+                  "eventId": "launch-exit:cold-exit-observed-job",
+                  "kind": "LAUNCH_EXIT_OBSERVED",
+                  "payloadSha256": "6cd19455e71626ac3c022176d2a6597b3f1186432b2b2ee511aa8df97e11df36",
+                  "recordedAt": 1794403368
+                }
+              },
+              "jobCatalogRevision": 3,
+              "jobId": "cold-exit-observed-job",
+              "launchId": "cold-exit-observed-launch",
+              "outcome": null,
+              "presentLiveness": "unknown",
+              "profile": "intent",
+              "projectId": "cold-test-project",
+              "state": "RUNNING"
+            },
+            "stop": {
+              "event_id": "local-stop:cold-exit-observed-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload_sha256": "9301a20fcc00e512a2d9600ad0463b63e6ae25eec27e43f8e9f337b1b6cae969",
+              "recorded_at": 1794403368
+            }
+          }
+        }
+      },
+      {
+        "events_after": [
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:reserved",
+            "job_id": "cold-exit-observed-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "cold-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "cold-test-meter"
+                  }
+                ],
+                "environment_id": "cold-test-environment",
+                "estimated_wall_seconds": 60,
+                "forecast_context": null,
+                "job_id": "cold-exit-observed-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "cold-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "cold-test-ack-cold-exit-observed-job",
+              "catalog_version": 3
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-intent:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_INTENT",
+            "payload": {
+              "catalog_version": 3,
+              "dispatch_granted": true,
+              "launch_id": "cold-exit-observed-launch"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-observation:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "local-stop:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LOCAL_STOP_REQUESTED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "stop_id": "hot-stop-exit-1"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-exit:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_EXIT_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              },
+              "status": {
+                "kind": "signal",
+                "signal": 9
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:final:completed",
+            "job_id": "cold-exit-observed-job",
+            "kind": "FINALIZED",
+            "payload": {
+              "outcome": "completed"
+            }
+          }
+        ],
+        "events_before": [
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:reserved",
+            "job_id": "cold-exit-observed-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "cold-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "cold-test-meter"
+                  }
+                ],
+                "environment_id": "cold-test-environment",
+                "estimated_wall_seconds": 60,
+                "forecast_context": null,
+                "job_id": "cold-exit-observed-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "cold-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "cold-exit-observed-job:ack:cold-test-ack-cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "cold-test-ack-cold-exit-observed-job",
+              "catalog_version": 3
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-intent:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_INTENT",
+            "payload": {
+              "catalog_version": 3,
+              "dispatch_granted": true,
+              "launch_id": "cold-exit-observed-launch"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-observation:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              }
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "local-stop:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LOCAL_STOP_REQUESTED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "stop_id": "hot-stop-exit-1"
+            }
+          },
+          {
+            "at": 1794403368,
+            "event_id": "launch-exit:cold-exit-observed-job",
+            "job_id": "cold-exit-observed-job",
+            "kind": "LAUNCH_EXIT_OBSERVED",
+            "payload": {
+              "launch_id": "cold-exit-observed-launch",
+              "process": {
+                "pid": 3296,
+                "start_token": "90401"
+              },
+              "status": {
+                "kind": "signal",
+                "signal": 9
+              }
+            }
+          }
+        ],
+        "phase": "cold-finalize-from-exact-exit",
+        "request": {
+          "job_id": "cold-exit-observed-job",
+          "launch_id": "cold-exit-observed-launch",
+          "op": "local_finalize",
+          "outcome": "completed"
+        },
+        "response": {
+          "ok": true,
+          "result": {
+            "finalization": "CLOSED",
+            "job_id": "cold-exit-observed-job",
+            "launch_id": "cold-exit-observed-launch",
+            "outcome": "completed"
+          }
+        }
+      }
+    ],
+    "released_balances_after_cold_finalize": [
+      {
+        "account": "cold-test-account",
+        "active_reserved_remaining": 0,
+        "available": 100,
+        "effective_consumed": 0,
+        "fresh": true,
+        "guard": 0,
+        "limit": 100,
+        "local_observed": 0,
+        "meter_id": "cold-test-meter",
+        "period": "cold-gateway-test",
+        "provider_complete_through": null,
+        "provider_reported": null,
+        "unit": "units"
+      }
+    ],
+    "worker_exit_marker": false,
+    "worker_launch_counter": [
+      {
+        "pid": 3296,
+        "start_token": "90401",
+        "worker": "fixed-cold-worker"
+      }
+    ]
+  },
+  "gateway_after_loss_event_snapshot": [
+    {
+      "at": 1794403367,
+      "event_id": "cold-loss-job:reserved",
+      "job_id": "cold-loss-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "cold-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "cold-test-meter"
+            }
+          ],
+          "environment_id": "cold-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "cold-loss-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "cold-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794403367,
+      "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+      "job_id": "cold-loss-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "cold-test-ack-cold-loss-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794403367,
+      "event_id": "launch-intent:cold-loss-job",
+      "job_id": "cold-loss-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "cold-loss-launch"
+      }
+    },
+    {
+      "at": 1794403367,
+      "event_id": "launch-observation:cold-loss-job",
+      "job_id": "cold-loss-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "cold-loss-launch",
+        "process": {
+          "pid": 3291,
+          "start_token": "90394"
+        }
+      }
+    }
+  ],
+  "gateway_before_loss_event_snapshot": [
+    {
+      "at": 1794403367,
+      "event_id": "cold-loss-job:reserved",
+      "job_id": "cold-loss-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "cold-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "cold-test-meter"
+            }
+          ],
+          "environment_id": "cold-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "cold-loss-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "cold-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794403367,
+      "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+      "job_id": "cold-loss-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "cold-test-ack-cold-loss-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794403367,
+      "event_id": "launch-intent:cold-loss-job",
+      "job_id": "cold-loss-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "cold-loss-launch"
+      }
+    },
+    {
+      "at": 1794403367,
+      "event_id": "launch-observation:cold-loss-job",
+      "job_id": "cold-loss-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "cold-loss-launch",
+        "process": {
+          "pid": 3291,
+          "start_token": "90394"
+        }
+      }
+    }
+  ],
+  "gateway_exit_code_after_test_owned_kill": null,
+  "held_balances_after_blocked_finalize": [
+    {
+      "account": "cold-test-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "cold-test-meter",
+      "period": "cold-gateway-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "how_certain": "experimental; assertions and captured native records",
+  "job_id": "cold-loss-job",
+  "launch_id": "cold-loss-launch",
+  "records": [
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        }
+      ],
+      "phase": "hot-launch",
+      "request": {
+        "expected_catalog": 3,
+        "job_id": "cold-loss-job",
+        "launch_id": "cold-loss-launch",
+        "op": "local_launch"
+      },
+      "response": {
+        "ok": true,
+        "result": {
+          "job_id": "cold-loss-job",
+          "launch_id": "cold-loss-launch",
+          "state": "running"
+        }
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "phase": "forged-client-evidence",
+      "request": {
+        "command": "/bin/true",
+        "job_id": "cold-loss-job",
+        "launch_id": "cold-loss-launch",
+        "observation": {
+          "code": 0,
+          "kind": "LAUNCH_EXIT_OBSERVED"
+        },
+        "op": "local_poll",
+        "pid": 3291,
+        "process_identity": {
+          "pid": 3291,
+          "start_token": "90394"
+        }
+      },
+      "response": {
+        "error": "unknown field `command`, expected one of `op`, `job_id`, `launch_id`",
+        "ok": false
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "phase": "viewer-peer-denied",
+      "request": {
+        "job_id": "cold-loss-job",
+        "launch_id": "cold-loss-launch",
+        "op": "local_resume"
+      },
+      "response": {
+        "error": "invalid: operation prohibited for caller role",
+        "ok": false
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "phase": "wrong-launch-selector",
+      "request": {
+        "job_id": "cold-loss-job",
+        "launch_id": "forged-launch",
+        "op": "local_stop",
+        "stop_id": "wrong-selector"
+      },
+      "response": {
+        "error": "conflict: local operation launch selector does not match stored job",
+        "ok": false
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "phase": "wrong-job-selector",
+      "request": {
+        "job_id": "other-job",
+        "launch_id": "cold-loss-launch",
+        "op": "local_resume"
+      },
+      "response": {
+        "error": "invalid: unknown job",
+        "ok": false
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "phase": "cold-launch-replay",
+      "request": {
+        "expected_catalog": 3,
+        "job_id": "cold-loss-job",
+        "launch_id": "cold-loss-launch",
+        "op": "local_launch"
+      },
+      "response": {
+        "ok": true,
+        "result": {
+          "exit": null,
+          "job_id": "cold-loss-job",
+          "launch_id": "cold-loss-launch",
+          "state": "unknown"
+        }
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "phase": "cold-resume",
+      "request": {
+        "job_id": "cold-loss-job",
+        "launch_id": "cold-loss-launch",
+        "op": "local_resume"
+      },
+      "response": {
+        "ok": true,
+        "result": {
+          "local_state": "unknown",
+          "resume_view": {
+            "accountId": "cold-test-account",
+            "advisoryNextStep": "observe_process_or_completion",
+            "currentCatalogRevision": 3,
+            "environmentId": "cold-test-environment",
+            "evidence": {
+              "launch": {
+                "eventId": "launch-intent:cold-loss-job",
+                "kind": "LAUNCH_INTENT",
+                "payloadSha256": "4748944fa0aa17fbf9d5c54f986e83016d543c8d549aca70738c645797b92085",
+                "recordedAt": 1794403367
+              },
+              "outcome": {
+                "eventId": "launch-observation:cold-loss-job",
+                "kind": "LAUNCH_STARTED_OBSERVED",
+                "payloadSha256": "95e885349e21db5d9d51d9f167436d15699050f0b28dacc2793e6caf1dbcdf3d",
+                "recordedAt": 1794403367
+              }
+            },
+            "jobCatalogRevision": 3,
+            "jobId": "cold-loss-job",
+            "launchId": "cold-loss-launch",
+            "outcome": null,
+            "presentLiveness": "unknown",
+            "profile": "intent",
+            "projectId": "cold-test-project",
+            "state": "RUNNING"
+          },
+          "stop": null
+        }
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "local-stop:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "stop_id": "cold-stop-1"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        }
+      ],
+      "phase": "cold-stop-request",
+      "request": {
+        "job_id": "cold-loss-job",
+        "launch_id": "cold-loss-launch",
+        "op": "local_stop",
+        "stop_id": "cold-stop-1"
+      },
+      "response": {
+        "ok": true,
+        "result": {
+          "job_id": "cold-loss-job",
+          "launch_id": "cold-loss-launch",
+          "replayed": false,
+          "state": "unknown",
+          "stop_id": "cold-stop-1"
+        }
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "local-stop:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "stop_id": "cold-stop-1"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "local-stop:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "stop_id": "cold-stop-1"
+          }
+        }
+      ],
+      "phase": "cold-stop-replay",
+      "request": {
+        "job_id": "cold-loss-job",
+        "launch_id": "cold-loss-launch",
+        "op": "local_stop",
+        "stop_id": "cold-stop-1"
+      },
+      "response": {
+        "ok": true,
+        "result": {
+          "job_id": "cold-loss-job",
+          "launch_id": "cold-loss-launch",
+          "replayed": true,
+          "state": "unknown",
+          "stop_id": "cold-stop-1"
+        }
+      }
+    },
+    {
+      "events_after": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "local-stop:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "stop_id": "cold-stop-1"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:reserved",
+          "job_id": "cold-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cold-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cold-test-meter"
+                }
+              ],
+              "environment_id": "cold-test-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cold-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cold-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "cold-loss-job:ack:cold-test-ack-cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "cold-test-ack-cold-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-intent:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-loss-launch"
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "launch-observation:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "process": {
+              "pid": 3291,
+              "start_token": "90394"
+            }
+          }
+        },
+        {
+          "at": 1794403367,
+          "event_id": "local-stop:cold-loss-job",
+          "job_id": "cold-loss-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "cold-loss-launch",
+            "stop_id": "cold-stop-1"
+          }
+        }
+      ],
+      "phase": "finalize-without-exit",
+      "request": {
+        "job_id": "cold-loss-job",
+        "launch_id": "cold-loss-launch",
+        "op": "local_finalize",
+        "outcome": "completed"
+      },
+      "response": {
+        "error": "conflict: intent-backed running job requires observed process exit before finalization",
+        "ok": false
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/bin/resource-gateway.rs": "d15c31ac194993765a1327a755aed60797afeeb5bab5645db80774835053175f",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/main.rs": "f92f0bfa773a0088dac95d229a5a2cb0790d58170131a22c35d160495b87213b",
+    "tests/native_local_cold.rs": "0327c25aa245ed170984a6d6cc3c86e24f6fd41f77a24d2a0cc158f3c3ba3c7f"
+  },
+  "what": "actual Unix gateway, actual test-owned gateway Child kill, Store event_log/balance reads, and one fixed profile worker",
+  "what_not_tested": [
+    "whole-host power loss",
+    "hostile same-UID code",
+    "arbitrary programs",
+    "remote providers",
+    "general process containment",
+    "authority/catalog change cancellation"
+  ],
+  "why": "gateway loss destroys the in-memory Child handle; a persisted intent must remain unknown and cannot release capacity",
+  "worker_exit_marker_after_release": false,
+  "worker_exited_before_release": false,
+  "worker_launch_counter": [
+    {
+      "pid": 3291,
+      "start_token": "90394",
+      "worker": "fixed-cold-worker"
+    }
+  ]
+}

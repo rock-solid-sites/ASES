@@ -1,0 +1,99 @@
+{
+  "accepted_connections": 0,
+  "cases": [
+    {
+      "args": [
+        "/tmp/.tmpjCSFoA/fault.sock",
+        "resume",
+        "bad job",
+        "transport-launch"
+      ],
+      "diagnostic": {
+        "error": "usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME",
+        "ok": false,
+        "outcome": "invalid_input"
+      },
+      "exit_code": 2,
+      "stderr": "",
+      "stdout": "{\"error\":\"usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME\",\"ok\":false,\"outcome\":\"invalid_input\"}\n"
+    },
+    {
+      "args": [
+        "/tmp/.tmpjCSFoA/fault.sock",
+        "launch",
+        "transport-job",
+        "transport-launch",
+        "-1"
+      ],
+      "diagnostic": {
+        "error": "EXPECTED_CATALOG must be a nonnegative integer",
+        "ok": false,
+        "outcome": "invalid_input"
+      },
+      "exit_code": 2,
+      "stderr": "",
+      "stdout": "{\"error\":\"EXPECTED_CATALOG must be a nonnegative integer\",\"ok\":false,\"outcome\":\"invalid_input\"}\n"
+    },
+    {
+      "args": [
+        "/tmp/.tmpjCSFoA/fault.sock",
+        "launch",
+        "transport-job",
+        "transport-launch",
+        "17",
+        "/bin/true"
+      ],
+      "diagnostic": {
+        "error": "usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME",
+        "ok": false,
+        "outcome": "invalid_input"
+      },
+      "exit_code": 2,
+      "stderr": "",
+      "stdout": "{\"error\":\"usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME\",\"ok\":false,\"outcome\":\"invalid_input\"}\n"
+    },
+    {
+      "args": [
+        "/tmp/.tmpjCSFoA/fault.sock",
+        "launch",
+        "transport-job",
+        "transport-launch",
+        "17",
+        "--pid",
+        "123"
+      ],
+      "diagnostic": {
+        "error": "usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME",
+        "ok": false,
+        "outcome": "invalid_input"
+      },
+      "exit_code": 2,
+      "stderr": "",
+      "stdout": "{\"error\":\"usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME\",\"ok\":false,\"outcome\":\"invalid_input\"}\n"
+    },
+    {
+      "args": [
+        "/tmp/.tmpjCSFoA/fault.sock",
+        "stop",
+        "transport-job",
+        "transport-launch",
+        "stop-a",
+        "--command",
+        "/bin/true"
+      ],
+      "diagnostic": {
+        "error": "usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME",
+        "ok": false,
+        "outcome": "invalid_input"
+      },
+      "exit_code": 2,
+      "stderr": "",
+      "stdout": "{\"error\":\"usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME\",\"ok\":false,\"outcome\":\"invalid_input\"}\n"
+    }
+  ],
+  "source_sha256": {
+    "../docs/research/phase-ii-local-execution/CLIENT-PACKET.md": "6144c0e4ab9de0f60a70454996b25adc801a95aaa09d19d416e7993d79ccd5b9",
+    "src/bin/resource-session.rs": "de9a1031954bd15a7d6de81979b9c408f870b7ba26e2200da3c2e409cb6ff68a",
+    "tests/session_client_transport.rs": "3b9ef60b6edd7f5f7a745298c97d4592362e195b434b27bb1a6774bcc0ed529e"
+  }
+}

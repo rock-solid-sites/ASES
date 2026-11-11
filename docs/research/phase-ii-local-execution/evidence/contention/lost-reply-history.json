@@ -1,0 +1,109 @@
+{
+  "durable_events_before_replay": [
+    {
+      "at": 1794403539,
+      "event_id": "lost-reply-job:reserved",
+      "job_id": "lost-reply-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "contention-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "contention-meter"
+            }
+          ],
+          "environment_id": "contention-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "lost-reply-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "contention-project"
+        }
+      }
+    },
+    {
+      "at": 1794403539,
+      "event_id": "lost-reply-job:ack:ack-lost-reply-job",
+      "job_id": "lost-reply-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-lost-reply-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794403539,
+      "event_id": "launch-intent:lost-reply-job",
+      "job_id": "lost-reply-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "lost-reply-launch"
+      }
+    },
+    {
+      "at": 1794403539,
+      "event_id": "launch-observation:lost-reply-job",
+      "job_id": "lost-reply-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "lost-reply-launch",
+        "process": {
+          "pid": 4093,
+          "start_token": "107563"
+        }
+      }
+    }
+  ],
+  "finalize": {
+    "ok": true,
+    "result": {
+      "finalization": "CLOSED",
+      "job_id": "lost-reply-job",
+      "launch_id": "lost-reply-launch",
+      "outcome": "cancelled"
+    }
+  },
+  "lost_reply_request": {
+    "expected_catalog": 3,
+    "job_id": "lost-reply-job",
+    "launch_id": "lost-reply-launch",
+    "op": "local_launch"
+  },
+  "replay": {
+    "ok": true,
+    "result": {
+      "exit": null,
+      "job_id": "lost-reply-job",
+      "launch_id": "lost-reply-launch",
+      "state": "running"
+    }
+  },
+  "source_sha256": {
+    "../docs/research/phase-ii-local-execution/CONTENTION.md": "e8f1fa7066916202748a811962ae923d39d874c8d57c8fca36517478c22fe5b2",
+    "src/bin/resource-gateway.rs": "d15c31ac194993765a1327a755aed60797afeeb5bab5645db80774835053175f",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "4b57ef5d40cefe97ebaa88b44398d5190fa163438f3d50677e1b83e4e0b9006e",
+    "tests/native_local_contention.rs": "7e8a9634c4a1d2e17dd58a77fd9a16463e4792da6d628a1985930da5a083baf5"
+  },
+  "stop": {
+    "ok": true,
+    "result": {
+      "exit": {
+        "signal": 9
+      },
+      "job_id": "lost-reply-job",
+      "launch_id": "lost-reply-launch",
+      "replayed": false,
+      "state": "exit_observed",
+      "stop_id": "lost-reply-stop"
+    }
+  },
+  "worker_count": 1
+}
