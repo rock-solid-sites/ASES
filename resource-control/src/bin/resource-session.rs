@@ -6,7 +6,7 @@ use std::os::fd::FromRawFd;
 use std::os::unix::ffi::OsStrExt;
 use std::os::unix::net::UnixStream;
 use std::path::Path;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 const MAX_RESPONSE: usize = 8 * 1024;
 const CONNECT_TIMEOUT_MS: i32 = 2_000;
@@ -164,7 +164,15 @@ fn exchange(path: &str, request: &Value) -> Result<Value, ClientError> {
         .map_err(|_| ClientError::Unknown("request may have been applied; response was not confirmed".into()))?;
     let mut response = Vec::new();
     let mut chunk = [0u8; 1024];
+    let deadline = Instant::now() + IO_TIMEOUT;
     loop {
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            return Err(ClientError::Unknown("response timed out".into()));
+        }
+        stream
+            .set_read_timeout(Some(remaining))
+            .map_err(|_| ClientError::Unknown("response read deadline could not be enforced".into()))?;
         let read = stream
             .read(&mut chunk)
             .map_err(|_| ClientError::Unknown("response was interrupted or timed out".into()))?;
@@ -178,7 +186,12 @@ fn exchange(path: &str, request: &Value) -> Result<Value, ClientError> {
     }
     let decoded: Value = serde_json::from_slice(&response)
         .map_err(|_| ClientError::Unknown("response was empty, malformed, or truncated".into()))?;
-    if !decoded.is_object() || !decoded.get("ok").is_some_and(Value::is_boolean) {
+    let valid_gateway_reply = match decoded.get("ok") {
+        Some(Value::Bool(true)) => decoded.get("result").is_some_and(Value::is_object),
+        Some(Value::Bool(false)) => decoded.get("error").is_some_and(Value::is_string),
+        _ => false,
+    };
+    if !decoded.is_object() || !valid_gateway_reply {
         return Err(ClientError::Unknown("response did not match the gateway reply shape".into()));
     }
     Ok(decoded)
