@@ -1,0 +1,26 @@
+warning: unused imports: `RecordLaunchExitResult` and `RecordLaunchObservationResult`
+ --> src/local.rs:3:41
+  |
+3 |     ProcessExitStatus, ProcessIdentity, RecordLaunchExitResult, RecordLaunchObservationResult,
+  |                                         ^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `Serialize`
+ --> src/local.rs:7:26
+  |
+7 | use serde::{Deserialize, Serialize};
+  |                          ^^^^^^^^^
+
+warning: `ases-resource-control` (lib) generated 2 warnings (run `cargo fix --lib -p ases-resource-control` to apply 2 suggestions)
+    Finished `test` profile [unoptimized] target(s) in 0.03s
+     Running tests/native_local_gateway.rs (target/debug/deps/native_local_gateway-3b5cde7fa026411d)
+
+running 4 tests
+test actual_viewer_peer_is_denied_local_execution_without_state_change ... ok
+test local_gateway_fixed_worker ... ok
+test post_intent_spawn_failure_stays_unknown_and_holds_reservation ... ok
+test gateway_owns_one_fixed_child_and_stop_is_durable_exact_and_separate_from_finalize ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
