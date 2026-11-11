@@ -49,11 +49,13 @@ The three nested client replies are the exact parsed `resource-session` JSON rep
   "last_action": "poll",
   "poll_count": 4,
   "client_status": 0,
-  "client_reply": {"ok": true, "result": {"state": "running"}}
+  "client_reply": {"ok": true, "result": {"state": "running"}},
+  "launch_response": {"ok": true, "result": {"state": "running"}},
+  "exit_observation": null
 }
 ```
 
-`client_status` and `client_reply` are null when no client process completed or no bounded valid reply was available. Defined reasons include `server_error`, `client_outcome_unknown`, `unsupported_reply`, `unknown_custody`, `budget_exhausted`, `client_call_timeout`, and `client_unavailable`. `last_action` is `launch`, `poll`, or `finalize`. A recovery result after finalize does not assert that capacity is still held: a lost finalize reply may follow a committed finalize. A fresh `resource-session resume` is the recovery path; the driver performs no retry.
+`client_status` and `client_reply` are null when no client process completed or no bounded valid reply was available. `launch_response` and `exit_observation` retain earlier successful replies when they exist; on a finalize-stage recovery they preserve the exact exit evidence without claiming whether finalize committed. Defined reasons include `server_error`, `client_outcome_unknown`, `unsupported_reply`, `unknown_custody`, `budget_exhausted`, `client_call_timeout`, and `client_unavailable`. `last_action` is `launch`, `poll`, or `finalize`. A recovery result after finalize does not assert that capacity is still held: a lost finalize reply may follow a committed finalize. A fresh `resource-session resume` is the recovery path; the driver performs no retry.
 
 The driver accepts client process status 0 only with `{ok:true,result:{…}}`, status 3 only with `{ok:false,error:string}`, status 4 only with `{ok:false,outcome:"outcome_unknown",error:string}`, and status 2 only with `{ok:false,outcome:"invalid_input",error:string}`. It validates bounded output, action-specific state/finalization fields, and any returned job/launch selectors. Any mismatch returns recovery-needed with `unsupported_reply`.
 

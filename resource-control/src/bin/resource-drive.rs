@@ -1,9 +1,8 @@
 //! Bounded drive over the fixed sibling resource-session client.
 use serde_json::{json, Value};
 use std::io::Read;
-use std::os::unix::process::ExitStatusExt;
-use std::path::{Path, PathBuf};
-use std::process::{Child, Command, Stdio};
+use std::path::Path;
+use std::process::{Command, Stdio};
 use std::thread::{self, JoinHandle};
 use std::time::{Duration, Instant};
 
@@ -32,7 +31,6 @@ struct Capture {
     failed: bool,
 }
 enum DriveError {
-    Invalid(String),
     Recovery {
         reason: &'static str,
         last_action: &'static str,
@@ -94,7 +92,7 @@ fn reply_unknown_shape(reply:&Value)->bool {
     reply_server_error_shape(reply) && reply.get("outcome")==Some(&Value::String("outcome_unknown".into()))
 }
 fn invoke_client(client:&Path,args:&[String])->ClientResult {
-    let mut child=match Command::new(client).args(args).stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::piped()).spawn(){
+    let mut child=match Command::new(client).args(args).env_clear().stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::piped()).spawn(){
         Ok(child)=>child,
         Err(_)=>return ClientResult{status:None,reply:None,failure:Some("client_unavailable")},
     };
@@ -105,17 +103,6 @@ fn invoke_client(client:&Path,args:&[String])->ClientResult {
     let deadline=Instant::now()+CLIENT_CALL_BOUND;
     let mut timed_out=false;
     let status=loop {
-        if stdout_reader.is_finished()||stderr_reader.is_finished(){
-            // The fixed client normally emits one small reply. Stop a replaced
-            // or malformed sibling if it exceeds either output boundary.
-            let over_stdout=stdout_reader.is_finished();
-            let over_stderr=stderr_reader.is_finished();
-            // Completion can also mean a normally closed stream; join results
-            // are inspected below after the child exits.
-            if over_stdout||over_stderr {
-                if Instant::now()>=deadline {timed_out=true;let _=child.kill();break child.wait().ok();}
-            }
-        }
         match child.try_wait(){
             Ok(Some(status))=>break Some(status),
             Ok(None)=>(),
@@ -161,7 +148,6 @@ fn action_state(reply:&Value,job:&str,launch:&str,action:&str)->Option<&'static 
 }
 fn recovery(args:&Args,error:DriveError)->(Value,i32){
     match error {
-        DriveError::Invalid(message)=>(json!({"ok":false,"outcome":"invalid_input","error":message}),2),
         DriveError::Recovery{reason,last_action,poll_count,client_status,client_reply,launch_response,exit_observation}=>(json!({
             "ok":false,"outcome":"recovery_needed","reason":reason,"job_id":args.job,"launch_id":args.launch,
             "selected_outcome":args.outcome,"last_action":last_action,"poll_count":poll_count,
@@ -189,23 +175,26 @@ fn drive(args:Args)->(Value,i32){
     let Some(state)=action_state(&launch_response,&args.job,&args.launch,"launch")else{return recovery_for(&args,"unsupported_reply","launch",0,Some(ClientResult{status:Some(0),reply:Some(launch_response),failure:None}),None,None)};
     if state=="unknown"{return recovery_for(&args,"unknown_custody","launch",0,Some(ClientResult{status:Some(0),reply:Some(launch_response.clone()),failure:None}),Some(launch_response),None);}
     let mut poll_count=0u32;
-    let mut exit_observation=None;
-    if state=="exit_observed"{exit_observation=Some(launch_response.clone());}
-    else{
+    let mut last_poll:Option<(i32,Value)>=None;
+    let exit_observation=if state=="exit_observed"{Some(launch_response.clone())}else{
         let deadline=Instant::now()+args.budget;
         loop {
-            if Instant::now()>=deadline{return recovery_for(&args,"budget_exhausted","poll",poll_count,Some(ClientResult{status:Some(0),reply:None,failure:None}),Some(launch_response),None);}
+            if Instant::now()>=deadline{
+                let last=last_poll.take().map(|(status,reply)|ClientResult{status:Some(status),reply:Some(reply),failure:None});
+                return recovery_for(&args,"budget_exhausted","poll",poll_count,last,Some(launch_response),None);
+            }
             let poll_call=invoke_client(&client,&run_client_action(&args,"poll"));
             poll_count=poll_count.saturating_add(1);
             if let Some(reason)=poll_call.failure{return recovery_for(&args,reason,"poll",poll_count,Some(poll_call),Some(launch_response),None);}
             let poll_reply=poll_call.reply.unwrap();
+            last_poll=Some((0,poll_reply.clone()));
             let Some(state)=action_state(&poll_reply,&args.job,&args.launch,"poll")else{return recovery_for(&args,"unsupported_reply","poll",poll_count,Some(ClientResult{status:Some(0),reply:Some(poll_reply),failure:None}),Some(launch_response),None)};
             if state=="unknown"{return recovery_for(&args,"unknown_custody","poll",poll_count,Some(ClientResult{status:Some(0),reply:Some(poll_reply),failure:None}),Some(launch_response),None);}
-            if state=="exit_observed"{exit_observation=Some(poll_reply);break;}
+            if state=="exit_observed"{break Some(poll_reply);}
             if Instant::now()>=deadline{return recovery_for(&args,"budget_exhausted","poll",poll_count,Some(ClientResult{status:Some(0),reply:Some(poll_reply),failure:None}),Some(launch_response),None);}
             thread::sleep(POLL_INTERVAL.min(deadline.saturating_duration_since(Instant::now())));
         }
-    }
+    };
     let exit_observation=exit_observation.unwrap();
     let finalize_call=invoke_client(&client,&run_client_action(&args,"finalize"));
     if let Some(reason)=finalize_call.failure{return recovery_for(&args,reason,"finalize",poll_count,Some(finalize_call),Some(launch_response),Some(exit_observation));}
