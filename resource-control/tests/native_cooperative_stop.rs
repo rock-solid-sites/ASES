@@ -188,10 +188,8 @@ fn cooperative_stop_fixed_worker() {
     serde_json::to_writer(&mut file,&json!({"pid":pid,"start_token":token,"mode":mode,"started_at_ms":now_ms()})).unwrap();
     file.write_all(b"\n").unwrap();file.sync_all().unwrap();
     let deadline=Instant::now()+Duration::from_secs(25);
-    let mut handled=false;
     loop {
-        if !handled && TERM_REQUESTED.swap(false,Ordering::Relaxed) {
-            handled=true;
+        if TERM_REQUESTED.swap(false,Ordering::Relaxed) {
             fs::write(&term_seen,serde_json::to_vec(&json!({"at_ms":now_ms()})).unwrap()).unwrap();
             let cleanup_until=Instant::now()+Duration::from_millis(delay);
             while Instant::now()<cleanup_until && !release.exists(){thread::sleep(Duration::from_millis(5));}
@@ -219,7 +217,7 @@ fn actual_cooperative_stop_histories_preserve_owned_child_and_explicit_finalize(
     let cleanup=coop.join("cleanup.json");let exited=coop.join("exited.json");let release=coop.join("release");
     let _release=Release(release.clone());
     let trusted=profile(&coop,&started,&term_seen,&cleanup,&exited,&release,"cooperative",80,0);
-    let mut gateway=Gateway::start(&coop,"gateway-admin",&db,&admin_policy(),&trusted);
+    let gateway=Gateway::start(&coop,"gateway-admin",&db,&admin_policy(),&trusted);
     let mut records=Vec::new();
     let revision_arg=revision.to_string();let launch_args=["launch",job,launch,revision_arg.as_str()];
     let before_launch=events(&db,job);let launch_output=invoke(&gateway.socket,&launch_args);let launch_reply=parse(&launch_output);
@@ -328,6 +326,7 @@ fn actual_cooperative_stop_histories_preserve_owned_child_and_explicit_finalize(
     let cleanup=cold.join("cleanup.json");let exited=cold.join("exited.json");let release=cold.join("release");let _release=Release(release.clone());
     let trusted=profile(&cold,&started,&term_seen,&cleanup,&exited,&release,"cooperative",1200,0);
     let mut hot_gateway=Gateway::start(&cold,"gateway-hot",&db,&admin_policy(),&trusted);
+    let hot_socket=hot_gateway.socket.clone();
     let revision_arg=revision.to_string();let launch_args=["launch",job,launch,revision_arg.as_str()];let launch_output=invoke(&hot_gateway.socket,&launch_args);assert_eq!(parse(&launch_output)["result"]["state"],"running");wait_for(&started,Duration::from_secs(5));
     let grace="1800";let stop_args=["stop-graceful",job,launch,stop_id,grace];let stop_socket=hot_gateway.socket.clone();
     let stop_thread=thread::spawn(move||invoke(&stop_socket,&stop_args));
@@ -353,7 +352,7 @@ fn actual_cooperative_stop_histories_preserve_owned_child_and_explicit_finalize(
         "term_seen":serde_json::from_slice::<Value>(&fs::read(&term_seen).unwrap()).unwrap(),
         "cleanup_after_cold_replay":serde_json::from_slice::<Value>(&fs::read(&cleanup).unwrap()).unwrap(),
         "worker_exit":serde_json::from_slice::<Value>(&fs::read(&exited).unwrap()).unwrap(),
-        "lost_client":{"command":["resource-session",hot_gateway.socket,"stop-graceful",job,launch,stop_id,grace],
+        "lost_client":{"command":["resource-session",hot_socket,"stop-graceful",job,launch,stop_id,grace],
             "exit_code":lost_output.status.code(),"stdout":String::from_utf8_lossy(&lost_output.stdout),"stderr":String::from_utf8_lossy(&lost_output.stderr)},
         "cold_client":{"command":["resource-session",cold_gateway.socket,"stop-graceful",job,launch,stop_id,grace],
             "exit_code":cold_output.status.code(),"stdout":String::from_utf8_lossy(&cold_output.stdout),"stderr":String::from_utf8_lossy(&cold_output.stderr)},
