@@ -11,6 +11,7 @@ use std::path::Path;
 pub mod archive;
 pub mod catalog;
 pub mod access;
+pub mod local;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug)]
