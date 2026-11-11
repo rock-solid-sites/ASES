@@ -539,7 +539,7 @@ fn actual_client_loses_accepted_launch_reply_then_recovers_without_redispatch() 
 
     let mut records = vec![json!({
         "phase":"actual-launch-reply-lost-after-gateway-acceptance",
-        "client":{"argv_after_executable":[proxy_path.to_string_lossy(),launch_args[0].into(),launch_args[1].into(),launch_args[2].into(),launch_args[3].into()],
+        "client":{"argv_after_executable":[proxy_path.to_string_lossy().to_string(),launch_args[0].to_string(),launch_args[1].to_string(),launch_args[2].to_string(),launch_args[3].to_string()],
             "exit_code":lost_output.status.code(),"stdout":String::from_utf8_lossy(&lost_output.stdout),
             "stderr":String::from_utf8_lossy(&lost_output.stderr)},
         "proxy_capture":proxy_capture,"events_before":before_launch,"events_after":after_launch,
