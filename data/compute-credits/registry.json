@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-09",
+  "as_of_utc": "2026-11-11",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -1078,23 +1078,26 @@
       "type": "discount",
       "advertised_value": 70,
       "value_unit": "percent",
-      "details": "regional VPC eligibility and conflicting deadlines require checkout confirmation IBM official localized offers pages crawled Nov 2026 state Sep 30 2026 deadline; treat as possibly expired despite earlier Dec 31 claims. Do not recommend as currently redeemable without newer authoritative terms. Verified on multiple IBM official localized pages Nov 10: expired Sep 30 2026; Dec 31 date belongs to other IBM promotions, not this VPC discount.",
+      "details": "IBM official /products/offers-and-discounts states Sep 30 2026 expiry; IBM official /products/cloud/free (English and localized French/Indonesian) states Dec 31 2026 for the same BUYMAD/BUYSAO/BUYOSA 70% VPC VSI promotion. Previous definitive expired assertion was unjustified. Do not treat as redeemable without actual IBM billing promotional terms; card on file required. Discount applies to Madrid/Sao Paulo/Osaka VSI, block/file storage if accepted.",
       "credit_expiry": "unknown",
       "first_seen_at": null,
-      "last_checked_at": "2026-11-10",
-      "status": "expired_official_deadline_2026-09-30",
+      "last_checked_at": "2026-11-11",
+      "status": "conflicting_official_deadlines_redemption_unverified",
       "eligible_existing_account": null,
       "requires_new_account": null,
       "minimum_spend_usd": null,
       "deposit_refundable": null,
       "eligible_cpu_vm": null,
       "region_restrictions": null,
-      "redemption_deadline_utc": "2026-09-30",
+      "redemption_deadline_utc": null,
       "source_urls": [
         "https://www.ibm.com/fr-fr/products/offers-and-discounts",
-        "https://www.ibm.com/de-de/products/offers-and-discounts"
+        "https://www.ibm.com/de-de/products/offers-and-discounts",
+        "https://www.ibm.com/products/offers-and-discounts",
+        "https://www.ibm.com/products/cloud/free",
+        "https://www.ibm.com/fr-fr/products/cloud/free"
       ],
-      "evidence_level": "official_multiple_locales_confirm_2026-11-10",
+      "evidence_level": "conflicting_official_pages_verified_2026-11-11",
       "alert_state": "notified_or_baseline"
     },
     {
@@ -1692,6 +1695,14 @@
         "e2b-research-20000-2026"
       ],
       "summary": "Confirmed IBM regional VPC 70% promotion expired Sep 30 on multiple IBM pages; added Blaxel and E2B baseline/conditional credits with resource and billing constraints. No new guaranteed eligible 8GB+ hourly CPU offer."
+    },
+    {
+      "at": "2026-11-11",
+      "kind": "official_source_conflict_correction",
+      "entity_ids": [
+        "ibm-regional-vpc-70-2026"
+      ],
+      "summary": "Official IBM offers page says Sep 30 2026 while official IBM Cloud free-tier pages say Dec 31 2026 for same 70% regional VPC discount. Corrected erroneous definitive expired status to conflicting official deadlines; checkout redemption unverified."
     }
   ],
   "source_policy": {
