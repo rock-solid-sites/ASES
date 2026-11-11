@@ -47,6 +47,10 @@ impl LocalProfile {
     }
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LocalStopPayload { launch_id:String, stop_id:String }
+
 #[derive(Debug)]
 struct OwnedChild { child: Child, process: Option<ProcessIdentity>, started_recorded: bool, exited: Option<ProcessExitStatus> }
 #[derive(Default)]
@@ -186,10 +190,19 @@ impl LocalSupervisor {
         let stop_row:Option<(String,i64,String)>=store.db.query_row(
             "SELECT id,at,payload FROM events WHERE id=?1 AND job_id=?2 AND kind='LOCAL_STOP_REQUESTED'",
             params![format!("local-stop:{job}"),job],|r|Ok((r.get(0)?,r.get(1)?,r.get(2)?))).optional()?;
-        let stop=stop_row.map(|(event_id,recorded_at,payload)|json!({
-            "event_id":event_id,"kind":"LOCAL_STOP_REQUESTED","recorded_at":recorded_at,
-            "payload_sha256":format!("{:x}",Sha256::digest(payload.as_bytes()))
-        }));
+        let stop=stop_row.map(|(event_id,recorded_at,payload)|->Result<Value>{
+            let parsed:LocalStopPayload=serde_json::from_str(&payload)
+                .map_err(|_|Error::Conflict("retained local stop payload is unsupported".into()))?;
+            if parsed.launch_id!=launch {
+                return Err(Error::Conflict("retained local stop selector conflicts with requested launch".into()));
+            }
+            super::check_id(&parsed.stop_id,"stop")?;
+            Ok(json!({
+                "event_id":event_id,"kind":"LOCAL_STOP_REQUESTED","recorded_at":recorded_at,
+                "payload_sha256":format!("{:x}",Sha256::digest(payload.as_bytes())),
+                "launch_id":parsed.launch_id,"stop_id":parsed.stop_id
+            }))
+        }).transpose()?;
         let result=json!({"resume_view":view,"local_state":local_state,"stop":stop});
         if serde_json::to_vec(&result)?.len()>4096 {return Err(Error::Conflict("local resume result exceeds 4 KiB bound".into()));}
         Ok(result)

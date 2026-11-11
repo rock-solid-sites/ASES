@@ -94,10 +94,22 @@ fn two_gateways_contend_for_one_dispatch_and_only_child_owner_can_stop(){
     let unknown_stop=json!({"op":"local_stop","job_id":"contended-job","launch_id":"contended-launch","stop_id":"shared-stop"});let unknown_reply=loser.send(unknown_stop.clone());assert_eq!(unknown_reply["ok"],true);assert_eq!(unknown_reply["result"]["state"],"unknown");
     assert_eq!(worker_lines(&marker).len(),1,"loser cannot signal/adopt saved PID");
     assert!(worker_alive(pid.try_into().unwrap(),children[0]["start_token"].as_str().unwrap()),"rejected PID/loser stop must leave the worker alive");
-    let owner_stop=owner.send(unknown_stop.clone());assert_eq!(owner_stop["ok"],true);assert_eq!(owner_stop["result"]["state"],"exit_observed");assert_eq!(owner_stop["result"]["replayed"],true);
+    let resumed=owner.send(json!({"op":"local_resume","job_id":"contended-job","launch_id":"contended-launch"}));
+    assert_eq!(resumed["ok"],true);assert_eq!(resumed["result"]["local_state"],"owned_child_unobserved");
+    assert_eq!(resumed["result"]["stop"]["launch_id"],"contended-launch");assert_eq!(resumed["result"]["stop"]["stop_id"],"shared-stop");
+    assert!(serde_json::to_vec(&resumed["result"]).unwrap().len()<=4096);
+    let replay_stop=json!({"op":"local_stop","job_id":"contended-job","launch_id":resumed["result"]["stop"]["launch_id"],"stop_id":resumed["result"]["stop"]["stop_id"]});
+    let owner_stop=owner.send(replay_stop);assert_eq!(owner_stop["ok"],true);assert_eq!(owner_stop["result"]["state"],"exit_observed");assert_eq!(owner_stop["result"]["replayed"],true);
     let after_stop=events(&db,"contended-job");assert_eq!(after_stop.iter().filter(|e|e["kind"]=="LOCAL_STOP_REQUESTED").count(),1);assert_eq!(after_stop.iter().filter(|e|e["kind"]=="LAUNCH_EXIT_OBSERVED").count(),1);assert_eq!(remaining(&db),50);
     let finalized=owner.send(premature.clone());assert_eq!(finalized["ok"],true);assert_eq!(remaining(&db),0);
-    records.push(json!({"phase":"loser-cannot-signal-or-finalize-before-exit","request_pid":caller_pid,"pid_rejection":rejected,"premature_finalize":before_exit,"unknown_stop":unknown_reply,"owner_stop":owner_stop,"finalize":finalized,"events":events(&db,"contended-job"),"remaining_after_exit":50,"remaining_after_finalize":remaining(&db)}));
+    records.push(json!({"phase":"loser-cannot-signal-or-finalize-before-exit","request_pid":caller_pid,"pid_rejection":rejected,"premature_finalize":before_exit,"unknown_stop":unknown_reply,"owner_resume_with_stop_selector":resumed,"owner_stop":owner_stop,"finalize":finalized,"events":events(&db,"contended-job"),"remaining_after_exit":50,"remaining_after_finalize":remaining(&db)}));
+    let connection=rusqlite::Connection::open(&db).unwrap();
+    connection.execute("UPDATE events SET payload=?1 WHERE id=?2",rusqlite::params![r#"{"launch_id":"contended-launch","stop_id":"shared-stop","unexpected":true}"#,"local-stop:contended-job"]).unwrap();
+    drop(connection);
+    let malformed_resume=owner.send(json!({"op":"local_resume","job_id":"contended-job","launch_id":"contended-launch"}));
+    assert_eq!(malformed_resume["ok"],false,"unknown retained stop payload fields must fail closed");
+    assert!(malformed_resume["error"].as_str().unwrap().contains("unsupported"));
+    records.push(json!({"phase":"malformed-stop-payload-fails-closed","response":malformed_resume}));
     persist("contention-history.json",json!({"source_sha256":source_hashes(),"records":records,"worker":children[0]}));
 }
 
