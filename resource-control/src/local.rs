@@ -1,10 +1,10 @@
 //! Optional, profile-bound local process supervisor used only by the trusted gateway.
 use crate::{BeginLaunchResult, LaunchDispatch, LaunchExitObservation, LaunchObservation,
-    ProcessExitStatus, ProcessIdentity, RecordLaunchExitResult, RecordLaunchObservationResult,
+    ProcessExitStatus, ProcessIdentity,
     Result, Store, Error};
 use rusqlite::{params, OptionalExtension, TransactionBehavior};
 use sha2::{Digest, Sha256};
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use serde_json::{json, Value};
 use std::collections::HashMap;
 use std::os::unix::process::ExitStatusExt;
