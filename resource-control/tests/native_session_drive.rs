@@ -62,7 +62,7 @@ fn setup(dir: &Path, job: &str) -> (PathBuf, i64) {
     (db, revision)
 }
 
-fn profile(dir: &Path, marker: &Path, release: &Path, exit_code: i32) -> Value {
+fn profile(dir: &Path, marker: &Path, release: &Path, exited: &Path, exit_code: i32) -> Value {
     json!({
         "program": std::env::current_exe().unwrap(),
         "args": ["--exact", "session_drive_fixed_worker", "--nocapture"],
@@ -70,6 +70,7 @@ fn profile(dir: &Path, marker: &Path, release: &Path, exit_code: i32) -> Value {
         "env": {
             "ASES_DRIVE_WORKER_MARKER": marker,
             "ASES_DRIVE_WORKER_RELEASE": release,
+            "ASES_DRIVE_WORKER_EXITED": exited,
             "ASES_DRIVE_WORKER_EXIT_CODE": exit_code.to_string()
         },
         "account_id": ACCOUNT, "project_id": PROJECT, "environment_id": ENVIRONMENT
@@ -173,6 +174,7 @@ fn session_drive_fixed_worker() {
     let Some(marker) = std::env::var_os("ASES_DRIVE_WORKER_MARKER") else { return };
     let marker = PathBuf::from(marker);
     let release = PathBuf::from(std::env::var_os("ASES_DRIVE_WORKER_RELEASE").unwrap());
+    let exited = PathBuf::from(std::env::var_os("ASES_DRIVE_WORKER_EXITED").unwrap());
     let exit_code = std::env::var("ASES_DRIVE_WORKER_EXIT_CODE").unwrap().parse::<i32>().unwrap();
     let pid = std::process::id();
     let stat = fs::read_to_string(format!("/proc/{pid}/stat")).unwrap();
@@ -183,6 +185,7 @@ fn session_drive_fixed_worker() {
     file.sync_all().unwrap();
     let until = Instant::now() + Duration::from_secs(25);
     while !release.exists() && Instant::now() < until { thread::sleep(Duration::from_millis(10)); }
+    fs::write(exited,b"released-or-timed-out\n").unwrap();
     std::process::exit(exit_code);
 }
 
@@ -198,7 +201,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     let (success_db, success_revision) = setup(&success_dir, success_job);
     let success_marker = success_dir.join("worker-counter.jsonl"); let success_release = success_dir.join("worker-release");
     let success_exited = success_dir.join("worker-exited"); let _success_release = Release(success_release.clone());
-    let success_profile = profile(&success_dir,&success_marker,&success_release,0);
+    let success_profile = profile(&success_dir,&success_marker,&success_release,&success_exited,0);
     let success_gateway = Gateway::start(&success_dir,"gateway-success",&success_db,&success_profile);
     let success_before = events(&success_db,success_job);
     let success_release_thread=release_after(success_release.clone(),Duration::from_millis(100));
@@ -218,6 +221,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     assert_eq!(event_count(&success_after,"LAUNCH_EXIT_OBSERVED"),1);
     assert_eq!(event_count(&success_after,"FINALIZED"),1);
     assert_eq!(worker_lines(&success_marker).len(),1);
+    assert!(success_exited.exists());
     assert_eq!(reserved(&balances(&success_db)),0);
     let success_history = json!({"job_id":success_job,"launch_id":success_launch,
         "command":["resource-drive",success_gateway.socket,success_job,success_launch,success_revision,"completed",5000],
@@ -235,7 +239,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     let (nonzero_db, nonzero_revision) = setup(&nonzero_dir,nonzero_job);
     let nonzero_marker = nonzero_dir.join("worker-counter.jsonl"); let nonzero_release = nonzero_dir.join("worker-release");
     let nonzero_exited = nonzero_dir.join("worker-exited"); let _nonzero_release = Release(nonzero_release.clone());
-    let nonzero_profile = profile(&nonzero_dir,&nonzero_marker,&nonzero_release,7);
+    let nonzero_profile = profile(&nonzero_dir,&nonzero_marker,&nonzero_release,&nonzero_exited,7);
     let nonzero_gateway = Gateway::start(&nonzero_dir,"gateway-nonzero",&nonzero_db,&nonzero_profile);
     let nonzero_before = events(&nonzero_db,nonzero_job);
     let nonzero_release_thread=release_after(nonzero_release.clone(),Duration::from_millis(100));
@@ -250,6 +254,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     assert_eq!(event_count(&nonzero_after,"LAUNCH_EXIT_OBSERVED"),1);
     assert_eq!(event_count(&nonzero_after,"FINALIZED"),1);
     assert_eq!(worker_lines(&nonzero_marker).len(),1);
+    assert!(nonzero_exited.exists());
     assert_eq!(reserved(&balances(&nonzero_db)),0);
     histories.insert("nonzero_explicit_failed_outcome".into(),json!({
         "job_id":nonzero_job,"launch_id":nonzero_launch,
@@ -267,7 +272,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     let (budget_db,budget_revision)=setup(&budget_dir,budget_job);
     let budget_marker=budget_dir.join("worker-counter.jsonl"); let budget_release=budget_dir.join("worker-release");
     let budget_exited=budget_dir.join("worker-exited"); let _budget_release=Release(budget_release.clone());
-    let budget_profile=profile(&budget_dir,&budget_marker,&budget_release,0);
+    let budget_profile=profile(&budget_dir,&budget_marker,&budget_release,&budget_exited,0);
     let budget_gateway=Gateway::start(&budget_dir,"gateway-budget",&budget_db,&budget_profile);
     let budget_before=events(&budget_db,budget_job);
     let budget_output=invoke_drive(&budget_gateway.socket,budget_job,budget_launch,budget_revision,"interrupted",150);
@@ -310,7 +315,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     let (cold_db,cold_revision)=setup(&cold_dir,cold_job);
     let cold_marker=cold_dir.join("worker-counter.jsonl"); let cold_release=cold_dir.join("worker-release");
     let cold_exited=cold_dir.join("worker-exited"); let _cold_release=Release(cold_release.clone());
-    let cold_profile=profile(&cold_dir,&cold_marker,&cold_release,0);
+    let cold_profile=profile(&cold_dir,&cold_marker,&cold_release,&cold_exited,0);
     let mut hot_cold_gateway=Gateway::start(&cold_dir,"gateway-cold-hot",&cold_db,&cold_profile);
     let cold_before=events(&cold_db,cold_job);
     let first_driver=invoke_drive(&hot_cold_gateway.socket,cold_job,cold_launch,cold_revision,"completed",150);
@@ -352,7 +357,7 @@ fn native_driver_natural_nonzero_budget_cold_and_lost_reply_histories() {
     let (lost_db,lost_revision)=setup(&lost_dir,lost_job);
     let lost_marker=lost_dir.join("worker-counter.jsonl"); let lost_release=lost_dir.join("worker-release");
     let lost_exited=lost_dir.join("worker-exited"); let _lost_release=Release(lost_release.clone());
-    let lost_profile=profile(&lost_dir,&lost_marker,&lost_release,0);
+    let lost_profile=profile(&lost_dir,&lost_marker,&lost_release,&lost_exited,0);
     let lost_gateway=Gateway::start(&lost_dir,"gateway-finalize-loss",&lost_db,&lost_profile);
     let proxy_path=lost_dir.join("driver-drop-finalize-proxy.sock");
     let (finalize_seen_tx,finalize_seen_rx)=std::sync::mpsc::channel();
