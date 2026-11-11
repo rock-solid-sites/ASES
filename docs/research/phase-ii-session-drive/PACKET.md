@@ -33,7 +33,10 @@ There is never a launch retry, stop-on-timeout, or finalize retry inside the
 driver. Server error, client outcome_unknown, unsupported reply, cold unknown
 custody, or expired polling budget ends the invocation with a structured
 non-success/recovery-needed result. No absence-of-effect assertion follows a
-lost reply. A new invocation still passes through the same durable one-use
+lost reply. After a finalize reply is lost, the server may already have
+committed finalization and released capacity; report phase-aware uncertainty
+rather than claiming the reservation is still held. Before an observed exit
+and any finalization request, unknown custody retains the existing reservation. A new invocation still passes through the same durable one-use
 intent arbitration; it cannot acquire a second dispatch grant for that launch.
 
 Use finite sleep intervals (<=100ms) and the existing bounded client transport.
