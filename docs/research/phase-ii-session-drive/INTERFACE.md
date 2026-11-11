@@ -8,7 +8,7 @@ resource-drive SOCKET JOB LAUNCH EXPECTED_CATALOG OUTCOME BUDGET_MS
 
 `SOCKET` must be an absolute Unix socket path within `sockaddr_un` limits. `JOB` and `LAUNCH` use the existing resource-session identifier syntax. `EXPECTED_CATALOG` is a nonnegative signed 64-bit integer. `OUTCOME` is exactly `completed`, `failed`, `cancelled`, or `interrupted`. `BUDGET_MS` is an integer from 100 through 10000; it bounds the poll loop after a successful launch response. It does not bound or cancel an in-flight client call.
 
-The driver derives `resource-session` from the absolute directory of its own `current_exe`. It never accepts a client executable or invokes a shell. Each client call is a fresh subprocess using the exact existing client arguments. It launches once, then polls only while the response says `running`, sleeping at most 100 ms between polls. An `exit_observed` result from launch replay or poll permits exactly one finalize call with the caller-selected `OUTCOME`. Exit status never selects or changes that outcome.
+The driver derives `resource-session` from the absolute directory of its own `current_exe`. It never accepts a client executable or invokes a shell. Each client call is a fresh subprocess using the exact existing client arguments. It launches once, then polls only while the response says `running`, sleeping at most 100 ms between polls. An `exit_observed` result from launch (including replay) or poll permits exactly one finalize call with the caller-selected `OUTCOME`. Exit status never selects or changes that outcome.
 
 ## Stdout and exit status
 
@@ -33,7 +33,7 @@ Stdout contains exactly one JSON object. Stderr is reserved for process-runtime 
 }
 ```
 
-The three nested client replies are the exact parsed `resource-session` JSON replies. If launch itself reports `exit_observed`, it is included as `exit_observation` and `poll_count` is zero.
+The three nested client replies are the exact parsed `resource-session` JSON replies. The driver validates launch/poll states and exact job/launch selectors; the gateway’s initial launch reply may omit `exit` while a poll reply includes it. If launch itself reports `exit_observed`, it is included as `exit_observation` and `poll_count` is zero.
 
 - Exit **2** means local input validation failed before invoking the client. Shape: `{"ok":false,"outcome":"invalid_input","error":"…"}`.
 - Exit **3** means recovery is required. Shape:
