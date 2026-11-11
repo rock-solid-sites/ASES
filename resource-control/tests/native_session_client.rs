@@ -507,7 +507,7 @@ fn actual_client_loses_accepted_launch_reply_then_recovers_without_redispatch() 
     let exited = dir.path().join("worker-exited");
     let _release = Release(release.clone());
     let trusted = profile(&marker, &release, &exited);
-    let mut gateway = Gateway::start(dir.path(), "gateway-lost-reply", &db, &admin_policy(), &trusted);
+    let gateway = Gateway::start(dir.path(), "gateway-lost-reply", &db, &admin_policy(), &trusted);
 
     let proxy_path = dir.path().join("drop-reply-proxy.sock");
     let proxy = forward_once_then_drop(proxy_path.clone(), gateway.socket.clone());
