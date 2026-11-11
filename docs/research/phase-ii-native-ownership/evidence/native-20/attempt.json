@@ -1,0 +1,10 @@
+{
+  "status": "INSTRUMENTATION_HUNG",
+  "command": "python3 -B docs/research/phase-ii-native-ownership/probe.py --out docs/research/phase-ii-native-ownership/evidence/native-20",
+  "stage": "native-f4-after-append-eof",
+  "observation": "Harness blocked waiting for the expected after-append GATE; sink journal contained only managed create/grant/activate rows and no effect row.",
+  "owned_processes_terminated": [48377, 48622, 48620],
+  "state_root": "state/native-f4-after-append-eof",
+  "sink_config": {"gate": "after-append", "profile": "native-f3-owner-v1"},
+  "journal_events": ["managed_created", "managed_granted", "managed_activated"]
+}

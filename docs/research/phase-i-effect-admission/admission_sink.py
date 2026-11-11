@@ -32,11 +32,15 @@ def serve(config, journal, recover, port, root):
             if name != "effect_accepted":
                 return super().emit_locked(name, **fields)
             with admission.guard(fields) as certificate:
-                return super().emit_locked(name, admission=certificate, **fields)
+                event = super().emit_locked(name, admission=certificate, **fields)
+                if hasattr(admission, "after_append"):
+                    admission.after_append(event)
+                return event
 
         def snapshot(self):
             return dict(super().snapshot(), admission_trace=list(admission.trace),
-                        admission_profile="experimental-import-v1", import_is_native_authority=False)
+                        admission_profile=config["profile"],
+                        import_is_native_authority=config["profile"] == "native-f3-owner-v1")
 
     cut.ORIGINAL_STATE = State
     return cut.serve_sink(journal, recover, port, root)
