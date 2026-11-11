@@ -33,13 +33,13 @@ capacity balances and source SHA-256 values. The gateway-loss and cold-resume
 histories are recorded separately in [COLD.md](COLD.md) and
 [`evidence/cold`](evidence/cold).
 
-Commands, run from `resource-control/`, used the configured toolchain/cache,
+The commands ran from `resource-control/` with the configured toolchain/cache,
 offline locked dependency resolution, disabled incremental compilation and
-debug info, and retained stdout/stderr in the evidence directory:
+debug info. Their stdout and stderr are retained in the evidence directory:
 
 ```text
-cargo test --locked --offline --test native_local_gateway -- --nocapture
-cargo test --locked --offline --test control --test resume_view --test termination --test native_launch --test native_termination -- --nocapture
+ASES_LOCAL_GATEWAY_EVIDENCE_DIR=/workspace/ases-local-execution/docs/research/phase-ii-local-execution/evidence/native-gateway-final CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --locked --offline --test native_local_gateway -- --nocapture > /workspace/ases-local-execution/docs/research/phase-ii-local-execution/evidence/native-gateway-final/test.log 2>&1
+CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --locked --offline --test control --test resume_view --test termination --test native_launch --test native_termination -- --nocapture > /workspace/ases-local-execution/docs/research/phase-ii-local-execution/evidence/native-gateway-final/parent-regressions.log 2>&1
 ```
 
 **WHY:** The existing lifecycle APIs had native process and exit evidence
