@@ -6,7 +6,8 @@ use ases_resource_control::catalog::Account;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::fs::{self, OpenOptions};
-use std::io::Write;
+use std::io::{Read, Write};
+use std::os::unix::net::{UnixListener, UnixStream};
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Output, Stdio};
 use std::thread;
@@ -188,6 +189,70 @@ fn persist(name: &str, value: Value) {
         fs::create_dir_all(&dir).unwrap();
         fs::write(dir.join(name), serde_json::to_vec_pretty(&value).unwrap()).unwrap();
     }
+}
+
+fn persist_lost_reply(value: Value) {
+    if let Some(path) = std::env::var_os("ASES_LOCAL_CLIENT_LOST_REPLY_EVIDENCE_DIR") {
+        let dir = PathBuf::from(path);
+        fs::create_dir_all(&dir).unwrap();
+        fs::write(dir.join("accepted-launch-reply-lost.json"), serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+    }
+}
+
+fn forward_once_then_drop(proxy_path: PathBuf, gateway_path: PathBuf) -> thread::JoinHandle<Value> {
+    thread::spawn(move || {
+        let listener = UnixListener::bind(&proxy_path).unwrap();
+        let (mut downstream, _) = listener.accept().unwrap();
+        downstream.set_read_timeout(Some(Duration::from_secs(3))).unwrap();
+        let mut request_bytes = Vec::new();
+        let mut chunk = [0u8; 1024];
+        loop {
+            let read = downstream.read(&mut chunk).unwrap();
+            if read == 0 { break; }
+            assert!(request_bytes.len() + read <= 8 * 1024, "thin client request exceeded fixture bound");
+            request_bytes.extend_from_slice(&chunk[..read]);
+        }
+        let request: Value = serde_json::from_slice(&request_bytes).unwrap();
+
+        // This proxy only forwards bytes once. The actual gateway, still using
+        // the test process UID and real Policy/SO_PEERCRED, makes the decision.
+        let mut upstream = UnixStream::connect(&gateway_path).unwrap();
+        upstream.set_read_timeout(Some(Duration::from_secs(3))).unwrap();
+        upstream.set_write_timeout(Some(Duration::from_secs(3))).unwrap();
+        upstream.write_all(&request_bytes).unwrap();
+        upstream.shutdown(std::net::Shutdown::Write).unwrap();
+        let mut response_bytes = Vec::new();
+        loop {
+            let read = upstream.read(&mut chunk).unwrap();
+            if read == 0 { break; }
+            assert!(response_bytes.len() + read <= 8 * 1024, "gateway reply exceeded fixture bound");
+            response_bytes.extend_from_slice(&chunk[..read]);
+        }
+        let actual_gateway_response: Value = serde_json::from_slice(&response_bytes).unwrap();
+        drop(upstream);
+        drop(downstream); // Deliberately discard the actual reply to the client.
+
+        // Check briefly for a reconnect. The client must make exactly one
+        // connection even though its first request may already have applied.
+        listener.set_nonblocking(true).unwrap();
+        let until = Instant::now() + Duration::from_millis(200);
+        let mut additional_connections = 0;
+        while Instant::now() < until {
+            match listener.accept() {
+                Ok((mut retry, _)) => {
+                    additional_connections += 1;
+                    retry.set_read_timeout(Some(Duration::from_millis(100))).unwrap();
+                    let _ = retry.read(&mut chunk);
+                }
+                Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                    thread::sleep(Duration::from_millis(5));
+                }
+                Err(error) => panic!("proxy accept failed while checking retry: {error}"),
+            }
+        }
+        json!({"request":request,"forwarded_once":true,"actual_gateway_response":actual_gateway_response,
+            "actual_reply_discarded":true,"additional_client_connections":additional_connections})
+    })
 }
 
 /// Fixed trusted test worker. Its own release gate and timeout bound orphan cleanup.
@@ -429,4 +494,112 @@ fn fresh_session_client_drives_hot_cold_and_server_error_histories() {
         "what_not_tested":["remote providers","hostile same-UID code","whole-host power loss","arbitrary executable delegation","automatic retry or hidden recovery"],
         "histories":histories,"source_sha256":source_hashes()
     }));
+}
+
+#[test]
+fn actual_client_loses_accepted_launch_reply_then_recovers_without_redispatch() {
+    let dir = tempfile::tempdir().unwrap();
+    let job = "session-lost-reply-job";
+    let launch = "session-lost-reply-launch";
+    let (db, revision) = setup(dir.path(), job);
+    let marker = dir.path().join("worker-counter.jsonl");
+    let release = dir.path().join("worker-release");
+    let exited = dir.path().join("worker-exited");
+    let _release = Release(release.clone());
+    let trusted = profile(&marker, &release, &exited);
+    let mut gateway = Gateway::start(dir.path(), "gateway-lost-reply", &db, &admin_policy(), &trusted);
+
+    let proxy_path = dir.path().join("drop-reply-proxy.sock");
+    let proxy = forward_once_then_drop(proxy_path.clone(), gateway.socket.clone());
+    wait_for(&proxy_path);
+    let revision_arg = revision.to_string();
+    let launch_args = ["launch", job, launch, revision_arg.as_str()];
+    let before_launch = events(&db, job);
+    let lost_output = invoke(&proxy_path, &launch_args);
+    let proxy_capture = proxy.join().expect("bounded response-drop proxy panicked");
+    let client_unknown = parse_stdout(&lost_output);
+    let after_launch = events(&db, job);
+
+    assert_eq!(lost_output.status.code(), Some(4));
+    assert_eq!(client_unknown["ok"], false);
+    assert_eq!(client_unknown["outcome"], "outcome_unknown");
+    assert_eq!(proxy_capture["forwarded_once"], true);
+    assert_eq!(proxy_capture["additional_client_connections"], 0, "client must not retry after loss");
+    assert_eq!(proxy_capture["request"], json!({"op":"local_launch","job_id":job,"launch_id":launch,"expected_catalog":revision}));
+    assert_eq!(proxy_capture["actual_gateway_response"]["ok"], true);
+    assert_eq!(proxy_capture["actual_gateway_response"]["result"]["state"], "running");
+    let started = after_launch.as_array().unwrap().iter().filter(|event| event["kind"] == "LAUNCH_STARTED_OBSERVED").count();
+    assert_eq!(started, 1, "actual gateway accepted launch and durably observed the fixed child");
+    let job_after_launch = Store::open(&db).unwrap().job(job).unwrap();
+    assert_eq!(job_after_launch["state"], "RUNNING");
+    let held_after_launch = balances(&db);
+    assert!(active_reserved(&held_after_launch) > 0);
+    let worker = worker_lines(&marker);
+    assert_eq!(worker.len(), 1);
+
+    let mut records = vec![json!({
+        "phase":"actual-launch-reply-lost-after-gateway-acceptance",
+        "client":{"argv_after_executable":[proxy_path.to_string_lossy(),launch_args[0].into(),launch_args[1].into(),launch_args[2].into(),launch_args[3].into()],
+            "exit_code":lost_output.status.code(),"stdout":String::from_utf8_lossy(&lost_output.stdout),
+            "stderr":String::from_utf8_lossy(&lost_output.stderr)},
+        "proxy_capture":proxy_capture,"events_before":before_launch,"events_after":after_launch,
+        "job_after_launch":job_after_launch,"balances_after_launch":held_after_launch,
+        "worker_launch_counter":worker
+    })];
+
+    // Recovery is an explicit fresh read. Exact launch replay is also explicit
+    // and idempotent; neither creates a second child.
+    let resume_args = ["resume", job, launch];
+    let before_resume = events(&db, job);
+    let resume_output = invoke(&gateway.socket, &resume_args);
+    let resume_response = parse_stdout(&resume_output);
+    assert_eq!(resume_output.status.code(), Some(0));
+    assert_eq!(resume_response["result"]["local_state"], "owned_child_unobserved");
+    capture_call(&mut records, "fresh-resume-after-lost-reply", &resume_args, &gateway.socket,
+        &resume_output, before_resume, events(&db, job));
+
+    let before_replay = events(&db, job);
+    let replay_output = invoke(&gateway.socket, &launch_args);
+    let replay_response = parse_stdout(&replay_output);
+    assert_eq!(replay_output.status.code(), Some(0));
+    assert_eq!(replay_response["result"]["state"], "running");
+    assert_eq!(worker_lines(&marker).len(), 1, "exact fresh launch replay never spawns a second child");
+    assert_eq!(events(&db, job), before_replay, "exact replay adds no duplicate launch evidence");
+    capture_call(&mut records, "explicit-exact-launch-replay-no-redispatch", &launch_args, &gateway.socket,
+        &replay_output, before_replay, events(&db, job));
+
+    let stop_args = ["stop", job, launch, "session-lost-reply-stop"];
+    let before_stop = events(&db, job);
+    let stop_output = invoke(&gateway.socket, &stop_args);
+    let stop_response = parse_stdout(&stop_output);
+    assert_eq!(stop_output.status.code(), Some(0));
+    assert_eq!(stop_response["result"]["state"], "exit_observed");
+    capture_call(&mut records, "fresh-stop-owned-child", &stop_args, &gateway.socket,
+        &stop_output, before_stop, events(&db, job));
+    let held_before_finalize = balances(&db);
+    assert!(active_reserved(&held_before_finalize) > 0, "stop/exit alone must not finalize");
+
+    let finalize_args = ["finalize", job, launch, "completed"];
+    let before_finalize = events(&db, job);
+    let finalize_output = invoke(&gateway.socket, &finalize_args);
+    let finalize_response = parse_stdout(&finalize_output);
+    assert_eq!(finalize_output.status.code(), Some(0));
+    assert_eq!(finalize_response["ok"], true);
+    let released_after_finalize = balances(&db);
+    assert_eq!(active_reserved(&released_after_finalize), 0);
+    capture_call(&mut records, "fresh-finalize-releases-capacity", &finalize_args, &gateway.socket,
+        &finalize_output, before_finalize, events(&db, job));
+
+    persist_lost_reply(json!({
+        "why":"a lost client reply does not undo the gateway's one-use dispatch or durable start evidence",
+        "what":"fresh resource-session process, bounded one-forward proxy, actual SO_PEERCRED gateway and fixed worker",
+        "how_certain":"experimental; proxy captured actual successful gateway reply, Store event and balance snapshots, worker identity, and client unknown result",
+        "what_not_tested":["hostile same-UID proxy","remote provider","whole-host power loss","arbitrary executable delegation","client automatic retry"],
+        "proxy_role":"bounded transport fixture only; it forwards once and is not an authority or lifecycle witness",
+        "job_id":job,"launch_id":launch,"catalog_revision":revision,
+        "worker_launch_counter":worker,"records":records,
+        "balances_before_finalize":held_before_finalize,"balances_after_finalize":released_after_finalize,
+        "source_sha256":source_hashes()
+    }));
+    drop(gateway);
 }
