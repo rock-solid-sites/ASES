@@ -1,0 +1,1088 @@
+{
+  "histories": {
+    "actual_finalize_committed_reply_lost": {
+      "balances_after_finalize": [
+        {
+          "account": "drive-test-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "drive-test-meter",
+          "period": "session-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "balances_before_finalize": [
+        {
+          "account": "drive-test-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "drive-test-meter",
+          "period": "session-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "driver_command": [
+        "resource-drive",
+        "/tmp/.tmpOKi4Fb/finalize-reply-loss/driver-drop-finalize-proxy.sock",
+        "drive-finalize-loss-job",
+        "drive-finalize-loss-launch",
+        3,
+        "completed",
+        5000
+      ],
+      "driver_output": {
+        "exit_code": 3,
+        "stderr": "",
+        "stdout": "{\"client_reply\":{\"error\":\"response was empty, malformed, or truncated\",\"ok\":false,\"outcome\":\"outcome_unknown\"},\"client_status\":4,\"exit_observation\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"job_id\":\"drive-finalize-loss-job\",\"launch_id\":\"drive-finalize-loss-launch\",\"state\":\"exit_observed\"}},\"job_id\":\"drive-finalize-loss-job\",\"last_action\":\"finalize\",\"launch_id\":\"drive-finalize-loss-launch\",\"launch_response\":{\"ok\":true,\"result\":{\"job_id\":\"drive-finalize-loss-job\",\"launch_id\":\"drive-finalize-loss-launch\",\"state\":\"running\"}},\"ok\":false,\"outcome\":\"recovery_needed\",\"poll_count\":2,\"reason\":\"client_outcome_unknown\",\"selected_outcome\":\"completed\"}\n"
+      },
+      "events_after_finalize_reply_loss": [
+        {
+          "at": 1794405211,
+          "event_id": "drive-finalize-loss-job:reserved",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-finalize-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "drive-finalize-loss-job:ack:ack-drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-finalize-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-intent:drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "drive-finalize-loss-launch"
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-observation:drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "drive-finalize-loss-launch",
+            "process": {
+              "pid": 8521,
+              "start_token": "274721"
+            }
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-exit:drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "drive-finalize-loss-launch",
+            "process": {
+              "pid": 8521,
+              "start_token": "274721"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "drive-finalize-loss-job:final:completed",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "completed"
+          }
+        }
+      ],
+      "events_before_driver": [
+        {
+          "at": 1794405211,
+          "event_id": "drive-finalize-loss-job:reserved",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-finalize-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "drive-finalize-loss-job:ack:ack-drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-finalize-loss-job",
+            "catalog_version": 3
+          }
+        }
+      ],
+      "events_before_finalize": [
+        {
+          "at": 1794405211,
+          "event_id": "drive-finalize-loss-job:reserved",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-finalize-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "drive-finalize-loss-job:ack:ack-drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-finalize-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-intent:drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "drive-finalize-loss-launch"
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-observation:drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "drive-finalize-loss-launch",
+            "process": {
+              "pid": 8521,
+              "start_token": "274721"
+            }
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-exit:drive-finalize-loss-job",
+          "job_id": "drive-finalize-loss-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "drive-finalize-loss-launch",
+            "process": {
+              "pid": 8521,
+              "start_token": "274721"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        }
+      ],
+      "fresh_resume_after_unknown": {
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"local_state\":\"unknown\",\"resume_view\":{\"accountId\":\"drive-test-account\",\"advisoryNextStep\":\"no_new_dispatch\",\"currentCatalogRevision\":3,\"environmentId\":\"drive-test-environment\",\"evidence\":{\"launch\":{\"eventId\":\"launch-intent:drive-finalize-loss-job\",\"kind\":\"LAUNCH_INTENT\",\"payloadSha256\":\"12bcec162bb3e921476bd3a45490ccfdeadc219738a5b13bae9eb2271490e209\",\"recordedAt\":1794405211},\"outcome\":{\"eventId\":\"drive-finalize-loss-job:final:completed\",\"kind\":\"FINALIZED\",\"payloadSha256\":\"12be39fdea3651a12e0975c46c3d4981ae2def5381bc7b330109e36221bb43c4\",\"recordedAt\":1794405211}},\"jobCatalogRevision\":3,\"jobId\":\"drive-finalize-loss-job\",\"launchId\":\"drive-finalize-loss-launch\",\"outcome\":\"completed\",\"presentLiveness\":\"unknown\",\"profile\":\"intent\",\"projectId\":\"drive-test-project\",\"state\":\"CLOSED\"},\"stop\":null}}\n"
+      },
+      "job_id": "drive-finalize-loss-job",
+      "launch_id": "drive-finalize-loss-launch",
+      "proxy_capture": {
+        "actual_finalization_reply_discarded": true,
+        "additional_connections": 0,
+        "exchanges": [
+          {
+            "gateway_reply": {
+              "ok": true,
+              "result": {
+                "job_id": "drive-finalize-loss-job",
+                "launch_id": "drive-finalize-loss-launch",
+                "state": "running"
+              }
+            },
+            "reply_discarded": false,
+            "request": {
+              "expected_catalog": 3,
+              "job_id": "drive-finalize-loss-job",
+              "launch_id": "drive-finalize-loss-launch",
+              "op": "local_launch"
+            }
+          },
+          {
+            "gateway_reply": {
+              "ok": true,
+              "result": {
+                "exit": null,
+                "job_id": "drive-finalize-loss-job",
+                "launch_id": "drive-finalize-loss-launch",
+                "state": "running"
+              }
+            },
+            "reply_discarded": false,
+            "request": {
+              "job_id": "drive-finalize-loss-job",
+              "launch_id": "drive-finalize-loss-launch",
+              "op": "local_poll"
+            }
+          },
+          {
+            "gateway_reply": {
+              "ok": true,
+              "result": {
+                "exit": {
+                  "code": 0
+                },
+                "job_id": "drive-finalize-loss-job",
+                "launch_id": "drive-finalize-loss-launch",
+                "state": "exit_observed"
+              }
+            },
+            "reply_discarded": false,
+            "request": {
+              "job_id": "drive-finalize-loss-job",
+              "launch_id": "drive-finalize-loss-launch",
+              "op": "local_poll"
+            }
+          },
+          {
+            "gateway_reply": {
+              "ok": true,
+              "result": {
+                "finalization": "CLOSED",
+                "job_id": "drive-finalize-loss-job",
+                "launch_id": "drive-finalize-loss-launch",
+                "outcome": "completed"
+              }
+            },
+            "reply_discarded": true,
+            "request": {
+              "job_id": "drive-finalize-loss-job",
+              "launch_id": "drive-finalize-loss-launch",
+              "op": "local_finalize",
+              "outcome": "completed"
+            }
+          }
+        ],
+        "forwarded_finalization_once": true
+      },
+      "worker_exit_marker": true,
+      "worker_launch_counter": [
+        {
+          "fixed_worker": true,
+          "pid": 8521,
+          "start_token": "274721"
+        }
+      ]
+    },
+    "cold_restart_unknown_no_redispatch": {
+      "balances_after_cold_invocation": [
+        {
+          "account": "drive-test-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "drive-test-meter",
+          "period": "session-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "cold_driver": {
+        "command": [
+          "resource-drive",
+          "/tmp/.tmpOKi4Fb/cold/gateway-cold-restart.sock",
+          "drive-cold-job",
+          "drive-cold-launch",
+          3,
+          "completed",
+          150
+        ],
+        "exit_code": 3,
+        "stderr": "",
+        "stdout": "{\"client_reply\":{\"ok\":true,\"result\":{\"exit\":null,\"job_id\":\"drive-cold-job\",\"launch_id\":\"drive-cold-launch\",\"state\":\"unknown\"}},\"client_status\":0,\"exit_observation\":null,\"job_id\":\"drive-cold-job\",\"last_action\":\"launch\",\"launch_id\":\"drive-cold-launch\",\"launch_response\":{\"ok\":true,\"result\":{\"exit\":null,\"job_id\":\"drive-cold-job\",\"launch_id\":\"drive-cold-launch\",\"state\":\"unknown\"}},\"ok\":false,\"outcome\":\"recovery_needed\",\"poll_count\":0,\"reason\":\"unknown_custody\",\"selected_outcome\":\"completed\"}\n"
+      },
+      "events_after_cold_invocation": [
+        {
+          "at": 1794405210,
+          "event_id": "drive-cold-job:reserved",
+          "job_id": "drive-cold-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-cold-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-cold-job:ack:ack-drive-cold-job",
+          "job_id": "drive-cold-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-cold-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-intent:drive-cold-job",
+          "job_id": "drive-cold-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "drive-cold-launch"
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-observation:drive-cold-job",
+          "job_id": "drive-cold-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "drive-cold-launch",
+            "process": {
+              "pid": 8500,
+              "start_token": "274700"
+            }
+          }
+        }
+      ],
+      "events_after_gateway_loss": [
+        {
+          "at": 1794405210,
+          "event_id": "drive-cold-job:reserved",
+          "job_id": "drive-cold-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-cold-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-cold-job:ack:ack-drive-cold-job",
+          "job_id": "drive-cold-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-cold-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-intent:drive-cold-job",
+          "job_id": "drive-cold-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "drive-cold-launch"
+          }
+        },
+        {
+          "at": 1794405211,
+          "event_id": "launch-observation:drive-cold-job",
+          "job_id": "drive-cold-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "drive-cold-launch",
+            "process": {
+              "pid": 8500,
+              "start_token": "274700"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794405210,
+          "event_id": "drive-cold-job:reserved",
+          "job_id": "drive-cold-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-cold-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-cold-job:ack:ack-drive-cold-job",
+          "job_id": "drive-cold-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-cold-job",
+            "catalog_version": 3
+          }
+        }
+      ],
+      "first_driver": {
+        "exit_code": 3,
+        "stderr": "",
+        "stdout": "{\"client_reply\":{\"ok\":true,\"result\":{\"exit\":null,\"job_id\":\"drive-cold-job\",\"launch_id\":\"drive-cold-launch\",\"state\":\"running\"}},\"client_status\":0,\"exit_observation\":null,\"job_id\":\"drive-cold-job\",\"last_action\":\"poll\",\"launch_id\":\"drive-cold-launch\",\"launch_response\":{\"ok\":true,\"result\":{\"job_id\":\"drive-cold-job\",\"launch_id\":\"drive-cold-launch\",\"state\":\"running\"}},\"ok\":false,\"outcome\":\"recovery_needed\",\"poll_count\":2,\"reason\":\"budget_exhausted\",\"selected_outcome\":\"completed\"}\n"
+      },
+      "job_id": "drive-cold-job",
+      "launch_id": "drive-cold-launch",
+      "worker_exit_marker_before_release": false,
+      "worker_launch_counter": [
+        {
+          "fixed_worker": true,
+          "pid": 8500,
+          "start_token": "274700"
+        }
+      ]
+    },
+    "live_budget_exhaustion_no_automatic_effect": {
+      "driver_history": {
+        "balances_at_budget": [
+          {
+            "account": "drive-test-account",
+            "active_reserved_remaining": 50,
+            "available": 50,
+            "effective_consumed": 0,
+            "fresh": true,
+            "guard": 0,
+            "limit": 100,
+            "local_observed": 0,
+            "meter_id": "drive-test-meter",
+            "period": "session-drive-test",
+            "provider_complete_through": null,
+            "provider_reported": null,
+            "unit": "units"
+          }
+        ],
+        "command": [
+          "resource-drive",
+          "/tmp/.tmpOKi4Fb/budget/gateway-budget.sock",
+          "drive-budget-job",
+          "drive-budget-launch",
+          3,
+          "interrupted",
+          150
+        ],
+        "driver_output": {
+          "exit_code": 3,
+          "stderr": "",
+          "stdout": "{\"client_reply\":{\"ok\":true,\"result\":{\"exit\":null,\"job_id\":\"drive-budget-job\",\"launch_id\":\"drive-budget-launch\",\"state\":\"running\"}},\"client_status\":0,\"exit_observation\":null,\"job_id\":\"drive-budget-job\",\"last_action\":\"poll\",\"launch_id\":\"drive-budget-launch\",\"launch_response\":{\"ok\":true,\"result\":{\"job_id\":\"drive-budget-job\",\"launch_id\":\"drive-budget-launch\",\"state\":\"running\"}},\"ok\":false,\"outcome\":\"recovery_needed\",\"poll_count\":2,\"reason\":\"budget_exhausted\",\"selected_outcome\":\"interrupted\"}\n"
+        },
+        "events_after_budget": [
+          {
+            "at": 1794405210,
+            "event_id": "drive-budget-job:reserved",
+            "job_id": "drive-budget-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "drive-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "drive-test-meter"
+                  }
+                ],
+                "environment_id": "drive-test-environment",
+                "estimated_wall_seconds": 90,
+                "forecast_context": null,
+                "job_id": "drive-budget-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "drive-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794405210,
+            "event_id": "drive-budget-job:ack:ack-drive-budget-job",
+            "job_id": "drive-budget-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "ack-drive-budget-job",
+              "catalog_version": 3
+            }
+          },
+          {
+            "at": 1794405210,
+            "event_id": "launch-intent:drive-budget-job",
+            "job_id": "drive-budget-job",
+            "kind": "LAUNCH_INTENT",
+            "payload": {
+              "catalog_version": 3,
+              "dispatch_granted": true,
+              "launch_id": "drive-budget-launch"
+            }
+          },
+          {
+            "at": 1794405210,
+            "event_id": "launch-observation:drive-budget-job",
+            "job_id": "drive-budget-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payload": {
+              "launch_id": "drive-budget-launch",
+              "process": {
+                "pid": 8485,
+                "start_token": "274681"
+              }
+            }
+          }
+        ],
+        "events_before_cleanup": [
+          {
+            "at": 1794405210,
+            "event_id": "drive-budget-job:reserved",
+            "job_id": "drive-budget-job",
+            "kind": "RESERVED",
+            "payload": {
+              "catalog_version": 3,
+              "estimated_cash_micros": 0,
+              "forecast": {
+                "account_id": "drive-test-account",
+                "claims": [
+                  {
+                    "amount": 50,
+                    "meter_id": "drive-test-meter"
+                  }
+                ],
+                "environment_id": "drive-test-environment",
+                "estimated_wall_seconds": 90,
+                "forecast_context": null,
+                "job_id": "drive-budget-job",
+                "paid_spend_cap_currency": null,
+                "paid_spend_cap_micros": null,
+                "project_id": "drive-test-project"
+              }
+            }
+          },
+          {
+            "at": 1794405210,
+            "event_id": "drive-budget-job:ack:ack-drive-budget-job",
+            "job_id": "drive-budget-job",
+            "kind": "AUTHORIZED",
+            "payload": {
+              "ack_id": "ack-drive-budget-job",
+              "catalog_version": 3
+            }
+          }
+        ],
+        "job_id": "drive-budget-job",
+        "launch_id": "drive-budget-launch",
+        "worker_exited_at_budget": false,
+        "worker_launch_counter": [
+          {
+            "fixed_worker": true,
+            "pid": 8485,
+            "start_token": "274681"
+          }
+        ]
+      },
+      "separate_explicit_test_cleanup": {
+        "balances_after_cleanup": [
+          {
+            "account": "drive-test-account",
+            "active_reserved_remaining": 0,
+            "available": 100,
+            "effective_consumed": 0,
+            "fresh": true,
+            "guard": 0,
+            "limit": 100,
+            "local_observed": 0,
+            "meter_id": "drive-test-meter",
+            "period": "session-drive-test",
+            "provider_complete_through": null,
+            "provider_reported": null,
+            "unit": "units"
+          }
+        ],
+        "finalize_exit_code": 0,
+        "finalize_stdout": "{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"drive-budget-job\",\"launch_id\":\"drive-budget-launch\",\"outcome\":\"interrupted\"}}\n",
+        "poll_exit_code": 0,
+        "poll_stdout": "{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"job_id\":\"drive-budget-job\",\"launch_id\":\"drive-budget-launch\",\"state\":\"exit_observed\"}}\n"
+      }
+    },
+    "natural_code_zero_finalize": {
+      "balances_after_finalize": [
+        {
+          "account": "drive-test-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "drive-test-meter",
+          "period": "session-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "command": [
+        "resource-drive",
+        "/tmp/.tmpOKi4Fb/natural-zero/gateway-success.sock",
+        "drive-natural-job",
+        "drive-natural-launch",
+        3,
+        "completed",
+        5000
+      ],
+      "driver_output": {
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "{\"exit_client_status\":0,\"exit_observation\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"job_id\":\"drive-natural-job\",\"launch_id\":\"drive-natural-launch\",\"state\":\"exit_observed\"}},\"finalization\":{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"drive-natural-job\",\"launch_id\":\"drive-natural-launch\",\"outcome\":\"completed\"}},\"finalize_client_status\":0,\"job_id\":\"drive-natural-job\",\"launch_client_status\":0,\"launch_id\":\"drive-natural-launch\",\"launch_response\":{\"ok\":true,\"result\":{\"job_id\":\"drive-natural-job\",\"launch_id\":\"drive-natural-launch\",\"state\":\"running\"}},\"ok\":true,\"outcome\":\"finalized\",\"poll_count\":2,\"selected_outcome\":\"completed\"}\n"
+      },
+      "events_after": [
+        {
+          "at": 1794405210,
+          "event_id": "drive-natural-job:reserved",
+          "job_id": "drive-natural-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-natural-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-natural-job:ack:ack-drive-natural-job",
+          "job_id": "drive-natural-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-natural-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "launch-intent:drive-natural-job",
+          "job_id": "drive-natural-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "drive-natural-launch"
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "launch-observation:drive-natural-job",
+          "job_id": "drive-natural-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "drive-natural-launch",
+            "process": {
+              "pid": 8452,
+              "start_token": "274654"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "launch-exit:drive-natural-job",
+          "job_id": "drive-natural-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "drive-natural-launch",
+            "process": {
+              "pid": 8452,
+              "start_token": "274654"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-natural-job:final:completed",
+          "job_id": "drive-natural-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "completed"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794405210,
+          "event_id": "drive-natural-job:reserved",
+          "job_id": "drive-natural-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-natural-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-natural-job:ack:ack-drive-natural-job",
+          "job_id": "drive-natural-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-natural-job",
+            "catalog_version": 3
+          }
+        }
+      ],
+      "job_id": "drive-natural-job",
+      "launch_id": "drive-natural-launch",
+      "worker_exit_marker": true,
+      "worker_launch_counter": [
+        {
+          "fixed_worker": true,
+          "pid": 8452,
+          "start_token": "274654"
+        }
+      ]
+    },
+    "nonzero_explicit_failed_outcome": {
+      "balances_after_finalize": [
+        {
+          "account": "drive-test-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "drive-test-meter",
+          "period": "session-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "command": [
+        "resource-drive",
+        "/tmp/.tmpOKi4Fb/nonzero/gateway-nonzero.sock",
+        "drive-nonzero-job",
+        "drive-nonzero-launch",
+        3,
+        "failed",
+        5000
+      ],
+      "driver_output": {
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "{\"exit_client_status\":0,\"exit_observation\":{\"ok\":true,\"result\":{\"exit\":{\"code\":7},\"job_id\":\"drive-nonzero-job\",\"launch_id\":\"drive-nonzero-launch\",\"state\":\"exit_observed\"}},\"finalization\":{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"drive-nonzero-job\",\"launch_id\":\"drive-nonzero-launch\",\"outcome\":\"failed\"}},\"finalize_client_status\":0,\"job_id\":\"drive-nonzero-job\",\"launch_client_status\":0,\"launch_id\":\"drive-nonzero-launch\",\"launch_response\":{\"ok\":true,\"result\":{\"job_id\":\"drive-nonzero-job\",\"launch_id\":\"drive-nonzero-launch\",\"state\":\"running\"}},\"ok\":true,\"outcome\":\"finalized\",\"poll_count\":2,\"selected_outcome\":\"failed\"}\n"
+      },
+      "events_after": [
+        {
+          "at": 1794405210,
+          "event_id": "drive-nonzero-job:reserved",
+          "job_id": "drive-nonzero-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-nonzero-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-nonzero-job:ack:ack-drive-nonzero-job",
+          "job_id": "drive-nonzero-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-nonzero-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "launch-intent:drive-nonzero-job",
+          "job_id": "drive-nonzero-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "drive-nonzero-launch"
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "launch-observation:drive-nonzero-job",
+          "job_id": "drive-nonzero-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "drive-nonzero-launch",
+            "process": {
+              "pid": 8469,
+              "start_token": "274667"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "launch-exit:drive-nonzero-job",
+          "job_id": "drive-nonzero-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "drive-nonzero-launch",
+            "process": {
+              "pid": 8469,
+              "start_token": "274667"
+            },
+            "status": {
+              "code": 7,
+              "kind": "code"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-nonzero-job:final:failed",
+          "job_id": "drive-nonzero-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "failed"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794405210,
+          "event_id": "drive-nonzero-job:reserved",
+          "job_id": "drive-nonzero-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "drive-test-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "drive-test-meter"
+                }
+              ],
+              "environment_id": "drive-test-environment",
+              "estimated_wall_seconds": 90,
+              "forecast_context": null,
+              "job_id": "drive-nonzero-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "drive-test-project"
+            }
+          }
+        },
+        {
+          "at": 1794405210,
+          "event_id": "drive-nonzero-job:ack:ack-drive-nonzero-job",
+          "job_id": "drive-nonzero-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-drive-nonzero-job",
+            "catalog_version": 3
+          }
+        }
+      ],
+      "job_id": "drive-nonzero-job",
+      "launch_id": "drive-nonzero-launch",
+      "worker_exit_marker": true,
+      "worker_launch_counter": [
+        {
+          "fixed_worker": true,
+          "pid": 8469,
+          "start_token": "274667"
+        }
+      ]
+    }
+  },
+  "how_certain": "experimental native histories; exact Store events, outputs, worker counters and balances retained",
+  "source_sha256": {
+    "src/bin/resource-drive.rs": "41835f6a93ea6fbf4e94e7e53c2ea90d608e96a472cd4e9d315990f2dbb2f6bd",
+    "src/bin/resource-gateway.rs": "d15c31ac194993765a1327a755aed60797afeeb5bab5645db80774835053175f",
+    "src/bin/resource-session.rs": "de9a1031954bd15a7d6de81979b9c408f870b7ba26e2200da3c2e409cb6ff68a",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "02d20614355fd256b2e17708bbf39d961c8ee74011d494dca1952be54a0100f6",
+    "tests/native_session_drive.rs": "c1c378a25dacdb87c042edaa880686b0856f6efc1d3101e41ded082885259ec7"
+  },
+  "what": "actual resource-drive -> sibling resource-session -> Unix gateway -> fixed owned test worker -> existing Store events",
+  "what_not_tested": [
+    "remote providers",
+    "hostile same-UID code",
+    "whole-host loss",
+    "arbitrary programs",
+    "hard wall-time quiescence",
+    "generalized methodology automation",
+    "automatic repair of unknown outcomes"
+  ],
+  "why": "the driver is a bounded consumer of existing launch/custody/exit/finalize transitions"
+}

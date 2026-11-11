@@ -1,0 +1,46 @@
+{
+  "workdir": "/workspace/ases-session-drive/resource-control",
+  "command": "ASES_SESSION_DRIVE_EVIDENCE_DIR=/workspace/ases-session-drive/docs/research/phase-ii-session-drive/evidence CARGO_TARGET_DIR=/workspace/ases-local-execution/resource-control/target CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --test native_session_drive native_driver_natural_nonzero_budget_cold_and_lost_reply_histories -- --exact --nocapture",
+  "result": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 1
+  },
+  "commit": "7cd34e0352e4cb8387c3d86df0064f70bbc85375",
+  "source_sha256": {
+    "resource-control/src/bin/resource-drive.rs": "41835f6a93ea6fbf4e94e7e53c2ea90d608e96a472cd4e9d315990f2dbb2f6bd",
+    "resource-control/src/bin/resource-session.rs": "de9a1031954bd15a7d6de81979b9c408f870b7ba26e2200da3c2e409cb6ff68a",
+    "resource-control/src/bin/resource-gateway.rs": "d15c31ac194993765a1327a755aed60797afeeb5bab5645db80774835053175f",
+    "resource-control/src/local.rs": "02d20614355fd256b2e17708bbf39d961c8ee74011d494dca1952be54a0100f6",
+    "resource-control/src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "resource-control/tests/native_session_drive.rs": "c1c378a25dacdb87c042edaa880686b0856f6efc1d3101e41ded082885259ec7"
+  },
+  "history_sha256": "e970174d5b7506885a29983714e0cb51e11e86113274539b8d2b7a4cd8fbbcf4",
+  "history_count": 5,
+  "worker_launch_counts": {
+    "actual_finalize_committed_reply_lost": 1,
+    "cold_restart_unknown_no_redispatch": 1,
+    "live_budget_exhaustion_no_automatic_effect": 1,
+    "natural_code_zero_finalize": 1,
+    "nonzero_explicit_failed_outcome": 1
+  },
+  "observations": {
+    "natural_code_zero_exit_exactly_observed_before_completed_finalize": true,
+    "nonzero_code_seven_finalized_only_with_explicit_failed_outcome": true,
+    "budget_exhaustion_150ms_left_worker_running_with_held_capacity_and_no_stop_or_finalize": true,
+    "cold_restart_unknown_added_no_event_no_child_and_kept_capacity": true,
+    "lost_finalization_reply_driver_recovery_needed_last_action_finalize": true,
+    "lost_finalization_reply_actual_gateway_commit_closed_job_and_released_capacity": true,
+    "fresh_resume_after_unknown_showed_durable_finalized_state": true
+  },
+  "what_not_tested": [
+    "remote providers",
+    "hostile same-UID code",
+    "whole-host loss",
+    "arbitrary programs",
+    "hard wall-time quiescence",
+    "generalized methodology automation",
+    "automatic repair of unknown outcomes"
+  ]
+}
