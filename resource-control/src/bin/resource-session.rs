@@ -27,7 +27,7 @@ fn valid_id(value: &str) -> bool {
 }
 
 fn usage() -> &'static str {
-    "usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | finalize JOB LAUNCH OUTCOME"
+    "usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | stop-graceful JOB LAUNCH STOP_ID GRACE_MS | finalize JOB LAUNCH OUTCOME"
 }
 
 fn request(args: &[String]) -> Result<(String, Value), ClientError> {
@@ -63,6 +63,11 @@ fn request(args: &[String]) -> Result<(String, Value), ClientError> {
         }
         "stop" if args.len() == 5 && valid_id(&args[2]) && valid_id(&args[3]) && valid_id(&args[4]) => {
             json!({"op":"local_stop","job_id":args[2],"launch_id":args[3],"stop_id":args[4]})
+        }
+        "stop-graceful" if args.len() == 6 && valid_id(&args[2]) && valid_id(&args[3]) && valid_id(&args[4]) => {
+            let grace_ms=args[5].parse::<u64>().map_err(|_|ClientError::Invalid("GRACE_MS must be an integer from 1 through 2000".into()))?;
+            if !(1..=2000).contains(&grace_ms){return Err(ClientError::Invalid("GRACE_MS must be an integer from 1 through 2000".into()));}
+            json!({"op":"local_stop_graceful","job_id":args[2],"launch_id":args[3],"stop_id":args[4],"grace_ms":grace_ms})
         }
         "finalize" if args.len() == 5
             && valid_id(&args[2])

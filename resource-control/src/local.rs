@@ -10,6 +10,8 @@ use std::collections::HashMap;
 use std::os::unix::process::ExitStatusExt;
 use std::path::PathBuf;
 use std::process::{Child, Command, Stdio};
+use std::time::{Duration, Instant};
+use std::thread;
 use std::os::unix::process::CommandExt;
 
 #[derive(Clone, Debug, Deserialize)]
@@ -50,11 +52,35 @@ impl LocalProfile {
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct LocalStopPayload { launch_id:String, stop_id:String }
-
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct GracefulStopPayload { launch_id:String, stop_id:String, mode:String, grace_ms:u64 }
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum LocalStopPlan {
+    Force { launch_id:String, stop_id:String },
+    Graceful { launch_id:String, stop_id:String, grace_ms:u64 },
+}
+#[derive(Debug, Clone)]
+struct StopProgress { plan:LocalStopPlan, deadline:Instant, term_attempted:bool, kill_attempted:bool }
 #[derive(Debug)]
-struct OwnedChild { child: Child, process: Option<ProcessIdentity>, started_recorded: bool, exited: Option<ProcessExitStatus> }
+struct OwnedChild { child: Child, process: Option<ProcessIdentity>, started_recorded: bool, exited: Option<ProcessExitStatus>, stop_progress:Option<StopProgress> }
 #[derive(Default)]
 pub struct LocalSupervisor { children: HashMap<(String,String),OwnedChild> }
+
+fn decode_stop_plan(payload:&str)->Result<LocalStopPlan>{
+    let value:Value=serde_json::from_str(payload)?;
+    if let Ok(legacy)=serde_json::from_value::<LocalStopPayload>(value.clone()){
+        super::check_id(&legacy.launch_id,"launch")?;super::check_id(&legacy.stop_id,"stop")?;
+        return Ok(LocalStopPlan::Force{launch_id:legacy.launch_id,stop_id:legacy.stop_id});
+    }
+    let graceful:GracefulStopPayload=serde_json::from_value(value)
+        .map_err(|_|Error::Conflict("retained local stop payload is unsupported".into()))?;
+    super::check_id(&graceful.launch_id,"launch")?;super::check_id(&graceful.stop_id,"stop")?;
+    if graceful.mode!="term_then_kill"||!(1..=2000).contains(&graceful.grace_ms){
+        return Err(Error::Conflict("retained graceful stop plan is unsupported".into()));
+    }
+    Ok(LocalStopPlan::Graceful{launch_id:graceful.launch_id,stop_id:graceful.stop_id,grace_ms:graceful.grace_ms})
+}
 
 fn process_identity(pid:u32)->Result<ProcessIdentity>{
     let raw=std::fs::read_to_string(format!("/proc/{pid}/stat"))?;
@@ -127,7 +153,7 @@ impl LocalSupervisor {
             Ok(child)=>{
                 let pid=child.id();
                 let process=process_identity(pid).ok();
-                self.children.insert((job.clone(),launch.clone()),OwnedChild{child,process:process.clone(),started_recorded:false,exited:None});
+                self.children.insert((job.clone(),launch.clone()),OwnedChild{child,process:process.clone(),started_recorded:false,exited:None,stop_progress:None});
                 if let Some(process)=process {
                     store.observe_launch(&job,&launch,&LaunchObservation::Started{process},at)?;
                     if let Some(owned)=self.children.get_mut(&(job.clone(),launch.clone())){owned.started_recorded=true;}
@@ -182,6 +208,83 @@ impl LocalSupervisor {
             Ok(json!({"state":"exit_observed","job_id":job,"launch_id":launch,"stop_id":stop_id,"replayed":replay,"exit":status_json(status)}))
         } else { Ok(json!({"state":"unknown","job_id":job,"launch_id":launch,"stop_id":stop_id,"replayed":replay}) ) }
     }
+    pub fn stop_graceful(&mut self,store:&mut Store,job:&str,launch:&str,stop_id:&str,grace_ms:u64,at:i64)->Result<Value>{
+        validate_launch(store,job,launch)?;
+        if !(1..=2000).contains(&grace_ms){return Err(Error::Invalid("grace_ms must be between 1 and 2000".into()));}
+        let replay=store.record_local_stop_graceful(job,launch,stop_id,grace_ms,at)?;
+        let key=(job.to_string(),launch.to_string());
+        let Some(owned)=self.children.get_mut(&key)else{
+            return Ok(json!({"state":"unknown","job_id":job,"launch_id":launch,"stop_id":stop_id,
+                "mode":"term_then_kill","grace_ms":grace_ms,"replayed":replay}));
+        };
+        if owned.process.is_none(){owned.process=process_identity(owned.child.id()).ok();}
+        if !owned.started_recorded {
+            if let Some(process)=owned.process.clone(){store.observe_launch(job,launch,&LaunchObservation::Started{process},at)?;owned.started_recorded=true;}
+        }
+        if owned.process.is_none()||!owned.started_recorded {
+            return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,None));
+        }
+        if owned.exited.is_none(){
+            if let Some(status)=owned.child.try_wait()?{owned.exited=Some(exit_status(status)?);}
+        }
+        if owned.exited.is_some(){
+            let observed=record_owned_exit(store,job,launch,owned,at)?;
+            return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));
+        }
+        let plan=LocalStopPlan::Graceful{launch_id:launch.into(),stop_id:stop_id.into(),grace_ms};
+        if owned.stop_progress.is_none(){
+            owned.stop_progress=Some(StopProgress{plan:plan.clone(),deadline:Instant::now()+Duration::from_millis(grace_ms),term_attempted:false,kill_attempted:false});
+        }
+        if owned.stop_progress.as_ref().is_some_and(|p|p.plan!=plan){
+            return Err(Error::Conflict("runtime stop progress conflicts with durable plan".into()));
+        }
+        if !owned.stop_progress.as_ref().unwrap().term_attempted {
+            // Mark before the syscall so a retry after an interrupted/ambiguous
+            // signal attempt can never send SIGTERM twice.
+            owned.stop_progress.as_mut().unwrap().term_attempted=true;
+            let rc=unsafe{libc::kill(owned.child.id() as libc::pid_t,libc::SIGTERM)};
+            if rc!=0 {
+                let error=std::io::Error::last_os_error();
+                if error.raw_os_error()==Some(libc::ESRCH){
+                    if let Some(status)=owned.child.try_wait()?{owned.exited=Some(exit_status(status)?);}
+                    if owned.exited.is_some(){let observed=record_owned_exit(store,job,launch,owned,at)?;return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));}
+                    return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,None));
+                }
+                return Err(Error::Io(error));
+            }
+        }
+        loop{
+            if owned.exited.is_none(){
+                if let Some(status)=owned.child.try_wait()?{owned.exited=Some(exit_status(status)?);}
+            }
+            if owned.exited.is_some(){
+                let observed=record_owned_exit(store,job,launch,owned,at)?;
+                return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));
+            }
+            let deadline=owned.stop_progress.as_ref().unwrap().deadline;
+            let kill_attempted=owned.stop_progress.as_ref().unwrap().kill_attempted;
+            if Instant::now()>=deadline{
+                if kill_attempted{return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,None));}
+                // Mark before acting; even an ambiguous failure cannot cause a
+                // second escalation signal on exact replay.
+                owned.stop_progress.as_mut().unwrap().kill_attempted=true;
+                match owned.child.kill(){
+                    Ok(())=>{
+                        owned.exited=Some(exit_status(owned.child.wait()?)?);
+                        let observed=record_owned_exit(store,job,launch,owned,at)?;
+                        return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));
+                    }
+                    Err(error) if error.raw_os_error()==Some(libc::ESRCH)=>{
+                        if let Some(status)=owned.child.try_wait()?{owned.exited=Some(exit_status(status)?);}
+                        if owned.exited.is_some(){let observed=record_owned_exit(store,job,launch,owned,at)?;return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,observed));}
+                        return Ok(graceful_stop_reply(job,launch,stop_id,grace_ms,replay,owned,None));
+                    }
+                    Err(error)=>return Err(Error::Io(error)),
+                }
+            }
+            thread::sleep(Duration::from_millis(10).min(deadline.saturating_duration_since(Instant::now())));
+        }
+    }
     pub fn resume(&self,store:&Store,job:&str,launch:&str)->Result<Value>{
         validate_launch(store,job,launch)?;
         let view=store.resume_view(job)?;
@@ -191,17 +294,22 @@ impl LocalSupervisor {
             "SELECT id,at,payload FROM events WHERE id=?1 AND job_id=?2 AND kind='LOCAL_STOP_REQUESTED'",
             params![format!("local-stop:{job}"),job],|r|Ok((r.get(0)?,r.get(1)?,r.get(2)?))).optional()?;
         let stop=stop_row.map(|(event_id,recorded_at,payload)|->Result<Value>{
-            let parsed:LocalStopPayload=serde_json::from_str(&payload)
-                .map_err(|_|Error::Conflict("retained local stop payload is unsupported".into()))?;
-            if parsed.launch_id!=launch {
+            let plan=decode_stop_plan(&payload)?;
+            let (recorded_launch,stop_id)=match &plan{
+                LocalStopPlan::Force{launch_id,stop_id}|LocalStopPlan::Graceful{launch_id,stop_id,..}=>(launch_id,stop_id),
+            };
+            if recorded_launch!=launch {
                 return Err(Error::Conflict("retained local stop selector conflicts with requested launch".into()));
             }
-            super::check_id(&parsed.stop_id,"stop")?;
-            Ok(json!({
+            let mut result=json!({
                 "event_id":event_id,"kind":"LOCAL_STOP_REQUESTED","recorded_at":recorded_at,
                 "payload_sha256":format!("{:x}",Sha256::digest(payload.as_bytes())),
-                "launch_id":parsed.launch_id,"stop_id":parsed.stop_id
-            }))
+                "launch_id":recorded_launch,"stop_id":stop_id
+            });
+            if let LocalStopPlan::Graceful{grace_ms,..}=plan{
+                result["mode"]=json!("term_then_kill");result["grace_ms"]=json!(grace_ms);
+            }
+            Ok(result)
         }).transpose()?;
         let result=json!({"resume_view":view,"local_state":local_state,"stop":stop});
         if serde_json::to_vec(&result)?.len()>4096 {return Err(Error::Conflict("local resume result exceeds 4 KiB bound".into()));}
@@ -215,12 +323,37 @@ impl LocalSupervisor {
         Ok(json!({"finalization":result,"job_id":job,"launch_id":launch,"outcome":outcome}))
     }
 }
+fn record_owned_exit(store:&mut Store,job:&str,launch:&str,owned:&OwnedChild,at:i64)->Result<Option<ProcessExitStatus>>{
+    let (Some(process),Some(status))=(&owned.process,&owned.exited)else{return Ok(None)};
+    store.observe_launch_exit(job,launch,&LaunchExitObservation{process:process.clone(),status:status.clone()},at)?;
+    Ok(Some(status.clone()))
+}
+fn graceful_stop_reply(job:&str,launch:&str,stop_id:&str,grace_ms:u64,replayed:bool,owned:&OwnedChild,exit:Option<ProcessExitStatus>)->Value{
+    let mut reply=json!({"state":if exit.is_some(){"exit_observed"}else{"unknown"},"job_id":job,"launch_id":launch,
+        "stop_id":stop_id,"mode":"term_then_kill","grace_ms":grace_ms,"replayed":replayed});
+    if let Some(progress)=&owned.stop_progress{
+        reply["term_attempted"]=json!(progress.term_attempted);
+        reply["kill_attempted"]=json!(progress.kill_attempted);
+    }
+    if let Some(status)=exit{reply["exit"]=status_json(&status);}
+    reply
+}
 fn status_json(status:&ProcessExitStatus)->Value{match status{ProcessExitStatus::Code{code}=>json!({"code":code}),ProcessExitStatus::Signal{signal}=>json!({"signal":signal})}}
 
 impl Store {
     /// Persist one bounded stop request in the existing lifecycle event owner.
     pub fn record_local_stop(&mut self,job:&str,launch:&str,stop_id:&str,at:i64)->Result<bool>{
         super::check_id(job,"job")?;super::check_id(launch,"launch")?;super::check_id(stop_id,"stop")?;
+        let payload=json!({"launch_id":launch,"stop_id":stop_id});
+        self.record_local_stop_plan(job,launch,LocalStopPlan::Force{launch_id:launch.into(),stop_id:stop_id.into()},payload,at)
+    }
+    pub fn record_local_stop_graceful(&mut self,job:&str,launch:&str,stop_id:&str,grace_ms:u64,at:i64)->Result<bool>{
+        super::check_id(job,"job")?;super::check_id(launch,"launch")?;super::check_id(stop_id,"stop")?;
+        if !(1..=2000).contains(&grace_ms){return Err(Error::Invalid("grace_ms must be between 1 and 2000".into()));}
+        let payload=json!({"launch_id":launch,"stop_id":stop_id,"mode":"term_then_kill","grace_ms":grace_ms});
+        self.record_local_stop_plan(job,launch,LocalStopPlan::Graceful{launch_id:launch.into(),stop_id:stop_id.into(),grace_ms},payload,at)
+    }
+    fn record_local_stop_plan(&mut self,job:&str,launch:&str,plan:LocalStopPlan,payload:Value,at:i64)->Result<bool>{
         let tx=self.db.transaction_with_behavior(TransactionBehavior::Immediate)?;
         let row:Option<(String,Option<String>)>=tx.query_row("SELECT state,launch_id FROM jobs WHERE id=?1",[job],|r|Ok((r.get(0)?,r.get(1)?))).optional()?;
         let (state,stored_launch)=row.ok_or_else(||Error::Invalid("unknown job".into()))?;
@@ -229,14 +362,12 @@ impl Store {
         }
         let id=format!("local-stop:{job}");
         let prior:Option<(String,String)>=tx.query_row("SELECT kind,payload FROM events WHERE id=?1",[&id],|r|Ok((r.get(0)?,r.get(1)?))).optional()?;
-        let payload=json!({"launch_id":launch,"stop_id":stop_id});
         if let Some((kind,raw))=prior{
-            if kind=="LOCAL_STOP_REQUESTED" && serde_json::from_str::<Value>(&raw)?==payload {
-                tx.commit()?;return Ok(true);
-            }
-            return Err(Error::Conflict("stop request conflicts with prior stop selector".into()));
+            let prior_plan=decode_stop_plan(&raw)?;
+            if kind=="LOCAL_STOP_REQUESTED"&&prior_plan==plan{tx.commit()?;return Ok(true);}
+            return Err(Error::Conflict("stop request conflicts with prior stop plan".into()));
         }
-        if !matches!(state.as_str(),"LAUNCHING"|"RUNNING") {return Err(Error::Conflict(format!("stop forbidden from state {state}")));}
+        if !matches!(state.as_str(),"LAUNCHING"|"RUNNING"){return Err(Error::Conflict(format!("stop forbidden from state {state}")));}
         Self::log(&tx,&id,Some(job),"LOCAL_STOP_REQUESTED",at,payload)?;
         tx.commit()?;Ok(false)
     }
