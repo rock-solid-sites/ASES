@@ -55,6 +55,10 @@ workload isolation, behavior on other operating systems, remote-provider
 cancellation or accounting, hard wall-clock termination, or whole-machine
 power-loss behavior. The process and profile owner remain trusted premises.
 
-The build emitted two unused-import warnings in `src/local.rs`; they did not
-affect these passing tests. No independent review, CI run, merge or deployment
-was performed in this task.
+The captured build emitted two unused-import warnings in `src/local.rs`; they
+did not affect these passing tests. After capture, the adapter removed only
+those unused imports. The captured `src/local.rs` SHA-256 is
+`0a9655d11bf90f6fcd9bbc157e5a9128d3fb399033756fae4f095ef9bafe1833`; the
+current file is `4b57ef5d40cefe97ebaa88b44398d5190fa163438f3d50677e1b83e4e0b9006e`.
+That import-only cleanup was not retested in this task. No independent review,
+CI run, merge or deployment was performed here.
