@@ -176,7 +176,7 @@ fn cooperative_stop_fixed_worker() {
         assert_ne!(prior,libc::SIG_ERR,"SIGTERM ignore installation failed");
     } else {
         let mut action:libc::sigaction=unsafe{std::mem::zeroed()};
-        action.sa_sigaction=term_flag_only as libc::sighandler_t;
+        action.sa_sigaction=term_flag_only as *const () as libc::sighandler_t;
         action.sa_flags=0;
         unsafe{libc::sigemptyset(&mut action.sa_mask);assert_eq!(libc::sigaction(libc::SIGTERM,&action,std::ptr::null_mut()),0);}
     }
