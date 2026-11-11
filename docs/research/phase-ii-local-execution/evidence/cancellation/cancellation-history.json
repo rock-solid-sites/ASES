@@ -1,0 +1,576 @@
+{
+  "records": [
+    {
+      "cancel_request": {
+        "job_id": "cancel-first-job",
+        "op": "finalize",
+        "outcome": "cancelled"
+      },
+      "cancel_response": {
+        "ok": true,
+        "result": {
+          "finalization": "CLOSED"
+        }
+      },
+      "capacity_after_cancel": 0,
+      "events_after_cancel": [
+        {
+          "at": 1794404294,
+          "event_id": "cancel-first-job:reserved",
+          "job_id": "cancel-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancellation-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancellation-meter"
+                }
+              ],
+              "environment_id": "cancellation-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancellation-project"
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "cancel-first-job:ack:ack-cancel-first-job",
+          "job_id": "cancel-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-first-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "cancel-first-job:final:cancelled",
+          "job_id": "cancel-first-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "events_after_launch_attempt": [
+        {
+          "at": 1794404294,
+          "event_id": "cancel-first-job:reserved",
+          "job_id": "cancel-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancellation-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancellation-meter"
+                }
+              ],
+              "environment_id": "cancellation-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancellation-project"
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "cancel-first-job:ack:ack-cancel-first-job",
+          "job_id": "cancel-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-first-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "cancel-first-job:final:cancelled",
+          "job_id": "cancel-first-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794404294,
+          "event_id": "cancel-first-job:reserved",
+          "job_id": "cancel-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancellation-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancellation-meter"
+                }
+              ],
+              "environment_id": "cancellation-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancellation-project"
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "cancel-first-job:ack:ack-cancel-first-job",
+          "job_id": "cancel-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-first-job",
+            "catalog_version": 3
+          }
+        }
+      ],
+      "launch_request": {
+        "expected_catalog": 3,
+        "job_id": "cancel-first-job",
+        "launch_id": "cancel-first-launch",
+        "op": "local_launch"
+      },
+      "launch_response": {
+        "error": "conflict: launch forbidden from state CLOSED",
+        "ok": false
+      },
+      "phase": "cancel-first",
+      "worker_count": 0
+    },
+    {
+      "capacity_after_finalize": 0,
+      "capacity_held": 50,
+      "events_after_cancel": [
+        {
+          "at": 1794404294,
+          "event_id": "launch-first-job:reserved",
+          "job_id": "launch-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancellation-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancellation-meter"
+                }
+              ],
+              "environment_id": "cancellation-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "launch-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancellation-project"
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-first-job:ack:ack-launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-launch-first-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-intent:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "launch-first-launch"
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-observation:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "launch-first-launch",
+            "process": {
+              "pid": 6515,
+              "start_token": "183066"
+            }
+          }
+        }
+      ],
+      "events_before_cancel": [
+        {
+          "at": 1794404294,
+          "event_id": "launch-first-job:reserved",
+          "job_id": "launch-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancellation-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancellation-meter"
+                }
+              ],
+              "environment_id": "cancellation-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "launch-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancellation-project"
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-first-job:ack:ack-launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-launch-first-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-intent:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "launch-first-launch"
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-observation:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "launch-first-launch",
+            "process": {
+              "pid": 6515,
+              "start_token": "183066"
+            }
+          }
+        }
+      ],
+      "events_final": [
+        {
+          "at": 1794404294,
+          "event_id": "launch-first-job:reserved",
+          "job_id": "launch-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancellation-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancellation-meter"
+                }
+              ],
+              "environment_id": "cancellation-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "launch-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancellation-project"
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-first-job:ack:ack-launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-launch-first-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-intent:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "launch-first-launch"
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-observation:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "launch-first-launch",
+            "process": {
+              "pid": 6515,
+              "start_token": "183066"
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "local-stop:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "launch_id": "launch-first-launch",
+            "stop_id": "launch-first-stop"
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-exit:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "launch-first-launch",
+            "process": {
+              "pid": 6515,
+              "start_token": "183066"
+            },
+            "status": {
+              "kind": "signal",
+              "signal": 9
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-first-job:final:cancelled",
+          "job_id": "launch-first-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "explicit_finalize_request": {
+        "job_id": "launch-first-job",
+        "launch_id": "launch-first-launch",
+        "op": "local_finalize",
+        "outcome": "cancelled"
+      },
+      "explicit_finalize_response": {
+        "ok": true,
+        "result": {
+          "finalization": "CLOSED",
+          "job_id": "launch-first-job",
+          "launch_id": "launch-first-launch",
+          "outcome": "cancelled"
+        }
+      },
+      "generic_cancel_request": {
+        "job_id": "launch-first-job",
+        "op": "finalize",
+        "outcome": "cancelled"
+      },
+      "generic_cancel_response": {
+        "error": "controller rejected authorized request: {\"error\":\"conflict: intent-backed running job requires observed process exit before finalization\",\"ok\":false}\n",
+        "ok": false
+      },
+      "launch_request": {
+        "expected_catalog": 3,
+        "job_id": "launch-first-job",
+        "launch_id": "launch-first-launch",
+        "op": "local_launch"
+      },
+      "launch_response": {
+        "ok": true,
+        "result": {
+          "job_id": "launch-first-job",
+          "launch_id": "launch-first-launch",
+          "state": "running"
+        }
+      },
+      "phase": "launch-first",
+      "stop_request": {
+        "job_id": "launch-first-job",
+        "launch_id": "launch-first-launch",
+        "op": "local_stop",
+        "stop_id": "launch-first-stop"
+      },
+      "stop_response": {
+        "ok": true,
+        "result": {
+          "exit": {
+            "signal": 9
+          },
+          "job_id": "launch-first-job",
+          "launch_id": "launch-first-launch",
+          "replayed": false,
+          "state": "exit_observed",
+          "stop_id": "launch-first-stop"
+        }
+      },
+      "worker": {
+        "pid": 6515,
+        "start_token": "183066"
+      },
+      "worker_alive_after_block": true
+    },
+    {
+      "cancel_request": {
+        "job_id": "racing-job",
+        "op": "finalize",
+        "outcome": "cancelled"
+      },
+      "cancel_response": {
+        "error": "controller rejected authorized request: {\"error\":\"conflict: intent-backed running job requires observed process exit before finalization\",\"ok\":false}\n",
+        "ok": false
+      },
+      "capacity_after_cleanup": 0,
+      "capacity_held_before_cleanup": 50,
+      "cleanup_finalize": {
+        "ok": true,
+        "result": {
+          "finalization": "CLOSED",
+          "job_id": "racing-job",
+          "launch_id": "racing-launch",
+          "outcome": "cancelled"
+        }
+      },
+      "cleanup_stop": {
+        "ok": true,
+        "result": {
+          "exit": {
+            "signal": 9
+          },
+          "job_id": "racing-job",
+          "launch_id": "racing-launch",
+          "replayed": false,
+          "state": "exit_observed",
+          "stop_id": "race-cleanup-stop"
+        }
+      },
+      "events_before_cleanup": [
+        {
+          "at": 1794404294,
+          "event_id": "racing-job:reserved",
+          "job_id": "racing-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancellation-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancellation-meter"
+                }
+              ],
+              "environment_id": "cancellation-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "racing-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancellation-project"
+            }
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "racing-job:ack:ack-racing-job",
+          "job_id": "racing-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-racing-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-intent:racing-job",
+          "job_id": "racing-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "racing-launch"
+          }
+        },
+        {
+          "at": 1794404294,
+          "event_id": "launch-observation:racing-job",
+          "job_id": "racing-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "racing-launch",
+            "process": {
+              "pid": 6523,
+              "start_token": "183070"
+            }
+          }
+        }
+      ],
+      "launch_request": {
+        "expected_catalog": 3,
+        "job_id": "racing-job",
+        "launch_id": "racing-launch",
+        "op": "local_launch"
+      },
+      "launch_response": {
+        "ok": true,
+        "result": {
+          "job_id": "racing-job",
+          "launch_id": "racing-launch",
+          "state": "running"
+        }
+      },
+      "outcome": "launch-linearized-first",
+      "phase": "simultaneous-race",
+      "worker": {
+        "pid": 6523,
+        "start_token": "183070"
+      }
+    }
+  ],
+  "source_sha256": {
+    "../docs/research/phase-ii-local-execution/CANCELLATION.md": "348e5b63f1c8eb552b7602e20c4559d4c25998aee06862c8c194cf820dd3b746",
+    "src/bin/resource-gateway.rs": "d15c31ac194993765a1327a755aed60797afeeb5bab5645db80774835053175f",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "02d20614355fd256b2e17708bbf39d961c8ee74011d494dca1952be54a0100f6",
+    "src/main.rs": "f92f0bfa773a0088dac95d229a5a2cb0790d58170131a22c35d160495b87213b",
+    "tests/native_local_cancellation.rs": "0762f63149b0f9b13ad8d79fbb8208f1028dd1796e6e65ef2263136e857a5ff9"
+  }
+}
