@@ -40,6 +40,11 @@ impl LocalProfile {
         }
         Ok(())
     }
+    pub fn check_job_scope(&self,store:&Store,job:&str)->Result<()> {
+        self.validate()?;
+        let record=store.job(job)?;
+        validate_profile_scope(self,&record)
+    }
 }
 
 #[derive(Debug)]
@@ -83,8 +88,7 @@ fn validate_profile_scope(profile:&LocalProfile,job:&Value)->Result<()> {
 impl LocalSupervisor {
     pub fn launch(&mut self,store:&mut Store,profile:&LocalProfile,job:&str,launch:&str,expected_catalog:i64,at:i64)->Result<Value>{
         profile.validate()?;
-        let before=store.job(job)?;
-        validate_profile_scope(profile,&before)?;
+        profile.check_job_scope(store,job)?;
         match store.begin_launch(job,launch,expected_catalog,at)? {
             BeginLaunchResult::DispatchGranted(grant)=>{
                 if grant.job_id()!=job || grant.launch_id()!=launch {return Err(Error::Conflict("dispatch grant identity mismatch".into()));}
@@ -150,8 +154,10 @@ impl LocalSupervisor {
             let observation=LaunchExitObservation{process:process.clone(),status:status.clone()};
             store.observe_launch_exit(job,launch,&observation,at)?;
             Ok(json!({"state":"exit_observed","job_id":job,"launch_id":launch,"exit":status_json(status)}))
-        } else {
+        } else if owned.started_recorded && owned.process.is_some() {
             Ok(json!({"state":"running","job_id":job,"launch_id":launch,"exit":null}))
+        } else {
+            Ok(json!({"state":"unknown","job_id":job,"launch_id":launch,"exit":null}))
         }
     }
     pub fn stop(&mut self,store:&mut Store,job:&str,launch:&str,stop_id:&str,at:i64)->Result<Value>{

@@ -46,11 +46,11 @@ fn local_operation(message:&Value,store:&mut Store,profile:Option<&LocalProfile>
     let op=message.get("op").and_then(Value::as_str).ok_or("operation missing")?;
     let profile=profile.ok_or("local profile is not configured")?;
     Ok(match op{
-        "local_launch"=>{let r:LocalLaunch=serde_json::from_value(message.clone())?;if r.op!="local_launch"{return Err("operation mismatch".into());}json!({"result":supervisor.launch(store,profile,&r.job_id,&r.launch_id,r.expected_catalog,now())?})},
-        "local_poll"=>{let r:LocalJob=serde_json::from_value(message.clone())?;if r.op!="local_poll"{return Err("operation mismatch".into());}json!({"result":supervisor.poll(store,&r.job_id,&r.launch_id,now())?})},
-        "local_stop"=>{let r:LocalStop=serde_json::from_value(message.clone())?;if r.op!="local_stop"{return Err("operation mismatch".into());}json!({"result":supervisor.stop(store,&r.job_id,&r.launch_id,&r.stop_id,now())?})},
-        "local_resume"=>{let r:LocalJob=serde_json::from_value(message.clone())?;if r.op!="local_resume"{return Err("operation mismatch".into());}json!({"result":supervisor.resume(store,&r.job_id,&r.launch_id)?})},
-        "local_finalize"=>{let r:LocalFinalize=serde_json::from_value(message.clone())?;if r.op!="local_finalize"{return Err("operation mismatch".into());}json!({"result":supervisor.finalize(store,&r.job_id,&r.launch_id,&r.outcome,now())?})},
+        "local_launch"=>{let r:LocalLaunch=serde_json::from_value(message.clone())?;if r.op!="local_launch"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":supervisor.launch(store,profile,&r.job_id,&r.launch_id,r.expected_catalog,now())?})},
+        "local_poll"=>{let r:LocalJob=serde_json::from_value(message.clone())?;if r.op!="local_poll"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":supervisor.poll(store,&r.job_id,&r.launch_id,now())?})},
+        "local_stop"=>{let r:LocalStop=serde_json::from_value(message.clone())?;if r.op!="local_stop"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":supervisor.stop(store,&r.job_id,&r.launch_id,&r.stop_id,now())?})},
+        "local_resume"=>{let r:LocalJob=serde_json::from_value(message.clone())?;if r.op!="local_resume"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":supervisor.resume(store,&r.job_id,&r.launch_id)?})},
+        "local_finalize"=>{let r:LocalFinalize=serde_json::from_value(message.clone())?;if r.op!="local_finalize"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":supervisor.finalize(store,&r.job_id,&r.launch_id,&r.outcome,now())?})},
         _=>return Err("unknown local operation".into()),
     })
 }
