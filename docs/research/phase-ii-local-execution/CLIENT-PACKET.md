@@ -19,7 +19,9 @@ stdlib permits, <=8KiB response, finite read/write timeouts, request then write
 shutdown (gateway reads to EOF). Successful structured replies go to stdout.
 An interrupted transport or malformed/truncated reply must emit a bounded
 machine-readable `outcome_unknown` diagnostic, return nonzero and never retry
-an effect automatically. A server-declared refusal remains a distinct refusal.
+an effect automatically. A received untyped server error remains a distinct `server_error`; it does not
+prove the request had no effect, because an error can follow durable intent or
+spawn. Explicit resume is required for recovery.
 Invalid CLI input is rejected before any connection. Do not imply a failed
 request had no effect merely because the response was lost.
 
