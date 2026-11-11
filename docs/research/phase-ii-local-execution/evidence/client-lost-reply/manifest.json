@@ -1,0 +1,42 @@
+{
+  "workdir": "/workspace/ases-local-execution/resource-control",
+  "command": "ASES_LOCAL_CLIENT_LOST_REPLY_EVIDENCE_DIR=/workspace/ases-local-execution/docs/research/phase-ii-local-execution/evidence/client-lost-reply CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --test native_session_client actual_client_loses_accepted_launch_reply_then_recovers_without_redispatch -- --exact --nocapture",
+  "result": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 2
+  },
+  "commit": "5d17b9e8312aee8ba6fd1c93b61ebb76f602b0ac",
+  "source_sha256": {
+    "resource-control/src/bin/resource-session.rs": "de9a1031954bd15a7d6de81979b9c408f870b7ba26e2200da3c2e409cb6ff68a",
+    "resource-control/src/bin/resource-gateway.rs": "d15c31ac194993765a1327a755aed60797afeeb5bab5645db80774835053175f",
+    "resource-control/src/local.rs": "02d20614355fd256b2e17708bbf39d961c8ee74011d494dca1952be54a0100f6",
+    "resource-control/src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "resource-control/tests/native_session_client.rs": "113befd95e4d3dc798cde60071fcc19ff5acf58592f5e9e3caf92863ee372c1c"
+  },
+  "history_sha256": "76a096d48d45ec9b9ab3bc97a908122df7eeacc03108e1f502fe430d9a250a1d",
+  "actual_client_status": 4,
+  "actual_client_outcome": "outcome_unknown",
+  "proxy_forward_count": 1,
+  "additional_client_connections": 0,
+  "actual_gateway_reply": {
+    "ok": true,
+    "result": {
+      "job_id": "session-lost-reply-job",
+      "launch_id": "session-lost-reply-launch",
+      "state": "running"
+    }
+  },
+  "worker_launch_count": 1,
+  "durable_start_observation_count": 1,
+  "held_reservation_before_finalize": 50,
+  "held_reservation_after_finalize": 0,
+  "what_not_tested": [
+    "hostile same-UID proxy",
+    "remote provider",
+    "whole-host power loss",
+    "arbitrary executable delegation",
+    "client automatic retry"
+  ]
+}
