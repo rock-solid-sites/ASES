@@ -9,7 +9,6 @@ use sha2::{Digest, Sha256};
 use std::fs::{self, OpenOptions};
 use std::io::{Read, Write};
 use std::os::unix::net::UnixStream;
-use std::os::unix::process::ExitStatusExt;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Output, Stdio};
 use std::sync::{Arc, Barrier};
@@ -306,7 +305,7 @@ fn preflight_then_old_local_finalize_is_refused_without_mutation() {
     assert_eq!(balance(&db), held_after_preflight);
     assert!(worker_rows(&marker).is_empty());
 
-    persist("preflight-old-local-finalize-gap.json", json!({
+    persist("preflight-old-local-finalize-gap-after-implementation.json", json!({
         "source_sha256":source_hashes(), "missing_program":missing_program,
         "launch_request":launch_request,"preflight_reply":launch_reply,
         "events_after_preflight":events_after_preflight,"balances_after_preflight":held_after_preflight,
@@ -519,7 +518,8 @@ fn launched_live_exited_and_closed_jobs_refuse_unlaunched_cancel_unchanged() {
         let refused = gateway.send(&cancel("exited-cancel-refusal"));
         assert_eq!(refused["ok"], false);
         assert_eq!(events(&db, "exited-cancel-refusal"), before);
-        assert_eq!(job(&db, "exited-cancel-refusal")["state"], "EXIT_OBSERVED");
+        assert_eq!(job(&db, "exited-cancel-refusal")["state"], "RUNNING");
+        assert!(before.iter().any(|event| event["kind"] == "LAUNCH_EXIT_OBSERVED"));
         assert_eq!(balance(&db), balances_before);
         let finish = gateway.send(&json!({"op":"local_finalize","job_id":"exited-cancel-refusal","launch_id":"exited-launch","outcome":"completed"}));
         assert_eq!(finish["ok"], true);
@@ -701,6 +701,7 @@ fn two_gateway_launch_cancel_orders_and_race_have_only_observed_outcomes() {
         barrier.wait();
         let launch_reply = launch_thread.join().unwrap();
         let cancel_reply = cancel_thread.join().unwrap();
+        if launch_reply["ok"] == true { wait_for(&marker); }
         let final_job = job(&db, "concurrent-race-job");
         let final_events = events(&db, "concurrent-race-job");
         let workers = worker_rows(&marker);

@@ -1,0 +1,85 @@
+{
+  "balances_before": [
+    {
+      "account": "unlaunched-cancel-account",
+      "active_reserved_remaining": 0,
+      "available": 100,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "unlaunched-cancel-meter",
+      "period": "unlaunched-cancel-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "cancel_reply": {
+    "error": "conflict: unlaunched cancellation forbidden from state EXPIRED",
+    "ok": false
+  },
+  "cancel_request": {
+    "job_id": "expired-cancel-refusal",
+    "op": "local_cancel_unlaunched"
+  },
+  "events_before": [
+    {
+      "at": 1794512517,
+      "event_id": "expired-cancel-refusal:reserved",
+      "job_id": "expired-cancel-refusal",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "unlaunched-cancel-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "unlaunched-cancel-meter"
+            }
+          ],
+          "environment_id": "unlaunched-cancel-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "expired-cancel-refusal",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "unlaunched-cancel-project"
+        }
+      }
+    },
+    {
+      "at": 1794612517,
+      "event_id": "expired-cancel-refusal:expired",
+      "job_id": "expired-cancel-refusal",
+      "kind": "EXPIRED",
+      "payload": {}
+    }
+  ],
+  "source_sha256": {
+    "binary:ases-resource-control": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/ases-resource-control",
+      "sha256": "830dc9c96f277cbd186031cb740d0c06a34324f17fd7c98a6a112bfe22511de3"
+    },
+    "binary:native_unlaunched_cancel_test": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_unlaunched_cancel-4b7cc3ed25f6b748",
+      "sha256": "1264c16ee82aeac548127fe8a16b07e83e9374d4d859b105951b28b6d06d8362"
+    },
+    "binary:resource-gateway": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/resource-gateway",
+      "sha256": "b268261787035eb05c17b5d5832c9cdfd9c0ae5789d91acfd0bb524b827c8caa"
+    },
+    "binary:resource-session": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/resource-session",
+      "sha256": "1d56606a4522dd61561c8d2c5b157f1c93d61ea700e1c6b19c40e15159545fb5"
+    },
+    "src/bin/resource-gateway.rs": "e80d45e29a6f7dbeb3a7317c77e480b3ba1e235ea5a66fa2851d858e68ae5c18",
+    "src/lib.rs": "03dec127c00f14112318b86ce25aa7fa3a330aa7367d1f777ea32aa068ddcd5b",
+    "src/local.rs": "98bfbc35f37313b1f98b5b69487f06be2301f9ad4100f9c15ea3e8ed69a14ae6",
+    "src/main.rs": "f92f0bfa773a0088dac95d229a5a2cb0790d58170131a22c35d160495b87213b",
+    "tests/native_unlaunched_cancel.rs": "800f111d8bbe1d1b072c8eb378c59af9c639ced5d722e6066aff11716319fdcc"
+  }
+}
