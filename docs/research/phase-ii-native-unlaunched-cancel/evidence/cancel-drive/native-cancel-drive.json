@@ -1,0 +1,1323 @@
+{
+  "histories": {
+    "changed_selector_received_server_error_no_retry": {
+      "additional_connections": 0,
+      "events_after": [
+        {
+          "at": 1794512716,
+          "event_id": "cancel-selector-job:reserved",
+          "job_id": "cancel-selector-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-selector-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "cancel-selector-job:ack:ack-cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-selector-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-intent:cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-selector-launch"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-observation:cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-selector-launch",
+            "process": {
+              "pid": 29943,
+              "start_token": "5146648"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "local-stop:cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 600,
+            "launch_id": "cancel-selector-launch",
+            "mode": "term_then_kill",
+            "stop_id": "original-selector"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-exit:cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-selector-launch",
+            "process": {
+              "pid": 29943,
+              "start_token": "5146648"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794512716,
+          "event_id": "cancel-selector-job:reserved",
+          "job_id": "cancel-selector-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-selector-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "cancel-selector-job:ack:ack-cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-selector-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-intent:cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-selector-launch"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-observation:cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-selector-launch",
+            "process": {
+              "pid": 29943,
+              "start_token": "5146648"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "local-stop:cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 600,
+            "launch_id": "cancel-selector-launch",
+            "mode": "term_then_kill",
+            "stop_id": "original-selector"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-exit:cancel-selector-job",
+          "job_id": "cancel-selector-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-selector-launch",
+            "process": {
+              "pid": 29943,
+              "start_token": "5146648"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        }
+      ],
+      "output": "{\"action\":\"cancel\",\"client_reply\":{\"error\":\"conflict: stop request conflicts with prior stop plan\",\"ok\":false},\"client_status\":3,\"exit_observation\":null,\"finalization\":null,\"grace_ms\":600,\"job_id\":\"cancel-selector-job\",\"last_action\":\"stop-graceful\",\"launch_id\":\"cancel-selector-launch\",\"mode\":\"term_then_kill\",\"ok\":false,\"outcome\":\"recovery_needed\",\"phase\":\"stop-graceful\",\"reason\":\"server_error\",\"selected_outcome\":\"cancelled\",\"stop_id\":\"changed-selector\",\"stop_response\":{\"error\":\"conflict: stop request conflicts with prior stop plan\",\"ok\":false}}\n",
+      "request_reply": {
+        "reply": {
+          "error": "conflict: stop request conflicts with prior stop plan",
+          "ok": false
+        },
+        "request": {
+          "grace_ms": 600,
+          "job_id": "cancel-selector-job",
+          "launch_id": "cancel-selector-launch",
+          "op": "local_stop_graceful",
+          "stop_id": "changed-selector"
+        }
+      },
+      "test_cleanup_finalize": "{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"cancel-selector-job\",\"launch_id\":\"cancel-selector-launch\",\"outcome\":\"cancelled\"}}\n"
+    },
+    "cold_controller_unknown_no_adoption_finalize_dispatch": {
+      "balances": [
+        {
+          "account": "cancel-drive-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cancel-drive-meter",
+          "period": "cancel-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "blocked_finalize": "{\"error\":\"conflict: intent-backed running job requires observed process exit before finalization\",\"ok\":false}\n",
+      "driver_output": "{\"action\":\"cancel\",\"client_reply\":{\"ok\":true,\"result\":{\"grace_ms\":600,\"job_id\":\"cancel-cold-job\",\"launch_id\":\"cancel-cold-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"unknown\",\"stop_id\":\"cold-stop\"}},\"client_status\":0,\"exit_observation\":null,\"finalization\":null,\"grace_ms\":600,\"job_id\":\"cancel-cold-job\",\"last_action\":\"stop-graceful\",\"launch_id\":\"cancel-cold-launch\",\"mode\":\"term_then_kill\",\"ok\":false,\"outcome\":\"recovery_needed\",\"phase\":\"stop-graceful\",\"reason\":\"unknown_custody\",\"selected_outcome\":\"cancelled\",\"stop_id\":\"cold-stop\",\"stop_response\":{\"ok\":true,\"result\":{\"grace_ms\":600,\"job_id\":\"cancel-cold-job\",\"launch_id\":\"cancel-cold-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"unknown\",\"stop_id\":\"cold-stop\"}}}\n",
+      "events_after": [
+        {
+          "at": 1794512716,
+          "event_id": "cancel-cold-job:reserved",
+          "job_id": "cancel-cold-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-cold-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "cancel-cold-job:ack:ack-cancel-cold-job",
+          "job_id": "cancel-cold-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-cold-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-intent:cancel-cold-job",
+          "job_id": "cancel-cold-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-cold-launch"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-observation:cancel-cold-job",
+          "job_id": "cancel-cold-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-cold-launch",
+            "process": {
+              "pid": 29933,
+              "start_token": "5146643"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "local-stop:cancel-cold-job",
+          "job_id": "cancel-cold-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 600,
+            "launch_id": "cancel-cold-launch",
+            "mode": "term_then_kill",
+            "stop_id": "cold-stop"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794512716,
+          "event_id": "cancel-cold-job:reserved",
+          "job_id": "cancel-cold-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-cold-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "cancel-cold-job:ack:ack-cancel-cold-job",
+          "job_id": "cancel-cold-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-cold-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-intent:cancel-cold-job",
+          "job_id": "cancel-cold-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-cold-launch"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-observation:cancel-cold-job",
+          "job_id": "cancel-cold-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-cold-launch",
+            "process": {
+              "pid": 29933,
+              "start_token": "5146643"
+            }
+          }
+        }
+      ],
+      "worker_markers": {
+        "cleanup": false,
+        "exit_after_release": true,
+        "start": [
+          {
+            "mode": "cooperative",
+            "pid": 29933,
+            "start_token": "5146643"
+          }
+        ],
+        "term": false
+      }
+    },
+    "cooperative_cleanup_then_cancelled_finalize": {
+      "balances_after": [
+        {
+          "account": "cancel-drive-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cancel-drive-meter",
+          "period": "cancel-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "command": [
+        "resource-drive",
+        "cancel",
+        "/tmp/.tmpgqsAAE/cooperative/gateway.sock",
+        "cancel-coop-job",
+        "cancel-coop-launch",
+        "coop-stop",
+        "700"
+      ],
+      "events_after": [
+        {
+          "at": 1794512714,
+          "event_id": "cancel-coop-job:reserved",
+          "job_id": "cancel-coop-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-coop-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512714,
+          "event_id": "cancel-coop-job:ack:ack-cancel-coop-job",
+          "job_id": "cancel-coop-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-coop-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512714,
+          "event_id": "launch-intent:cancel-coop-job",
+          "job_id": "cancel-coop-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-coop-launch"
+          }
+        },
+        {
+          "at": 1794512714,
+          "event_id": "launch-observation:cancel-coop-job",
+          "job_id": "cancel-coop-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-coop-launch",
+            "process": {
+              "pid": 29867,
+              "start_token": "5146460"
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "local-stop:cancel-coop-job",
+          "job_id": "cancel-coop-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 700,
+            "launch_id": "cancel-coop-launch",
+            "mode": "term_then_kill",
+            "stop_id": "coop-stop"
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-exit:cancel-coop-job",
+          "job_id": "cancel-coop-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-coop-launch",
+            "process": {
+              "pid": 29867,
+              "start_token": "5146460"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "cancel-coop-job:final:cancelled",
+          "job_id": "cancel-coop-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794512714,
+          "event_id": "cancel-coop-job:reserved",
+          "job_id": "cancel-coop-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-coop-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512714,
+          "event_id": "cancel-coop-job:ack:ack-cancel-coop-job",
+          "job_id": "cancel-coop-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-coop-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512714,
+          "event_id": "launch-intent:cancel-coop-job",
+          "job_id": "cancel-coop-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-coop-launch"
+          }
+        },
+        {
+          "at": 1794512714,
+          "event_id": "launch-observation:cancel-coop-job",
+          "job_id": "cancel-coop-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-coop-launch",
+            "process": {
+              "pid": 29867,
+              "start_token": "5146460"
+            }
+          }
+        }
+      ],
+      "output": {
+        "status": 0,
+        "stderr": "",
+        "stdout": "{\"action\":\"cancel\",\"exit_observation\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":700,\"job_id\":\"cancel-coop-job\",\"kill_attempted\":false,\"launch_id\":\"cancel-coop-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"coop-stop\",\"term_attempted\":true}},\"finalization\":{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"cancel-coop-job\",\"launch_id\":\"cancel-coop-launch\",\"outcome\":\"cancelled\"}},\"finalize_client_status\":0,\"grace_ms\":700,\"job_id\":\"cancel-coop-job\",\"launch_id\":\"cancel-coop-launch\",\"mode\":\"term_then_kill\",\"ok\":true,\"outcome\":\"finalized\",\"selected_outcome\":\"cancelled\",\"stop_client_status\":0,\"stop_id\":\"coop-stop\",\"stop_response\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":700,\"job_id\":\"cancel-coop-job\",\"kill_attempted\":false,\"launch_id\":\"cancel-coop-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"coop-stop\",\"term_attempted\":true}}}\n"
+      },
+      "worker_markers": {
+        "cleanup": true,
+        "exit": true,
+        "start": [
+          {
+            "mode": "cooperative",
+            "pid": 29867,
+            "start_token": "5146460"
+          }
+        ],
+        "term": true
+      }
+    },
+    "forwarded_finalize_reply_lost_closed_no_retry": {
+      "additional_connections": 0,
+      "balances_after": [
+        {
+          "account": "cancel-drive-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cancel-drive-meter",
+          "period": "cancel-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "driver_output": "{\"action\":\"cancel\",\"client_reply\":{\"error\":\"response was empty, malformed, or truncated\",\"ok\":false,\"outcome\":\"outcome_unknown\"},\"client_status\":4,\"exit_observation\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":600,\"job_id\":\"cancel-final-loss-job\",\"kill_attempted\":false,\"launch_id\":\"cancel-final-loss-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"lost-final\",\"term_attempted\":true}},\"finalization\":{\"error\":\"response was empty, malformed, or truncated\",\"ok\":false,\"outcome\":\"outcome_unknown\"},\"grace_ms\":600,\"job_id\":\"cancel-final-loss-job\",\"last_action\":\"finalize\",\"launch_id\":\"cancel-final-loss-launch\",\"mode\":\"term_then_kill\",\"ok\":false,\"outcome\":\"recovery_needed\",\"phase\":\"finalize\",\"reason\":\"client_outcome_unknown\",\"selected_outcome\":\"cancelled\",\"stop_id\":\"lost-final\",\"stop_response\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":600,\"job_id\":\"cancel-final-loss-job\",\"kill_attempted\":false,\"launch_id\":\"cancel-final-loss-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"lost-final\",\"term_attempted\":true}}}\n",
+      "events_after": [
+        {
+          "at": 1794512716,
+          "event_id": "cancel-final-loss-job:reserved",
+          "job_id": "cancel-final-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-final-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "cancel-final-loss-job:ack:ack-cancel-final-loss-job",
+          "job_id": "cancel-final-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-final-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-intent:cancel-final-loss-job",
+          "job_id": "cancel-final-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-final-loss-launch"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-observation:cancel-final-loss-job",
+          "job_id": "cancel-final-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-final-loss-launch",
+            "process": {
+              "pid": 29909,
+              "start_token": "5146568"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "local-stop:cancel-final-loss-job",
+          "job_id": "cancel-final-loss-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 600,
+            "launch_id": "cancel-final-loss-launch",
+            "mode": "term_then_kill",
+            "stop_id": "lost-final"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-exit:cancel-final-loss-job",
+          "job_id": "cancel-final-loss-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-final-loss-launch",
+            "process": {
+              "pid": 29909,
+              "start_token": "5146568"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "cancel-final-loss-job:final:cancelled",
+          "job_id": "cancel-final-loss-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "proxy_exchange": {
+        "gateway_reply": {
+          "ok": true,
+          "result": {
+            "finalization": "CLOSED",
+            "job_id": "cancel-final-loss-job",
+            "launch_id": "cancel-final-loss-launch",
+            "outcome": "cancelled"
+          }
+        },
+        "request": {
+          "job_id": "cancel-final-loss-job",
+          "launch_id": "cancel-final-loss-launch",
+          "op": "local_finalize",
+          "outcome": "cancelled"
+        }
+      }
+    },
+    "forwarded_stop_reply_lost_no_finalize": {
+      "additional_connections": 0,
+      "balances_before_test_cleanup": [
+        {
+          "account": "cancel-drive-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cancel-drive-meter",
+          "period": "cancel-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "driver_output": "{\"action\":\"cancel\",\"client_reply\":{\"error\":\"response was empty, malformed, or truncated\",\"ok\":false,\"outcome\":\"outcome_unknown\"},\"client_status\":4,\"exit_observation\":null,\"finalization\":null,\"grace_ms\":600,\"job_id\":\"cancel-stop-loss-job\",\"last_action\":\"stop-graceful\",\"launch_id\":\"cancel-stop-loss-launch\",\"mode\":\"term_then_kill\",\"ok\":false,\"outcome\":\"recovery_needed\",\"phase\":\"stop-graceful\",\"reason\":\"client_outcome_unknown\",\"selected_outcome\":\"cancelled\",\"stop_id\":\"lost-stop\",\"stop_response\":{\"error\":\"response was empty, malformed, or truncated\",\"ok\":false,\"outcome\":\"outcome_unknown\"}}\n",
+      "events_before_test_cleanup": [
+        {
+          "at": 1794512715,
+          "event_id": "cancel-stop-loss-job:reserved",
+          "job_id": "cancel-stop-loss-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-stop-loss-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "cancel-stop-loss-job:ack:ack-cancel-stop-loss-job",
+          "job_id": "cancel-stop-loss-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-stop-loss-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-intent:cancel-stop-loss-job",
+          "job_id": "cancel-stop-loss-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-stop-loss-launch"
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-observation:cancel-stop-loss-job",
+          "job_id": "cancel-stop-loss-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-stop-loss-launch",
+            "process": {
+              "pid": 29889,
+              "start_token": "5146494"
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "local-stop:cancel-stop-loss-job",
+          "job_id": "cancel-stop-loss-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 600,
+            "launch_id": "cancel-stop-loss-launch",
+            "mode": "term_then_kill",
+            "stop_id": "lost-stop"
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-exit:cancel-stop-loss-job",
+          "job_id": "cancel-stop-loss-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-stop-loss-launch",
+            "process": {
+              "pid": 29889,
+              "start_token": "5146494"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        }
+      ],
+      "proxy_exchange": {
+        "gateway_reply": {
+          "ok": true,
+          "result": {
+            "exit": {
+              "code": 0
+            },
+            "grace_ms": 600,
+            "job_id": "cancel-stop-loss-job",
+            "kill_attempted": false,
+            "launch_id": "cancel-stop-loss-launch",
+            "mode": "term_then_kill",
+            "replayed": false,
+            "state": "exit_observed",
+            "stop_id": "lost-stop",
+            "term_attempted": true
+          }
+        },
+        "request": {
+          "grace_ms": 600,
+          "job_id": "cancel-stop-loss-job",
+          "launch_id": "cancel-stop-loss-launch",
+          "op": "local_stop_graceful",
+          "stop_id": "lost-stop"
+        }
+      },
+      "test_cleanup_finalize": "{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"cancel-stop-loss-job\",\"launch_id\":\"cancel-stop-loss-launch\",\"outcome\":\"cancelled\"}}\n"
+    },
+    "invalid_input_preconnect": {
+      "accepted_connections": 0,
+      "argv": [
+        "cancel",
+        "/tmp/.tmpgqsAAE/invalid/count-invalid.sock",
+        "valid-job",
+        "valid-launch",
+        "valid-stop",
+        "0"
+      ],
+      "output": "{\"error\":\"GRACE_MS must be an integer from 1 through 2000\",\"ok\":false,\"outcome\":\"invalid_input\"}\n"
+    },
+    "mutated_finalize_outcome_rejected_after_actual_commit": {
+      "additional_connections": 0,
+      "balances_after": [
+        {
+          "account": "cancel-drive-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cancel-drive-meter",
+          "period": "cancel-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "driver_output": "{\"action\":\"cancel\",\"client_reply\":{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"cancel-final-mutate-job\",\"launch_id\":\"cancel-final-mutate-launch\",\"outcome\":\"mutated-outcome\"}},\"client_status\":0,\"exit_observation\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":600,\"job_id\":\"cancel-final-mutate-job\",\"kill_attempted\":false,\"launch_id\":\"cancel-final-mutate-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"final-bound\",\"term_attempted\":true}},\"finalization\":{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"cancel-final-mutate-job\",\"launch_id\":\"cancel-final-mutate-launch\",\"outcome\":\"mutated-outcome\"}},\"grace_ms\":600,\"job_id\":\"cancel-final-mutate-job\",\"last_action\":\"finalize\",\"launch_id\":\"cancel-final-mutate-launch\",\"mode\":\"term_then_kill\",\"ok\":false,\"outcome\":\"recovery_needed\",\"phase\":\"finalize\",\"reason\":\"unsupported_reply\",\"selected_outcome\":\"cancelled\",\"stop_id\":\"final-bound\",\"stop_response\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":600,\"job_id\":\"cancel-final-mutate-job\",\"kill_attempted\":false,\"launch_id\":\"cancel-final-mutate-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"final-bound\",\"term_attempted\":true}}}\n",
+      "events_after": [
+        {
+          "at": 1794512716,
+          "event_id": "cancel-final-mutate-job:reserved",
+          "job_id": "cancel-final-mutate-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-final-mutate-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "cancel-final-mutate-job:ack:ack-cancel-final-mutate-job",
+          "job_id": "cancel-final-mutate-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-final-mutate-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-intent:cancel-final-mutate-job",
+          "job_id": "cancel-final-mutate-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-final-mutate-launch"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-observation:cancel-final-mutate-job",
+          "job_id": "cancel-final-mutate-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-final-mutate-launch",
+            "process": {
+              "pid": 29921,
+              "start_token": "5146605"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "local-stop:cancel-final-mutate-job",
+          "job_id": "cancel-final-mutate-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 600,
+            "launch_id": "cancel-final-mutate-launch",
+            "mode": "term_then_kill",
+            "stop_id": "final-bound"
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "launch-exit:cancel-final-mutate-job",
+          "job_id": "cancel-final-mutate-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-final-mutate-launch",
+            "process": {
+              "pid": 29921,
+              "start_token": "5146605"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        },
+        {
+          "at": 1794512716,
+          "event_id": "cancel-final-mutate-job:final:cancelled",
+          "job_id": "cancel-final-mutate-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "proxy_exchange": {
+        "forwarded_reply": {
+          "ok": true,
+          "result": {
+            "finalization": "CLOSED",
+            "job_id": "cancel-final-mutate-job",
+            "launch_id": "cancel-final-mutate-launch",
+            "outcome": "mutated-outcome"
+          }
+        },
+        "gateway_reply": {
+          "ok": true,
+          "result": {
+            "finalization": "CLOSED",
+            "job_id": "cancel-final-mutate-job",
+            "launch_id": "cancel-final-mutate-launch",
+            "outcome": "cancelled"
+          }
+        },
+        "request": {
+          "job_id": "cancel-final-mutate-job",
+          "launch_id": "cancel-final-mutate-launch",
+          "op": "local_finalize",
+          "outcome": "cancelled"
+        }
+      }
+    },
+    "mutated_stop_selector_reply_rejected_no_finalize": {
+      "additional_connections": 0,
+      "balances_before_test_cleanup": [
+        {
+          "account": "cancel-drive-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cancel-drive-meter",
+          "period": "cancel-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "driver_output": "{\"action\":\"cancel\",\"client_reply\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":600,\"job_id\":\"cancel-stop-mutate-job\",\"kill_attempted\":false,\"launch_id\":\"cancel-stop-mutate-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"mutated-stop_id\",\"term_attempted\":true}},\"client_status\":0,\"exit_observation\":null,\"finalization\":null,\"grace_ms\":600,\"job_id\":\"cancel-stop-mutate-job\",\"last_action\":\"stop-graceful\",\"launch_id\":\"cancel-stop-mutate-launch\",\"mode\":\"term_then_kill\",\"ok\":false,\"outcome\":\"recovery_needed\",\"phase\":\"stop-graceful\",\"reason\":\"unsupported_reply\",\"selected_outcome\":\"cancelled\",\"stop_id\":\"selector-bound\",\"stop_response\":{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":600,\"job_id\":\"cancel-stop-mutate-job\",\"kill_attempted\":false,\"launch_id\":\"cancel-stop-mutate-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"mutated-stop_id\",\"term_attempted\":true}}}\n",
+      "events_before_test_cleanup": [
+        {
+          "at": 1794512715,
+          "event_id": "cancel-stop-mutate-job:reserved",
+          "job_id": "cancel-stop-mutate-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-stop-mutate-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "cancel-stop-mutate-job:ack:ack-cancel-stop-mutate-job",
+          "job_id": "cancel-stop-mutate-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-stop-mutate-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-intent:cancel-stop-mutate-job",
+          "job_id": "cancel-stop-mutate-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-stop-mutate-launch"
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-observation:cancel-stop-mutate-job",
+          "job_id": "cancel-stop-mutate-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-stop-mutate-launch",
+            "process": {
+              "pid": 29899,
+              "start_token": "5146531"
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "local-stop:cancel-stop-mutate-job",
+          "job_id": "cancel-stop-mutate-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 600,
+            "launch_id": "cancel-stop-mutate-launch",
+            "mode": "term_then_kill",
+            "stop_id": "selector-bound"
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-exit:cancel-stop-mutate-job",
+          "job_id": "cancel-stop-mutate-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-stop-mutate-launch",
+            "process": {
+              "pid": 29899,
+              "start_token": "5146531"
+            },
+            "status": {
+              "code": 0,
+              "kind": "code"
+            }
+          }
+        }
+      ],
+      "proxy_exchange": {
+        "forwarded_reply": {
+          "ok": true,
+          "result": {
+            "exit": {
+              "code": 0
+            },
+            "grace_ms": 600,
+            "job_id": "cancel-stop-mutate-job",
+            "kill_attempted": false,
+            "launch_id": "cancel-stop-mutate-launch",
+            "mode": "term_then_kill",
+            "replayed": false,
+            "state": "exit_observed",
+            "stop_id": "mutated-stop_id",
+            "term_attempted": true
+          }
+        },
+        "gateway_reply": {
+          "ok": true,
+          "result": {
+            "exit": {
+              "code": 0
+            },
+            "grace_ms": 600,
+            "job_id": "cancel-stop-mutate-job",
+            "kill_attempted": false,
+            "launch_id": "cancel-stop-mutate-launch",
+            "mode": "term_then_kill",
+            "replayed": false,
+            "state": "exit_observed",
+            "stop_id": "selector-bound",
+            "term_attempted": true
+          }
+        },
+        "request": {
+          "grace_ms": 600,
+          "job_id": "cancel-stop-mutate-job",
+          "launch_id": "cancel-stop-mutate-launch",
+          "op": "local_stop_graceful",
+          "stop_id": "selector-bound"
+        }
+      },
+      "test_cleanup_finalize": "{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"cancel-stop-mutate-job\",\"launch_id\":\"cancel-stop-mutate-launch\",\"outcome\":\"cancelled\"}}\n"
+    },
+    "sigkill_fallback": {
+      "balances_after": [
+        {
+          "account": "cancel-drive-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cancel-drive-meter",
+          "period": "cancel-drive-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "elapsed_ms": 195,
+      "events": [
+        {
+          "at": 1794512715,
+          "event_id": "cancel-force-job:reserved",
+          "job_id": "cancel-force-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cancel-drive-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cancel-drive-meter"
+                }
+              ],
+              "environment_id": "cancel-drive-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-force-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cancel-drive-project"
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "cancel-force-job:ack:ack-cancel-force-job",
+          "job_id": "cancel-force-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-force-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-intent:cancel-force-job",
+          "job_id": "cancel-force-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cancel-force-launch"
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-observation:cancel-force-job",
+          "job_id": "cancel-force-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-force-launch",
+            "process": {
+              "pid": 29878,
+              "start_token": "5146471"
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "local-stop:cancel-force-job",
+          "job_id": "cancel-force-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 180,
+            "launch_id": "cancel-force-launch",
+            "mode": "term_then_kill",
+            "stop_id": "force-stop"
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "launch-exit:cancel-force-job",
+          "job_id": "cancel-force-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "cancel-force-launch",
+            "process": {
+              "pid": 29878,
+              "start_token": "5146471"
+            },
+            "status": {
+              "kind": "signal",
+              "signal": 9
+            }
+          }
+        },
+        {
+          "at": 1794512715,
+          "event_id": "cancel-force-job:final:cancelled",
+          "job_id": "cancel-force-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "output": "{\"action\":\"cancel\",\"exit_observation\":{\"ok\":true,\"result\":{\"exit\":{\"signal\":9},\"grace_ms\":180,\"job_id\":\"cancel-force-job\",\"kill_attempted\":true,\"launch_id\":\"cancel-force-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"force-stop\",\"term_attempted\":true}},\"finalization\":{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"cancel-force-job\",\"launch_id\":\"cancel-force-launch\",\"outcome\":\"cancelled\"}},\"finalize_client_status\":0,\"grace_ms\":180,\"job_id\":\"cancel-force-job\",\"launch_id\":\"cancel-force-launch\",\"mode\":\"term_then_kill\",\"ok\":true,\"outcome\":\"finalized\",\"selected_outcome\":\"cancelled\",\"stop_client_status\":0,\"stop_id\":\"force-stop\",\"stop_response\":{\"ok\":true,\"result\":{\"exit\":{\"signal\":9},\"grace_ms\":180,\"job_id\":\"cancel-force-job\",\"kill_attempted\":true,\"launch_id\":\"cancel-force-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"force-stop\",\"term_attempted\":true}}}\n",
+      "worker_markers": {
+        "cleanup": false,
+        "exit": false,
+        "start": [
+          {
+            "mode": "ignore",
+            "pid": 29878,
+            "start_token": "5146471"
+          }
+        ],
+        "term": false
+      }
+    }
+  },
+  "how_certain": "native integration histories asserted; raw requests/replies, worker markers, lifecycle events, balances and hashes retained",
+  "source_sha256": {
+    "src/bin/resource-drive.rs": "94329906a3026234ab534f06e1efe50f0840d6741c75bcacf56cb272aa1e4983",
+    "src/bin/resource-gateway.rs": "e80d45e29a6f7dbeb3a7317c77e480b3ba1e235ea5a66fa2851d858e68ae5c18",
+    "src/bin/resource-session.rs": "1d92bf136a053c807aeda499d632a4b1adb6239c6f02d085c3ad3db8353b331e",
+    "src/lib.rs": "03dec127c00f14112318b86ce25aa7fa3a330aa7367d1f777ea32aa068ddcd5b",
+    "src/local.rs": "98bfbc35f37313b1f98b5b69487f06be2301f9ad4100f9c15ea3e8ed69a14ae6",
+    "tests/native_cancel_drive.rs": "9c066e85d74dfbe0ee0359cece2faa2db6ac4bbf8822de5470d01e8a96a5da99"
+  },
+  "what": "resource-drive cancel -> resource-session -> actual Unix gateway -> retained fixed Child -> Store events and balances; transport proxies only forward and discard one actual reply",
+  "what_not_tested": [
+    "host or power loss",
+    "arbitrary process trees or programs",
+    "hostile same-UID exclusion",
+    "provider workloads",
+    "hard wall quiescence"
+  ],
+  "why": "cancel is a bounded explicit stop then finalize consumer; only exact exit evidence permits the separate cancelled finalization"
+}

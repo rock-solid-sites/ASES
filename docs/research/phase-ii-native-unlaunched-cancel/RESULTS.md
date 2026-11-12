@@ -88,3 +88,25 @@ SHA-256:
 
 The `lost-cancel-reply-history.json` record includes SHA-256 hashes for the
 compiled gateway, client, controller, and integration-test executable.
+
+## Native cancellation driver regression addendum
+
+The existing #41 driver consumer was run once after the gateway, session client,
+and Store changes:
+
+```text
+CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo
+RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup
+CARGO_TARGET_DIR=/workspace/ases-native-identity-lifetime/resource-control/target
+CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0
+ASES_CANCEL_DRIVE_EVIDENCE_DIR=/workspace/ases-native-unlaunched-cancel/docs/research/phase-ii-native-unlaunched-cancel/evidence/cancel-drive
+/workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --offline --locked \
+  --manifest-path resource-control/Cargo.toml --test native_cancel_drive
+```
+
+Both tests passed (2 passed, 0 failed), Cargo exit code 0. Exact Cargo output is
+in [`cargo-native-cancel-drive.txt`](evidence/cargo-native-cancel-drive.txt);
+the native driver histories are in
+[`cancel-drive/native-cancel-drive.json`](evidence/cancel-drive/native-cancel-drive.json).
+The final run hashes the gateway, session, Store/library and driver test sources;
+the history JSON records the complete hash set.
