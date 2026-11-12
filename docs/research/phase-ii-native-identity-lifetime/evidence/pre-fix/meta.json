@@ -1,0 +1,26 @@
+{
+  "phase": "pre-fix",
+  "source_commit": "36acdf8f6f280e40c86d3dad94a99c372e8b7558",
+  "source_path": "resource-control/src/local.rs",
+  "source_sha256": "13c1d4bc5d8d719fa0e7d21096e3f7d7981ccb29f7aa6bc262c38bc77c92510a",
+  "test_commit": null,
+  "test_path": "resource-control/src/local/identity_lifetime_tests.rs",
+  "test_sha256": "bd06a895eee4b19db12782443bd29bc1478c3a207c796d1c394251848605186c",
+  "test_snapshot_path": "evidence/pre-fix/identity_lifetime_tests.rs",
+  "test_snapshot_origin": "Reconstructed from the final committed module by reversing the single later import and dispatch-replay assertion addition; its SHA-256 exactly matches the recorded pre-fix test hash.",
+  "command_cwd": "resource-control",
+  "command": "CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --lib identity_lifetime_tests -- --nocapture",
+  "exit_code": 101,
+  "stdout_path": "evidence/pre-fix/cargo-test.stdout.txt",
+  "stdout_sha256": "9c6a44e62648fe17f6e242b28b0140ac5574db222bd72d8103a8b2d5d53d2ecf",
+  "seam_diff_path": "evidence/pre-fix/seam-only.patch",
+  "seam_diff_sha256": "db7cdfbb0e6fbd59515217547b42e48afed39d442135dbc3323e37b68984174d",
+  "injected_observation": "The test reader failed during initial identity observation and until the actual /bin/true Child was reaped, then offered the same numeric PID with the synthetic token injected-stale-token-not-from-procfs.",
+  "what_not_tested": [
+    "actual PID reuse",
+    "an actual second process",
+    "real procfs staleness or tampering",
+    "hostile same-UID or root behavior",
+    "host loss, remote providers, or process adoption"
+  ]
+}
