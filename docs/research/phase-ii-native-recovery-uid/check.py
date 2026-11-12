@@ -60,10 +60,11 @@ def check_descriptor_records(entries, label):
     return writable
 
 
-def cli_refusal(value, event, label):
+def cli_refusal(value, event, label, script_name):
     need(isinstance(value, dict), label + " raw CLI attempt missing")
     need(value.get("returncode", 0) != 0, label + " unexpectedly exited successfully")
-    need(isinstance(value.get("argv"), list) and len(value["argv"]) == 4,
+    need(isinstance(value.get("argv"), list) and len(value["argv"]) == 5
+         and value["argv"][2].endswith(script_name),
          label + " did not invoke the actual fixed CLI")
     stdout, stderr = value.get("stdout", ""), value.get("stderr", "")
     need(isinstance(stdout, str) and isinstance(stderr, str), label + " stdio not retained")
@@ -102,9 +103,9 @@ def check_worker(case, case_name):
     denied_os(direct.get("sink_socket"), case_name + " sink Unix socket")
     denied_os(direct.get("witness_socket"), case_name + " witness Unix socket")
     strict = cli_refusal(direct.get("reconcile"), "native-publication-reconcile",
-                         case_name + " strict CLI")
+                         case_name + " strict CLI", "reconcile.py")
     observed = cli_refusal(direct.get("observe_local"), "native-local-observation",
-                           case_name + " observe-local CLI")
+                           case_name + " observe-local CLI", "observe_local.py")
     need(direct["reconcile"]["argv"][-1] == case.get("request_id")
          and direct["observe_local"]["argv"][-1] == case.get("request_id"),
          case_name + " direct CLI request differs from fixture ID")
@@ -132,7 +133,8 @@ def check_worker(case, case_name):
     for name, event in (("strict", "native-publication-reconcile"),
                         ("observer", "native-local-observation")):
         cli_refusal(value.get("direct_cli", {}).get(name), event,
-                    case_name + " descendant " + name + " CLI")
+                    case_name + " descendant " + name + " CLI",
+                    "reconcile.py" if name == "strict" else "observe_local.py")
     return audit
 
 
@@ -145,9 +147,20 @@ def denial_cut(snapshot, label):
     need(isinstance(owner_state, dict), label + " actual owner snapshot missing")
     for key in ("owner_tree", "f1", "journal", "witness"):
         need(key in snapshot, label + " lacks actual " + key + " record")
-    return {"owner": owner_state, "owner_tree": snapshot["owner_tree"],
+    stable_owner = copy.deepcopy(owner_state)
+    # Owner inventory observations and witness request nonces are per-read
+    # metadata; compare the selected state/material and current witness cut.
+    inventory = stable_owner.get("inventory", {})
+    if isinstance(inventory, dict):
+        inventory.pop("observation_ns", None)
+    witness = snapshot["witness"]
+    need(isinstance(witness, dict) and isinstance(witness.get("body", {}).get("current"), dict),
+         label + " actual witness current cut missing")
+    stable_witness = {"status": witness.get("status"),
+                      "current": witness["body"]["current"]}
+    return {"owner": stable_owner, "owner_tree": snapshot["owner_tree"],
             "f1": snapshot["f1"], "journal": snapshot["journal"],
-            "witness": snapshot["witness"]}
+            "witness": stable_witness}
 
 
 def record_bytes(record, label):
