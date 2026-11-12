@@ -8,8 +8,10 @@ use serde::Deserialize;
 use serde_json::{json, Value};
 use std::collections::HashMap;
 use std::os::unix::process::ExitStatusExt;
+use std::os::unix::ffi::OsStrExt;
 use std::path::PathBuf;
 use std::process::{Child, Command, Stdio};
+use std::ffi::CString;
 use std::time::{Duration, Instant};
 use std::thread;
 use std::os::unix::process::CommandExt;
@@ -148,10 +150,47 @@ fn validate_profile_scope(profile:&LocalProfile,job:&Value)->Result<()> {
     }
     Ok(())
 }
+
+/// Check the fixed trusted profile paths before consuming an authorization.
+/// `AT_EACCESS` makes the access checks use effective credentials, matching
+/// the credentials used by this supervisor when it starts the child.
+fn preflight_local_paths(profile:&LocalProfile)->Result<()> {
+    let program_is_regular=std::fs::metadata(&profile.program)
+        .map(|metadata|metadata.is_file())
+        .unwrap_or(false);
+    let program_path=CString::new(profile.program.as_os_str().as_bytes())
+        .map_err(|_|Error::Invalid("local profile program must be a regular file executable by the effective user".into()))?;
+    let program_executable=unsafe {
+        libc::faccessat(libc::AT_FDCWD,program_path.as_ptr(),libc::X_OK,libc::AT_EACCESS)==0
+    };
+    if !program_is_regular||!program_executable {
+        return Err(Error::Invalid("local profile program must be a regular file executable by the effective user".into()));
+    }
+
+    let cwd_is_directory=std::fs::metadata(&profile.cwd)
+        .map(|metadata|metadata.is_dir())
+        .unwrap_or(false);
+    let cwd_path=CString::new(profile.cwd.as_os_str().as_bytes())
+        .map_err(|_|Error::Invalid("local profile cwd must be a directory searchable by the effective user".into()))?;
+    let cwd_searchable=unsafe {
+        libc::faccessat(libc::AT_FDCWD,cwd_path.as_ptr(),libc::X_OK,libc::AT_EACCESS)==0
+    };
+    if !cwd_is_directory||!cwd_searchable {
+        return Err(Error::Invalid("local profile cwd must be a directory searchable by the effective user".into()));
+    }
+    Ok(())
+}
 impl LocalSupervisor {
     pub fn launch(&mut self,store:&mut Store,profile:&LocalProfile,job:&str,launch:&str,expected_catalog:i64,at:i64)->Result<Value>{
         profile.validate()?;
         profile.check_job_scope(store,job)?;
+        // Path checks are a cheap pre-intent rejection only. Pending or running
+        // launch replays must keep observing their retained launch regardless
+        // of later filesystem changes (including removal of the program).
+        let stored=store.job(job)?;
+        if stored.get("state").and_then(Value::as_str)==Some("AUTHORIZED") {
+            preflight_local_paths(profile)?;
+        }
         match store.begin_launch(job,launch,expected_catalog,at)? {
             BeginLaunchResult::DispatchGranted(grant)=>{
                 if grant.job_id()!=job || grant.launch_id()!=launch {return Err(Error::Conflict("dispatch grant identity mismatch".into()));}

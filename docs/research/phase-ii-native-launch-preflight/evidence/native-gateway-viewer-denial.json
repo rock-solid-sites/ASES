@@ -1,0 +1,151 @@
+{
+  "balances_before": [
+    {
+      "account": "local-test-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "local-test-meter",
+      "period": "local-gateway-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "events_after": [
+    {
+      "at": 1794511731,
+      "event_id": "viewer-job:reserved",
+      "job_id": "viewer-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "viewer-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "viewer-job:ack:ack-viewer-job",
+      "job_id": "viewer-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-viewer-job",
+        "catalog_version": 3
+      }
+    }
+  ],
+  "events_before": [
+    {
+      "at": 1794511731,
+      "event_id": "viewer-job:reserved",
+      "job_id": "viewer-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "viewer-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "viewer-job:ack:ack-viewer-job",
+      "job_id": "viewer-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-viewer-job",
+        "catalog_version": 3
+      }
+    }
+  ],
+  "job_before": {
+    "ack_id": "ack-viewer-job",
+    "catalog_version": 3,
+    "expires_at": 1794512631,
+    "job_id": "viewer-job",
+    "launch_id": null,
+    "meters": [
+      {
+        "meter": "local-test-meter",
+        "observed": 0,
+        "overrun": 0,
+        "reserved": 50,
+        "unspent": 50
+      }
+    ],
+    "outcome": null,
+    "proposal": {
+      "account_id": "local-test-account",
+      "claims": [
+        {
+          "amount": 50,
+          "meter_id": "local-test-meter"
+        }
+      ],
+      "environment_id": "local-test-environment",
+      "estimated_wall_seconds": 60,
+      "forecast_context": null,
+      "job_id": "viewer-job",
+      "paid_spend_cap_currency": null,
+      "paid_spend_cap_micros": null,
+      "project_id": "local-test-project"
+    },
+    "state": "AUTHORIZED"
+  },
+  "peer_role": "viewer",
+  "peer_uid": 1000,
+  "request": {
+    "expected_catalog": 3,
+    "job_id": "viewer-job",
+    "launch_id": "viewer-launch",
+    "op": "local_launch"
+  },
+  "response": {
+    "error": "invalid: operation prohibited for caller role",
+    "ok": false
+  },
+  "source_sha256": {
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "98bfbc35f37313b1f98b5b69487f06be2301f9ad4100f9c15ea3e8ed69a14ae6",
+    "tests/native_local_gateway.rs": "b9021b635c846fe0124a8c84105c7eeb51565d4e5e209b2f03c9fe521977e382",
+    "tests/native_session_client.rs": "02a81a39db9721da3fa4af9d1fde299aad250d317bd7263686e37098ef962171",
+    "tests/native_session_drive.rs": "c1c378a25dacdb87c042edaa880686b0856f6efc1d3101e41ded082885259ec7",
+    "tests/native_termination.rs": "bd586da579f918a0256442eeb1762123668f4715e6a76a659980e44be8be89e9"
+  },
+  "worker_marker_exists": false
+}
