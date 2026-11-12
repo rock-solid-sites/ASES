@@ -1,0 +1,20 @@
+{
+  "workdir": "/workspace/ases-cooperative-stop/resource-control",
+  "command": "ASES_COOPERATIVE_STOP_EVIDENCE_DIR=/workspace/ases-cooperative-stop/docs/research/phase-ii-cooperative-stop/evidence/native-after-wait-fix CARGO_TARGET_DIR=/workspace/ases-local-execution/resource-control/target CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --test native_cooperative_stop actual_cooperative_stop_histories_preserve_owned_child_and_explicit_finalize -- --exact --nocapture",
+  "result": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 1
+  },
+  "tested_source_commit": "50e2e06baad13efd2c4c585517a47d89ddb3ac28",
+  "source_sha256": {
+    "resource-control/src/bin/resource-session.rs": "5e03d90721c376479b934a075178e869a67fdcd4fedff1f8c887e40d1b57d56e",
+    "resource-control/src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "resource-control/src/local.rs": "ad6a8e9f492d8925229fba5c28f141691180375630082db7fffe2cee8cd0ab78",
+    "resource-control/src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "resource-control/tests/native_cooperative_stop.rs": "1cfebf3916c317eaef4bf6fddce5f94beca13d427d333aa57c3011a36278fc3a"
+  },
+  "history_sha256": "5c2fedf669e540bff65423b2d9e92b2e29e2dae87dfbc5fd013e67dae7529589",
+  "note": "This focused rerun captures the graceful exit timestamp correction. The initial successful capture remains separately preserved under evidence/native."
+}
