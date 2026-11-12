@@ -207,7 +207,8 @@ def _validate_local_effect(owner, state, request_id, raw, binding):
             and certificate.get("authorization_point") == "local-journal-append"
             and certificate.get("import_id") == envelope.get("import_id")
             and certificate.get("epoch") == envelope.get("epoch")
-            and certificate.get("l5") == envelope.get("l5"), "invalid-native-admission-binding")
+            and certificate.get("presented_l5") == envelope.get("l5"),
+            "invalid-native-admission-binding")
     require(type(envelope.get("epoch")) is int and envelope["epoch"] > 0,
             "invalid-native-effect-epoch")
 
@@ -215,66 +216,73 @@ def _validate_local_effect(owner, state, request_id, raw, binding):
         native = session.state["native_owner"]
         effects = native.get("effects")
         pending = effects.get(request_id) if isinstance(effects, dict) else None
-        require(isinstance(pending, dict) and pending.get("status") == "local"
+        require(isinstance(pending, dict) and pending.get("status") in ("local", "published")
                 and pending.get("seq") == event.get("seq")
                 and pending.get("payload_sha256") == digest(payload.encode()),
                 "native-owner-local-effect-mismatch")
-        require([key for key, item in effects.items() if item.get("status") != "published"] == [request_id],
+        other_pending = [key for key, item in effects.items() if item.get("status") != "published"]
+        require((other_pending == [request_id] if pending["status"] == "local" else not other_pending),
                 "other-or-unsupported-native-pending-effect")
         require(certificate.get("domain_id") == native.get("domain_id"),
                 "native-effect-wrong-domain")
-        registration = next((item for item in native.get("registrations", [])
-                             if item.get("id") == envelope.get("import_id")), None)
-        require(registration is not None and registration.get("status") == "live"
-                and registration.get("pair") == envelope.get("pair"),
-                "native-effect-registration-world-mismatch")
-        pair = registration["pair"]
-        require(certificate.get("pair_sha256") == digest(legacy.canonical(pair).encode()),
-                "native-effect-pair-hash-mismatch")
-        row = session.f1.execute("SELECT root,profile,version,view FROM kernel WHERE id=1").fetchone()
-        retained = [legacy.decode(item[0]) for item in session.f1.execute(
-            "SELECT record FROM retained_observations")]
-        require(row is not None and row[0] == "work" and row[1] == "independent" and row[2] == 1
-                and pair in retained, "native-source-retained-world-mismatch")
-        historical_l5 = certificate.get("l5")
-        require(isinstance(historical_l5, dict) and set(historical_l5) == {"selector", "sha256"}
-                and re.fullmatch(r"record-[0-9]{6}\.json", historical_l5.get("selector", ""))
-                and re.fullmatch(r"[0-9a-f]{64}", historical_l5.get("sha256", ""))
-                and certificate.get("presented_l5") == historical_l5,
-                "native-effect-owner-generation-mismatch")
-        historical_path = owner.root / "protected" / historical_l5["selector"]
-        require(not historical_path.is_symlink() and historical_path.is_file()
-                and digest(historical_path.read_bytes()) == historical_l5["sha256"],
-                "native-effect-historical-owner-record-missing")
-        historical_state = legacy.decode(historical_path.read_bytes())
-        historical_native = historical_state.get("native_owner", {})
-        historical_registration = next((item for item in historical_native.get("registrations", [])
-                                         if item.get("id") == registration["id"]), None)
-        require(historical_native.get("domain_id") == native.get("domain_id")
-                and historical_native.get("epoch") == certificate.get("epoch")
-                and historical_native.get("selected") == registration["id"]
-                and historical_native.get("lifecycle") == "live"
-                and historical_registration is not None
-                and historical_registration.get("status") == "live"
-                and historical_registration.get("pair") == pair,
-                "native-effect-historical-registration-mismatch")
-        metadata = registration["metadata"]
-        content = pair["accepted_content"].encode()
-        require(metadata.get("identity") == registration["id"]
-                and metadata.get("accepted_pair") == pair
-                and native_sink.legacy.l5.verified_content(owner.root, metadata) == content,
-                "native-effect-owned-material-mismatch")
-        item_name = Path(metadata["object"]).name
-        catalog = session.inventory.cx.execute(
-            "SELECT sha256,size,disposed FROM dependencies WHERE name=?", (item_name,)).fetchone()
-        require(catalog == (metadata["sha256"], metadata["size"], 0)
-                and digest(content) == metadata["sha256"] and len(content) == metadata["size"],
-                "native-effect-inventory-binding-mismatch")
+        if pending["status"] == "local":
+            registration = next((item for item in native.get("registrations", [])
+                                 if item.get("id") == envelope.get("import_id")), None)
+            require(registration is not None and registration.get("status") == "live"
+                    and registration.get("pair") == envelope.get("pair"),
+                    "native-effect-registration-world-mismatch")
+            pair = registration["pair"]
+            require(certificate.get("pair_sha256") == digest(legacy.canonical(pair).encode()),
+                    "native-effect-pair-hash-mismatch")
+            retained = [legacy.decode(item[0]) for item in session.f1.execute(
+                "SELECT record FROM retained_observations")]
+            require(pair in retained, "native-source-retained-world-mismatch")
+            historical_l5 = certificate.get("l5")
+            presented_l5 = certificate.get("presented_l5")
+            for generation in (presented_l5, historical_l5):
+                require(isinstance(generation, dict) and set(generation) == {"selector", "sha256"}
+                        and re.fullmatch(r"record-[0-9]{6}\.json", generation.get("selector", ""))
+                        and re.fullmatch(r"[0-9a-f]{64}", generation.get("sha256", "")),
+                        "native-effect-owner-generation-mismatch")
+                generation_path = owner.root / "protected" / generation["selector"]
+                require(not generation_path.is_symlink() and generation_path.is_file()
+                        and digest(generation_path.read_bytes()) == generation["sha256"],
+                        "native-effect-historical-owner-record-missing")
+            historical_path = owner.root / "protected" / historical_l5["selector"]
+            historical_state = legacy.decode(historical_path.read_bytes())
+            historical_native = historical_state.get("native_owner", {})
+            historical_registration = next((item for item in historical_native.get("registrations", [])
+                                             if item.get("id") == registration["id"]), None)
+            reserved = historical_native.get("effects", {}).get(request_id)
+            require(historical_native.get("domain_id") == native.get("domain_id")
+                    and historical_native.get("epoch") == certificate.get("epoch")
+                    and historical_native.get("selected") == registration["id"]
+                    and historical_native.get("lifecycle") == "live"
+                    and historical_registration is not None
+                    and historical_registration.get("status") == "live"
+                    and historical_registration.get("pair") == pair
+                    and isinstance(reserved, dict) and reserved.get("status") == "reserved"
+                    and reserved.get("payload_sha256") == digest(payload.encode()),
+                    "native-effect-historical-registration-mismatch")
+            metadata = registration["metadata"]
+            content = pair["accepted_content"].encode()
+            require(metadata.get("identity") == registration["id"]
+                    and metadata.get("accepted_pair") == pair
+                    and native_sink.legacy.l5.verified_content(owner.root, metadata) == content,
+                    "native-effect-owned-material-mismatch")
+            item_name = Path(metadata["object"]).name
+            catalog = session.inventory.cx.execute(
+                "SELECT sha256,size,disposed FROM dependencies WHERE name=?", (item_name,)).fetchone()
+            require(catalog == (metadata["sha256"], metadata["size"], 0)
+                    and digest(content) == metadata["sha256"] and len(content) == metadata["size"],
+                    "native-effect-inventory-binding-mismatch")
         attachment = native.get("sink_binding") or {}
-        require(attachment == binding and attachment.get("journal") == str(journal.resolve())
-                and attachment.get("journal_parent_identity") == legacy.identity(journal.parent),
+        require(attachment == binding and attachment.get("journal") == str(state.journal.resolve())
+                and attachment.get("journal_parent_identity") == legacy.identity(state.journal.parent),
                 "native-settlement-wrong-attachment")
-    return event
+        require(pending["status"] != "published" or native.get("lifecycle") in ("live", "removed"),
+                "unsupported-published-native-owner-state")
+    return event, pending["status"]
 
 
 def _protocol_valid(entry):
@@ -297,24 +305,20 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
         raw = journal.read_bytes()
         require(len(raw) <= 65536 and raw.endswith(b"\n"), "journal-outside-bounded-complete-profile")
         composed.admission.cut.ORIGINAL_STATE = composed.retry.RetryState
-        state_type = native_sink.continuation.cold.state_type(composed.retry.RetryState, True)
-        state = state_type(journal, True)
-        require(state.next_seq > 1 and len(state.events) <= 65536,
+        sink = ReconcileState(journal, endpoint, binding["witness_root"])
+        sink.lock.acquire()
+        sink_lock_acquired = True
+        require(sink.next_seq > 1 and len(sink.events) <= 65536,
                 "empty-or-invalid-native-journal")
         require(digest(journal.read_bytes()) == digest(raw), "native-journal-changed-during-replay")
-        event = _validate_local_effect(owner, state, request_id, raw, binding)
-        full_cut = dict(authority={key: getattr(state, "version" if key == "authority_version" else key)
-                                   for key in cut_module.FIELDS}, journal_sha256=digest(raw))
+        event, owner_status = _validate_local_effect(owner, sink, request_id, raw, binding)
+        full_cut = sink.cut()
         cut_module.validate_cut(full_cut)
         prefix = b"".join(state_line for state_line in raw.splitlines(keepends=True)[:-1])
         prior_cut = dict(authority=full_cut["authority"], journal_sha256=digest(prefix))
         cut_module.validate_cut(prior_cut)
-        sink = ReconcileState(journal, endpoint, binding["witness_root"])
-        require(sink.request_index.get(request_id) == event and sink.cut() == full_cut,
-                "retry-state-replay-disagreement")
+        require(sink.request_index.get(request_id) == event, "retry-state-replay-disagreement")
         sink_protocol_initial = len(sink.cut_protocol_log)
-        sink.lock.acquire()
-        sink_lock_acquired = True
 
         _attachment_unchanged(binding, journal, endpoint, original_parent, original_endpoint_parent,
                               original_journal_identity)
@@ -325,9 +329,14 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
         current = response["current"]
         require(current == full_cut or current == prior_cut,
                 "witness-cut-not-exact-target-or-preceding-cut")
+        if owner_status == "published" and current != full_cut:
+            return dict(status="unresolved-publication", reason="published-owner-lacks-current-target-proof",
+                        request_id=request_id, event_seq=event["seq"], cas_count=0,
+                        publication_reply_lost=False, writer_guard=writer_guard,
+                        protocol=sink.cut_protocol_log[sink_protocol_initial:])
         cas_count = 0
         publication_reply_lost = False
-        if current == prior_cut:
+        if owner_status == "local" and current == prior_cut:
             _attachment_unchanged(binding, journal, endpoint, original_parent, original_endpoint_parent,
                                   original_journal_identity)
             cas = sink.exchange("/publish", previous=prior_cut, candidate=full_cut,
