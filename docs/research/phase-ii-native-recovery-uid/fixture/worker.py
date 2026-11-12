@@ -55,6 +55,23 @@ def fd_facts(pid="self"):
     return facts
 
 
+def inspect_process_fds(pid):
+    root = Path(f"/proc/{pid}/fd")
+    try:
+        entries = []
+        for entry in sorted(root.iterdir(), key=lambda p: int(p.name)):
+            try:
+                entries.append({"fd": int(entry.name), "target": os.readlink(entry)})
+            except OSError as error:
+                entries.append({"fd": int(entry.name), "error": type(error).__name__,
+                                "errno": error.errno,
+                                "errno_name": errno.errorcode.get(error.errno)})
+        return {"result": "listed", "entries": entries}
+    except OSError as error:
+        return {"result": "denied", "error": type(error).__name__, "errno": error.errno,
+                "errno_name": errno.errorcode.get(error.errno), "message": str(error)}
+
+
 def open_without_writing(path):
     try:
         fd = os.open(path, os.O_WRONLY | os.O_CLOEXEC)
@@ -175,6 +192,7 @@ def main(argv):
     writable_regular_fds = [item for item in descriptors if item.get("writable_regular")]
     direct = {
         "owner_current_open": open_without_writing(owner_root / "protected/CURRENT"),
+        "owner_process_fds": inspect_process_fds(owner_pid),
         "sink_socket": connect_without_sending(sink_socket),
         "witness_socket": connect_without_sending(witness_socket),
         "reconcile": direct_cli("strict-reconcile", STRICT_CLI, owner_root, request_id),
