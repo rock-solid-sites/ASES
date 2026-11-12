@@ -11,10 +11,15 @@ The implementation owner's native source smoke exercised the local and
 reserved gates, both recovery CLIs, cold restart, transition, and exact-old
 response. That smoke did not run the UID-separated container route. The
 one-shot UID-2001 audit worker and raw checker are in place; the bounded
-container capture remains pending. No successful UID-custody result is claimed
-until the runner completes both fixtures and the raw checker passes. Failed
-captures must remain in their own new evidence directories; a later attempt
-uses a different directory.
+container capture is still pending. The first actual UID-container attempt is
+preserved in [run-01 raw evidence](evidence/run-01/raw.json). The pinned image,
+source hashes, bounded Docker settings, and exact container cleanup all
+verified. Fixture setup then failed because UID 2000 could not create its
+`native/` directory under the root-owned case root (`PermissionError: EACCES`).
+The driver needs to transfer that case root to UID 2000 before launching the
+manager. No successful UID-custody result is claimed until a new capture
+completes both fixtures and the raw checker passes. Any retry uses a separate
+evidence directory.
 
 ## Evidence
 
