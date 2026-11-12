@@ -147,10 +147,11 @@ try: os.setuid(2000); status["setuid"]={"result":"allowed"}
 except OSError as e: status["setuid"]={"result":"denied","errno":e.errno,"errno_name":errno.errorcode.get(e.errno)}
 cli={}
 for name,path in (("strict",strict_cli),("observer",observe_cli)):
- p=subprocess.run([sys.executable,"-B",path,owner,request_id],capture_output=True,text=True,timeout=15,check=False,close_fds=True,cwd="/opt/probe")
+ argv=[sys.executable,"-B",path,owner,request_id]
+ p=subprocess.run(argv,capture_output=True,text=True,timeout=15,check=False,close_fds=True,cwd="/opt/probe")
  try: frame=json.loads(p.stdout.strip().splitlines()[-1]) if p.stdout.strip() else None
  except Exception: frame=None
- cli[name]={"returncode":p.returncode,"stdout":p.stdout,"stderr":p.stderr,"frame":frame}
+ cli[name]={"argv":argv,"returncode":p.returncode,"stdout":p.stdout,"stderr":p.stderr,"frame":frame}
 print(json.dumps({"status":status,"descriptors":fds,"direct_owner_current_open":opened(owner+"/protected/CURRENT"),"sink_socket":connected(sink),"witness_socket":connected(witness),"direct_cli":cli},sort_keys=True))
 '''
 
