@@ -438,7 +438,7 @@ def validate_primary(result):
              for item in (result["pending_disposition"]["child"], *result["pending_disposition"]["content"])),
          "pending native effect failed to block disposal before settlement")
     need(result["fresh_id_denial"].get("response", {}).get("status") == 409
-         and result["fresh_id_denial"]["response"]["body"].get("outcome") == "rejected",
+         and result["fresh_id_denial"]["response"]["body"].get("reason") == "native-current-path-denied",
          "new ID after source move was not denied by current native authority")
     disposed = result["source_transitions"]["dispose_content"]
     need(result["source_transitions"]["dispose_child"].get("reply", {}).get("result") == "COMMITTED"
