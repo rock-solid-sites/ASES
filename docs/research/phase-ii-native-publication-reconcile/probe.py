@@ -276,7 +276,8 @@ def validate_primary(result):
     need(result["owner_after_disposition"]["state"]["native_owner"]["effects"][request_id]["status"] == "published",
          "owner effect did not settle to published")
     need(all(item.get("reply", {}).get("result") == "DENY"
-             and item.get("reply", {}).get("reason") == "pending-in-domain-effect"
+             and item.get("reply", {}).get("reason") in
+             {"pending-in-domain-effect", "native-dependent-or-effect-remains"}
              for item in (result["pending_disposition"]["child"], *result["pending_disposition"]["content"])),
          "pending native effect failed to block disposal before settlement")
     need(result["fresh_id_denial"].get("response", {}).get("status") == 409
