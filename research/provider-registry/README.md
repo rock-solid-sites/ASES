@@ -50,3 +50,15 @@ outside the public repository, and the deterministic Resource Solver independent
 authorizes a bounded one-use launch. No account signups, payments, credits,
 provisioning, credentials or live launches were performed in this survey.
 
+
+## Per-account attribution across programs and providers (draft, 2026-11-12)
+
+- [account_attribution_v1.json](account_attribution_v1.json) describes **workstreams** (who benefits) separately from **provider accounts** (which actual identity is used), **API actors**, **repository owners** and **billing accounts**. It retains the existing Rock Solid Sites-owned ASES/HMS repositories and the separately connected MbD and Trip'n GitHub identities. ASES/HMS-specific future accounts are marked `planned` with no invented handles.
+- [account_attribution_v1.py](account_attribution_v1.py) and [test_account_attribution_v1.py](test_account_attribution_v1.py) enforce account references, planned-versus-observed identities, workstream/repository ownership, missing billing attribution and no committed credential values. These are **structural checks**, not authorization or billing verification. This file is part of the existing provider registry, not a new operational database.
+- For each execution, record `workstream_id`, `execution_account_id`, `api_actor_account_id`, `repository_owner_account_id`, `billing_account_id`, `product_id`, `meter_id`, `billing_period`, `amount`, `unit`, `correlation_id`, source and time. A single agent job can create **multiple meter events**: GitHub Actions minutes and OpenCode inference usage may be charged to different accounts. Preserve both the benefiting workstream and the actual payer.
+- `billing_account_id: null` means **unallocated/unknown**, not free use and not permission to launch. GitHub Codespaces can be user- or organization-billed depending on verified organization policy. Do not automatically assign bills based on repository owner, actor or business grouping.
+- Account transitions, repository transfers and reassignments have effective dates and new revisions. Historical usage remains attributed to the account that actually incurred it. New ASES/HMS accounts must be observed before promotion from `planned`.
+- The provider's **public product catalogue** remains shared; account-specific quotas, credentials, balances, usage and spending limits remain private, keyed by the stable provider-account ID. Never publish credential material, billing PII or private account identifiers. Independent admission must validate the specific account, payer, quota, credentials and product's rules before a paid or quota-consuming launch.
+
+The [resource-router integration map](resource-router-integration-map-2026-11-03.json) references this account-identity layer while retaining its existing experimental/non-operational status. No usage records have been fabricated and no active billing observer was deployed.
+
