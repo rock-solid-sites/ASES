@@ -251,7 +251,11 @@ def _validate_local_effect(owner, state, request_id, raw, binding):
         historical_registration = next((item for item in historical_native.get("registrations", [])
                                          if item.get("id") == registration["id"]), None)
         require(historical_native.get("domain_id") == native.get("domain_id")
+                and historical_native.get("epoch") == certificate.get("epoch")
+                and historical_native.get("selected") == registration["id"]
+                and historical_native.get("lifecycle") == "live"
                 and historical_registration is not None
+                and historical_registration.get("status") == "live"
                 and historical_registration.get("pair") == pair,
                 "native-effect-historical-registration-mismatch")
         metadata = registration["metadata"]
@@ -294,7 +298,7 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
         require(len(raw) <= 65536 and raw.endswith(b"\n"), "journal-outside-bounded-complete-profile")
         composed.admission.cut.ORIGINAL_STATE = composed.retry.RetryState
         state_type = native_sink.continuation.cold.state_type(composed.retry.RetryState, True)
-        state = state_type(journal)
+        state = state_type(journal, True)
         require(state.next_seq > 1 and len(state.events) <= 65536,
                 "empty-or-invalid-native-journal")
         require(digest(journal.read_bytes()) == digest(raw), "native-journal-changed-during-replay")
