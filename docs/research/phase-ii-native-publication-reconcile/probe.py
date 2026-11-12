@@ -181,6 +181,9 @@ def primary_history(out: Path):
     reconcile_proc, reconcile = run_reconcile(case["owner_root"], case["request_id"])
     if reconcile_proc:
         raise RuntimeError("normal reconciliation unexpectedly stopped at test gate")
+    before_idempotent = {"journal": native.blob(f4.journal),
+                         "owner_tree": base.tree(case["owner_root"]),
+                         "witness": f4.witness_call("/status")}
     second_proc, second_reconcile = run_reconcile(case["owner_root"], case["request_id"])
     if second_proc:
         raise RuntimeError("idempotent replay unexpectedly stopped at test gate")
@@ -219,6 +222,7 @@ def primary_history(out: Path):
             "seal_before_pending_disposition": seal_before_disposition,
             "pending_disposition": pending_disposition,
             "reconcile": reconcile, "idempotent_reconcile": second_reconcile,
+            "before_idempotent": before_idempotent,
             "idempotent_state": idempotent_state,
             "cold_ready_after_reconcile": recovered_sink_ready,
             "exact_historical_retry": exact_retry, "after_exact_retry": after_retry,
@@ -248,16 +252,18 @@ def validate_primary(result):
     need(reconciliation.get("status") == "published" and reconciliation.get("cas_count") == 1,
          "exact pending effect did not reconcile through one publication CAS")
     protocol = reconciliation.get("protocol", [])
-    need([entry.get("path") for entry in protocol] == ["/check", "/publish", "/check"]
-         and len({entry.get("request", {}).get("nonce") for entry in protocol}) == 3,
-         "reconciliation did not use one fresh observation, one CAS and a fresh confirmation")
+    need([entry.get("path") for entry in protocol] == ["/check", "/publish", "/check", "/check"]
+         and len({entry.get("request", {}).get("nonce") for entry in protocol}) == 4,
+         "reconciliation did not use one fresh observation, one CAS, confirmation and settlement proof")
     replay = result["idempotent_reconcile"].get("result", {})
     need(replay.get("status") == "published" and replay.get("cas_count") == 0
-         and [entry.get("path") for entry in replay.get("protocol", [])] == ["/check", "/check"],
+         and [entry.get("path") for entry in replay.get("protocol", [])] == ["/check", "/check", "/check"],
          "published replay did not prove the full matching cut without another CAS")
     need(result["idempotent_state"]["journal"]["sha256"] ==
          result["before_reconcile"]["journal"]["sha256"],
          "idempotent reconciliation appended or changed journal bytes")
+    need(result["idempotent_state"]["owner_tree"] == result["before_idempotent"]["owner_tree"],
+         "published replay changed the selected native owner records")
     need(result["cold_ready_after_reconcile"].get("ready") is True,
          "ordinary cold startup did not accept the now-matching historical cut")
     need(result["exact_historical_retry"].get("response", {}).get("status") == 200
