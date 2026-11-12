@@ -41,6 +41,11 @@ def canonical(value) -> str:
     return base.canonical(value)
 
 
+def need(condition, message):
+    if not condition:
+        raise AssertionError(message)
+
+
 def source_manifest() -> dict:
     files = {
         "f1_repaired": base.REPAIRED_F1,
@@ -167,13 +172,21 @@ def primary_history(out: Path):
     local_owner_snapshot = owner.call({"op": "read"})["reply"]["snapshot"]
     registrations = [r["id"] for r in
                      local_owner_snapshot["state"]["native_owner"]["registrations"]]
-    pending_disposition = [owner.call({"op": "dispose_content", "id": rid})
-                           for rid in registrations]
+    seal_before_disposition = owner.call({"op": "seal"})
+    pending_disposition = {"child": owner.call({"op": "dispose_child", "unit": "D"}),
+                           "content": [owner.call({"op": "dispose_content", "id": rid})
+                                       for rid in registrations]}
     before_reconcile_owner = owner.call({"op": "read"})["reply"]["snapshot"]
     owner.close()
     reconcile_proc, reconcile = run_reconcile(case["owner_root"], case["request_id"])
     if reconcile_proc:
         raise RuntimeError("normal reconciliation unexpectedly stopped at test gate")
+    second_proc, second_reconcile = run_reconcile(case["owner_root"], case["request_id"])
+    if second_proc:
+        raise RuntimeError("idempotent replay unexpectedly stopped at test gate")
+    idempotent_state = {"journal": native.blob(f4.journal),
+                        "owner_tree": base.tree(case["owner_root"]),
+                        "witness": f4.witness_call("/status")}
     # Preserve a proof of ordinary cold startup after settlement. This path
     # starts sealed and must not issue another publication.
     cold_after = f4.cold_restart()
@@ -203,8 +216,11 @@ def primary_history(out: Path):
             "cold_refusal_ready": cold_ready, "cold_refusal_process": cold_process,
             "state_after_cold_refusal": cold_snapshot, "before_reconcile": before,
             "owner_before_reconcile": before_reconcile_owner,
+            "seal_before_pending_disposition": seal_before_disposition,
             "pending_disposition": pending_disposition,
-            "reconcile": reconcile, "cold_ready_after_reconcile": recovered_sink_ready,
+            "reconcile": reconcile, "idempotent_reconcile": second_reconcile,
+            "idempotent_state": idempotent_state,
+            "cold_ready_after_reconcile": recovered_sink_ready,
             "exact_historical_retry": exact_retry, "after_exact_retry": after_retry,
             "source_transitions": transitions, "fresh_id_after_move": new_envelope,
             "fresh_id_denial": denied_new_id,
@@ -215,6 +231,58 @@ def primary_history(out: Path):
             "f1_after": base.f1_raw(Path(case["setup"]["f1_root"]) / "store.sqlite")}
     f4.close(True)
     return result
+
+
+def validate_primary(result):
+    request_id = result["request_id"]
+    append = result["append_eof"]
+    need(append["gate"].get("event") == "GATE" and append["gate"].get("stage") == "after-append",
+         "actual after-append EOF gate was not captured")
+    need(append["busy_guard_reconcile"].get("result", {}).get("status") == "refused-writer-guard-busy",
+         "live native sink did not exclude reconciliation")
+    cold_refusal = result["cold_refusal_ready"]
+    need(cold_refusal.get("ready") is False and cold_refusal.get("reason") == "published-cut-unavailable"
+         and cold_refusal.get("local_parse_complete") is True,
+         "ordinary cold startup did not retain the real pending-publication refusal")
+    reconciliation = result["reconcile"].get("result", {})
+    need(reconciliation.get("status") == "published" and reconciliation.get("cas_count") == 1,
+         "exact pending effect did not reconcile through one publication CAS")
+    protocol = reconciliation.get("protocol", [])
+    need([entry.get("path") for entry in protocol] == ["/check", "/publish", "/check"]
+         and len({entry.get("request", {}).get("nonce") for entry in protocol}) == 3,
+         "reconciliation did not use one fresh observation, one CAS and a fresh confirmation")
+    replay = result["idempotent_reconcile"].get("result", {})
+    need(replay.get("status") == "published" and replay.get("cas_count") == 0
+         and [entry.get("path") for entry in replay.get("protocol", [])] == ["/check", "/check"],
+         "published replay did not prove the full matching cut without another CAS")
+    need(result["idempotent_state"]["journal"]["sha256"] ==
+         result["before_reconcile"]["journal"]["sha256"],
+         "idempotent reconciliation appended or changed journal bytes")
+    need(result["cold_ready_after_reconcile"].get("ready") is True,
+         "ordinary cold startup did not accept the now-matching historical cut")
+    need(result["exact_historical_retry"].get("response", {}).get("status") == 200
+         and result["exact_historical_retry"]["response"]["body"].get("outcome") == "already-accepted",
+         "exact historical ID did not return the existing event after source move")
+    need(result["exact_historical_retry"]["before"]["sha256"] ==
+         result["exact_historical_retry"]["after"]["sha256"] ==
+         result["before_reconcile"]["journal"]["sha256"],
+         "reconciliation or exact historical retry changed journal bytes")
+    need(result["owner_after_disposition"]["state"]["native_owner"]["effects"][request_id]["status"] == "published",
+         "owner effect did not settle to published")
+    need(all(item.get("reply", {}).get("result") == "DENY"
+             and item.get("reply", {}).get("reason") == "pending-in-domain-effect"
+             for item in (result["pending_disposition"]["child"], *result["pending_disposition"]["content"])),
+         "pending native effect failed to block disposal before settlement")
+    need(result["fresh_id_denial"].get("response", {}).get("status") == 409
+         and result["fresh_id_denial"]["response"]["body"].get("reason") == "native-current-path-denied",
+         "new ID after source move was not denied by current native authority")
+    disposed = result["source_transitions"]["dispose_content"]
+    need(result["source_transitions"]["dispose_child"].get("reply", {}).get("result") == "COMMITTED"
+         and all(item.get("reply", {}).get("result") == "COMMITTED" for item in disposed),
+         "normal native disposition did not complete after owner settlement")
+    need(result["f1_before"]["integrity"] == result["f1_after"]["integrity"] == "ok"
+         and result["f1_before"]["retained"] == result["f1_after"]["retained"],
+         "F1 observations changed during native reconciliation/disposition")
 
 
 def main():
@@ -229,6 +297,7 @@ def main():
            "sources": source_manifest(), "cases": {}, "processes": PROCESSES}
     try:
         raw["cases"]["primary"] = primary_history(out)
+        validate_primary(raw["cases"]["primary"])
         raw["status"] = "PASS"
     except BaseException as error:
         raw["failure"] = {"type": type(error).__name__, "message": str(error),

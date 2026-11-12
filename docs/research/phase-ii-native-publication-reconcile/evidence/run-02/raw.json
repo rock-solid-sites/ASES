@@ -1,0 +1,113 @@
+{
+  "cases": {},
+  "failure": {
+    "message": "exact pending effect did not reconcile through one publication CAS",
+    "traceback": "Traceback (most recent call last):\n  File \"/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-publication-reconcile/probe.py\", line 280, in main\n    raw[\"cases\"][\"primary\"] = primary_history(out)\n                              ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-publication-reconcile/probe.py\", line 235, in primary_history\n    need(reconciliation.get(\"status\") == \"published\" and reconciliation.get(\"cas_count\") == 1,\n  File \"/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-publication-reconcile/probe.py\", line 46, in need\n    raise AssertionError(message)\nAssertionError: exact pending effect did not reconcile through one publication CAS\n",
+    "type": "AssertionError"
+  },
+  "processes": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-publication-reconcile/reconcile.py",
+        "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-publication-reconcile/evidence/run-02/state/primary/owner",
+        "domain-a45ddda0216c420a8cc1285f7e764771:publication-reconcile-primary"
+      ],
+      "exit": 1,
+      "exit_ns": 22468328470462,
+      "frames": [
+        {
+          "ns": 22468263401219,
+          "raw": "{\"event\": \"native-publication-reconcile\", \"reason\": \"existing F4 writer guard is held\", \"status\": \"refused-writer-guard-busy\"}\n",
+          "value": {
+            "event": "native-publication-reconcile",
+            "reason": "existing F4 writer guard is held",
+            "status": "refused-writer-guard-busy"
+          }
+        }
+      ],
+      "pid": 5836,
+      "result": {
+        "event": "native-publication-reconcile",
+        "reason": "existing F4 writer guard is held",
+        "status": "refused-writer-guard-busy"
+      },
+      "start_ns": 22468109262411,
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-publication-reconcile/reconcile.py",
+        "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-publication-reconcile/evidence/run-02/state/primary/owner",
+        "domain-a45ddda0216c420a8cc1285f7e764771:publication-reconcile-primary"
+      ],
+      "exit": 1,
+      "exit_ns": 22468738543194,
+      "frames": [
+        {
+          "ns": 22468722472135,
+          "raw": "{\"error\": \"ValueError\", \"event\": \"native-publication-reconcile\", \"reason\": \"invalid-native-admission-binding\", \"status\": \"refused\"}\n",
+          "value": {
+            "error": "ValueError",
+            "event": "native-publication-reconcile",
+            "reason": "invalid-native-admission-binding",
+            "status": "refused"
+          }
+        }
+      ],
+      "pid": 5843,
+      "result": {
+        "error": "ValueError",
+        "event": "native-publication-reconcile",
+        "reason": "invalid-native-admission-binding",
+        "status": "refused"
+      },
+      "start_ns": 22468610244507,
+      "stderr": ""
+    }
+  ],
+  "schema": "ases4-native-publication-reconcile-v1",
+  "sources": {
+    "f1_repaired": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-i-f1-recovery-repair/repaired_service.py",
+      "sha256": "f95b043d4fed01046c3875afa87871228843fdd5a4b92b2cd13034e7089a8fdc"
+    },
+    "f4_cut_witness": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-i-sol-integration/evidence/sources/receipt/research/phase-i-t18-sink-order-20261103/published-cut/cut_sink.py",
+      "sha256": "5bd76e093f20acb264b1d7e5688c7353822f6a13686fd9d4c18af56e33c7c5ed"
+    },
+    "l5_core": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5/l5_integrated.py",
+      "sha256": "7216dbb401afa01c01ef5f72a5c45555d5525678799aa30164a7eafce4076fd8"
+    },
+    "l6_store": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-i-sol-integration/evidence/sources/l6/research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/store.py",
+      "sha256": "baddc9a72c33dd3cae55e49e37c422dde6ba8dfd97493dd3954c5e0adcb2249c"
+    },
+    "native_f4_sink": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-ownership/native_sink.py",
+      "sha256": "f4262271ea008208b99f5339d3b1e42c8239753d0a823e65e725bf2097bea70d"
+    },
+    "native_owner": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-ownership/native_owner.py",
+      "sha256": "f772e9054966646257faa3460cfda7833ede0e452043dbc7001158ffe54fa59d"
+    },
+    "owner_cli": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-ownership/owner_cli.py",
+      "sha256": "5576a233c1c1f45f98abb3cee350b6a1d25fb5c2b793017216941c008d6a09ba"
+    },
+    "reconcile": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-publication-reconcile/reconcile.py",
+      "sha256": "1a82cdbc83e45a6e324c6fd6da711ece4dd4887ebdea53cb01b73c90210b842e"
+    },
+    "unix_transport": {
+      "path": "/workspace/ases-native-publication-reconcile/docs/research/phase-ii-native-ownership/unix_transport.py",
+      "sha256": "94171cc116631eae61549df4bc270fa0e97cf9de1176d2a17c7e33e2ebb1b487"
+    }
+  },
+  "started_ns": 22467355287265,
+  "status": "PROBE_FAILED"
+}
