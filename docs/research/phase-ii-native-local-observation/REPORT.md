@@ -38,8 +38,46 @@ records.
 
 ## Results
 
-Pending execution. Required histories are frozen in `PACKET.md`; the raw
-capture format is in `SCHEMA.md`.
+`evidence/run-03/raw.json` is a complete `PASS` capture. It records the final
+source hashes: `observe_local.py`
+`dff70e2bb866c46d01d9a6c6840ce81579d4724ccc6bce019e05dff11f6e2207`, strict
+`reconcile.py`
+`588d502c72c674c4d8655d3ecdcab7919d09e2aae0cf831c2b656c4af5fe8bba`, and the
+probe `6960db8146486fae5cf2a602da20b31c15d380efeb49824555a164c3be4dcb1b`.
+The prior full publication reconciliation probe was run once in this final
+capture and also reports `PASS`.
+
+The test wrapper paused after the real `emit_locked` append/fsync had returned
+and immediately before the original `NativeAdmission.after_append` callback.
+The retained process was killed there. The pinned `RetryState` parser found a
+complete final effect at sequence 4 and indexed one effect; the protected
+owner record remained `reserved` with no sequence, and the witness remained at
+the exact preceding journal cut. Strict reconciliation refused this mismatch
+without changing the owner, journal, or witness. The opt-in observer selected
+the sequence from the actual parsed event, called the existing local-record
+callback, performed the one required publication CAS and settlement, and left
+journal bytes and the one-effect count unchanged.
+
+After observation, an explicit test gate was killed before publication. The
+owner retained the same local sequence while the witness remained at the
+prefix. Strict reconciliation then published and settled that event without a
+second observation or append. A real guarded pre-append kill left a reserved
+owner record with no matching journal event; both strict and opt-in commands
+refused and retained it. A mismatched protected reservation payload hash also
+refused without further owner or journal mutation.
+
+The probe then accepted a new F1 observation for world C using the same content
+bytes as the retained world A observation. It kept the old registration live,
+sealed and moved the native source through the owner API, and activated it.
+The old exact request ID still returned `already-accepted` for event 4 without
+changing the effect journal. A fresh current-world request used the current
+F4 version and native owner epoch/selector, reached the native guard, and was
+denied with `native-current-path-denied`. F1 integrity and retained
+observations remained intact.
+
+These findings cover the tested native profile and crash boundaries only. They
+do not claim cross-store atomicity or automatic cancellation of a reservation
+when no matching event is present.
 
 ## Reasoning and certainty
 
