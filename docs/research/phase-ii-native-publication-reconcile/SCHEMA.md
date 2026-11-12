@@ -32,6 +32,14 @@ Top-level fields are:
 | `status` | `PASS` only after all mandatory assertions complete; otherwise `PROBE_FAILED`. |
 | `failure` | Exception and traceback retained when capture execution fails. |
 
+The final run records these cases under `cases`: `primary`,
+`kill-after-publication`, `gate-eof`, `witness-reply-loss`,
+`witness-rejected-cas`, `nonprefix-witness`, `corrupt-tail`,
+`changed-attachment`, and `reserved-only`. Each case retains the live history
+frames and the before/after records needed for its assertion. The `primary`
+case also records exact-ID retry after source movement, current F4 authority
+and native owner generation, pending and completed disposition, and F1 state.
+
 No normalized evidence overwrites `raw.json`. The report may interpret a
 record, but the interpretation must point back to its case and concrete raw
 fields. A missing case, source hash, process record, or raw state field is an

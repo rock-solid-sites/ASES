@@ -348,16 +348,22 @@ def changed_attachment(out: Path):
     case, eof = after_append_case(out, "changed-attachment")
     old_path = case["f4"].socket_dir.with_name(case["f4"].socket_dir.name + "-moved")
     os.rename(case["f4"].socket_dir, old_path)
+    case["f4"].socket_dir.mkdir(mode=0o700)
+    replacement_stat = case["f4"].socket_dir.stat()
     try:
         _proc, reconcile = run_reconcile(case["owner_root"], case["request_id"])
     finally:
+        case["f4"].socket_dir.rmdir()
         os.rename(old_path, case["f4"].socket_dir)
     after = {"journal": native.blob(case["f4"].journal), "owner": owner_view(case["owner_root"]),
              "witness": case["f4"].witness_call("/status")}
     case["f4"].close(True)
     return {"setup": case["setup"], "request_id": case["request_id"], "append_eof": eof,
             "changed_endpoint_parent": {"original": case["f4"].socket_dir_meta,
-                                         "moved_to": str(old_path)},
+                                         "replacement": {"path": str(case["f4"].socket_dir),
+                                                         "dev": replacement_stat.st_dev,
+                                                         "ino": replacement_stat.st_ino},
+                                         "retained_original_moved_to": str(old_path)},
             "reconcile": reconcile, "after": after}
 
 
@@ -450,7 +456,7 @@ def validate_primary(result):
     f4_current = result["after_exact_retry"]["sink_status"]["body"]
     current_owner = result["owner_current_after_move"]
     new_id = result["fresh_id_after_move"]
-    need(result["cold_reopen"][1]["request"]["path"] == "/activate"
+    need(result["cold_reopen"][1]["path"] == "/activate"
          and result["cold_reopen"][1]["response"]["body"].get("authority_version") == 2
          and f4_current.get("authority_version") == 2 and f4_current.get("cold_admission_open") is True,
          "fresh-ID denial did not use the current reopened F4 authority version")
@@ -515,6 +521,7 @@ def validate_controls(cases):
          "corrupt-tail control did not preserve exact corrupt bytes and owner state")
     changed = cases["changed-attachment"]
     need(changed["reconcile"]["result"].get("status") == "refused"
+         and changed["reconcile"]["result"].get("reason") == "native-witness-parent-identity-changed"
          and changed["after"]["journal"]["sha256"] == changed["append_eof"]["journal_after_eof"]["sha256"],
          "changed attachment did not refuse while retaining the exact journal")
     reserved = cases["reserved-only"]
