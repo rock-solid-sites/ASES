@@ -8,6 +8,7 @@ This file belongs to the session's **Luna checkpoint worker**, not the parent. K
 - Mode: orchestrator-only A
 - Starting repo branch: `research/sol-controlplane-a-20261113`
 - Baseline PR state: `BRIEF.md` (must be refreshed by worker)
+- Live experiment log: Work Notes `ASES-8`; source engineering context `ASES-4`
 - Baseline usage: prior operator analytics Sol ~80–90% (not a measured A result)
 
 ## Append after each substantial slice
