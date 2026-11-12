@@ -17,8 +17,9 @@ downstream_consumers:
 
 The two bounded histories completed against the actual native owner and F4
 implementation. Raw process frames, immutable `CURRENT` records, direct F1 and
-L6 SQLite snapshots, owned material, journal bytes, and witness status are in
-[`evidence/run-04/raw.json`](evidence/run-04/raw.json). The raw schema is
+L6 SQLite snapshots, owned material, journal bytes, witness status, exact-ID
+retry, and executed source hashes are in
+[`evidence/run-06/raw.json`](evidence/run-06/raw.json). The raw schema is
 described in [SCHEMA.md](SCHEMA.md). This report records observations; the
 independent checker owns assertion derivation.
 
@@ -37,6 +38,15 @@ After releasing F4, the actual append and witness publication succeeded once
 move to Q and activation. A request carrying the newly selected current
 envelope was denied with `native-current-path-denied`; it added no effect. The
 exact earlier effect remains visible in F4 status as historical data.
+
+After fresh-ID denial, the probe submitted the original request again through
+the actual F4 `/submit` path with its original payload, request ID, and outer
+authority version 1. The response was HTTP 200 `already-accepted` for event
+sequence 4. It did not create another journal event or change the journal SHA.
+The local sink cut and witness cut before and after the retry remained at that
+same journal SHA, and the final journal still contains one `effect_accepted`
+row. The separate `historical_status` GET is retained as a status observation,
+not as evidence of the exact-ID retry.
 
 ### Seal first
 
@@ -69,5 +79,7 @@ remote exactly-once delivery, arbitrary rollback, generalized F3 confinement,
 or automatic cancellation.
 
 The failed instrumentation runs are preserved at `evidence/run-01` through
-`evidence/run-03`; they are not used as successful histories. Production sources
-were not modified.
+`evidence/run-03`; successful `run-04` is preserved as the capture before exact
+retry coverage, and `run-05` preserves the retry capture before complete source
+provenance was added. The final capture is `run-06`. Production sources were
+not modified.

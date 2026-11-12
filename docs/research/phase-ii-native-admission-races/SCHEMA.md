@@ -13,7 +13,7 @@ downstream_consumers:
 ---
 # Raw evidence schema
 
-`probe.py` writes `evidence/run-04/raw.json` with schema identifier
+`probe.py` writes `evidence/run-06/raw.json` with schema identifier
 `ases4-native-revocation-append-v1`. The probe captures the existing native F1,
 F3, L5, L6, and F4 processes; it does not encode an alternate owner or
 admission service.
@@ -49,10 +49,27 @@ contains the request, envelope, pre-request journal, and actual F4 gate frame.
 captures emitted by the reused native F4 helper. `f4_final_snapshot` retains
 native sink status, witness status, calls, process frames, config, and journal.
 
+In append-first, `historical_exact_retry_before` and
+`historical_exact_retry_after` each contain journal bytes, sink `/status` with
+the actual local cut, and witness `/status` with the published cut.
+`historical_exact_retry` is the actual F4 `/submit` call using the original
+request ID, payload, and outer authority version. Its call record includes
+request, response, and before/after journal captures. `historical_status` is a
+separate GET `/status` capture; it is not the exact-ID retry.
+
 The checker derives append counts, authority selection, refusal invariants,
 material stability, and post-move denial from these captured records. Summary
 fields or admission certificates are not authority for those assertions.
 
+Top-level `sources` retains the native-owner probe's ten frozen F1/F3/L5/L6/F4
+source entries and adds hashes for the revocation probe, direct native helper,
+and the executed F4 composition chain (continuation, composed sink, cold
+factory, admission wrapper and guard, retry candidate, published-cut sink,
+managed sink and base), plus the F1 bootstrap service. Each entry carries its
+repository relative path and SHA-256.
+
 The earlier `run-01` through `run-03` directories preserve instrumentation
-failures; `run-04` is the successful capture. Checkers should consume the path
-explicitly supplied by the operator and should not merge runs.
+failures; `run-04` is the successful capture before exact-ID retry coverage;
+`run-05` captures the retry; `run-06` is the final capture with complete
+executed-source provenance. Checkers should consume the path explicitly
+supplied by the operator and should not merge runs.

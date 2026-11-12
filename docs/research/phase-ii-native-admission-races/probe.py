@@ -149,6 +149,13 @@ def submit_with_gate(f4, envelope: dict) -> dict:
         return {"request": request, "gate": gate, "result": future.result(timeout=15)}
 
 
+def f4_cut_capture(f4) -> dict:
+    """Capture journal bytes and current local/published cuts around exact-ID retry."""
+    return {"journal": journal_snapshot(f4),
+            "sink_status": f4.http(f4.sink_socket, "/status"),
+            "witness_status": f4.http(f4.witness_socket, "/status")}
+
+
 def create_history(out: Path, label: str) -> dict:
     case_root = out / "state" / label
     setup = helpers.setup_native_f3(case_root, world="A", activate=True)
@@ -199,7 +206,10 @@ def create_history(out: Path, label: str) -> dict:
             owner.close()
             case["denied_current"] = submit_with_gate(f4, case["current_envelope"])
             case["owner_after_current_denial"] = direct_owner_snapshot(owner_root, f1_path)
-            case["historical_exact_result"] = f4.http(f4.sink_socket, "/status")
+            case["historical_exact_retry_before"] = f4_cut_capture(f4)
+            case["historical_exact_retry"] = f4.submit(envelope, authority_version=1)
+            case["historical_exact_retry_after"] = f4_cut_capture(f4)
+            case["historical_status"] = f4.http(f4.sink_socket, "/status")
         else:
             owner = helpers.OwnerProcess(owner_root)
             case["seal"] = case["contender"]["reply"]
@@ -224,7 +234,7 @@ def create_history(out: Path, label: str) -> dict:
             owner.close()
             case["denied_current"] = submit_with_gate(f4, case["current_envelope"])
             case["owner_after_current_denial"] = direct_owner_snapshot(owner_root, f1_path)
-            case["historical_exact_result"] = f4.http(f4.sink_socket, "/status")
+            case["historical_status"] = f4.http(f4.sink_socket, "/status")
 
     case["journal_final"] = journal_snapshot(f4)
     case["f4_final_snapshot"] = f4.snapshot()
@@ -236,9 +246,33 @@ def create_history(out: Path, label: str) -> dict:
 
 
 def source_manifest() -> dict:
-    paths = [OWNERSHIP, helpers.OWNER_CLI, helpers.NATIVE_SINK, helpers.UNIX_TRANSPORT,
-             helpers.REPAIR / "repaired_service.py", helpers.NATIVE_HELPERS_PATH]
-    return {str(path.relative_to(REPO)): sha(path.read_bytes()) for path in paths}
+    # Keep the frozen native-owner probe's core provenance and add the exact
+    # F4 composition modules that this history executes, plus this probe.
+    result = helpers.source_manifest()
+    research = REPO / "docs/research"
+    receipt = (research / "phase-i-sol-integration/evidence/sources/receipt"
+               / "research/phase-i-t18-sink-order-20261103")
+    paths = {
+        "native_revocation_probe": HERE / "probe.py",
+        "native_ownership_probe": OWNERSHIP,
+        "native_helpers": helpers.NATIVE_HELPERS_PATH,
+        "f4_continuation_sink": research / "phase-i-continuation-stack/continuation_sink.py",
+        "f4_composed_sink": research / "phase-i-composed-effects/composed_sink.py",
+        "f4_cold_factory": research / "phase-i-cold-activation/cold_sink.py",
+        "f4_admission_sink": research / "phase-i-effect-admission/admission_sink.py",
+        "f4_admission": research / "phase-i-effect-admission/admission.py",
+        "f4_retry_candidate": research / "phase-i-effect-retry/candidate.py",
+        "f4_published_cut_sink": receipt / "published-cut/cut_sink.py",
+        "f4_managed_sink": receipt / "managed-revocation/managed_sink.py",
+        "f4_managed_base": receipt / "run.py",
+        "f1_bootstrap_service": (helpers.repair.ORIGINAL.parent.parent.parent
+                                  / "kernel-0/kernel0_recovery_service.py"),
+    }
+    for name, path in paths.items():
+        if not path.is_file():
+            raise FileNotFoundError(f"required source provenance input missing: {path}")
+        result[name] = {"path": str(path.relative_to(REPO)), "sha256": sha(path.read_bytes())}
+    return result
 
 
 def main() -> int:
