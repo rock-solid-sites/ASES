@@ -15,7 +15,9 @@ ROOT = Path("/opt/owned-src/docs/research/phase-ii-native-ownership")
 FIXTURE = Path("/opt/owned-src/docs/research/phase-ii-native-recovery-uid/fixture")
 RECONCILE = Path("/opt/owned-src/docs/research/phase-ii-native-publication-reconcile/reconcile.py")
 OBSERVE = Path("/opt/owned-src/docs/research/phase-ii-native-local-observation/observe_local.py")
-GATED_SINK = FIXTURE / "test_sink_gate.py"
+GATED_SINK = Path(
+    "/opt/owned-src/docs/research/phase-ii-native-local-observation/test_sink_gate.py"
+)
 sys.path.insert(0, str(ROOT))
 import probe
 
