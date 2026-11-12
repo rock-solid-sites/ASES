@@ -7,11 +7,14 @@ append, and a complete event at the fsync-before-owner-callback boundary.
 
 ## Experimental status
 
-The one-shot UID-2001 audit worker and initial raw checker are in place. The
-container runner and UID-2000 native fixture are being integrated. No successful
-native recovery result is claimed until the bounded runner completes both
-fixtures and the raw checker passes. Failed captures must remain in their own
-new evidence directories; a later attempt uses a different directory.
+The implementation owner's native source smoke exercised the local and
+reserved gates, both recovery CLIs, cold restart, transition, and exact-old
+response. That smoke did not run the UID-separated container route. The
+one-shot UID-2001 audit worker and raw checker are in place; the bounded
+container capture remains pending. No successful UID-custody result is claimed
+until the runner completes both fixtures and the raw checker passes. Failed
+captures must remain in their own new evidence directories; a later attempt
+uses a different directory.
 
 ## Evidence
 

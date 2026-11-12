@@ -1,6 +1,6 @@
 # Native UID recovery evidence schema
 
-The host runner writes one bounded JSON object to `evidence/uid-recovery.json`.
+The host runner writes one bounded JSON object to `OUTPUT_DIRECTORY/raw.json`.
 The object is the raw root-driver report with the actual host `outer` records
 attached. It has `status`, `cases.local`, `cases.reserved`, UID process status
 frames, and `outer`; raw command stdout, stderr, argv, return codes, and native
