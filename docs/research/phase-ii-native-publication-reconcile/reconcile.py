@@ -181,7 +181,7 @@ def _attachment_unchanged(binding, journal, endpoint, original_parent, original_
     require(stat.S_ISSOCK(endpoint.lstat().st_mode), "native-witness-endpoint-replaced")
 
 
-def _validate_local_effect(owner, state, request_id, raw, binding):
+def _validate_local_effect(owner, state, request_id, raw, binding, allow_reserved=False):
     event = state.request_index.get(request_id)
     require(event is not None and state.events and state.events[-1] == event,
             "target-effect-is-not-final-event")
@@ -224,16 +224,19 @@ def _validate_local_effect(owner, state, request_id, raw, binding):
         native = session.state["native_owner"]
         effects = native.get("effects")
         pending = effects.get(request_id) if isinstance(effects, dict) else None
-        require(isinstance(pending, dict) and pending.get("status") in ("local", "published")
-                and pending.get("seq") == event.get("seq")
+        permitted = ("local", "published", "reserved") if allow_reserved else ("local", "published")
+        require(isinstance(pending, dict) and pending.get("status") in permitted
+                and (pending.get("seq") == event.get("seq") if pending.get("status") != "reserved"
+                     else "seq" not in pending)
                 and pending.get("payload_sha256") == digest(payload.encode()),
                 "native-owner-local-effect-mismatch")
         other_pending = [key for key, item in effects.items() if item.get("status") != "published"]
-        require((other_pending == [request_id] if pending["status"] == "local" else not other_pending),
+        require((other_pending == [request_id] if pending["status"] in ("local", "reserved")
+                 else not other_pending),
                 "other-or-unsupported-native-pending-effect")
         require(certificate.get("domain_id") == native.get("domain_id"),
                 "native-effect-wrong-domain")
-        if pending["status"] == "local":
+        if pending["status"] in ("local", "reserved"):
             registration = next((item for item in native.get("registrations", [])
                                  if item.get("id") == envelope.get("import_id")), None)
             require(registration is not None and registration.get("status") == "live"
@@ -242,9 +245,11 @@ def _validate_local_effect(owner, state, request_id, raw, binding):
             pair = registration["pair"]
             require(certificate.get("pair_sha256") == digest(legacy.canonical(pair).encode()),
                     "native-effect-pair-hash-mismatch")
+            source = session.f1.execute("SELECT root,profile,version FROM kernel WHERE id=1").fetchone()
             retained = [legacy.decode(item[0]) for item in session.f1.execute(
                 "SELECT record FROM retained_observations")]
-            require(pair in retained, "native-source-retained-world-mismatch")
+            require(source == ("work", "independent", 1) and pair in retained,
+                    "native-source-retained-world-mismatch")
             historical_l5 = certificate.get("l5")
             presented_l5 = certificate.get("presented_l5")
             for generation in (presented_l5, historical_l5):
@@ -259,9 +264,23 @@ def _validate_local_effect(owner, state, request_id, raw, binding):
             historical_path = owner.root / "protected" / historical_l5["selector"]
             historical_state = legacy.decode(historical_path.read_bytes())
             historical_native = historical_state.get("native_owner", {})
+            presented_path = owner.root / "protected" / presented_l5["selector"]
+            presented_state = legacy.decode(presented_path.read_bytes())
+            presented_native = presented_state.get("native_owner", {})
             historical_registration = next((item for item in historical_native.get("registrations", [])
                                              if item.get("id") == registration["id"]), None)
+            presented_registration = next((item for item in presented_native.get("registrations", [])
+                                             if item.get("id") == registration["id"]), None)
             reserved = historical_native.get("effects", {}).get(request_id)
+            require(presented_native.get("domain_id") == native.get("domain_id")
+                    and presented_native.get("epoch") == certificate.get("epoch")
+                    and presented_native.get("selected") == registration["id"]
+                    and presented_native.get("lifecycle") == "live"
+                    and presented_registration is not None
+                    and presented_registration.get("status") == "live"
+                    and presented_registration.get("pair") == pair
+                    and request_id not in presented_native.get("effects", {}),
+                    "native-effect-presented-owner-record-mismatch")
             require(historical_native.get("domain_id") == native.get("domain_id")
                     and historical_native.get("epoch") == certificate.get("epoch")
                     and historical_native.get("selected") == registration["id"]
@@ -293,11 +312,107 @@ def _validate_local_effect(owner, state, request_id, raw, binding):
     return event, pending["status"]
 
 
+def _record_reserved_local_observation(owner, state, request_id, event, raw, binding):
+    """Promote only the parsed final journal event through the original callback."""
+    journal = state.journal
+    require(journal.read_bytes() == raw and event == state.request_index.get(request_id)
+            and state.events and state.events[-1] == event,
+            "native-journal-changed-before-local-observation")
+    payload = event["payload"]
+    envelope = legacy.decode(payload)
+    certificate = event["admission"]
+    pair = envelope["pair"]
+    attachment_identity = legacy.identity(journal.parent)
+    with owner.locked() as session:
+        native = session.state["native_owner"]
+        effects = native.get("effects", {})
+        pending = effects.get(request_id)
+        require(isinstance(pending, dict) and pending.get("status") == "reserved"
+                and "seq" not in pending
+                and pending.get("payload_sha256") == digest(payload.encode()),
+                "native-reservation-changed-before-local-observation")
+        require([key for key, item in effects.items() if item.get("status") != "published"] == [request_id],
+                "other-or-unsupported-native-pending-effect")
+        require(certificate.get("domain_id") == native.get("domain_id"),
+                "native-effect-wrong-domain")
+        registration = next((item for item in native.get("registrations", [])
+                             if item.get("id") == envelope.get("import_id")), None)
+        require(registration is not None and registration.get("status") == "live"
+                and registration.get("pair") == pair,
+                "native-effect-registration-world-mismatch")
+        retained = [legacy.decode(item[0]) for item in session.f1.execute(
+            "SELECT record FROM retained_observations")]
+        source = session.f1.execute("SELECT root,profile,version FROM kernel WHERE id=1").fetchone()
+        require(source == ("work", "independent", 1) and pair in retained,
+                "native-source-retained-world-mismatch")
+        require(certificate.get("pair_sha256") == digest(legacy.canonical(pair).encode())
+                and envelope.get("l5") == certificate.get("presented_l5"),
+                "native-effect-historical-proof-mismatch")
+        require((native.get("sink_binding") or {}) == binding
+                and binding.get("journal") == str(journal.resolve())
+                and binding.get("journal_parent_identity") == attachment_identity,
+                "native-settlement-wrong-attachment")
+        metadata = registration["metadata"]
+        content = pair["accepted_content"].encode()
+        require(metadata.get("identity") == registration["id"]
+                and metadata.get("accepted_pair") == pair
+                and native_sink.legacy.l5.verified_content(owner.root, metadata) == content,
+                "native-effect-owned-material-mismatch")
+        item_name = Path(metadata["object"]).name
+        catalog = session.inventory.cx.execute(
+            "SELECT sha256,size,disposed FROM dependencies WHERE name=?", (item_name,)).fetchone()
+        require(catalog == (metadata["sha256"], metadata["size"], 0)
+                and digest(content) == metadata["sha256"] and len(content) == metadata["size"],
+                "native-effect-inventory-binding-mismatch")
+        for generation in (certificate["presented_l5"], certificate["l5"]):
+            require(isinstance(generation, dict) and set(generation) == {"selector", "sha256"}
+                    and re.fullmatch(r"record-[0-9]{6}\.json", generation.get("selector", ""))
+                    and re.fullmatch(r"[0-9a-f]{64}", generation.get("sha256", "")),
+                    "native-effect-owner-generation-mismatch")
+            generation_path = owner.root / "protected" / generation["selector"]
+            require(not generation_path.is_symlink() and generation_path.is_file()
+                    and digest(generation_path.read_bytes()) == generation["sha256"],
+                    "native-effect-historical-owner-record-missing")
+        historical_l5 = certificate["l5"]
+        reserved_record = owner.root / "protected" / historical_l5["selector"]
+        require(not reserved_record.is_symlink() and reserved_record.is_file()
+                and digest(reserved_record.read_bytes()) == historical_l5["sha256"],
+                "native-effect-historical-owner-record-missing")
+        historic = legacy.decode(reserved_record.read_bytes()).get("native_owner", {})
+        presented_record = owner.root / "protected" / certificate["presented_l5"]["selector"]
+        presented_native = legacy.decode(presented_record.read_bytes()).get("native_owner", {})
+        historic_reg = next((item for item in historic.get("registrations", [])
+                             if item.get("id") == registration["id"]), None)
+        presented_reg = next((item for item in presented_native.get("registrations", [])
+                              if item.get("id") == registration["id"]), None)
+        historic_effect = historic.get("effects", {}).get(request_id)
+        require(presented_native.get("domain_id") == native.get("domain_id")
+                and presented_native.get("epoch") == certificate.get("epoch")
+                and presented_native.get("selected") == registration["id"]
+                and presented_native.get("lifecycle") == "live"
+                and presented_reg is not None and presented_reg.get("status") == "live"
+                and presented_reg.get("pair") == pair
+                and request_id not in presented_native.get("effects", {})
+                and historic.get("domain_id") == native.get("domain_id")
+                and historic.get("epoch") == certificate.get("epoch")
+                and historic.get("selected") == registration["id"]
+                and historic.get("lifecycle") == "live"
+                and historic_reg is not None and historic_reg.get("status") == "live"
+                and historic_reg.get("pair") == pair
+                and isinstance(historic_effect, dict) and historic_effect.get("status") == "reserved"
+                and historic_effect.get("payload_sha256") == digest(payload.encode()),
+                "native-effect-historical-registration-mismatch")
+        # Existing typed callback: no caller sequence or new status is accepted.
+        session.record_local_effect(request_id, event["seq"])
+        return session.state["native_owner"]["effects"][request_id]
+
+
 def _protocol_valid(entry):
     return entry.get("transport_valid") is True
 
 
-def reconcile(owner_root: Path, request_id: str, test_gate=False):
+def _run_reconcile(owner_root: Path, request_id: str, test_gate=False,
+                   allow_reserved=False, test_gate_local=False):
     require(type(request_id) is str and request_id, "nonempty-request-id-required")
     owner = owner_module.Owner(owner_root)
     _snapshot, binding, journal, endpoint = _binding(owner)
@@ -321,7 +436,8 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
         require(sink.next_seq > 1 and len(sink.events) <= 65536,
                 "empty-or-invalid-native-journal")
         require(digest(journal.read_bytes()) == digest(raw), "native-journal-changed-during-replay")
-        event, owner_status = _validate_local_effect(owner, sink, request_id, raw, binding)
+        event, owner_status = _validate_local_effect(owner, sink, request_id, raw, binding,
+                                                     allow_reserved=allow_reserved)
         full_cut = sink.cut()
         cut_module.validate_cut(full_cut)
         prefix = b"".join(state_line for state_line in raw.splitlines(keepends=True)[:-1])
@@ -339,10 +455,47 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
         current = response["current"]
         require(current == full_cut or current == prior_cut,
                 "witness-cut-not-exact-target-or-preceding-cut")
+        observation_status = None
+        if owner_status == "reserved":
+            require(allow_reserved, "reserved-native-effect-requires-explicit-observer")
+            observation_status = "unknown"
+            try:
+                _attachment_unchanged(binding, journal, endpoint, original_parent, original_endpoint_parent,
+                                      original_journal_identity)
+                require(journal.read_bytes() == raw and sink.cut() == full_cut,
+                        "native-journal-changed-before-local-observation")
+                observed_owner = _record_reserved_local_observation(owner, sink, request_id, event, raw, binding)
+                require(observed_owner.get("status") == "local"
+                        and observed_owner.get("seq") == event["seq"],
+                        "native-local-observation-selection-unconfirmed")
+                owner_status = "local"
+                observation_status = "local"
+            except Exception as error:
+                return dict(status="unresolved-publication", reason=str(error), error=type(error).__name__,
+                            request_id=request_id, event_seq=event["seq"], cas_count=0,
+                            publication_attempted=False, publication_confirmed=False,
+                            observation_attempted=True, observation_status="unknown",
+                            settlement_status="not-attempted", publication_reply_lost=False,
+                            writer_guard=writer_guard,
+                            protocol=sink.cut_protocol_log[sink_protocol_initial:])
+            if test_gate_local and current == prior_cut:
+                print(json.dumps(dict(event="GATE", phase="after-local-observation-before-publication",
+                                      pid=os.getpid(), request_id=request_id), sort_keys=True), flush=True)
+                try:
+                    require(sys.stdin.readline() == "continue\n", "local-observation-test-gate-not-continued")
+                except Exception as error:
+                    return dict(status="unresolved-publication", reason=str(error), error=type(error).__name__,
+                                request_id=request_id, event_seq=event["seq"], cas_count=0,
+                                publication_attempted=False, publication_confirmed=False,
+                                observation_attempted=True, observation_status="local",
+                                settlement_status="not-attempted", publication_reply_lost=False,
+                                writer_guard=writer_guard,
+                                protocol=sink.cut_protocol_log[sink_protocol_initial:])
         if owner_status == "published" and current != full_cut:
             return dict(status="unresolved-publication", reason="published-owner-lacks-current-target-proof",
                         request_id=request_id, event_seq=event["seq"], cas_count=0,
                         publication_attempted=False, publication_confirmed=False,
+                        observation_attempted=False, observation_status=None,
                         settlement_status="not-attempted", publication_reply_lost=False,
                         writer_guard=writer_guard,
                         protocol=sink.cut_protocol_log[sink_protocol_initial:])
@@ -377,6 +530,8 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
                         event_seq=event["seq"], cas_count=cas_count,
                         publication_attempted=publication_attempted,
                         publication_confirmed=confirmed,
+                        observation_attempted=observation_status is not None,
+                        observation_status=observation_status,
                         settlement_status="published" if status == "published" else "not-confirmed",
                         publication_reply_lost=publication_reply_lost,
                         writer_guard=writer_guard, protocol=sink.cut_protocol_log[sink_protocol_initial:])
@@ -387,6 +542,8 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
                         event_seq=event["seq"], cas_count=cas_count,
                         publication_attempted=publication_attempted,
                         publication_confirmed=confirmed,
+                        observation_attempted=observation_status is not None,
+                        observation_status=observation_status,
                         settlement_status="unknown" if confirmed else "not-confirmed",
                         publication_reply_lost=publication_reply_lost,
                         writer_guard=writer_guard, protocol=sink.cut_protocol_log[sink_protocol_initial:])
@@ -394,6 +551,21 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
         if "sink_lock_acquired" in locals() and sink_lock_acquired:
             sink.lock.release()
         os.close(fd)
+
+
+def reconcile(owner_root: Path, request_id: str, test_gate=False):
+    """Strict default path; reserved-only owner state remains refused."""
+    return _run_reconcile(owner_root, request_id, test_gate=test_gate)
+
+
+def observe_local(owner_root: Path, request_id: str, test_gate_phase=None):
+    """Explicitly observe an actual final F4 event for an existing reservation."""
+    return _run_reconcile(
+        owner_root, request_id,
+        test_gate=test_gate_phase == "after-confirmed-publication-before-settlement",
+        allow_reserved=True,
+        test_gate_local=test_gate_phase == "after-local-observation-before-publication",
+    )
 
 
 def main(argv):
