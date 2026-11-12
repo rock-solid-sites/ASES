@@ -1,0 +1,46 @@
+name: ASES provider registry validation and source observations
+
+on:
+  push:
+    paths:
+      - 'research/provider-registry/**'
+      - '.github/workflows/provider-registry-observations.yml'
+  pull_request:
+    paths:
+      - 'research/provider-registry/**'
+      - '.github/workflows/provider-registry-observations.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  registry-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run all provider-registry structural tests
+        run: python -m unittest discover -s research/provider-registry -p 'test_*.py' -v
+
+  source-observations:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check official source URL HEAD responses (not account availability)
+        run: python research/provider-registry/probe_execution_sources_v1.py /tmp/ases-provider-source-health.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: provider-source-transport-observations
+          path: /tmp/ases-provider-source-health.json
+          retention-days: 14
