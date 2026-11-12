@@ -45,6 +45,9 @@ struct LocalStopGraceful { op:String, job_id:String, launch_id:String, stop_id:S
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct LocalFinalize { op:String, job_id:String, launch_id:String, outcome:String }
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LocalCancelUnlaunched { op:String, job_id:String }
 fn local_operation(message:&Value,store:&mut Store,profile:Option<&LocalProfile>,supervisor:&mut LocalSupervisor)->Result<Value,Box<dyn std::error::Error>>{
     let op=message.get("op").and_then(Value::as_str).ok_or("operation missing")?;
     let profile=profile.ok_or("local profile is not configured")?;
@@ -55,6 +58,7 @@ fn local_operation(message:&Value,store:&mut Store,profile:Option<&LocalProfile>
         "local_stop_graceful"=>{let r:LocalStopGraceful=serde_json::from_value(message.clone())?;if r.op!="local_stop_graceful"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":supervisor.stop_graceful(store,&r.job_id,&r.launch_id,&r.stop_id,r.grace_ms,now())?})},
         "local_resume"=>{let r:LocalJob=serde_json::from_value(message.clone())?;if r.op!="local_resume"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":supervisor.resume(store,&r.job_id,&r.launch_id)?})},
         "local_finalize"=>{let r:LocalFinalize=serde_json::from_value(message.clone())?;if r.op!="local_finalize"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":supervisor.finalize(store,&r.job_id,&r.launch_id,&r.outcome,now())?})},
+        "local_cancel_unlaunched"=>{let r:LocalCancelUnlaunched=serde_json::from_value(message.clone())?;if r.op!="local_cancel_unlaunched"{return Err("operation mismatch".into());}profile.check_job_scope(store,&r.job_id)?;json!({"result":{"finalization":store.cancel_unlaunched(&r.job_id,now())?,"job_id":r.job_id,"outcome":"cancelled","launch_profile":"unlaunched"}})},
         _=>return Err("unknown local operation".into()),
     })
 }
@@ -72,7 +76,7 @@ fn handle(mut conn:UnixStream,db:&Path,policy:&Policy,controller:&Path,profile:O
         let op=message.get("op").and_then(Value::as_str).ok_or("operation missing")?;
         if op.starts_with("local_") {
             if grant.role!="admin" {return Err("local operations require gateway administrator".into());}
-            if !matches!(op,"local_launch"|"local_poll"|"local_stop"|"local_stop_graceful"|"local_resume"|"local_finalize") {
+            if !matches!(op,"local_launch"|"local_poll"|"local_stop"|"local_stop_graceful"|"local_resume"|"local_finalize"|"local_cancel_unlaunched") {
                 return Err("unknown local operation".into());
             }
             let local=local_operation(&message,&mut store,profile,supervisor)?;
