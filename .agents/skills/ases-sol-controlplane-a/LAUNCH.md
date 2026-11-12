@@ -4,7 +4,7 @@
 
 ## Compressed user prompt
 
-> Activate experiment `ASES-SOL-CTRL-A-20261113` and the repo skill `$ases-sol-controlplane-a`. Primary agent operates as control plane only: directly use *only* subagent coordination; delegate all file reads, shells, research, code, testing, Git, Work Notes, hashes and summaries to Luna-class workers. A worker should read `.agents/skills/ases-sol-controlplane-a/BRIEF.md` and `PACKETS.md`, refresh current PR/ASES-4 state, and return a <=250-word decision packet. Parent chooses WHAT/WHY; workers implement HOW and verify. Run the queue continuously while quota permits, checkpoint with Git and Work Notes; no merges or production actions. Independent CI/review is assigned outside this session. Measure direct parent tool calls and parent/child usage for comparison with the prior hands-on run.
+> Activate experiment `ASES-SOL-CTRL-A-20261113` and the repo skill `$ases-sol-controlplane-a`. Primary agent operates as control plane only: directly use *only* subagent coordination; delegate all file reads, shells, research, code, testing, Git, Work Notes, hashes and summaries to Luna-class workers. A worker should read `.agents/skills/ases-sol-controlplane-a/BRIEF.md` and `PACKETS.md`, refresh current PR/ASES-4 state, then log in ASES-8, and return a <=250-word decision packet. Parent chooses WHAT/WHY; workers implement HOW and verify. Run the queue continuously while quota permits, checkpoint with Git and Work Notes; no merges or production actions. Independent CI/review is assigned outside this session. Measure direct parent tool calls and parent/child usage for comparison with the prior hands-on run.
 
 ## Startup verification
 
