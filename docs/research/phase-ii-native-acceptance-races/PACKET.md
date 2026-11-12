@@ -5,7 +5,7 @@ f7b16ddbf34034ce1a0967c37cd92d5869f7e399. Add bounded native histories and a
 focused raw checker, not another ownership model or production API. Existing
 source guards and material-prepared gate should suffice; preserve parent code.
 
-## Eligible history
+## Duplicate acceptance: first isolated fixture
 
 Use the actual setup helpers to establish native world A. Through the real F1
 producer, select world C with identical subject bytes, retaining A. Before
@@ -19,7 +19,14 @@ registration and material become selected. Retry the second owner: it must
 return that exact registration as duplicate with no extra object, epoch change
 or selection. Keep the earlier A object/registration accounted for.
 
-While the first acceptance holds its real F1 transaction and owner guards,
+## Producer overlap and current use: second isolated fixture
+
+Recreate A followed by producer-selected C in a separate fixture, then pause
+acceptance of C at the same real preparation boundary. Do not combine this
+with the duplicate retry: if producer D commits first, a second accept would
+legitimately accept D rather than duplicate C.
+
+While acceptance holds its real F1 transaction and owner guards,
 request a real producer update to world D using the same bytes. Capture the
 actual busy response, or a bounded pending request that commits only after
 release; do not fabricate a particular scheduling result. Direct F1 snapshots
