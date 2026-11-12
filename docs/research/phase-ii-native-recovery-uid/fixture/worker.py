@@ -87,7 +87,7 @@ def open_without_writing(path):
 def connect_without_sending(path):
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     try:
-        sock.connect(path)
+        sock.connect(os.fspath(path))
         return {"result": "allowed", "note": "connected without sending"}
     except OSError as error:
         return {"result": "denied", "errno": error.errno,

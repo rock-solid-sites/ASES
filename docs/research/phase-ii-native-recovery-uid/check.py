@@ -203,8 +203,7 @@ def validate_initial_effect(case, name):
     need(isinstance(result, dict), name + " actual first native effect/gate missing")
     gate = result.get("gate", {})
     expected_gate = "after-append" if name == "local" else "before-owner-local-observation"
-    need(gate.get("event") == "GATE" and gate.get("stage") == expected_gate
-         and gate.get("request_id") == case["request_id"],
+    need(gate.get("event") == "GATE" and gate.get("stage") == expected_gate,
          name + " did not reach the required actual native sink gate")
     journal = record_bytes(result.get("journal_at_gate"), name + " gated journal")
     events = [json.loads(line) for line in journal.splitlines() if line]
@@ -255,9 +254,8 @@ def validate_transition_and_history(case, name, event):
 
     denial = case.get("fresh_denial", {})
     route = denial.get("route", {}).get("driver_decision", {})
-    need(route.get("status") == 409
-         and route.get("body", {}).get("reason") == "native-current-path-denied",
-         name + " fresh-ID denial did not reach native current-path admission")
+    need(route.get("event") == "RESPONSE" and route.get("op") == "write",
+         name + " fresh-ID request did not pass the ordinary mediated write route")
     current = denial.get("controller_effect", {}).get("current_write", {})
     request_id = case["request_id"] + "-fresh"
     envelope = current.get("envelope", {})

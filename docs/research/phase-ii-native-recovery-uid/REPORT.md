@@ -16,10 +16,22 @@ preserved in [run-01 raw evidence](evidence/run-01/raw.json). The pinned image,
 source hashes, bounded Docker settings, and exact container cleanup all
 verified. Fixture setup then failed because UID 2000 could not create its
 `native/` directory under the root-owned case root (`PermissionError: EACCES`).
-The driver needs to transfer that case root to UID 2000 before launching the
-manager. No successful UID-custody result is claimed until a new capture
-completes both fixtures and the raw checker passes. Any retry uses a separate
-evidence directory.
+The driver now transfers that case root to UID 2000 before launching the
+manager.
+
+The second actual attempt is preserved in [run-02 raw evidence](evidence/run-02/raw.json).
+The corrected local case reached the real after-append gate, published exactly
+one journal event through strict reconciliation, confirmed the full witness
+cut, cold-started, moved/sealed the source, denied a fresh current ID at the
+native path check without append, and returned the exact historical result for
+the original ID. The one-shot worker audit exposed a probe bug: `socket.connect`
+received a `Path` instead of a string and exited before its protected-store and
+CLI checks. The reserved case then failed because the controller pointed at a
+nonexistent fixture-local gate wrapper instead of the existing staged
+local-observation wrapper. Both issues are fixed in source; this capture remains
+failed and was not overwritten. No successful UID-custody result is claimed
+until a new capture completes both UID-separated cases and the raw checker
+passes. Any retry uses a separate evidence directory.
 
 ## Evidence
 
