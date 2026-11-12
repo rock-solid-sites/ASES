@@ -80,13 +80,14 @@ worker.py OWNER_ROOT SINK_SOCKET WITNESS_SOCKET OWNER_PID REQUEST_ID
 ```
 
 It emits one `UID_RECOVERY_WORKER_AUDIT` JSON frame and exits. It attempts both
-recovery CLIs with the known fixture owner/request ID, protected-store writes,
-management-lock unlink, direct sink/witness socket access, manager process FD
-access, and a fork/exec descendant check. It reports raw CLI argv/stdout/stderr,
-parsed CLI frames, errno values, and actual `/proc` UID/GID/group/capability/
-NoNewPrivs status. A Python import/syntax failure does not count as a protected
-store denial. The root driver snapshots the actual owner/material/journal/
-witness state before and after these denied requests.
+recovery CLIs with the known fixture owner/request ID, a protected-store write,
+direct sink/witness socket access, a read-only inspection of the manager's
+`/proc/<pid>/fd`, and a fork/exec descendant check. It reports its own open
+descriptors, raw CLI argv/stdout/stderr, parsed CLI frames, errno values, and
+actual `/proc` UID/GID/group/capability/NoNewPrivs status. A Python import or
+syntax failure does not count as a protected-store denial. The root driver
+snapshots the actual owner/material/journal/witness state before and after
+these denied requests.
 
 ## Case flow and results
 
