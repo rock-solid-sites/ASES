@@ -36,15 +36,27 @@ target confirmation that cannot establish the exact target emits
 `status: unresolved-publication`. These cases exit `1` and never retry a CAS
 after an uncertain reply. Invalid CLI syntax prints usage and exits `2`.
 
-With the explicit test gate, the command prints this frame after a fresh check
-has confirmed the target and immediately before owner settlement:
+If the fresh settlement check confirms publication but owner settlement then
+fails or becomes uncertain, the result is `status: unresolved-settlement`,
+`publication_confirmed: true`, and `settlement_status: unknown`. It never reports
+that as no publication. Results also state `publication_attempted`,
+`publication_confirmed`, `settlement_status`, and `cas_count`. A received,
+nonce-matching witness rejection is recorded as a response, not as transport
+loss; `publication_reply_lost` is true only when the CAS response could not be
+validated or was lost.
+
+With the explicit test gate, the command prints this frame after the existing
+settlement helper's fresh `/check` has confirmed the target and immediately
+before it takes the owner lock to settle:
 
 ```json
 {"event":"GATE","phase":"after-confirmed-publication-before-settlement","pid":123,"request_id":"..."}
 ```
 
 It then waits for `continue\n` on stdin. Continuing produces the normal final
-result frame. Killing the process at the gate produces no final result frame;
+result frame. Closing stdin at the gate produces `unresolved-settlement` with
+confirmed publication and unknown owner settlement. Killing the process at the
+gate produces no final result frame;
 the next invocation observes the exact target, performs no second CAS or
 journal append, and invokes the existing settlement helper. The gate is
 accepted only through the explicit test-only CLI form above.
@@ -63,7 +75,8 @@ epoch to match the historical event.
 The fresh witness `/check` must report either the exact full local cut or the
 cut whose journal hash covers the prefix immediately before the final effect,
 with the same replayed authority. Only the exact preceding cut permits one
-`/publish` CAS. A fresh `/check` must confirm the full cut before settlement.
+`/publish` CAS. The existing settlement helper performs the fresh `/check`
+that must confirm the full cut before selecting owner status `published`.
 Publication reply loss remains distinct from a confirmed no-effect response;
 it is never grounds for blind CAS retry. Already-published matching cuts skip
 CAS. The command then calls `native_sink.settle_from_native_sink` under the

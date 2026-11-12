@@ -63,10 +63,11 @@ def identity(path: Path) -> list[int]:
 class ReconcileState(composed.retry.RetryState):
     """RetryState replay plus the existing F4 cut and native witness exchange."""
 
-    def __init__(self, journal: Path, witness_path: Path, witness_root: str):
+    def __init__(self, journal: Path, witness_path: Path, witness_root: str, test_gate=False):
         self.cut_protocol_log = []
         self.witness_path = witness_path
         self.witness_root = witness_root
+        self.test_gate = test_gate
         super().__init__(journal, True)
 
     def cut(self):
@@ -81,7 +82,7 @@ class ReconcileState(composed.retry.RetryState):
         entry = dict(path=path, request=request)
         try:
             code, reply = unix_transport.call_unix(self.witness_path, "POST", path, request)
-            valid = (code == 200 and isinstance(reply, dict)
+            valid = (isinstance(reply, dict)
                      and reply.get("root") == self.witness_root
                      and reply.get("nonce") == request["nonce"]
                      and type(reply.get("revision")) is int
@@ -103,6 +104,7 @@ class ReconcileState(composed.retry.RetryState):
             return proof
         proof["valid"] = bool(
             proof["transport_valid"] is True
+            and proof.get("status") == 200
             and reply.get("allowed") is (reply.get("current") == candidate)
         )
         return proof
@@ -111,6 +113,12 @@ class ReconcileState(composed.retry.RetryState):
         proof = self.check_observed(candidate)
         proof["valid"] = bool(proof["valid"] and proof["response"].get("allowed") is True
                               and proof["response"].get("current") == candidate)
+        if proof["valid"]:
+            self.target_confirmed = True
+        if proof["valid"] and self.test_gate:
+            print(json.dumps(dict(event="GATE", phase="after-confirmed-publication-before-settlement",
+                                  pid=os.getpid(), request_id=self.request_id), sort_keys=True), flush=True)
+            require(sys.stdin.readline() == "continue\n", "test-gate-not-continued")
         return proof
 
 
@@ -305,7 +313,9 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
         raw = journal.read_bytes()
         require(len(raw) <= 65536 and raw.endswith(b"\n"), "journal-outside-bounded-complete-profile")
         composed.admission.cut.ORIGINAL_STATE = composed.retry.RetryState
-        sink = ReconcileState(journal, endpoint, binding["witness_root"])
+        sink = ReconcileState(journal, endpoint, binding["witness_root"], test_gate)
+        sink.request_id = request_id
+        sink.target_confirmed = False
         sink.lock.acquire()
         sink_lock_acquired = True
         require(sink.next_seq > 1 and len(sink.events) <= 65536,
@@ -332,51 +342,54 @@ def reconcile(owner_root: Path, request_id: str, test_gate=False):
         if owner_status == "published" and current != full_cut:
             return dict(status="unresolved-publication", reason="published-owner-lacks-current-target-proof",
                         request_id=request_id, event_seq=event["seq"], cas_count=0,
-                        publication_reply_lost=False, writer_guard=writer_guard,
+                        publication_attempted=False, publication_confirmed=False,
+                        settlement_status="not-attempted", publication_reply_lost=False,
+                        writer_guard=writer_guard,
                         protocol=sink.cut_protocol_log[sink_protocol_initial:])
         cas_count = 0
+        publication_attempted = False
         publication_reply_lost = False
-        if owner_status == "local" and current == prior_cut:
+        try:
+            if owner_status == "local" and current == prior_cut:
+                _attachment_unchanged(binding, journal, endpoint, original_parent, original_endpoint_parent,
+                                      original_journal_identity)
+                publication_attempted = True
+                cas = sink.exchange("/publish", previous=prior_cut, candidate=full_cut,
+                                    expected_revision=response["revision"])
+                cas_count = 1
+                publication_reply_lost = not _protocol_valid(cas)
+
+            # Release every Owner.locked section before invoking the native
+            # helper: it supplies the fresh confirmation check and takes its own
+            # owner lock. Pending status keeps disposal blocked across this gap.
             _attachment_unchanged(binding, journal, endpoint, original_parent, original_endpoint_parent,
                                   original_journal_identity)
-            cas = sink.exchange("/publish", previous=prior_cut, candidate=full_cut,
-                                expected_revision=response["revision"])
-            cas_count = 1
-            if not _protocol_valid(cas):
-                publication_reply_lost = True
-            elif cas["response"].get("published") is not True:
-                # A witnessed rejection is not retried. A fresh check can still
-                # establish whether the target is now current.
-                publication_reply_lost = False
-
-        # Whether the initial observation was already at target or a single CAS
-        # was attempted, require one fresh nonce-bearing check before settlement.
-        _attachment_unchanged(binding, journal, endpoint, original_parent, original_endpoint_parent,
-                              original_journal_identity)
-        confirmation = sink.check_cut(full_cut)
-        if not (_protocol_valid(confirmation) and confirmation.get("valid") is True):
-            return dict(status="unresolved-publication", reason="target-not-confirmed-by-fresh-check",
-                        request_id=request_id, event_seq=event["seq"], cas_count=cas_count,
+            require(digest(journal.read_bytes()) == full_cut["journal_sha256"],
+                    "native-journal-changed-before-settlement")
+            rechecked_event, rechecked_status = _validate_local_effect(owner, sink, request_id, raw, binding)
+            require(rechecked_event == event and rechecked_status == owner_status,
+                    "native-effect-owner-state-changed-before-settlement")
+            settlement = native_sink.settle_from_native_sink(owner, sink, request_id)
+            status = settlement.get("status")
+            confirmed = sink.target_confirmed
+            result_status = "published" if status == "published" else "unresolved-publication"
+            return dict(status=result_status, settlement=settlement, request_id=request_id,
+                        event_seq=event["seq"], cas_count=cas_count,
+                        publication_attempted=publication_attempted,
+                        publication_confirmed=confirmed,
+                        settlement_status="published" if status == "published" else "not-confirmed",
                         publication_reply_lost=publication_reply_lost,
                         writer_guard=writer_guard, protocol=sink.cut_protocol_log[sink_protocol_initial:])
-        if test_gate:
-            print(json.dumps(dict(event="GATE", phase="after-confirmed-publication-before-settlement",
-                                  pid=os.getpid(), request_id=request_id), sort_keys=True), flush=True)
-            require(sys.stdin.readline() == "continue\n", "test-gate-not-continued")
-
-        # Release every Owner.locked section before invoking the native helper:
-        # it takes Owner.locked itself. Pending local status keeps disposal blocked.
-        _attachment_unchanged(binding, journal, endpoint, original_parent, original_endpoint_parent,
-                              original_journal_identity)
-        require(digest(journal.read_bytes()) == full_cut["journal_sha256"],
-                "native-journal-changed-before-settlement")
-        settlement = native_sink.settle_from_native_sink(owner, sink, request_id)
-        status = settlement.get("status")
-        result_status = "published" if status == "published" else "unresolved-publication"
-        return dict(status=result_status, settlement=settlement, request_id=request_id,
-                    event_seq=event["seq"], cas_count=cas_count,
-                    publication_reply_lost=publication_reply_lost,
-                    writer_guard=writer_guard, protocol=sink.cut_protocol_log[sink_protocol_initial:])
+        except Exception as error:
+            confirmed = sink.target_confirmed
+            return dict(status="unresolved-settlement" if confirmed else "unresolved-publication",
+                        reason=str(error), error=type(error).__name__, request_id=request_id,
+                        event_seq=event["seq"], cas_count=cas_count,
+                        publication_attempted=publication_attempted,
+                        publication_confirmed=confirmed,
+                        settlement_status="unknown" if confirmed else "not-confirmed",
+                        publication_reply_lost=publication_reply_lost,
+                        writer_guard=writer_guard, protocol=sink.cut_protocol_log[sink_protocol_initial:])
     finally:
         if "sink_lock_acquired" in locals() and sink_lock_acquired:
             sink.lock.release()
