@@ -12,6 +12,7 @@ use sha2::{Digest, Sha256};
 use std::fs::{self, OpenOptions};
 use std::io::{Read, Write};
 use std::os::unix::net::UnixStream;
+use std::os::unix::fs::PermissionsExt;
 use std::os::unix::process::ExitStatusExt;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
@@ -151,7 +152,7 @@ fn source_hashes() -> Value {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let mut out = serde_json::Map::new();
     for relative in ["src/bin/resource-gateway.rs", "src/local.rs", "src/lib.rs",
-        "tests/native_local_gateway.rs", "tests/native_termination.rs",
+        "tests/native_local_gateway.rs", "tests/native_session_client.rs", "tests/native_session_drive.rs", "tests/native_termination.rs",
         "../docs/research/phase-ii-local-execution/INTERFACE.md"] {
         if let Ok(bytes) = fs::read(root.join(relative)) {
             out.insert(relative.into(), json!(format!("{:x}", Sha256::digest(bytes))));
@@ -376,8 +377,13 @@ fn post_intent_spawn_failure_stays_unknown_and_holds_reservation() {
     let release = dir.path().join("spawn-failure.release");
     let _release = Release(release.clone());
     let mut profile = profile(dir.path(), &marker, &release, "hold");
-    let nonexistent = dir.path().join("absent-fixed-worker");
-    profile["program"] = json!(nonexistent);
+    // This executable passes regular-file and X_OK preflight. The kernel then
+    // rejects its absent absolute interpreter after the durable intent.
+    let nonexistent_interpreter = dir.path().join("absent-fixed-interpreter");
+    let loader_failure = dir.path().join("loader-failure-worker");
+    fs::write(&loader_failure, format!("#!{}\nexit 0\n", nonexistent_interpreter.display())).unwrap();
+    fs::set_permissions(&loader_failure, fs::Permissions::from_mode(0o755)).unwrap();
+    profile["program"] = json!(loader_failure);
     let gateway = Gateway::start(dir.path(), &db, &policy_admin(), &profile);
     let mut store = Store::open(&db).unwrap();
     let request = json!({"op":"local_launch","job_id":"spawn-failure-job","launch_id":"spawn-failure-launch","expected_catalog":revision});
@@ -404,11 +410,131 @@ fn post_intent_spawn_failure_stays_unknown_and_holds_reservation() {
     assert_eq!(balances(&mut store), balances_after_failure);
     drop(store);
     persist("native-gateway-post-intent-spawn-failure.json", json!({
-        "source_sha256":source_hashes(), "trusted_profile_program":nonexistent,
+        "source_sha256":source_hashes(), "trusted_profile_program":loader_failure,
+        "absent_interpreter":nonexistent_interpreter,
         "request":raw_request, "response":response, "events_after_failure":events_after_failure,
         "balances_after_failure":balances_after_failure, "replay_request":raw_replay,
         "replay_response":replay, "finalize_request":raw_finalize,
         "finalize_response":finalize_response, "worker_marker_exists":false
+    }));
+}
+
+fn sleep_copy(dir: &Path, name: &str) -> PathBuf {
+    let path = dir.join(name);
+    fs::copy("/bin/sleep", &path).unwrap();
+    fs::set_permissions(&path, fs::Permissions::from_mode(0o755)).unwrap();
+    path
+}
+
+fn preflight_profile(program: &Path, cwd: &Path) -> Value {
+    json!({"program":program,"args":["0.05"],"cwd":cwd,"env":{},
+        "account_id":ACCOUNT,"project_id":PROJECT,"environment_id":ENVIRONMENT})
+}
+
+#[test]
+fn filesystem_preflight_preserves_authorized_job_for_repair_and_retry() {
+    for case in ["missing-program", "non-executable-program", "missing-cwd", "non-directory-cwd"] {
+        let dir = tempfile::tempdir().unwrap();
+        let job = format!("preflight-{case}");
+        let (db, revision) = setup(dir.path(), &job);
+        let program = match case {
+            "missing-program" => dir.path().join("worker-to-install"),
+            "non-executable-program" => {
+                let path = dir.path().join("worker-no-x");
+                fs::copy("/bin/true", &path).unwrap();
+                fs::set_permissions(&path, fs::Permissions::from_mode(0o644)).unwrap();
+                path
+            }
+            _ => PathBuf::from("/bin/true"),
+        };
+        let cwd = match case {
+            "missing-cwd" => dir.path().join("cwd-to-create"),
+            "non-directory-cwd" => {
+                let path = dir.path().join("cwd-file");
+                fs::write(&path, b"not a directory").unwrap();
+                path
+            }
+            _ => std::env::current_dir().unwrap(),
+        };
+        let profile = preflight_profile(&program, &cwd);
+        let gateway = Gateway::start(dir.path(), &db, &policy_admin(), &profile);
+        let request = json!({"op":"local_launch","job_id":job,"launch_id":"repair-launch","expected_catalog":revision});
+        let (failed, _) = gateway.send(request.clone());
+        assert_eq!(failed["ok"], false, "{case} must fail preflight: {failed}");
+        let mut store = Store::open(&db).unwrap();
+        assert_eq!(store.job(&job).unwrap()["state"], "AUTHORIZED", "{case} must not consume authorization");
+        let before_repair = store.event_log(Some(&job)).unwrap();
+        assert!(!before_repair.iter().any(|event| event["kind"] == "LAUNCH_INTENT"), "{case} created no launch intent");
+        let balances_before_repair = balances(&mut store);
+        assert_eq!(balances_before_repair[0]["active_reserved_remaining"], json!(50));
+        drop(store);
+
+        match case {
+            "missing-program" => { fs::copy("/bin/true", &program).unwrap(); fs::set_permissions(&program, fs::Permissions::from_mode(0o755)).unwrap(); }
+            "non-executable-program" => fs::set_permissions(&program, fs::Permissions::from_mode(0o755)).unwrap(),
+            "missing-cwd" => fs::create_dir(&cwd).unwrap(),
+            "non-directory-cwd" => { fs::remove_file(&cwd).unwrap(); fs::create_dir(&cwd).unwrap(); }
+            _ => unreachable!(),
+        }
+        let (retried, _) = gateway.send(request.clone());
+        assert_eq!(retried["ok"], true, "same authorized job succeeds after repairing {case}: {retried}");
+        let store = Store::open(&db).unwrap();
+        let after_retry = store.event_log(Some(&job)).unwrap();
+        assert_eq!(after_retry.iter().filter(|event| event["kind"] == "LAUNCH_INTENT").count(), 1);
+        assert_eq!(after_retry.iter().filter(|event| event["kind"] == "LAUNCH_STARTED_OBSERVED").count(), 1);
+        let (replay, _) = gateway.send(request);
+        assert_eq!(replay["ok"], true, "post-retry replay: {replay}");
+        let after_replay = store.event_log(Some(&job)).unwrap();
+        assert_eq!(after_replay.iter().filter(|event| event["kind"] == "LAUNCH_INTENT").count(), 1,
+            "retry replay does not dispatch again");
+        assert_eq!(after_replay.iter().filter(|event| event["kind"] == "LAUNCH_STARTED_OBSERVED").count(), 1);
+        persist(&format!("native-gateway-preflight-{case}.json"), json!({
+            "source_sha256":source_hashes(), "case":case, "profile":profile,
+            "failed_preflight_response":failed, "events_before_repair":before_repair,
+            "balances_before_repair":balances_before_repair, "retry_response":retried,
+            "events_after_retry":after_retry, "replay_response":replay,
+            "events_after_replay":after_replay
+        }));
+    }
+}
+
+#[test]
+fn running_child_remains_owned_after_profile_executable_is_unlinked() {
+    let dir = tempfile::tempdir().unwrap();
+    let (db, revision) = setup(dir.path(), "unlinked-program-job");
+    let program = sleep_copy(dir.path(), "temporary-sleep");
+    let profile = json!({"program":program,"args":["30"],"cwd":std::env::current_dir().unwrap(),"env":{},
+        "account_id":ACCOUNT,"project_id":PROJECT,"environment_id":ENVIRONMENT});
+    let gateway = Gateway::start(dir.path(), &db, &policy_admin(), &profile);
+    let launch = json!({"op":"local_launch","job_id":"unlinked-program-job","launch_id":"unlinked-launch","expected_catalog":revision});
+    let (started, _) = gateway.send(launch.clone());
+    assert_eq!(started["ok"], true, "sleep child launched: {started}");
+    fs::remove_file(&program).unwrap();
+
+    let (replay, _) = gateway.send(launch.clone());
+    assert_eq!(replay["ok"], true, "exact replay skips filesystem preflight: {replay}");
+    assert_eq!(replay["result"]["state"], "running");
+    let (poll, _) = gateway.send(json!({"op":"local_poll","job_id":"unlinked-program-job","launch_id":"unlinked-launch"}));
+    assert_eq!(poll["ok"], true, "poll after unlink: {poll}");
+    assert_eq!(poll["result"]["state"], "running");
+    let (resume, _) = gateway.send(json!({"op":"local_resume","job_id":"unlinked-program-job","launch_id":"unlinked-launch"}));
+    assert_eq!(resume["ok"], true, "resume after unlink: {resume}");
+    assert_eq!(resume["result"]["local_state"], "owned_child_unobserved");
+    let (stopped, _) = gateway.send(json!({"op":"local_stop","job_id":"unlinked-program-job","launch_id":"unlinked-launch","stop_id":"unlink-stop"}));
+    assert_eq!(stopped["ok"], true, "stop after unlink: {stopped}");
+    assert_eq!(stopped["result"]["state"], "exit_observed");
+    let (finalized, _) = gateway.send(json!({"op":"local_finalize","job_id":"unlinked-program-job","launch_id":"unlinked-launch","outcome":"completed"}));
+    assert_eq!(finalized["ok"], true, "finalize after unlink: {finalized}");
+    let store = Store::open(&db).unwrap();
+    assert_eq!(store.job("unlinked-program-job").unwrap()["state"], "CLOSED");
+    let events = store.event_log(Some("unlinked-program-job")).unwrap();
+    assert_eq!(events.iter().filter(|event| event["kind"] == "LAUNCH_INTENT").count(), 1);
+    persist("native-gateway-unlinked-executable.json", json!({
+        "source_sha256":source_hashes(), "program_path":program,
+        "launch_request":launch, "launch_response":started,
+        "program_unlinked_before_replay_poll_resume_stop_finalize":true,
+        "replay_response":replay, "poll_response":poll, "resume_response":resume,
+        "stop_response":stopped, "finalize_response":finalized, "events_after_finalize":events
     }));
 }
 

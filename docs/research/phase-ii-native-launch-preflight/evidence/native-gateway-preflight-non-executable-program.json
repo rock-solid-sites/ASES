@@ -1,0 +1,242 @@
+{
+  "balances_before_repair": [
+    {
+      "account": "local-test-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "local-test-meter",
+      "period": "local-gateway-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "case": "non-executable-program",
+  "events_after_replay": [
+    {
+      "at": 1794511731,
+      "event_id": "preflight-non-executable-program:reserved",
+      "job_id": "preflight-non-executable-program",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "preflight-non-executable-program",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "preflight-non-executable-program:ack:ack-preflight-non-executable-program",
+      "job_id": "preflight-non-executable-program",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-preflight-non-executable-program",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "launch-intent:preflight-non-executable-program",
+      "job_id": "preflight-non-executable-program",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "repair-launch"
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "launch-observation:preflight-non-executable-program",
+      "job_id": "preflight-non-executable-program",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "repair-launch",
+        "process": {
+          "pid": 24805,
+          "start_token": "5048125"
+        }
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "launch-exit:preflight-non-executable-program",
+      "job_id": "preflight-non-executable-program",
+      "kind": "LAUNCH_EXIT_OBSERVED",
+      "payload": {
+        "launch_id": "repair-launch",
+        "process": {
+          "pid": 24805,
+          "start_token": "5048125"
+        },
+        "status": {
+          "code": 0,
+          "kind": "code"
+        }
+      }
+    }
+  ],
+  "events_after_retry": [
+    {
+      "at": 1794511731,
+      "event_id": "preflight-non-executable-program:reserved",
+      "job_id": "preflight-non-executable-program",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "preflight-non-executable-program",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "preflight-non-executable-program:ack:ack-preflight-non-executable-program",
+      "job_id": "preflight-non-executable-program",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-preflight-non-executable-program",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "launch-intent:preflight-non-executable-program",
+      "job_id": "preflight-non-executable-program",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "repair-launch"
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "launch-observation:preflight-non-executable-program",
+      "job_id": "preflight-non-executable-program",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "repair-launch",
+        "process": {
+          "pid": 24805,
+          "start_token": "5048125"
+        }
+      }
+    }
+  ],
+  "events_before_repair": [
+    {
+      "at": 1794511731,
+      "event_id": "preflight-non-executable-program:reserved",
+      "job_id": "preflight-non-executable-program",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "preflight-non-executable-program",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794511731,
+      "event_id": "preflight-non-executable-program:ack:ack-preflight-non-executable-program",
+      "job_id": "preflight-non-executable-program",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-preflight-non-executable-program",
+        "catalog_version": 3
+      }
+    }
+  ],
+  "failed_preflight_response": {
+    "error": "invalid: local profile program must be a regular file executable by the effective user",
+    "ok": false
+  },
+  "profile": {
+    "account_id": "local-test-account",
+    "args": [
+      "0.05"
+    ],
+    "cwd": "/workspace/ases-native-launch-preflight/resource-control",
+    "env": {},
+    "environment_id": "local-test-environment",
+    "program": "/tmp/.tmpdqknG3/worker-no-x",
+    "project_id": "local-test-project"
+  },
+  "replay_response": {
+    "ok": true,
+    "result": {
+      "exit": {
+        "code": 0
+      },
+      "job_id": "preflight-non-executable-program",
+      "launch_id": "repair-launch",
+      "state": "exit_observed"
+    }
+  },
+  "retry_response": {
+    "ok": true,
+    "result": {
+      "job_id": "preflight-non-executable-program",
+      "launch_id": "repair-launch",
+      "state": "running"
+    }
+  },
+  "source_sha256": {
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "98bfbc35f37313b1f98b5b69487f06be2301f9ad4100f9c15ea3e8ed69a14ae6",
+    "tests/native_local_gateway.rs": "b9021b635c846fe0124a8c84105c7eeb51565d4e5e209b2f03c9fe521977e382",
+    "tests/native_session_client.rs": "02a81a39db9721da3fa4af9d1fde299aad250d317bd7263686e37098ef962171",
+    "tests/native_session_drive.rs": "c1c378a25dacdb87c042edaa880686b0856f6efc1d3101e41ded082885259ec7",
+    "tests/native_termination.rs": "bd586da579f918a0256442eeb1762123668f4715e6a76a659980e44be8be89e9"
+  }
+}

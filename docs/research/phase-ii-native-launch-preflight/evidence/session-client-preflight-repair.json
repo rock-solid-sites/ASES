@@ -1,0 +1,211 @@
+{
+  "client_argv": [
+    "launch",
+    "client-preflight-repair-job",
+    "client-preflight-repair-launch",
+    "3"
+  ],
+  "preflight_rejection": {
+    "events_after": [
+      {
+        "at": 1794511731,
+        "event_id": "client-preflight-repair-job:reserved",
+        "job_id": "client-preflight-repair-job",
+        "kind": "RESERVED",
+        "payload": {
+          "catalog_version": 3,
+          "estimated_cash_micros": 0,
+          "forecast": {
+            "account_id": "session-client-account",
+            "claims": [
+              {
+                "amount": 50,
+                "meter_id": "session-client-meter"
+              }
+            ],
+            "environment_id": "session-client-environment",
+            "estimated_wall_seconds": 90,
+            "forecast_context": null,
+            "job_id": "client-preflight-repair-job",
+            "paid_spend_cap_currency": null,
+            "paid_spend_cap_micros": null,
+            "project_id": "session-client-project"
+          }
+        }
+      },
+      {
+        "at": 1794511731,
+        "event_id": "client-preflight-repair-job:ack:ack-client-preflight-repair-job",
+        "job_id": "client-preflight-repair-job",
+        "kind": "AUTHORIZED",
+        "payload": {
+          "ack_id": "ack-client-preflight-repair-job",
+          "catalog_version": 3
+        }
+      }
+    ],
+    "events_before": [
+      {
+        "at": 1794511731,
+        "event_id": "client-preflight-repair-job:reserved",
+        "job_id": "client-preflight-repair-job",
+        "kind": "RESERVED",
+        "payload": {
+          "catalog_version": 3,
+          "estimated_cash_micros": 0,
+          "forecast": {
+            "account_id": "session-client-account",
+            "claims": [
+              {
+                "amount": 50,
+                "meter_id": "session-client-meter"
+              }
+            ],
+            "environment_id": "session-client-environment",
+            "estimated_wall_seconds": 90,
+            "forecast_context": null,
+            "job_id": "client-preflight-repair-job",
+            "paid_spend_cap_currency": null,
+            "paid_spend_cap_micros": null,
+            "project_id": "session-client-project"
+          }
+        }
+      },
+      {
+        "at": 1794511731,
+        "event_id": "client-preflight-repair-job:ack:ack-client-preflight-repair-job",
+        "job_id": "client-preflight-repair-job",
+        "kind": "AUTHORIZED",
+        "payload": {
+          "ack_id": "ack-client-preflight-repair-job",
+          "catalog_version": 3
+        }
+      }
+    ],
+    "exit_code": 3,
+    "job_after": {
+      "ack_id": "ack-client-preflight-repair-job",
+      "catalog_version": 3,
+      "expires_at": 1794512631,
+      "job_id": "client-preflight-repair-job",
+      "launch_id": null,
+      "meters": [
+        {
+          "meter": "session-client-meter",
+          "observed": 0,
+          "overrun": 0,
+          "reserved": 50,
+          "unspent": 50
+        }
+      ],
+      "outcome": null,
+      "proposal": {
+        "account_id": "session-client-account",
+        "claims": [
+          {
+            "amount": 50,
+            "meter_id": "session-client-meter"
+          }
+        ],
+        "environment_id": "session-client-environment",
+        "estimated_wall_seconds": 90,
+        "forecast_context": null,
+        "job_id": "client-preflight-repair-job",
+        "paid_spend_cap_currency": null,
+        "paid_spend_cap_micros": null,
+        "project_id": "session-client-project"
+      },
+      "state": "AUTHORIZED"
+    },
+    "response": {
+      "error": "invalid: local profile program must be a regular file executable by the effective user",
+      "ok": false
+    },
+    "stderr": "",
+    "stdout": "{\"error\":\"invalid: local profile program must be a regular file executable by the effective user\",\"ok\":false}\n"
+  },
+  "same_job_retry": {
+    "events_after": [
+      {
+        "at": 1794511731,
+        "event_id": "client-preflight-repair-job:reserved",
+        "job_id": "client-preflight-repair-job",
+        "kind": "RESERVED",
+        "payload": {
+          "catalog_version": 3,
+          "estimated_cash_micros": 0,
+          "forecast": {
+            "account_id": "session-client-account",
+            "claims": [
+              {
+                "amount": 50,
+                "meter_id": "session-client-meter"
+              }
+            ],
+            "environment_id": "session-client-environment",
+            "estimated_wall_seconds": 90,
+            "forecast_context": null,
+            "job_id": "client-preflight-repair-job",
+            "paid_spend_cap_currency": null,
+            "paid_spend_cap_micros": null,
+            "project_id": "session-client-project"
+          }
+        }
+      },
+      {
+        "at": 1794511731,
+        "event_id": "client-preflight-repair-job:ack:ack-client-preflight-repair-job",
+        "job_id": "client-preflight-repair-job",
+        "kind": "AUTHORIZED",
+        "payload": {
+          "ack_id": "ack-client-preflight-repair-job",
+          "catalog_version": 3
+        }
+      },
+      {
+        "at": 1794511731,
+        "event_id": "launch-intent:client-preflight-repair-job",
+        "job_id": "client-preflight-repair-job",
+        "kind": "LAUNCH_INTENT",
+        "payload": {
+          "catalog_version": 3,
+          "dispatch_granted": true,
+          "launch_id": "client-preflight-repair-launch"
+        }
+      },
+      {
+        "at": 1794511731,
+        "event_id": "launch-observation:client-preflight-repair-job",
+        "job_id": "client-preflight-repair-job",
+        "kind": "LAUNCH_STARTED_OBSERVED",
+        "payload": {
+          "launch_id": "client-preflight-repair-launch",
+          "process": {
+            "pid": 24856,
+            "start_token": "5048149"
+          }
+        }
+      }
+    ],
+    "exit_code": 0,
+    "response": {
+      "ok": true,
+      "result": {
+        "job_id": "client-preflight-repair-job",
+        "launch_id": "client-preflight-repair-launch",
+        "state": "running"
+      }
+    },
+    "stderr": "",
+    "stdout": "{\"ok\":true,\"result\":{\"job_id\":\"client-preflight-repair-job\",\"launch_id\":\"client-preflight-repair-launch\",\"state\":\"running\"}}\n"
+  },
+  "source_sha256": {
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/bin/resource-session.rs": "5e03d90721c376479b934a075178e869a67fdcd4fedff1f8c887e40d1b57d56e",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "98bfbc35f37313b1f98b5b69487f06be2301f9ad4100f9c15ea3e8ed69a14ae6",
+    "tests/native_session_client.rs": "02a81a39db9721da3fa4af9d1fde299aad250d317bd7263686e37098ef962171"
+  },
+  "trusted_profile_program": "/tmp/.tmpLhKAoo/program-to-install",
+  "why": "known missing executable is rejected before the one-use launch intent"
+}

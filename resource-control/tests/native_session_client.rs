@@ -8,6 +8,7 @@ use sha2::{Digest, Sha256};
 use std::fs::{self, OpenOptions};
 use std::io::{Read, Write};
 use std::os::unix::net::{UnixListener, UnixStream};
+use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Output, Stdio};
 use std::thread;
@@ -83,9 +84,13 @@ fn profile(marker: &Path, release: &Path, exited: &Path) -> Value {
     })
 }
 
-fn invalid_program_profile(dir: &Path) -> Value {
+fn post_intent_loader_failure_profile(dir: &Path) -> Value {
+    let interpreter = dir.join("absent-fixed-interpreter");
+    let program = dir.join("loader-failure-worker");
+    fs::write(&program, format!("#!{}\nexit 0\n", interpreter.display())).unwrap();
+    fs::set_permissions(&program, fs::Permissions::from_mode(0o755)).unwrap();
     json!({
-        "program": dir.join("missing-fixed-worker"),
+        "program": program,
         "args": [], "cwd": dir,
         "env": {},
         "account_id": ACCOUNT, "project_id": PROJECT, "environment_id": ENVIRONMENT
@@ -132,6 +137,50 @@ fn parse_stdout(output: &Output) -> Value {
     serde_json::from_slice(&output.stdout).unwrap_or_else(|_| panic!(
         "client stdout was not JSON: status={:?}, stdout={}, stderr={}",
         output.status.code(), String::from_utf8_lossy(&output.stdout), String::from_utf8_lossy(&output.stderr)))
+}
+
+#[test]
+fn native_client_retries_same_job_after_missing_program_preflight_rejection() {
+    let dir = tempfile::tempdir().unwrap();
+    let job = "client-preflight-repair-job";
+    let launch = "client-preflight-repair-launch";
+    let (db, revision) = setup(dir.path(), job);
+    let program = dir.path().join("program-to-install");
+    let trusted = json!({"program":program,"args":[],"cwd":std::env::current_dir().unwrap(),"env":{},
+        "account_id":ACCOUNT,"project_id":PROJECT,"environment_id":ENVIRONMENT});
+    let gateway = Gateway::start(dir.path(), "gateway-preflight-repair", &db, &admin_policy(), &trusted);
+    let revision_arg = revision.to_string();
+    let args = ["launch", job, launch, revision_arg.as_str()];
+    let before = events(&db, job);
+    let rejected_output = invoke(&gateway.socket, &args);
+    let rejected = parse_stdout(&rejected_output);
+    assert_eq!(rejected_output.status.code(), Some(3));
+    assert_eq!(rejected["ok"], false);
+    let job_after_rejection = Store::open(&db).unwrap().job(job).unwrap();
+    assert_eq!(job_after_rejection["state"], "AUTHORIZED");
+    let after_rejection = events(&db, job);
+    assert_eq!(after_rejection, before);
+    assert!(!before.as_array().unwrap().iter().any(|event| event["kind"] == "LAUNCH_INTENT"));
+
+    fs::copy("/bin/true", &program).unwrap();
+    fs::set_permissions(&program, fs::Permissions::from_mode(0o755)).unwrap();
+    let retried_output = invoke(&gateway.socket, &args);
+    let retried = parse_stdout(&retried_output);
+    assert_eq!(retried_output.status.code(), Some(0), "same client command after repair: {retried}");
+    assert_eq!(retried["ok"], true);
+    let after = events(&db, job);
+    assert_eq!(after.as_array().unwrap().iter().filter(|event| event["kind"] == "LAUNCH_INTENT").count(), 1);
+    persist("session-client-preflight-repair.json", json!({
+        "why":"known missing executable is rejected before the one-use launch intent",
+        "source_sha256":source_hashes(), "trusted_profile_program":program,
+        "client_argv":[args[0],args[1],args[2],args[3]],
+        "preflight_rejection":{"exit_code":rejected_output.status.code(),
+            "stdout":String::from_utf8_lossy(&rejected_output.stdout),"stderr":String::from_utf8_lossy(&rejected_output.stderr),
+            "response":rejected,"job_after":job_after_rejection,"events_before":before,"events_after":after_rejection},
+        "same_job_retry":{"exit_code":retried_output.status.code(),
+            "stdout":String::from_utf8_lossy(&retried_output.stdout),"stderr":String::from_utf8_lossy(&retried_output.stderr),
+            "response":retried,"events_after":after}
+    }));
 }
 
 fn events(db: &Path, job: &str) -> Value {
@@ -458,7 +507,7 @@ fn fresh_session_client_drives_hot_cold_and_server_error_histories() {
     let error_job = "session-server-error-job";
     let error_launch = "session-server-error-launch";
     let (error_db, error_revision) = setup(&error_dir,error_job);
-    let bad_profile = invalid_program_profile(&error_dir);
+    let bad_profile = post_intent_loader_failure_profile(&error_dir);
     let error_gateway = Gateway::start(&error_dir,"gateway-server-error",&error_db,&admin_policy(),&bad_profile);
     let mut error_records = Vec::new();
     let error_revision_arg = error_revision.to_string();
