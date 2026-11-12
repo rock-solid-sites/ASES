@@ -125,6 +125,11 @@ audit and mediated management denial. `worker_management_attempt` includes
 `controller_op_count_before` and `controller_op_count_after`, counting only
 requests forwarded to the UID-2000 pipe.
 
+The gated `initial_effect.first_write` also retains `indexed_event_at_gate`,
+read from the real `RetryState(journal, True).request_index` while the actual
+sink is paused. This captures the complete admitted journal event at the
+publication boundary without rebuilding or supplying a second replay model.
+
 `recovery` is the controller's raw response, with `before`, `command`,
 `cold_restart_ready`, and `after`. The `command` retains exact argv, monotonic
 start/end times, exit status, stdout/stderr, and parsed CLI frame. Separate

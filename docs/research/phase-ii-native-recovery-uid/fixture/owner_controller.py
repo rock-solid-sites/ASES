@@ -64,6 +64,19 @@ class NativeManager:
             "f4_socket_dir": self.f4.socket_dir_meta,
         }
 
+    @staticmethod
+    def indexed_event(journal, request_id):
+        """Read the actual sink replay parser's request index without mutation."""
+        retry = probe.load_module(
+            "uid_recovery_retry_state",
+            ROOT.parent / "phase-i-effect-retry" / "candidate.py",
+        )
+        state = retry.RetryState(journal, True)
+        event = state.request_index.get(request_id)
+        if event is None:
+            raise ValueError("gated-request-missing-from-actual-retry-index")
+        return event
+
     def gated_first_write(self, request_id):
         if self.first_write is not None:
             raise ValueError("initial-effect-already-attempted")
@@ -79,6 +92,7 @@ class NativeManager:
                 raise RuntimeError("actual-native-sink-gate-mismatch:" + json.dumps(gate, sort_keys=True))
             owner_at_gate = self.owner.call({"op": "read"})
             journal_at_gate = probe.file_record(self.f4.journal)
+            indexed_event_at_gate = self.indexed_event(self.f4.journal, request_id)
             witness_at_gate = self.f4.witness_call("/status")
             dead_sink = self.f4.sink.close(kill=True)
             try:
@@ -87,7 +101,9 @@ class NativeManager:
                 submit_result = {"future_error": type(error).__name__ + ":" + str(error)}
         self.first_write = {"request_id": request_id, "envelope": envelope, "gate": gate,
                             "owner_before": owner_before, "owner_at_gate": owner_at_gate,
-                            "journal_at_gate": journal_at_gate, "witness_at_gate": witness_at_gate,
+                            "journal_at_gate": journal_at_gate,
+                            "indexed_event_at_gate": indexed_event_at_gate,
+                            "witness_at_gate": witness_at_gate,
                             "dead_sink": dead_sink, "submit_result": submit_result}
         return self.first_write
 
@@ -147,14 +163,7 @@ class NativeManager:
     def exact_old(self):
         if not self.recovered:
             raise ValueError("historical-lookup-requires-recovery")
-        retry = probe.load_module(
-            "uid_recovery_retry_state",
-            ROOT.parent / "phase-i-effect-retry" / "candidate.py",
-        )
-        state = retry.RetryState(self.f4.journal, True)
-        event = state.request_index.get(self.first_write["request_id"])
-        if event is None:
-            raise ValueError("original-event-missing-from-retry-index")
+        event = self.indexed_event(self.f4.journal, self.first_write["request_id"])
         before = probe.file_record(self.f4.journal)
         request = {"authority_version": event["accepted_under_version"],
                    "request_id": event["request_id"], "payload": event["payload"]}
