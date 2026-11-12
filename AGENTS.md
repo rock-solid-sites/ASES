@@ -10,6 +10,11 @@ supersedes: AGENTS.md (previous version)
 ---
 # AGENTS
 
+## Explicit experimental Codex role — NOT a global policy
+
+Only when a **fresh Codex user task explicitly activates** run ID `ASES-SOL-CTRL-A-20261113`, the **primary agent** must activate `$ases-sol-controlplane-a` from `.agents/skills/ases-sol-controlplane-a/SKILL.md`. The parent acts as control plane: directly use subagent **spawn/message/wait** only; delegate reading, shell/tests, research, Git, Work Notes, commits, evidence checking and implementation to worker subagents. Parent may decide architecture and read short worker decision packets. Do not apply the parent-only restriction to the workers or to any other session. This is a reversible test of orchestration economics, not a change to canonical ASES authority, safety or semantics.
+
+
 This document defines the operational rules for AI agents contributing to the EDASES ecosystem.
 
 Its purpose is to ensure that AI contributions remain consistent with the project's research, methodology and implementation goals.
