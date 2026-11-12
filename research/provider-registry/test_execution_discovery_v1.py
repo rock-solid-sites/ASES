@@ -40,7 +40,7 @@ class AgentExecutionDiscoveryCatalog(unittest.TestCase):
                     self.assertEqual(route["account_access"], "unverified")
                     self.assertEqual(route["adapter_state"], "not_implemented")
                     self.assertEqual(route["launch_test"], "not_run")
-                    self.assertRegex(route["reviewed_on"], r"^20\\d{2}-\\d{2}-\\d{2}$")
+                    self.assertRegex(route["reviewed_on"], r"^20\d{2}-\d{2}-\d{2}$")
 
     def test_preserve_foundational_provider_inventory(self):
         ids = {p["id"] for p in self.providers}
