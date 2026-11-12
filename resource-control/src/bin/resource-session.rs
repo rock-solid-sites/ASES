@@ -27,7 +27,7 @@ fn valid_id(value: &str) -> bool {
 }
 
 fn usage() -> &'static str {
-    "usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | stop-graceful JOB LAUNCH STOP_ID GRACE_MS | finalize JOB LAUNCH OUTCOME"
+    "usage: resource-session SOCKET resume JOB LAUNCH | launch JOB LAUNCH EXPECTED_CATALOG | poll JOB LAUNCH | stop JOB LAUNCH STOP_ID | stop-graceful JOB LAUNCH STOP_ID GRACE_MS | finalize JOB LAUNCH OUTCOME | cancel-unlaunched JOB"
 }
 
 fn request(args: &[String]) -> Result<(String, Value), ClientError> {
@@ -75,6 +75,9 @@ fn request(args: &[String]) -> Result<(String, Value), ClientError> {
             && ["completed", "failed", "cancelled", "interrupted"].contains(&args[4].as_str()) =>
         {
             json!({"op":"local_finalize","job_id":args[2],"launch_id":args[3],"outcome":args[4]})
+        }
+        "cancel-unlaunched" if args.len()==3&&valid_id(&args[2])=>{
+            json!({"op":"local_cancel_unlaunched","job_id":args[2]})
         }
         _ => return Err(ClientError::Invalid(usage().into())),
     };

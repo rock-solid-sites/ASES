@@ -1,0 +1,419 @@
+{
+  "records": [
+    {
+      "cancel_reply": {
+        "ok": true,
+        "result": {
+          "finalization": "CLOSED",
+          "job_id": "cancel-first-job",
+          "launch_profile": "unlaunched",
+          "outcome": "cancelled"
+        }
+      },
+      "cancel_request": {
+        "job_id": "cancel-first-job",
+        "op": "local_cancel_unlaunched"
+      },
+      "capacity_after": 0,
+      "case": "deterministic-cancel-first",
+      "events_after_cancel": [
+        {
+          "at": 1794512558,
+          "event_id": "cancel-first-job:reserved",
+          "job_id": "cancel-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "unlaunched-cancel-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "unlaunched-cancel-meter"
+                }
+              ],
+              "environment_id": "unlaunched-cancel-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "unlaunched-cancel-project"
+            }
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "cancel-first-job:ack:ack-cancel-first-job",
+          "job_id": "cancel-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-first-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "cancel-first-job:final:cancelled",
+          "job_id": "cancel-first-job",
+          "kind": "FINALIZED",
+          "payload": {
+            "outcome": "cancelled"
+          }
+        }
+      ],
+      "events_before": [
+        {
+          "at": 1794512558,
+          "event_id": "cancel-first-job:reserved",
+          "job_id": "cancel-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "unlaunched-cancel-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "unlaunched-cancel-meter"
+                }
+              ],
+              "environment_id": "unlaunched-cancel-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "cancel-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "unlaunched-cancel-project"
+            }
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "cancel-first-job:ack:ack-cancel-first-job",
+          "job_id": "cancel-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cancel-first-job",
+            "catalog_version": 3
+          }
+        }
+      ],
+      "launch_reply": {
+        "error": "conflict: launch forbidden from state CLOSED",
+        "ok": false
+      },
+      "launch_request": {
+        "expected_catalog": 3,
+        "job_id": "cancel-first-job",
+        "launch_id": "cancel-first-launch",
+        "op": "local_launch"
+      },
+      "worker_count": 0
+    },
+    {
+      "balances_before_cancel": [
+        {
+          "account": "unlaunched-cancel-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "unlaunched-cancel-meter",
+          "period": "unlaunched-cancel-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "cancel_reply": {
+        "error": "conflict: unlaunched cancellation forbidden from state RUNNING",
+        "ok": false
+      },
+      "cancel_request": {
+        "job_id": "launch-first-job",
+        "op": "local_cancel_unlaunched"
+      },
+      "case": "deterministic-launch-first",
+      "cleanup_finalize": {
+        "ok": true,
+        "result": {
+          "finalization": "CLOSED",
+          "job_id": "launch-first-job",
+          "launch_id": "launch-first-launch",
+          "outcome": "cancelled"
+        }
+      },
+      "cleanup_stop": {
+        "ok": true,
+        "result": {
+          "exit": {
+            "signal": 9
+          },
+          "job_id": "launch-first-job",
+          "launch_id": "launch-first-launch",
+          "replayed": false,
+          "state": "exit_observed",
+          "stop_id": "race-cleanup-stop"
+        }
+      },
+      "events_before_cancel": [
+        {
+          "at": 1794512558,
+          "event_id": "launch-first-job:reserved",
+          "job_id": "launch-first-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "unlaunched-cancel-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "unlaunched-cancel-meter"
+                }
+              ],
+              "environment_id": "unlaunched-cancel-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "launch-first-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "unlaunched-cancel-project"
+            }
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "launch-first-job:ack:ack-launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-launch-first-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "launch-intent:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "launch-first-launch"
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "launch-observation:launch-first-job",
+          "job_id": "launch-first-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "launch-first-launch",
+            "process": {
+              "pid": 29266,
+              "start_token": "5130828"
+            }
+          }
+        }
+      ],
+      "launch_reply": {
+        "ok": true,
+        "result": {
+          "job_id": "launch-first-job",
+          "launch_id": "launch-first-launch",
+          "state": "running"
+        }
+      },
+      "launch_request": {
+        "expected_catalog": 3,
+        "job_id": "launch-first-job",
+        "launch_id": "launch-first-launch",
+        "op": "local_launch"
+      },
+      "worker": {
+        "pid": 29266,
+        "start_token": "5130828"
+      }
+    },
+    {
+      "cancel_reply": {
+        "error": "conflict: unlaunched cancellation forbidden from state LAUNCHING",
+        "ok": false
+      },
+      "cancel_request": {
+        "job_id": "concurrent-race-job",
+        "op": "local_cancel_unlaunched"
+      },
+      "capacity_after_cleanup": 0,
+      "case": "concurrent",
+      "cleanup_finalize": {
+        "ok": true,
+        "result": {
+          "finalization": "CLOSED",
+          "job_id": "concurrent-race-job",
+          "launch_id": "concurrent-launch",
+          "outcome": "cancelled"
+        }
+      },
+      "cleanup_stop": {
+        "ok": true,
+        "result": {
+          "exit": {
+            "signal": 9
+          },
+          "job_id": "concurrent-race-job",
+          "launch_id": "concurrent-launch",
+          "replayed": false,
+          "state": "exit_observed",
+          "stop_id": "concurrent-cleanup-stop"
+        }
+      },
+      "events_before_cleanup": [
+        {
+          "at": 1794512558,
+          "event_id": "concurrent-race-job:reserved",
+          "job_id": "concurrent-race-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "unlaunched-cancel-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "unlaunched-cancel-meter"
+                }
+              ],
+              "environment_id": "unlaunched-cancel-environment",
+              "estimated_wall_seconds": 60,
+              "forecast_context": null,
+              "job_id": "concurrent-race-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "unlaunched-cancel-project"
+            }
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "concurrent-race-job:ack:ack-concurrent-race-job",
+          "job_id": "concurrent-race-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-concurrent-race-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "launch-intent:concurrent-race-job",
+          "job_id": "concurrent-race-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "concurrent-launch"
+          }
+        },
+        {
+          "at": 1794512558,
+          "event_id": "launch-observation:concurrent-race-job",
+          "job_id": "concurrent-race-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "concurrent-launch",
+            "process": {
+              "pid": 29272,
+              "start_token": "5130832"
+            }
+          }
+        }
+      ],
+      "job_before_cleanup": {
+        "ack_id": "ack-concurrent-race-job",
+        "catalog_version": 3,
+        "expires_at": 1794513458,
+        "job_id": "concurrent-race-job",
+        "launch_id": "concurrent-launch",
+        "meters": [
+          {
+            "meter": "unlaunched-cancel-meter",
+            "observed": 0,
+            "overrun": 0,
+            "reserved": 50,
+            "unspent": 50
+          }
+        ],
+        "outcome": null,
+        "proposal": {
+          "account_id": "unlaunched-cancel-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "unlaunched-cancel-meter"
+            }
+          ],
+          "environment_id": "unlaunched-cancel-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "concurrent-race-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "unlaunched-cancel-project"
+        },
+        "state": "RUNNING"
+      },
+      "launch_reply": {
+        "ok": true,
+        "result": {
+          "job_id": "concurrent-race-job",
+          "launch_id": "concurrent-launch",
+          "state": "running"
+        }
+      },
+      "launch_request": {
+        "expected_catalog": 3,
+        "job_id": "concurrent-race-job",
+        "launch_id": "concurrent-launch",
+        "op": "local_launch"
+      },
+      "observed_outcome": "launch_reply_succeeded_cancel_refused",
+      "worker": {
+        "pid": 29272,
+        "start_token": "5130832"
+      }
+    }
+  ],
+  "source_sha256": {
+    "binary:ases-resource-control": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/ases-resource-control",
+      "sha256": "830dc9c96f277cbd186031cb740d0c06a34324f17fd7c98a6a112bfe22511de3"
+    },
+    "binary:native_unlaunched_cancel_test": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_unlaunched_cancel-4b7cc3ed25f6b748",
+      "sha256": "9fff0e6f9de285df0c6ac285f923ce788774648a6c097abaa5a310420444e6b0"
+    },
+    "binary:resource-gateway": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/resource-gateway",
+      "sha256": "b268261787035eb05c17b5d5832c9cdfd9c0ae5789d91acfd0bb524b827c8caa"
+    },
+    "binary:resource-session": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/resource-session",
+      "sha256": "1d56606a4522dd61561c8d2c5b157f1c93d61ea700e1c6b19c40e15159545fb5"
+    },
+    "src/bin/resource-gateway.rs": "e80d45e29a6f7dbeb3a7317c77e480b3ba1e235ea5a66fa2851d858e68ae5c18",
+    "src/lib.rs": "03dec127c00f14112318b86ce25aa7fa3a330aa7367d1f777ea32aa068ddcd5b",
+    "src/local.rs": "98bfbc35f37313b1f98b5b69487f06be2301f9ad4100f9c15ea3e8ed69a14ae6",
+    "src/main.rs": "f92f0bfa773a0088dac95d229a5a2cb0790d58170131a22c35d160495b87213b",
+    "tests/native_unlaunched_cancel.rs": "40dddea16340df50bb37b80395e87c42d6f595dd5eb6f4ecfd8cebe8731412d0"
+  }
+}

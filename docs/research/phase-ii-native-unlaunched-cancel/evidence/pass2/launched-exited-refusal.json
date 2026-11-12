@@ -1,0 +1,157 @@
+{
+  "balances_before": [
+    {
+      "account": "unlaunched-cancel-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "unlaunched-cancel-meter",
+      "period": "unlaunched-cancel-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "cancel_reply": {
+    "error": "conflict: unlaunched cancellation forbidden from state RUNNING",
+    "ok": false
+  },
+  "cleanup_finalize": {
+    "ok": true,
+    "result": {
+      "finalization": "CLOSED",
+      "job_id": "exited-cancel-refusal",
+      "launch_id": "exited-launch",
+      "outcome": "completed"
+    }
+  },
+  "events_before": [
+    {
+      "at": 1794512557,
+      "event_id": "exited-cancel-refusal:reserved",
+      "job_id": "exited-cancel-refusal",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "unlaunched-cancel-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "unlaunched-cancel-meter"
+            }
+          ],
+          "environment_id": "unlaunched-cancel-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "exited-cancel-refusal",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "unlaunched-cancel-project"
+        }
+      }
+    },
+    {
+      "at": 1794512557,
+      "event_id": "exited-cancel-refusal:ack:ack-exited-cancel-refusal",
+      "job_id": "exited-cancel-refusal",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-exited-cancel-refusal",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794512557,
+      "event_id": "launch-intent:exited-cancel-refusal",
+      "job_id": "exited-cancel-refusal",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "exited-launch"
+      }
+    },
+    {
+      "at": 1794512557,
+      "event_id": "launch-observation:exited-cancel-refusal",
+      "job_id": "exited-cancel-refusal",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "exited-launch",
+        "process": {
+          "pid": 29247,
+          "start_token": "5130732"
+        }
+      }
+    },
+    {
+      "at": 1794512557,
+      "event_id": "launch-exit:exited-cancel-refusal",
+      "job_id": "exited-cancel-refusal",
+      "kind": "LAUNCH_EXIT_OBSERVED",
+      "payload": {
+        "launch_id": "exited-launch",
+        "process": {
+          "pid": 29247,
+          "start_token": "5130732"
+        },
+        "status": {
+          "code": 0,
+          "kind": "code"
+        }
+      }
+    }
+  ],
+  "launch_reply": {
+    "ok": true,
+    "result": {
+      "job_id": "exited-cancel-refusal",
+      "launch_id": "exited-launch",
+      "state": "running"
+    }
+  },
+  "poll_reply": {
+    "ok": true,
+    "result": {
+      "exit": {
+        "code": 0
+      },
+      "job_id": "exited-cancel-refusal",
+      "launch_id": "exited-launch",
+      "state": "exit_observed"
+    }
+  },
+  "source_sha256": {
+    "binary:ases-resource-control": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/ases-resource-control",
+      "sha256": "830dc9c96f277cbd186031cb740d0c06a34324f17fd7c98a6a112bfe22511de3"
+    },
+    "binary:native_unlaunched_cancel_test": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_unlaunched_cancel-4b7cc3ed25f6b748",
+      "sha256": "9fff0e6f9de285df0c6ac285f923ce788774648a6c097abaa5a310420444e6b0"
+    },
+    "binary:resource-gateway": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/resource-gateway",
+      "sha256": "b268261787035eb05c17b5d5832c9cdfd9c0ae5789d91acfd0bb524b827c8caa"
+    },
+    "binary:resource-session": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/resource-session",
+      "sha256": "1d56606a4522dd61561c8d2c5b157f1c93d61ea700e1c6b19c40e15159545fb5"
+    },
+    "src/bin/resource-gateway.rs": "e80d45e29a6f7dbeb3a7317c77e480b3ba1e235ea5a66fa2851d858e68ae5c18",
+    "src/lib.rs": "03dec127c00f14112318b86ce25aa7fa3a330aa7367d1f777ea32aa068ddcd5b",
+    "src/local.rs": "98bfbc35f37313b1f98b5b69487f06be2301f9ad4100f9c15ea3e8ed69a14ae6",
+    "src/main.rs": "f92f0bfa773a0088dac95d229a5a2cb0790d58170131a22c35d160495b87213b",
+    "tests/native_unlaunched_cancel.rs": "40dddea16340df50bb37b80395e87c42d6f595dd5eb6f4ecfd8cebe8731412d0"
+  },
+  "worker": {
+    "pid": 29247,
+    "start_token": "5130732"
+  }
+}

@@ -1,0 +1,124 @@
+   Compiling ases-resource-control v0.1.0 (/workspace/ases-native-unlaunched-cancel/resource-control)
+    Finished `test` profile [unoptimized] target(s) in 0.54s
+     Running tests/control.rs (/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/control-f290c41784a52c4f)
+
+running 48 tests
+test account_identity_is_immutable_without_new_id ... ok
+test account_mismatch_rejected_for_environment_and_meter ... ok
+test account_reporting_is_not_credential_verification ... ok
+test accounts_have_explicit_provenance_and_project_grants ... ok
+test billing_period_must_cover_estimated_run_and_valid_neighbor_passes ... ok
+test archive_roundtrip_verification_and_corruption_detection ... ok
+test cancellations_and_replays_do_not_resurrect_finished_execution ... ok
+test catalog_drift_blocks_authorization_and_launch ... ok
+test catalog_input_is_qualified_and_rejects_invalid_neighbors ... ok
+test catalog_failure_preserves_last_known_models_and_reports_stale ... ok
+test definite_noncreation_releases_slot_and_stale_catalog_blocks_intent ... ok
+test cli_launch_is_separate_process_and_recovers_state ... ok
+test deterministic_multi_job_history_matches_ledger ... ok
+test dormant_or_expired_account_does_not_become_a_free_allowance ... ok
+test distinct_connections_compete_under_sqlite_transaction ... ok
+test duplicate_observation_is_idempotent_and_conflicting_reuse_is_rejected ... ok
+test duplicate_reservation_is_idempotent_but_changed_forecast_is_not ... ok
+test environment_and_agent_lifetimes_are_independent ... ok
+test expired_unlaunched_reservation_releases_capacity ... ok
+test externally_consumed_credits_reduce_future_availability ... ok
+test finalized_observation_can_arrive_later ... ok
+test expiry_is_terminal_and_cannot_be_rewritten_by_finalization ... ok
+test independent_begin_launch_contenders_receive_one_dispatch_capability ... ok
+test lifecycle_is_idempotent_and_rejects_conflicting_reuse ... ok
+test limits_arithmetic_and_mutant_boundaries ... ok
+test launch_intent_is_one_use_durable_and_observations_are_idempotent ... ok
+test malformed_billing_window_rejected_with_valid_neighbor ... ok
+test manual_attribution_is_append_only_and_cannot_change_financial_amounts ... ok
+test meter_identity_cannot_be_rebound_to_another_period ... ok
+test missing_lifecycle_partner_remains_unknown ... ok
+test mock_launch_profile_is_not_misreported_as_a_durable_intent ... ok
+test model_catalog_change_invalidates_inflight_resource_acknowledgement ... ok
+test multi_meter_failure_is_atomic_and_valid_neighbor_is_admitted ... ok
+test overrun_is_recorded_even_when_it_exceeds_reservation_and_limit ... ok
+test paid_claim_requires_explicit_cap_and_known_price ... ok
+test passive_catalog_has_versioned_diff_and_does_not_imply_account_access ... ok
+test parallel_agents_do_not_partition_environment_lifetime ... ok
+test provider_usage_after_reservation_blocks_new_launch_when_overconsumed ... ok
+test provider_watermark_avoids_double_counting_local_usage ... ok
+test quote_is_advisory_without_a_reservation ... ok
+test report_replay_and_decreasing_totals_are_safe ... ok
+test shorter_job_releases_unused_allocation_but_keeps_actual ... ok
+test restart_preserves_reservation_ack_and_single_launch_id ... ok
+test staleness_blocks_and_valid_neighbor_passes ... ok
+test strict_authorization_order_and_single_launch ... ok
+test tests_are_reproducible_from_fixture_path_not_external_services ... ok
+test unknown_report_coverage_is_conservative_not_zero ... ok
+test zero_meter_claim_still_obeys_environment_admission ... ok
+
+test result: ok. 48 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running tests/native_local_cancellation.rs (/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_local_cancellation-39880800496410c4)
+
+running 2 tests
+test cancellation_fixed_worker ... ok
+test generic_cancel_and_native_launch_have_only_safe_transactional_outcomes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/native_local_gateway.rs (/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_local_gateway-b2c73c3f3c77f921)
+
+running 6 tests
+test actual_viewer_peer_is_denied_local_execution_without_state_change ... ok
+test gateway_owns_one_fixed_child_and_stop_is_durable_exact_and_separate_from_finalize ... ok
+test local_gateway_fixed_worker ... ok
+test filesystem_preflight_preserves_authorized_job_for_repair_and_retry ... ok
+test post_intent_spawn_failure_stays_unknown_and_holds_reservation ... ok
+test running_child_remains_owned_after_profile_executable_is_unlinked ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests/native_session_client.rs (/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_session_client-0525217b6dcd50af)
+
+running 4 tests
+test fresh_session_client_drives_hot_cold_and_server_error_histories ... ok
+test native_client_retries_same_job_after_missing_program_preflight_rejection ... ok
+test session_client_fixed_worker ... ok
+test actual_client_loses_accepted_launch_reply_then_recovers_without_redispatch ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
+
+     Running tests/native_session_drive.rs (/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_session_drive-bd4af54a970bbfb4)
+
+running 2 tests
+test session_drive_fixed_worker ... ok
+test native_driver_natural_nonzero_budget_cold_and_lost_reply_histories ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.02s
+
+     Running tests/native_termination.rs (/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_termination-536529b9f3130e08)
+
+running 8 tests
+test compact_resume_view_requires_typed_exit_and_closed_intent_exit_evidence ... ok
+test finalize_while_owned_fixed_worker_is_live_never_releases_slot ... ok
+test native_termination_controller_helper ... ok
+test controller_reaped_child_without_recording_exit_stays_unresolved_until_explicit_observation ... ok
+test termination_fixed_worker ... ok
+test signal_exit_comes_only_from_exact_owned_child_and_keeps_signal_typed ... ok
+test wrong_identity_status_profile_and_pending_exit_observations_are_atomic ... ok
+test waited_exit_observation_is_durable_separate_and_releases_capacity_only_on_finalize ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/native_unlaunched_cancel.rs (/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_unlaunched_cancel-4b7cc3ed25f6b748)
+
+running 8 tests
+test actual_client_loses_committed_cancel_reply_then_exact_retry_replays ... ok
+test preflight_failure_cancel_replay_and_later_launch_denial ... ok
+test preflight_then_old_local_finalize_is_refused_without_mutation ... ok
+test launched_live_exited_and_closed_jobs_refuse_unlaunched_cancel_unchanged ... ok
+test reserved_unlaunched_job_can_be_canceled_and_replayed ... ok
+test unlaunched_cancel_fixed_worker ... ok
+test two_gateway_launch_cancel_orders_and_race_have_only_observed_outcomes ... ok
+test unlaunched_cancel_rejects_wrong_role_scope_extra_fields_and_invalid_ids ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.74s
+
+
+CARGO_EXIT_CODE=0

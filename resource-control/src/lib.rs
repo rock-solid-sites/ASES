@@ -999,6 +999,14 @@ impl Store {
         Ok("PROVIDER_RECORDED".into())
     }
     pub fn finalize(&mut self,job:&str,outcome:&str,at:i64)->Result<String>{
+        self.finalize_checked(job,outcome,at,false)
+    }
+    /// Atomically cancel a reservation or authorization only when no launch
+    /// identity or local launch evidence exists for this job.
+    pub fn cancel_unlaunched(&mut self,job:&str,at:i64)->Result<String>{
+        self.finalize_checked(job,"cancelled",at,true)
+    }
+    fn finalize_checked(&mut self,job:&str,outcome:&str,at:i64,unlaunched_only:bool)->Result<String>{
         check_id(job,"job")?;
         if !["completed","failed","cancelled","interrupted"].contains(&outcome) {
             return Err(Error::Invalid("unsupported terminal outcome".into()));
@@ -1008,6 +1016,25 @@ impl Store {
             "SELECT state,outcome,launch_id FROM jobs WHERE id=?1",[job],
             |r|Ok((r.get(0)?,r.get(1)?,r.get(2)?))).optional()?;
         let (state,old,launch_id)=previous.ok_or_else(||Error::Invalid("unknown job".into()))?;
+        if unlaunched_only {
+            if !matches!(state.as_str(),"RESERVED"|"AUTHORIZED"|"CLOSED") {
+                return Err(Error::Conflict(format!("unlaunched cancellation forbidden from state {state}")));
+            }
+            if launch_id.is_some() {
+                return Err(Error::Conflict("job has a launch identity and cannot be cancelled as unlaunched".into()));
+            }
+            let launch_evidence:bool=tx.query_row(
+                "SELECT EXISTS(SELECT 1 FROM events WHERE job_id=?1 AND kind IN
+                 ('LAUNCH_INTENT','MOCK_LAUNCH','LAUNCH_STARTED_OBSERVED','LAUNCH_NOT_CREATED_OBSERVED',
+                  'LAUNCH_EXIT_OBSERVED','LOCAL_STOP_REQUESTED'))",
+                [job],|r|r.get(0))?;
+            if launch_evidence {
+                return Err(Error::Conflict("job has launch evidence and cannot be cancelled as unlaunched".into()));
+            }
+            if state=="CLOSED"&&old.as_deref()!=Some("cancelled") {
+                return Err(Error::Conflict("terminal outcome already recorded".into()));
+            }
+        }
         if state=="LAUNCHING" {
             return Err(Error::Conflict("launch outcome unknown; reconciliation required before finalization".into()));
         }
