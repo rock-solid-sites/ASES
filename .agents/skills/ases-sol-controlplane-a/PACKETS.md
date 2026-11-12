@@ -1,17 +1,26 @@
-# Luna compilation workflow: strategy-to-builder + compact-prompt
+---
+title: "PACKETS"
+version: 0.2.0-experimental
+status: experimental
+authority: run-scoped
+run_id: ASES-SOL-CTRL-A-20261113
+supersedes_revision: eaf0d2c5092c1c1627e1ef79188378d1237f3e37
+---
+
+# Luna compilation workflow: strategy-to-builder, compact-prompt and separate verification
 
 **Primary receives only short decision packets.** Source reconnaissance and packet preparation are subagent work.
 
 Canonical method (worker reads targeted sections, not indiscriminately):
 - `docs/methodology/ASES Bounded Project Build Method.md` — normal governing bounded build workflow and Implementation Packet.
 - `docs/research/pre-build-compilation/Strategy-to-Builder Integration Packet Method - Derivation.md` — research derivation; preserve project meaning and freeze only known decisions.
-- `skills/prompt/SKILL.md` — **current compact-prompt draft v0.5**, the explicit reference for this run. There is also older `skills/compact-prompt/SKILL.md` v0.1 using the same frontmatter name; do not accidentally select the older variant by name.
+- `skills/prompt/SKILL.md` — **current compact-prompt draft v0.5**, the explicit reference for this run. The older `skills/compact-prompt/SKILL.md` v0.1 is superseded and given a distinct legacy skill identity on this experiment branch; consult `VERSIONING.md`. Resolve by explicit path, identity and version—not by filename alone.
 - `skills/workflow-orchestration/SKILL.md` — selective mode choice and handoff.
 - `AGENTS.md`, `ORIENTATION.md` and frozen Phase I/Kernel source: consult as relevant to the *worker's assigned scope*.
 
 ## Luna packet compiler
 
-A reconnaissance worker inspects relevant actual code, tests, source pins, interface choices and failed witnesses, then proposes an Implementation Packet: required state, acceptance invariant, reuse paths, exact files/interfaces, allowed neighbors and red controls, trust boundary, unresolved decisions, independent verification handoff, source hashes.
+A reconnaissance worker inspects relevant actual code, tests, source pins, interface choices and failed witnesses, then proposes an Implementation Packet: required state, acceptance invariant, reuse paths, exact files/interfaces, allowed neighbors and red controls, trust boundary, unresolved decisions, independent verification handoff, source hashes. **Sol must freeze decisive verification obligations before a builder starts.** The packet is a strategy-to-builder artifact, never a verdict.
 
 Do not freeze exploratory uncertainties as facts. Ask the parent **only** the decisions that genuinely control a builder's choices. The parent receives a <=250-word decision packet, NOT the whole Implementation Packet. All long context stays in Git/Work Notes.
 
@@ -19,11 +28,13 @@ After parent decision, an implementation worker receives a short task along thes
 
 > Implement the frozen packet at [exact path/ref]. Reuse the named source interfaces; do not reinterpret authority. Run the red baseline, green neighbors and negative controls, preserve raw evidence/source pins, commit to a dedicated draft PR and record the result in Work Notes. Escalate only a demonstrated contradiction that requires an architectural decision.
 
-Builder should make few independent design decisions. A separate Luna can check critical execution evidence without copying implementation assumptions; an actual cross-model adversarial review is a distinct OpenCode assignment.
+Builder should make few independent design decisions. After builder completion, dispatch a **different Luna verifier** with only the frozen problem/contract, target revision, required interfaces and allowed tools. Keep the builder's hypotheses, tests, initial failures and proposed expected answers out of the verifier's prompt. The verifier creates independent red/green and edge-case probes where practical, checks executable behavior and records its own uncertainty. A same-family verifier is not a heterogeneous review; a cross-model adversarial review remains a distinct OpenCode assignment. **Sol compares builder and verifier packets against the obligations and decides acceptance; it never delegates that decision to the builder.**
 
-## Return packet format (<=250 words)
+## Return packet format (<=250 words per worker)
 
-`DECISION:` one choice Sol must make, or `none—completed`.
+`ROLE / CLAIM:` builder or independent verifier, and the frozen invariant being evaluated.
+
+`VERDICT:` the worker's evidence-based result; only Sol issues final ACCEPT/REVISE/UNVERIFIED.
 
 `OBSERVED:` the smallest executable witness / negative control / relevant environment, with before/after result.
 
@@ -32,6 +43,8 @@ Builder should make few independent design decisions. A separate Luna can check 
 `UNKNOWN:` material limits and blockers; never claim unexecuted checks as green.
 
 `REFS:` commit SHA, PR, local test command, Work Notes log (details stored, not pasted).
+
+`INDEPENDENCE:` for verifier, declare sources seen and whether builder output was withheld; same-family limitations remain.
 
 `NEXT:` one task Sol may delegate next.
 
