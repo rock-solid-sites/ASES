@@ -115,3 +115,20 @@ with `local` and `reserved` histories, actual controller/worker status frames,
 and an `outer` object containing Docker identity/invocations and staged source
 hashes. Worker/checker-specific frame assertions are defined by the focused
 probe and checker maintained with the evidence.
+
+The root fixture driver's case keys are stable: `request_id`, `case_kind`,
+`manager_ready`, `initial_write_route`, `initial_effect`, `worker_audit`,
+`worker_process`, `manager_before_denials`, `worker_management_attempt`, and
+`manager_after_denials`. The before snapshot is taken after the gated effect
+and immediately before the direct audit; the after snapshot follows the direct
+audit and mediated management denial. `worker_management_attempt` includes
+`controller_op_count_before` and `controller_op_count_after`, counting only
+requests forwarded to the UID-2000 pipe.
+
+`recovery` is the controller's raw response, with `before`, `command`,
+`cold_restart_ready`, and `after`. The `command` retains exact argv, monotonic
+start/end times, exit status, stdout/stderr, and parsed CLI frame. Separate
+`cold_restart`, `transition`, `fresh_denial`, and `exact_old` keys retain the
+actual cold sink readiness, F4/native transition replies, fresh request result,
+and old request-index event/request/journal records respectively. The runner
+does not synthesize these results from status labels.
