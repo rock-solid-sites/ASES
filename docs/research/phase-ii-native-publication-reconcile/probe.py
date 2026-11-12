@@ -232,6 +232,7 @@ def primary_history(out: Path):
             "cold_reopen": recovery_reopen,
             "exact_historical_retry": exact_retry, "after_exact_retry": after_retry,
             "source_transitions": transitions, "fresh_id_after_move": new_envelope,
+            "owner_current_after_move": moved,
             "fresh_id_denial": denied_new_id,
             "owner_after_disposition": owner_after_disposition,
             "f1_before": f1_before, "owner_final": owner_final,
@@ -430,6 +431,12 @@ def validate_primary(result):
          result["exact_historical_retry"]["after"]["sha256"] ==
          result["after_exact_retry"]["journal"]["sha256"],
          "exact historical retry changed the post-recovery journal bytes")
+    exact_bytes = bytes.fromhex(result["exact_historical_retry"]["after"]["raw_hex"])
+    exact_events = [json.loads(line) for line in exact_bytes.splitlines()]
+    exact_effects = [event for event in exact_events if event.get("event") == "effect_accepted"]
+    need(len(exact_effects) == 1 and exact_effects[0].get("request_id") == request_id
+         and result["exact_historical_retry"]["response"]["body"].get("event_seq") == exact_effects[0]["seq"],
+         "historical lookup changed the single original F4 effect count or identity")
     need(result["owner_after_disposition"]["state"]["native_owner"]["effects"][request_id]["status"] == "published",
          "owner effect did not settle to published")
     need(all(item.get("reply", {}).get("result") == "DENY"
@@ -440,6 +447,16 @@ def validate_primary(result):
     need(result["fresh_id_denial"].get("response", {}).get("status") == 409
          and result["fresh_id_denial"]["response"]["body"].get("reason") == "native-current-path-denied",
          "new ID after source move was not denied by current native authority")
+    f4_current = result["after_exact_retry"]["sink_status"]["body"]
+    current_owner = result["owner_current_after_move"]
+    new_id = result["fresh_id_after_move"]
+    need(result["cold_reopen"][1]["request"]["path"] == "/activate"
+         and result["cold_reopen"][1]["response"]["body"].get("authority_version") == 2
+         and f4_current.get("authority_version") == 2 and f4_current.get("cold_admission_open") is True,
+         "fresh-ID denial did not use the current reopened F4 authority version")
+    need(new_id["epoch"] == current_owner["state"]["native_owner"]["epoch"]
+         and new_id["l5"] == current_owner["generation"],
+         "fresh-ID denial did not use the current native epoch and selected owner generation")
     disposed = result["source_transitions"]["dispose_content"]
     need(result["source_transitions"]["dispose_child"].get("reply", {}).get("result") == "COMMITTED"
          and all(item.get("reply", {}).get("result") == "COMMITTED" for item in disposed),
