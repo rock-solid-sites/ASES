@@ -59,6 +59,12 @@ Add new named operations only after repeated use demonstrates a distinct reasoni
 
 Preserve task semantics before optimizing execution. Identify the user-selected target, required behavior, and settled constraints. Do not replace them with implementation conveniences or reopen them during planning unless evidence shows they are infeasible.
 
+### 2c. Reference an enabled live investigation record
+
+For a long-running investigation where the operator has enabled the **experimental Projektor shared-notes pilot**, include the existing investigation page ID/slug and workspace endpoint in the receiving agent's context. Preserve the original objective and user-facing acceptance; request meaningful pre-test and post-test note updates without turning every command into a report. Do not paste the whole note history. If the selected client cannot reach the intended workspace, identify the exact connection limitation; do not silently use the wrong workspace or require a new implementation.
+
+See `docs/proposals/2026-11-09-shared-investigation-decision-records.md` for the pilot convention. This remains an experimental workflow and not a general prompt requirement.
+
 ### 3. Atomize the task
 
 Describe one independently reviewable transition, even though formal EDASES Work Units are not yet implemented.
