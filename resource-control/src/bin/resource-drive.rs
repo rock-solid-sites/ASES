@@ -20,6 +20,13 @@ struct Args {
     outcome: String,
     budget: Duration,
 }
+struct CancelArgs {
+    socket: String,
+    job: String,
+    launch: String,
+    stop_id: String,
+    grace_ms: u64,
+}
 struct ClientResult {
     status: Option<i32>,
     reply: Option<Value>,
@@ -67,6 +74,22 @@ fn parse_args(args: Vec<String>) -> Result<Args, String> {
     if !(100..=10_000).contains(&budget_ms) { return Err("BUDGET_MS must be an integer from 100 through 10000".into()); }
     Ok(Args { socket:socket.clone(),job:args[1].clone(),launch:args[2].clone(),revision,
         outcome:args[4].clone(),budget:Duration::from_millis(budget_ms) })
+}
+fn parse_cancel_args(args: Vec<String>) -> Result<CancelArgs, String> {
+    if args.len() != 5 {
+        return Err("usage: resource-drive cancel SOCKET JOB LAUNCH STOP_ID GRACE_MS".into());
+    }
+    let socket=&args[0];
+    let path=Path::new(socket);
+    if !path.is_absolute()||socket.as_bytes().is_empty()||socket.as_bytes().len()>MAX_SOCKET_BYTES||socket.as_bytes().contains(&0){
+        return Err("SOCKET must be an absolute Unix socket path shorter than 108 bytes".into());
+    }
+    if !valid_id(&args[1])||!valid_id(&args[2])||!valid_id(&args[3]){
+        return Err("JOB, LAUNCH, and STOP_ID must be valid resource identifiers".into());
+    }
+    let grace_ms=args[4].parse::<u64>().map_err(|_|"GRACE_MS must be an integer from 1 through 2000")?;
+    if !(1..=2000).contains(&grace_ms){return Err("GRACE_MS must be an integer from 1 through 2000".into());}
+    Ok(CancelArgs{socket:socket.clone(),job:args[1].clone(),launch:args[2].clone(),stop_id:args[3].clone(),grace_ms})
 }
 fn read_capped<R: Read>(reader: R, max: usize) -> Capture {
     let mut reader=reader.take(max as u64+1);
@@ -165,6 +188,87 @@ fn run_client_action(args:&Args,action:&str)->Vec<String>{
     match action{"launch"=>argv.push(args.revision.to_string()),"finalize"=>argv.push(args.outcome.clone()),_=>()}
     argv
 }
+fn cancel_client_action(args:&CancelArgs,action:&str)->Vec<String>{
+    let mut argv=vec![args.socket.clone(),action.into(),args.job.clone(),args.launch.clone()];
+    match action{
+        "stop-graceful"=>{argv.push(args.stop_id.clone());argv.push(args.grace_ms.to_string());},
+        "finalize"=>argv.push("cancelled".into()),
+        _=>(),
+    }
+    argv
+}
+fn cancel_result<'a>(reply:&'a Value,args:&CancelArgs)->Option<&'a Value>{
+    let r=result(reply,&args.job,&args.launch)?;
+    if r.get("stop_id").and_then(Value::as_str)!=Some(args.stop_id.as_str())||
+       r.get("mode").and_then(Value::as_str)!=Some("term_then_kill")||
+       r.get("grace_ms").and_then(Value::as_u64)!=Some(args.grace_ms)||
+       !r.get("replayed").is_some_and(Value::is_boolean){return None;}
+    Some(r)
+}
+fn cancel_recovery(args:&CancelArgs,phase:&'static str,reason:&'static str,client:Option<ClientResult>,
+    stop_response:Option<Value>,exit_observation:Option<Value>,finalization:Option<Value>)->(Value,i32){
+    let (client_status,client_reply)=client.map(|c|(c.status,c.reply)).unwrap_or((None,None));
+    (json!({"ok":false,"outcome":"recovery_needed","reason":reason,"action":"cancel",
+        "phase":phase,"last_action":phase,"selected_outcome":"cancelled","job_id":args.job,"launch_id":args.launch,
+        "stop_id":args.stop_id,"mode":"term_then_kill","grace_ms":args.grace_ms,
+        "client_status":client_status,"client_reply":client_reply,"stop_response":stop_response,
+        "exit_observation":exit_observation,"finalization":finalization}),3)
+}
+fn cancel_drive(args:CancelArgs)->(Value,i32){
+    let executable=match std::env::current_exe(){Ok(p)=>p,Err(_)=>return cancel_recovery(&args,"stop-graceful","client_unavailable",None,None,None,None)};
+    let Some(parent)=executable.parent().filter(|p|p.is_absolute())else{return cancel_recovery(&args,"stop-graceful","client_unavailable",None,None,None,None)};
+    let client=parent.join("resource-session");
+
+    // The 8-second child-call bound limits this driver's wait. It is not a hard
+    // wall quiescence guarantee: the gateway may still be handling a stop when
+    // a client timeout or lost response forces recovery.
+    let stop_call=invoke_client(&client,&cancel_client_action(&args,"stop-graceful"));
+    if let Some(reason)=stop_call.failure{
+        let response=stop_call.reply.clone();
+        return cancel_recovery(&args,"stop-graceful",reason,Some(stop_call),response,None,None);
+    }
+    let stop_response=stop_call.reply.unwrap();
+    let Some(stop)=cancel_result(&stop_response,&args)else{
+        return cancel_recovery(&args,"stop-graceful","unsupported_reply",
+            Some(ClientResult{status:Some(0),reply:Some(stop_response.clone()),failure:None}),Some(stop_response),None,None);
+    };
+    let state=stop.get("state").and_then(Value::as_str);
+    if state==Some("unknown"){
+        if stop.get("exit").is_some_and(|value|!value.is_null()){
+            return cancel_recovery(&args,"stop-graceful","unsupported_reply",
+                Some(ClientResult{status:Some(0),reply:Some(stop_response.clone()),failure:None}),Some(stop_response),None,None);
+        }
+        return cancel_recovery(&args,"stop-graceful","unknown_custody",
+            Some(ClientResult{status:Some(0),reply:Some(stop_response.clone()),failure:None}),Some(stop_response),None,None);
+    }
+    if state!=Some("exit_observed")||!stop.get("exit").is_some_and(valid_exit){
+        return cancel_recovery(&args,"stop-graceful","unsupported_reply",
+            Some(ClientResult{status:Some(0),reply:Some(stop_response.clone()),failure:None}),Some(stop_response),None,None);
+    }
+    let exit_observation=stop_response.clone();
+
+    // This is the sole finalization attempt. A lost or malformed reply leaves
+    // the durable job state unknown to this driver; it must not retry.
+    let finalize_call=invoke_client(&client,&cancel_client_action(&args,"finalize"));
+    if let Some(reason)=finalize_call.failure{
+        let response=finalize_call.reply.clone();
+        return cancel_recovery(&args,"finalize",reason,Some(finalize_call),Some(stop_response),Some(exit_observation),response);
+    }
+    let final_reply=finalize_call.reply.unwrap();
+    let Some(final_result)=result(&final_reply,&args.job,&args.launch)else{
+        return cancel_recovery(&args,"finalize","unsupported_reply",
+            Some(ClientResult{status:Some(0),reply:Some(final_reply.clone()),failure:None}),Some(stop_response),Some(exit_observation),Some(final_reply));
+    };
+    if final_result.get("finalization").and_then(Value::as_str).is_none_or(|s|!matches!(s,"CLOSED"|"CLOSED_REPLAY"))||
+       final_result.get("outcome").and_then(Value::as_str)!=Some("cancelled"){
+        return cancel_recovery(&args,"finalize","unsupported_reply",
+            Some(ClientResult{status:Some(0),reply:Some(final_reply.clone()),failure:None}),Some(stop_response),Some(exit_observation),Some(final_reply));
+    }
+    (json!({"ok":true,"outcome":"finalized","action":"cancel","selected_outcome":"cancelled",
+        "job_id":args.job,"launch_id":args.launch,"stop_id":args.stop_id,"mode":"term_then_kill",
+        "grace_ms":args.grace_ms,"stop_client_status":0,"stop_response":stop_response,
+        "exit_observation":exit_observation,"finalize_client_status":0,"finalization":final_reply}),0)
+}
 fn drive(args:Args)->(Value,i32){
     let executable=match std::env::current_exe(){Ok(p)=>p,Err(_)=>return recovery_for(&args,"client_unavailable","launch",0,None,None,None)};
     let Some(parent)=executable.parent().filter(|p|p.is_absolute())else{return recovery_for(&args,"client_unavailable","launch",0,None,None,None)};
@@ -213,8 +317,14 @@ fn drive(args:Args)->(Value,i32){
 }
 fn main(){
     let parsed:Result<Vec<String>,_>=std::env::args_os().skip(1).map(|v|v.into_string().map_err(|_|())).collect();
-    let parsed=parsed.map_err(|_|"arguments must be valid UTF-8".to_string()).and_then(parse_args);
-    let (output,status)=match parsed{Ok(args)=>drive(args),Err(message)=>(json!({"ok":false,"outcome":"invalid_input","error":message}),2)};
+    let (output,status)=match parsed.map_err(|_|"arguments must be valid UTF-8".to_string()){
+        Err(message)=>(json!({"ok":false,"outcome":"invalid_input","error":message}),2),
+        Ok(mut args) if args.first().is_some_and(|mode|mode=="cancel")=>{
+            args.remove(0);
+            match parse_cancel_args(args){Ok(args)=>cancel_drive(args),Err(message)=>(json!({"ok":false,"outcome":"invalid_input","error":message}),2)}
+        }
+        Ok(args)=>match parse_args(args){Ok(args)=>drive(args),Err(message)=>(json!({"ok":false,"outcome":"invalid_input","error":message}),2)},
+    };
     println!("{}",serde_json::to_string(&output).unwrap_or_else(|_|"{\"ok\":false,\"outcome\":\"recovery_needed\",\"reason\":\"unsupported_reply\"}".into()));
     std::process::exit(status);
 }
