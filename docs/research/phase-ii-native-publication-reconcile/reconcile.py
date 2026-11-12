@@ -264,9 +264,23 @@ def _validate_local_effect(owner, state, request_id, raw, binding, allow_reserve
             historical_path = owner.root / "protected" / historical_l5["selector"]
             historical_state = legacy.decode(historical_path.read_bytes())
             historical_native = historical_state.get("native_owner", {})
+            presented_path = owner.root / "protected" / presented_l5["selector"]
+            presented_state = legacy.decode(presented_path.read_bytes())
+            presented_native = presented_state.get("native_owner", {})
             historical_registration = next((item for item in historical_native.get("registrations", [])
                                              if item.get("id") == registration["id"]), None)
+            presented_registration = next((item for item in presented_native.get("registrations", [])
+                                             if item.get("id") == registration["id"]), None)
             reserved = historical_native.get("effects", {}).get(request_id)
+            require(presented_native.get("domain_id") == native.get("domain_id")
+                    and presented_native.get("epoch") == certificate.get("epoch")
+                    and presented_native.get("selected") == registration["id"]
+                    and presented_native.get("lifecycle") == "live"
+                    and presented_registration is not None
+                    and presented_registration.get("status") == "live"
+                    and presented_registration.get("pair") == pair
+                    and request_id not in presented_native.get("effects", {}),
+                    "native-effect-presented-owner-record-mismatch")
             require(historical_native.get("domain_id") == native.get("domain_id")
                     and historical_native.get("epoch") == certificate.get("epoch")
                     and historical_native.get("selected") == registration["id"]
@@ -365,10 +379,21 @@ def _record_reserved_local_observation(owner, state, request_id, event, raw, bin
                 and digest(reserved_record.read_bytes()) == historical_l5["sha256"],
                 "native-effect-historical-owner-record-missing")
         historic = legacy.decode(reserved_record.read_bytes()).get("native_owner", {})
+        presented_record = owner.root / "protected" / certificate["presented_l5"]["selector"]
+        presented_native = legacy.decode(presented_record.read_bytes()).get("native_owner", {})
         historic_reg = next((item for item in historic.get("registrations", [])
                              if item.get("id") == registration["id"]), None)
+        presented_reg = next((item for item in presented_native.get("registrations", [])
+                              if item.get("id") == registration["id"]), None)
         historic_effect = historic.get("effects", {}).get(request_id)
-        require(historic.get("domain_id") == native.get("domain_id")
+        require(presented_native.get("domain_id") == native.get("domain_id")
+                and presented_native.get("epoch") == certificate.get("epoch")
+                and presented_native.get("selected") == registration["id"]
+                and presented_native.get("lifecycle") == "live"
+                and presented_reg is not None and presented_reg.get("status") == "live"
+                and presented_reg.get("pair") == pair
+                and request_id not in presented_native.get("effects", {})
+                and historic.get("domain_id") == native.get("domain_id")
                 and historic.get("epoch") == certificate.get("epoch")
                 and historic.get("selected") == registration["id"]
                 and historic.get("lifecycle") == "live"
