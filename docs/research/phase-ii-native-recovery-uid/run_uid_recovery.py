@@ -89,14 +89,13 @@ def runtime_sources() -> set[Path]:
     local_observation = HERE.parent / "phase-ii-native-local-observation"
     files.update((local_observation / "observe_local.py", local_observation / "test_sink_gate.py"))
     fixture = HERE / "fixture"
-    files.update(fixture / name for name in
-                 ("driver.py", "owner_controller.py", "worker.py", "test_sink_gate.py"))
+    files.update(fixture / name for name in ("driver.py", "owner_controller.py", "worker.py"))
     return files
 
 
 def stage_sources(destination: Path) -> tuple[dict, list[dict]]:
     files = runtime_sources()
-    required_fixture = {"driver.py", "owner_controller.py", "worker.py", "test_sink_gate.py"}
+    required_fixture = {"driver.py", "owner_controller.py", "worker.py"}
     present_fixture = {path.name for path in files if path.parent == HERE / "fixture" and path.is_file()}
     missing = required_fixture - present_fixture
     if missing:
