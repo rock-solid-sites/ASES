@@ -1,6 +1,6 @@
 # Current engineering queue — delegated reconnaissance required
 
-**Run:** ASES-SOL-CTRL-A-20261113. **Repo:** `rock-solid-sites/ASES`. **Work Notes:** `ASES-4` is the inherited engineering thread; earlier `ASES-2` contains the baseline. This page is a **source index**, not an instruction to trust stale PR summaries.
+**Run:** ASES-SOL-CTRL-A-20261113. **Repo:** `rock-solid-sites/ASES`. **Work Notes:** `ASES-8` is the new experiment and progress log; `ASES-4` is the inherited engineering thread; earlier `ASES-2` contains the baseline. This page is a **source index**, not an instruction to trust stale PR summaries.
 
 ## First worker job: state reconnaissance
 
