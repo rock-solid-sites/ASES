@@ -15,6 +15,7 @@ related_documents:
   - docs/proposals/2026-11-02-testing-debugging-ontology/debugging-and-fault-isolation-method.md
   - docs/research/Guarantee-Driven Testing and Goal-Substitution Resistance.md
   - docs/research/EDASES Review Methodology.md
+  - docs/proposals/2026-11-02-testing-debugging-ontology/broad-adversarial-review-principles.md
   - docs/PROVISIONAL-RED-GREEN-VERIFICATION-NOTE-2026-11-01.md
   - docs/research/Resource Solver Red Green Mutation Verification 2026-11-01.md
   - docs/requirements/Methodology to Requirements Mapping Specification.md
@@ -26,7 +27,7 @@ implements: []
 implemented_by: []
 supersedes: []
 superseded_by: []
-last_updated: 2026-11-02
+last_updated: 2026-11-12
 ---
 
 # ASES Testing and Assurance Method
@@ -53,6 +54,8 @@ Testing is one form of evidence gathering. Specification review, static analysis
 - **EDASES (research)** studies the reliability, discrimination, costs, failure modes, and limits of evidence-gathering methods. It records the reasoning that led to an experiment as well as its results. The draft research framework *Guarantee-Driven Testing and Goal-Substitution Resistance* is relevant input, not a final universal rule.
 - **ASES (methodology)** derives reusable selection principles, evidence expectations, assurance decisions, and justified project adaptations from findings. This document is a candidate ASES method.
 - **Execution systems and projects** choose and operate concrete test runners, CI providers, storage, scripts, and checks in accordance with adopted requirements. Those implementations do not establish ASES method by their mere existence.
+
+**Adversarial review breadth is separately proposed.** The [broad adversarial-review principles](broad-adversarial-review-principles.md) describe independent discovery and deep implementation engagement as a candidate default, without mandating a fixed checklist or replacing targeted claim falsification. Their authority remains proposal-only.
 
 **No competing development lifecycle.** The canonical *ASES Bounded Project Build Method* already establishes target, acceptance, specification, verification, implementation, and independent review. VSDD, where adopted, supplies its own test-first, verification-architecture, adversarial, hardening, and convergence gates. This proposal defines how to select and preserve assurance evidence **within** those activities; it does not create an extra VSDD phase or authorize bypassing project acceptance gates.
 

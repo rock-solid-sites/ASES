@@ -17,7 +17,7 @@ consumed_by:
   - cross-conversation methodology reconciliation (proposed)
 supersedes: []
 superseded_by: []
-last_updated: 2026-11-02
+last_updated: 2026-11-12
 ---
 
 # ASES Proposed Testing, Debugging, and Ontology Review Integration
@@ -32,6 +32,7 @@ last_updated: 2026-11-02
 | [debugging-and-fault-isolation-method.md](debugging-and-fault-isolation-method.md) | Smallest discriminating tests to isolate failures, correct minimally and verify original user-facing outcomes | Candidate sibling, not a new development phase |
 | [ontology-design-reviewer.md](ontology-design-reviewer.md) | **Exploratory conceptual design challenge**, with design context and authorized revision of the proposed model | Separate *role contract* extracted from historical Ontology Reviewer pre-build mode |
 | [ontology-conformance-reviewer.md](ontology-conformance-reviewer.md) | **Independent conceptual conformance** against fixed canonical meaning, clean-room and falsification-oriented | Separate *role contract* extracted from historical Ontology Reviewer post-build mode |
+| [broad-adversarial-review-principles.md](broad-adversarial-review-principles.md) | Proposed default for open-ended, deep adversarial investigation and independent discovery, with targeted review kept separate | Proposal only; not a mandated reviewer prompt, gate, or review-role replacement |
 | [integration-plan.md](integration-plan.md) | Proposed ownership, routing, review entry points, dependencies, and conflicts to check | Nothing is wired in by this document |
 | [cross-conversation-reconciliation-2026-11-02.md](cross-conversation-reconciliation-2026-11-02.md) | First synthesis of HMS, cgrmcp, Resource Solver and Account Enumeration feedback, plus P6/P7 research | Review-only note linking response files on main, not an adoption decision |
 | [integration-changes.patch](integration-changes.patch) | **Exact earlier candidate edits** to four pre-existing operational/methodology documents, against current main at capture | Comparison input only; **do not blindly apply** before reconciliation |
@@ -66,7 +67,7 @@ Four response documents were subsequently committed by other discussions to this
 
 This bundle was assembled on PR #4's existing branch. The earlier draft **changes to active document paths** are preserved as an exact comparison patch, then restored to main content on this branch. The two previously new draft-method files are moved into this folder. The final intended PR diff therefore consists of this proposal folder alone, with no operationally effective modifications outside it.
 
-**Next reconciliation:** compare against current work in other chats and any later main-branch changes before deciding whether to adopt any particular role contract, methodology text, routing rule or implementation. A patch captured against an earlier main revision must be re-derived or reviewed if its target changed.
+**Next reconciliation:** compare against current work in other chats and any later main-branch changes before deciding whether to adopt any particular role contract, methodology text, routing rule or implementation. This includes whether the proposed [broad adversarial-review default](broad-adversarial-review-principles.md) improves novel defect discovery without encouraging shallow, checklist-driven, or speculative reviews. A patch captured against an earlier main revision must be re-derived or reviewed if its target changed.
 
 ## Authority and scope
 
