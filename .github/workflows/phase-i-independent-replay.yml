@@ -1,0 +1,582 @@
+name: Phase I independent replay (experimental)
+on:
+  push:
+    branches:
+      - research/phase-i-ci-assurance-20261105
+    paths:
+      - '.github/workflows/phase-i-independent-replay.yml'
+      - 'docs/research/phase-i-assurance/*.py'
+      - 'docs/research/phase-i-assurance/*.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phase-i-replay-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  replay:
+    name: ${{ matrix.case.name }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - name: f1-c11
+            sha: 29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a
+            dir: docs/research/phase-i-f1/c11-sqlite
+          - name: f4-writer-exclusion
+            sha: 55aee5131141c82c9a6cd2e6418e02890a6291d8
+            dir: research/phase-i-t18-sink-order-20261103/writer-exclusion
+          - name: f4-published-cut
+            sha: 26db6db361be986cdd168045f510f5567ee9df53
+            dir: research/phase-i-t18-sink-order-20261103/published-cut
+          - name: f4-receipt-loss
+            sha: 9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9
+            dir: research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss
+          - name: f3-l5-move-cuts
+            sha: 51b34aface9340b7e6821b8c40dc62ca38da15e2
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts
+          - name: f3-l6-inventory
+            sha: 0f348fda050e67f3d9081a7fc22078eddc547a61
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/race
+    steps:
+      - name: Checkout exact experimental source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.case.sha }}
+      - name: Execute source-specific probe and checker
+        id: replay_checks
+        shell: bash
+        env:
+          CASE_DIR: ${{ matrix.case.dir }}
+          CASE_SHA: ${{ matrix.case.sha }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/phase-i-evidence"
+          E="$RUNNER_TEMP/phase-i-evidence"
+          test "$(git rev-parse HEAD)" = "$CASE_SHA"
+          { echo "case_dir=$CASE_DIR"; echo "source_sha=$CASE_SHA"; echo "workflow_sha=$GITHUB_SHA"; uname -a; python3 --version; git rev-parse HEAD; } > "$E/environment.txt"
+          sha256sum "$CASE_DIR/probe.py" "$CASE_DIR/check.py" > "$E/source-sha256.txt"
+          timeout 180 python3 "$CASE_DIR/probe.py" > "$E/raw.json" 2> "$E/probe.stderr"
+          timeout 120 python3 "$CASE_DIR/check.py" "$E/raw.json" > "$E/check.stdout" 2> "$E/check.stderr"
+          cat "$E/check.stdout"
+      - name: Checkout current assurance classifier for case-scoped manifest
+        if: always()
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: assurance
+      - name: Independently reconstruct F4 publication and receipt histories
+        id: f4_refinement
+        if: matrix.case.name == 'f4-published-cut' || matrix.case.name == 'f4-receipt-loss'
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/phase-i-evidence"
+          case "$CASE_NAME" in
+            f4-published-cut) MODE=cut ;;
+            f4-receipt-loss) MODE=receipt ;;
+            *) exit 2 ;;
+          esac
+          if ! python3 assurance/docs/research/phase-i-assurance/f4_trace_refinement.py --case "$MODE" --raw "$E/raw.json" > "$E/f4-refinement.json" 2> "$E/f4-refinement.stderr"; then
+            cat "$E/f4-refinement.stderr" >&2
+            exit 1
+          fi
+          cat "$E/f4-refinement.json"
+      - name: Write verified evidence manifest with actual execution status
+        if: always()
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+          REPLAY_OUTCOME: ${{ steps.replay_checks.outcome }}
+          F4_OUTCOME: ${{ steps.f4_refinement.outcome }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/phase-i-evidence"
+          mkdir -p "$E"
+          if [[ "$CASE_NAME" == "f4-published-cut" || "$CASE_NAME" == "f4-receipt-loss" ]]; then
+            if [[ "$REPLAY_OUTCOME" == "success" && "$F4_OUTCOME" == "success" ]]; then EXECUTION=PASS; else EXECUTION=FAIL; fi
+          elif [[ "$REPLAY_OUTCOME" == "success" && "$F4_OUTCOME" == "skipped" ]]; then
+            EXECUTION=PASS
+          else
+            EXECUTION=FAIL
+          fi
+          python3 assurance/docs/research/phase-i-assurance/evidence_contract.py "$E" --execution "$EXECUTION" > "$RUNNER_TEMP/phase-i-case-manifest.json"
+          cp "$RUNNER_TEMP/phase-i-case-manifest.json" "$E/manifest.json"
+      - name: Independently verify complete case artifact set and SHA256
+        if: always()
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 assurance/docs/research/phase-i-assurance/verify_capture.py "$RUNNER_TEMP/phase-i-evidence"
+      - name: Retain independent replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-i-${{ matrix.case.name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/phase-i-evidence/
+          if-no-files-found: error
+          retention-days: 30
+
+  evidence-contract:
+    name: Evidence contract positive and adversarial controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Exercise evidence contract with deliberate invalid cases
+        id: contract_tests
+        run: |
+          cd docs/research/phase-i-assurance
+          python3 -m unittest -v test_evidence_contract.py test_verify_capture.py test_backup_pipeline.py
+      - name: Record test harness manifest
+        if: always()
+        shell: bash
+        env:
+          CONTRACT_OUTCOME: ${{ steps.contract_tests.outcome }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/assurance-contract"
+          case "$CONTRACT_OUTCOME" in
+            success) EXECUTION=PASS ;;
+            failure) EXECUTION=FAIL ;;
+            cancelled) EXECUTION=CANCELLED ;;
+            skipped) EXECUTION=NOT_RUN ;;
+            *) EXECUTION=ERROR ;;
+          esac
+          cp docs/research/phase-i-assurance/*.py "$RUNNER_TEMP/assurance-contract/"
+          python3 docs/research/phase-i-assurance/evidence_contract.py "$RUNNER_TEMP/assurance-contract" --execution "$EXECUTION" > "$RUNNER_TEMP/assurance-contract-manifest.json"
+          cp "$RUNNER_TEMP/assurance-contract-manifest.json" "$RUNNER_TEMP/assurance-contract/manifest.json"
+      - name: Verify contract source capture against its own manifest
+        if: always()
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 docs/research/phase-i-assurance/verify_capture.py "$RUNNER_TEMP/assurance-contract"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-evidence-contract-${{ github.run_id }}
+          path: ${{ runner.temp }}/assurance-contract/
+          retention-days: 30
+
+  checker-mutation:
+    name: Checker mutation audit - ${{ matrix.case.name }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - name: f1
+            sha: 29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a
+            dir: docs/research/phase-i-f1/c11-sqlite
+          - name: f4
+            sha: 55aee5131141c82c9a6cd2e6418e02890a6291d8
+            dir: research/phase-i-t18-sink-order-20261103/writer-exclusion
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: assurance
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.case.sha }}
+          path: target
+      - name: Adversarial checker mutation audit
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+          CASE_DIR: ${{ matrix.case.dir }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/mutation-evidence"
+          python3 assurance/docs/research/phase-i-assurance/mutate_checkers.py --case "$CASE_NAME" --source "target/$CASE_DIR" > "$RUNNER_TEMP/mutation-evidence/result.json"
+          cat "$RUNNER_TEMP/mutation-evidence/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-mutation-${{ matrix.case.name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/mutation-evidence/
+          retention-days: 30
+
+  remaining-checker-mutations:
+    name: Remaining checker mutation - ${{ matrix.case.name }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - name: l5
+            sha: 51b34aface9340b7e6821b8c40dc62ca38da15e2
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts
+          - name: l6
+            sha: 0f348fda050e67f3d9081a7fc22078eddc547a61
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/race
+          - name: cut
+            sha: 26db6db361be986cdd168045f510f5567ee9df53
+            dir: research/phase-i-t18-sink-order-20261103/published-cut
+          - name: receipt
+            sha: 9226cd4b8cd155a1d1b8e6b0495c0e1b99b941b9
+            dir: research/phase-i-t18-sink-order-20261103/published-cut/receipt-loss
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: assurance
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.case.sha }}
+          path: target
+      - name: Mutate observed semantics
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+          CASE_DIR: ${{ matrix.case.dir }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/remaining-mutations"
+          python3 assurance/docs/research/phase-i-assurance/mutate_remaining.py --case "$CASE_NAME" --source "target/$CASE_DIR" > "$RUNNER_TEMP/remaining-mutations/results.json"
+          cat "$RUNNER_TEMP/remaining-mutations/results.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-remaining-mutation-${{ matrix.case.name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/remaining-mutations/
+          retention-days: 30
+
+  abstract-state-exploration:
+    name: Independent bounded F4 state exploration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Explore valid model and prove mutant is detected within bound
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/state-exploration"
+          python3 docs/research/phase-i-assurance/abstract_state_explorer.py > "$RUNNER_TEMP/state-exploration/result.json"
+          cat "$RUNNER_TEMP/state-exploration/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-abstract-state-exploration-${{ github.run_id }}
+          path: ${{ runner.temp }}/state-exploration/
+          retention-days: 30
+
+  bounded-reference-models:
+    name: Bounded independent model - ${{ matrix.model }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        model: [f1, f3-l5, f3-l6]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Enumerate abstract states and reject unsafe mutants
+        shell: bash
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/bounded-model"
+          python3 docs/research/phase-i-assurance/bounded_f1_f3_models.py --model "$MODEL" > "$RUNNER_TEMP/bounded-model/result.json"
+          cat "$RUNNER_TEMP/bounded-model/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-bounded-model-${{ matrix.model }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/bounded-model/
+          retention-days: 30
+
+  concrete-observation-projection:
+    name: Independent concrete projection - ${{ matrix.case.name }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - name: f1
+            sha: 29ec3960c4c60dfb5d5f76d1c5dba7d2ea32d38a
+            dir: docs/research/phase-i-f1/c11-sqlite
+          - name: l5
+            sha: 51b34aface9340b7e6821b8c40dc62ca38da15e2
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts
+          - name: l6
+            sha: 0f348fda050e67f3d9081a7fc22078eddc547a61
+            dir: research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/race
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: assurance
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.case.sha }}
+          path: target
+      - name: Regenerate actual process/SQLite evidence at pinned source
+        shell: bash
+        env:
+          CASE_DIR: ${{ matrix.case.dir }}
+          CASE_SHA: ${{ matrix.case.sha }}
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/concrete-projection"
+          E="$RUNNER_TEMP/concrete-projection"
+          test "$(git -C target rev-parse HEAD)" = "$CASE_SHA"
+          { echo "source_sha=$CASE_SHA"; echo "assurance_sha=$GITHUB_SHA"; python3 --version; uname -a; } > "$E/environment.txt"
+          (cd target && timeout 180 python3 "$CASE_DIR/probe.py" > "$E/raw.json" 2> "$E/probe.stderr")
+      - name: Independently project raw observations without original checker
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/concrete-projection"
+          python3 assurance/docs/research/phase-i-assurance/concrete_projection.py --case "$CASE_NAME" --raw "$E/raw.json" > "$E/projected.json" 2> "$E/projected.stderr"
+          cat "$E/projected.json"
+      - name: Reconstruct transition histories and reject six invalid-history controls
+        shell: bash
+        env:
+          CASE_NAME: ${{ matrix.case.name }}
+        run: |
+          set -Eeuo pipefail
+          E="$RUNNER_TEMP/concrete-projection"
+          python3 assurance/docs/research/phase-i-assurance/trace_refinement.py --case "$CASE_NAME" --raw "$E/raw.json" > "$E/refinement.json" 2> "$E/refinement.stderr"
+          cat "$E/refinement.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-concrete-projection-${{ matrix.case.name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/concrete-projection/
+          retention-days: 30
+
+  cross-boundary-composition:
+    name: Bounded cross-boundary F1/F3/F4 composition
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check synthetic composition and ten fault mutants
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/composition"
+          python3 docs/research/phase-i-assurance/composition_state_explorer.py > "$RUNNER_TEMP/composition/result.json"
+          cat "$RUNNER_TEMP/composition/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-composition-${{ github.run_id }}
+          path: ${{ runner.temp }}/composition/
+          if-no-files-found: error
+          retention-days: 30
+
+  actual-crypto-restore:
+    name: Real age cryptography, synthetic end-to-end restoration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install real age encryption binary
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq age
+      - name: Encrypt, decrypt, and reject tampered or wrong-key evidence
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/crypto-restore"
+          { age --version; python3 --version; } > "$RUNNER_TEMP/crypto-restore/environment.txt"
+          cd docs/research/phase-i-assurance
+          python3 -m unittest -v test_real_age_backup.py 2>&1 | tee "$RUNNER_TEMP/crypto-restore/real-age-tests.txt"
+          printf '{"mode":"ephemeral synthetic data only","actual_age_encryption":true,"actual_age_private_key_restore":true,"r2_provider_tested":false,"idrive_provider_tested":false,"persistent_private_key_tested":false}\n' > "$RUNNER_TEMP/crypto-restore/attestation.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-real-crypto-restore-${{ github.run_id }}
+          path: ${{ runner.temp }}/crypto-restore/
+          if-no-files-found: error
+          retention-days: 30
+
+  evidence-export:
+    name: Evidence export bundle (not off-provider)
+    if: always()
+    needs: [replay, evidence-contract, checker-mutation, remaining-checker-mutations, abstract-state-exploration, bounded-reference-models, concrete-observation-projection, cross-boundary-composition, actual-crypto-restore]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Collect this run's original CI artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: phase-i-*
+          path: ${{ runner.temp }}/collected
+          merge-multiple: false
+      - name: Build and restore-verify export bundle
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+          SOURCE_COMMIT: ${{ github.sha }}
+          UPSTREAM_RESULTS_JSON: ${{ toJSON(needs) }}
+        run: |
+          set -Eeuo pipefail
+          SRC="$RUNNER_TEMP/collected"
+          OUT="$RUNNER_TEMP/evidence-export"
+          mkdir -p "$SRC" "$OUT" "$RUNNER_TEMP/evidence-restored"
+          COUNT=$(find "$SRC" -mindepth 1 -maxdepth 1 -type d | wc -l)
+          { echo "source_provider=GitHub Actions"; echo "run_id=$RUN_ID"; echo "source_commit=$SOURCE_COMMIT"; echo "source_artifacts=$COUNT"; echo "expected_artifacts=22"; echo "off_provider_archive_verified=false"; echo "encrypted=false"; } > "$OUT/provenance.txt"
+          (cd "$SRC" && find . -type f -print0 | sort -z | xargs -0 -r sha256sum) > "$OUT/SHA256SUMS"
+          tar -C "$SRC" -czf "$OUT/phase-i-evidence.tar.gz" .
+          tar -C "$RUNNER_TEMP/evidence-restored" -xzf "$OUT/phase-i-evidence.tar.gz"
+          (cd "$RUNNER_TEMP/evidence-restored" && sha256sum -c "$OUT/SHA256SUMS") > "$OUT/restore-verification.txt"
+          (cd "$OUT" && sha256sum phase-i-evidence.tar.gz) > "$OUT/archive-sha256.txt"
+          printf '%s\n' "$UPSTREAM_RESULTS_JSON" > "$OUT/upstream-results.json"
+          UPSTREAM_OK=$(python3 -c 'import json,sys; x=json.load(open(sys.argv[1])); print("true" if x and all(v.get("result")=="success" for v in x.values()) else "false")' "$OUT/upstream-results.json")
+          if [[ "$COUNT" -eq 22 && "$UPSTREAM_OK" == "true" ]]; then
+            COLLECTION=COMPLETE
+          else
+            COLLECTION=INCOMPLETE
+            echo "::warning::Evidence collection is INCOMPLETE; exporting available files and failures without acceptance claims."
+          fi
+          printf '{"collection":"%s","source_artifacts":%s,"expected_artifacts":22,"all_upstream_jobs_successful":%s,"archive_roundtrip_verified":true,"external_archive_verified":false}\n' "$COLLECTION" "$COUNT" "$UPSTREAM_OK" > "$OUT/collection-status.json"
+          echo "Source evidence collection: **$COLLECTION** ($COUNT/22 artifacts); archive SHA256 restored" >> "$GITHUB_STEP_SUMMARY"
+      - name: Audit all available embedded manifests without discarding failed-run evidence
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          OUT="$RUNNER_TEMP/evidence-export"
+          OBSERVED=0
+          VERIFIED=0
+          for manifest in "$RUNNER_TEMP"/collected/*/manifest.json; do
+            [[ -f "$manifest" ]] || continue
+            OBSERVED=$((OBSERVED+1))
+            if python3 docs/research/phase-i-assurance/verify_capture.py "$(dirname "$manifest")" >> "$OUT/manifest-verification.txt" 2>&1; then
+              VERIFIED=$((VERIFIED+1))
+            else
+              echo "FAILED: $(dirname "$manifest")" >> "$OUT/manifest-verification.txt"
+            fi
+          done
+          if [[ "$OBSERVED" -eq 7 && "$VERIFIED" -eq 7 ]]; then
+            QUALIFIED=true
+          else
+            QUALIFIED=false
+            echo "::warning::Some source evidence manifests are missing or failed verification; raw evidence remains preserved."
+          fi
+          printf '{"expected_manifests":7,"observed_manifests":%s,"verified_manifests":%s,"complete_verification":%s}\n' "$OBSERVED" "$VERIFIED" "$QUALIFIED" > "$OUT/manifest-status.json"
+          echo "Source manifest verification: **$VERIFIED/$OBSERVED** (expected 7)" >> "$GITHUB_STEP_SUMMARY"
+      - name: Retain export for off-provider transfer
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-i-evidence-export-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence-export/
+          if-no-files-found: error
+          retention-days: 30
+
+  encrypted-offprovider-backup:
+    name: Encrypted off-provider backup (explicit BLOCKED if unconfigured)
+    if: always()
+    needs: [evidence-export]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate backup script and credentials gate
+        id: gate
+        shell: bash
+        env:
+          EXPORT_RESULT: ${{ needs.evidence-export.result }}
+          AGE_RECIPIENT: ${{ vars.ASES_BACKUP_AGE_RECIPIENT }}
+          R2_ACCOUNT_ID: ${{ vars.ASES_R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.ASES_R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.ASES_R2_SECRET_ACCESS_KEY }}
+        run: |
+          set -Eeuo pipefail
+          bash -n docs/research/phase-i-assurance/backup_encrypted.sh
+          mkdir -p "$RUNNER_TEMP/backup-status"
+          if [[ "$EXPORT_RESULT" != "success" ]]; then
+            STATUS=BLOCKED_EXPORT_FAILED
+          elif [[ -z "$AGE_RECIPIENT" || -z "$R2_ACCOUNT_ID" || -z "$R2_ACCESS_KEY_ID" || -z "$R2_SECRET_ACCESS_KEY" ]]; then
+            STATUS=BLOCKED_NOT_CONFIGURED
+          else
+            STATUS=READY
+          fi
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          printf '{"backup_status":"%s","off_provider_archive_verified":false}\n' "$STATUS" > "$RUNNER_TEMP/backup-status/preflight.json"
+          echo "Off-provider backup preflight: **$STATUS**" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$STATUS" != "READY" ]]; then
+            echo "No off-provider backup was attempted or verified." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/download-artifact@v4
+        if: steps.gate.outputs.status == 'READY'
+        with:
+          name: phase-i-evidence-export-${{ github.run_id }}
+          path: ${{ runner.temp }}/export
+      - name: Encrypt and mirror to R2, optionally IDrive e2
+        if: steps.gate.outputs.status == 'READY'
+        shell: bash
+        env:
+          SOURCE_TAR: ${{ runner.temp }}/complete-evidence-export.tar.gz
+          BACKUP_OUTPUT: ${{ runner.temp }}/backup-status
+          SOURCE_COMMIT: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          AGE_RECIPIENT: ${{ vars.ASES_BACKUP_AGE_RECIPIENT }}
+          R2_ACCOUNT_ID: ${{ vars.ASES_R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.ASES_R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.ASES_R2_SECRET_ACCESS_KEY }}
+          E2_ENDPOINT: ${{ vars.ASES_E2_ENDPOINT }}
+          E2_BUCKET: ${{ vars.ASES_E2_BUCKET }}
+          E2_ACCESS_KEY_ID: ${{ secrets.ASES_E2_ACCESS_KEY_ID }}
+          E2_SECRET_ACCESS_KEY: ${{ secrets.ASES_E2_SECRET_ACCESS_KEY }}
+        run: |
+          set -Eeuo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq age rclone
+          EXPORT="$RUNNER_TEMP/export"
+          for file in phase-i-evidence.tar.gz SHA256SUMS archive-sha256.txt provenance.txt collection-status.json manifest-status.json upstream-results.json; do
+            test -s "$EXPORT/$file"
+          done
+          # Preserve the export's completeness/qualification metadata inside ciphertext.
+          tar -C "$EXPORT" -czf "$SOURCE_TAR" .
+          tar -tzf "$SOURCE_TAR" | grep -Fx './collection-status.json'
+          tar -tzf "$SOURCE_TAR" | grep -Fx './manifest-status.json'
+          bash docs/research/phase-i-assurance/backup_encrypted.sh
+          echo "Encrypted remote ciphertext readback complete. A private-key decrypt-and-restore test is still required." >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-i-backup-status-${{ github.run_id }}
+          path: ${{ runner.temp }}/backup-status/
+          if-no-files-found: error
+          retention-days: 30
