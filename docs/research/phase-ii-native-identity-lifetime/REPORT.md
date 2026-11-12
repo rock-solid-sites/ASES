@@ -59,3 +59,15 @@ WHAT NOT TESTED: actual PID reuse; real `/proc` staleness or tampering; hostile
 same-UID/root behavior; host loss; remote providers; process adoption; automatic
 repair of unknown identity; or any claim that the injected token described a
 second process.
+
+## Final-test comparison against the baseline
+
+The final committed test module at `25e7282b` was also run against the
+unchanged seam-only production source at `36acdf8f`. Compilation succeeded
+and all five cases failed at their runtime assertions, reproducing the old
+behavior with the same test input used for the passing fixed result. The
+separately pinned code/test versions and output are retained in
+[`evidence/final-tests-on-baseline/meta.json`](evidence/final-tests-on-baseline/meta.json).
+The original pre-fix test snapshot is preserved too; its reconstructed bytes
+exactly match its previously recorded SHA-256. No passing post-fix or native
+checks were repeated because their source and final test module did not change.

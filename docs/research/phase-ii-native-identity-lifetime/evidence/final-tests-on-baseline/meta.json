@@ -1,0 +1,37 @@
+{
+  "phase": "final-tests-on-baseline",
+  "source_commit": "36acdf8f6f280e40c86d3dad94a99c372e8b7558",
+  "source_path": "resource-control/src/local.rs",
+  "source_sha256": "13c1d4bc5d8d719fa0e7d21096e3f7d7981ccb29f7aa6bc262c38bc77c92510a",
+  "test_commit": "25e7282bbd1169eb0eb1c020470970fc985fd7ab",
+  "test_path": "resource-control/src/local/identity_lifetime_tests.rs",
+  "test_sha256": "facb1075a5424b41eba2d45cca3dc125df0145314b74ff92e3b74cf1cdc3d92a",
+  "checkout_method": "git archive of resource-control at source_commit, with only the final committed test module copied in",
+  "command_cwd": "/tmp/ases-native-id-prefx.257tvX/resource-control",
+  "command": "CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_TARGET_DIR=/workspace/ases-native-identity-lifetime/resource-control/target CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --lib identity_lifetime_tests -- --nocapture",
+  "exit_code": 101,
+  "stdout_path": "evidence/final-tests-on-baseline/cargo-test.stdout.txt",
+  "stdout_sha256": "20eb01649d9f3cffecf031a2fa108649948fb05e028a6158c7cddb3f6b1086d2",
+  "build_result": "compiled successfully; all five tests reached runtime assertions and failed on observed pre-fix behavior",
+  "observed": {
+    "poll_state": "exit_observed",
+    "exact_launch_replay_state": "exit_observed",
+    "force_stop_state": "exit_observed",
+    "graceful_stop_state": "exit_observed",
+    "resume_without_identity_state": "exit_observed",
+    "persisted_events_after_stale_identity": [
+      "LAUNCH_STARTED_OBSERVED",
+      "LAUNCH_EXIT_OBSERVED"
+    ],
+    "job_state_after_stale_identity": "RUNNING",
+    "actual_child_exit_code": 0
+  },
+  "injected_observation": "After the actual /bin/true Child was reaped, its numeric PID was paired by the test reader with injected-stale-token-not-from-procfs.",
+  "what_not_tested": [
+    "actual PID reuse",
+    "an actual second process",
+    "real procfs staleness or tampering",
+    "hostile same-UID or root behavior",
+    "host loss, remote providers, or process adoption"
+  ]
+}

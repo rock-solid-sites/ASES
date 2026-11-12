@@ -15,6 +15,7 @@ Each run metadata record contains:
 | `source_commit` | Git commit whose production source was executed |
 | `source_path` | Repository relative path to the adapter source |
 | `source_sha256` | SHA-256 of that source file at the run's source commit |
+| `test_commit` | Git commit supplying the exact test module, when tracked |
 | `test_path` | Repository relative path to the test module |
 | `test_sha256` | SHA-256 of the test module used for the run |
 | `command` | Exact Cargo command and environment settings |
@@ -28,6 +29,12 @@ For the pre-fix source, `seam-only.patch` records the private reader seam
 relative to its parent commit. This permits checking that the fault-injection
 run changed only how identity observations are supplied, while retaining the
 old lifetime algorithm.
+
+`evidence/final-tests-on-baseline/` pins the final committed test module
+separately from the seam-only production source. This is the clean
+discriminating comparison: the production checkout comes from the baseline
+commit, and the test module comes from the final test commit. Its expected
+outcome is five runtime assertion failures after successful compilation.
 
 The test histories use a real `LocalSupervisor`, the actual SQLite-backed
 `Store`, and a fixed `/bin/true` child. They do not create or adopt a second

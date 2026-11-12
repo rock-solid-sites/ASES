@@ -1,0 +1,49 @@
+   Compiling ases-resource-control v0.1.0 (/tmp/ases-native-id-prefx.257tvX/resource-control)
+    Finished `test` profile [unoptimized] target(s) in 1.76s
+     Running unittests src/lib.rs (/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/ases_resource_control-d3ac99e065b11cb8)
+
+running 5 tests
+
+thread 'local::identity_lifetime_tests::force_stop_after_reap_does_not_create_started_or_exit_evidence' (22788) panicked at src/local/identity_lifetime_tests.rs:128:5:
+assertion `left == right` failed: post-reap reader output cannot establish exact outcome: reply={"exit":{"code":0},"job_id":"identity-lifetime-force-stop","launch_id":"identity-lifetime-launch-force-stop","replayed":false,"state":"exit_observed","stop_id":"stop-force"}; job_state="RUNNING"; events=["RESERVED", "AUTHORIZED", "LAUNCH_INTENT", "LOCAL_STOP_REQUESTED", "LAUNCH_STARTED_OBSERVED", "LAUNCH_EXIT_OBSERVED"]; resume={"local_state":"exit_observed","resume_view":{"accountId":"identity-lifetime-account","advisoryNextStep":"finalize_observed_exit","currentCatalogRevision":3,"environmentId":"identity-lifetime-environment","evidence":{"launch":{"eventId":"launch-intent:identity-lifetime-force-stop","kind":"LAUNCH_INTENT","payloadSha256":"142590a1cb0e2b8a7dc3bfefe8160f43becd3bdddabc76298983f064a46d4971","recordedAt":1794509435},"outcome":{"eventId":"launch-exit:identity-lifetime-force-stop","kind":"LAUNCH_EXIT_OBSERVED","payloadSha256":"e8aac1ba419555da0966da027eedd4d8fe597a5c2c9dfa85dbf06c5514dd9f48","recordedAt":1794509435}},"jobCatalogRevision":3,"jobId":"identity-lifetime-force-stop","launchId":"identity-lifetime-launch-force-stop","outcome":null,"presentLiveness":"unknown","profile":"intent","projectId":"identity-lifetime-project","state":"RUNNING"},"stop":{"event_id":"local-stop:identity-lifetime-force-stop","kind":"LOCAL_STOP_REQUESTED","launch_id":"identity-lifetime-launch-force-stop","payload_sha256":"9e4be13591116c6e1d6e12b27482ec7da26b26f8692baa27fc2708e4b5e9d8e2","recorded_at":1794509435,"stop_id":"stop-force"}}
+  left: String("exit_observed")
+ right: "unknown"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test local::identity_lifetime_tests::force_stop_after_reap_does_not_create_started_or_exit_evidence ... FAILED
+
+thread 'local::identity_lifetime_tests::exact_launch_replay_after_reap_does_not_dispatch_or_create_evidence' (22787) panicked at src/local/identity_lifetime_tests.rs:128:5:
+assertion `left == right` failed: post-reap reader output cannot establish exact outcome: reply={"exit":{"code":0},"job_id":"identity-lifetime-replay","launch_id":"identity-lifetime-launch-replay","state":"exit_observed"}; job_state="RUNNING"; events=["RESERVED", "AUTHORIZED", "LAUNCH_INTENT", "LAUNCH_STARTED_OBSERVED", "LAUNCH_EXIT_OBSERVED"]; resume={"local_state":"exit_observed","resume_view":{"accountId":"identity-lifetime-account","advisoryNextStep":"finalize_observed_exit","currentCatalogRevision":3,"environmentId":"identity-lifetime-environment","evidence":{"launch":{"eventId":"launch-intent:identity-lifetime-replay","kind":"LAUNCH_INTENT","payloadSha256":"8c829c0e4a9d9ce720ae510563b9e81db594025e5af0801a3ea3390eea5eb8bb","recordedAt":1794509435},"outcome":{"eventId":"launch-exit:identity-lifetime-replay","kind":"LAUNCH_EXIT_OBSERVED","payloadSha256":"568fb4d112a113866746a7244461c8df6e3023d04841a742c22c69aca3430157","recordedAt":1794509435}},"jobCatalogRevision":3,"jobId":"identity-lifetime-replay","launchId":"identity-lifetime-launch-replay","outcome":null,"presentLiveness":"unknown","profile":"intent","projectId":"identity-lifetime-project","state":"RUNNING"},"stop":null}
+  left: String("exit_observed")
+ right: "unknown"
+test local::identity_lifetime_tests::exact_launch_replay_after_reap_does_not_dispatch_or_create_evidence ... FAILED
+
+thread 'local::identity_lifetime_tests::graceful_stop_after_reap_does_not_create_started_or_exit_evidence' (22791) panicked at src/local/identity_lifetime_tests.rs:128:5:
+assertion `left == right` failed: post-reap reader output cannot establish exact outcome: reply={"exit":{"code":0},"grace_ms":50,"job_id":"identity-lifetime-graceful-stop","launch_id":"identity-lifetime-launch-graceful-stop","mode":"term_then_kill","replayed":false,"state":"exit_observed","stop_id":"stop-graceful"}; job_state="RUNNING"; events=["RESERVED", "AUTHORIZED", "LAUNCH_INTENT", "LOCAL_STOP_REQUESTED", "LAUNCH_STARTED_OBSERVED", "LAUNCH_EXIT_OBSERVED"]; resume={"local_state":"exit_observed","resume_view":{"accountId":"identity-lifetime-account","advisoryNextStep":"finalize_observed_exit","currentCatalogRevision":3,"environmentId":"identity-lifetime-environment","evidence":{"launch":{"eventId":"launch-intent:identity-lifetime-graceful-stop","kind":"LAUNCH_INTENT","payloadSha256":"3955f063f2cb7b41c3eb0a05b2be70463836d934163d897c5c80962c48c1ea67","recordedAt":1794509435},"outcome":{"eventId":"launch-exit:identity-lifetime-graceful-stop","kind":"LAUNCH_EXIT_OBSERVED","payloadSha256":"6a0741a664b813491284b45976c0434f508b91c44d25edd3c66d9ca7f009ba23","recordedAt":1794509435}},"jobCatalogRevision":3,"jobId":"identity-lifetime-graceful-stop","launchId":"identity-lifetime-launch-graceful-stop","outcome":null,"presentLiveness":"unknown","profile":"intent","projectId":"identity-lifetime-project","state":"RUNNING"},"stop":{"event_id":"local-stop:identity-lifetime-graceful-stop","grace_ms":50,"kind":"LOCAL_STOP_REQUESTED","launch_id":"identity-lifetime-launch-graceful-stop","mode":"term_then_kill","payload_sha256":"5096b11c5d1753bfa4937097bd79689ace74d8027640beb63217909153109132","recorded_at":1794509435,"stop_id":"stop-graceful"}}
+  left: String("exit_observed")
+ right: "unknown"
+test local::identity_lifetime_tests::graceful_stop_after_reap_does_not_create_started_or_exit_evidence ... FAILED
+
+thread 'local::identity_lifetime_tests::injected_stale_identity_after_reap_does_not_turn_poll_into_evidence' (22793) panicked at src/local/identity_lifetime_tests.rs:128:5:
+assertion `left == right` failed: post-reap reader output cannot establish exact outcome: reply={"exit":{"code":0},"job_id":"identity-lifetime-poll","launch_id":"identity-lifetime-launch-poll","state":"exit_observed"}; job_state="RUNNING"; events=["RESERVED", "AUTHORIZED", "LAUNCH_INTENT", "LAUNCH_STARTED_OBSERVED", "LAUNCH_EXIT_OBSERVED"]; resume={"local_state":"exit_observed","resume_view":{"accountId":"identity-lifetime-account","advisoryNextStep":"finalize_observed_exit","currentCatalogRevision":3,"environmentId":"identity-lifetime-environment","evidence":{"launch":{"eventId":"launch-intent:identity-lifetime-poll","kind":"LAUNCH_INTENT","payloadSha256":"8f9d31899001c62f75defd1eef14883a7c4cb28dcc7724744a08055b32afc145","recordedAt":1794509435},"outcome":{"eventId":"launch-exit:identity-lifetime-poll","kind":"LAUNCH_EXIT_OBSERVED","payloadSha256":"33b114e4ecde67cbf4aac0f374d85289106f8a33f5c9bdb94f11bc8b43ee7aae","recordedAt":1794509435}},"jobCatalogRevision":3,"jobId":"identity-lifetime-poll","launchId":"identity-lifetime-launch-poll","outcome":null,"presentLiveness":"unknown","profile":"intent","projectId":"identity-lifetime-project","state":"RUNNING"},"stop":null}
+  left: String("exit_observed")
+ right: "unknown"
+test local::identity_lifetime_tests::injected_stale_identity_after_reap_does_not_turn_poll_into_evidence ... FAILED
+
+thread 'local::identity_lifetime_tests::resume_does_not_label_unidentified_child_exit_as_observed' (22795) panicked at src/local/identity_lifetime_tests.rs:193:5:
+assertion `left == right` failed
+  left: String("exit_observed")
+ right: "unknown"
+test local::identity_lifetime_tests::resume_does_not_label_unidentified_child_exit_as_observed ... FAILED
+
+failures:
+
+failures:
+    local::identity_lifetime_tests::exact_launch_replay_after_reap_does_not_dispatch_or_create_evidence
+    local::identity_lifetime_tests::force_stop_after_reap_does_not_create_started_or_exit_evidence
+    local::identity_lifetime_tests::graceful_stop_after_reap_does_not_create_started_or_exit_evidence
+    local::identity_lifetime_tests::injected_stale_identity_after_reap_does_not_turn_poll_into_evidence
+    local::identity_lifetime_tests::resume_does_not_label_unidentified_child_exit_as_observed
+
+test result: FAILED. 0 passed; 5 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+error: test failed, to rerun pass `--lib`
