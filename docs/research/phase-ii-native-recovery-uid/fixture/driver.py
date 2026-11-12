@@ -86,6 +86,7 @@ def finish_one_shot(child):
 def start_controller(kind, request_id, root):
     root.mkdir(parents=True, mode=0o711, exist_ok=False)
     os.chmod(root, 0o711)
+    os.chown(root, 2000, 2000)
     controller = base.Child(
         [sys.executable, "-I", "-B", str(CONTROLLER), kind, request_id],
         2000, env={"ASES_UID_CASE_ROOT": str(root)},
