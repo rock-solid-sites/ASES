@@ -245,9 +245,11 @@ def _validate_local_effect(owner, state, request_id, raw, binding, allow_reserve
             pair = registration["pair"]
             require(certificate.get("pair_sha256") == digest(legacy.canonical(pair).encode()),
                     "native-effect-pair-hash-mismatch")
+            source = session.f1.execute("SELECT root,profile,version FROM kernel WHERE id=1").fetchone()
             retained = [legacy.decode(item[0]) for item in session.f1.execute(
                 "SELECT record FROM retained_observations")]
-            require(pair in retained, "native-source-retained-world-mismatch")
+            require(source == ("work", "independent", 1) and pair in retained,
+                    "native-source-retained-world-mismatch")
             historical_l5 = certificate.get("l5")
             presented_l5 = certificate.get("presented_l5")
             for generation in (presented_l5, historical_l5):
@@ -326,7 +328,9 @@ def _record_reserved_local_observation(owner, state, request_id, event, raw, bin
                 "native-effect-registration-world-mismatch")
         retained = [legacy.decode(item[0]) for item in session.f1.execute(
             "SELECT record FROM retained_observations")]
-        require(pair in retained, "native-source-retained-world-mismatch")
+        source = session.f1.execute("SELECT root,profile,version FROM kernel WHERE id=1").fetchone()
+        require(source == ("work", "independent", 1) and pair in retained,
+                "native-source-retained-world-mismatch")
         require(certificate.get("pair_sha256") == digest(legacy.canonical(pair).encode())
                 and envelope.get("l5") == certificate.get("presented_l5"),
                 "native-effect-historical-proof-mismatch")
