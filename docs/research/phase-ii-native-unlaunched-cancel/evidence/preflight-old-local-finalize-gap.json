@@ -1,0 +1,140 @@
+{
+  "balances_after_preflight": [
+    {
+      "account": "unlaunched-cancel-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "unlaunched-cancel-meter",
+      "period": "unlaunched-cancel-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "events_after_old_finalize_attempt": [
+    {
+      "at": 1794512373,
+      "event_id": "old-finalize-gap-job:reserved",
+      "job_id": "old-finalize-gap-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "unlaunched-cancel-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "unlaunched-cancel-meter"
+            }
+          ],
+          "environment_id": "unlaunched-cancel-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "old-finalize-gap-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "unlaunched-cancel-project"
+        }
+      }
+    },
+    {
+      "at": 1794512373,
+      "event_id": "old-finalize-gap-job:ack:ack-old-finalize-gap-job",
+      "job_id": "old-finalize-gap-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-old-finalize-gap-job",
+        "catalog_version": 3
+      }
+    }
+  ],
+  "events_after_preflight": [
+    {
+      "at": 1794512373,
+      "event_id": "old-finalize-gap-job:reserved",
+      "job_id": "old-finalize-gap-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "unlaunched-cancel-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "unlaunched-cancel-meter"
+            }
+          ],
+          "environment_id": "unlaunched-cancel-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "old-finalize-gap-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "unlaunched-cancel-project"
+        }
+      }
+    },
+    {
+      "at": 1794512373,
+      "event_id": "old-finalize-gap-job:ack:ack-old-finalize-gap-job",
+      "job_id": "old-finalize-gap-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-old-finalize-gap-job",
+        "catalog_version": 3
+      }
+    }
+  ],
+  "launch_request": {
+    "expected_catalog": 3,
+    "job_id": "old-finalize-gap-job",
+    "launch_id": "repair-launch-selector",
+    "op": "local_launch"
+  },
+  "missing_program": "/tmp/.tmprBq7mt/not-installed-yet",
+  "old_local_finalize_reply": {
+    "error": "conflict: local operation launch selector does not match stored job",
+    "ok": false
+  },
+  "old_local_finalize_request": {
+    "job_id": "old-finalize-gap-job",
+    "launch_id": "arbitrary-selector-without-intent",
+    "op": "local_finalize",
+    "outcome": "cancelled"
+  },
+  "preflight_reply": {
+    "error": "invalid: local profile program must be a regular file executable by the effective user",
+    "ok": false
+  },
+  "source_sha256": {
+    "binary:ases-resource-control": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/ases-resource-control",
+      "sha256": "cda6e7ac92baebe71e969487951fb2f3384d6190afc03a542e0e252a7a659809"
+    },
+    "binary:native_unlaunched_cancel_test": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/deps/native_unlaunched_cancel-4b7cc3ed25f6b748",
+      "sha256": "81d16a70f90a1327bd9050bfbde228f2ded2ae40311575d588432995ba9850db"
+    },
+    "binary:resource-gateway": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/resource-gateway",
+      "sha256": "d006ad0a2c3de2cfc3163fc809842257292cb96b963dad4171c27fe626ad71be"
+    },
+    "binary:resource-session": {
+      "path": "/workspace/ases-native-identity-lifetime/resource-control/target/debug/resource-session",
+      "sha256": "67a73cf2d9207e74a55d2ad7e631e71591727290b46ed798c5500414ac48811b"
+    },
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "98bfbc35f37313b1f98b5b69487f06be2301f9ad4100f9c15ea3e8ed69a14ae6",
+    "src/main.rs": "f92f0bfa773a0088dac95d229a5a2cb0790d58170131a22c35d160495b87213b",
+    "tests/native_unlaunched_cancel.rs": "4e5d7683c1b0ed936ff7c634c81e83fae3f39f557f7c548e6856313aa0f82930"
+  },
+  "worker_count": 0
+}
