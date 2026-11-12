@@ -31,10 +31,12 @@ array contains nonce-bearing witness request/response frames for this command.
 Exit status is `0` only when the protected owner effect is published.
 
 Bounded refusal emits `status: refused` and a concrete `reason`; an occupied
-writer lock emits `status: refused-writer-guard-busy`. A witness observation or
-target confirmation that cannot establish the exact target emits
-`status: unresolved-publication`. These cases exit `1` and never retry a CAS
-after an uncertain reply. Invalid CLI syntax prints usage and exits `2`.
+writer lock emits `status: refused-writer-guard-busy`. An invalid initial
+witness response or a non-prefix witness cut is a refusal. If the initial cut
+is supported but the settlement helper's fresh check cannot confirm the target,
+the command emits `status: unresolved-publication`. These cases exit `1` and
+never retry a CAS after an uncertain reply. Invalid CLI syntax prints usage
+and exits `2`.
 
 If the fresh settlement check confirms publication but owner settlement then
 fails or becomes uncertain, the result is `status: unresolved-settlement`,
