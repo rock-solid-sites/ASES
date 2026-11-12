@@ -110,6 +110,18 @@ impl LocalSupervisor {
         #[cfg(not(test))]
         { process_identity(pid) }
     }
+
+    fn refresh_missing_identity(&mut self,key:&(String,String)){
+        let identity_pid=self.children.get(key).and_then(|owned|{
+            (owned.process.is_none()&&owned.exited.is_none()).then(||owned.child.id())
+        });
+        let refreshed_identity=identity_pid.and_then(|pid|self.read_process_identity(pid).ok());
+        if let Some(owned)=self.children.get_mut(key){
+            if owned.process.is_none()&&owned.exited.is_none(){
+                owned.process=refreshed_identity;
+            }
+        }
+    }
 }
 fn exit_status(status:std::process::ExitStatus)->Result<ProcessExitStatus>{
     if let Some(code)=status.code(){Ok(ProcessExitStatus::Code{code})}
@@ -194,10 +206,8 @@ impl LocalSupervisor {
     pub fn poll(&mut self,store:&mut Store,job:&str,launch:&str,at:i64)->Result<Value>{
         validate_launch(store,job,launch)?;
         let key=(job.to_string(),launch.to_string());
-        let identity_pid=self.children.get(&key).and_then(|owned|owned.process.is_none().then(||owned.child.id()));
-        let refreshed_identity=identity_pid.and_then(|pid|self.read_process_identity(pid).ok());
+        self.refresh_missing_identity(&key);
         let Some(owned)=self.children.get_mut(&key) else{return Ok(json!({"state":"unknown","job_id":job,"launch_id":launch,"exit":null}))};
-        if owned.process.is_none(){owned.process=refreshed_identity;}
         if !owned.started_recorded { if let Some(process)=owned.process.clone(){store.observe_launch(job,launch,&LaunchObservation::Started{process},at)?;owned.started_recorded=true;} }
         if let Some(status)=owned.child.try_wait()? {
             let status=exit_status(status)?;
@@ -217,10 +227,8 @@ impl LocalSupervisor {
         validate_launch(store,job,launch)?;
         let replay=store.record_local_stop(job,launch,stop_id,at)?;
         let key=(job.to_string(),launch.to_string());
-        let identity_pid=self.children.get(&key).and_then(|owned|owned.process.is_none().then(||owned.child.id()));
-        let refreshed_identity=identity_pid.and_then(|pid|self.read_process_identity(pid).ok());
+        self.refresh_missing_identity(&key);
         let Some(owned)=self.children.get_mut(&key) else{return Ok(json!({"state":"unknown","job_id":job,"launch_id":launch,"stop_id":stop_id,"replayed":replay}))};
-        if owned.process.is_none(){owned.process=refreshed_identity;}
         if !owned.started_recorded { if let Some(process)=owned.process.clone(){store.observe_launch(job,launch,&LaunchObservation::Started{process},at)?;owned.started_recorded=true;} }
         if owned.exited.is_none(){
             match owned.child.try_wait()? {
@@ -238,13 +246,11 @@ impl LocalSupervisor {
         if !(1..=2000).contains(&grace_ms){return Err(Error::Invalid("grace_ms must be between 1 and 2000".into()));}
         let replay=store.record_local_stop_graceful(job,launch,stop_id,grace_ms,at)?;
         let key=(job.to_string(),launch.to_string());
-        let identity_pid=self.children.get(&key).and_then(|owned|owned.process.is_none().then(||owned.child.id()));
-        let refreshed_identity=identity_pid.and_then(|pid|self.read_process_identity(pid).ok());
+        self.refresh_missing_identity(&key);
         let Some(owned)=self.children.get_mut(&key)else{
             return Ok(json!({"state":"unknown","job_id":job,"launch_id":launch,"stop_id":stop_id,
                 "mode":"term_then_kill","grace_ms":grace_ms,"replayed":replay}));
         };
-        if owned.process.is_none(){owned.process=refreshed_identity;}
         if !owned.started_recorded {
             if let Some(process)=owned.process.clone(){store.observe_launch(job,launch,&LaunchObservation::Started{process},at)?;owned.started_recorded=true;}
         }
@@ -316,7 +322,11 @@ impl LocalSupervisor {
         validate_launch(store,job,launch)?;
         let view=store.resume_view(job)?;
         let key=(job.to_string(),launch.to_string());
-        let local_state=if let Some(owned)=self.children.get(&key){if owned.exited.is_some(){"exit_observed"}else{"owned_child_unobserved"}}else{"unknown"};
+        let local_state=if let Some(owned)=self.children.get(&key){
+            if owned.exited.is_some(){
+                if owned.process.is_some()&&owned.started_recorded{"exit_observed"}else{"unknown"}
+            }else{"owned_child_unobserved"}
+        }else{"unknown"};
         let stop_row:Option<(String,i64,String)>=store.db.query_row(
             "SELECT id,at,payload FROM events WHERE id=?1 AND job_id=?2 AND kind='LOCAL_STOP_REQUESTED'",
             params![format!("local-stop:{job}"),job],|r|Ok((r.get(0)?,r.get(1)?,r.get(2)?))).optional()?;
