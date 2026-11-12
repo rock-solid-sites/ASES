@@ -131,6 +131,29 @@ def stage_sources(destination: Path) -> tuple[dict, list[dict]]:
     return manifest, directory_manifest
 
 
+def verify_staged_sources_against_commit(commit: str, manifest: dict) -> list[dict]:
+    """Require every staged byte to be present unchanged at the recorded commit."""
+    checks = []
+    for relative, staged in sorted(manifest.items()):
+        argv = ["git", "show", f"{commit}:{relative}"]
+        try:
+            process = subprocess.run(argv, cwd=REPO, capture_output=True, check=False)
+            record = {"argv": argv, "exit": process.returncode,
+                      "stderr": process.stderr.decode(errors="replace")}
+            if process.returncode == 0:
+                git_sha = sha(process.stdout)
+                record.update(git_sha256=git_sha, staged_sha256=staged["sha256"],
+                              matches=git_sha == staged["sha256"])
+            else:
+                record.update(git_sha256=None, staged_sha256=staged["sha256"], matches=False)
+        except OSError as error:
+            record = {"argv": argv, "exit": 127,
+                      "stderr": f"{type(error).__name__}: {error}",
+                      "git_sha256": None, "staged_sha256": staged["sha256"], "matches": False}
+        checks.append(record)
+    return checks
+
+
 def parse_image_inspection(command: dict) -> dict:
     if command["exit"] != 0:
         raise RuntimeError("pinned base image inspect failed")
@@ -199,6 +222,12 @@ def run(args) -> tuple[dict, int]:
             manifest, directory_manifest = stage_sources(source_root)
             outer["staged_sources"] = manifest
             outer["staged_directories"] = directory_manifest
+            source_checks = verify_staged_sources_against_commit(outer["source_commit"], manifest)
+            outer["source_commit_checks"] = source_checks
+            if not all(item.get("matches") is True and item.get("exit") == 0
+                       for item in source_checks):
+                raise RuntimeError("staged runtime files differ from the recorded source commit")
+            outer["source_commit_verified"] = True
             create_args = [
                 "container", "create", "--name", task,
                 "--label", f"{LABEL}={task}", "--network=none",
