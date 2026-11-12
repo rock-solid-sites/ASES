@@ -1,0 +1,599 @@
+{
+  "balances_after_finalize": [
+    {
+      "account": "local-test-account",
+      "active_reserved_remaining": 0,
+      "available": 100,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "local-test-meter",
+      "period": "local-gateway-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "balances_before_stop": [
+    {
+      "account": "local-test-account",
+      "active_reserved_remaining": 50,
+      "available": 50,
+      "effective_consumed": 0,
+      "fresh": true,
+      "guard": 0,
+      "limit": 100,
+      "local_observed": 0,
+      "meter_id": "local-test-meter",
+      "period": "local-gateway-test",
+      "provider_complete_through": null,
+      "provider_reported": null,
+      "unit": "units"
+    }
+  ],
+  "conflicting_stop_request": {
+    "job_id": "gateway-job",
+    "launch_id": "gateway-launch",
+    "op": "local_stop",
+    "stop_id": "different-stop"
+  },
+  "conflicting_stop_response": {
+    "error": "conflict: stop request conflicts with prior stop plan",
+    "ok": false
+  },
+  "events_after_finalize": [
+    {
+      "at": 1794405940,
+      "event_id": "gateway-job:reserved",
+      "job_id": "gateway-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "gateway-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "gateway-job:ack:ack-gateway-job",
+      "job_id": "gateway-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-gateway-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-intent:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "gateway-launch"
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-observation:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "gateway-launch",
+        "process": {
+          "pid": 10028,
+          "start_token": "347664"
+        }
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "local-stop:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LOCAL_STOP_REQUESTED",
+      "payload": {
+        "launch_id": "gateway-launch",
+        "stop_id": "gateway-stop"
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-exit:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LAUNCH_EXIT_OBSERVED",
+      "payload": {
+        "launch_id": "gateway-launch",
+        "process": {
+          "pid": 10028,
+          "start_token": "347664"
+        },
+        "status": {
+          "kind": "signal",
+          "signal": 9
+        }
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "gateway-job:final:completed",
+      "job_id": "gateway-job",
+      "kind": "FINALIZED",
+      "payload": {
+        "outcome": "completed"
+      }
+    }
+  ],
+  "events_after_launch": [
+    {
+      "at": 1794405940,
+      "event_id": "gateway-job:reserved",
+      "job_id": "gateway-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "gateway-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "gateway-job:ack:ack-gateway-job",
+      "job_id": "gateway-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-gateway-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-intent:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "gateway-launch"
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-observation:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "gateway-launch",
+        "process": {
+          "pid": 10028,
+          "start_token": "347664"
+        }
+      }
+    }
+  ],
+  "events_after_stop": [
+    {
+      "at": 1794405940,
+      "event_id": "gateway-job:reserved",
+      "job_id": "gateway-job",
+      "kind": "RESERVED",
+      "payload": {
+        "catalog_version": 3,
+        "estimated_cash_micros": 0,
+        "forecast": {
+          "account_id": "local-test-account",
+          "claims": [
+            {
+              "amount": 50,
+              "meter_id": "local-test-meter"
+            }
+          ],
+          "environment_id": "local-test-environment",
+          "estimated_wall_seconds": 60,
+          "forecast_context": null,
+          "job_id": "gateway-job",
+          "paid_spend_cap_currency": null,
+          "paid_spend_cap_micros": null,
+          "project_id": "local-test-project"
+        }
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "gateway-job:ack:ack-gateway-job",
+      "job_id": "gateway-job",
+      "kind": "AUTHORIZED",
+      "payload": {
+        "ack_id": "ack-gateway-job",
+        "catalog_version": 3
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-intent:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LAUNCH_INTENT",
+      "payload": {
+        "catalog_version": 3,
+        "dispatch_granted": true,
+        "launch_id": "gateway-launch"
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-observation:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LAUNCH_STARTED_OBSERVED",
+      "payload": {
+        "launch_id": "gateway-launch",
+        "process": {
+          "pid": 10028,
+          "start_token": "347664"
+        }
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "local-stop:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LOCAL_STOP_REQUESTED",
+      "payload": {
+        "launch_id": "gateway-launch",
+        "stop_id": "gateway-stop"
+      }
+    },
+    {
+      "at": 1794405940,
+      "event_id": "launch-exit:gateway-job",
+      "job_id": "gateway-job",
+      "kind": "LAUNCH_EXIT_OBSERVED",
+      "payload": {
+        "launch_id": "gateway-launch",
+        "process": {
+          "pid": 10028,
+          "start_token": "347664"
+        },
+        "status": {
+          "kind": "signal",
+          "signal": 9
+        }
+      }
+    }
+  ],
+  "finalize_request": {
+    "job_id": "gateway-job",
+    "launch_id": "gateway-launch",
+    "op": "local_finalize",
+    "outcome": "completed"
+  },
+  "finalize_response": {
+    "ok": true,
+    "result": {
+      "finalization": "CLOSED",
+      "job_id": "gateway-job",
+      "launch_id": "gateway-launch",
+      "outcome": "completed"
+    }
+  },
+  "launch_replay": {
+    "ok": true,
+    "result": {
+      "exit": null,
+      "job_id": "gateway-job",
+      "launch_id": "gateway-launch",
+      "state": "running"
+    }
+  },
+  "launch_replay_after_exit": {
+    "ok": true,
+    "result": {
+      "exit": {
+        "signal": 9
+      },
+      "job_id": "gateway-job",
+      "launch_id": "gateway-launch",
+      "state": "exit_observed"
+    }
+  },
+  "launch_request": {
+    "expected_catalog": 3,
+    "job_id": "gateway-job",
+    "launch_id": "gateway-launch",
+    "op": "local_launch"
+  },
+  "launch_response": {
+    "ok": true,
+    "result": {
+      "job_id": "gateway-job",
+      "launch_id": "gateway-launch",
+      "state": "running"
+    }
+  },
+  "mismatched_profile_requests": [
+    {
+      "request": {
+        "job_id": "gateway-job",
+        "launch_id": "gateway-launch",
+        "op": "local_resume"
+      },
+      "response": {
+        "error": "conflict: job scope does not match trusted local profile",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "job_id": "gateway-job",
+        "launch_id": "gateway-launch",
+        "op": "local_stop",
+        "stop_id": "mismatch-stop"
+      },
+      "response": {
+        "error": "conflict: job scope does not match trusted local profile",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "job_id": "gateway-job",
+        "launch_id": "gateway-launch",
+        "op": "local_finalize",
+        "outcome": "cancelled"
+      },
+      "response": {
+        "error": "conflict: job scope does not match trusted local profile",
+        "ok": false
+      }
+    }
+  ],
+  "mismatched_trusted_profile": {
+    "account_id": "local-test-account",
+    "args": [
+      "--exact",
+      "local_gateway_fixed_worker",
+      "--nocapture"
+    ],
+    "cwd": "/workspace/ases-cooperative-stop/resource-control",
+    "env": {
+      "ASES_LOCAL_WORKER_MARKER": "/tmp/.tmpLcMonO/worker.jsonl",
+      "ASES_LOCAL_WORKER_MODE": "hold",
+      "ASES_LOCAL_WORKER_RELEASE": "/tmp/.tmpLcMonO/worker.release"
+    },
+    "environment_id": "local-test-environment",
+    "program": "/workspace/ases-local-execution/resource-control/target/debug/deps/native_local_gateway-b2c73c3f3c77f921",
+    "project_id": "different-trusted-project"
+  },
+  "poll_running": {
+    "ok": true,
+    "result": {
+      "exit": null,
+      "job_id": "gateway-job",
+      "launch_id": "gateway-launch",
+      "state": "running"
+    }
+  },
+  "rejected_caller_inputs": [
+    {
+      "request": {
+        "command": "/bin/true",
+        "expected_catalog": 3,
+        "job_id": "gateway-job",
+        "launch_id": "gateway-launch",
+        "op": "local_launch"
+      },
+      "response": {
+        "error": "unknown field `command`, expected one of `op`, `job_id`, `launch_id`, `expected_catalog`",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "expected_catalog": 3,
+        "job_id": "gateway-job",
+        "launch_id": "gateway-launch",
+        "op": "local_launch",
+        "pid": 10028
+      },
+      "response": {
+        "error": "unknown field `pid`, expected one of `op`, `job_id`, `launch_id`, `expected_catalog`",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "expected_catalog": 3,
+        "identity": {
+          "pid": 10028,
+          "start_token": "347664"
+        },
+        "job_id": "gateway-job",
+        "launch_id": "gateway-launch",
+        "op": "local_launch"
+      },
+      "response": {
+        "error": "unknown field `identity`, expected one of `op`, `job_id`, `launch_id`, `expected_catalog`",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "environment": {
+          "BAD": "caller-controlled"
+        },
+        "expected_catalog": 3,
+        "job_id": "gateway-job",
+        "launch_id": "gateway-launch",
+        "op": "local_launch"
+      },
+      "response": {
+        "error": "unknown field `environment`, expected one of `op`, `job_id`, `launch_id`, `expected_catalog`",
+        "ok": false
+      }
+    }
+  ],
+  "resume_after_exit": {
+    "ok": true,
+    "result": {
+      "local_state": "exit_observed",
+      "resume_view": {
+        "accountId": "local-test-account",
+        "advisoryNextStep": "finalize_observed_exit",
+        "currentCatalogRevision": 3,
+        "environmentId": "local-test-environment",
+        "evidence": {
+          "launch": {
+            "eventId": "launch-intent:gateway-job",
+            "kind": "LAUNCH_INTENT",
+            "payloadSha256": "34b42a1ba6a7246f7a3ea517b343b2a62ea6787e2f8371b875ab714c8357d87e",
+            "recordedAt": 1794405940
+          },
+          "outcome": {
+            "eventId": "launch-exit:gateway-job",
+            "kind": "LAUNCH_EXIT_OBSERVED",
+            "payloadSha256": "93322a97bcf9aa5c0f57067c680446d6b5515654422e031224f71e988fec31c8",
+            "recordedAt": 1794405940
+          }
+        },
+        "jobCatalogRevision": 3,
+        "jobId": "gateway-job",
+        "launchId": "gateway-launch",
+        "outcome": null,
+        "presentLiveness": "unknown",
+        "profile": "intent",
+        "projectId": "local-test-project",
+        "state": "RUNNING"
+      },
+      "stop": {
+        "event_id": "local-stop:gateway-job",
+        "kind": "LOCAL_STOP_REQUESTED",
+        "launch_id": "gateway-launch",
+        "payload_sha256": "53eb99122e70f71c476513ab98156a4ec53d96ec3bb55189bd365ee9c1073d10",
+        "recorded_at": 1794405940,
+        "stop_id": "gateway-stop"
+      }
+    }
+  },
+  "resume_running": {
+    "ok": true,
+    "result": {
+      "local_state": "owned_child_unobserved",
+      "resume_view": {
+        "accountId": "local-test-account",
+        "advisoryNextStep": "observe_process_or_completion",
+        "currentCatalogRevision": 3,
+        "environmentId": "local-test-environment",
+        "evidence": {
+          "launch": {
+            "eventId": "launch-intent:gateway-job",
+            "kind": "LAUNCH_INTENT",
+            "payloadSha256": "34b42a1ba6a7246f7a3ea517b343b2a62ea6787e2f8371b875ab714c8357d87e",
+            "recordedAt": 1794405940
+          },
+          "outcome": {
+            "eventId": "launch-observation:gateway-job",
+            "kind": "LAUNCH_STARTED_OBSERVED",
+            "payloadSha256": "6aa86936037d566f120464065e40bdb7cc23d72ba69edef3764cbe6f1c16a289",
+            "recordedAt": 1794405940
+          }
+        },
+        "jobCatalogRevision": 3,
+        "jobId": "gateway-job",
+        "launchId": "gateway-launch",
+        "outcome": null,
+        "presentLiveness": "unknown",
+        "profile": "intent",
+        "projectId": "local-test-project",
+        "state": "RUNNING"
+      },
+      "stop": null
+    }
+  },
+  "source_sha256": {
+    "../docs/research/phase-ii-local-execution/INTERFACE.md": "5652663bc64bc1d62ca983d9e01b69a6b874c6a262dd1c50ad157559ec8791b5",
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "d8a89b5ef7f85ace36db5349c9faeb791dc5c9f770992bbdea907633f39b4d14",
+    "tests/native_local_gateway.rs": "cae411d1aa763cd5be96d5fb94ab7817588af60edc20108a21e074ede823c3a0",
+    "tests/native_termination.rs": "bd586da579f918a0256442eeb1762123668f4715e6a76a659980e44be8be89e9"
+  },
+  "stop_replay": {
+    "ok": true,
+    "result": {
+      "exit": {
+        "signal": 9
+      },
+      "job_id": "gateway-job",
+      "launch_id": "gateway-launch",
+      "replayed": true,
+      "state": "exit_observed",
+      "stop_id": "gateway-stop"
+    }
+  },
+  "stop_request": {
+    "job_id": "gateway-job",
+    "launch_id": "gateway-launch",
+    "op": "local_stop",
+    "stop_id": "gateway-stop"
+  },
+  "stop_response": {
+    "ok": true,
+    "result": {
+      "exit": {
+        "signal": 9
+      },
+      "job_id": "gateway-job",
+      "launch_id": "gateway-launch",
+      "replayed": false,
+      "state": "exit_observed",
+      "stop_id": "gateway-stop"
+    }
+  },
+  "worker": {
+    "mode": "hold",
+    "pid": 10028,
+    "start_token": "347664"
+  },
+  "worker_raw_line": "{\"mode\":\"hold\",\"pid\":10028,\"start_token\":\"347664\"}\n",
+  "wrong_launch_stop_request": {
+    "job_id": "gateway-job",
+    "launch_id": "wrong-launch",
+    "op": "local_stop",
+    "stop_id": "wrong-stop"
+  },
+  "wrong_launch_stop_response": {
+    "error": "conflict: local operation launch selector does not match stored job",
+    "ok": false
+  }
+}

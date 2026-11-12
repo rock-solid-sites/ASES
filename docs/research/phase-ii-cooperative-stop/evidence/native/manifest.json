@@ -1,0 +1,52 @@
+{
+  "workdir": "/workspace/ases-cooperative-stop/resource-control",
+  "command": "ASES_COOPERATIVE_STOP_EVIDENCE_DIR=/workspace/ases-cooperative-stop/docs/research/phase-ii-cooperative-stop/evidence/native CARGO_TARGET_DIR=/workspace/ases-local-execution/resource-control/target CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --test native_cooperative_stop actual_cooperative_stop_histories_preserve_owned_child_and_explicit_finalize -- --exact --nocapture",
+  "result": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 1
+  },
+  "commit": "aab258485b282c3b665e53623fe808dba048ea08",
+  "source_sha256": {
+    "resource-control/src/bin/resource-session.rs": "5e03d90721c376479b934a075178e869a67fdcd4fedff1f8c887e40d1b57d56e",
+    "resource-control/src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "resource-control/src/local.rs": "d8a89b5ef7f85ace36db5349c9faeb791dc5c9f770992bbdea907633f39b4d14",
+    "resource-control/src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "resource-control/tests/native_cooperative_stop.rs": "1cfebf3916c317eaef4bf6fddce5f94beca13d427d333aa57c3011a36278fc3a"
+  },
+  "history_sha256": "d306330c7ec1505ae03313939d1c193b569c99b9ac222f58b4c5f9012bfa5ab3",
+  "histories": {
+    "cooperative_cleanup_before_sigkill": {
+      "stop_event_count": 1,
+      "term_marker_count": 1,
+      "cleanup_marker_count": 1,
+      "exit_code": 0,
+      "held_capacity_before_finalize": 50,
+      "capacity_after_finalize": 0
+    },
+    "ignored_term_escalates_to_signal9": {
+      "exit_signal": 9,
+      "elapsed_ms": 242,
+      "term_marker": false,
+      "cleanup_marker": false,
+      "held_capacity_before_finalize": 50,
+      "capacity_after_finalize": 0
+    },
+    "gateway_loss_during_term_cleanup_cold_unknown": {
+      "cold_state": "unknown",
+      "event_snapshot_unchanged_on_cold_replay": true,
+      "worker_launches": 1,
+      "capacity_after_orphan_exit": 50
+    }
+  },
+  "what_not_tested": [
+    "hostile same-UID or root",
+    "remote providers",
+    "whole-host loss",
+    "arbitrary programs",
+    "descendant termination",
+    "hard wall-time stop",
+    "canonical disposal semantics"
+  ]
+}

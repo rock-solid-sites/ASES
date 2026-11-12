@@ -1,0 +1,2406 @@
+{
+  "histories": {
+    "cooperative_cleanup_before_sigkill": {
+      "balances_after_finalize": [
+        {
+          "account": "cooperative-stop-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cooperative-stop-meter",
+          "period": "cooperative-stop-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "cleanup": {
+        "at_ms": 1794405902586,
+        "cleanup": "completed"
+      },
+      "held_balances_before_finalize": [
+        {
+          "account": "cooperative-stop-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cooperative-stop-meter",
+          "period": "cooperative-stop-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "job_id": "coop-worker-job",
+      "launch_id": "coop-worker-launch",
+      "records": [
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            }
+          ],
+          "exit_code": 0,
+          "phase": "native-launch",
+          "request": {
+            "args": [
+              "launch",
+              "coop-worker-job",
+              "coop-worker-launch",
+              "3"
+            ],
+            "socket": "/tmp/.tmpPpAUSS/cooperative/gateway-admin.sock"
+          },
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"job_id\":\"coop-worker-job\",\"launch_id\":\"coop-worker-launch\",\"state\":\"running\"}}\n"
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            }
+          ],
+          "exit_code": 3,
+          "phase": "viewer-peer-policy-denial",
+          "request": {
+            "args": [
+              "stop-graceful",
+              "coop-worker-job",
+              "coop-worker-launch",
+              "coop-stop-id",
+              "600"
+            ],
+            "socket": "/tmp/.tmpPpAUSS/cooperative/gateway-viewer.sock"
+          },
+          "stderr": "",
+          "stdout": "{\"error\":\"invalid: operation prohibited for caller role\",\"ok\":false}\n"
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            }
+          ],
+          "phase": "forged-pid-field-rejected",
+          "request": {
+            "grace_ms": 600,
+            "job_id": "coop-worker-job",
+            "launch_id": "coop-worker-launch",
+            "op": "local_stop_graceful",
+            "pid": 9819,
+            "stop_id": "forged-stop"
+          },
+          "response": {
+            "error": "unknown field `pid`, expected one of `op`, `job_id`, `launch_id`, `stop_id`, `grace_ms`",
+            "ok": false
+          }
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            }
+          ],
+          "phase": "unknown-request-field-rejected",
+          "request": {
+            "grace_ms": 600,
+            "job_id": "coop-worker-job",
+            "launch_id": "coop-worker-launch",
+            "op": "local_stop_graceful",
+            "signal": 9,
+            "stop_id": "unknown-field-stop"
+          },
+          "response": {
+            "error": "unknown field `signal`, expected one of `op`, `job_id`, `launch_id`, `stop_id`, `grace_ms`",
+            "ok": false
+          }
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            }
+          ],
+          "exit_code": 0,
+          "phase": "graceful-term-cleanup-exit",
+          "request": {
+            "args": [
+              "stop-graceful",
+              "coop-worker-job",
+              "coop-worker-launch",
+              "coop-stop-id",
+              "600"
+            ],
+            "elapsed_ms": 93,
+            "socket": "/tmp/.tmpPpAUSS/cooperative/gateway-admin.sock"
+          },
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":600,\"job_id\":\"coop-worker-job\",\"kill_attempted\":false,\"launch_id\":\"coop-worker-launch\",\"mode\":\"term_then_kill\",\"replayed\":false,\"state\":\"exit_observed\",\"stop_id\":\"coop-stop-id\",\"term_attempted\":true}}\n"
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "exit_code": 0,
+          "phase": "exact-graceful-replay-no-second-term",
+          "request": {
+            "args": [
+              "stop-graceful",
+              "coop-worker-job",
+              "coop-worker-launch",
+              "coop-stop-id",
+              "600"
+            ],
+            "socket": "/tmp/.tmpPpAUSS/cooperative/gateway-admin.sock"
+          },
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"exit\":{\"code\":0},\"grace_ms\":600,\"job_id\":\"coop-worker-job\",\"kill_attempted\":false,\"launch_id\":\"coop-worker-launch\",\"mode\":\"term_then_kill\",\"replayed\":true,\"state\":\"exit_observed\",\"stop_id\":\"coop-stop-id\",\"term_attempted\":true}}\n"
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "exit_code": 3,
+          "phase": "conflicting-grace-rejected",
+          "request": {
+            "args": [
+              "stop-graceful",
+              "coop-worker-job",
+              "coop-worker-launch",
+              "coop-stop-id",
+              "601"
+            ],
+            "socket": "/tmp/.tmpPpAUSS/cooperative/gateway-admin.sock"
+          },
+          "stderr": "",
+          "stdout": "{\"error\":\"conflict: stop request conflicts with prior stop plan\",\"ok\":false}\n"
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "exit_code": 3,
+          "phase": "conflicting-force-mode-rejected",
+          "request": {
+            "args": [
+              "stop",
+              "coop-worker-job",
+              "coop-worker-launch",
+              "coop-stop-id"
+            ],
+            "socket": "/tmp/.tmpPpAUSS/cooperative/gateway-admin.sock"
+          },
+          "stderr": "",
+          "stdout": "{\"error\":\"conflict: stop request conflicts with prior stop plan\",\"ok\":false}\n"
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "exit_code": 0,
+          "phase": "resume-retains-exact-plan",
+          "request": {
+            "args": [
+              "resume",
+              "coop-worker-job",
+              "coop-worker-launch"
+            ],
+            "socket": "/tmp/.tmpPpAUSS/cooperative/gateway-admin.sock"
+          },
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"local_state\":\"exit_observed\",\"resume_view\":{\"accountId\":\"cooperative-stop-account\",\"advisoryNextStep\":\"finalize_observed_exit\",\"currentCatalogRevision\":3,\"environmentId\":\"cooperative-stop-environment\",\"evidence\":{\"launch\":{\"eventId\":\"launch-intent:coop-worker-job\",\"kind\":\"LAUNCH_INTENT\",\"payloadSha256\":\"3b5afe7d8ab8246ab746b8dc738960c75fd7bf68dfaa3240f418d36814ee52a8\",\"recordedAt\":1794405902},\"outcome\":{\"eventId\":\"launch-exit:coop-worker-job\",\"kind\":\"LAUNCH_EXIT_OBSERVED\",\"payloadSha256\":\"c2a509ecda4652e4214b2ea06a5533b10579b639eae28838b57cbc4a2d196f3f\",\"recordedAt\":1794405902}},\"jobCatalogRevision\":3,\"jobId\":\"coop-worker-job\",\"launchId\":\"coop-worker-launch\",\"outcome\":null,\"presentLiveness\":\"unknown\",\"profile\":\"intent\",\"projectId\":\"cooperative-stop-project\",\"state\":\"RUNNING\"},\"stop\":{\"event_id\":\"local-stop:coop-worker-job\",\"grace_ms\":600,\"kind\":\"LOCAL_STOP_REQUESTED\",\"launch_id\":\"coop-worker-launch\",\"mode\":\"term_then_kill\",\"payload_sha256\":\"392f986916ce2ae4ff278aa137302bc72272e61823eb42f89cc6ebaed1459b07\",\"recorded_at\":1794405902,\"stop_id\":\"coop-stop-id\"}}}\n"
+        },
+        {
+          "events_after": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:final:completed",
+              "job_id": "coop-worker-job",
+              "kind": "FINALIZED",
+              "payload": {
+                "outcome": "completed"
+              }
+            }
+          ],
+          "events_before": [
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:reserved",
+              "job_id": "coop-worker-job",
+              "kind": "RESERVED",
+              "payload": {
+                "catalog_version": 3,
+                "estimated_cash_micros": 0,
+                "forecast": {
+                  "account_id": "cooperative-stop-account",
+                  "claims": [
+                    {
+                      "amount": 50,
+                      "meter_id": "cooperative-stop-meter"
+                    }
+                  ],
+                  "environment_id": "cooperative-stop-environment",
+                  "estimated_wall_seconds": 120,
+                  "forecast_context": null,
+                  "job_id": "coop-worker-job",
+                  "paid_spend_cap_currency": null,
+                  "paid_spend_cap_micros": null,
+                  "project_id": "cooperative-stop-project"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "coop-worker-job:ack:ack-coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "AUTHORIZED",
+              "payload": {
+                "ack_id": "ack-coop-worker-job",
+                "catalog_version": 3
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-intent:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_INTENT",
+              "payload": {
+                "catalog_version": 3,
+                "dispatch_granted": true,
+                "launch_id": "coop-worker-launch"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-observation:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_STARTED_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                }
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "local-stop:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LOCAL_STOP_REQUESTED",
+              "payload": {
+                "grace_ms": 600,
+                "launch_id": "coop-worker-launch",
+                "mode": "term_then_kill",
+                "stop_id": "coop-stop-id"
+              }
+            },
+            {
+              "at": 1794405902,
+              "event_id": "launch-exit:coop-worker-job",
+              "job_id": "coop-worker-job",
+              "kind": "LAUNCH_EXIT_OBSERVED",
+              "payload": {
+                "launch_id": "coop-worker-launch",
+                "process": {
+                  "pid": 9819,
+                  "start_token": "343847"
+                },
+                "status": {
+                  "code": 0,
+                  "kind": "code"
+                }
+              }
+            }
+          ],
+          "exit_code": 0,
+          "phase": "explicit-finalize-releases-capacity",
+          "request": {
+            "args": [
+              "finalize",
+              "coop-worker-job",
+              "coop-worker-launch",
+              "completed"
+            ],
+            "socket": "/tmp/.tmpPpAUSS/cooperative/gateway-admin.sock"
+          },
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"coop-worker-job\",\"launch_id\":\"coop-worker-launch\",\"outcome\":\"completed\"}}\n"
+        }
+      ],
+      "stop_event_payload": {
+        "grace_ms": 600,
+        "launch_id": "coop-worker-launch",
+        "mode": "term_then_kill",
+        "stop_id": "coop-stop-id"
+      },
+      "term_seen": {
+        "at_ms": 1794405902505
+      },
+      "worker_exit": {
+        "at_ms": 1794405902586,
+        "exit_code": 0
+      },
+      "worker_start": [
+        {
+          "mode": "cooperative",
+          "pid": 9819,
+          "start_token": "343847",
+          "started_at_ms": 1794405902484
+        }
+      ]
+    },
+    "gateway_loss_during_term_cleanup_cold_unknown": {
+      "balances_after_cold_replay": [
+        {
+          "account": "cooperative-stop-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cooperative-stop-meter",
+          "period": "cooperative-stop-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "balances_before_gateway_loss": [
+        {
+          "account": "cooperative-stop-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cooperative-stop-meter",
+          "period": "cooperative-stop-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "cleanup_after_cold_replay": {
+        "at_ms": 1794405904106,
+        "cleanup": "completed"
+      },
+      "cold_client": {
+        "command": [
+          "resource-session",
+          "/tmp/.tmpPpAUSS/cold-cleanup-delay/gateway-cold.sock",
+          "stop-graceful",
+          "cold-cleanup-job",
+          "cold-cleanup-launch",
+          "cold-cleanup-stop",
+          "1800"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"grace_ms\":1800,\"job_id\":\"cold-cleanup-job\",\"launch_id\":\"cold-cleanup-launch\",\"mode\":\"term_then_kill\",\"replayed\":true,\"state\":\"unknown\",\"stop_id\":\"cold-cleanup-stop\"}}\n"
+      },
+      "events_after_cold_replay": [
+        {
+          "at": 1794405902,
+          "event_id": "cold-cleanup-job:reserved",
+          "job_id": "cold-cleanup-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cooperative-stop-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cooperative-stop-meter"
+                }
+              ],
+              "environment_id": "cooperative-stop-environment",
+              "estimated_wall_seconds": 120,
+              "forecast_context": null,
+              "job_id": "cold-cleanup-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cooperative-stop-project"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "cold-cleanup-job:ack:ack-cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cold-cleanup-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-intent:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-cleanup-launch"
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-observation:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-cleanup-launch",
+            "process": {
+              "pid": 9838,
+              "start_token": "343888"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "local-stop:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 1800,
+            "launch_id": "cold-cleanup-launch",
+            "mode": "term_then_kill",
+            "stop_id": "cold-cleanup-stop"
+          }
+        }
+      ],
+      "events_after_orphan_exit": [
+        {
+          "at": 1794405902,
+          "event_id": "cold-cleanup-job:reserved",
+          "job_id": "cold-cleanup-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cooperative-stop-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cooperative-stop-meter"
+                }
+              ],
+              "environment_id": "cooperative-stop-environment",
+              "estimated_wall_seconds": 120,
+              "forecast_context": null,
+              "job_id": "cold-cleanup-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cooperative-stop-project"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "cold-cleanup-job:ack:ack-cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cold-cleanup-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-intent:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-cleanup-launch"
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-observation:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-cleanup-launch",
+            "process": {
+              "pid": 9838,
+              "start_token": "343888"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "local-stop:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 1800,
+            "launch_id": "cold-cleanup-launch",
+            "mode": "term_then_kill",
+            "stop_id": "cold-cleanup-stop"
+          }
+        }
+      ],
+      "events_before_cold_replay": [
+        {
+          "at": 1794405902,
+          "event_id": "cold-cleanup-job:reserved",
+          "job_id": "cold-cleanup-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cooperative-stop-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cooperative-stop-meter"
+                }
+              ],
+              "environment_id": "cooperative-stop-environment",
+              "estimated_wall_seconds": 120,
+              "forecast_context": null,
+              "job_id": "cold-cleanup-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cooperative-stop-project"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "cold-cleanup-job:ack:ack-cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cold-cleanup-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-intent:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-cleanup-launch"
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-observation:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-cleanup-launch",
+            "process": {
+              "pid": 9838,
+              "start_token": "343888"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "local-stop:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 1800,
+            "launch_id": "cold-cleanup-launch",
+            "mode": "term_then_kill",
+            "stop_id": "cold-cleanup-stop"
+          }
+        }
+      ],
+      "events_before_gateway_loss": [
+        {
+          "at": 1794405902,
+          "event_id": "cold-cleanup-job:reserved",
+          "job_id": "cold-cleanup-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cooperative-stop-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cooperative-stop-meter"
+                }
+              ],
+              "environment_id": "cooperative-stop-environment",
+              "estimated_wall_seconds": 120,
+              "forecast_context": null,
+              "job_id": "cold-cleanup-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cooperative-stop-project"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "cold-cleanup-job:ack:ack-cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-cold-cleanup-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-intent:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "cold-cleanup-launch"
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-observation:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "cold-cleanup-launch",
+            "process": {
+              "pid": 9838,
+              "start_token": "343888"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "local-stop:cold-cleanup-job",
+          "job_id": "cold-cleanup-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 1800,
+            "launch_id": "cold-cleanup-launch",
+            "mode": "term_then_kill",
+            "stop_id": "cold-cleanup-stop"
+          }
+        }
+      ],
+      "job_id": "cold-cleanup-job",
+      "launch_id": "cold-cleanup-launch",
+      "lost_client": {
+        "command": [
+          "resource-session",
+          "/tmp/.tmpPpAUSS/cold-cleanup-delay/gateway-hot.sock",
+          "stop-graceful",
+          "cold-cleanup-job",
+          "cold-cleanup-launch",
+          "cold-cleanup-stop",
+          "1800"
+        ],
+        "exit_code": 4,
+        "stderr": "",
+        "stdout": "{\"error\":\"response was empty, malformed, or truncated\",\"ok\":false,\"outcome\":\"outcome_unknown\"}\n"
+      },
+      "term_seen": {
+        "at_ms": 1794405902902
+      },
+      "worker_exit": {
+        "at_ms": 1794405904107,
+        "exit_code": 0
+      },
+      "worker_start": [
+        {
+          "mode": "cooperative",
+          "pid": 9838,
+          "start_token": "343888",
+          "started_at_ms": 1794405902892
+        }
+      ]
+    },
+    "ignored_term_escalates_to_signal9": {
+      "balances_after_finalize": [
+        {
+          "account": "cooperative-stop-account",
+          "active_reserved_remaining": 0,
+          "available": 100,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cooperative-stop-meter",
+          "period": "cooperative-stop-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "cleanup_marker": false,
+      "elapsed_ms": 242,
+      "events_after_stop": [
+        {
+          "at": 1794405902,
+          "event_id": "ignore-worker-job:reserved",
+          "job_id": "ignore-worker-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cooperative-stop-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cooperative-stop-meter"
+                }
+              ],
+              "environment_id": "cooperative-stop-environment",
+              "estimated_wall_seconds": 120,
+              "forecast_context": null,
+              "job_id": "ignore-worker-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cooperative-stop-project"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "ignore-worker-job:ack:ack-ignore-worker-job",
+          "job_id": "ignore-worker-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-ignore-worker-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-intent:ignore-worker-job",
+          "job_id": "ignore-worker-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "ignore-worker-launch"
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-observation:ignore-worker-job",
+          "job_id": "ignore-worker-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "ignore-worker-launch",
+            "process": {
+              "pid": 9831,
+              "start_token": "343861"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "local-stop:ignore-worker-job",
+          "job_id": "ignore-worker-job",
+          "kind": "LOCAL_STOP_REQUESTED",
+          "payload": {
+            "grace_ms": 240,
+            "launch_id": "ignore-worker-launch",
+            "mode": "term_then_kill",
+            "stop_id": "ignore-stop-id"
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-exit:ignore-worker-job",
+          "job_id": "ignore-worker-job",
+          "kind": "LAUNCH_EXIT_OBSERVED",
+          "payload": {
+            "launch_id": "ignore-worker-launch",
+            "process": {
+              "pid": 9831,
+              "start_token": "343861"
+            },
+            "status": {
+              "kind": "signal",
+              "signal": 9
+            }
+          }
+        }
+      ],
+      "events_before_stop": [
+        {
+          "at": 1794405902,
+          "event_id": "ignore-worker-job:reserved",
+          "job_id": "ignore-worker-job",
+          "kind": "RESERVED",
+          "payload": {
+            "catalog_version": 3,
+            "estimated_cash_micros": 0,
+            "forecast": {
+              "account_id": "cooperative-stop-account",
+              "claims": [
+                {
+                  "amount": 50,
+                  "meter_id": "cooperative-stop-meter"
+                }
+              ],
+              "environment_id": "cooperative-stop-environment",
+              "estimated_wall_seconds": 120,
+              "forecast_context": null,
+              "job_id": "ignore-worker-job",
+              "paid_spend_cap_currency": null,
+              "paid_spend_cap_micros": null,
+              "project_id": "cooperative-stop-project"
+            }
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "ignore-worker-job:ack:ack-ignore-worker-job",
+          "job_id": "ignore-worker-job",
+          "kind": "AUTHORIZED",
+          "payload": {
+            "ack_id": "ack-ignore-worker-job",
+            "catalog_version": 3
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-intent:ignore-worker-job",
+          "job_id": "ignore-worker-job",
+          "kind": "LAUNCH_INTENT",
+          "payload": {
+            "catalog_version": 3,
+            "dispatch_granted": true,
+            "launch_id": "ignore-worker-launch"
+          }
+        },
+        {
+          "at": 1794405902,
+          "event_id": "launch-observation:ignore-worker-job",
+          "job_id": "ignore-worker-job",
+          "kind": "LAUNCH_STARTED_OBSERVED",
+          "payload": {
+            "launch_id": "ignore-worker-launch",
+            "process": {
+              "pid": 9831,
+              "start_token": "343861"
+            }
+          }
+        }
+      ],
+      "exit_marker": false,
+      "finalize_stdout": "{\"ok\":true,\"result\":{\"finalization\":\"CLOSED\",\"job_id\":\"ignore-worker-job\",\"launch_id\":\"ignore-worker-launch\",\"outcome\":\"failed\"}}\n",
+      "held_balances_before_finalize": [
+        {
+          "account": "cooperative-stop-account",
+          "active_reserved_remaining": 50,
+          "available": 50,
+          "effective_consumed": 0,
+          "fresh": true,
+          "guard": 0,
+          "limit": 100,
+          "local_observed": 0,
+          "meter_id": "cooperative-stop-meter",
+          "period": "cooperative-stop-test",
+          "provider_complete_through": null,
+          "provider_reported": null,
+          "unit": "units"
+        }
+      ],
+      "job_id": "ignore-worker-job",
+      "launch_command": [
+        "resource-session",
+        "/tmp/.tmpPpAUSS/ignore-term/gateway-ignore.sock",
+        "launch",
+        "ignore-worker-job",
+        "ignore-worker-launch",
+        3
+      ],
+      "launch_id": "ignore-worker-launch",
+      "launch_stdout": "{\"ok\":true,\"result\":{\"job_id\":\"ignore-worker-job\",\"launch_id\":\"ignore-worker-launch\",\"state\":\"running\"}}\n",
+      "stop_command": [
+        "resource-session",
+        "/tmp/.tmpPpAUSS/ignore-term/gateway-ignore.sock",
+        "stop-graceful",
+        "ignore-worker-job",
+        "ignore-worker-launch",
+        "ignore-stop-id",
+        "240"
+      ],
+      "stop_response": {
+        "ok": true,
+        "result": {
+          "exit": {
+            "signal": 9
+          },
+          "grace_ms": 240,
+          "job_id": "ignore-worker-job",
+          "kill_attempted": true,
+          "launch_id": "ignore-worker-launch",
+          "mode": "term_then_kill",
+          "replayed": false,
+          "state": "exit_observed",
+          "stop_id": "ignore-stop-id",
+          "term_attempted": true
+        }
+      },
+      "term_seen_marker": false,
+      "worker_start": [
+        {
+          "mode": "ignore",
+          "pid": 9831,
+          "start_token": "343861",
+          "started_at_ms": 1794405902625
+        }
+      ]
+    }
+  },
+  "how_certain": "experimental; native assertions and retained reply/event/marker records",
+  "source_sha256": {
+    "src/bin/resource-gateway.rs": "b09e573c06e95be0584884f2e1f70b5362a5e80b7c3fd104199ccc7c5c560b09",
+    "src/bin/resource-session.rs": "5e03d90721c376479b934a075178e869a67fdcd4fedff1f8c887e40d1b57d56e",
+    "src/lib.rs": "4eee660beb26d330ffe5f4f13c3ae941692f9197ca4a6f73788aafbe57583b23",
+    "src/local.rs": "d8a89b5ef7f85ace36db5349c9faeb791dc5c9f770992bbdea907633f39b4d14",
+    "tests/native_cooperative_stop.rs": "1cfebf3916c317eaef4bf6fddce5f94beca13d427d333aa57c3011a36278fc3a"
+  },
+  "what": "actual resource-session requests, real SO_PEERCRED gateway, fixed workers, signal/cleanup markers, Store events and balances",
+  "what_not_tested": [
+    "hostile same-UID or root",
+    "remote providers",
+    "whole-host loss",
+    "arbitrary programs",
+    "descendant termination",
+    "hard wall-time stop",
+    "canonical disposal semantics"
+  ],
+  "why": "cooperative stop adds orderly cleanup while preserving exact owned-child custody and explicit finalization"
+}
