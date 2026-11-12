@@ -3,6 +3,8 @@ title: Agent Operational Rules
 program: EDASES
 layer: Research
 document_type: Standard
+version: 2026-11-13.1-experiment
+supersedes_revision: 62b70f6ffcfa32a830026fd7a8b7a9ca3c465d3d
 status: Active
 authority: Canonical
 canonical_repository: edases
