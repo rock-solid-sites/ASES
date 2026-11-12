@@ -1,0 +1,20 @@
+{
+  "cases": {},
+  "failure": {
+    "message": "[Errno 17] File exists: '/workspace/ases-native-admission-races/docs/research/phase-ii-native-admission-races/evidence/run-01/state/append-first'",
+    "processes": [],
+    "traceback": "Traceback (most recent call last):\n  File \"/workspace/ases-native-admission-races/docs/research/phase-ii-native-admission-races/probe.py\", line 250, in main\n    raw[\"cases\"][\"append_first\"] = create_history(out, \"append-first\")\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-native-admission-races/docs/research/phase-ii-native-admission-races/probe.py\", line 142, in create_history\n    setup = helpers.setup_native_f3(case_root, world=\"A\", activate=True)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/ases-native-admission-races/docs/research/phase-ii-native-ownership/probe.py\", line 349, in setup_native_f3\n    case_root.mkdir(parents=True, exist_ok=False)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py\", line 1311, in mkdir\n    os.mkdir(self, mode)\nFileExistsError: [Errno 17] File exists: '/workspace/ases-native-admission-races/docs/research/phase-ii-native-admission-races/evidence/run-01/state/append-first'\n",
+    "type": "FileExistsError"
+  },
+  "schema": "ases4-native-revocation-append-v1",
+  "sources": {
+    "docs/research/phase-i-f1-recovery-repair/repaired_service.py": "f95b043d4fed01046c3875afa87871228843fdd5a4b92b2cd13034e7089a8fdc",
+    "docs/research/phase-i-sol-integration/native.py": "3b2eecfe64701e0c852f43f239fb0518a98c2c0365d62a863193f8f94cb111a6",
+    "docs/research/phase-ii-native-ownership/native_sink.py": "f4262271ea008208b99f5339d3b1e42c8239753d0a823e65e725bf2097bea70d",
+    "docs/research/phase-ii-native-ownership/owner_cli.py": "5576a233c1c1f45f98abb3cee350b6a1d25fb5c2b793017216941c008d6a09ba",
+    "docs/research/phase-ii-native-ownership/probe.py": "133c0e378d9df7b73e2763059cd96d403aebad1667b477f6de32d3107c9d11a1",
+    "docs/research/phase-ii-native-ownership/unix_transport.py": "94171cc116631eae61549df4bc270fa0e97cf9de1176d2a17c7e33e2ebb1b487"
+  },
+  "started_ns": 21389187036674,
+  "status": "PROBE_FAILED"
+}
