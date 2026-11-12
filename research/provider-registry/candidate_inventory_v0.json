@@ -23,24 +23,57 @@
         "execution",
         "automation"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "actions": {
+          "mode": "api_trigger",
+          "source_url": "https://docs.github.com/en/rest/actions/workflows",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        },
+        "codespaces": {
+          "mode": "api_create",
+          "source_url": "https://docs.github.com/en/rest/codespaces/codespaces",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "openai",
       "products": [
-        "codex_cloud"
+        "codex_cloud",
+        "agents_api"
       ],
       "roles": [
         "managed_agent",
         "inference"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "agents_api": {
+          "mode": "api_create",
+          "source_url": "https://developers.openai.com/api/docs/guides/agents-api/sessions",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "google",
       "products": [
         "cloud_shell",
-        "antigravity"
+        "antigravity",
+        "compute_engine"
       ],
       "roles": [
         "managed_agent",
@@ -52,7 +85,18 @@
         }
       },
       "status": "unverified_candidate",
-      "notes": "Jules excluded from candidates: sunsetting and no known account or historical usage. Cloud Shell remains unverified."
+      "notes": "Jules excluded from candidates: sunsetting and no known account or historical usage. Cloud Shell remains unverified.",
+      "documented_execution_routes": {
+        "compute_engine": {
+          "mode": "api_create",
+          "source_url": "https://docs.cloud.google.com/compute/docs/reference/rest/v1/instances/insert",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "modal",
@@ -62,7 +106,18 @@
       "roles": [
         "execution"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "sandboxes": {
+          "mode": "sdk_create",
+          "source_url": "https://modal.com/docs/sdk/py/latest/Sandbox",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "e2b",
@@ -72,7 +127,18 @@
       "roles": [
         "execution"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "sandboxes": {
+          "mode": "sdk_create",
+          "source_url": "https://e2b.dev/docs/sdk-reference/python-sdk/v2.5.0/sandbox_sync",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "daytona",
@@ -82,7 +148,18 @@
       "roles": [
         "execution"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "sandboxes": {
+          "mode": "api_create",
+          "source_url": "https://www.daytona.io/docs/tools/api/",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "vercel",
@@ -92,7 +169,18 @@
       "roles": [
         "execution"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "sandbox": {
+          "mode": "sdk_create",
+          "source_url": "https://vercel.com/docs/sandbox",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "cloudflare",
@@ -106,7 +194,18 @@
         "execution",
         "deployment"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "sandbox": {
+          "mode": "worker_sdk",
+          "source_url": "https://developers.cloudflare.com/sandbox/",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "railway",
@@ -162,7 +261,18 @@
         "execution",
         "automation"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "ci": {
+          "mode": "api_trigger",
+          "source_url": "https://docs.gitlab.com/ci/triggers/",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "cursor",
@@ -172,7 +282,18 @@
       "roles": [
         "managed_agent"
       ],
-      "status": "unverified_candidate"
+      "status": "unverified_candidate",
+      "documented_execution_routes": {
+        "background_agents": {
+          "mode": "agents_api_beta",
+          "source_url": "https://prod.cursor.com/docs/cloud-agent/api/endpoints",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
     },
     {
       "id": "devpod",
@@ -377,6 +498,307 @@
         "unclassified_candidate"
       ],
       "status": "unverified_candidate"
+    },
+    {
+      "id": "fly",
+      "products": [
+        "sprites",
+        "machines"
+      ],
+      "roles": [
+        "execution",
+        "provisioning"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established.",
+      "documented_execution_routes": {
+        "sprites": {
+          "mode": "rest_api",
+          "source_url": "https://fly.io/sprites/",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
+    },
+    {
+      "id": "render",
+      "products": [
+        "one_off_jobs",
+        "workflows"
+      ],
+      "roles": [
+        "execution",
+        "automation"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established.",
+      "documented_execution_routes": {
+        "one_off_jobs": {
+          "mode": "api_create",
+          "source_url": "https://render.com/docs/one-off-jobs",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
+    },
+    {
+      "id": "northflank",
+      "products": [
+        "manual_jobs",
+        "sandboxes"
+      ],
+      "roles": [
+        "execution",
+        "deployment"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established.",
+      "documented_execution_routes": {
+        "manual_jobs": {
+          "mode": "api_create",
+          "source_url": "https://northflank.com/docs/v1/api/use-the-api",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
+    },
+    {
+      "id": "blaxel",
+      "products": [
+        "sandboxes"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established.",
+      "documented_execution_routes": {
+        "sandboxes": {
+          "mode": "sdk_create",
+          "source_url": "https://developers.openai.com/api/docs/guides/agents-api/environments/providers/blaxel",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
+    },
+    {
+      "id": "runloop",
+      "products": [
+        "devboxes"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "aws",
+      "products": [
+        "ec2",
+        "codebuild"
+      ],
+      "roles": [
+        "execution",
+        "automation"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established.",
+      "documented_execution_routes": {
+        "ec2": {
+          "mode": "api_create",
+          "source_url": "https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
+    },
+    {
+      "id": "azure",
+      "products": [
+        "virtual_machines",
+        "container_apps_jobs"
+      ],
+      "roles": [
+        "execution",
+        "automation"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "oracle",
+      "products": [
+        "compute"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "digitalocean",
+      "products": [
+        "droplets"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "akamai",
+      "products": [
+        "linode_compute"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "scaleway",
+      "products": [
+        "instances"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "koyeb",
+      "products": [
+        "worker_services"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established.",
+      "documented_execution_routes": {
+        "worker_services": {
+          "mode": "rest_api",
+          "source_url": "https://www.koyeb.com/docs/reference/api",
+          "source_class": "official_documentation",
+          "reviewed_on": "2026-11-12",
+          "account_access": "unverified",
+          "adapter_state": "not_implemented",
+          "launch_test": "not_run"
+        }
+      }
+    },
+    {
+      "id": "runpod",
+      "products": [
+        "pods",
+        "serverless"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "vastai",
+      "products": [
+        "instances"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "nebius",
+      "products": [
+        "compute",
+        "serverless_jobs"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "huggingface",
+      "products": [
+        "spaces"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "circleci",
+      "products": [
+        "pipelines"
+      ],
+      "roles": [
+        "automation",
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "buildkite",
+      "products": [
+        "pipelines"
+      ],
+      "roles": [
+        "automation",
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "azuredevops",
+      "products": [
+        "pipelines"
+      ],
+      "roles": [
+        "automation",
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "sprites-dev",
+      "products": [
+        "sprites"
+      ],
+      "roles": [
+        "execution"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Discovery only; account access, credit, adapter and launch not established."
     }
   ],
   "additional_provider_classes": [
@@ -388,5 +810,5 @@
     "billing_only",
     "storage_only"
   ],
-  "notes": "Discovery candidates only; this is NOT the operational registry. Source: Paseo Cloud Execution Environment Registry 2026-10-31. Closed/closing unused products are excluded. Entries require account and product verification before activation. One-time promotional credits must not be treated as recurring. Storage and provisioning services are not execution capacity."
+  "notes": "Discovery candidates only; this is NOT the operational registry. Source: Paseo Cloud Execution Environment Registry 2026-10-31. Closed/closing unused products are excluded. Entries require account and product verification before activation. One-time promotional credits must not be treated as recurring. Storage and provisioning services are not execution capacity. | 2026-11-12: appended discovery candidates and official-documentation-backed launch routes; do not infer accounts, quotas, authorization, or operational adapters. Existing entries retained."
 }
