@@ -1,0 +1,31 @@
+{
+  "phase": "post-fix",
+  "source_commit": "e1148e883102b880125380e55f08dd22ad63ea58",
+  "source_path": "resource-control/src/local.rs",
+  "source_sha256": "4ee8d8db3451111365f061ff61ee8989b951af74b56cf1a46436ac18f8d971ba",
+  "test_path": "resource-control/src/local/identity_lifetime_tests.rs",
+  "test_sha256": "facb1075a5424b41eba2d45cca3dc125df0145314b74ff92e3b74cf1cdc3d92a",
+  "command_cwd": "resource-control",
+  "focused_command": "CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --lib identity_lifetime_tests -- --nocapture",
+  "focused_exit_code": 0,
+  "focused_stdout_path": "evidence/post-fix/focused.stdout.txt",
+  "focused_stdout_sha256": "4171f43dcc81aab613cd8792d16424060d19453cdf55802317fd5e87d7307564",
+  "affected_targets_command": "CARGO_HOME=/workspace/.toolchains/ases-launch-rust/cargo RUSTUP_HOME=/workspace/.toolchains/ases-launch-rust/rustup CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 /workspace/.toolchains/ases-launch-rust/cargo/bin/cargo test --test native_local_gateway --test native_cooperative_stop",
+  "affected_targets_exit_code": 0,
+  "affected_targets_stdout_path": "evidence/post-fix/affected-targets.stdout.txt",
+  "affected_targets_stdout_sha256": "274d4339f6a6a2817862ccabe408c3a709fc5673bcd50a206263c3f0fbed3d8a",
+  "injected_observation": "The test reader failed during initial identity observation and until the actual /bin/true Child was reaped, then offered the same numeric PID with the synthetic token injected-stale-token-not-from-procfs.",
+  "counts": {
+    "identity_lifetime_passed": 5,
+    "identity_lifetime_failed": 0,
+    "native_local_gateway_passed": 4,
+    "native_cooperative_stop_passed": 2
+  },
+  "what_not_tested": [
+    "actual PID reuse",
+    "an actual second process",
+    "real procfs staleness or tampering",
+    "hostile same-UID or root behavior",
+    "host loss, remote providers, or process adoption"
+  ]
+}
