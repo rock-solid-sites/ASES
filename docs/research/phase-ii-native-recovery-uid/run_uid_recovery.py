@@ -240,10 +240,10 @@ def run(args) -> tuple[dict, int]:
             created = docker_command(outer, create_args, timeout=60)
             if created["exit"] != 0:
                 raise RuntimeError("failed to create the single labeled recovery container")
-            container_id = created["stdout"].strip()
+            container_id = created["stdout"].strip() or None
+            outer["container_id"] = container_id
             if not container_id:
                 raise RuntimeError("Docker create returned no container ID")
-            outer["container_id"] = container_id
             copy_result = docker_command(outer, ["cp", str(source_root) + "/.",
                                                   container_id + ":/opt/owned-src/"], timeout=120)
             outer["copy_result"] = copy_result
@@ -276,12 +276,35 @@ def run(args) -> tuple[dict, int]:
         outer["runner_error"] = {"type": type(error).__name__, "message": str(error),
                                  "traceback": traceback.format_exc()}
     finally:
+        cleanup_target = container_id or task
+        inspect_for_cleanup = docker_command(outer, ["container", "inspect", cleanup_target], timeout=30)
+        if inspect_for_cleanup["exit"] == 0:
+            try:
+                item = json.loads(inspect_for_cleanup["stdout"])[0]
+                labels = item.get("Config", {}).get("Labels", {}) or {}
+                inspected_id = item.get("Id")
+                inspected_name = item.get("Name")
+                inspected_label = labels.get(LABEL)
+                cleanup_identity_matches = (
+                    isinstance(inspected_id, str)
+                    and (container_id is None or inspected_id == container_id)
+                    and inspected_name == "/" + task and inspected_label == task
+                )
+                if container_id is None and cleanup_identity_matches:
+                    container_id = inspected_id
+                    outer["container_id"] = inspected_id
+                if outer.get("container_inspection") is None and cleanup_identity_matches:
+                    outer["container_inspection"] = {
+                        "Id": inspected_id, "Name": inspected_name,
+                        "label": inspected_label, "State": item.get("State", {}),
+                    }
+            except (json.JSONDecodeError, IndexError, TypeError):
+                cleanup_identity_matches = False
+        else:
+            cleanup_identity_matches = False
+        outer["cleanup_preflight_inspection"] = inspect_for_cleanup
         if container_id is not None:
-            inspect_for_cleanup = docker_command(outer, ["container", "inspect", container_id,
-                "--format", '{{.Id}}|{{ index .Config.Labels "' + LABEL + '" }}'], timeout=30)
-            outer["cleanup_preflight_inspection"] = inspect_for_cleanup
-            expected = f"{container_id}|{task}"
-            if inspect_for_cleanup["exit"] == 0 and inspect_for_cleanup["stdout"].strip() == expected:
+            if cleanup_identity_matches:
                 outer["cleanup"] = docker_command(
                     outer, ["container", "rm", "--force", container_id], timeout=30)
                 if outer["cleanup"]["exit"] != 0:
@@ -289,7 +312,7 @@ def run(args) -> tuple[dict, int]:
                     outer["cleanup_error"] = "exact labeled task container removal failed"
             else:
                 outer["cleanup"] = {"skipped": True,
-                                    "reason": "exact ID and task label did not both match",
+                                    "reason": "exact ID, name, and task label did not all match",
                                     "inspection": inspect_for_cleanup}
         outer["ended_ns"] = time.time_ns()
 
