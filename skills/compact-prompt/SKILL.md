@@ -1,10 +1,15 @@
 ---
-name: compact-prompt
+name: compact-prompt-legacy-v0-1
 version: 0.1-draft
-description: Construct compact agent prompts for ASES/T3 workflows. Use when preparing fresh-context prompts for orchestrators, builders, recon/verification agents, reviewers, ontology reviewers, or synthesis agents. Select only task-specific instructions, run-specific policy, relevant context, and an observable completion condition; omit project knowledge and restrictions already supplied or enforced elsewhere.
+status: superseded
+authority: historical
+superseded_by: skills/prompt/SKILL.md@0.5-draft
+description: Archived compact-prompt v0.1 reference, superseded by skills/prompt/SKILL.md v0.5-draft. Do not select for current ASES prompt compilation. Use when preparing fresh-context prompts for orchestrators, builders, recon/verification agents, reviewers, ontology reviewers, or synthesis agents. Select only task-specific instructions, run-specific policy, relevant context, and an observable completion condition; omit project knowledge and restrictions already supplied or enforced elsewhere.
 ---
 
-# Compact Prompt Skill
+# Compact Prompt Skill — legacy v0.1 (superseded)
+
+**Historical reference only.** The unique active skill identity `compact-prompt` belongs to `skills/prompt/SKILL.md` v0.5-draft. Do not invoke this legacy version by the current name. This file remains available for historical comparison.
 
 ## Purpose
 
