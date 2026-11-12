@@ -62,6 +62,12 @@ cargo test --offline --locked --manifest-path resource-control/Cargo.toml \
 Result: 5 passed, 0 failed. They cover stale identity after reap, exact replay,
 force stop, graceful stop, and resume behavior.
 
+Cargo stdout/exit logs were not saved as files. The counts above are the
+report-only test-process result recorded from the completed focused runs; the
+retained JSON files contain the raw native requests, replies, and Store
+observations, not Cargo console output. No tests were rerun to produce this
+documentation note.
+
 During test development an assertion compared the entire event snapshot after
 replaying an immediately exiting `/bin/true`; the gateway can legitimately add
 exit observation asynchronously. The assertion was narrowed to the relevant
