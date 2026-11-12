@@ -224,12 +224,13 @@ def fsync_gap_history(out: Path):
     changed_bundle = base.repair.configuration("C", base.CONTENT, True)["acceptance_bundle"]
     f1_change = base.native_f1_accept(f1root, changed_bundle, base.CONTENT)
     owner = base.OwnerProcess(case["owner_root"])
+    seal_for_new_world = owner.call({"op": "seal"})
     accept_new_world = owner.call({"op": "accept"})
     after_new_world = owner.call({"op": "read"})["reply"]["snapshot"]
     old_registration = case["envelope"]["import_id"]
     retained_before_move = {item["id"]: item["status"] for item in
                             after_new_world["state"]["native_owner"]["registrations"]}
-    source_transitions = {"seal": owner.call({"op": "seal"}),
+    source_transitions = {"seal_before_new_world": seal_for_new_world,
                           "move": owner.call({"op": "move"}),
                           "activate": owner.call({"op": "activate"})}
     current_owner = owner.call({"op": "read"})["reply"]["snapshot"]
@@ -250,6 +251,7 @@ def fsync_gap_history(out: Path):
               "f1_before_world_change": f1_before_world_change,
               "f1_changed_world_accept": f1_change,
               "f1_after_world_change": f1_after_world_change,
+              "seal_for_new_world": seal_for_new_world,
               "owner_accept_new_world": accept_new_world,
               "owner_after_new_world": after_new_world,
               "retained_registrations_before_move": retained_before_move,
