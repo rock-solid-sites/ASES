@@ -46,9 +46,9 @@ Identify only what can change compilation:
 5. Run the necessity pass on every proposed requirement, feature, component, abstraction, dependency and custom implementation: what fails without it, and can a smaller/native/existing mechanism satisfy the need?
 6. Freeze behavior and interfaces. Where UI affects behavior, resolve it with the lightest useful prototype.
 7. Precompute and test pure/deterministic logic when this removes work from live implementation.
-8. Define pure tests and live acceptance at the same abstraction level as the requirements.
-9. Emit the smallest Implementation Packet that contains the execution-changing result of the above work.
-10. Compile the builder prompt with `skills/prompt/SKILL.md`.
+8. Inspect the current environment's actual execution capabilities. Complete all safe, authorized, practical source editing, integration preparation, implementation and verification available **here**, instead of stopping at a builder-ready packet. Record an evidence-backed blocker before delegating.
+9. Define pure tests and live acceptance at the same abstraction level as the requirements; perform all accessible checks.
+10. Only if work remains, emit the smallest Implementation Packet for the residual implementation and compile its prompt with `skills/prompt/SKILL.md`. If the work is finished and verified here, emit its artifact and evidence without a builder handoff.
 
 Freeze only evidence-supported decisions. If an unresolved fact can only be learned in the live environment, expose it as a bounded live assumption rather than inventing an answer.
 
@@ -82,9 +82,10 @@ The Implementation Packet is builder/process context. Do not pass it wholesale t
 
 ## Output
 
-Produce:
+Produce the smallest valid outcome:
 
-1. the frozen Implementation Packet and any supplied artifacts/components;
-2. the compact residual-task prompt produced under `skills/prompt/SKILL.md`.
+1. **Completed here:** the finished artifact and relevant verification evidence; no Implementation Packet or builder prompt is needed.
+2. **Partially completed here:** completed artifacts/tests plus a frozen packet and compact prompt containing **only** the outstanding implementation or environment-specific tests.
+3. **Execution unavailable here:** a frozen packet and compact residual-task prompt, identifying the concrete access/capability boundary.
 
-The success criterion is not packet completeness for its own sake. It is that the builder has few unresolved decisions left.
+Independent clean-room review can still be delegated when independence is itself necessary. Do not offload work merely because it is customarily assigned to a builder. The success criterion is the greatest safe, verified progress before delegation.
