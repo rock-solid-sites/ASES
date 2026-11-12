@@ -14,7 +14,7 @@ downstream_consumers:
 
 # Purpose
 
-`check.py` evaluates the two ASES-4 histories in the raw capture. It derives
+`check.py` evaluates the two ASES-4 histories in the final raw capture. It derives
 claims from the selected owner records, consistent SQLite snapshots, actual
 owned bytes, F4 journal bytes, and witness publication state. It does not use
 a probe summary flag or admission certificate as the authority for a PASS.
@@ -22,12 +22,14 @@ a probe summary flag or admission certificate as the authority for a PASS.
 Run the checker against the completed capture:
 
 ```sh
-python3 -B docs/research/phase-ii-native-admission-races/check.py docs/research/phase-ii-native-admission-races/evidence/run-04/raw.json
+python3 -B docs/research/phase-ii-native-admission-races/check.py docs/research/phase-ii-native-admission-races/evidence/run-06/raw.json
 ```
 
-This reads the capture and compares each listed parent input with its bytes at
-frozen commit `f7b16ddbf34034ce1a0967c37cd92d5869f7e399`. It does not rerun the
-probe or the earlier twelve native-ownership histories.
+This reads the capture, requires the essential F1/F3/L5/L6/F4 source set, and
+compares each listed parent input with its bytes at frozen commit
+`f7b16ddbf34034ce1a0967c37cd92d5869f7e399`. It checks the captured race-probe
+hash against the current repository file. It does not rerun the probe or the
+earlier twelve native-ownership histories.
 
 # Evidence checked
 
@@ -48,8 +50,11 @@ The checker verifies both append-first and seal-first histories:
   The actual F4 journal must then contain exactly one accepted effect bound to
   the submitted envelope and selected native owner. Owner publication sequence,
   witness cut, and the historical request-index record must identify that same
-  row. The post-move new-ID denial must leave the journal and effect history
-  unchanged.
+  row. After revocation and move, the checker requires an actual exact-ID
+  `/submit` of the original envelope at current outer authority version 1. The
+  response must be `already-accepted` for the original sequence; raw journal
+  bytes and sink/witness cuts must remain unchanged. The post-move new-ID denial
+  must also leave the journal and effect history unchanged.
 - In seal-first, the before-admission request must have no reservation. The
   separate owner process commits the seal and advances native authority. The
   stale request and a fresh sealed request must both be denied without journal
@@ -64,14 +69,9 @@ The checker verifies both append-first and seal-first histories:
 
 # Limits
 
-The retained historical result is checked through the actual post-move F4
-`/status` response: the original request ID remains indexed to its one journal
-sequence, and the published cut matches the raw journal. The capture does not
-issue a second exact-ID `/submit` after revocation, so the checker does not claim
-that a post-revocation retry request was exercised.
-
-These checks concern the captured local process and SQLite histories. They do
-not establish behavior under same-UID or root compromise, arbitrary power loss,
-remote delivery retries, or rollback. The two generated controls test that
-these particular raw-evidence assertions reject those mutations; they are not
-a general adversarial test of the checker implementation.
+The exact-ID retry demonstrates the captured local F4 result and publication
+state after revocation. These checks do not establish behavior under same-UID
+or root compromise, arbitrary power loss, remote delivery retries, or rollback.
+The two generated controls test that these particular raw-evidence assertions
+reject those mutations; they are not a general adversarial test of the checker
+implementation.

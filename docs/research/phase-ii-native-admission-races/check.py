@@ -13,14 +13,20 @@ import sys
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 FROZEN = "f7b16ddbf34034ce1a0967c37cd92d5869f7e399"
-PINNED = {
+ESSENTIAL_PINNED = {
     "docs/research/phase-i-f1-recovery-repair/repaired_service.py",
+    "docs/research/phase-i-sol-integration/evidence/sources/f1/docs/research/phase-i-f1/c11-sqlite/c11_service.py",
+    "docs/research/phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5/l5_integrated.py",
+    "docs/research/phase-i-sol-integration/evidence/sources/l5/research/phase-i-protected-work-unit-f3/lifecycle/l5/move-cuts/worker.py",
+    "docs/research/phase-i-sol-integration/evidence/sources/l6/research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/store.py",
+    "docs/research/phase-i-sol-integration/evidence/sources/l6/research/phase-i-protected-work-unit-f3/lifecycle/l6-inventory/race/race_store.py",
     "docs/research/phase-i-sol-integration/native.py",
-    "docs/research/phase-ii-native-ownership/probe.py",
+    "docs/research/phase-ii-native-ownership/native_owner.py",
     "docs/research/phase-ii-native-ownership/owner_cli.py",
     "docs/research/phase-ii-native-ownership/native_sink.py",
     "docs/research/phase-ii-native-ownership/unix_transport.py",
 }
+CURRENT_PROBE = "docs/research/phase-ii-native-admission-races/probe.py"
 
 
 def need(condition: bool, message: str) -> None:
@@ -40,11 +46,31 @@ def digest_record(name: str, value: dict) -> bytes:
 
 
 def frozen_sources(sources: dict) -> None:
-    need(set(sources) == PINNED, "source manifest does not name the frozen parent inputs")
-    for path, expected in sources.items():
-        frozen = subprocess.run(["git", "show", f"{FROZEN}:{path}"], cwd=REPO,
-                                check=True, stdout=subprocess.PIPE).stdout
-        need(sha(frozen) == expected, f"source differs from frozen parent: {path}")
+    need(isinstance(sources, dict) and sources, "source manifest missing")
+    found: set[str] = set()
+    rows = []
+    for key, value in sources.items():
+        if isinstance(value, str):
+            path, expected = key, value
+        else:
+            need(isinstance(value, dict), f"invalid source record: {key}")
+            path, expected = value.get("path"), value.get("sha256")
+        need(isinstance(path, str) and isinstance(expected, str), f"incomplete source record: {key}")
+        source_path = Path(path)
+        if source_path.is_absolute():
+            source_path = source_path.resolve().relative_to(REPO)
+        relative = source_path.as_posix()
+        found.add(relative)
+        rows.append((relative, expected))
+    need(ESSENTIAL_PINNED <= found, "source manifest omits essential frozen F1/F3/F4 inputs")
+    need(CURRENT_PROBE in found, "source manifest omits the actual native race probe")
+    for path, expected in rows:
+        if path == CURRENT_PROBE:
+            actual = (REPO / path).read_bytes()
+        else:
+            actual = subprocess.run(["git", "show", f"{FROZEN}:{path}"], cwd=REPO,
+                                     check=True, stdout=subprocess.PIPE).stdout
+        need(sha(actual) == expected, f"source differs from frozen parent/current probe: {path}")
 
 
 def selected_direct(name: str, snap: dict) -> dict:
@@ -182,9 +208,24 @@ def check_case(case: dict, label: str) -> None:
                           for x in retained], f"{label}: selected F1 pair is not retained")
     need(case["initial_envelope"].get("import_id") == reg.get("id"),
          f"{label}: request does not bind selected native registration")
-    need(permissions(initial, "D") == {"read", "write"}, f"{label}: initial D is not write-capable")
+    need(case["initial_envelope"].get("pair") == initial_pair
+         and case["initial_envelope"].get("epoch") == owner.get("epoch"),
+         f"{label}: initial request does not bind current selected F1 pair and owner epoch")
+    initial_generation = case["initial_owner_snapshot"].get("generation", {})
+    need(initial_generation.get("selector") == case["initial_owner_direct"]["selector"]
+         and initial_generation.get("sha256") == case["initial_owner_direct"]["record_sha256"],
+         f"{label}: initial F4 envelope snapshot differs from actual selected CURRENT record")
+    need(permissions(initial, "D") == {"read", "write"}
+         and initial["work_units"]["D"].get("active") is True,
+         f"{label}: initial D is not active and write-capable")
     unit, files = l6_evidence(label + " initial L6", case["initial_owner_direct"])
     need(unit[0] == 1 and bool(files), f"{label}: initial L6 authority/material not live")
+    object_name = Path(reg["metadata"]["object"]).name
+    object_bytes = bytes.fromhex(files[object_name]["raw_hex"])
+    need(object_bytes.decode("utf-8") == initial_pair["accepted_content"]
+         and sha(object_bytes) == reg["metadata"]["sha256"]
+         and len(object_bytes) == reg["metadata"]["size"],
+         f"{label}: selected accepted content is not backed by the actual owned bytes")
 
     at_gate = selected_direct(label + " at gate", case["owner_at_gate"])
     after_contender = selected_direct(label + " after contender", case["owner_after_contender"])
@@ -267,6 +308,12 @@ def check_case(case: dict, label: str) -> None:
          and moved["work_units"].get("D", {}).get("parent") == "C",
          f"{label}: current selected native state does not show actual C/D move to Q")
     need(permissions(moved, "D") == {"read"}, f"{label}: moved D path is not read-only")
+    moved_generation = case["post_move_owner_snapshot"].get("generation", {})
+    need(moved_generation.get("selector") == case["owner_after_current_denial"]["selector"]
+         and moved_generation.get("sha256") == case["owner_after_current_denial"]["record_sha256"],
+         f"{label}: fresh post-move envelope was not built from the current selected record")
+    need(case["current_envelope"].get("l5") == moved_generation,
+         f"{label}: post-move new-ID request does not carry current L5 selector/hash")
     denied_call = case["denied_current"]["result"]
     denied = denied_call["response"]
     denied_body = response_body(denied)
@@ -312,14 +359,41 @@ def check_case(case: dict, label: str) -> None:
              and admission.get("epoch") == case["initial_envelope"].get("epoch")
              and admission.get("presented_l5") == case["initial_envelope"].get("l5"),
              "append-first: F4 event admission facts do not bind native owner/envelope")
-        historical = case["historical_exact_result"]
+        retry = case["historical_exact_retry"]
+        retry_response = retry["response"]
+        retry_body = response_body(retry_response)
+        retry_request = retry["request"]
+        need(retry.get("path") == "/submit" and retry_request.get("authority_version") == 1
+             and retry_request.get("request_id") == request_id
+             and json.loads(retry_request["payload"]) == case["initial_envelope"],
+             "append-first: post-revocation retry did not resubmit the exact original envelope at current F4 v1")
+        need(retry_response.get("status") == 200 and retry_body.get("outcome") == "already-accepted"
+             and retry_body.get("event_seq") == row.get("seq")
+             and retry_body.get("owner_effect", {}).get("status") == "published"
+             and retry_body.get("owner_effect", {}).get("replayed") is True,
+             "append-first: historical exact-ID retry was not a published observation of the original effect")
+        need(retry_body.get("verified_journal_sha256") == sha(final_raw),
+             "append-first: historical retry response did not verify the original journal cut")
+        for edge in ("before", "after"):
+            retry_raw = digest_record("historical retry " + edge, retry[edge])
+            need(retry_raw == final_raw, f"append-first: historical retry {edge} changed journal bytes")
+        for edge in ("historical_exact_retry_before", "historical_exact_retry_after"):
+            cut = case[edge]
+            cut_raw, _ = journal("historical retry cut " + edge, cut["journal"])
+            need(cut_raw == final_raw, f"append-first: {edge} journal differs from original accepted cut")
+            sink_cut = response_body(cut["sink_status"]).get("actual_cut", {})
+            witness_cut = response_body(cut["witness_status"]).get("current", {})
+            need(sink_cut.get("journal_sha256") == sha(final_raw)
+                 and witness_cut.get("journal_sha256") == sha(final_raw),
+                 f"append-first: {edge} sink/witness did not retain the original published cut")
+        historical = case["historical_status"]
         body = response_body(historical)
         historical_row = next((x for x in body.get("effects", []) if x.get("request_id") == request_id), None)
         need(historical.get("status") == 200
              and body.get("actual_cut", {}).get("journal_sha256") == sha(final_raw)
              and historical_row == row
              and body.get("request_index", {}).get(request_id) == row.get("seq"),
-             "append-first: historical exact-ID result does not identify the one retained journal effect")
+             "append-first: historical status does not identify the one retained journal effect")
         witness_status = case["f4_final_snapshot"].get("witness_status", {})
         witness_body = response_body(witness_status)
         need(witness_status.get("status") == 200
@@ -343,7 +417,13 @@ def check_case(case: dict, label: str) -> None:
          f"{label}: outer F4 authority was not current after native denial")
 
     # The owner still retains its accepted bytes and F1 observations through revocation/move.
-    for key in ("owner_at_gate", "owner_after_contender", "owner_after_seal", "owner_after_current_denial"):
+    retained_snapshots = ["owner_at_gate", "owner_after_contender", "owner_after_seal",
+                          "owner_after_current_denial"]
+    if label == "append_first":
+        retained_snapshots.append("owner_after_append")
+    else:
+        retained_snapshots.append("owner_after_denial")
+    for key in retained_snapshots:
         snap = case[key]
         state = selected_direct(label + " " + key, snap)
         pair, retained_now = f1_evidence(label + " " + key + " F1", snap["f1_sqlite"])
