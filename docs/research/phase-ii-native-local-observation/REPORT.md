@@ -38,14 +38,24 @@ records.
 
 ## Results
 
-`evidence/run-03/raw.json` is a complete `PASS` capture. It records the final
-source hashes: `observe_local.py`
+`evidence/run-03/raw.json` is the full `PASS` capture. It records the final
+implementation source hashes: `observe_local.py`
 `dff70e2bb866c46d01d9a6c6840ce81579d4724ccc6bce019e05dff11f6e2207`, strict
 `reconcile.py`
-`588d502c72c674c4d8655d3ecdcab7919d09e2aae0cf831c2b656c4af5fe8bba`, and the
-probe `6960db8146486fae5cf2a602da20b31c15d380efeb49824555a164c3be4dcb1b`.
-The prior full publication reconciliation probe was run once in this final
-capture and also reports `PASS`.
+`588d502c72c674c4d8655d3ecdcab7919d09e2aae0cf831c2b656c4af5fe8bba`. The full
+probe used hash
+`6960db8146486fae5cf2a602da20b31c15d380efeb49824555a164c3be4dcb1b`. It ran
+the prior full publication reconciliation probe once, which also reports
+`PASS`.
+
+`evidence/run-04/raw.json` is a focused reordered `LOCAL_CASES_PASS` capture
+from a probe-only change (probe SHA-256
+`53bee518ff3048bb2f5908ec94bcf9a88cd8fd5e4b1c06fc39692d82fb19c26f`). It
+uses the same observer and strict-reconciler hashes as run-03, so the parent
+regression result applies to the unchanged implementation. Run-04 changes the
+history order to accept F1 world C, register C, and seal/move/activate the
+source before observing the old world-A effect. It does not repeat the parent
+regression.
 
 The test wrapper paused after the real `emit_locked` append/fsync had returned
 and immediately before the original `NativeAdmission.after_append` callback.
@@ -66,14 +76,17 @@ owner record with no matching journal event; both strict and opt-in commands
 refused and retained it. A mismatched protected reservation payload hash also
 refused without further owner or journal mutation.
 
-The probe then accepted a new F1 observation for world C using the same content
-bytes as the retained world A observation. It kept the old registration live,
-sealed and moved the native source through the owner API, and activated it.
-The old exact request ID still returned `already-accepted` for event 4 without
-changing the effect journal. A fresh current-world request used the current
-F4 version and native owner epoch/selector, reached the native guard, and was
-denied with `native-current-path-denied`. F1 integrity and retained
-observations remained intact.
+In run-04, the owner was already at epoch 4 with the world-C registration
+selected when the observer consumed the world-A event. The observer changed
+the old reservation to `published` at sequence 4 while preserving epoch 4 and
+the selected world-C registration, without appending. The probe used the same
+content bytes in F1 worlds A and C, retained the old registration, and recorded
+both retained observations. The old exact request ID still returned
+`already-accepted` for event 4 without changing the effect journal. A fresh
+current-world request used the current F4 version and native owner
+epoch/selector, reached the native guard, and was denied with
+`native-current-path-denied`. F1 integrity and retained observations remained
+intact.
 
 These findings cover the tested native profile and crash boundaries only. They
 do not claim cross-store atomicity or automatic cancellation of a reservation
@@ -90,8 +103,10 @@ WHAT: the existing protected reservation, parsed F4 event and index, native
 owner `record_local_effect` callback, writer guard, witness proof/CAS, and
 settlement helper.
 
-HOW CERTAIN: experimental until each actual gate history and bounded negative
-control passes with source hashes pinned.
+HOW CERTAIN: experimentally demonstrated in the captured bounded native
+histories and controls, with implementation source hashes pinned. The result
+does not generalize beyond the stated native profile or prove cross-store
+atomicity.
 
 WHAT NOT TESTED: hostile same-UID/root, arbitrary rollback or power loss,
 absence-based reservation cancellation, missing-witness repair, remote

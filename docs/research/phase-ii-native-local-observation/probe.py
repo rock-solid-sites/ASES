@@ -211,14 +211,6 @@ def strict_default_refusal(case):
 def fsync_gap_history(out: Path):
     case = prepare(out, "fsync-gap")
     gap = make_fs_invalid_gap(case)
-    strict = strict_default_refusal(case)
-    _proc, observation = command(OBSERVE, case["owner_root"], case["request_id"])
-    after_observation = case_snapshot(case)
-    exact_replay = case["f4"].cold_restart()
-    # This ordinary recovered sink has a cold gate; reopen through its actual
-    # replacement/activation route for current-use control after world change.
-    reopen = [case["f4"].call("/replace", {"holder": "local-observation-recovery"}),
-              case["f4"].call("/activate", {"authority_version": 2})]
     f1root = Path(case["setup"]["f1_root"])
     f1_before_world_change = base.f1_raw(f1root / "store.sqlite")
     changed_bundle = base.repair.configuration("C", base.CONTENT, True)["acceptance_bundle"]
@@ -233,20 +225,36 @@ def fsync_gap_history(out: Path):
     source_transitions = {"seal_before_new_world": seal_for_new_world,
                           "move": owner.call({"op": "move"}),
                           "activate": owner.call({"op": "activate"})}
-    current_owner = owner.call({"op": "read"})["reply"]["snapshot"]
+    current_owner_before_observation = owner.call({"op": "read"})["reply"]["snapshot"]
     owner.close()
+    f1_after_world_change = base.f1_raw(f1root / "store.sqlite")
+    owner_before_observation = owner_view(case["owner_root"])
+    f1_witness_before_observation = case["f4"].witness_call("/status")
+    journal_before_observation = native.blob(case["f4"].journal)
+    strict = strict_default_refusal(case)
+    _proc, observation = command(OBSERVE, case["owner_root"], case["request_id"])
+    after_observation = case_snapshot(case)
+    owner_after_observation = after_observation["owner"]
+    exact_replay = case["f4"].cold_restart()
+    # Ordinary recovered startup is sealed; reopen via its actual management
+    # API after the old event has already been observed and settled.
+    reopen = [case["f4"].call("/replace", {"holder": "local-observation-recovery"}),
+              case["f4"].call("/activate", {"authority_version": 2})]
     current_envelope = base.native_envelope(
-        current_owner, case["witness_root"] + ":new-current-world-after-move")
+        owner_after_observation, case["witness_root"] + ":new-current-world-after-move")
     fresh_denial = case["f4"].submit(current_envelope, authority_version=2)
     before_historical = native.blob(case["f4"].journal)
     historical_result = case["f4"].submit(case["envelope"], authority_version=2)
     after_historical = native.blob(case["f4"].journal)
     owner_final = owner_view(case["owner_root"])
-    f1_after_world_change = base.f1_raw(f1root / "store.sqlite")
     final = case_snapshot(case)
     result = {"setup": case["setup"], "request_id": case["request_id"],
               "envelope": case["envelope"], "gap": gap, "strict_refusal": strict,
               "observer": observation, "after_observation": after_observation,
+              "owner_before_observation": owner_before_observation,
+              "owner_after_observation": owner_after_observation,
+              "journal_before_observation": journal_before_observation,
+              "witness_before_observation": f1_witness_before_observation,
               "ordinary_cold_ready": exact_replay, "f4_reopen": reopen,
               "f1_before_world_change": f1_before_world_change,
               "f1_changed_world_accept": f1_change,
@@ -257,7 +265,7 @@ def fsync_gap_history(out: Path):
               "retained_registrations_before_move": retained_before_move,
               "old_registration_id": old_registration,
               "source_transitions": source_transitions,
-              "current_owner_after_move": current_owner,
+              "current_owner_before_observation": current_owner_before_observation,
               "current_envelope": current_envelope,
               "fresh_current_denial": fresh_denial,
               "historical_journal_before": before_historical,
@@ -420,15 +428,27 @@ def validate_primary(case):
          and current_pair in [json.loads(item) for item in f1_after["retained"]],
          "same-content changed F1 world did not retain both old and current observations")
     registrations = case["owner_after_new_world"]["state"]["native_owner"]["registrations"]
+    owner_before_observation = case["owner_before_observation"]["state"]["native_owner"]
+    owner_after_observation = case["owner_after_observation"]["state"]["native_owner"]
+    current_registration = next(item for item in registrations
+                                if item["id"] == owner_before_observation["selected"])
     need(case["old_registration_id"] in case["retained_registrations_before_move"]
          and len(registrations) >= 2
          and next(item for item in registrations if item["id"] == case["old_registration_id"])["status"] == "live",
          "changed current world did not preserve the old native registration")
+    need(current_registration["pair"] == current_pair
+         and case["old_registration_id"] != owner_before_observation["selected"]
+         and case["owner_before_observation"]["state"]["native_owner"]["epoch"] ==
+         case["owner_after_observation"]["state"]["native_owner"]["epoch"]
+         and case["owner_before_observation"]["state"]["native_owner"]["selected"] ==
+         case["owner_after_observation"]["state"]["native_owner"]["selected"]
+         and case["journal_before_observation"]["sha256"] == case["after_observation"]["journal"]["sha256"],
+         "observer changed current epoch/selection or appended while consuming the old world")
     need(case["fresh_current_denial"]["response"].get("status") == 409
          and case["fresh_current_denial"]["response"]["body"].get("reason") == "native-current-path-denied",
          "fresh current-world request did not reach and fail native current admission")
     f4_status = case["final"]["witness"]["body"]["current"]["authority"]
-    current_owner = case["current_owner_after_move"]
+    current_owner = case["owner_after_observation"]
     need(f4_status["authority_version"] == 2
          and case["current_envelope"]["epoch"] == current_owner["state"]["native_owner"]["epoch"]
          and case["current_envelope"]["l5"] == current_owner["generation"],

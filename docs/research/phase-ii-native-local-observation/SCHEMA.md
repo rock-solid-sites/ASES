@@ -18,7 +18,7 @@ stderr; hashes and raw bytes for journal and protected owner/F1/L6 records;
 the parsed event/index view; witness request/response records and revisions;
 and snapshots at each crash or gate boundary.
 
-Expected cases in a complete capture:
+Expected cases in a full capture:
 
 | Case | Required evidence |
 |---|---|
@@ -32,6 +32,10 @@ Expected cases in a complete capture:
 | `parent-regression` | One full run of the prior publication reconciliation probe against the same source revision. |
 
 Top-level `status` is `PASS` only after the case assertions and parent
-regression pass. Failures are written to `failure` with traceback and do not
-replace earlier attempt directories. The source manifest pins every source
-used by the probe and wrapper.
+regression pass. Probe-only follow-up captures may use
+`LOCAL_CASES_PASS_REGRESSION_NOT_RUN` when a prior full capture has already
+passed the parent regression and implementation hashes are unchanged. In this
+task, run-03 is the full capture; run-04 reorders the world-change history and
+omits only the parent regression. Failures are written to `failure` with
+traceback and do not replace earlier attempt directories. The source manifest
+pins every source used by the probe and wrapper.
