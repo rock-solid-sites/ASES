@@ -1,3 +1,12 @@
+---
+title: "BRIEF"
+version: 0.2.0-experimental
+status: experimental
+authority: run-scoped
+run_id: ASES-SOL-CTRL-A-20261113
+supersedes_revision: eaf0d2c5092c1c1627e1ef79188378d1237f3e37
+---
+
 # Current engineering queue — delegated reconnaissance required
 
 **Run:** ASES-SOL-CTRL-A-20261113. **Repo:** `rock-solid-sites/ASES`. **Work Notes:** `ASES-8` is the new experiment and progress log; `ASES-4` is the inherited engineering thread; earlier `ASES-2` contains the baseline. This page is a **source index**, not an instruction to trust stale PR summaries.
@@ -23,4 +32,4 @@ Starting evidence as of 2026-11-13:
 
 Separate inexpensive OpenCode issues: ASES-5 PR dependency matrix, ASES-6 independent CI/replay, ASES-7 evidence-recovery audit. Parent must not duplicate them. No production action or merge.
 
-Never start by sending the parent the entire runbook, source tree or previous transcripts. A compact source-pinned *delta* from current state is enough.
+Never start by sending the parent the entire runbook, source tree or previous transcripts. A compact source-pinned *delta* from current state is enough. For each selected change Sol should formulate the decisive verification obligations in advance and assign a separate Luna verifier, blind to the builder's self-assessment, before issuing final acceptance.
