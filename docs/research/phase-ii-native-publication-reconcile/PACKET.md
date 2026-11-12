@@ -45,13 +45,19 @@ target native effect, unique in the real request index. Require its actual
 payload hash/domain/registration/world bindings and protected owner effect
 status local with the same sequence/hash. Other pending effects, reserved-only
 unknowns, torn/corrupt journals and unsupported attachments remain refused.
-Source F1 retained evidence and owned material remain required; current D write
-permission is not re-granted or used as a substitute for the historical event.
+For local-to-published transition, retained F1 evidence and live owned material
+remain required. An already-published observation may survive normal source
+disposition, but only while the fresh witness exactly matches the full cut; it
+can never advance a prefix from an old receipt. Current D write permission is
+not re-granted or used as a substitute for the historical event.
 
 Freshly query the bound witness with root/nonce/revision validation. Its current
 cut must either equal the full actual journal cut, or equal exactly the prefix
 before that one final effect, with identical replayed authority. No arbitrary
 prefix, control-event suffix or unrelated/missing witness may be advanced.
+The presented generation in the original envelope and admission.presented_l5
+is intentionally distinct from admission.l5 after reservation publication;
+validate the appropriate retained records without treating them as aliases.
 When at the exact preceding cut, issue at most one existing /publish CAS from
 that observed prefix/revision to the exact full local cut. Then use a fresh
 /check to confirm the target; publication reply loss never permits blind CAS
