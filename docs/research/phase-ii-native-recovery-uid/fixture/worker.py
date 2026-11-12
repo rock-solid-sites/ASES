@@ -35,14 +35,10 @@ def fd_facts(pid="self"):
         item = {"fd": fd}
         try:
             item["target"] = os.readlink(name)
-            descriptor = os.open(name, os.O_RDONLY | os.O_CLOEXEC)
-            try:
-                st = os.fstat(descriptor)
-                item["kind"] = ("regular" if stat.S_ISREG(st.st_mode) else
-                                "directory" if stat.S_ISDIR(st.st_mode) else
-                                "socket" if stat.S_ISSOCK(st.st_mode) else "other")
-            finally:
-                os.close(descriptor)
+            st = os.fstat(fd)
+            item["kind"] = ("regular" if stat.S_ISREG(st.st_mode) else
+                            "directory" if stat.S_ISDIR(st.st_mode) else
+                            "socket" if stat.S_ISSOCK(st.st_mode) else "other")
             flags = fcntl.fcntl(fd, fcntl.F_GETFL)
             item["flags"] = flags
             item["access_mode"] = flags & os.O_ACCMODE
@@ -126,10 +122,8 @@ fds=[]
 for p in sorted(__import__("pathlib").Path("/proc/self/fd").iterdir(),key=lambda x:int(x.name)):
  fd=int(p.name); item={"fd":fd}
  try:
-  item["target"]=os.readlink(p); x=os.open(p,os.O_RDONLY|os.O_CLOEXEC)
-  try:
-   st=os.fstat(x); item["kind"]="regular" if stat.S_ISREG(st.st_mode) else "directory" if stat.S_ISDIR(st.st_mode) else "socket" if stat.S_ISSOCK(st.st_mode) else "other"
-  finally: os.close(x)
+  item["target"]=os.readlink(p); st=os.fstat(fd)
+  item["kind"]="regular" if stat.S_ISREG(st.st_mode) else "directory" if stat.S_ISDIR(st.st_mode) else "socket" if stat.S_ISSOCK(st.st_mode) else "other"
   flags=__import__("fcntl").fcntl(fd,__import__("fcntl").F_GETFL); item["access_mode"]=flags&os.O_ACCMODE
   item["writable_regular"]=item["kind"]=="regular" and item["access_mode"] in (os.O_WRONLY,os.O_RDWR)
  except OSError as e: item.update(error=type(e).__name__,errno=e.errno)

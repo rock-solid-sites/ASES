@@ -37,6 +37,29 @@ def denied_os(result, label, allowed=(13,)):
     need(result.get("errno") in allowed, label + " denial was not the expected OS denial")
 
 
+def check_descriptor_records(entries, label):
+    need(isinstance(entries, list) and {item.get("fd") for item in entries} >= {0, 1, 2},
+         label + " FD records incomplete")
+    need(len({item.get("fd") for item in entries}) == len(entries),
+         label + " duplicate descriptor numbers")
+    for item in entries:
+        if "error" in item:
+            # Directory iteration can capture its own just-closed descriptor.
+            # Depending on whether the proc symlink or the descriptor is
+            # checked first, the bounded fd 3 enumerator can report ENOENT or
+            # EBADF after the directory iterator closes. No other FD error is
+            # accepted; in particular standard pipe descriptors must fstat.
+            need(item.get("fd") == 3 and item.get("errno") in (2, 9),
+                 label + " descriptor classification failed")
+        else:
+            need(item.get("kind") in ("regular", "directory", "socket", "other")
+                 and item.get("access_mode") in (0, 1, 2),
+                 label + " descriptor facts incomplete")
+    writable = [item for item in entries if item.get("kind") == "regular"
+                and item.get("access_mode") in (1, 2)]
+    return writable
+
+
 def cli_refusal(value, event, label):
     need(isinstance(value, dict), label + " raw CLI attempt missing")
     need(value.get("returncode", 0) != 0, label + " unexpectedly exited successfully")
@@ -70,11 +93,7 @@ def check_worker(case, case_name):
     status_identity(audit.get("process_status"), 2001, case_name + " worker")
     status_identity(audit.get("owner_process_status"), 2000, case_name + " manager")
     descriptors = audit.get("descriptors")
-    need(isinstance(descriptors, list) and {d.get("fd") for d in descriptors} >= {0, 1, 2},
-         case_name + " worker FD records incomplete")
-    need(all("error" not in d for d in descriptors), case_name + " worker FD classification incomplete")
-    actual_writable = [d for d in descriptors
-                       if d.get("kind") == "regular" and d.get("access_mode") in (1, 2)]
+    actual_writable = check_descriptor_records(descriptors, case_name + " worker")
     need(actual_writable == audit.get("writable_authority_regular_fds") == [],
          case_name + " worker has a writable regular authority FD")
     direct = audit.get("direct")
@@ -102,10 +121,8 @@ def check_worker(case, case_name):
     need(isinstance(value, dict), case_name + " descendant raw result missing")
     status_identity(value.get("status"), 2001, case_name + " descendant")
     descfds = value.get("descriptors")
-    need(isinstance(descfds, list) and {d.get("fd") for d in descfds} >= {0, 1, 2},
-         case_name + " descendant FD records incomplete")
-    need(not any(d.get("kind") == "regular" and d.get("access_mode") in (1, 2)
-                 for d in descfds), case_name + " descendant has writable regular FD")
+    need(not check_descriptor_records(descfds, case_name + " descendant"),
+         case_name + " descendant has writable regular FD")
     denied_os(value.get("direct_owner_current_open"), case_name + " descendant protected CURRENT")
     denied_os(value.get("sink_socket"), case_name + " descendant sink socket")
     denied_os(value.get("witness_socket"), case_name + " descendant witness socket")
@@ -332,8 +349,8 @@ def check_outer(outer):
     need(not any(("build" in argv or "pull" in argv) for argv in argv_list),
          "runner built or pulled an image")
     need(sum(1 for argv in argv_list if "container" in argv and "create" in argv) == 1
-         and sum(1 for argv in argv_list if "container" in argv and "cp" in argv) == 1
-         and sum(1 for argv in argv_list if "container" in argv and "start" in argv) == 1,
+         and sum(1 for argv in argv_list if len(argv) > 2 and argv[2] == "cp") == 1
+         and sum(1 for argv in argv_list if len(argv) > 2 and argv[2] == "start") == 1,
          "runner did not use one create/copy/start container lifecycle")
     create = next(argv for argv in argv_list if "create" in argv)
     for flag in ("--network=none", "--cpus=1", "--memory=512m", "--pids-limit=32",
@@ -351,10 +368,16 @@ def check_outer(outer):
     cleanup = outer.get("cleanup", {})
     need(cleanup.get("exit") == 0, "exact task container cleanup failed")
     preflight = outer.get("cleanup_preflight_inspection", {})
+    try:
+        preflight_item = json.loads(preflight.get("stdout", ""))[0]
+    except (json.JSONDecodeError, IndexError, TypeError):
+        preflight_item = {}
+    labels = preflight_item.get("Config", {}).get("Labels", {}) or {}
     need(preflight.get("exit") == 0
-         and preflight.get("stdout", "").strip() ==
-         outer.get("container_id", "") + "|" + outer.get("label_value", ""),
-         "cleanup did not recheck the exact container ID and unique label")
+         and preflight_item.get("Id") == outer.get("container_id")
+         and preflight_item.get("Name", "").lstrip("/") == outer.get("container_name")
+         and labels.get(outer.get("label_key")) == outer.get("label_value"),
+         "cleanup did not recheck the exact container ID/name/unique label")
     need(outer.get("start_attach", {}).get("exit") == 0,
          "container start/attach did not complete successfully")
     commit = outer.get("source_commit", "")

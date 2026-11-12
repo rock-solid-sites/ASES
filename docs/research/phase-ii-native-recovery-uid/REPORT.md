@@ -33,6 +33,17 @@ failed and was not overwritten. No successful UID-custody result is claimed
 until a new capture completes both UID-separated cases and the raw checker
 passes. Any retry uses a separate evidence directory.
 
+The third actual attempt is preserved in [run-03 raw evidence](evidence/run-03/raw.json).
+The bounded container completed both local and reserved cases, and the outer
+runner verified and cleaned up its unique task container. The one-shot worker
+completed both direct CLI attempts, protected path/socket attempts, and its
+fork/exec descendant; each protected route returned an actual EACCES or
+structured `PermissionError`. The checker rejected this capture because the FD
+audit reopened `/proc/self/fd/N` instead of inspecting the inherited descriptor
+with `fstat`/`F_GETFL`. That produced permission errors on legitimate pipes and
+made the FD evidence inconclusive. The worker now inspects the existing FDs
+directly; run-03 remains unchanged and does not count as a complete pass.
+
 ## Evidence
 
 The finalized capture will link the exact raw JSON, source hashes, container
