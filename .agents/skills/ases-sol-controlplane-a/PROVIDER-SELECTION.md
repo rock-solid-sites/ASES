@@ -1,61 +1,59 @@
 ---
 title: "ASES reviewer provider selection from recorded accounts"
-version: 0.1.0-experimental
+version: 0.2.0-experimental
 status: ranked-preflight-required
 authority: run-scoped-research
 run_id: ASES-SOL-CTRL-A-20261113
-source_inventory_ref: 9a122c6c840c39dbe0cefbfc3cf2970b3d0a5a2f
+source_inventory_ref: 5903b7b9ce3f1d9499a08f794775c3faf40a5d3d
 review_date: 2026-11-13
 ---
 
 # Select from the provider registry, not an arbitrary example list
 
-**Decision:** Use a **fixed-model, tool-free external-family inference endpoint** for routine static falsification and **GitHub Actions** as the first independently observable executable-review environment. At session start Luna must compare all relevant accounts against current usage/entitlement evidence and promote a route only after actual preflight. Secondary execution candidates are **Modal** and **GitLab CI**; their current launch/account status requires verification. No provider has been launched by this document.
+**Decision:** For static falsification, test **the already-held NVIDIA NIM key and OpenRouter account with reported $5 monthly credits** before asking the operator to register elsewhere. For executable review, **GitHub Actions** supplies an observed baseline, but **Northflank, Modal, GitLab, and eligible free GitHub/Google SSO providers must compete on measured launchability, actual free quota, speed and total expense**—not an arbitrary existing-account shortlist. The operator can obtain eligible free SSO accounts in minutes; this makes signup a low-friction conditional route, **not** proof that any particular service offers SSO, free compute or no payment-card requirement. No provider has been launched by this document.
 
 ## What the inventory actually says
 
 Pinned registry in `research/provider-registry/`:
-- `known_accounts_v1.json`: **28 account records**, ranging from `tool_observed` or `user_confirmed` to `user_reported`. All have `usage.status=unknown`; none has a live remaining-balance observation.
-- `candidate_inventory_v0.json`: **54 discovery providers**. All entries say `unverified_candidate`, even when official API launch documentation is recorded.
+- `known_accounts_v1.json`: **29 account records**, ranging from `tool_observed` or `user_confirmed` to `user_reported`. All have `usage.status=unknown`; none has a live remaining-balance observation.
+- `candidate_inventory_v0.json`: **54 discovery providers**. All product routes remain unverified; Northflank is now independently user-confirmed as an **existing account**, while its manual-job/sandbox product entitlement remains unverified.
 - `potential_offers_v1.json`: **26 offers/comparators**, with no verified current awarded/remaining promo balance. Do not treat prospective credits as available.
 - PR #44 documentation describes 17 source-backed launch routes, all still `account_access=unverified`, `adapter_state=not_implemented` and `launch_test=not_run` in the discovery plane. This is not contradictory to observed GitHub Actions runs; it means no dedicated provider-registry adapter has been validated.
 
-Ranking weighs (a) evidence that **this account exists and has a working path**, (b) task fit, (c) no additional signup/spend, (d) direct API/workflow launch, (e) reproducibility and correct model provenance, (f) privacy, (g) setup cost. The absence of verified quota, credentials and cost is an explicit gate, not a zero-cost claim.
+Ranking weighs (a) **verified effective cost and usable quota**, (b) model/executor suitability, (c) tested automation/launch path, (d) privacy and model provenance, (e) isolation and reproducibility, and (f) **realistic onboarding time**. Existing account access is an advantage but not a prerequisite: GitHub/Google SSO free signups can be completed quickly by the operator. Keep *account exists*, *account is quickly obtainable*, *product entitlement verified*, and *job launched* as separate evidence states. Absent quotas/costs are UNKNOWN, never $0.
 
-## Tool-free external-family reviewer: candidate order
+## Tool-free external-family reviewer: qualified first probes
 
-| Order | Provider/account record | Account evidence | Published model/access route | Decision and gate |
-| --- | --- | --- | --- | --- |
-| **1** | `nvidia` — NVIDIA build/NIM | `user_reported` | Developer Program offers free prototyping API endpoints; fixed open model IDs can give separate model-family review | **First tiny no-code API capability test** if a usable preexisting credential is available in the approved executor; confirm fixed model identity, quota, privacy terms and egress; never infer live entitlement from account record |
-| **2** | `google` — Google AI Studio / Gemini API | `user_reported` | Gemini Developer API free tier is model/project dependent | **Independent-family fallback or second opinion**; verify this specific AI Studio project/key and current limits; a Google/Drive account is not an API entitlement |
-| **3** | `openrouter` — OpenRouter | `user_reported` | Some explicitly named `:free` API models can be used without a credit purchase; current free-model cap published as 50/day at unfunded tier | **Flexible fallback and model catalog**, if a verified API key exists. Pin exact model/provider; do not silently use `openrouter/free` auto-routing when independent-model provenance matters; keep fallback list free-only |
-| **4** | `mistral` — Mistral API | `user_confirmed` signup | Mistral's current API usage documentation says free mode does **not include API access** without pay-as-you-go activation, although an Aug 2026 support article describes free-mode limits. Treat as conflicting/stale docs | **Conditional**; request actual billing/limits observation before use. Signup and a Vibe subscription are not API credits |
-| **5** | `deepseek`, `xiaomi-mimo`, `opencode` | `user_reported` | Different-family inference may be available through existing subscriptions/APIs; paid plans or separate wallet scopes vary | **Paid or quota-dependent fallbacks**, only after account-specific model ID, credit/usage meter and spending approval are observed. OpenCode account is a harness/model subscription, not generic third-party compute |
-| Further | `hugging-face`, `phoenix-grove`, `openai` | `user_reported` | Some inference or hosted offerings; model routes unknown | Not first choice: no verified targeted reviewer endpoint; OpenAI-family is weaker for the required cross-family comparison |
+| Tier | Provider | Evidence from account registry | Practical action / unresolved gate |
+| --- | --- | --- | --- |
+| **First** | `nvidia` — NVIDIA NIM | **User-confirmed API key possession** (2026-11-13); actual model access and limits unknown | Luna checks whether key can be used *in the chosen executor* and pins a non-OpenAI reviewer model. **Do not ask again whether a key exists, store the value, or claim a successful call before testing.** |
+| **First** | `openrouter` — OpenRouter | **User-confirmed account and $5 recurring monthly credits**; credited amount in the current period and balance unverified | Luna checks remaining credit/allowed model IDs and selects a fixed external-family model. $5/month is an **allowance claim**, not current spendable balance or infinite free inference. |
+| **Second** | `google` — Google AI Studio/Gemini | Recorded user account; API project/key and free-tier entitlement unverified | Model/project-specific free tier could be suitable. A Google login is not itself a developer API key. |
+| **Conditional** | `mistral`, `deepseek`, `xiaomi-mimo`, `opencode`, `hugging-face` | Mixed user-confirmed or user-reported accounts; API wallets/models not checked | Evaluate actual family, cost, API entitlement and privacy as alternatives. A model subscription and API billing are separate. |
+| **Quick onboarding** | Other suitable external-family inference providers | Not necessarily existing accounts | **Do not automatically discard.** If the operator can open a genuinely free, applicable account with GitHub/Google SSO in minutes, include it in the shortlist after verifying service-specific SSO, payment and API conditions. |
+| Less useful for this goal | OpenAI-family inference via `openai` | Existing product plan recorded | Provides less family independence for review of a Sol/Luna-produced change. |
 
-**Selection is of the actual model family, not just the reseller.** Two routes serving the same model do not constitute two independent families. The fixed model name, provider's response metadata and exact prompt/source SHA must be recorded. A model's self-description is not independent provider verification.
+**Model independence means actual underlying model family**, not just a distinct reseller. Pin provider-returned model/routing metadata, source SHA and packet digest; reviewer self-identification is insufficient.
 
-## Executable review: candidate order
+## Executable review: eligibility-ranked candidates, not a fixed provider favorite
 
-| Order | Provider/account record | Account evidence | Fit and current evidence | Gate before a new job |
-| --- | --- | --- | --- | --- |
-| **1** | `github` — GitHub Actions | `tool_observed` | An actual ASES workflow executed on Nov 12 (job `131445439283`) and produced useful failed-test logs. GitHub Free publishes 2,000 included private-repo minutes/month; public-repo standard-runner policy differs. Excellent for pinned, finite tests/artifact logs | Check actual billing owner/remaining minutes and workflow dispatch path. Existing CI execution does **not** imply arbitrary reviewer launch adapter already works or is free |
-| **2** | `modal` — Modal sandboxes | `user_confirmed` and local CLI previously reported working | Serverless sandbox API with short-lived containers; Starter advertises $30 monthly included compute, including Sandboxes; no current account balance or remote Codex-to-Modal launch evidence | Read-only entitlement/credential/egress preflight, explicit bounded sandbox/job, verified cleanup and non-billable/approved cost. Do not treat historical local CLI as Cloud credentials |
-| **3** | `gitlab` — GitLab CI | `user_reported` | API-triggered CI with independent runner environment; GitLab.com Free publishes 400 compute minutes/month | Validate actual GitLab account/project runner/quota, private source access, API route, mirror/checkout complexity and minute accounting |
-| **4** | `github` — GitHub Codespaces | `tool_observed` account, Codespaces-specific entitlement unknown | Interactive persistent dev session is overkill for finite batch reviews, useful when the review needs retained checkout/session state | Verify personal/org billing and remote create/exec/reconnect route; not first for quick reproducible CI |
-| **5** | `daytona`, `e2b`, `vercel` | `user_reported` | Purpose-built sandboxes or short-lived compute; may fit independent tests better than persistent VM | No current entitlement/API credential or demonstrated launcher; execute only after a cheaper preflight shows one works |
-| **6** | `cloudflare` — Sandbox/Containers | `user_confirmed` for Workers/Pages, not Sandbox entitlement | SDK launches containers through Workers but **current Sandbox docs say Workers Paid plan required** | Check actual Paid plan and specific Sandbox entitlement; Workers Free usage does not imply container access |
-| Conditional | `hostkey` VPS | `user_confirmed` | Existing remote Linux host could run OpenCode | CPU sustained-use constraint and user migration/backup make it a poor default for reviews |
-| Discovery only | `northflank`, `blaxel`, `runloop`, `fly`, `render`, `koyeb`, `railway`, `codesandbox`, `cursor`, `replit`, `coder`, `devpod`, `bunnyshell`, `eclipse_che`, `circleci`, `buildkite`, `azuredevops`, etc. | **No corresponding recorded eligible account** in the 28-account snapshot | Some have documented APIs and can be excellent future choices | **Not eligible for first round as an already-accessible provider**; re-rank if an actual account, entitlement and launch path are observed |
-| Other account classes | Drive/IDrive/B2/Box/MEGA/pCloud/TeraBox/iCloud; Mistral/DeepSeek inference; generic new AWS/Azure/GCP/Oracle/VPS candidates | mixed | Storage, inference, or new-billing surfaces do not provide a verified generic executable reviewer | Exclude unless a concrete previously verified execution account/product and approved meter emerges |
+| Tier | Provider/account | Recorded state | Next measurement |
+| --- | --- | --- | --- |
+| **Proven baseline** | GitHub Actions (`github`) | `tool_observed`: a real ASES workflow ran on Nov 12, with actionable failed-test logs; quota/biller and arbitrary workflow trigger not yet validated | Actual workflow dispatch, source isolation, minutes/runner policy, model API secret path and output artifacts |
+| **First sandbox comparison** | **Northflank** (`northflank`) | **Existing account user-confirmed Nov 13**. Manual-job API documented; actual plan/free jobs, card requirement and API access unverified | Read-only plan/entitlement check followed by a strictly bounded authorized job if known free/approved, with cleanup/receipts |
+| **First sandbox comparison** | Modal (`modal`) | Existing account user-confirmed, local CLI previously worked; current Codex Cloud-to-Modal route/allowance unknown | Same small job as Northflank on measured startup, cost, cleanup and external-model support |
+| **First CI comparison** | GitLab CI (`gitlab`) | User-reported account and prior CI experimentation; project API/quota unknown | Verify hosted runner minutes, Git access, pipeline trigger and result pickup |
+| **Conditional existing** | GitHub Codespaces, Daytona, E2B, Vercel, Cloudflare Sandbox | Existing user/tool-reported account for the broader provider, but product-specific free execution not established | Product-specific quota/payment/remote launcher probe; Codespaces may suit persistent work more than one-shot tests |
+| **Fast SSO signup candidates** | Other recorded discovery choices including Blaxel, Runloop, Fly, Render, Koyeb, Railway, CodeSandbox, Cursor, Replit, CircleCI/Buildkite/Azure DevOps, etc. | Many have no current recorded account, **not disqualified** | Determine which actually offer applicable free GitHub/Google SSO, without card or payment, plus an API launch mechanism; operator signup only if the measured option wins |
+| **Constrained/deprioritized** | HOSTKEY VPS and generic paid VM trials | VPS sustained CPU limitation; offers unredeemed, no verified available balance | Use only if a bounded approved route is actually preferable; do not disrupt user backups |
 
-The available **26 offers** are not substituted for working accounts. No signup, preauthorization, secret copying or paid capacity is part of this ranking.
+Northflank and Modal are **peers to evaluate**, not a predetermined #1/#2. GitHub Actions' executed job proves runner use in the repo, not that it is always the fastest or cheapest execution provider. The complete provider catalogue remains in the 54-entry registry and should be screened without silently discarding new signup options.
 
 ## Execution policy
 
-**First goal:** no cloud machine at all. Luna prepares a tightly bounded blind review packet, verifies an approved external provider endpoint with a tiny nonsensitive call only if credentials and zero/approved cost are known, then dispatches a fixed-model tool-free critique. The reviewer returns falsifiers, not a self-certification.
+**First goal:** no cloud machine at all. Luna prepares a bounded blind review packet and probes the user-confirmed NVIDIA NIM key and OpenRouter account **in the environment where they will be used**, without assuming the credentials are already present there. Verify a small nonsensitive call under known free or approved cost, then dispatch a fixed-model critique. The reviewer returns falsifiers, not a self-certification.
 
-If the claim requires actual tests, use an independent Luna to turn findings into tests on a known executor. Start with GitHub Actions (existing demonstrated runner) when the workflow can be run under known quota. If source/tool exploration is needed beyond CI, test Modal's controlled sandbox route next; GitLab CI is a distinct execution-provider fallback.
+If the claim requires actual tests, use an independent Luna to turn findings into tests. GitHub Actions is a known runner baseline; **compare Northflank, Modal and GitLab CI** (plus suitable quick-SSO eligible candidates) on account-specific entitlement, one tiny reproducible launch, startup duration, review usefulness, model cost and cleanup before promoting any as the preferred sandbox. Signup is an operator action, not an automatic agent power.
 
 For every dispatch, record `source_inventory_rev`, `provider_account_id`, `model_id`, `model_family`, `executor`, `billing_owner`, `quota_snapshot`, `prompt_hash`, `source_ref`, `started_at`, `result_ref`, `cost_actual_or_unknown`, and `cleanup`. If a hard unknown exists, **NO_LIVE_ROUTE**, not `$0`.
 
@@ -74,4 +72,4 @@ Private source disclosure requires an authorized destination and data-handling t
 - GitLab.com Free CI quota: https://docs.gitlab.com/ci/pipelines/compute_minutes/
 - Cloudflare Sandbox plan gate: https://developers.cloudflare.com/sandbox/
 
-**Unknown:** model API keys/actual quotas, provider-specific data retention, reviewer API ingress from Codex Cloud, external model entitlements, whether an approved low-cost remote launcher is authenticated and callable from the session. The first Luna probe must answer those questions with exact tool and account evidence; do not overstate this report as a live capability test.
+**Unknown:** whether the already-held NVIDIA/OpenRouter credentials are present in an approved executor, current paid/free quota and remaining balance, provider-specific data retention, reviewer API ingress from Codex Cloud, external model entitlements, and which sandbox actually offers best usable free launch. The first Luna probe must answer those questions with exact tool and account evidence; do not overstate this report as a live capability test.
