@@ -1,6 +1,6 @@
 ---
 title: "BRIEF"
-version: 0.2.1-experimental
+version: 0.2.2-experimental
 status: experimental
 authority: run-scoped
 run_id: ASES-SOL-CTRL-A-20261113
@@ -13,7 +13,7 @@ supersedes_revision: eaf0d2c5092c1c1627e1ef79188378d1237f3e37
 
 ## Registry source across independent research branches
 
-The **updated provider account registry lives on draft PR #44**, head `5903b7b9ce3f1d9499a08f794775c3faf40a5d3d`, whereas this session package lives on draft PR #45 and is based on `main`. **Do not use the older 28-account snapshot in local main as the current inventory.** The authoritative source for this experiment is `research/provider-registry/known_accounts_v1.json` at that exact PR #44 commit, which has 29 records: Northflank user-confirmed, OpenRouter $5 reported monthly credit, NVIDIA NIM API key possession. For provider routing, read this folder's `PROVIDER-SELECTION.md` v0.2.0 and test the candidate rather than assuming either branch means live access.
+The **updated provider account registry and static-review screen live on draft PR #44**, head to be refreshed at session start. This session package lives on draft PR #45 based on `main`; **do not rely on local main's older 28-account snapshot**. The PR #44 registry currently records **29 user/tool-known accounts, 60 discovery candidates, 26 offers**. It includes existing OpenCode Go/Console (plan state unverified), OpenRouter $5 monthly credits, NVIDIA NIM key and Northflank account; the six newly researched but **unowned** inference providers include Groq, Z.ai, Cohere, Cerebras, SambaNova and Ollama. Read exact `research/provider-registry/reviewer-inference-screen-2026-11-13.md` and this folder's `PROVIDER-SELECTION.md` v0.3.0. For the simple static cross-family reviewer **start with OpenCode Go/free or OpenRouter**, not with a new Modal/Northflank remote sandbox. Any provider must pass actual low-cost privacy/entitlement/auth preflight before use.
 
 ## First worker job: state reconnaissance
 
