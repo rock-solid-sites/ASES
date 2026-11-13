@@ -1,39 +1,43 @@
 ---
 title: "ASES reviewer provider selection from recorded accounts"
-version: 0.2.0-experimental
+version: 0.3.0-experimental
 status: ranked-preflight-required
 authority: run-scoped-research
 run_id: ASES-SOL-CTRL-A-20261113
-source_inventory_ref: 5903b7b9ce3f1d9499a08f794775c3faf40a5d3d
+source_inventory_ref: cf10333db1d23383eb14c555f9e04d636d4a845a
 review_date: 2026-11-13
 ---
 
 # Select from the provider registry, not an arbitrary example list
 
-**Decision:** For static falsification, test **the already-held NVIDIA NIM key and OpenRouter account with reported $5 monthly credits** before asking the operator to register elsewhere. For executable review, **GitHub Actions** supplies an observed baseline, but **Northflank, Modal, GitLab, and eligible free GitHub/Google SSO providers must compete on measured launchability, actual free quota, speed and total expense**—not an arbitrary existing-account shortlist. The operator can obtain eligible free SSO accounts in minutes; this makes signup a low-friction conditional route, **not** proof that any particular service offers SSO, free compute or no payment-card requirement. No provider has been launched by this document.
+**Decision:** For the simple **tool-free** review of a bounded, private ASES code/contract packet, prefer **existing OpenCode Go/Console** (different underlying model families) and **OpenRouter's $5 reported monthly credit** over provisioning any cloud compute service. Model identity, privacy, plan and credentials in the chosen Luna environment must be verified. New free signup options such as Groq/Z.ai merit consideration if existing routes fail. **Do not send raw private ASES code to NVIDIA's free prototyping endpoints or Google's unpaid Gemini API by default**, because the services permit data use/review beyond our zero-training expectation. GitHub Actions is the proven *test runner*, while Northflank/Modal/GitLab and other sandbox providers are only needed if the external verifier itself requires tools or a repository checkout. No model call or compute launch was executed in this research.
 
 ## What the inventory actually says
 
 Pinned registry in `research/provider-registry/`:
 - `known_accounts_v1.json`: **29 account records**, ranging from `tool_observed` or `user_confirmed` to `user_reported`. All have `usage.status=unknown`; none has a live remaining-balance observation.
-- `candidate_inventory_v0.json`: **54 discovery providers**. All product routes remain unverified; Northflank is now independently user-confirmed as an **existing account**, while its manual-job/sandbox product entitlement remains unverified.
+- `candidate_inventory_v0.json`: **60 discovery providers**. All product routes remain unverified; the six new *inference-only* discovery providers are Groq, Cohere, Z.ai, Cerebras, SambaNova and Ollama, **not owned accounts**. Northflank is independently user-confirmed as an **existing account**, while its manual-job/sandbox product entitlement remains unverified.
 - `potential_offers_v1.json`: **26 offers/comparators**, with no verified current awarded/remaining promo balance. Do not treat prospective credits as available.
 - PR #44 documentation describes 17 source-backed launch routes, all still `account_access=unverified`, `adapter_state=not_implemented` and `launch_test=not_run` in the discovery plane. This is not contradictory to observed GitHub Actions runs; it means no dedicated provider-registry adapter has been validated.
 
 Ranking weighs (a) **verified effective cost and usable quota**, (b) model/executor suitability, (c) tested automation/launch path, (d) privacy and model provenance, (e) isolation and reproducibility, and (f) **realistic onboarding time**. Existing account access is an advantage but not a prerequisite: GitHub/Google SSO free signups can be completed quickly by the operator. Keep *account exists*, *account is quickly obtainable*, *product entitlement verified*, and *job launched* as separate evidence states. Absent quotas/costs are UNKNOWN, never $0.
 
-## Tool-free external-family reviewer: qualified first probes
+## Tool-free external-family reviewer: first-use order
 
-| Tier | Provider | Evidence from account registry | Practical action / unresolved gate |
+| Priority | Provider / actual account | Specific route and cost state | Privacy/verification gate |
 | --- | --- | --- | --- |
-| **First** | `nvidia` — NVIDIA NIM | **User-confirmed API key possession** (2026-11-13); actual model access and limits unknown | Luna checks whether key can be used *in the chosen executor* and pins a non-OpenAI reviewer model. **Do not ask again whether a key exists, store the value, or claim a successful call before testing.** |
-| **First** | `openrouter` — OpenRouter | **User-confirmed account and $5 recurring monthly credits**; credited amount in the current period and balance unverified | Luna checks remaining credit/allowed model IDs and selects a fixed external-family model. $5/month is an **allowance claim**, not current spendable balance or infinite free inference. |
-| **Second** | `google` — Google AI Studio/Gemini | Recorded user account; API project/key and free-tier entitlement unverified | Model/project-specific free tier could be suitable. A Google login is not itself a developer API key. |
-| **Conditional** | `mistral`, `deepseek`, `xiaomi-mimo`, `opencode`, `hugging-face` | Mixed user-confirmed or user-reported accounts; API wallets/models not checked | Evaluate actual family, cost, API entitlement and privacy as alternatives. A model subscription and API billing are separate. |
-| **Quick onboarding** | Other suitable external-family inference providers | Not necessarily existing accounts | **Do not automatically discard.** If the operator can open a genuinely free, applicable account with GitHub/Google SSO in minutes, include it in the shortlist after verifying service-specific SSO, payment and API conditions. |
-| Less useful for this goal | OpenAI-family inference via `openai` | Existing product plan recorded | Provides less family independence for review of a Sol/Luna-produced change. |
+| **1** | **OpenCode Go** (`opencode`, user-reported existing plan) | Go API can serve third-party model families to Codex and other coding-agent clients. Catalog includes GLM 5.3, Kimi, MiniMax, DeepSeek, Claude Haiku, Gemini. The *current active Go subscription* is not verified in this Cloud host | Prefer distinct builder-family model and no-training endpoint. Luna checks plan, available Go key, enabled model and usage allowance; no new sandbox required |
+| **1** | **OpenCode Console free** (`opencode`) | At time checked, **GLM-5.3 Flash Free, DeepSeek V4.1 Flash Free and MiniMax M3.1 Flash Free** are free via the **OpenCode CLI** and advertise zero-retention/no-training. OpenCode requires its client for free chat requests | Luna must use tool-disabled OpenCode process, not treat free endpoint as unrestricted third-party API; offers may end at any time; model family of builder must differ |
+| **2** | **OpenRouter** (`openrouter`, user-confirmed account, $5/month credit claimed) | Fixed-model direct API. Strong *Claude Sonnet 5.5* costs about **$0.08** for a 20k-input/4k-output example at $2/$10 per million. Other inexpensive models available. Free `:free` quotas vary with lifetime purchases | Confirm current **remaining** balance, model, provider **ZDR/no training** and source packet privacy. Choose exact model, prohibit silent fallback across families |
+| **3** | **Groq** (NEW candidate; not an observed account) | Free API suitable for small Qwen/Llama packet reviews; official Free plan Qwen3.8-27B sample: 30 RPM, 1k RPD but only 8k TPM | Fast free SSO signup candidate, per-account quotas and **ZDR controls**; chunk long source packet if necessary |
+| **3** | **Cloudflare Workers AI** (`cloudflare`, existing account) | Published 10,000 free neurons/day; suitable free models depend on exact SKU | Check Workers AI token/API and SKU; strongest Kimi/GLM/DeepSeek models listed on pricing often require paid billing |
+| **4** | **Z.ai** (NEW candidate; not an observed account) | Official **GLM-4.7-Flash** free input/output with 200k context, attractive for long source packets | Confirm signup, model entitlement, account limits and especially confidential-source/data terms |
+| **Conditional** | **NVIDIA NIM** (`nvidia`, user-confirmed key) | Free prototyping for model families including Nemotron and open weights; account rate limit needs live check | Free hosted trial **must not receive private/confidential source** by default; sanitized/public invariants only |
+| **Conditional** | **Google AI Studio/Gemini** (`google`, previously working API key reported) | Powerful free-tier models where enabled; exact project rate limits may be exhausted | Google's **unpaid** API terms allow product-improvement use and human review; no raw private ASES source by default |
+| **Conditional** | **Cohere** (NEW, no observed account) | Evaluation-only API key, free up to **1000 calls/month** and typically 20 RPM per chat model | Confirm data-use terms and signup; not a substitute for production/privacy commitments |
+| **Defer** | `mistral`, `hugging-face`, direct `deepseek`/`xiaomi-mimo`, `phoenix-grove`, newly discovered Cerebras/SambaNova/Ollama Cloud | Existing products either lack a verified free API entitlement or have payment/credit/privacy constraints. Mistral Free mode has no general API; Cerebras trial requires payment method; SambaNova docs conflict; Ollama Cloud now pay-per-token | Use only if actual verified account entitlement beats top routes; do not invent free credits |
 
-**Model independence means actual underlying model family**, not just a distinct reseller. Pin provider-returned model/routing metadata, source SHA and packet digest; reviewer self-identification is insufficient.
+**Family independence** means underlying model provenance, not provider reseller identity. A prior DeepSeek builder should not use DeepSeek as its only verifier; GLM, Kimi, MiniMax or Claude would provide better cross-family challenge. Static no-tools reviewers generate falsifiers but not executable proof.
 
 ## Executable review: eligibility-ranked candidates, not a fixed provider favorite
 
@@ -49,9 +53,13 @@ Ranking weighs (a) **verified effective cost and usable quota**, (b) model/execu
 
 Northflank and Modal are **peers to evaluate**, not a predetermined #1/#2. GitHub Actions' executed job proves runner use in the repo, not that it is always the fastest or cheapest execution provider. The complete provider catalogue remains in the 54-entry registry and should be screened without silently discarding new signup options.
 
+## Source reference for newly discovered options
+
+The detailed versioned provider screening, exact official URLs and privacy disqualifiers are in **PR #44** `research/provider-registry/reviewer-inference-screen-2026-11-13.md` v0.1.0. It distinguishes the 29 recorded accounts, six new unowned inference candidates, 60 total discovery providers and 26 unredeemed offer/comparator records. Model pricing and promotional free access are time-sensitive; recheck first-use availability.
+
 ## Execution policy
 
-**First goal:** no cloud machine at all. Luna prepares a bounded blind review packet and probes the user-confirmed NVIDIA NIM key and OpenRouter account **in the environment where they will be used**, without assuming the credentials are already present there. Verify a small nonsensitive call under known free or approved cost, then dispatch a fixed-model critique. The reviewer returns falsifiers, not a self-certification.
+**First goal:** no cloud machine at all. Luna probes **OpenCode Go, OpenCode Console free through the CLI, and OpenRouter** in that order with known free or authorized allowance and confirmed private-code data terms. The already-held NVIDIA key and Google's free API are **not** default private-source routes. A tiny nonsensitive capability check must precede real source packet submission. The reviewer returns falsifiers, not self-certification.
 
 If the claim requires actual tests, use an independent Luna to turn findings into tests. GitHub Actions is a known runner baseline; **compare Northflank, Modal and GitLab CI** (plus suitable quick-SSO eligible candidates) on account-specific entitlement, one tiny reproducible launch, startup duration, review usefulness, model cost and cleanup before promoting any as the preferred sandbox. Signup is an operator action, not an automatic agent power.
 
@@ -72,4 +80,4 @@ Private source disclosure requires an authorized destination and data-handling t
 - GitLab.com Free CI quota: https://docs.gitlab.com/ci/pipelines/compute_minutes/
 - Cloudflare Sandbox plan gate: https://developers.cloudflare.com/sandbox/
 
-**Unknown:** whether the already-held NVIDIA/OpenRouter credentials are present in an approved executor, current paid/free quota and remaining balance, provider-specific data retention, reviewer API ingress from Codex Cloud, external model entitlements, and which sandbox actually offers best usable free launch. The first Luna probe must answer those questions with exact tool and account evidence; do not overstate this report as a live capability test.
+**Unknown:** whether OpenCode Go is currently active; whether OpenCode Console/Go credentials, OpenRouter, NVIDIA or Google keys are available in a **worker-approved** Codex Cloud execution environment; actual quota/credit; provider-specific model privacy; API egress; and executable sandbox readiness. The first Luna probe must answer those questions with exact tool and account evidence; do not overstate this report as a live capability test.
