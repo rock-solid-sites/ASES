@@ -788,6 +788,72 @@
       ],
       "status": "unverified_candidate",
       "notes": "Discovery only; account access, credit, adapter and launch not established."
+    },
+    {
+      "id": "groq",
+      "products": [
+        "groqcloud_inference_api"
+      ],
+      "roles": [
+        "inference"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Official Free API plan with per-model request/token limits; Groq data controls support ZDR. Operator account not observed. Source https://console.groq.com/docs/rate-limits and https://console.groq.com/docs/your-data"
+    },
+    {
+      "id": "cohere",
+      "products": [
+        "trial_inference_api"
+      ],
+      "roles": [
+        "inference"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Evaluation keys free with 1000 API calls/month and 20 requests/min chat; evaluation-only, provider data policy must be inspected. Account not observed. Source https://docs.cohere.com/docs/rate-limits"
+    },
+    {
+      "id": "z-ai",
+      "products": [
+        "glm_flash_inference_api"
+      ],
+      "roles": [
+        "inference"
+      ],
+      "status": "unverified_candidate",
+      "notes": "GLM-4.7-Flash and GLM-4.5-Flash are published $0 input/output API models; exact account limit/data terms and available model route unverified. Account not observed. Source https://docs.z.ai/guides/overview/pricing"
+    },
+    {
+      "id": "cerebras",
+      "products": [
+        "inference_api"
+      ],
+      "roles": [
+        "inference"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Current free trial requires verified payment method, $5 one-time promo expiring 30 days; no ongoing zero-cost free tier. Not preferred for no-card simple review. Source https://cerebras-inference.mintlify.app/support/rate-limits"
+    },
+    {
+      "id": "sambanova",
+      "products": [
+        "cloud_inference_api"
+      ],
+      "roles": [
+        "inference"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Docs mention free model rate limits but current plans say payment and purchased credits needed; conflicting evidence, not a verified free route. Account not observed. Sources https://docs.sambanova.ai/docs/en/models/rate-limits and https://cloud.sambanova.ai/plans"
+    },
+    {
+      "id": "ollama",
+      "products": [
+        "cloud_inference_api"
+      ],
+      "roles": [
+        "inference"
+      ],
+      "status": "unverified_candidate",
+      "notes": "Current cloud pricing is pay-per-token with a $0 subscription entry point; not proof of free hosted inference. Requires an account and usage credits. Source https://ollama.com/pricing"
     }
   ],
   "additional_provider_classes": [
@@ -799,5 +865,5 @@
     "billing_only",
     "storage_only"
   ],
-  "notes": "Discovery candidates only; this is NOT the operational registry. Source: Paseo Cloud Execution Environment Registry 2026-10-31. Closed/closing unused products are excluded. Entries require account and product verification before activation. One-time promotional credits must not be treated as recurring. Storage and provisioning services are not execution capacity. | 2026-11-12: appended discovery candidates and official-documentation-backed launch routes; do not infer accounts, quotas, authorization, or operational adapters. Existing entries retained. | Provider alias resolved: sprites.dev is Fly.io Sprites, not an additional independent provider. Operator update 2026-11-13: no hard existing-account-only eligibility filter; GitHub/Google SSO free signup can be a low-friction candidate after provider-specific verification, not permission to spend or assert existing access."
+  "notes": "Discovery candidates only; this is NOT the operational registry. Source: Paseo Cloud Execution Environment Registry 2026-10-31. Closed/closing unused products are excluded. Entries require account and product verification before activation. One-time promotional credits must not be treated as recurring. Storage and provisioning services are not execution capacity. | 2026-11-12: appended discovery candidates and official-documentation-backed launch routes; do not infer accounts, quotas, authorization, or operational adapters. Existing entries retained. | Provider alias resolved: sprites.dev is Fly.io Sprites, not an additional independent provider. Operator update 2026-11-13: no hard existing-account-only eligibility filter; GitHub/Google SSO free signup can be a low-friction candidate after provider-specific verification, not permission to spend or assert existing access. | 2026-11-13: added six newly researched model-inference provider candidates: Groq, Cohere, Z.ai, Cerebras, SambaNova, Ollama. New account ownership NOT claimed; no live API or entitlement test, payment/privacy limitations recorded."
 }
