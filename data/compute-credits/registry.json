@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "as_of_utc": "2026-11-12",
+  "as_of_utc": "2026-11-13",
   "purpose": "ASES burst compute opportunity registry",
   "policy": {
     "minimum_ram_gb": 6,
@@ -731,6 +731,102 @@
       },
       "official_url": "https://blaxel.ai/pricing",
       "last_verified_at": "2026-11-10"
+    },
+    {
+      "id": "prepaid-host",
+      "name": "Prepaid-Host",
+      "category": "general_purpose_hourly_vm",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": false,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://prepaid-host.com/en/aktion/flash-16",
+      "last_verified_at": "2026-11-13",
+      "notes": "Prepaid periodic VPS, not hourly; provider claims operating since 2018. 24/7 100% CPU prohibited; CPU burst allowance quantitative threshold unknown."
+    },
+    {
+      "id": "vm6-networks",
+      "name": "VM6 Networks",
+      "category": "general_purpose_hourly_vm",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": false,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://www.vm6.co.uk/promotions",
+      "last_verified_at": "2026-11-13",
+      "notes": "UK Norwich periodic VPS, not hourly; conflicting renewal-price statements from provider and its LowEndTalk announcement."
+    },
+    {
+      "id": "dataforest-cloud",
+      "name": "dataforest cloud",
+      "category": "general_purpose_hourly_vm",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": false,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://cloud.dataforest.net/en/black-friday",
+      "last_verified_at": "2026-11-13",
+      "notes": "Germany pay-per-hour Seed cloud; Black Week discount terms not yet published. AVORO is a dataforest GmbH brand and may advertise related infrastructure or an overlapping deal."
+    },
+    {
+      "id": "avoro",
+      "name": "AVORO (dataforest GmbH)",
+      "category": "general_purpose_hourly_vm",
+      "account": {
+        "status": "unknown",
+        "verification": "not_checked",
+        "credits_remaining_usd": null,
+        "usage_usd": null
+      },
+      "billing": {
+        "hourly_cpu_available": false,
+        "stopped_instance_billed": null,
+        "storage_extra": null,
+        "network_extra": null
+      },
+      "reliability": {
+        "operating_history_verified": false,
+        "cpu_fair_use_verified": false
+      },
+      "official_url": "https://avoro.eu/en/black-friday",
+      "last_verified_at": "2026-11-13",
+      "notes": "Related brand of dataforest GmbH, not necessarily separate underlying compute capacity or sale; three fixed-price VPS promotions scheduled for disclosure Nov 23."
     }
   ],
   "compute_offerings": [
@@ -1551,6 +1647,104 @@
       "redemption_deadline_utc": null,
       "evidence_level": "official_provider_page_no_account_verification",
       "alert_state": "research_only"
+    },
+    {
+      "id": "prepaid-host-prebf-2026",
+      "provider_id": "prepaid-host",
+      "type": "black_friday_fixed_term_vps",
+      "advertised_value": null,
+      "value_unit": "EUR_plan_prices",
+      "details": "Official sale: 4 vCPU/8GB/180GB NVMe €58.80/year recurring; 6 vCPU/10GB/200GB NVMe €6.39/month recurring; 6 vCPU/16GB/250GB NVMe €7.99/month recurring. Frankfurt, 10TB traffic, IPv4, 10 backup slots; no setup fee. CPU 24/7 full saturation prohibited per provider-authored LET post; AI training prohibited. No refunds after immediate provisioning. Official website says stock limited, dynamic count. No hourly VM pricing or signup bonus: unsuitable for strictly pay-per-hour credits but useful VPS alternative.",
+      "source_urls": [
+        "https://prepaid-host.com/en/aktion/flash-16",
+        "https://lowendtalk.com/discussion/223243/prepaid-host-pre-bf-frankfurt-epyc-kvm-8gb-58-80-yr-16gb-7-99-mo"
+      ],
+      "credit_expiry": "not_applicable_fixed_term_service",
+      "first_seen_at": "2026-11-13",
+      "last_checked_at": "2026-11-13",
+      "status": "official_live_periodic_only_checkout_unverified",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": false,
+      "eligible_cpu_vm": true,
+      "region_restrictions": "Frankfurt Germany",
+      "redemption_deadline_utc": "2026-11-26T22:59:00Z",
+      "evidence_level": "official_provider_page_and_provider_post_no_checkout",
+      "alert_state": "conditional_low_stock_no_commitment_recommended"
+    },
+    {
+      "id": "vm6-bf2026-epyc-vps",
+      "provider_id": "vm6-networks",
+      "type": "black_friday_fixed_term_vps",
+      "advertised_value": 55,
+      "value_unit": "percent_discount_annual_or_60_percent_biennial",
+      "details": "UK EPYC Norwich: E8 4vCPU/8GB/120GB NVMe £48.60 first year; E16 6vCPU/16GB/240GB NVMe £91.80 first year. Two-year alternatives E8 £86.40 E16 £163.20 total. Provider official /promotions says discount renews for lifetime of active service, BUT provider-authored LowEndTalk announcement says discounts FIRST term then renew normal price. Treat renewal as CONFLICTING, not established. New orders/one use per account, limited quantities; no hourly compute or compute credits. CPU policy not independently checked.",
+      "source_urls": [
+        "https://www.vm6.co.uk/promotions",
+        "https://lowendtalk.com/discussion/222765/black-friday-uk-vps-epyc-7642-up-to-60-off-ryzen-9950x-xeon-gold-9-epyc-vps-giveaways"
+      ],
+      "credit_expiry": "not_applicable_fixed_term_service",
+      "first_seen_at": "2026-11-13",
+      "last_checked_at": "2026-11-13",
+      "status": "official_live_renewal_terms_conflict",
+      "eligible_existing_account": null,
+      "requires_new_account": true,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": "Norwich UK",
+      "redemption_deadline_utc": "2026-11-30T23:59:00Z",
+      "evidence_level": "official_provider_page_and_provider_community_post_conflict_not_checkout_verified",
+      "alert_state": "research_only_until_renewal_conflict_and_cpu_policy_verified"
+    },
+    {
+      "id": "dataforest-black-week-2026",
+      "provider_id": "dataforest-cloud",
+      "type": "black_friday_teaser_hourly_vm",
+      "advertised_value": null,
+      "value_unit": "unknown",
+      "details": "Official dataforest cloud Black Week Nov 23 through Cyber Monday; discount not yet disclosed. Cloud Seed instances advertised with hourly rates, but no 2026 promotional price or eligible configuration. Related AVORO brand may have overlapping deal; do not double count without distinct terms.",
+      "source_urls": [
+        "https://cloud.dataforest.net/en/black-friday"
+      ],
+      "credit_expiry": "unknown",
+      "first_seen_at": "2026-11-13",
+      "last_checked_at": "2026-11-13",
+      "status": "announced_unpriced_starts_2026-11-23",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": null,
+      "region_restrictions": null,
+      "redemption_deadline_utc": null,
+      "evidence_level": "official_provider_teaser_not_active_offer",
+      "alert_state": "watch_no_alert_until_terms_qualify"
+    },
+    {
+      "id": "avoro-black-week-2026",
+      "provider_id": "avoro",
+      "type": "black_friday_teaser_fixed_term_vps",
+      "advertised_value": null,
+      "value_unit": "unknown",
+      "details": "Brand of dataforest GmbH announces three limited VPS specials with prices/specifications revealed 23 Nov 2026 00:00 Berlin. Runs through 30 Nov; not yet priced, prepaid VPS (not hourly credit). Ensure not double-counting dataforest Cloud Black Week.",
+      "source_urls": [
+        "https://avoro.eu/en/black-friday"
+      ],
+      "credit_expiry": "not_applicable_fixed_term_service",
+      "first_seen_at": "2026-11-13",
+      "last_checked_at": "2026-11-13",
+      "status": "announced_unpriced_starts_2026-11-23",
+      "eligible_existing_account": null,
+      "requires_new_account": null,
+      "minimum_spend_usd": null,
+      "deposit_refundable": null,
+      "eligible_cpu_vm": true,
+      "region_restrictions": "Frankfurt Germany",
+      "redemption_deadline_utc": "2026-11-30T22:59:00Z",
+      "evidence_level": "official_provider_teaser_not_live_offer",
+      "alert_state": "watch_no_alert_until_terms_qualify"
     }
   ],
   "account_inventory": {
@@ -1713,6 +1907,17 @@
         "ibm-regional-vpc-70-2026"
       ],
       "summary": "Rechecked IBM conflicting Sep 30 vs Dec 31 deadlines on official pages; no redemption verification. Surveyed hourly VM, major cloud and sandbox promotions; no newly verified actionable 6GB+ credit deal. Dataforest Nov 23 Black Week teaser has no offer terms yet; not promoted."
+    },
+    {
+      "at": "2026-11-13",
+      "kind": "black_friday_cyber_monday_discovery_track",
+      "entity_ids": [
+        "prepaid-host-prebf-2026",
+        "vm6-bf2026-epyc-vps",
+        "dataforest-black-week-2026",
+        "avoro-black-week-2026"
+      ],
+      "summary": "Began dedicated BF/CM 2026 discovery, captured provider-official Prepaid-Host and VM6 periodic VPS offers (not hourly credits), unresolved VM6 official renewal contradiction, and dataforest/AVORO Nov23 unpriced teasers; added LowEndBox Nov27 feed; retain other search tracks."
     }
   ],
   "source_policy": {
@@ -1739,6 +1944,18 @@
         "credit restrictions",
         "project fit",
         "submission deadlines"
+      ]
+    },
+    {
+      "id": "lowendbox-bf2026",
+      "url": "https://lowendbox.com/black-friday-2026/",
+      "type": "event_aggregator",
+      "check_for": [
+        "2026 BF launches starting 27 Nov at 4am as described by publisher (timezone unspecified)",
+        "LowEndTalk megathread hourly flash deals",
+        "6GB+ eligible configurations",
+        "real provider official listings and checkout",
+        "stock and CPU policy"
       ]
     }
   ]
