@@ -911,11 +911,11 @@
       "id": "opencode",
       "provider": "OpenCode",
       "account_evidence": {
-        "status": "user_reported",
+        "status": "user_confirmed",
         "last_live_verified_at": null,
-        "notes": "User-reported subscription and $5 credit in Oct 2026"
+        "notes": "Operator confirms ACTIVE PAID OpenCode Go account on 2026-11-13; exact Go tier, monthly quota, remaining usage and Codex Cloud credential availability not provider-verified. Earlier Oct 2026 reported $5 credit is a separate historical claim, not the Go plan allowance."
       },
-      "offering_summary": "Go/Zen models, potentially paid plans/credits",
+      "offering_summary": "Paid OpenCode Go subscription supports included normal models including DeepSeek V4.1 Flash, MiMo V2.6 Flash and GLM-5.3 Flash; OpenCode Console free variants are CLI-only and require a separately functioning OpenCode client route from Codex Cloud.",
       "claims": [
         {
           "metric": "october_2026_reported_credit",
@@ -925,6 +925,15 @@
           "scope": "historical_user_report",
           "verified_for_current_account": false,
           "source": "prior_account_inventory_2026-11-02"
+        },
+        {
+          "metric": "opencode_go_paid_subscription",
+          "value": true,
+          "unit": "boolean",
+          "period": "active_as_reported_2026-11-13",
+          "scope": "account_reported",
+          "verified_for_current_account": null,
+          "source": "operator_update_2026-11-13"
         }
       ],
       "usage": {
@@ -948,8 +957,8 @@
           }
         ]
       },
-      "verification_next": "OpenCode billing + credit wallet",
-      "source_usage_description": "$5 was reported at that time; **not verified as current**; remaining allowance unknown"
+      "verification_next": "Check read-only Go plan tier/remaining quota, model availability, key access from Codex Cloud, and separately test Luna→OpenCode CLI access to Console free models with no tools and bounded prompt.",
+      "source_usage_description": "Paid Go subscription operator-confirmed; exact tier, remaining allowance and presence in Codex Cloud unknown. Historical $5 wallet credit is NOT assumed current. Free Console models need OpenCode CLI even if Go APIs work."
     },
     {
       "id": "firecrawl",
