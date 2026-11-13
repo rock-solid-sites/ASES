@@ -1,6 +1,6 @@
 ---
 title: "External-family verifier routing — no Projektor dispatch assumption"
-version: 0.4.0-experimental
+version: 0.4.1-experimental
 status: proposed-unverified
 authority: run-scoped-design
 run_id: ASES-SOL-CTRL-A-20261113
@@ -10,7 +10,7 @@ run_id: ASES-SOL-CTRL-A-20261113
 
 **No live cross-family route is claimed.** Work Notes/Projektor can log work and reports; they are NOT assumed to launch models or bridge runtimes. External review is an optional independent gate until a bounded live test verifies actual authenticated execution.
 
-**Provider selection is registry-driven**: read `PROVIDER-SELECTION.md` v0.3.0 and PR #44's 29-account / 60-candidate / 26-offer registry, especially the new versioned `reviewer-inference-screen-2026-11-13.md`. For the present simple code review, **OpenCode Go/Console free and OpenRouter** precede NVIDIA, Google or a sandbox. NVIDIA's free hosted trial and Google's unpaid API are not appropriate default destinations for raw private ASES source. New Groq/Z.ai/Cohere routes are unowned signup candidates, not existing accounts. All credentials, quotas, and availability in the actual Cloud executor require preflight.
+**Provider selection is registry-driven**: read `PROVIDER-SELECTION.md` v0.3.1 and PR #44's 29-account / 60-candidate / 26-offer registry, especially the new versioned `reviewer-inference-screen-2026-11-13.md`. For the present simple code review, **first test OpenCode Console free CLI from a delegated Luna inside Codex Cloud**, then fall back to the operator's **confirmed paid Go** normal Flash models (DeepSeek V4.1 Flash, MiMo V2.6 Flash, GLM-5.3 Flash) or OpenRouter. Do not mistake a Go subscription for unrestricted access to Console free models from any client. NVIDIA's free hosted trial and Google's unpaid API are not appropriate default destinations for raw private ASES source. New Groq/Z.ai/Cohere routes are unowned signup candidates, not existing accounts. All credentials, quotas, and availability in the actual Cloud executor require preflight.
 
 ## Routing preference
 
