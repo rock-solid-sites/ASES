@@ -163,18 +163,11 @@ only when it can change the next decision.
 
 ---
 
-# Upstream-First Integration Portability Policy
+# Upstream-First Software Customization and Upgrade Policy
 
-**Applies to every third-party application, fork, connector, theme, or hosted software integration customized in our projects.** The normal operating target is the **latest stable published upstream release**; staying on an outdated version is an explicit, documented, temporary exception, not the maintenance strategy. Check for new releases at each related work session and before proposing custom code; record the currently deployed release and any upgrade blocker.
+**Canonical method:** [Software Customization and Upstream Compatibility Method](docs/methodology/Software%20Customization%20and%20Upstream%20Compatibility%20Method.md).
 
-1. **Start unmodified.** Reproduce the user requirement against the current release using supported configuration and native features first. Do not carry old overrides into a fresh installation by default.
-2. **Prefer upstream support.** In order: native setting or documented public API; small upstream contribution; isolated extension using supported interfaces; only then a minimal, removable source patch. Do not patch compiled artifacts, monkey-patch core APIs, or rely on live DOM mutation observers as normal integration mechanisms. Exceptions need a concrete failure demonstration, an owner, a removal plan, and an upstream tracking reference.
-3. **Separate vendor code and user data.** Upstream migrations own schema and indexes. Preserve IDs, relationships, permissions and content when moving data into a clean, independently created database. Do not treat copied migration ledgers, table rows alone, or \`PRAGMA quick_check\` as proof of a recoverable or compatible schema. Keep independent backups and verify constraints required by actual application queries.
-4. **Budget customization debt.** Keep a concise inventory for each non-native change: user-facing purpose, smallest patch/configuration, upstream issue/PR if applicable, compatibility requirement, upgrade/removal method, and whether it is still necessary. Prefer deleting an override to repairing it after upstream changes.
-5. **Make updates routine and bounded.** Compare latest release with deployed version. Verify the smallest critical live workflows that would falsify the upgrade (authentication, reading representative real data, core navigation, authorized writes when applicable, connector operation when applicable, and rollback). Do not substitute mocks, extensive unit suites or infrastructure checks for one authenticated end-to-end user workflow; likewise, do not run large suites unrelated to the change. A failed gate blocks production only, with the reason and next cheap test recorded. No silent permanent pinning.
-6. **Avoid unnecessary architecture.** No extra service, framework, database model, custom UI overlay or test harness unless an existing upstream capability cannot satisfy a documented requirement. Custom features should not make installing the next upstream release a new development project.
-
-This policy applies by default to all new work and when revisiting existing integrations. It does **not** authorize an unattended upgrade of production, a destructive schema change or credential changes.
+For third-party software, forks and integrations, work from the latest stable upstream release, reproduce needs against unmodified functionality, favor supported configuration and maintainable upstream contributions, keep user data separate, and track only necessary portable differences. When a release cannot be safely adopted, retain the last working version temporarily with an explicit blocker and retest trigger. A green mock or database integrity check cannot replace a real authenticated end-to-end check. No automatic production cutover is authorized.
 
 ---
 
