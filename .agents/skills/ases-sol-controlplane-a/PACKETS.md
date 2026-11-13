@@ -1,6 +1,6 @@
 ---
 title: "PACKETS"
-version: 0.3.0-experimental
+version: 0.3.1-experimental
 status: experimental
 authority: run-scoped
 run_id: ASES-SOL-CTRL-A-20261113
@@ -28,7 +28,7 @@ After parent decision, an implementation worker receives a short task along thes
 
 > Implement the frozen packet at [exact path/ref]. Reuse the named source interfaces; do not reinterpret authority. Run the red baseline, green neighbors and negative controls, preserve raw evidence/source pins, commit to a dedicated draft PR and record the result in Work Notes. Escalate only a demonstrated contradiction that requires an architectural decision.
 
-Builder should make few independent design decisions. After builder completion, dispatch a **different Luna verifier** with only the frozen problem/contract, target revision, required interfaces and allowed tools. Keep the builder's hypotheses, tests, initial failures and proposed expected answers out of the verifier's prompt. The verifier creates independent red/green and edge-case probes where practical, checks executable behavior and records its own uncertainty. A same-family verifier is not a heterogeneous review. For a separate external-family reviewer, use the two-tier route in `REVIEW-ROUTES.md`: tool-free model invocation for static falsification when possible, or a verified sandbox/OpenCode launcher for runnable investigations. This is **not** delegated through Projektor/Work Notes. A review route must be demonstrated before its verdict is claimed; independent CI remains a separate obligation. **Sol compares builder and verifier packets against the obligations and decides acceptance; it never delegates that decision to the builder.**
+Builder should make few independent design decisions. After builder completion, dispatch a **different Luna verifier** with only the frozen problem/contract, target revision, required interfaces and allowed tools. Keep the builder's hypotheses, tests, initial failures and proposed expected answers out of the verifier's prompt. The verifier creates independent red/green and edge-case probes where practical, checks executable behavior and records its own uncertainty. A same-family verifier is not a heterogeneous review. For a separate external-family reviewer, select accounts from the full registry using `PROVIDER-SELECTION.md`, then use the two-tier route in `REVIEW-ROUTES.md`: tool-free model invocation for static falsification when possible, or a verified sandbox/OpenCode launcher for runnable investigations. This is **not** delegated through Projektor/Work Notes. A review route must be demonstrated before its verdict is claimed; independent CI remains a separate obligation. **Sol compares builder and verifier packets against the obligations and decides acceptance; it never delegates that decision to the builder.**
 
 ## Return packet format (<=250 words per worker)
 
